@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.quantum.model.Atom;
 
 import java.awt.*;
 

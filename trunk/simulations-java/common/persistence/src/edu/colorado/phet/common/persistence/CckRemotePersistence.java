@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Feb 5, 2004
  */
-package edu.colorado.phet.persistence;
+package edu.colorado.phet.common.persistence;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

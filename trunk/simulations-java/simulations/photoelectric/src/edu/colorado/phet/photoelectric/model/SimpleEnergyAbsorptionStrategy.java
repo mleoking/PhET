@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.photoelectric.model;
 
-import edu.colorado.phet.quantum.model.Photon;
+import edu.colorado.phet.common.quantum.model.Photon;
 
 import java.util.Random;
 

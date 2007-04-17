@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.quantum.model.Beam;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

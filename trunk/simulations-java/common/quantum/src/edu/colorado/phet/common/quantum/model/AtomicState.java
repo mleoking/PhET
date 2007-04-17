@@ -9,12 +9,12 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.quantum.model;
+package edu.colorado.phet.common.quantum.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.PhysicsUtil;
-import edu.colorado.phet.quantum.QuantumConfig;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -29,8 +29,8 @@ public class AtomicState {
     // Class fields and methods
     //----------------------------------------------------------------
 
-    static public final double minWavelength = edu.colorado.phet.quantum.model.Photon.BLUE - 20;
-    static public final double maxWavelength = edu.colorado.phet.quantum.model.Photon.GRAY;
+    static public final double minWavelength = edu.colorado.phet.common.quantum.model.Photon.BLUE - 20;
+    static public final double maxWavelength = edu.colorado.phet.common.quantum.model.Photon.GRAY;
     static public final double minEnergy = PhysicsUtil.wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = PhysicsUtil.wavelengthToEnergy( minWavelength );
     static protected double STIMULATION_LIKELIHOOD = QuantumConfig.STIMULATION_LIKELIHOOD;

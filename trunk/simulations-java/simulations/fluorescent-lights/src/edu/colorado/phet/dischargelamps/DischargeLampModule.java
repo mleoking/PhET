@@ -13,6 +13,7 @@ package edu.colorado.phet.dischargelamps;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
@@ -33,7 +34,8 @@ import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.TubeGraphic;
 import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
-import edu.colorado.phet.quantum.model.*;
+import edu.colorado.phet.quantum.model.ElectronSource;
+import edu.colorado.phet.quantum.model.Plate;
 import edu.colorado.phet.quantum.view.PlateGraphic;
 
 import javax.swing.*;

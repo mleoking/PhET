@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.quantum.model;
+package edu.colorado.phet.common.quantum.model;
 
 import edu.colorado.phet.collision.Collision;
 import edu.colorado.phet.collision.SphereWallCollision;

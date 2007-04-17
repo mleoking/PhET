@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.view.util.DefaultGridBagConstraints;
-import edu.colorado.phet.quantum.model.AtomicState;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;

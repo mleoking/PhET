@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
@@ -17,8 +19,6 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.quantum.model.Atom;
-import edu.colorado.phet.quantum.model.AtomicState;
 
 import javax.swing.event.ChangeListener;
 import java.awt.*;

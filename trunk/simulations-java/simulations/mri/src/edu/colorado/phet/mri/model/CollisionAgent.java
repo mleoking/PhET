@@ -11,7 +11,7 @@
 package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.quantum.model.Photon;
+import edu.colorado.phet.common.quantum.model.Photon;
 
 import java.util.ArrayList;
 import java.util.List;

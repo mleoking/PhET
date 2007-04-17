@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import edu.colorado.phet.common.quantum.model.PhotonEmissionListener;
+import edu.colorado.phet.common.quantum.model.PhotonEmittedEvent;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.ModelEventChannel;
-import edu.colorado.phet.quantum.model.PhotonEmissionListener;
-import edu.colorado.phet.quantum.model.PhotonEmittedEvent;
 
 import java.util.EventListener;
 import java.util.EventObject;

@@ -13,6 +13,7 @@ package edu.colorado.phet.dischargelamps.model;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;

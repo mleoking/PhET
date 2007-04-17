@@ -13,6 +13,8 @@ package edu.colorado.phet.photoelectric.controller;
 import edu.colorado.phet.common.controls.IntensitySlider;
 import edu.colorado.phet.common.controls.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.quantum.model.Beam;
+import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.util.SwingThreadModelListener;
@@ -26,8 +28,6 @@ import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
-import edu.colorado.phet.quantum.model.Beam;
-import edu.colorado.phet.quantum.model.PhotonSource;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

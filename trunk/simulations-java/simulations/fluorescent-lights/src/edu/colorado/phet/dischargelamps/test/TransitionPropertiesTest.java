@@ -10,12 +10,12 @@ package edu.colorado.phet.dischargelamps.test;/* Copyright 2003-2004, University
  */
 
 import junit.framework.TestCase;
+import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.dischargelamps.model.NeonProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.LevelSpecificEnergyEmissionStrategy;
 import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
-import edu.colorado.phet.quantum.model.Atom;
-import edu.colorado.phet.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.model.LaserModel;
 
 import java.util.*;

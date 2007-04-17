@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.quantum.model.Atom;
-import edu.colorado.phet.quantum.model.AtomicState;
+import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.quantum.model.Electron;
 
 import java.util.Random;

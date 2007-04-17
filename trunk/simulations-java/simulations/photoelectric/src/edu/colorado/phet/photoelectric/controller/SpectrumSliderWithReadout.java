@@ -12,12 +12,12 @@ package edu.colorado.phet.photoelectric.controller;
 
 import edu.colorado.phet.common.controls.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.quantum.model.Beam;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

@@ -11,13 +11,13 @@
 package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.mri.model.SampleChamber;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
-import edu.colorado.phet.quantum.model.PhotonSource;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

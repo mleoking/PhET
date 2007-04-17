@@ -15,6 +15,8 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.quantum.QuantumConfig;
+import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.help.HelpManager;
@@ -30,8 +32,6 @@ import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.view.*;
 import edu.colorado.phet.lasers.view.monitors.PowerMeterGraphic;
-import edu.colorado.phet.quantum.QuantumConfig;
-import edu.colorado.phet.quantum.model.*;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import javax.swing.*;

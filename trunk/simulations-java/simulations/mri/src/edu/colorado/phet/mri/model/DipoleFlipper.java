@@ -12,9 +12,9 @@ package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.quantum.model.Photon;
 
 /**
  * DipoleFlipper
