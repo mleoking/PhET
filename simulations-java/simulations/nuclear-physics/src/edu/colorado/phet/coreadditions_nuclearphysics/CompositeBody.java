@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.coreadditions_nuclearphysics;
 
-import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.common.mechanics.Body;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

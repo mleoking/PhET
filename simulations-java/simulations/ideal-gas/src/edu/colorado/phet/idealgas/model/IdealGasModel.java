@@ -14,6 +14,7 @@ import edu.colorado.phet.collision_idealgas.CollidableBody;
 import edu.colorado.phet.collision_idealgas.CollisionExpert;
 import edu.colorado.phet.collision_idealgas.CollisionGod;
 import edu.colorado.phet.collision_idealgas.SphereSphereExpert;
+import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
@@ -21,7 +22,6 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.mechanics.Body;
 
 import java.awt.*;
 import java.awt.geom.Area;

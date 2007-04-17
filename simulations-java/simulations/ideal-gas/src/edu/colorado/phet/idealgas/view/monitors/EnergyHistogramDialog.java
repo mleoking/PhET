@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
+import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.GasMolecule;
@@ -17,7 +18,6 @@ import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.LightSpecies;
 import edu.colorado.phet.instrumentation_idealgas.Histogram;
-import edu.colorado.phet.mechanics.Body;
 
 import javax.swing.*;
 import java.awt.*;

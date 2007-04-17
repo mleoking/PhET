@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Mar 26, 2003
  */
-package edu.colorado.phet.collision;
+package edu.colorado.phet.common.collision;
 
 public interface ContactDetector {
     boolean areInContact( Collidable bodyA, Collidable bodyB );

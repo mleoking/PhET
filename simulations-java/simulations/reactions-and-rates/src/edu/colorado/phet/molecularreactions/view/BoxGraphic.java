@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.collision.Box2D;
+import edu.colorado.phet.common.collision.Box2D;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;

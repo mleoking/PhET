@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
-import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 
 /**

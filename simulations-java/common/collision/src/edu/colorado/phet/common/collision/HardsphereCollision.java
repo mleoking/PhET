@@ -8,7 +8,7 @@
  *      $Name$
  *      $Revision$
  */
-package edu.colorado.phet.collision;
+package edu.colorado.phet.common.collision;
 
 import edu.colorado.phet.common.math.Vector2D;
 

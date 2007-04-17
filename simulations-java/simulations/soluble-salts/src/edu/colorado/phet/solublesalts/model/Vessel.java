@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
-import edu.colorado.phet.collision.Box2D;
-import edu.colorado.phet.collision.Collidable;
+import edu.colorado.phet.common.collision.Box2D;
+import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;

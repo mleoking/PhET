@@ -10,7 +10,7 @@
  *      $Name$
  *      $Revision$
  */
-package edu.colorado.phet.collision;
+package edu.colorado.phet.common.collision;
 
 import java.util.Iterator;
 import java.util.Map;

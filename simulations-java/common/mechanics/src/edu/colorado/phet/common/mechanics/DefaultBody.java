@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.mechanics;
+package edu.colorado.phet.common.mechanics;
 
 import edu.colorado.phet.common.math.Vector2D;
 

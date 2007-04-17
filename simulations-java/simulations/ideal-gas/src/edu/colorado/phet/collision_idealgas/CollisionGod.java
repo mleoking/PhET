@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.collision_idealgas;
 
+import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Rectangle2D;
 import java.util.*;

@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.molecularreactions.model;
 
+import edu.colorado.phet.common.mechanics.DefaultBody;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.mechanics.DefaultBody;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;

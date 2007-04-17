@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.molecularreactions.model;
 
-import edu.colorado.phet.collision.Box2D;
+import edu.colorado.phet.common.collision.Box2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 
