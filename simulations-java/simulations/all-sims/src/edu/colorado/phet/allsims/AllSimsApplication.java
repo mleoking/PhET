@@ -6,6 +6,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -51,15 +52,26 @@ public class AllSimsApplication {
                     lastFrameCount = f.length;
                 }
 //                System.out.print( "f.length = " + f.length+", " );
-                for( int i = 0; i < f.length; i++ ) {
-                    Frame frame1 = f[i];
-                    if( frame1 instanceof JFrame && frame1 != frame && !( frame1 instanceof AllSimsFrame ) ) {
-                        JFrame jFrame = (JFrame)frame1;
-                        jFrame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-                    }
-                }
+                updateFrames( f );
             }
         } );
+    }
+
+    private void updateFrames( Frame[] f ) {
+        for( int i = 0; i < f.length; i++ ) {
+            updateFrame( f[i] );
+        }
+    }
+
+    private void updateFrame( Frame frame ) {
+        if( isOtherSim( frame ) ) {
+            JFrame jFrame = (JFrame)frame;
+            jFrame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+        }
+    }
+
+    private boolean isOtherSim( Frame frame ) {
+        return frame instanceof JFrame && frame != this.frame && !( frame instanceof AllSimsFrame );
     }
 
     int lastFrameCount = -1;
@@ -176,5 +188,19 @@ public class AllSimsApplication {
     public void start() {
         frame.setVisible( true );
         frameTimer.start();
+
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher() {
+            public boolean dispatchKeyEvent( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_PAGE_DOWN ) {
+                    Frame[] f = Frame.getFrames();
+                    for( int i = 0; i < f.length; i++ ) {
+                        if( isOtherSim( f[i] ) ) {
+                            f[i].dispose();
+                        }
+                    }
+                }
+                return false;// Do not consume event
+            }
+        } );
     }
 }
