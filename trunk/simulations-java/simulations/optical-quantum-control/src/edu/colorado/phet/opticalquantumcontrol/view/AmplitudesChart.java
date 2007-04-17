@@ -15,8 +15,8 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.charts.Chart;
-import edu.colorado.phet.charts.Range2D;
+import edu.colorado.phet.common.charts.Chart;
+import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 

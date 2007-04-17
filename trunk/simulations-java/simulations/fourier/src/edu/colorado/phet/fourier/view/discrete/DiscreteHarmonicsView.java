@@ -14,9 +14,9 @@ package edu.colorado.phet.fourier.view.discrete;
 import java.awt.*;
 import java.util.ArrayList;
 
-import edu.colorado.phet.charts.Chart;
-import edu.colorado.phet.charts.LabelTable;
-import edu.colorado.phet.charts.Range2D;
+import edu.colorado.phet.common.charts.Chart;
+import edu.colorado.phet.common.charts.LabelTable;
+import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomEvent;

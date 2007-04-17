@@ -14,9 +14,9 @@ package edu.colorado.phet.fourier.charts;
 import java.awt.Component;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.charts.Chart;
-import edu.colorado.phet.charts.DataSet;
-import edu.colorado.phet.charts.DataSetGraphic;
+import edu.colorado.phet.common.charts.Chart;
+import edu.colorado.phet.common.charts.DataSet;
+import edu.colorado.phet.common.charts.DataSetGraphic;
 
 
 /**
