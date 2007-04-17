@@ -24,7 +24,12 @@ public class SystemRunner implements Runnable {
         while( alive ) {
             while( running ) {
                 system.iterate( dt );
-                edu.colorado.phet.common.util.ThreadHelper.quietNap( waitTime );
+                try {
+                    Thread.sleep( waitTime);
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
             }
         }
     }

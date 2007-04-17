@@ -47,7 +47,7 @@ public class CoulombsLaw implements ForceLaw {
         }
         catch( RuntimeException e ) {
             e.printStackTrace();
-            edu.colorado.phet.common.util.Debug.traceln( "Using force: " + force + ", diff=" + diff );
+            new RuntimeException( "Using force: " + force + ", diff=" + diff ).printStackTrace( );
             throw e;
         }
     }
