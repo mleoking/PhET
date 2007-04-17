@@ -16,7 +16,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.chart.Chart;
+import edu.colorado.phet.charts.Chart;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.enums.Domain;

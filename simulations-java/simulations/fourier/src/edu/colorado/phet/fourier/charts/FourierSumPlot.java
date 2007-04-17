@@ -14,10 +14,10 @@ package edu.colorado.phet.fourier.charts;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.DataSet;
-import edu.colorado.phet.chart.LinePlot;
-import edu.colorado.phet.chart.Range2D;
+import edu.colorado.phet.charts.Chart;
+import edu.colorado.phet.charts.DataSet;
+import edu.colorado.phet.charts.LinePlot;
+import edu.colorado.phet.charts.Range2D;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.enums.WaveType;
 import edu.colorado.phet.fourier.model.FourierSeries;

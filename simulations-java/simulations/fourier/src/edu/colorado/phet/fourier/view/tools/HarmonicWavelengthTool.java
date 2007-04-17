@@ -15,7 +15,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.chart.Chart;
+import edu.colorado.phet.charts.Chart;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.model.Harmonic;

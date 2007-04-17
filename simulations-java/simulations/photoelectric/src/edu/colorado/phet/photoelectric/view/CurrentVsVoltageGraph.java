@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
-import edu.colorado.phet.chart.*;
+import edu.colorado.phet.charts.*;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
