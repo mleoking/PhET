@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.mechanics;
+package edu.colorado.phet.common.mechanics;
 
 /**
  * This class represents mathmatical vectors. It has package visibility,

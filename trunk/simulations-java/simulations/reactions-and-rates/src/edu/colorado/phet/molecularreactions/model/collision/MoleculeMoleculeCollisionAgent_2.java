@@ -11,8 +11,8 @@
 package edu.colorado.phet.molecularreactions.model.collision;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.mechanics.Body;
-import edu.colorado.phet.mechanics.Vector3D;
+import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.mechanics.Vector3D;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;

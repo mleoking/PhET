@@ -9,7 +9,7 @@ package edu.colorado.phet.molecularreactions.test;/* Copyright 2003-2004, Univer
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;
 import edu.colorado.phet.molecularreactions.model.MoleculeBC;
 import edu.colorado.phet.molecularreactions.model.MoleculeB;

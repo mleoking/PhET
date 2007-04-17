@@ -7,7 +7,7 @@
 package edu.colorado.phet.collision_idealgas;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.common.mechanics.Body;
 
 import java.awt.geom.Point2D;
 

@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
-import edu.colorado.phet.collision.Collidable;
-import edu.colorado.phet.collision.CollisionExpert;
-import edu.colorado.phet.collision.SphereSphereContactDetector;
+import edu.colorado.phet.common.collision.Collidable;
+import edu.colorado.phet.common.collision.CollisionExpert;
+import edu.colorado.phet.common.collision.SphereSphereContactDetector;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 /**

@@ -5,7 +5,7 @@
  * Date: Sep 19, 2004
  * Time: 8:32:34 PM
  */
-package edu.colorado.phet.collision;
+package edu.colorado.phet.common.collision;
 
 public class SphereHollowSphereContactDetector implements ContactDetector {
 

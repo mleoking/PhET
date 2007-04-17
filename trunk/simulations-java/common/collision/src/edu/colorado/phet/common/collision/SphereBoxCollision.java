@@ -5,7 +5,7 @@
  * Date: Apr 4, 2003
  * Time: 12:35:39 PM
  */
-package edu.colorado.phet.collision;
+package edu.colorado.phet.common.collision;
 
 public class SphereBoxCollision implements Collision {
 

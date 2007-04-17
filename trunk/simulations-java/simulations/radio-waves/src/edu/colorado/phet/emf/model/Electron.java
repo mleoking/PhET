@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.emf.model;
 
+import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common_1200.math.Vector2D;
 import edu.colorado.phet.emf.RadioWavesApplication;
 import edu.colorado.phet.emf.model.movement.ManualMovement;
 import edu.colorado.phet.emf.model.movement.MovementType;
 import edu.colorado.phet.emf.model.movement.SinusoidalMovement;
-import edu.colorado.phet.mechanics.Body;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

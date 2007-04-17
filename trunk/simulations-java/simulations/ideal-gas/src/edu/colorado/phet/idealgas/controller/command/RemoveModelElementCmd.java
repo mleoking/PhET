@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.idealgas.controller.command;
 
+import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.mechanics.Body;
 
 public class RemoveModelElementCmd implements Command {
     private IdealGasModel model;

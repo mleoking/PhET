@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.solublesalts.model.crystal;
 
-import edu.colorado.phet.collision.Collidable;
-import edu.colorado.phet.collision.CollidableAdapter;
+import edu.colorado.phet.common.collision.Collidable;
+import edu.colorado.phet.common.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Atom;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;

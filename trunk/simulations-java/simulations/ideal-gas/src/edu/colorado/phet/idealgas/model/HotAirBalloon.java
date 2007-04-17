@@ -8,11 +8,11 @@
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HollowSphere;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

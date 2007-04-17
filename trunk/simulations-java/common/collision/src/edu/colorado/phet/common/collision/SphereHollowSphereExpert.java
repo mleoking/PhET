@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Sep 21, 2004
  */
-package edu.colorado.phet.collision;
+package edu.colorado.phet.common.collision;
 
 public class SphereHollowSphereExpert implements CollisionExpert {
 
