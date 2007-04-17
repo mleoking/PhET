@@ -15,7 +15,12 @@ public class AudioProxy implements Runnable {
     }
 
     public void run() {
-        edu.colorado.phet.common.util.ThreadHelper.quietNap( napTime );
+        try {
+            Thread.sleep( napTime);
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
         isPlaying = false;
     }
 

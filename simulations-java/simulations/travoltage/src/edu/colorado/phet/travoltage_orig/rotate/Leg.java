@@ -32,7 +32,12 @@ public class Leg implements AngleListener {
             //edu.colorado.phet.common.util.Debug.traceln("Add electrons!!");
             Particle p = fact.newParticle();
             cpc.add( p );
-            edu.colorado.phet.common.util.ThreadHelper.quietNap( 15 );
+            try {
+                Thread.sleep( 15);
+            }
+            catch( InterruptedException e ) {
+                e.printStackTrace();
+            }
         }
     }
 }

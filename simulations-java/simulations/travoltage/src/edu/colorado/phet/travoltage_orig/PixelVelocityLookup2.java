@@ -68,8 +68,7 @@ public class PixelVelocityLookup2 implements PixelVelocity {
                 return ( (DoublePoint)dp.get( i ) );
             }
         }
-        edu.colorado.phet.common.util.Debug.traceln( "No Velocity found for pixel: " + p.toString() );
-        edu.colorado.phet.common.util.Debug.waitEnter();
+        new RuntimeException( "No Velocity found for pixel: " + p.toString()).printStackTrace( );
         return null;
     }
 }
