@@ -1,4 +1,4 @@
-package edu.colorado.phet.lookandfeels;
+package edu.colorado.phet.common.lookandfeels;
 
 import java.io.File;
 
