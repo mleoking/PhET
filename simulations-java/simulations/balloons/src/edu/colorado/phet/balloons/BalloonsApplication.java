@@ -358,7 +358,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
     }
 
     private static String getTitle() {
-        return SimStrings.getInstance().getString( "balloons.frame.title" ) + " (" + VERSION + ")";
+        return SimStrings.getInstance().getString( "BalloonApplet.Title" ) + " (" + VERSION + ")";
     }
 
     private void setFrame( JFrame frame ) {
