@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 
 /**
  * DebuggerGraphic displays the bounds and location marker for a set of PhetGraphics.

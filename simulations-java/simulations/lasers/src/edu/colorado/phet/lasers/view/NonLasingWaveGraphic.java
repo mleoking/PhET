@@ -8,7 +8,7 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 

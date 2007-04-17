@@ -15,7 +15,7 @@ import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.view.graphics.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 
 /**
  * HelpBubble puts some text in a bubble, with an optional arrow.

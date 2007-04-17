@@ -13,10 +13,10 @@ package edu.colorado.phet.opticalquantumcontrol.module;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.application.PhetGraphicsModule;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.debug.BoundsDebugger;
 

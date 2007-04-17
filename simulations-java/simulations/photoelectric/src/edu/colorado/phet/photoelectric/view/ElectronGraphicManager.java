@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 import edu.colorado.phet.quantum.model.Electron;

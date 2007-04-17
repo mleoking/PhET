@@ -2,8 +2,8 @@
 package edu.colorado.phet.common.charts.controllers;
 
 import edu.colorado.phet.common.charts.Chart;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;

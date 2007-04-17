@@ -7,8 +7,8 @@
 package edu.colorado.phet.coreadditions_nuclearphysics;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;

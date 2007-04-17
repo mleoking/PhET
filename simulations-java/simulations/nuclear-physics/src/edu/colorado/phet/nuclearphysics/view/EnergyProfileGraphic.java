@@ -10,13 +10,12 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.IEnergyProfile;
 import edu.colorado.phet.nuclearphysics.model.ProfileableNucleus;
 
-import java.awt.image.ImageObserver;
 import java.awt.*;
 
 public class EnergyProfileGraphic extends PhetShapeGraphic {

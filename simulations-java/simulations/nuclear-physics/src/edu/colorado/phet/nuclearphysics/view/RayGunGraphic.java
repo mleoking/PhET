@@ -10,11 +10,9 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.nuclearphysics.controller.FireButton;
-import edu.colorado.phet.nuclearphysics.controller.ChainReactionModule;
 import edu.colorado.phet.nuclearphysics.controller.NeutronGun;
 
 import javax.swing.event.MouseInputAdapter;

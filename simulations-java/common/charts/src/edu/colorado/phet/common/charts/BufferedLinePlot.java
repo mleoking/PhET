@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.common.charts;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphics2D;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;

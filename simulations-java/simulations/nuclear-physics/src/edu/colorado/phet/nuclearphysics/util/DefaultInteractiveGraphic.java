@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.nuclearphysics.util;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 
 import java.awt.*;
 

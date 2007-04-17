@@ -12,7 +12,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
@@ -21,7 +21,6 @@ import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 

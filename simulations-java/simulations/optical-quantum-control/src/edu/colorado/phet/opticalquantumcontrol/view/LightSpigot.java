@@ -16,8 +16,8 @@ import java.awt.Component;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 
 

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.charts.DataSet;
 import edu.colorado.phet.common.charts.DataSetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 
 /**

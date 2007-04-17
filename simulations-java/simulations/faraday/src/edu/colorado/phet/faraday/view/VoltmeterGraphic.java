@@ -20,7 +20,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.model.Voltmeter;

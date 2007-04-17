@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.common.charts;
 
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.BufferedPhetGraphic;
 
 import javax.swing.*;
 import java.awt.*;

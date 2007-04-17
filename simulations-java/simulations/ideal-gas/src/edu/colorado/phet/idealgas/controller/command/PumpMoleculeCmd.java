@@ -10,9 +10,8 @@
  */
 package edu.colorado.phet.idealgas.controller.command;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetGraphicsModule;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;

@@ -3,7 +3,7 @@ package edu.colorado.phet.testlocation.view;
 import java.awt.Component;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.testlocation.model.CarModelElement;
 
 /**

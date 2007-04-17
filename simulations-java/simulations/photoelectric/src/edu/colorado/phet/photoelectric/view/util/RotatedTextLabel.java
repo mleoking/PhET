@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.photoelectric.view.util;
 
-import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 
 import javax.swing.*;
 import java.awt.*;

@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.instrumentation_idealgas;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions_idealgas.ScalarObservable;
 import edu.colorado.phet.coreadditions_idealgas.ScalarObserver;
 

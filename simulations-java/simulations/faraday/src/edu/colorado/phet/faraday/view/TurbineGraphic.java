@@ -20,11 +20,11 @@ import java.awt.image.BufferedImage;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.control.FaradaySlider;
@@ -270,7 +270,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     /*
      * @see edu.colorado.phet.common.view.ApparatusPanel2.ChangeListener#canvasSizeChanged(edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent)
      */
-    public void canvasSizeChanged( edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent event ) {
+    public void canvasSizeChanged( ApparatusPanel2.ChangeEvent event ) {
         _parentBounds.setBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height ); 
         updateWater( _turbineModel.getSpeed() );
     }

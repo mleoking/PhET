@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.common.charts;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 
 import java.awt.*;
 

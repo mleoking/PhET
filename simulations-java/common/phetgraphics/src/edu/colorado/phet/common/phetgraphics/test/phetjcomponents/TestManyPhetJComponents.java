@@ -11,14 +11,14 @@
 package edu.colorado.phet.common.phetgraphics.test.phetjcomponents;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.PhetGraphicsModule;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.util.QuickProfiler;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
+import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
 import javax.swing.*;

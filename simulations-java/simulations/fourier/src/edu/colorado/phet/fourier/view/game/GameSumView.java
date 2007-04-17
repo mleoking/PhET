@@ -15,7 +15,7 @@ import java.awt.*;
 
 import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
