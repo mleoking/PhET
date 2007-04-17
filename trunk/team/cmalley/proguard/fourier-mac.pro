@@ -1,5 +1,5 @@
 -injars /Volumes/files/phet-workspace/jars/fourier.jar
--injars /Volumes/files/phet-workspace/fourier/lib/jnlp.jar
+-injars /Volumes/files/phet-workspace/javaws-1_2-dev/jnlp.jar
 -outjars /Volumes/files/phet-workspace/jars/fourier-proguard.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
