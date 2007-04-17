@@ -25,6 +25,8 @@
             SIM_RATING_CHECK        => 'check_Icon.gif',
             SIM_RATING_ALPHA        => 'alpha-rating.gif'
         );
+        
+    define("SIMS_PER_PAGE", 9);
 
     // run error checks
     // check for missing fields

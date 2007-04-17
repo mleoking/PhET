@@ -130,8 +130,7 @@
 
                     $num_sims_in_category = mysql_num_rows(mysql_query($select_all_simulation_listings_st, $connection));
 
-                    $sims_per_page = 12;
-                    $sim_limit     = $sims_per_page;
+                    $sim_limit = SIMS_PER_PAGE;
 
                     if (isset($HTTP_GET_VARS['st'])) {
                         $sim_start_number = $_REQUEST['st'];
@@ -145,15 +144,15 @@
                         $sim_start_number = 0; 
                     }
 
-                    if ($num_sims_in_category > $sims_per_page) {
+                    if ($num_sims_in_category > SIMS_PER_PAGE) {
                         print "<div id=\"pg\"><p>\n";
                                                 
-                        $num_pages = (int)ceil((float)$num_sims_in_category / (float)$sims_per_page);
+                        $num_pages = (int)ceil((float)$num_sims_in_category / (float)SIMS_PER_PAGE);
 
                         for ($n = 0; $n < $num_pages; $n = $n + 1) {
                             $page_number = $n + 1;
 
-                            $page_sim_start_number = $sims_per_page * $n; 
+                            $page_sim_start_number = SIMS_PER_PAGE * $n; 
 
                             print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=$page_sim_start_number\">$page_number</a> ";
                         }
@@ -164,46 +163,37 @@
 
 
                     //--------------------------------------------------
+                    
+                    $sim_number = -1;
 
                     //first select which SIMS are in the category
-                    $select_simulation_listing_rows_st  = "SELECT * FROM `simulation_listing` WHERE `category_id`='$cat'  LIMIT $sim_start_number, $sim_limit ";
+                    $select_simulation_listing_rows_st  = "SELECT * FROM `simulation_listing` WHERE `category_id`='$cat' ";
 
                     $simulation_listing_rows = mysql_query($select_simulation_listing_rows_st, $connection);
 
-                    $sim_column       = 1;
-                    $sim_number       = 1;
-                    $product_row_open = false;
-                    $num_simulation_listings      = mysql_num_rows($simulation_listing_rows);
+                    $num_simulation_listings = mysql_num_rows($simulation_listing_rows);
 
                     while ($simulation_listing_row = mysql_fetch_row($simulation_listing_rows)) {
                         $sim_id   = $simulation_listing_row[0];
                         $category = $simulation_listing_row[1];
 
-                        // start selecting SIMULATIONS
+                        // Select simulation:
                         $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
 
                         $sim_row = mysql_fetch_row(mysql_query($select_sim_st));
 
-                        $sim_id   = $sim_row[0];
-                        $thumburl = $sim_row[6];
-                        $sim_name = format_for_html($sim_row[1]);
+                        $sim_id        = $sim_row[0];
+                        $sim_image_url = $sim_row[6];
+                        $sim_name      = format_for_html($sim_row[1]);
 
-                        if (is_numeric($sim_id) && url_exists($thumburl)) {
-                            if ($sim_column == 1) { 
-                                // OPEN product row
-                                print "<div>\n";
-
-                                $product_row_open = true;
-                            }    
-
-                            if ($sim_column !== 3 && $sim_number !== $num_simulation_listings) {
-                                // Just another product in the row:
-                                print "<div class=\"productEntry\">\n";
-                            }
-                            else {
-                                // Last simulation in row
-                                print "<div class=\"productEntry lastProduct\">\n";
-                            }
+                        // Make sure the simulation is valid:
+                        if (is_numeric($sim_id) && url_exists($sim_image_url)) {
+                            ++$sim_number;
+                            
+                            if ($sim_number <  $sim_start_number) continue;
+                            if ($sim_number >= $sim_start_number + $sim_limit) break;
+                            
+                            print "<div class=\"productEntry\">\n";
                             
                             /*
                                 <a href="#"><img src="../images/sims/baloon_static.jpg" width="130" height="97" alt="" /></a>
@@ -214,32 +204,14 @@
                             $link_to_sim = "<a href=\"sims/sims.php?sim_id=$sim_id\">";
 
                             print "$link_to_sim";
-                            print "<img src=\"$thumburl\" width=\"130\" height=\"97\" alt=\"View $sim_name Simulation\" />";
+                            print "<img src=\"$sim_image_url\" width=\"130\" height=\"97\" alt=\"View $sim_name Simulation\" />";
                             print "</a>\n";
-                            print "<p>$link_to_sim$sim_name</a></p>";
+                            //print "$link_to_sim$sim_name</a>\n";
+                            print "<br/><p>$link_to_sim$sim_name</a></p>\n";
 
                             // Close product:
                             print "</div>\n";
-
-                            if ($sim_column == 3) { 
-                                // CLOSE product row
-                                print "</div>\n";
-
-                                $product_row_open = false;
-                            }
-
-                            $sim_number++;
-                            $sim_column++;
-
-                            if ($sim_column == 4) {
-                                $sim_column = 1;
-                            }
                         }
-                    }
-
-                    if ($product_row_open) {
-                        // Close product row:
-                        print "</div>\n";
                     }
                 ?>
                 
