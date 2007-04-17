@@ -7,7 +7,7 @@ package edu.colorado.phet.rotation.tests;
  * Copyright (c) Dec 28, 2006 by Sam Reid
  */
 
-import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.view.PlatformNode;
 import edu.umd.cs.piccolox.pswing.PSwing;

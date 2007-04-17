@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.piccolophet.services;
 
-import edu.colorado.phet.common.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;

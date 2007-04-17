@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.quantum;
 
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
  * QuatumConfig

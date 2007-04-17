@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common.view.graphics.RoundGradientPaint;
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.Photon;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;

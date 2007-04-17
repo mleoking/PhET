@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
 
 import javax.swing.*;

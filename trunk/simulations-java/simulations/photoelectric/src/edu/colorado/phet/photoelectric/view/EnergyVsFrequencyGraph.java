@@ -11,7 +11,7 @@
 package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.common.charts.*;
-import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 

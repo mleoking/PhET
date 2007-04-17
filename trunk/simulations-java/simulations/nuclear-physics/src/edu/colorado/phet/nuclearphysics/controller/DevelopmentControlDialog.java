@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.coreadditions_nuclearphysics.ModelSlider;
 
 import javax.swing.*;

@@ -10,10 +10,10 @@ import edu.colorado.phet.common.charts.BufferedChart;
 import edu.colorado.phet.common.charts.BufferedLinePlot;
 import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.charts.Range2D;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
 

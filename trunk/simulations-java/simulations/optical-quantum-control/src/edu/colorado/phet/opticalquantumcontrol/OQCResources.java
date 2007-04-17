@@ -4,7 +4,7 @@ package edu.colorado.phet.opticalquantumcontrol;
 
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
  * OQCResources is the collection of JAR file resources used in this sim.

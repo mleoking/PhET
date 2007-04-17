@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck.chart;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.umd.cs.piccolo.PNode;
 import org.jfree.chart.ChartFactory;

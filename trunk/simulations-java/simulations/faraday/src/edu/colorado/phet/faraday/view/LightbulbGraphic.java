@@ -14,7 +14,7 @@ package edu.colorado.phet.faraday.view;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
@@ -105,7 +105,7 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     /**
      * Synchronize the view with the model.
      * 
-     * @see edu.colorado.phet.common.util.SimpleObserver#update()
+     * @see edu.colorado.phet.common.phetcommon.util.SimpleObserver#update()
      */
     public void update() {
         

@@ -1,9 +1,9 @@
 package edu.colorado.phet.rotation;
 
-import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.jfreechartphet.test.TestDynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.test.TestDynamicJFreeChartNodeTree;
-import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.rotation.tests.*;
 import edu.colorado.phet.rotation.tests.combined.TestCombinedModelPlot2;
 

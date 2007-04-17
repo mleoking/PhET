@@ -11,7 +11,7 @@
 package edu.colorado.phet.common.phetgraphics.application;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.application.ModuleStateDescriptor;
+import edu.colorado.phet.common.phetcommon.application.ModuleStateDescriptor;
 
 /**
  * ModuleStateDescriptor

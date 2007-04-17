@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
-import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 
 import javax.swing.event.ChangeEvent;

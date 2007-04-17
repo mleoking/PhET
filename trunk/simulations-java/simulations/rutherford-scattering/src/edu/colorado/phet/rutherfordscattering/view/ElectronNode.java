@@ -8,7 +8,7 @@ import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.view.graphics.RoundGradientPaint;
+import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 
 /**
  * ElectronNode is the visual representation of an electron.

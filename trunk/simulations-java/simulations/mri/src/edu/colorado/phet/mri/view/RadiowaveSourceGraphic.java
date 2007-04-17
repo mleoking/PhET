@@ -11,9 +11,9 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.quantum.model.PhotonSource;
-import edu.colorado.phet.common.util.PhysicsUtil;
-import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.controller.EmRepSelector;

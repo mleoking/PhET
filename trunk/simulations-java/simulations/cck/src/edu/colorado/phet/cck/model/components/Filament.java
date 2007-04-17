@@ -5,8 +5,8 @@ import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.BulbComponentGraphic;
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common_cck.view.util.DoubleGeneralPath;
 
 import java.awt.geom.GeneralPath;

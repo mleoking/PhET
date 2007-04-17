@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.photoelectric.model.util;
 
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.ModelEventChannel;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

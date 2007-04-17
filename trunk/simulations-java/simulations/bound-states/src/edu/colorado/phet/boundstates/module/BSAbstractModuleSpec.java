@@ -12,8 +12,8 @@
 package edu.colorado.phet.boundstates.module;
 
 import edu.colorado.phet.boundstates.enums.BSWellType;
-import edu.colorado.phet.common.util.DoubleRange;
-import edu.colorado.phet.common.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
  * BSAbstractModuleSpec contains the information needed to set up a module,

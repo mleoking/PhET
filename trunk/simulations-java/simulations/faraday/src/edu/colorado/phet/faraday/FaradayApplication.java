@@ -13,8 +13,8 @@ package edu.colorado.phet.faraday;
 
 import java.io.IOException;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.faraday.control.menu.DeveloperMenu;
 import edu.colorado.phet.faraday.control.menu.OptionsMenu;
 import edu.colorado.phet.faraday.module.*;

@@ -4,9 +4,9 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 

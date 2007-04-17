@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.piccolo_cck.GraphTraversalVoltage;
 import edu.colorado.phet.cck.piccolo_cck.VoltageDifference;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.util.RectangleUtils;
 

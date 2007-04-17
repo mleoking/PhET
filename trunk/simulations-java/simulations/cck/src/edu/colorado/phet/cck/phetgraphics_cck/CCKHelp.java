@@ -11,7 +11,7 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.JunctionGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.toolbox.Toolbox;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;

@@ -15,8 +15,8 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;

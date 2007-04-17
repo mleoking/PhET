@@ -13,7 +13,7 @@ package edu.colorado.phet.faraday;
 
 import java.awt.Dimension;
 
-import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 
 /**

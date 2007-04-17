@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.controller.BeamControl;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;

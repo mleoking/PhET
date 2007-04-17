@@ -5,7 +5,7 @@ package edu.colorado.phet.rutherfordscattering.test;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.rutherfordscattering.model.AlphaParticle;
 import edu.colorado.phet.rutherfordscattering.model.RutherfordAtom;
 import edu.colorado.phet.rutherfordscattering.model.RutherfordScattering;

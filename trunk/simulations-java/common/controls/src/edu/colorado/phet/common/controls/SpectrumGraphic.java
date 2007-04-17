@@ -11,7 +11,7 @@
 package edu.colorado.phet.common.controls;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 import java.awt.*;
 

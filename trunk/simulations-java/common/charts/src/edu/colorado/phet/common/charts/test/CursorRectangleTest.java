@@ -4,10 +4,10 @@ package edu.colorado.phet.common.charts.test;
 import edu.colorado.phet.common.charts.*;
 import edu.colorado.phet.common.charts.controllers.ChartCursor;
 import edu.colorado.phet.common.charts.controllers.VerticalChartSlider;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.RepaintDebugGraphic;
 

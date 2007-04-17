@@ -3,7 +3,7 @@ package edu.colorado.phet.mazegame;
 //import edu.colorado.phet.common.view.util.GraphicsUtil;
 //import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 import javax.swing.*;
 import javax.swing.border.Border;

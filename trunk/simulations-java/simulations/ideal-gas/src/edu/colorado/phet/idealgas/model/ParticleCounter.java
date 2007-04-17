@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 import java.awt.geom.Rectangle2D;
 import java.util.List;

@@ -16,8 +16,8 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.CircuitComponen
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.particles.ParticleSetGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck.piccolo_cck.VoltmeterModel;
-import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.application.PhetApplication;
 import edu.colorado.phet.common_cck.model.BaseModel;
@@ -101,7 +101,7 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
         aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, 1.2 );
     }
 
-    public void initControlPanel( edu.colorado.phet.common.application.Module module ) {
+    public void initControlPanel( edu.colorado.phet.common.phetcommon.application.Module module ) {
         this.cckControlPanel = new CCKControlPanel( this, module );
         setControlPanel( cckControlPanel );
     }
@@ -401,7 +401,7 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
         add( b3 );
 
         new BranchSet( getCircuit(), new Branch[]{b1} ).translate( -5, 0 );
-        edu.colorado.phet.common.math.Vector2D.Double dv = new edu.colorado.phet.common.math.Vector2D.Double( b2.getStartJunction().getPosition(), b1.getEndJunction().getPosition() );
+        edu.colorado.phet.common.phetcommon.math.Vector2D.Double dv = new edu.colorado.phet.common.phetcommon.math.Vector2D.Double( b2.getStartJunction().getPosition(), b1.getEndJunction().getPosition() );
         new BranchSet( getCircuit(), new Branch[]{b2} ).translate( dv );
         b3.getStartJunction().setPosition( b2.getEndJunction().getX(), b2.getEndJunction().getY() );
         b3.getEndJunction().setPosition( b1.getStartJunction().getX(), b1.getStartJunction().getY() );

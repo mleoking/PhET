@@ -24,9 +24,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14676 $
+ * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.piccolophet.nodes;
 
@@ -35,7 +35,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 
-import edu.colorado.phet.common.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -45,7 +45,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * RulerNode draws a ruler.
  *
  * @author Sam Reid, Chris Malley
- * @version $Revision$
+ * @version $Revision:14676 $
  */
 public class RulerNode extends PhetPNode {
     

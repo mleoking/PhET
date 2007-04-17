@@ -13,7 +13,7 @@ package edu.colorado.phet.hydrogenatom.util;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 
 /**

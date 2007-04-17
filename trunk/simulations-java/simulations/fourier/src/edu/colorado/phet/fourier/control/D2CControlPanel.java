@@ -26,7 +26,7 @@ import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.control.sliders.WavePacketCenterSlider;
 import edu.colorado.phet.fourier.control.sliders.WavePacketKWidthSlider;

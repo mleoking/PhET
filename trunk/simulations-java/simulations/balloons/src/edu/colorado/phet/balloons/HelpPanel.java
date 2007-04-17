@@ -4,13 +4,13 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14417 $
+ * Date modified : $Date:2007-04-12 22:25:24 -0600 (Thu, 12 Apr 2007) $
  */
 package edu.colorado.phet.balloons;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
  * HelpPanel
  *
  * @author Ron LeMaster
- * @version $Revision$
+ * @version $Revision:14417 $
  */
 public class HelpPanel extends JPanel {
     private boolean miniHelpShowing = false;

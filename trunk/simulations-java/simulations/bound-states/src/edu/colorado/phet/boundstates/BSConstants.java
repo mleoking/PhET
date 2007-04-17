@@ -18,7 +18,7 @@ import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 
 /**

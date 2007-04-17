@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.fourier.model;
 
-import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 
 /**

@@ -5,7 +5,7 @@ import edu.colorado.phet.cck.common.JPopupMenuRepaintWorkaround;
 import edu.colorado.phet.cck.model.Connection;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.tools.VoltmeterGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.CompositeGraphic;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common_cck.view.graphics.mousecontrols.Translatable;

@@ -4,7 +4,7 @@ package edu.colorado.phet.rutherfordscattering.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
  * AbstractAtom is the base class for all atom models.

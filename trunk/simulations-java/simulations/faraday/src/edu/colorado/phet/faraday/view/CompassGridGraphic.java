@@ -14,8 +14,8 @@ package edu.colorado.phet.faraday.view;
 import java.awt.*;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;

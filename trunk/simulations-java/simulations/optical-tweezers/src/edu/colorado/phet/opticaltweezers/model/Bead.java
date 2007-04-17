@@ -5,7 +5,7 @@ package edu.colorado.phet.opticaltweezers.model;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**

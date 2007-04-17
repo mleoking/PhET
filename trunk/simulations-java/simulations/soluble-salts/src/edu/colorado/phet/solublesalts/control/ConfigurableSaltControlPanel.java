@@ -16,7 +16,7 @@ import edu.colorado.phet.solublesalts.model.ion.ConfigurableCation;
 import edu.colorado.phet.solublesalts.model.salt.ConfigurableSalt;
 import edu.colorado.phet.solublesalts.module.ConfigurableSaltModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

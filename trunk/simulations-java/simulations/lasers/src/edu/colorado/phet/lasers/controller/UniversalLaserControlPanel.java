@@ -11,8 +11,8 @@
 
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.lasers.view.PumpBeamViewPanel;

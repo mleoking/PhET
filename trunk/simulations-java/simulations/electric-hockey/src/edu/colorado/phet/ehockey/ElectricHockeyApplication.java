@@ -2,7 +2,7 @@ package edu.colorado.phet.ehockey;
 
 //Mediator applet for Electric edu.colorado.phet.ehockey.HockeyModule
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.ehockey.common.SwingUtils;
 
 import javax.swing.*;

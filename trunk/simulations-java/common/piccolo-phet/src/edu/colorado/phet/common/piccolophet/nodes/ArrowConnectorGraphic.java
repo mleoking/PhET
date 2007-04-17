@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

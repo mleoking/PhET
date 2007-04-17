@@ -11,7 +11,7 @@
 package edu.colorado.phet.common.quantum.model;
 
 import edu.colorado.phet.common.collision.Box2D;
-import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

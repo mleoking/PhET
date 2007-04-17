@@ -2,12 +2,12 @@
 package edu.colorado.phet.common.charts.controllers;
 
 import edu.colorado.phet.common.charts.Chart;
-import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

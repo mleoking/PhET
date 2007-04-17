@@ -149,9 +149,9 @@ public class Electron extends Body {
         }
     }
 
-    public edu.colorado.phet.common.math.Vector2D getVelocity() {
+    public edu.colorado.phet.common.phetcommon.math.Vector2D getVelocity() {
 //    public Vector2D.Float getVelocity() {
-        return new edu.colorado.phet.common.math.Vector2D.Double(velocity.getX(),velocity.getY());
+        return new edu.colorado.phet.common.phetcommon.math.Vector2D.Double(velocity.getX(),velocity.getY());
 //        return this.velocity;
     }
 

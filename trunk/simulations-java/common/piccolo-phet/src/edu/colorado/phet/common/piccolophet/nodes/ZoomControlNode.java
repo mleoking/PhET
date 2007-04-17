@@ -4,14 +4,14 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14676 $
+ * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
  */
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -30,7 +30,7 @@ import java.io.IOException;
  * ZoomControl is a control for horizontal or vertical zooming.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
+ * @version $Revision:14676 $
  *          <p/>
  *          <p/>
  *          Copied from Fourier simulation on 9-3-2006.
@@ -244,7 +244,7 @@ public class ZoomControlNode extends PNode {
      * ZoomListener is the listener interface for zoom events.
      *
      * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
+     * @version $Revision:14676 $
      */
     public interface ZoomListener extends java.util.EventListener {
 

@@ -14,7 +14,7 @@ package edu.colorado.phet.hydrogenatom.model;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.math.ProbabilisticChooser;
+import edu.colorado.phet.common.phetcommon.math.ProbabilisticChooser;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
 

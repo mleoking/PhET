@@ -8,7 +8,6 @@
 package edu.colorado.phet.common_1200.view;
 
 import edu.colorado.phet.common_1200.model.BaseModel;
-import edu.colorado.phet.common_1200.model.ModelElement;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
 import edu.colorado.phet.common_1200.view.util.GraphicsState;
 
@@ -76,7 +75,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         //        this.addMouseListener( mouseDelegator );
         //        this.addMouseMotionListener( mouseDelegator );
 
-        model.addModelElement( new edu.colorado.phet.common.model.ModelElement () {
+        model.addModelElement( new edu.colorado.phet.common.phetcommon.model.ModelElement () {
             public void stepInTime( double dt ) {
                 //                Graphics g = PhetApplication.instance().getApplicationView().getPhetFrame().getGraphics();
                 //                myPaintComponent( g );
@@ -300,7 +299,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         return graphic;
     }
 
-    class MouseProcessor implements edu.colorado.phet.common.model.ModelElement , MouseListener, MouseMotionListener {
+    class MouseProcessor implements edu.colorado.phet.common.phetcommon.model.ModelElement , MouseListener, MouseMotionListener {
         LinkedList mouseEventList;
         LinkedList mouseMotionEventList;
         private CompositeInteractiveGraphicMouseDelegator handler;

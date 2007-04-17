@@ -1,7 +1,7 @@
 package edu.colorado.phet.qm.modules.single;
 
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.ClockControlPanel;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 
 import javax.swing.*;
 import java.awt.*;

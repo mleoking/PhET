@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 
 import javax.swing.*;

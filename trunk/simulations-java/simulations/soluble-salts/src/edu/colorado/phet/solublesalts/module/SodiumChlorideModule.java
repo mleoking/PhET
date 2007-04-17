@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.solublesalts.module;
 
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.WiggleMe_org;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;

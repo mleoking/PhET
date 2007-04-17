@@ -10,9 +10,6 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import edu.colorado.phet.common.util.SimpleObserver;
-
-import java.awt.geom.Point2D;
 import java.awt.geom.GeneralPath;
 import java.awt.*;
 

@@ -2,7 +2,7 @@ package edu.colorado.phet.mazegame;
 
 //Driver class for MazeGame. Contains main thread.
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.Border;

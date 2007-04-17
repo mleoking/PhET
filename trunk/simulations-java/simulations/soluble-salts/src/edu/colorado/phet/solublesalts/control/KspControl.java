@@ -10,9 +10,8 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
-import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.common.view.OrderOfMagnitudeSpinner;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.OrderOfMagnitudeSpinner;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;

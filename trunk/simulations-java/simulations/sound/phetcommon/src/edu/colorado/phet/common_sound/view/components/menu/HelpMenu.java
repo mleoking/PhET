@@ -14,7 +14,7 @@ import edu.colorado.phet.common_sound.application.*;
 import edu.colorado.phet.common_sound.util.VersionUtils;
 import edu.colorado.phet.common_sound.view.PhetFrame;
 import edu.colorado.phet.common_sound.view.util.SimStrings;
-import edu.colorado.phet.common.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

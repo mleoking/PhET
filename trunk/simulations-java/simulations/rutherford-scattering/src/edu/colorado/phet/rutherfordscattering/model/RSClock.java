@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.rutherfordscattering.model;
 
-import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 
 

@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * SampleMaterial

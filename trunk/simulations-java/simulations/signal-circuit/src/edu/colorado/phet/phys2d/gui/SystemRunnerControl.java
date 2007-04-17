@@ -1,7 +1,7 @@
 package edu.colorado.phet.phys2d.gui;
 
 import edu.colorado.phet.phys2d.SystemRunner;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

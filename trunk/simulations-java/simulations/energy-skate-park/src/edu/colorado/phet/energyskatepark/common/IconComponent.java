@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.common;
 
-import edu.colorado.phet.common.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;

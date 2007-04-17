@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.mri.model.Detector;
 import edu.colorado.phet.mri.util.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;

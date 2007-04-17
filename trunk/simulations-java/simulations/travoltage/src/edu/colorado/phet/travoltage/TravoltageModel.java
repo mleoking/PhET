@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.travoltage;
 
-import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
 
 import java.util.ArrayList;
 

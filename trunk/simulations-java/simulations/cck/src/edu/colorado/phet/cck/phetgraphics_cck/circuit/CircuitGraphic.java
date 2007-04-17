@@ -277,7 +277,7 @@ public class CircuitGraphic extends CompositeGraphic {
             Graphic graphic = getGraphic( branch );
             if( !branch.hasJunction( junction ) ) {
                 if( intersectsShape( graphic, shape ) ) {
-                    edu.colorado.phet.common.math.AbstractVector2D vec = branch.getDirectionVector();
+                    edu.colorado.phet.common.phetcommon.math.AbstractVector2D vec = branch.getDirectionVector();
                     vec = vec.getNormalVector();
                     vec = vec.getNormalizedInstance().getScaledInstance( dx );
                     Branch[] sc = circuit.getStrongConnections( junction );

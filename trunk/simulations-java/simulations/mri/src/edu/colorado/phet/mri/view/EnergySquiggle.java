@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.common.view.graphics.Arrow;
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 

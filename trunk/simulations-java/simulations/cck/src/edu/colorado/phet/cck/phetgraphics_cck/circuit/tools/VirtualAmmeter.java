@@ -8,7 +8,7 @@ import edu.colorado.phet.cck.phetgraphics_cck.TargetReadoutTool;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.BranchGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.InteractiveBranchGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.graphics.mousecontrols.Translatable;

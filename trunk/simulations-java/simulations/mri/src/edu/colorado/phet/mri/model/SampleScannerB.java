@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.controller.GradientMagnetControl;
 import edu.colorado.phet.mri.controller.SampleTargetModelConfigurator;

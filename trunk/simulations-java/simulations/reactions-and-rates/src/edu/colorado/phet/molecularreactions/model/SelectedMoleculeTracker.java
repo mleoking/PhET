@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.molecularreactions.model;
 
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import java.util.Collection;
 import java.util.EventListener;

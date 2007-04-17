@@ -10,7 +10,7 @@ package edu.colorado.phet.molecularreactions.view.charts;
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;

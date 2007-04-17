@@ -16,9 +16,9 @@ import java.awt.Component;
 
 import javax.swing.JDialog;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.util.ColorChooserFactory;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
 

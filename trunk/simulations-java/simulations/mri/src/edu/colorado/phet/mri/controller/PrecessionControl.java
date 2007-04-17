@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.mri.controller;
 
-import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Dipole;
 import edu.colorado.phet.mri.model.MriModel;

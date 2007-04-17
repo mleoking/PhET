@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo;
 
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.colorgrid.ColorGrid;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;

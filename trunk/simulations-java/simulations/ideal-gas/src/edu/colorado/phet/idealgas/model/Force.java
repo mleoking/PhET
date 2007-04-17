@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common.phetcommon.model.Particle;
 
 public interface Force {
     public void act( Particle p );

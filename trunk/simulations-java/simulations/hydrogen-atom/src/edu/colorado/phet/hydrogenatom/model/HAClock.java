@@ -11,8 +11,8 @@
 
 package edu.colorado.phet.hydrogenatom.model;
 
-import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.model.clock.TimingStrategy;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 
 

@@ -1,8 +1,8 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.timeseries_ramp;
 
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 
 /**
  * User: Sam Reid

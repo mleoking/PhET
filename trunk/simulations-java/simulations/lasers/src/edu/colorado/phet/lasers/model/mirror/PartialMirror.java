@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.lasers.model.mirror;
 
-import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;

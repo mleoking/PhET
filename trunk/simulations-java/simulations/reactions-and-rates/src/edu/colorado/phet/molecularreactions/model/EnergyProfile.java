@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.molecularreactions.model;
 
-import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

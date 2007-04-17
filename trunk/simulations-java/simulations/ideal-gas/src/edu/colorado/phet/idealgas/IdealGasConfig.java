@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.idealgas;
 
-import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.idealgas.view.ColorScheme;
 
 import java.awt.*;

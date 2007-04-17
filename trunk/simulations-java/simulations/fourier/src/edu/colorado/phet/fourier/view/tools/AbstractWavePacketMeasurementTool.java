@@ -14,7 +14,7 @@ package edu.colorado.phet.fourier.view.tools;
 import java.awt.*;
 
 import edu.colorado.phet.common.charts.Chart;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.enums.Domain;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;

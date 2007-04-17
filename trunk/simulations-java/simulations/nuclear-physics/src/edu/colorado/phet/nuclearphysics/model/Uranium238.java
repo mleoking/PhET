@@ -6,12 +6,10 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
 
 import java.awt.geom.Point2D;
 import java.util.Random;
-import java.util.List;
 
 public class Uranium238 extends Nucleus {
 

@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.coreadditions_idealgas;
 
-import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 public abstract class ScalarObservable extends SimpleObservable {
 

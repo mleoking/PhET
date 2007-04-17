@@ -28,8 +28,8 @@ import javax.swing.border.EmptyBorder;
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 /**
  * BSAbstractConfigureDialog is the base class for all dialogs that 

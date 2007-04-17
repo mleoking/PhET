@@ -17,12 +17,12 @@ import java.io.IOException;
 
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.PhetApplicationConfig;
-import edu.colorado.phet.common.util.CommandLineUtils;
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.PhetFrameWorkaround;
-import edu.colorado.phet.common.view.menu.HelpMenu;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
+import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.quantumtunneling.color.BlackColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorSchemeMenu;

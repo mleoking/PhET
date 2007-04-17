@@ -4,15 +4,15 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14676 $
+ * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.piccolophet.test;
 
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
 import javax.swing.*;
 
@@ -24,7 +24,7 @@ import javax.swing.*;
  * way to see the other.
  *
  * @author Ron LeMaster
- * @version $Revision$
+ * @version $Revision:14676 $
  */
 public class TestPiccoloPhetApplication {
 

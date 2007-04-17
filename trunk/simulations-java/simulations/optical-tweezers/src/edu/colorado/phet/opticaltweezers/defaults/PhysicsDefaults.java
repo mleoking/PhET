@@ -5,7 +5,7 @@ package edu.colorado.phet.opticaltweezers.defaults;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 
 

@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.qm.controls.ClearButton;
 import edu.colorado.phet.qm.controls.RulerPanel;
 import edu.colorado.phet.qm.model.QWIModel;

@@ -4,8 +4,8 @@ package edu.colorado.phet.opticaltweezers.util;
 
 import java.awt.Cursor;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
 /**
  * CursorUtils is a collection of Cursor-related utilities.

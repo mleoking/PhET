@@ -4,8 +4,8 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import javax.swing.*;

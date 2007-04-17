@@ -7,16 +7,15 @@ import edu.colorado.phet.cck.controls.ResetDynamicsButton;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.analysis.KirkhoffSolver;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.servicemanager.PhetServiceManager;
-import edu.colorado.phet.common.view.HelpPanel;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.HelpPanel;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
 import net.n3.nanoxml.*;
 
@@ -40,7 +39,7 @@ import java.util.Arrays;
  * Time: 11:03:06 AM
  * Copyright (c) Jun 1, 2004 by Sam Reid
  */
-public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel {
+public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.ControlPanel {
     private ICCKModule module;
     private JCheckBox seriesAmmeter;
     private AdvancedControlPanel advancedControlPanel;

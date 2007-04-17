@@ -7,7 +7,7 @@ import java.awt.Paint;
 
 import javax.swing.UIManager;
 
-import edu.colorado.phet.common.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;
 

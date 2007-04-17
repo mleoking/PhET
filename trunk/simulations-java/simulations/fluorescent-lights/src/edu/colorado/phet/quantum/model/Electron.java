@@ -11,9 +11,9 @@
 package edu.colorado.phet.quantum.model;
 
 import edu.colorado.phet.common.collision.SphericalBody;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
 import java.util.EventListener;

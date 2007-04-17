@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.view;
 
-import edu.colorado.phet.common.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 

@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.mri.controller;
 
-import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.mri.view.BFieldIndicatorB;

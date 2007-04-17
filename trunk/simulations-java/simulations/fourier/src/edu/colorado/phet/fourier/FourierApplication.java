@@ -17,9 +17,9 @@ import java.io.IOException;
 
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.PhetApplicationConfig;
-import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.fourier.control.OptionsMenu;
 import edu.colorado.phet.fourier.module.D2CModule;
 import edu.colorado.phet.fourier.module.DiscreteModule;

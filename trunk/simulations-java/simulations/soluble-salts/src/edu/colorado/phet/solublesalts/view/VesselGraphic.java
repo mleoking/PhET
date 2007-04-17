@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.solublesalts.view;
 
-import edu.colorado.phet.common.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.util.ScientificNotation;
 import edu.colorado.phet.solublesalts.model.Vessel;

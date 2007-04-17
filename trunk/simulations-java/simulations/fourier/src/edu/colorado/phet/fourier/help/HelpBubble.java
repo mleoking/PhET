@@ -14,7 +14,7 @@ package edu.colorado.phet.fourier.help;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 
 /**

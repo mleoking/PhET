@@ -13,7 +13,7 @@ package edu.colorado.phet.common.piccolophet.help;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.activities.OscillateActivity;
 import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;

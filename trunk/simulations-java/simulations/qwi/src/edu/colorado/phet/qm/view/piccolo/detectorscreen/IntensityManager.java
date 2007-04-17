@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
-import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.CollapseComputation;
 import edu.colorado.phet.qm.model.QWIModel;

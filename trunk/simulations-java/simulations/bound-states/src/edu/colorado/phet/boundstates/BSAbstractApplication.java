@@ -25,11 +25,11 @@ import edu.colorado.phet.boundstates.module.BSOneWellModule;
 import edu.colorado.phet.boundstates.module.BSTwoWellsModule;
 import edu.colorado.phet.boundstates.persistence.BSGlobalConfig;
 import edu.colorado.phet.boundstates.persistence.BSPersistenceManager;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplicationConfig;
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.PhetFrameWorkaround;
-import edu.colorado.phet.common.view.menu.HelpMenu;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
+import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 

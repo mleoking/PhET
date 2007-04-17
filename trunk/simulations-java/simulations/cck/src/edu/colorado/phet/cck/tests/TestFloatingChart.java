@@ -10,7 +10,7 @@ package edu.colorado.phet.cck.tests;
 
 import edu.colorado.phet.cck.chart.AbstractFloatingChart;
 import edu.colorado.phet.cck.chart.SingleTerminalFloatingChart;
-import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 import javax.swing.*;

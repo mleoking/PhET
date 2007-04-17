@@ -2,8 +2,8 @@
 
 package edu.colorado.phet.molecularreactions.view.energy;
 
-import edu.colorado.phet.common.view.graphics.Arrow;
-import edu.colorado.phet.common.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;

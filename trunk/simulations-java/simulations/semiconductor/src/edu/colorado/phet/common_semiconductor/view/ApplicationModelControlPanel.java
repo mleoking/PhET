@@ -1,10 +1,9 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.common_semiconductor.view;
 
-import edu.colorado.phet.common.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common_semiconductor.model.clock.AbstractClock;
 import edu.colorado.phet.common_semiconductor.view.util.SimStrings;
-import edu.colorado.phet.common_semiconductor.view.util.graphics.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;

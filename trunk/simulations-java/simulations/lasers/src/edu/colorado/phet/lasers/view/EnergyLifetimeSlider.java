@@ -11,7 +11,7 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.quantum.model.AtomicState;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.view.util.DefaultGridBagConstraints;
 

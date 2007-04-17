@@ -13,7 +13,7 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**

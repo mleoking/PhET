@@ -13,8 +13,8 @@ package edu.colorado.phet.faraday.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.faraday.util.Vector2D;
 
 /**
@@ -127,7 +127,7 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
     //----------------------------------------------------------------------------
     
     /**
-     * @see edu.colorado.phet.common.util.SimpleObserver#update()
+     * @see edu.colorado.phet.common.phetcommon.util.SimpleObserver#update()
      */
     public void update() {
         // Do nothing, handled by stepInTime.
@@ -144,7 +144,7 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
      * in Ron LeMaster's "microwaves" simulation, with some minor changes.
      * The algorithm was verified by Mike Dubson.
      * 
-     * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
+     * @see edu.colorado.phet.common.phetcommon.model.ModelElement#stepInTime(double)
      */
     public void stepInTime( double dt ) {
         if ( isEnabled() ) {          

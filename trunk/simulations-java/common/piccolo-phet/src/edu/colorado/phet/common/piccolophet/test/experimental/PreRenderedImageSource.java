@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.common.piccolophet.test.experimental;
 
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

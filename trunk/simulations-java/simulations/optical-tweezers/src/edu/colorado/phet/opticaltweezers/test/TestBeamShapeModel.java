@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.opticaltweezers.view.SphericalNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PCanvas;

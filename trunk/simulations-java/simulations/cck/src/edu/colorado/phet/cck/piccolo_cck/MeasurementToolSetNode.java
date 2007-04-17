@@ -4,7 +4,7 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.StopwatchDecorator;
 import edu.colorado.phet.cck.chart.CCKTime;
 import edu.colorado.phet.cck.model.CCKModel;
-import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;

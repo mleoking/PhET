@@ -13,7 +13,7 @@ package edu.colorado.phet.common.quantum.model;
 import edu.colorado.phet.common.collision.Collision;
 import edu.colorado.phet.common.collision.SphereWallCollision;
 import edu.colorado.phet.common.collision.Wall;
-import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common.phetcommon.model.Particle;
 
 public class AtomWallCollision extends SphereWallCollision {
 

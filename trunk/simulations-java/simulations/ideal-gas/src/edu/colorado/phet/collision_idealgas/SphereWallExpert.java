@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.collision_idealgas;
 
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import java.awt.geom.Line2D;

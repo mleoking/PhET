@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.quantum.model;
 
-import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
 
 /**
  * QuatumModel

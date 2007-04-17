@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps;
 
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 /**
  * MultipleAtomModule

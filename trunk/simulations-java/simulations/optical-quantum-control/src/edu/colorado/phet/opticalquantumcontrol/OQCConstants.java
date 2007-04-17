@@ -14,8 +14,8 @@ package edu.colorado.phet.opticalquantumcontrol;
 import java.awt.Color;
 import java.awt.Cursor;
 
-import edu.colorado.phet.common.math.TrigCache;
-import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.math.TrigCache;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 
 /**

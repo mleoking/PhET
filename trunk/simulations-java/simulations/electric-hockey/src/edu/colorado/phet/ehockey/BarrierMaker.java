@@ -2,7 +2,7 @@ package edu.colorado.phet.ehockey;
 
 //Creates Barrier complex for Maze Game or similar.
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

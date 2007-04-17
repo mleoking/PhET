@@ -19,7 +19,7 @@ import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.charts.DataSet;
 import edu.colorado.phet.common.charts.LinePlot;
 import edu.colorado.phet.common.charts.Range2D;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetZoomControl;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetZoomControl.ZoomEvent;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetZoomControl.ZoomListener;

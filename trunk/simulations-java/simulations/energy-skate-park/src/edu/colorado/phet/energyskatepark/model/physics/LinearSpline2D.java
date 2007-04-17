@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.common.phetcommon.math.Function;
 
 import java.awt.geom.Point2D;
 import java.util.Arrays;

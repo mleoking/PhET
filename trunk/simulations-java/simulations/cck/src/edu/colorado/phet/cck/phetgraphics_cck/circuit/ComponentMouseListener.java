@@ -5,8 +5,8 @@ import edu.colorado.phet.cck.model.BranchSet;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
-import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseEvent;

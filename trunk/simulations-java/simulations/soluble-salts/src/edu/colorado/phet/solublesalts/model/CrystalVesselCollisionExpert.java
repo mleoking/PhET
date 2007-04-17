@@ -17,7 +17,7 @@ import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollisionExpert;
 import edu.colorado.phet.common.collision.ContactDetector;
 import edu.colorado.phet.common.collision.SphereBoxExpert;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

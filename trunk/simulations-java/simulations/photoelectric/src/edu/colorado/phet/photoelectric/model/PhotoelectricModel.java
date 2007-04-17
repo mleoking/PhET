@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.photoelectric.model;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.quantum.model.*;
-import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.ModelEventChannel;
-import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;

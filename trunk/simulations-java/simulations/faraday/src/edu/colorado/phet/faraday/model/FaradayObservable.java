@@ -13,7 +13,7 @@ package edu.colorado.phet.faraday.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 
 /**

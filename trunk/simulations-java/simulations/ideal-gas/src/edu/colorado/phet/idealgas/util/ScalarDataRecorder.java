@@ -8,7 +8,7 @@
 package edu.colorado.phet.idealgas.util;
 
 
-import edu.colorado.phet.common.model.clock.Clock;
+import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

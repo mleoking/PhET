@@ -7,7 +7,7 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.rutherfordscattering.model.RSClock;

@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;

@@ -11,7 +11,7 @@
 package edu.colorado.phet.lasers.view.monitors;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
