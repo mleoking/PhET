@@ -1,4 +1,4 @@
-package edu.colorado.phet.lookandfeels;
+package edu.colorado.phet.common.lookandfeels;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
