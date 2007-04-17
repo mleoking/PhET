@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.photoelectric.controller;
 
+import edu.colorado.phet.common.controls.IntensitySlider;
+import edu.colorado.phet.common.controls.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.PhetUtilities;
@@ -20,8 +22,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.controls.IntensitySlider;
-import edu.colorado.phet.controls.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;

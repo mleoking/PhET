@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.controls;
+package edu.colorado.phet.common.controls;
 
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.VisibleColor;
