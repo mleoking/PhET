@@ -11,9 +11,9 @@
 
 package edu.colorado.phet.quantum.model;
 
-import edu.colorado.phet.collision.Collidable;
-import edu.colorado.phet.collision.CollisionExpert;
-import edu.colorado.phet.collision.CollisionUtil;
+import edu.colorado.phet.common.collision.Collidable;
+import edu.colorado.phet.common.collision.CollisionExpert;
+import edu.colorado.phet.common.collision.CollisionUtil;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 
 import java.awt.geom.Ellipse2D;

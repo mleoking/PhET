@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.lasers.test;
 
-import edu.colorado.phet.collision.SphericalBody;
-import edu.colorado.phet.collision.SphereSphereContactDetector;
+import edu.colorado.phet.common.collision.SphereSphereContactDetector;
+import edu.colorado.phet.common.collision.SphericalBody;
 
 import java.awt.geom.Point2D;
 
