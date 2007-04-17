@@ -1,6 +1,6 @@
-package edu.colorado.phet.common.util.services.test;
+package edu.colorado.phet.common.servicemanager.test;
 
-import edu.colorado.phet.common.util.services.PhetServiceManager;
+import edu.colorado.phet.common.servicemanager.PhetServiceManager;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.UnavailableServiceException;
