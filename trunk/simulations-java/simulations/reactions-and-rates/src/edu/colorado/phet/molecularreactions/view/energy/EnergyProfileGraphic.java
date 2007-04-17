@@ -94,7 +94,7 @@ class EnergyProfileGraphic extends PNode {
         Font defaultFont = MRConfig.LABEL_FONT;
         Font labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
 
-        potentialEnergyLegend = new PText( MRConfig.CONFIG.getString( "EnergyView.Legend.potentialEnergy" ) );
+        potentialEnergyLegend = new PText( MRConfig.RESOURCES.getLocalizedString( "EnergyView.Legend.potentialEnergy" ) );
         potentialEnergyLegend.setFont( labelFont );
         potentialEnergyLegend.setTextPaint( MRConfig.POTENTIAL_ENERGY_COLOR );
         addChild( potentialEnergyLegend );

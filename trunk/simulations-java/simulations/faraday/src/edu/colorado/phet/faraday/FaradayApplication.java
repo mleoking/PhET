@@ -14,6 +14,7 @@ package edu.colorado.phet.faraday;
 import java.io.IOException;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.faraday.control.menu.DeveloperMenu;
 import edu.colorado.phet.faraday.control.menu.OptionsMenu;
 import edu.colorado.phet.faraday.module.*;
@@ -32,11 +33,9 @@ public class FaradayApplication extends PhetApplication {
 
     /**
      * Sole constructor.
-     * 
-     * @param args command line arguments
      */
-    public FaradayApplication( String[] args ) {
-        super( args, FaradayResources.getConfig(), FaradayConstants.FRAME_SETUP );
+    public FaradayApplication( PhetApplicationConfig config ) {
+        super( config );
         initModules();
         initMenubar();
     }
@@ -81,8 +80,10 @@ public class FaradayApplication extends PhetApplication {
      */
     public static void main( String[] args ) throws IOException {
 
+        PhetApplicationConfig config = new PhetApplicationConfig( args,FaradayConstants.FRAME_SETUP, FaradayResources.getResourceLoader() );
+        
         // Create the application.
-        PhetApplication app = new FaradayApplication( args );
+        PhetApplication app = new FaradayApplication( config );
         
         // Start the application.
         app.startApplication();

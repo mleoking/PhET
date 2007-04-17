@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.piccolo.services;
 
-import edu.colorado.phet.common.PhetCommonProjectConfig;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -38,8 +38,8 @@ public class PNodeShowHideControl {
     private volatile boolean isHidden = false;
 
     static {
-        HIDE_IMAGE_ICON = new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( HIDE_BUTTON_RESOURCE ) );
-        SHOW_IMAGE_ICON = new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( SHOW_BUTTON_RESOURCE ) );
+        HIDE_IMAGE_ICON = new ImageIcon( PhetCommonResources.getInstance().getImage( HIDE_BUTTON_RESOURCE ) );
+        SHOW_IMAGE_ICON = new ImageIcon( PhetCommonResources.getInstance().getImage( SHOW_BUTTON_RESOURCE ) );
     }
 
     /**

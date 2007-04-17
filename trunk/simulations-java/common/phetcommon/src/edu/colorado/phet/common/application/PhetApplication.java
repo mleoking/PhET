@@ -36,7 +36,6 @@ import edu.colorado.phet.common.view.ITabbedModulePane;
 import edu.colorado.phet.common.view.JTabbedModulePane;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -74,25 +73,24 @@ public class PhetApplication {
     private static PhetApplication latestInstance = null;
     private static ArrayList phetApplications = new ArrayList();
     private TabbedPaneType tabbedPaneType;
-    private Properties simulationProperties;
 
-    private volatile PhetProjectConfig projectConfig;
+    private volatile PhetApplicationConfig applicationConfig;
 
 
-    public PhetApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup ) {
-        this( args, config.getName(), config.getDescription(), config.getVersion().formatSmart(), frameSetup );
+    public PhetApplication( PhetApplicationConfig config ) {
+        this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup() );
 
-        this.projectConfig = config;
+        this.applicationConfig = config;
     }
 
-    public PhetApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
-        this( args, config.getName(), config.getDescription(), config.getVersion().formatSmart(), frameSetup, tabbedPaneType );
+    public PhetApplication( PhetApplicationConfig config, TabbedPaneType tabbedPaneType ) {
+        this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup(), tabbedPaneType );
 
-        this.projectConfig = config;
+        this.applicationConfig = config;
     }
 
-    public PhetProjectConfig getProjectConfig() {
-        return projectConfig;
+    public PhetApplicationConfig getApplicationConfig() {
+        return applicationConfig;
     }
 
     /**
@@ -294,59 +292,6 @@ public class PhetApplication {
     public PhetFrame getPhetFrame() {
         return phetFrame;
     }
-
-    /**
-     * Sets the simulation's properties.
-     * These are properties that do NOT require localization.
-     * 
-     * @param simulationProperties
-     *
-     * @deprecated
-     */
-    public void setSimulationProperties( Properties simulationProperties ) {
-        if (getProjectConfig() != null) {
-            throw new IllegalStateException( "Properties cannot be set when using project config" );
-        }
-        
-        this.simulationProperties = simulationProperties;
-    }
-    
-    /**
-     * Gets the simulation's properties.
-     * These are properties that do NOT require localization.
-     * 
-     * @return Properties, null if setSimulationProperties was not called
-     *
-     * @deprecated Use getProjectConfig().getProperties() instead
-     */
-    public Properties getSimulationProperties() {
-        if (getProjectConfig() != null) {
-            return getProjectConfig().getProperties();
-        }
-
-        return simulationProperties;
-    }
-    
-    /**
-     * Gets the version string in the proper format for displaying in the 
-     * title bar of the application's main frame.
-     * 
-     * @param simulationProperties
-     * @return
-     *
-     * @deprecated  Use getProjectConfig()
-     */
-    public static String getVersionString( Properties simulationProperties ) {
-        String major = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_MAJOR, "?" );
-        String minor = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_MINOR, "?" );
-        String dev = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_DEV, "?" );
-        String version = major + "." + minor;
-        if ( !dev.matches( "0*" ) ) {
-            // add dev number only if it's not zero
-            version += "." + dev;
-        }
-        return version;
-    }
     
     //----------------------------------------------------------------
     // Module-related methods
@@ -472,10 +417,9 @@ public class PhetApplication {
      * @deprecated  Use getProjectConfig()
      */
     public String getTitle() {
-        if (getProjectConfig() != null) {
-            return getProjectConfig().getName();
+        if (getApplicationConfig() != null) {
+            return getApplicationConfig().getName();
         }
-
         return title;
     }
 
@@ -487,10 +431,9 @@ public class PhetApplication {
      * @deprecated  Use getProjectConfig()
      */
     public String getDescription() {
-        if (getProjectConfig() != null) {
-            return getProjectConfig().getDescription();
+        if (getApplicationConfig() != null) {
+            return getApplicationConfig().getDescription();
         }
-
         return description;
     }
 
@@ -502,11 +445,24 @@ public class PhetApplication {
      * @deprecated  Use getProjectConfig()
      */
     public String getVersion() {
-        if (getProjectConfig() != null) {
-            return getProjectConfig().getVersion().formatSmart();
+        if (getApplicationConfig() != null) {
+            return getApplicationConfig().getVersion().formatForTitleBar();
         }
-
         return version;
+    }
+    
+    /**
+     * Gets the credits for the simulations.
+     * 
+     * @return
+     * @deprecated use getProjectConfig
+     */
+    public String getCredits() {
+        String credits = null;
+        if ( getApplicationConfig() != null ) {
+            credits = getApplicationConfig().getCredits();
+        }
+        return credits;
     }
 
     /**

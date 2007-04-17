@@ -27,10 +27,10 @@ import java.awt.*;
  * @version $Revision$
  */
 public class MoleculePopulationsBarChart extends BarChart implements Rescaleable {
-    static String title = MRConfig.CONFIG.getString( "StripChart.title" );
+    static String title = MRConfig.RESOURCES.getLocalizedString( "StripChart.title" );
     static String[] seriesNames = new String[]{"A", "BC", "AB", "C"};
     static String xAxisLabel = "";
-    static String yAxisLabel = MRConfig.CONFIG.getString( "StripChart.num" );
+    static String yAxisLabel = MRConfig.RESOURCES.getLocalizedString( "StripChart.num" );
     static PlotOrientation orienation = PlotOrientation.VERTICAL;
     private MoleculeCounter counterA;
     private MoleculeCounter counterAB;

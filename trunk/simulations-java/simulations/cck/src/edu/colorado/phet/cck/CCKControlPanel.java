@@ -8,6 +8,7 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 import edu.colorado.phet.common.util.services.InputStreamFileContents;
 import edu.colorado.phet.common.util.services.PhetServiceManager;
 import edu.colorado.phet.common.view.HelpPanel;
@@ -16,7 +17,6 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.common.PhetCommonProjectConfig;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
 import net.n3.nanoxml.*;
 
@@ -50,7 +50,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     public CCKControlPanel( final ICCKModule module, Module m ) {
         advancedControlPanel = new AdvancedControlPanel( module );
         advancedControlPanel.setBorder( null );
-        JLabel logoLabel = new JLabel( new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( "logos/phet-logo-120x50.jpg")) );
+        JLabel logoLabel = new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( "logos/phet-logo-120x50.jpg")) );
         logoLabel.setToolTipText( SimStrings.getInstance().getString( "CCK3ControlPanel.PhETToolTip" ) );
         logoLabel.setBorder( BorderFactory.createRaisedBevelBorder() );
         logoLabel.setBorder( BorderFactory.createLineBorder( Color.black, 2 ) );

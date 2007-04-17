@@ -48,7 +48,7 @@ public class MoleculeInstanceControlPanel extends JPanel {
         counters.add( bcMC );
 
         // Lay out the controls
-        setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.CONFIG.getString( "Control.numMolecules" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "Control.numMolecules" ) ) );
         setLayout( new GridBagLayout() );
         Insets insets = new Insets( 2, 0, 2, 0 );
         GridBagConstraints gbc = new GridBagConstraints( 0,

@@ -54,7 +54,7 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
     public ChartOptionsPanel( final ComplexModule module ) {
         this.module = module;
 
-        showBondsBtn = new JCheckBox( MRConfig.CONFIG.getString( "Control.showBonds" ) );
+        showBondsBtn = new JCheckBox( MRConfig.RESOURCES.getLocalizedString( "Control.showBonds" ) );
         showBondsBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setGraphicTypeVisible( showBondsBtn.isSelected() );
@@ -63,7 +63,7 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
         showBondsBtn.setSelected( false );
         module.setGraphicTypeVisible( showBondsBtn.isSelected() );
 
-        showStopwatchBtn = new JCheckBox(MRConfig.CONFIG.getString( "Control.showStopwatch" ));
+        showStopwatchBtn = new JCheckBox(MRConfig.RESOURCES.getLocalizedString( "Control.showStopwatch" ));
         showStopwatchBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setStopwatchVisible( showStopwatchBtn.isSelected() );
@@ -78,7 +78,7 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
 
         JPanel chartOptionsPanel = new JPanel( new GridBagLayout() );
         {
-            chartOptionsPanel.setBorder( ControlBorderFactory.createSecondaryBorder( MRConfig.CONFIG.getString( "Control.chartOptions" ) ) );
+            chartOptionsPanel.setBorder( ControlBorderFactory.createSecondaryBorder( MRConfig.RESOURCES.getLocalizedString( "Control.chartOptions" ) ) );
             GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                              1, 1, 1, 1,
                                                              GridBagConstraints.WEST,
@@ -86,7 +86,7 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
             final ButtonGroup chartOptionsBG = new ButtonGroup();
 
-            showBarChartBtn = new JRadioButton( MRConfig.CONFIG.getString( "Control.showBarChart" ) );
+            showBarChartBtn = new JRadioButton( MRConfig.RESOURCES.getLocalizedString( "Control.showBarChart" ) );
             showBarChartBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setEnergyViewChartOptions();
@@ -94,7 +94,7 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
             } );
             chartOptionsBG.add( showBarChartBtn );
 
-            showPieChartBtn = new JRadioButton( MRConfig.CONFIG.getString( "Control.showPieChart" ) );
+            showPieChartBtn = new JRadioButton( MRConfig.RESOURCES.getLocalizedString( "Control.showPieChart" ) );
             showPieChartBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setEnergyViewChartOptions();
@@ -102,7 +102,7 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
             } );
             chartOptionsBG.add( showPieChartBtn );
 
-            showStripChartBtn = new JRadioButton( MRConfig.CONFIG.getString( "Control.showStripChart" ) );
+            showStripChartBtn = new JRadioButton( MRConfig.RESOURCES.getLocalizedString( "Control.showStripChart" ) );
             showStripChartBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setEnergyViewChartOptions();
@@ -110,7 +110,7 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
             } );
             chartOptionsBG.add( showStripChartBtn );
 
-            showNoneBtn = new JRadioButton( MRConfig.CONFIG.getString( "Control.none" ) );
+            showNoneBtn = new JRadioButton( MRConfig.RESOURCES.getLocalizedString( "Control.none" ) );
             showNoneBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setEnergyViewChartOptions();
@@ -134,7 +134,7 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
         // Lay out the panel
         //--------------------------------------------------------------------------------------------------
 
-        setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.CONFIG.getString( "Control.options" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "Control.options" ) ) );
         setLayout( new GridBagLayout() );
         Insets insets = new Insets( 0, 0, 0, 0 );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,

@@ -15,9 +15,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 /**
  * BSBoundStatesApplication is the simulation titled "Bound States".
@@ -32,9 +31,8 @@ public class BSBoundStatesApplication extends BSAbstractApplication {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSBoundStatesApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup )
-    {
-        super( args, config, frameSetup );
+    public BSBoundStatesApplication( PhetApplicationConfig config ) {
+        super( config );
     }
     
     //----------------------------------------------------------------------------
@@ -81,10 +79,10 @@ public class BSBoundStatesApplication extends BSAbstractApplication {
                 laf.initLookAndFeel();
                 
                 // Config
-                BSResources.setConfig( PhetProjectConfig.forProject( BSConstants.PROJECT ) );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, BSConstants.FRAME_SETUP, BSResources.getResourceLoader(), BSConstants.FLAVOR_BOUND_STATES );
 
                 // Create the application.
-                BSAbstractApplication app = new BSBoundStatesApplication( args, BSResources.getConfig(), BSConstants.FRAME_SETUP );
+                BSAbstractApplication app = new BSBoundStatesApplication( config );
                 
                 // Start the application.
                 app.startApplication();

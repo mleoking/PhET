@@ -4,37 +4,34 @@ package edu.colorado.phet.faraday;
 
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
+import edu.colorado.phet.common.application.PhetApplicationConfig;
+import edu.colorado.phet.common.resources.PhetResources;
 
 
 public class FaradayResources {
     
-    private static final PhetProjectConfig CONFIG = PhetProjectConfig.forProject( "faraday" );
+    private static final PhetResources RESOURCES = PhetResources.forProject( "faraday" );
     
     /* not intended for instantiation */
     private FaradayResources() {}
     
-    public static final PhetProjectConfig getConfig() {
-        return CONFIG;
+    public static final PhetResources getResourceLoader() {
+        return RESOURCES;
     }
     
     public static final String getString( String name ) {
-        return CONFIG.getString( name  );
+        return RESOURCES.getLocalizedString( name  );
     }
     
     public static final char getChar( String name, char defaultValue ) {
-        return CONFIG.getChar( name, defaultValue );
+        return RESOURCES.getLocalizedChar( name, defaultValue );
     }
 
     public static final int getInt( String name, int defaultValue ) {
-        return CONFIG.getInt( name, defaultValue );
-    }
-    
-    public static final String getVersion() {
-        return CONFIG.getVersion().toString();
+        return RESOURCES.getLocalizedInt( name, defaultValue );
     }
     
     public static final BufferedImage getImage( String name ) {
-        return CONFIG.getImage( name );
+        return RESOURCES.getImage( name );
     }
 }

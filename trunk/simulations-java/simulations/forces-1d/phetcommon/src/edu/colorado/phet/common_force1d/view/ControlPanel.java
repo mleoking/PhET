@@ -13,7 +13,7 @@ package edu.colorado.phet.common_force1d.view;
 import edu.colorado.phet.common_force1d.application.Module;
 import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_force1d.view.help.HelpPanel;
-import edu.colorado.phet.common.PhetCommonProjectConfig;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -56,7 +56,7 @@ public class ControlPanel extends JPanel {
         // The panel with the logo
 //        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
 //        URL resource = ;
-        imageIcon = new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( "logos/phet-logo.jpg"));
+        imageIcon = new ImageIcon( PhetCommonResources.getInstance().getImage( "logos/phet-logo.jpg"));
         titleLabel = ( new JLabel( imageIcon ) );
         northPanel = new JPanel();
         northPanel.add( titleLabel );

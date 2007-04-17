@@ -15,8 +15,8 @@ public class InitialTemperatureSlider extends JSlider {
     private static final Dictionary LABEL_TABLE = new Hashtable();
 
     static {
-        LABEL_TABLE.put(new Integer(MIN), new JLabel( MRConfig.CONFIG.getString("InitialTemperature.label.min") ) );
-        LABEL_TABLE.put(new Integer(MAX), new JLabel( MRConfig.CONFIG.getString("InitialTemperature.label.max") ) );
+        LABEL_TABLE.put(new Integer(MIN), new JLabel( MRConfig.RESOURCES.getLocalizedString("InitialTemperature.label.min") ) );
+        LABEL_TABLE.put(new Integer(MAX), new JLabel( MRConfig.RESOURCES.getLocalizedString("InitialTemperature.label.max") ) );
     }
 
     public InitialTemperatureSlider() {

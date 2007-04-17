@@ -21,7 +21,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
@@ -38,7 +37,6 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 public class BSLauncher extends JFrame {
     
     public static void main( String args[] ) {
-        BSResources.setConfig( PhetProjectConfig.forProject( BSConstants.PROJECT ) );
         BSLauncher launcher = new BSLauncher( args );
         SwingUtils.centerWindowOnScreen( launcher );
         launcher.show();
@@ -107,9 +105,9 @@ public class BSLauncher extends JFrame {
         
         JLabel instructions = new JLabel( BSResources.getString( "BSLauncher.instructions") );
         
-        _boundStatesRadioButton = new JRadioButton( BSResources.getString( BSConstants.PROJECT + ".name" ) );
-        _covalentBoundsRadioButton = new JRadioButton( BSResources.getString( BSConstants.PROJECT + "-" + BSConstants.FLAVOR_COVALENT_BONDS + ".name" ) );
-        _bandStructureRadioButton = new JRadioButton( BSResources.getString( BSConstants.PROJECT + "-" + BSConstants.FLAVOR_BAND_STRUCTURE + ".name" ) );
+        _boundStatesRadioButton = new JRadioButton( BSResources.getString( BSConstants.FLAVOR_BOUND_STATES + ".name" ) );
+        _covalentBoundsRadioButton = new JRadioButton( BSResources.getString( BSConstants.FLAVOR_COVALENT_BONDS + ".name" ) );
+        _bandStructureRadioButton = new JRadioButton( BSResources.getString( BSConstants.FLAVOR_BAND_STRUCTURE + ".name" ) );
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( _boundStatesRadioButton );
         buttonGroup.add( _covalentBoundsRadioButton );

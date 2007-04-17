@@ -11,9 +11,9 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -376,11 +376,11 @@ public class ModelSlider extends JPanel {
             return true;
         }
         catch( IllegalValueException ive ) {
-            String outofrange = PhetCommonProjectConfig.getInstance().getString( "Common.ModelSlider.OutOfRange" );
-            String minimum = PhetCommonProjectConfig.getInstance().getString( "Common.ModelSlider.Minimum" );
-            String maximum = PhetCommonProjectConfig.getInstance().getString( "Common.ModelSlider.Maximum" );
-            String youentered = PhetCommonProjectConfig.getInstance().getString( "Common.ModelSlider.YouEntered" );
-            String description = PhetCommonProjectConfig.getInstance().getString( "Common.ModelSlider.Description" );
+            String outofrange = PhetCommonResources.getInstance().getLocalizedString( "Common.ModelSlider.OutOfRange" );
+            String minimum = PhetCommonResources.getInstance().getLocalizedString( "Common.ModelSlider.Minimum" );
+            String maximum = PhetCommonResources.getInstance().getLocalizedString( "Common.ModelSlider.Maximum" );
+            String youentered = PhetCommonResources.getInstance().getLocalizedString( "Common.ModelSlider.YouEntered" );
+            String description = PhetCommonResources.getInstance().getLocalizedString( "Common.ModelSlider.Description" );
             JOptionPane.showMessageDialog( this, outofrange + ".\n" + minimum + "= " + ive.getMin()
                                                  + ", " + maximum + "=" + ive.getMax() + "\n" + youentered + ": "
                                                  + ive.getValue(), description, JOptionPane.ERROR_MESSAGE );

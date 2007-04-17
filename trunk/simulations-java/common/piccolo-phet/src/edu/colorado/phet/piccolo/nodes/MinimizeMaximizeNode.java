@@ -15,7 +15,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.PhetCommonProjectConfig;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -58,8 +58,8 @@ public class MinimizeMaximizeNode extends PNode {
     private final static Image MAXIMIZE_IMAGE;
     
     static {
-        MINIMIZE_IMAGE = PhetCommonProjectConfig.getInstance().getImage( MINIMIZE_IMAGE_RESOURCE_NAME );
-        MAXIMIZE_IMAGE = PhetCommonProjectConfig.getInstance().getImage( MAXIMIZE_IMAGE_RESOURCE_NAME );
+        MINIMIZE_IMAGE = PhetCommonResources.getInstance().getImage( MINIMIZE_IMAGE_RESOURCE_NAME );
+        MAXIMIZE_IMAGE = PhetCommonResources.getInstance().getImage( MAXIMIZE_IMAGE_RESOURCE_NAME );
     }
     
     //----------------------------------------------------------------------------

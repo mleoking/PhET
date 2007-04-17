@@ -57,7 +57,7 @@ public class MoleculeSeparationPane extends PPath {
         this.moleculePaneAxisNode = new PNode();
         this.separationIndicatorArrow = new SeparationIndicatorArrow( Color.black );
         this.moleculePaneAxisNode.addChild( this.separationIndicatorArrow );
-        PText siaLabel = new PText( MRConfig.CONFIG.getString( "EnergyView.separation" ) );
+        PText siaLabel = new PText( MRConfig.RESOURCES.getLocalizedString( "EnergyView.separation" ) );
         siaLabel.setFont( MRConfig.LABEL_FONT );
         siaLabel.rotate( -Math.PI / 2 );
         siaLabel.setOffset( this.paneInsets.left / 2 - siaLabel.getFullBounds().getWidth() + 2,

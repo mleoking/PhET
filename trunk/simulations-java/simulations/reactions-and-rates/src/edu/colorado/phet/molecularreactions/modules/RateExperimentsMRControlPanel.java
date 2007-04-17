@@ -55,7 +55,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
         optionsPanel = new ChartOptionsPanel( module );
 
         // Reset button
-        JButton resetBtn = new JButton( MRConfig.CONFIG.getString( "Control.reset" ) );
+        JButton resetBtn = new JButton( MRConfig.RESOURCES.getLocalizedString( "Control.reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();

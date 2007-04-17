@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark;
 
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
+import edu.colorado.phet.common.resources.PhetResources;
 
 /**
  * User: Sam Reid
@@ -11,10 +11,10 @@ import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 public class EnergySkateParkStrings {
 
-    private static PhetProjectConfig phetProjectConfig = PhetProjectConfig.forProject( "energy-skate-park" );
+    private static final PhetResources RESOURCE_LOADER = PhetResources.forProject( "energy-skate-park" );
 
     public static String getString( String s ) {
-        return phetProjectConfig.getString( s );
+        return RESOURCE_LOADER.getLocalizedString( s );
     }
 
 }

@@ -12,8 +12,9 @@ import java.util.Vector;
  * <p/>
  * Manages strings for simulations so that they can be localized.
  *
+ * @deprecated used PhetResourceLoader
  */
-public class SimStrings extends AbstractPhetPropertySource {
+public class SimStrings {
     
     private Vector localizedStrings;
     private Vector bundleNames;

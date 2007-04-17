@@ -46,7 +46,7 @@ public class SimpleMRControlPanel extends MRControlPanel {
         add( new ReactionChooserPanel( module ), gbc );
 
         gbc.fill = GridBagConstraints.NONE;
-        JButton reloadBtn = new JButton( MRConfig.CONFIG.getString("Control.reload"));
+        JButton reloadBtn = new JButton( MRConfig.RESOURCES.getLocalizedString("Control.reload"));
         reloadBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reload();
@@ -55,7 +55,7 @@ public class SimpleMRControlPanel extends MRControlPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         add( reloadBtn, gbc );
 
-        JButton resetAllBtn = new JButton( MRConfig.CONFIG.getString( "Control.reset") );
+        JButton resetAllBtn = new JButton( MRConfig.RESOURCES.getLocalizedString( "Control.reset") );
         resetAllBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
@@ -79,8 +79,8 @@ public class SimpleMRControlPanel extends MRControlPanel {
             this.module = module;
 
             ButtonGroup numDimensionsBG = new ButtonGroup();
-            oneDRB = new JRadioButton( MRConfig.CONFIG.getString( "Control.oneDimension" ) );
-            twoDRB = new JRadioButton( MRConfig.CONFIG.getString( "Control.twoDimensions" ) );
+            oneDRB = new JRadioButton( MRConfig.RESOURCES.getLocalizedString( "Control.oneDimension" ) );
+            twoDRB = new JRadioButton( MRConfig.RESOURCES.getLocalizedString( "Control.twoDimensions" ) );
             numDimensionsBG.add( oneDRB );
             numDimensionsBG.add( twoDRB );
             oneDRB.setSelected( true );
@@ -100,7 +100,7 @@ public class SimpleMRControlPanel extends MRControlPanel {
                 }
             } );
 
-            setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.CONFIG.getString( "Control.launcherOptions" ) ) );
+            setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "Control.launcherOptions" ) ) );
             setLayout( new GridBagLayout() );
             Insets insets = new Insets( 0, 10, 0, 0 );
             GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,

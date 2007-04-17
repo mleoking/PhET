@@ -1,26 +1,29 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.common.view.util;
+package edu.colorado.phet.common.resources;
 
 import java.util.Properties;
 
+import edu.colorado.phet.common.view.util.StringUtil;
+
 /**
- * An extension of Properties to provide support for the PhetPropertySource
- * interface.
+ * An extension of Properties that provides some convenience methods.
  */
-public class PropertiesEx extends Properties implements PhetPropertySource {
-    public PropertiesEx() {
+public class PhetProperties extends Properties {
+    
+    public PhetProperties() {
         super();
     }
 
-    public PropertiesEx( Properties properties ) {
+    public PhetProperties( Properties properties ) {
         super( properties );
     }
 
     public String getString( String propertyName ) {
         String s = super.getProperty( propertyName );
-
-        if (s == null) return propertyName;
-
+        if ( s == null ) {
+            System.err.println( "WARNING: requested property not found: " + propertyName );
+            s = propertyName;
+        }
         return s;
     }
 

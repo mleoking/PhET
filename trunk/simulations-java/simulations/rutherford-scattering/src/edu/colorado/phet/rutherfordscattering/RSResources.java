@@ -4,7 +4,7 @@ package edu.colorado.phet.rutherfordscattering;
 
 import java.awt.Image;
 
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
+import edu.colorado.phet.common.resources.PhetResources;
 
 
 public class RSResources {
@@ -12,22 +12,22 @@ public class RSResources {
     /* not intended for instantiation */
     private RSResources() {}
     
-    private static final PhetProjectConfig CONFIG = PhetProjectConfig.forProject( "rutherford-scattering" );
+    private static final PhetResources RESOURCES = PhetResources.forProject( "rutherford-scattering" );
     
-    public static PhetProjectConfig getConfig() {
-        return CONFIG;
+    public static PhetResources getResourceLoader() {
+        return RESOURCES;
     }
     
     public static String getString( String name ) {
-        return CONFIG.getString( name );
+        return RESOURCES.getLocalizedString( name );
     }
     
     public static int getInt( String name, int defaultValue ) {
-        return CONFIG.getInt( name, defaultValue );
+        return RESOURCES.getLocalizedInt( name, defaultValue );
     }
     
     public static Image getImage( String name ) {
-        return CONFIG.getImage( name );
+        return RESOURCES.getImage( name );
     }
 
 }

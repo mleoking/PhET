@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.PhetCommonProjectConfig;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 import edu.colorado.phet.common.view.LogoPanel;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -654,7 +654,7 @@ public class PhetTabbedPane extends JPanel {
         private boolean logoVisible = true;
 
         public TabPane( Color selectedTabColor ) {
-            Image image = PhetCommonProjectConfig.getInstance().getImage( IMAGE_PHET_LOGO );
+            Image image = PhetCommonResources.getInstance().getImage( IMAGE_PHET_LOGO );
             logo = new PImage( image );
             tabBase = new TabBase( selectedTabColor );
             setPanEventHandler( null );

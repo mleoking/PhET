@@ -15,9 +15,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 /**
  * BSBandStructureApplication is the simulation titled "Band Structure".
@@ -32,9 +32,9 @@ public class BSBandStructureApplication extends BSAbstractApplication {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSBandStructureApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup )
+    public BSBandStructureApplication( PhetApplicationConfig config )
     {
-        super( args, config, frameSetup );
+        super( config );
     }
     
     //----------------------------------------------------------------------------
@@ -79,10 +79,10 @@ public class BSBandStructureApplication extends BSAbstractApplication {
                 laf.initLookAndFeel();
                 
                 // Config
-                BSResources.setConfig( PhetProjectConfig.forProject( BSConstants.PROJECT, BSConstants.FLAVOR_BAND_STRUCTURE ) );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, BSConstants.FRAME_SETUP, BSResources.getResourceLoader(), BSConstants.FLAVOR_BAND_STRUCTURE );
                 
                 // Create the application.
-                BSAbstractApplication app = new BSBandStructureApplication( args, BSResources.getConfig(), BSConstants.FRAME_SETUP );
+                BSAbstractApplication app = new BSBandStructureApplication( config );
                 
                 // Start the application.
                 app.startApplication();
