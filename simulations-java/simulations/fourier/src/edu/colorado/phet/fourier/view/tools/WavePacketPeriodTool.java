@@ -13,7 +13,7 @@ package edu.colorado.phet.fourier.view.tools;
 
 import java.awt.Component;
 
-import edu.colorado.phet.charts.Chart;
+import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.enums.Domain;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;

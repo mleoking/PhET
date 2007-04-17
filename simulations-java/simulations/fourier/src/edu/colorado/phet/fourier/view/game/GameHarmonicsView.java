@@ -14,8 +14,8 @@ package edu.colorado.phet.fourier.view.game;
 import java.awt.*;
 import java.util.ArrayList;
 
-import edu.colorado.phet.charts.Chart;
-import edu.colorado.phet.charts.Range2D;
+import edu.colorado.phet.common.charts.Chart;
+import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;

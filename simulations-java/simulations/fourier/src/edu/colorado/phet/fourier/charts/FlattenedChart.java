@@ -17,7 +17,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.charts.Chart;
+import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 

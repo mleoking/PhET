@@ -13,8 +13,8 @@ package edu.colorado.phet.fourier.view.d2c;
 
 import java.awt.*;
 
-import edu.colorado.phet.charts.DataSetGraphic;
-import edu.colorado.phet.charts.Range2D;
+import edu.colorado.phet.common.charts.DataSetGraphic;
+import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomEvent;

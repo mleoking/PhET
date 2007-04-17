@@ -14,10 +14,10 @@ package edu.colorado.phet.opticalquantumcontrol.charts;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.charts.Chart;
-import edu.colorado.phet.charts.DataSet;
-import edu.colorado.phet.charts.LinePlot;
-import edu.colorado.phet.charts.Range2D;
+import edu.colorado.phet.common.charts.Chart;
+import edu.colorado.phet.common.charts.DataSet;
+import edu.colorado.phet.common.charts.LinePlot;
+import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 import edu.colorado.phet.opticalquantumcontrol.model.Harmonic;

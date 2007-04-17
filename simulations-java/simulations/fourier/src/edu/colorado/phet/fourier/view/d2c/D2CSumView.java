@@ -15,10 +15,10 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.charts.Chart;
-import edu.colorado.phet.charts.DataSet;
-import edu.colorado.phet.charts.LinePlot;
-import edu.colorado.phet.charts.Range2D;
+import edu.colorado.phet.common.charts.Chart;
+import edu.colorado.phet.common.charts.DataSet;
+import edu.colorado.phet.common.charts.LinePlot;
+import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomEvent;
