@@ -4,7 +4,7 @@ package edu.colorado.phet.rotation.tests.combined;
  * See also: http://www.java2s.com/Code/Java/Chart/JFreeChartCombinedXYPlotDemo1.htm
  */
 
-import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.combined.CombinedChartSlider;
 import edu.umd.cs.piccolo.nodes.PText;

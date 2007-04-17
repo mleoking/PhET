@@ -31,10 +31,10 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
 import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
-import edu.colorado.phet.jfreechart.piccolo.XYPlotNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.event.CursorHandler;

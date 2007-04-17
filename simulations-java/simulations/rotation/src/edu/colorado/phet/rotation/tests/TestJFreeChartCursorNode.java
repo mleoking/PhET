@@ -1,7 +1,7 @@
 package edu.colorado.phet.rotation.tests;
 
 import edu.colorado.phet.rotation.graphs.JFreeChartCursorNode;
-import edu.colorado.phet.jfreechart.test.TestDynamicJFreeChartNodeTree;
+import edu.colorado.phet.common.jfreechartphet.test.TestDynamicJFreeChartNodeTree;
 
 /**
  * User: Sam Reid

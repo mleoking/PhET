@@ -28,7 +28,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.jfreechart.piccolo;
+package edu.colorado.phet.common.jfreechartphet.piccolo;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
