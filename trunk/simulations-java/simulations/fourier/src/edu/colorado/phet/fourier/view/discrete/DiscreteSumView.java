@@ -18,7 +18,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.JCheckBox;
 
-import edu.colorado.phet.chart.*;
+import edu.colorado.phet.charts.*;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;

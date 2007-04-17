@@ -11,10 +11,9 @@
 
 package edu.colorado.phet.photoelectric.view;
 
-import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.chart.Axis;
-import edu.colorado.phet.chart.DataSet;
+import edu.colorado.phet.charts.Chart;
+import edu.colorado.phet.charts.Range2D;
+import edu.colorado.phet.charts.DataSet;
 
 import java.awt.*;
 

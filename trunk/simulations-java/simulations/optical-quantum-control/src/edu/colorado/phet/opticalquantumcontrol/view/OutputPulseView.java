@@ -14,7 +14,7 @@ package edu.colorado.phet.opticalquantumcontrol.view;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.chart.Range2D;
+import edu.colorado.phet.charts.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;

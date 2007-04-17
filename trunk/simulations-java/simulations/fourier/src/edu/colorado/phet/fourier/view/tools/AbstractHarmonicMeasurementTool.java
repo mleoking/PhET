@@ -17,7 +17,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.chart.Chart;
+import edu.colorado.phet.charts.Chart;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeEvent;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeListener;
