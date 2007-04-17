@@ -1,7 +1,12 @@
-<?php
-    session_start();
-        
+<?php       
+    session_start(); 
+    
     include_once("login-info.php");
+    
+    function logout() {
+        setcookie("username");
+        setcookie("password_hash");        
+    }
     
     function cookie_var_store($name, $var) {        
         setcookie("$name");
@@ -10,24 +15,32 @@
     
     function cookie_var_get($name) {
         if (!isset($_COOKIE["$name"])) {            
-            return null;
+            return "";
         } 
         
         return $_COOKIE["$name"];
     }
+    
+    $username      = "";
+    $password      = "";
+    $password_hash = "";
 
     if (cookie_var_get("username") !== null) {
         $username      = cookie_var_get("username");
         $password_hash = cookie_var_get("password_hash");
-        
-        if ($username !== ADMIN_USERNAME && $password_hash !== md5(ADMIN_PASSWORD)) {
-            print "The username or password has expired.";
-            
-            exit;
-        }
+    }    
+    if (isset($_POST["username"])) { 
+        $username      = $_POST["username"];
+        $password      = $_POST["password"];
+        $password_hash = md5($password);
     }
-    else if ($_POST["username"]=="") { 
-?>
+        
+    if ($username == ADMIN_USERNAME && $password_hash == md5(ADMIN_PASSWORD)) {
+        cookie_var_store("username",      $username);
+        cookie_var_store("password_hash", md5($password));
+    }
+    else {
+        ?>
         <html>
         <title>Phet Admin Control Panel Login Form</title>
         <body>
@@ -35,34 +48,11 @@
         <form method="post" action="index.php">
         Username: <input type="text" name="username" size="20"><BR>
         Password: <input type="password" name="password" size="15"><BR> 
-        <input type="Submit" value="Submit">
+        <input type="Submit" value="Log In">
         </form>
         </body>
         </html>
-
-<?php
+        <?php
         exit;
-    }
-    else { 
-        $username=$_POST["username"];
-        $password=$_POST["password"];
-        
-        if ($username==ADMIN_USERNAME AND $password==ADMIN_PASSWORD) {
-            $permission="yes";
-        }
-
-        if ($permission !== "yes"){
-            print "The username or password you entered are invalid.";
-            
-            exit;
-        }
-
-        $username=$_POST["username"];
-        
-        session_register("permission");   
-        session_register("username");
-        
-        cookie_var_store("username",      $username);
-        cookie_var_store("password_hash", md5($password));
     }
 ?>

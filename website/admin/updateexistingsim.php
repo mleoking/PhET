@@ -3,38 +3,37 @@
 	include_once("db.inc");
 	include_once("web-utils.php");
 	
-    $sim_id          = $_REQUEST['sim_id'];
-    $sql_sim        = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
-    $sql_result_sim = mysql_query($sql_sim);
+    $sim_id              = $_REQUEST['sim_id'];
+    $select_sim_st       = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
+    $simulation          = mysql_fetch_row(mysql_query($select_sim_st));
+    
+    $simtitle            = $simulation[1];
+    $simrating           = $simulation[2];
+    $simtype             = $simulation[3];
+    $simsize             = $simulation[4];
+    $simurl              = $simulation[5];
+    $thumburl            = $simulation[6];
+    $simdesc             = $simulation[7];
+    $keywords            = $simulation[8];
+    $sim_system_req      = $simulation[9];
+    $sim_teaching_ideas  = $simulation[10];
+    $sim_user_tips       = $simulation[11];
+    $sim_learning_goals  = $simulation[12];
 
-	while ($row2 = mysql_fetch_row($sql_result_sim)) {
-        $simtitle       = $row2[1];
-	    $simrating      = $row2[2];
-	    $simtype        = $row2[3];
-	    $simsize        = $row2[4];
-	    $simurl         = $row2[5];
-	    $thumburl       = $row2[6];
-	    $simdesc        = $row2[7];
-	    $keywords       = $row2[8];
-	    $sim_system_req      = $row2[9];
-	    $sim_teaching_ideas  = $row2[10];
-        $sim_user_tips       = $row2[11];
-        $sim_learning_goals  = $row2[12];
-	
-        if ($sim_system_req == '1') { 
-            $mac_ch = "checked";
-        }
-        else {
-            $mac_ch = " ";
-        }
+    if ($sim_system_req == '1') { 
+        $mac_ch = "checked";
+    }
+    else {
+        $mac_ch = " ";
+    }
 
-        $bmin_check  = generate_check_status("0", $simrating);
-        $b_check     = generate_check_status("1", $simrating);
-        $bplus_check = generate_check_status("2", $simrating);
-        $star_check  = generate_check_status("3", $simrating);
-        $tri_check   = generate_check_status("4", $simrating);
-        
-        print ("
+    $bmin_check  = generate_check_status("0", $simrating);
+    $b_check     = generate_check_status("1", $simrating);
+    $bplus_check = generate_check_status("2", $simrating);
+    $star_check  = generate_check_status("3", $simrating);
+    $tri_check   = generate_check_status("4", $simrating);
+    
+    print ("
 	<style type=text/css>
 <!--
 .style1 {font-family: Arial, Helvetica, sans-serif}
@@ -151,6 +150,4 @@
       print_category_checkbox(12, "Cutting-Edge Research",              "check_cuttingedge");
       
       print ("</td></tr></table><p align=center><input type=submit value=Submit name=B></form>");
-  }
-
 ?>
