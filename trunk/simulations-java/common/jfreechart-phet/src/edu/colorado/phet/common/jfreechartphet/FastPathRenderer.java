@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.jfreechart;
+package edu.colorado.phet.common.jfreechartphet;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;

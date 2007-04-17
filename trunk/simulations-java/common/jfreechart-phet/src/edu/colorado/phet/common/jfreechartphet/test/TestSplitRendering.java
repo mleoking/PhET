@@ -1,4 +1,4 @@
-package edu.colorado.phet.jfreechart.test;
+package edu.colorado.phet.common.jfreechartphet.test;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;

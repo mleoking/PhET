@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo;
 
-import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.umd.cs.piccolo.PNode;
 import org.jfree.chart.ChartFactory;

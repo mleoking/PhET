@@ -19,7 +19,7 @@ import org.jfree.chart.event.AxisChangeEvent;
 import org.jfree.chart.event.AxisChangeListener;
 import org.jfree.chart.plot.PlotRenderingInfo;
 
-import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 
 
 /**

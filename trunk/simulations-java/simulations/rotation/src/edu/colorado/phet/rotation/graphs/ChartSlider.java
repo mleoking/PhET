@@ -1,6 +1,6 @@
 package edu.colorado.phet.rotation.graphs;
 
-import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;

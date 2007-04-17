@@ -17,7 +17,7 @@ import java.awt.geom.Rectangle2D;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.plot.PlotRenderingInfo;
 
-import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 
 
 /**

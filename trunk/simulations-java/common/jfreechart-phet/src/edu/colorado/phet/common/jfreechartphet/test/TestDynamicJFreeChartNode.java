@@ -1,4 +1,4 @@
-package edu.colorado.phet.jfreechart.test;
+package edu.colorado.phet.common.jfreechartphet.test;
 
 /**
  * User: Sam Reid
@@ -7,7 +7,7 @@ package edu.colorado.phet.jfreechart.test;
  * Copyright (c) Jan 22, 2007 by Sam Reid
  */
 
-import edu.colorado.phet.jfreechart.piccolo.DynamicJFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.DynamicJFreeChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
