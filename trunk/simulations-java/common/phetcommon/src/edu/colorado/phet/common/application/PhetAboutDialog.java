@@ -16,13 +16,10 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
-import java.util.Properties;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.resources.PhetCommonResources;
-import edu.colorado.phet.common.resources.PhetProperties;
-import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
@@ -30,37 +27,48 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
  * PhetAboutDialog shows information about PhET, the simulation, copyright, and license.
- * 
+ *
  * @author Sam Reid
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class PhetAboutDialog extends JDialog {
 
     // Resource (file) that contains the PhET license, in plain text format.
     private static final String LICENSE_RESOURCE = "phet-license.txt";
-    
+
     private JPanel logoPanel;
     private String titleString, descriptionString, versionString, creditsString;
 
     /**
      * Constructs the dialog.
-     * 
+     *
      * @param phetApplication
      * @throws HeadlessException
      */
-    public PhetAboutDialog( PhetApplication phetApplication ) throws HeadlessException {
-        super( phetApplication.getPhetFrame() );
-        
-        setResizable( false );
-        
-        // TODO: replace these deprecated calls
-        titleString = phetApplication.getTitle();
-        descriptionString = phetApplication.getDescription();
-        versionString = phetApplication.getVersion();
-        if ( phetApplication.getApplicationConfig() != null ) {
-            versionString = phetApplication.getApplicationConfig().getVersion().formatForAboutDialog();
+    public PhetAboutDialog( PhetApplication phetApplication ) {
+        this(phetApplication.getPhetFrame(), getDialogConfig(phetApplication ));
+    }
+
+    private static DialogConfig getDialogConfig( PhetApplication phetApplication ) {
+        if (phetApplication.getApplicationConfig()!=null){
+            return new PhetApplicationConfigDialogConfig( phetApplication.getApplicationConfig() );
+        }else{
+            return new SimpleDialogConfig(phetApplication.getTitle(), phetApplication.getDescription(), phetApplication.getVersion(), phetApplication.getCredits() );
         }
-        creditsString = phetApplication.getCredits();
+    }
+
+    /**
+     * Constructs a dialog.
+     * @param config
+     */
+    public PhetAboutDialog(Frame owner,DialogConfig config){
+        super( owner );
+        setResizable( false );
+
+        titleString = config.getName();
+        descriptionString = config.getDescription();
+        versionString = config.getVersionForAboutDialog();
+        creditsString = config.getCredits();
 
         setTitle( getLocalizedString( "Common.HelpMenu.AboutTitle" ) + " " + titleString );
 
@@ -76,7 +84,7 @@ public class PhetAboutDialog extends JDialog {
         contentPanel.add( new JSeparator() );
         contentPanel.add( buttonPanel );
         setContentPane( contentPanel );
-        
+
         pack();
         SwingUtils.centerDialogInParent( this );
     }
@@ -91,20 +99,20 @@ public class PhetAboutDialog extends JDialog {
         logoLabel.setBorder( BorderFactory.createLineBorder( Color.black ) );
 
         JLabel copyrightLabel = new JLabel( getLocalizedString( "Common.About.Copyright" ) );
-        
+
         HorizontalLayoutPanel logoPanel = new HorizontalLayoutPanel();
         logoPanel.setInsets( new Insets( 10, 10, 10, 10 ) ); // top,left,bottom,right
         logoPanel.add( logoLabel );
         logoPanel.add( copyrightLabel );
-        
+
         return logoPanel;
     }
-    
+
     /*
      * Creates the panel that displays info specific to the simulation.
      */
     private JPanel createInfoPanel() {
-        
+
         // Simulation title
         JLabel titleLabel = new JLabel( titleString );
         Font f = titleLabel.getFont();
@@ -112,7 +120,7 @@ public class PhetAboutDialog extends JDialog {
 
         // Simulation description
         JLabel descriptionLabel = new JLabel( descriptionString );
-        
+
         // Simulation version
         String versionHeader = getLocalizedString( "Common.About.Version" ) + " ";
         JLabel versionLabel = new JLabel( versionHeader + versionString );
@@ -120,7 +128,7 @@ public class PhetAboutDialog extends JDialog {
         // Java runtime version
         String javaVersionString = getLocalizedString( "Common.About.JavaVersion" ) + " " + System.getProperty( "java.version" );
         JLabel javaVersionLabel = new JLabel( javaVersionString );
-        
+
         int xMargin = 10;
         int ySpacing = 10;
         VerticalLayoutPanel infoPanel = new VerticalLayoutPanel();
@@ -133,7 +141,7 @@ public class PhetAboutDialog extends JDialog {
         infoPanel.add( versionLabel );
         infoPanel.add( javaVersionLabel );
         infoPanel.add( Box.createVerticalStrut( ySpacing ) );
-        
+
         return infoPanel;
     }
 
@@ -142,7 +150,7 @@ public class PhetAboutDialog extends JDialog {
     * The Credits button is added only if a credits file exists.
     */
     private JPanel createButtonPanel() {
-        
+
         JButton licenseButton = new JButton( getLocalizedString( "Common.About.LicenseButton" ) );
         licenseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -156,7 +164,7 @@ public class PhetAboutDialog extends JDialog {
                 showCredits();
             }
         } );
-        
+
         JButton okButton = new JButton( getLocalizedString( "Common.About.OKButton" ) );
         getRootPane().setDefaultButton( okButton );
         okButton.addActionListener( new ActionListener() {
@@ -164,7 +172,7 @@ public class PhetAboutDialog extends JDialog {
                 dispose();
             }
         } );
-        
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new FlowLayout() );
         buttonPanel.add( licenseButton );
@@ -172,10 +180,10 @@ public class PhetAboutDialog extends JDialog {
             buttonPanel.add( creditsButton );
         }
         buttonPanel.add( okButton );
-        
+
         return buttonPanel;
     }
-    
+
     /*
      * Displays license information in a message dialog.
      */
@@ -218,7 +226,7 @@ public class PhetAboutDialog extends JDialog {
 
       dialog.show();
     }
-    
+
     /*
      * Reads the text from the specified file as a String object.
      * @param textFilename the filename for the File from which to read the String
@@ -251,4 +259,80 @@ public class PhetAboutDialog extends JDialog {
         }
         return text;
     }
+
+    /**
+     * A DialogConfig is the minimum amount of information necessary to construct a PhetAboutDialog.
+     */
+    public static interface DialogConfig{
+        String getName();
+
+        String getDescription();
+
+        String getVersionForAboutDialog();
+
+        String getCredits();
+    }
+
+    /**
+     * A PhetApplicationConfigDialogConfig is an adapter class for using PhetApplicationConfig as DialogConfig.
+     * We may prefer to make PhetApplicationConfig implement DialogConfig interface.
+     */
+    public static class PhetApplicationConfigDialogConfig implements DialogConfig{
+        private PhetApplicationConfig applicationConfig;
+
+        public PhetApplicationConfigDialogConfig( PhetApplicationConfig applicationConfig ) {
+            this.applicationConfig = applicationConfig;
+        }
+
+        public String getName() {
+            return applicationConfig.getName();
+        }
+
+        public String getDescription() {
+            return applicationConfig.getDescription();
+        }
+
+        public String getVersionForAboutDialog() {
+            return applicationConfig.getVersion().formatForAboutDialog();
+        }
+
+        public String getCredits() {
+            return applicationConfig.getCredits();
+        }
+    }
+
+    /**This dialog config allows simulations to directly specify information for the about dialog; it is
+     * provided mostly for backward compatibility with older simulations.
+     */
+    public static class SimpleDialogConfig implements DialogConfig{
+        private String name;
+        private String description;
+        private String versionString;
+        private String credits;
+
+        public SimpleDialogConfig( String name, String description, String versionString, String credits ) {
+            this.name = name;
+            this.description = description;
+            this.versionString = versionString;
+            this.credits = credits;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getVersionForAboutDialog() {
+            return versionString;
+        }
+
+        public String getCredits() {
+            return credits;
+        }
+
+    }
+
 }
