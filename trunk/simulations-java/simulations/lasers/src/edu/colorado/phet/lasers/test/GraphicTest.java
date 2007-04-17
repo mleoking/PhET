@@ -1,8 +1,8 @@
 package edu.colorado.phet.lasers.test;
 
 import edu.colorado.phet.common.quantum.QuantumConfig;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 
 import javax.swing.*;
 import java.awt.*;

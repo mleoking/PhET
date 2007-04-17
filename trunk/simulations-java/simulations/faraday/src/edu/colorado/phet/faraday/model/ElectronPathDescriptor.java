@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.faraday.model;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.faraday.util.QuadBezierSpline;
 
 

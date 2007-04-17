@@ -12,9 +12,9 @@
 package edu.colorado.phet.dischargelamps.control;
 
 import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

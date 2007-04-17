@@ -3,8 +3,8 @@ package edu.colorado.phet.testlocation.view;
 import java.awt.Component;
 
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.testlocation.model.CarModelElement;
 import edu.colorado.phet.testlocation.model.WindmillModelElement;
 

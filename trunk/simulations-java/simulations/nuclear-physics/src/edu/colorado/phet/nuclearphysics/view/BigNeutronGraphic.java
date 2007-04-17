@@ -12,7 +12,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 import edu.colorado.phet.nuclearphysics.Config;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;

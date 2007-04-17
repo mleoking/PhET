@@ -6,8 +6,8 @@ import edu.colorado.phet.common.charts.controllers.ChartCursor;
 import edu.colorado.phet.common.charts.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.RepaintDebugGraphic;
 
 import javax.swing.*;
 import java.awt.*;

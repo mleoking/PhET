@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common.charts;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

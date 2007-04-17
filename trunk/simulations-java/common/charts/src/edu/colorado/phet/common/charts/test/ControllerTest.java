@@ -3,7 +3,7 @@ package edu.colorado.phet.common.charts.test;
 
 import edu.colorado.phet.common.charts.*;
 import edu.colorado.phet.common.charts.controllers.VerticalChartSlider;
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 
 import javax.swing.*;
 import java.awt.*;

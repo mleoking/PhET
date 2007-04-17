@@ -7,13 +7,12 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.event.ContainerAdapter;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;

@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.common.charts;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;

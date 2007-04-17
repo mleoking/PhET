@@ -17,7 +17,7 @@ import java.awt.Component;
 import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 
 /**

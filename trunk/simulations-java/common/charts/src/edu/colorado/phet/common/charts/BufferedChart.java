@@ -2,8 +2,8 @@
 package edu.colorado.phet.common.charts;
 
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.BasicGraphicsSetup;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

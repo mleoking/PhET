@@ -13,7 +13,7 @@ package edu.colorado.phet.opticalquantumcontrol.view;
 
 import java.awt.Component;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.opticalquantumcontrol.OQCResources;
 
 
