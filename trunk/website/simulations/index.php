@@ -88,8 +88,9 @@
             </dl>
         </div>
 
-        <div id="content">                  
-            <?php
+        <div id="content">      
+            <div class="productList">            
+                <?php
                     if (isset($_REQUEST['cat'])) {
                         $cat = $_REQUEST['cat'];
                     }
@@ -214,8 +215,7 @@
                         }
                     }
                 ?>
-                
-            <div class="spacer" />
+            </div>
 
             <p class="footer">© 2007 PhET. All rights reserved.<br />
         </div>
