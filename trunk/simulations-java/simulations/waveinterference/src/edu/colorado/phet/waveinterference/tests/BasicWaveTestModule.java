@@ -4,7 +4,7 @@ package edu.colorado.phet.waveinterference.tests;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;

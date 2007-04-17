@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;

@@ -1,6 +1,6 @@
 package edu.colorado.phet.rotation.tests;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.controls.GraphSelectionControl;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;

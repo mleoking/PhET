@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.mri.view.computedimage;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
  * ComputedImageCanvas

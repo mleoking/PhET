@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;

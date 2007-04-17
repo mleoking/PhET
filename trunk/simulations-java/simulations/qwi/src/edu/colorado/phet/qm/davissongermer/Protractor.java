@@ -3,9 +3,9 @@ package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.DefaultDecimalFormat;
-import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.nodes.BoundGraphic;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
 import edu.colorado.phet.qm.phetcommon.LucidaSansFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;

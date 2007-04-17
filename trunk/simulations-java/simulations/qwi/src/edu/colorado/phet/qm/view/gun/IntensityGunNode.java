@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.qm.controls.IntensitySlider;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;

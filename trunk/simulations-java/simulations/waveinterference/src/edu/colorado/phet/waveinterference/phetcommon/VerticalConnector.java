@@ -2,7 +2,7 @@
 package edu.colorado.phet.waveinterference.phetcommon;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ConnectorGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.Point2D;

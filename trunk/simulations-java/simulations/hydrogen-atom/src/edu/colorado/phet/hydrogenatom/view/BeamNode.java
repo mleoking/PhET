@@ -17,7 +17,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.model.Gun;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**

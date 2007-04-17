@@ -30,8 +30,7 @@ import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.view.menu.HelpMenu;
-import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 
 /**

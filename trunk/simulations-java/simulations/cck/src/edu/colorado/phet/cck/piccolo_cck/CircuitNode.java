@@ -8,7 +8,7 @@ import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Switch;
 import edu.colorado.phet.cck.model.components.Wire;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;

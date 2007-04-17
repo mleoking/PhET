@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 

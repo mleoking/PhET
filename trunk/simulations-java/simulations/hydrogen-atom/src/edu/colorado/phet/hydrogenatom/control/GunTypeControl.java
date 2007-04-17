@@ -26,7 +26,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.view.particle.AlphaParticleNode;
 import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**

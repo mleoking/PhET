@@ -8,7 +8,7 @@ package edu.colorado.phet.rotation.tests;
  */
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.combined.BasicVerticalSliderChart;
 import edu.umd.cs.piccolo.nodes.PText;
 import org.jfree.chart.ChartFactory;

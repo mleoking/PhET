@@ -1,7 +1,7 @@
 package edu.colorado.phet.cck;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**

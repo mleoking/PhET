@@ -8,7 +8,7 @@ package edu.colorado.phet.common.jfreechartphet.test;
  */
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.DynamicJFreeChartNode;
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;

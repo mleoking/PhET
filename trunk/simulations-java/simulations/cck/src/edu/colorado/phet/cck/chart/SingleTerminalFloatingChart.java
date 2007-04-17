@@ -2,7 +2,7 @@ package edu.colorado.phet.cck.chart;
 
 import edu.colorado.phet.cck.piccolo_cck.CCKSimulationPanel;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 

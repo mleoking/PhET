@@ -1,7 +1,7 @@
 package edu.colorado.phet.molecularreactions.view.charts;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.nodes.ZoomControlNode;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

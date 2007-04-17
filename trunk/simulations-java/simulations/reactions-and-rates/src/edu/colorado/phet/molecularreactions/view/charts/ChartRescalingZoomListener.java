@@ -1,7 +1,7 @@
 
 package edu.colorado.phet.molecularreactions.view.charts;
 
-import edu.colorado.phet.piccolo.nodes.ZoomControlNode;
+import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import org.jfree.data.Range;
 
 /**

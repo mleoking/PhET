@@ -25,9 +25,9 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
-import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.event.ConstrainedDragHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

@@ -2,7 +2,7 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.theramp.common.LucidaSansFont;
-import edu.colorado.phet.piccolo.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 

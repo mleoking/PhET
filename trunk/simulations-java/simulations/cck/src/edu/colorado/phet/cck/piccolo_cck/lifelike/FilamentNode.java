@@ -6,7 +6,7 @@ import edu.colorado.phet.cck.model.components.Filament;
 import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
 import edu.colorado.phet.cck.piccolo_cck.TotalBulbComponentNode;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
 

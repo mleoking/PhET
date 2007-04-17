@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;

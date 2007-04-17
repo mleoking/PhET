@@ -3,7 +3,7 @@
 package edu.colorado.phet.molecularreactions.view.energy;
 
 import edu.colorado.phet.molecularreactions.model.MRModel;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;

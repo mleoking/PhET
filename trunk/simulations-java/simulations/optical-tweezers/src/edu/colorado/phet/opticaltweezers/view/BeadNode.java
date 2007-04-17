@@ -14,9 +14,9 @@ import java.util.Observer;
 
 import edu.colorado.phet.common.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.opticaltweezers.model.Bead;
-import edu.colorado.phet.piccolo.event.BoundedDragHandler;
-import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.nodes.FineCrosshairNode;
+import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.FineCrosshairNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

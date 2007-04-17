@@ -2,8 +2,8 @@
 package edu.colorado.phet.energyskatepark.common;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
-import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.nodes.ShadowPText;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;

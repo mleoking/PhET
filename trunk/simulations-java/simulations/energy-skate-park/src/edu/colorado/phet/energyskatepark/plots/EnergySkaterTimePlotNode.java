@@ -6,7 +6,7 @@ import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.common.LucidaSansFont;
-import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesModelListenerAdapter;
 import edu.umd.cs.piccolo.PNode;

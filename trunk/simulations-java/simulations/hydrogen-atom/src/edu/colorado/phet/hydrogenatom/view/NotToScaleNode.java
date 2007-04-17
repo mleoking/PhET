@@ -15,7 +15,7 @@ import java.awt.Font;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HAResources;
-import edu.colorado.phet.piccolo.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 
 /**
  * NotToScaleNode displays a note indicating that 

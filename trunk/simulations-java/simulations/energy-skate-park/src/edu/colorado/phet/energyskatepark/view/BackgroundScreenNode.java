@@ -2,8 +2,8 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.PhetRootPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 

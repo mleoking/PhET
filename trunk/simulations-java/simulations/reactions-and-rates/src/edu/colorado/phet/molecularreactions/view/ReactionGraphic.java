@@ -15,7 +15,7 @@ import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 import edu.colorado.phet.molecularreactions.view.icons.MoleculeIcon;
 import edu.colorado.phet.molecularreactions.view.icons.ReactionArrowNode;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;

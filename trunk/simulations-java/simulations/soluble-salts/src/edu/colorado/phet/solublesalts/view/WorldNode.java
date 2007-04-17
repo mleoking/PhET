@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.solublesalts.view;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
-import edu.colorado.phet.piccolo.util.PiccoloUtils;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
+import edu.colorado.phet.common.piccolophet.util.PiccoloUtils;
 import edu.colorado.phet.solublesalts.model.Shaker;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;

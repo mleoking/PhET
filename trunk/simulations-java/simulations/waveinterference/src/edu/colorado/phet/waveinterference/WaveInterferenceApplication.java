@@ -3,7 +3,7 @@ package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;

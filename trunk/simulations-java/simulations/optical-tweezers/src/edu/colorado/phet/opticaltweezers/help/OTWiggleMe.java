@@ -8,7 +8,7 @@ import java.awt.Font;
 import java.awt.Stroke;
 
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
+import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.PCanvas;
 
 /**

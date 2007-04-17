@@ -2,7 +2,7 @@ package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.graphics.Arrow;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PAffineTransform;

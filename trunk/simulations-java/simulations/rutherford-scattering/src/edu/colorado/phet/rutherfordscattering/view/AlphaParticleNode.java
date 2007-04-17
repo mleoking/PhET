@@ -6,7 +6,7 @@ import java.awt.Image;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.rutherfordscattering.model.AlphaParticle;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;

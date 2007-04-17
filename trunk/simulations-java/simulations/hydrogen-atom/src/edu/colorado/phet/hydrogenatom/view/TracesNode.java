@@ -24,7 +24,7 @@ import edu.colorado.phet.hydrogenatom.model.AlphaParticle;
 import edu.colorado.phet.hydrogenatom.model.Model;
 import edu.colorado.phet.hydrogenatom.model.Model.ModelEvent;
 import edu.colorado.phet.hydrogenatom.model.Model.ModelListener;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**

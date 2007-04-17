@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.mri.util;
 
-import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;

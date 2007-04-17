@@ -25,7 +25,7 @@ import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
-import edu.colorado.phet.piccolo.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;

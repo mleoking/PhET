@@ -13,8 +13,8 @@ package edu.colorado.phet.mri.view;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.mri.model.GradientElectromagnet;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
-import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 

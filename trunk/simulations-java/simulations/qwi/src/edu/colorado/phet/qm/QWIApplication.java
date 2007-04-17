@@ -3,8 +3,8 @@ package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.piccolo.PiccoloPhetApplication;
-import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.mandel.MandelModule;

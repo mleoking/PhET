@@ -3,8 +3,8 @@ package edu.colorado.phet.cck.piccolo_cck;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.ConstantDensityPropagator;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.nodes.ShadowPText;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 
 import java.awt.*;
 

@@ -9,7 +9,7 @@ package edu.colorado.phet.molecularreactions.test;/* Copyright 2003-2004, Univer
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.view.Legend;
 
 import javax.swing.*;

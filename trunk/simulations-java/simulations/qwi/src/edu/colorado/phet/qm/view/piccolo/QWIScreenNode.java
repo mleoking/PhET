@@ -2,10 +2,10 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.view.clock.StopwatchPanel;
-import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.nodes.BoundGraphic;
-import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
-import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ConnectorGraphic;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;

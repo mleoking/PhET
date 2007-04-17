@@ -5,7 +5,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.qm.controls.DetectorSheetControlPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityBeamPanel;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;

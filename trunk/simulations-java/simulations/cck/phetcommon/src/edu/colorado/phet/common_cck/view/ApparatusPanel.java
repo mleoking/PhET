@@ -10,7 +10,7 @@ package edu.colorado.phet.common_cck.view;
 import edu.colorado.phet.cck.phetgraphics_cck.RectangleRepaintApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.util.GraphicsState;
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
 

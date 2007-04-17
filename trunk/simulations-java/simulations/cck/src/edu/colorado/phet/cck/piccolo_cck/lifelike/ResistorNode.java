@@ -8,7 +8,7 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.ResistorColors;
 import edu.colorado.phet.cck.piccolo_cck.ComponentImageNode;
 import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 import javax.swing.*;
 import java.awt.*;

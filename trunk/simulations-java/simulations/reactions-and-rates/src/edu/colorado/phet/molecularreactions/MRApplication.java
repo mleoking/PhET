@@ -20,7 +20,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.modules.RateExperimentsModule;
 import edu.colorado.phet.molecularreactions.modules.SimpleModule;
-import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
  * edu.colorado.phet.molecularreactions.MRApplication

@@ -1,7 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.piccolo.nodes.ShadowPText;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;

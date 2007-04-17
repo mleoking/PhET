@@ -2,7 +2,7 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.nodes.PPath;

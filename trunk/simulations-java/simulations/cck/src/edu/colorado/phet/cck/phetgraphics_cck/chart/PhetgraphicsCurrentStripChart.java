@@ -8,7 +8,7 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

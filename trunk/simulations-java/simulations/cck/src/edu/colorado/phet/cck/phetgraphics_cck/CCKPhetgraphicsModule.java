@@ -25,7 +25,7 @@ import edu.colorado.phet.common_cck.model.ModelElement;
 import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShadowTextGraphic;
-import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
