@@ -1,4 +1,4 @@
-<?
+<?
     include_once("password-protection.php");
 	include_once("db.inc");
 
@@ -20,7 +20,7 @@
         $keywords   = $row[8];
         $sim_system_req  = $row[9];
 
-        print "$sim_id;$sim_name;$rating;$type;$size;$sim_launch_url;$sim_image_url;$sim_desc;$keywords;$sim_system_req<br>(<a href=ctrl_sim_delete.php?sim_id=$sim_id&delete=0>DELETE?</a>)<br><br>";
+        print "$sim_id;$sim_name;$rating;$type;$size;$sim_launch_url;$sim_image_url;$sim_desc;$keywords;$sim_system_req<br>(<a href=delete-sim.php?sim_id=$sim_id&delete=0>DELETE?</a>)<br><br>";
     } 
 
     print "<br><br>";

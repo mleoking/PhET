@@ -53,7 +53,7 @@ a:hover {
 
         <li class="style1">Delete Existing Simulation</li>
 
-        <li class="style1"><a href="ctrl_simsindex.php">Simulations Index</a></li>
+        <li class="style1"><a href="list-sims.php">Simulations Index</a></li>
 
         <li class="style1">Organize Categories</li>
         
