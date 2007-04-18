@@ -49,7 +49,7 @@ a:hover {
 
         <li class="style1"><a href="addnewsim2.php">Add Simulation</a></li>
 
-        <li class="style1"><a href="update_sim.php">Edit Existing Simulation</a></li>
+        <li class="style1"><a href="choose-sim.php">Edit Existing Simulation</a></li>
 
         <li class="style1">Delete Existing Simulation</li>
 

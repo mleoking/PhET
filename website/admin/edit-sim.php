@@ -127,8 +127,7 @@
     <td height=320 colspan=2 class=style16><div align=left><p><span class=style17><u>CATEGORIES</u>_____________________________________</span>__</p>
       </div>
       <p align=left><span class=style18>Please select the categories you would like the Simulation to appear under:</span>
-	  <br/><font size=2>****(CATEGORY EDITING NOT YET ACTIVE)****</font>
-	   </p>
+      </p>
       <p align=left>");
       
       function print_category_checkbox($cat_id, $cat_name) {
@@ -159,5 +158,5 @@
       
       print_category_checkboxes();
       
-      print ("</td></tr></table><p align=center><input type=submit value=Submit name=submit></form>");
+      print ("</p></td></tr></table><p align=center><input type=submit value=Submit name=submit></form>");
 ?>
