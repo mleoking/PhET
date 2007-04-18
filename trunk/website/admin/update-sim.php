@@ -13,6 +13,16 @@
             die($message);
         }
     }
+    
+    function run_sql_statement($statement) {
+        global $connection;
+        
+        $result = mysql_query($statement, $connection);
+        
+        verify_mysql_result($result, $statement);
+        
+        return $result;
+    }
 
     $update_simulation_st = "UPDATE `simulation` SET ";
     
@@ -34,9 +44,6 @@
             $update_simulation_st = "$update_simulation_st `$key`='$escaped_value' ";
 
         }
-        else {
-            print "$key -> $value\n";
-        }
     }
 
     $update_simulation_st = "$update_simulation_st WHERE `sim_id`='$sim_id'";
@@ -55,19 +62,11 @@
         $statement             = "";
         $should_be_in_category = isset($_REQUEST["$key_to_check_for"]);
                
-        $delete_statement = "DELETE FROM `simulation_listing` WHERE `cat_id`='$cat_id' AND `sim_id`='$sim_id' ";
-               
-        verify_mysql_result(mysql_query($delete_statement), $delete_statement);
+        run_sql_statement("DELETE FROM `simulation_listing` WHERE `cat_id`='$cat_id' AND `sim_id`='$sim_id' ");
                 
         if ($should_be_in_category) {
-            $statement = "INSERT INTO `simulation_listing` (`sim_id`, `cat_id`) VALUES('$sim_id', '$cat_id')";
+            run_sql_statement("INSERT INTO `simulation_listing` (`sim_id`, `cat_id`) VALUES('$sim_id', '$cat_id')");
         }
-        
-        print "Statement = $statement<br/>";
-        
-        $result = mysql_query($statement, $connection);
-        
-        verify_mysql_result($result, $statement);
     }    
     
     print "Your simulation update was successful.";
