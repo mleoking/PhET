@@ -13,6 +13,7 @@ import edu.colorado.phet.common_sound.view.util.SimStrings;
 import edu.colorado.phet.sound.model.SoundClock;
 
 import javax.swing.*;
+import java.util.Locale;
 
 
 public class SoundApplication extends PhetApplication {

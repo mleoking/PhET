@@ -33,6 +33,12 @@
         <phet-build project="hydrogen-atom" shrink="false"/>
     </target>
 
+    <target name="build_gaelic" depends="declare_phet-build-task">
+        <phet-build project="balloons"/>
+        <phet-build project="cck"/>
+        <phet-build project="sound"/>
+    </target>
+
     <target name="build_qm_suite" depends="declare_phet-build-task">
         <phet-build project="quantum" shrink="false"/>
         <phet-build project="ideal-gas"/>
