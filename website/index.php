@@ -69,7 +69,7 @@ print <<<EOT
     
 EOT;
 
-$thumbnails = glob("./admin/incl/*.jpg");
+$thumbnails = glob("./admin/uploads/*.jpg");
 
 $index = 0;
 
