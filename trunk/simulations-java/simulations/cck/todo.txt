@@ -1,3 +1,15 @@
+Thanks for this bug report.  Save/Load appears to work only if the user specifies the file to end with ".cck" 
+
+Can you use this as a workaround for now, and we'll try to address this bug when we start development again on CCK in a couple of months.
+
+Let me know if that workaround works on your machine.
+
+*I have developed several circuits using the Circuit Construction Kit
+for DC and AC but am unable to save them for later use. (The save button
+does not seem to work) It would be of great value to save the circuits.
+Do you have any ideas how I might overcome this problem.*
+
+
 ################################################
 #To Do
 #######################
