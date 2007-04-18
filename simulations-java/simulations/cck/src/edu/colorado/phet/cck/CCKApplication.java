@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * User: Sam Reid
@@ -150,6 +151,7 @@ public class CCKApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
+//        Locale.setDefault( new Locale( "ie", "ga" ) );
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
                 SimStrings.getInstance().init( args, CCKApplication.localizedStringsPath );
