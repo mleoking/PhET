@@ -6,7 +6,7 @@
         return " ";
     }
     
-    function forceRedirect($url, $timeout = 0, $die = true) { 
+    function force_redirect($url, $timeout = 0, $die = true) { 
         print "<META http-equiv=\"Refresh\" content=\"$timeout;url=$url\">";
     }
     
