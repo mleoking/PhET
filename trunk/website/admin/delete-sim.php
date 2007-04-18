@@ -17,7 +17,7 @@
         $sql        = "DELETE FROM `simulation_listing` WHERE `sim_id`='$sim_id' ";
         $sql_result = mysql_query($sql);
 
-        print "Successfully deleted the Simulation from the database<br><br><br><a href=ctrl_simsindex.php>click here to go back</a>";
+        print "Successfully deleted the Simulation from the database<br><br><br><a href=list-sims.php>click here to go back</a>";
         
         exit();
     }
@@ -46,7 +46,7 @@
         
         print "$sim_id;$sim_name;$rating;$type;$size;$sim_launch_url;$sim_image_url;$sim_desc;$keywords;$sim_system_req<br><br>";
         
-        print "<a href=ctrl_sim_delete.php?sim_id=$sim_id&delete=1>Yes</a>   |    <a href=ctrl_simsindex.php>NO</a>";
+        print "<a href=delete-sim.php?sim_id=$sim_id&delete=1>Yes</a>   |    <a href=list-sims.php>NO</a>";
     }
 		
     print "<br><br>";
