@@ -28,16 +28,16 @@ public class Bead extends MovableObject implements ModelElement {
     // Brownian motion scaling factor, bigger values cause bigger motion
     private static final double BROWNIAN_MOTION_SCALE = 1;
     
-    private static final boolean MOTION_BROWNIAN_COMPONENT_ENABLED = true;
+    private static final boolean MOTION_TRAP_FORCE_COMPONENT_ENABLED = false;
     private static final boolean MOTION_FLUID_COMPONENT_ENABLED = true;
-    private static final boolean MOTION_TRAP_FORCE_COMPONENT_ENABLED = true;
+    private static final boolean MOTION_BROWNIAN_COMPONENT_ENABLED = false;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private double _diameter; // nm
-    private final double _density; // g/nm^3
+    private final double _density; // kg/nm^3
     private Fluid _fluid;
     private Laser _laser;
     private Random _stepAngleRandom;
@@ -49,6 +49,16 @@ public class Bead extends MovableObject implements ModelElement {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param position nm
+     * @param orientation radians
+     * @param diameter nm
+     * @param density g/nm^3
+     * @param fluid
+     * @param laser
+     */
     public Bead( Point2D position, double orientation, double diameter, double density, Fluid fluid, Laser laser ) {
         super( position, orientation, 0 /* speed */ );
         if ( diameter <= 0 ) {
@@ -65,6 +75,7 @@ public class Bead extends MovableObject implements ModelElement {
         _motionEnabled = true;
         _velocity = new Vector2D();
         _acceleration = new Vector2D();
+        System.out.println( "bead mass = " + ( getMass() / GRAMS_PER_KILOGRAM ) + " kg" );
     }
     
     //----------------------------------------------------------------------------
@@ -74,7 +85,7 @@ public class Bead extends MovableObject implements ModelElement {
     /**
      * Sets the diameter.
      * 
-     * @param diameter diameter in nm
+     * @param diameter diameter (nm)
      */
     public void setDiameter( double diameter ) {
         if ( diameter <= 0 ) {
@@ -89,7 +100,7 @@ public class Bead extends MovableObject implements ModelElement {
     /**
      * Gets the diameter.
      * 
-     * @return diameter in nm
+     * @return diameter (nm)
      */
     public double getDiameter() {
         return _diameter;
@@ -98,7 +109,7 @@ public class Bead extends MovableObject implements ModelElement {
     /**
      * Gets the mass.
      * 
-     * @return mass, in grams (g)
+     * @return mass (g)
      */
     public double getMass() {
         double radius = ( _diameter / 2 );
@@ -110,7 +121,7 @@ public class Bead extends MovableObject implements ModelElement {
      * Enables and disables motion of the model, used when something else 
      * is determining the bead's position (eg, when the user is dragging the bead).
      * 
-     * @param motionEnabled
+     * @param motionEnabled true or false
      */
     public void setMotionEnabled( boolean motionEnabled ) {
         _motionEnabled = motionEnabled;    
@@ -130,40 +141,56 @@ public class Bead extends MovableObject implements ModelElement {
     // Motion model
     //----------------------------------------------------------------------------
     
-    private void moveBead( double dt ) {
+    // Conversions used in bead motion algorithm
+    private static final double NANOMETERS_PER_METER = 1E9;
+    private static final double GRAMS_PER_KILOGRAM = 1E3;
+    private static final double PICONEWTONS_PER_NANONEWTON = 1E3;
+    
+    private void moveBead( final double dt ) {
         
-        // Top and bottom edges of microscope slide, bead treated as a point.
-        final double minY = _fluid.getMinY() + ( getDiameter() / 2 );
-        final double maxY = _fluid.getMaxY() - ( getDiameter() / 2 );
+        // algorithm works only for horizontal fluid flow
+        assert( _fluid.getOrientation() == 0 || _fluid.getOrientation() == Math.PI );
         
-        // Drag coefficient
-        final double fluidViscosity = _fluid.getViscosity();
-        final double beadRadius = getDiameter() / 2;
-        final double gamma = 6 * Math.PI * fluidViscosity * beadRadius;
+        // Top and bottom edges of microscope slide (nm), bead treated as a point
+        final double yTopOfSlide = _fluid.getMinY() + ( getDiameter() / 2 ); // nm
+        final double yBottomOfSlide = _fluid.getMaxY() - ( getDiameter() / 2 ); // nm
         
-        // Acceleration
-        final double mass = getMass();
-        Vector2D trapForce = _laser.getTrapForce( getX(), getY() );
-        final double Fx = trapForce.getX();
-        final double Fy = trapForce.getY();
-        final double fluidSpeed = _fluid.getSpeed();
-        double ax = ( Fx / mass ) - ( gamma * _velocity.getX() / mass ) - ( gamma * fluidSpeed / mass );
-        double ay = ( Fy / mass ) - ( gamma * _velocity.getY() / mass );
+        // Drag coefficient (kg/sec)
+        final double fluidViscosity = _fluid.getViscosity(); // Pa*s = kg/(m*sec)
+        final double beadRadius = ( getDiameter() / 2 ) / NANOMETERS_PER_METER; // m
+        final double gamma = 6 * Math.PI * fluidViscosity * beadRadius; // kg/sec
+        
+        // Trap force (nN)
+        Vector2D trapForce = _laser.getTrapForce( getX(), getY() ); // pN
+        double Fx = trapForce.getX() / PICONEWTONS_PER_NANONEWTON; // nN
+        double Fy = trapForce.getY() / PICONEWTONS_PER_NANONEWTON; // nN
+        if ( !MOTION_TRAP_FORCE_COMPONENT_ENABLED ) {
+            Fx = Fy = 0;
+        }
+        
+        // Acceleration (nm/sec^2)
+        final double mass = getMass() / GRAMS_PER_KILOGRAM; // kg
+        double fluidSpeed = _fluid.getSpeed(); // nm/sec
+        if ( !MOTION_FLUID_COMPONENT_ENABLED ) {
+            fluidSpeed = 0;
+        }
+        double ax = ( Fx / mass ) - ( gamma * _velocity.getX() / mass ) - ( gamma * fluidSpeed / mass ); // nm/sec^2
+        double ay = ( Fy / mass ) - ( gamma * _velocity.getY() / mass ); // nm/sec^2
         _acceleration.setXY( ax, ay );
         
-        // Brownian motion components
+        // Brownian motion components (nm)
         double dxBrownian = 0;
         double dyBrownian = 0;
         if ( MOTION_BROWNIAN_COMPONENT_ENABLED ) {
 
-            final double fluidTemperature = _fluid.getTemperature();
-            final double stepLength = BROWNIAN_MOTION_SCALE * Math.sqrt( fluidTemperature ) * Math.sqrt( dt );
-            double stepAngle = 0;
-            if ( getY() <= minY ) {
+            final double fluidTemperature = _fluid.getTemperature(); // Kelvin
+            final double stepLength = BROWNIAN_MOTION_SCALE * Math.sqrt( fluidTemperature ) * Math.sqrt( dt ); // nm
+            double stepAngle = 0; // radians
+            if ( getY() <= yTopOfSlide ) {
                 // bounce off top edge of microscope slide at an angle between 45 and 135 degrees
                 stepAngle = ( Math.PI / 4 ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
             }
-            else if ( getY() >= maxY ) {
+            else if ( getY() >= yBottomOfSlide ) {
                 // bounce off bottom edge of microscope slide at an angle between -45 and -135 degrees
                 stepAngle = ( Math.PI + ( Math.PI / 4 ) ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
             }
@@ -172,46 +199,48 @@ public class Bead extends MovableObject implements ModelElement {
                 stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI );
             }
             // covert from Polar to Cartesian coordinates
-            dxBrownian = stepLength * Math.cos( stepAngle );
-            dyBrownian = stepLength * Math.sin( stepAngle );
+            dxBrownian = stepLength * Math.cos( stepAngle ); // nm
+            dyBrownian = stepLength * Math.sin( stepAngle ); // nm
         }
 
         // Combine all motion components
-//        final double newX = getX() + ( _velocity.getX() * dt ) + ( 0.5 * _acceleration.getX() * dt * dt ) + dxBrownian;
-//        double newY = getY() + ( _velocity.getY() * dt ) + ( 0.5 * _acceleration.getY() * dt * dt ) + dyBrownian;
-        final double newX = getX() + dxBrownian;
-        double newY = getY() + dyBrownian;
+        final double xNew = getX() + ( _velocity.getX() * dt ) + ( 0.5 * _acceleration.getX() * dt * dt ) + dxBrownian;
+        double yNew = getY() + ( _velocity.getY() * dt ) + ( 0.5 * _acceleration.getY() * dt * dt ) + dyBrownian;
+//        final double xNew = getX() + dxBrownian;
+//        double yNew = getY() + dyBrownian;
         
         
-//        System.out.println( "dt = " + dt );
-//        System.out.println( "bead position = " + getPositionRef() );
-//        System.out.println( "bead mass =" + mass + " g" );
-//        System.out.println( "bead radius = " + beadRadius + " nm" );
-//        System.out.println( "fluid viscosity = " + fluidViscosity + " Pa*sec" );
-//        System.out.println( "drag coefficient = " + gamma + " Ps*sec*nm" );
-//        System.out.println( "fluid velocity = " + new Vector2D( fluidSpeed, 0 ) + " nm/sec" );
-//        System.out.println( "trap force = " + _acceleration + " pN" );
-//        System.out.println( "acceleration = " + _acceleration );
+        System.out.println( "dt = " + dt );
+        System.out.println( "bead position = " + getPositionRef() + " nm" );
+        System.out.println( "bead mass =" + mass + " kg" );
+        System.out.println( "bead radius = " + beadRadius + " m" );
+        System.out.println( "fluid viscosity = " + fluidViscosity + " Pa*sec" );
+        System.out.println( "drag coefficient = " + gamma + " kg/(m*s)" );
+        System.out.println( "fluid speed = " + fluidSpeed + " nm/sec" );
+        System.out.println( "trap Fx = " + Fx + " nN" );
+        System.out.println( "trap Fy = " + Fy + " nN" );
+        System.out.println( "bead velocity = " + _velocity + " nm/sec" );
+        System.out.println( "bead acceleration = " + _acceleration + " nm/sec^2" );
         
-        // New velocity
+        // New velocity (nm/sec)
         double vx = _velocity.getX() + ( _acceleration.getX() * dt );
         double vy = _velocity.getY() + ( _acceleration.getY() * dt );
         _velocity.setXY( vx, vy );
         
         // Collision detection
-        if ( newY < minY ) {
+        if ( yNew < yTopOfSlide ) {
             // collide with top edge of microscope slide
-            newY = minY;
+            yNew = yTopOfSlide;
         }
-        else if ( newY > maxY ) {
+        else if ( yNew > yBottomOfSlide ) {
             // collide with bottom edge of microscope slide
-            newY = maxY;
+            yNew = yBottomOfSlide;
         }
         
-        setPosition( newX, newY );
+        setPosition( xNew, yNew );
         
-//        System.out.println( "new velocity = " + _velocity );
-//        System.out.println( "new bead position = " + getPositionRef() );
-//        System.out.println( "" );
+        System.out.println( "new velocity = " + _velocity + " nm/sec" );
+        System.out.println( "new bead position = " + getPositionRef() + " nm" );
+        System.out.println( "" );
     }
 }
