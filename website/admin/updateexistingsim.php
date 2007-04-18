@@ -2,6 +2,7 @@
     include_once("password-protection.php");
 	include_once("db.inc");
 	include_once("web-utils.php");
+	include_once("sim-utils.php");
 	
     $sim_id              = $_REQUEST['sim_id'];
     $select_sim_st       = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
@@ -27,11 +28,11 @@
         $mac_ch = " ";
     }
 
-    $bmin_check  = generate_check_status("0", $simrating);
-    $b_check     = generate_check_status("1", $simrating);
-    $bplus_check = generate_check_status("2", $simrating);
-    $star_check  = generate_check_status("3", $simrating);
-    $tri_check   = generate_check_status("4", $simrating);
+    $bmin_check  = generate_check_status(SIM_RATING_BETA_MINUS, $simrating);
+    $b_check     = generate_check_status(SIM_RATING_BETA,       $simrating);
+    $bplus_check = generate_check_status(SIM_RATING_BETA_PLUS,  $simrating);
+    $star_check  = generate_check_status(SIM_RATING_CHECK,      $simrating);
+    $tri_check   = generate_check_status(SIM_RATING_ALPHA,      $simrating);
     
     print ("
 	<style type=text/css>
@@ -123,16 +124,20 @@
       function print_category_checkbox($catid, $catname, $checkname) {
           global $sim_id;
           
-      	  $sql_cat        = "SELECT * FROM `simulation_listing` WHERE `sim_id`= '$sim_id' AND `category_id`='$catid' ";
+      	  $sql_cat        = "SELECT * FROM `simulation_listing` WHERE `sim_id`= '$sim_id' AND `cat_id`='$catid' ";
           $sql_result_cat = mysql_query($sql_cat);
       	  $row_cat        = mysql_num_rows($sql_result_cat);
 
-          if ($row_cat >= '1') {
-              print "<input type=checkbox name=$checkname value=$checkname id=$checkname checked>$catname<br>";
+          if ($row_cat >= 1) {
+              print "<input type=checkbox name=$checkname value=$checkname checked>$catname<br>";
           }
           else {
-              print "<input type=checkbox name=$checkname value=$checkname id=$checkname>$catname<br>";
+              print "<input type=checkbox name=$checkname value=$checkname>$catname<br>";
           }          
+      }
+      
+      function print_category_checkboxes() {
+          
       }
       
       print_category_checkbox(0, "Top Sims",                            "check_topsims");      

@@ -48,7 +48,7 @@ src="incl/logo-title.jpg"></SPAN></A>
     //now start dynamic menu for SIMULATIONS//
 
     // start selecting SIMULATION CATEGORIES from database table
-    $select_category_st = "SELECT * FROM `category_id` ORDER BY `cat_id` ASC ";
+    $select_category_st = "SELECT * FROM `cat_id` ORDER BY `cat_id` ASC ";
     $category_table     = mysql_query($select_category_st);
 
     while ($category = mysql_fetch_row($category_table)) {
@@ -97,7 +97,7 @@ src="incl/logo-title.jpg"></SPAN></A>
 <?php
     $cat = $_REQUEST['cat'];
 
-    $select_category_st = "SELECT * FROM `category_id` WHERE `cat_id`='$cat'";
+    $select_category_st = "SELECT * FROM `cat_id` WHERE `cat_id`='$cat'";
     $category_rows      = mysql_query($select_category_st);
 
     while ($category_row = mysql_fetch_row($category_rows)) {
@@ -108,7 +108,7 @@ src="incl/logo-title.jpg"></SPAN></A>
     } 
 
     //start numbering
-    $select_all_simulation_listings_st = "SELECT * FROM `simulation_listing` WHERE `category_id`='$cat'";
+    $select_all_simulation_listings_st = "SELECT * FROM `simulation_listing` WHERE `cat_id`='$cat'";
 
     $num_categories = mysql_num_rows(mysql_query($select_all_simulation_listings_st));
 
@@ -144,7 +144,7 @@ src="incl/logo-title.jpg"></SPAN></A>
     $cat = $_REQUEST['cat'];
 
     //first select which SIMS are in the category
-    $select_simulation_listing_rows_st  = "SELECT * FROM `simulation_listing` WHERE `category_id`='$cat'  LIMIT $sim_start_number, $sims_per_page";
+    $select_simulation_listing_rows_st  = "SELECT * FROM `simulation_listing` WHERE `cat_id`='$cat'  LIMIT $sim_start_number, $sims_per_page";
 
     $simulation_listing_rows = mysql_query($select_simulation_listing_rows_st);
 

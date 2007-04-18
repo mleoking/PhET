@@ -53,17 +53,14 @@
         }
         else {
             ?>
-            <html>
-            <title>Phet Admin Control Panel Login Form</title>
-            <body>
-            In order to access these pages, you must enter the proper username and password.<BR>
+            <p>In order to access these pages, you must enter the proper username and password.<br></p>
+
             <form method="post" action="index.php">
-            Username: <input type="text" name="username" size="20"><BR>
-            Password: <input type="password" name="password" size="15"><BR> 
-            <input type="Submit" value="Log In">
+                Username: <input type="text"     name="username" size="20"><br>
+                Password: <input type="password" name="password" size="15"><br>
+                <input type="Submit" value="Log In">
             </form>
-            </body>
-            </html>
+            
             <?php
             exit;
         }
