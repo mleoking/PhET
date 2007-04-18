@@ -4,25 +4,8 @@
     include_once("db.inc");
     include_once("web-utils.php");
     include_once("sim-utils.php");
+    include_once("db-utils.php");
     
-    function verify_mysql_result($result, $statement) {
-        if (!$result && $statement !== "") {
-            $message  = 'Invalid query: ' . mysql_error() . "\n";
-            $message .= 'Whole query: ' . $statement;
-
-            die($message);
-        }
-    }
-    
-    function run_sql_statement($statement) {
-        global $connection;
-        
-        $result = mysql_query($statement, $connection);
-        
-        verify_mysql_result($result, $statement);
-        
-        return $result;
-    }
 
     $update_simulation_st = "UPDATE `simulation` SET ";
     
@@ -70,6 +53,6 @@
     }    
     
     print "Your simulation update was successful.";
-
-    print "<META http-equiv=\"Refresh\" content=\"2;url=edit-sim.php?sim_id=$sim_id\">";
+    
+    forceRedirect("edit-sim.php?sim_id=$sim_id", 2);
 ?>
