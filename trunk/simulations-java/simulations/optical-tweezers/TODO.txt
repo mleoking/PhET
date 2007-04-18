@@ -14,6 +14,7 @@ HIGH PRIORITY:
 - implement E-field model for slow mode
 
 MEDIUM PRIORITY:
+- remove PhysicsDefault references from FluidControlPanel, should be independent of module
 - connect position histogram to model
 - connect potential energy chart to model
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
