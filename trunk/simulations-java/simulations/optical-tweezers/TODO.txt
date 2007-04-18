@@ -64,6 +64,10 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/18/07 - increase brownian motion scale factor
+4/18/07 - set clock dt range to correspond to seconds units
+4/18/07 - change clock units to seconds
+4/18/07 - cleanup bead motion, disable trap and fluid forces, and put on hold until physicists revise the model
 4/17/07 - disable trap force and Brownian motion components in bead motion model
 4/17/07 - change bead motion algorithm to use new units
 4/17/07 - javadoc model classes, indicate units
