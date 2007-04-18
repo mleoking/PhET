@@ -64,6 +64,10 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/17/07 - disable trap force and Brownian motion components in bead motion model
+4/17/07 - change bead motion algorithm to use new units
+4/17/07 - javadoc model classes, indicate units
+4/17/07 - document units and conversions in doc/units.txt
 4/12/07 - implement fluid flow and trap force components for bead motion model, behaving badly
 4/12/07 - fix TrapForceNode to hide vectors when laser is off
 4/12/07 - make Laser.getIntensity and getTrapForce return 0 when laser is off

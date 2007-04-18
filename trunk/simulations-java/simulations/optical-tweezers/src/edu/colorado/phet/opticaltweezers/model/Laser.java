@@ -74,6 +74,11 @@ public class Laser extends MovableObject implements ModelElement {
     // Mutators and accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Turns the laser on and off.
+     * 
+     * @param running true or false
+     */
     public void setRunning( boolean running ) {
         if ( running != _running ) {
             _running = running;
@@ -81,38 +86,85 @@ public class Laser extends MovableObject implements ModelElement {
         }
     }
     
+    /**
+     * Is the laser running?
+     * 
+     * @return true or false
+     */
     public boolean isRunning() {
         return _running;
     }
     
+    /**
+     * Gets the laser's diameter at the microscope objective.
+     * 
+     * @return nm
+     */
     public double getDiameterAtObjective() {
         return _diameterAtObjective;
     }
     
+    /**
+     * Gets the laser's diameter at the trap waist.
+     * 
+     * @return nm
+     */
     public double getDiameterAtWaist() {
         return _diameterAtWaist;
     }
 
+    /**
+     * Gets the distance from the microscope objective to the trap waist.
+     * 
+     * @return nm
+     */
     public double getDistanceFromObjectiveToWaist() {
         return _distanceFromObjectiveToWaist;
     }
     
+    /**
+     * Gets the distance from the microscope objective to the control panel.
+     * 
+     * @return nm
+     */
     public double getDistanceFromObjectiveToControlPanel() {
         return _distanceFromObjectiveToControlPanel;
     }
     
+    /**
+     * Gets the laser's wavelength.
+     * 
+     * @return nm
+     */
     public double getWavelength() {
         return _wavelength;
     }
     
+    /**
+     * Gets the wavelength that used to display the laser in the view.
+     * The laser's actual wavelength is likely not in the visible spectrum,
+     * so this wavelength should be a visible wavelength.
+     * 
+     * @return nm
+     */
     public double getVisibleWavelength() {
         return _visibleWavelength;
     }
     
+    /**
+     * Gets the laser's power.
+     * 
+     * @return mW
+     */
     public double getPower() {
         return _power;
     }
     
+    /**
+     * Sets the laser's power.
+     * 
+     * @param power power (mW)
+     */
     public void setPower( double power ) {
         if ( power < _powerRange.getMin() || power > _powerRange.getMax() ) {
             throw new IllegalArgumentException( "power out of range: " + power );
@@ -123,6 +175,11 @@ public class Laser extends MovableObject implements ModelElement {
         }
     }
     
+    /**
+     * Gets the laser's power range.
+     * 
+     * @return DoubleRange (mW)
+     */
     public DoubleRange getPowerRange() {
         return _powerRange;
     }
@@ -138,7 +195,7 @@ public class Laser extends MovableObject implements ModelElement {
      * distance on this line.
      * 
      * @param yOffset vertical distance from the center of the waist (nm)
-     * @return radius at y, in nm
+     * @return radius at y (nm)
      */
     public double getRadius( final double yOffset ) {
         final double yOffsetAbs = Math.abs( yOffset );
@@ -153,8 +210,8 @@ public class Laser extends MovableObject implements ModelElement {
     /**
      * Is a specified point inside the laser beam's shape?
      * 
-     * @param x coordinate relative to global model origin
-     * @param y coordinate relative to global model origin
+     * @param x coordinate relative to global model origin (nm)
+     * @param y coordinate relative to global model origin (nm)
      * @return true or false
      */
     public boolean contains( final double x, final double y ) {
@@ -179,8 +236,9 @@ public class Laser extends MovableObject implements ModelElement {
     /**
      * Gets the intensity at a point.
      * 
-     * @param x coordinate relative to global model origin
-     * @param y coordinate relative to global model origin
+     * @param x coordinate relative to global model origin (nm)
+     * @param y coordinate relative to global model origin (nm)
+     * @param intensity (mW/nm^2)
      */
     public double getIntensity( final double x, final double y ) {
         final double xOffset = x - getX();
@@ -195,9 +253,9 @@ public class Laser extends MovableObject implements ModelElement {
      * The radius can be calculated using getBeamRadiusAt.
      * 
      * @param xOffset horizontal distance from the center of the waist (nm)
-     * @param radius beam radius in nm
-     * @param power laser power in mW
-     * @return intensity, in units of power/nm^2
+     * @param radius beam radius (nm)
+     * @param power laser power (mW)
+     * @return intensity (mW/nm^2)
      */
     public static double getIntensityOnRadius( final double xOffset, final double radius, final double power ) {
         if ( radius <= 0 ) {
@@ -218,8 +276,9 @@ public class Laser extends MovableObject implements ModelElement {
     /**
      * Gets the trap force vector at a point.
      * 
-     * @param x
-     * @param y
+     * @param x coordinate relative to global model origin (nm)
+     * @param y coordinate relative to global model origin (nm) 
+     * @param trap force (pN)
      */
     public Vector2D getTrapForce( final double x, final double y ) {
         final double xOffset = x - getX();
@@ -232,11 +291,11 @@ public class Laser extends MovableObject implements ModelElement {
     /**
      * Gets trap force vector.
      * 
-     * @param xOffset horizontal distance from the center of the trap
-     * @param yOffset vertical distance from the center of the trap
-     * @param radius radius of the beam at yOffset
-     * @param power power of the laser, mW
-     * @return
+     * @param xOffset horizontal distance from the center of the trap  (nm)
+     * @param yOffset vertical distance from the center of the trap (nm)
+     * @param radius radius of the beam at yOffset (nm)
+     * @param power power of the laser (mW)
+     * @return trap force (pN)
      */
     public static Vector2D getTrapForce( final double xOffset, final double yOffset, final double radius, final double power ) {
         if ( radius <= 0 ) {
@@ -246,14 +305,14 @@ public class Laser extends MovableObject implements ModelElement {
             throw new IllegalArgumentException( "power must be >= 0 : " + power );
         }
         
-        final double scaleFactor = 582771.6; // from Tom Perkins' work
-
         // x component
+        final double K = 582771.6; //XXX units?, provided by Tom Perkins
         final double intensity = getIntensityOnRadius( xOffset, radius, power );
-        final double fx = -1 * scaleFactor * ( xOffset / ( radius * radius ) ) * intensity;
+        final double fx = -1 * K * ( xOffset / ( radius * radius ) ) * intensity;
 
         // y component
-        final double fy = -1 * ( power / 56000 ) * yOffset;
+        final double L = 56000; // mW*nm/pN, provided by Kathy Perkins
+        final double fy = -1 * ( power / L ) * yOffset;
 
         return new Vector2D( fx, fy );
     }
@@ -264,6 +323,6 @@ public class Laser extends MovableObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     public void stepInTime( double dt ) {
-        // TODO Auto-generated method stub
+        // do nothing
     }
 }
