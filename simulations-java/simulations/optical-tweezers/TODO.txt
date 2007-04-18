@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- add logarithmic support to SliderControl, rewrite model-control value mappings
 - debug fluid flow and trap force components for bead motion model
 - add developer control for Bead.BROWNIAN_MOTION_SCALE
 - add developer controls for disabling individual components of bead motion model
@@ -64,6 +65,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/18/07 - simplify SliderControl constructor
 4/18/07 - increase brownian motion scale factor
 4/18/07 - set clock dt range to correspond to seconds units
 4/18/07 - change clock units to seconds

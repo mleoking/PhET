@@ -41,8 +41,11 @@ public class PhysicsDefaults {
     public static final Point2D FLUID_POSITION = new Point2D.Double( 0, FLUID_Y_OFFSET + ( FLUID_HEIGHT /2 ) ); // nm
     public static final double FLUID_ORIENTATION = Math.toRadians( 0 ); // left-to-right flow direction
     public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 0, 1000000, 0, 0 ); // nm/sec, min must be >0
+    public static final String FLUID_SPEED_DISPLAY_PATTERN = "######0";
     public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 1E-12, 1E-2, 1E-3, 5 ); // Pa*s
+    public static final String FLUID_VISCOSITY_DISPLAY_PATTERN = "0.0E0";
     public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 200, 0 ); // Kelvin
+    public static final String FLUID_TEMPERATURE_DISPLAY_PATTERN = "##0";
     
     // Laser model, local origin at center of objective
     public static final double LASER_DIAMETER_AT_OBJECTIVE = 1000; // nm
