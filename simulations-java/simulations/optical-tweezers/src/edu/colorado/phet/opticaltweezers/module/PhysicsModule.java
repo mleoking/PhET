@@ -180,6 +180,8 @@ public class PhysicsModule extends AbstractModule {
         
         // Clock controls
         _clockControlPanel = new OTClockControlPanel( (OTClock) getClock() );
+        _clockControlPanel.setTimeDisplayFormat( PhysicsDefaults.CLOCK_DISPLAY_FORMAT );
+        _clockControlPanel.setTimeDisplayColumns( PhysicsDefaults.CLOCK_DISPLAY_COLUMNS );
         setClockControlPanel( _clockControlPanel );
         
         // "Return Bead" button

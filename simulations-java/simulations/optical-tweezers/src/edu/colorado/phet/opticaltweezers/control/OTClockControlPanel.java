@@ -31,7 +31,8 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
     // Class data
     //----------------------------------------------------------------------------
     
-    public static final int TIME_DISPLAY_COLUMNS = 6;
+    public static final DecimalFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
+    public static final int DEFAULT_TIME_DISPLAY_COLUMNS = 6;
     public static final Font TIME_DISPLAY_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
     public static final Font TIME_UNITS_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 16 );
     
@@ -85,7 +86,7 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
         {
             JLabel clockLabel = new JLabel( clockIcon );
             _timeTextField = new JTextField();
-            _timeTextField.setColumns( TIME_DISPLAY_COLUMNS );
+            _timeTextField.setColumns( DEFAULT_TIME_DISPLAY_COLUMNS );
             _timeTextField.setFont( TIME_DISPLAY_FONT );
             _timeTextField.setPreferredSize( _timeTextField.getPreferredSize() );
             _timeTextField.setText( "0" );
@@ -95,7 +96,7 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
             _timeUnitsLabel = new JLabel( timeUnitsLabel );
             _timeUnitsLabel.setFont( TIME_UNITS_FONT );
             
-            _timeFormat = new DecimalFormat( "0" );
+            _timeFormat = DEFAULT_TIME_FORMAT;
             
             timePanel.add( clockLabel );
             timePanel.add( _timeTextField );
@@ -200,8 +201,17 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
      * 
      * @param enabled
      */
-    public void setTimeFormat( NumberFormat format ) {
+    public void setTimeDisplayFormat( NumberFormat format ) {
         _timeFormat = format;
+    }
+    
+    /**
+     * Sets the number of columns in the time display.
+     * 
+     * @param columns
+     */
+    public void setTimeDisplayColumns( int columns ) {
+        _timeTextField.setColumns( columns );
     }
     
     //----------------------------------------------------------------------------

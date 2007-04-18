@@ -25,12 +25,14 @@ public class Bead extends MovableObject implements ModelElement {
     // Private class data
     //----------------------------------------------------------------------------
     
+    private static final boolean MOTION_DEBUG_OUTPUT = false;
+    
     // Brownian motion scaling factor, bigger values cause bigger motion
-    private static final double BROWNIAN_MOTION_SCALE = 1;
+    private static final double BROWNIAN_MOTION_SCALE = 2;
     
     private static final boolean MOTION_TRAP_FORCE_COMPONENT_ENABLED = false;
-    private static final boolean MOTION_FLUID_COMPONENT_ENABLED = true;
-    private static final boolean MOTION_BROWNIAN_COMPONENT_ENABLED = false;
+    private static final boolean MOTION_FLUID_COMPONENT_ENABLED = false;
+    private static final boolean MOTION_BROWNIAN_COMPONENT_ENABLED = true;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -75,7 +77,6 @@ public class Bead extends MovableObject implements ModelElement {
         _motionEnabled = true;
         _velocity = new Vector2D();
         _acceleration = new Vector2D();
-        System.out.println( "bead mass = " + ( getMass() / GRAMS_PER_KILOGRAM ) + " kg" );
     }
     
     //----------------------------------------------------------------------------
@@ -206,23 +207,10 @@ public class Bead extends MovableObject implements ModelElement {
         // Combine all motion components
         final double xNew = getX() + ( _velocity.getX() * dt ) + ( 0.5 * _acceleration.getX() * dt * dt ) + dxBrownian;
         double yNew = getY() + ( _velocity.getY() * dt ) + ( 0.5 * _acceleration.getY() * dt * dt ) + dyBrownian;
-//        final double xNew = getX() + dxBrownian;
-//        double yNew = getY() + dyBrownian;
-        
-        
-        System.out.println( "dt = " + dt );
-        System.out.println( "bead position = " + getPositionRef() + " nm" );
-        System.out.println( "bead mass =" + mass + " kg" );
-        System.out.println( "bead radius = " + beadRadius + " m" );
-        System.out.println( "fluid viscosity = " + fluidViscosity + " Pa*sec" );
-        System.out.println( "drag coefficient = " + gamma + " kg/(m*s)" );
-        System.out.println( "fluid speed = " + fluidSpeed + " nm/sec" );
-        System.out.println( "trap Fx = " + Fx + " nN" );
-        System.out.println( "trap Fy = " + Fy + " nN" );
-        System.out.println( "bead velocity = " + _velocity + " nm/sec" );
-        System.out.println( "bead acceleration = " + _acceleration + " nm/sec^2" );
+
         
         // New velocity (nm/sec)
+        Vector2D oldVelocity = new Vector2D( _velocity ); //XXX
         double vx = _velocity.getX() + ( _acceleration.getX() * dt );
         double vy = _velocity.getY() + ( _acceleration.getY() * dt );
         _velocity.setXY( vx, vy );
@@ -237,10 +225,24 @@ public class Bead extends MovableObject implements ModelElement {
             yNew = yBottomOfSlide;
         }
         
+        Point2D oldPosition = getPosition(); //XXX
         setPosition( xNew, yNew );
         
-        System.out.println( "new velocity = " + _velocity + " nm/sec" );
-        System.out.println( "new bead position = " + getPositionRef() + " nm" );
-        System.out.println( "" );
+        if ( MOTION_DEBUG_OUTPUT ) {
+            System.out.println( "old position = " + oldPosition + " nm" );
+            System.out.println( "new position = " + getPositionRef() + " nm" );
+            System.out.println( "old velocity = " + oldVelocity + " nm/sec" );
+            System.out.println( "new velocity = " + _velocity + " nm/sec" );
+            System.out.println( "acceleration = " + _acceleration + " nm/sec^2" );
+            System.out.println( "dt = " + dt );
+            System.out.println( "mass =" + mass + " kg" );
+            System.out.println( "radius = " + beadRadius + " m" );
+            System.out.println( "fluid viscosity = " + fluidViscosity + " Pa*sec" );
+            System.out.println( "drag coefficient = " + gamma + " kg/(m*s)" );
+            System.out.println( "fluid speed = " + fluidSpeed + " nm/sec" );
+            System.out.println( "trap Fx = " + Fx + " nN" );
+            System.out.println( "trap Fy = " + Fy + " nN" );
+            System.out.println();
+        }
     }
 }
