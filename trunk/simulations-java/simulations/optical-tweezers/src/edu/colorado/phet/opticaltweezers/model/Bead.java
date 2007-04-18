@@ -42,8 +42,8 @@ public class Bead extends MovableObject implements ModelElement {
     private Laser _laser;
     private Random _stepAngleRandom;
     private boolean _motionEnabled;
-    private Vector2D _velocity;
-    private Vector2D _acceleration;
+    private Vector2D _velocity; // nm/sec
+    private Vector2D _acceleration; // nm/sec^2
     
     //----------------------------------------------------------------------------
     // Constructors
