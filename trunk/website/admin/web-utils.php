@@ -6,6 +6,10 @@
         return " ";
     }
     
+    function forceRedirect($url, $timeout = 0, $die = true) { 
+        print "<META http-equiv=\"Refresh\" content=\"$timeout;url=$url\">";
+    }
+    
     // function url_exists($url) {
     //     if (is_array(get_headers($url))) {
     //         return true;
