@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.opticaltweezers.control;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.Toolkit;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -13,6 +16,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 
@@ -54,6 +58,7 @@ public class SliderControl extends JPanel {
     private boolean _notifyWhileDragging; // if true, fire ChangeEvents while the slider is dragged
     private boolean _isAdjusting; // is the slider being adjusted (dragged) ?
     private Font _font;
+    private final boolean _logarithmic;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -62,58 +67,35 @@ public class SliderControl extends JPanel {
     /**
      * Constructor.
      * 
-     * @param value initial value (model coordinates)
-     * @param min minimum value (model coordinates)
-     * @param max maximum value (model coordinates)
-     * @param tickSpacing space between tick marks (model coordinates)
-     * @param tickDecimalPlaces number of decimal places in tick marks
-     * @param valueDecimalPlaces number of decimal places in selected value display
+     * @param range (model coordinates)
      * @param label label that appears to the left of the value
+     * @param valuePattern pattern used to format the displayed value
      * @param units units that appear to the right of the value
-     * @param columns columns in the text field
-     * @param insets insets
+     * @param logarithmic is the slider logarithmic?
      * @throws IllegalArgumentException
      */
     public SliderControl(
-            double value,
-            double min, 
-            double max, 
-            double tickSpacing,
-            int tickDecimalPlaces, 
-            int valueDecimalPlaces,
+            DoubleRange range,
             String label,
+            String valuePattern,
             String units,
-            int columns,
-            Insets insets ) {
+            boolean logarithmic ) {
         
         super();
         
-        // Validate arguments
-        if ( value < min || value > max ) {
-            throw new IllegalArgumentException( "value is out of range: " + value );
-        }
-        if ( min > max ) {
-            throw new IllegalArgumentException( "min > max" );
-        }
-        if ( tickDecimalPlaces < 0 ) {
-            throw new IllegalArgumentException( "tickPrecision must be >= 0" );
-        }
-        if ( valueDecimalPlaces < 0 ) {
-            throw new IllegalArgumentException( "valuePrecision must be >= 0" );
-        }
+        _value = range.getDefault();
+        _min = range.getMin();
+        _max = range.getMax();
+        _tickSpacing = _max - _min;  // default is a tick mark at max and min
 
-        _value = value;
-        _min = min;
-        _max = max;
-        _tickSpacing = tickSpacing;
+        _multiplier = Math.pow( 10, range.getSignificantDecimalPlaces() );
 
-        _multiplier = Math.pow( 10, valueDecimalPlaces );
-
-        _tickNumberFormat = createFormat( tickDecimalPlaces );
-        _valueNumberFormat = createFormat( valueDecimalPlaces );
+        _valueNumberFormat = new DecimalFormat( valuePattern );
+        _tickNumberFormat = new DecimalFormat( valuePattern ); // default to same precision as value display
 
         _notifyWhileDragging = true;
         _isAdjusting = false;
+        _logarithmic = logarithmic;
         
         _listenerList = new EventListenerList();
         
@@ -124,10 +106,10 @@ public class SliderControl extends JPanel {
             _unitsLabel = new JLabel( units );
             
             _valueTextField = new JFormattedTextField( _valueNumberFormat );
-            _valueTextField.setValue( new Double(value) );
+            _valueTextField.setValue( new Double(_value) );
             _valueTextField.setHorizontalAlignment( JTextField.RIGHT );
             _valueTextField.setEditable( false );
-            _valueTextField.setColumns( columns );
+            _valueTextField.setColumns( valuePattern.length() );
             
             EasyGridBagLayout layout = new EasyGridBagLayout( valuePanel );
             valuePanel.setLayout( layout );
@@ -142,7 +124,7 @@ public class SliderControl extends JPanel {
             _slider = new JSlider();
             _slider.setMinimum( (int) ( _min * _multiplier ) );
             _slider.setMaximum( (int) ( _max * _multiplier ) );
-            _slider.setValue( (int) ( value * _multiplier ) );
+            _slider.setValue( (int) ( _value * _multiplier ) );
 
             // Ticks
             _slider.setMajorTickSpacing( (int) ( ( _max - _min ) * _multiplier ) );
@@ -155,9 +137,6 @@ public class SliderControl extends JPanel {
         // Layout
         {
             EasyGridBagLayout layout = new EasyGridBagLayout( this );
-            if ( insets != null ) {
-                layout.setInsets( insets );
-            }
             setLayout( layout );
             layout.addAnchoredComponent( valuePanel, 0, 0, GridBagConstraints.WEST );
             layout.addAnchoredComponent( _slider, 1, 0, GridBagConstraints.WEST );
@@ -170,35 +149,25 @@ public class SliderControl extends JPanel {
         _valueTextField.addKeyListener( listener );
         _slider.addChangeListener( listener );
         
-        setValue( value );
+        setValue( _value );
         
         _initialized = true;
     }
     
     /**
-     * Constructor. Same as other constructor, but uses default insets.
+     * Constructor for a linear slider.
      * 
-     * @param value
-     * @param min
-     * @param max
-     * @param tickSpacing
-     * @param tickDecimalPlaces
-     * @param valueDecimalPlaces
+     * @param range
      * @param label
+     * @param valuePattern
      * @param units
-     * @param columns
      */
     public SliderControl( 
-            double value,
-            double min, 
-            double max, 
-            double tickSpacing,
-            int tickDecimalPlaces,
-            int valueDecimalPlaces,
+            DoubleRange range,
             String label,
-            String units,
-            int columns ) {
-        this( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns, null /* insets */ );
+            String valuePattern,
+            String units ) {
+        this( range, label, valuePattern, units, false /* logarithmic */ );
     }
     
     //----------------------------------------------------------------------------
@@ -457,36 +426,67 @@ public class SliderControl extends JPanel {
         }
     }
     
-    public void setTickNumberFormat( DecimalFormat format ) {
-        _tickNumberFormat = format;
+    public void setTickNumberPattern( String pattern ) {
+        _tickNumberFormat = new DecimalFormat( pattern );
         updateTickLabels();
     }
     
-    public void setValueNumberFormat( DecimalFormat format ) {
-        _valueNumberFormat = format;
+    public void setValueNumberPattern( String pattern ) {
+        _valueNumberFormat = new DecimalFormat( pattern );
         updateTextField();
+    }
+    
+    public boolean isLogarithmic() {
+        return _logarithmic;
+    }
+    
+    /**
+     * Sets the tick spacing.
+     * 
+     * @param tickSpacing in model coordinates
+     */
+    public void setTickSpacing( double tickSpacing ) {
+        if ( tickSpacing != _tickSpacing ) {
+            _tickSpacing = tickSpacing;
+            updateTickLabels();
+        }
     }
     
     //----------------------------------------------------------------------------
     // Private methods
     //----------------------------------------------------------------------------
     
-    /*
-     * Gets the value from the slider.
-     */
-    private double getSliderValue() {
-        int sliderValue = getSlider().getValue();
+    private double getModelValue() {
         double value = 0;
+        if ( _logarithmic ) {
+            value = getModelValueLog();
+        }
+        else {
+            value = getModelValueLinear();
+        }
+        return value;
+    }
+    
+    /*
+     * Gets the model value from the slider.
+     */
+    private double getModelValueLinear() {
+        final int sliderValue = _slider.getValue();
+        double modelValue = 0;
         if ( isInverted() ) {
-            value = ( ( (_max + _min) * _multiplier ) - sliderValue ) / _multiplier;
-            if ( value > _max ) {
-                value = _max; // adjust for rounding error
+            modelValue = ( ( (_max + _min) * _multiplier ) - sliderValue ) / _multiplier;
+            if ( modelValue > _max ) {
+                modelValue = _max; // adjust for rounding error
             }
         }
         else {
-            value = sliderValue / _multiplier;
+            modelValue = sliderValue / _multiplier;
         }
-        return value;
+        return modelValue;
+    }
+    
+    private double getModelValueLog() {
+        return getModelValueLinear(); //XXX log not implemented yet
     }
     
     /*
@@ -587,22 +587,6 @@ public class SliderControl extends JPanel {
         getSlider().setLabelTable( labelTable );
     }
     
-    /*
-     * Creates a DecimalFormat with a specified number of decimal places.
-     * 
-     * @param precision number of decimal places
-     */
-    private DecimalFormat createFormat( int decimalPlaces ) {
-        String format = "0";
-        for ( int i = 0; i < decimalPlaces; i++ ) {
-            if ( i == 0 ) {
-                format += ".";
-            }
-            format += "0";
-        }
-        return new DecimalFormat( format );
-    }
-    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
@@ -655,7 +639,7 @@ public class SliderControl extends JPanel {
             if ( e.getSource() == _slider ) {
                 _isAdjusting = _slider.getValueIsAdjusting();
                 boolean notify = ( _notifyWhileDragging || !_isAdjusting );
-                setValue( getSliderValue(), notify );
+                setValue( getModelValue(), notify );
             }
         }
         

@@ -5,7 +5,6 @@ package edu.colorado.phet.opticaltweezers.control;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
-import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,9 +13,11 @@ import javax.swing.JSeparator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 
 /**
@@ -63,47 +64,38 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         
         // Speed control
         double value = fluid.getSpeed();
-        double min = fluid.getSpeedRange().getMin();
-        double max = fluid.getSpeedRange().getMax();
-        double tickSpacing = max-min;
-        int tickDecimalPlaces = 0;
-        int valueDecimalPlaces = fluid.getSpeedRange().getSignificantDecimalPlaces();
+        DoubleRange range = fluid.getSpeedRange();
         String label = OTResources.getString( "label.fluidSpeed" );
+        String valuePattern = PhysicsDefaults.FLUID_SPEED_DISPLAY_PATTERN; //XXX module specific!
         String units = OTResources.getString( "units.fluidSpeed" );
-        int columns = 6;
-        _speedControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+        _speedControl = new SliderControl( range, label, valuePattern, units );
+        _speedControl.setValue( value );
         _speedControl.setTextFieldEditable( true );
         _speedControl.setFont( font );
+        _speedControl.setTickNumberPattern( "0" );
         
         // Viscosity control
         value = fluid.getViscosity();
-        min = fluid.getViscosityRange().getMin();
-        max = fluid.getViscosityRange().getMax();
-        tickSpacing = max-min;
-        tickDecimalPlaces = 0;
-        valueDecimalPlaces = fluid.getViscosityRange().getSignificantDecimalPlaces();
+        range = fluid.getViscosityRange();
         label = OTResources.getString( "label.fluidViscosity" );
+        valuePattern = PhysicsDefaults.FLUID_VISCOSITY_DISPLAY_PATTERN; //XXX module specific!
         units = OTResources.getString( "units.fluidViscosity" );
-        columns = 6;
-        _viscosityControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+        _viscosityControl = new SliderControl( range, label, valuePattern, units );
+        _viscosityControl.setValue( value );
         _viscosityControl.setTextFieldEditable( true );
         _viscosityControl.setFont( font );
-        _viscosityControl.setTickNumberFormat( new DecimalFormat( "0E0" ) );
-        _viscosityControl.setValueNumberFormat( new DecimalFormat( "0.0E0" ) );
+        _viscosityControl.setTickNumberPattern( "0E0" );
         
         // Temperature control
         value = fluid.getTemperature();
-        min = fluid.getTemperatureRange().getMin();
-        max = fluid.getTemperatureRange().getMax();
-        tickSpacing = max-min;
-        tickDecimalPlaces = 0;
-        valueDecimalPlaces = fluid.getTemperatureRange().getSignificantDecimalPlaces();
+        range = fluid.getTemperatureRange();
         label = OTResources.getString( "label.fluidTemperature" );
+        valuePattern = PhysicsDefaults.FLUID_TEMPERATURE_DISPLAY_PATTERN; //XXX module specific!
         units = OTResources.getString( "units.fluidTemperature" );
-        columns = 4;
-        _temperatureControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+        _temperatureControl = new SliderControl( range, label, valuePattern, units, true /* logarithmic */ );
         _temperatureControl.setTextFieldEditable( true );
         _temperatureControl.setFont( font );
+        _temperatureControl.setTickNumberPattern( "0" );
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
