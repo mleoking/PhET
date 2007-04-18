@@ -25,7 +25,6 @@
             }
             
             $update_simulation_st = "$update_simulation_st `$key`='$escaped_value' ";
-
         }
     }
 
@@ -54,5 +53,5 @@
     
     print "Your simulation update was successful.";
     
-    forceRedirect("edit-sim.php?sim_id=$sim_id", 2);
+    force_redirect("edit-sim.php?sim_id=$sim_id", 2);
 ?>

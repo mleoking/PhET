@@ -8,5 +8,5 @@
      
     $sim_id = mysql_insert_id($connection);
     
-    forceRedirect("edit-sim.php?sim_id=$sim_id");
+    force_redirect("edit-sim.php?sim_id=$sim_id");
 ?>
