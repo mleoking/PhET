@@ -27,6 +27,9 @@
         );
         
     define("SIMS_PER_PAGE", 9);
+    
+    define("SIM_SYSTEM_REQ_ANY",    "0");
+    define("SIM_SYSTEM_REQ_NO_MAC", "1");
 
     // run error checks
     // check for missing fields

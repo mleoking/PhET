@@ -96,7 +96,7 @@
     
     function add_sim_to_category($catid, $catname, $checkname) {
         if (isset($HTTP_GET_VARS["$checkname"])) {
-           $sql="INSERT INTO `simulation_listing` (`sim_id`, `category_id`) VALUES ('$sim_id','$catid') ";
+           $sql="INSERT INTO `simulation_listing` (`sim_id`, `cat_id`) VALUES ('$sim_id','$catid') ";
            $sql_result=  mysql_query($sql, $connection);
            
            print "$catname<br>";

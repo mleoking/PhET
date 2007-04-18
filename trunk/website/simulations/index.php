@@ -127,7 +127,7 @@
                         </p>
                         </div>
                     */
-                    $select_all_simulation_listings_st = "SELECT * FROM `simulation_listing` WHERE `category_id`='$cat'";
+                    $select_all_simulation_listings_st = "SELECT * FROM `simulation_listing` WHERE `cat_id`='$cat'";
 
                     $num_sims_in_category = mysql_num_rows(mysql_query($select_all_simulation_listings_st, $connection));
 
@@ -168,7 +168,7 @@
                     $sim_number = -1;
 
                     //first select which SIMS are in the category
-                    $select_simulation_listing_rows_st  = "SELECT * FROM `simulation_listing` WHERE `category_id`='$cat' ";
+                    $select_simulation_listing_rows_st  = "SELECT * FROM `simulation_listing` WHERE `cat_id`='$cat' ";
 
                     $simulation_listing_rows = mysql_query($select_simulation_listing_rows_st, $connection);
 

@@ -22,5 +22,20 @@
     function format_for_html($string) {
         return preg_replace('/&(?!amp;)/', '&amp;', $string);
     }
+    
+    function get_script_param($param_name, $default_value = "") {
+        if (isset($_REQUEST['sim_id'])) {
+            return $_REQUEST['sim_id'];
+        }
+        
+        return $default_value;
+    }
+
+    function print_editable_area($name, $contents, $rows = "20", $cols = "80") {
+            print <<<EOT
+                <textarea name="$name" rows="$rows" cols="$cols">$contents</textarea>
+EOT;
+        }
+    
 
 ?>
