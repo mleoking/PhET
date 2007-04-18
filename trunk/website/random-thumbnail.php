@@ -1,5 +1,5 @@
 <?php
-    $thumbnails = glob("./admin/incl/*.jpg");
+    $thumbnails = glob("./admin/uploads/*.jpg");
     
     $random_key = array_rand($thumbnails);
     

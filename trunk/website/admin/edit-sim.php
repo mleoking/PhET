@@ -4,22 +4,7 @@
 	include_once("web-utils.php");
 	include_once("sim-utils.php");
 	
-	$sim_id             = $_REQUEST['sim_id'];
-    $select_sim_st      = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
-    $simulation         = mysql_fetch_row(mysql_query($select_sim_st));
-    
-    $sim_name           = $simulation[1];
-    $sim_rating         = $simulation[2];
-    $sim_type           = $simulation[3];
-    $sim_size           = $simulation[4];
-    $sim_launch_url     = $simulation[5];
-    $sim_image_url      = $simulation[6];
-    $sim_desc           = $simulation[7];
-    $sim_keywords       = $simulation[8];
-    $sim_system_req     = $simulation[9];
-    $sim_teaching_ideas = $simulation[10];
-    $sim_user_tips      = $simulation[11];
-    $sim_learning_goals = $simulation[12];
+	gather_sim_fields_into_globals($_REQUEST['sim_id']);
 
     if ($sim_system_req == SIM_SYSTEM_REQ_NO_MAC) { 
         $mac_ch = "checked";
@@ -102,25 +87,29 @@
           <img src=../images/sims/ratings/alpha-rating.gif width=16 height=14><br/>
           <span class=style18>*for more info on ratings, please click here </span><br/>
       </p>
-    </div>
-      <p align=left class=style16><br/>
-  Simulation Description (Abstract) <br/>");
+    </div>");
   
-  print_editable_area("sim_desc", $sim_desc);
+  print_captioned_editable_area("Simulation Description", "sim_desc", $sim_desc, "10");
+  print_captioned_editable_area("Enter the keywords to associated with the simulation, separated by commas", 
+                                "sim_keywords", $sim_keywords, "2");
+  print_captioned_editable_area("Enter the members of the design team",       "sim_design_team", $sim_design_team, "2");
+  print_captioned_editable_area("Enter the libraries used by the simulation", "sim_libraries",   $sim_libraries,   "2");  
+  print_captioned_editable_area("Enter the 'thanks to' for the simulation",   "sim_thanks_to",   $sim_thanks_to,   "2");  
+  print_captioned_editable_area("Enter the URL for the simulation",   "sim_thanks_to",   $sim_thanks_to,   "2");    
+  
   
   print("
-      </p>
       <p align=left> </p>
       <p align=left class=style16><br/>
   User Tips <br/>
-  <textarea name=sim_user_tips cols=50>$sim_user_tips</textarea>
+  <textarea name=sim_main_topics cols=50>$sim_main_topics</textarea>
       </p>
 	   <p align=left class=style16><br/>
   Sample Learning Goals <br/>
   <textarea name=sim_learning_goals cols=50>$sim_learning_goals</textarea>
       </p>
       <strong>Please include the URL to the Teaching Ideas file (pdf):</strong> 
-      <input name=sim_teaching_ideas type=text size=70 value=\"$sim_teaching_ideas\"><br/>
+      <input name=sim_phet_ideas_file type=text size=70 value=\"$sim_phet_ideas_file\"><br/>
       </p></td>
   </tr>
   <tr bgcolor=#FFFFFF>

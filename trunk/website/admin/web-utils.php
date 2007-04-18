@@ -36,10 +36,15 @@
     }
 
     function print_editable_area($name, $contents, $rows = "20", $cols = "80") {
-            print <<<EOT
-                <textarea name="$name" rows="$rows" cols="$cols">$contents</textarea>
-EOT;
-        }
+        print("<textarea name=\"$name\" rows=\"$rows\" cols=\"$cols\">$contents</textarea>");
+    }
     
+    function print_captioned_editable_area($caption, $name, $contents, $rows = "20", $cols = "80") {
+        print("<p align=\"left\" class=\"style16\">$caption");
+            
+        print_editable_area($name, $contents, $rows, $cols);
+        
+        print("</p>");
+    }
 
 ?>
