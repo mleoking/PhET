@@ -46,7 +46,7 @@
     }
 
     function gather_verify_sim_vars() {
-        global $sim_id, $simtitle, $simrating, $simdesc, $simurl, $thumburl, $simsize, $sim_user_tips, $sim_teaching_ideas, $sim_learning_goals;
+        global $sim_id, $simtitle, $simrating, $simdesc, $simurl, $thumburl, $simsize, $sim_main_topics, $sim_phet_ideas_file, $sim_learning_goals;
     
         $sim_id          = $_REQUEST['sim_id'];
         $simtitle       = $_REQUEST['title'];
@@ -55,8 +55,8 @@
         $simurl         = $_REQUEST['simurl'];
         $thumburl       = $_REQUEST['thumburl'];
         $simsize        = $_REQUEST['simsize'];
-        $sim_user_tips       = $_REQUEST['sim_user_tips'];
-        $sim_teaching_ideas  = $_REQUEST['sim_teaching_ideas'];
+        $sim_main_topics       = $_REQUEST['sim_main_topics'];
+        $sim_phet_ideas_file  = $_REQUEST['sim_phet_ideas_file'];
         $sim_learning_goals  = $_REQUEST['sim_learning_goals'];
     
         //title
@@ -194,6 +194,17 @@
         
             print "<li class=\"sub\"><span class=\"sub-nav\"><a href=\"${prefix}index.php?cat=$cat_id\">&rarr; $cat_name</a></span></li>";          
         } 
+    }
+    
+    function gather_sim_fields_into_globals($sim_id) {
+        $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
+        $simulation    = mysql_fetch_assoc(mysql_query($select_sim_st));
+        
+        foreach($simulation as $key => $value) {
+            $GLOBALS["$key"] = "$value";
+        }
+        
+        $GLOBALS["sim_id"] = "$sim_id"; 
     }
 
 ?>

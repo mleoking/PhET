@@ -142,25 +142,7 @@ window.open = SymWinOpen;
 
 
             <?php
-                $sim_id         = $_REQUEST['sim_id'];
-                $sql_sim        = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
-                $sql_result_sim = mysql_query($sql_sim);
-    
-                while ($row2 = mysql_fetch_row($sql_result_sim)) {
-                    $sim_id              = $row2[0];
-                    $sim_name            = format_for_html($row2[1]);
-                    $rating              = $row2[2];
-                    $type                = $row2[3];
-                    $simsize             = $row2[4];
-                    $sim_launch_url      = $row2[5];
-                    $sim_image_url       = $row2[6];
-                    $sim_desc            = format_for_html($row2[7]);
-                    $keywords            = $row2[8];
-                    $sim_system_req      = $row2[9];
-                    $sim_teaching_ideas  = $row2[10];
-                    $sim_user_tips       = $row2[11];
-                    $sim_learning_goals  = $row2[12];
-                }
+                gather_sim_fields_into_globals($_REQUEST['sim_id']);
             ?>
 
             <div class="productListHeader">
@@ -182,8 +164,8 @@ window.open = SymWinOpen;
                 <tr>
                     <th scope="row" abbr="" class="spec-sim">
                         <?php
-                            $simrating_image = $SIM_RATING_TO_IMAGE["$rating"];
-                            $simtype_image   = $SIM_TYPE_TO_IMAGE["$type"];
+                            $simrating_image = $SIM_RATING_TO_IMAGE["$sim_rating"];
+                            $simtype_image   = $SIM_TYPE_TO_IMAGE["$sim_type"];
                             
                             $simrating = "<img src=\"../../images/sims/ratings/$simrating_image\" width=\"16\" height=\"16\" />";
                             $simtype   = "<img src=\"../../images/sims/ratings/$simtype_image\"   width=\"32\" height=\"16\" />";
@@ -243,7 +225,7 @@ window.open = SymWinOpen;
             
             <p class="indi-sim">
                 <?php
-                    print "<a href=\"$sim_teaching_ideas\">Click here to see Ideas and Activities for this Simulation (PDF file).</a>";
+                    print "<a href=\"$sim_phet_ideas_file\">Click here to see Ideas and Activities for this Simulation (PDF file).</a>";
                 ?>
             </p>
             
@@ -279,10 +261,10 @@ window.open = SymWinOpen;
                 Microsoft Windows 98SE/2000/XP<br/>
                 
                 <?php
-                    if ($type == '0') { 
+                    if ($sim_type == '0') { 
                         print "Sun Java 1.4.2_10 or later<br/>";
                     }
-                    else if ($type == '1') {
+                    else if ($sim_type == '1') {
                         print "Macromedia Flash 7 or later<br/>";
                     }
                 ?>
@@ -292,10 +274,10 @@ window.open = SymWinOpen;
                 
                 
                 <?php
-                    if ($type == '0') {
+                    if ($sim_type == '0') {
                         print "Apple Java 1.4.2_09 or later<br/>";
                     }
-                    else if ($type == '1') {
+                    else if ($sim_type == '1') {
                         print "Macromedia Flash 7 or later<br/>";
                     }
                 ?>
@@ -303,10 +285,10 @@ window.open = SymWinOpen;
                 <br/><b>Linux Systems</b><br/>
                 
                 <?php
-                    if ($type == '0') {
+                    if ($sim_type == '0') {
                         print "Sun Java 1.4.2_10 or later<br/>";
                     }
-                    else if ($type == '1') {
+                    else if ($sim_type == '1') {
                         print "Macromedia Flash 7 or later<br/>";
                     }
                 ?>

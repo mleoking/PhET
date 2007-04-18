@@ -4,7 +4,7 @@
 	include_once("web-utils.php");
 	include_once("db-utils.php");
 	
-    run_sql_statement("INSERT INTO `simulation` (`sim_name`) VALUES ('New Simulation') ");
+    run_sql_statement("INSERT INTO `simulation` (`sim_name`, `sim_keywords`) VALUES ('New Simulation', 'keyword1, keyword2, keyword3') ");
      
     $sim_id = mysql_insert_id($connection);
     
