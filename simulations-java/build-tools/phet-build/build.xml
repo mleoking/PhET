@@ -5,6 +5,9 @@
     <property name="proguard.jar" location="build-tools/proguard3.8/lib/proguard.jar"/>
     <property name="phetbuild-src" location="build-tools/phet-build/src"/>
     <property name="phetbuild-classname" value="edu.colorado.phet.build.PhetBuildTask"/>
+    <property name="phetclean-classname" value="edu.colorado.phet.build.PhetCleanTask"/>
+
+    <property name="phetbuild-dependencies" value="${phetbuild-classes};${proguard.jar}" />
 
     <target name="compile_phet-build">
         <mkdir dir="${phetbuild-classes}"/>
@@ -19,32 +22,43 @@
     <target name="declare_phet-build-task" depends="clean_phet-build, compile_phet-build">
         <taskdef name="phet-build"
                  classname="${phetbuild-classname}"
-                 classpath="${phetbuild-classes};${proguard.jar}"/>
+                 classpath="${phetbuild-dependencies}"/>
+
+        <taskdef name="phet-clean"
+                 classname="${phetclean-classname}"
+                 classpath="${phetbuild-dependencies}"/>
+
     </target>
 
-    <target name="build_AllSimApp" depends="declare_phet-build-task">
+    <target name="init" depends="declare_phet-build-task"/>
+
+    <target name="clean-hydrogen-atom" depends="init">
+        <phet-clean project="hydrogen-atom" />
+    </target>
+
+    <target name="build_AllSimApp" depends="init">
         <phet-build project="all-sims" shrink="false"/>
     </target>
 
-    <target name="build_AllSimApp_shrink" depends="declare_phet-build-task">
+    <target name="build_AllSimApp_shrink" depends="init">
         <phet-build project="all-sims" />
     </target>
 
-    <target name="build_hydrogen-atom" depends="declare_phet-build-task">
+    <target name="build_hydrogen-atom" depends="init">
         <phet-build project="hydrogen-atom" destfile="deploy/hydrogen-atom.jar"/>
     </target>
 
-    <target name="build_hydrogen-atom_dontshrink" depends="declare_phet-build-task">
+    <target name="build_hydrogen-atom_dontshrink" depends="init">
         <phet-build project="hydrogen-atom" shrink="false"/>
     </target>
 
-    <target name="build_gaelic" depends="declare_phet-build-task">
+    <target name="build_gaelic" depends="init">
         <phet-build project="balloons"/>
         <phet-build project="cck"/>
         <phet-build project="sound"/>
     </target>
 
-    <target name="build_qm_suite" depends="declare_phet-build-task">
+    <target name="build_qm_suite" depends="init">
         <phet-build project="quantum" shrink="false"/>
         <phet-build project="ideal-gas"/>
         <phet-build project="lasers"/>
@@ -52,7 +66,7 @@
         <phet-build project="photoelectric"/>
     </target>
 
-    <target name="build_all" depends="declare_phet-build-task">
+    <target name="build_all" depends="init">
         <echo message="Starting build..."/>
         <phet-build project="balloons"/>
         <phet-build project="battery-voltage"/>
