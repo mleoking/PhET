@@ -1,10 +1,7 @@
 package edu.colorado.phet.build;
 
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.taskdefs.Echo;
 
 import java.io.File;
 
@@ -17,7 +14,7 @@ public class PhetBuildTask extends AbstractPhetBuildTask {
     private String dest = null;
 
     protected void executeImpl( PhetProject phetProject ) throws Exception {
-        File destFile = new File( phetProject.getDir(), dest == null ? "deploy/" + phetProject.getName() + ".jar" : dest );
+        File destFile = dest == null ? new File( phetProject.getDir(), dest ) : phetProject.getDefaultDeployJar();
 
         PhetBuildCommand buildCommand = new PhetBuildCommand( phetProject, this, shrink, destFile );
 

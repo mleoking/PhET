@@ -6,6 +6,7 @@
     <property name="phetbuild-src" location="build-tools/phet-build/src"/>
     <property name="phetbuild-classname" value="edu.colorado.phet.build.PhetBuildTask"/>
     <property name="phetclean-classname" value="edu.colorado.phet.build.PhetCleanTask"/>
+    <property name="phetjnlp-classname" value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
 
     <property name="phetbuild-dependencies" value="${phetbuild-classes};${proguard.jar}" />
 
@@ -28,9 +29,17 @@
                  classname="${phetclean-classname}"
                  classpath="${phetbuild-dependencies}"/>
 
+        <taskdef name="phet-jnlp"
+                 classname="${phetjnlp-classname}"
+                 classpath="${phetbuild-dependencies}"/>
+
     </target>
 
     <target name="init" depends="declare_phet-build-task"/>
+
+    <target name="build-hydrogen-atom-jnlp" depends="init">
+        <phet-jnlp project="hydrogen-atom" />
+    </target>
 
     <target name="clean-hydrogen-atom" depends="init">
         <phet-clean project="hydrogen-atom" />
