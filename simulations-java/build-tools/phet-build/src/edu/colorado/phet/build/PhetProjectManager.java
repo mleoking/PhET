@@ -19,7 +19,8 @@ public class PhetProjectManager {
         this.antTaskRunner = taskRunner;
     }
 
-    public void compile( File[] src, File[] classpath, File dst ) {
+    private void compile( File[] src, File[] classpath, File dst ) {
+        // TODO: dst isn't used???
         output( "compiling " + project.getName() );
         Javac javac = new Javac();
         javac.setSource( "1.4" );
@@ -30,7 +31,7 @@ public class PhetProjectManager {
         output( "Finished compiling " + project.getName() + "." );
     }
 
-    public void jar() {
+    private void jar() {
         Jar jar = new Jar();
         File[] dataDirectories = project.getAllDataDirectories();
         for( int i = 0; i < dataDirectories.length; i++ ) {
@@ -55,7 +56,7 @@ public class PhetProjectManager {
         antTaskRunner.runTask( jar );
     }
 
-    public void buildAll( boolean shrink ) {
+    public void build( boolean shrink ) {
         compile( project.getAllSourceRoots(), project.getAllJarFiles(), project.getClassesDirectory() );
         jar();
 
