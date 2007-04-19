@@ -14,22 +14,24 @@ import java.util.StringTokenizer;
  * Apr 14, 2007, 2:40:56 PM
  */
 public class PhetProject {
-    private File dir;
-    private Properties properties;
-    private String name;
-    private String destFile;
+    private final File dir;
+    private final Properties properties;
+    private final String name;
+    private final String destFile;
 
     public PhetProject( File projectRoot ) throws IOException {
         this( projectRoot.getParentFile(), projectRoot.getName(), "" );
     }
 
-    public PhetProject( File parentDir, String name, String destFile ) throws IOException {
-        this.name = name;
-        this.dir = new File( parentDir, name );
+    public PhetProject( File parentDir, String name, String destFile ) throws IOException {                
+        this.name       = name;
+        this.dir        = new File( parentDir, name );
         this.properties = new Properties();
-        File propertyFile = PhetBuildTask.getBuildPropertiesFile( dir, name );
+        this.destFile   = destFile;
+
+        File propertyFile = PhetBuildUtils.getBuildPropertiesFile( dir, name );
+
         this.properties.load( new BufferedInputStream( new FileInputStream( propertyFile ) ) );
-        this.destFile=destFile;
     }
 
     public File getDir(){
@@ -45,7 +47,6 @@ public class PhetProject {
             return false;
         }
     }
-
 
     public File getAntBaseDir() {
         return new File( "../../" );

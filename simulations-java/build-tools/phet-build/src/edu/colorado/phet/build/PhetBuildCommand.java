@@ -24,7 +24,7 @@ public class PhetBuildCommand implements Command {
 
     private void compile( File[] src, File[] classpath, File dst ) {
         // TODO: dst isn't used???
-        output( "compiling " + project.getName() );
+        PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + "." );
         Javac javac = new Javac();
         javac.setSource( "1.4" );
         javac.setSrcdir( new Path( antTaskRunner.getProject(), toString( src ) ) );
@@ -33,7 +33,7 @@ public class PhetBuildCommand implements Command {
 
         antTaskRunner.runTask( javac );
 
-        output( "Finished compiling " + project.getName() + "." );
+        PhetBuildUtils.antEcho( antTaskRunner, "Finished compiling " + project.getName() + "." );
     }
 
     private void jar() throws ManifestException {
@@ -68,12 +68,6 @@ public class PhetBuildCommand implements Command {
         builder.setShrink( shrink );
 
         new ProguardCommand( builder.build(), antTaskRunner ).execute();
-    }
-
-    private void output( String s ) {
-        Echo echo = new Echo();
-        echo.setMessage( s );
-        antTaskRunner.runTask( echo );
     }
 
     private String toString( File[] files ) {
