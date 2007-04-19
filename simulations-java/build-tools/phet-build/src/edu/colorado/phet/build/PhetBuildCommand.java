@@ -1,14 +1,16 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.build;
 
-import org.apache.tools.ant.taskdefs.*;
-import org.apache.tools.ant.types.Path;
+import edu.colorado.phet.build.patterns.Command;
+import edu.colorado.phet.build.proguard.ProguardCommand;
+import org.apache.tools.ant.taskdefs.Jar;
+import org.apache.tools.ant.taskdefs.Javac;
+import org.apache.tools.ant.taskdefs.Manifest;
+import org.apache.tools.ant.taskdefs.ManifestException;
 import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.Path;
 
 import java.io.File;
-
-import edu.colorado.phet.build.proguard.ProguardCommand;
-import edu.colorado.phet.build.patterns.Command;
 
 /**
  * This command builds a PhET project, together with any dependencies.
@@ -41,8 +43,6 @@ public class PhetBuildCommand implements Command {
         File[] src = project.getAllSourceRoots();
         File[] classpath = project.getAllJarFiles();
         
-        // File dst = project.getClassesDirectory();
-        // TODO: dst isn't used???
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + "." );
         
         Javac javac = new Javac();
@@ -65,7 +65,7 @@ public class PhetBuildCommand implements Command {
             jar.addFileset( set );
         }
         jar.setBasedir( project.getClassesDirectory() );
-        jar.setJarfile( project.getJarFile() );
+        jar.setDestFile( project.getJarFile() );
         Manifest manifest = new Manifest();
 
         Manifest.Attribute attribute = new Manifest.Attribute();

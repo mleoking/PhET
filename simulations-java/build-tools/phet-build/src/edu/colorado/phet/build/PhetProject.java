@@ -32,6 +32,18 @@ public class PhetProject {
         this.properties.load( new BufferedInputStream( new FileInputStream( propertyFile ) ) );
     }
 
+    public File getDefaultDeployDir() {
+        File file = new File( getDir(), "deploy/" );
+
+        file.mkdirs();
+
+        return file;
+    }
+
+    public File getDefaultDeployJar() {
+        return new File( getDefaultDeployDir(), getName() + ".jar" );
+    }
+
     public File getDir() {
         return dir;
     }
