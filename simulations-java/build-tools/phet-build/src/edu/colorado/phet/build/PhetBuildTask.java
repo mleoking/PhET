@@ -12,51 +12,24 @@ import java.io.File;
  * This class is responsible for building a phet project given the project
  * name. Optionally, the destination jar and shrinking option may be specified.
  */
-public class PhetBuildTask extends Task implements AntTaskRunner {
-    private volatile String projectName;
+public class PhetBuildTask extends AbstractPhetBuildTask {
     private volatile boolean shrink = true;
-    private volatile String destFile;
+    private String dest = null;
 
-    // The method executing the task
-    public void execute() throws BuildException {
-        PhetBuildUtils.antEcho( this, "Building " + projectName + "..." );
+    protected void executeImpl( PhetProject phetProject ) throws Exception {
+        File destFile = new File( phetProject.getDir(), dest == null ? "deploy/" + phetProject.getName() + ".jar" : dest );
 
-        if (destFile == null) {
-            destFile = "deploy/" + projectName + ".jar";
-        }
+        PhetBuildCommand buildCommand = new PhetBuildCommand( phetProject, this, shrink, destFile );
 
-        try {
-            File projectDir = PhetBuildUtils.resolveProject( getProject().getBaseDir(), projectName );
-
-            PhetProject phetProject = new PhetProject( projectDir, projectName, destFile );
-
-            PhetBuildCommand buildCommand = new PhetBuildCommand( phetProject, this, shrink );
-
-            buildCommand.execute();
-        }
-        catch( Exception e ) {
-            throw new BuildException( "A problem occurred while trying to build " + projectName + ".", e );
-        }
-    }
-
-    public void runTask( Task childTask ) {
-        childTask.setProject( getProject() );
-        childTask.setLocation( getLocation() );
-        childTask.setOwningTarget( getOwningTarget() );
-        childTask.init();
-        childTask.execute();
-    }
-
-    public void setProject( String projectName ) {
-        this.projectName = projectName;
+        buildCommand.execute();
     }
 
     public void setShrink( boolean shrink ) {
         this.shrink = shrink;
     }
 
-    public void setDestFile( String destFile ) {
-        this.destFile = destFile;
+    public void setDestFile( String destFile){
+        this.dest = destFile;
     }
 
     /*

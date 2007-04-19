@@ -11,7 +11,12 @@
         <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes}" classpath="${proguard.jar}"/>
     </target>
 
-    <target name="declare_phet-build-task" depends="compile_phet-build">
+    <target name="clean_phet-build">
+        <delete dir="${phetbuild-classes}" />
+    </target>
+
+
+    <target name="declare_phet-build-task" depends="clean_phet-build, compile_phet-build">
         <taskdef name="phet-build"
                  classname="${phetbuild-classname}"
                  classpath="${phetbuild-classes};${proguard.jar}"/>

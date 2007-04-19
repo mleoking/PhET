@@ -17,24 +17,22 @@ public class PhetProject {
     private final File dir;
     private final Properties properties;
     private final String name;
-    private final String destFile;
 
     public PhetProject( File projectRoot ) throws IOException {
-        this( projectRoot.getParentFile(), projectRoot.getName(), "" );
+        this( projectRoot.getParentFile(), projectRoot.getName() );
     }
 
-    public PhetProject( File parentDir, String name, String destFile ) throws IOException {                
+    public PhetProject( File parentDir, String name ) throws IOException {
         this.name       = name;
         this.dir        = new File( parentDir, name );
         this.properties = new Properties();
-        this.destFile   = destFile;
 
         File propertyFile = PhetBuildUtils.getBuildPropertiesFile( dir, name );
 
         this.properties.load( new BufferedInputStream( new FileInputStream( propertyFile ) ) );
     }
 
-    public File getDir(){
+    public File getDir() {
         return dir;
     }
 
@@ -277,10 +275,6 @@ public class PhetProject {
         File destDir = new File( getAntBaseDir(), "ant_output/projects/" + name );
         destDir.mkdirs();
         return destDir;
-    }
-
-    public File getDestJar(){
-        return new File( getDir(), destFile );
     }
     
     public String getMainClass() {

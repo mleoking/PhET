@@ -17,11 +17,13 @@ public class PhetBuildCommand implements Command {
     private final PhetProject project;
     private final AntTaskRunner antTaskRunner;
     private final boolean shrink;
+    private final File outputJar;
 
-    public PhetBuildCommand( PhetProject project, AntTaskRunner taskRunner, boolean shrink ) {
+    public PhetBuildCommand( PhetProject project, AntTaskRunner taskRunner, boolean shrink, File outputJar ) {
         this.project       = project;
         this.antTaskRunner = taskRunner;
         this.shrink        = shrink;
+        this.outputJar     = outputJar;
     }
 
     public void execute() throws Exception {
@@ -78,6 +80,7 @@ public class PhetBuildCommand implements Command {
     private void proguard() throws Exception {
         PhetProguardConfigBuilder builder = new PhetProguardConfigBuilder();
 
+        builder.setDestJar( outputJar );
         builder.setPhetProject( project );
         builder.setShrink( shrink );
 
