@@ -9,8 +9,9 @@ IN PROGRESS:
 - add developer controls for disabling individual components of bead motion model
 
 HIGH PRIORITY:
+- new model for bead motion
+- better model for Fz trap force
 - bug: fluid viscosity slider is brain damaged
-- get a better model for Fz trap force
 - implement E-field model for slow mode
 
 MEDIUM PRIORITY:
