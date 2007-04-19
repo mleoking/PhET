@@ -8,6 +8,10 @@ import org.apache.tools.ant.taskdefs.Echo;
 
 import java.io.File;
 
+/**
+ * This class is responsible for building a phet project given the project
+ * name. Optionally, the destination jar and shrinking option may be specified.
+ */
 public class PhetBuildTask extends Task implements AntTaskRunner {
     private volatile String projectName;
     private volatile boolean shrink = true;
@@ -26,9 +30,9 @@ public class PhetBuildTask extends Task implements AntTaskRunner {
 
             PhetProject phetProject = new PhetProject( projectDir, projectName, destFile );
 
-            PhetBuildCommand manager = new PhetBuildCommand( phetProject, this, shrink );
+            PhetBuildCommand buildCommand = new PhetBuildCommand( phetProject, this, shrink );
 
-            manager.execute();
+            buildCommand.execute();
         }
         catch( Exception e ) {
             throw new BuildException( "A problem occurred while trying to build " + projectName + ".", e );

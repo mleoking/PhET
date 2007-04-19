@@ -288,7 +288,7 @@ public class PhetProject {
     }
 
     public String[] getMainClasses() {
-        return new String[0];
+        return new String[]{ getMainClass() };
     }
 
     public String[] getAllMainClasses() {
