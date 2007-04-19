@@ -7,28 +7,22 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Echo;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
 
 public class PhetBuildTask extends Task implements AntTaskRunner {
     private String projectName;
     private boolean shrink = true;
     private String destFile;
 
-    public static File getBuildPropertiesFile( File dir, String projectName ) {
-        return new File( dir, projectName + ".properties" );
-    }
-
     // The method executing the task
     public void execute() throws BuildException {
-        echo( "Building: " + projectName );
+        PhetBuildUtils.antEcho( this, "Building: " + projectName );
 
         if (destFile == null) {
             destFile = "deploy/" + projectName + ".jar";
         }
 
         try {
-            PhetProject phetProject = new PhetProject( searchProject( projectName ), projectName, destFile );
+            PhetProject phetProject = new PhetProject( PhetBuildUtils.resolveProject( getBaseDir(), projectName ), projectName, destFile );
 
             PhetBuildCommand manager = new PhetBuildCommand( phetProject, this, shrink );
 
@@ -39,37 +33,12 @@ public class PhetBuildTask extends Task implements AntTaskRunner {
         }
     }
 
-    private File searchProject( String name ) {
-        File[] searchRoots = new File[]{
-                new File( getBaseDir(), "simulations" ),
-                new File( getBaseDir(), "common" ),
-                new File( getBaseDir(), "contrib" ),
-        };
-        for( int i = 0; i < searchRoots.length; i++ ) {
-            File searchRoot = searchRoots[i];
-            File dir = new File( searchRoot, name );
-
-            File props = getBuildPropertiesFile( dir, name );
-
-            if( dir.exists() && dir.isDirectory() && props.exists() ) {
-                return searchRoot;
-            }
-        }
-        throw new RuntimeException( "No project found for name=" + name + ", searched in roots=" + Arrays.asList( searchRoots ) );
-    }
-
     public void runTask( Task child ) {
         child.setProject( getProject() );
         child.setLocation( getLocation() );
         child.setOwningTarget( getOwningTarget() );
         child.init();
         child.execute();
-    }
-
-    void echo( String message ) {
-        Echo echo = new Echo();
-        echo.setMessage( message );
-        runTask( echo );
     }
 
     public void setProject( String projectName ) {
@@ -85,7 +54,7 @@ public class PhetBuildTask extends Task implements AntTaskRunner {
     }
 
     public File getBaseDir() {
-        return project.getBaseDir();
+        return getProject().getBaseDir();
     }
 
     /*

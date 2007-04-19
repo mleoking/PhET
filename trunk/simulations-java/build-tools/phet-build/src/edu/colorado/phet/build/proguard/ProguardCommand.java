@@ -16,7 +16,7 @@ public class ProguardCommand implements Command {
     private final AntTaskRunner antTaskRunner;
 
     public ProguardCommand( ProguardConfig config, AntTaskRunner antTaskRunner ) {
-        this.config     = config;
+        this.config        = config;
         this.antTaskRunner = antTaskRunner;
     }
 
