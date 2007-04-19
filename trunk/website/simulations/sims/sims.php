@@ -198,20 +198,24 @@ window.open = SymWinOpen;
             <h2 class="sub-title">Main Topics</h2>
 
             <p class="indi-sim">
-                Main topics
+                <?php
+                    print_comma_list_as_bulleted_list($sim_main_topics);
+                ?>
             </p>
 
             <h2 class="sub-title">Subtopics</h2>
 
             <p class="indi-sim">
-                Subtopics
+                <?php
+                    print_comma_list_as_bulleted_list($sim_subtopics);
+                ?>
             </p>
 
             <h2 class="sub-title">Sample Learning Goals</h2>
 
             <p class="indi-sim">
                 <?php
-                    print "$sim_learning_goals";
+                    print_comma_list_as_bulleted_list($sim_sample_goals);
                 ?>
             </p>
 
@@ -225,7 +229,7 @@ window.open = SymWinOpen;
             
             <p class="indi-sim">
                 <?php
-                    print "<a href=\"$sim_phet_ideas_file\">Click here to see Ideas and Activities for this Simulation (PDF file).</a>";
+                    print "<a href=\"$sim_phet_ideas_file\">Click here to see Ideas and Activities for this simulation (PDF file).</a>";
                 ?>
             </p>
             
@@ -300,7 +304,9 @@ window.open = SymWinOpen;
 
             <h2 class="sub-title">Translated versions</h2>
 
-            <p class="indi-sim">Quisque sagittis commodo velit. Nunc porttitor sagittis tortor. Mauris metus. Maecenas eu nisi id elit tincidunt malesuada.</p>
+            <p class="indi-sim">
+                Coming soon.
+            </p>
 
             <p><a href="#top"><img src="../../images/top.gif" /></a></p>
 
@@ -308,15 +314,27 @@ window.open = SymWinOpen;
 
             <h2 class="sub-title">Design Team</h2>
 
-            <p class="indi-sim">Quisque sagittis commodo velit. Nunc porttitor sagittis tortor. Mauris metus. Maecenas eu nisi id elit tincidunt malesuada.</p>
+            <p class="indi-sim">
+                <?php
+                    print_comma_list_as_bulleted_list($sim_design_team);
+                ?>
+            </p>
             
             <h2 class="sub-title">Libraries</h2>
 
-            <p class="indi-sim">Quisque sagittis commodo velit. Nunc porttitor sagittis tortor. Mauris metus. Maecenas eu nisi id elit tincidunt malesuada.</p>
+            <p class="indi-sim">
+                <?php
+                    print_comma_list_as_bulleted_list($sim_libraries);
+                ?>
+            </p>
             
             <h2 class="sub-title">Thanks To</h2>
 
-            <p class="indi-sim">Quisque sagittis commodo velit. Nunc porttitor sagittis tortor. Mauris metus. Maecenas eu nisi id elit tincidunt malesuada.</p>
+            <p class="indi-sim">
+                <?php
+                    print_comma_list_as_bulleted_list($sim_thanks_to);
+                ?>
+            </p>
 
             <p><a href="#top"><img src="../../images/top.gif" /></a></p>
 

@@ -62,14 +62,14 @@ way, the user does not need Flash in order to correctly view the home page.
 print <<<EOT
     <script language="javascript">
 
-    var delay=5000
+    var delay=50000
     var curindex=0
 
     var randomimages=new Array()
     
 EOT;
 
-$thumbnails = glob("./admin/uploads/*.jpg");
+$thumbnails = glob("./admin/uploads/*.gif");
 
 $index = 0;
 
