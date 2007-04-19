@@ -16,10 +16,13 @@ public class PhetProguardConfigBuilder {
         builder.reset();
     }
 
+    public void setDestJar( File outputJar ) {
+        builder.setOutputJar( outputJar );
+    }
+
     public void setPhetProject( PhetProject project ) {
         builder.setName( project.getName() );
         builder.setProguardTemplate( new File( project.getAntBaseDir(), "templates/proguard2.pro" ) );
-        builder.setOutputJar( project.getDestJar() );
         builder.setInputJars( prepend( project.getAllJarFiles(), project.getJarFile() ) );
         builder.setProguardOutputFile( new File( project.getAntOutputDir(), project.getName() + ".pro" ) );
         builder.setMainClasses( project.getMainClasses() );
