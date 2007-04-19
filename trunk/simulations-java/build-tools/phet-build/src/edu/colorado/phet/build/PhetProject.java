@@ -1,10 +1,7 @@
 package edu.colorado.phet.build;
 
 import org.apache.tools.ant.Task;
-import org.apache.tools.ant.taskdefs.Jar;
-import org.apache.tools.ant.taskdefs.Javac;
-import org.apache.tools.ant.taskdefs.Manifest;
-import org.apache.tools.ant.taskdefs.ManifestException;
+import org.apache.tools.ant.taskdefs.*;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
@@ -22,36 +19,43 @@ import java.util.StringTokenizer;
  * Apr 14, 2007, 2:40:56 PM
  */
 public class PhetProject {
-    private File rootDir;
+    private File dir;
     private Properties properties;
     private String name;
-    private PhetBuildTask phetBuildTask;
+    private AntTaskRunner phetBuildTask;
+    private String destFile;
 
-    public PhetProject( PhetBuildTask phetBuildTask, File projectRoot ) throws IOException {
-        this( phetBuildTask, projectRoot.getParentFile(), projectRoot.getName() );
+    public PhetProject( AntTaskRunner phetBuildTask, File projectRoot ) throws IOException {
+        this( phetBuildTask, projectRoot.getParentFile(), projectRoot.getName(), "" );
     }
 
-    public PhetProject( PhetBuildTask phetBuildTask, File parentDir, String name ) throws IOException {
+    public PhetProject( AntTaskRunner phetBuildTask, File parentDir, String name, String destFile ) throws IOException {
         this.phetBuildTask = phetBuildTask;
         this.name = name;
-        this.rootDir = new File( parentDir, name );
+        this.dir = new File( parentDir, name );
         this.properties = new Properties();
-        File propertyFile = new File( rootDir, name + ".properties" );
+        File propertyFile = PhetBuildTask.getBuildPropertiesFile( dir, name );
         this.properties.load( new BufferedInputStream( new FileInputStream( propertyFile ) ) );
+        this.destFile=destFile;
+    }
+
+    public File getDir(){
+        return dir;
     }
 
     public boolean equals( Object obj ) {
         if( obj instanceof PhetProject ) {
             PhetProject phetProject = (PhetProject)obj;
-            return phetProject.rootDir.equals( rootDir );
+            return phetProject.dir.equals( dir );
         }
         else {
             return false;
         }
     }
 
-    public File getBaseDir() {
-        return phetBuildTask.getBaseDir();
+
+    public File getAntBaseDir() {
+        return new File( "../../" );
     }
 
     public String getName() {
@@ -59,7 +63,7 @@ public class PhetProject {
     }
 
     public String toString() {
-        return "project=" + name + ", root=" + rootDir.getAbsolutePath() + ", properties=" + properties;
+        return "project=" + name + ", root=" + dir.getAbsolutePath() + ", properties=" + properties;
     }
 
     public String getSource() {
@@ -194,23 +198,23 @@ public class PhetProject {
     }
 
     private File searchPath( String token ) {
-        File commonProject = new File( getBaseDir(), "common/" + token );
+        File commonProject = new File( getAntBaseDir(), "common/" + token );
         if( commonProject.exists() && isProject( commonProject ) ) {
             return commonProject;
         }
-        File contribPath = new File( getBaseDir(), "contrib/" + token );
+        File contribPath = new File( getAntBaseDir(), "contrib/" + token );
         if( contribPath.exists() ) {
             return contribPath;
         }
-        File path = new File( rootDir, token );
+        File path = new File( dir, token );
         if( path.exists() ) {
             return path;
         }
-        File commonPathNonProject = new File( getBaseDir(), "common/" + token );
+        File commonPathNonProject = new File( getAntBaseDir(), "common/" + token );
         if( commonPathNonProject.exists() ) {
             return commonPathNonProject;
         }
-        File simProject = new File( getBaseDir(), "simulations/" + token );
+        File simProject = new File( getAntBaseDir(), "simulations/" + token );
         if( simProject.exists() && isProject( simProject ) ) {
             return simProject;
         }
@@ -323,11 +327,13 @@ public class PhetProject {
     }
 
     private void output( String s ) {
-        phetBuildTask.echo( s );
+        Echo echo = new Echo();
+        echo.setMessage( s );
+        phetBuildTask.runTask( echo );
     }
 
     public File getAntOutputDir() {
-        File destDir = new File( phetBuildTask.getProject().getBaseDir(), "ant_output/projects/" + name );
+        File destDir = new File( getAntBaseDir(), "ant_output/projects/" + name );
         destDir.mkdirs();
         return destDir;
     }
@@ -339,9 +345,13 @@ public class PhetProject {
     public void buildAll( boolean shrink ) {
         compile( getAllSourceRoots(), getAllJarFiles(), getClassesDirectory() );
         jar();
-        new PhetProguard().proguard( this, shrink );
+        new PhetProguard().proguard( this, shrink);
     }
 
+    public File getDestJar(){
+        return new File( getDir(), destFile );
+    }
+    
     public String getMainClass() {
         return properties.getProperty( "project.mainclass" );
     }

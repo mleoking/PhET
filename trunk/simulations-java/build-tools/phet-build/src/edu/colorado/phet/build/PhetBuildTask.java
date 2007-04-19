@@ -10,15 +10,27 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class PhetBuildTask extends Task {
+public class PhetBuildTask extends Task implements AntTaskRunner {
     private String projectName;
     private boolean shrink = true;
+    private String destFile;
+
+    public static File getBuildPropertiesFile( File dir, String projectName ) {
+        return new File( dir, projectName + ".properties" );
+    }
 
     // The method executing the task
     public void execute() throws BuildException {
         echo( "Building: " + projectName );
+
+        if (destFile == null) {
+            destFile = "deploy/" + projectName + ".jar";
+        }
+
         try {
-            buildSimulation();
+            PhetProject phetProject = new PhetProject( this, searchProject( projectName ), projectName, destFile );
+            
+            phetProject.buildAll( shrink );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -34,17 +46,14 @@ public class PhetBuildTask extends Task {
         for( int i = 0; i < searchRoots.length; i++ ) {
             File searchRoot = searchRoots[i];
             File dir = new File( searchRoot, name );
-            File props = new File( dir, name + ".properties" );
+
+            File props = getBuildPropertiesFile( dir, name );
+
             if( dir.exists() && dir.isDirectory() && props.exists() ) {
                 return searchRoot;
             }
         }
         throw new RuntimeException( "No project found for name=" + name + ", searched in roots=" + Arrays.asList( searchRoots ) );
-    }
-
-    private void buildSimulation() throws IOException {
-        PhetProject phetProject = new PhetProject( this, searchProject( projectName ), projectName );
-        phetProject.buildAll( shrink );
     }
 
     public void runTask( Task child ) {
@@ -67,6 +76,10 @@ public class PhetBuildTask extends Task {
 
     public void setShrink( boolean shrink ) {
         this.shrink = shrink;
+    }
+
+    public void setDestFile( String destFile ) {
+        this.destFile = destFile;
     }
 
     public File getBaseDir() {

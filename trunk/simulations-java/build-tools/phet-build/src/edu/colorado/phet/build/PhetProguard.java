@@ -11,7 +11,7 @@ import java.io.*;
 public class PhetProguard {
 
     public void proguard( PhetProject phetProject, boolean shrink ) {
-        File proguardFile = createProguardFile( phetProject, shrink );
+        File proguardFile = createProguardFile( phetProject, shrink);
         ProGuardTask proGuardTask = new ProGuardTask();
         proGuardTask.setConfiguration( proguardFile );
         phetProject.runTask( proGuardTask );
@@ -81,10 +81,10 @@ public class PhetProguard {
     }
 
     public File createProguardFile( PhetProject project, boolean shrink ) {
-        File template = new File( project.getBaseDir(), "templates/proguard2.pro" );
+        File template = new File( project.getAntBaseDir(), "templates/proguard2.pro" );
         File output = new File( project.getAntOutputDir(), project.getName() + ".pro" );
         File[] injars = prepend( project.getAllJarFiles(), project.getJarFile() );
-        File outJar = new File( project.getAntOutputDir(), "jars/" + project.getName() + "_pro.jar" );
+        File outJar = new File( project.getAntBaseDir(), "jars/" + project.getName() + "_pro.jar" );
 
         boolean ok = createProguardFile( project.getName(), template, output, injars, outJar, project.getAllMainClasses(), shrink );
 //        boolean ok = createProguardFile( project.getName(), template, output, injars, outJar, project.getMainClasses(), shrink );
