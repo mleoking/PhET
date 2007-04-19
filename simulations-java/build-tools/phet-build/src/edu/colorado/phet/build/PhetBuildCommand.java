@@ -25,9 +25,14 @@ public class PhetBuildCommand implements Command {
     }
 
     public void execute() throws Exception {
+        clean();
         compile();        
         jar();
         proguard();
+    }
+
+    private void clean() throws Exception {
+        new PhetCleanCommand( project, antTaskRunner ).execute();
     }
 
     private void compile() {
