@@ -25,21 +25,19 @@ public class PhetBuildCommand implements Command {
     }
 
     public void execute() throws Exception {
-        compile( project.getAllSourceRoots(), project.getAllJarFiles(), project.getClassesDirectory() );
-        
+        compile();        
         jar();
-
-        PhetProguardConfigBuilder builder = new PhetProguardConfigBuilder();
-
-        builder.setPhetProject( project );
-        builder.setShrink( shrink );
-
-        new ProguardCommand( builder.build(), antTaskRunner ).execute();
+        proguard();
     }
 
-    private void compile( File[] src, File[] classpath, File dst ) {
+    private void compile() {
+        File[] src = project.getAllSourceRoots();
+        File[] classpath = project.getAllJarFiles();
+        
+        // File dst = project.getClassesDirectory();
         // TODO: dst isn't used???
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + "." );
+        
         Javac javac = new Javac();
         javac.setSource( "1.4" );
         javac.setSrcdir( new Path( antTaskRunner.getProject(), toString( src ) ) );
@@ -70,6 +68,15 @@ public class PhetBuildCommand implements Command {
         jar.addConfiguredManifest( manifest );
 
         antTaskRunner.runTask( jar );
+    }
+
+    private void proguard() throws Exception {
+        PhetProguardConfigBuilder builder = new PhetProguardConfigBuilder();
+
+        builder.setPhetProject( project );
+        builder.setShrink( shrink );
+
+        new ProguardCommand( builder.build(), antTaskRunner ).execute();
     }
 
     private String toString( File[] files ) {
