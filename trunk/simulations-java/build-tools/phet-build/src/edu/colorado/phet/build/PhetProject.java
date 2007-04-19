@@ -1,10 +1,5 @@
 package edu.colorado.phet.build;
 
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.taskdefs.*;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,28 +17,19 @@ public class PhetProject {
     private File dir;
     private Properties properties;
     private String name;
-    private AntTaskRunner phetBuildTask;
     private String destFile;
 
-    /**
-     * @deprecated
-     */
-    private final PhetProjectManager manager;
-
-    public PhetProject( AntTaskRunner phetBuildTask, File projectRoot ) throws IOException {
-        this( phetBuildTask, projectRoot.getParentFile(), projectRoot.getName(), "" );
+    public PhetProject( File projectRoot ) throws IOException {
+        this( projectRoot.getParentFile(), projectRoot.getName(), "" );
     }
 
-    public PhetProject( AntTaskRunner phetBuildTask, File parentDir, String name, String destFile ) throws IOException {
-        this.phetBuildTask = phetBuildTask;
+    public PhetProject( File parentDir, String name, String destFile ) throws IOException {
         this.name = name;
         this.dir = new File( parentDir, name );
         this.properties = new Properties();
         File propertyFile = PhetBuildTask.getBuildPropertiesFile( dir, name );
         this.properties.load( new BufferedInputStream( new FileInputStream( propertyFile ) ) );
         this.destFile=destFile;
-
-        manager = new PhetProjectManager( this, phetBuildTask );
     }
 
     public File getDir(){
@@ -150,7 +136,7 @@ public class PhetProject {
             File file = path[i];
             if( file.exists() && isProject( file ) ) {
                 try {
-                    projects.add( new PhetProject( phetBuildTask, file ) );
+                    projects.add( new PhetProject( file ) );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
@@ -272,13 +258,6 @@ public class PhetProject {
         return file;
     }
 
-    /**
-     * @deprecated
-     */
-    public void jar() {
-        manager.jar();
-    }
-
     public File getJarFile() {
         File file = new File( getAntOutputDir(), "jars/" + name + ".jar" );
         file.getParentFile().mkdirs();
@@ -293,28 +272,10 @@ public class PhetProject {
         return (PhetProject[])projects.toArray( new PhetProject[0] );
     }
 
-    /**
-     * @deprecated
-     */
-    public void compile( File[] src, File[] classpath, File dst ) {
-        manager.compile( src, classpath, dst );
-    }
-
     public File getAntOutputDir() {
         File destDir = new File( getAntBaseDir(), "ant_output/projects/" + name );
         destDir.mkdirs();
         return destDir;
-    }
-
-    public void runTask( Task task ) {
-        phetBuildTask.runTask( task );
-    }
-
-    /**
-     * @deprecated
-     */
-    public void buildAll( boolean shrink ) {
-        manager.buildAll( shrink );
     }
 
     public File getDestJar(){
