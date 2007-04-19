@@ -1,0 +1,45 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: April 12-18, 2007 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+  
+  Optical Tweezers:
+  - worked on bead motion, discovered that physical model doesn't work, put on hold
+  - started working on logarithmic slider control
+  
+  Common:
+  - checked out complete SVN trunk to Eclipse
+  - recommended changes to SVN repository structure
+  - set up monolithic simulations-java project in Eclipse
+  - collaborated with Sam Reid to add Mac Proguard support to builds
+  - refactored PhetProjectConfig into PhetResources and PhetApplicationConfig
+  - partially refactored common package names
+  - discovered that Subclipse plug-in fails for large change sets
+  - reverted to old method of working in Eclipse
+  - repository cleanup (jnlp.jar, build files, proguard files, etc)
+  - discussion about moving to Java 1.5 and/or using Retroweaver
+  - discussion about per-simulation installers
+  - discussion about how to provide access to localized sims (eg, Gaelic)
+  
+  Support:
+  - no news from Allan Herman on Macbook firewall issue, requested an update
+
+WHAT'S NEXT:
+
+  - continue work on Optical Tweezers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/optical-tweezers/TODO.txt?view=markup
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  - 5/3 & 5/4
+  - 5/21...5/24
+  - 7/16...7/24
+  - 7/30...8/9
+  
+--
