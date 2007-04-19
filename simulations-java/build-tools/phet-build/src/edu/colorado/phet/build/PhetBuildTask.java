@@ -9,36 +9,38 @@ import org.apache.tools.ant.taskdefs.Echo;
 import java.io.File;
 
 public class PhetBuildTask extends Task implements AntTaskRunner {
-    private String projectName;
-    private boolean shrink = true;
-    private String destFile;
+    private volatile String projectName;
+    private volatile boolean shrink = true;
+    private volatile String destFile;
 
     // The method executing the task
     public void execute() throws BuildException {
-        PhetBuildUtils.antEcho( this, "Building: " + projectName );
+        PhetBuildUtils.antEcho( this, "Building " + projectName + "..." );
 
         if (destFile == null) {
             destFile = "deploy/" + projectName + ".jar";
         }
 
         try {
-            PhetProject phetProject = new PhetProject( PhetBuildUtils.resolveProject( getBaseDir(), projectName ), projectName, destFile );
+            File projectDir = PhetBuildUtils.resolveProject( getProject().getBaseDir(), projectName );
+
+            PhetProject phetProject = new PhetProject( projectDir, projectName, destFile );
 
             PhetBuildCommand manager = new PhetBuildCommand( phetProject, this, shrink );
 
             manager.execute();
         }
         catch( Exception e ) {
-            e.printStackTrace();
+            throw new BuildException( "A problem occurred while trying to build " + projectName + ".", e );
         }
     }
 
-    public void runTask( Task child ) {
-        child.setProject( getProject() );
-        child.setLocation( getLocation() );
-        child.setOwningTarget( getOwningTarget() );
-        child.init();
-        child.execute();
+    public void runTask( Task childTask ) {
+        childTask.setProject( getProject() );
+        childTask.setLocation( getLocation() );
+        childTask.setOwningTarget( getOwningTarget() );
+        childTask.init();
+        childTask.execute();
     }
 
     public void setProject( String projectName ) {
@@ -51,10 +53,6 @@ public class PhetBuildTask extends Task implements AntTaskRunner {
 
     public void setDestFile( String destFile ) {
         this.destFile = destFile;
-    }
-
-    public File getBaseDir() {
-        return getProject().getBaseDir();
     }
 
     /*

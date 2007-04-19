@@ -10,7 +10,9 @@ import java.io.File;
 import edu.colorado.phet.build.proguard.ProguardCommand;
 import edu.colorado.phet.build.patterns.Command;
 
-
+/**
+ * This command builds a PhET project, together with any dependencies.
+ */
 public class PhetBuildCommand implements Command {
     private final PhetProject project;
     private final AntTaskRunner antTaskRunner;
@@ -20,6 +22,19 @@ public class PhetBuildCommand implements Command {
         this.project       = project;
         this.antTaskRunner = taskRunner;
         this.shrink        = shrink;
+    }
+
+    public void execute() throws Exception {
+        compile( project.getAllSourceRoots(), project.getAllJarFiles(), project.getClassesDirectory() );
+        
+        jar();
+
+        PhetProguardConfigBuilder builder = new PhetProguardConfigBuilder();
+
+        builder.setPhetProject( project );
+        builder.setShrink( shrink );
+
+        new ProguardCommand( builder.build(), antTaskRunner ).execute();
     }
 
     private void compile( File[] src, File[] classpath, File dst ) {
@@ -53,21 +68,8 @@ public class PhetBuildCommand implements Command {
         attribute.setValue( project.getMainClass() );
         manifest.addConfiguredAttribute( attribute );
         jar.addConfiguredManifest( manifest );
-        
+
         antTaskRunner.runTask( jar );
-    }
-
-    public void execute() throws Exception {
-        compile( project.getAllSourceRoots(), project.getAllJarFiles(), project.getClassesDirectory() );
-        
-        jar();
-
-        PhetProguardConfigBuilder builder = new PhetProguardConfigBuilder();
-
-        builder.setPhetProject( project );
-        builder.setShrink( shrink );
-
-        new ProguardCommand( builder.build(), antTaskRunner ).execute();
     }
 
     private String toString( File[] files ) {
