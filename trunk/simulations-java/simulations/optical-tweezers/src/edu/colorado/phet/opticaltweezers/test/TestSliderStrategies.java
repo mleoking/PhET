@@ -7,19 +7,20 @@ import javax.swing.JSlider;
 
 public class TestSliderStrategies {
 
-    public static void main( String[] args ) {
-        TestSliderStrategies tester = new TestSliderStrategies();
-        tester.test();
-    }
-    
     public TestSliderStrategies() {}
+    
+    //----------------------------------------------------------------------------
+    // SliderStrategy
+    //----------------------------------------------------------------------------
     
     public interface SliderStrategy {
         public double sliderToModel( int sliderValue );
         public int modelToSlider( double modelValue );
-        public void setSliderRange( int min, int max );
-        public void setModelRange( double min, double max );
     }
+    
+    //----------------------------------------------------------------------------
+    // AbstractStrategy
+    //----------------------------------------------------------------------------
     
     public static abstract class AbstractStrategy implements SliderStrategy {
         
@@ -33,11 +34,6 @@ public class TestSliderStrategies {
             _modelMax = modelMax;
         }
         
-        public void setSliderRange( int min, int max ) {
-            _sliderMin = min;
-            _sliderMax = max;
-        }
-        
         protected int getSliderMin() {
             return _sliderMin;
         }
@@ -46,11 +42,6 @@ public class TestSliderStrategies {
             return _sliderMax;
         }
 
-        public void setModelRange( double min, double max ) {
-            _modelMin = min;
-            _modelMax = max;
-        }
-        
         protected double getModelMin() {
             return _modelMin;
         }
@@ -58,7 +49,15 @@ public class TestSliderStrategies {
         protected double getModelMax() {
             return _modelMax;
         }
+        
+        public String toString() {
+            return getClass().getName() + " slider=[" + _sliderMin + "," + _sliderMax + "] model=[" + _modelMin + "," + _modelMax + "]";
+        }
     }
+    
+    //----------------------------------------------------------------------------
+    // LinearStrategy
+    //----------------------------------------------------------------------------
     
     public static class LinearStrategy extends AbstractStrategy {
         
@@ -77,121 +76,158 @@ public class TestSliderStrategies {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // LogarithmicStrategy
+    //----------------------------------------------------------------------------
+    
     public static class LogarithmicStrategy extends AbstractStrategy {
+        
+        private double _logMin, _logMax, _logRange;
         
         public LogarithmicStrategy( int sliderMin, int sliderMax, double modelMin, double modelMax ) {
             super( sliderMin, sliderMax, modelMin, modelMax );
+            if ( modelMin < 0 && modelMax > 0 || modelMin > 0 && modelMax < 0 ) {
+                throw new IllegalArgumentException( "modelMin and modelMax must have the same sign" );
+            }
+            _logMin = adjustedLog10( modelMin );
+            _logMax = adjustedLog10( modelMax );
+            _logRange = _logMax - _logMin;
         }
 
         public double sliderToModel( int sliderValue ) {
             double modelValue = 0;
             int resolution = getSliderMax() - getSliderMin();
-            double logMin = log10( getModelMin() );
-            double logMax = log10( getModelMax() );
-            double logSpan = logMax - logMin;
-            double ratio = logSpan / (double)resolution;
-            double pos = (double)sliderValue * ratio;
-            double adjustedPos = logMin + pos;
+            double ratio = _logRange / (double)resolution;
+            double pos = (double)( sliderValue - getSliderMin() ) * ratio;
+            double adjustedPos = _logMin + pos;
             modelValue = Math.pow( 10.0, adjustedPos );
+            if ( modelValue < getModelMin() ) {
+                modelValue = getModelMin();
+            }
+            else if ( modelValue > getModelMax() ) {
+                modelValue = getModelMax();
+            }
             return modelValue;
         }
 
         public int modelToSlider( double modelValue ) {
             int sliderValue = 0;
             int resolution = getSliderMax() - getSliderMin();
-            double logMin = log10( getModelMin() );
-            double logMax = log10( getModelMax() );
-            double logSpan = logMax - logMin;
-            sliderValue = getSliderMin() + (int)( resolution * ( log10( modelValue ) - logMin ) / logSpan );
+            double logModelValue = adjustedLog10( modelValue );
+            sliderValue = getSliderMin() + (int)( resolution * ( logModelValue - _logMin ) / _logRange );
+            if ( sliderValue < getSliderMin() ) {
+                sliderValue = getSliderMin();
+            }
+            else if ( sliderValue > getSliderMax() ) {
+                sliderValue = getSliderMax();
+            }
             return sliderValue;
         }
         
+        /* Handles log base 10 of 0 and negative values. */
+        private static double adjustedLog10( double d ) {
+            double value = 0;
+            if ( d > 0 ) {
+                value = log10( d );
+            }
+            else if ( d < 0 ) {
+                value = -log10( -d );
+            }
+            return value;
+        }
+        
+        /* Log base 10 */
         private static double log10( double d ) {
             return Math.log( d ) / Math.log(  10.0  );
         }
     }
     
-    //XXX
-    private static double log10( double d ) {
-        return Math.log( d ) / Math.log(  10.0  );
+    //----------------------------------------------------------------------------
+    // Tests
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Tests a strategy for a specified number of equally-spaced intervals.
+     */
+    private static void testStrategy( AbstractStrategy strategy, int numberOfTests ) {
+        
+        int sliderMin = strategy.getSliderMin();
+        int sliderMax = strategy.getSliderMax();
+        double modelMin = strategy.getModelMin();
+        double modelMax = strategy.getModelMax();
+        System.out.println( "test: " + strategy.toString() );
+        
+        int sliderStep = ( sliderMax - sliderMin ) / ( numberOfTests - 1 );
+        double modelStep = ( modelMax - modelMin ) / ( numberOfTests - 1 );
+        
+        System.out.println( "LinearStrategy.sliderToModel tests..." );
+        for ( int i = 0; i < numberOfTests; i++ ) {
+            int sliderValue = sliderMin + ( i * sliderStep );
+            double modelValue = modelMin + ( i * modelStep );
+            testStrategy( strategy, sliderValue, modelValue );
+        }
     }
     
-    public void test() {
+    /*
+     * Tests a strategy for specific slider and model value.
+     */
+    private static void testStrategy( SliderStrategy strategy, int sliderValue, double modelValue ) {
+        System.out.println( sliderValue + " -> " + strategy.sliderToModel( sliderValue ) + " (" + modelValue + ")" );
+        System.out.println( modelValue  + " -> " + strategy.modelToSlider( modelValue )  + " (" + sliderValue + ")" );
+    }
+    
+    public static void runTests() {
         
-        double min = 20;
-        double max = 200000;
-        double resolution = 1000;
-        
-        double logMin = log10( min );
-        double logMax = log10( max );
-        double logSpan = logMax - logMin;
-        
-        // log: model -> slider
+        // Linear test
         {
-            double logValue = 2000;
-            int linearValue = (int)( resolution * ( log10( logValue ) - logMin ) / logSpan );
-            System.out.println( "log to linear: " + logValue + " -> " + linearValue );
-        }
-//        
-//        // log: slider -> model
-//        {
-//            double r = 1000;
-//            double i = 500;
-//            double logMin = log10( 20 );
-//            double logMax = log10( 20000 );
-//            double logSpan = logMax - logMin;
-//            double u = Math.pow( 10, logMin ) + ( logSpan + i ) / r;
-//            System.out.println( "u=" + u );
-//        }
-        
-        // log: slider -> model
-        {
-            int linearValue = 750;
-            double ratio = logSpan / (double)resolution;
-            double pos = (double)linearValue * ratio;
-            double adjustedPos = logMin + pos;
-            double logValue = Math.pow( 10.0, adjustedPos );
-            System.out.println( "linear to log: " + linearValue + " -> " + logValue );
+            int numberOfTests = 10;
+            System.out.println( "------------------------" );
+            testStrategy( new LinearStrategy( -100, 100, -1.0, 1.0 ), numberOfTests );
+            System.out.println( "------------------------" );
+            testStrategy( new LinearStrategy( 0, 1000, 1000.0, 2000.0 ), numberOfTests );
+            System.out.println( "------------------------" );
+            testStrategy( new LinearStrategy( 0, 1000, -1000, 0 ), numberOfTests );
         }
         
-//        SliderStrategy linearStrategy = new TestSliderStrategies.LinearStrategy( -100, 100, -1.0, 1.0 );
-//
-//        System.out.println( linearStrategy.sliderToModel( -100 ) == -1.0 );
-//        System.out.println( linearStrategy.modelToSlider( -1.0 ) == -100 );
-//
-//        System.out.println( linearStrategy.sliderToModel( -50 ) == -0.5 );
-//        System.out.println( linearStrategy.modelToSlider( -0.5 ) == -50 );
-//
-//        System.out.println( linearStrategy.sliderToModel( -25 ) == -0.25 );
-//        System.out.println( linearStrategy.modelToSlider( -0.25 ) == -25 );
-//
-//        System.out.println( linearStrategy.sliderToModel( 0 ) == 0.0 );
-//        System.out.println( linearStrategy.modelToSlider( 0.0 ) == 0 );
-//
-//        System.out.println( linearStrategy.sliderToModel( 25 ) == 0.25 );
-//        System.out.println( linearStrategy.modelToSlider( 0.25 ) == 25 );
-//
-//        System.out.println( linearStrategy.sliderToModel( 50 ) == 0.5 );
-//        System.out.println( linearStrategy.modelToSlider( 0.5 ) == 50 );
-//
-//        System.out.println( linearStrategy.sliderToModel( 100 ) == 1.0 );
-//        System.out.println( linearStrategy.modelToSlider( 1.0 ) == 100 );
+        // Logarithmic test
+        {
+            System.out.println( "------------------------" );
+            SliderStrategy logarithmicStrategy = new LogarithmicStrategy( -100, 100, 20.0, 200000.0 );
+            System.out.println( "test: " + logarithmicStrategy.toString() );
+            testStrategy( logarithmicStrategy, -100,    20.0 );
+            testStrategy( logarithmicStrategy, -50,    200.0 );
+            testStrategy( logarithmicStrategy,   0,   2000.0 );
+            testStrategy( logarithmicStrategy,  50,  20000.0 );
+            testStrategy( logarithmicStrategy, 100, 200000.0 );
+        }
         
-        SliderStrategy logarithmicStrategy = new TestSliderStrategies.LogarithmicStrategy( 0, 1000, 20.0, 200000.0 );
+        // Logarithmic test
+        {
+            System.out.println( "------------------------" );
+            SliderStrategy logarithmicStrategy = new LogarithmicStrategy( 0, 1000, 20.0, 200000.0 );
+            System.out.println( "test: " + logarithmicStrategy.toString() );
+            testStrategy( logarithmicStrategy,    0,     20.0 );
+            testStrategy( logarithmicStrategy,  250,    200.0 );
+            testStrategy( logarithmicStrategy,  500,   2000.0 );
+            testStrategy( logarithmicStrategy,  750,  20000.0 );
+            testStrategy( logarithmicStrategy, 1000, 200000.0 );
+        }
         
-        System.out.println( logarithmicStrategy.sliderToModel( 0 ) );
-        System.out.println( logarithmicStrategy.modelToSlider( 20 ) );
-        
-        System.out.println( logarithmicStrategy.sliderToModel( 250 ) );
-        System.out.println( logarithmicStrategy.modelToSlider( 200.0 ) );
-        
-        System.out.println( logarithmicStrategy.sliderToModel( 500 ) );
-        System.out.println( logarithmicStrategy.modelToSlider( 2000.0 ) );
-        
-        System.out.println( logarithmicStrategy.sliderToModel( 750 ) );
-        System.out.println( logarithmicStrategy.modelToSlider( 20000.0 ) );
-        
-        System.out.println( logarithmicStrategy.sliderToModel( 1000 ) );
-        System.out.println( logarithmicStrategy.modelToSlider( 200000.0 ) );
+        //XXX This case fails!
+        // Logarithmic test
+        {
+            System.out.println( "------------------------" );
+            SliderStrategy logarithmicStrategy = new LogarithmicStrategy( 0, 1000, -200000.0, -20.0 );
+            System.out.println( "test: " + logarithmicStrategy.toString() );
+            testStrategy( logarithmicStrategy,    0, -200000.0 );
+            testStrategy( logarithmicStrategy,  250,  -20000.0 );
+            testStrategy( logarithmicStrategy,  500,   -2000.0 );
+            testStrategy( logarithmicStrategy,  750,    -200.0 );
+            testStrategy( logarithmicStrategy, 1000,     -20.0 );
+        }
+    }
+    
+    public static void main( String[] args ) {
+        TestSliderStrategies.runTests();
     }
 }
