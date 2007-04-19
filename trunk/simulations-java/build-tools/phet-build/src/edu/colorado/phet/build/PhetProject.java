@@ -25,6 +25,11 @@ public class PhetProject {
     private AntTaskRunner phetBuildTask;
     private String destFile;
 
+    /**
+     * @deprecated
+     */
+    private final PhetProjectManager manager;
+
     public PhetProject( AntTaskRunner phetBuildTask, File projectRoot ) throws IOException {
         this( phetBuildTask, projectRoot.getParentFile(), projectRoot.getName(), "" );
     }
@@ -37,6 +42,8 @@ public class PhetProject {
         File propertyFile = PhetBuildTask.getBuildPropertiesFile( dir, name );
         this.properties.load( new BufferedInputStream( new FileInputStream( propertyFile ) ) );
         this.destFile=destFile;
+
+        manager = new PhetProjectManager( this, phetBuildTask );
     }
 
     public File getDir(){
@@ -131,18 +138,6 @@ public class PhetProject {
         }
     }
 
-    private String toString( File[] files ) {
-        String string = "";
-        for( int i = 0; i < files.length; i++ ) {
-            File file = files[i];
-            string += file.getAbsolutePath();
-            if( i < files.length - 1 ) {
-                string += " : ";
-            }
-        }
-        return string;
-    }
-
     /**
      * Returns the immediate dependencies for this PhetProject
      *
@@ -221,7 +216,7 @@ public class PhetProject {
         throw new RuntimeException( "No path found for token=" + token + ", in project=" + this );
     }
 
-    private File[] getAllSourceRoots() {
+    public File[] getAllSourceRoots() {
         PhetProject[] dependencies = getAllProjects();
         ArrayList srcDirs = new ArrayList();
         for( int i = 0; i < dependencies.length; i++ ) {
@@ -271,34 +266,17 @@ public class PhetProject {
         return (File[])jarFiles.toArray( new File[0] );
     }
 
-    private File getClassesDirectory() {
+    public File getClassesDirectory() {
         File file = new File( getAntOutputDir(), "classes" );
         file.mkdirs();
         return file;
     }
 
+    /**
+     * @deprecated
+     */
     public void jar() {
-        Jar jar = new Jar();
-        File[] dataDirectories = getAllDataDirectories();
-        for( int i = 0; i < dataDirectories.length; i++ ) {
-            FileSet set = new FileSet();
-            set.setDir( dataDirectories[i] );
-            jar.addFileset( set );
-        }
-        jar.setBasedir( getClassesDirectory() );
-        jar.setJarfile( getJarFile() );
-        Manifest manifest = new Manifest();
-        try {
-            Manifest.Attribute attribute = new Manifest.Attribute();
-            attribute.setName( "Main-Class" );
-            attribute.setValue( getMainClass() );
-            manifest.addConfiguredAttribute( attribute );
-            jar.addConfiguredManifest( manifest );
-        }
-        catch( ManifestException e ) {
-            e.printStackTrace();
-        }
-        runTask( jar );
+        manager.jar();
     }
 
     public File getJarFile() {
@@ -315,21 +293,11 @@ public class PhetProject {
         return (PhetProject[])projects.toArray( new PhetProject[0] );
     }
 
+    /**
+     * @deprecated
+     */
     public void compile( File[] src, File[] classpath, File dst ) {
-        output( "compiling " + name );
-        Javac javac = new Javac();
-        javac.setSource( "1.4" );
-        javac.setSrcdir( new Path( phetBuildTask.getProject(), toString( src ) ) );
-        javac.setDestdir( getClassesDirectory() );
-        javac.setClasspath( new Path( phetBuildTask.getProject(), toString( classpath ) ) );
-        runTask( javac );
-        output( "Finished compiling " + name + "." );
-    }
-
-    private void output( String s ) {
-        Echo echo = new Echo();
-        echo.setMessage( s );
-        phetBuildTask.runTask( echo );
+        manager.compile( src, classpath, dst );
     }
 
     public File getAntOutputDir() {
@@ -342,10 +310,11 @@ public class PhetProject {
         phetBuildTask.runTask( task );
     }
 
+    /**
+     * @deprecated
+     */
     public void buildAll( boolean shrink ) {
-        compile( getAllSourceRoots(), getAllJarFiles(), getClassesDirectory() );
-        jar();
-        new PhetProguard().proguard( this, shrink);
+        manager.buildAll( shrink );
     }
 
     public File getDestJar(){
