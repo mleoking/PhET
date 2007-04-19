@@ -26,7 +26,7 @@
     </target>
 
     <target name="build_hydrogen-atom" depends="declare_phet-build-task">
-        <phet-build project="hydrogen-atom"/>
+        <phet-build project="hydrogen-atom" destfile="deploy/hydrogen-atom.jar"/>
     </target>
 
     <target name="build_hydrogen-atom_dontshrink" depends="declare_phet-build-task">
