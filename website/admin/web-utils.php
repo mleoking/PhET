@@ -34,13 +34,31 @@
         
         return $default_value;
     }
+    
+    function gather_script_params_into_globals() {        
+        foreach($_REQUEST as $key => $value) {
+            $GLOBALS["$key"] = "$value";
+        }
+    }
+    
+    function print_comma_list_as_bulleted_list($comma_list) {
+        print "<ul>";
+        
+        foreach(explode(',', $comma_list) as $item) {
+            $trimmed_item = trim($item);
+            
+            print "<li>$trimmed_item</li>";
+        }
+        
+        print "</ul>";
+    }
 
     function print_editable_area($name, $contents, $rows = "20", $cols = "80") {
         print("<textarea name=\"$name\" rows=\"$rows\" cols=\"$cols\">$contents</textarea>");
     }
     
     function print_captioned_editable_area($caption, $name, $contents, $rows = "20", $cols = "80") {
-        print("<p align=\"left\" class=\"style16\">$caption");
+        print("<p align=\"left\" class=\"style16\">$caption<br/>");
             
         print_editable_area($name, $contents, $rows, $cols);
         
