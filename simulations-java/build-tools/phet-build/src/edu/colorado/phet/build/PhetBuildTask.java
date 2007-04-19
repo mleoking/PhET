@@ -30,11 +30,11 @@ public class PhetBuildTask extends Task implements AntTaskRunner {
         try {
             PhetProject phetProject = new PhetProject( searchProject( projectName ), projectName, destFile );
 
-            PhetProjectManager manager = new PhetProjectManager( phetProject, this );
+            PhetBuildCommand manager = new PhetBuildCommand( phetProject, this, shrink );
 
-            manager.build( shrink );
+            manager.execute();
         }
-        catch( IOException e ) {
+        catch( Exception e ) {
             e.printStackTrace();
         }
     }

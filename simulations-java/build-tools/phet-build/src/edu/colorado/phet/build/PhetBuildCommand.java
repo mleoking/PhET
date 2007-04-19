@@ -8,15 +8,18 @@ import org.apache.tools.ant.types.FileSet;
 import java.io.File;
 
 import edu.colorado.phet.build.proguard.ProguardCommand;
+import edu.colorado.phet.build.patterns.Command;
 
 
-public class PhetProjectManager {
+public class PhetBuildCommand implements Command {
     private final PhetProject project;
     private final AntTaskRunner antTaskRunner;
+    private final boolean shrink;
 
-    public PhetProjectManager( PhetProject project, AntTaskRunner taskRunner ) {
-        this.project = project;
+    public PhetBuildCommand( PhetProject project, AntTaskRunner taskRunner, boolean shrink ) {
+        this.project       = project;
         this.antTaskRunner = taskRunner;
+        this.shrink        = shrink;
     }
 
     private void compile( File[] src, File[] classpath, File dst ) {
@@ -27,11 +30,13 @@ public class PhetProjectManager {
         javac.setSrcdir( new Path( antTaskRunner.getProject(), toString( src ) ) );
         javac.setDestdir( project.getClassesDirectory() );
         javac.setClasspath( new Path( antTaskRunner.getProject(), toString( classpath ) ) );
+
         antTaskRunner.runTask( javac );
+
         output( "Finished compiling " + project.getName() + "." );
     }
 
-    private void jar() {
+    private void jar() throws ManifestException {
         Jar jar = new Jar();
         File[] dataDirectories = project.getAllDataDirectories();
         for( int i = 0; i < dataDirectories.length; i++ ) {
@@ -42,22 +47,19 @@ public class PhetProjectManager {
         jar.setBasedir( project.getClassesDirectory() );
         jar.setJarfile( project.getJarFile() );
         Manifest manifest = new Manifest();
-        try {
-            Manifest.Attribute attribute = new Manifest.Attribute();
-            attribute.setName( "Main-Class" );
-            attribute.setValue( project.getMainClass() );
-            manifest.addConfiguredAttribute( attribute );
-            jar.addConfiguredManifest( manifest );
-        }
-        catch( ManifestException e ) {
-            e.printStackTrace();
-        }
+
+        Manifest.Attribute attribute = new Manifest.Attribute();
+        attribute.setName( "Main-Class" );
+        attribute.setValue( project.getMainClass() );
+        manifest.addConfiguredAttribute( attribute );
+        jar.addConfiguredManifest( manifest );
         
         antTaskRunner.runTask( jar );
     }
 
-    public void build( boolean shrink ) {
+    public void execute() throws Exception {
         compile( project.getAllSourceRoots(), project.getAllJarFiles(), project.getClassesDirectory() );
+        
         jar();
 
         PhetProguardConfigBuilder builder = new PhetProguardConfigBuilder();
@@ -65,15 +67,8 @@ public class PhetProjectManager {
         builder.setPhetProject( project );
         builder.setShrink( shrink );
 
-        try {
-            new ProguardCommand( builder.build(), antTaskRunner ).execute();
-        }
-        catch( Exception e ) {
-            // TODO
-            e.printStackTrace();
-        }
+        new ProguardCommand( builder.build(), antTaskRunner ).execute();
     }
-
 
     private void output( String s ) {
         Echo echo = new Echo();
