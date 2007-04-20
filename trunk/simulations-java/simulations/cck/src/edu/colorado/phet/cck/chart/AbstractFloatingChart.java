@@ -62,7 +62,7 @@ public abstract class AbstractFloatingChart extends PhetPNode {
         };
         clock.addClockListener( clockListener );
         try {
-            closeButton = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/x-20.png" ) ) );
+            closeButton = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "cck/images/x-20.png" ) ) );
             closeButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     close();

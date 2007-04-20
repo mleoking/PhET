@@ -92,7 +92,7 @@ public class InteractiveLever extends DefaultInteractiveGraphic implements Lever
     static {
         BufferedImage image = null;
         try {
-            image = ImageLoader.loadBufferedImage( "images/hand40.gif" );
+            image = ImageLoader.loadBufferedImage( "cck/images/hand40.gif" );
             rotate = Toolkit.getDefaultToolkit().createCustomCursor( image, new Point(), SimStrings.getInstance().getString( "InteractiveLever.CursorName" ) );
         }
         catch( IOException e ) {

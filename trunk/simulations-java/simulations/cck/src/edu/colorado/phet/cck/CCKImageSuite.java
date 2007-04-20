@@ -17,26 +17,27 @@ public class CCKImageSuite {
 
     private ImageSuite lifelikeImageSuite;
     private BufferedImage closedImage;
-    private String batteryImageLocation = "images/AA-battery-100.gif";
-    private String resistorImageLocation = "images/resistor3.gif";
+
     private BufferedImage resistorImage;
     private ImageLoader imageLoader = new ImageLoader();
     private BufferedImage capacitorImage;
-    private String capImageLoc = "images/cap5.gif";
-    private String acImageLoc = "images/ac.gif";
+
     private BufferedImage acImage;
     private BufferedImage inductorImage;
-    //    private String inductorImageLoc="images/inductor1.jpg";
-    private String inductorImageLoc = "images/inductor2.gif";
+    private String inductorImageLoc = "cck/images/inductor2.gif";
+    private String batteryImageLocation = "cck/images/AA-battery-100.gif";
+    private String resistorImageLocation = "cck/images/resistor3.gif";
+    private String capImageLoc = "cck/images/cap5.gif";
+    private String acImageLoc = "cck/images/ac.gif";
 
     public CCKImageSuite() throws IOException {
         loadImages();
     }
 
     public BufferedImage getParticleImage() throws IOException {
-//        return imageLoader.loadImage( "images/electron9.gif" );
-        return imageLoader.loadImage( "images/electron10.png" );
-//        return imageLoader.loadImage( "images/electron-2.png" );
+//        return imageLoader.loadImage( "cck/images/electron9.gif" );
+        return imageLoader.loadImage( "cck/images/electron10.png" );
+//        return imageLoader.loadImage( "cck/images/electron-2.png" );
     }
 
     private void loadImages() throws IOException {
@@ -56,7 +57,7 @@ public class CCKImageSuite {
 
     public BufferedImage getKnifeHandleImage() {
         try {
-            return imageLoader.loadImage( "images/handle8.gif" );
+            return imageLoader.loadImage( "cck/images/handle8.gif" );
         }
         catch( IOException e ) {
             throw new RuntimeException( e );
@@ -65,7 +66,7 @@ public class CCKImageSuite {
 
     public BufferedImage getKnifeBoardImage() {
         try {
-            return imageLoader.loadImage( "images/knifeBoard.gif" );
+            return imageLoader.loadImage( "cck/images/knifeBoard.gif" );
         }
         catch( IOException e ) {
             throw new RuntimeException( e );

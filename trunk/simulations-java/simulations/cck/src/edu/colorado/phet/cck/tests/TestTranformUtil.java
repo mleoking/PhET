@@ -26,7 +26,7 @@ public class TestTranformUtil {
 
     public static void main( String[] args ) throws IOException {
 
-        final BufferedImage image = ImageLoader.loadBufferedImage( "images/flame.gif" );
+        final BufferedImage image = ImageLoader.loadBufferedImage( "cck/images/flame.gif" );
         final Rectangle2D.Double src = new Rectangle2D.Double( 0, 0, image.getWidth(), image.getHeight() );
 //        final Rectangle2D.Double dst = new Rectangle2D.Double( 150, 150, 180, 80 );
         final Rectangle2D.Double dst = new Rectangle2D.Double( 150, 150, image.getWidth() / 2, image.getHeight() / 2 );

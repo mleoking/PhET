@@ -34,7 +34,7 @@ public class GrabBagButton extends JButton {
 //        setOpaque( false );
 
         try {
-            setIcon( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( module.getSimulationPanel(), ImageLoader.loadBufferedImage( "images/bag.gif" ),45) ) );
+            setIcon( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( module.getSimulationPanel(), ImageLoader.loadBufferedImage( "cck/images/bag.gif" ),45) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();

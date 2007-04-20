@@ -701,7 +701,7 @@ public class CircuitGraphic extends CompositeGraphic {
         }
         else {
             try {
-                return new FlameGraphic( apparatusPanel, b, hashedImageLoader.loadImage( "images/flame.gif" ), getTransform() );
+                return new FlameGraphic( apparatusPanel, b, hashedImageLoader.loadImage( "cck/images/flame.gif" ), getTransform() );
             }
             catch( IOException e ) {
                 e.printStackTrace();
