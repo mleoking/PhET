@@ -122,12 +122,7 @@
         }
     }
     
-    ?>
-    
-    <?php
-    
-    $select_categories_st = "SELECT * FROM `category` ORDER BY `cat_order` ASC ";
-    $category_rows        = mysql_query($select_categories_st, $connection);
+    $category_rows = mysql_query(SQL_SELECT_ALL_VISIBLE_CATEGORIES, $connection);
     
     while ($category = mysql_fetch_assoc($category_rows)) {
         $cat_id    = $category['cat_id'];

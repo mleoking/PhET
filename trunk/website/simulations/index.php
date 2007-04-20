@@ -4,6 +4,7 @@
     include_once("../admin/db.inc");
     include_once("../admin/web-utils.php");
     include_once("../admin/sim-utils.php");
+    include_once("../admin/db-utils.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -101,12 +102,14 @@
                     $select_category_st = "SELECT * FROM `category` WHERE `cat_id`='$cat'";
                     $category_rows      = mysql_query($select_category_st, $connection);
                     
+                    // Print the category header -- e.g. 'Top Sims':
                     if (!$category_rows) {
+                        print "<div class=\"productListHeader\"><h1>Invalid Category</h1></div>";
                     }
                     else {
-                        $category_row = mysql_fetch_row($category_rows);
+                        $category_row = mysql_fetch_assoc($category_rows);
                         
-                        $cat_name = $category_row[1];
+                        $cat_name = $category_row['cat_name'];
 
                         print "<div class=\"productListHeader\"><h1>$cat_name</h1></div>";
                     }                    
@@ -144,76 +147,137 @@
                     else { 
                         $sim_start_number = 0; 
                     }
+                    
+                    if (isset($_REQUEST['view_type'])) {
+                        $view_type = $_REQUEST['view_type'];
+                    }
+                    else {
+                        $view_type = "thumbs";
+                    }
+                    
+                    if ($view_type == "thumbs") {
+                        print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=alpha\">alphabetical</a></div>";
+                        
+                        if ($num_sims_in_category > SIMS_PER_PAGE) {
+                            // Don't bother printing this section unless there are more sims than will fit on one page:
+                            print "<div id=\"pg\"><p>\n";
+                            
+                            $num_pages = (int)ceil((float)$num_sims_in_category / (float)SIMS_PER_PAGE);
 
-                    if ($num_sims_in_category > SIMS_PER_PAGE) {
-                        print "<div id=\"pg\"><p>\n";
-                                                
-                        $num_pages = (int)ceil((float)$num_sims_in_category / (float)SIMS_PER_PAGE);
+                            for ($n = 0; $n < $num_pages; $n = $n + 1) {
+                                $page_number = $n + 1;
 
-                        for ($n = 0; $n < $num_pages; $n = $n + 1) {
-                            $page_number = $n + 1;
+                                $page_sim_start_number = SIMS_PER_PAGE * $n; 
 
-                            $page_sim_start_number = SIMS_PER_PAGE * $n; 
+                                print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=$page_sim_start_number\">$page_number</a> ";
+                            }
 
-                            print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=$page_sim_start_number\">$page_number</a> ";
+                            print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=-1\">view all&raquo;</a>";
                         }
                         
-                        print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=-1\">view all&raquo;</a>";
+
                         print "</p></div>\n";
-                    } 
 
+                        //--------------------------------------------------
 
-                    //--------------------------------------------------
-                    
-                    $sim_number = -1;
+                        $sim_number = -1;
 
-                    //first select which SIMS are in the category
-                    $select_simulation_listing_rows_st  = "SELECT * FROM `simulation_listing` WHERE `cat_id`='$cat' ";
+                        //first select which SIMS are in the category
+                        $select_simulation_listing_rows_st  = "SELECT * FROM `simulation_listing` WHERE `cat_id`='$cat' ";
 
-                    $simulation_listing_rows = mysql_query($select_simulation_listing_rows_st, $connection);
+                        $simulation_listing_rows = mysql_query($select_simulation_listing_rows_st, $connection);
 
-                    $num_simulation_listings = mysql_num_rows($simulation_listing_rows);
+                        $num_simulation_listings = mysql_num_rows($simulation_listing_rows);
 
-                    while ($simulation_listing_row = mysql_fetch_row($simulation_listing_rows)) {
-                        $sim_id   = $simulation_listing_row[0];
-                        $category = $simulation_listing_row[1];
+                        while ($simulation_listing_row = mysql_fetch_row($simulation_listing_rows)) {
+                            $sim_id   = $simulation_listing_row[0];
+                            $category = $simulation_listing_row[1];
 
-                        // Select simulation:
-                        $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
+                            // Select simulation:
+                            $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
 
-                        $sim_row = mysql_fetch_row(mysql_query($select_sim_st));
+                            $sim_row = mysql_fetch_row(mysql_query($select_sim_st));
 
-                        $sim_id        = $sim_row[0];
-                        $sim_image_url = $sim_row[6];
-                        $sim_name      = format_for_html($sim_row[1]);
+                            $sim_id        = $sim_row[0];
+                            $sim_image_url = $sim_row[6];
+                            $sim_name      = format_for_html($sim_row[1]);
 
-                        // Make sure the simulation is valid:
-                        if (is_numeric($sim_id) && url_exists($sim_image_url)) {
-                            ++$sim_number;
-                            
-                            if ($sim_number <  $sim_start_number) continue;
-                            if ($sim_number >= $sim_start_number + $sim_limit) break;
-                            
-                            print "<div class=\"productEntry\">\n";
-                            
-                            /*
-                                <a href="#"><img src="../images/sims/baloon_static.jpg" width="130" height="97" alt="" /></a>
+                            // Make sure the simulation is valid:
+                            if (is_numeric($sim_id) && url_exists($sim_image_url)) {
+                                ++$sim_number;
 
-                                <p><a href="/">Balloons &amp; Static</a><br /></p>
-                            */
-                            
-                            $link_to_sim = "<a href=\"sims/sims.php?sim_id=$sim_id\">";
+                                if ($sim_number <  $sim_start_number) continue;
+                                if ($sim_number >= $sim_start_number + $sim_limit) break;
 
-                            print "$link_to_sim";
-                            print "<img src=\"$sim_image_url\" width=\"130\" height=\"97\" alt=\"View $sim_name Simulation\" />";
-                            print "</a>\n";
-                            //print "$link_to_sim$sim_name</a>\n";
-                            print "<br/><p>$link_to_sim$sim_name</a></p>\n";
+                                print "<div class=\"productEntry\">\n";
 
-                            // Close product:
-                            print "</div>\n";
+                                /*
+                                    <a href="#"><img src="../images/sims/baloon_static.jpg" width="130" height="97" alt="" /></a>
+
+                                    <p><a href="/">Balloons &amp; Static</a><br /></p>
+                                */
+
+                                $link_to_sim = "<a href=\"sims/sims.php?sim_id=$sim_id\">";
+
+                                print "$link_to_sim";
+                                print "<img src=\"$sim_image_url\" width=\"130\" height=\"97\" alt=\"View $sim_name Simulation\" />";
+                                print "</a>\n";
+                                //print "$link_to_sim$sim_name</a>\n";
+                                print "<br/><p>$link_to_sim$sim_name</a></p>\n";
+
+                                // Close product:
+                                print "</div>\n";
+                            }
                         }
                     }
+                    else {
+                        print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=thumbs\">thumbnails</a></div>";
+                        
+                        // ALPHABETICAL INDEX
+                        $select_sims_st = "SELECT * FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation`.`sim_sorting_name` ASC ";
+                        
+                        $simulations = run_sql_statement($select_sims_st, $connection);
+                        
+                        print "<div id=\"pg\"><p>\n";
+                        
+                        $last_printed_char = '';
+                        
+                        while ($simulation = mysql_fetch_assoc($simulations)) {
+                            gather_array_into_globals($simulation);
+                            
+                            $sim_sorting_name = get_sorting_name($sim_name);
+                            
+                            $cur_char = $sim_sorting_name[0];
+                            
+                            if ($cur_char !== $last_printed_char) {                        
+                                print "<a class=\"pg\" href=\"#$cur_char\">$cur_char</a> ";
+                                
+                                $last_printed_char = $cur_char;
+                            }
+                        }
+                        
+                        print "</p></div>\n";
+                        
+                        $simulations = run_sql_statement($select_sims_st, $connection);
+                        
+                        $last_printed_char = '';
+                        
+                        while ($simulation = mysql_fetch_assoc($simulations)) {
+                            gather_array_into_globals($simulation);
+                            
+                            $sim_sorting_name = get_sorting_name($sim_name);
+                            
+                            $cur_char = $sim_sorting_name[0];
+                            
+                            if ($cur_char !== $last_printed_char) {                        
+                                print "<h3 id=\"$cur_char\">$cur_char</h3>";
+                                
+                                $last_printed_char = $cur_char;
+                            }
+                            
+                            print "<a href=\"sims/sims.php?sim_id=$sim_id\">$sim_name</a><br />";
+                        }
+                    }                    
                 ?>
             </div>
 
