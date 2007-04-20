@@ -781,7 +781,7 @@ html>body #availablePages a#viewAllPaging {
 }
 .productEntry p {
 	width:			120px;
-	padding-left:   5%;
+	padding-left:   	5%;
 	padding-right:  5%;
 	text-align: 	center;
 	margin-top:		-2px;
@@ -1275,6 +1275,19 @@ ul.people li.kavli {
 	border-bottom:1px solid #E3E3E3;
 	background:none;
 	padding:10px 0px 30px 0px;
+}
+#listing_type {
+	margin: 0px 0px 20px 0px;
+	float: left;
+}
+#listing_type a.listing_type {
+	color:#900;
+	padding:0px 3px 0px 2px;
+}
+#listing_type a:hover.listing_type {
+	color:#666;
+	padding:0px 3px 0px 2px;
+	text-decoration:underline;
 }
 #pg {
 	margin:0px 0px 20px 350px;

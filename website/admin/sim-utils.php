@@ -30,45 +30,45 @@
     
     define("SIM_SYSTEM_REQ_ANY",    "0");
     define("SIM_SYSTEM_REQ_NO_MAC", "1");
-
-    // run error checks
-    // check for missing fields
-    function verify_field($field_name) {
-        if ($field_name == null) {
-            print "<center><font color=red><b>!!ERROR!!</b> You must include a <u>$field_name</u> for your Simulation! Your simulation was not edited.";
-
-            print "<br><br> Please fill in all required fields<br><br></b></font>";
-
-            //include 'updateexistingsim.php';
-
-            exit();
-        }
-    }
     
+    define("SQL_SELECT_ALL_VISIBLE_CATEGORIES", 
+           "SELECT * FROM `category` WHERE `cat_is_visible`='1' ORDER BY `cat_order` ASC ");
+
     function print_sim_categories($prefix = "") {
         global $connection;
         
         // List all the categories:
 
         // start selecting SIMULATION CATEGORIES from database table
-        $select_category_st = "SELECT * FROM `category` ORDER BY `cat_order` ASC ";
-        $category_table     = mysql_query($select_category_st, $connection);
+        $category_table = mysql_query(SQL_SELECT_ALL_VISIBLE_CATEGORIES, $connection);
 
         while ($category = mysql_fetch_row($category_table)) {
-            $cat_id     = $category[0];
-            $cat_name   = format_for_html($category[1]);
+            $cat_id   = $category[0];
+            $cat_name = format_for_html($category[1]);
         
             print "<li class=\"sub\"><span class=\"sub-nav\"><a href=\"${prefix}index.php?cat=$cat_id\">&rarr; $cat_name</a></span></li>";          
         } 
+    }
+    
+    function get_sorting_name($name) {
+        $matches = array();
+
+        preg_match('/((the|a|an) +)?(.*)/i', $name, $matches);
+
+        return $matches[3];
+    }
+    
+    function gather_array_into_globals($array) {
+        foreach($array as $key => $value) {
+            $GLOBALS["$key"] = format_for_html("$value");
+        }
     }
     
     function gather_sim_fields_into_globals($sim_id) {
         $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
         $simulation    = mysql_fetch_assoc(mysql_query($select_sim_st));
         
-        foreach($simulation as $key => $value) {
-            $GLOBALS["$key"] = format_for_html("$value");
-        }
+        gather_array_into_globals($simulation);
         
         $GLOBALS["sim_id"] = "$sim_id"; 
     }
