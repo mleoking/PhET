@@ -76,7 +76,15 @@ window.open = SymWinOpen;
 
     <div id="header">
         <div id="headerContainer">
-            <a href="http://phet.colorado.edu/web-pages/index.html"><img src="../../images/phet-logo.gif" alt="" title="" /><span class="logo-title"><img src="../../images/logo-title.jpg" alt="" title="" /></span></a>
+            <div class="images">
+                <span class="logo">
+                    <img src="../../images/phet-logo.gif" alt="" title="" />
+                </span>
+                
+                <span class="title">
+                    <img src="../../images/logo-title.jpg" alt="" title="" />
+                </span>
+            </div>
 
             <div class="clear"></div>
 
@@ -107,7 +115,7 @@ window.open = SymWinOpen;
 
                 <li><a href="../../teacher_ideas/index.html">Teacher Ideas &amp; Activities</a></li>
 
-                <li><a href="../../get_phet/index.html">Download PhET</a></li>
+                <li><a href="../../get_phet/index.html">Get PhET</a></li>
 
                 <li><a href="../../tech_support/index.html">Technical Support</a></li>
 

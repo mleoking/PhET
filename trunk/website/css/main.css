@@ -96,9 +96,19 @@ table td.smartClient,table th.smartClient {
 	margin:0 auto;
 	width:765px;
 }
-#headerContainer img {
-	position:absolute;
-	top: 0px;
+#headerContainer div.images {
+	position:relative;
+	top: 0;
+}
+#headerContainer span.logo {
+ position:absolute;
+ top:0;
+ left:0;
+}
+#headerContainer span.title {
+ position:absolute;
+ top:0;
+ right:0;
 }
 /* -------- modified sliding doors on globalNav -------- */
 #headerContainer div.globalNav {

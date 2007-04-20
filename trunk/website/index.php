@@ -21,18 +21,21 @@
 
     <div id="header">
         <div id="headerContainer">
-            <a href="http://phet.colorado.edu/web-pages/index.html"><img src="images/phet-logo.gif" alt="" title="" /><span class="logo-title"><img src="images/logo-title.jpg" alt="" title="" /></span></a> <!--<div class="globalNav">
-<ul>
-<li><a href="#" accesskey="6">Search</a></li>
-<li class="last"><a href="contact.htm" accesskey="7">Contact &amp; Info</a></li>
-</ul>
-</div>-->
+            <div class="images">
+                <span class="logo">
+                    <img src="images/phet-logo.gif" alt="" title="" />
+                </span>
+                
+                <span class="title">
+                    <img src="images/logo-title.jpg" alt="" title="" />
+                </span>
+            </div>
 
             <div class="clear"></div>
 
             <div class="mainNav">
                 <ul>
-                    <li class=" selected"><a href="index.html" accesskey="1">Home</a></li>
+                    <li  class="selected"><a href="index.html" accesskey="1">Home</a></li>
 
                     <li><a href="simulations/index.php" accesskey="2">Simulations</a></li>
 
@@ -41,6 +44,8 @@
                     <li><a href="about/index.html" accesskey="4">About PhET</a></li>
                 </ul>
             </div>
+            
+            <div class="clear"></div>
         </div>
     </div>
 
