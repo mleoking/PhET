@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,6 @@ import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Locale;
 
 /**
  * User: Sam Reid
@@ -37,13 +36,13 @@ import java.util.Locale;
 
 public class CCKApplication extends PiccoloPhetApplication {
     //version is generated automatically (with ant)
-    public static final String localizedStringsPath = "localization/CCKStrings";
+    public static final String localizedStringsPath = "cck/localization/cck-strings";
     private CCKPiccoloModule cckPiccoloModule;
     public static final String AC_OPTION = "-dynamics";
 
     public CCKApplication( String[] args ) throws IOException {
-        super( args, SimStrings.getInstance().getString( "CCKApplication.title" ) + getSubTitle( args ),
-               SimStrings.getInstance().getString( "CCKApplication.description" ),
+        super( args, SimStrings.getInstance().getString( isDynamic( args ) ? "cck-ac.name" : "cck-dc.name" ),
+               SimStrings.getInstance().getString( isDynamic( args ) ? "cck-ac.description" : "cck-dc.description" ),
                readVersion(), createFrameSetup() );
 
         boolean debugMode = false;
@@ -90,8 +89,12 @@ public class CCKApplication extends PiccoloPhetApplication {
         return new PhetFrameWorkaround( this );
     }
 
-    public static String getSubTitle( String[] args ) {
-        return ": " + ( Arrays.asList( args ).contains( AC_OPTION ) ? "DC & AC" : "DC Only" );
+//    public static String getSubTitle( String[] args ) {
+//        return ": " + ( isDynamic( args ) ? "DC & AC" : "DC Only" );
+//    }
+
+    private static boolean isDynamic( String[] args ) {
+        return Arrays.asList( args ).contains( AC_OPTION );
     }
 
     public void startApplication() {

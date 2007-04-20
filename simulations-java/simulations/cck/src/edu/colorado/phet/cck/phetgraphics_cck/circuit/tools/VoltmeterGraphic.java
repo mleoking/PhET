@@ -55,10 +55,10 @@ public class VoltmeterGraphic extends CompositeGraphic {
         this.transform = module.getTransform();
         this.voltmeter = voltmeter;
         this.module = module;
-        unitGraphic = new UnitGraphic( voltmeter.getUnit(), module.loadBufferedImage( "images/vm3.gif" ), parent, module.getDecimalFormat() );
+        unitGraphic = new UnitGraphic( voltmeter.getUnit(), module.loadBufferedImage( "cck/images/vm3.gif" ), parent, module.getDecimalFormat() );
         addGraphic( unitGraphic );
-        redLeadGraphic = new LeadGraphic( voltmeter.getRedLead(), module.loadBufferedImage( "images/probeRed.gif" ), parent, Math.PI / 8 );
-        blackLeadGraphic = new LeadGraphic( voltmeter.getBlackLead(), module.loadBufferedImage( "images/probeBlack.gif" ), parent, -Math.PI / 8 );
+        redLeadGraphic = new LeadGraphic( voltmeter.getRedLead(), module.loadBufferedImage( "cck/images/probeRed.gif" ), parent, Math.PI / 8 );
+        blackLeadGraphic = new LeadGraphic( voltmeter.getBlackLead(), module.loadBufferedImage( "cck/images/probeBlack.gif" ), parent, -Math.PI / 8 );
 
         redCableGraphic = new CableGraphic( transform, Color.red, redLeadGraphic, new Point2D.Double( 12, 218 ) );
         blackCableGraphic = new CableGraphic( transform, Color.black, blackLeadGraphic, new Point2D.Double( 88, 218 ) );
