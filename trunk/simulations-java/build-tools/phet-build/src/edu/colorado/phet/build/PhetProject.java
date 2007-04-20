@@ -4,10 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * Author: Sam Reid
@@ -23,8 +20,8 @@ public class PhetProject {
     }
 
     public PhetProject( File parentDir, String name ) throws IOException {
-        this.name       = name;
-        this.dir        = new File( parentDir, name );
+        this.name = name;
+        this.dir = new File( parentDir, name );
         this.properties = new Properties();
 
         File propertyFile = PhetBuildUtils.getBuildPropertiesFile( dir, name );
@@ -288,19 +285,102 @@ public class PhetProject {
         destDir.mkdirs();
         return destDir;
     }
-    
+
     public String getMainClass() {
         return properties.getProperty( "project.mainclass" );
     }
 
     public String[] getMainClasses() {
-        return new String[]{ getMainClass() };
+        return new String[]{getMainClass()};
     }
 
     public String[] getAllMainClasses() {
         ArrayList all = new ArrayList();
         all.add( getMainClass() );
         all.addAll( Arrays.asList( getKeepMains() ) );
+        all.addAll( Arrays.asList( getAllFlavorMainClasses() ));//todo: remove duplicate class declarations
         return (String[])all.toArray( new String[0] );
     }
+
+    /**
+     * Returns the key values [flavorname], not the titles for all flavors declared in this project.
+     * @return
+     */
+    public String[] getFlavorNames() {
+        ArrayList flavorNames = new ArrayList();
+        Enumeration e = properties.propertyNames();
+        while( e.hasMoreElements() ) {
+            String s = (String)e.nextElement();
+            String prefix = "project.flavor.";
+            if( s.startsWith( prefix ) ) {
+                String lastPart = s.substring( prefix.length() );
+                int lastIndex = lastPart.indexOf( '.' );
+                String flavorName = lastPart.substring( 0, lastIndex - 1 );
+                if( !flavorNames.contains( flavorName ) ) {
+                    flavorNames.add( flavorName );
+                }
+            }
+        }
+        return (String[])flavorNames.toArray( new String[0] );
+    }
+
+    /**
+     * Return an array of all declared flavors for this project.
+     * @param locale
+     * @return
+     */
+    public PhetProjectFlavor[] getFlavors( String locale ) {//todo: separate locale-specific from locale dependent?
+        String[] flavorNames = getFlavorNames();
+        PhetProjectFlavor[] flavors = new PhetProjectFlavor[flavorNames.length];
+        for( int i = 0; i < flavorNames.length; i++ ) {
+            flavors[i] = getFlavor( flavorNames[i], locale );
+        }
+        return flavors;
+    }
+
+    private String[] getAllFlavorMainClasses() {
+        ArrayList mainClasses=new ArrayList( );
+        PhetProjectFlavor[]flavors=getFlavors( "en");//see todo: in getFlavors(String)
+        for( int i = 0; i < flavors.length; i++ ) {
+            PhetProjectFlavor flavor = flavors[i];
+            if (!mainClasses.contains( flavor.getMainclass( ))){
+                mainClasses.add(flavor.getMainclass( ));
+            }
+        }
+        return (String[])mainClasses.toArray( new String[0]);
+    }
+    /**
+     * Load the flavor for associated with this project for the specified name and locale.
+     * todo: better error handling for missing attributes (for sims that don't support flavors yet)
+     */
+    public PhetProjectFlavor getFlavor( String flavorName, String locale ) {
+        String mainclass = properties.getProperty( "project.flavor." + flavorName + ".mainclass" );
+        String argsString = properties.getProperty( "project.flavor." + flavorName + ".args" );
+        String[] args = PhetBuildUtils.toStringArray( argsString == null ? "" : argsString,"," );
+        String screenshotPathname = properties.getProperty( "project.flavor." + flavorName + ".screenshot" );
+        File screenshot = new File( screenshotPathname == null ? "screenshot.gif" : screenshotPathname );
+
+        //If we reuse PhetResources class, we should move Proguard usage out, so GPL doesn't virus over
+        Properties localizedProperties = new Properties();
+        try {
+            File localizationFile = new File( dir, "data/" + name + "/localization/" + name + "-strings.properties" );
+            localizedProperties.load( new FileInputStream( localizationFile ) );//todo: handle locale (graceful support for missings locale
+            String titleKey = flavorName + ".name";
+            String title = localizedProperties.getProperty( titleKey );
+            if( title == null ) {
+                throw new RuntimeException( "Missing title for simulation: key=" + titleKey + ", in file: " + localizationFile.getAbsolutePath() );
+            }
+            String descriptionKey = flavorName + ".description";
+            String description = localizedProperties.getProperty( descriptionKey );
+            if( description == null ) {
+                throw new RuntimeException( "Missing description for simulation: key=" + descriptionKey + ", in file: " + localizationFile.getAbsolutePath() );
+            }
+            return new PhetProjectFlavor( title, description, mainclass, args, screenshot );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
+    }
+
 }
