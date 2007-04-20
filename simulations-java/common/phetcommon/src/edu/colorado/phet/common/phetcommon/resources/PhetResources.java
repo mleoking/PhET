@@ -27,9 +27,15 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
  * <p>
  * The project's properties file and string localization file are loaded
  * when this object is instantiated.
+ * 
+ * @author John De Goes / Chris Malley
  */
 public class PhetResources {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final String AUDIO_DIR = "audio";
     private static final String IMAGES_DIR = "images";
     private static final String LOCALIZATION_DIR = "localization";
@@ -42,6 +48,10 @@ public class PhetResources {
     
     private static final char PATH_SEPARATOR = '/';
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final String projectName;
     private final Locale locale;
     private final PhetProperties localizedProperties;
@@ -49,6 +59,10 @@ public class PhetResources {
     private final IResourceLoader resourceLoader;
     private final String rootDirectoryName;
 
+    //----------------------------------------------------------------------------
+    // Constructors & initializers
+    //----------------------------------------------------------------------------
+    
     /**
      * Constructs a new PhetResources for the specified project, using the default locale.
      *
@@ -97,6 +111,27 @@ public class PhetResources {
         this.localizedProperties  = getProperties( localizedPropertiesBundleName );
     }
     
+    /*
+     * Read the locale that was specified for the application.
+     * The default locale is the value of the user.langage System property, as read by Locale.getDefault.
+     * The javaws.phet.locale System property takes prescedence, and can be set via the <property> tag in 
+     * JNLP files.
+     * 
+     * @return Locale
+     */
+    private static Locale readLocale() {
+        Locale locale = Locale.getDefault();
+        String javawsLocale = System.getProperty( PROPERTY_JAVAWS_PHET_LOCALE );
+        if ( javawsLocale != null ) {
+            locale = new Locale( javawsLocale );
+        }
+        return locale;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
     /**
      * Gets the name of the project.
      * 
@@ -124,23 +159,6 @@ public class PhetResources {
         return locale;
     }
     
-    /*
-     * Read the locale that was specified for the application.
-     * The default locale is the value of the user.langage System property, as read by Locale.getDefault.
-     * The javaws.phet.locale System property takes prescedence, and can be set via the <property> tag in 
-     * JNLP files.
-     * 
-     * @return Locale
-     */
-    private static Locale readLocale() {
-        Locale locale = Locale.getDefault();
-        String javawsLocale = System.getProperty( PROPERTY_JAVAWS_PHET_LOCALE );
-        if ( javawsLocale != null ) {
-            locale = new Locale( javawsLocale );
-        }
-        return locale;
-    }
-    
     /**
      * Gets the localized properties.
      * 
@@ -158,6 +176,10 @@ public class PhetResources {
     public PhetProperties getProjectProperties() {
         return projectProperties;
     }
+    
+    //----------------------------------------------------------------------------
+    // Resource accessors
+    //----------------------------------------------------------------------------
     
     /**
      * Gets the audio having the specified resource location.
@@ -210,7 +232,9 @@ public class PhetResources {
         return resourceLoader.getProperties( rootDirectoryName + PATH_SEPARATOR + resourceName, locale );
     }
     
-    /*---------------- Convenience methods -------------------*/
+    //----------------------------------------------------------------------------
+    // Convenience methods
+    //----------------------------------------------------------------------------
     
     public String getProjectProperty( String key ) {
         return projectProperties.getProperty( key );   
