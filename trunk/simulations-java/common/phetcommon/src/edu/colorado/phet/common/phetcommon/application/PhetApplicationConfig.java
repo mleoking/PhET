@@ -4,6 +4,8 @@ package edu.colorado.phet.common.phetcommon.application;
 
 import java.util.Properties;
 
+import sun.security.action.GetPropertyAction;
+
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersionInfo;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -20,12 +22,10 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  * from the project's source code, and use the project's resources.
  * Each of these simulations is referred to as a flavor.
  * <li>If a flavor name is not specified, it defaults to the project name.
- * <li>A project has a properties file (called the "project properties" file)
- * that contains non-localized properties.
- * <li>Flavor name determines the keys used to access standard Properties
- * in both the localization and project properties files.
- * This allows the properties for several flavors of a project to exist
- * in the same properties file.
+ * <li>A project has project properties that contains non-localized properties.
+ * <li>A project has localization properties that contains localized properties.
+ * <li>Properties may be flavored or unflavored. Flavored properties allow
+ * identical properties to coexist for multiple flavors.
  * </ul>
  * <p>
  * Some standard property names are described below.
@@ -38,14 +38,20 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  * <p>
  * Property names for standard non-localized strings:
  * <ul>
- * <li>[flavor].version.major : major version number (required)
- * <li>[flavor].version.minor : minor version number (required)
- * <li>[flavor].version.dev : development version number (required)
- * <li>[flavor].version.revision : repository revision number (required)
+ * <li>version.major : major version number (required)
+ * <li>version.minor : minor version number (required)
+ * <li>version.dev : development version number (required)
+ * <li>version.revision : repository revision number (required)
  * <li>about.credits : development team credits (optional)
  * </ul>
+ * 
+ * @author John De Goes / Chris Malley
  */
 public class PhetApplicationConfig {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     // Standard localized properties:
     private static final String PROPERTY_NAME = "name";
@@ -58,13 +64,21 @@ public class PhetApplicationConfig {
     private static final String PROPERTY_VERSION_REVISION = "version.revision";
     private static final String PROPERTY_CREDITS          = "about.credits";
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     // Instance data
     private String[] commandLineArgs;
-    private PhetResources resourceLoader;
     private FrameSetup frameSetup;
+    private PhetResources resourceLoader;
     private final String flavor;
     private volatile PhetVersionInfo version;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     /**
      * Constructor where the flavor defaults to the project name associated with the resource loader.
      * 
@@ -98,6 +112,10 @@ public class PhetApplicationConfig {
         this.flavor = flavor;
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
     /**
      * Gets the command line args.
      * 
@@ -118,21 +136,17 @@ public class PhetApplicationConfig {
     
     /**
      * Gets the flavor for this configuration.
+     * If a flavor was not specified in the constructor, the flavor default to the project name.
      * 
-     * @return flavor, null if this is not a flavored configuration
+     * @return flavor, always non-null.
      */
     public String getFlavor() {
         return flavor;
     }
     
-    /**
-     * Is this configuration flavored?
-     * 
-     * @return true or false
-     */
-    public boolean isFlavored() {
-        return flavor != null;
-    }
+    //----------------------------------------------------------------------------
+    // Standard properties
+    //----------------------------------------------------------------------------
     
     /**
      * Gets the localized simulation name.
@@ -140,7 +154,7 @@ public class PhetApplicationConfig {
      * @return name
      */
     public String getName() {
-        return getStandardLocalizedProperty( PROPERTY_NAME );
+        return getFlavoredLocalizedProperty( PROPERTY_NAME );
     }
 
     /**
@@ -149,7 +163,23 @@ public class PhetApplicationConfig {
      * @return description
      */
     public String getDescription() {
-        return getStandardLocalizedProperty( PROPERTY_DESCRIPTION );
+        return getFlavoredLocalizedProperty( PROPERTY_DESCRIPTION );
+    }
+
+    /**
+     * Retrieves the object that encapsulates the project's version information.
+     *
+     * @return PhetProjectVersion
+     */
+    public PhetVersionInfo getVersion() {
+        if ( version == null ) {
+            String major = getProjectProperty( PROPERTY_VERSION_MAJOR ),
+                   minor = getProjectProperty( PROPERTY_VERSION_MINOR ),
+                   dev   = getProjectProperty( PROPERTY_VERSION_DEV ),
+                   rev   = getProjectProperty( PROPERTY_VERSION_REVISION );
+            version = new PhetVersionInfo( major, minor, dev, rev );
+        }
+        return version;
     }
     
     /**
@@ -161,46 +191,68 @@ public class PhetApplicationConfig {
      * @return credits, possibly null
      */
     public String getCredits() {
-        return resourceLoader.getProjectProperties().getProperty( PROPERTY_CREDITS );
+        return getProjectProperty( PROPERTY_CREDITS );
     }
 
+    //----------------------------------------------------------------------------
+    // Flavored and unflavored properties
+    //----------------------------------------------------------------------------
+    
     /**
-     * Retrieves the object that encapsulates the project's version information.
-     *
-     * @return PhetProjectVersion
+     * Gets an unflavored property from the project properties.
+     * 
+     * @param propertyName
+     * @return String, null if the property doesn't exist
      */
-    public PhetVersionInfo getVersion() {
-        if ( version == null ) {
-            String major = getStandardProjectProperty( PROPERTY_VERSION_MAJOR ),
-                   minor = getStandardProjectProperty( PROPERTY_VERSION_MINOR ),
-                   dev   = getStandardProjectProperty( PROPERTY_VERSION_DEV ),
-                   rev   = getStandardProjectProperty( PROPERTY_VERSION_REVISION );
-            version = new PhetVersionInfo( major, minor, dev, rev );
-        }
-        return version;
-    }
-
-    /*
-     * Gets a standard property from the project properties.
-     */
-    private String getStandardProjectProperty( String propertyName ) {
-        return getStandardProperty( resourceLoader.getProjectProperties(), propertyName, flavor );
-   }
-    
-    /*
-     * Gets a standard property from the localized properties.
-     */
-    private String getStandardLocalizedProperty( String propertyName ) {
-        return getStandardProperty( resourceLoader.getLocalizedProperties(), propertyName, flavor );
+    public String getProjectProperty( String propertyName ) {
+        return resourceLoader.getProjectProperties().getProperty( propertyName );
     }
     
-    /*
-     * Gets a standard property.
-     * Standard properties are prefixed with the flavor name.
+    /**
+     * Gets an unflavored property from the localized properties.
+     * 
+     * @param propertyName
+     * @return String, null if the property doesn't exist
      */
-    private static String getStandardProperty( Properties properties, String propertyName, String flavor ) {
+    public String getLocalizedProperty( String propertyName ) {
+        return resourceLoader.getLocalizedProperties().getProperty( propertyName );
+    }
+    
+    /**
+     * Gets a flavored property from the project properties.
+     * The specified propertyName will be internally converted to
+     * the proper key required to access the flavored propery.
+     * 
+     * @param propertyName
+     * @return String, null if the property doesn't exist
+     */
+    public String getFlavoredProjectProperty( String propertyName ) {
+        return getFlavoredProperty( resourceLoader.getProjectProperties(), propertyName, flavor );
+    }
+    
+    /**
+     * Gets a flavored property from the localized properties.
+     * The specified propertyName will be internally converted to
+     * the proper key required to access the flavored propery.
+     * 
+     * @param propertyName
+     * @return String, null if the property doesn't exist
+     */
+    public String getFlavoredLocalizedProperty( String propertyName ) {
+        return getFlavoredProperty( resourceLoader.getLocalizedProperties(), propertyName, flavor );
+    }
+    
+    /*
+     * Gets a flavored property.
+     * This method encapsulates the syntax of a flavored property.
+     * Subclasses can use this to get flavored properties out of a simulation-specific Properties.
+     * 
+     * @param properties
+     * @param propertyName
+     * @param flavor
+     */
+    protected static String getFlavoredProperty( Properties properties, String propertyName, String flavor ) {
         String key = flavor + "." + propertyName;
-        String value = properties.getProperty( key );
-        return value;
+        return properties.getProperty( key );
     }
 }
