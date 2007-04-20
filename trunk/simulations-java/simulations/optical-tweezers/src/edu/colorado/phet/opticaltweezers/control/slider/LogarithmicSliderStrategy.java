@@ -13,6 +13,15 @@ public class LogarithmicSliderStrategy extends AbstractSliderStrategy {
     
     private double _logMin, _logMax, _logRange;
     
+    /**
+     * Constructor.
+     * 
+     * @param sliderMin
+     * @param sliderMax
+     * @param modelMin
+     * @param modelMax
+     * @throws IllegalArgumentException if modelMin and modelMax have different signs
+     */
     public LogarithmicSliderStrategy( int sliderMin, int sliderMax, double modelMin, double modelMax ) {
         super( sliderMin, sliderMax, modelMin, modelMax );
         if ( modelMin < 0 && modelMax > 0 || modelMin > 0 && modelMax < 0 ) {
@@ -23,6 +32,12 @@ public class LogarithmicSliderStrategy extends AbstractSliderStrategy {
         _logRange = _logMax - _logMin;
     }
 
+    /**
+     * Converts from slider to model coordinates.
+     * 
+     * @param sliderValue slider value
+     * @return model value
+     */
     public double sliderToModel( int sliderValue ) {
         double modelValue = 0;
         int resolution = getSliderMax() - getSliderMin();
@@ -44,6 +59,12 @@ public class LogarithmicSliderStrategy extends AbstractSliderStrategy {
         return modelValue;
     }
 
+    /**
+     * Converts from model to slider coordinates.
+     * 
+     * @param modelValue model value
+     * @return slider value
+     */
     public int modelToSlider( double modelValue ) {
         int sliderValue = 0;
         int resolution = getSliderMax() - getSliderMin();

@@ -4,7 +4,7 @@ package edu.colorado.phet.opticaltweezers.control.slider;
 
 
 /**
- * AbstractSliderStrategy provides some functionality that is useful to all SliderStrategy's. 
+ * AbstractSliderStrategy provides functionality that is useful for implementing ISliderStrategy. 
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -13,6 +13,14 @@ public abstract class AbstractSliderStrategy implements ISliderStrategy {
     private int _sliderMin, _sliderMax;
     private double _modelMin, _modelMax;
     
+    /**
+     * Constructor.
+     * 
+     * @param sliderMin
+     * @param sliderMax
+     * @param modelMin
+     * @param modelMax
+     */
     public AbstractSliderStrategy( int sliderMin, int sliderMax, double modelMin, double modelMax ) {
         _sliderMin = sliderMin;
         _sliderMax = sliderMax;
@@ -37,6 +45,8 @@ public abstract class AbstractSliderStrategy implements ISliderStrategy {
     }
     
     public String toString() {
-        return getClass().getName() + " slider=[" + _sliderMin + "," + _sliderMax + "] model=[" + _modelMin + "," + _modelMax + "]";
+        return getClass().getName() + 
+            " sliderMin=" + _sliderMin + " sliderMax=" + _sliderMax + 
+            " modelMin=" + _modelMin + " modelMax" + _modelMax;
     }
 }
