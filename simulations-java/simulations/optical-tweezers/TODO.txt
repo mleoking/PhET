@@ -67,6 +67,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/19/07 - implement strategies (linear and log) for mapping between slider and model coordinates
 4/18/07 - simplify SliderControl constructor
 4/18/07 - increase brownian motion scale factor
 4/18/07 - set clock dt range to correspond to seconds units
