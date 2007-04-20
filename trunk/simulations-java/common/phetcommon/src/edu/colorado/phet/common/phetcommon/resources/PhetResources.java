@@ -35,6 +35,11 @@ public class PhetResources {
     private static final String LOCALIZATION_DIR = "localization";
     private static final String LOCALIZATION_FILE_SUFFIX = "-strings";
     
+    // Property used to set the locale from JNLP files.
+    // For an untrusted application, system properties set in the JNLP file will 
+    // only be set by Java Web Start if property name begins with "jnlp." or "javaws.".
+    private static final String PROPERTY_JAVAWS_PHET_LOCALE = "javaws.phet.locale";
+    
     private static final char PATH_SEPARATOR = '/';
     
     private final String projectName;
@@ -52,14 +57,14 @@ public class PhetResources {
      * @return PhetResources for the project
      */
     public static PhetResources forProject( String projectName ) {
-        return forProject( projectName, Locale.getDefault() );
+        return forProject( projectName, readLocale() );
     }
     
     /**
      * Constructs a new PhetResources for the specified project and locale.
      *
      * @param projectName the project name
-     * @param locale  the locale.
+     * @param locale the locale.
      *
      * @return PhetResources for the project and locale
      */
@@ -111,11 +116,28 @@ public class PhetResources {
     }
     
     /**
-     * Gets the locale that was used to load the resources.
+     * Gets the locale used to load the resources.
      * 
      * @return Locale
      */
     public Locale getLocale() {
+        return locale;
+    }
+    
+    /*
+     * Read the locale that was specified for the application.
+     * The default locale is the value of the user.langage System property, as read by Locale.getDefault.
+     * The javaws.phet.locale System property takes prescedence, and can be set via the <property> tag in 
+     * JNLP files.
+     * 
+     * @return Locale
+     */
+    private static Locale readLocale() {
+        Locale locale = Locale.getDefault();
+        String javawsLocale = System.getProperty( PROPERTY_JAVAWS_PHET_LOCALE );
+        if ( javawsLocale != null ) {
+            locale = new Locale( javawsLocale );
+        }
         return locale;
     }
     
