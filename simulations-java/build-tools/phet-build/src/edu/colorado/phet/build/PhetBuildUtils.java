@@ -5,6 +5,7 @@ import org.apache.tools.ant.taskdefs.Echo;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class PhetBuildUtils {
     private PhetBuildUtils() {
@@ -62,7 +63,16 @@ public class PhetBuildUtils {
                 return searchRoot;
             }
         }
-        
+
         throw new IllegalArgumentException( "No project found for name=" + name + ", searched in roots=" + Arrays.asList( searchRoots ) );
+    }
+    
+    public static String[] toStringArray( String property,String tokens ) {
+        StringTokenizer st = new StringTokenizer( property, tokens );
+        String[] array = new String[st.countTokens()];
+        for( int i = 0; i < array.length; i++ ) {
+            array[i] = st.nextToken();
+        }
+        return array;
     }
 }
