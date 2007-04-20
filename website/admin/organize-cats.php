@@ -1,6 +1,7 @@
 <?php
     include_once("password-protection.php");
 	include_once("db.inc");
+	include_once("sim-utils.php");
 	include_once("web-utils.php");
 	include_once("db-utils.php");
 	

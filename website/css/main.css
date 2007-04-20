@@ -1290,7 +1290,8 @@ ul.people li.kavli {
 	text-decoration:underline;
 }
 #pg {
-	margin:0px 0px 20px 350px;
+	margin:0px 0px 20px 0px;
+	float: right;
 }
 #pg a.pg {
 	color:#900;

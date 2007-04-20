@@ -89,8 +89,8 @@
             </dl>
         </div>
 
-        <div id="content">      
-            <div class="productList">            
+        <div id="content">  
+            <div class="productList">    
                 <?php
                     if (isset($_REQUEST['cat'])) {
                         $cat = $_REQUEST['cat'];
@@ -157,10 +157,10 @@
                     
                     if ($view_type == "thumbs") {
                         print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=alpha\">alphabetical</a></div>";
-                        
+
                         if ($num_sims_in_category > SIMS_PER_PAGE) {
                             // Don't bother printing this section unless there are more sims than will fit on one page:
-                            print "<div id=\"pg\"><p>\n";
+                            print "<div id=\"pg\">\n";
                             
                             $num_pages = (int)ceil((float)$num_sims_in_category / (float)SIMS_PER_PAGE);
 
@@ -173,12 +173,12 @@
                             }
 
                             print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=-1\">view all&raquo;</a>";
+                            
+                            print "</div>\n";    
                         }
-                        
-
-                        print "</p></div>\n";
 
                         //--------------------------------------------------
+                        print "<div class=\"productList\">";
 
                         $sim_number = -1;
 
@@ -229,6 +229,8 @@
                                 print "</div>\n";
                             }
                         }
+                        
+                        print "</div>\n";
                     }
                     else {
                         print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=thumbs\">thumbnails</a></div>";
@@ -238,7 +240,7 @@
                         
                         $simulations = run_sql_statement($select_sims_st, $connection);
                         
-                        print "<div id=\"pg\"><p>\n";
+                        print "<div id=\"pg\">\n";
                         
                         $last_printed_char = '';
                         
@@ -256,7 +258,9 @@
                             }
                         }
                         
-                        print "</p></div>\n";
+                        print "</div>\n";
+                        
+                        print "<div class=\"productList\">";
                         
                         $simulations = run_sql_statement($select_sims_st, $connection);
                         
@@ -277,7 +281,9 @@
                             
                             print "<a href=\"sims/sims.php?sim_id=$sim_id\">$sim_name</a><br />";
                         }
-                    }                    
+                        
+                        print "</div>";                    
+                    }
                 ?>
             </div>
 
