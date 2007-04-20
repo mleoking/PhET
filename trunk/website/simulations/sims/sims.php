@@ -107,7 +107,7 @@ window.open = SymWinOpen;
 
                 <li><a href="../../teacher_ideas/index.html">Teacher Ideas &amp; Activities</a></li>
 
-                <li><a href="../../get_phet/index.html">Get PhET</a></li>
+                <li><a href="../../get_phet/index.html">Download PhET</a></li>
 
                 <li><a href="../../tech_support/index.html">Technical Support</a></li>
 
@@ -170,7 +170,7 @@ window.open = SymWinOpen;
                             $simrating = "<img src=\"../../images/sims/ratings/$simrating_image\" width=\"16\" height=\"16\" />";
                             $simtype   = "<img src=\"../../images/sims/ratings/$simtype_image\"   width=\"32\" height=\"16\" />";
                             
-                            print "Rating: $simrating Type: $simtype";
+                            print "$simrating $simtype";
                         ?>
                     </th>
                 </tr>

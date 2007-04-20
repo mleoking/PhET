@@ -59,7 +59,7 @@
 
                 <li><a href="../teacher_ideas/index.html">Teacher Ideas &amp; Activities</a></li>
 
-                <li><a href="../get_phet/index.html">Get PhET</a></li>
+                <li><a href="../get_phet/index.html">Download PhET</a></li>
 
                 <li><a href="../tech_support/index.html">Technical Support</a></li>
                 
@@ -155,8 +155,12 @@
                         $view_type = "thumbs";
                     }
                     
+                    // This statement selects for all sims in the category, and orders by the sim sorting name:
+                    $select_sims_st = "SELECT * FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation`.`sim_sorting_name` ASC ";
+                    
                     if ($view_type == "thumbs") {
-                        print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=alpha\">alphabetical</a></div>";
+                        // THUMBNAIL INDEX
+                        print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=index\">index</a></div>";
 
                         if ($num_sims_in_category > SIMS_PER_PAGE) {
                             // Don't bother printing this section unless there are more sims than will fit on one page:
@@ -182,25 +186,10 @@
 
                         $sim_number = -1;
 
-                        //first select which SIMS are in the category
-                        $select_simulation_listing_rows_st  = "SELECT * FROM `simulation_listing` WHERE `cat_id`='$cat' ";
+                        $simulations = run_sql_statement($select_sims_st, $connection);
 
-                        $simulation_listing_rows = mysql_query($select_simulation_listing_rows_st, $connection);
-
-                        $num_simulation_listings = mysql_num_rows($simulation_listing_rows);
-
-                        while ($simulation_listing_row = mysql_fetch_row($simulation_listing_rows)) {
-                            $sim_id   = $simulation_listing_row[0];
-                            $category = $simulation_listing_row[1];
-
-                            // Select simulation:
-                            $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
-
-                            $sim_row = mysql_fetch_row(mysql_query($select_sim_st));
-
-                            $sim_id        = $sim_row[0];
-                            $sim_image_url = $sim_row[6];
-                            $sim_name      = format_for_html($sim_row[1]);
+                         while ($simulation = mysql_fetch_assoc($simulations)) {
+                            gather_array_into_globals($simulation);
 
                             // Make sure the simulation is valid:
                             if (is_numeric($sim_id) && url_exists($sim_image_url)) {
@@ -235,9 +224,7 @@
                     else {
                         print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=thumbs\">thumbnails</a></div>";
                         
-                        // ALPHABETICAL INDEX
-                        $select_sims_st = "SELECT * FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation`.`sim_sorting_name` ASC ";
-                        
+                        // ALPHABETICAL INDEX                        
                         $simulations = run_sql_statement($select_sims_st, $connection);
                         
                         print "<div id=\"pg\">\n";
