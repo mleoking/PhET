@@ -38,7 +38,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             if( lowRes() ) {
                 suffix = "16";
             }
-            String iconLoc = "images/icons/java/media/" + iconName + suffix + ".gif";
+            String iconLoc = "energy-skate-park/images/icons/java/media/" + iconName + suffix + ".gif";
             button = new JButton( name, new ImageIcon( loadImage( iconLoc ) ) );
 
             if( lowRes() ) {
@@ -116,7 +116,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             }
         } );
 
-//        clear = createButton( "Clear", "images/icons/java/media/Stop24.gif" );
+//        clear = createButton( "Clear", "energy-skate-park/images/icons/java/media/Stop24.gif" );
         clear = createButton( EnergySkateParkStrings.getString( "clear" ), "Stop" );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

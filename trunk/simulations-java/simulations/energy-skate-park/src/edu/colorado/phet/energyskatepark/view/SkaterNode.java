@@ -52,11 +52,11 @@ public class SkaterNode extends PNode {
         boundsDebugPPath.setPaint( new Color( 0, 0, 255, 128 ) );
 
         try {
-            jetPackImage = ImageLoader.loadBufferedImage( "images/rocket5.png" );
+            jetPackImage = ImageLoader.loadBufferedImage( "energy-skate-park/images/rocket5.png" );
             jetPackNode = new PhetPNode( new PImage( jetPackImage ) );
             addChild( jetPackNode );
 
-            skaterImage = ImageLoader.loadBufferedImage( "images/skater3.png" );
+            skaterImage = ImageLoader.loadBufferedImage( "energy-skate-park/images/skater3.png" );
             skaterImageNode = new PImage( skaterImage );
             addChild( skaterImageNode );
         }

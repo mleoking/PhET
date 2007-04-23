@@ -66,7 +66,7 @@ public class MeasuringTape extends PhetPNode {
 
         public BodyGraphic() {
             try {
-                imageGraphic = new PImage( ImageLoader.loadBufferedImage( "images/tape.gif" ) );
+                imageGraphic = new PImage( ImageLoader.loadBufferedImage( "energy-skate-park/images/tape.gif" ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();

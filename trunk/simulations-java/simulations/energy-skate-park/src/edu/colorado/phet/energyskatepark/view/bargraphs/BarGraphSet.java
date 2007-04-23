@@ -113,7 +113,7 @@ public class BarGraphSet extends PNode {
     protected void addMinimizeButton() {
         JButton minBut = null;
         try {
-            minBut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/buttons/minimizeButton.png" ) ) );
+            minBut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "energy-skate-park/images/buttons/minimizeButton.png" ) ) );
             minBut.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setMinimized( true );

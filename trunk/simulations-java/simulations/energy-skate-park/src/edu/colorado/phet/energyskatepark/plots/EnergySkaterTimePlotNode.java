@@ -288,7 +288,7 @@ public class EnergySkaterTimePlotNode extends PNode {
     }
 
     private BufferedImage loadZoomInImage() throws IOException {
-        BufferedImage image = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
+        BufferedImage image = ImageLoader.loadBufferedImage( "energy-skate-park/images/icons/glass-20-plus.gif" );
         if( zoomButtonHeight > 0 ) {
             return BufferedImageUtils.rescaleYMaintainAspectRatio( image, zoomButtonHeight );
         }
@@ -298,7 +298,7 @@ public class EnergySkaterTimePlotNode extends PNode {
     }
 
     private BufferedImage loadZoomOutImage() throws IOException {
-        BufferedImage image = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
+        BufferedImage image = ImageLoader.loadBufferedImage( "energy-skate-park/images/icons/glass-20-minus.gif" );
         if( zoomButtonHeight > 0 ) {
             return BufferedImageUtils.rescaleYMaintainAspectRatio( image, zoomButtonHeight );
         }

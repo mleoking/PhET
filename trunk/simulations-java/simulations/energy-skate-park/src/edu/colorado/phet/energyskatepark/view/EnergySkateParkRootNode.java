@@ -162,7 +162,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         Random random = new Random();
         BufferedImage newImage = null;
         try {
-            newImage = ImageLoader.loadBufferedImage( "images/cloud2.gif" );
+            newImage = ImageLoader.loadBufferedImage( "energy-skate-park/images/cloud2.gif" );
             newImage = BufferedImageUtils.flipY( newImage );
         }
         catch( IOException e ) {
@@ -219,7 +219,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             try {
                 buses = new PNode();
                 Floor floor = getModel().getFloor();
-                BufferedImage newImage = ImageLoader.loadBufferedImage( "images/schoolbus200.gif" );
+                BufferedImage newImage = ImageLoader.loadBufferedImage( "energy-skate-park/images/schoolbus200.gif" );
                 PImage schoolBus = new PImage( newImage );
                 double y = floor.getY() - schoolBus.getFullBounds().getHeight() + 10;
                 schoolBus.setOffset( 0, y );

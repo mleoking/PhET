@@ -72,8 +72,8 @@ public abstract class Planet {
         protected void setupImage( EnergySkateParkModule module ) {
             BufferedImage image = null;
             try {
-//                image = ImageLoader.loadBufferedImage( "images/space.jpg" );
-                image = ImageLoader.loadBufferedImage( "images/blackhole_large_2.jpg" );
+//                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/space.jpg" );
+                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/blackhole_large_2.jpg" );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -90,9 +90,9 @@ public abstract class Planet {
         protected void setupImage( EnergySkateParkModule module ) {
             BufferedImage image = null;
             try {
-//                image = ImageLoader.loadBufferedImage( "images/background-gif.gif" );
-//                image = ImageLoader.loadBufferedImage( "images/earth3.gif" );
-                image = ImageLoader.loadBufferedImage( "images/earth3.jpg" );
+//                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/background-gif.gif" );
+//                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/earth3.gif" );
+                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/earth3.jpg" );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -113,7 +113,7 @@ public abstract class Planet {
         protected void setupImage( EnergySkateParkModule module ) {
             BufferedImage image = null;
             try {
-                image = ImageLoader.loadBufferedImage( "images/moon2.jpg" );
+                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/moon2.jpg" );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -129,7 +129,7 @@ public abstract class Planet {
 
         protected void setupImage( EnergySkateParkModule module ) {
             try {
-                BufferedImage image = ImageLoader.loadBufferedImage( "images/jupiter4.jpg" );
+                BufferedImage image = ImageLoader.loadBufferedImage( "energy-skate-park/images/jupiter4.jpg" );
                 module.getEnergyConservationCanvas().getRootNode().setBackground( image );
             }
             catch( IOException e1 ) {
