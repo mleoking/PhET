@@ -43,7 +43,7 @@ public class PhysicsDefaults {
     public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 0, 1000000, 0, 0 ); // nm/sec, min must be >0
     public static final String FLUID_SPEED_DISPLAY_PATTERN = "######0";
     public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 1E-12, 1E-2, 1E-3, 5 ); // Pa*s
-    public static final String FLUID_VISCOSITY_DISPLAY_PATTERN = "0.0E#0";
+    public static final String FLUID_VISCOSITY_DISPLAY_PATTERN = "0.0E0";
     public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 200, 0 ); // Kelvin
     public static final String FLUID_TEMPERATURE_DISPLAY_PATTERN = "##0";
     

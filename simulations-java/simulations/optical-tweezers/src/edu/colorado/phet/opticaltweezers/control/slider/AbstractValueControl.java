@@ -39,18 +39,18 @@ public abstract class AbstractValueControl extends JPanel {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     // Model
     private double _value;
     private final double _min, _max;
     private double _tickSpacing;
     private double _delta;
-    
+
     // View
     private AbstractSlider _slider;
     private JFormattedTextField _textField;
     private JLabel _valueLabel, _unitsLabel;
-    
+
     // misc.
     private DecimalFormat _textFieldFormat;
     private DecimalFormat _tickFormat;
@@ -58,11 +58,12 @@ public abstract class AbstractValueControl extends JPanel {
     private boolean _isAdjusting; // is the slider being adjusted (dragged) ?
     private Font _font;
     private EventListenerList _listenerList; // notification of slider changes
-    
+    private EventDispatcher _listener;
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
- 
+
     /**
      * Constructor.
      * 
@@ -72,41 +73,37 @@ public abstract class AbstractValueControl extends JPanel {
      * @param units units that appear to the right of the value
      * @throws IllegalArgumentException
      */
-    public AbstractValueControl(
-            AbstractSlider slider,
-            String label,
-            String textFieldPattern,
-            String units ) {
-        
+    public AbstractValueControl( AbstractSlider slider, String label, String textFieldPattern, String units ) {
+
         super();
-        
+
         _slider = slider;
-        
+
         _value = slider.getModelValue();
         _min = slider.getStrategy().getModelMin();
         _max = slider.getStrategy().getModelMax();
-        _tickSpacing = _max - _min;  // default is a tick mark at max and min
+        _tickSpacing = _max - _min; // default is a tick mark at max and min
         _delta = _slider.getStrategy().sliderToModel( 1 );
-        
+
         _textFieldFormat = new DecimalFormat( textFieldPattern );
         _tickFormat = new DecimalFormat( textFieldPattern ); // default to same precision as value display
         _notifyWhileDragging = true;
         _isAdjusting = false;
         _font = new JLabel().getFont();
         _listenerList = new EventListenerList();
-        
+
         // Label
         JPanel valuePanel = new JPanel();
         {
             _valueLabel = new JLabel( label );
             _unitsLabel = new JLabel( units );
-            
+
             _textField = new JFormattedTextField( _textFieldFormat );
-            _textField.setValue( new Double(_value) );
+            _textField.setValue( new Double( _value ) );
             _textField.setHorizontalAlignment( JTextField.RIGHT );
             _textField.setEditable( false );
             _textField.setColumns( textFieldPattern.length() );
-            
+
             EasyGridBagLayout layout = new EasyGridBagLayout( valuePanel );
             valuePanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
@@ -114,7 +111,7 @@ public abstract class AbstractValueControl extends JPanel {
             layout.addComponent( _textField, 0, 1 );
             layout.addComponent( _unitsLabel, 0, 2 );
         }
-        
+
         // Layout
         {
             EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -124,24 +121,22 @@ public abstract class AbstractValueControl extends JPanel {
             layout.addComponent( valuePanel, 0, 0 );
             layout.addComponent( _slider, 1, 0 );
         }
-        
+
         // Interactivity
-        EventDispatcher listener = new EventDispatcher();
-        _textField.addActionListener( listener );
-        _textField.addFocusListener( listener );
-        _textField.addKeyListener( listener );
-        _slider.addChangeListener( listener );
-        
-        updateSlider();
-        updateTextField();
+        _listener = new EventDispatcher();
+        _slider.addChangeListener( _listener );
+        _textField.addActionListener( _listener );
+        _textField.addFocusListener( _listener );
+        _textField.addKeyListener( _listener );
+
         updateTickLabels();
         setValue( _value );
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the value.
      * 
@@ -150,7 +145,7 @@ public abstract class AbstractValueControl extends JPanel {
     public void setValue( double value ) {
         setValue( value, true );
     }
-    
+
     /*
      * Sets the value and optionally fires a ChangeEvent.
      * 
@@ -158,7 +153,7 @@ public abstract class AbstractValueControl extends JPanel {
      * @param notify
      */
     private void setValue( double value, boolean notify ) {
-        if ( value >= _min && value <= _max  ) {
+        if ( value >= _min && value <= _max ) {
             _value = value;
             updateView();
             if ( notify ) {
@@ -171,7 +166,7 @@ public abstract class AbstractValueControl extends JPanel {
             updateView(); // revert
         }
     }
-    
+
     /**
      * Gets the value.
      * 
@@ -180,25 +175,25 @@ public abstract class AbstractValueControl extends JPanel {
     public double getValue() {
         return _value;
     }
-    
+
     /**
-    * Gets maximum value.
-    * 
-    * @return max
-    */
-   public double getMaximum() {
-       return _max;
-   }
-   
-   /**
-    * Gets minimum value.
-    * 
-    * @return min
-    */
-   public double getMinimum() {
-       return _min;
-   }
-    
+     * Gets maximum value.
+     * 
+     * @return max
+     */
+    public double getMaximum() {
+        return _max;
+    }
+
+    /**
+     * Gets minimum value.
+     * 
+     * @return min
+     */
+    public double getMinimum() {
+        return _min;
+    }
+
     /**
      * Sets the delta used when pressing the up and down arrows.
      * 
@@ -207,7 +202,7 @@ public abstract class AbstractValueControl extends JPanel {
     public void setDelta( double delta ) {
         _delta = delta;
     }
-    
+
     /**
      * Enables or disables all of this controls subcomponents.
      * 
@@ -219,7 +214,7 @@ public abstract class AbstractValueControl extends JPanel {
         _unitsLabel.setEnabled( enabled );
         _slider.setEnabled( enabled );
     }
-    
+
     /**
      * Is this control enabled?
      * 
@@ -228,7 +223,7 @@ public abstract class AbstractValueControl extends JPanel {
     public boolean isEnabled() {
         return _slider.isEnabled();
     }
-    
+
     /**
      * Sets the fonts for all components that are part of this control.
      * 
@@ -243,11 +238,11 @@ public abstract class AbstractValueControl extends JPanel {
         _slider.setFont( font );
         updateTickLabels();
     }
-   
+
     //----------------------------------------------------------------------------
     // Access to components
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets a reference to the slider component.
      * 
@@ -256,7 +251,7 @@ public abstract class AbstractValueControl extends JPanel {
     public AbstractSlider getSlider() {
         return _slider;
     }
-    
+
     /**
      * Gets a reference to the text field component.
      * 
@@ -265,7 +260,7 @@ public abstract class AbstractValueControl extends JPanel {
     public JFormattedTextField getFormattedTextField() {
         return _textField;
     }
-    
+
     //----------------------------------------------------------------------------
     // Value Display
     //----------------------------------------------------------------------------
@@ -278,7 +273,7 @@ public abstract class AbstractValueControl extends JPanel {
     public void setTextFieldEditable( boolean editable ) {
         _textField.setEditable( editable );
     }
-    
+
     /**
      * Changes visibility of the text field.
      * 
@@ -287,7 +282,7 @@ public abstract class AbstractValueControl extends JPanel {
     public void setTextFieldVisible( boolean visible ) {
         _textField.setVisible( visible );
     }
-    
+
     /**
      * Sets the pattern used to format the text field.
      * 
@@ -296,9 +291,9 @@ public abstract class AbstractValueControl extends JPanel {
     public void setTextFieldPattern( String pattern ) {
         _textFieldFormat = new DecimalFormat( pattern );
         _textField.setColumns( pattern.length() );
-        updateTextField();
+        updateView();
     }
-    
+
     /**
      * Sets the columns width of the text field.
      * The default is determined by the width of the text field pattern.
@@ -308,11 +303,11 @@ public abstract class AbstractValueControl extends JPanel {
     public void setTextFieldColumns( int columns ) {
         _textField.setColumns( columns );
     }
-    
+
     //----------------------------------------------------------------------------
     // Slider
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the width of the slider.
      * 
@@ -322,7 +317,7 @@ public abstract class AbstractValueControl extends JPanel {
         Dimension currentSize = _slider.getPreferredSize();
         _slider.setPreferredSize( new Dimension( width, currentSize.height ) );
     }
-    
+
     /**
      * Determines whether the slider value is being dragged.
      * 
@@ -331,7 +326,7 @@ public abstract class AbstractValueControl extends JPanel {
     public boolean isAdjusting() {
         return _isAdjusting;
     }
-    
+
     /**
      * Determines whether ChangeEvents are fired while the slider is dragged.
      * If this is set to false, then ChangeEvents are fired only when the 
@@ -342,7 +337,7 @@ public abstract class AbstractValueControl extends JPanel {
     public void setNotifyWhileDragging( boolean b ) {
         _notifyWhileDragging = b;
     }
-    
+
     /**
      * Determines whether the slider fires ChangeEvents while it is 
      * being dragged.
@@ -352,11 +347,11 @@ public abstract class AbstractValueControl extends JPanel {
     public boolean getNotifyWhileDragging() {
         return _notifyWhileDragging;
     }
-    
+
     //----------------------------------------------------------------------------
     // Tick marks
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the pattern used to format tick labels.
      * 
@@ -366,7 +361,7 @@ public abstract class AbstractValueControl extends JPanel {
         _tickFormat = new DecimalFormat( pattern );
         updateTickLabels();
     }
-    
+
     /**
      * Sets the tick spacing.
      * 
@@ -378,7 +373,7 @@ public abstract class AbstractValueControl extends JPanel {
             updateTickLabels();
         }
     }
-    
+
     /**
      * Changes the label table to label only the min and max of the range.
      * 
@@ -386,66 +381,58 @@ public abstract class AbstractValueControl extends JPanel {
      * @param maxString
      */
     public void setTickLabels( String minString, String maxString ) {
-        
+
         _slider.setPaintTicks( true );
         _slider.setPaintLabels( true );
         int sliderRange = _slider.getMaximum() - _slider.getMinimum();
         _slider.setMajorTickSpacing( sliderRange );
         _slider.setMinorTickSpacing( sliderRange );
-        
+
         Hashtable labelTable = new Hashtable();
         Font font = _font;
         if ( font == null ) {
             font = new JLabel().getFont();
         }
         JLabel minLabel = new JLabel( minString );
-        minLabel.setFont( font  );
+        minLabel.setFont( font );
         labelTable.put( new Integer( _slider.getMinimum() ), minLabel );
         JLabel maxLabel = new JLabel( maxString );
         maxLabel.setFont( font );
         labelTable.put( new Integer( _slider.getMaximum() ), maxLabel );
         _slider.setLabelTable( labelTable );
     }
-    
+
     //----------------------------------------------------------------------------
     // Private methods
     //----------------------------------------------------------------------------
-    
+
     /*
      * Updates the view to match the model.
      */
     private void updateView() {
-        updateTextField();
-        updateSlider();
-    }
-    
-    /*
-     * Updates the text field to match the model.
-     */
-    private void updateTextField() {
+
+        _slider.removeChangeListener( _listener );
+        _slider.setModelValue( _value );
+        _slider.addChangeListener( _listener );
+
+        _textField.removeActionListener( _listener );
         String text = _textFieldFormat.format( _value );
         _textField.setText( text );
+        _textField.addActionListener( _listener );
     }
-     
-    /*
-     * Updates the slider to match the model.
-     */
-    private void updateSlider() {
-        _slider.setModelValue( _value );
-    }
-    
+
     /*
      * Updates tick labels.
      */
     private void updateTickLabels() {
-        
+
         int sliderRange = _slider.getMaximum() - _slider.getMinimum();
         _slider.setMajorTickSpacing( sliderRange );
         int sliderTickSpacing = _slider.getStrategy().modelToSlider( _min + _tickSpacing );
         _slider.setMinorTickSpacing( sliderTickSpacing );
         _slider.setPaintTicks( true );
         _slider.setPaintLabels( true );
-        
+
         Hashtable labelTable = new Hashtable();
 
         //  Major ticks
@@ -464,21 +451,23 @@ public abstract class AbstractValueControl extends JPanel {
             labelTable.put( new Integer( _slider.getStrategy().modelToSlider( value ) ), label );
             value += _tickSpacing;
         }
-        
+
         getSlider().setLabelTable( labelTable );
     }
-    
+
     /*
      * Gets the value from the text field.
      */
     private double getTextFieldValue() {
-        return ( (Number) _textField.getValue() ).doubleValue();
+        String s = _textField.getText();
+        double d = Double.parseDouble( s );
+        return d;
     }
-    
+
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
-    
+
     /*
      * Handles events for this control's components.
      */
@@ -503,12 +492,13 @@ public abstract class AbstractValueControl extends JPanel {
                 }
             }
         }
-        
+
         /*
          * User pressed enter in text field.
          */
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _textField ) {
+                System.out.println( "AbstractValueControl.actionPerformed" );//XXX
                 double value = getTextFieldValue();
                 if ( value < _min ) {
                     value = _min;
@@ -521,19 +511,20 @@ public abstract class AbstractValueControl extends JPanel {
                 setValue( value );
             }
         }
-        
+
         /*
          * Slider was changed.
          */
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _slider ) {
+                System.out.println( "AbstractValueControl.stateChanged" );//XXX
                 _isAdjusting = _slider.getValueIsAdjusting();
                 boolean notify = ( _notifyWhileDragging || !_isAdjusting );
                 double value = _slider.getModelValue();
                 setValue( value, notify );
             }
         }
-        
+
         /*
          * Selects the entire value text field when it gains focus.
          */
@@ -542,7 +533,7 @@ public abstract class AbstractValueControl extends JPanel {
                 _textField.selectAll();
             }
         }
-        
+
         /*
          * Processes the contents of the value text field when it loses focus.
          */
@@ -550,7 +541,8 @@ public abstract class AbstractValueControl extends JPanel {
             if ( e.getSource() == _textField ) {
                 try {
                     _textField.commitEdit();
-                    setValue( getTextFieldValue() );
+                    double value = getTextFieldValue();
+                    setValue( value );
                 }
                 catch ( ParseException pe ) {
                     Toolkit.getDefaultToolkit().beep();
@@ -559,11 +551,11 @@ public abstract class AbstractValueControl extends JPanel {
             }
         }
     }
- 
+
     //----------------------------------------------------------------------------
     // ChangeListener management
     //----------------------------------------------------------------------------
-    
+
     /**
      * Adds a ChangeListener.
      * 
@@ -592,8 +584,8 @@ public abstract class AbstractValueControl extends JPanel {
     private void fireChangeEvent( ChangeEvent event ) {
 
         Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ChangeListener.class ) {
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ChangeListener.class ) {
                 ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
             }
         }

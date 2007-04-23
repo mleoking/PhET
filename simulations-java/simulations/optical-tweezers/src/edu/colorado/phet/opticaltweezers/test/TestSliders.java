@@ -23,14 +23,14 @@ public class TestSliders extends JFrame {
         final LinearSlider linearSlider = new LinearSlider( -1, 1 );
         linearSlider.addChangeListener( new ChangeListener() {
            public void stateChanged( ChangeEvent event ) {
-               System.out.println( linearSlider.getModelValue() );
+               System.out.println( "TestSliders.stateChanged: " + linearSlider.getModelValue() );
            }
         });
         
-        final LogarithmicSlider logSlider = new LogarithmicSlider( 1E1, 1E5 );
+        final LogarithmicSlider logSlider = new LogarithmicSlider( 1E-6, 1E-2 );
         logSlider.addChangeListener( new ChangeListener() {
            public void stateChanged( ChangeEvent event ) {
-               System.out.println( logSlider.getModelValue() );
+               System.out.println( "TestSliders.stateChanged: " + logSlider.getModelValue() );
            }
         });
         

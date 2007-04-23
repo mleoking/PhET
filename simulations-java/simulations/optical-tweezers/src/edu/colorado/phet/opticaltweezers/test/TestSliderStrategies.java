@@ -110,15 +110,16 @@ public class TestSliderStrategies {
             testStrategy( logarithmicStrategy, 1000, -2E1 );
         }
         
-        //XXX This test case fails!
         // Logarithmic test
         {
             System.out.println( "------------------------" );
-            ISliderStrategy logarithmicStrategy = new LogarithmicSliderStrategy( .001, .01, 0, 1000 );
+            ISliderStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 1E-6, 1E-2, 0, 1000 );
             System.out.println( "test: " + logarithmicStrategy.toString() );
-            testStrategy( logarithmicStrategy,    0, .001 );
-            testStrategy( logarithmicStrategy,  500, .01 );
-            testStrategy( logarithmicStrategy, 1000, .1 );
+            testStrategy( logarithmicStrategy,    0, 1E-6 );
+            testStrategy( logarithmicStrategy,  250, 1E-5 );
+            testStrategy( logarithmicStrategy,  500, 1E-4 );
+            testStrategy( logarithmicStrategy,  750, 1E-3 );
+            testStrategy( logarithmicStrategy, 1000, 1E-2 );
         }
     }
 }

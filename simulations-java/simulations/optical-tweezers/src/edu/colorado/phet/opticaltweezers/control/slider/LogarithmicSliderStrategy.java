@@ -11,7 +11,8 @@ package edu.colorado.phet.opticaltweezers.control.slider;
  */
 public class LogarithmicSliderStrategy extends AbstractSliderStrategy {
     
-    private double _logMin, _logMax, _logRange;
+    private final double _logMin, _logMax, _logRange;
+    private final double _scalingFactor;
     
     /**
      * Constructor.
@@ -24,11 +25,20 @@ public class LogarithmicSliderStrategy extends AbstractSliderStrategy {
      */
     public LogarithmicSliderStrategy( double modelMin, double modelMax, int sliderMin, int sliderMax ) {
         super( modelMin, modelMax, sliderMin, sliderMax );
+        
         if ( modelMin < 0 && modelMax > 0 || modelMin > 0 && modelMax < 0 ) {
             throw new IllegalArgumentException( "modelMin and modelMax must have the same sign" );
         }
-        _logMin = adjustedLog10( modelMin );
-        _logMax = adjustedLog10( modelMax );
+       
+        /* 
+         * This implementation is well-behaved for abs(modelMin) >= 1.
+         * To support cases where abs(modelMin) < 1, we'll use a 
+         * scaling factor to adjust the model range and results.
+         */
+        _scalingFactor = ( Math.abs( modelMin ) < 1 ) ?  ( 1 / Math.abs( modelMin ) ) : 1;
+        
+        _logMin = adjustedLog10( modelMin * _scalingFactor );
+        _logMax = adjustedLog10( modelMax * _scalingFactor);
         _logRange = _logMax - _logMin;
     }
 
@@ -45,16 +55,18 @@ public class LogarithmicSliderStrategy extends AbstractSliderStrategy {
         double pos = (double)( sliderValue - getSliderMin() ) * ratio;
         double adjustedPos = _logMin + pos;
         if ( adjustedPos >= 0 ) {
-            modelValue = Math.pow( 10.0, adjustedPos );
+            modelValue = Math.pow( 10.0, adjustedPos ) / _scalingFactor;
         }
         else {
-            modelValue = -Math.pow( 10.0, -adjustedPos );
+            modelValue = -Math.pow( 10.0, -adjustedPos ) / _scalingFactor;
         }
         if ( modelValue < getModelMin() ) {
             modelValue = getModelMin();
+            System.err.println( "WARNING: LogarithmicSliderStrategy.sliderToModel, sliderValue too small, clamping to " + sliderValue );
         }
         else if ( modelValue > getModelMax() ) {
             modelValue = getModelMax();
+            System.err.println( "WARNING: LogarithmicSliderStrategy.sliderToModel, sliderValue too big, clamping to " + sliderValue );
         }
         return modelValue;
     }
@@ -68,13 +80,15 @@ public class LogarithmicSliderStrategy extends AbstractSliderStrategy {
     public int modelToSlider( double modelValue ) {
         int sliderValue = 0;
         int resolution = getSliderMax() - getSliderMin();
-        double logModelValue = adjustedLog10( modelValue );
-        sliderValue = getSliderMin() + (int)( resolution * ( logModelValue - _logMin ) / _logRange );
+        double logModelValue = adjustedLog10( modelValue * _scalingFactor );
+        sliderValue = getSliderMin() + (int)( ( resolution * ( logModelValue - _logMin ) / _logRange ) );
         if ( sliderValue < getSliderMin() ) {
             sliderValue = getSliderMin();
+            System.err.println( "WARNING: LogarithmicSliderStrategy.modelToSlider, sliderValue too small, clamping to " + sliderValue );
         }
         else if ( sliderValue > getSliderMax() ) {
             sliderValue = getSliderMax();
+            System.err.println( "WARNING: LogarithmicSliderStrategy.modelToSlider, sliderValue too big, clamping to " + sliderValue );
         }
         return sliderValue;
     }
