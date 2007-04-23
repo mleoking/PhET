@@ -13,21 +13,19 @@ HIGH PRIORITY:
 - implement E-field model for slow mode
 
 MEDIUM PRIORITY:
-- remove PhysicsDefault references from FluidControlPanel, should be independent of module
 - connect position histogram to model
 - connect potential energy chart to model
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
-- try to make laser control panel draggable
 - use proper plot type for PositionHistogramPlot
-- accept multiple formats for entry of viscosity value (1E-10, 1e-10, 0.0001)
 - cursors that indicate direction when drag is horizontally or vertically constrained
 - units and range for fast speed [realtime* 10^-2, realtime]
 - units and range for slow speed [realtime*140*10^-16, realtime*7*10^-16]
-- clock speed control
+- get spec for "Simulation speed" control
 - get spec for "Show change in momentum model" feature
 - get spec for "Show charge on bead" feature
 
 LOW PRIORITY:
+- try to make laser control panel draggable
 - use TrigCache to improve performance?
 - replace OTRuler alignment hack with permanent solution
 - migrate CloseButtonNode to common, reuse phetcommon/data/images/buttons/closeButton.png
@@ -48,26 +46,22 @@ CLEANUP:
 DEFER UNTIL AFTER INTERVIEWS:
 
 MODEL INFO NEEDED:
+- bead motion
 - E-field
-- trap force (slide 7)
 - fluid drag force (slide 14)
 - charge on the bead
-- effect of temperature on Brownian motion
 - position histogram (slide 15)
 - stuff related to “Show change in momentum model” (shape of 2 rays of light, vectors, etc.)
-- units, ranges and default values for:
-   + fluid flow speed
-   + fluid viscosity
-   + fluid temperature
-   + clock dt
 
  
 DONE:
+4/23/07 - remove PhysicsDefaults references from FluidControlPanel, should be independent of module
 4/23/07 - set clock range to vary from realtime to 140E-16 * realtime
 4/23/07 - replace ClockSpeedSlider with a LogarithmicValueControl
 4/23/07 - display & control fluid speed in microns/sec, model is in nm/sec
-4/23/07 - debug LogarithmicSliderStrategy.sliderToModel and modelToSlider when abs(modelMinValue) < 1 
-4/23/07 - use new controls in FluidControlPanel., logarithmic viscosity control
+4/23/07 - debug LogarithmicSliderStrategy.sliderToModel and modelToSlider when abs(modelMinValue) < 1
+4/23/07 - use Double.parseValue to accept multiple formats for entry of viscosity value (1E-10, 1e-10, 0.0001) 
+4/23/07 - use new controls in FluidControlPanel, logarithmic viscosity control
 4/23/07 - replace SliderControl with LinearValueControl and LogarithmicValueControl
 4/23/07 - slider and control hierarchy built on slider strategies
 4/19/07 - implement strategies (linear and log) for mapping between slider and model coordinates
