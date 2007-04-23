@@ -53,6 +53,12 @@
         <phet-build project="all-sims" />
     </target>
 
+    <target name="build_esp" depends="init">
+        <phet-build project="energy-skate-park" destfile="deploy/energy-skate-park.jar"/>
+        <!--<phet-jnlp project="cck" flavor="cck-ac"/>-->
+        <!--<phet-jnlp project="cck" flavor="cck-dc"/>-->
+    </target>
+
     <target name="build_cck" depends="init">
         <phet-build project="cck" destfile="deploy/cck.jar"/>
         <phet-jnlp project="cck" flavor="cck-ac"/>
