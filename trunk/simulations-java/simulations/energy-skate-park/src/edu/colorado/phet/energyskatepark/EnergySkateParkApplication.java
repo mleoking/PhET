@@ -53,7 +53,7 @@ public class EnergySkateParkApplication extends PhetApplication {
     public static double SIMULATION_TIME_DT = 0.03;
 
     public EnergySkateParkApplication( String[] args ) {
-        super( args, EnergySkateParkStrings.getString( "energy.skate.park" ), EnergySkateParkStrings.getString( "energy.conservation" ),
+        super( args, EnergySkateParkStrings.getString( "energy-skate-park.name" ), EnergySkateParkStrings.getString( "energy-skate-park.description" ),
                VERSION,
 //               new EnergySkateParkDebugFrameSetup() );
 new EnergySkateParkFrameSetup() );
