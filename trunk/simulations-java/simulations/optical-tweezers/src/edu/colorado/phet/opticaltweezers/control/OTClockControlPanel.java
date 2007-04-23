@@ -201,8 +201,9 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
      * 
      * @param enabled
      */
-    public void setTimeDisplayFormat( NumberFormat format ) {
-        _timeFormat = format;
+    public void setTimeDisplayPattern( String pattern ) {
+        _timeFormat = new DecimalFormat( pattern );
+        setTimeDisplayColumns( pattern.length() );
     }
     
     /**

@@ -27,13 +27,13 @@ public class PhysicsDefaults {
     // Clock
     public static final boolean CLOCK_PAUSED = false;
     private static final int FRAME_RATE = 25; // fps, frames per second (wall time)
-    private static final double MAX_DT = 1.0 / FRAME_RATE;
-    private static final double MIN_DT = MAX_DT / 100;
+    private static final double MAX_DT = 1.0 / FRAME_RATE; // real time
+    private static final double MIN_DT = 140E-16 * MAX_DT;
     private static final double DEFAULT_DT = MAX_DT;
     public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( MIN_DT, MAX_DT, DEFAULT_DT, 20 /* significantDecimalPlaces */ );
     public static final OTClock CLOCK = new OTClock( FRAME_RATE, CLOCK_DT_RANGE );
-    public static final DecimalFormat CLOCK_DISPLAY_FORMAT = new DecimalFormat( "0.000" );
-    public static final int CLOCK_DISPLAY_COLUMNS = 8;
+    public static final String CLOCK_CONTROL_PATTERN = "0E0";
+    public static final String CLOCK_DISPLAY_PATTERN = "0.0000000000000000";
     
     // Fluid model, local origin at fluid's center
     public static final double FLUID_HEIGHT = 1000; // nm
