@@ -3,15 +3,13 @@
 ===============================================================================
 
 IN PROGRESS:
-- add logarithmic support to SliderControl, rewrite model-control value mappings
-- debug fluid flow and trap force components for bead motion model
+- debug LogarithmicSliderStrategy.sliderToModel and modelToSlider
 - add developer control for Bead.BROWNIAN_MOTION_SCALE
 - add developer controls for disabling individual components of bead motion model
 
 HIGH PRIORITY:
 - new model for bead motion
 - better model for Fz trap force
-- bug: fluid viscosity slider is brain damaged
 - implement E-field model for slow mode
 
 MEDIUM PRIORITY:
@@ -21,7 +19,6 @@ MEDIUM PRIORITY:
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - try to make laser control panel draggable
 - use proper plot type for PositionHistogramPlot
-- make viscosity control logarithimic
 - accept multiple formats for entry of viscosity value (1E-10, 1e-10, 0.0001)
 - cursors that indicate direction when drag is horizontally or vertically constrained
 - units and range for fast speed [realtime* 10^-2, realtime]
@@ -67,7 +64,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
-4/23/07 - use new controls in FluidControlPanel
+4/23/07 - use new controls in FluidControlPanel., logarithmic viscosity control
 4/23/07 - replace SliderControl with LinearValueControl and LogarithmicValueControl
 4/23/07 - slider and control hierarchy built on slider strategies
 4/19/07 - implement strategies (linear and log) for mapping between slider and model coordinates
