@@ -6,6 +6,7 @@ Skater starts on the track in the default case (to avoid friction); if the user 
 Bugfix: Bar chart should update during playback
 Changed default value for "Show Thermal" in pie chart to be off
 Added ability to disable track "auto connect" by holding Ctrl key during drag
+Bugfix: Track control point doesn't jump to attachment point during proposed match
 
 1.05.19 (4-11-2007)
 Bugfix in playback/record.
