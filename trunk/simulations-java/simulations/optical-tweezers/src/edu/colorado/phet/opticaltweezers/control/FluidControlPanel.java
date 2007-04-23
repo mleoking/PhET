@@ -36,6 +36,8 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
     // prints debugging output when either the control or model changes
     private static final boolean DEBUG_OUTPUT = false;
     
+    private static final double NANOMETERS_PER_MICRON = 1E3;
+        
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -64,10 +66,10 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         
 //        setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
         
-        // Speed control
-        double value = fluid.getSpeed();
-        double min = fluid.getSpeedRange().getMin();
-        double max = fluid.getSpeedRange().getMax();
+        // Speed control, in microns/sec, model is in nm/sec)
+        double value = fluid.getSpeed() / NANOMETERS_PER_MICRON;
+        double min = fluid.getSpeedRange().getMin() / NANOMETERS_PER_MICRON;
+        double max = fluid.getSpeedRange().getMax() / NANOMETERS_PER_MICRON;
         String label = OTResources.getString( "label.fluidSpeed" );
         String valuePattern = PhysicsDefaults.FLUID_SPEED_DISPLAY_PATTERN; //XXX module specific!
         String units = OTResources.getString( "units.fluidSpeed" );
@@ -159,7 +161,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
      * Handles changes to the speed control.
      */
     private void handleSpeedChange() {
-        double speed = _speedControl.getValue();
+        double speed = _speedControl.getValue() * NANOMETERS_PER_MICRON;
         if ( DEBUG_OUTPUT ) {
             System.out.println( "FluidControlPanel.handleSpeedChange " + speed );
         }

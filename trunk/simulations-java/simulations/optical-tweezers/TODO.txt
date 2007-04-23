@@ -28,7 +28,6 @@ MEDIUM PRIORITY:
 - get spec for "Show charge on bead" feature
 
 LOW PRIORITY:
-- display fluid speed in microns (1E-6 m), model is in nm (1E-9 m) ??
 - use TrigCache to improve performance?
 - replace OTRuler alignment hack with permanent solution
 - migrate CloseButtonNode to common, reuse phetcommon/data/images/buttons/closeButton.png
@@ -64,6 +63,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/23/07 - display & control fluid speed in microns/sec, model is in nm/sec
 4/23/07 - debug LogarithmicSliderStrategy.sliderToModel and modelToSlider when abs(modelMinValue) < 1 
 4/23/07 - use new controls in FluidControlPanel., logarithmic viscosity control
 4/23/07 - replace SliderControl with LinearValueControl and LogarithmicValueControl
