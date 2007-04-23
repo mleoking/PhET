@@ -379,7 +379,7 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {
-        System.out.println( "listeners.size() = " + listeners.size() );
+//        System.out.println( "listeners.size() = " + listeners.size() );
         listeners.add( listener );
     }
 
