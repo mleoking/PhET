@@ -55,8 +55,7 @@
 
     <target name="build_esp" depends="init">
         <phet-build project="energy-skate-park" destfile="deploy/energy-skate-park.jar"/>
-        <!--<phet-jnlp project="cck" flavor="cck-ac"/>-->
-        <!--<phet-jnlp project="cck" flavor="cck-dc"/>-->
+        <phet-jnlp project="energy-skate-park" flavor="energy-skate-park" deployurl="http://www.colorado.edu/physics/phet/dev/ec3/1.05.20/"/>
     </target>
 
     <target name="build_cck" depends="init">
