@@ -185,6 +185,7 @@ public class EnergySkateParkModel implements Serializable {
         this.time = model.time;
         this.maxNumHistoryPoints = model.maxNumHistoryPoints;
         this.gravity = model.gravity;
+        notifyBodyEnergyChanged();
     }
 
     public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D spline ) {
