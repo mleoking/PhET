@@ -30,18 +30,18 @@ public class RotationGraphSet {
     private GraphSuite[] suites;
 
     public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel rotationModel ) {
-        angleGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.THETA, toControlGraph( pSwingCanvas, UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, rotationModel.getXVariable(), PImageFactory.create( "images/blue-arrow.png" ), true ) );
-        angularVelocityGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.OMEGA, toControlGraph( pSwingCanvas, UnicodeUtil.OMEGA, "Angular Velocity", -0.1, 0.1, Color.red, rotationModel.getVVariable(), PImageFactory.create( "images/red-arrow.png" ), true ) );
-        angularAccelerationGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.ALPHA, toControlGraph( pSwingCanvas, UnicodeUtil.ALPHA, "Angular Acceleration", -0.001, 0.001, Color.green, rotationModel.getAVariable(), PImageFactory.create( "images/green-arrow.png" ), true ) );
+        angleGraph = new GraphComponent( UnicodeUtil.THETA, toControlGraph( pSwingCanvas, UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, rotationModel.getXVariable(), PImageFactory.create( "images/blue-arrow.png" ), true ) );
+        angularVelocityGraph = new GraphComponent( UnicodeUtil.OMEGA, toControlGraph( pSwingCanvas, UnicodeUtil.OMEGA, "Angular Velocity", -0.1, 0.1, Color.red, rotationModel.getVVariable(), PImageFactory.create( "images/red-arrow.png" ), true ) );
+        angularAccelerationGraph = new GraphComponent( UnicodeUtil.ALPHA, toControlGraph( pSwingCanvas, UnicodeUtil.ALPHA, "Angular Acceleration", -0.001, 0.001, Color.green, rotationModel.getAVariable(), PImageFactory.create( "images/green-arrow.png" ), true ) );
 
         ControlGraph positionControlGraph = toControlGraph( pSwingCanvas, "x", "Position", -1.2, 1.2, Color.blue, rotationModel.getXPositionVariable(), PImageFactory.create( "images/blue-arrow.png" ), false );
         positionControlGraph.addSeries( "Position", Color.red, "y", rotationModel.getYPositionVariable() );
 
-        positionGraph = new GraphComponent( pSwingCanvas, "x,y", positionControlGraph );
+        positionGraph = new GraphComponent( "x,y", positionControlGraph );
         ControlGraph speedControlGraph = toControlGraph( pSwingCanvas, "|v|", "Linear Speed", 0, 0.1, Color.red, rotationModel.getSpeedVariable(), PImageFactory.create( "images/red-arrow.png" ), false );
-        speedGraph = new GraphComponent( pSwingCanvas, "vx, vy", speedControlGraph );
+        speedGraph = new GraphComponent( "vx, vy", speedControlGraph );
 
-        accelerationGraph = new GraphComponent( pSwingCanvas, "a", toControlGraph( pSwingCanvas, "a", "Centripetal Acceleration", 0, 0.001, Color.green, rotationModel.getCentripetalAcceleration(), PImageFactory.create( "images/green-arrow.png" ), false ) );
+        accelerationGraph = new GraphComponent( "a", toControlGraph( pSwingCanvas, "a", "Centripetal Acceleration", 0, 0.001, Color.green, rotationModel.getCentripetalAcceleration(), PImageFactory.create( "images/green-arrow.png" ), false ) );
         graphComponents.addAll( Arrays.asList( new GraphComponent[]{angleGraph, angularVelocityGraph, angularAccelerationGraph, positionGraph, speedGraph, accelerationGraph} ) );
         suites = new GraphSuite[]{
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),

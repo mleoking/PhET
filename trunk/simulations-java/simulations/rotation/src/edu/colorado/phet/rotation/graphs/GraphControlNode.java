@@ -5,7 +5,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +27,7 @@ public class GraphControlNode extends PNode {
     private boolean editable = true;
     private boolean constructed = false;
 
-    public GraphControlNode( PSwingCanvas pSwingCanvas, GraphTimeSeries graphTimeSeries ) {
+    public GraphControlNode( GraphTimeSeries graphTimeSeries ) {
         addChild( seriesLayer );
 
         goStopButton = new PSwing(new GoStopButton( graphTimeSeries ) );
@@ -41,18 +40,18 @@ public class GraphControlNode extends PNode {
         relayout();
     }
 
-    public GraphControlNode( PSwingCanvas pSwingCanvas, String title, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries ) {
-        this( pSwingCanvas, title, simulationVariable, graphTimeSeries, Color.black );
+    public GraphControlNode( String title, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries ) {
+        this( title, simulationVariable, graphTimeSeries, Color.black );
     }
 
-    public GraphControlNode( PSwingCanvas pSwingCanvas, String title, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries, Color color ) {
-        this( pSwingCanvas, graphTimeSeries );
-        addVariable( title, color, simulationVariable, pSwingCanvas );
+    public GraphControlNode( String title, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries, Color color ) {
+        this( graphTimeSeries );
+        addVariable( title, color, simulationVariable );
         relayout();
     }
 
-    public void addVariable( String title, Color color, SimulationVariable simulationVariable, PSwingCanvas pSwingCanvas ) {
-        SeriesNode seriesNode = new SeriesNode( title, color, simulationVariable, pSwingCanvas );
+    public void addVariable( String title, Color color, SimulationVariable simulationVariable ) {
+        SeriesNode seriesNode = new SeriesNode( title, color, simulationVariable );
         seriesNode.setEditable( editable );
         seriesNode.setOffset( 0, seriesLayer.getFullBounds().getHeight() + 5 );
         seriesLayer.addChild( seriesNode );
@@ -64,7 +63,7 @@ public class GraphControlNode extends PNode {
         private PSwing textBox;
         private TextBox box;
 
-        public SeriesNode( String title, Color color, SimulationVariable simulationVariable, PSwingCanvas pSwingCanvas ) {
+        public SeriesNode( String title, Color color, SimulationVariable simulationVariable ) {
             shadowPText = new ShadowPText( title );
             shadowPText.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
             shadowPText.setTextPaint( color );

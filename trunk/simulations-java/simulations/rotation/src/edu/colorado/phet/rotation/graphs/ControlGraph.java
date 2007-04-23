@@ -33,8 +33,6 @@ import java.util.ArrayList;
  */
 
 public class ControlGraph extends PNode {
-    private PSwingCanvas pSwingCanvas;
-
     private GraphControlNode graphControlNode;
     private ChartSlider chartSlider;
     private ZoomSuiteNode zoomControl;
@@ -53,7 +51,6 @@ public class ControlGraph extends PNode {
     }
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double min, final double max, Color color, PNode thumb ) {
-        this.pSwingCanvas = pSwingCanvas;
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
         jFreeChart = ChartFactory.createXYLineChart( title + ", " + abbr, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String)null );
@@ -75,7 +72,7 @@ public class ControlGraph extends PNode {
 //        jFreeChartNode.setBufferedSeries();
         jFreeChartNode.setBufferedImmediateSeries();
 
-        graphControlNode = new GraphControlNode( pSwingCanvas, new DefaultGraphTimeSeries() );
+        graphControlNode = new GraphControlNode( new DefaultGraphTimeSeries() );
         addSeries( title, color, abbr, simulationVariable );
         chartSlider = new ChartSlider( jFreeChartNode, thumb );
         zoomControl = new ZoomSuiteNode();
@@ -191,7 +188,7 @@ public class ControlGraph extends PNode {
         titleNode.setOffset( titleLayer.getFullBounds().getWidth(), 0 );
         titleLayer.addChild( titleNode );
 
-        graphControlNode.addVariable( abbr, color, simulationVariable, pSwingCanvas );
+        graphControlNode.addVariable( abbr, color, simulationVariable );
     }
 
     public double getMaxDataX() {

@@ -51,7 +51,7 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
                 rotationGraphSet.clear();
             }
         } );
-        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( this, graphSetModel, timeSeriesModel );
+        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( graphSetModel, timeSeriesModel );
 
         rotationControlPanel = new RotationControlPanel( rotationGraphSet, graphSetModel, rotationModule.getVectorViewModel() );
         rotationControlPanelNode = new PSwing(rotationControlPanel );

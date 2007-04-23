@@ -30,7 +30,7 @@ public class TestTimeSeriesGraphSetNode {
 
         pSwingCanvas = new PhetPCanvas();
         frame.setContentPane( pSwingCanvas );
-        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( pSwingCanvas, new GraphSetModel( new RotationGraphSet( pSwingCanvas, new RotationModel() ).getGraphSuite( 0 ) ), new TimeSeriesModel() );
+        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( new GraphSetModel( new RotationGraphSet( pSwingCanvas, new RotationModel() ).getGraphSuite( 0 ) ), new TimeSeriesModel() );
         pSwingCanvas.getLayer().addChild( timeSeriesGraphSetNode );
         pSwingCanvas.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
