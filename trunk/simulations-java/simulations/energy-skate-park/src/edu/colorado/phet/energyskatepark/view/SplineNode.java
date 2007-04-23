@@ -367,8 +367,6 @@ public class SplineNode extends PNode {
             }
             lastState = spline.copy();
         }
-//        setVisible( !( spline instanceof FloorSpline ) );
-//        setVisible( !( spline instanceof FloorSpline ) );//todo: handle floor invisibility
     }
 
     private boolean changed() {
@@ -455,9 +453,9 @@ public class SplineNode extends PNode {
     private void proposeMatchesEndpoint( int index ) {
         if( index == 0 || index == numControlPointGraphics() - 1 ) {
             SplineMatch match = getEndpointMatch();
+            System.out.println( "match=" + match );
             if( match != null ) {
-                System.out.println( "match=" + match );
-                spline.controlPointAt( index ).setLocation( match.getTarget().getFullBounds().getCenter2D() );
+                spline.setControlPointLocation( index, match.getTarget().getFullBounds().getCenter2D() );
                 updateAll();
             }
             else {

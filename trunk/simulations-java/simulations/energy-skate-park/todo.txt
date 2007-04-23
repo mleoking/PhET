@@ -1,6 +1,4 @@
-Is that something that is reasonable? I think I'd use it.
 7. Performance problems after lots of runs
-8. When dragging the endpoint of a track, "sticky" grabbing is not working correctly.
 
 Questions:
 Should we add ability to save skater character as part of a saved state? (30 min or so)
