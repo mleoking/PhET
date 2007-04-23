@@ -38,6 +38,10 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
     
     private static final double NANOMETERS_PER_MICRON = 1E3;
         
+    private static final String FLUID_SPEED_DISPLAY_PATTERN = "######0";
+    private static final String FLUID_VISCOSITY_DISPLAY_PATTERN = "0.0E0";
+    private static final String FLUID_TEMPERATURE_DISPLAY_PATTERN = "##0";
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -64,14 +68,12 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         _fluid = fluid;
         _fluid.addObserver( this );
         
-//        setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
-        
         // Speed control, in microns/sec, model is in nm/sec)
         double value = fluid.getSpeed() / NANOMETERS_PER_MICRON;
         double min = fluid.getSpeedRange().getMin() / NANOMETERS_PER_MICRON;
         double max = fluid.getSpeedRange().getMax() / NANOMETERS_PER_MICRON;
         String label = OTResources.getString( "label.fluidSpeed" );
-        String valuePattern = PhysicsDefaults.FLUID_SPEED_DISPLAY_PATTERN; //XXX module specific!
+        String valuePattern = FLUID_SPEED_DISPLAY_PATTERN;
         String units = OTResources.getString( "units.fluidSpeed" );
         _speedControl = new LinearValueControl( min, max, label, valuePattern, units );
         _speedControl.setValue( value );
@@ -85,7 +87,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         min = fluid.getViscosityRange().getMin();
         max = fluid.getViscosityRange().getMax();
         label = OTResources.getString( "label.fluidViscosity" );
-        valuePattern = PhysicsDefaults.FLUID_VISCOSITY_DISPLAY_PATTERN; //XXX module specific!
+        valuePattern = FLUID_VISCOSITY_DISPLAY_PATTERN;
         units = OTResources.getString( "units.fluidViscosity" );
         _viscosityControl = new LogarithmicValueControl( min, max, label, valuePattern, units );
         _viscosityControl.setValue( value );
@@ -99,7 +101,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         min = fluid.getTemperatureRange().getMin();
         max = fluid.getTemperatureRange().getMax();
         label = OTResources.getString( "label.fluidTemperature" );
-        valuePattern = PhysicsDefaults.FLUID_TEMPERATURE_DISPLAY_PATTERN; //XXX module specific!
+        valuePattern = FLUID_TEMPERATURE_DISPLAY_PATTERN;
         units = OTResources.getString( "units.fluidTemperature" );
         _temperatureControl = new LinearValueControl( min, max, label, valuePattern, units );
         _temperatureControl.setTextFieldEditable( true );
