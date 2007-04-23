@@ -3,12 +3,11 @@ Maybe:
 • Save skater character as part of a saved state? (30 min or so)
 • Performance problems after lots of runs?
 • Allow user to save a "batch" of experiments, and switch between them.
-• Show an indicator for attachment point during skater dragging.
-• Skater should point at track while dragging: Unpredictable behavior when there are 2+ possible matches.
 • gradient for earth in energyskate park sim (see projectile motion)
     -Simple solution would degrade performance, more complicated solution would take up to an hour
 • Improve performance e.g. during right-click interaction with track
 • Energy conservation (wait until we see visible problem)
+• Skater should point at track while dragging: Unpredictable behavior when there are 2+ possible matches.
 
 Postponed:
 • Add rotation for skater in the air.
