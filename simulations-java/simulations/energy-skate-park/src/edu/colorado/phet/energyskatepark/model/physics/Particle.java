@@ -634,7 +634,7 @@ public class Particle implements Serializable {
         setUpdateStrategy( new Particle1DUpdate() );
         AbstractVector2D newVelocity = particle1D.getVelocity2D();
         double dot = newVelocity.dot( origVel );
-        System.out.println( "switched to track, velocity dot product= " + dot );
+//        System.out.println( "switched to track, velocity dot product= " + dot );
         if( dot < 0 ) {
             System.out.println( "Velocities were in contrary directions" );
         }
