@@ -62,7 +62,7 @@ public class SplineToolbox extends PNode {
                 spline.addControlPoint( pt.getX(), pt.getY() );
                 spline.addControlPoint( pt.getX() + 1, pt.getY() );
 
-                createdSurface = new EnergySkateParkSpline( new CubicSpline2D( spline.getControlPoints() ) );
+                createdSurface = new EnergySkateParkSpline( spline.getControlPoints()  );
                 energySkateParkSimulationPanel.getEnergySkateParkModel().addSplineSurface( createdSurface );
                 energySkateParkSimulationPanel.redrawAllGraphics();
                 energySkateParkSimulationPanel.getSplineGraphic( createdSurface ).processExternalStartDragEvent();
@@ -124,6 +124,6 @@ public class SplineToolbox extends PNode {
         spline.addControlPoint( 2.0, 0 );
 
 //        return new SplineSurface( spline );
-        return new EnergySkateParkSpline( new CubicSpline2D( spline.getControlPoints() ) );
+        return new EnergySkateParkSpline( spline.getControlPoints() );
     }
 }

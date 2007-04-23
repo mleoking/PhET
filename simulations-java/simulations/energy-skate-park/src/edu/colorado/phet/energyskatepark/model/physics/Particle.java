@@ -44,8 +44,6 @@ public class Particle implements Serializable {
     private boolean verboseDebug = true;
     private static double DEFAULT_ANGLE = 0;
 
-
-
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );
     }
@@ -246,7 +244,7 @@ public class Particle implements Serializable {
             if( netForceRadial > centripForce && !outsideCircle ) {
                 leaveTrack = true;
             }
-            if( leaveTrack ) {
+            if( leaveTrack&&!particle1D.isRollerCoasterMode() ) {
                 System.out.println( "Switching to freefall" );
                 switchToFreeFall();
 

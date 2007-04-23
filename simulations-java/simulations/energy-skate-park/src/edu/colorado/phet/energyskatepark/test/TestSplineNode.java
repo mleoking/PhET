@@ -12,20 +12,17 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Mar 16, 2007
- * Time: 12:41:42 PM
- * To change this template use File | Settings | File Templates.
+ * Author: Sam Reid
+ * Mar 16, 2007, 12:41:42 PM
  */
 public class TestSplineNode {
     private JFrame frame;
 
     public TestSplineNode() {
         PhetPCanvas phetPCanvas = new PhetPCanvas( new Rectangle2D.Double( 0, 0, 10, 10 ) );
-        EnergySkateParkSpline spline = new EnergySkateParkSpline( new CubicSpline2D( new Point2D[]{
+        EnergySkateParkSpline spline = new EnergySkateParkSpline( new Point2D[]{
                 new Point2D.Double( 0, 0 ),
-                new Point2D.Double( 5, 5 )} ) );
+                new Point2D.Double( 5, 5 )}  );
         SplineNode splineNode = new SplineNode( phetPCanvas, spline, new EnergySkateParkSplineEnvironment() {
             public void removeSpline( SplineNode splineNode ) {
             }

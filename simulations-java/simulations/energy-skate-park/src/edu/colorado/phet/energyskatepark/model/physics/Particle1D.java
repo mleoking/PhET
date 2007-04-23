@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.energyskatepark.model.TrackWithFriction;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.timeseries.OptionalItemSerializableList;
 
 import java.awt.geom.Point2D;
@@ -236,6 +237,14 @@ public class Particle1D implements Serializable {
 
     public void addThermalEnergy( double dT ) {
         setThermalEnergy( thermalEnergy + dT );
+    }
+
+    public boolean isRollerCoasterMode() {
+        if( track instanceof EnergySkateParkSpline.DefaultTrackSpline ) {
+            EnergySkateParkSpline.DefaultTrackSpline defaultTrackSpline = (EnergySkateParkSpline.DefaultTrackSpline)track;
+            return defaultTrackSpline.isRollerCoasterMode();
+        }
+        return false;
     }
 
     public interface UpdateStrategy extends Serializable {

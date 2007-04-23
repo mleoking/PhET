@@ -234,7 +234,7 @@ public class EnergySkateParkModuleBean {
         }
 
         public EnergySkateParkSpline toEnergySkateParkSpline() {
-            return new EnergySkateParkSpline( new CubicSpline2D( controlPoints ) );
+            return new EnergySkateParkSpline( controlPoints );
         }
     }
 }
