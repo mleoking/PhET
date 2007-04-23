@@ -14,6 +14,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.control.slider.LogarithmicValueControl;
+import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 
@@ -38,7 +40,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     private PhysicsModule _module;
     private OTClock _clock;
     
-    private ClockSpeedSlider _clockSpeedSlider;
+    private LogarithmicValueControl _timestepControl;
     
     private JCheckBox _electricFieldCheckBox;
     private JCheckBox _beadChargesCheckBox;
@@ -83,10 +85,13 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Clock speed
         JPanel speedPanel = new JPanel();
         {
-            JLabel titleLabel = new JLabel( OTResources.getString( "label.simulationSpeed" ) );
-            titleLabel.setFont( TITLE_FONT );
-            
-            _clockSpeedSlider = new ClockSpeedSlider( _clock, CONTROL_FONT );
+            double min = PhysicsDefaults.CLOCK_DT_RANGE.getMin();
+            double max = PhysicsDefaults.CLOCK_DT_RANGE.getMax();
+            String label = OTResources.getString( "label.timestep" );
+            String valuePattern = PhysicsDefaults.CLOCK_CONTROL_PATTERN;
+            String units = OTResources.getString( "units.time" );
+            _timestepControl = new LogarithmicValueControl( min, max, label, valuePattern, units );
+            _timestepControl.setTextFieldColumns( 6 );
             
             EasyGridBagLayout layout = new EasyGridBagLayout( speedPanel );
             speedPanel.setLayout( layout );
@@ -94,8 +99,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             layout.setFill( GridBagConstraints.HORIZONTAL );
             int row = 0;
             int column = 0;
-            layout.addComponent( titleLabel, row++, column );
-            layout.addComponent( _clockSpeedSlider, row++, column );
+            layout.addComponent( _timestepControl, row++, column );
         }
         
         // Fields and charged 
@@ -201,7 +205,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Fonts
         {
-            _clockSpeedSlider.setFont( CONTROL_FONT );
+            _timestepControl.setFont( CONTROL_FONT );
             
             _electricFieldCheckBox.setFont( CONTROL_FONT );
             _beadChargesCheckBox.setFont( CONTROL_FONT );
@@ -242,7 +246,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Listeners
         {
             EventListener listener = new EventListener();
-            _clockSpeedSlider.addChangeListener( listener );
+            _timestepControl.addChangeListener( listener );
             _electricFieldCheckBox.addActionListener( listener );
             _beadChargesCheckBox.addActionListener( listener );
             _allChargesRadioButton.addActionListener( listener );
@@ -262,7 +266,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Default state
         {
-            _clockSpeedSlider.setSpeed( _clock.getDt() );
+            _timestepControl.setValue( _clock.getDt() );
             
             _electricFieldCheckBox.setSelected( false );
             _beadChargesCheckBox.setSelected( false );
@@ -288,7 +292,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _momemtumChangeCheckBox.setSelected( false );
             _potentialEnergyChartCheckBox.setSelected( false );
             
-            handleSpeedControl(); // enable & disable controls based on clock speed
+            handleClockSpeedControl(); // enable & disable controls based on clock speed
         }
         
         //XXX use red foreground for controls that aren't implemented
@@ -312,12 +316,12 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     //----------------------------------------------------------------------------
     
     public void setClockSpeed( double dt ) {
-        _clockSpeedSlider.setSpeed( dt );
-        handleSpeedControl();
+        _timestepControl.setValue( dt );
+        handleClockSpeedControl();
     }
     
     public double getClockSpeed() {
-        return _clockSpeedSlider.getSpeed();
+        return _timestepControl.getValue();
     }
     
     public void setElectricFieldSelected( boolean b ) {
@@ -513,8 +517,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
 
         public void stateChanged( ChangeEvent e ) {
             Object source = e.getSource();
-            if ( source == _clockSpeedSlider ) {
-                handleSpeedControl();
+            if ( source == _timestepControl ) {
+                handleClockSpeedControl();
             }
         }
         
@@ -524,9 +528,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     // Event handlers
     //----------------------------------------------------------------------------
     
-    private void handleSpeedControl() {
+    private void handleClockSpeedControl() {
         
-        boolean isSlow = _clockSpeedSlider.getValue() < ( ( _clockSpeedSlider.getMaximum() - _clockSpeedSlider.getMinimum() ) / 3 );//XXX
+        boolean isSlow = _timestepControl.getValue() < ( ( _timestepControl.getMaximum() - _timestepControl.getMinimum() ) / 3 );//XXX
         
         _electricFieldCheckBox.setEnabled( isSlow );
         _beadChargesCheckBox.setEnabled( isSlow );
@@ -537,7 +541,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _wholeBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
         _halfBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
         
-        _clock.setDt( _clockSpeedSlider.getSpeed() );
+        _clock.setDt( _timestepControl.getValue() );
     }
 
     private void handleElectricFieldCheckBox() {
