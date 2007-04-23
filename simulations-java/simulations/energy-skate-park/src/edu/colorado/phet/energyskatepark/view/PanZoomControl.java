@@ -26,14 +26,14 @@ public class PanZoomControl extends JPanel {
         this.simulationPanel = phetPCanvas;
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
         try {
-            zoomOut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" ) ) );
+            zoomOut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "energy-skate-park/images/icons/glass-20-minus.gif" ) ) );
             zoomOut.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     zoomOutOnce();
                 }
             } );
             add( zoomOut );
-            zoomIn = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" ) ) );
+            zoomIn = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "energy-skate-park/images/icons/glass-20-plus.gif" ) ) );
             zoomIn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     zoomInOnce();

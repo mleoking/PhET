@@ -28,7 +28,7 @@ public class ZoomPanel extends VerticalLayoutPanel {
         this.energyPositionPlotCanvas = energyPositionPlotCanvas;
 //        JButton comp = new JButton( EnergySkateParkStrings.getString( "zoom.out" ) );
         try {
-            JButton comp = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" ) ) );
+            JButton comp = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "energy-skate-park/images/icons/glass-20-plus.gif" ) ) );
             comp.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     increase( +dy );
@@ -36,7 +36,7 @@ public class ZoomPanel extends VerticalLayoutPanel {
             } );
             add( comp );
 //        JButton zoomIn = new JButton( EnergySkateParkStrings.getString( "zoom.in" ) );
-            JButton zoomIn = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" ) ) );
+            JButton zoomIn = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "energy-skate-park/images/icons/glass-20-minus.gif" ) ) );
             zoomIn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     increase( -dy );

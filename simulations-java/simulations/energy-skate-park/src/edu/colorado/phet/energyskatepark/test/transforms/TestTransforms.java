@@ -43,7 +43,7 @@ public class TestTransforms {
         worldNode.addChild( path );
 
         //One way to set size in ModelNode
-        PImage image = PImageFactory.create( "images/skater3.png" );
+        PImage image = PImageFactory.create( "energy-skate-park/images/skater3.png" );
         double aspectRatio = image.getWidth() / image.getHeight();
         image.setWidth( 3 );//model width
         image.setHeight( 3 / aspectRatio );//model height
@@ -51,13 +51,13 @@ public class TestTransforms {
         worldNode.addChild( image );
 
         //Another way to set size in model node.
-        ModelNode modelNode = new ModelNode( PImageFactory.create( "images/skater3.png" ), 2.0 );
+        ModelNode modelNode = new ModelNode( PImageFactory.create( "energy-skate-park/images/skater3.png" ), 2.0 );
         worldNode.addChild( modelNode );
 
         ModelNode modelNode2 = new ModelNode( new PText( "Hello" ), 1.0 );
         worldNode.addChild( modelNode2 );
 
-        worldNode4 = new ModelNode( PImageFactory.create( "images/skater3.png" ), 1.0 );
+        worldNode4 = new ModelNode( PImageFactory.create( "energy-skate-park/images/skater3.png" ), 1.0 );
         worldNode4.setOffset( 1, 0 );
         worldNode4.rotateInPlace( Math.PI );
         worldNode4.addInputEventListener( new PDragEventHandler() );

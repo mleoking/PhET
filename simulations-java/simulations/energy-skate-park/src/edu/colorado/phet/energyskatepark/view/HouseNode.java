@@ -19,7 +19,7 @@ public class HouseNode extends PhetPNode {
 
         PNode houseImageNode = null;
         try {
-            BufferedImage houseImage = ImageLoader.loadBufferedImage( "images/house.png" );
+            BufferedImage houseImage = ImageLoader.loadBufferedImage( "energy-skate-park/images/house.png" );
             houseImageNode = new PImage( houseImage );
             double scale = 1.5 / houseImage.getHeight();
             houseImageNode.transformBy( AffineTransform.getScaleInstance( scale, -scale ) );

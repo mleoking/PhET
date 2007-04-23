@@ -24,7 +24,7 @@ public class ParticleImageNode extends PNode {
 
     public ParticleImageNode( final Particle particle ) {
         this.particle = particle;
-        imageNode = PImageFactory.create( "images/skater3.png" );
+        imageNode = PImageFactory.create( "energy-skate-park/images/skater3.png" );
         w = imageNode.getFullBounds().getWidth();
         h = imageNode.getFullBounds().getHeight();
         scale = 0.004 * 1.4;

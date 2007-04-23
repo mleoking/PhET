@@ -34,7 +34,7 @@ public class PauseIndicator extends PNode {
         this.module = module;
         this.canvas = canvas;
         this.ec3RootNode = ec3RootNode;
-        PImage im = PImageFactory.create( "images/icons/java/media/Pause24.gif" );
+        PImage im = PImageFactory.create( "energy-skate-park/images/icons/java/media/Pause24.gif" );
         addChild( im );
         ShadowPText text = new ShadowPText( EnergySkateParkStrings.getString( "the.simulation.is.paused" ) );
         addChild( text );

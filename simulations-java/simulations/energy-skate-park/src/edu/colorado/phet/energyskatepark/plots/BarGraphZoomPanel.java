@@ -27,14 +27,14 @@ public class BarGraphZoomPanel extends VerticalLayoutPanel {
         this.barGraphSet = barGraphSet;
         origTx = barGraphSet.getTransform1D();
         try {
-            JButton comp = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" ) ) );
+            JButton comp = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "energy-skate-park/images/icons/glass-20-plus.gif" ) ) );
             comp.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     zoom( +dy );
                 }
             } );
             add( comp );
-            JButton zoomIn = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" ) ) );
+            JButton zoomIn = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "energy-skate-park/images/icons/glass-20-minus.gif" ) ) );
             zoomIn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     zoom( 1.0 / dy );

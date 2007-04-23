@@ -60,7 +60,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 
         BufferedImage measuringTapeIcon = null;
         try {
-            measuringTapeIcon = ImageLoader.loadBufferedImage( "images/ruler-thumb.png" );
+            measuringTapeIcon = ImageLoader.loadBufferedImage( "energy-skate-park/images/ruler-thumb.png" );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -93,7 +93,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 
         BufferedImage potentialIcon = null;
         try {
-            potentialIcon = ImageLoader.loadBufferedImage( "images/peicon.png" );
+            potentialIcon = ImageLoader.loadBufferedImage( "energy-skate-park/images/peicon.png" );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -108,7 +108,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
                     new ChooseCharacterDialog( module ).setVisible( true );
                 }
             } );
-            addControl( new IconComponent( chooseCharacter, BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "images/skater3.png" ), chooseCharacter.getPreferredSize().height ) ) );
+            addControl( new IconComponent( chooseCharacter, BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "energy-skate-park/images/skater3.png" ), chooseCharacter.getPreferredSize().height ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
