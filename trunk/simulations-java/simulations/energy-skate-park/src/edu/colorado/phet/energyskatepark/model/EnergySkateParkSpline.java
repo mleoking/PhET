@@ -2,6 +2,7 @@ package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
+import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
 
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
@@ -13,12 +14,29 @@ import java.util.ArrayList;
  * Mar 16, 2007, 11:30:06 AM
  */
 public class EnergySkateParkSpline implements Cloneable, Serializable {
-    private ControlPointParametricFunction2D parametricFunction2D;
+    private DefaultTrackSpline parametricFunction2D;
     private boolean rollerCoaster;
     private boolean userControlled;
     private boolean interactive = true;
 
-    public EnergySkateParkSpline( ControlPointParametricFunction2D parametricFunction2D ) {
+    public EnergySkateParkSpline( Point2D[] controlPoints ) {
+//        this( new CubicSpline2D( controlPoints ) );
+        this( new DefaultTrackSpline( controlPoints ) );
+    }
+
+    public static class DefaultTrackSpline extends CubicSpline2D {
+        private boolean rollerCoasterMode=false;
+
+        public DefaultTrackSpline( Point2D[] pts ) {
+            super( pts );
+        }
+
+        public boolean isRollerCoasterMode() {
+            return rollerCoasterMode;
+        }
+    }
+
+    private EnergySkateParkSpline( DefaultTrackSpline parametricFunction2D ) {
         this.parametricFunction2D = parametricFunction2D;
     }
 
@@ -29,7 +47,7 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
     public Object clone() {
         try {
             EnergySkateParkSpline clone = (EnergySkateParkSpline)super.clone();
-            clone.parametricFunction2D = (ControlPointParametricFunction2D)this.parametricFunction2D.clone();
+            clone.parametricFunction2D = (DefaultTrackSpline)this.parametricFunction2D.clone();
             clone.rollerCoaster = this.rollerCoaster;
             clone.userControlled = this.userControlled;
             clone.interactive = this.interactive;
@@ -61,6 +79,7 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
 
     public void setRollerCoasterMode( boolean selected ) {
         this.rollerCoaster = selected;
+        parametricFunction2D.rollerCoasterMode=rollerCoaster;
     }
 
     public boolean isRollerCoasterMode() {

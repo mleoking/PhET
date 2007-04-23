@@ -63,7 +63,7 @@ public class ParticleStage implements Serializable {
     }
 
     public String toStringSerialization() {
-        String str = new String();
+        String str = "";
         for( int i = 0; i < splines.size(); i++ ) {
             ParametricFunction2D parametricFunction2D = (ParametricFunction2D)splines.get( i );
             str += parametricFunction2D.toStringSerialization();

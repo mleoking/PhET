@@ -173,9 +173,9 @@ public class EnergySkateParkModule extends PiccoloModule {
 
         PreFabSplines preFabSplines = new PreFabSplines();
         PreFabSplines.CubicSpline spline = preFabSplines.getParabolic();
-        ControlPointParametricFunction2D parametricFunction2D = new CubicSpline2D( spline.getControlPoints() );
+//        ControlPointParametricFunction2D parametricFunction2D = new CubicSpline2D(  );
 
-        EnergySkateParkSpline espspline = new EnergySkateParkSpline( parametricFunction2D );
+        EnergySkateParkSpline espspline = new EnergySkateParkSpline( spline.getControlPoints() );
         energyModel.addSplineSurface( espspline );
         energyCanvas.initPieGraphic();
         energyCanvas.removeAllAttachmentPointGraphics();

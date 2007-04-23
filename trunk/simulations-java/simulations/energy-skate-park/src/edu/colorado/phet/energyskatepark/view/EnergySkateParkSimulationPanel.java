@@ -297,7 +297,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
                 spline.addControlPoint( b.controlPointAt( i ) );
             }
         }
-        EnergySkateParkSpline energySkateParkSpline = new EnergySkateParkSpline( new CubicSpline2D( spline.getControlPoints() ) );
+        EnergySkateParkSpline energySkateParkSpline = new EnergySkateParkSpline( spline.getControlPoints()  );
         energySkateParkModel.addSplineSurface( energySkateParkSpline );
         addSplineGraphic( new SplineNode( this, energySkateParkSpline, this ) );
         System.out.println( "change = " + change );
