@@ -34,7 +34,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
     //----------------------------------------------------------------------------
     
     // prints debugging output when either the control or model changes
-    private static final boolean DEBUG_OUTPUT = true;
+    private static final boolean DEBUG_OUTPUT = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -119,8 +119,9 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         layout.addComponent( _temperatureControl, row++, column );
         
         // Adjust all sliders to be the same width
-        int sliderWidth = Math.max( (int) _speedControl.getPreferredSize().getWidth(), 
-                Math.max( (int) _viscosityControl.getPreferredSize().getWidth(), (int) _temperatureControl.getPreferredSize().getWidth() ) );
+        int sliderWidth = Math.max( (int) _speedControl.getSlider().getPreferredSize().getWidth(), 
+                Math.max( (int) _viscosityControl.getSlider().getPreferredSize().getWidth(), 
+                        (int) _temperatureControl.getSlider().getPreferredSize().getWidth() ) );
         _speedControl.setSliderWidth( sliderWidth );
         _viscosityControl.setSliderWidth( sliderWidth );
         _temperatureControl.setSliderWidth( sliderWidth );

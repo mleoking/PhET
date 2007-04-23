@@ -3,11 +3,11 @@
 ===============================================================================
 
 IN PROGRESS:
-- debug LogarithmicSliderStrategy.sliderToModel and modelToSlider
 - add developer control for Bead.BROWNIAN_MOTION_SCALE
 - add developer controls for disabling individual components of bead motion model
 
 HIGH PRIORITY:
+- left-align all fluid controls
 - new model for bead motion
 - better model for Fz trap force
 - implement E-field model for slow mode
@@ -64,6 +64,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/23/07 - debug LogarithmicSliderStrategy.sliderToModel and modelToSlider when abs(modelMinValue) < 1 
 4/23/07 - use new controls in FluidControlPanel., logarithmic viscosity control
 4/23/07 - replace SliderControl with LinearValueControl and LogarithmicValueControl
 4/23/07 - slider and control hierarchy built on slider strategies

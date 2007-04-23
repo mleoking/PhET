@@ -29,7 +29,6 @@ public abstract class AbstractSlider extends JSlider {
     public double getModelValue() {
         int sliderValue = getValue();
         double modelValue = _strategy.sliderToModel( sliderValue );
-        System.out.println( "sliderValue=" + sliderValue + " modelValue=" + modelValue );//XXX
         return modelValue;
     }
 }

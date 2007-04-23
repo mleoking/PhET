@@ -46,7 +46,8 @@ public abstract class AbstractSliderStrategy implements ISliderStrategy {
     
     public String toString() {
         return getClass().getName() + 
-            " sliderMin=" + _sliderMin + " sliderMax=" + _sliderMax + 
-            " modelMin=" + _modelMin + " modelMax" + _modelMax;
+            " modelMin=" + _modelMin + " modelMax=" + _modelMax +
+            " sliderMin=" + _sliderMin + " sliderMax=" + _sliderMax; 
+
     }
 }
