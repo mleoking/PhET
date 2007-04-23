@@ -13,13 +13,14 @@ public class LinearSliderStrategy extends AbstractSliderStrategy {
     /**
      * Constructor.
      * 
-     * @param sliderMin
-     * @param sliderMax
      * @param modelMin
      * @param modelMax
+     * @param sliderMin
+     * @param sliderMax
+
      */
-    public LinearSliderStrategy( int sliderMin, int sliderMax, double modelMin, double modelMax ) {
-        super( sliderMin, sliderMax, modelMin, modelMax );
+    public LinearSliderStrategy( double modelMin, double modelMax, int sliderMin, int sliderMax ) {
+        super( modelMin, modelMax, sliderMin, sliderMax );
     }
 
     /**

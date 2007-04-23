@@ -10,8 +10,8 @@ package edu.colorado.phet.opticaltweezers.control.slider;
  */
 public abstract class AbstractSliderStrategy implements ISliderStrategy {
     
-    private int _sliderMin, _sliderMax;
     private double _modelMin, _modelMax;
+    private int _sliderMin, _sliderMax;
     
     /**
      * Constructor.
@@ -21,19 +21,11 @@ public abstract class AbstractSliderStrategy implements ISliderStrategy {
      * @param modelMin
      * @param modelMax
      */
-    public AbstractSliderStrategy( int sliderMin, int sliderMax, double modelMin, double modelMax ) {
-        _sliderMin = sliderMin;
-        _sliderMax = sliderMax;
+    public AbstractSliderStrategy( double modelMin, double modelMax, int sliderMin, int sliderMax ) {
         _modelMin = modelMin;
         _modelMax = modelMax;
-    }
-    
-    public int getSliderMin() {
-        return _sliderMin;
-    }
-    
-    public int getSliderMax() {
-        return _sliderMax;
+        _sliderMin = sliderMin;
+        _sliderMax = sliderMax;
     }
 
     public double getModelMin() {
@@ -42,6 +34,14 @@ public abstract class AbstractSliderStrategy implements ISliderStrategy {
     
     public double getModelMax() {
         return _modelMax;
+    }
+    
+    public int getSliderMin() {
+        return _sliderMin;
+    }
+    
+    public int getSliderMax() {
+        return _sliderMax;
     }
     
     public String toString() {
