@@ -67,6 +67,9 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/23/07 - use new controls in FluidControlPanel
+4/23/07 - replace SliderControl with LinearValueControl and LogarithmicValueControl
+4/23/07 - slider and control hierarchy built on slider strategies
 4/19/07 - implement strategies (linear and log) for mapping between slider and model coordinates
 4/18/07 - simplify SliderControl constructor
 4/18/07 - increase brownian motion scale factor

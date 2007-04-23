@@ -67,9 +67,9 @@ public class TestSliderStrategies {
         {
             int numberOfTests = 10;
             System.out.println( "------------------------" );
-            testStrategy( new LinearSliderStrategy( -100, 100, -1.0, 1.0 ), numberOfTests );
+            testStrategy( new LinearSliderStrategy( -1.0, 1.0, -100, 100 ), numberOfTests );
             System.out.println( "------------------------" );
-            testStrategy( new LinearSliderStrategy( 0, 1000, 1000.0, 2000.0 ), numberOfTests );
+            testStrategy( new LinearSliderStrategy( 1000.0, 2000.0, 0, 1000 ), numberOfTests );
             System.out.println( "------------------------" );
             testStrategy( new LinearSliderStrategy( 0, 1000, -1000, 0 ), numberOfTests );
         }
@@ -77,37 +77,48 @@ public class TestSliderStrategies {
         // Logarithmic test
         {
             System.out.println( "------------------------" );
-            ISliderStrategy logarithmicStrategy = new LogarithmicSliderStrategy( -100, 100, 20.0, 200000.0 );
+            ISliderStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 2E1, 2E5, -100, 100 );
             System.out.println( "test: " + logarithmicStrategy.toString() );
-            testStrategy( logarithmicStrategy, -100,    20.0 );
-            testStrategy( logarithmicStrategy, -50,    200.0 );
-            testStrategy( logarithmicStrategy,   0,   2000.0 );
-            testStrategy( logarithmicStrategy,  50,  20000.0 );
-            testStrategy( logarithmicStrategy, 100, 200000.0 );
+            testStrategy( logarithmicStrategy, -100, 2E1 );
+            testStrategy( logarithmicStrategy,  -50, 2E2 );
+            testStrategy( logarithmicStrategy,    0, 2E3 );
+            testStrategy( logarithmicStrategy,   50, 2E4 );
+            testStrategy( logarithmicStrategy,  100, 2E5 );
         }
         
         // Logarithmic test
         {
             System.out.println( "------------------------" );
-            ISliderStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 0, 1000, 20.0, 200000.0 );
+            ISliderStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 2E1, 2E5, 0, 1000 );
             System.out.println( "test: " + logarithmicStrategy.toString() );
-            testStrategy( logarithmicStrategy,    0,     20.0 );
-            testStrategy( logarithmicStrategy,  250,    200.0 );
-            testStrategy( logarithmicStrategy,  500,   2000.0 );
-            testStrategy( logarithmicStrategy,  750,  20000.0 );
-            testStrategy( logarithmicStrategy, 1000, 200000.0 );
+            testStrategy( logarithmicStrategy,    0, 2E1 );
+            testStrategy( logarithmicStrategy,  250, 2E2 );
+            testStrategy( logarithmicStrategy,  500, 2E3 );
+            testStrategy( logarithmicStrategy,  750, 2E4 );
+            testStrategy( logarithmicStrategy, 1000, 2E5 );
         }
         
         // Logarithmic test
         {
             System.out.println( "------------------------" );
-            ISliderStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 0, 1000, -200000.0, -20.0 );
+            ISliderStrategy logarithmicStrategy = new LogarithmicSliderStrategy( -2E5, -2E1, 0, 1000 );
             System.out.println( "test: " + logarithmicStrategy.toString() );
-            testStrategy( logarithmicStrategy,    0, -200000.0 );
-            testStrategy( logarithmicStrategy,  250,  -20000.0 );
-            testStrategy( logarithmicStrategy,  500,   -2000.0 );
-            testStrategy( logarithmicStrategy,  750,    -200.0 );
-            testStrategy( logarithmicStrategy, 1000,     -20.0 );
+            testStrategy( logarithmicStrategy,    0, -2E5 );
+            testStrategy( logarithmicStrategy,  250, -2E4 );
+            testStrategy( logarithmicStrategy,  500, -2E3 );
+            testStrategy( logarithmicStrategy,  750, -2E2 );
+            testStrategy( logarithmicStrategy, 1000, -2E1 );
+        }
+        
+        //XXX This test case fails!
+        // Logarithmic test
+        {
+            System.out.println( "------------------------" );
+            ISliderStrategy logarithmicStrategy = new LogarithmicSliderStrategy( .001, .01, 0, 1000 );
+            System.out.println( "test: " + logarithmicStrategy.toString() );
+            testStrategy( logarithmicStrategy,    0, .001 );
+            testStrategy( logarithmicStrategy,  500, .01 );
+            testStrategy( logarithmicStrategy, 1000, .1 );
         }
     }
 }

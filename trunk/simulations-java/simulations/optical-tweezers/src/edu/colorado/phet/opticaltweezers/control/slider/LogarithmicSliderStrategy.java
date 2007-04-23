@@ -16,14 +16,14 @@ public class LogarithmicSliderStrategy extends AbstractSliderStrategy {
     /**
      * Constructor.
      * 
-     * @param sliderMin
-     * @param sliderMax
      * @param modelMin
      * @param modelMax
+     * @param sliderMin
+     * @param sliderMax
      * @throws IllegalArgumentException if modelMin and modelMax have different signs
      */
-    public LogarithmicSliderStrategy( int sliderMin, int sliderMax, double modelMin, double modelMax ) {
-        super( sliderMin, sliderMax, modelMin, modelMax );
+    public LogarithmicSliderStrategy( double modelMin, double modelMax, int sliderMin, int sliderMax ) {
+        super( modelMin, modelMax, sliderMin, sliderMax );
         if ( modelMin < 0 && modelMax > 0 || modelMin > 0 && modelMax < 0 ) {
             throw new IllegalArgumentException( "modelMin and modelMax must have the same sign" );
         }
