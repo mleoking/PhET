@@ -27,7 +27,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     public TimeSeriesPlaybackPanel( final TimeSeriesModel timeSeriesModel ) {
         this.timeSeriesModel = timeSeriesModel;
 
-        record = new JButton( TheRampStrings.getString( "record" ) );
+        record = new JButton( TheRampStrings.getString( "record.path" ) );
         record.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.setRecordMode();
