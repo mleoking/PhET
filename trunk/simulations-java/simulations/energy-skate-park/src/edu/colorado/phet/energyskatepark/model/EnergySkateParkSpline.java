@@ -25,7 +25,7 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
     }
 
     public static class DefaultTrackSpline extends CubicSpline2D {
-        private boolean rollerCoasterMode=false;
+        private boolean rollerCoasterMode = false;
 
         public DefaultTrackSpline( Point2D[] pts ) {
             super( pts );
@@ -79,7 +79,7 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
 
     public void setRollerCoasterMode( boolean selected ) {
         this.rollerCoaster = selected;
-        parametricFunction2D.rollerCoasterMode=rollerCoaster;
+        parametricFunction2D.rollerCoasterMode = rollerCoaster;
     }
 
     public boolean isRollerCoasterMode() {
@@ -88,10 +88,6 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
 
     public void setUserControlled( boolean userControlled ) {
         this.userControlled = userControlled;
-    }
-
-    public boolean isRollerCoaster() {
-        return rollerCoaster;
     }
 
     public Point2D[] getControlPoints() {

@@ -1,4 +1,3 @@
-3. Start on track in the default case.
 4. Bug: Bar chart should update during playback
 5. Show Thermal Off as default for pie chart.
 6. You and I talked about having a way to disable the "auto connect" feature while track building (maybe with the Ctrl key).
