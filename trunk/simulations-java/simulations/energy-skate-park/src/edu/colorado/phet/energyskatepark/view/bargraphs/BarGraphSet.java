@@ -4,10 +4,10 @@ package edu.colorado.phet.energyskatepark.view.bargraphs;
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -205,9 +205,7 @@ public class BarGraphSet extends PNode {
             Point2D origin = new Point2D.Double( 0, barChartHeight );
             Point2D dst = new Point2D.Double( 0, topY + 25 );
             try {
-                Arrow arrow = new Arrow( origin, dst, 8, 8, 3 );
-                GeneralPath shape = arrow.getShape();
-                return shape;
+                return new Arrow( origin, dst, 8, 8, 3 ).getShape();
             }
             catch( RuntimeException re ) {
                 re.printStackTrace();

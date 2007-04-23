@@ -2,7 +2,8 @@
 Fixed text for record button (previously said "Record Path")
 Added roller coaster mode to new physics implementation
 Fixed Skater edit control: added "restore defaults", moved bounciness control
-Skater starts on the track in the default case (to avoid friction); if the user has moved or edited the track, skater starts at previous position. 
+Skater starts on the track in the default case (to avoid friction); if the user has moved or edited the track, skater starts at previous position.
+Bugfix: Bar chart should update during playback
 
 1.05.19 (4-11-2007)
 Bugfix in playback/record.
