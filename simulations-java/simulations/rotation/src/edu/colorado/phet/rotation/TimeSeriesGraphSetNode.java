@@ -6,7 +6,6 @@ import edu.colorado.phet.rotation.timeseries.TimeSeriesControlPanel;
 import edu.colorado.phet.rotation.timeseries.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -24,11 +23,11 @@ public class TimeSeriesGraphSetNode extends PNode {
     private PSwing timeSeriesControlPanelNode;
     private boolean constructed = false;
 
-    public TimeSeriesGraphSetNode( PSwingCanvas pSwingCanvas, GraphSetModel graphSetModel, TimeSeriesModel timeSeriesModel ) {
+    public TimeSeriesGraphSetNode( GraphSetModel graphSetModel, TimeSeriesModel timeSeriesModel ) {
         setBounds( 0, 0, 800, 600 );
         graphSetNode = new GraphSetNode( graphSetModel );
         TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel );
-        timeSeriesControlPanelNode = new PSwing(timeSeriesControlPanel );
+        timeSeriesControlPanelNode = new PSwing( timeSeriesControlPanel );
 
         addChild( graphSetNode );
         addChild( timeSeriesControlPanelNode );

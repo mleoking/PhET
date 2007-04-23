@@ -4,7 +4,6 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +29,7 @@ public class GraphComponent extends PNode {
     private ControlGraph controlGraph;
     private PSwing closeButton;
 
-    public GraphComponent( PSwingCanvas pSwingCanvas, String label, ControlGraph controlGraph ) {
+    public GraphComponent( String label, ControlGraph controlGraph ) {
         this.label = label;
 
         graphChild = new PNode();
@@ -53,7 +52,7 @@ public class GraphComponent extends PNode {
                 setMinimized( true );
             }
         } );
-        closeButton = new PSwing(minimizeButton );
+        closeButton = new PSwing( minimizeButton );
         closeButton.addInputEventListener( new CursorHandler() );
 
         graphChild.addChild( closeButton );
@@ -72,7 +71,7 @@ public class GraphComponent extends PNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        PSwing maxButton = new PSwing(maximizeButton );
+        PSwing maxButton = new PSwing( maximizeButton );
         maxButton.addInputEventListener( new CursorHandler() );
         stubChild.addChild( maxButton );
 
