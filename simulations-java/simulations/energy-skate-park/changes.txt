@@ -1,4 +1,4 @@
-1.05.20
+1.05.20 (4-23-2007)
 Fixed text for record button (previously said "Record Path")
 Added roller coaster mode to new physics implementation
 Fixed Skater edit control: added "restore defaults", moved bounciness control
