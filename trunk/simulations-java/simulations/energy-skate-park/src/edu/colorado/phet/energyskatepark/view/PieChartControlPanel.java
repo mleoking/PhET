@@ -38,15 +38,6 @@ public class PieChartControlPanel extends VerticalLayoutPanel {
         } );
         add( showPieChartCheckBox );
 
-//        ignoreThermal = new JCheckBox( EnergySkateParkStrings.getString( "ignore.thermal" ), module.getEnergyConservationCanvas().getRootNode().getIgnoreThermal() );
-//        ignoreThermal.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                module.getEnergyConservationCanvas().getRootNode().setIgnoreThermal( ignoreThermal.isSelected() );
-//            }
-//        } );
-//        add( ignoreThermal );
-//        ignoreThermal.setEnabled( pieChart.isSelected() );
-
         showThermal = new JCheckBox( EnergySkateParkStrings.getString( "show.thermal" ), !module.getEnergyConservationCanvas().getRootNode().getIgnoreThermal() );
         showThermal.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
