@@ -1,4 +1,3 @@
-6. You and I talked about having a way to disable the "auto connect" feature while track building (maybe with the Ctrl key).
 Is that something that is reasonable? I think I'd use it.
 7. Performance problems after lots of runs
 8. When dragging the endpoint of a track, "sticky" grabbing is not working correctly.

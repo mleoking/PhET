@@ -3,13 +3,13 @@ package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -118,7 +118,7 @@ public class SplineNode extends PNode {
             }
 
             public void mouseReleased( PInputEvent event ) {
-                finishDragSpline();
+                finishDragSpline( event );
             }
         };
         splinePath.addInputEventListener( this.dragHandler );
@@ -193,12 +193,14 @@ public class SplineNode extends PNode {
 
     private void dragSpline( PInputEvent event ) {
         Point2D.Double tx = new Point2D.Double( event.getDeltaRelativeTo( this ).width, event.getDeltaRelativeTo( this ).height );
-        dragSpline( tx );
+        dragSpline( event, tx );
     }
 
-    private void dragSpline( Point2D.Double tx ) {
+    private void dragSpline( PInputEvent event, Point2D.Double tx ) {
         translateAll( tx );
-        proposeMatchesTrunk();
+        if( isAttachAllowed( event ) ) {
+            proposeMatchesTrunk();
+        }
         updateAll();
     }
 
@@ -220,12 +222,12 @@ public class SplineNode extends PNode {
         initDragSpline();
     }
 
-    public void processExternalDragEvent( double dx, double dy ) {
-        dragSpline( new Point2D.Double( dx, dy ) );
+    public void processExternalDragEvent( PInputEvent event, double dx, double dy ) {
+        dragSpline( event, new Point2D.Double( dx, dy ) );
     }
 
-    public void processExternalDropEvent() {
-        finishDragSpline();
+    public void processExternalDropEvent( PInputEvent event ) {
+        finishDragSpline( event );
     }
 
     class PathPopupMenu extends JPopupMenu {
@@ -261,10 +263,12 @@ public class SplineNode extends PNode {
         }
     }
 
-    private void finishDragSpline() {
-        boolean didAttach = testAttach( 0 );
-        if( !didAttach ) {
-            testAttach( numControlPointGraphics() - 1 );//can't do two at once.
+    private void finishDragSpline( PInputEvent event ) {
+        if( isAttachAllowed( event ) ) {
+            boolean didAttach = testAttach( 0 );
+            if( !didAttach ) {
+                testAttach( numControlPointGraphics() - 1 );//can't do two at once.
+            }
         }
         initDragSpline = null;
         spline.setUserControlled( false );
@@ -392,7 +396,9 @@ public class SplineNode extends PNode {
                 }
 
                 public void mouseReleased( PInputEvent event ) {
-                    finishDragControlPoint( index );
+                    if( isAttachAllowed( event ) ) {
+                        finishDragControlPoint( index );
+                    }
                     spline.setUserControlled( false );
                     event.setHandled( true );
                 }
@@ -407,8 +413,9 @@ public class SplineNode extends PNode {
                         controlPointLoc.x += rel.getWidth();
                         controlPointLoc.y += rel.getHeight();
                     }
-
-                    proposeMatchesEndpoint( index );
+                    if( isAttachAllowed( event ) ) {
+                        proposeMatchesEndpoint( index );
+                    }
                     updateAll();
                     event.setHandled( true );
                 }
@@ -416,6 +423,10 @@ public class SplineNode extends PNode {
             addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
             addInputEventListener( new PopupMenuHandler( parent, new ControlCirclePopupMenu( index ) ) );
         }
+    }
+
+    public boolean isAttachAllowed( PInputEvent event ) {
+        return !event.isControlDown();
     }
 
     private void addControlPoint( Point2D point, int index ) {

@@ -427,7 +427,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         SplineNode splineNode = getSplineGraphic( createdSurface );
         PDimension delta = event.getCanvasDelta();
         rootNode.screenToWorld( delta );
-        splineNode.processExternalDragEvent( delta.width, delta.height );
+        splineNode.processExternalDragEvent( event,delta.width, delta.height );
     }
 
     public SplineNode getSplineGraphic( EnergySkateParkSpline createdSurface ) {
