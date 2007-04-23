@@ -1,6 +1,8 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.build;
 
+import org.apache.tools.ant.taskdefs.Echo;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,6 +37,9 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         for( Iterator iterator = set.iterator(); iterator.hasNext(); ) {
             String key = (String)iterator.next();
             String value = (String)map.get( key );
+            Echo echo=new Echo();
+            echo.setMessage( "key = " + key+", value="+value );
+            runTask( echo );
             jnlpFile = jnlpFile.replaceAll( "@" + key + "@", value );
         }
         return jnlpFile;
