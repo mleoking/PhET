@@ -192,7 +192,7 @@ public abstract class PlotDeviceModel implements ModelElement {
         DataSeries recordedTimes = new DataSeries();
 
         public RecordMode() {
-            super( "record" );
+            super( "record.path" );
         }
 
         public void stepInTime( double dt ) {

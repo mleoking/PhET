@@ -24,7 +24,7 @@ public class PathRecordContol extends HorizontalLayoutPanel {
     public PathRecordContol( final EnergySkateParkModule module ) {
         this.module = module;
         setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "path" ) ) );
-        recordPath = new JButton( EnergySkateParkStrings.getString( "record" ) );
+        recordPath = new JButton( EnergySkateParkStrings.getString( "record.path" ) );
 
         recordPath.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

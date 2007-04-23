@@ -1,16 +1,11 @@
-• Performance problems after lots of runs
-• In the default setup, when the simulation starts or when the user presses "return skater", the skater falls a few feet onto the track and loses some energy to thermal.  This was confusing for Trish's students, who weren't ready to be exposed to friction-based features.  What should be done about this?
-    Still under discussion.
-Small item:
-There is a button on the right that says "record path" and it turns on the purple tracers and there is another button below the play area that has the same name, but it really just records.
-
-You and I talked about having a way to disable the "auto connect" feature while track building (maybe with the Ctrl key). Is that something that is reasonable? I think I'd use it.
-
 1. Add roller coaster mode back. (or delete option for this)
 2. Skater mass control (delete this, since different characters have different mass)?
 3. Start on track in the default case.
 4. Bug: Bar chart should update during playback
 5. Show Thermal Off as default for pie chart.
+6. You and I talked about having a way to disable the "auto connect" feature while track building (maybe with the Ctrl key).
+Is that something that is reasonable? I think I'd use it.
+7. Performance problems after lots of runs
 
 Questions:
 Should we add ability to save skater character as part of a saved state? (30 min or so)
