@@ -69,7 +69,7 @@ public class SplineToolbox extends PNode {
             }
 
             public void mouseReleased( PInputEvent event ) {
-                energySkateParkSimulationPanel.getSplineGraphic( createdSurface ).processExternalDropEvent();
+                energySkateParkSimulationPanel.getSplineGraphic( createdSurface ).processExternalDropEvent(event);
                 created = false;
             }
         } );
