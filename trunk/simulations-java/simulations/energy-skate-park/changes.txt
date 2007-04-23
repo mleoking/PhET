@@ -1,6 +1,7 @@
 1.05.20
 Fixed text for record button (previously said "Record Path")
 Added roller coaster mode to new physics implementation
+Fixed Skater edit control: added "restore defaults", moved bounciness control
 
 1.05.19 (4-11-2007)
 Bugfix in playback/record.

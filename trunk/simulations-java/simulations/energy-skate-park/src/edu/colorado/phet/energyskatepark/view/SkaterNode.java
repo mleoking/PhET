@@ -131,11 +131,6 @@ public class SkaterNode extends PNode {
         }
     }
 
-    protected void setImage( Image image ) {
-        skaterImageNode.setImage( image );
-        update();
-    }
-
     public Body getBody() {
         return body;
     }
