@@ -90,7 +90,6 @@ public class Body implements Serializable {
         particle.setVelocity( 0, 0 );
         particle.resetAngle();
         setThermalEnergy( 0.0 );
-//        particle.setGravity( -9.8 );
     }
 
     private void setThermalEnergy( double thermalEnergy ) {

@@ -5,25 +5,23 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.servicemanager.InputStreamFileContents;
-import edu.colorado.phet.common.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.util.persistence.Point2DPersistenceDelegate;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.servicemanager.InputStreamFileContents;
+import edu.colorado.phet.common.servicemanager.PhetServiceManager;
 import edu.colorado.phet.energyskatepark.common.StringOutputStream;
 import edu.colorado.phet.energyskatepark.model.*;
-import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
-import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
 import edu.colorado.phet.energyskatepark.plots.BarGraphCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlotCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyTimePlotCanvas;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkModuleBean;
+import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesModel;
+import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesPlaybackPanel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.WiggleMeInSpace;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesModel;
-import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesPlaybackPanel;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.FileOpenService;
@@ -163,6 +161,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void resetSkater( Body body ) {
         body.reset();
+        initBodyOnTrack( body );
     }
 
     private void init() {
@@ -171,14 +170,32 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyModel.addBody( body );
         energyCanvas.getRootNode().updateGraphics();
 
-        PreFabSplines preFabSplines = new PreFabSplines();
-        PreFabSplines.CubicSpline spline = preFabSplines.getParabolic();
-//        ControlPointParametricFunction2D parametricFunction2D = new CubicSpline2D(  );
-
-        EnergySkateParkSpline espspline = new EnergySkateParkSpline( spline.getControlPoints() );
+        EnergySkateParkSpline espspline = createDefaultTrack();
         energyModel.addSplineSurface( espspline );
         energyCanvas.initPieGraphic();
         energyCanvas.removeAllAttachmentPointGraphics();
+        initBodyOnTrack( body );
+    }
+
+    private EnergySkateParkSpline createDefaultTrack() {
+        return new EnergySkateParkSpline( new PreFabSplines().getParabolic().getControlPoints() );
+    }
+
+    private void initBodyOnTrack( Body body ) {
+        if( isTrackDefaultState() ) {
+            body.setSpline( energyModel.getSpline( 0 ), false, 0.1 );
+            body.clearHeat();
+            body.clearEnergyError();
+        }
+    }
+
+    private boolean isTrackDefaultState() {
+        if( energyModel.getNumSplines() > 0 ) {
+            if( energyModel.getSpline( 0 ).equals( createDefaultTrack() ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Object getModelState() {
