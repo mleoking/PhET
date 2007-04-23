@@ -14,6 +14,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.IconComponent;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.model.physics.Particle;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
@@ -174,12 +175,6 @@ public class EnergySkateParkControlPanel extends ControlPanel {
                 module.setBounciness( restitution.getValue() );
             }
         } );
-//        module.getClock().addClockListener( new ClockAdapter() {
-//            public void clockTicked( ClockEvent event ) {
-//                double rest = restitution.getValue();
-//                module.setBounciness( rest );
-//            }
-//        } );
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
                 if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
@@ -188,28 +183,14 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             }
         } );
 
-        editSkaterPanel.addControl( restitution );
 
         final ModelSlider mass = new ModelSlider( EnergySkateParkStrings.getString( "mass" ), EnergySkateParkStrings.getString( "kg" ), 1, 200, 75 );
         mass.setModelTicks( new double[]{1, 75, 200} );
         mass.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                EnergySkateParkModel model = module.getEnergySkateParkModel();
-                for( int i = 0; i < model.getNumBodies(); i++ ) {
-                    Body b = model.getBody( i );
-                    b.setMass( mass.getValue() );
-                }
+                setMass( mass.getValue() );
             }
         } );
-//        module.getClock().addClockListener( new ClockAdapter() {
-//            public void clockTicked( ClockEvent event ) {
-//                EnergyConservationModel model = module.getEnergySkateParkModel();
-//                for( int i = 0; i < model.getNumBodies(); i++ ) {
-//                    Body b = model.getBody( i );
-//                    b.setMass( mass.getValue() );
-//                }
-//            }
-//        } );
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
                 if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
@@ -218,10 +199,51 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             }
         } );
 
+        final ModelSlider stickiness = new ModelSlider( "Stickiness", "", 0.01, 5, Body.DEFAULT_STICKINESS );
+        stickiness.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                setStickiness( stickiness.getValue() );
+            }
+        } );
+        module.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
+                if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
+                    stickiness.setValue( module.getEnergySkateParkModel().getBody( 0 ).getStickiness() );
+                }
+            }
+        } );
+
+        JButton revertToDefaults = new JButton( "Restore Defaults" );
+        revertToDefaults.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setMass( module.getSkaterCharacter().getMass() );
+                module.setBounciness( Particle.DEFAULT_ELASTICITY );
+                setStickiness( Body.DEFAULT_STICKINESS );
+            }
+        } );
+
+        editSkaterPanel.addControl( restitution );
         editSkaterPanel.addControl( mass );
+        editSkaterPanel.addControl( stickiness );
+        editSkaterPanel.addControl( revertToDefaults );
+
         addControl( editSkaterPanel );
+    }
 
+    private void setStickiness( double stickinessValue ) {
+        Body.staticSticky = stickinessValue;
+        for( int i = 0; i < Body.particles.size(); i++ ) {
+            Body body = (Body)Body.particles.get( i );
+            body.setStickiness( Body.staticSticky );
+        }
+    }
 
+    private void setMass( double massValue ) {
+        EnergySkateParkModel model = module.getEnergySkateParkModel();
+        for( int i = 0; i < model.getNumBodies(); i++ ) {
+            Body b = model.getBody( i );
+            b.setMass( massValue );
+        }
     }
 
     private PNode getMeasuringTapeNode( EnergySkateParkModule module ) {

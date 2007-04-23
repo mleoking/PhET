@@ -27,7 +27,7 @@ public class Particle implements Serializable {
     private double g = 9.8;
     private double mass = 1.0;
 
-    double elasticity = 0.9;
+    double elasticity = DEFAULT_ELASTICITY;
     double stickiness = 0.25;//see neumann
 
     private UpdateStrategy updateStrategy = new Particle1DUpdate();
@@ -42,7 +42,9 @@ public class Particle implements Serializable {
     private double yThrust = 0;
     private double frictionCoefficient = 0;
     private boolean verboseDebug = true;
-    private static double DEFAULT_ANGLE = 0;
+    
+    private static final double DEFAULT_ANGLE = 0;
+    public static final double DEFAULT_ELASTICITY= 0.9;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );

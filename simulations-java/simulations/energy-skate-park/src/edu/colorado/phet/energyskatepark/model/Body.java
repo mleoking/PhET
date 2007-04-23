@@ -4,15 +4,11 @@ package edu.colorado.phet.energyskatepark.model;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
 import edu.colorado.phet.energyskatepark.timeseries.OptionalItemSerializableList;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -39,10 +35,10 @@ public class Body implements Serializable {
 
     private List listeners = new OptionalItemSerializableList();
 
-    private static List particles = new ArrayList();
+    public static final List particles = new ArrayList();
 
-    private static double staticSticky = 0.75;
-
+    public static double DEFAULT_STICKINESS = 0.75;
+    public static double staticSticky = DEFAULT_STICKINESS;
 
     public Body( double width, double height, ParticleStage particleStage, double gravity, double zeroPointPotentialY ) {
         this.width = width;
@@ -55,23 +51,23 @@ public class Body implements Serializable {
         particles.add( this );
     }
 
-    static {
-        JFrame controls = new JFrame();
-        final ModelSlider stickiness = new ModelSlider( "Stickiness", "", 0, 5, staticSticky );
-        stickiness.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                staticSticky = stickiness.getValue();
-                for( int i = 0; i < particles.size(); i++ ) {
-                    Body body = (Body)particles.get( i );
-                    body.particle.setStickiness( staticSticky );
-                }
-            }
-        } );
-
-        controls.setContentPane( stickiness );
-        controls.pack();
-        controls.setVisible( true );
-    }
+//    static {
+//        JFrame controls = new JFrame();
+//        final ModelSlider stickiness = new ModelSlider( "Stickiness", "", 0, 5, staticSticky );
+//        stickiness.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                staticSticky = stickiness.getValue();
+//                for( int i = 0; i < particles.size(); i++ ) {
+//                    Body body = (Body)particles.get( i );
+//                    body.particle.setStickiness( staticSticky );
+//                }
+//            }
+//        } );
+//
+//        controls.setContentPane( stickiness );
+//        controls.pack();
+//        controls.setVisible( true );
+//    }
 
     public void setSpline( EnergySkateParkSpline spline, boolean top, double alpha ) {
         particle.switchToTrack( spline.getParametricFunction2D(), alpha, top );
@@ -393,6 +389,14 @@ public class Body implements Serializable {
     public void clearEnergyError() {
         errorCount = 0;
         fractionalEnergyError = 0;
+    }
+
+    public void setStickiness( double sticky ) {
+        particle.setStickiness( sticky );
+    }
+
+    public double getStickiness() {
+        return particle.getStickiness();
     }
 
     public static interface Listener {
