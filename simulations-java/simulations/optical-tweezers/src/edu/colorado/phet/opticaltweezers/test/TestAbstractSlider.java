@@ -13,12 +13,16 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.opticaltweezers.control.slider.LinearSlider;
 import edu.colorado.phet.opticaltweezers.control.slider.LogarithmicSlider;
 
-
-public class TestSliders extends JFrame {
+/**
+ * Test harness for the AbstractSlider hierarchy.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class TestAbstractSlider extends JFrame {
 
     private static final Dimension FRAME_SIZE = new Dimension( 500, 500 );
     
-    public TestSliders() {
+    public TestAbstractSlider() {
         
         final LinearSlider linearSlider = new LinearSlider( -1, 1 );
         linearSlider.addChangeListener( new ChangeListener() {
@@ -46,7 +50,7 @@ public class TestSliders extends JFrame {
     }
     
     public static void main( String[] args ) {
-        TestSliders test = new TestSliders();
+        TestAbstractSlider test = new TestAbstractSlider();
         test.show();
     }
 }

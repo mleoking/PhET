@@ -23,8 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 
 /**
- * AbstractValueControl combines slider and text field components into component
- * that is used to control a value.  
+ * AbstractValueControl combines a slider and a text field into a single control. 
  * <p>
  * The slider supports double precision numbers, whereas JSlider only support integers.
  * As the slider value is changed, the text field automatically updates to reflect the 
@@ -498,7 +497,6 @@ public abstract class AbstractValueControl extends JPanel {
          */
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _textField ) {
-                System.out.println( "AbstractValueControl.actionPerformed" );//XXX
                 double value = getTextFieldValue();
                 if ( value < _min ) {
                     value = _min;
@@ -517,7 +515,6 @@ public abstract class AbstractValueControl extends JPanel {
          */
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _slider ) {
-                System.out.println( "AbstractValueControl.stateChanged" );//XXX
                 _isAdjusting = _slider.getValueIsAdjusting();
                 boolean notify = ( _notifyWhileDragging || !_isAdjusting );
                 double value = _slider.getModelValue();

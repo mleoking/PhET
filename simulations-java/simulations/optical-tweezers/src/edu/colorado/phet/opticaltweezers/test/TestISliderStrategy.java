@@ -8,7 +8,7 @@ import edu.colorado.phet.opticaltweezers.control.slider.LinearSliderStrategy;
 import edu.colorado.phet.opticaltweezers.control.slider.LogarithmicSliderStrategy;
 
 /**
- * TestSliderStrategies is the test harness for the ISliderStrategy hierarchy.
+ * Test harness for the ISliderStrategy hierarchy.
  * <p>
  * These tests are difficult to automate because there will be some error due
  * to integer-double conversions. And the amount of error that's acceptable 
@@ -16,16 +16,16 @@ import edu.colorado.phet.opticaltweezers.control.slider.LogarithmicSliderStrateg
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestSliderStrategies {
+public class TestISliderStrategy {
 
     /* not intended for instantiation */
-    private TestSliderStrategies() {}
+    private TestISliderStrategy() {}
     
     /*
      * Test harness.
      */
     public static void main( String[] args ) {
-        TestSliderStrategies.runTests();
+        TestISliderStrategy.runTests();
     }
     
     /*
