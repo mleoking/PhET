@@ -23,11 +23,12 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 
 /**
- * AbstractValueControl combines a slider and a text field into a single control. 
+ * AbstractValueControl combines a slider and a text field into a single control,
+ * with a specific layout and "look". 
  * <p>
  * The slider supports double precision numbers, whereas JSlider only support integers.
  * As the slider value is changed, the text field automatically updates to reflect the 
- * new value.  The text field is optionally editable, and user input is validated.
+ * new value.  The text field is editable by default, and user input is validated.
  * <p>
  * The default "look" is to have major tick marks at the min and max tick marks,
  * and no minor tick marks.
@@ -41,25 +42,25 @@ public abstract class AbstractValueControl extends JPanel {
     //----------------------------------------------------------------------------
 
     // Model
-    private double _value;
+    private double _value; // the current value
     private final double _min, _max; // for convenience, could get these from _slider
     private double _tickSpacing; // spacing of minor tick marks
-    private double _delta;
+    private double _upDownArrowDelta; // delta applied when you press the up/down arrow keys
 
     // View
-    private AbstractSlider _slider;
+    private AbstractSlider _slider; // slider that supports model coordinates
     private JFormattedTextField _textField;
     private JLabel _valueLabel, _unitsLabel;
-
-    // misc.
     private DecimalFormat _textFieldFormat; // format for the text field
     private DecimalFormat _tickFormat; // format for the tick mark labels
+    private Font _font; // font used for all components
+    private String _minTickString, _maxTickString; //optional strings used to label min/max ticks
+    
+    // misc.
     private boolean _notifyWhileDragging; // if true, fire ChangeEvents while the slider is dragged
     private boolean _isAdjusting; // is the slider being adjusted (dragged) ?
-    private Font _font; // font used for all components
     private EventListenerList _listenerList; // notification of slider changes
     private EventDispatcher _listener;
-    private String _minTickString, _maxTickString; //optional strings used to label min/max ticks
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -84,7 +85,7 @@ public abstract class AbstractValueControl extends JPanel {
         _min = slider.getModelMin();
         _max = slider.getModelMax();
         _tickSpacing = _max - _min; // default is major tick marks at min and max
-        _delta = _slider.sliderToModel( 1 );
+        _upDownArrowDelta = _slider.sliderToModel( 1 );
 
         _textFieldFormat = new DecimalFormat( textFieldPattern );
         _tickFormat = new DecimalFormat( textFieldPattern ); // default to same format as text field
@@ -103,7 +104,6 @@ public abstract class AbstractValueControl extends JPanel {
             _textField = new JFormattedTextField( _textFieldFormat );
             _textField.setValue( new Double( _value ) );
             _textField.setHorizontalAlignment( JTextField.RIGHT );
-            _textField.setEditable( false );
             _textField.setColumns( textFieldPattern.length() );
 
             EasyGridBagLayout layout = new EasyGridBagLayout( valuePanel );
@@ -164,7 +164,8 @@ public abstract class AbstractValueControl extends JPanel {
         }
         else {
             Toolkit.getDefaultToolkit().beep();
-            System.out.println( "SliderControl.setValue: invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + "range is " + _min + " to " + _max + ", tried to set " + value );
+            System.out.println( getClass().getName() + ".setValue: invalid value for slider labeled \"" + 
+                    _valueLabel.getText() + "\", " + "range is " + _min + " to " + _max + ", tried to set " + value );
             updateView(); // revert
         }
     }
@@ -201,8 +202,8 @@ public abstract class AbstractValueControl extends JPanel {
      * 
      * @param delta
      */
-    public void setDelta( double delta ) {
-        _delta = delta;
+    public void setUpDownArrowDelta( double delta ) {
+        _upDownArrowDelta = delta;
     }
 
     /**
@@ -266,7 +267,7 @@ public abstract class AbstractValueControl extends JPanel {
     }
 
     //----------------------------------------------------------------------------
-    // Value Display
+    // Text Field
     //----------------------------------------------------------------------------
 
     /**
@@ -367,7 +368,7 @@ public abstract class AbstractValueControl extends JPanel {
     }
 
     /**
-     * Sets the tick spacing.
+     * Sets the spacing between minor tick marks.
      * 
      * @param tickSpacing in model coordinates
      */
@@ -411,9 +412,12 @@ public abstract class AbstractValueControl extends JPanel {
 
     /*
      * Updates tick labels.
+     * Major tick marks are used for the min and max.
+     * Minor ticks are used for all other tick marks.
      */
     private void updateTickLabels() {
 
+        // Slider properties related to ticks
         int sliderRange = _slider.getMaximum() - _slider.getMinimum();
         _slider.setMajorTickSpacing( sliderRange );
         int sliderTickSpacing = _slider.modelToSlider( _min + _tickSpacing );
@@ -477,13 +481,13 @@ public abstract class AbstractValueControl extends JPanel {
         public void keyPressed( KeyEvent e ) {
             if ( e.getSource() == _textField ) {
                 if ( e.getKeyCode() == KeyEvent.VK_UP ) {
-                    final double value = getValue() + _delta;
+                    final double value = getValue() + _upDownArrowDelta;
                     if ( value <= _max ) {
                         setValue( value );
                     }
                 }
                 else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
-                    final double value = getValue() - _delta;
+                    final double value = getValue() - _upDownArrowDelta;
                     if ( value >= _min ) {
                         setValue( value );
                     }

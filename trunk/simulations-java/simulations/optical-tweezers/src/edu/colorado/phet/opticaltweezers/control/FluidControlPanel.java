@@ -77,7 +77,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         String units = OTResources.getString( "units.fluidSpeed" );
         _speedControl = new LinearValueControl( min, max, label, valuePattern, units );
         _speedControl.setValue( value );
-        _speedControl.setDelta( 1 );
+        _speedControl.setUpDownArrowDelta( 1 );
         _speedControl.setTextFieldEditable( true );
         _speedControl.setFont( font );
         _speedControl.setTickPattern( "0" );
@@ -93,7 +93,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         _viscosityControl.setValue( value );
         _viscosityControl.setTextFieldEditable( true );
         _viscosityControl.setFont( font );
-        _viscosityControl.setDelta( 1E1 );
+        _viscosityControl.setUpDownArrowDelta( 1E1 );
         _viscosityControl.setTickPattern( "0E0" );
         
         // Temperature control
@@ -106,7 +106,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         _temperatureControl = new LinearValueControl( min, max, label, valuePattern, units );
         _temperatureControl.setTextFieldEditable( true );
         _temperatureControl.setFont( font );
-        _temperatureControl.setDelta( 1 );
+        _temperatureControl.setUpDownArrowDelta( 1 );
         _temperatureControl.setTickPattern( "0" );
         
         // Layout

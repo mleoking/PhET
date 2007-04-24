@@ -30,7 +30,7 @@ public class TestValueControls extends JFrame {
         String units = "nm/sec";
         final LinearValueControl speedControl = new LinearValueControl( min, max, label, valuePattern, units );
         speedControl.setValue( value );
-        speedControl.setDelta( 1 );
+        speedControl.setUpDownArrowDelta( 1 );
         speedControl.setTextFieldEditable( true );
         speedControl.setTickPattern( "0" );
         speedControl.addChangeListener( new ChangeListener() {
