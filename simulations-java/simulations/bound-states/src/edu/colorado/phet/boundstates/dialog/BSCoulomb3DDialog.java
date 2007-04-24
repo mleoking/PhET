@@ -19,11 +19,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSResources;
-import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
 import edu.colorado.phet.boundstates.model.BSCoulomb3DPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 
@@ -39,7 +39,7 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
     // Instance data
     //----------------------------------------------------------------------------
     
-    private SliderControl _offsetSlider;
+    private LinearValueControl _offsetControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -70,21 +70,20 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
-            double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
-            int labelDecimalPlaces = tickDecimalPlaces;
-            int columns = 4;
             String offsetLabel = BSResources.getString( "label.wellOffset" );
-            _offsetSlider = new SliderControl( value, min, max, 
-                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
-                    offsetLabel, energyUnits, columns, SLIDER_INSETS );
-            _offsetSlider.setTextEditable( true );
-            _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );   
+            String valuePattern = "0.0";
+            int columns = 4;
+            _offsetControl = new LinearValueControl( min, max, offsetLabel, valuePattern, energyUnits );
+            _offsetControl.setValue( value );
+            _offsetControl.setUpDownArrowDelta( 0.1 );
+            _offsetControl.setTextFieldColumns( columns );
+            _offsetControl.setTextFieldEditable( true );
+            _offsetControl.setNotifyWhileAdjusting( NOTIFY_WHILE_DRAGGING );   
         }
         
         // Events
         {
-            _offsetSlider.addChangeListener( this );
+            _offsetControl.addChangeListener( this );
         }
         
         // Layout
@@ -95,7 +94,7 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
             layout.setAnchor( GridBagConstraints.WEST );
             int row = 0;
             int col = 0;
-            layout.addComponent( _offsetSlider, row, col );
+            layout.addComponent( _offsetControl, row, col );
             row++;
         }
         
@@ -111,7 +110,7 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
         BSCoulomb1DPotential potential = (BSCoulomb1DPotential) getPotential();
         
         // Sync values
-        _offsetSlider.setValue( potential.getOffset() );
+        _offsetControl.setValue( potential.getOffset() );
     }
     
     //----------------------------------------------------------------------------
@@ -124,7 +123,7 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
      * the sliders losing focus.
      */
     public void dispose() {
-        _offsetSlider.removeChangeListener( this );
+        _offsetControl.removeChangeListener( this );
         super.dispose();
     }
     
@@ -138,9 +137,9 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
     public void stateChanged( ChangeEvent e ) {
         setObservePotential( false );
         {
-            if ( e.getSource() == _offsetSlider ) {
+            if ( e.getSource() == _offsetControl ) {
                 handleOffsetChange();
-                adjustClockState( _offsetSlider );
+                adjustClockState( _offsetControl );
             }
             else {
                 System.err.println( "WARNING: BSCoulomb3DDialog - unsupported event source: " + e.getSource() );
@@ -154,7 +153,7 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
     //----------------------------------------------------------------------------
     
     private void handleOffsetChange() {
-        final double offset = _offsetSlider.getValue();
+        final double offset = _offsetControl.getValue();
         getPotential().setOffset( offset );
     }
 }

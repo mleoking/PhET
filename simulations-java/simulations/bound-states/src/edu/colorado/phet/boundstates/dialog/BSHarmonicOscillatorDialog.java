@@ -20,10 +20,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSResources;
-import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 
@@ -40,8 +40,8 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
     // Instance data
     //----------------------------------------------------------------------------
     
-    private SliderControl _offsetSlider;
-    private SliderControl _angularFrequencySlider;
+    private LinearValueControl _offsetControl;
+    private LinearValueControl _angularFrequencyControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -77,16 +77,15 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
-            double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
-            int labelDecimalPlaces = tickDecimalPlaces;
-            int columns = 4;
             String offsetLabel = BSResources.getString( "label.wellOffset" );
-            _offsetSlider = new SliderControl( value, min, max, 
-                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
-                    offsetLabel, energyUnits, columns, SLIDER_INSETS );
-            _offsetSlider.setTextEditable( true );
-            _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+            String valuePattern = "0.0";
+            int columns = 4;
+            _offsetControl = new LinearValueControl( min, max, offsetLabel, valuePattern, energyUnits );
+            _offsetControl.setValue( value );
+            _offsetControl.setUpDownArrowDelta( 0.1 );
+            _offsetControl.setTextFieldColumns( columns );
+            _offsetControl.setTextFieldEditable( true );
+            _offsetControl.setNotifyWhileAdjusting( NOTIFY_WHILE_DRAGGING ); 
         }
 
         // Angular Frequency
@@ -95,22 +94,21 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             double value = angularFrequencyRange.getDefault();
             double min = angularFrequencyRange.getMin();
             double max = angularFrequencyRange.getMax();
-            double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = angularFrequencyRange.getSignificantDecimalPlaces();
-            int labelDecimalPlaces = tickDecimalPlaces;
-            int columns = 4;
             String angularFrequencyLabel = BSResources.getString( "label.wellAngularFrequency" );
-            _angularFrequencySlider = new SliderControl( value, min, max, 
-                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
-                    angularFrequencyLabel, angularFrequencyUnits, columns, SLIDER_INSETS );
-            _angularFrequencySlider.setTextEditable( true );
-            _angularFrequencySlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+            String valuePattern = "0.0";
+            int columns = 4;
+            _angularFrequencyControl = new LinearValueControl( min, max, angularFrequencyLabel, valuePattern, angularFrequencyUnits );
+            _angularFrequencyControl.setValue( value );
+            _angularFrequencyControl.setUpDownArrowDelta( 0.1 );
+            _angularFrequencyControl.setTextFieldColumns( columns );
+            _angularFrequencyControl.setTextFieldEditable( true );
+            _angularFrequencyControl.setNotifyWhileAdjusting( NOTIFY_WHILE_DRAGGING );
         }
         
         // Events
         {
-            _offsetSlider.addChangeListener( this );
-            _angularFrequencySlider.addChangeListener( this );    
+            _offsetControl.addChangeListener( this );
+            _angularFrequencyControl.addChangeListener( this );    
         }
         
         // Layout
@@ -121,11 +119,11 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             layout.setAnchor( GridBagConstraints.WEST );
             int row = 0;
             int col = 0;
-            layout.addComponent( _offsetSlider, row, col );
+            layout.addComponent( _offsetControl, row, col );
             row++;
             layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
             row++;
-            layout.addComponent( _angularFrequencySlider, row, col );
+            layout.addComponent( _angularFrequencyControl, row, col );
             row++;
         }
         
@@ -138,8 +136,8 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
 
     protected void updateControls() {
         BSHarmonicOscillatorPotential potential = (BSHarmonicOscillatorPotential) getPotential();
-        _offsetSlider.setValue( potential.getOffset() );
-        _angularFrequencySlider.setValue( potential.getAngularFrequency() );
+        _offsetControl.setValue( potential.getOffset() );
+        _angularFrequencyControl.setValue( potential.getAngularFrequency() );
     }
     
     //----------------------------------------------------------------------------
@@ -152,8 +150,8 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
      * the sliders losing focus.
      */
     public void dispose() {
-        _offsetSlider.removeChangeListener( this );
-        _angularFrequencySlider.removeChangeListener( this );
+        _offsetControl.removeChangeListener( this );
+        _angularFrequencyControl.removeChangeListener( this );
         super.dispose();
     }
     
@@ -167,13 +165,13 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
     public void stateChanged( ChangeEvent e ) {
         setObservePotential( false );
         {
-            if ( e.getSource() == _offsetSlider ) {
+            if ( e.getSource() == _offsetControl ) {
                 handleOffsetChange();
-                adjustClockState( _offsetSlider );
+                adjustClockState( _offsetControl );
             }
-            else if ( e.getSource() == _angularFrequencySlider ) {
+            else if ( e.getSource() == _angularFrequencyControl ) {
                 handleAngularFrequencyChange();
-                adjustClockState( _angularFrequencySlider );
+                adjustClockState( _angularFrequencyControl );
             }
             else {
                 System.err.println( "WARNING: BSHarmonicOscillatorDialog - unsupported event source: " + e.getSource() );
@@ -187,12 +185,12 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
     //----------------------------------------------------------------------------
     
     private void handleOffsetChange() {
-        final double offset = _offsetSlider.getValue();
+        final double offset = _offsetControl.getValue();
         getPotential().setOffset( offset );
     }
     
     private void handleAngularFrequencyChange() {
-        final double angularFrequency = _angularFrequencySlider.getValue();
+        final double angularFrequency = _angularFrequencyControl.getValue();
         BSHarmonicOscillatorPotential potential = (BSHarmonicOscillatorPotential) getPotential();
         potential.setAngularFrequency( angularFrequency );
     }

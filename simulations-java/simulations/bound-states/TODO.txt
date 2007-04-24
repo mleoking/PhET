@@ -13,9 +13,11 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
+- in Many Wells panel, set #wells=1, press "Configure Potential" button, dialog is empty, nothing to configure
 
 
 DONE:
+4/24/07 - replace SliderControl with LinearValueControl from phetcommon
 4/7/07 - get clock control panel strings from phetcommon
 4/7/07 - use PhetCommonProjectConfig to get phetcommon images and strings
 4/7/07 - add BSResources.setConfig to handle flavors

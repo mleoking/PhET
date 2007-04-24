@@ -26,10 +26,10 @@ import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.boundstates.BSResources;
-import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 
 /**
  * BSAbstractConfigureDialog is the base class for all dialogs that 
@@ -170,9 +170,9 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
      * The clock is paused while the slider is dragged,
      * and the clock state is restore when the slider is released.
      */
-    protected void adjustClockState( SliderControl slider ) {
-        if ( slider.getNotifyWhileDragging() == true ) {
-            if ( !slider.isDragging() ) {
+    protected void adjustClockState( AbstractValueControl valueControl ) {
+        if ( valueControl.getNotifyWhileAdjusting() == true ) {
+            if ( !valueControl.isAdjusting() ) {
                 // Pause the clock while dragging the slider.
                 _isSliderDragging = false;
                 if ( _clockWasRunning ) {

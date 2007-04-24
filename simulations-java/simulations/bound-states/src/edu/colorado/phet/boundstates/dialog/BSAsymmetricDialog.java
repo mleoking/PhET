@@ -20,10 +20,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSResources;
-import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 
@@ -39,9 +39,9 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
     // Instance data
     //----------------------------------------------------------------------------
     
-    private SliderControl _widthSlider;
-    private SliderControl _heightSlider;
-    private SliderControl _offsetSlider;
+    private LinearValueControl _widthControl;
+    private LinearValueControl _heightControl;
+    private LinearValueControl _offsetControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -73,16 +73,15 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
-            double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
-            int labelDecimalPlaces = tickDecimalPlaces;
-            int columns = 4;
             String offsetLabel = BSResources.getString( "label.wellOffset" );
-            _offsetSlider = new SliderControl( value, min, max, 
-                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
-                    offsetLabel, energyUnits, columns, SLIDER_INSETS );
-            _offsetSlider.setTextEditable( true );
-            _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+            String valuePattern = "0.0";
+            int columns = 4;
+            _offsetControl = new LinearValueControl( min, max, offsetLabel, valuePattern, energyUnits );
+            _offsetControl.setValue( value );
+            _offsetControl.setUpDownArrowDelta( 0.1 );
+            _offsetControl.setTextFieldColumns( columns );
+            _offsetControl.setTextFieldEditable( true );
+            _offsetControl.setNotifyWhileAdjusting( NOTIFY_WHILE_DRAGGING );
         }
         
         // Height
@@ -91,16 +90,15 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
             double value = heightRange.getDefault();
             double min = heightRange.getMin();
             double max = heightRange.getMax();
-            double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = heightRange.getSignificantDecimalPlaces();
-            int labelDecimalPlaces = tickDecimalPlaces;
-            int columns = 4;
             String heightLabel = BSResources.getString( "label.wellHeight" );
-            _heightSlider = new SliderControl( value, min, max, 
-                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
-                    heightLabel, energyUnits, columns, SLIDER_INSETS );
-            _heightSlider.setTextEditable( true );
-            _heightSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+            String valuePattern = "0.0";
+            int columns = 4;
+            _heightControl = new LinearValueControl( min, max, heightLabel, valuePattern, energyUnits );
+            _heightControl.setValue( value );
+            _heightControl.setUpDownArrowDelta( 0.1 );
+            _heightControl.setTextFieldColumns( columns );
+            _heightControl.setTextFieldEditable( true );
+            _heightControl.setNotifyWhileAdjusting( NOTIFY_WHILE_DRAGGING );
         }
         
         // Width
@@ -109,23 +107,22 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
             double value = widthRange.getDefault();
             double min = widthRange.getMin();
             double max = widthRange.getMax();
-            double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = widthRange.getSignificantDecimalPlaces();
-            int labelDecimalPlaces = tickDecimalPlaces;
-            int columns = 4;
             String widthLabel = BSResources.getString( "label.wellWidth" );
-            _widthSlider = new SliderControl( value, min, max, 
-                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
-                    widthLabel, positionUnits, columns, SLIDER_INSETS );
-            _widthSlider.setTextEditable( true );
-            _widthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+            String valuePattern = "0.0";
+            int columns = 4;
+            _widthControl = new LinearValueControl( min, max, widthLabel, valuePattern, positionUnits );
+            _widthControl.setValue( value );
+            _widthControl.setUpDownArrowDelta( 0.1 );
+            _widthControl.setTextFieldColumns( columns );
+            _widthControl.setTextFieldEditable( true );
+            _widthControl.setNotifyWhileAdjusting( NOTIFY_WHILE_DRAGGING );
         }
         
         // Events
         {
-            _offsetSlider.addChangeListener( this );
-            _heightSlider.addChangeListener( this );
-            _widthSlider.addChangeListener( this );
+            _offsetControl.addChangeListener( this );
+            _heightControl.addChangeListener( this );
+            _widthControl.addChangeListener( this );
         }
         
         // Layout
@@ -136,15 +133,15 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
             layout.setAnchor( GridBagConstraints.WEST );
             int row = 0;
             int col = 0;
-            layout.addComponent( _offsetSlider, row, col );
+            layout.addComponent( _offsetControl, row, col );
             row++;
             layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
             row++;
-            layout.addComponent( _heightSlider, row, col );
+            layout.addComponent( _heightControl, row, col );
             row++;
             layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
             row++;
-            layout.addComponent( _widthSlider, row, col );
+            layout.addComponent( _widthControl, row, col );
             row++;
         }
         
@@ -158,9 +155,9 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
     protected void updateControls() {
         // Sync values
         BSAsymmetricPotential potential = (BSAsymmetricPotential) getPotential();
-        _offsetSlider.setValue( potential.getOffset() );
-        _heightSlider.setValue( potential.getHeight() );
-        _widthSlider.setValue( potential.getWidth() );
+        _offsetControl.setValue( potential.getOffset() );
+        _heightControl.setValue( potential.getHeight() );
+        _widthControl.setValue( potential.getWidth() );
     }
     
     //----------------------------------------------------------------------------
@@ -173,9 +170,9 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
      * the sliders losing focus.
      */
     public void dispose() {
-        _offsetSlider.removeChangeListener( this );
-        _heightSlider.removeChangeListener( this );
-        _widthSlider.removeChangeListener( this );
+        _offsetControl.removeChangeListener( this );
+        _heightControl.removeChangeListener( this );
+        _widthControl.removeChangeListener( this );
         super.dispose();
     }
     
@@ -189,17 +186,17 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
     public void stateChanged( ChangeEvent e ) {
         setObservePotential( false );
         {
-            if ( e.getSource() == _offsetSlider ) {
+            if ( e.getSource() == _offsetControl ) {
                 handleOffsetChange();
-                adjustClockState( _offsetSlider );
+                adjustClockState( _offsetControl );
             }
-            else if ( e.getSource() == _heightSlider ) {
+            else if ( e.getSource() == _heightControl ) {
                 handleHeightChange();
-                adjustClockState( _heightSlider );
+                adjustClockState( _heightControl );
             }
-            else if ( e.getSource() == _widthSlider ) {
+            else if ( e.getSource() == _widthControl ) {
                 handleWidthChange();
-                adjustClockState( _widthSlider );
+                adjustClockState( _widthControl );
             }
             else {
                 System.err.println( "WARNING: BSAsymmetricDialog - unsupported event source: " + e.getSource() );
@@ -213,19 +210,19 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
     //----------------------------------------------------------------------------
 
     private void handleWidthChange() {
-        final double width = _widthSlider.getValue();
+        final double width = _widthControl.getValue();
         BSAsymmetricPotential potential = (BSAsymmetricPotential) getPotential();
         potential.setWidth( width );
     }
     
     private void handleHeightChange() {
-        final double height = _heightSlider.getValue();
+        final double height = _heightControl.getValue();
         BSAsymmetricPotential potential = (BSAsymmetricPotential) getPotential();
         potential.setHeight( height );
     }
     
     private void handleOffsetChange() {
-        final double offset = _offsetSlider.getValue();
+        final double offset = _offsetControl.getValue();
         getPotential().setOffset( offset );
     }
 }
