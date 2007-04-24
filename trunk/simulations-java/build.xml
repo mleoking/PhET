@@ -1209,9 +1209,9 @@
     <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
     <property name="esp_path" value="dev/ec3"/>
 
-    <target name="build_and_post_esp" depends="init">
+    <target name="esp_build_and_post" depends="init">
         <phet-build project="energy-skate-park" destfile="deploy/energy-skate-park.jar"/>
-        <!--<echo  message="${esp_url}"/>-->
+
         <phet-jnlp project="energy-skate-park" flavor="energy-skate-park" deployurl="${esp_url}"/>
         <copy file="simulations/energy-skate-park/todo.txt" tofile="simulations/energy-skate-park/deploy/todo.txt"/>
         <copy file="simulations/energy-skate-park/changes.txt" tofile="simulations/energy-skate-park/deploy/changes.txt"/>
@@ -1228,4 +1228,11 @@
             <arg value="${esp_url}"/>
         </exec>
     </target>
+
+    <target name="esp_show_browser">
+        <exec executable="${browser}" spawn="true">
+            <arg value="${esp_url}"/>
+        </exec>
+    </target>
+
 </project>
