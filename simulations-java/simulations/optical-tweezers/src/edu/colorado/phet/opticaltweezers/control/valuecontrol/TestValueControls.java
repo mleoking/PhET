@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.test;
+package edu.colorado.phet.opticaltweezers.control.valuecontrol;
 
 import java.awt.Dimension;
 
@@ -10,21 +10,17 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.opticaltweezers.control.valuecontrol.AbstractSlider;
-import edu.colorado.phet.opticaltweezers.control.valuecontrol.LinearValueControl;
-import edu.colorado.phet.opticaltweezers.control.valuecontrol.LogarithmicSliderStrategy;
-import edu.colorado.phet.opticaltweezers.control.valuecontrol.LogarithmicValueControl;
 
 /**
  * Test harness for the AbstractValueControl hierarchy.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestAbstractValueControl extends JFrame {
+public class TestValueControls extends JFrame {
 
     private static final Dimension FRAME_SIZE = new Dimension( 500, 500 );
     
-    public TestAbstractValueControl() {
+    public TestValueControls() {
         
         double min = 0;
         double max = 1000000;
@@ -71,7 +67,7 @@ public class TestAbstractValueControl extends JFrame {
     }
     
     public static void main( String[] args ) {
-        TestAbstractValueControl test = new TestAbstractValueControl();
+        TestValueControls test = new TestValueControls();
         test.show();
     }
 }

@@ -4,11 +4,12 @@ package edu.colorado.phet.opticaltweezers.control.valuecontrol;
 
 
 /**
- * AbstractSliderStrategy provides functionality that is useful for implementing ISliderStrategy. 
+ * AbstractMappingStrategy is the base class for all classes that provide a mapping
+ * between slider values (integer precision) and model values (double precision).. 
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractSliderStrategy implements IConversionStrategy {
+public abstract class AbstractMappingStrategy {
     
     private double _modelMin, _modelMax;
     private int _sliderMin, _sliderMax;
@@ -16,12 +17,12 @@ public abstract class AbstractSliderStrategy implements IConversionStrategy {
     /**
      * Constructor.
      * 
-     * @param sliderMin
-     * @param sliderMax
      * @param modelMin
      * @param modelMax
+     * @param sliderMin
+     * @param sliderMax
      */
-    public AbstractSliderStrategy( double modelMin, double modelMax, int sliderMin, int sliderMax ) {
+    public AbstractMappingStrategy( double modelMin, double modelMax, int sliderMin, int sliderMax ) {
         _modelMin = modelMin;
         _modelMax = modelMax;
         _sliderMin = sliderMin;
@@ -48,6 +49,22 @@ public abstract class AbstractSliderStrategy implements IConversionStrategy {
         return getClass().getName() + 
             " modelMin=" + _modelMin + " modelMax=" + _modelMax +
             " sliderMin=" + _sliderMin + " sliderMax=" + _sliderMax; 
-
     }
+    
+    /**
+     * Converts from slider value to model value.
+     * 
+     * @param sliderValue slider value
+     * @return model value
+     */
+    public abstract double sliderToModel( int sliderValue );
+    
+    
+    /**
+     * Converts from model value to slider value.
+     * 
+     * @param modelValue model value
+     * @return slider value
+     */
+    public abstract int modelToSlider( double modelValue );
 }

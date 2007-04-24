@@ -1,14 +1,10 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.test;
+package edu.colorado.phet.opticaltweezers.control.valuecontrol;
 
-import edu.colorado.phet.opticaltweezers.control.valuecontrol.AbstractSliderStrategy;
-import edu.colorado.phet.opticaltweezers.control.valuecontrol.IConversionStrategy;
-import edu.colorado.phet.opticaltweezers.control.valuecontrol.LinearSliderStrategy;
-import edu.colorado.phet.opticaltweezers.control.valuecontrol.LogarithmicSliderStrategy;
 
 /**
- * Test harness for the ISliderStrategy hierarchy.
+ * Test harness for the AbstractMappingStrategy hierarchy.
  * <p>
  * These tests are difficult to automate because there will be some error due
  * to integer-double conversions. And the amount of error that's acceptable 
@@ -16,22 +12,22 @@ import edu.colorado.phet.opticaltweezers.control.valuecontrol.LogarithmicSliderS
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestISliderStrategy {
+public class TestMappingStrategies {
 
     /* not intended for instantiation */
-    private TestISliderStrategy() {}
+    private TestMappingStrategies() {}
     
     /*
      * Test harness.
      */
     public static void main( String[] args ) {
-        TestISliderStrategy.runTests();
+        TestMappingStrategies.runTests();
     }
     
     /*
      * Tests a strategy for a specified number of equally-spaced intervals.
      */
-    private static void testStrategy( AbstractSliderStrategy strategy, int numberOfTests ) {
+    private static void testStrategy( AbstractMappingStrategy strategy, int numberOfTests ) {
         
         int sliderMin = strategy.getSliderMin();
         int sliderMax = strategy.getSliderMax();
@@ -53,7 +49,7 @@ public class TestISliderStrategy {
     /*
      * Tests a strategy for specific slider and model value.
      */
-    private static void testStrategy( IConversionStrategy strategy, int sliderValue, double modelValue ) {
+    private static void testStrategy( AbstractMappingStrategy strategy, int sliderValue, double modelValue ) {
         System.out.println( sliderValue + " -> " + strategy.sliderToModel( sliderValue ) + " (" + modelValue + ")" );
         System.out.println( modelValue  + " -> " + strategy.modelToSlider( modelValue )  + " (" + sliderValue + ")" );
     }
@@ -67,17 +63,17 @@ public class TestISliderStrategy {
         {
             int numberOfTests = 10;
             System.out.println( "------------------------" );
-            testStrategy( new LinearSliderStrategy( -1.0, 1.0, -100, 100 ), numberOfTests );
+            testStrategy( new LinearMappingStrategy( -1.0, 1.0, -100, 100 ), numberOfTests );
             System.out.println( "------------------------" );
-            testStrategy( new LinearSliderStrategy( 1000.0, 2000.0, 0, 1000 ), numberOfTests );
+            testStrategy( new LinearMappingStrategy( 1000.0, 2000.0, 0, 1000 ), numberOfTests );
             System.out.println( "------------------------" );
-            testStrategy( new LinearSliderStrategy( 0, 1000, -1000, 0 ), numberOfTests );
+            testStrategy( new LinearMappingStrategy( 0, 1000, -1000, 0 ), numberOfTests );
         }
         
         // Logarithmic test
         {
             System.out.println( "------------------------" );
-            IConversionStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 2E1, 2E5, -100, 100 );
+            LogarithmicMappingStrategy logarithmicStrategy = new LogarithmicMappingStrategy( 2E1, 2E5, -100, 100 );
             System.out.println( "test: " + logarithmicStrategy.toString() );
             testStrategy( logarithmicStrategy, -100, 2E1 );
             testStrategy( logarithmicStrategy,  -50, 2E2 );
@@ -89,7 +85,7 @@ public class TestISliderStrategy {
         // Logarithmic test
         {
             System.out.println( "------------------------" );
-            IConversionStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 2E1, 2E5, 0, 1000 );
+            LogarithmicMappingStrategy logarithmicStrategy = new LogarithmicMappingStrategy( 2E1, 2E5, 0, 1000 );
             System.out.println( "test: " + logarithmicStrategy.toString() );
             testStrategy( logarithmicStrategy,    0, 2E1 );
             testStrategy( logarithmicStrategy,  250, 2E2 );
@@ -101,7 +97,7 @@ public class TestISliderStrategy {
         // Logarithmic test
         {
             System.out.println( "------------------------" );
-            IConversionStrategy logarithmicStrategy = new LogarithmicSliderStrategy( -2E5, -2E1, 0, 1000 );
+            LogarithmicMappingStrategy logarithmicStrategy = new LogarithmicMappingStrategy( -2E5, -2E1, 0, 1000 );
             System.out.println( "test: " + logarithmicStrategy.toString() );
             testStrategy( logarithmicStrategy,    0, -2E5 );
             testStrategy( logarithmicStrategy,  250, -2E4 );
@@ -113,7 +109,7 @@ public class TestISliderStrategy {
         // Logarithmic test
         {
             System.out.println( "------------------------" );
-            IConversionStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 1E-6, 1E-2, 0, 1000 );
+            LogarithmicMappingStrategy logarithmicStrategy = new LogarithmicMappingStrategy( 1E-6, 1E-2, 0, 1000 );
             System.out.println( "test: " + logarithmicStrategy.toString() );
             testStrategy( logarithmicStrategy,    0, 1E-6 );
             testStrategy( logarithmicStrategy,  250, 1E-5 );

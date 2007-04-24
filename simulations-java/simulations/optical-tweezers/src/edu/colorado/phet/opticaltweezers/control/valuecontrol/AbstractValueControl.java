@@ -29,7 +29,8 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * As the slider value is changed, the text field automatically updates to reflect the 
  * new value.  The text field is optionally editable, and user input is validated.
  * <p>
- * The default "look" is to have labels at the min and max tick marks.
+ * The default "look" is to have major tick marks at the min and max tick marks,
+ * and no minor tick marks.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -41,8 +42,8 @@ public abstract class AbstractValueControl extends JPanel {
 
     // Model
     private double _value;
-    private final double _min, _max;
-    private double _tickSpacing;
+    private final double _min, _max; // for convenience, could get these from _slider
+    private double _tickSpacing; // spacing of minor tick marks
     private double _delta;
 
     // View
@@ -51,13 +52,14 @@ public abstract class AbstractValueControl extends JPanel {
     private JLabel _valueLabel, _unitsLabel;
 
     // misc.
-    private DecimalFormat _textFieldFormat;
-    private DecimalFormat _tickFormat;
+    private DecimalFormat _textFieldFormat; // format for the text field
+    private DecimalFormat _tickFormat; // format for the tick mark labels
     private boolean _notifyWhileDragging; // if true, fire ChangeEvents while the slider is dragged
     private boolean _isAdjusting; // is the slider being adjusted (dragged) ?
-    private Font _font;
+    private Font _font; // font used for all components
     private EventListenerList _listenerList; // notification of slider changes
     private EventDispatcher _listener;
+    private String _minTickString, _maxTickString; //optional strings used to label min/max ticks
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -79,17 +81,18 @@ public abstract class AbstractValueControl extends JPanel {
         _slider = slider;
 
         _value = slider.getModelValue();
-        _min = slider.getStrategy().getModelMin();
-        _max = slider.getStrategy().getModelMax();
-        _tickSpacing = _max - _min; // default is a tick mark at max and min
-        _delta = _slider.getStrategy().sliderToModel( 1 );
+        _min = slider.getModelMin();
+        _max = slider.getModelMax();
+        _tickSpacing = _max - _min; // default is major tick marks at min and max
+        _delta = _slider.sliderToModel( 1 );
 
         _textFieldFormat = new DecimalFormat( textFieldPattern );
-        _tickFormat = new DecimalFormat( textFieldPattern ); // default to same precision as value display
+        _tickFormat = new DecimalFormat( textFieldPattern ); // default to same format as text field
         _notifyWhileDragging = true;
         _isAdjusting = false;
         _font = new JLabel().getFont();
         _listenerList = new EventListenerList();
+        _minTickString = _maxTickString = null;
 
         // Label
         JPanel valuePanel = new JPanel();
@@ -244,6 +247,7 @@ public abstract class AbstractValueControl extends JPanel {
 
     /**
      * Gets a reference to the slider component.
+     * Use this with caution if you have special needs that are not addressed by this API.
      * 
      * @return the slider
      */
@@ -253,10 +257,11 @@ public abstract class AbstractValueControl extends JPanel {
 
     /**
      * Gets a reference to the text field component.
+     * Use this with caution if you have special needs that are not addressed by this API.
      * 
      * @return the text field
      */
-    public JFormattedTextField getFormattedTextField() {
+    public JFormattedTextField getTextField() {
         return _textField;
     }
 
@@ -374,31 +379,15 @@ public abstract class AbstractValueControl extends JPanel {
     }
 
     /**
-     * Changes the label table to label only the min and max of the range.
+     * Sets the labels used for min and max ticks.
      * 
-     * @param minString
-     * @param maxString
+     * @param minTickString
+     * @param maxTickString
      */
-    public void setTickLabels( String minString, String maxString ) {
-
-        _slider.setPaintTicks( true );
-        _slider.setPaintLabels( true );
-        int sliderRange = _slider.getMaximum() - _slider.getMinimum();
-        _slider.setMajorTickSpacing( sliderRange );
-        _slider.setMinorTickSpacing( sliderRange );
-
-        Hashtable labelTable = new Hashtable();
-        Font font = _font;
-        if ( font == null ) {
-            font = new JLabel().getFont();
-        }
-        JLabel minLabel = new JLabel( minString );
-        minLabel.setFont( font );
-        labelTable.put( new Integer( _slider.getMinimum() ), minLabel );
-        JLabel maxLabel = new JLabel( maxString );
-        maxLabel.setFont( font );
-        labelTable.put( new Integer( _slider.getMaximum() ), maxLabel );
-        _slider.setLabelTable( labelTable );
+    public void setMinMaxTickLabels( String minTickString, String maxTickString ) {
+        _minTickString = minTickString;
+        _maxTickString = maxTickString;
+        updateTickLabels();
     }
 
     //----------------------------------------------------------------------------
@@ -427,18 +416,28 @@ public abstract class AbstractValueControl extends JPanel {
 
         int sliderRange = _slider.getMaximum() - _slider.getMinimum();
         _slider.setMajorTickSpacing( sliderRange );
-        int sliderTickSpacing = _slider.getStrategy().modelToSlider( _min + _tickSpacing );
+        int sliderTickSpacing = _slider.modelToSlider( _min + _tickSpacing );
         _slider.setMinorTickSpacing( sliderTickSpacing );
         _slider.setPaintTicks( true );
         _slider.setPaintLabels( true );
 
         Hashtable labelTable = new Hashtable();
 
-        //  Major ticks
-        JLabel label = new JLabel( _tickFormat.format( _min ) );
+        // Min tick
+        String labelString = _minTickString;
+        if ( labelString == null ) {
+            labelString = _tickFormat.format( _min );
+        }
+        JLabel label = new JLabel( labelString );
         label.setFont( _font );
         labelTable.put( new Integer( _slider.getMinimum() ), label );
-        label = new JLabel( _tickFormat.format( _max ) );
+        
+        // Max tick
+        labelString = _maxTickString;
+        if ( labelString == null ) {
+            labelString = _tickFormat.format( _max );
+        }
+        label = new JLabel( labelString );
         label.setFont( _font );
         labelTable.put( new Integer( _slider.getMaximum() ), label );
 
@@ -447,7 +446,7 @@ public abstract class AbstractValueControl extends JPanel {
         while ( value < _max ) {
             label = new JLabel( _tickFormat.format( value ) );
             label.setFont( _font );
-            labelTable.put( new Integer( _slider.getStrategy().modelToSlider( value ) ), label );
+            labelTable.put( new Integer( _slider.modelToSlider( value ) ), label );
             value += _tickSpacing;
         }
 

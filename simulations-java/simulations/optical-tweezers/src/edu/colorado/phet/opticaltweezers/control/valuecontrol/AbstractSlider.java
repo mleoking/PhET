@@ -4,21 +4,22 @@ package edu.colorado.phet.opticaltweezers.control.valuecontrol;
 
 import javax.swing.JSlider;
 
-
+/**
+ * AbstractSlider is the base class for all extensions of JSlider that provide
+ * a mapping between slider values (integer precision) and model values (double precision).
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public abstract class AbstractSlider extends JSlider {
     
-    private AbstractSliderStrategy _strategy;
+    private AbstractMappingStrategy _strategy;
     
-    public AbstractSlider( AbstractSliderStrategy strategy ) {
+    protected AbstractSlider( AbstractMappingStrategy strategy ) {
         super();
         _strategy = strategy;
         setMinimum( strategy.getSliderMin() );
         setMaximum( strategy.getSliderMax() );
         setValue( strategy.getSliderMin() );
-    }
-    
-    public AbstractSliderStrategy getStrategy() {
-        return _strategy;
     }
     
     public void setModelValue( double modelValue ) {
@@ -28,7 +29,30 @@ public abstract class AbstractSlider extends JSlider {
     
     public double getModelValue() {
         int sliderValue = getValue();
-        double modelValue = _strategy.sliderToModel( sliderValue );
-        return modelValue;
+        return sliderToModel( sliderValue );
+    }
+    
+    public double getModelMin() {
+        return _strategy.getModelMin();
+    }
+    
+    public double getModelMax() {
+        return _strategy.getModelMax();
+    }
+    
+    public int getSliderMin() {
+        return _strategy.getSliderMin();
+    }
+    
+    public int getSliderMax() {
+        return _strategy.getSliderMax();
+    }
+    
+    public double sliderToModel( int sliderValue ) {
+        return _strategy.sliderToModel( sliderValue );
+    }
+    
+    public int modelToSlider( double modelValue ) {
+        return _strategy.modelToSlider( modelValue );
     }
 }
