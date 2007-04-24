@@ -119,7 +119,6 @@ public abstract class AbstractValueControl extends JPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( this );
             setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.setFill( GridBagConstraints.HORIZONTAL );
             layout.addComponent( valuePanel, 0, 0 );
             layout.addComponent( _slider, 1, 0 );
         }
@@ -454,7 +453,7 @@ public abstract class AbstractValueControl extends JPanel {
             value += _tickSpacing;
         }
 
-        getSlider().setLabelTable( labelTable );
+        _slider.setLabelTable( labelTable );
     }
 
     /*
