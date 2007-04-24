@@ -22,17 +22,17 @@ public class EnergySkateParkTestMenu extends JMenu {
         this.parentApp = parentApp;
 
         TestItem[] testItems = new TestItem[]{
-                new TestItem( "esp/tests/a.esp", "Head Bounce Get Stuck" ),
-                new TestItem( "esp/tests/double-fall.esp", "Double Well fall-through" ),
-                new TestItem( "esp/tests/moon-upside.esp", "Upside-Down on moon" ),
-                new TestItem( "esp/tests/angle.esp", "Slight angle/speed" ),
-                new TestItem( "esp/tests/fall-through-ground.esp", "Shoulder through ground" ),
-                new TestItem( "esp/tests/dw-rc.esp", "double well roller coaster" ),
-                new TestItem( "esp/tests/skater-jump.esp", "Skater Jump" ),
-                new TestItem( "esp/tests/droptofloor_test.esp", "Drop to floor" ),
-                new TestItem( "esp/tests/fallthrough_test.esp", "High Friction parabolic" ),
-                new TestItem( "esp/tests/loop_test.esp", "Loop Test" ),
-                new TestItem( "esp/tests/upside-down_test.esp", "Upside Down" )
+                new TestItem( "energy-skate-park/tests/a.esp", "Head Bounce Get Stuck" ),
+                new TestItem( "energy-skate-park/tests/double-fall.esp", "Double Well fall-through" ),
+                new TestItem( "energy-skate-park/tests/moon-upside.esp", "Upside-Down on moon" ),
+                new TestItem( "energy-skate-park/tests/angle.esp", "Slight angle/speed" ),
+                new TestItem( "energy-skate-park/tests/fall-through-ground.esp", "Shoulder through ground" ),
+                new TestItem( "energy-skate-park/tests/dw-rc.esp", "double well roller coaster" ),
+                new TestItem( "energy-skate-park/tests/skater-jump.esp", "Skater Jump" ),
+                new TestItem( "energy-skate-park/tests/droptofloor_test.esp", "Drop to floor" ),
+                new TestItem( "energy-skate-park/tests/fallthrough_test.esp", "High Friction parabolic" ),
+                new TestItem( "energy-skate-park/tests/loop_test.esp", "Loop Test" ),
+                new TestItem( "energy-skate-park/tests/upside-down_test.esp", "Upside Down" )
         };
         for( int i = 0; i < testItems.length; i++ ) {
             final TestItem testItem = testItems[i];

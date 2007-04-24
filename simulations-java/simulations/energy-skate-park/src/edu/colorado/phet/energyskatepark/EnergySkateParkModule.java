@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.servicemanager.PhetServiceManager;
-import edu.colorado.phet.energyskatepark.common.StringOutputStream;
 import edu.colorado.phet.energyskatepark.model.*;
 import edu.colorado.phet.energyskatepark.plots.BarGraphCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlotCanvas;
@@ -33,6 +32,7 @@ import java.awt.geom.Point2D;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -282,17 +282,27 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void save() throws UnavailableServiceException, IOException {
-        FileSaveService fos = PhetServiceManager.getFileSaveService( getSimulationPanel() );
-        StringOutputStream stringOutputStream = new StringOutputStream();
-        XMLEncoder xmlEncoder = new XMLEncoder( stringOutputStream );
-//        xmlEncoder.setPersistenceDelegate( Point2D.Double.class, new Point2DPersistenceDelegate() );
-        xmlEncoder.writeObject( new EnergySkateParkModuleBean( this ) );
-        xmlEncoder.close();
-        System.out.println( "Saving: "+stringOutputStream.toString() );
-        InputStream stream = new ByteArrayInputStream( stringOutputStream.toString().getBytes() );
+        String xml = toXMLString();
+        System.out.println( "xml = " + xml );
+        InputStream stream = new ByteArrayInputStream( xml.getBytes() );
         FileContents data = new InputStreamFileContents( "esp_output", stream );
+
+        FileSaveService fos = PhetServiceManager.getFileSaveService( getSimulationPanel() );
         FileContents out = fos.saveAsFileDialog( null, new String[]{"esp"}, data );
         System.out.println( "Saved file." );
+    }
+
+    private String toXMLString() {
+
+
+        ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        XMLEncoder e = new XMLEncoder( out );
+        e.setPersistenceDelegate( Point2D.Double.class, new Point2DPersistenceDelegate() );
+        e.writeObject( new EnergySkateParkModuleBean( this ) );
+        e.writeObject( new JButton( "My Button" ) );
+        e.close();
+
+        return out.toString();
     }
 
     public void open() throws UnavailableServiceException, IOException, ClassNotFoundException {
@@ -311,7 +321,8 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void open( String filename ) {
-        XMLDecoder xmlDecoder = new XMLDecoder( getClass().getClassLoader().getResourceAsStream( filename ) );
+        System.out.println( "filename = " + filename );
+        XMLDecoder xmlDecoder = new XMLDecoder( Thread.currentThread().getContextClassLoader().getResourceAsStream( filename ) );
         Object obj = xmlDecoder.readObject();
         if( obj instanceof EnergySkateParkModuleBean ) {
             EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean)obj;
