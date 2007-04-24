@@ -36,7 +36,7 @@ import java.text.DecimalFormat;
 
 public class MeasuringTape extends PhetPNode {
     
-    private static final String MEASURING_TAPE_IMAGE = "piccolo-phet/images/tape.gif";
+    private static final String MEASURING_TAPE_IMAGE = "piccolo-phet/images/measuringTape.gif";
     
     private ModelViewTransform2D modelViewTransform2D;
     private Point2D.Double modelSrc;
