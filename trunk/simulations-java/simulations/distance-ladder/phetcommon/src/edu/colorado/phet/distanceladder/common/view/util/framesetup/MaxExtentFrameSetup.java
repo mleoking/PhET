@@ -6,7 +6,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Feb 7, 2004
  * Time: 7:28:19 PM
- * Copyright (c) Feb 7, 2004 by Sam Reid
+ *
  */
 public class MaxExtentFrameSetup implements FrameSetup {
     FrameSetup pre = null;

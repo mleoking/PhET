@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -20,7 +20,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Apr 15, 2006
  * Time: 1:42:49 PM
- * Copyright (c) Apr 15, 2006 by Sam Reid
+ *
  */
 
 public class ExpandableScreenChartGraphic extends PNode {

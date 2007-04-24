@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.graphics.arrows;
 
 import edu.colorado.phet.common.bernoulli.bernoulli.math.PhetVector;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 24, 2003
  * Time: 9:55:59 AM
- * Copyright (c) Jun 24, 2003 by Sam Reid
+ *
  */
 public class StrokedDynamicArrow {
     private int desiredHeadHeight;

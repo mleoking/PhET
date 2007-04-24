@@ -20,7 +20,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 9:29:56 AM
- * Copyright (c) May 24, 2004 by Sam Reid
+ *
  */
 public class InteractiveBranchGraphic extends DefaultInteractiveGraphic implements Deletable {
     private boolean isDragging = false;

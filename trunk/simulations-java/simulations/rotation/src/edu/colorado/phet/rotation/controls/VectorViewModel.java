@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 10:11:17 PM
- * Copyright (c) Dec 28, 2006 by Sam Reid
+ *
  */
 
 public class VectorViewModel {

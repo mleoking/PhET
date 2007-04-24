@@ -19,7 +19,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Dec 27, 2005
  * Time: 9:29:24 PM
- * Copyright (c) Dec 27, 2005 by Sam Reid
+ *
  */
 
 public class ZeroPointPotentialGraphic extends PhetPNode {

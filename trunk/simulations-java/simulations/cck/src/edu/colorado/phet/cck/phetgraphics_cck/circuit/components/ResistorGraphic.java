@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: May 29, 2004
  * Time: 12:57:37 AM
- * Copyright (c) May 29, 2004 by Sam Reid
+ *
  */
 public class ResistorGraphic extends CircuitComponentImageGraphic {
     private ColorBandsGraphic colorBandsGraphic;

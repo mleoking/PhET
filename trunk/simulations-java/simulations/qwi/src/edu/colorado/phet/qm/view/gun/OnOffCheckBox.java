@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -14,7 +14,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Mar 2, 2006
  * Time: 11:27:46 PM
- * Copyright (c) Mar 2, 2006 by Sam Reid
+ *
  */
 
 public class OnOffCheckBox extends JCheckBox {

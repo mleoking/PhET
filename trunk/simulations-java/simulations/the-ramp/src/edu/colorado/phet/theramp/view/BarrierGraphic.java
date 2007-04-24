@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -14,7 +14,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: May 30, 2005
  * Time: 10:20:33 PM
- * Copyright (c) May 30, 2005 by Sam Reid
+ *
  */
 
 public abstract class BarrierGraphic extends PNode {

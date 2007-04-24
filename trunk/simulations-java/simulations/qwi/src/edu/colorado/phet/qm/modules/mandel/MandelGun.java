@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 2, 2006
  * Time: 9:33:23 PM
- * Copyright (c) Mar 2, 2006 by Sam Reid
+ *
  */
 
 public class MandelGun extends PhetPNode {

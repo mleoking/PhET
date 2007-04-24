@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 10:04:32 AM
- * Copyright (c) Jul 8, 2005 by Sam Reid
+ *
  */
 
 public class SlitDetectorPanel extends VerticalLayoutPanel {

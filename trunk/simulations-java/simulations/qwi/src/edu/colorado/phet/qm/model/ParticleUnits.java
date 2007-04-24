@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
@@ -10,7 +10,7 @@ import java.text.NumberFormat;
  * User: Sam Reid
  * Date: Jan 5, 2006
  * Time: 2:33:36 PM
- * Copyright (c) Jan 5, 2006 by Sam Reid
+ *
  */
 
 public class ParticleUnits {

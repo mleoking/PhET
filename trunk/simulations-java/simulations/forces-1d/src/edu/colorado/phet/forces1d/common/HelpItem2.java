@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.common;
 
 import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 6, 2005
  * Time: 6:32:33 PM
- * Copyright (c) Mar 6, 2005 by Sam Reid
+ *
  */
 
 public class HelpItem2 extends CompositePhetGraphic {

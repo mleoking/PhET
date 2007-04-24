@@ -13,7 +13,7 @@ import java.awt.image.ImageObserver;
  * User: Sam Reid
  * Date: Sep 30, 2003
  * Time: 12:58:36 AM
- * Copyright (c) Sep 30, 2003 by Sam Reid
+ *
  */
 public class CastleView implements Graphic {
     private Castle castle;

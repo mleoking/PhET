@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -14,7 +14,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 27, 2005
  * Time: 10:12:30 AM
- * Copyright (c) Jun 27, 2005 by Sam Reid
+ *
  */
 
 public class ConfigureHorizontalSlitPanel extends VerticalLayoutPanel {

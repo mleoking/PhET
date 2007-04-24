@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: May 26, 2006
  * Time: 7:55:58 AM
- * Copyright (c) May 26, 2006 by Sam Reid
+ *
  */
 
 public class FrictionControl extends VerticalLayoutPanel {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -30,7 +30,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 6:48:21 PM
- * Copyright (c) Jun 10, 2005 by Sam Reid
+ *
  */
 
 public class QWIModule extends PiccoloModule {

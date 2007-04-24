@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.model.Oscillator;
@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 18, 2006
  * Time: 12:58:21 PM
- * Copyright (c) May 18, 2006 by Sam Reid
+ *
  */
 
 public class FaucetDragHandler extends PDragEventHandler {

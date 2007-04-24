@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.chart;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -18,7 +18,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jul 6, 2006
  * Time: 8:38:51 PM
- * Copyright (c) Jul 6, 2006 by Sam Reid
+ *
  */
 public class CrosshairNode extends PComposite {
     private static final Paint CROSSHAIR_COLOR = Color.white;

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -20,7 +20,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 6, 2006
  * Time: 10:32:23 PM
- * Copyright (c) Feb 6, 2006 by Sam Reid
+ *
  */
 
 public class FireButton extends JButton {

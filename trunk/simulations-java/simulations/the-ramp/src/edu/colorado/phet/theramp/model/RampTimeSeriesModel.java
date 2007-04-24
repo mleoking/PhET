@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -14,7 +14,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: May 16, 2005
  * Time: 8:33:35 AM
- * Copyright (c) May 16, 2005 by Sam Reid
+ *
  */
 
 public class RampTimeSeriesModel extends TimeSeriesModel {

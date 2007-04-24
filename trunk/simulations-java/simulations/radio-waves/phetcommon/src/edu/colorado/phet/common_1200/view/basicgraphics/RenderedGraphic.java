@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 10, 2004
  * Time: 7:56:13 AM
- * Copyright (c) Sep 10, 2004 by Sam Reid
+ *
  */
 public class RenderedGraphic implements Graphic {
     private RepaintDelegate repaintDelegate;//so we can switch strategies easily.

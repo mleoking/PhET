@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 30, 2003
  * Time: 12:38:31 AM
- * Copyright (c) Jun 30, 2003 by Sam Reid
+ *
  */
 public class DataSeries {
     private ArrayList pts = new ArrayList();

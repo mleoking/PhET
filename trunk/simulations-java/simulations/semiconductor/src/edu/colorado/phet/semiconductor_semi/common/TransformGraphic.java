@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 16, 2004
  * Time: 12:56:02 AM
- * Copyright (c) Jan 16, 2004 by Sam Reid
+ *
  */
 public abstract class TransformGraphic implements Graphic {
     ModelViewTransform2D transform;

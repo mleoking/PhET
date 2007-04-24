@@ -33,7 +33,7 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Jan 27, 2004
  * Time: 1:54:01 AM
- * Copyright (c) Jan 27, 2004 by Sam Reid
+ *
  */
 public class DopantPanel extends CompositeInteractiveGraphic {
     Rectangle viewRect;

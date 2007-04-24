@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 14, 2004
  * Time: 7:18:33 PM
- * Copyright (c) Jun 14, 2004 by Sam Reid
+ *
  */
 public class SeriesAmmeter extends CircuitComponent {
     public SeriesAmmeter( CircuitChangeListener kl, Point2D start, AbstractVector2D dir, double length, double height ) {

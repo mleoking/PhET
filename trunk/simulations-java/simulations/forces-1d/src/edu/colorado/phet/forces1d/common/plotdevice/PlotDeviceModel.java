@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Nov 27, 2004
  * Time: 7:55:40 PM
- * Copyright (c) Nov 27, 2004 by Sam Reid
+ *
  */
 public abstract class PlotDeviceModel implements ModelElement {
     private double minTime = 0;

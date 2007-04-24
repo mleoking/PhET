@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 1:17:59 AM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 
 public class FaucetData {

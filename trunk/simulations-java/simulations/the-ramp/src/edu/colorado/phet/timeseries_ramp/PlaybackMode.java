@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
  * User: Sam Reid
  * Date: Aug 15, 2004
  * Time: 7:42:16 PM
- * Copyright (c) Aug 15, 2004 by Sam Reid
+ *
  */
 public class PlaybackMode extends Mode {
     private double playbackSpeed;

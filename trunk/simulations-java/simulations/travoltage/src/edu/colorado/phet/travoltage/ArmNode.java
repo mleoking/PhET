@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 12:03:58 AM
- * Copyright (c) Jul 1, 2006 by Sam Reid
+ *
  */
 
 public class ArmNode extends LimbNode {

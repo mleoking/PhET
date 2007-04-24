@@ -16,7 +16,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 8:23:39 AM
- * Copyright (c) Dec 28, 2006 by Sam Reid
+ *
  */
 
 public class RotationGraphSet {

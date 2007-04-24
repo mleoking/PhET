@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jan 25, 2005
  * Time: 3:01:28 AM
- * Copyright (c) Jan 25, 2005 by Sam Reid
+ *
  */
 
 public class ThresholdedPDragAdapter extends PBasicInputEventHandler {

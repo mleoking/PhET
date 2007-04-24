@@ -1,11 +1,11 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.distanceladder.common.math;
 
 /**
  * User: Sam Reid
  * Date: Feb 18, 2004
  * Time: 11:59:37 PM
- * Copyright (c) Feb 18, 2004 by Sam Reid
+ *
  */
 public class LinearTransform1d {
     double minInput;

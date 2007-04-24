@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
@@ -12,7 +12,7 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 5:20:27 PM
- * Copyright (c) Mar 28, 2006 by Sam Reid
+ *
  */
 
 public class ParticleSizeSliderControl extends VerticalLayoutPanel {

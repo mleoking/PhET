@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Dec 29, 2006
  * Time: 8:55:43 AM
- * Copyright (c) Dec 29, 2006 by Sam Reid
+ *
  */
 
 public class GraphControlNode extends PNode {

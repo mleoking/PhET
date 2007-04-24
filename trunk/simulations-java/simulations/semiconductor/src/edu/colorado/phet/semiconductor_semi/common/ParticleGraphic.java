@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.common;
 
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jan 18, 2004
  * Time: 1:54:53 PM
- * Copyright (c) Jan 18, 2004 by Sam Reid
+ *
  */
 public class ParticleGraphic extends TransformGraphic {
     protected Particle particle;

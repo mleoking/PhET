@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.model;
 
 /**
  * User: Sam Reid
  * Date: Feb 13, 2005
  * Time: 7:41:14 PM
- * Copyright (c) Feb 13, 2005 by Sam Reid
+ *
  */
 
 public class Force {

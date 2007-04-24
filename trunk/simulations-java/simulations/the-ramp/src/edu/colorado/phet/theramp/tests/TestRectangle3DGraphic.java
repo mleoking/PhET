@@ -1,4 +1,4 @@
-///* Copyright 2004, Sam Reid */
+///*  */
 //package edu.colorado.phet.theramp.tests;
 //
 //import edu.colorado.phet.common.model.clock.ClockEvent;
@@ -17,7 +17,7 @@
 // * User: Sam Reid
 // * Date: Feb 12, 2005
 // * Time: 9:40:30 AM
-// * Copyright (c) Feb 12, 2005 by Sam Reid
+// *
 // */
 //
 //public class TestRectangle3DGraphic {

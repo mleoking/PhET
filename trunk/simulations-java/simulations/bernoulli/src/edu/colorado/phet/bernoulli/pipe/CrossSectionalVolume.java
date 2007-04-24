@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Aug 23, 2003
  * Time: 9:17:12 PM
- * Copyright (c) Aug 23, 2003 by Sam Reid
+ *
  */
 public class CrossSectionalVolume extends SimpleObservable {
     Pipe parent;

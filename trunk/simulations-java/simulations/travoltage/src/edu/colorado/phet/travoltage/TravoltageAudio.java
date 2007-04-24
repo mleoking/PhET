@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.travoltage;
 
 import java.applet.Applet;
@@ -10,7 +10,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Jul 3, 2006
  * Time: 9:38:53 AM
- * Copyright (c) Jul 3, 2006 by Sam Reid
+ *
  */
 
 public class TravoltageAudio implements Runnable {

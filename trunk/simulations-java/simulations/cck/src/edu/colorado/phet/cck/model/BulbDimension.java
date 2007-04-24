@@ -5,7 +5,7 @@ package edu.colorado.phet.cck.model;
  * User: Sam Reid
  * Date: Jun 14, 2004
  * Time: 1:19:48 AM
- * Copyright (c) Jun 14, 2004 by Sam Reid
+ *
  */
 public class BulbDimension extends ComponentDimension {
     private double distBetweenJunctions;

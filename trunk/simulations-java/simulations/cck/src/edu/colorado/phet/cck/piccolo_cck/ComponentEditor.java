@@ -28,7 +28,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 9, 2004
  * Time: 10:19:00 AM
- * Copyright (c) Jun 9, 2004 by Sam Reid
+ *
  */
 public abstract class ComponentEditor extends JDialog {
     protected ICCKModule module;

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.tests;
 
 import edu.colorado.phet.force1d_tag_chart.Range2D;
@@ -29,7 +29,7 @@ import java.awt.geom.AffineTransform;
  * User: Sam Reid
  * Date: Dec 16, 2004
  * Time: 1:19:40 PM
- * Copyright (c) Dec 16, 2004 by Sam Reid
+ *
  */
 
 public class PlotDeviceTest {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.charts;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -11,7 +11,7 @@ import java.util.Set;
  * User: Sam Reid
  * Date: Jun 2, 2005
  * Time: 8:24:44 AM
- * Copyright (c) Jun 2, 2005 by Sam Reid
+ *
  */
 
 public class LabelTable {

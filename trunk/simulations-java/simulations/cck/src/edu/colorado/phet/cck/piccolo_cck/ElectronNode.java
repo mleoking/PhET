@@ -16,7 +16,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Sep 18, 2006
  * Time: 11:24:35 AM
- * Copyright (c) Sep 18, 2006 by Sam Reid
+ *
  */
 
 public class ElectronNode extends PhetPNode {

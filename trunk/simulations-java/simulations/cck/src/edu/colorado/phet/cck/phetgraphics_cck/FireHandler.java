@@ -10,7 +10,7 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
  * User: Sam Reid
  * Date: Jun 24, 2004
  * Time: 12:05:48 PM
- * Copyright (c) Jun 24, 2004 by Sam Reid
+ *
  */
 public class FireHandler implements CircuitSolutionListener {
     CircuitGraphic circuitGraphic;

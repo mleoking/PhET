@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: May 26, 2006
  * Time: 7:57:04 AM
- * Copyright (c) May 26, 2006 by Sam Reid
+ *
  */
 
 public class ClearHeatButton extends JButton {

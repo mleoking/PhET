@@ -21,7 +21,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 28, 2005
  * Time: 12:30:23 PM
- * Copyright (c) Jul 28, 2005 by Sam Reid
+ *
  */
 
 public class TargetedWiggleMe extends PNode {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -20,7 +20,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: May 22, 2006
  * Time: 12:50:43 AM
- * Copyright (c) May 22, 2006 by Sam Reid
+ *
  */
 
 public class PlayAreaReducedScreenControlPanel extends PhetPNode {

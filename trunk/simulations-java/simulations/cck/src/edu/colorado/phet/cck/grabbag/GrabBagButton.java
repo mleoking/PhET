@@ -22,7 +22,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Sep 14, 2004
  * Time: 8:17:40 PM
- * Copyright (c) Sep 14, 2004 by Sam Reid
+ *
  */
 public class GrabBagButton extends JButton {
     private GrabBag bag;

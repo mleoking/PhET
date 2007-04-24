@@ -22,7 +22,7 @@ import java.util.Observer;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 10:08:54 AM
- * Copyright (c) Aug 19, 2003 by Sam Reid
+ *
  */
 public class PistonGraphic implements InteractiveGraphic, Observer, TransformListener {
     Rectangle shape;

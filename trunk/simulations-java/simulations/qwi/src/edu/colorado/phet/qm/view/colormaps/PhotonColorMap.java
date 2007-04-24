@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.colormaps;
 
 import edu.colorado.phet.qm.model.Wavefunction;
@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 18, 2005
  * Time: 10:55:00 PM
- * Copyright (c) Jul 18, 2005 by Sam Reid
+ *
  */
 
 public class PhotonColorMap implements ColorMap {

@@ -4,7 +4,7 @@ package edu.colorado.phet.cck.tests;
  * User: Sam Reid
  * Date: Sep 29, 2006
  * Time: 2:16:40 PM
- * Copyright (c) Sep 29, 2006 by Sam Reid
+ *
  */
 
 import edu.colorado.phet.cck.piccolo_cck.TargetReadoutToolNode;

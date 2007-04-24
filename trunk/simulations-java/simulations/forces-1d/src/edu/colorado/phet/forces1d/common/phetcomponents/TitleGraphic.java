@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.common.phetcomponents;
 
 import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
@@ -12,7 +12,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 16, 2004
  * Time: 4:27:46 PM
- * Copyright (c) Dec 16, 2004 by Sam Reid
+ *
  */
 
 public class TitleGraphic extends CompositePhetGraphic {

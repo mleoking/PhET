@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.tests;
 
 import org.jfree.chart.ChartFactory;
@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
  * User: Sam Reid
  * Date: Dec 20, 2005
  * Time: 12:34:48 AM
- * Copyright (c) Dec 20, 2005 by Sam Reid
+ *
  */
 
 public class TestJFreeStripChart {

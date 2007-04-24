@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Aug 23, 2006
  * Time: 10:23:15 AM
- * Copyright (c) Aug 23, 2006 by Sam Reid
+ *
  */
 
 public class ResetModuleControl extends JPanel {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model.potentials;
 
 import edu.colorado.phet.qm.model.Potential;
@@ -11,7 +11,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 8:23:06 AM
- * Copyright (c) Jun 11, 2005 by Sam Reid
+ *
  */
 
 public class HorizontalDoubleSlit implements Potential {

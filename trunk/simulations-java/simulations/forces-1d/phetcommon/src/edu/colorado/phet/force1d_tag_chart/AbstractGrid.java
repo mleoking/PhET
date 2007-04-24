@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 21, 2004
  * Time: 6:25:44 AM
- * Copyright (c) Sep 21, 2004 by Sam Reid
+ *
  */
 public abstract class AbstractGrid {
     private double[] lines;

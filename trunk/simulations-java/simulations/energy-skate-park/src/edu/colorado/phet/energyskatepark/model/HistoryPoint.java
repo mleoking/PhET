@@ -7,7 +7,7 @@ import java.io.Serializable;
  * User: Sam Reid
  * Date: Oct 23, 2005
  * Time: 4:51:38 PM
- * Copyright (c) Oct 23, 2005 by Sam Reid
+ *
  */
 
 public class HistoryPoint implements Serializable {

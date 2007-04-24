@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform;
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 10:26:01 AM
- * Copyright (c) Aug 19, 2003 by Sam Reid
+ *
  */
 public class CompositeTransformListener implements TransformListener {
     ArrayList listeners = new ArrayList();

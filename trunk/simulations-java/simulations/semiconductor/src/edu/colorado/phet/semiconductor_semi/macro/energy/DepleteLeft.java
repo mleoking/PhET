@@ -12,7 +12,7 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.transitions.Move;
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 2:14:24 PM
- * Copyright (c) Apr 26, 2004 by Sam Reid
+ *
  */
 public class DepleteLeft implements ModelElement {
     int bandSet;

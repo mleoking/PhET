@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * User: Sam Reid
  * Date: Jul 28, 2005
  * Time: 12:30:23 PM
- * Copyright (c) Jul 28, 2005 by Sam Reid
+ *
  */
 
 public class WiggleMe extends PNode {

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * User: Sam Reid
  * Date: Sep 21, 2005
  * Time: 3:05:30 AM
- * Copyright (c) Sep 21, 2005 by Sam Reid
+ *
  */
 
 public class Floor implements Serializable {

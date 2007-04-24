@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.piccolophet.test.experimental.tests;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -18,7 +18,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Aug 7, 2005
  * Time: 7:33:14 PM
- * Copyright (c) Aug 7, 2005 by Sam Reid
+ * 
  */
 
 public class TestMagicPImage3 extends PhetPCanvas {

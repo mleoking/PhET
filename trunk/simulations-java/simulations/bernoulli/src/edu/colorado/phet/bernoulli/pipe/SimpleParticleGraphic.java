@@ -21,7 +21,7 @@ import java.util.Observer;
  * User: Sam Reid
  * Date: Aug 23, 2003
  * Time: 1:29:45 AM
- * Copyright (c) Aug 23, 2003 by Sam Reid
+ *
  */
 public class SimpleParticleGraphic implements Graphic, TransformListener {
     private PipeGraphic pipeGraphic;

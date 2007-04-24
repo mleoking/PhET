@@ -20,7 +20,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 24, 2004
  * Time: 10:16:32 PM
- * Copyright (c) Jun 24, 2004 by Sam Reid
+ *
  */
 public class TestFontMetrics {
     static double time = 0;

@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 10:10:46 PM
- * Copyright (c) Dec 28, 2006 by Sam Reid
+ *
  */
 
 public class ShowVectorsControl extends JPanel {

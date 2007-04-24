@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.travoltage;
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 10:59:17 PM
- * Copyright (c) Jul 1, 2006 by Sam Reid
+ *
  */
 
 public class JadeElectronSet {

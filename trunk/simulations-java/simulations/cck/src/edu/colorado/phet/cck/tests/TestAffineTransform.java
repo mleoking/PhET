@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 9:24:10 PM
- * Copyright (c) May 25, 2004 by Sam Reid
+ *
  */
 public class TestAffineTransform {
     public static void main( String[] args ) {

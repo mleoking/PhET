@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -15,7 +15,7 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Jun 30, 2005
  * Time: 9:17:04 AM
- * Copyright (c) Jun 30, 2005 by Sam Reid
+ *
  */
 
 public class IntensityScreenPanel extends VerticalLayoutPanel {

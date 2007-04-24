@@ -16,7 +16,7 @@ import java.util.List;
  * User: Sam Reid
  * Date: Feb 18, 2007
  * Time: 11:16:29 AM
- * Copyright (c) Feb 18, 2007 by Sam Reid
+ *
  */
 public class Particle1D implements Serializable {
     private double alpha = 0.25;

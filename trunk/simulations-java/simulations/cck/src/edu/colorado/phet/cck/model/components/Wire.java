@@ -11,7 +11,7 @@ import java.awt.geom.Line2D;
  * User: Sam Reid
  * Date: Sep 14, 2006
  * Time: 5:17:00 PM
- * Copyright (c) Sep 14, 2006 by Sam Reid
+ *
  */
 
 public class Wire extends Branch {

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.graphics;
 
 import java.awt.geom.AffineTransform;
@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jun 4, 2003
  * Time: 10:44:04 PM
- * Copyright (c) Jun 4, 2003 by Sam Reid
+ *
  */
 public class GraphicsUtilities {
     /**Returns the AffineTransform that will take the specified image, and place it centered at (x,y) at the specified angle.*/

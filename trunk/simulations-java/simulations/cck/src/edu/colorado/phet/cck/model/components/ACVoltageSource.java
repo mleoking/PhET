@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.model.components;
 
 import edu.colorado.phet.cck.chart.CCKTime;
@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 15, 2006
  * Time: 11:01:58 PM
- * Copyright (c) Jun 15, 2006 by Sam Reid
+ *
  */
 
 public class ACVoltageSource extends Battery implements DynamicBranch {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
@@ -13,7 +13,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 24, 2005
  * Time: 11:25:35 PM
- * Copyright (c) Apr 24, 2005 by Sam Reid
+ *
  */
 
 public class ShapeDebugGraphic extends CompositePhetGraphic implements ClockTickListener {

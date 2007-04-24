@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 20, 2004
  * Time: 7:18:58 AM
- * Copyright (c) Apr 20, 2004 by Sam Reid
+ *
  */
 public class ChoiceStateModel implements ModelElement {
     private EnergySection energySection;

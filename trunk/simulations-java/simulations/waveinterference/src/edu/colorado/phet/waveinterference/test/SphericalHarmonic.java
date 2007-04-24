@@ -4,7 +4,7 @@
 // * User: Sam Reid
 // * Date: Aug 23, 2006
 // * Time: 7:38:21 PM
-// * Copyright (c) Aug 23, 2006 by Sam Reid
+// *
 // */
 //
 //public class SphericalHarmonic {

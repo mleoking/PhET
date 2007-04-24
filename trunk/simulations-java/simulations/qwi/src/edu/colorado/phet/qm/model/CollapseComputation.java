@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.model.math.Complex;
@@ -10,7 +10,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Jan 5, 2006
  * Time: 1:26:48 AM
- * Copyright (c) Jan 5, 2006 by Sam Reid
+ *
  */
 
 public class CollapseComputation {

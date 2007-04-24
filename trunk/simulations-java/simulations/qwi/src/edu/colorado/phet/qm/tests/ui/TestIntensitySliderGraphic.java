@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.tests.ui;
 
 
@@ -6,7 +6,7 @@ package edu.colorado.phet.qm.tests.ui;
  * User: Sam Reid
  * Date: Jul 18, 2005
  * Time: 9:17:39 PM
- * Copyright (c) Jul 18, 2005 by Sam Reid
+ *
  */
 
 public class TestIntensitySliderGraphic {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common_force1d.view.phetcomponents;
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 22, 2005
  * Time: 10:48:14 AM
- * Copyright (c) Jun 22, 2005 by Sam Reid
+ *
  */
 
 public class PhetJComponentManager {

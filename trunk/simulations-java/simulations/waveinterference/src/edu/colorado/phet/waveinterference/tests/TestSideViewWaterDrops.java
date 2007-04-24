@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.waveinterference.view.FaucetGraphic;
@@ -8,7 +8,7 @@ import edu.colorado.phet.waveinterference.view.WaveSideViewFull;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 11:03:18 PM
- * Copyright (c) Apr 12, 2006 by Sam Reid
+ *
  */
 
 public class TestSideViewWaterDrops extends TestTopView {

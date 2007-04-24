@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -22,7 +22,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Aug 3, 2005
  * Time: 8:11:45 AM
- * Copyright (c) Aug 3, 2005 by Sam Reid
+ *
  */
 
 public class FireDog extends PNode {

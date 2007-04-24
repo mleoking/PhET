@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -19,7 +19,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 6, 2005
  * Time: 11:34:54 PM
- * Copyright (c) Jun 6, 2005 by Sam Reid
+ *
  */
 
 public class OverheatButton extends PNode {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.qm.view.colormaps.ColorData;
@@ -12,7 +12,7 @@ import java.awt.geom.Ellipse2D;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 1:07:29 PM
- * Copyright (c) Jun 23, 2005 by Sam Reid
+ *
  */
 
 public class HitGraphic extends PNode {

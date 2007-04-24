@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 9, 2005
  * Time: 2:54:21 PM
- * Copyright (c) Jun 9, 2005 by Sam Reid
+ *
  */
 
 public class ColorGrid {

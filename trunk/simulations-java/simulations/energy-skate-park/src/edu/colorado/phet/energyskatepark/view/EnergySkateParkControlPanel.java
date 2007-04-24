@@ -32,7 +32,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Sep 30, 2005
  * Time: 2:37:21 PM
- * Copyright (c) Sep 30, 2005 by Sam Reid
+ *
  */
 
 public class EnergySkateParkControlPanel extends ControlPanel {

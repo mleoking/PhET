@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.model.Lattice2D;
@@ -7,7 +7,7 @@ import edu.colorado.phet.waveinterference.model.Lattice2D;
  * User: Sam Reid
  * Date: Apr 9, 2006
  * Time: 3:47:45 PM
- * Copyright (c) Apr 9, 2006 by Sam Reid
+ *
  */
 
 public interface WaveValueReader {

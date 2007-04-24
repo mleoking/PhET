@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.plotdevice;
 
 import edu.colorado.phet.common_movingman.view.ApparatusPanel;
@@ -12,7 +12,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 18, 2005
  * Time: 9:09:53 AM
- * Copyright (c) Apr 18, 2005 by Sam Reid
+ *
  */
 
 public class CursorHelpItem extends PlotDeviceListenerAdapter {

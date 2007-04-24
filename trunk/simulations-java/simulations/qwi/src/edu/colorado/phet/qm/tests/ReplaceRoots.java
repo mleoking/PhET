@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.tests;
 
 import java.io.*;
@@ -7,7 +7,7 @@ import java.io.*;
  * User: Sam Reid
  * Date: May 12, 2006
  * Time: 11:11:41 PM
- * Copyright (c) May 12, 2006 by Sam Reid
+ *
  */
 
 public class ReplaceRoots {

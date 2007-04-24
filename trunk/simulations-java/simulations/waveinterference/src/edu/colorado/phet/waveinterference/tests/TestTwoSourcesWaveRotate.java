@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -8,7 +8,7 @@ import edu.colorado.phet.waveinterference.model.Oscillator;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 1:37:43 AM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 
 public class TestTwoSourcesWaveRotate extends TestWaveRotateModule {

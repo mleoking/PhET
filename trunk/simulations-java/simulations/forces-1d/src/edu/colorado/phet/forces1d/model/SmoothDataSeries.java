@@ -7,7 +7,7 @@ import edu.colorado.phet.common_force1d.math.MathUtil;
  * User: Sam Reid
  * Date: Jul 1, 2003
  * Time: 3:42:23 PM
- * Copyright (c) Jul 1, 2003 by Sam Reid
+ *
  */
 public class SmoothDataSeries {
     private DataSeries data = new DataSeries();

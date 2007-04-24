@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 24, 2005
  * Time: 5:09:07 PM
- * Copyright (c) Jul 24, 2005 by Sam Reid
+ *
  */
 
 public class ObservablePanel extends AdvancedPanel {

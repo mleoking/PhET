@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.chart;
 
 import edu.colorado.phet.cck.common.CCKStrings;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 18, 2005
  * Time: 11:28:29 PM
- * Copyright (c) Dec 18, 2005 by Sam Reid
+ *
  */
 
 public abstract class AbstractFloatingChart extends PhetPNode {

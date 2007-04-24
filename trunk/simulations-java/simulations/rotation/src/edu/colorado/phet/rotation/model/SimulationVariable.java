@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 29, 2006
  * Time: 9:15:36 AM
- * Copyright (c) Dec 29, 2006 by Sam Reid
+ *
  */
 
 public class SimulationVariable {

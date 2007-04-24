@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Aug 6, 2005
  * Time: 4:23:38 AM
- * Copyright (c) Aug 6, 2005 by Sam Reid
+ *
  */
 
 public class InitialConditionPanel extends VerticalLayoutPanel {

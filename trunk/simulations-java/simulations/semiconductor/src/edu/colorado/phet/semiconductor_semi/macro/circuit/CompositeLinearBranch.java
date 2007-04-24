@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jan 15, 2004
  * Time: 1:04:42 PM
- * Copyright (c) Jan 15, 2004 by Sam Reid
+ *
  */
 public class CompositeLinearBranch {
     ArrayList branches = new ArrayList();

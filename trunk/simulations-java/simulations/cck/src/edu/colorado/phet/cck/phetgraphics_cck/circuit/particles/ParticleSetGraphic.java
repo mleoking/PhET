@@ -15,7 +15,7 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Jun 8, 2004
  * Time: 1:56:11 PM
- * Copyright (c) Jun 8, 2004 by Sam Reid
+ *
  */
 public class ParticleSetGraphic extends CompositeGraphic {
     private CCKPhetgraphicsModule module;

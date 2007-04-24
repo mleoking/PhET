@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.macro.circuit.battery;
 
 import javax.swing.*;
@@ -8,7 +8,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 15, 2004
  * Time: 10:34:12 AM
- * Copyright (c) Mar 15, 2004 by Sam Reid
+ *
  */
 public class MyJSpinner extends JSpinner {
     public MyJSpinner( SpinnerNumberModel spinnerNumberModel ) {

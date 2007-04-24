@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model.propagators;
 
 import edu.colorado.phet.qm.math.opensourcephysics.FFT2D;
@@ -8,7 +8,7 @@ import edu.colorado.phet.qm.model.Wavefunction;
  * User: Sam Reid
  * Date: Feb 9, 2006
  * Time: 11:53:56 PM
- * Copyright (c) Feb 9, 2006 by Sam Reid
+ *
  */
 
 public class QWIFFT2D {

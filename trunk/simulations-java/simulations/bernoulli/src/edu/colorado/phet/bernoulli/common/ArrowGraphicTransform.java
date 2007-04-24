@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 2, 2003
  * Time: 12:42:30 AM
- * Copyright (c) Sep 2, 2003 by Sam Reid
+ *
  */
 public class ArrowGraphicTransform implements Graphic {
     Arrow arrowPaint;

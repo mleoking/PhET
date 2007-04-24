@@ -6,7 +6,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Feb 5, 2007
  * Time: 3:44:20 PM
- * Copyright (c) Feb 5, 2007 by Sam Reid
+ *
  */
 
 public class EnergySkateParkOptionsMenu extends JMenu {

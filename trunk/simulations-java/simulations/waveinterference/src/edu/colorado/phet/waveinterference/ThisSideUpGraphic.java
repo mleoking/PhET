@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Aug 23, 2006
  * Time: 8:35:43 PM
- * Copyright (c) Aug 23, 2006 by Sam Reid
+ *
  */
 
 public class ThisSideUpGraphic extends PhetPNode {

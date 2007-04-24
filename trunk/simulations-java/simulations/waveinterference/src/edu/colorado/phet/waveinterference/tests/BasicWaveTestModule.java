@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -15,7 +15,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 22, 2006
  * Time: 7:04:39 PM
- * Copyright (c) Mar 22, 2006 by Sam Reid
+ *
  */
 
 public class BasicWaveTestModule extends Module {

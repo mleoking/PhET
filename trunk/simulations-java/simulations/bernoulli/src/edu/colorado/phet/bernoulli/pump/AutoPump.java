@@ -6,7 +6,7 @@ import edu.colorado.phet.common.bernoulli.bernoulli.clock2.SimulationTimeListene
  * User: Sam Reid
  * Date: Aug 21, 2003
  * Time: 10:32:18 AM
- * Copyright (c) Aug 21, 2003 by Sam Reid
+ *
  */
 public class AutoPump implements SimulationTimeListener {
     Pump pump;

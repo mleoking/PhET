@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Mar 26, 2004
  * Time: 1:23:42 AM
- * Copyright (c) Mar 26, 2004 by Sam Reid
+ *
  */
 public class EnergySpaceRegion {
     double minX;

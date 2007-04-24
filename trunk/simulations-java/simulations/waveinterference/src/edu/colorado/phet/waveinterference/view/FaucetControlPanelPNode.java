@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -13,7 +13,7 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Mar 27, 2006
  * Time: 3:45:13 PM
- * Copyright (c) Mar 27, 2006 by Sam Reid
+ *
  */
 
 public class FaucetControlPanelPNode extends PNode {

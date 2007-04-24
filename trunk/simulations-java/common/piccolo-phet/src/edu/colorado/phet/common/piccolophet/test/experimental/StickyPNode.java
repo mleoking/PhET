@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.piccolophet.test.experimental;
 
 import edu.umd.cs.piccolo.PNode;
@@ -10,7 +10,7 @@ import java.awt.geom.AffineTransform;
  * User: Sam Reid
  * Date: Aug 20, 2005
  * Time: 6:16:07 PM
- * Copyright (c) Aug 20, 2005 by Sam Reid
+ * 
  */
 
 public class StickyPNode extends PNode {

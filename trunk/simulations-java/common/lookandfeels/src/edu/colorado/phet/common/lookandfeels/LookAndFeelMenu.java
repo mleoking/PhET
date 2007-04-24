@@ -12,7 +12,7 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Feb 18, 2007
  * Time: 3:58:03 PM
- * Copyright (c) Feb 18, 2007 by Sam Reid
+ *
  */
 
 public class LookAndFeelMenu extends JMenu {

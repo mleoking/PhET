@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.plotdevice;
 
 import edu.colorado.phet.chart_movingman.BufferedChart;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 28, 2005
  * Time: 10:23:39 AM
- * Copyright (c) Mar 28, 2005 by Sam Reid
+ *
  */
 
 public class PlotDevice extends GraphicLayerSet {

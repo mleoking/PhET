@@ -8,7 +8,7 @@ import java.util.HashMap;
  * User: Sam Reid
  * Date: May 26, 2006
  * Time: 12:47:23 PM
- * Copyright (c) May 26, 2006 by Sam Reid
+ *
  */
 
 public class MultiKeyHandler {

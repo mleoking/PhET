@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -17,7 +17,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 3:11:44 AM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 
 public class SlitPotentialGraphic extends PhetPNode {

@@ -16,7 +16,7 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.transitions.Move;
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 9:29:58 AM
- * Copyright (c) Apr 26, 2004 by Sam Reid
+ *
  */
 public class DefaultStateDiagram extends CompositeModelElement {
     private EnergySection energySection;

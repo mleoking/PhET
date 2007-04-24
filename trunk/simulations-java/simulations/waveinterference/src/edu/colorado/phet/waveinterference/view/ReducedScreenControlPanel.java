@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.util.WIStrings;
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Mar 25, 2006
  * Time: 12:30:28 AM
- * Copyright (c) Mar 25, 2006 by Sam Reid
+ *
  */
 
 public class ReducedScreenControlPanel extends VerticalLayoutPanelWithDisable {

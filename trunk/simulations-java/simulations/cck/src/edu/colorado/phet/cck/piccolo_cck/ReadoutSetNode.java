@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Sep 27, 2006
  * Time: 1:39:13 PM
- * Copyright (c) Sep 27, 2006 by Sam Reid
+ *
  */
 
 public class ReadoutSetNode extends PhetPNode {

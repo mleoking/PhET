@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.model.*;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 21, 2006
  * Time: 10:14:51 PM
- * Copyright (c) May 21, 2006 by Sam Reid
+ *
  * <p/>
  * Dark wave should propagate through barrier because otherwise for a solid barrier, the light will never disappear.
  */

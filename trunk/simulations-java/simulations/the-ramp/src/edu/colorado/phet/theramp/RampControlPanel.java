@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Aug 9, 2005
  * Time: 12:43:40 AM
- * Copyright (c) Aug 9, 2005 by Sam Reid
+ *
  */
 
 public class RampControlPanel extends ControlPanel {

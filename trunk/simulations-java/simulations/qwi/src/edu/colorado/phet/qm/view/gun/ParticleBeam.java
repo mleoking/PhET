@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.gun;
 
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 9:09:55 PM
- * Copyright (c) Jul 8, 2005 by Sam Reid
+ *
  */
 
 public class ParticleBeam extends IntensityBeam {

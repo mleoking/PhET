@@ -10,7 +10,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Jul 11, 2006
  * Time: 1:05:36 AM
- * Copyright (c) Jul 11, 2006 by Sam Reid
+ *
  */
 
 public class OptionsMenu extends JMenu {

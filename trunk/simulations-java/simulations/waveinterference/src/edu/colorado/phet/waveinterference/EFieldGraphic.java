@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 31, 2006
  * Time: 7:47:46 PM
- * Copyright (c) Mar 31, 2006 by Sam Reid
+ *
  */
 
 public class EFieldGraphic extends AbstractVectorViewGraphic {

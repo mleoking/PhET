@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.tests.mna;
 
 /**
  * User: Sam Reid
  * Date: Jun 16, 2006
  * Time: 5:36:54 AM
- * Copyright (c) Jun 16, 2006 by Sam Reid
+ *
  */
 
 public class TestExample10 {

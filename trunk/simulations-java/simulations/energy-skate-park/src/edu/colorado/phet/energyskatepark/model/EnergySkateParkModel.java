@@ -15,7 +15,7 @@ import java.util.List;
  * User: Sam Reid
  * Date: Sep 21, 2005
  * Time: 3:03:16 AM
- * Copyright (c) Sep 21, 2005 by Sam Reid
+ *
  */
 
 public class EnergySkateParkModel implements Serializable {

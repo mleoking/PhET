@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Aug 21, 2003
  * Time: 5:43:00 AM
- * Copyright (c) Aug 21, 2003 by Sam Reid
+ *
  */
 public class CompositeWaterTowerGraphic extends CompositeGraphic {
     public CompositeWaterTowerGraphic( WaterTower tower, ModelViewTransform2d transform, ApparatusPanel target, Color backgroundColor ) {

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.graphics2;
 
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Sep 17, 2003
  * Time: 1:46:03 AM
- * Copyright (c) Sep 17, 2003 by Sam Reid
+ *
  */
 public class TextGraphicOnBackground implements Graphic {
     String text;

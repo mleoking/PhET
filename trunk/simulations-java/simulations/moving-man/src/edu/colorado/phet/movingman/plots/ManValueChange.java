@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.movingman.MovingManModule;
@@ -8,7 +8,7 @@ import edu.colorado.phet.movingman.model.Man;
  * User: Sam Reid
  * Date: May 4, 2005
  * Time: 6:34:17 PM
- * Copyright (c) May 4, 2005 by Sam Reid
+ *
  */
 public abstract class ManValueChange {
     PlotSet plotSet;

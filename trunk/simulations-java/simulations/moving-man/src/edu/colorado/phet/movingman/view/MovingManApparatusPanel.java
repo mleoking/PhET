@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common_movingman.math.ImmutableVector2D;
@@ -34,7 +34,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Mar 23, 2005
  * Time: 1:39:13 AM
- * Copyright (c) Mar 23, 2005 by Sam Reid
+ *
  */
 public class MovingManApparatusPanel extends ApparatusPanel2 {
     private MovingManModule module;

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 11, 2005
  * Time: 8:17:28 AM
- * Copyright (c) Jul 11, 2005 by Sam Reid
+ *
  */
 
 public class DoubleSlitCheckBox extends JCheckBox {

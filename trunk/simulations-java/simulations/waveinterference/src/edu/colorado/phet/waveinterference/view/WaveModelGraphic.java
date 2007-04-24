@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 30, 2005
  * Time: 12:48:33 PM
- * Copyright (c) Jun 30, 2005 by Sam Reid
+ *
  */
 
 public class WaveModelGraphic extends PNode {

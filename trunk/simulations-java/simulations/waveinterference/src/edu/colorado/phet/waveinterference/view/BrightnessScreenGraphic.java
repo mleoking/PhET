@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.model.WaveModel;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 10:35:15 PM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 
 public class BrightnessScreenGraphic extends AbstractScreenGraphic {

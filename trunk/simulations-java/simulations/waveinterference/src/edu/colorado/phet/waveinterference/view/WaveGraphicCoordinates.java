@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 1:48:21 AM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 
 public class WaveGraphicCoordinates extends LatticeScreenCoordinates {

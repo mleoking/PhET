@@ -4,7 +4,7 @@ package edu.colorado.phet.common.piccolophet.test;
  * User: Sam Reid
  * Date: Sep 14, 2006
  * Time: 9:24:27 AM
- * Copyright (c) Sep 14, 2006 by Sam Reid
+ *
  */
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;

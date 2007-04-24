@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.macro.energy.bands;
 
 import java.awt.geom.Rectangle2D;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jan 18, 2004
  * Time: 1:58:25 PM
- * Copyright (c) Jan 18, 2004 by Sam Reid
+ *
  */
 public class BandSet {
     ArrayList bands = new ArrayList();

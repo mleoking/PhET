@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.coreadditions_greenhouse.components;
 
 import edu.colorado.phet.common_greenhouse.view.util.SimStrings;

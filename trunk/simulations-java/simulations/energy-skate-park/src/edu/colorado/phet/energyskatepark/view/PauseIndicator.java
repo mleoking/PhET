@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Dec 22, 2005
  * Time: 7:23:02 PM
- * Copyright (c) Dec 22, 2005 by Sam Reid
+ *
  */
 
 public class PauseIndicator extends PNode {

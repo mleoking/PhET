@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -13,7 +13,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 20, 2006
  * Time: 9:18:07 PM
- * Copyright (c) Feb 20, 2006 by Sam Reid
+ *
  */
 
 public class UIController extends VerticalLayoutPanel {

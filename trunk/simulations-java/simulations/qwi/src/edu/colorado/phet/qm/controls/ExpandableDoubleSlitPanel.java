@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
@@ -10,7 +10,7 @@ import edu.colorado.phet.qm.model.QWIModel;
  * User: Sam Reid
  * Date: Jan 1, 2006
  * Time: 5:25:55 PM
- * Copyright (c) Jan 1, 2006 by Sam Reid
+ *
  */
 
 public class ExpandableDoubleSlitPanel extends AdvancedPanel {

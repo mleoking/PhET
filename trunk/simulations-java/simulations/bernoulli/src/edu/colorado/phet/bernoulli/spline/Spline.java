@@ -10,7 +10,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Aug 22, 2003
  * Time: 2:35:12 PM
- * Copyright (c) Aug 22, 2003 by Sam Reid
+ *
  */
 public class Spline extends SimpleObservable {
     ArrayList interpolatedPoints = new ArrayList();

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 13, 2006
  * Time: 5:25:18 AM
- * Copyright (c) Apr 13, 2006 by Sam Reid
+ *
  */
 public class ColorVector {
     float r;

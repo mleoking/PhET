@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 17, 2003
  * Time: 1:34:41 PM
- * Copyright (c) Jun 17, 2003 by Sam Reid
+ *
  */
 public class SegmentPath {
     ArrayList segs = new ArrayList();

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -25,7 +25,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 6:48:21 PM
- * Copyright (c) Jun 10, 2005 by Sam Reid
+ *
  */
 
 public class QWIApplication extends PiccoloPhetApplication {

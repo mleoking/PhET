@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 2:44:08 PM
- * Copyright (c) Dec 28, 2006 by Sam Reid
+ *
  */
 
 public class PlatformNode extends PNode {

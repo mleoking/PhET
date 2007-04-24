@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -15,7 +15,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Apr 13, 2006
  * Time: 12:02:41 AM
- * Copyright (c) Apr 13, 2006 by Sam Reid
+ *
  */
 
 public class FaucetConnector extends VerticalConnector {

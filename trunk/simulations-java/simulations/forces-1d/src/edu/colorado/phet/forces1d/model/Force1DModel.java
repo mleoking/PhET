@@ -14,7 +14,7 @@ import java.util.List;
  * User: Sam Reid
  * Date: Nov 12, 2004
  * Time: 9:54:55 PM
- * Copyright (c) Nov 12, 2004 by Sam Reid
+ *
  */
 public class Force1DModel implements ModelElement {
 

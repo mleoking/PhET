@@ -20,7 +20,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 1:39:53 AM
- * Copyright (c) May 24, 2004 by Sam Reid
+ *
  */
 public class BranchGraphic extends CCKCompositePhetGraphic {
     private Branch branch;

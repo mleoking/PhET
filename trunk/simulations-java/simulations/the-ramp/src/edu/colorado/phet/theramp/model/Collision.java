@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.model;
 
 /**
  * User: Sam Reid
  * Date: Aug 4, 2005
  * Time: 10:01:42 PM
- * Copyright (c) Aug 4, 2005 by Sam Reid
+ *
  */
 
 public class Collision {

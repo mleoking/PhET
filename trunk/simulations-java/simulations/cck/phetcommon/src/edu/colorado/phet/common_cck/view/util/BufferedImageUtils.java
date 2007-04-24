@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common_cck.view.util;
 
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 27, 2003
  * Time: 10:07:55 AM
- * Copyright (c) Apr 27, 2003 by Sam Reid
+ *
  */
 public class BufferedImageUtils {
 //    public static BufferedImage rescaleYMaintainAspectRatio( BufferedImage im, int height ) {

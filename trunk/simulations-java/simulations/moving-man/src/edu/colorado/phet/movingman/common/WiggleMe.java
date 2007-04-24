@@ -18,7 +18,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 12, 2004
  * Time: 11:47:26 AM
- * Copyright (c) Jul 12, 2004 by Sam Reid
+ *
  */
 public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     private Sine sine;

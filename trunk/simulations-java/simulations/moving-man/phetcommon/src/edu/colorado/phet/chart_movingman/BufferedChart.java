@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.chart_movingman;
 
 import edu.colorado.phet.common_movingman.view.BasicGraphicsSetup;
@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 6, 2005
  * Time: 9:33:16 PM
- * Copyright (c) Apr 6, 2005 by Sam Reid
+ *
  */
 
 public class BufferedChart extends PhetImageGraphic {

@@ -6,7 +6,7 @@ import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserva
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 1:12:45 AM
- * Copyright (c) Aug 19, 2003 by Sam Reid
+ *
  */
 public class Valve extends SimpleObservable {
     boolean open;

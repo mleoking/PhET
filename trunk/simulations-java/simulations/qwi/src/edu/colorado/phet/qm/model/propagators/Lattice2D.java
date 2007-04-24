@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model.propagators;
 
 import java.awt.geom.Point2D;
@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Feb 9, 2006
  * Time: 10:20:35 PM
- * Copyright (c) Feb 9, 2006 by Sam Reid
+ *
  */
 
 public class Lattice2D {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.common;
 
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
@@ -7,7 +7,7 @@ import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
  * User: Sam Reid
  * Date: Mar 28, 2005
  * Time: 11:20:07 AM
- * Copyright (c) Mar 28, 2005 by Sam Reid
+ *
  */
 
 public abstract class RelativeLocation {

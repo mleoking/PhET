@@ -22,7 +22,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 15, 2006
  * Time: 9:40:58 PM
- * Copyright (c) Sep 15, 2006 by Sam Reid
+ *
  */
 
 public class JunctionNode extends PhetPNode {

@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 14, 2004
  * Time: 8:08:15 PM
- * Copyright (c) Sep 14, 2004 by Sam Reid
+ *
  */
 public class GrabBag {
     ArrayList items = new ArrayList();

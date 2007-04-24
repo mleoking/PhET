@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 10:03:31 PM
- * Copyright (c) Dec 28, 2006 by Sam Reid
+ *
  */
 
 public class SymbolKey extends JPanel {

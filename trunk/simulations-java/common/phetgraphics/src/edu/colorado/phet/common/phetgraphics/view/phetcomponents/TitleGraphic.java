@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14674 $
+ * Date modified : $Date:2007-04-17 02:37:37 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.phetgraphics.view.phetcomponents;
 
@@ -21,7 +21,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 16, 2004
  * Time: 4:27:46 PM
- * Copyright (c) Dec 16, 2004 by Sam Reid
+ *
  */
 
 public class TitleGraphic extends CompositePhetGraphic {

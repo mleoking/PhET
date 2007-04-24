@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.util;
 
 import edu.colorado.phet.common.bernoulli.application.PhetApplication;
@@ -11,7 +11,7 @@ import java.io.*;
  * User: Sam Reid
  * Date: Sep 15, 2003
  * Time: 2:53:11 AM
- * Copyright (c) Sep 15, 2003 by Sam Reid
+ *
  */
 public class VersionUtils {
     /* To be used in conjuction with this ant task:

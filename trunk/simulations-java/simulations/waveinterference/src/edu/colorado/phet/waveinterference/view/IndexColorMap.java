@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.model.Lattice2D;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 21, 2006
  * Time: 11:54:41 PM
- * Copyright (c) Mar 21, 2006 by Sam Reid
+ *
  */
 
 public class IndexColorMap implements ColorMap {

@@ -27,7 +27,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Mar 2, 2005
  * Time: 2:26:36 PM
- * Copyright (c) Mar 2, 2005 by Sam Reid
+ *
  */
 
 public class EmbeddedControlTest {

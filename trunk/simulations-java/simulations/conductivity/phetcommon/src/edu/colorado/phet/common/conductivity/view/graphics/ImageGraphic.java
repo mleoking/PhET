@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.conductivity.view.graphics;
 
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Mar 21, 2006
  * Time: 4:30:25 PM
- * Copyright (c) Mar 21, 2006 by Sam Reid
+ *
  */
 
 public class ImageGraphic implements Graphic {

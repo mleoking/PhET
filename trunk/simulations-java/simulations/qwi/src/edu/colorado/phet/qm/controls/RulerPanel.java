@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -15,7 +15,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 2:15:10 PM
- * Copyright (c) Feb 5, 2006 by Sam Reid
+ *
  */
 
 public class RulerPanel extends HorizontalLayoutPanel {

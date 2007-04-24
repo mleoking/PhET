@@ -1,4 +1,4 @@
-///* Copyright 2004, Sam Reid */
+///*  */
 //package edu.colorado.phet.theramp.tests;
 //
 //import edu.colorado.phet.common.model.clock.IClock;
@@ -14,7 +14,7 @@
 // * User: Sam Reid
 // * Date: May 20, 2005
 // * Time: 10:55:37 PM
-// * Copyright (c) May 20, 2005 by Sam Reid
+// *
 // */
 //
 //public class TestMeasuringTape {

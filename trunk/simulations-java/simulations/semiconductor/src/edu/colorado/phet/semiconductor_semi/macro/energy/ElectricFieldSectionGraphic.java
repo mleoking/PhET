@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.macro.energy;
 
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 15, 2004
  * Time: 9:48:13 AM
- * Copyright (c) Mar 15, 2004 by Sam Reid
+ *
  */
 public class ElectricFieldSectionGraphic extends TransformGraphic {
     private ElectricFieldGraphic bfieldG;

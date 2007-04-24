@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common_sound.view.phetcomponents;
 
 import edu.colorado.phet.common_sound.math.ModelViewTransform1D;

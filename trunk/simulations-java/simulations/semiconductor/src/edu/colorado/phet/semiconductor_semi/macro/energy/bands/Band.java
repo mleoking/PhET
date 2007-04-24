@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jan 15, 2004
  * Time: 11:58:19 PM
- * Copyright (c) Jan 15, 2004 by Sam Reid
+ *
  */
 public class Band {
     SemiconductorBandSet bandSet;

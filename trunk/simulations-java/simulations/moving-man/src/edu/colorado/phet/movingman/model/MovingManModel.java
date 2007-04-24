@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Oct 19, 2004
  * Time: 6:50:36 PM
- * Copyright (c) Oct 19, 2004 by Sam Reid
+ *
  */
 public class MovingManModel {
     private MovingManTimeModel timeModel;

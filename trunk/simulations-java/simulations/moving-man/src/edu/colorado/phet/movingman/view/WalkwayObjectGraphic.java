@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
@@ -12,7 +12,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Apr 7, 2005
  * Time: 12:23:12 AM
- * Copyright (c) Apr 7, 2005 by Sam Reid
+ *
  */
 
 public class WalkwayObjectGraphic extends GraphicLayerSet {

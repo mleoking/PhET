@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.plotdevice;
 
 import javax.swing.*;
@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Apr 12, 2005
  * Time: 8:03:28 AM
- * Copyright (c) Apr 12, 2005 by Sam Reid
+ *
  */
 public class RepeatClicker extends MouseAdapter {
     private ActionListener target;

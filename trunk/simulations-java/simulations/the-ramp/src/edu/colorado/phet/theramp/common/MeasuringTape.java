@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.common;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: May 20, 2005
  * Time: 10:42:18 PM
- * Copyright (c) May 20, 2005 by Sam Reid
+ *
  */
 
 public class MeasuringTape extends PNode {

@@ -9,7 +9,7 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
  * User: Sam Reid
  * Date: Nov 27, 2004
  * Time: 8:01:44 PM
- * Copyright (c) Nov 27, 2004 by Sam Reid
+ *
  */
 public class Force1DPlotDeviceModel extends PlotDeviceModel {
     private Force1DApplication module;

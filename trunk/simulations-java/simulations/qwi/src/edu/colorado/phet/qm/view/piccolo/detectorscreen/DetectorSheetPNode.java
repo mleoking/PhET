@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 1:06:32 PM
- * Copyright (c) Jun 23, 2005 by Sam Reid
+ *
  */
 
 public class DetectorSheetPNode extends PhetPNode {

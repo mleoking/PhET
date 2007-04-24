@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Aug 20, 2003
  * Time: 10:45:53 PM
- * Copyright (c) Aug 20, 2003 by Sam Reid
+ *
  */
 public class WindowIconAnimator implements TickListener {
     JFrame frame;

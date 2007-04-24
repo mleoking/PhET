@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.controllers;
 
 import java.awt.event.MouseEvent;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 20, 2003
  * Time: 11:32:46 PM
- * Copyright (c) Sep 20, 2003 by Sam Reid
+ *
  */
 public class CompositeMouseHandler implements MouseHandler{
     ArrayList list=new ArrayList();

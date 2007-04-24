@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.model;
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 1:30:20 AM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 
 public class WaveModel {

@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 21, 2003
  * Time: 4:58:39 PM
- * Copyright (c) Apr 21, 2003 by Sam Reid
+ *
  */
 public class ResistorColors {
     public Color[] to3Colors( int value ) {

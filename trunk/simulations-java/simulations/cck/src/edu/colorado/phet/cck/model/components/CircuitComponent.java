@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 8:33:56 PM
- * Copyright (c) May 25, 2004 by Sam Reid
+ *
  */
 public abstract class CircuitComponent extends Branch {
     private double length;

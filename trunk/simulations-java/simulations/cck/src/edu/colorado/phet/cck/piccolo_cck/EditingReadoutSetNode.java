@@ -9,7 +9,7 @@
 // * User: Sam Reid
 // * Date: Oct 8, 2006
 // * Time: 8:51:44 PM
-// * Copyright (c) Oct 8, 2006 by Sam Reid
+// *
 // */
 //
 //public class EditingReadoutSetNode extends ReadoutSetNode {

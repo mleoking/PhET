@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.  Editing.*/
+/*, 2003.  Editing.*/
 package edu.colorado.phet.distanceladder.common.view;
 
 import edu.colorado.phet.distanceladder.common.application.Module;
@@ -15,7 +15,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 7:27:29 AM
- * Copyright (c) Jun 12, 2003 by Sam Reid
+ *
  */
 public class ApplicationView {
     private PhetFrame phetFrame;

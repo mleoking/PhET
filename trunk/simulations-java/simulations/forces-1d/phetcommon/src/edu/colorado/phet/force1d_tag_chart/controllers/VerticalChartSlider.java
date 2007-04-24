@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Oct 18, 2004
  * Time: 10:35:14 PM
- * Copyright (c) Oct 18, 2004 by Sam Reid
+ *
  */
 public class VerticalChartSlider {
     private Chart chart;

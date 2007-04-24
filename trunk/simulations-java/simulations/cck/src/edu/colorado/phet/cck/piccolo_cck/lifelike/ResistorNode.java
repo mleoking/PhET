@@ -17,7 +17,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 20, 2006
  * Time: 12:05:30 PM
- * Copyright (c) Sep 20, 2006 by Sam Reid
+ *
  */
 public class ResistorNode extends ComponentImageNode {
     private Resistor resistor;

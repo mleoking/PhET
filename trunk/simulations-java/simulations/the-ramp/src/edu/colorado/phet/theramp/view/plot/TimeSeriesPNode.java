@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view.plot;
 
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -22,7 +22,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Aug 2, 2005
  * Time: 2:41:09 PM
- * Copyright (c) Aug 2, 2005 by Sam Reid
+ *
  */
 
 public class TimeSeriesPNode {

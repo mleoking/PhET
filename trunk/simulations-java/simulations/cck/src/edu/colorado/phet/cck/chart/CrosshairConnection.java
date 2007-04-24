@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.chart;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -17,7 +17,7 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: May 18, 2006
  * Time: 11:11:27 PM
- * Copyright (c) May 18, 2006 by Sam Reid
+ *
  */
 
 public class CrosshairConnection extends PhetPNode {

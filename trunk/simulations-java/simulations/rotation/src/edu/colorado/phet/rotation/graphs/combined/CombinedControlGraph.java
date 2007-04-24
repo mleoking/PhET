@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jan 1, 2007
  * Time: 11:33:46 AM
- * Copyright (c) Jan 1, 2007 by Sam Reid
+ *
  */
 
 public class CombinedControlGraph extends PNode {

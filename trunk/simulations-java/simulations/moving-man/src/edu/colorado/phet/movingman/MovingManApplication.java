@@ -19,7 +19,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Sep 3, 2006
  * Time: 12:25:52 PM
- * Copyright (c) Sep 3, 2006 by Sam Reid
+ *
  */
 
 public class MovingManApplication {

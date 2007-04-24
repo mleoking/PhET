@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 6, 2005
  * Time: 8:16:45 PM
- * Copyright (c) Jun 6, 2005 by Sam Reid
+ *
  */
 
 public class BarGraphSet extends PNode {

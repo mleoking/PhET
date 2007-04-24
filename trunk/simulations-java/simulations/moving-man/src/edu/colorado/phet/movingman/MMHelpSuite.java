@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman;
 
 
@@ -9,7 +9,7 @@ import edu.colorado.phet.common_movingman.view.help.PhetGraphicTarget;
  * User: Sam Reid
  * Date: May 9, 2005
  * Time: 8:50:59 AM
- * Copyright (c) May 9, 2005 by Sam Reid
+ *
  */
 
 public class MMHelpSuite {

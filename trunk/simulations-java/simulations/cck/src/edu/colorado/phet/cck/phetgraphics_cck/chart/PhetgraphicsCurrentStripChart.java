@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.phetgraphics_cck.chart;
 
 import edu.colorado.phet.cck.chart.SingleTerminalFloatingChart;
@@ -17,7 +17,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 22, 2006
  * Time: 11:43:52 AM
- * Copyright (c) Jun 22, 2006 by Sam Reid
+ *
  */
 
 public class PhetgraphicsCurrentStripChart extends SingleTerminalFloatingChart.Phetgraphics {

@@ -10,7 +10,7 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
  * User: Sam Reid
  * Date: Jun 6, 2005
  * Time: 8:17:25 PM
- * Copyright (c) Jun 6, 2005 by Sam Reid
+ *
  */
 
 public class EnergyBarGraphSet extends BarGraphSet {

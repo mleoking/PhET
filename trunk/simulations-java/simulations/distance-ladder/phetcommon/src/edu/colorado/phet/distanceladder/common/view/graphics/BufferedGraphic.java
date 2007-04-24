@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.distanceladder.common.view.graphics;
 
 import edu.colorado.phet.distanceladder.common.view.ApparatusPanel;
@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Feb 21, 2004
  * Time: 1:15:56 AM
- * Copyright (c) Feb 21, 2004 by Sam Reid
+ *
  */
 public class BufferedGraphic implements Graphic {
     BufferedImage buffer;

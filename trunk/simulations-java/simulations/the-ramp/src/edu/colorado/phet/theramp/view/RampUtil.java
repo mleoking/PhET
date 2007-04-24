@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Feb 13, 2005
  * Time: 10:10:38 AM
- * Copyright (c) Feb 13, 2005 by Sam Reid
+ *
  */
 
 public class RampUtil {

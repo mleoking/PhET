@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.tests;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
@@ -11,7 +11,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Dec 20, 2005
  * Time: 12:58:10 AM
- * Copyright (c) Dec 20, 2005 by Sam Reid
+ *
  */
 
 public class TestJFreeStripChartPNode {

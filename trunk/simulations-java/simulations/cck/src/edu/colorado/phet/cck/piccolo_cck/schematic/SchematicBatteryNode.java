@@ -10,7 +10,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 8:34:54 PM
- * Copyright (c) May 25, 2004 by Sam Reid
+ *
  */
 public class SchematicBatteryNode extends SchematicPlatedNode {
     private static double SCALE = 1.2;

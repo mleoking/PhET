@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -17,7 +17,7 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: Aug 9, 2005
  * Time: 12:58:15 AM
- * Copyright (c) Aug 9, 2005 by Sam Reid
+ *
  */
 
 public class ObjectSelectionPanel extends JPanel {

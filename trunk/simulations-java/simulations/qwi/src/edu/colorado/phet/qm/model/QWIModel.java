@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -18,7 +18,7 @@ import java.util.Map;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 6:55:04 PM
- * Copyright (c) Jun 10, 2005 by Sam Reid
+ *
  */
 
 public class QWIModel implements ModelElement {

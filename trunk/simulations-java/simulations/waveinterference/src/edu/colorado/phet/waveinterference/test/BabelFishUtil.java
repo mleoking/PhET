@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.test;
 
 import java.io.*;
@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
  * User: Sam Reid
  * Date: May 22, 2006
  * Time: 7:42:03 PM
- * Copyright (c) May 22, 2006 by Sam Reid
+ *
  */
 
 public class BabelFishUtil {

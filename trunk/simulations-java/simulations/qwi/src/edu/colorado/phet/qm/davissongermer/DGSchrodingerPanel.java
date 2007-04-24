@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.qm.QWIModule;
@@ -11,7 +11,7 @@ import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 2:08:38 PM
- * Copyright (c) Feb 5, 2006 by Sam Reid
+ *
  */
 
 public class DGSchrodingerPanel extends IntensityBeamPanel {

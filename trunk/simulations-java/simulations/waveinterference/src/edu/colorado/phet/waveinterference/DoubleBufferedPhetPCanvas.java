@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 13, 2006
  * Time: 12:28:18 AM
- * Copyright (c) Apr 13, 2006 by Sam Reid
+ *
  */
 
 public class DoubleBufferedPhetPCanvas extends PhetPCanvas {

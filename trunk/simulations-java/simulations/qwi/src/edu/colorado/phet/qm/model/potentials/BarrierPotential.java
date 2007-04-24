@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model.potentials;
 
 import edu.colorado.phet.qm.model.Potential;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 3:24:07 PM
- * Copyright (c) Jun 10, 2005 by Sam Reid
+ *
  */
 
 public class BarrierPotential implements Potential {

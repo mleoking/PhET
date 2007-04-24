@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -18,7 +18,7 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: Feb 4, 2005
  * Time: 7:55:21 AM
- * Copyright (c) Feb 4, 2005 by Sam Reid
+ *
  */
 
 public class ObjectComboBox extends JComboBox {

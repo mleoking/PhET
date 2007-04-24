@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.complexcolormaps;
 
 import edu.colorado.phet.qm.model.math.Complex;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 17, 2005
  * Time: 5:32:34 PM
- * Copyright (c) Dec 17, 2005 by Sam Reid
+ *
  * <p/>
  * <p/>
  * From http://www.physics.brocku.ca/www/faculty/sternin/teaching/mirrors/qm/packet/WaveMap.java

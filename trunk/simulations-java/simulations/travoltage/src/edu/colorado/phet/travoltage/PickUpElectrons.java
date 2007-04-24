@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.travoltage;
 
 /**
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 12:58:15 AM
- * Copyright (c) Jul 1, 2006 by Sam Reid
+ *
  */
 
 public class PickUpElectrons implements LegNode.Listener {

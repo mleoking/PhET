@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 /**
  * User: Sam Reid
  * Date: May 22, 2006
  * Time: 5:58:36 PM
- * Copyright (c) May 22, 2006 by Sam Reid
+ *
  */
 
 public class WaveInterferenceModelUnits {

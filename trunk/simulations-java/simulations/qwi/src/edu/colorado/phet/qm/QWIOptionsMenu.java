@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -19,7 +19,7 @@ import java.util.Map;
  * User: Sam Reid
  * Date: Jul 27, 2005
  * Time: 11:33:39 AM
- * Copyright (c) Jul 27, 2005 by Sam Reid
+ *
  */
 
 public class QWIOptionsMenu extends JMenu {

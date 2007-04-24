@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.waveinterference.view.*;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 8:00:15 PM
- * Copyright (c) Apr 12, 2006 by Sam Reid
+ *
  */
 
 public class TestExpandableChart extends TestTopView {

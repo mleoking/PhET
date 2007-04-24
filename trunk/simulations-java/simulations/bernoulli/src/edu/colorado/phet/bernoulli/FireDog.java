@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Sep 29, 2003
  * Time: 11:56:29 PM
- * Copyright (c) Sep 29, 2003 by Sam Reid
+ *
  */
 public class FireDog implements Graphic {
     RectangleImageGraphic2 rig2;

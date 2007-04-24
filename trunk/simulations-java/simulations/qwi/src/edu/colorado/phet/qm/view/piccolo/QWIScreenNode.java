@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.view.clock.StopwatchPanel;
@@ -47,7 +47,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Sep 17, 2005
  * Time: 7:52:28 PM
- * Copyright (c) Sep 17, 2005 by Sam Reid
+ *
  */
 
 public class QWIScreenNode extends PNode {

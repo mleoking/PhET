@@ -16,7 +16,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Sep 14, 2006
  * Time: 1:51:09 AM
- * Copyright (c) Sep 14, 2006 by Sam Reid
+ *
  */
 
 public class CircuitXML {

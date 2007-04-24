@@ -17,7 +17,7 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Jun 1, 2006
  * Time: 12:25:26 PM
- * Copyright (c) Jun 1, 2006 by Sam Reid
+ *
  */
 
 public class BackgroundScreenNode extends PhetPNode {

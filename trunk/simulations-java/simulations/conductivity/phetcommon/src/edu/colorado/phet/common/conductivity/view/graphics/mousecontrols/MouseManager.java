@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.conductivity.view.graphics.mousecontrols;
 
 import edu.colorado.phet.common.conductivity.util.MultiMap;
@@ -12,7 +12,7 @@ import java.util.Iterator;
  * User: Sam Reid
  * Date: Nov 3, 2003
  * Time: 2:14:33 AM
- * Copyright (c) Nov 3, 2003 by Sam Reid
+ *
  */
 public class MouseManager implements MouseInputListener /*, Boundary*/ {
     MultiMap am;

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.balloons;
 
 import edu.colorado.phet.balloons.common.paint.Painter;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 19, 2005
  * Time: 9:49:45 AM
- * Copyright (c) May 19, 2005 by Sam Reid
+ *
  */
 
 public class BalloonHelpPainter implements Painter {

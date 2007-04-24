@@ -20,7 +20,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 15, 2005
  * Time: 1:28:54 PM
- * Copyright (c) Jul 15, 2005 by Sam Reid
+ *
  */
 
 public class OscillateActivity extends PActivity {

@@ -21,7 +21,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Sep 14, 2006
  * Time: 2:47:24 AM
- * Copyright (c) Sep 14, 2006 by Sam Reid
+ *
  */
 
 public class CCKPiccoloModule extends Module implements ICCKModule {

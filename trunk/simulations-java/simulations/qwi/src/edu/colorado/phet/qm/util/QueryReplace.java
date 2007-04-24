@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 9, 2005
  * Time: 1:48:01 PM
- * Copyright (c) Dec 9, 2005 by Sam Reid
+ *
  */
 
 public class QueryReplace {
@@ -42,7 +42,7 @@ public class QueryReplace {
 
     private void replaceText( File f ) throws IOException {
         String[] string = toString( f );
-        if( string[0].equals( "/* Copyright 2004, Sam Reid */" ) ) {
+        if( string[0].equals( "/*  */" ) ) {
             String replace = "/* Copyright 2003-2005, University of Colorado */\n" +
                              "\n" +
                              "/*\n" +

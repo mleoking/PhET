@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.model.Wave;
@@ -8,7 +8,7 @@ import edu.colorado.phet.qm.model.math.Complex;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 6:35:54 PM
- * Copyright (c) Jul 8, 2005 by Sam Reid
+ *
  */
 
 public class MandelWaveDamp {

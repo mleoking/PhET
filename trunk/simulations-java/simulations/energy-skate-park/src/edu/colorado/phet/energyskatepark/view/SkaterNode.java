@@ -27,7 +27,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Sep 21, 2005
  * Time: 3:06:21 AM
- * Copyright (c) Sep 21, 2005 by Sam Reid
+ *
  */
 
 public class SkaterNode extends PNode {

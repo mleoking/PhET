@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.view;
 
 import javax.swing.event.MouseInputListener;
@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Jan 25, 2005
  * Time: 3:01:28 AM
- * Copyright (c) Jan 25, 2005 by Sam Reid
+ *
  */
 
 public class ThresholdedDragAdapter implements MouseInputListener {

@@ -13,7 +13,7 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.states.MoveToCell;
  * User: Sam Reid
  * Date: Apr 20, 2004
  * Time: 12:39:21 PM
- * Copyright (c) Apr 20, 2004 by Sam Reid
+ *
  */
 public class Entrance implements ModelElement {
     private EnergyCell cell;

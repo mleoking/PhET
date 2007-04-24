@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.tests;
 
 import edu.colorado.phet.qm.model.WaveDebugger;
@@ -10,7 +10,7 @@ import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeColorMap;
  * User: Sam Reid
  * Date: Dec 21, 2005
  * Time: 4:20:17 PM
- * Copyright (c) Dec 21, 2005 by Sam Reid
+ *
  */
 
 public class TestDFT {

@@ -20,7 +20,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 8:34:54 PM
- * Copyright (c) May 25, 2004 by Sam Reid
+ *
  */
 public class SchematicResistorGraphic extends PhetShapeGraphic implements IComponentGraphic {
     private CircuitComponent component;

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.model.math.Complex;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 10, 2005
  * Time: 7:05:02 PM
- * Copyright (c) Dec 10, 2005 by Sam Reid
+ *
  */
 
 public class WaveModel {

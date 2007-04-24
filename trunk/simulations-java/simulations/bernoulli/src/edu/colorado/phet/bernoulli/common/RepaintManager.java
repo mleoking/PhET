@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 1:19:13 AM
- * Copyright (c) Aug 19, 2003 by Sam Reid
+ *
  */
 public class RepaintManager implements TickListener, SimpleObserver {
     boolean timeToRepaint = false;

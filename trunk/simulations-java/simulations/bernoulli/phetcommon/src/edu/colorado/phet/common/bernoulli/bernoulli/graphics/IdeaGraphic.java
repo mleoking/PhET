@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.graphics;
 
 import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
@@ -14,7 +14,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 27, 2003
  * Time: 3:37:52 AM
- * Copyright (c) Jun 27, 2003 by Sam Reid
+ *
  */
 public class IdeaGraphic implements InteractiveGraphic {
     boolean visible;

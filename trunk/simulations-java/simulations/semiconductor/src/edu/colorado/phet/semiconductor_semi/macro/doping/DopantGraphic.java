@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jan 27, 2004
  * Time: 2:04:53 AM
- * Copyright (c) Jan 27, 2004 by Sam Reid
+ *
  */
 public class DopantGraphic extends TransformGraphic implements Boundary {
     Dopant dopant;

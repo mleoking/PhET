@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
 import edu.colorado.phet.cck.model.components.ACVoltageSource;
@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jun 19, 2006
  * Time: 3:49:05 AM
- * Copyright (c) Jun 19, 2006 by Sam Reid
+ *
  */
 
 public class ACVoltageSourceMenu extends CircuitComponentInteractiveGraphic.BatteryJMenu {

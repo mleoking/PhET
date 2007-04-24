@@ -8,7 +8,7 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.statemodels.ModelCriter
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 10:01:05 AM
- * Copyright (c) Apr 26, 2004 by Sam Reid
+ *
  */
 public class ModelWithCriteria {
     ModelElement model;

@@ -22,7 +22,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 9:10:07 AM
- * Copyright (c) May 24, 2004 by Sam Reid
+ *
  */
 public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic implements HasJunctionGraphic {
     private CircuitGraphic circuitGraphic;

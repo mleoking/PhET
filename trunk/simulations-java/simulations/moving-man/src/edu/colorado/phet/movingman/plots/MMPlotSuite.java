@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.common_movingman.util.DefaultDecimalFormat;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 4, 2005
  * Time: 9:28:16 PM
- * Copyright (c) Apr 4, 2005 by Sam Reid
+ *
  */
 
 public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.LayoutItem {

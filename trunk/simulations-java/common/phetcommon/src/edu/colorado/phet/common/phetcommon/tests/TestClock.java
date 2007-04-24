@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14677 $
+ * Date modified : $Date:2007-04-17 03:40:29 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.phetcommon.tests;
 
@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
  * User: Sam Reid
  * Date: Dec 15, 2005
  * Time: 12:24:51 PM
- * Copyright (c) Dec 15, 2005 by Sam Reid
+ *
  */
 
 public class TestClock {

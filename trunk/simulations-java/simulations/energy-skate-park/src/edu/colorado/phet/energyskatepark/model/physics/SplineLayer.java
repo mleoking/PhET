@@ -6,7 +6,7 @@ import edu.umd.cs.piccolo.PNode;
  * User: Sam Reid
  * Date: Mar 2, 2007
  * Time: 1:58:37 PM
- * Copyright (c) Mar 2, 2007 by Sam Reid
+ *
  */
 public class SplineLayer extends PNode {
     private ParticleStage particleStage;

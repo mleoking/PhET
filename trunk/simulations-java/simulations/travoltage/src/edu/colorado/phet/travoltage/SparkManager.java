@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
  * User: Sam Reid
  * Date: Jul 2, 2006
  * Time: 12:31:08 AM
- * Copyright (c) Jul 2, 2006 by Sam Reid
+ *
  */
 
 public class SparkManager implements ModelElement {

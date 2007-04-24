@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.qm.model.PhotonWave;
@@ -7,7 +7,7 @@ import edu.colorado.phet.qm.model.PhotonWave;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 9:04:54 PM
- * Copyright (c) Jul 8, 2005 by Sam Reid
+ *
  */
 public class PhotonBeam extends IntensityBeam {
     private PhotonWave photonWave;

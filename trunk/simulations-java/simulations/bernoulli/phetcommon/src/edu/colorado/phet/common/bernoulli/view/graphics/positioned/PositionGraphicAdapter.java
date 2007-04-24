@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.view.graphics.positioned;
 
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 17, 2003
  * Time: 10:11:34 AM
- * Copyright (c) Apr 17, 2003 by Sam Reid
+ *
  */
 public class PositionGraphicAdapter implements Graphic {
     PositionedGraphic lp;

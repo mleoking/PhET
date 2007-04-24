@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 25, 2004
  * Time: 5:59:29 PM
- * Copyright (c) Jun 25, 2004 by Sam Reid
+ *
  */
 public class BasicTextGraphic extends BasicGraphic implements ITextGraphic {
     private Font font;

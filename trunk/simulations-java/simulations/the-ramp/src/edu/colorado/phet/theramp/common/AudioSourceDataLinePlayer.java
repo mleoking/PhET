@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 2, 2004
  * Time: 1:13:42 AM
- * Copyright (c) Apr 2, 2004 by Sam Reid
+ *
  */
 public class AudioSourceDataLinePlayer {
 //    private static final int EXTERNAL_BUFFER_SIZE = 128000;

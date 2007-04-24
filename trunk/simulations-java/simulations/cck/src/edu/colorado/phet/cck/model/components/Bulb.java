@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 28, 2004
  * Time: 1:11:17 PM
- * Copyright (c) May 28, 2004 by Sam Reid
+ *
  */
 public class Bulb extends CircuitComponent {
     private Filament filament;

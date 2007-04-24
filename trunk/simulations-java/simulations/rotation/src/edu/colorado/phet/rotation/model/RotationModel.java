@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 29, 2006
  * Time: 11:39:00 PM
- * Copyright (c) Dec 29, 2006 by Sam Reid
+ *
  */
 
 public class RotationModel {

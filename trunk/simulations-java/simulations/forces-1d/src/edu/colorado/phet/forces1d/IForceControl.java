@@ -7,7 +7,7 @@ import edu.colorado.phet.common_force1d.view.ControlPanel;
  * User: Sam Reid
  * Date: Mar 17, 2005
  * Time: 6:05:08 AM
- * Copyright (c) Mar 17, 2005 by Sam Reid
+ *
  */
 public abstract class IForceControl extends ControlPanel {
     /**

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 1, 2005
  * Time: 2:56:14 PM
- * Copyright (c) Jun 1, 2005 by Sam Reid
+ *
  */
 
 public class RampWorld extends PNode {

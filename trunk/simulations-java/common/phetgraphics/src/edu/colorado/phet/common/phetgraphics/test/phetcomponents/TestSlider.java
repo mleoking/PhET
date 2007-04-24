@@ -30,7 +30,7 @@ import java.awt.geom.AffineTransform;
  * User: Sam Reid
  * Date: Dec 16, 2004
  * Time: 1:19:40 PM
- * Copyright (c) Dec 16, 2004 by Sam Reid
+ *
  *
  * @deprecated Use JSlider wrapped in a PhetJComponent.
  */

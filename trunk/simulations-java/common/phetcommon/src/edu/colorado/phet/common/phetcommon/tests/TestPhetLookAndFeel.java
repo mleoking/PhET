@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.phetcommon.tests;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -13,7 +13,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 6, 2006
  * Time: 7:32:47 PM
- * Copyright (c) Jun 6, 2006 by Sam Reid
+ *
  */
 
 public class TestPhetLookAndFeel extends PhetApplication {

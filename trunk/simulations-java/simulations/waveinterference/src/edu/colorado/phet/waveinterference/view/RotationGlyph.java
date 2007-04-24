@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 22, 2006
  * Time: 11:11:38 PM
- * Copyright (c) Mar 22, 2006 by Sam Reid
+ *
  */
 
 public class RotationGlyph extends PNode {

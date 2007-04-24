@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 20, 2004
  * Time: 7:20:46 AM
- * Copyright (c) Apr 20, 2004 by Sam Reid
+ *
  */
 public class TypeCriteria implements ModelCriteria {
     ArrayList dopantTypes;

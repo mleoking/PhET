@@ -14,7 +14,7 @@ import java.awt.event.ComponentEvent;
  * User: Sam Reid
  * Date: Dec 13, 2006
  * Time: 7:20:46 AM
- * Copyright (c) Dec 13, 2006 by Sam Reid
+ *
  */
 
 public class CCKBackground extends PNode {

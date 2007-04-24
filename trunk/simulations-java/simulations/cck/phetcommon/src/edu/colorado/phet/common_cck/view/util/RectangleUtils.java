@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 17, 2004
  * Time: 3:15:06 PM
- * Copyright (c) Jun 17, 2004 by Sam Reid
+ *
  */
 public class RectangleUtils {
     public static Rectangle2D expandRectangle2D( Rectangle2D r, double dx, double dy ) {

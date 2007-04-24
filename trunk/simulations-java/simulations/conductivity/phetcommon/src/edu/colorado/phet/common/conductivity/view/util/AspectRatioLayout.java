@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.conductivity.view.util;
 
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 5, 2004
  * Time: 12:14:40 PM
- * Copyright (c) Jan 5, 2004 by Sam Reid
+ *
  */
 public class AspectRatioLayout implements LayoutManager {
     Component target;

@@ -13,7 +13,7 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.states.Speed;
  * User: Sam Reid
  * Date: Mar 27, 2004
  * Time: 10:54:23 AM
- * Copyright (c) Mar 27, 2004 by Sam Reid
+ *
  */
 public class Move extends StateTransition {
     EnergyCell src;

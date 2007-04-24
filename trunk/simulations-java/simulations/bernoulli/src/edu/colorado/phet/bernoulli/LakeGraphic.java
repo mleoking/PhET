@@ -13,7 +13,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Aug 22, 2003
  * Time: 1:52:09 AM
- * Copyright (c) Aug 22, 2003 by Sam Reid
+ *
  */
 public class LakeGraphic implements TransformListener, Graphic {
     double x;

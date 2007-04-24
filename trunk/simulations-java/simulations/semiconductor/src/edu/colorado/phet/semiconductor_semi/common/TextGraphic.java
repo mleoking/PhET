@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.common;
 
 import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 1, 2004
  * Time: 2:04:28 PM
- * Copyright (c) Mar 1, 2004 by Sam Reid
+ *
  */
 public class TextGraphic implements Graphic {
     float x;

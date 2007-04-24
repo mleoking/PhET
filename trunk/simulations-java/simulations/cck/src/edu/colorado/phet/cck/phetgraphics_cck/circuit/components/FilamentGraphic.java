@@ -13,7 +13,7 @@ import java.awt.geom.Area;
  * User: Sam Reid
  * Date: Jun 13, 2004
  * Time: 8:34:45 PM
- * Copyright (c) Jun 13, 2004 by Sam Reid
+ *
  */
 public class FilamentGraphic implements Graphic {
     private Filament fil;

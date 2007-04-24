@@ -44,7 +44,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 2, 2005
  * Time: 2:17:06 PM
- * Copyright (c) Aug 2, 2005 by Sam Reid
+ *
  */
 
 public class EnergySkaterTimePlotNode extends PNode {

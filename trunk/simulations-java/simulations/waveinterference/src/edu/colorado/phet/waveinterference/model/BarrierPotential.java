@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.model;
 
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 3:24:07 PM
- * Copyright (c) Jun 10, 2005 by Sam Reid
+ *
  */
 
 public class BarrierPotential implements Potential {

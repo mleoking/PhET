@@ -1,4 +1,4 @@
-///* Copyright 2004, Sam Reid */
+///*  */
 //package edu.colorado.phet.theramp.tests;
 //
 //import edu.colorado.phet.common.view.ApparatusPanel;
@@ -11,7 +11,7 @@
 // * User: Sam Reid
 // * Date: Feb 13, 2005
 // * Time: 10:55:40 AM
-// * Copyright (c) Feb 13, 2005 by Sam Reid
+// *
 // */
 //
 //public class TestSquareButton3D {

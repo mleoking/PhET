@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 10:13:15 PM
- * Copyright (c) May 25, 2004 by Sam Reid
+ *
  */
 public class AffineTransformUtil {
 

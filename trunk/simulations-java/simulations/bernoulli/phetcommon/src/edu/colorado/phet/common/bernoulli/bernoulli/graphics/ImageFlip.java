@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.graphics;
 
 import java.awt.geom.AffineTransform;
@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jul 14, 2003
  * Time: 9:16:03 AM
- * Copyright (c) Jul 14, 2003 by Sam Reid
+ *
  */
 public class ImageFlip {
     public static BufferedImage flipX(BufferedImage source) {

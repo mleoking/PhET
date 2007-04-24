@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Aug 4, 2005
  * Time: 6:38:01 PM
- * Copyright (c) Aug 4, 2005 by Sam Reid
+ *
  */
 
 public class AppliedForceControl extends PNode {

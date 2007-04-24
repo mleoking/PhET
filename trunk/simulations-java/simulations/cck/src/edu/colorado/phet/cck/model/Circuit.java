@@ -20,7 +20,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 1:31:24 AM
- * Copyright (c) May 24, 2004 by Sam Reid
+ *
  */
 public class Circuit {
     private ArrayList branches = new ArrayList();

@@ -26,7 +26,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Oct 21, 2005
  * Time: 2:16:21 PM
- * Copyright (c) Oct 21, 2005 by Sam Reid
+ *
  */
 
 public class EnergySkateParkRootNode extends PhetRootPNode {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.waveinterference.model.Oscillator;
@@ -11,7 +11,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 11:33:59 PM
- * Copyright (c) Apr 12, 2006 by Sam Reid
+ *
  */
 
 public class TestFaucetDropTiming {

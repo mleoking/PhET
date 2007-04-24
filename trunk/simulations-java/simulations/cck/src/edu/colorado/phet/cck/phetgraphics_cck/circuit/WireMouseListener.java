@@ -19,7 +19,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: May 28, 2004
  * Time: 1:45:35 PM
- * Copyright (c) May 28, 2004 by Sam Reid
+ *
  */
 public class WireMouseListener extends MouseInputAdapter {
     boolean isDragging = false;

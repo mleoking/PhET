@@ -29,7 +29,7 @@ import java.util.*;
  * User: Sam Reid
  * Date: Mar 8, 2005
  * Time: 9:06:36 PM
- * Copyright (c) Mar 8, 2005 by Sam Reid
+ *
  */
 
 public class PhetJComponent extends PhetGraphic {

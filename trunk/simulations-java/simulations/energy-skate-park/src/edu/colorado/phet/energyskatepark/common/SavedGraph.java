@@ -8,7 +8,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 23, 2005
  * Time: 8:22:05 AM
- * Copyright (c) Dec 23, 2005 by Sam Reid
+ *
  */
 
 public class SavedGraph {

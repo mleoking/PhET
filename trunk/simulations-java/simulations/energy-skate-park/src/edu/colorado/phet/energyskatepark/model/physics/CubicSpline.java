@@ -9,7 +9,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Feb 13, 2007
  * Time: 10:08:12 PM
- * Copyright (c) Feb 13, 2007 by Sam Reid
+ *
  * <p/>
  * see http://en.wikipedia.org/wiki/Spline_interpolation
  */

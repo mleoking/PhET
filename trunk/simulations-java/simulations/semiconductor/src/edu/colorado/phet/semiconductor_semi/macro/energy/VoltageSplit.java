@@ -7,7 +7,7 @@ import edu.colorado.phet.common_semiconductor.model.ModelElement;
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 5:12:04 PM
- * Copyright (c) Apr 26, 2004 by Sam Reid
+ *
  */
 public class VoltageSplit implements ModelElement {
     EnergySection energySection;

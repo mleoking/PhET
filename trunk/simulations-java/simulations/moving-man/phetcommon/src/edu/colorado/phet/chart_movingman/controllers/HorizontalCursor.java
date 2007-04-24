@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 1, 2003
  * Time: 9:02:00 AM
- * Copyright (c) Jul 1, 2003 by Sam Reid
+ *
  */
 public class HorizontalCursor extends PhetGraphic {
 

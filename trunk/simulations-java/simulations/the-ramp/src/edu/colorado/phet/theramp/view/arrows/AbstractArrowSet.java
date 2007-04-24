@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 13, 2005
  * Time: 9:02:45 PM
- * Copyright (c) Feb 13, 2005 by Sam Reid
+ *
  */
 
 public class AbstractArrowSet extends PNode {

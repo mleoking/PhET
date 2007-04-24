@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.tests.ui;
 
 import edu.umd.cs.piccolo.PCanvas;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jan 20, 2006
  * Time: 12:07:38 PM
- * Copyright (c) Jan 20, 2006 by Sam Reid
+ *
  */
 
 public class TestGlassPane extends PCanvas {

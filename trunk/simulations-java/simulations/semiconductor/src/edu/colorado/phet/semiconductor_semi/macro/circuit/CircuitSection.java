@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 7, 2004
  * Time: 7:17:44 PM
- * Copyright (c) Feb 7, 2004 by Sam Reid
+ *
  */
 public class CircuitSection implements ModelElement, Graphic, DopantDropListener, ConductionListener, Speed {
 

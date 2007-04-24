@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 2:40:30 PM
- * Copyright (c) Feb 5, 2006 by Sam Reid
+ *
  */
 
 public class DGPlotFrame extends JDialog {

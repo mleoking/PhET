@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.util;
 
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 19, 2006
  * Time: 1:19:12 AM
- * Copyright (c) May 19, 2006 by Sam Reid
+ *
  */
 
 public class WISwingUtil {

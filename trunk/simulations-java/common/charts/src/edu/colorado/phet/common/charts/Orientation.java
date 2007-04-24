@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.charts;
 
 /**
  * User: Sam Reid
  * Date: May 20, 2005
  * Time: 2:42:22 PM
- * Copyright (c) May 20, 2005 by Sam Reid
+ *
  */
 
 public class Orientation {

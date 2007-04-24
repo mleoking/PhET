@@ -9,7 +9,7 @@ import edu.colorado.phet.semiconductor_semi.macro.circuit.Circuit;
  * User: Sam Reid
  * Date: Jan 16, 2004
  * Time: 12:50:49 AM
- * Copyright (c) Jan 16, 2004 by Sam Reid
+ *
  */
 public class WireParticle extends SimpleObservable implements ModelElement {
     double dist;

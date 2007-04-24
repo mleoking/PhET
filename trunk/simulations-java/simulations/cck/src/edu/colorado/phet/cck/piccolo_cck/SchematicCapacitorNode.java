@@ -14,7 +14,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Oct 6, 2006
  * Time: 12:42:42 AM
- * Copyright (c) Oct 6, 2006 by Sam Reid
+ *
  */
 
 public class SchematicCapacitorNode extends SchematicPlatedNode {

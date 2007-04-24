@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.tests.thirdparty.richardson;
 
 /**
  * User: Sam Reid
  * Date: Feb 9, 2006
  * Time: 9:13:30 PM
- * Copyright (c) Feb 9, 2006 by Sam Reid
+ *
  */
 class complex {
     double re, im;

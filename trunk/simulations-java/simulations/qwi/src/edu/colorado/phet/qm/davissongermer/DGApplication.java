@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -18,7 +18,7 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 6:48:21 PM
- * Copyright (c) Jun 10, 2005 by Sam Reid
+ *
  */
 
 public class DGApplication extends PiccoloPhetApplication {

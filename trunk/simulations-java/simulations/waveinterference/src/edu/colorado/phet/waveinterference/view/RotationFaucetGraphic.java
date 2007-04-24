@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.model.Oscillator;
@@ -9,7 +9,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 12:00:58 AM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 
 public class RotationFaucetGraphic extends FaucetGraphic {

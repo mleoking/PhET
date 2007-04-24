@@ -21,7 +21,7 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Jan 29, 2007
  * Time: 8:25:49 AM
- * Copyright (c) Jan 29, 2007 by Sam Reid
+ *
  */
 
 public class JFreeChartCursorNode extends PNode {

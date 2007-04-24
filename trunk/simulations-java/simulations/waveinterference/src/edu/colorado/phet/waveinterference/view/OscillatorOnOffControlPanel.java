@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 2:11:57 PM
- * Copyright (c) Mar 28, 2006 by Sam Reid
+ *
  */
 
 public class OscillatorOnOffControlPanel extends VerticalLayoutPanel {

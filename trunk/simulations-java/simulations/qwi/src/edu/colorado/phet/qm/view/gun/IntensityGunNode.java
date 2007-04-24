@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -25,7 +25,7 @@ import java.awt.event.ItemListener;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 4:03:38 PM
- * Copyright (c) Jun 23, 2005 by Sam Reid
+ *
  */
 
 public class IntensityGunNode extends AbstractGunNode implements OnOffItem {

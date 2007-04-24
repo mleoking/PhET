@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Nov 29, 2006
  * Time: 11:09:06 AM
- * Copyright (c) Nov 29, 2006 by Sam Reid
+ *
  */
 
 public class PathRecordContol extends HorizontalLayoutPanel {

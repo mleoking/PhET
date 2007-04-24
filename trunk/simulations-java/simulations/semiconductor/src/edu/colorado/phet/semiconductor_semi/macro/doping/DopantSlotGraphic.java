@@ -11,7 +11,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 8, 2004
  * Time: 4:21:48 PM
- * Copyright (c) Feb 8, 2004 by Sam Reid
+ *
  */
 public class DopantSlotGraphic implements Graphic {
     private TexturePaint green;

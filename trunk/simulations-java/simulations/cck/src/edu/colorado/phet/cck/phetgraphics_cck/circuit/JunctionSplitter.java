@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: May 28, 2004
  * Time: 3:25:46 PM
- * Copyright (c) May 28, 2004 by Sam Reid
+ *
  */
 public class JunctionSplitter {
     Junction junction;

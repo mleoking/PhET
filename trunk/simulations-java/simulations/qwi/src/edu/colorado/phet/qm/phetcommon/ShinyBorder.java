@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.phetcommon;
 
 import javax.swing.border.BevelBorder;
@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 22, 2006
  * Time: 9:33:11 PM
- * Copyright (c) Jan 22, 2006 by Sam Reid
+ *
  */
 
 public class ShinyBorder extends CompoundBorder {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 23, 2006
  * Time: 12:19:43 AM
- * Copyright (c) Mar 23, 2006 by Sam Reid
+ *
  */
 
 public class IsometricRotationGlyph extends RotationGlyph {

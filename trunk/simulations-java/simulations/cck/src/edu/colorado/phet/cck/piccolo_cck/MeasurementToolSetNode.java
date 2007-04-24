@@ -18,7 +18,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 25, 2006
  * Time: 9:58:49 AM
- * Copyright (c) Sep 25, 2006 by Sam Reid
+ *
  */
 
 public class MeasurementToolSetNode extends PhetPNode {

@@ -15,7 +15,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 1, 2006
  * Time: 11:34:47 PM
- * Copyright (c) Jun 1, 2006 by Sam Reid
+ *
  */
 
 public class WiggleMeInSpace {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.umd.cs.piccolo.PNode;
@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 8, 2005
  * Time: 8:11:05 AM
- * Copyright (c) May 8, 2005 by Sam Reid
+ *
  */
 
 public class EarthGraphic extends PNode {

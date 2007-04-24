@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.graphics2;
 
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.DifferentialDragHandler;

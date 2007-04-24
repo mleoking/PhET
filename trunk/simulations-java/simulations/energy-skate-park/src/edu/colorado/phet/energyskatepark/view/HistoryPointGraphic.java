@@ -19,7 +19,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Oct 23, 2005
  * Time: 4:53:12 PM
- * Copyright (c) Oct 23, 2005 by Sam Reid
+ *
  */
 
 public class HistoryPointGraphic extends PNode {

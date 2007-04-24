@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.common;
 
 import javax.sound.sampled.*;
@@ -8,7 +8,7 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Dec 31, 2005
  * Time: 11:15:34 AM
- * Copyright (c) Dec 31, 2005 by Sam Reid
+ *
  */
 
 public class PhetAudioClip {

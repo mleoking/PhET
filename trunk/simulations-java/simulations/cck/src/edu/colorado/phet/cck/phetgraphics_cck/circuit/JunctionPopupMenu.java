@@ -14,7 +14,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 28, 2004
  * Time: 9:48:27 PM
- * Copyright (c) May 28, 2004 by Sam Reid
+ *
  */
 public class JunctionPopupMenu extends JPopupMenuRepaintWorkaround {
     private Junction junction;

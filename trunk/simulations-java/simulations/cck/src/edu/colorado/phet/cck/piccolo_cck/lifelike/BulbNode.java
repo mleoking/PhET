@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 19, 2006
  * Time: 1:03:35 AM
- * Copyright (c) Sep 19, 2006 by Sam Reid
+ *
  */
 
 public class BulbNode extends PhetPNode {

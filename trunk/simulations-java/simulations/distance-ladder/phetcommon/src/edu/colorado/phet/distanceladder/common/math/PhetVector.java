@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.distanceladder.common.math;
 
 import java.awt.geom.Point2D;

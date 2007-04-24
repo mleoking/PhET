@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.common;
 
 import edu.colorado.phet.common_movingman.view.util.BufferedImageUtils;
@@ -13,7 +13,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 1, 2005
  * Time: 8:13:34 PM
- * Copyright (c) Feb 1, 2005 by Sam Reid
+ *
  */
 
 public class ScreenSizeHandlerFactory {

@@ -7,7 +7,7 @@ import edu.colorado.phet.qm.view.gun.GunControlPanel;
  * User: Sam Reid
  * Date: Jul 14, 2006
  * Time: 11:24:47 AM
- * Copyright (c) Jul 14, 2006 by Sam Reid
+ *
  */
 
 public class DGGunControlPanel extends GunControlPanel {

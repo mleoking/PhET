@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.common;
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 7, 2005
  * Time: 2:09:16 PM
- * Copyright (c) Aug 7, 2005 by Sam Reid
+ *
  */
 
 

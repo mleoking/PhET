@@ -14,7 +14,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Oct 3, 2006
  * Time: 4:42:36 PM
- * Copyright (c) Oct 3, 2006 by Sam Reid
+ *
  */
 
 public class SolderNode extends PhetPNode {

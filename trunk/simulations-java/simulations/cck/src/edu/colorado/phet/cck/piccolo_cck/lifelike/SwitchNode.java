@@ -22,7 +22,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Sep 19, 2006
  * Time: 2:33:35 PM
- * Copyright (c) Sep 19, 2006 by Sam Reid
+ *
  */
 
 public class SwitchNode extends SwitchBodyImageNode {

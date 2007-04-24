@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jan 9, 2007
  * Time: 1:00:05 PM
- * Copyright (c) Jan 9, 2007 by Sam Reid
+ *
  */
 
 public class TimeSeriesModel {

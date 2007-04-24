@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.qm.QWIModule;
@@ -12,7 +12,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 10:20:13 AM
- * Copyright (c) Jul 7, 2005 by Sam Reid
+ *
  */
 
 public class SingleParticleSchrodingerPanel extends QWIPanel {

@@ -29,7 +29,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Nov 12, 2004
  * Time: 10:06:43 PM
- * Copyright (c) Nov 12, 2004 by Sam Reid
+ *
  */
 public class Force1DApplication extends Module {
     public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/Force1DStrings";

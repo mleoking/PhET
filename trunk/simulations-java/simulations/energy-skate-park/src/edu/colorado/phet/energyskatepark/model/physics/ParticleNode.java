@@ -13,7 +13,7 @@ import java.awt.geom.Ellipse2D;
  * User: Sam Reid
  * Date: Feb 18, 2007
  * Time: 11:15:44 AM
- * Copyright (c) Feb 18, 2007 by Sam Reid
+ *
  */
 public class ParticleNode extends PNode {
     private Particle particle;

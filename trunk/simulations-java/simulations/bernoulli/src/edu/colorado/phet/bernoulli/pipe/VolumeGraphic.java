@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Aug 23, 2003
  * Time: 9:31:25 PM
- * Copyright (c) Aug 23, 2003 by Sam Reid
+ *
  */
 public class VolumeGraphic implements Graphic, SimpleObserver, TransformListener {
     CrossSectionalVolume volume;

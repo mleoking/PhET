@@ -11,7 +11,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Sep 8, 2003
  * Time: 2:12:46 AM
- * Copyright (c) Sep 8, 2003 by Sam Reid
+ *
  */
 public class HoleInThePipe extends ModelElement {
     private Pipe pipe;

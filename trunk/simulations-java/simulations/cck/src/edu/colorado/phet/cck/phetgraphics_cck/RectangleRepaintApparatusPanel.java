@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 11, 2006
  * Time: 12:53:53 AM
- * Copyright (c) Jul 11, 2006 by Sam Reid
+ *
  */
 public class RectangleRepaintApparatusPanel extends ApparatusPanel {
     private ArrayList rectangles = new ArrayList();

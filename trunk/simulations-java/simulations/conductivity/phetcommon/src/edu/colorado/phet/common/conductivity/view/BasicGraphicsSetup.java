@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.conductivity.view;
 
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 2, 2004
  * Time: 2:27:30 PM
- * Copyright (c) Jan 2, 2004 by Sam Reid
+ *
  */
 public class BasicGraphicsSetup implements GraphicsSetup {
     RenderingHints renderingHints;

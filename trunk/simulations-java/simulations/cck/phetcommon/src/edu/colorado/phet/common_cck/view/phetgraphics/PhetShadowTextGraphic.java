@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 24, 2004
  * Time: 11:44:02 PM
- * Copyright (c) Jun 24, 2004 by Sam Reid
+ *
  */
 public class PhetShadowTextGraphic extends PhetGraphic implements IPhetTextGraphic {
     private PhetTextGraphic foreground;

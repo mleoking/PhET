@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
@@ -17,7 +17,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 22, 2005
  * Time: 8:35:37 AM
- * Copyright (c) Jul 22, 2005 by Sam Reid
+ *
  */
 
 public class MandelGunSet extends IntensityGunNode {

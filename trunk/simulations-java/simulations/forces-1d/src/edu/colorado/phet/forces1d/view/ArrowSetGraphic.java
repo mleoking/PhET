@@ -18,7 +18,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Nov 27, 2004
  * Time: 11:29:31 AM
- * Copyright (c) Nov 27, 2004 by Sam Reid
+ *
  */
 public class ArrowSetGraphic extends CompositePhetGraphic {
     private Force1DPanel force1DPanel;

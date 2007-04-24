@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.tests.mna;
 
 import edu.colorado.phet.cck.model.Circuit;
@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 11, 2006
  * Time: 8:44:14 PM
- * Copyright (c) Jun 11, 2006 by Sam Reid
+ *
  */
 
 public class NodeAnalysisTest {

@@ -12,7 +12,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: May 29, 2004
  * Time: 12:19:48 AM
- * Copyright (c) May 29, 2004 by Sam Reid
+ *
  */
 public class Electron extends SimpleObservableDebug {
     private Branch branch;

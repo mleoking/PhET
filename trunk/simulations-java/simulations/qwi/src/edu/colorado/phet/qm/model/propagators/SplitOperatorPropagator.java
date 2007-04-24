@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model.propagators;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
@@ -19,7 +19,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 28, 2005
  * Time: 3:35:37 PM
- * Copyright (c) Jun 28, 2005 by Sam Reid
+ *
  */
 
 public class SplitOperatorPropagator extends Propagator {

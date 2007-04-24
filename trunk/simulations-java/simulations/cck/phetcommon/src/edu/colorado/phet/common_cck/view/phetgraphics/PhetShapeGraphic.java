@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
  * User: Sam Reid
  * Date: Jun 25, 2004
  * Time: 5:59:48 PM
- * Copyright (c) Jun 25, 2004 by Sam Reid
+ *
  */
 public class PhetShapeGraphic extends PhetGraphic {
     private Shape shape;

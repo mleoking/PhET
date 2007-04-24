@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  * User: Sam Reid
  * Date: Jun 30, 2006
  * Time: 11:22:45 PM
- * Copyright (c) Jun 30, 2006 by Sam Reid
+ *
  */
 
 public class TravoltageModule extends PiccoloModule {

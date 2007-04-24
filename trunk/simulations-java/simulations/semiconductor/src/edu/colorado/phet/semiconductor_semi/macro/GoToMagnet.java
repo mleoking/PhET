@@ -13,7 +13,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Apr 27, 2004
  * Time: 10:40:11 PM
- * Copyright (c) Apr 27, 2004 by Sam Reid
+ *
  */
 public class GoToMagnet implements BandParticleState {
     Magnet magnet;

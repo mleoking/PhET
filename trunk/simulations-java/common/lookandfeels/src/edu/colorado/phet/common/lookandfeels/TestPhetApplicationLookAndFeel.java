@@ -12,7 +12,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Feb 18, 2007
  * Time: 3:55:03 PM
- * Copyright (c) Feb 18, 2007 by Sam Reid
+ *
  */
 
 public class TestPhetApplicationLookAndFeel {

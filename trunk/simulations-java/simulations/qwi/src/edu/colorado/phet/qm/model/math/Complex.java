@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model.math;
 
 /**
  * User: Sam Reid
  * Date: Jun 9, 2005
  * Time: 4:20:11 PM
- * Copyright (c) Jun 9, 2005 by Sam Reid
+ *
  */
 
 public class Complex {

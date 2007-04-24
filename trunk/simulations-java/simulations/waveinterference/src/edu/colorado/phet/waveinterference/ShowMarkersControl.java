@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Aug 23, 2006
  * Time: 10:57:35 PM
- * Copyright (c) Aug 23, 2006 by Sam Reid
+ *
  */
 
 public class ShowMarkersControl extends JPanel {

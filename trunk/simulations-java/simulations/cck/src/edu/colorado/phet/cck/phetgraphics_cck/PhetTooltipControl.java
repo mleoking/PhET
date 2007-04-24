@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Jul 17, 2004
  * Time: 6:33:13 PM
- * Copyright (c) Jul 17, 2004 by Sam Reid
+ *
  */
 public class PhetTooltipControl implements MouseInputListener {
     JComponent component;

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 10:50:18 AM
- * Copyright (c) Feb 5, 2006 by Sam Reid
+ *
  */
 
 public class Protractor extends PhetPNode {

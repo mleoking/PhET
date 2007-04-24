@@ -26,7 +26,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 8:34:54 PM
- * Copyright (c) May 25, 2004 by Sam Reid
+ *
  */
 public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implements IComponentGraphic {
     private CircuitComponent component;

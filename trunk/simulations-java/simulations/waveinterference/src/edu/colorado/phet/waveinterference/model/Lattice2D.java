@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.model;
 
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 1:46:56 PM
- * Copyright (c) Jun 11, 2005 by Sam Reid
+ *
  */
 
 public class Lattice2D {

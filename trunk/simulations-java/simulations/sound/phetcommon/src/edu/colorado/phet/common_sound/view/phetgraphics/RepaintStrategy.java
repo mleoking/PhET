@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 17, 2004
  * Time: 5:51:14 PM
- * Copyright (c) Dec 17, 2004 by Sam Reid
+ *
  */
 public interface RepaintStrategy {
     void repaint( int x, int y, int width, int height );

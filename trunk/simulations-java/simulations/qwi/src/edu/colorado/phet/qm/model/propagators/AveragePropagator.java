@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model.propagators;
 
 import edu.colorado.phet.qm.model.Potential;
@@ -10,7 +10,7 @@ import edu.colorado.phet.qm.model.math.Complex;
  * User: Sam Reid
  * Date: Jun 28, 2005
  * Time: 3:35:37 PM
- * Copyright (c) Jun 28, 2005 by Sam Reid
+ *
  */
 
 public class AveragePropagator extends Propagator {

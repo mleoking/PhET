@@ -25,7 +25,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Mar 8, 2006
  * Time: 7:48:57 AM
- * Copyright (c) Mar 8, 2006 by Sam Reid
+ *
  */
 
 public class TestPhetTabbedPane {

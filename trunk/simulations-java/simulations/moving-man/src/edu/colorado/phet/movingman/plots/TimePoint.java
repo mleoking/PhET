@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.plots;
 
 /**
  * User: Sam Reid
  * Date: Apr 2, 2005
  * Time: 8:08:44 PM
- * Copyright (c) Apr 2, 2005 by Sam Reid
+ *
  */
 
 public class TimePoint {

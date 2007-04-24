@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.distanceladder.common.view.util.framesetup;
 
 import javax.swing.*;
@@ -8,7 +8,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 7:42:50 AM
- * Copyright (c) Jun 12, 2003 by Sam Reid
+ *
  */
 public class FullScreen implements FrameSetup {
     public FullScreen() {

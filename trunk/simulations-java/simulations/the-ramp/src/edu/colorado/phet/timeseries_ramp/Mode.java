@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
  * User: Sam Reid
  * Date: Jul 1, 2003
  * Time: 1:12:18 PM
- * Copyright (c) Jul 1, 2003 by Sam Reid
+ *
  */
 public abstract class Mode implements ClockListener {
     private String name;

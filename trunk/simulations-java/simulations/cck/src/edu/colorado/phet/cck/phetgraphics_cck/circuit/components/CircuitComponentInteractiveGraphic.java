@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 26, 2004
  * Time: 9:12:00 AM
- * Copyright (c) May 26, 2004 by Sam Reid
+ *
  */
 public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphic implements Deletable {
     private CircuitGraphic cg;

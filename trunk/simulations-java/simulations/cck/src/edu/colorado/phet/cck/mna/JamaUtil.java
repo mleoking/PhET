@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.mna;
 
 import Jama.Matrix;
@@ -7,7 +7,7 @@ import Jama.Matrix;
  * User: Sam Reid
  * Date: Jun 18, 2006
  * Time: 10:07:09 PM
- * Copyright (c) Jun 18, 2006 by Sam Reid
+ *
  */
 
 public class JamaUtil {

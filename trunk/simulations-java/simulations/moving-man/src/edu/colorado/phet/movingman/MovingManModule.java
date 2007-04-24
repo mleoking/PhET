@@ -36,7 +36,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 30, 2003
  * Time: 12:19:49 AM
- * Copyright (c) Jun 30, 2003 by Sam Reid
+ *
  */
 public class MovingManModule extends Module {
     private PhetFrame frame;

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.model.components;
 
 import edu.colorado.phet.cck.model.CCKModel;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 16, 2006
  * Time: 12:50:58 AM
- * Copyright (c) Jun 16, 2006 by Sam Reid
+ *
  */
 
 public class Inductor extends CircuitComponent implements DynamicBranch {

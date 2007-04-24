@@ -12,7 +12,7 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Jun 22, 2004
  * Time: 12:53:20 AM
- * Copyright (c) Jun 22, 2004 by Sam Reid
+ * 
  */
 public class TestPhetServiceManager {
     public static boolean showURL( URL url ) {

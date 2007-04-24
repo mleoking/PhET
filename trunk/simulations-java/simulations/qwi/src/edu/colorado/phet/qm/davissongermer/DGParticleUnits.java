@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.qm.model.ParticleUnits;
@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 28, 2006
  * Time: 2:29:36 PM
- * Copyright (c) Jun 28, 2006 by Sam Reid
+ *
  */
 
 public class DGParticleUnits extends ParticleUnits {

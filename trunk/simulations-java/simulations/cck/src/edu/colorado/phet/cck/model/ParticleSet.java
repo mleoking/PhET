@@ -12,7 +12,7 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Jun 1, 2004
  * Time: 4:07:51 PM
- * Copyright (c) Jun 1, 2004 by Sam Reid
+ *
  */
 public class ParticleSet implements ModelElement {
     private ArrayList particles = new ArrayList();

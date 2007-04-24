@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.common;
 
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
@@ -12,7 +12,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 12, 2005
  * Time: 9:32:14 AM
- * Copyright (c) Feb 12, 2005 by Sam Reid
+ *
  */
 
 public class BarGraphic2D extends PNode {

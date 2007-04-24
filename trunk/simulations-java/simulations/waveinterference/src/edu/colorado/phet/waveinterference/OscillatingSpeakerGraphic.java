@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
@@ -15,7 +15,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 7:47:29 PM
- * Copyright (c) Mar 28, 2006 by Sam Reid
+ *
  */
 
 public class OscillatingSpeakerGraphic extends ImageOscillatorPNode {

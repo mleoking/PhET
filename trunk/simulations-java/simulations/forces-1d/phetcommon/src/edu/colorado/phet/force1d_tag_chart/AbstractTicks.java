@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Oct 8, 2004
  * Time: 11:37:47 PM
- * Copyright (c) Oct 8, 2004 by Sam Reid
+ *
  */
 public abstract class AbstractTicks extends AbstractGrid {
     private int tickHeight = 6;

@@ -6,7 +6,7 @@ import java.io.File;
  * User: Sam Reid
  * Date: Aug 11, 2006
  * Time: 8:57:21 AM
- * Copyright (c) Aug 11, 2006 by Sam Reid
+ *
  */
 
 public class MultimediaList {

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.view.graphics.positioned;
 
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Apr 18, 2003
  * Time: 8:48:13 PM
- * Copyright (c) Apr 18, 2003 by Sam Reid
+ *
  */
 public class PositionedTextGraphic implements PositionedGraphic {
     Font f;

@@ -10,7 +10,7 @@ import java.awt.event.ComponentEvent;
  * User: Sam Reid
  * Date: Jun 2, 2006
  * Time: 12:01:22 AM
- * Copyright (c) Jun 2, 2006 by Sam Reid
+ *
  */
 
 public class ZoomPanelPSwing extends PSwing {

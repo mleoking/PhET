@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2005
  * Time: 11:00:14 AM
- * Copyright (c) Mar 24, 2005 by Sam Reid
+ *
  */
 
 public abstract class TimeSeriesModel implements ClockListener {

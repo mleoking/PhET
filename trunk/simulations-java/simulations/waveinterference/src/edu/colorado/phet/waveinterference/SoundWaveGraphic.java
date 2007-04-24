@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 5:20:43 PM
- * Copyright (c) Mar 28, 2006 by Sam Reid
+ *
  */
 
 public class SoundWaveGraphic extends PNode {

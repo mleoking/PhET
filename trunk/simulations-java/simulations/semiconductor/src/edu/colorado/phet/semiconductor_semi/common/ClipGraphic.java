@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.common;
 
 import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 18, 2004
  * Time: 2:32:38 PM
- * Copyright (c) Jan 18, 2004 by Sam Reid
+ *
  */
 public class ClipGraphic extends TransformGraphic {
     private Graphic graphic;

@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.tests;
 
 /**
  * User: Sam Reid
  * Date: Apr 2, 2005
  * Time: 6:50:54 PM
- * Copyright (c) Apr 2, 2005 by Sam Reid
+ *
  */
 
 public class MovingManModuleComments {

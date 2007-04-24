@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Aug 24, 2003
  * Time: 4:22:54 AM
- * Copyright (c) Aug 24, 2003 by Sam Reid
+ *
  */
 public class SlopeInterceptLine {
     double slope;

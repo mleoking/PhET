@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.tests;
 
 import edu.colorado.phet.qm.model.CylinderSource;
@@ -23,7 +23,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Mar 14, 2006
  * Time: 8:37:03 PM
- * Copyright (c) Mar 14, 2006 by Sam Reid
+ *
  */
 
 public class TestPhotonWave {

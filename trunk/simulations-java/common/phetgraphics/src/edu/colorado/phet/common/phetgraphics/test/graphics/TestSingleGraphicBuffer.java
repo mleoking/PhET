@@ -36,7 +36,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Dec 6, 2004
  * Time: 5:19:19 PM
- * Copyright (c) Dec 6, 2004 by Sam Reid
+ *
  */
 
 public class TestSingleGraphicBuffer extends JFrame {

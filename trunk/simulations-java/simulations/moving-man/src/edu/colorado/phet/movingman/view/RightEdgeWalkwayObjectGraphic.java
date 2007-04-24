@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.view;
 
 import java.awt.image.BufferedImage;
@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 11, 2005
  * Time: 9:17:33 PM
- * Copyright (c) Apr 11, 2005 by Sam Reid
+ *
  */
 
 public class RightEdgeWalkwayObjectGraphic extends WalkwayObjectGraphic {

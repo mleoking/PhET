@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.qm.controls.SRRWavelengthSlider;
@@ -12,7 +12,7 @@ import java.awt.event.MouseListener;
  * User: Sam Reid
  * Date: Jan 22, 2006
  * Time: 11:00:29 PM
- * Copyright (c) Jan 22, 2006 by Sam Reid
+ *
  */
 
 public class SRRWavelengthSliderComponent extends PCanvas {

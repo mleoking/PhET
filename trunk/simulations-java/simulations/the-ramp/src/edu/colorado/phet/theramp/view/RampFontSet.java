@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.theramp.common.LucidaSansFont;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Aug 19, 2005
  * Time: 9:43:58 AM
- * Copyright (c) Aug 19, 2005 by Sam Reid
+ *
  */
 
 public class RampFontSet {

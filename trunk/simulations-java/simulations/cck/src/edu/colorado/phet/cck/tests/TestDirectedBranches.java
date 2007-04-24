@@ -11,7 +11,7 @@ import edu.colorado.phet.cck.model.components.Wire;
  * User: Sam Reid
  * Date: Jun 2, 2004
  * Time: 9:42:34 AM
- * Copyright (c) Jun 2, 2004 by Sam Reid
+ *
  */
 public class TestDirectedBranches {
     public static void main( String[] args ) {

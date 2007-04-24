@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common_microwaves.view.graphics.positioned;
 
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Oct 8, 2003
  * Time: 11:53:10 PM
- * Copyright (c) Oct 8, 2003 by Sam Reid
+ *
  */
 public class FilledShapeGraphic implements Graphic {
     Shape shape;

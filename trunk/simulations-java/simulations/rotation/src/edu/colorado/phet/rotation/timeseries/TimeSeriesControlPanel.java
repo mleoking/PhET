@@ -13,7 +13,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jan 9, 2007
  * Time: 12:47:07 PM
- * Copyright (c) Jan 9, 2007 by Sam Reid
+ *
  */
 
 public class TimeSeriesControlPanel extends JPanel {

@@ -9,7 +9,7 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.bands.EnergyLevel;
  * User: Sam Reid
  * Date: Feb 9, 2004
  * Time: 12:25:12 PM
- * Copyright (c) Feb 9, 2004 by Sam Reid
+ *
  */
 public class PlusCharge extends Particle {
     EnergyCell cell;

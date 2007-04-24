@@ -19,7 +19,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Sep 17, 2006
  * Time: 8:43:39 PM
- * Copyright (c) Sep 17, 2006 by Sam Reid
+ *
  */
 
 public class CircuitInteractionModel {

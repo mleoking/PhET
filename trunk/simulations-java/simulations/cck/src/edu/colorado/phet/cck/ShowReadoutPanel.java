@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Dec 16, 2006
  * Time: 10:15:13 AM
- * Copyright (c) Dec 16, 2006 by Sam Reid
+ *
  */
 
 public class ShowReadoutPanel extends JPanel {

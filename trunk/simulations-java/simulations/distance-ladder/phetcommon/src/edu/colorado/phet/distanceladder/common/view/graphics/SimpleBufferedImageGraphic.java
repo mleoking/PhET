@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.distanceladder.common.view.graphics;
 
 import edu.colorado.phet.distanceladder.common.view.graphics.bounds.Boundary;
@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jan 2, 2004
  * Time: 12:35:20 AM
- * Copyright (c) Jan 2, 2004 by Sam Reid
+ *
  */
 public class SimpleBufferedImageGraphic implements Graphic, Boundary {
     BufferedImage image;

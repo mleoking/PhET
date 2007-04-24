@@ -21,7 +21,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Sep 13, 2005
  * Time: 1:20:04 AM
- * Copyright (c) Sep 13, 2005 by Sam Reid
+ *
  */
 
 public class PanZoomWorldKeyHandler implements KeyListener {

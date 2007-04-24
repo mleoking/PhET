@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -17,7 +17,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 30, 2005
  * Time: 9:07:55 AM
- * Copyright (c) Jun 30, 2005 by Sam Reid
+ *
  */
 
 public class InitialConditionPanel extends VerticalLayoutPanel {

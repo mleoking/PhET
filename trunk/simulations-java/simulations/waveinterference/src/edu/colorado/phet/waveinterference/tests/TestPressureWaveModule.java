@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:00:25 AM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 public class TestPressureWaveModule extends BasicWaveTestModule {
     private PressureWaveGraphic pressureWaveGraphic;

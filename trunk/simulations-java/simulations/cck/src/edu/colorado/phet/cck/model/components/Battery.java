@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 28, 2004
  * Time: 1:11:39 PM
- * Copyright (c) May 28, 2004 by Sam Reid
+ *
  */
 public class Battery extends CircuitComponent {
     private double internalResistance;

@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 7, 2004
  * Time: 8:26:00 PM
- * Copyright (c) Feb 7, 2004 by Sam Reid
+ *
  */
 public class EnergySection implements ModelElement, Graphic, DopantChangeListener, BatteryListener {
     ArrayList conductionListeners = new ArrayList();

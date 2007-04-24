@@ -15,7 +15,7 @@ import java.awt.geom.Area;
  * User: Sam Reid
  * Date: Jun 25, 2004
  * Time: 12:04:51 AM
- * Copyright (c) Jun 25, 2004 by Sam Reid
+ *
  */
 public class PositionedHelpItem extends CCKCompositePhetGraphic {
     private Target target;

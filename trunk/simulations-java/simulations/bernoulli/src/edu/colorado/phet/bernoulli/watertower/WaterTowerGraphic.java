@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 21, 2003
  * Time: 2:47:13 AM
- * Copyright (c) Aug 21, 2003 by Sam Reid
+ *
  */
 public class WaterTowerGraphic implements InteractiveGraphic, SimpleObserver, TransformListener {
     WaterTower tower;

@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 18, 2004
  * Time: 10:31:28 AM
- * Copyright (c) Sep 18, 2004 by Sam Reid
+ *
  */
 public class ScatterPlot extends DataSetGraphic {
     private ScatterPaint scatterPaint = null;

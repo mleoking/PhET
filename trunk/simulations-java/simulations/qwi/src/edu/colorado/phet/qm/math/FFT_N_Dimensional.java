@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.math;
 
 /**
  * User: Sam Reid
  * Date: Feb 10, 2006
  * Time: 1:10:51 AM
- * Copyright (c) Feb 10, 2006 by Sam Reid
+ *
  */
 
 public class FFT_N_Dimensional {

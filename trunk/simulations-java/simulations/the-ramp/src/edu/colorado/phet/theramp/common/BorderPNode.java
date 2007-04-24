@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.common;
 
 import edu.umd.cs.piccolo.PNode;
@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Oct 14, 2005
  * Time: 8:33:16 AM
- * Copyright (c) Oct 14, 2005 by Sam Reid
+ *
  */
 
 public class BorderPNode extends PNode {

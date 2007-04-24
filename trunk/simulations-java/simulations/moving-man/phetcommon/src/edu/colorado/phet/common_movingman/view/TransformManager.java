@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common_movingman.view;
 
 import javax.swing.*;
@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Feb 27, 2005
  * Time: 10:50:16 AM
- * Copyright (c) Feb 27, 2005 by Sam Reid
+ *
  */
 
 public class TransformManager {

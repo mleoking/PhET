@@ -10,7 +10,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jul 18, 2006
  * Time: 12:32:20 AM
- * Copyright (c) Jul 18, 2006 by Sam Reid
+ *
  */
 
 public class SpacingModelSlider extends ModelSlider {

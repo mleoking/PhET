@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Apr 3, 2004
  * Time: 11:42:01 PM
- * Copyright (c) Apr 3, 2004 by Sam Reid
+ *
  */
 public class MouseHandAdapter extends MouseAdapter {
     public void mouseEntered( MouseEvent e ) {

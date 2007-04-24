@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.physics1d;
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 17, 2003
  * Time: 2:28:31 PM
- * Copyright (c) Jun 17, 2003 by Sam Reid
+ *
  */
 public class CompositeForce1d implements Force1d {
     ArrayList forces = new ArrayList();

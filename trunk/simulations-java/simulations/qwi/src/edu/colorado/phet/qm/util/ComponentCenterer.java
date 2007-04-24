@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.util;
 
 import javax.swing.*;
@@ -10,7 +10,7 @@ import java.awt.event.ComponentListener;
  * User: Sam Reid
  * Date: Mar 14, 2006
  * Time: 6:17:12 PM
- * Copyright (c) Mar 14, 2006 by Sam Reid
+ *
  */
 
 public class ComponentCenterer {

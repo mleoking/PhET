@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
@@ -16,7 +16,7 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Mar 21, 2006
  * Time: 12:24:05 AM
- * Copyright (c) Mar 21, 2006 by Sam Reid
+ *
  */
 
 public class HalfOnscreenDragHandler extends BoundedDragHandler {

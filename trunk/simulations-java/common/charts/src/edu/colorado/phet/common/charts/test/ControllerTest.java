@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Oct 18, 2004
  * Time: 10:42:48 PM
- * Copyright (c) Oct 18, 2004 by Sam Reid
+ *
  */
 public class ControllerTest {
     private static double x = 0;

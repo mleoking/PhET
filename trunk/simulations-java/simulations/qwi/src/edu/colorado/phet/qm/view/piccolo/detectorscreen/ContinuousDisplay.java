@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 1:43:24 PM
- * Copyright (c) Jun 23, 2005 by Sam Reid
+ *
  */
 
 public class ContinuousDisplay {

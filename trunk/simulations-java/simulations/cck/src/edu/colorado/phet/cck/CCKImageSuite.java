@@ -10,7 +10,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Dec 6, 2003
  * Time: 9:38:59 PM
- * Copyright (c) Dec 6, 2003 by Sam Reid
+ *
  * Testing cvs.
  */
 public class CCKImageSuite {

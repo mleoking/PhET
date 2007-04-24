@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.common;
 
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Feb 13, 2005
  * Time: 1:31:56 PM
- * Copyright (c) Feb 13, 2005 by Sam Reid
+ *
  */
 
 public class JButton3D extends ApparatusPanel {

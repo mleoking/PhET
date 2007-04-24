@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 20, 2004
  * Time: 11:45:11 PM
- * Copyright (c) Jun 20, 2004 by Sam Reid
+ *
  */
 public class SchematicBulbGraphic extends SchematicResistorGraphic {
     private Bulb bulb;

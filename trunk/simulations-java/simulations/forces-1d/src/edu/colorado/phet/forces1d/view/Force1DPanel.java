@@ -33,7 +33,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Nov 12, 2004
  * Time: 10:16:32 PM
- * Copyright (c) Nov 12, 2004 by Sam Reid
+ *
  */
 public class Force1DPanel extends ApparatusPanel2 {
     private Force1DApplication module;

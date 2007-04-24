@@ -14,7 +14,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Apr 17, 2004
  * Time: 8:56:23 AM
- * Copyright (c) Apr 17, 2004 by Sam Reid
+ *
  */
 public class ColumnDebugGraphic implements Graphic {
     EnergySection energySection;

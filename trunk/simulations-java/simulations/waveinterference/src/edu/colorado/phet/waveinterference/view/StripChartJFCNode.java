@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
@@ -21,7 +21,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Dec 20, 2005
  * Time: 1:18:43 AM
- * Copyright (c) Dec 20, 2005 by Sam Reid
+ *
  */
 
 public class StripChartJFCNode extends PNode {

@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Aug 23, 2003
  * Time: 3:15:26 PM
- * Copyright (c) Aug 23, 2003 by Sam Reid
+ *
  */
 public class SegmentGraphic implements Graphic, TransformListener {
     private ModelViewTransform2d transform;

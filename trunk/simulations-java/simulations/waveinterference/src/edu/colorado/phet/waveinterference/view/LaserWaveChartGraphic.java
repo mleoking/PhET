@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Apr 16, 2006
  * Time: 8:51:43 PM
- * Copyright (c) Apr 16, 2006 by Sam Reid
+ *
  */
 
 public class LaserWaveChartGraphic extends WaveChartGraphic {
