@@ -20,10 +20,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSResources;
-import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 
@@ -39,10 +39,10 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
     // Instance data
     //----------------------------------------------------------------------------
     
-    private SliderControl _widthSlider;
-    private SliderControl _heightSlider;
-    private SliderControl _offsetSlider;
-    private SliderControl _separationSlider;
+    private LinearValueControl _widthControl;
+    private LinearValueControl _heightControl;
+    private LinearValueControl _offsetControl;
+    private LinearValueControl _separationControl;
     private JSeparator _separationSeparator;
     
     //----------------------------------------------------------------------------
@@ -75,16 +75,15 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
-            double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
-            int labelDecimalPlaces = tickDecimalPlaces;
-            int columns = 4;
             String offsetLabel = BSResources.getString( "label.wellOffset" );
-            _offsetSlider = new SliderControl( value, min, max,
-                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
-                    offsetLabel, energyUnits, columns, SLIDER_INSETS );
-            _offsetSlider.setTextEditable( true );
-            _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+            String valuePattern = "0.0";
+            int columns = 4;
+            _offsetControl = new LinearValueControl( min, max, offsetLabel, valuePattern, energyUnits );
+            _offsetControl.setValue( value );
+            _offsetControl.setUpDownArrowDelta( 0.1 );
+            _offsetControl.setTextFieldColumns( columns );
+            _offsetControl.setTextFieldEditable( true );
+            _offsetControl.setNotifyWhileAdjusting( NOTIFY_WHILE_DRAGGING );
         }
 
         // Height
@@ -93,16 +92,15 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
             double value = heightRange.getDefault();
             double min = heightRange.getMin();
             double max = heightRange.getMax();
-            double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = heightRange.getSignificantDecimalPlaces();
-            int labelDecimalPlaces = tickDecimalPlaces;
-            int columns = 4;
             String heightLabel = BSResources.getString( "label.wellHeight" );
-            _heightSlider = new SliderControl( value, min, max,
-                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
-                    heightLabel, energyUnits, columns, SLIDER_INSETS );
-            _heightSlider.setTextEditable( true );
-            _heightSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+            String valuePattern = "0.0";
+            int columns = 4;
+            _heightControl = new LinearValueControl( min, max, heightLabel, valuePattern, energyUnits );
+            _heightControl.setValue( value );
+            _heightControl.setUpDownArrowDelta( 0.1 );
+            _heightControl.setTextFieldColumns( columns );
+            _heightControl.setTextFieldEditable( true );
+            _heightControl.setNotifyWhileAdjusting( NOTIFY_WHILE_DRAGGING );
         }
         
         // Width
@@ -111,16 +109,15 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
             double value = widthRange.getDefault();
             double min = widthRange.getMin();
             double max = widthRange.getMax();
-            double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = widthRange.getSignificantDecimalPlaces();
-            int labelDecimalPlaces = tickDecimalPlaces;
-            int columns = 4;
             String widthLabel = BSResources.getString( "label.wellWidth" );
-            _widthSlider = new SliderControl( value, min, max,
-                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
-                    widthLabel, positionUnits, columns, SLIDER_INSETS );
-            _widthSlider.setTextEditable( true );
-            _widthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+            String valuePattern = "0.0";
+            int columns = 4;
+            _widthControl = new LinearValueControl( min, max, widthLabel, valuePattern, positionUnits );
+            _widthControl.setValue( value );
+            _widthControl.setUpDownArrowDelta( 0.1 );
+            _widthControl.setTextFieldColumns( columns );
+            _widthControl.setTextFieldEditable( true );
+            _widthControl.setNotifyWhileAdjusting( NOTIFY_WHILE_DRAGGING );
         }
 
         // Separation
@@ -129,24 +126,23 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
             double value = separationRange.getDefault();
             double min = separationRange.getMin();
             double max = separationRange.getMax();
-            double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = separationRange.getSignificantDecimalPlaces();
-            int labelDecimalPlaces = tickDecimalPlaces;
-            int columns = 4;
             String spacingLabel = BSResources.getString( "label.wellSeparation" );
-            _separationSlider = new SliderControl( value, min, max,
-                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
-                    spacingLabel, positionUnits, columns, SLIDER_INSETS );
-            _separationSlider.setTextEditable( true );
-            _separationSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+            String valuePattern = "0.00";
+            int columns = 4;
+            _separationControl = new LinearValueControl( min, max, spacingLabel, valuePattern, positionUnits );
+            _separationControl.setValue( value );
+            _separationControl.setUpDownArrowDelta( 0.01 );
+            _separationControl.setTextFieldColumns( columns );
+            _separationControl.setTextFieldEditable( true );
+            _separationControl.setNotifyWhileAdjusting( NOTIFY_WHILE_DRAGGING );
         }
         
         // Events
         {
-            _offsetSlider.addChangeListener( this );
-            _heightSlider.addChangeListener( this );
-            _widthSlider.addChangeListener( this );
-            _separationSlider.addChangeListener( this ); 
+            _offsetControl.addChangeListener( this );
+            _heightControl.addChangeListener( this );
+            _widthControl.addChangeListener( this );
+            _separationControl.addChangeListener( this ); 
         }
         
         // Layout
@@ -158,21 +154,21 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
             int row = 0;
             int col = 0;
             if ( offsetControlSupported ) {
-                layout.addComponent( _offsetSlider, row, col );
+                layout.addComponent( _offsetControl, row, col );
                 row++;
                 layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
                 row++;
             }
-            layout.addComponent( _heightSlider, row, col );
+            layout.addComponent( _heightControl, row, col );
             row++;
             layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
             row++;
-            layout.addComponent( _widthSlider, row, col );
+            layout.addComponent( _widthControl, row, col );
             row++;
             _separationSeparator = new JSeparator();
             layout.addFilledComponent( _separationSeparator, row, col, GridBagConstraints.HORIZONTAL );
             row++;
-            layout.addComponent( _separationSlider, row, col );
+            layout.addComponent( _separationControl, row, col );
             row++;
         }
         
@@ -188,14 +184,14 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
         BSSquarePotential potential = (BSSquarePotential) getPotential();
 
         // Sync values
-        _offsetSlider.setValue( potential.getOffset() );
-        _heightSlider.setValue( potential.getHeight() );
-        _widthSlider.setValue( potential.getWidth() );
-        _separationSlider.setValue( potential.getSeparation() );
+        _offsetControl.setValue( potential.getOffset() );
+        _heightControl.setValue( potential.getHeight() );
+        _widthControl.setValue( potential.getWidth() );
+        _separationControl.setValue( potential.getSeparation() );
 
         // Visibility
-        _separationSlider.setVisible( potential.getNumberOfWells() > 1 );
-        _separationSeparator.setVisible( _separationSlider.isVisible() );
+        _separationControl.setVisible( potential.getNumberOfWells() > 1 );
+        _separationSeparator.setVisible( _separationControl.isVisible() );
         pack();
     }
     
@@ -209,10 +205,10 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
      * the sliders losing focus.
      */
     public void dispose() {
-        _offsetSlider.removeChangeListener( this );
-        _heightSlider.removeChangeListener( this );
-        _widthSlider.removeChangeListener( this );
-        _separationSlider.removeChangeListener( this );
+        _offsetControl.removeChangeListener( this );
+        _heightControl.removeChangeListener( this );
+        _widthControl.removeChangeListener( this );
+        _separationControl.removeChangeListener( this );
         super.dispose();
     }
     
@@ -226,21 +222,21 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
     public void stateChanged( ChangeEvent e ) {
         setObservePotential( false );
         {
-            if ( e.getSource() == _offsetSlider ) {
+            if ( e.getSource() == _offsetControl ) {
                 handleOffsetChange();
-                adjustClockState( _offsetSlider );
+                adjustClockState( _offsetControl );
             }
-            else if ( e.getSource() == _heightSlider ) {
+            else if ( e.getSource() == _heightControl ) {
                 handleHeightChange();
-                adjustClockState( _heightSlider );
+                adjustClockState( _heightControl );
             }
-            else if ( e.getSource() == _widthSlider ) {
+            else if ( e.getSource() == _widthControl ) {
                 handleWidthChange();
-                adjustClockState( _widthSlider );
+                adjustClockState( _widthControl );
             }
-            else if ( e.getSource() == _separationSlider ) {
+            else if ( e.getSource() == _separationControl ) {
                 handleSeparationChange();
-                adjustClockState( _separationSlider );
+                adjustClockState( _separationControl );
             }
             else {
                 System.err.println( "WARNING: BSSquareDialog - unsupported event source: " + e.getSource() );
@@ -254,26 +250,26 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
     //----------------------------------------------------------------------------
    
     private void handleOffsetChange() {
-        final double offset = _offsetSlider.getValue();
+        final double offset = _offsetControl.getValue();
         getPotential().setOffset( offset ); 
     }
     
     private void handleHeightChange() {
         BSSquarePotential potential = (BSSquarePotential) getPotential();
-        final double height = _heightSlider.getValue();
+        final double height = _heightControl.getValue();
         potential.setHeight( height );
         setObservePotential( true );
     }
     
     private void handleWidthChange() {
         BSSquarePotential potential = (BSSquarePotential) getPotential();
-        final double width = _widthSlider.getValue();
+        final double width = _widthControl.getValue();
         potential.setWidth( width );
     }
     
     private void handleSeparationChange() {
         BSSquarePotential potential = (BSSquarePotential) getPotential();
-        final double separation = _separationSlider.getValue();
+        final double separation = _separationControl.getValue();
         potential.setSeparation( separation );
     }
 
