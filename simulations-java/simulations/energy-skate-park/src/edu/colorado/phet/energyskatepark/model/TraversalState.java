@@ -2,7 +2,7 @@ package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 
-import java.awt.geom.Point2D;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
 
 /**
  * Author: Sam Reid
@@ -31,7 +31,7 @@ public class TraversalState {
         return alpha;
     }
 
-    public Point2D getPosition() {
+    public SPoint2D getPosition() {
         return parametricFunction2D.evaluate( alpha );
     }
 }

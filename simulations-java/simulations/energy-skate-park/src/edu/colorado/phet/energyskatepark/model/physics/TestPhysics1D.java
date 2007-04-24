@@ -20,7 +20,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
 import java.awt.geom.Rectangle2D;
 
 public class TestPhysics1D extends JFrame {
@@ -44,12 +44,12 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setContentPane( pSwingCanvas );
 
-        final ParametricFunction2D cubicSpline = new CubicSpline2D( new Point2D[]{
-                new Point2D.Double( 1 * 2, 0.5 * 2 ),
-                new Point2D.Double( 2 * 2, 1 * 2 ),
-                new Point2D.Double( 3 * 2, 0.5 * 2 ),
-                new Point2D.Double( 4 * 2, 2 * 2 ),
-                new Point2D.Double( 5 * 2, 0.5 * 2 )
+        final ParametricFunction2D cubicSpline = new CubicSpline2D( new SPoint2D[]{
+                new SPoint2D( 1 * 2, 0.5 * 2 ),
+                new SPoint2D( 2 * 2, 1 * 2 ),
+                new SPoint2D( 3 * 2, 0.5 * 2 ),
+                new SPoint2D( 4 * 2, 2 * 2 ),
+                new SPoint2D( 5 * 2, 0.5 * 2 )
         } );
 
         particleStage.addCubicSpline2D( cubicSpline );
@@ -57,7 +57,7 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.getLayer().addChild( splineLayer );
         setSize( 800, 600 );
 
-        Point2D[] pts = cubicSpline.getOffsetSpline( 1.0, true, 100 );
+        SPoint2D[] pts = cubicSpline.getOffsetSpline( 1.0, true, 100 );
         final LinearSpline2D linearSpline2D = new LinearSpline2D( pts );
         final ParametricFunction2DNode linearSegmentNode = new ParametricFunction2DNode( linearSpline2D );
         linearSegmentNode.setVisible( false );
@@ -331,7 +331,7 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.getLayer().addChild( closestPoint );
         phetPPath.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                Point2D coords = event.getPositionRelativeTo( phetPPath );
+                SPoint2D coords = new SPoint2D( event.getPositionRelativeTo( phetPPath ));
                 System.out.println( "coords = " + coords );
 //                TraversalState traversalState=new TraversalState( cubicSpline, true,);
                 TraversalState traversalState = particle.getBestTraversalState( coords, new Vector2D.Double( 1, 0 ) );

@@ -2,7 +2,7 @@ package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 
-import java.awt.geom.Point2D;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
 import java.util.Arrays;
 
 /**
@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class LinearSpline2D extends ControlPointParametricFunction2D {
 
-    public LinearSpline2D( Point2D[] points ) {
+    public LinearSpline2D( SPoint2D[] points ) {
         super( points );
     }
 
@@ -22,7 +22,7 @@ public class LinearSpline2D extends ControlPointParametricFunction2D {
         return "points=" + Arrays.asList( getControlPoints() );
     }
 
-    public Point2D evaluate( double alpha ) {
+    public SPoint2D evaluate( double alpha ) {
 
         int aIndex = (int)( alpha * ( getControlPoints().length - 1 ) );
 
@@ -35,18 +35,18 @@ public class LinearSpline2D extends ControlPointParametricFunction2D {
             aIndex = getControlPoints().length - 2;
         }
 
-        Point2D a = getControlPoints()[aIndex];
-        Point2D b = getControlPoints()[aIndex + 1];
+        SPoint2D a = getControlPoints()[aIndex];
+        SPoint2D b = getControlPoints()[aIndex + 1];
         Function.LinearFunction x = new Function.LinearFunction( aIndex, aIndex + 1, a.getX(), b.getX() );
         Function.LinearFunction y = new Function.LinearFunction( aIndex, aIndex + 1, a.getY(), b.getY() );
-        return new Point2D.Double( x.evaluate( alpha * ( getControlPoints().length - 1 ) ), y.evaluate( alpha * ( getControlPoints().length - 1 ) ) );
+        return new SPoint2D( x.evaluate( alpha * ( getControlPoints().length - 1 ) ), y.evaluate( alpha * ( getControlPoints().length - 1 ) ) );
     }
 
     public static void main( String[] args ) {
-        Point2D[] pts = new Point2D[]{
-                new Point2D.Double( 0, 0 ),
-                new Point2D.Double( 10, 0 ),
-                new Point2D.Double( 10, 10 )
+        SPoint2D[] pts = new SPoint2D[]{
+                new SPoint2D( 0, 0 ),
+                new SPoint2D( 10, 0 ),
+                new SPoint2D( 10, 10 )
         };
         double dAlpha = 0.1;
         LinearSpline2D linearSpline2D = new LinearSpline2D( pts );

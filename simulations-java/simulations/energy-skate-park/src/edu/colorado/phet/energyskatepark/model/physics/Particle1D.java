@@ -8,7 +8,7 @@ import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.timeseries.OptionalItemSerializableList;
 
-import java.awt.geom.Point2D;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
 import java.io.Serializable;
 import java.util.List;
 
@@ -116,8 +116,8 @@ public class Particle1D implements Serializable {
         listeners.add( particle1DNode );
     }
 
-    public Point2D getLocation() {
-        return new Point2D.Double( getX(), getY() );
+    public SPoint2D getLocation() {
+        return new SPoint2D( getX(), getY() );
     }
 
     public UpdateStrategy getUpdateStrategy() {
@@ -498,7 +498,7 @@ public class Particle1D implements Serializable {
         public void stepInTime( double dt ) {
 //            System.out.println( "nor = " + getNormalForce().getMagnitude() );
             double origEnergy = getEnergy();
-            Point2D origLoc = getLocation();
+            SPoint2D origLoc = getLocation();
             AbstractVector2D netForce = getNetForce();
             double a = track.getUnitParallelVector( alpha ).dot( netForce ) / mass;
             velocity += a * dt;

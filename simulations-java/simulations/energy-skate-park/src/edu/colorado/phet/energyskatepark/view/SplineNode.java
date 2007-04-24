@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -301,12 +302,12 @@ public class SplineNode extends PNode {
     private boolean proposeMatchTrunk( int index ) {
         SplineMatch match = getTrunkMatch( index );
         if( match != null ) {
-            spline.setControlPointLocation( index, match.getTarget().getFullBounds().getCenter2D() );
+            spline.setControlPointLocation( index, new SPoint2D( match.getTarget().getFullBounds().getCenter2D()) );
             updateAll();
             return true;
         }
         else {
-            spline.setControlPointLocation( index, initDragSpline[index] );
+            spline.setControlPointLocation( index, new SPoint2D( initDragSpline[index] ) );
             return false;
         }
     }
@@ -455,7 +456,7 @@ public class SplineNode extends PNode {
             SplineMatch match = getEndpointMatch();
             System.out.println( "match=" + match );
             if( match != null ) {
-                spline.setControlPointLocation( index, match.getTarget().getFullBounds().getCenter2D() );
+                spline.setControlPointLocation( index, new SPoint2D( match.getTarget().getFullBounds().getCenter2D()) );
                 updateAll();
             }
             else {

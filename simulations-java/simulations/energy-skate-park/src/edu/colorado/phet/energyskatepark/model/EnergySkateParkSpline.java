@@ -5,7 +5,6 @@ import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFun
 import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
 
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -19,21 +18,9 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
     private boolean userControlled;
     private boolean interactive = true;
 
-    public EnergySkateParkSpline( Point2D[] controlPoints ) {
+    public EnergySkateParkSpline( SPoint2D[] controlPoints ) {
 //        this( new CubicSpline2D( controlPoints ) );
         this( new DefaultTrackSpline( controlPoints ) );
-    }
-
-    public static class DefaultTrackSpline extends CubicSpline2D {
-        private boolean rollerCoasterMode = false;
-
-        public DefaultTrackSpline( Point2D[] pts ) {
-            super( pts );
-        }
-
-        public boolean isRollerCoasterMode() {
-            return rollerCoasterMode;
-        }
     }
 
     private EnergySkateParkSpline( DefaultTrackSpline parametricFunction2D ) {
@@ -42,6 +29,11 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
 
     public boolean isUserControlled() {
         return userControlled;
+    }
+
+
+    public String toString() {
+        return "fn="+parametricFunction2D;
     }
 
     public Object clone() {
@@ -90,7 +82,7 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
         this.userControlled = userControlled;
     }
 
-    public Point2D[] getControlPoints() {
+    public SPoint2D[] getControlPoints() {
         return parametricFunction2D.getControlPoints();
     }
 
@@ -103,7 +95,7 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
     }
 
     private GeneralPath createInterpolationPath() {
-        Point2D[] pts = getInterpolationPoints();
+        SPoint2D[] pts = getInterpolationPoints();
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( pts[0].getX(), pts[0].getY() );
         for( int i = 1; i < pts.length; i++ ) {
@@ -112,16 +104,16 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
         return path.getGeneralPath();
     }
 
-    private Point2D[] getInterpolationPoints() {
+    private SPoint2D[] getInterpolationPoints() {
         ArrayList pts = new ArrayList();
         for( double alpha = 0.0; alpha <= 1.0; alpha += 0.01 ) {
             pts.add( parametricFunction2D.evaluate( alpha ) );
         }
         pts.add( parametricFunction2D.evaluate( 1.0 ) );
-        return (Point2D[])pts.toArray( new Point2D.Double[0] );
+        return (SPoint2D[])pts.toArray( new SPoint2D[0] );
     }
 
-    public Point2D controlPointAt( int index ) {
+    public SPoint2D controlPointAt( int index ) {
         return getControlPoints()[index];
     }
 
@@ -145,18 +137,30 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
         System.out.println( "parametricFunction2D.toStringSerialization() = " + parametricFunction2D.toStringSerialization() );
     }
 
-    public void setControlPointLocation( int index, Point2D pt ) {
+    public void setControlPointLocation( int index, SPoint2D pt ) {
         parametricFunction2D.setControlPoint( index, pt );
     }
 
     public double getMinY() {
         double minY = Double.POSITIVE_INFINITY;
         for( int i = 0; i < 100; i++ ) {
-            Point2D pt = parametricFunction2D.evaluate( ( (double)i ) / 100.0 );
+            SPoint2D pt = parametricFunction2D.evaluate( ( (double)i ) / 100.0 );
             if( pt.getY() < minY ) {
                 minY = pt.getY();
             }
         }
         return minY;
+    }
+
+    public static class DefaultTrackSpline extends CubicSpline2D {
+        private boolean rollerCoasterMode = false;
+
+        public DefaultTrackSpline( SPoint2D[] pts ) {
+            super( pts );
+        }
+
+        public boolean isRollerCoasterMode() {
+            return rollerCoasterMode;
+        }
     }
 }

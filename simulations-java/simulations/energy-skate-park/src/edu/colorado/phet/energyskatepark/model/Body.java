@@ -11,7 +11,6 @@ import edu.colorado.phet.energyskatepark.timeseries.OptionalItemSerializableList
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -83,7 +82,7 @@ public class Body implements Serializable {
 
     public void reset() {
         setFreeFallMode();
-        setPosition( new Point2D.Double( 4, 7.25 ) );
+        setPosition( new SPoint2D( 4, 7.25 ) );
         setAngularVelocity( 0.0 );
         setVelocity( 0, 0 );
         setPosition( 3, 6 );
@@ -155,7 +154,7 @@ public class Body implements Serializable {
         return getCenterOfMass().getX();
     }
 
-    public Point2D getCenterOfMass() {
+    public SPoint2D getCenterOfMass() {
         return particle.getPosition();
     }
 
@@ -207,7 +206,7 @@ public class Body implements Serializable {
         return height;
     }
 
-    public Point2D getPosition() {
+    public SPoint2D getPosition() {
         return particle.getPosition();
     }
 
@@ -223,7 +222,7 @@ public class Body implements Serializable {
         return getVelocity().getMagnitude();
     }
 
-    public void setPosition( Point2D point2D ) {
+    public void setPosition( SPoint2D point2D ) {
         setPosition( point2D.getX(), point2D.getY() );
     }
 
@@ -352,7 +351,7 @@ public class Body implements Serializable {
 
     public TraversalState getBestTraversalState( TraversalState origState ) {
         AbstractVector2D normal = new Vector2D.Double( origState.getParametricFunction2D().getUnitNormalVector( origState.getAlpha() ) ).getScaledInstance( origState.isTop() ? 1.0 : -1.0 );
-        Point2D location = origState.getParametricFunction2D().evaluate( origState.getAlpha() );
+        SPoint2D location = origState.getParametricFunction2D().evaluate( origState.getAlpha() );
         return particle.getBestTraversalState( location, normal );
     }
 

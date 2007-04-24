@@ -7,7 +7,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
 
 /**
  * User: Sam Reid
@@ -63,7 +63,7 @@ public class ParametricFunction2DNode extends PNode {
         if( normalsVisible ) {
             for( double x = 0; x <= parametricFunction2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
                 double alpha = parametricFunction2D.getFractionalDistance( 0, x );
-                Point2D pt = parametricFunction2D.evaluate( alpha );
+                SPoint2D pt = parametricFunction2D.evaluate( alpha );
                 Arrow arrow = new Arrow( pt, parametricFunction2D.getUnitNormalVector( alpha ).getScaledInstance( 0.1 ).getDestination( pt ), 0.03f, 0.03f, 0.01f );
                 PhetPPath phetPPath = new PhetPPath( arrow.getShape(), Color.black );
                 topLayer.addChild( phetPPath );
@@ -74,7 +74,7 @@ public class ParametricFunction2DNode extends PNode {
         if( curvatureVisible ) {
             for( double x = 0; x <= parametricFunction2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
                 double alpha = parametricFunction2D.getFractionalDistance( 0, x );
-                Point2D at = parametricFunction2D.evaluate( alpha );
+                SPoint2D at = parametricFunction2D.evaluate( alpha );
                 AbstractVector2D pt = parametricFunction2D.getCurvatureDirection( alpha );
                 Arrow arrow = new Arrow( at, pt.getScaledInstance( 0.1 ).getDestination( at ), 0.03f, 0.03f, 0.01f );
                 PhetPPath phetPPath = new PhetPPath( arrow.getShape(), Color.blue );

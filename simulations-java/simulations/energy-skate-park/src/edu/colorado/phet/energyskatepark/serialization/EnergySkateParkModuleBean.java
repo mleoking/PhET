@@ -4,9 +4,8 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -89,9 +88,9 @@ public class EnergySkateParkModuleBean {
 
 
     public static class BodyElement {
-        private Point2D.Double position;
-        private Point2D.Double velocity;
-        private Point2D.Double acceleration;
+        private SPoint2D position;
+        private SPoint2D velocity;
+        private SPoint2D acceleration;
 
         //        private double cmRotation;
         private double angularVelocity;
@@ -105,8 +104,8 @@ public class EnergySkateParkModuleBean {
         }
 
         public BodyElement( Body body ) {
-            position = new Point2D.Double( body.getPosition().getX(), body.getPosition().getY() );
-            velocity = new Point2D.Double( body.getVelocity().getX(), body.getVelocity().getY() );
+            position = new SPoint2D( body.getPosition().getX(), body.getPosition().getY() );
+            velocity = new SPoint2D( body.getVelocity().getX(), body.getVelocity().getY() );
 //            acceleration = new Point2D.Double( body.getAcceleration().getX(), body.getAcceleration().getY() );
 //            cmRotation = body.getCMRotation();
             angularVelocity = body.getAngularVelocity();
@@ -118,7 +117,7 @@ public class EnergySkateParkModuleBean {
         }
 
         public void apply( Body body ) {
-            body.setPosition( position );
+            body.setPosition( position.getX(), position.getY() );
             body.setVelocity( velocity.x, velocity.y );
 //            body.setAcceleration( acceleration.x, acceleration.y );
 
@@ -187,34 +186,34 @@ public class EnergySkateParkModuleBean {
             this.thermalEnergy = thermalEnergy;
         }
 
-        public Point2D.Double getPosition() {
+        public SPoint2D getPosition() {
             return position;
         }
 
-        public void setPosition( Point2D.Double position ) {
+        public void setPosition( SPoint2D position ) {
             this.position = position;
         }
 
-        public Point2D.Double getVelocity() {
+        public SPoint2D getVelocity() {
             return velocity;
         }
 
-        public void setVelocity( Point2D.Double velocity ) {
+        public void setVelocity( SPoint2D velocity ) {
             this.velocity = velocity;
         }
 
-        public Point2D.Double getAcceleration() {
+        public SPoint2D getAcceleration() {
             return acceleration;
         }
 
-        public void setAcceleration( Point2D.Double acceleration ) {
+        public void setAcceleration( SPoint2D acceleration ) {
             this.acceleration = acceleration;
         }
 
     }
 
     public static class SplineElement {
-        private Point2D[] controlPoints;
+        private SPoint2D[] controlPoints;
         private boolean rollerCoaster;
 
         public SplineElement() {
@@ -225,11 +224,11 @@ public class EnergySkateParkModuleBean {
             rollerCoaster = splineSurface.isRollerCoasterMode();
         }
 
-        public Point2D[] getControlPoints() {
+        public SPoint2D[] getControlPoints() {
             return controlPoints;
         }
 
-        public void setControlPoints( Point2D[] controlPoints ) {
+        public void setControlPoints( SPoint2D[] controlPoints ) {
             this.controlPoints = controlPoints;
         }
 
