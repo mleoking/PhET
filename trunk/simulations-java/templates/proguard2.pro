@@ -29,7 +29,7 @@
     public protected *;
 }
 
--keep public class edu.colorado.phet.ec3.serialization.**{
+-keep public class edu.colorado.phet.energyskatepark.serialization.**{
     public protected *;
 }
 
