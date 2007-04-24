@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- move control.valuecontrol to phetcommon
 - add developer control for Bead.BROWNIAN_MOTION_SCALE
 - add developer controls for disabling individual components of bead motion model
 
@@ -54,6 +53,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/24/07 - move control.valuecontrol to phetcommon.view.controls.valuecontrol
 4/24/07 - add AbstractValueControl.setMinorTickLabelsVisible
 4/24/07 - use predefined cursors that indicate drag constraints (left/right vs up/down)
 4/24/07 - add AbstractValueControl.setHorizontalAlignment

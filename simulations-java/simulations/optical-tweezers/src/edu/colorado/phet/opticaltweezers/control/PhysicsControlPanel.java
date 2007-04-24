@@ -12,9 +12,9 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.control.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
@@ -92,6 +92,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             String units = OTResources.getString( "units.time" );
             _timestepControl = new LogarithmicValueControl( min, max, label, valuePattern, units );
             _timestepControl.setTextFieldColumns( 6 );
+            _timestepControl.setFont( CONTROL_FONT );
             
             EasyGridBagLayout layout = new EasyGridBagLayout( speedPanel );
             speedPanel.setLayout( layout );
