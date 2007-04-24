@@ -54,6 +54,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/24/07 - add AbstractValueControl.setMinorTickLabelsVisible
 4/24/07 - use predefined cursors that indicate drag constraints (left/right vs up/down)
 4/24/07 - add AbstractValueControl.setHorizontalAlignment
 4/24/07 - left-align all fluid controls

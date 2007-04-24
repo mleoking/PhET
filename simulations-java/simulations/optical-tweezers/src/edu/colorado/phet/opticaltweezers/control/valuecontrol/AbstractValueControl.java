@@ -54,6 +54,7 @@ public abstract class AbstractValueControl extends JPanel {
     private DecimalFormat _tickFormat; // format for the tick mark labels
     private Font _font; // font used for all components
     private String _minTickString, _maxTickString; //optional strings used to label min/max ticks
+    private boolean _minorTickLabelsVisible; // are minor tick labels visible?
     
     // misc.
     private boolean _notifyWhileDragging; // if true, fire ChangeEvents while the slider is dragged
@@ -93,6 +94,7 @@ public abstract class AbstractValueControl extends JPanel {
         _font = new JLabel().getFont();
         _listenerList = new EventListenerList();
         _minTickString = _maxTickString = null;
+        _minorTickLabelsVisible = true;
 
         // Label
         _valuePanel = new JPanel();
@@ -415,6 +417,18 @@ public abstract class AbstractValueControl extends JPanel {
         _maxTickString = maxTickString;
         updateTickLabels();
     }
+    
+    /**
+     * Controls the visibility of minor tick labels.
+     * 
+     * @param visible true or false
+     */
+    public void setMinorTickLabelsVisible( boolean visible ) {
+        if ( visible != _minorTickLabelsVisible ) {
+            _minorTickLabelsVisible = visible;
+            updateTickLabels();
+        }
+    }
 
     //----------------------------------------------------------------------------
     // Private methods
@@ -471,12 +485,14 @@ public abstract class AbstractValueControl extends JPanel {
         labelTable.put( new Integer( _slider.getMaximum() ), label );
 
         // Minor ticks
-        double value = _min + _tickSpacing;
-        while ( value < _max ) {
-            label = new JLabel( _tickFormat.format( value ) );
-            label.setFont( _font );
-            labelTable.put( new Integer( _slider.modelToSlider( value ) ), label );
-            value += _tickSpacing;
+        if ( _minorTickLabelsVisible ) {
+            double value = _min + _tickSpacing;
+            while ( value < _max ) {
+                label = new JLabel( _tickFormat.format( value ) );
+                label.setFont( _font );
+                labelTable.put( new Integer( _slider.modelToSlider( value ) ), label );
+                value += _tickSpacing;
+            }
         }
 
         _slider.setLabelTable( labelTable );

@@ -3,11 +3,9 @@
 package edu.colorado.phet.opticaltweezers.control.valuecontrol;
 
 import java.awt.Dimension;
+import java.util.Hashtable;
 
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -33,6 +31,8 @@ public class TestValueControls extends JFrame {
         final LinearValueControl speedControl = new LinearValueControl( min, max, label, valuePattern, units );
         speedControl.setHorizontalAlignment( SwingConstants.CENTER );
         speedControl.setValue( value );
+        speedControl.setTickSpacing( 250 );
+        speedControl.setMinorTickLabelsVisible( true );
         speedControl.setUpDownArrowDelta( 1 );
         speedControl.setTextFieldEditable( true );
         speedControl.setTickPattern( "0" );
