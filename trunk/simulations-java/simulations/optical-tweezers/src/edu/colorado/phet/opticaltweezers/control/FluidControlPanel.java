@@ -16,9 +16,9 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.control.slider.AbstractValueControl;
-import edu.colorado.phet.opticaltweezers.control.slider.LinearValueControl;
-import edu.colorado.phet.opticaltweezers.control.slider.LogarithmicValueControl;
+import edu.colorado.phet.opticaltweezers.control.valuecontrol.AbstractValueControl;
+import edu.colorado.phet.opticaltweezers.control.valuecontrol.LinearValueControl;
+import edu.colorado.phet.opticaltweezers.control.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 

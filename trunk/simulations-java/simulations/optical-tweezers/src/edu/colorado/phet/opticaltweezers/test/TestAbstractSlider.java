@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.opticaltweezers.control.slider.LinearSlider;
-import edu.colorado.phet.opticaltweezers.control.slider.LogarithmicSlider;
+import edu.colorado.phet.opticaltweezers.control.valuecontrol.LinearSlider;
+import edu.colorado.phet.opticaltweezers.control.valuecontrol.LogarithmicSlider;
 
 /**
  * Test harness for the AbstractSlider hierarchy.

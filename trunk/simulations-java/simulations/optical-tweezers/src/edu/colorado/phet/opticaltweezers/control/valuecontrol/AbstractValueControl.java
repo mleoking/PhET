@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.control.slider;
+package edu.colorado.phet.opticaltweezers.control.valuecontrol;
 
 import java.awt.Dimension;
 import java.awt.Font;
