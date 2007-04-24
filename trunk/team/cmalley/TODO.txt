@@ -1,0 +1,17 @@
+===============================================================================
+"To Do" list for stuff that is not simulation specific
+===============================================================================
+
+TODO:
+- combine Play & Pause clock buttons in my sims (waiting for OK from Wendy)
+- migrate SliderControl to phetcommon
+- migrate Complex and MutableComplex to phetcommon
+- migrate ColorIntensitySlider to phetcommon
+- remove bogus build files
+
+DONE:
+
+REJECTED:
+
+===============================================================================
+# end of file
