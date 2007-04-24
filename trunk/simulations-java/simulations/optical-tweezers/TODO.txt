@@ -54,6 +54,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/24/07 - add AbstractValueControl.setHorizontalAlignment
 4/24/07 - left-align all fluid controls
 4/24/07 - simplifications to min/max tick mark code in AbstractValueControl
 4/24/07 - move testers to controls.valuecontrols
