@@ -13,12 +13,12 @@ HIGH PRIORITY:
 - implement E-field model for slow mode
 
 MEDIUM PRIORITY:
+- add AbstractValueControl.setInverted
 - connect position histogram to model
 - connect potential energy chart to model
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - use proper plot type for PositionHistogramPlot
-- units and range for fast speed [realtime* 10^-2, realtime]
-- units and range for slow speed [realtime*140*10^-16, realtime*7*10^-16]
+- clock speed: fast=[realtime* 10^-2, realtime], slow=[realtime*140*10^-16, realtime*7*10^-16], dead in between
 - get spec for "Simulation speed" control
 - get spec for "Show change in momentum model" feature
 - get spec for "Show charge on bead" feature
