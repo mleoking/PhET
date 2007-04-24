@@ -7,11 +7,12 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
+import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -67,7 +68,7 @@ public class OTRulerNode extends RulerNode implements Observer {
         _modelViewTransform = modelWorldTransform;
         _dragBoundsNode = dragBoundsNode;
         
-        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new CursorHandler( OTConstants.UP_DOWN_CURSOR ) );
         addInputEventListener( new BoundedDragHandler( this, dragBoundsNode ) );
         
         _worldSize = new PDimension( DEFAULT_WORLD_SIZE );
