@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.chart_movingman;
 
 import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;

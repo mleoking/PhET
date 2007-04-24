@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.common_1200.view.phetgraphics;
 
 import edu.colorado.phet.common_1200.view.graphics.InteractiveGraphic;

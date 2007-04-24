@@ -1,4 +1,3 @@
-/** Sam Reid*/
 package edu.colorado.phet.common.servicemanager.test;
 
 import edu.colorado.phet.common.servicemanager.PhetServiceManager;

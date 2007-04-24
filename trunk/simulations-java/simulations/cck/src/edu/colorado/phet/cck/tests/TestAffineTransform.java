@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.cck.tests;
 
 import java.awt.geom.AffineTransform;

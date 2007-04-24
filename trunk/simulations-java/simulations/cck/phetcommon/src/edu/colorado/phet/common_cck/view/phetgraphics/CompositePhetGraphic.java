@@ -1,4 +1,3 @@
-/** Sam Reid*/
 package edu.colorado.phet.common_cck.view.phetgraphics;
 
 import java.awt.*;

@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.toolbox;
 
 import edu.colorado.phet.cck.model.CircuitChangeListener;

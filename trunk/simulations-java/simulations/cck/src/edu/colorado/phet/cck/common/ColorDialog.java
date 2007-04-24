@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.cck.common;
 
 import edu.colorado.phet.common_cck.view.util.SwingUtils;

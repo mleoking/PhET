@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.distanceladder.common.view.plaf;
 
 import javax.swing.*;

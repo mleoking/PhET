@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.movingman.tests;
 
 import javax.swing.*;

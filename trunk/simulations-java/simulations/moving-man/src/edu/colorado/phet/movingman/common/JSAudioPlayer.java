@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.movingman.common;
 
 import javax.sound.sampled.*;

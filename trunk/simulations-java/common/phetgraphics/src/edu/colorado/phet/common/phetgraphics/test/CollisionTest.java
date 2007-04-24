@@ -1,4 +1,3 @@
-/** Sam Reid*/
 package edu.colorado.phet.common.phetgraphics.test;
 
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;

@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.energyskatepark.timeseries;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;

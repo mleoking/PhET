@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.components.Switch;

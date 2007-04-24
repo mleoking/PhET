@@ -1,4 +1,3 @@
-/** Sam Reid*/
 package edu.colorado.phet.common.charts;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;

@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.common_semiconductor.view.plaf;
 
 import edu.colorado.phet.common_semiconductor.view.util.SimStrings;

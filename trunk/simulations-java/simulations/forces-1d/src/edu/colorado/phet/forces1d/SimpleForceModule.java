@@ -1,4 +1,4 @@
-///** Sam Reid*/
+//
 //package edu.colorado.phet.forces1d;
 //
 //import edu.colorado.phet.common.model.clock.AbstractClock;

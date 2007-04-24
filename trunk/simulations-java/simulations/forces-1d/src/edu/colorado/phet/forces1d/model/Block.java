@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.forces1d.model;
 
 import java.util.ArrayList;

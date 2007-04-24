@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.cck.model.components;
 
 import edu.colorado.phet.cck.model.CircuitChangeListener;

@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.movingman.common;
 
 import edu.colorado.phet.common_movingman.math.AbstractVector2D;

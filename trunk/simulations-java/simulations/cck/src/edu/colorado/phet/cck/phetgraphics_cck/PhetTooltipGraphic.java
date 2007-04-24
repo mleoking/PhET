@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.cck.phetgraphics_cck;
 
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
