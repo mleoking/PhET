@@ -34,7 +34,9 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
 import edu.colorado.phet.energyskatepark.view.EC3LookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkTestMenu;
@@ -139,11 +141,18 @@ new EnergySkateParkFrameSetup() );
 //                EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
                 new EC3LookAndFeel().initLookAndFeel();
                 new EnergySkateParkApplication( args ).start();
+
+                try {
+                    SPoint2D.main(args );
+                }
+                catch( PersistenceUtil.CopyFailedException e ) {
+                    e.printStackTrace();
+                }
             }
         } );
     }
 
-    public static void main( final String[] args ) {
+    public static void main( final String[] args ) throws PersistenceUtil.CopyFailedException {
         mainESP( args );
     }
 

@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import java.awt.geom.Point2D;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
+
 import java.util.ArrayList;
 
 /**
@@ -16,7 +17,7 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
 
     private ArrayList listeners = new ArrayList();
 
-    public CubicSpline2D( Point2D[] pts ) {
+    public CubicSpline2D( SPoint2D[] pts ) {
         super( pts );
         update();
     }
@@ -49,7 +50,7 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
         }
     }
 
-    public void setControlPoints( Point2D[] pts ) {
+    public void setControlPoints( SPoint2D[] pts ) {
         super.setControlPoints( pts );
         update();
     }
@@ -64,12 +65,12 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
         update();
     }
 
-    public Point2D getControlPoint( int i ) {
-        Point2D[] pts = getControlPoints();
-        return new Point2D.Double( pts[i].getX(), pts[i].getY() );
+    public SPoint2D getControlPoint( int i ) {
+        SPoint2D[] pts = getControlPoints();
+        return new SPoint2D( pts[i].getX(), pts[i].getY() );
     }
 
-    public void setControlPoint( int i, Point2D pt ) {
+    public void setControlPoint( int i, SPoint2D pt ) {
         super.setControlPoint( i, pt );
         update();
     }
@@ -81,7 +82,7 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
     }
 
     private void update() {
-        Point2D[] pts = getControlPoints();
+        SPoint2D[] pts = getControlPoints();
         double[] s = new double[pts.length];
         double[] x = new double[pts.length];
         double[] y = new double[pts.length];
@@ -96,11 +97,15 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
         notifyTrackChanged();
     }
 
+    public String toString() {
+        return toStringSerialization();
+    }
+
     public String toStringSerialization() {
-        Point2D[] pts = getControlPoints();
-        String a = "new Point2D.Double[]{";
+        SPoint2D[] pts = getControlPoints();
+        String a = "new SPoint2D[]{";
         for( int i = 0; i < pts.length; i++ ) {
-            a += "new Point2D.Double(" + pts[i].getX() + ", " + pts[i].getY() + ")";
+            a += "new SPoint2D(" + pts[i].getX() + ", " + pts[i].getY() + ")";
             if( i < pts.length - 1 ) {
                 a += ", ";
             }
@@ -124,18 +129,18 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
     }
 
 
-    public Point2D evaluate( double alpha ) {
-        return new Point2D.Double( x.evaluate( alpha ), y.evaluate( alpha ) );
+    public SPoint2D evaluate( double alpha ) {
+        return new SPoint2D( x.evaluate( alpha ), y.evaluate( alpha ) );
     }
 
     public static void main( String[] args ) {
-        ParametricFunction2D parametricFunction2D = new CubicSpline2D( new Point2D[]{
-                new Point2D.Double( 0, 0 ),
-                new Point2D.Double( 1, 1 ),
-                new Point2D.Double( 2, 0 )
+        ParametricFunction2D parametricFunction2D = new CubicSpline2D( new SPoint2D[]{
+                new SPoint2D( 0, 0 ),
+                new SPoint2D( 1, 1 ),
+                new SPoint2D( 2, 0 )
         } );
         for( double s = 0.0; s < 1.0; s += 0.1 ) {
-            Point2D at = parametricFunction2D.evaluate( s );
+            SPoint2D at = parametricFunction2D.evaluate( s );
             System.out.println( "s = " + s + ", at=" + at );
         }
         double delta = parametricFunction2D.getMetricDelta( 0, 1 );

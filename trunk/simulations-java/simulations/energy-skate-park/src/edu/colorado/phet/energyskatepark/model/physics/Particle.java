@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -193,7 +193,7 @@ public class Particle implements Serializable {
 
     public TraversalState getTrackMatch( double dx, double dy ) {
         boolean[] above = getOrigAbove();
-        SearchState crossPoint = getBestCrossPoint( new Point2D.Double( getPosition().getX() + dx, getPosition().getY() + dy ), getOrigAbove(), getPosition() );
+        SearchState crossPoint = getBestCrossPoint( new SPoint2D( getPosition().getX() + dx, getPosition().getY() + dy ), getOrigAbove(), getPosition() );
 
         if( crossPoint == null || crossPoint.getIndex() == -1 ) {
             return null;
@@ -330,7 +330,7 @@ public class Particle implements Serializable {
     }
 
     public boolean isAboveSpline( int index ) {
-        return isAboveSpline( particleStage.getCubicSpline2D( index ), particleStage.getCubicSpline2D( index ).getClosestPoint( new Point2D.Double( x, y ) ), new Point2D.Double( x, y ) );
+        return isAboveSpline( particleStage.getCubicSpline2D( index ), particleStage.getCubicSpline2D( index ).getClosestPoint( new SPoint2D( x, y ) ), new SPoint2D( x, y ) );
     }
 
     public boolean isAboveSplineZero() {
@@ -348,9 +348,9 @@ public class Particle implements Serializable {
     /*
     see http://local.wasp.uwa.edu.au/~pbourke/geometry/pointline/
      */
-    public static double pointSegmentDistance( Point2D pt3, Line2D.Double line ) {
-        Point2D p1 = line.getP1();
-        Point2D p2 = line.getP2();
+    public static double pointSegmentDistance( SPoint2D pt3, Line2D.Double line ) {
+        SPoint2D p1 = new SPoint2D( line.getP1());
+        SPoint2D p2 = new SPoint2D( line.getP2());
         double u = ( ( pt3.getX() - p1.getX() ) * ( p2.getX() - p1.getX() ) + ( pt3.getY() - p1.getY() ) * ( p2.getY() - p1.getY() ) ) / p1.distanceSq( p2 );
         if( u < 0 ) {
             return pt3.distance( line.getP1() );
@@ -359,7 +359,7 @@ public class Particle implements Serializable {
             return pt3.distance( line.getP2() );
         }
         else {
-            Point2D closest = new Point2D.Double( p1.getX() + u * ( p2.getX() - p1.getX() ), p1.getY() + u * ( p2.getY() - p1.getY() ) );
+            SPoint2D closest = new SPoint2D( p1.getX() + u * ( p2.getX() - p1.getX() ), p1.getY() + u * ( p2.getY() - p1.getY() ) );
             return closest.distance( pt3 );
         }
     }
@@ -367,7 +367,7 @@ public class Particle implements Serializable {
     /*
      * Find the state that best matches where the skater should be if it were to join the nearest track on the correct side.
      */
-    public TraversalState getBestTraversalState( Point2D location, AbstractVector2D normal ) {
+    public TraversalState getBestTraversalState( SPoint2D location, AbstractVector2D normal ) {
         SearchState bestMatch = getBestSearchPoint( location );
         AbstractVector2D newNormal = bestMatch.getTrack().getUnitNormalVector( bestMatch.getAlpha() );
         boolean top = newNormal.dot( normal ) > 0;
@@ -375,7 +375,7 @@ public class Particle implements Serializable {
     }
 
     //todo: this code is highly similar to pt-line search code, could be consolidated
-    private SearchState getBestSearchPoint( Point2D origLoc ) {
+    private SearchState getBestSearchPoint( SPoint2D origLoc ) {
         SearchState searchState = new SearchState( Double.POSITIVE_INFINITY, null, 0, -1 );
         for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
             ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
@@ -446,7 +446,7 @@ public class Particle implements Serializable {
             boolean[] origAbove = getOrigAbove();
 //            System.out.println( "stepping freefall, origAbove=" + origAbove );
 
-            Point2D origLoc = new Point2D.Double( x, y );
+            SPoint2D origLoc = new SPoint2D( x, y );
             double ay = g + yThrust;
             double ax = 0 + xThrust;
             vy += ay * dt;
@@ -464,7 +464,7 @@ public class Particle implements Serializable {
             }
 //            System.out.println( "FreeFall dE[1]= " + Math.abs( getTotalEnergy() - origEnergy ) );
 
-            Point2D newLoc = new Point2D.Double( x, y );
+            SPoint2D newLoc = new SPoint2D( x, y );
 
             //take a min over all possible crossover points
             SearchState searchState = getBestCrossPoint( newLoc, origAbove, origLoc );
@@ -486,7 +486,7 @@ public class Particle implements Serializable {
             return Math.abs( getMass() * getGravity() ) > 1E-6 && xThrust == 0 && yThrust == 0;
         }
 
-        private void interactWithTrack( SearchState searchState, Point2D newLoc, Point2D origLoc, boolean[] origAbove, double origEnergy ) {
+        private void interactWithTrack( SearchState searchState, SPoint2D newLoc, SPoint2D origLoc, boolean[] origAbove, double origEnergy ) {
             ParametricFunction2D cubicSpline = searchState.getTrack();
             double alpha = searchState.getAlpha();
             AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
@@ -557,7 +557,7 @@ public class Particle implements Serializable {
         }
     }
 
-    private SearchState getBestCrossPoint( Point2D pt, boolean[] origAbove, Point2D origLoc ) {
+    private SearchState getBestCrossPoint( SPoint2D pt, boolean[] origAbove, SPoint2D origLoc ) {
         SearchState searchState = new SearchState( Double.POSITIVE_INFINITY, null, 0, -1 );
         for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
             ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
@@ -589,7 +589,7 @@ public class Particle implements Serializable {
         }
     }
 
-    private boolean isVelocityTowardTrack( Point2D origPosition, ParametricFunction2D cubicSpline, double newAlpha ) {
+    private boolean isVelocityTowardTrack( SPoint2D origPosition, ParametricFunction2D cubicSpline, double newAlpha ) {
         Vector2D vel = getVelocity();
         Vector2D toTrack = new Vector2D.Double( origPosition, cubicSpline.evaluate( newAlpha ) );
         return vel.dot( toTrack ) > 0;
@@ -597,9 +597,9 @@ public class Particle implements Serializable {
 
     private void offsetOnSpline( ParametricFunction2D cubicSpline, double alpha, boolean top ) {
         AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
-        Point2D splineLoc = cubicSpline.evaluate( alpha );
+        SPoint2D splineLoc = cubicSpline.evaluate( alpha );
         double sign = top ? 1.0 : -1.0;
-        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-3 * sign ).getDestination( splineLoc );//todo: determine this free parameter
+        SPoint2D finalPosition = new SPoint2D( norm.getInstanceOfMagnitude( 1.0E-3 * sign ).getDestination( splineLoc ));//todo: determine this free parameter
         setPosition( finalPosition );
     }
 
@@ -611,7 +611,7 @@ public class Particle implements Serializable {
         return new Vector2D.Double( vx, vy );
     }
 
-    public boolean isAboveSpline( ParametricFunction2D parametricFunction2D, double alpha, Point2D loc ) {
+    public boolean isAboveSpline( ParametricFunction2D parametricFunction2D, double alpha, SPoint2D loc ) {
         AbstractVector2D v = parametricFunction2D.getUnitNormalVector( alpha );
         Vector2D.Double a = new Vector2D.Double( parametricFunction2D.evaluate( alpha ), loc );
         return a.dot( v ) > 0;
@@ -689,11 +689,11 @@ public class Particle implements Serializable {
 
     private ArrayList listeners = new ArrayList();
 
-    public Point2D getPosition() {
-        return new Point2D.Double( x, y );
+    public SPoint2D getPosition() {
+        return new SPoint2D( x, y );
     }
 
-    public void setPosition( Point2D pt ) {
+    public void setPosition( SPoint2D pt ) {
         setPosition( pt.getX(), pt.getY() );
     }
 

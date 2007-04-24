@@ -156,18 +156,6 @@ public class EnergySkateParkModel implements Serializable {
     public EnergySkateParkModel copyState() {
         try {
             return (EnergySkateParkModel)PersistenceUtil.copy( this );
-
-//            , new PersistenceUtil.CopyObjectReplacementStrategy() {
-//                public Object replaceObject( Object obj ) {
-//                    if( obj instanceof Point2D.Double && !( obj instanceof SPoint2D.Double ) ) {
-//                        Point2D.Double pt = (Point2D.Double)obj;
-//                        return new SPoint2D.Double( pt.x, pt.y );
-//                    }
-//                    else {
-//                        return obj;
-//                    }
-//                }
-//            } );
         }
         catch( PersistenceUtil.CopyFailedException e ) {
             e.printStackTrace();

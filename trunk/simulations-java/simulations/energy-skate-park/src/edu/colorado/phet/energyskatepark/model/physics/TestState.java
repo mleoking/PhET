@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import java.awt.geom.Point2D;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
 import java.util.ArrayList;
 
 /**
@@ -26,12 +26,12 @@ public class TestState {
         return controlPointSets.size();
     }
 
-    public void addCubicSpline2D( Point2D[] controlPoints ) {
+    public void addCubicSpline2D( SPoint2D[] controlPoints ) {
         controlPointSets.add( controlPoints );
     }
 
-    public Point2D[] getCubicSpline2D( int i ) {
-        return (Point2D[])controlPointSets.get( i );
+    public SPoint2D[] getCubicSpline2D( int i ) {
+        return (SPoint2D[])controlPointSets.get( i );
     }
 
     public void start() {

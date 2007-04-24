@@ -285,7 +285,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         FileSaveService fos = PhetServiceManager.getFileSaveService( getSimulationPanel() );
         StringOutputStream stringOutputStream = new StringOutputStream();
         XMLEncoder xmlEncoder = new XMLEncoder( stringOutputStream );
-        xmlEncoder.setPersistenceDelegate( Point2D.Double.class, new Point2DPersistenceDelegate() );
+//        xmlEncoder.setPersistenceDelegate( Point2D.Double.class, new Point2DPersistenceDelegate() );
         xmlEncoder.writeObject( new EnergySkateParkModuleBean( this ) );
         xmlEncoder.close();
         System.out.println( "Saving: "+stringOutputStream.toString() );

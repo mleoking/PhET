@@ -4,7 +4,7 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 public abstract class ParametricFunction2D implements Cloneable, Serializable {
 
-    public double getClosestPoint( Point2D pt ) {
+    public double getClosestPoint( SPoint2D pt ) {
 //        return getClosestPointFlatSearch( pt );
         return getClosestPointBinarySearch( pt );
     }
@@ -29,7 +29,7 @@ public abstract class ParametricFunction2D implements Cloneable, Serializable {
     private double getClosestPointBinarySearch( Line2D.Double line ) {
         int numTestPts = 100;
         double distBetweenTestPts = 1.0 / numTestPts;
-        Point2D center = new Point2D.Double( ( line.getX1() + line.getX2() ) / 2.0, ( line.getY1() + line.getY2() ) / 2.0 );
+        SPoint2D center = new SPoint2D( ( line.getX1() + line.getX2() ) / 2.0, ( line.getY1() + line.getY2() ) / 2.0 );
         double approx = getClosestPointFlatSearch( center, numTestPts );//todo: could do flat search for line
         SearchPoint low = new SearchPoint( approx - distBetweenTestPts * 1.5, line );
         SearchPoint high = new SearchPoint( approx + distBetweenTestPts * 1.5, line );
@@ -59,10 +59,10 @@ public abstract class ParametricFunction2D implements Cloneable, Serializable {
 
     public AbstractVector2D getCurvatureDirection( double alpha ) {
         double epsilon = 0.001;
-        Point2D a0 = evaluate( alpha - epsilon / 2.0 );
-        Point2D a1 = evaluate( alpha + epsilon / 2.0 );
-        Point2D center = evaluate( alpha );
-        Point2D avg = new Point2D.Double( ( a0.getX() + a1.getX() ) / 2.0, ( a0.getY() + a1.getY() ) / 2.0 );
+        SPoint2D a0 = evaluate( alpha - epsilon / 2.0 );
+        SPoint2D a1 = evaluate( alpha + epsilon / 2.0 );
+        SPoint2D center = evaluate( alpha );
+        SPoint2D avg = new SPoint2D( ( a0.getX() + a1.getX() ) / 2.0, ( a0.getY() + a1.getY() ) / 2.0 );
         Vector2D.Double dir = new Vector2D.Double( center, avg );
         AbstractVector2D vec = new Vector2D.Double( getUnitNormalVector( alpha ) );
         if( dir.dot( vec ) < 0 ) {
@@ -81,7 +81,7 @@ public abstract class ParametricFunction2D implements Cloneable, Serializable {
             this( alpha, lineSegment.ptLineDist( evaluate( alpha ) ) );//this is for the infinitely extended line
         }
 
-        public SearchPoint( double alpha, Point2D pt ) {
+        public SearchPoint( double alpha, SPoint2D pt ) {
             this( alpha, evaluate( alpha ).distance( pt ) );
         }
 
@@ -99,7 +99,7 @@ public abstract class ParametricFunction2D implements Cloneable, Serializable {
         }
     }
 
-    private double getClosestPointBinarySearch( Point2D pt ) {
+    private double getClosestPointBinarySearch( SPoint2D pt ) {
         int numTestPts = 100;
         double distBetweenTestPts = 1.0 / numTestPts;
         double approx = getClosestPointFlatSearch( pt, numTestPts );
@@ -129,7 +129,7 @@ public abstract class ParametricFunction2D implements Cloneable, Serializable {
         return ( low.alpha + high.alpha ) / 2.0;
     }
 
-    private double getClosestPointFlatSearch( Point2D pt, int numSegments ) {
+    private double getClosestPointFlatSearch( SPoint2D pt, int numSegments ) {
         double closestDist = Double.POSITIVE_INFINITY;
         double bestAlpha = Double.NaN;
         for( int k = 0; k < numSegments; k++ ) {
@@ -147,7 +147,7 @@ public abstract class ParametricFunction2D implements Cloneable, Serializable {
         void trackChanged();
     }
 
-    public abstract Point2D evaluate( double alpha );
+    public abstract SPoint2D evaluate( double alpha );
 
     public double getMetricDelta( double a0, double a1 ) {
 //        return getMetricDeltaRecursive( a0, a1 );
@@ -163,11 +163,11 @@ public abstract class ParametricFunction2D implements Cloneable, Serializable {
         }
         int numSegments = 10;
         double da = ( a1 - a0 ) / ( numSegments - 1 );
-        Point2D prev = evaluate( a0 );
+        SPoint2D prev = evaluate( a0 );
         double sum = 0;
         for( int i = 1; i < numSegments; i++ ) {
             double a = a0 + i * da;
-            Point2D pt = evaluate( a );
+            SPoint2D pt = evaluate( a );
             double dist = pt.distance( prev );
             sum += dist;
             prev = pt;
@@ -251,14 +251,14 @@ public abstract class ParametricFunction2D implements Cloneable, Serializable {
     }
 
 
-    public Point2D getOffsetPoint( double alpha, double dist, boolean top ) {
-        return getUnitNormalVector( alpha ).getInstanceOfMagnitude( dist * ( top ? 1 : -1 ) ).getDestination( evaluate( alpha ) );
+    public SPoint2D getOffsetPoint( double alpha, double dist, boolean top ) {
+        return new SPoint2D( getUnitNormalVector( alpha ).getInstanceOfMagnitude( dist * ( top ? 1 : -1 ) ).getDestination( evaluate( alpha ) ));
     }
 
-    public Point2D[] getOffsetSpline( double dist, boolean top, int numPts ) {
+    public SPoint2D[] getOffsetSpline( double dist, boolean top, int numPts ) {
         double alpha = 0;
         double dAlpha = 1.0 / ( numPts - 1 );
-        Point2D[] pts = new Point2D[numPts];
+        SPoint2D[] pts = new SPoint2D[numPts];
         for( int i = 0; i < numPts; i++ ) {
             pts[i] = getOffsetPoint( alpha, dist, top );
             alpha += dAlpha;

@@ -3,7 +3,7 @@ package edu.colorado.phet.energyskatepark.model;
 import edu.colorado.phet.energyskatepark.model.physics.LinearSpline2D;
 import edu.colorado.phet.energyskatepark.model.physics.TrackWithStickiness;
 
-import java.awt.geom.Point2D;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
 
 /**
  * Author: Sam Reid
@@ -13,7 +13,7 @@ public class LinearFloorSpline2D extends LinearSpline2D implements TrackWithFric
     private double friction = 0.02;
     private double stickiness = 1.0;
 
-    public LinearFloorSpline2D( Point2D[] point2Ds ) {
+    public LinearFloorSpline2D( SPoint2D[] point2Ds ) {
         super( point2Ds );
     }
 
