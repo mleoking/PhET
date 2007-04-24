@@ -288,13 +288,11 @@ public class EnergySkateParkModule extends PiccoloModule {
         FileContents data = new InputStreamFileContents( "esp_output", stream );
 
         FileSaveService fos = PhetServiceManager.getFileSaveService( getSimulationPanel() );
-        FileContents out = fos.saveAsFileDialog( null, new String[]{"esp"}, data );
+        FileContents out = fos.saveAsFileDialog( null, null, data );
         System.out.println( "Saved file." );
     }
 
     private String toXMLString() {
-
-
         ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
         XMLEncoder e = new XMLEncoder( out );
         e.setPersistenceDelegate( Point2D.Double.class, new Point2DPersistenceDelegate() );
@@ -307,7 +305,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void open() throws UnavailableServiceException, IOException, ClassNotFoundException {
         FileOpenService fos = PhetServiceManager.getFileOpenService( getSimulationPanel() );
-        FileContents open = fos.openFileDialog( null, new String[]{"esp"} );
+        FileContents open = fos.openFileDialog( null, null );
         if( open == null ) {
             return;
         }
