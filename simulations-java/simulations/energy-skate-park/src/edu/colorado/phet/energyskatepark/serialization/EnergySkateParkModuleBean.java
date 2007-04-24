@@ -93,7 +93,6 @@ public class EnergySkateParkModuleBean {
         private Point2D.Double velocity;
         private Point2D.Double acceleration;
 
-        //        private double cmRotation;
         private double angularVelocity;
         private double frictionCoefficient;
         private double mass;
@@ -107,8 +106,6 @@ public class EnergySkateParkModuleBean {
         public BodyElement( Body body ) {
             position = new Point2D.Double( body.getPosition().getX(), body.getPosition().getY() );
             velocity = new Point2D.Double( body.getVelocity().getX(), body.getVelocity().getY() );
-//            acceleration = new Point2D.Double( body.getAcceleration().getX(), body.getAcceleration().getY() );
-//            cmRotation = body.getCMRotation();
             angularVelocity = body.getAngularVelocity();
             frictionCoefficient = body.getFrictionCoefficient();
             mass = body.getMass();
@@ -120,15 +117,10 @@ public class EnergySkateParkModuleBean {
         public void apply( Body body ) {
             body.setPosition( position.getX(), position.getY() );
             body.setVelocity( velocity.x, velocity.y );
-//            body.setAcceleration( acceleration.x, acceleration.y );
 
             body.setAngularVelocity( angularVelocity );
             body.setFrictionCoefficient( frictionCoefficient );
             body.setMass( mass );
-//            body.setThermalEnergy( thermalEnergy );
-//            body.convertToFreefall( freeFrame );
-//            body.setCMRotation( cmRotation );
-//            body.setAttachmentPointRotation( attachmentPointRotation );
         }
 
         public boolean isFreeFrame() {
@@ -146,14 +138,6 @@ public class EnergySkateParkModuleBean {
         public void setAttachmentPointRotation( double attachmentPointRotation ) {
             this.attachmentPointRotation = attachmentPointRotation;
         }
-
-//        public double getCmRotation() {
-//            return cmRotation;
-//        }
-//
-//        public void setCmRotation( double cmRotation ) {
-//            this.cmRotation = cmRotation;
-//        }
 
         public double getAngularVelocity() {
             return angularVelocity;
