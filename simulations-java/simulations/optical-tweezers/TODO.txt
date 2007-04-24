@@ -3,16 +3,15 @@
 ===============================================================================
 
 IN PROGRESS:
-- add developer control for Bead.BROWNIAN_MOTION_SCALE
-- add developer controls for disabling individual components of bead motion model
 
 HIGH PRIORITY:
 - new model for bead motion
 - better model for Fz trap force
+- add developer control for Bead.BROWNIAN_MOTION_SCALE
+- add developer controls for disabling individual components of bead motion model
 - implement E-field model for slow mode
 
 MEDIUM PRIORITY:
-- add AbstractValueControl.setInverted
 - connect position histogram to model
 - connect potential energy chart to model
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
@@ -267,6 +266,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+4/24/07 - add AbstractValueControl.setInverted (makes things unnecessarily complex)
 3/26/07 - change diameter to radius for bead and laser properties (using diameter makes layout clearer)
 3/12/07 - generalize LaserPowerControl (probably not generally useful)
 
