@@ -13,6 +13,7 @@ LOW PRIORITY:
 
 
 DONE:
+4/23/07 - replace SliderControl with LinearValueControl from phetcommon
 4/12/07 - merge test-src into src
 4/7/07 - encapsulate PhetProjectConfig in RSResources
 4/5/07 - set locale in Spanish JNLP file via javaws.locale property
