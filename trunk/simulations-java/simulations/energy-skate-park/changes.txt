@@ -1,3 +1,7 @@
+1.05.22 (4-24-2007)
+Fixed a bug in playback/record, file save/load, and test running that caused the simulation to crash.
+Workaround for file extensions in Java Web Start save/load.
+
 1.05.20 (4-23-2007)
 Fixed text for record button (previously said "Record Path")
 Added roller coaster mode to new physics implementation
