@@ -13,6 +13,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.RSResources;
@@ -44,12 +45,12 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
     private Gun _gun;
     private RutherfordAtom _atom;
     private RutherfordAtomNode _atomNode;
-    private SliderControl _energyControl;
+    private LinearValueControl _energyControl;
     private ChangeListener _energyListener;
     private JCheckBox _tracesCheckBox;
-    private SliderControl _protonsControl;
+    private LinearValueControl _protonsControl;
     private ChangeListener _protonsListener;
-    private SliderControl _neutronsControl;
+    private LinearValueControl _neutronsControl;
     private ChangeListener _neutronsListener;
     
     //----------------------------------------------------------------------------
@@ -92,19 +93,17 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
                 double value = _gun.getSpeed();
                 double min = _gun.getMinSpeed();
                 double max = _gun.getMaxSpeed();
-                double tickSpacing = max - min;
-                int tickDecimalPlaces = 0;
-                int valueDecimalPlaces = 1;
+                String valuePattern = "0";
                 String label = RSResources.getString( "string.energy" );
                 String units = "";
-                int columns = 3;
-                _energyControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+                _energyControl = new LinearValueControl( min, max, label, valuePattern, units );
                 _energyControl.setFont( RSConstants.CONTROL_FONT );
                 _energyControl.setTextFieldEditable( true );
                 if ( !DEBUG_SHOW_ENERGY_VALUE ) {
                     _energyControl.setTextFieldVisible( false );
                 }
-                _energyControl.setMinMaxLabels( RSResources.getString( "string.minEnergy" ), RSResources.getString( "string.maxEnergy" ) );
+                _energyControl.setMinMaxTickLabels( RSResources.getString( "string.minEnergy" ), RSResources.getString( "string.maxEnergy" ) );
+                _energyControl.setValue( value );
                 _energyListener = new ChangeListener() {
                     public void stateChanged( ChangeEvent event ) {
                         _module.removeAllAlphaParticles();
@@ -153,17 +152,17 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
                 int value = _atom.getNumberOfProtons();
                 int min = _atom.getMinNumberOfProtons();
                 int max = _atom.getMaxNumberOfProtons();
-                int tickSpacing = max - min;
-                int tickDecimalPlaces = 0;
-                int valueDecimalPlaces = 0;
+                String valuePattern = "0";
                 String label = RSResources.getString( "string.numberOfProtons" );
                 String units = "";
                 int columns = 3;
-                _protonsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+                _protonsControl = new LinearValueControl( min, max, label, valuePattern, units );
+                _protonsControl.setValue( value );
+                _protonsControl.setUpDownArrowDelta( 1 );
                 _protonsControl.setFont( RSConstants.CONTROL_FONT );
                 _protonsControl.setTextFieldEditable( true );
+                _protonsControl.setTextFieldColumns( columns );
                 _protonsListener = new ChangeListener() {
-
                     public void stateChanged( ChangeEvent event ) {
                         handleProtonsChange();
                     }
@@ -176,17 +175,17 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
                 int value = _atom.getNumberOfNeutrons();
                 int min = _atom.getMinNumberOfNeutrons();
                 int max = _atom.getMaxNumberOfNeutrons();
-                int tickSpacing = max - min;
-                int tickDecimalPlaces = 0;
-                int valueDecimalPlaces = 0;
+                String valuePattern = "0";
                 String label = RSResources.getString( "string.numberOfNeutrons" );
                 String units = "";
                 int columns = 3;
-                _neutronsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+                _neutronsControl = new LinearValueControl( min, max, label, valuePattern, units );
+                _neutronsControl.setValue( value );
+                _neutronsControl.setUpDownArrowDelta( 1 );
                 _neutronsControl.setFont( RSConstants.CONTROL_FONT );
                 _neutronsControl.setTextFieldEditable( true );
+                _neutronsControl.setTextFieldColumns( columns );
                 _neutronsListener = new ChangeListener() {
-
                     public void stateChanged( ChangeEvent event ) {
                         handleNeutronsChange();
                     }
