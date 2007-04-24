@@ -17,7 +17,6 @@ MEDIUM PRIORITY:
 - connect potential energy chart to model
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - use proper plot type for PositionHistogramPlot
-- cursors that indicate direction when drag is horizontally or vertically constrained (see predefined Cursors)
 - units and range for fast speed [realtime* 10^-2, realtime]
 - units and range for slow speed [realtime*140*10^-16, realtime*7*10^-16]
 - get spec for "Simulation speed" control
@@ -55,6 +54,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/24/07 - use predefined cursors that indicate drag constraints (left/right vs up/down)
 4/24/07 - add AbstractValueControl.setHorizontalAlignment
 4/24/07 - left-align all fluid controls
 4/24/07 - simplifications to min/max tick mark code in AbstractValueControl

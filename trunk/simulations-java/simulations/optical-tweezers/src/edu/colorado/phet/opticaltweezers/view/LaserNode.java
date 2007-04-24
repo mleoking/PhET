@@ -4,6 +4,7 @@ package edu.colorado.phet.opticaltweezers.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -12,14 +13,14 @@ import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.control.LaserControlPanel;
-import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.FineCrosshairNode;
 import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
+import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.control.LaserControlPanel;
+import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -136,9 +137,10 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
                 _controlPanel.getFullBounds().getMaxY() - ( ( _controlPanel.getFullBounds().getHeight() - rightHandleNode.getFullBounds().getHeight() ) / 2 ) );
         
         // Put hand cursor on parts that are interactive
-        objectiveNode.addInputEventListener( new CursorHandler() );
-        leftHandleNode.addInputEventListener( new CursorHandler() );
-        rightHandleNode.addInputEventListener( new CursorHandler() );
+        Cursor cursor = OTConstants.LEFT_RIGHT_CURSOR;
+        objectiveNode.addInputEventListener( new CursorHandler( cursor ) );
+        leftHandleNode.addInputEventListener( new CursorHandler( cursor ) );
+        rightHandleNode.addInputEventListener( new CursorHandler( cursor ) );
         
         // Constrain dragging
         BoundedDragHandler dragHandler = new BoundedDragHandler( this, dragBoundsNode );
