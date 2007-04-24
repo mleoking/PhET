@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
  * User: Sam Reid
  * Date: Oct 9, 2006
  * Time: 2:01:23 PM
- * Copyright (c) Oct 9, 2006 by Sam Reid
+ *
  */
 
 public class CCKAboutDialog extends PhetAboutDialog {

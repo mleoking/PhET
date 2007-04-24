@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.model.Oscillator;
@@ -16,7 +16,7 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 8:08:11 PM
- * Copyright (c) Mar 28, 2006 by Sam Reid
+ *
  */
 
 public class LaserControlPanelPNode extends PNode {

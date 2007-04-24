@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 27, 2004
  * Time: 10:17:41 PM
- * Copyright (c) Apr 27, 2004 by Sam Reid
+ *
  */
 public class Magnet {
     private Rectangle2D.Double bounds;

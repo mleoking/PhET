@@ -14,7 +14,7 @@ import java.awt.image.ImageObserver;
  * User: Sam Reid
  * Date: Jun 27, 2003
  * Time: 3:37:52 AM
- * Copyright (c) Jun 27, 2003 by Sam Reid
+ *
  */
 public class IdeaGraphic3 implements InteractiveGraphic {
     boolean visible;

@@ -44,7 +44,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 1:27:42 AM
- * Copyright (c) May 24, 2004 by Sam Reid
+ *
  */
 public class CCKPhetgraphicsModule extends Module implements ICCKModule {
     /**

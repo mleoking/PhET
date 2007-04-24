@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 6:32:34 PM
- * Copyright (c) Mar 28, 2006 by Sam Reid
+ *
  */
 
 public class ImageOscillatorPNode extends PNode {

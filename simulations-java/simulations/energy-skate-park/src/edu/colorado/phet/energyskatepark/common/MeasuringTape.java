@@ -24,7 +24,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: May 20, 2005
  * Time: 10:42:18 PM
- * Copyright (c) May 20, 2005 by Sam Reid
+ *
  */
 
 public class MeasuringTape extends PhetPNode {

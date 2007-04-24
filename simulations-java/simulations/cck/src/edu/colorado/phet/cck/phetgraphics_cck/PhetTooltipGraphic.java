@@ -12,7 +12,7 @@ import java.awt.geom.Area;
  * User: Sam Reid
  * Date: Jul 17, 2004
  * Time: 7:47:12 PM
- * Copyright (c) Jul 17, 2004 by Sam Reid
+ *
  */
 public class PhetTooltipGraphic extends CCKCompositePhetGraphic {
     PhetShapeGraphic backgroundGraphic;

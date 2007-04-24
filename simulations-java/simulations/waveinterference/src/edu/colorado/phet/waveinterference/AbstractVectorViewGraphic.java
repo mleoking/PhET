@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.model.WaveModel;
@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * User: Sam Reid
  * Date: Mar 31, 2006
  * Time: 7:47:46 PM
- * Copyright (c) Mar 31, 2006 by Sam Reid
+ *
  */
 
 public abstract class AbstractVectorViewGraphic extends WaveSideView {

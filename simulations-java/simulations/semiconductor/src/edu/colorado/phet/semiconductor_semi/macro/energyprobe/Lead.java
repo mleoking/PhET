@@ -7,7 +7,7 @@ import edu.colorado.phet.common_semiconductor.model.simpleobservable.SimpleObser
  * User: Sam Reid
  * Date: Feb 2, 2004
  * Time: 8:22:50 PM
- * Copyright (c) Feb 2, 2004 by Sam Reid
+ *
  */
 public class Lead extends SimpleObservable {
     PhetVector tip;

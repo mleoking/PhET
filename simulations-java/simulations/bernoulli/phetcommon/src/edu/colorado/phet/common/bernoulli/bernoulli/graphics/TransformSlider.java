@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.graphics;
 
 import javax.swing.*;
@@ -8,7 +8,7 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Jul 21, 2003
  * Time: 12:02:04 AM
- * Copyright (c) Jul 21, 2003 by Sam Reid
+ *
  */
 public class TransformSlider {
     double modelMin;

@@ -9,7 +9,7 @@ import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesModel;
  * User: Sam Reid
  * Date: Oct 9, 2005
  * Time: 6:08:19 PM
- * Copyright (c) Oct 9, 2005 by Sam Reid
+ *
  */
 
 public class EC3TimeSeriesModel extends TimeSeriesModel {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -22,7 +22,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Feb 13, 2005
  * Time: 8:22:35 PM
- * Copyright (c) Feb 13, 2005 by Sam Reid
+ *
  */
 public class ForceArrowGraphic extends PNode {
     private double arrowTailWidth = 7;

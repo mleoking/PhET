@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.tests;
 
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
@@ -10,7 +10,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Jan 21, 2006
  * Time: 5:23:02 PM
- * Copyright (c) Jan 21, 2006 by Sam Reid
+ *
  */
 
 public class TestRulerGraphic {

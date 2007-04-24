@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 22, 2005
  * Time: 8:02:03 PM
- * Copyright (c) Dec 22, 2005 by Sam Reid
+ *
  */
 
 public class Legend extends PhetPNode {

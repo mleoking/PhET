@@ -7,7 +7,7 @@ import edu.colorado.phet.movingman.MovingManModule;
  * User: Sam Reid
  * Date: Sep 6, 2004
  * Time: 3:25:38 PM
- * Copyright (c) Sep 6, 2004 by Sam Reid
+ *
  */
 public class PlotsSetup {
     private double positionMagnitude;

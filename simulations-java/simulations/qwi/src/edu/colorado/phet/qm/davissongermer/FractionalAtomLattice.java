@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.davissongermer;
 
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 4, 2006
  * Time: 9:27:54 PM
- * Copyright (c) Feb 4, 2006 by Sam Reid
+ *
  */
 
 public abstract class FractionalAtomLattice {

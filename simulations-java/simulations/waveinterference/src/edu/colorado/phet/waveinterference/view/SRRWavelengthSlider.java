@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 18, 2005
  * Time: 9:23:32 PM
- * Copyright (c) Jul 18, 2005 by Sam Reid
+ *
  */
 
 public class SRRWavelengthSlider extends PNode {

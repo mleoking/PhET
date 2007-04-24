@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Oct 19, 2004
  * Time: 6:54:48 PM
- * Copyright (c) Oct 19, 2004 by Sam Reid
+ *
  */
 public class PlotSet {
     private MMPlotSuite positionSuite;

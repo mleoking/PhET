@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -22,7 +22,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jul 27, 2005
  * Time: 12:54:31 PM
- * Copyright (c) Jul 27, 2005 by Sam Reid
+ *
  */
 
 public class DetectorSheetControlPanel extends VerticalLayoutPanel {

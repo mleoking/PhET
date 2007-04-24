@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.model.Oscillator;
@@ -12,7 +12,7 @@ import edu.colorado.phet.waveinterference.view.*;
  * User: Sam Reid
  * Date: Mar 21, 2006
  * Time: 11:07:30 PM
- * Copyright (c) Mar 21, 2006 by Sam Reid
+ *
  */
 
 public class WaterModule extends WaveInterferenceModule {

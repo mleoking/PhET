@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Sep 19, 2005
  * Time: 12:40:15 AM
- * Copyright (c) Sep 19, 2005 by Sam Reid
+ *
  */
 
 public class SwoopHelpItem extends PNode {

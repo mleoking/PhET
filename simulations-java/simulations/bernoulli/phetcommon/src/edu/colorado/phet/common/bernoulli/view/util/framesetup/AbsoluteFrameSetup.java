@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.view.util.framesetup;
 
 import edu.colorado.phet.common.bernoulli.view.util.framesetup.FrameSetup;
@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 8:00:39 AM
- * Copyright (c) Jun 12, 2003 by Sam Reid
+ *
  */
 public class AbsoluteFrameSetup implements FrameSetup {
     private int width;

@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14677 $
+ * Date modified : $Date:2007-04-17 03:40:29 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.phetcommon.tests.utils;
 
@@ -18,7 +18,7 @@ import java.util.Iterator;
  * User: Sam Reid
  * Date: Dec 12, 2004
  * Time: 9:17:45 PM
- * Copyright (c) Dec 12, 2004 by Sam Reid
+ *
  */
 
 public class TestMultiMap {

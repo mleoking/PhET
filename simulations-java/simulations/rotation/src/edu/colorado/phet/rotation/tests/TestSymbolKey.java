@@ -4,7 +4,7 @@ package edu.colorado.phet.rotation.tests;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 10:05:51 PM
- * Copyright (c) Dec 28, 2006 by Sam Reid
+ *
  */
 
 import edu.colorado.phet.rotation.controls.SymbolKey;

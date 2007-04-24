@@ -21,7 +21,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 14, 2004
  * Time: 7:56:28 PM
- * Copyright (c) Jun 14, 2004 by Sam Reid
+ *
  */
 public class VirtualAmmeterNode extends PhetPNode {
     private TargetReadoutToolNode targetReadoutToolNode;

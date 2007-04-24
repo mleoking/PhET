@@ -10,7 +10,7 @@ import java.util.Iterator;
  * User: Sam Reid
  * Date: Mar 26, 2004
  * Time: 8:56:40 AM
- * Copyright (c) Mar 26, 2004 by Sam Reid
+ *
  */
 public class SemiconductorBandSet extends BandSet {
     private DopantType dopantType;

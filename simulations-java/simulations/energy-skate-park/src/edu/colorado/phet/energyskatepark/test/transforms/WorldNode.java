@@ -13,7 +13,7 @@ import java.awt.geom.Dimension2D;
  * User: Sam Reid
  * Date: May 27, 2006
  * Time: 11:28:18 AM
- * Copyright (c) May 27, 2006 by Sam Reid
+ *
  */
 public class WorldNode extends PNode {
     PCanvas pCanvas;

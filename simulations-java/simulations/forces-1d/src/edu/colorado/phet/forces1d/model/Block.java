@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Nov 12, 2004
  * Time: 9:58:08 PM
- * Copyright (c) Nov 12, 2004 by Sam Reid
+ *
  */
 public class Block {
     private double kineticFriction = 1.0;

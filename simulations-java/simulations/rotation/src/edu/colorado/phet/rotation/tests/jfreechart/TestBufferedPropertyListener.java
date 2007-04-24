@@ -12,7 +12,7 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Jan 31, 2007
  * Time: 5:53:10 PM
- * Copyright (c) Jan 31, 2007 by Sam Reid
+ *
  */
 
 public class TestBufferedPropertyListener {

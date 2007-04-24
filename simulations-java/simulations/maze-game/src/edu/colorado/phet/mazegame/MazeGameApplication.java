@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
  * User: Sam Reid
  * Date: Sep 11, 2006
  * Time: 10:53:32 AM
- * Copyright (c) Sep 11, 2006 by Sam Reid
+ *
  */
 
 public class MazeGameApplication {

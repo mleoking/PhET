@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.components.ACVoltageSource;
@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 19, 2006
  * Time: 12:42:14 PM
- * Copyright (c) Jun 19, 2006 by Sam Reid
+ *
  */
 
 public class ACReadoutGraphic extends ReadoutGraphic {

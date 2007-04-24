@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Oct 24, 2006
  * Time: 12:16:36 PM
- * Copyright (c) Oct 24, 2006 by Sam Reid
+ *
  */
 
 public class BufferedPhetPCanvas extends PhetPCanvas {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 4:48:25 PM
- * Copyright (c) Mar 26, 2006 by Sam Reid
+ *
  */
 
 public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {

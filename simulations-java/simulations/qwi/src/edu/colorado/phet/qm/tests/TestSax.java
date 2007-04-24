@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.tests;
 
 import javax.xml.parsers.SAXParserFactory;
@@ -7,7 +7,7 @@ import javax.xml.parsers.SAXParserFactory;
  * User: Sam Reid
  * Date: Feb 15, 2006
  * Time: 5:51:59 PM
- * Copyright (c) Feb 15, 2006 by Sam Reid
+ *
  */
 
 public class TestSax {

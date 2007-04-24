@@ -13,7 +13,7 @@ import edu.colorado.phet.energyskatepark.model.SPoint2D;
  * User: Sam Reid
  * Date: Feb 18, 2007
  * Time: 11:16:04 AM
- * Copyright (c) Feb 18, 2007 by Sam Reid
+ *
  */
 public class ParametricFunction2DNode extends PNode {
     private ParametricFunction2D parametricFunction2D;

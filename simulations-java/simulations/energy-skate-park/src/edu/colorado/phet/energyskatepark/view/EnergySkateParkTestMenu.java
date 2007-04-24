@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Oct 18, 2006
  * Time: 8:38:53 AM
- * Copyright (c) Oct 18, 2006 by Sam Reid
+ *
  */
 
 public class EnergySkateParkTestMenu extends JMenu {

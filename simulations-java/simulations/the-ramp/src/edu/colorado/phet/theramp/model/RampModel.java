@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -9,7 +9,7 @@ import edu.colorado.phet.timeseries_ramp.TimeSeriesModel;
  * User: Sam Reid
  * Date: Aug 4, 2005
  * Time: 5:35:10 PM
- * Copyright (c) Aug 4, 2005 by Sam Reid
+ *
  */
 
 public class RampModel {

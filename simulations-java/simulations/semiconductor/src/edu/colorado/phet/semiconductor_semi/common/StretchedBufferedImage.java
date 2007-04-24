@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jan 16, 2004
  * Time: 2:21:07 AM
- * Copyright (c) Jan 16, 2004 by Sam Reid
+ *
  */
 public class StretchedBufferedImage implements Graphic {
     private BufferedImage battIm;

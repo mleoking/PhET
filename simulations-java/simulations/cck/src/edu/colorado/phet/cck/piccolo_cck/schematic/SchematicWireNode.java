@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Oct 5, 2006
  * Time: 11:39:46 PM
- * Copyright (c) Oct 5, 2006 by Sam Reid
+ *
  */
 
 public class SchematicWireNode extends WireNode {

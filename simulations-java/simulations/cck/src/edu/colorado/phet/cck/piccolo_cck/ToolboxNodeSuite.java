@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Oct 6, 2006
  * Time: 1:57:39 AM
- * Copyright (c) Oct 6, 2006 by Sam Reid
+ *
  */
 
 public class ToolboxNodeSuite extends PhetPNode {

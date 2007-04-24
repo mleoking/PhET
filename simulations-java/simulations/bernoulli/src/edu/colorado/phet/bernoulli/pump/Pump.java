@@ -19,7 +19,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 12:57:38 AM
- * Copyright (c) Aug 19, 2003 by Sam Reid
+ *
  */
 public class Pump extends ModelElement {
     Valve top;

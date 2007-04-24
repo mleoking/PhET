@@ -12,7 +12,7 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Jun 8, 2004
  * Time: 4:59:31 PM
- * Copyright (c) Jun 8, 2004 by Sam Reid
+ *
  */
 public class TestPhetSlider {
     public static void main( String[] args ) {

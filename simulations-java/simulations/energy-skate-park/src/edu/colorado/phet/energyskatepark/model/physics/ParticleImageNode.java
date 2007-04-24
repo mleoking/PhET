@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * User: Sam Reid
  * Date: Mar 3, 2007
  * Time: 3:30:21 AM
- * Copyright (c) Mar 3, 2007 by Sam Reid
+ *
  */
 
 public class ParticleImageNode extends PNode {

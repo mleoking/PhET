@@ -22,7 +22,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Sep 30, 2005
  * Time: 12:03:00 AM
- * Copyright (c) Sep 30, 2005 by Sam Reid
+ *
  */
 
 public class SplineToolbox extends PNode {

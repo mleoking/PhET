@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -24,7 +24,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 6:35:56 PM
- * Copyright (c) Jun 23, 2005 by Sam Reid
+ *
  */
 
 public class RulerImageGraphic extends PNode {

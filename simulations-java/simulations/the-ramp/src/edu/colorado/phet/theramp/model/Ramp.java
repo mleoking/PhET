@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.model;
 
 import edu.colorado.phet.theramp.TheRampStrings;
@@ -7,7 +7,7 @@ import edu.colorado.phet.theramp.TheRampStrings;
  * User: Sam Reid
  * Date: May 17, 2005
  * Time: 1:26:22 AM
- * Copyright (c) May 17, 2005 by Sam Reid
+ *
  */
 
 public class Ramp extends Surface {

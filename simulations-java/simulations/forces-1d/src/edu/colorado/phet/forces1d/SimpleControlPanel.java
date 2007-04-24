@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d;
 
 import edu.colorado.phet.common_force1d.view.util.SimStrings;
@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jan 11, 2005
  * Time: 8:15:29 PM
- * Copyright (c) Jan 11, 2005 by Sam Reid
+ *
  */
 
 public class SimpleControlPanel extends IForceControl {

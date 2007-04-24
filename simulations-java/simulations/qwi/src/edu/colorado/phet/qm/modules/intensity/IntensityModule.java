@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 10:06:16 AM
- * Copyright (c) Jul 7, 2005 by Sam Reid
+ *
  */
 
 public class IntensityModule extends QWIModule {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.umd.cs.piccolox.pswing.PComboBox;
@@ -9,7 +9,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Feb 4, 2005
  * Time: 7:55:21 AM
- * Copyright (c) Feb 4, 2005 by Sam Reid
+ *
  */
 
 public class ImagePComboBox extends PComboBox {

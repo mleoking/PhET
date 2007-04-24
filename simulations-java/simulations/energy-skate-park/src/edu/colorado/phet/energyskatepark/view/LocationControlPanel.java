@@ -14,7 +14,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Jun 8, 2006
  * Time: 10:44:31 AM
- * Copyright (c) Jun 8, 2006 by Sam Reid
+ *
  */
 
 public class LocationControlPanel extends VerticalLayoutPanel {

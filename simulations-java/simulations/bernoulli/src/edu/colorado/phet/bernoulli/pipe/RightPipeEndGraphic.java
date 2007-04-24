@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Sep 9, 2003
  * Time: 2:37:40 AM
- * Copyright (c) Sep 9, 2003 by Sam Reid
+ *
  */
 public class RightPipeEndGraphic implements Graphic {
     private BufferedImage endImage;

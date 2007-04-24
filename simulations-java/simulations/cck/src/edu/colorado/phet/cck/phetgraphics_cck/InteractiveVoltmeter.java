@@ -22,7 +22,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 17, 2004
  * Time: 2:27:28 PM
- * Copyright (c) Jun 17, 2004 by Sam Reid
+ *
  */
 public class InteractiveVoltmeter extends CompositeGraphic {
     private Voltmeter voltmeter;

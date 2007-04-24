@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -14,7 +14,7 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 5:18:38 PM
- * Copyright (c) Mar 26, 2006 by Sam Reid
+ *
  */
 
 public class WaveRotateControl extends HorizontalLayoutPanel {

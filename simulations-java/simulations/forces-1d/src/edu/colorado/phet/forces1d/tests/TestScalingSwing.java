@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.tests;
 
 import javax.swing.*;
@@ -10,7 +10,7 @@ import java.awt.event.ComponentEvent;
  * User: Sam Reid
  * Date: Feb 2, 2005
  * Time: 1:04:43 AM
- * Copyright (c) Feb 2, 2005 by Sam Reid
+ *
  */
 
 public class TestScalingSwing {

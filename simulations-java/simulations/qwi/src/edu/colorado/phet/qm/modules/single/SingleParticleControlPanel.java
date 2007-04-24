@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
@@ -20,7 +20,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 10:20:42 AM
- * Copyright (c) Jul 7, 2005 by Sam Reid
+ *
  */
 
 public class SingleParticleControlPanel extends QWIControlPanel {

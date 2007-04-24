@@ -41,7 +41,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 21, 2005
  * Time: 3:06:31 AM
- * Copyright (c) Sep 21, 2005 by Sam Reid
+ *
  */
 
 public class EnergySkateParkModule extends PiccoloModule {

@@ -8,7 +8,7 @@ import edu.colorado.phet.semiconductor_semi.common.Particle;
  * User: Sam Reid
  * Date: Jan 27, 2004
  * Time: 2:04:07 AM
- * Copyright (c) Jan 27, 2004 by Sam Reid
+ *
  */
 public class Dopant extends SimpleObservable {
     private Particle particle;

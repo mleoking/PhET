@@ -14,7 +14,7 @@ import java.awt.image.ImageObserver;
  * User: Sam Reid
  * Date: Sep 30, 2003
  * Time: 1:26:13 AM
- * Copyright (c) Sep 30, 2003 by Sam Reid
+ *
  */
 public class FlameGraphic implements Graphic {
     Flame flame;

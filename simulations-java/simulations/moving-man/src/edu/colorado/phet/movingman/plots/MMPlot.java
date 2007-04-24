@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.chart_movingman.Range2D;
@@ -17,7 +17,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 30, 2005
  * Time: 4:50:44 AM
- * Copyright (c) Mar 30, 2005 by Sam Reid
+ *
  */
 
 public class MMPlot extends PlotDevice {

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.macro.energy;
 
 import edu.colorado.phet.common_semiconductor.model.ModelElement;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 16, 2004
  * Time: 9:57:07 PM
- * Copyright (c) Mar 16, 2004 by Sam Reid
+ *
  */
 public class StateTransitionList implements ModelElement {
     ArrayList t = new ArrayList();

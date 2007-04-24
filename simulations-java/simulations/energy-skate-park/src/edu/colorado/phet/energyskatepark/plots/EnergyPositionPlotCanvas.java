@@ -35,7 +35,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Nov 6, 2005
  * Time: 8:05:15 PM
- * Copyright (c) Nov 6, 2005 by Sam Reid
+ *
  */
 
 public class EnergyPositionPlotCanvas extends PhetPCanvas {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.theramp.common.AudioSourceDataLinePlayer;
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Oct 9, 2005
  * Time: 4:34:59 PM
- * Copyright (c) Oct 9, 2005 by Sam Reid
+ *
  */
 
 public class AudioEnabledController {

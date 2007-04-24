@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common_force1d.view.phetcomponents;
 
 import javax.swing.*;

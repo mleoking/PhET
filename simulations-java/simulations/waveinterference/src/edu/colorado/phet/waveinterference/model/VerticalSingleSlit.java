@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.model;
 
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 3:46:37 AM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 
 public class VerticalSingleSlit extends VerticalBarrier {

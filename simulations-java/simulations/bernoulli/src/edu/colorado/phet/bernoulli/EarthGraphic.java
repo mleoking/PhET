@@ -12,7 +12,7 @@ import java.awt.geom.Ellipse2D;
  * User: Sam Reid
  * Date: Aug 22, 2003
  * Time: 12:51:08 AM
- * Copyright (c) Aug 22, 2003 by Sam Reid
+ *
  */
 public class EarthGraphic implements Graphic, TransformListener {
     private double x;

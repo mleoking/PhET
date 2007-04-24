@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jan 15, 2004
  * Time: 1:13:01 PM
- * Copyright (c) Jan 15, 2004 by Sam Reid
+ *
  */
 public class Battery extends LinearBranch {
     private double volts = 0;

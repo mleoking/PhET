@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.view;
 
 import edu.colorado.phet.common.bernoulli.application.Module;
@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 7:27:29 AM
- * Copyright (c) Jun 12, 2003 by Sam Reid
+ *
  */
 public class ApplicationView {
     private PhetFrame phetFrame;

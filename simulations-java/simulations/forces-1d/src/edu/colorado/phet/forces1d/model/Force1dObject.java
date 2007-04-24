@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.model;
 
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
@@ -10,7 +10,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Dec 15, 2004
  * Time: 12:19:35 PM
- * Copyright (c) Dec 15, 2004 by Sam Reid
+ *
  */
 public class Force1dObject {
     private String location;

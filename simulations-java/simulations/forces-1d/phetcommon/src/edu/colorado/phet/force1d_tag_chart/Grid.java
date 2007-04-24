@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 21, 2004
  * Time: 6:25:31 AM
- * Copyright (c) Sep 21, 2004 by Sam Reid
+ *
  */
 public class Grid extends AbstractGrid {
 

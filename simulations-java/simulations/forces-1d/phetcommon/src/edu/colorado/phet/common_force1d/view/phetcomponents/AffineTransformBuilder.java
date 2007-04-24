@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common_force1d.view.phetcomponents;
 
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Dec 15, 2004
  * Time: 9:00:36 AM
- * Copyright (c) Dec 15, 2004 by Sam Reid
+ *
  */
 
 public class AffineTransformBuilder {

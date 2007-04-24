@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 10:08:12 AM
- * Copyright (c) Aug 19, 2003 by Sam Reid
+ *
  */
 public class Piston extends AutomatedObservable {
     PhetVector unitVector;

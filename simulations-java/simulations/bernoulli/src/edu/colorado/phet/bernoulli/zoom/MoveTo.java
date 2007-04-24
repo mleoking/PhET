@@ -4,7 +4,7 @@ package edu.colorado.phet.bernoulli.zoom;
  * User: Sam Reid
  * Date: Aug 21, 2003
  * Time: 3:48:00 AM
- * Copyright (c) Aug 21, 2003 by Sam Reid
+ *
  */
 public class MoveTo {
     double target;

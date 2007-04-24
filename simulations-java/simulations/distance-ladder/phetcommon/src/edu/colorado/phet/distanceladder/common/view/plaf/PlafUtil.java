@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.distanceladder.common.view.plaf;
 
 //import edu.colorado.phet.common.view.PhetFrame;

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
 import edu.colorado.phet.cck.model.components.Capacitor;
@@ -19,7 +19,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 8:34:54 PM
- * Copyright (c) May 25, 2004 by Sam Reid
+ *
  */
 public class SchematicCapacitorGraphic extends SchematicPlatedGraphic implements HasCapacitorClip {
     private Capacitor capacitor;

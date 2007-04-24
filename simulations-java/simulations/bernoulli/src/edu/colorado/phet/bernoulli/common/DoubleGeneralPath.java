@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Aug 22, 2003
  * Time: 9:33:13 PM
- * Copyright (c) Aug 22, 2003 by Sam Reid
+ *
  */
 public class DoubleGeneralPath {
     GeneralPath path;

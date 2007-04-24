@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.tests;
 
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
@@ -16,7 +16,7 @@ import java.awt.event.KeyListener;
  * User: Sam Reid
  * Date: Dec 15, 2004
  * Time: 9:11:16 AM
- * Copyright (c) Dec 15, 2004 by Sam Reid
+ *
  */
 
 public class TestTransformBuilder {

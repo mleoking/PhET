@@ -18,7 +18,7 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Nov 8, 2005
  * Time: 11:11:41 AM
- * Copyright (c) Nov 8, 2005 by Sam Reid
+ *
  */
 
 public class GravitySlider extends ModelSlider {

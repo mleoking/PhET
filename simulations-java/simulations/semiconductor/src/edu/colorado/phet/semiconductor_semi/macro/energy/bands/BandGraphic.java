@@ -16,7 +16,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jan 16, 2004
  * Time: 12:19:30 AM
- * Copyright (c) Jan 16, 2004 by Sam Reid
+ *
  */
 public class BandGraphic implements Graphic {
     private EnergySection diodeSection;

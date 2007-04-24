@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.model.WaveModel;
@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 10:34:49 PM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 
 public class AbstractScreenGraphic extends PNode {

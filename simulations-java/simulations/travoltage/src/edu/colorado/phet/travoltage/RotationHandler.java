@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.travoltage;
 
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -8,7 +8,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 12:14:45 AM
- * Copyright (c) Jul 1, 2006 by Sam Reid
+ *
  */
 
 public class RotationHandler extends PBasicInputEventHandler {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.tests;
 
 import javax.swing.*;
@@ -8,7 +8,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 23, 2005
  * Time: 8:48:02 AM
- * Copyright (c) May 23, 2005 by Sam Reid
+ *
  */
 
 public class TestPanelLayout {

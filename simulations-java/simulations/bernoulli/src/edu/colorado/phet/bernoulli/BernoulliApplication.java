@@ -47,7 +47,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 12:46:01 AM
- * Copyright (c) Aug 19, 2003 by Sam Reid
+ *
  */
 public class BernoulliApplication extends Module {
     private static final String VERSION = "0.00.01";

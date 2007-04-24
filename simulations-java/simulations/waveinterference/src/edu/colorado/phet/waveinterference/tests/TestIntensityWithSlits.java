@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.waveinterference.WaveInterferenceModelUnits;
@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 3:35:59 AM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 
 public class TestIntensityWithSlits extends TestTopView {

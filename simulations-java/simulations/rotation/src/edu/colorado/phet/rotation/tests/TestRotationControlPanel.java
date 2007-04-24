@@ -4,7 +4,7 @@ package edu.colorado.phet.rotation.tests;
  * User: Sam Reid
  * Date: Jan 9, 2007
  * Time: 7:56:54 AM
- * Copyright (c) Jan 9, 2007 by Sam Reid
+ *
  */
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;

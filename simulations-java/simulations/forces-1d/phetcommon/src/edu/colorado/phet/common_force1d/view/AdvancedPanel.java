@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common_force1d.view;
 
 import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;

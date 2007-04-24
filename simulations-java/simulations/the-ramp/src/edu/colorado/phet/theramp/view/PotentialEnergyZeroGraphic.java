@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.theramp.TheRampStrings;
@@ -20,7 +20,7 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: May 6, 2005
  * Time: 3:59:25 PM
- * Copyright (c) May 6, 2005 by Sam Reid
+ *
  */
 
 public class PotentialEnergyZeroGraphic extends PNode {

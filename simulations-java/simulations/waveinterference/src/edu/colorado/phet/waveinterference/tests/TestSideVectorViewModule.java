@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
@@ -13,7 +13,7 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:02:57 AM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 public class TestSideVectorViewModule extends BasicWaveTestModule {
     private WaveSideView waveSideView;

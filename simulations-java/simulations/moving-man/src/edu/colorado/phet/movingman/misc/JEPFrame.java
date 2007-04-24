@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Aug 15, 2004
  * Time: 9:32:16 PM
- * Copyright (c) Aug 15, 2004 by Sam Reid
+ *
  */
 public class JEPFrame extends JDialog {
     private MovingManModule module;

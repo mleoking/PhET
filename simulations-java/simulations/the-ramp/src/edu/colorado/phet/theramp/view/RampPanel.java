@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -29,7 +29,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Feb 11, 2005
  * Time: 10:01:59 AM
- * Copyright (c) Feb 11, 2005 by Sam Reid
+ *
  */
 
 public class RampPanel extends PhetPCanvas {

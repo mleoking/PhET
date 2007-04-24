@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -23,7 +23,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 6:47:28 PM
- * Copyright (c) Jul 8, 2005 by Sam Reid
+ *
  */
 
 public class SavedScreenGraphic extends PNode {

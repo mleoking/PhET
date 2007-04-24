@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 13, 2004
  * Time: 8:06:21 PM
- * Copyright (c) Jun 13, 2004 by Sam Reid
+ *
  */
 public class Filament extends PathBranch {
     private Junction shellJunction;

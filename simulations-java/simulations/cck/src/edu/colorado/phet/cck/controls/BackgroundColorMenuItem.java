@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 11, 2006
  * Time: 12:48:55 AM
- * Copyright (c) Jul 11, 2006 by Sam Reid
+ *
  */
 
 public class BackgroundColorMenuItem extends JMenuItem {

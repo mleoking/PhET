@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.distanceladder.common.view.graphics.mousecontrols;
 
 import javax.swing.event.MouseInputListener;
@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Oct 9, 2003
  * Time: 12:43:47 AM
- * Copyright (c) Oct 9, 2003 by Sam Reid
+ *
  */
 public class TranslationControl implements MouseInputListener {
     private Translatable t;

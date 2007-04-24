@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.model.WaveModel;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 13, 2006
  * Time: 5:19:04 AM
- * Copyright (c) Apr 13, 2006 by Sam Reid
+ *
  */
 
 public class IntensityColorMap implements ColorMap {

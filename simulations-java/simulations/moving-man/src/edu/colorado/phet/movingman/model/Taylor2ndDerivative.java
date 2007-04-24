@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.model;
 
 import edu.colorado.phet.movingman.plots.TimePoint;
@@ -8,7 +8,7 @@ import edu.colorado.phet.movingman.plots.TimeSeries;
  * User: Sam Reid
  * Date: Apr 27, 2005
  * Time: 4:47:43 PM
- * Copyright (c) Apr 27, 2005 by Sam Reid
+ *
  */
 
 public class Taylor2ndDerivative {

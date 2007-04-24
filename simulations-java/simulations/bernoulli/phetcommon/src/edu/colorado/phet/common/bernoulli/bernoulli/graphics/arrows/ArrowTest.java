@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.graphics.arrows;
 
 import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Aug 20, 2003
  * Time: 9:24:17 PM
- * Copyright (c) Aug 20, 2003 by Sam Reid
+ *
  */
 public class ArrowTest {
     private JFrame jf;

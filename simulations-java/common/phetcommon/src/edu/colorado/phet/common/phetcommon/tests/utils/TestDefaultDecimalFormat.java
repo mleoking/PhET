@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.phetcommon.tests.utils;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
  * User: Sam Reid
  * Date: Jun 8, 2006
  * Time: 1:48:42 PM
- * Copyright (c) Jun 8, 2006 by Sam Reid
+ *
  */
 
 public class TestDefaultDecimalFormat {

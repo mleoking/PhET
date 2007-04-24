@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 2, 2004
  * Time: 1:05:19 PM
- * Copyright (c) Jun 2, 2004 by Sam Reid
+ *
  */
 public class TestKirkhoff {
     public static void main( String[] args ) {

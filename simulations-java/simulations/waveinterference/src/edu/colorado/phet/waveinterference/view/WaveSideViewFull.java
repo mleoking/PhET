@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.model.WaveModel;
@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 22, 2006
  * Time: 10:05:29 PM
- * Copyright (c) Mar 22, 2006 by Sam Reid
+ *
  */
 
 public class WaveSideViewFull extends WaveSideView {

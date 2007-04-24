@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 29, 2005
  * Time: 9:34:53 AM
- * Copyright (c) Jul 29, 2005 by Sam Reid
+ *
  */
 
 public class ResolutionControl extends AdvancedPanel {

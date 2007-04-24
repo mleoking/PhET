@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -18,7 +18,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 11, 2005
  * Time: 10:17:00 AM
- * Copyright (c) Feb 11, 2005 by Sam Reid
+ *
  */
 
 public class RampGraphic extends SurfaceGraphic {

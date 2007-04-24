@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 25, 2006
  * Time: 10:08:51 AM
- * Copyright (c) Sep 25, 2006 by Sam Reid
+ *
  */
 
 public class VoltmeterModel {

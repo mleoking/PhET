@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
@@ -13,7 +13,7 @@ import java.awt.event.ItemListener;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 2:08:56 PM
- * Copyright (c) Feb 5, 2006 by Sam Reid
+ *
  */
 
 public class DGGun extends IntensityGunNode implements FireParticle {

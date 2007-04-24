@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
@@ -17,7 +17,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Dec 6, 2004
  * Time: 8:53:15 AM
- * Copyright (c) Dec 6, 2004 by Sam Reid
+ *
  */
 
 public class LeanerGraphic extends PhetImageGraphic {

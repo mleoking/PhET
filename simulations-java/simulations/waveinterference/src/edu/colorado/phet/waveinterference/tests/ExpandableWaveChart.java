@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 14, 2006
  * Time: 4:19:58 PM
- * Copyright (c) Apr 14, 2006 by Sam Reid
+ *
  */
 
 public class ExpandableWaveChart extends PNode {

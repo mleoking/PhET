@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.piccolophet.test.experimental;
 
 import javax.swing.*;
@@ -7,7 +7,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Aug 7, 2005
  * Time: 9:08:18 PM
- * Copyright (c) Aug 7, 2005 by Sam Reid
+ * 
  */
 
 public class SynchronizedRepaintManager extends RepaintManager {

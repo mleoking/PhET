@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.mna.junit_sim;
 
 /**
  * User: Sam Reid
  * Date: Jun 19, 2006
  * Time: 2:21:13 PM
- * Copyright (c) Jun 19, 2006 by Sam Reid
+ *
  */
 
 import edu.colorado.phet.cck.mna.MNACircuit;
@@ -15,7 +15,7 @@ import junit.framework.TestCase;
  * User: Sam Reid
  * Date: Jun 19, 2006
  * Time: 2:04:44 PM
- * Copyright (c) Jun 19, 2006 by Sam Reid
+ *
  */
 
 public class TestRCCharge extends TestCase {

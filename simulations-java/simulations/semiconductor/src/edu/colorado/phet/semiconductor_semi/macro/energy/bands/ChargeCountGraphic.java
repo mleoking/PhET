@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.macro.energy.bands;
 
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
@@ -14,7 +14,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 17, 2004
  * Time: 10:23:00 AM
- * Copyright (c) Mar 17, 2004 by Sam Reid
+ *
  */
 public class ChargeCountGraphic implements Graphic {
     private EnergySection es;

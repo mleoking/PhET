@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.mna.tests;
 
 import edu.colorado.phet.cck.mna.MNACircuit;
@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.mna.MNACircuit;
  * User: Sam Reid
  * Date: Jun 19, 2006
  * Time: 2:04:44 PM
- * Copyright (c) Jun 19, 2006 by Sam Reid
+ *
  */
 
 public class TestRC_Time {

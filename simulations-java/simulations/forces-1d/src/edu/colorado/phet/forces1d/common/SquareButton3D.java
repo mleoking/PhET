@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.common;
 
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 13, 2005
  * Time: 10:55:16 AM
- * Copyright (c) Feb 13, 2005 by Sam Reid
+ *
  */
 
 public class SquareButton3D extends CompositePhetGraphic {

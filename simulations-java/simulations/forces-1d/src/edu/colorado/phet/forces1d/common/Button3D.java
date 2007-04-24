@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.common;
 
 import edu.colorado.phet.common_force1d.math.AbstractVector2D;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 2, 2005
  * Time: 6:57:30 PM
- * Copyright (c) Feb 2, 2005 by Sam Reid
+ *
  */
 
 public class Button3D extends CompositePhetGraphic {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -19,7 +19,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jan 21, 2006
  * Time: 7:03:02 PM
- * Copyright (c) Jan 21, 2006 by Sam Reid
+ *
  */
 
 public class ClockGraphic extends PNode {

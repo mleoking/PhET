@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.QWIModule;
@@ -11,7 +11,7 @@ import edu.colorado.phet.qm.model.Wave;
  * User: Sam Reid
  * Date: Jul 22, 2005
  * Time: 9:07:32 AM
- * Copyright (c) Jul 22, 2005 by Sam Reid
+ *
  */
 
 public class DoublePhotonWave extends PhotonWave {

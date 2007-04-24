@@ -8,7 +8,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 10, 2006
  * Time: 9:23:35 AM
- * Copyright (c) Jul 10, 2006 by Sam Reid
+ *
  */
 
 public class HighlightNode extends PPath {

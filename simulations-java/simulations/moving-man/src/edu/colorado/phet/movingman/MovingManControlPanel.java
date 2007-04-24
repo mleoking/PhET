@@ -14,7 +14,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 30, 2003
  * Time: 1:11:38 AM
- * Copyright (c) Jun 30, 2003 by Sam Reid
+ *
  */
 public class MovingManControlPanel extends JPanel {
     private MovingManModule module;

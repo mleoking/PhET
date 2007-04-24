@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -15,7 +15,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 7:44:31 PM
- * Copyright (c) Mar 28, 2006 by Sam Reid
+ *
  */
 
 public class LightSourceGraphic extends ImageOscillatorPNode {

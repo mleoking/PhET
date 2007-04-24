@@ -15,7 +15,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jan 19, 2004
  * Time: 3:49:26 PM
- * Copyright (c) Jan 19, 2004 by Sam Reid
+ *
  */
 public class EnergyTextGraphic extends TransformGraphic {
     private Font font;

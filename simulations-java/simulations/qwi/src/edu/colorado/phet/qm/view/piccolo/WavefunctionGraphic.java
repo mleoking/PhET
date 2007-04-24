@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.qm.model.Potential;
@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jun 30, 2005
  * Time: 12:48:33 PM
- * Copyright (c) Jun 30, 2005 by Sam Reid
+ *
  */
 
 public class WavefunctionGraphic extends SimpleWavefunctionGraphic {

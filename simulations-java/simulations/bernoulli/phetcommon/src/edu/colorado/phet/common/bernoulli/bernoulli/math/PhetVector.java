@@ -1,11 +1,11 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.math;
 
 /**
  * User: Sam Reid
  * Date: Jun 24, 2003
  * Time: 10:24:31 AM
- * Copyright (c) Jun 24, 2003 by Sam Reid
+ *
  */
 public class PhetVector {
     double x;

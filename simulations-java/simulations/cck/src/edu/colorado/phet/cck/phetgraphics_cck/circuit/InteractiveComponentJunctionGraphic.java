@@ -18,7 +18,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 26, 2004
  * Time: 9:46:27 PM
- * Copyright (c) May 26, 2004 by Sam Reid
+ *
  */
 public class InteractiveComponentJunctionGraphic extends DefaultInteractiveGraphic implements HasJunctionGraphic {
     private JunctionGraphic junctionGraphic;

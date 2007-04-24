@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 10, 2004
  * Time: 7:34:52 AM
- * Copyright (c) Sep 10, 2004 by Sam Reid
+ *
  */
 public class BasicShapeGraphic extends BasicGraphic {
     private Shape shape;

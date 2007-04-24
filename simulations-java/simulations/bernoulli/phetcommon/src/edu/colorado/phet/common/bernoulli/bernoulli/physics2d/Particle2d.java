@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.physics2d;
 
 import edu.colorado.phet.common.bernoulli.model.ModelElement;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 24, 2003
  * Time: 4:22:09 PM
- * Copyright (c) Jun 24, 2003 by Sam Reid
+ *
  */
 public class Particle2d extends ModelElement {
     private double x;

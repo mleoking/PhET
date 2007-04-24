@@ -30,7 +30,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 17, 2004
  * Time: 2:17:01 PM
- * Copyright (c) Jun 17, 2004 by Sam Reid
+ *
  */
 public class VoltmeterGraphic extends CompositeGraphic {
     private UnitGraphic unitGraphic;

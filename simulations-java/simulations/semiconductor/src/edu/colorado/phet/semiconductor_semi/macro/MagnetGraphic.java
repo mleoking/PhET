@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 27, 2004
  * Time: 10:17:55 PM
- * Copyright (c) Apr 27, 2004 by Sam Reid
+ *
  */
 public class MagnetGraphic implements Graphic {
     private Magnet magnet;

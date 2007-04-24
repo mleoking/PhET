@@ -5,7 +5,7 @@ package edu.colorado.phet.energyskatepark.timeseries;
  * User: Sam Reid
  * Date: Apr 2, 2005
  * Time: 8:08:44 PM
- * Copyright (c) Apr 2, 2005 by Sam Reid
+ *
  */
 
 public class ObjectTimePoint {

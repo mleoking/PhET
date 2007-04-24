@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 8:54:38 PM
- * Copyright (c) Jun 11, 2005 by Sam Reid
+ *
  */
 
 public class DetectorGraphic extends RectangleGraphic {

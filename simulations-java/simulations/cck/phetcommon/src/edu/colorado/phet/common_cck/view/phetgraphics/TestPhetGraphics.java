@@ -22,7 +22,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 25, 2004
  * Time: 6:08:32 PM
- * Copyright (c) Jun 25, 2004 by Sam Reid
+ *
  */
 public class TestPhetGraphics {
     static double scale = 1;

@@ -20,7 +20,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 9, 2005
  * Time: 9:32:50 AM
- * Copyright (c) May 9, 2005 by Sam Reid
+ *
  */
 
 public class PhetGraphicTarget extends HelpTarget {

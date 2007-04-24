@@ -12,7 +12,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 1, 2004
  * Time: 3:33:37 AM
- * Copyright (c) Jul 1, 2004 by Sam Reid
+ *
  */
 public class RepaintDebugGraphic implements Graphic, ClockTickListener {
     private int r = 255;

@@ -8,7 +8,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Nov 28, 2004
  * Time: 11:57:44 AM
- * Copyright (c) Nov 28, 2004 by Sam Reid
+ *
  */
 public class SwingWiggleMe {
     JLabel label;

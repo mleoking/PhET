@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common_force1d.math.AbstractVector2D;
@@ -26,7 +26,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Dec 16, 2004
  * Time: 5:57:05 PM
- * Copyright (c) Dec 16, 2004 by Sam Reid
+ *
  */
 
 public class FreeBodyDiagram extends CompositePhetGraphic {

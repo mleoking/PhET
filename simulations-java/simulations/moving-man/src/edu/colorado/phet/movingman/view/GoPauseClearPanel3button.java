@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common_movingman.view.components.VerticalLayoutPanel;
@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Apr 5, 2005
  * Time: 5:03:07 AM
- * Copyright (c) Apr 5, 2005 by Sam Reid
+ *
  */
 
 public class GoPauseClearPanel3button extends VerticalLayoutPanel {

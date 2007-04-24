@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.mna.tests;
 
 import Jama.Matrix;
@@ -8,7 +8,7 @@ import edu.colorado.phet.cck.mna.MNACircuit;
  * User: Sam Reid
  * Date: Jun 18, 2006
  * Time: 4:16:22 PM
- * Copyright (c) Jun 18, 2006 by Sam Reid
+ *
  */
 
 public class MNATest {

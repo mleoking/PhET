@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.model;
 
 import edu.colorado.phet.movingman.MovingManModule;
@@ -10,7 +10,7 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Apr 12, 2005
  * Time: 10:41:02 PM
- * Copyright (c) Apr 12, 2005 by Sam Reid
+ *
  */
 
 public class CollisionAudioEffects extends Man.Adapter {

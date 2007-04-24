@@ -21,7 +21,7 @@ import java.util.StringTokenizer;
  * User: Sam Reid
  * Date: Jun 2, 2004
  * Time: 3:17:14 PM
- * Copyright (c) Jun 2, 2004 by Sam Reid
+ *
  */
 public class ReadoutNode extends PhetPNode {
     private ShadowHTMLGraphic htmlNode;

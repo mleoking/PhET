@@ -20,7 +20,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 18, 2004
  * Time: 10:53:37 AM
- * Copyright (c) Jun 18, 2004 by Sam Reid
+ *
  */
 public class SchematicSwitchGraphic extends PhetShapeGraphic implements IComponentGraphic, TransformListener, SimpleObserver {
     private ApparatusPanel apparatusPanel;

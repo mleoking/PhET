@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.sound;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 15, 2006
  * Time: 12:57:37 AM
- * Copyright (c) May 15, 2006 by Sam Reid
+ *
  */
 
 public class AudioControlPanel extends JPanel {

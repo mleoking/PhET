@@ -13,7 +13,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Jun 24, 2004
  * Time: 10:45:57 PM
- * Copyright (c) Jun 24, 2004 by Sam Reid
+ *
  */
 public class PhetMultiLineTextGraphic extends PhetGraphic {
     private ArrayList textGraphics = new ArrayList();

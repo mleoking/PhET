@@ -30,7 +30,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Sep 26, 2005
  * Time: 1:17:41 PM
- * Copyright (c) Sep 26, 2005 by Sam Reid
+ *
  */
 
 public class SplineNode extends PNode {

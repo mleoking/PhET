@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common_microwaves.view.util.graphics;
 
 import java.awt.geom.AffineTransform;
@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 27, 2003
  * Time: 10:07:55 AM
- * Copyright (c) Apr 27, 2003 by Sam Reid
+ *
  */
 public class RescaleOp {
     public static BufferedImage rescaleXMaintainAspectRatio(BufferedImage im, int x) {

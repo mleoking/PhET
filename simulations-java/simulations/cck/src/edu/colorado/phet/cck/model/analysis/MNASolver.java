@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.model.analysis;
 
 import edu.colorado.phet.cck.mna.MNACircuit;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 19, 2006
  * Time: 1:32:44 AM
- * Copyright (c) Jun 19, 2006 by Sam Reid
+ *
  */
 
 public class MNASolver extends CircuitSolver {

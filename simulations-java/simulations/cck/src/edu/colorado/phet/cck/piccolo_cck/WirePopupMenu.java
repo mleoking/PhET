@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Sep 19, 2006
  * Time: 3:38:07 PM
- * Copyright (c) Sep 19, 2006 by Sam Reid
+ *
  */
 
 public class WirePopupMenu extends JPopupMenu {

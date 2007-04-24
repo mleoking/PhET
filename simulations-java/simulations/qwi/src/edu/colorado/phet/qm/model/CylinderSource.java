@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.model.math.Complex;
@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 15, 2005
  * Time: 9:33:23 AM
- * Copyright (c) Jun 15, 2005 by Sam Reid
+ *
  */
 
 public class CylinderSource {

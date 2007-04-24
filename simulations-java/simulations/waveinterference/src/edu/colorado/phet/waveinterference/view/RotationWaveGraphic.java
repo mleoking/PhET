@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.umd.cs.piccolo.PNode;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 5:20:39 PM
- * Copyright (c) Mar 26, 2006 by Sam Reid
+ *
  */
 
 public class RotationWaveGraphic extends PNode {

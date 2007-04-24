@@ -7,7 +7,7 @@ package edu.colorado.phet.semiconductor_semi.macro.doping;
  * User: Sam Reid
  * Date: Feb 8, 2004
  * Time: 4:14:49 PM
- * Copyright (c) Feb 8, 2004 by Sam Reid
+ *
  */
 public class DopantType {
 

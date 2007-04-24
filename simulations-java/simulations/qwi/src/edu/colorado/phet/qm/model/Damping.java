@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 9:05:13 AM
- * Copyright (c) Jun 23, 2005 by Sam Reid
+ *
  */
 
 public class Damping extends QWIModel.Adapter {

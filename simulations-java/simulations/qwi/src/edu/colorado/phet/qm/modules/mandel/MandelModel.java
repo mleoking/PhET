@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.davissongermer.QWIStrings;

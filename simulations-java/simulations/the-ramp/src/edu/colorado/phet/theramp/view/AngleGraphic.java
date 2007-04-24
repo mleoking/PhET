@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.theramp.common.LucidaSansFont;
@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: May 8, 2005
  * Time: 1:51:39 PM
- * Copyright (c) May 8, 2005 by Sam Reid
+ *
  */
 
 public class AngleGraphic extends PNode {

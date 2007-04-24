@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
@@ -22,7 +22,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 6:51:18 PM
- * Copyright (c) Jun 10, 2005 by Sam Reid
+ *
  */
 
 public class QWIControlPanel extends ControlPanel {

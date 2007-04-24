@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.distanceladder.common.view.graphics.mousecontrols;
 
 import edu.colorado.phet.distanceladder.common.view.CompositeInteractiveGraphic;
@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Oct 9, 2003
  * Time: 1:07:02 AM
- * Copyright (c) Oct 9, 2003 by Sam Reid
+ *
  */
 public class BringToFront implements MouseInputListener {
     CompositeInteractiveGraphic graphicTree;

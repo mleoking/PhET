@@ -12,7 +12,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Sep 20, 2006
  * Time: 12:05:30 PM
- * Copyright (c) Sep 20, 2006 by Sam Reid
+ *
  */
 public class GrabBagResistorNode extends ComponentImageNode {
     private GrabBagResistor resistor;

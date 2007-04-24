@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Oct 23, 2005
  * Time: 3:12:06 PM
- * Copyright (c) Oct 23, 2005 by Sam Reid
+ *
  */
 
 public class EnergyTimePlotCanvas extends PhetPCanvas {

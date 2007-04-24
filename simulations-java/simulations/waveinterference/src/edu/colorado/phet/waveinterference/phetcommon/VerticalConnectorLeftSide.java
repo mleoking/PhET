@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.phetcommon;
 
 import edu.umd.cs.piccolo.PNode;
@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jan 23, 2006
  * Time: 9:56:53 AM
- * Copyright (c) Jan 23, 2006 by Sam Reid
+ *
  */
 
 public class VerticalConnectorLeftSide extends VerticalConnector {

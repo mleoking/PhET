@@ -7,7 +7,7 @@ import edu.colorado.phet.semiconductor_semi.macro.doping.DopantType;
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 10:11:18 AM
- * Copyright (c) Apr 26, 2004 by Sam Reid
+ *
  */
 public class ConductLeft1 extends VoltageSplit {
 

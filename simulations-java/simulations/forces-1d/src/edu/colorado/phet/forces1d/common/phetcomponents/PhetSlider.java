@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.common.phetcomponents;
 
 import edu.colorado.phet.common_force1d.math.ModelViewTransform1D;

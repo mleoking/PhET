@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.qm.view.gun.AbstractGunNode;
@@ -8,7 +8,7 @@ import edu.colorado.phet.qm.view.gun.DefaultGunParticle;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 2:34:12 PM
- * Copyright (c) Feb 5, 2006 by Sam Reid
+ *
  */
 
 public class DGParticle extends DefaultGunParticle {

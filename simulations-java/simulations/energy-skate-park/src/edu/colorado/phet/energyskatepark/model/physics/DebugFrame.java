@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 2, 2007
  * Time: 3:06:31 PM
- * Copyright (c) Mar 2, 2007 by Sam Reid
+ *
  */
 
 public class DebugFrame extends JFrame {

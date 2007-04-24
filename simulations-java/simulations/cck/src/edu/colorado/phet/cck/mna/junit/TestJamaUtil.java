@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.mna.junit;
 
 import Jama.Matrix;
@@ -9,7 +9,7 @@ import junit.framework.TestCase;
  * User: Sam Reid
  * Date: Jun 18, 2006
  * Time: 10:22:59 PM
- * Copyright (c) Jun 18, 2006 by Sam Reid
+ *
  */
 
 public class TestJamaUtil extends TestCase {

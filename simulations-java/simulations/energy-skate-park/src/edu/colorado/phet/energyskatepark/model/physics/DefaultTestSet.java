@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 2, 2007
  * Time: 2:06:41 PM
- * Copyright (c) Mar 2, 2007 by Sam Reid
+ *
  */
 
 public class DefaultTestSet {

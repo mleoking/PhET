@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.piccolophet.test;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -18,7 +18,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Aug 26, 2005
  * Time: 9:16:40 PM
- * Copyright (c) Aug 26, 2005 by Sam Reid
+ *
  */
 
 public class TestBoundedDragHandler {

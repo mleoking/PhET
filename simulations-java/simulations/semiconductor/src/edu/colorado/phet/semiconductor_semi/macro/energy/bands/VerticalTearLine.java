@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.macro.energy.bands;
 
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
@@ -8,7 +8,7 @@ import edu.colorado.phet.common_semiconductor.view.util.DoubleGeneralPath;
  * User: Sam Reid
  * Date: Mar 23, 2004
  * Time: 11:43:27 AM
- * Copyright (c) Mar 23, 2004 by Sam Reid
+ *
  */
 public class VerticalTearLine {
     DoubleGeneralPath path;

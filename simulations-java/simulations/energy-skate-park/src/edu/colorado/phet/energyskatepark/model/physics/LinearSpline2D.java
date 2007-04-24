@@ -9,7 +9,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Mar 4, 2007
  * Time: 12:04:21 AM
- * Copyright (c) Mar 4, 2007 by Sam Reid
+ *
  */
 
 public class LinearSpline2D extends ControlPointParametricFunction2D {

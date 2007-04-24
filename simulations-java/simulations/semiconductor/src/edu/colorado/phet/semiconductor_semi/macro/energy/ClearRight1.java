@@ -8,7 +8,7 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.statemodels.ExciteForCo
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 10:13:54 AM
- * Copyright (c) Apr 26, 2004 by Sam Reid
+ *
  */
 public class ClearRight1 extends DefaultStateDiagram {
     public ClearRight1( EnergySection energySection, int band, int bandSet, int srcLevel ) {

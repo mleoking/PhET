@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.model.components.Branch;
  * User: Sam Reid
  * Date: Jun 8, 2004
  * Time: 1:54:25 PM
- * Copyright (c) Jun 8, 2004 by Sam Reid
+ *
  */
 public class ConstantDensityLayout extends CircuitListenerAdapter {
     private boolean dolayout = true;

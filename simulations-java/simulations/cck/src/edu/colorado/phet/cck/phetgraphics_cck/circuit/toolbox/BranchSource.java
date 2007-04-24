@@ -32,7 +32,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 29, 2004
  * Time: 2:32:10 AM
- * Copyright (c) May 29, 2004 by Sam Reid
+ *
  */
 public abstract class BranchSource extends DefaultInteractiveGraphic {
     private PhetGraphic schematic;

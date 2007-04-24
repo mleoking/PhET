@@ -22,7 +22,7 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Nov 22, 2004
  * Time: 11:11:57 AM
- * Copyright (c) Nov 22, 2004 by Sam Reid
+ *
  */
 public class Force1dControlPanel extends IForceControl {
     private Force1DApplication module;

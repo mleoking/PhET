@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 3, 2004
  * Time: 12:23:35 AM
- * Copyright (c) Apr 3, 2004 by Sam Reid
+ *
  */
 public class MyPanelUI extends BasicPanelUI {
     public static ComponentUI createUI( JComponent c ) {

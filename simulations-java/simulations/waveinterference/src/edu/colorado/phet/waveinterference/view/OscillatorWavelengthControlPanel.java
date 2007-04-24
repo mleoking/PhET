@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:38:29 AM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 
 public class OscillatorWavelengthControlPanel extends VerticalLayoutPanel {

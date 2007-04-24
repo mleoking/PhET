@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common_force1d.math;
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 14, 2004
  * Time: 8:22:30 PM
- * Copyright (c) Dec 14, 2004 by Sam Reid
+ *
  */
 
 public class ModelViewTransform1D {

@@ -12,7 +12,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Feb 14, 2007
  * Time: 3:09:47 AM
- * Copyright (c) Feb 14, 2007 by Sam Reid
+ *
  */
 
 public abstract class ParametricFunction2D implements Cloneable, Serializable {

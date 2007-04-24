@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.umd.cs.piccolo.PCanvas;
@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 22, 2006
  * Time: 11:00:29 PM
- * Copyright (c) Jan 22, 2006 by Sam Reid
+ *
  */
 
 public class SRRWavelengthSliderComponent extends PCanvas {

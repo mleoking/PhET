@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -24,7 +24,7 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Feb 4, 2006
  * Time: 10:50:45 PM
- * Copyright (c) Feb 4, 2006 by Sam Reid
+ *
  */
 
 public class DGModule extends IntensityModule {

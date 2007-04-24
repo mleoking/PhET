@@ -18,7 +18,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 30, 2003
  * Time: 12:46:15 AM
- * Copyright (c) Jun 30, 2003 by Sam Reid
+ *
  */
 public class TimeGraphic extends PhetGraphic {
     private String timeStr;

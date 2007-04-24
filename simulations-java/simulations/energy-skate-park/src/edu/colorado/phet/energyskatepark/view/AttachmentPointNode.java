@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Oct 11, 2006
  * Time: 1:34:20 AM
- * Copyright (c) Oct 11, 2006 by Sam Reid
+ *
  */
 
 public class AttachmentPointNode extends PhetPNode {

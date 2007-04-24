@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.piccolophet.test;
 
 import edu.umd.cs.piccolo.PCanvas;
@@ -14,7 +14,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 8:15:07 AM
- * Copyright (c) Jul 7, 2005 by Sam Reid
+ *
  */
 
 public class TestPiccoloRendering {

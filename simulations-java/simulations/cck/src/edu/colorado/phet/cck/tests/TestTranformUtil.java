@@ -18,7 +18,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: May 26, 2004
  * Time: 8:49:03 AM
- * Copyright (c) May 26, 2004 by Sam Reid
+ *
  */
 public class TestTranformUtil {
     static AffineTransform testTrf;

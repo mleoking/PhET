@@ -7,7 +7,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 3, 2006
  * Time: 8:40:06 PM
- * Copyright (c) Sep 3, 2006 by Sam Reid
+ *
  */
 
 public class TestAboutDialogs {

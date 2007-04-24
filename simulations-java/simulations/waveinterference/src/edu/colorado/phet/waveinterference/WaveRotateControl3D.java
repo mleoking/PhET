@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.util.WISwingUtil;
@@ -9,7 +9,7 @@ import edu.colorado.phet.waveinterference.view.WaveRotateControl;
  * User: Sam Reid
  * Date: May 17, 2006
  * Time: 11:28:46 AM
- * Copyright (c) May 17, 2006 by Sam Reid
+ *
  */
 
 public class WaveRotateControl3D extends WaveRotateControl {

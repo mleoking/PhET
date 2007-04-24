@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.common.plotdevice;
 
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
@@ -18,7 +18,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jan 15, 2005
  * Time: 10:37:22 AM
- * Copyright (c) Jan 15, 2005 by Sam Reid
+ *
  */
 public class FloatingControl extends VerticalLayoutPanel {
     private static BufferedImage play;

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.piccolophet.test;
 
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
@@ -9,7 +9,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Mar 8, 2006
  * Time: 7:48:57 AM
- * Copyright (c) Mar 8, 2006 by Sam Reid
+ *
  */
 
 public class TestPhetTabbedPaneDescending {

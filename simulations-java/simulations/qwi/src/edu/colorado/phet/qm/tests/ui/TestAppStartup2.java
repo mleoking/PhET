@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.tests.ui;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -18,7 +18,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Jan 23, 2006
  * Time: 3:15:30 PM
- * Copyright (c) Jan 23, 2006 by Sam Reid
+ *
  */
 
 public class TestAppStartup2 {

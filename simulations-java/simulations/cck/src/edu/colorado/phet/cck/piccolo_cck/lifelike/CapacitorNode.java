@@ -23,7 +23,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Sep 20, 2006
  * Time: 9:07:00 AM
- * Copyright (c) Sep 20, 2006 by Sam Reid
+ *
  */
 
 public class CapacitorNode extends ComponentNode {

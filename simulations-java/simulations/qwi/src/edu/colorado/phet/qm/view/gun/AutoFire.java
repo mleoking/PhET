@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -8,7 +8,7 @@ import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
  * User: Sam Reid
  * Date: Jul 18, 2005
  * Time: 8:16:11 AM
- * Copyright (c) Jul 18, 2005 by Sam Reid
+ *
  */
 
 public class AutoFire implements IntensityManager.Listener {

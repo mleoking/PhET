@@ -12,7 +12,7 @@ import edu.colorado.phet.theramp.view.RampPanel;
  * User: Sam Reid
  * Date: Nov 27, 2004
  * Time: 11:29:31 AM
- * Copyright (c) Nov 27, 2004 by Sam Reid
+ *
  */
 public class ParallelArrowSet extends AbstractArrowSet {
 

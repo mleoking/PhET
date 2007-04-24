@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 10, 2005
  * Time: 8:32:43 AM
- * Copyright (c) May 10, 2005 by Sam Reid
+ *
  */
 
 public class RampTimeModel implements ClockListener {

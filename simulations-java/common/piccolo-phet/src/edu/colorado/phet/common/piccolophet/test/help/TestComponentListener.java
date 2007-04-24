@@ -4,7 +4,7 @@ package edu.colorado.phet.common.piccolophet.test.help;
  * User: Sam Reid
  * Date: Jun 2, 2006
  * Time: 2:12:25 PM
- * Copyright (c) Jun 2, 2006 by Sam Reid
+ * 
  */
 
 import javax.swing.*;

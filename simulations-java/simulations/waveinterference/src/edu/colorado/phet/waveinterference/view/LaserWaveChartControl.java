@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Apr 16, 2006
  * Time: 9:16:12 PM
- * Copyright (c) Apr 16, 2006 by Sam Reid
+ *
  */
 
 public class LaserWaveChartControl extends PNode {

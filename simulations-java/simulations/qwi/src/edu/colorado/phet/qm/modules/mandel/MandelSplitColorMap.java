@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.model.Wavefunction;
@@ -12,7 +12,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 3, 2006
  * Time: 12:52:00 AM
- * Copyright (c) Mar 3, 2006 by Sam Reid
+ *
  */
 
 public class MandelSplitColorMap implements ColorMap {

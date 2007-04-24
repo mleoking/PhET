@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.tests;
 
 /**
  * User: Sam Reid
  * Date: Jun 22, 2006
  * Time: 10:29:28 AM
- * Copyright (c) Jun 22, 2006 by Sam Reid
+ *
  */
 
 import edu.colorado.phet.cck.chart.AbstractFloatingChart;

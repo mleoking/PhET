@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.WaveInterferenceModelUnits;
@@ -12,7 +12,7 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: May 22, 2006
  * Time: 6:22:32 PM
- * Copyright (c) May 22, 2006 by Sam Reid
+ *
  */
 
 public class WaveInterferenceScreenUnits {

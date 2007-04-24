@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 22, 2003
  * Time: 11:52:15 AM
- * Copyright (c) Aug 22, 2003 by Sam Reid
+ *
  */
 public class Pipe extends Vessel {
     private GeneralPath shape;

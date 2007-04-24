@@ -31,7 +31,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Jul 7, 2006
  * Time: 9:17:52 AM
- * Copyright (c) Jul 7, 2006 by Sam Reid
+ *
  */
 
 public class CCKApplication extends PiccoloPhetApplication {

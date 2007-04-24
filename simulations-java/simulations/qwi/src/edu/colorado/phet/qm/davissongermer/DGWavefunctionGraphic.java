@@ -9,7 +9,7 @@ import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
  * User: Sam Reid
  * Date: Jul 14, 2006
  * Time: 12:18:40 PM
- * Copyright (c) Jul 14, 2006 by Sam Reid
+ *
  */
 
 public class DGWavefunctionGraphic extends WavefunctionGraphic {

@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Oct 5, 2006
  * Time: 12:02:15 AM
- * Copyright (c) Oct 5, 2006 by Sam Reid
+ *
  */
 public class BatteryNode extends ComponentImageNode {
     private Battery battery;

@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 30, 2005
  * Time: 1:48:27 PM
- * Copyright (c) Sep 30, 2005 by Sam Reid
+ *
  */
 public abstract class ValueAccessor {
     String name;

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.macro.energy.bands;
 
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
@@ -15,7 +15,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Mar 23, 2004
  * Time: 2:25:44 PM
- * Copyright (c) Mar 23, 2004 by Sam Reid
+ *
  */
 public class JaggedSplitBandGraphic extends BandSetGraphic {
     VerticalTearLine rightTear;

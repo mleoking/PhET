@@ -16,7 +16,7 @@ import java.util.Observer;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 9:55:44 PM
- * Copyright (c) Aug 19, 2003 by Sam Reid
+ *
  */
 public class DropGraphic implements Graphic, SimpleObserver, TransformListener {
     Drop drop;

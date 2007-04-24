@@ -27,7 +27,7 @@ import java.util.Comparator;
  * User: Sam Reid
  * Date: Sep 21, 2005
  * Time: 3:06:51 AM
- * Copyright (c) Sep 21, 2005 by Sam Reid
+ *
  */
 
 public class EnergySkateParkSimulationPanel extends PhetPCanvas implements EnergySkateParkSplineEnvironment {

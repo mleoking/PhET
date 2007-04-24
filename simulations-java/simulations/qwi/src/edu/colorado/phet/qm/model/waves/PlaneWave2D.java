@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model.waves;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -11,7 +11,7 @@ import edu.colorado.phet.qm.model.math.Complex;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 12:04:22 PM
- * Copyright (c) Jun 10, 2005 by Sam Reid
+ *
  */
 
 public class PlaneWave2D implements Wave {

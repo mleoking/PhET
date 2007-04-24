@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -15,7 +15,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 9:02:40 PM
- * Copyright (c) Jul 8, 2005 by Sam Reid
+ *
  */
 public class Photon extends GunParticle {
     private SRRWavelengthSlider wavelengthSliderGraphic;

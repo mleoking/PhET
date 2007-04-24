@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.semiconductor.common;
 
 import javax.swing.*;
@@ -8,7 +8,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 17, 2006
  * Time: 9:43:01 AM
- * Copyright (c) Mar 17, 2006 by Sam Reid
+ *
  */
 
 public class ImageDebugger {

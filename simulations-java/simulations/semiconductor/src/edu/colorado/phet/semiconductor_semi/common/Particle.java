@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.common;
 
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
@@ -9,7 +9,7 @@ import edu.colorado.phet.common_semiconductor.model.simpleobservable.SimpleObser
  * User: Sam Reid
  * Date: Dec 31, 2003
  * Time: 2:48:10 PM
- * Copyright (c) Dec 31, 2003 by Sam Reid
+ *
  */
 public class Particle extends SimpleObservable implements ModelElement {
     PhetVector position;

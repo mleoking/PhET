@@ -16,7 +16,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 26, 2006
  * Time: 6:31:14 PM
- * Copyright (c) May 26, 2006 by Sam Reid
+ *
  */
 
 public class TestTransforms {

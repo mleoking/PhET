@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.qm.model.QWIModel;
@@ -8,7 +8,7 @@ import edu.colorado.phet.qm.model.Wavefunction;
  * User: Sam Reid
  * Date: Dec 19, 2005
  * Time: 9:56:01 PM
- * Copyright (c) Dec 19, 2005 by Sam Reid
+ *
  */
 
 public class DebugIntensityReader extends QWIModel.Adapter {

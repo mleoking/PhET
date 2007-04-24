@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import java.awt.image.BufferedImage;
@@ -8,7 +8,7 @@ import java.awt.image.WritableRaster;
  * User: Sam Reid
  * Date: Jul 15, 2005
  * Time: 9:53:39 AM
- * Copyright (c) Jul 15, 2005 by Sam Reid
+ *
  */
 
 public class ImageFade {

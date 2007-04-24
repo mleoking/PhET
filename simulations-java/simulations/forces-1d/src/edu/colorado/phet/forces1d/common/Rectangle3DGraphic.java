@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.common;
 
 import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 12, 2005
  * Time: 9:34:31 AM
- * Copyright (c) Feb 12, 2005 by Sam Reid
+ *
  */
 
 public class Rectangle3DGraphic extends CompositePhetGraphic {

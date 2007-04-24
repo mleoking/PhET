@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.plotdevice;
 
 import edu.colorado.phet.chart_movingman.BufferedLinePlot;
@@ -20,7 +20,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Apr 5, 2005
  * Time: 4:28:19 AM
- * Copyright (c) Apr 5, 2005 by Sam Reid
+ *
  */
 public class PlotDeviceSeries extends CompositePhetGraphic {
     private PlotDevice plotDevice;

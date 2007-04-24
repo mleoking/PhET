@@ -18,7 +18,7 @@ import junit.framework.TestCase;
  * User: Sam Reid
  * Date: Jul 8, 2004
  * Time: 4:37:13 PM
- * Copyright (c) Jul 8, 2004 by Sam Reid
+ *
  */
 public class TestCurrent extends TestCase {
     private CCKPhetgraphicsModule module;

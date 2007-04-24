@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 2, 2006
  * Time: 12:01:51 AM
- * Copyright (c) Jul 2, 2006 by Sam Reid
+ *
  */
 
 public class DoorknobNode extends PNode {

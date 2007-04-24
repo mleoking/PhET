@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
@@ -14,7 +14,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 1:46:56 PM
- * Copyright (c) Jun 11, 2005 by Sam Reid
+ *
  */
 
 public class Wavefunction {

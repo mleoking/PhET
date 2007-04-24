@@ -11,7 +11,7 @@ import java.awt.geom.AffineTransform;
  * User: Sam Reid
  * Date: Apr 21, 2003
  * Time: 7:57:31 PM
- * Copyright (c) Apr 21, 2003 by Sam Reid
+ *
  */
 public class ColorBandsGraphic implements Graphic {
     private boolean visible = true;

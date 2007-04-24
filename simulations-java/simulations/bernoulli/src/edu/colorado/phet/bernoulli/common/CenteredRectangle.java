@@ -6,7 +6,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 11:42:56 AM
- * Copyright (c) Aug 19, 2003 by Sam Reid
+ *
  */
 public class CenteredRectangle {
     int width;

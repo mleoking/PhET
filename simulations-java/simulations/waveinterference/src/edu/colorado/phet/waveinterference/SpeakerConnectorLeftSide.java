@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: May 18, 2006
  * Time: 6:14:38 PM
- * Copyright (c) May 18, 2006 by Sam Reid
+ *
  */
 
 public class SpeakerConnectorLeftSide extends VerticalConnector {

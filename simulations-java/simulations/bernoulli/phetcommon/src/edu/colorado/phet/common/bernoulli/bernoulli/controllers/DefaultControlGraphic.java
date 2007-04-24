@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.controllers;
 
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Sep 16, 2003
  * Time: 10:11:27 PM
- * Copyright (c) Sep 16, 2003 by Sam Reid
+ *
  */
 public class DefaultControlGraphic implements InteractiveGraphic {
     private Graphic graphic;

@@ -15,7 +15,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 10:40:36 PM
- * Copyright (c) Aug 19, 2003 by Sam Reid
+ *
  */
 public class PumpControlPanel extends JPanel {
 

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.common;
 
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 12, 2005
  * Time: 9:47:54 AM
- * Copyright (c) Feb 12, 2005 by Sam Reid
+ *
  */
 
 public class VerticalTextGraphic extends PNode {

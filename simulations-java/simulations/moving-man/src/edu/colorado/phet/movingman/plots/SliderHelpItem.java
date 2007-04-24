@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
@@ -12,7 +12,7 @@ import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
  * User: Sam Reid
  * Date: Apr 18, 2005
  * Time: 9:41:17 PM
- * Copyright (c) Apr 18, 2005 by Sam Reid
+ *
  */
 
 public class SliderHelpItem extends HelpItem2 {

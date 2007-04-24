@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.model.observation;
 
 import edu.colorado.phet.common.bernoulli.model.ModelElement;
@@ -8,7 +8,7 @@ import edu.colorado.phet.common.bernoulli.model.ModelElement;
  * User: Sam Reid
  * Date: May 21, 2003
  * Time: 6:34:20 PM
- * Copyright (c) May 21, 2003 by Sam Reid
+ *
  */
 public class Creation implements ObservationType {
     ModelElement target;

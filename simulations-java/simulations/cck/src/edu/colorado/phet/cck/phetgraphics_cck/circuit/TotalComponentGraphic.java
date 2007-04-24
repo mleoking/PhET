@@ -11,7 +11,7 @@ import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 9:05:19 AM
- * Copyright (c) May 24, 2004 by Sam Reid
+ *
  */
 public class TotalComponentGraphic {
     private CircuitComponentInteractiveGraphic interactiveBranchGraphic;

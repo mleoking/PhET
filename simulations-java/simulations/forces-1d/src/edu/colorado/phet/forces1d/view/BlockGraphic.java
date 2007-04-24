@@ -19,7 +19,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Nov 13, 2004
  * Time: 10:27:14 AM
- * Copyright (c) Nov 13, 2004 by Sam Reid
+ *
  */
 public class BlockGraphic extends CompositePhetGraphic {
     private Block block;

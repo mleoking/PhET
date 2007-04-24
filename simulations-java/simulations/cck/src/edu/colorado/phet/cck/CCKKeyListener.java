@@ -12,7 +12,7 @@ import java.awt.event.KeyListener;
  * User: Sam Reid
  * Date: Jun 30, 2004
  * Time: 1:09:58 PM
- * Copyright (c) Jun 30, 2004 by Sam Reid
+ *
  */
 public class CCKKeyListener implements KeyListener {
     ICCKModule cck;

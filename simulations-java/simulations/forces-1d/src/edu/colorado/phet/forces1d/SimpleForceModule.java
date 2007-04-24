@@ -9,7 +9,7 @@
 // * User: Sam Reid
 // * Date: Nov 12, 2004
 // * Time: 10:06:43 PM
-// * Copyright (c) Nov 12, 2004 by Sam Reid
+// *
 // */
 //public class SimpleForceModule extends Force1DModule {
 //    private SimpleControlPanel forceControlPanel;

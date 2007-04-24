@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.phetcommon;
 
 import javax.swing.*;
@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jan 28, 2006
  * Time: 8:32:12 PM
- * Copyright (c) Jan 28, 2006 by Sam Reid
+ *
  */
 
 public class TabLabelIcon2 extends ImageIcon {

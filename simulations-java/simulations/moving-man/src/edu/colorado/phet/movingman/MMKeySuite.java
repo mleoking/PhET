@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
  * User: Sam Reid
  * Date: Oct 31, 2004
  * Time: 12:41:21 PM
- * Copyright (c) Oct 31, 2004 by Sam Reid
+ *
  */
 public class MMKeySuite implements KeyListener {
     MovingManModule module;

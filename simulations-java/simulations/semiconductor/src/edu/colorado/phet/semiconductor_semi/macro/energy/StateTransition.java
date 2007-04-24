@@ -7,7 +7,7 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.bands.BandParticleState
  * User: Sam Reid
  * Date: Mar 16, 2004
  * Time: 9:54:05 PM
- * Copyright (c) Mar 16, 2004 by Sam Reid
+ *
  */
 public abstract class StateTransition {
     public abstract BandParticleState getState( BandParticle particle, EnergySection section );

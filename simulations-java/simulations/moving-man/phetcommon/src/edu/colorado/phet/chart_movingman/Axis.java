@@ -13,7 +13,7 @@ import java.text.NumberFormat;
  * User: Sam Reid
  * Date: Sep 21, 2004
  * Time: 6:21:43 AM
- * Copyright (c) Sep 21, 2004 by Sam Reid
+ *
  */
 public class Axis extends GraphicLayerSet {
     private Chart chart;

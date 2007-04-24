@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.piccolophet.test.experimental;
 
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Aug 5, 2005
  * Time: 7:33:22 AM
- * Copyright (c) Aug 5, 2005 by Sam Reid
+ *
  */
 
 public class MagicPImage2 extends PImage {

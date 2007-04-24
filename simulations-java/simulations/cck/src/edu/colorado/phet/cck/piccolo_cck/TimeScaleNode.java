@@ -12,7 +12,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Oct 8, 2006
  * Time: 9:37:56 PM
- * Copyright (c) Oct 8, 2006 by Sam Reid
+ *
  */
 
 public class TimeScaleNode extends PhetPNode {

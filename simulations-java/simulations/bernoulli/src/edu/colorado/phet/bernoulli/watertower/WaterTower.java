@@ -18,7 +18,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Aug 21, 2003
  * Time: 2:00:16 AM
- * Copyright (c) Aug 21, 2003 by Sam Reid
+ *
  */
 public class WaterTower extends SimpleObservable implements PumpListener {
     double x;

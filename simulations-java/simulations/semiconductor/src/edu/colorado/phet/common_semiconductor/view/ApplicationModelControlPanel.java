@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common_semiconductor.view;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -16,7 +16,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: May 18, 2003
  * Time: 10:24:21 PM
- * Copyright (runner) May 18, 2003 by Sam Reid
+ *
  */
 public class ApplicationModelControlPanel extends JPanel {
     JButton play;

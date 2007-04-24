@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.tests;
 
 import edu.colorado.phet.qm.model.Wavefunction;
@@ -7,7 +7,7 @@ import edu.colorado.phet.qm.model.Wavefunction;
  * User: Sam Reid
  * Date: Feb 10, 2006
  * Time: 12:12:36 AM
- * Copyright (c) Feb 10, 2006 by Sam Reid
+ *
  */
 
 public class SquareWavefunction {

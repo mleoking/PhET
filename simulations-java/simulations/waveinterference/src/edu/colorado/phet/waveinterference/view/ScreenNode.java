@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 25, 2006
  * Time: 12:32:59 AM
- * Copyright (c) Mar 25, 2006 by Sam Reid
+ *
  */
 
 public class ScreenNode extends PhetPNode {

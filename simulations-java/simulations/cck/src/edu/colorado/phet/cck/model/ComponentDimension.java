@@ -5,7 +5,7 @@ package edu.colorado.phet.cck.model;
  * User: Sam Reid
  * Date: Jun 10, 2004
  * Time: 11:34:45 PM
- * Copyright (c) Jun 10, 2004 by Sam Reid
+ *
  */
 public class ComponentDimension {
     private double length;

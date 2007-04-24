@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.piccolophet.test.experimental.tests;
 
 import edu.colorado.phet.common.piccolophet.test.experimental.LayeredPNode;
@@ -16,7 +16,7 @@ import java.awt.geom.Line2D;
  * User: Sam Reid
  * Date: Nov 12, 2005
  * Time: 8:08:35 AM
- * Copyright (c) Nov 12, 2005 by Sam Reid
+ * 
  */
 
 public class TestLayeredPNode {

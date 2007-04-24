@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.model.SlitPotential;
@@ -16,7 +16,7 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: May 18, 2006
  * Time: 10:26:56 AM
- * Copyright (c) May 18, 2006 by Sam Reid
+ *
  */
 
 public class BarrierSideView extends SlitPotentialGraphic {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.model.WaveModel;
@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: May 15, 2006
  * Time: 12:32:35 AM
- * Copyright (c) May 15, 2006 by Sam Reid
+ *
  */
 
 public class ClearWaveControl extends JPanel {

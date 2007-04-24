@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common_cck.view.graphics;
 
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Oct 8, 2003
  * Time: 11:58:25 PM
- * Copyright (c) Oct 8, 2003 by Sam Reid
+ *
  */
 public class TargetedImageGraphic extends BufferedImageGraphic {
     private Rectangle2D modelBounds;

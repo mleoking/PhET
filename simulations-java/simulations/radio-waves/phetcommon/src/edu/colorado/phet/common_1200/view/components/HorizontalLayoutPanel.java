@@ -8,7 +8,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Aug 13, 2004
  * Time: 10:10:30 AM
- * Copyright (c) Aug 13, 2004 by Sam Reid
+ *
  */
 public class HorizontalLayoutPanel extends JPanel {
     private GridBagConstraints gridBagConstraints;

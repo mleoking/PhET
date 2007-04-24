@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common_cck.view.graphics.shapes;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jan 3, 2004
  * Time: 4:49:08 PM
- * Copyright (c) Jan 3, 2004 by Sam Reid
+ *
  */
 public class Arrow {
 

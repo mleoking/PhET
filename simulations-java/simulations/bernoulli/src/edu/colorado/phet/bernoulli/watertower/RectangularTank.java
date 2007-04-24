@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Aug 21, 2003
  * Time: 2:02:36 AM
- * Copyright (c) Aug 21, 2003 by Sam Reid
+ *
  */
 public class RectangularTank extends Vessel {
     double x;

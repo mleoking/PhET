@@ -11,7 +11,7 @@ import edu.colorado.phet.cck.model.components.Resistor;
  * User: Sam Reid
  * Date: Oct 1, 2004
  * Time: 12:03:21 AM
- * Copyright (c) Oct 1, 2004 by Sam Reid
+ *
  */
 public class TestNodeAnalysis extends NodeAnalysisTest {
 

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.model;
 
 import edu.colorado.phet.theramp.TheRampStrings;
@@ -11,7 +11,7 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: May 16, 2005
  * Time: 9:42:43 PM
- * Copyright (c) May 16, 2005 by Sam Reid
+ *
  */
 
 public abstract class ValueAccessor {

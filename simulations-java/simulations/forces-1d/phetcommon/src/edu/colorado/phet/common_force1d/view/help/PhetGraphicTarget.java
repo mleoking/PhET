@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common_force1d.view.help;
 
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 9, 2005
  * Time: 9:32:50 AM
- * Copyright (c) May 9, 2005 by Sam Reid
+ *
  */
 
 public class PhetGraphicTarget extends HelpTarget {

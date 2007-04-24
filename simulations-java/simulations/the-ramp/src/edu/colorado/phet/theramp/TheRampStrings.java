@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  * User: Sam Reid
  * Date: Aug 21, 2006
  * Time: 2:21:41 PM
- * Copyright (c) Aug 21, 2006 by Sam Reid
+ *
  */
 
 public class TheRampStrings {     

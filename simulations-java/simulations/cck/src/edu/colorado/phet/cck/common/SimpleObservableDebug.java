@@ -8,7 +8,7 @@ import edu.colorado.phet.common_cck.util.SimpleObserver;
  * User: Sam Reid
  * Date: Sep 27, 2004
  * Time: 11:07:19 AM
- * Copyright (c) Sep 27, 2004 by Sam Reid
+ *
  */
 public class SimpleObservableDebug extends SimpleObservable {
 //    private static ArrayList instances = new ArrayList();

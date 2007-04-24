@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException;
  * User: Sam Reid
  * Date: Feb 11, 2005                            ÷
  * Time: 9:57:09 AM
- * Copyright (c) Feb 11, 2005 by Sam Reid
+ *
  */
 
 public class TheRampApplication extends PhetApplication {

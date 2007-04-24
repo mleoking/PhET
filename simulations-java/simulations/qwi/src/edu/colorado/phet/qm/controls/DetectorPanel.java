@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jun 29, 2005
  * Time: 11:41:25 AM
- * Copyright (c) Jun 29, 2005 by Sam Reid
+ *
  */
 
 public class DetectorPanel extends VerticalLayoutPanel {

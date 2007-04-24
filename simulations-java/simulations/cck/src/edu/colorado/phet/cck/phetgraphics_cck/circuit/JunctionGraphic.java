@@ -19,7 +19,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 2:05:05 AM
- * Copyright (c) May 24, 2004 by Sam Reid
+ *
  */
 public class JunctionGraphic extends CCKCompositePhetGraphic {
     private PhetShapeGraphic shapeGraphic;

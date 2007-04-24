@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
@@ -9,7 +9,7 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: Jul 29, 2005
  * Time: 9:50:41 AM
- * Copyright (c) Jul 29, 2005 by Sam Reid
+ *
  */
 
 public class DetectionRateDebugger {

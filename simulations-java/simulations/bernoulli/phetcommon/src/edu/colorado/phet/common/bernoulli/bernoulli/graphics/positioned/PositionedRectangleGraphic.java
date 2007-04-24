@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.graphics.positioned;
 
 import edu.colorado.phet.common.bernoulli.view.graphics.positioned.PositionedGraphic;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 3, 2003
  * Time: 3:54:09 PM
- * Copyright (c) Jun 3, 2003 by Sam Reid
+ *
  */
 public class PositionedRectangleGraphic implements PositionedGraphic {
     Color color;

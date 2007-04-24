@@ -6,7 +6,7 @@ import edu.colorado.phet.cck.model.components.Branch;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 10:43:05 AM
- * Copyright (c) May 24, 2004 by Sam Reid
+ *
  */
 public interface CircuitListener {
     void junctionRemoved( Junction junction );

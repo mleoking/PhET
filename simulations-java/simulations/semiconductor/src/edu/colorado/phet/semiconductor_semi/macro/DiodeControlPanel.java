@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Feb 7, 2004
  * Time: 7:13:50 PM
- * Copyright (c) Feb 7, 2004 by Sam Reid
+ *
  */
 public class DiodeControlPanel extends JPanel {
     ButtonGroup bg = new ButtonGroup();

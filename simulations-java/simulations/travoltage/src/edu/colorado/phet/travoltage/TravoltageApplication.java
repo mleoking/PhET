@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -13,7 +13,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Jun 30, 2006
  * Time: 11:20:53 PM
- * Copyright (c) Jun 30, 2006 by Sam Reid
+ *
  */
 
 public class TravoltageApplication extends PhetApplication {

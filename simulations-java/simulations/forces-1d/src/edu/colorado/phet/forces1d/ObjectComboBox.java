@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d;
 
 import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
@@ -17,7 +17,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 4, 2005
  * Time: 7:55:21 AM
- * Copyright (c) Feb 4, 2005 by Sam Reid
+ *
  */
 
 public class ObjectComboBox extends JComboBox {

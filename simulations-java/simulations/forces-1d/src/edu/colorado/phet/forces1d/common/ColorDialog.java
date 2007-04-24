@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 19, 2004
  * Time: 9:55:48 PM
- * Copyright (c) Jul 19, 2004 by Sam Reid
+ *
  */
 public class ColorDialog {
 

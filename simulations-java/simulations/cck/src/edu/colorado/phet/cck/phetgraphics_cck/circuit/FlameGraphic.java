@@ -20,7 +20,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jun 24, 2004
  * Time: 12:10:55 PM
- * Copyright (c) Jun 24, 2004 by Sam Reid
+ *
  */
 public class FlameGraphic extends PhetImageGraphic {
     CircuitComponent component;

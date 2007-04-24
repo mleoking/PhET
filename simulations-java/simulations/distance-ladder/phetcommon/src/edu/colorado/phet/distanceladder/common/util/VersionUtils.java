@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.distanceladder.common.util;
 
 import edu.colorado.phet.distanceladder.common.application.PhetApplication;
@@ -11,7 +11,7 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Sep 15, 2003
  * Time: 2:53:11 AM
- * Copyright (c) Sep 15, 2003 by Sam Reid
+ *
  */
 public class VersionUtils {
     public static class VersionInfo {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.semiconductor_semi.macro.energy;
 
 import edu.colorado.phet.common_semiconductor.model.ModelElement;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 17, 2006
  * Time: 11:08:36 AM
- * Copyright (c) Mar 17, 2006 by Sam Reid
+ *
  */
 
 public class DiodeIn3Handler implements ModelCriteria, ModelElement {

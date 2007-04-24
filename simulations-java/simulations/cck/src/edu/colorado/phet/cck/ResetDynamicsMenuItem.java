@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck;
 
 import edu.colorado.phet.cck.model.DynamicBranch;
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jun 30, 2006
  * Time: 2:32:46 AM
- * Copyright (c) Jun 30, 2006 by Sam Reid
+ *
  */
 
 public class ResetDynamicsMenuItem extends JMenuItem {

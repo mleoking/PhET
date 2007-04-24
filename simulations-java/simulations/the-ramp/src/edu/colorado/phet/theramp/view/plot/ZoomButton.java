@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view.plot;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 8, 2005
  * Time: 11:23:40 PM
- * Copyright (c) Aug 8, 2005 by Sam Reid
+ *
  */
 
 public class ZoomButton extends JButton {

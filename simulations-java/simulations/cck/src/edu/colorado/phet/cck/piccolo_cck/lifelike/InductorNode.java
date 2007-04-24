@@ -12,7 +12,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Sep 20, 2006
  * Time: 10:49:26 AM
- * Copyright (c) Sep 20, 2006 by Sam Reid
+ *
  */
 
 public class InductorNode extends ComponentImageNode {

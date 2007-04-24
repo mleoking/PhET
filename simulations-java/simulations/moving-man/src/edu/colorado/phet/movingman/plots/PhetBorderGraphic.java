@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;
@@ -12,7 +12,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 18, 2005
  * Time: 4:31:51 PM
- * Copyright (c) Apr 18, 2005 by Sam Reid
+ *
  */
 
 public class PhetBorderGraphic extends CompositePhetGraphic {

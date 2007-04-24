@@ -23,7 +23,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Aug 24, 2003
  * Time: 4:36:59 AM
- * Copyright (c) Aug 24, 2003 by Sam Reid
+ *
  */
 public class SegmentCollisionTest {
     static class TestModule extends Module {

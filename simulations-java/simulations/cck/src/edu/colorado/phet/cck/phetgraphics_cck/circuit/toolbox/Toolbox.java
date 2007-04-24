@@ -29,7 +29,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: May 29, 2004
  * Time: 2:30:15 AM
- * Copyright (c) May 29, 2004 by Sam Reid
+ *
  */
 public class Toolbox extends CompositeGraphic {
     private SimpleObservable simpleObservable = new SimpleObservable();

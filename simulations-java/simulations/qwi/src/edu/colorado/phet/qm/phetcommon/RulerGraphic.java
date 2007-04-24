@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -12,7 +12,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 16, 2006
  * Time: 2:37:08 PM
- * Copyright (c) Jan 16, 2006 by Sam Reid
+ *
  */
 
 public class RulerGraphic extends PhetPNode {

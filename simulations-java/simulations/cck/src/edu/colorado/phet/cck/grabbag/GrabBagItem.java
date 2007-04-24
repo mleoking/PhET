@@ -17,7 +17,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Sep 14, 2004
  * Time: 8:07:23 PM
- * Copyright (c) Sep 14, 2004 by Sam Reid
+ *
  */
 public class GrabBagItem {
     private URL imageURL;

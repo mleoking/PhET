@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.tests;
 
 import edu.colorado.phet.chart_movingman.Range2D;
@@ -20,7 +20,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Mar 28, 2005
  * Time: 11:13:04 AM
- * Copyright (c) Mar 28, 2005 by Sam Reid
+ *
  */
 
 public class TestPlotDevice {

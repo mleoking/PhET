@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -24,7 +24,7 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: Dec 18, 2005
  * Time: 11:28:29 PM
- * Copyright (c) Dec 18, 2005 by Sam Reid
+ *
  */
 
 public class IntensityReader extends PComposite {

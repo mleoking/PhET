@@ -8,7 +8,7 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.statemodels.ExciteForCo
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 9:07:02 PM
- * Copyright (c) Apr 26, 2004 by Sam Reid
+ *
  */
 public class Clear3 extends DefaultStateDiagram {
 

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common_semiconductor.view.graphics.shapes;
 
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
@@ -10,7 +10,7 @@ import java.awt.geom.GeneralPath;
  * User: Sam Reid
  * Date: Jan 3, 2004
  * Time: 4:49:08 PM
- * Copyright (c) Jan 3, 2004 by Sam Reid
+ *
  */
 public class ArrowShape {
     GeneralPath arrowPath;

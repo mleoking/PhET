@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 1:29:19 PM
- * Copyright (c) Apr 26, 2004 by Sam Reid
+ *
  */
 public class ParticleActionApplicator implements ModelElement {
     ArrayList particleActions = new ArrayList();

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 9:04:25 PM
- * Copyright (c) Jul 8, 2005 by Sam Reid
+ *
  */
 public abstract class IntensityBeam extends ImageComboBox.Item {
     private boolean highIntensityModeOn;

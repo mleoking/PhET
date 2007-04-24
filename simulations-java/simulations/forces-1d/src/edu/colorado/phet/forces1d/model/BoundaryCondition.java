@@ -1,11 +1,11 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.model;
 
 /**
  * User: Sam Reid
  * Date: Jan 30, 2005
  * Time: 11:05:48 AM
- * Copyright (c) Jan 30, 2005 by Sam Reid
+ *
  */
 public abstract class BoundaryCondition {
     Force1DModel model;

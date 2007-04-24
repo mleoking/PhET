@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Sep 9, 2005
  * Time: 10:00:05 PM
- * Copyright (c) Sep 9, 2005 by Sam Reid
+ *
  */
 
 public class DemonstrateConnectorGraphic {

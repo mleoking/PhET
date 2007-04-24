@@ -5,7 +5,7 @@ package edu.colorado.phet.movingman.common;
  * User: Sam Reid
  * Date: Jul 17, 2003
  * Time: 12:46:57 AM
- * Copyright (c) Jul 17, 2003 by Sam Reid
+ *
  */
 public class CircularBuffer {
     private double[] data;

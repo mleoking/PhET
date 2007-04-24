@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.mna.tests;
 
 import edu.colorado.phet.cck.mna.MNACircuit;
@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.mna.MNACircuit;
  * User: Sam Reid
  * Date: Jun 18, 2006
  * Time: 11:21:33 PM
- * Copyright (c) Jun 18, 2006 by Sam Reid
+ *
  */
 
 public class TestLadder3_1_1 {

@@ -12,7 +12,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Nov 16, 2005
  * Time: 11:45:12 PM
- * Copyright (c) Nov 16, 2005 by Sam Reid
+ *
  */
 public abstract class Planet {
     private String name;

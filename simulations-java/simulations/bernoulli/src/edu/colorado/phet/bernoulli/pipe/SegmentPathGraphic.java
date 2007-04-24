@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Aug 25, 2003
  * Time: 1:14:48 AM
- * Copyright (c) Aug 25, 2003 by Sam Reid
+ *
  */
 public class SegmentPathGraphic {
     private SegmentPath path;

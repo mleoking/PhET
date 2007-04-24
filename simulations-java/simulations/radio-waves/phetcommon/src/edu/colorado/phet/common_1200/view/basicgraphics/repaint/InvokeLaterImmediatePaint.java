@@ -8,7 +8,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 10, 2004
  * Time: 9:15:25 AM
- * Copyright (c) Sep 10, 2004 by Sam Reid
+ *
  */
 public class InvokeLaterImmediatePaint extends StoredRectRepainter {
 

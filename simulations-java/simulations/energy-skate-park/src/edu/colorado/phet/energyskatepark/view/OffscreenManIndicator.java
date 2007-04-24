@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Oct 27, 2005
  * Time: 9:18:57 AM
- * Copyright (c) Oct 27, 2005 by Sam Reid
+ *
  */
 
 public class OffscreenManIndicator extends PhetPNode {

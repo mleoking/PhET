@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Oct 31, 2005
  * Time: 12:56:48 AM
- * Copyright (c) Oct 31, 2005 by Sam Reid
+ *
  */
 
 public class PieChartControlPanel extends VerticalLayoutPanel {

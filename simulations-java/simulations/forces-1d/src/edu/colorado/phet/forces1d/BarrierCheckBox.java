@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d;
 
 import edu.colorado.phet.common_force1d.view.util.SimStrings;
@@ -12,7 +12,7 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Jan 25, 2005
  * Time: 3:18:39 AM
- * Copyright (c) Jan 25, 2005 by Sam Reid
+ *
  */
 
 public class BarrierCheckBox extends JCheckBox {

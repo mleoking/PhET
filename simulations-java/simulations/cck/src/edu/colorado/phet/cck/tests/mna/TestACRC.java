@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.tests.mna;
 
 import edu.colorado.phet.cck.model.Circuit;
@@ -12,7 +12,7 @@ import edu.colorado.phet.cck.model.components.Resistor;
  * User: Sam Reid
  * Date: Jun 16, 2006
  * Time: 1:54:22 AM
- * Copyright (c) Jun 16, 2006 by Sam Reid
+ *
  */
 
 public class TestACRC extends NodeAnalysisTest {

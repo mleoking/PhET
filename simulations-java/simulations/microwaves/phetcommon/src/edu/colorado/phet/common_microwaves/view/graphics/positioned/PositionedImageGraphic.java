@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common_microwaves.view.graphics.positioned;
 
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 16, 2003
  * Time: 6:23:33 PM
- * Copyright (c) Apr 16, 2003 by Sam Reid
+ *
  */
 public class PositionedImageGraphic implements PositionedGraphic {
     BufferedImage bi;

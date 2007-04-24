@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 9, 2004
  * Time: 2:45:10 PM
- * Copyright (c) Jun 9, 2004 by Sam Reid
+ *
  */
 public class CompositeCircuitChangeListener implements CircuitChangeListener {
     ArrayList list = new ArrayList();

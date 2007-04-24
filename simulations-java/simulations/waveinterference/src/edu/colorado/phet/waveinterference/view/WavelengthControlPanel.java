@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -15,7 +15,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 8:11:07 PM
- * Copyright (c) Mar 28, 2006 by Sam Reid
+ *
  */
 
 public class WavelengthControlPanel extends VerticalLayoutPanel {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.davissongermer;
 
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: Feb 18, 2006
  * Time: 12:23:42 PM
- * Copyright (c) Feb 18, 2006 by Sam Reid
+ *
  */
 
 public class SaveDGPanel {

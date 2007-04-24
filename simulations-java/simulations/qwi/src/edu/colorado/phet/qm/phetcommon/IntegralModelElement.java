@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
  * User: Sam Reid
  * Date: Jun 27, 2005
  * Time: 1:39:24 PM
- * Copyright (c) Jun 27, 2005 by Sam Reid
+ *
  */
 
 public class IntegralModelElement implements ModelElement {

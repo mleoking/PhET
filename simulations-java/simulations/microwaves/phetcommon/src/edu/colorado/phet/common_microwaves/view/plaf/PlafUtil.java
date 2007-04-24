@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common_microwaves.view.plaf;
 
 //import edu.colorado.phet.common.view.PhetFrame;

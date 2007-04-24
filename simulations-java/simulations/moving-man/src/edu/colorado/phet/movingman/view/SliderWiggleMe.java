@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.chart_movingman.controllers.ChartSlider;
@@ -12,7 +12,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 11, 2005
  * Time: 10:18:48 PM
- * Copyright (c) Apr 11, 2005 by Sam Reid
+ *
  */
 
 public class SliderWiggleMe extends Force1DWiggleMe implements MovingManModule.Listener {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.piccolophet.test;
 
 import edu.umd.cs.piccolo.PCanvas;
@@ -12,7 +12,7 @@ import java.awt.geom.Ellipse2D;
  * User: Sam Reid
  * Date: Jul 28, 2005
  * Time: 10:43:45 AM
- * Copyright (c) Jul 28, 2005 by Sam Reid
+ *
  */
 
 public class TestRenderingHints {

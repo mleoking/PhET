@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.sound.AudioControlPanel;
@@ -9,7 +9,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: May 15, 2006
  * Time: 1:15:10 AM
- * Copyright (c) May 15, 2006 by Sam Reid
+ *
  */
 
 public class SoundAudioControlPanel extends JPanel {

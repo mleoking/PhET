@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common_microwaves.view.mousecontrol;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Oct 9, 2003
  * Time: 12:54:51 AM
- * Copyright (c) Oct 9, 2003 by Sam Reid
+ *
  */
 public class CompositeMouseControl implements MouseControl {
     ArrayList controls = new ArrayList();

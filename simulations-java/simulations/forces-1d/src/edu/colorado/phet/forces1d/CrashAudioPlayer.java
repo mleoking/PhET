@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d;
 
 import edu.colorado.phet.forces1d.common.JSAudioPlayer;
@@ -10,7 +10,7 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Mar 6, 2005
  * Time: 3:30:56 PM
- * Copyright (c) Mar 6, 2005 by Sam Reid
+ *
  */
 
 public class CrashAudioPlayer implements Force1DModel.CollisionListener {

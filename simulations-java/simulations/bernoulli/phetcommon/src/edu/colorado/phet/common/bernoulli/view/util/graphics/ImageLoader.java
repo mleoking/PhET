@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.view.util.graphics;
 
 import edu.colorado.phet.common.bernoulli.view.util.GraphicsUtil;
@@ -11,7 +11,7 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Apr 16, 2003
  * Time: 9:34:20 AM
- * Copyright (c) Apr 16, 2003 by Sam Reid
+ *
  */
 public class ImageLoader {
     public Image loadImage(String name) {

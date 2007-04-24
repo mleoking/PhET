@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 8:54:11 PM
- * Copyright (c) Jun 11, 2005 by Sam Reid
+ *
  */
 
 public class RectangularObject extends SimpleObservable {

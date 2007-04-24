@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 26, 2004
  * Time: 4:06:35 AM
- * Copyright (c) Jun 26, 2004 by Sam Reid
+ *
  */
 public class CollisionTest {
     static class Sphere extends Particle {

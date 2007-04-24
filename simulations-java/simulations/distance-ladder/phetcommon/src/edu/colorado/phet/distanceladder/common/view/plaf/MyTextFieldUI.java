@@ -11,7 +11,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 3, 2004
  * Time: 12:26:12 AM
- * Copyright (c) Apr 3, 2004 by Sam Reid
+ *
  */
 public class MyTextFieldUI extends ComponentUI {
     BasicTextFieldUI delegate = new BasicTextFieldUI();

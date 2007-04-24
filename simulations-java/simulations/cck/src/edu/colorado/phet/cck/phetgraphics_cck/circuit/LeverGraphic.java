@@ -19,7 +19,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jun 10, 2004
  * Time: 12:54:18 PM
- * Copyright (c) Jun 10, 2004 by Sam Reid
+ *
  */
 public class LeverGraphic extends PhetImageGraphic {
     private CircuitComponentImageGraphic baseGraphic;

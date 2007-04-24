@@ -6,7 +6,7 @@ import edu.colorado.phet.cck.model.components.Branch;
  * User: Sam Reid
  * Date: Sep 26, 2006
  * Time: 1:39:13 PM
- * Copyright (c) Sep 26, 2006 by Sam Reid
+ *
  */
 public abstract class Connection {
     public abstract Junction getJunction();

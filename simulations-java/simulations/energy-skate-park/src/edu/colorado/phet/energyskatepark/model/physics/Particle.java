@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 18, 2007
  * Time: 11:42:19 AM
- * Copyright (c) Feb 18, 2007 by Sam Reid
+ *
  */
 
 public class Particle implements Serializable {

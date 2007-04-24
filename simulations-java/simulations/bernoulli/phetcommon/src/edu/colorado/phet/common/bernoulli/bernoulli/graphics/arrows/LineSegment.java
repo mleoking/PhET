@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.graphics.arrows;
 
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.geom.Line2D;
  * User: Sam Reid
  * Date: Jun 24, 2003
  * Time: 3:22:27 PM
- * Copyright (c) Jun 24, 2003 by Sam Reid
+ *
  */
 public class LineSegment {
     Stroke stroke;

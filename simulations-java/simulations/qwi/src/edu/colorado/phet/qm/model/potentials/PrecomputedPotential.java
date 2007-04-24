@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model.potentials;
 
 import edu.colorado.phet.qm.model.Potential;
@@ -7,7 +7,7 @@ import edu.colorado.phet.qm.model.Potential;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 8:58:00 PM
- * Copyright (c) Jun 23, 2005 by Sam Reid
+ *
  */
 
 public class PrecomputedPotential implements Potential {

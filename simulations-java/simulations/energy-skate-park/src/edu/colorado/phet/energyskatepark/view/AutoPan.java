@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  * User: Sam Reid
  * Date: Oct 31, 2005
  * Time: 12:45:49 AM
- * Copyright (c) Oct 31, 2005 by Sam Reid
+ *
  */
 
 public class AutoPan {

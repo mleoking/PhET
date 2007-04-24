@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model;
 
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.Collections;
  * User: Sam Reid
  * Date: Jun 21, 2005
  * Time: 9:41:09 PM
- * Copyright (c) Jun 21, 2005 by Sam Reid
+ *
  */
 
 public class DetectorSet {

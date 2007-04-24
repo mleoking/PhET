@@ -26,7 +26,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 10, 2004
  * Time: 12:50:23 PM
- * Copyright (c) Jun 10, 2004 by Sam Reid
+ *
  */
 public class InteractiveLever extends DefaultInteractiveGraphic implements LeverInteraction {
     private ModelViewTransform2D transform;

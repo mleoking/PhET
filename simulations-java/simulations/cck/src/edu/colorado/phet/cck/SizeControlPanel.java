@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Dec 16, 2006
  * Time: 11:03:19 AM
- * Copyright (c) Dec 16, 2006 by Sam Reid
+ *
  */
 
 public class SizeControlPanel extends VerticalLayoutPanel {

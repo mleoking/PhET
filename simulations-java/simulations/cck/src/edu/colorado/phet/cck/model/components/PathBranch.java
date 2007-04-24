@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 13, 2004
  * Time: 9:22:33 PM
- * Copyright (c) Jun 13, 2004 by Sam Reid
+ *
  */
 public class PathBranch extends Branch {
     protected ArrayList segments = new ArrayList();

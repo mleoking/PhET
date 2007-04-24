@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.coreadditions_microwaves.components;
 
 import edu.colorado.phet.common_microwaves.view.util.graphics.ImageLoader;

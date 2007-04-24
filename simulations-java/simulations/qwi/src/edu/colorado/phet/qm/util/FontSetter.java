@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.util;
 
 import javax.swing.*;
@@ -8,7 +8,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 15, 2006
  * Time: 11:27:32 AM
- * Copyright (c) Mar 15, 2006 by Sam Reid
+ *
  */
 
 public class FontSetter {

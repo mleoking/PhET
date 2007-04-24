@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 13, 2004
  * Time: 2:46:47 PM
- * Copyright (c) Jun 13, 2004 by Sam Reid
+ *
  */
 public class BranchSet {
     private ArrayList branches = new ArrayList();

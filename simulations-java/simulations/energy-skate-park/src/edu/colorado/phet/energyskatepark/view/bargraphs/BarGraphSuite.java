@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Feb 12, 2005
  * Time: 10:42:31 AM
- * Copyright (c) Feb 12, 2005 by Sam Reid
+ *
  */
 
 public class BarGraphSuite extends PNode {

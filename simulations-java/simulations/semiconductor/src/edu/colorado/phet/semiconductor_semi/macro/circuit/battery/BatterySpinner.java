@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jan 17, 2004
  * Time: 3:22:17 PM
- * Copyright (c) Jan 17, 2004 by Sam Reid
+ *
  */
 public class BatterySpinner {
     JSpinner spinner;

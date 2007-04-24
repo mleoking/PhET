@@ -10,7 +10,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Jun 5, 2006
  * Time: 11:56:17 AM
- * Copyright (c) Jun 5, 2006 by Sam Reid
+ *
  */
 
 public class TestDeferredInitialization extends PiccoloPhetApplication {

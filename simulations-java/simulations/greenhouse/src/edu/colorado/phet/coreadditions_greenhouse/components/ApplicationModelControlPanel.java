@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.coreadditions_greenhouse.components;
 
 import edu.colorado.phet.common_greenhouse.model.ApplicationModel;
@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: May 18, 2003
  * Time: 10:24:21 PM
- * Copyright (runner) May 18, 2003 by Sam Reid
+ *
  */
 public class ApplicationModelControlPanel extends JPanel {
     Resettable rh;

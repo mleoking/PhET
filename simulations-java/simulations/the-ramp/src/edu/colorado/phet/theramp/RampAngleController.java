@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -12,7 +12,7 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Oct 7, 2005
  * Time: 9:00:54 PM
- * Copyright (c) Oct 7, 2005 by Sam Reid
+ *
  */
 
 public class RampAngleController {

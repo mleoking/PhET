@@ -18,7 +18,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 19, 2006
  * Time: 1:06:43 AM
- * Copyright (c) Sep 19, 2006 by Sam Reid
+ *
  */
 
 public abstract class ComponentNode extends BranchNode {

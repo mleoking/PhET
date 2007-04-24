@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.clock2.components;
 
 import edu.colorado.phet.common.bernoulli.bernoulli.clock2.AbstractClock;
@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
  * User: Sam Reid
  * Date: Sep 8, 2003
  * Time: 12:07:08 PM
- * Copyright (c) Sep 8, 2003 by Sam Reid
+ *
  */
 public class DefaultClockStatePanel extends JPanel {
     AbstractClock clock;

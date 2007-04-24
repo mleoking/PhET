@@ -28,7 +28,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 25, 2004
  * Time: 1:32:51 AM
- * Copyright (c) Jun 25, 2004 by Sam Reid
+ *
  */
 public class CCKHelp {
 

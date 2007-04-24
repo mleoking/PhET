@@ -16,7 +16,7 @@ import java.util.*;
  * User: Sam Reid
  * Date: Jun 1, 2004
  * Time: 4:14:19 PM
- * Copyright (c) Jun 1, 2004 by Sam Reid
+ *
  */
 public class KirkhoffSolver extends CircuitSolver {
     public static boolean debugging = false;

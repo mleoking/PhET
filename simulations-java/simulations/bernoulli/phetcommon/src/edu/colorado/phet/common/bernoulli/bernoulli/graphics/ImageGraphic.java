@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.graphics;
 
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jun 3, 2003
  * Time: 9:40:28 PM
- * Copyright (c) Jun 3, 2003 by Sam Reid
+ *
  */
 public class ImageGraphic implements Graphic {
     BufferedImage im;

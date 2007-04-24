@@ -17,7 +17,7 @@ import java.awt.geom.Area;
  * User: Sam Reid
  * Date: Sep 19, 2006
  * Time: 1:50:04 PM
- * Copyright (c) Sep 19, 2006 by Sam Reid
+ *
  */
 
 public class FilamentNode extends PhetPNode {

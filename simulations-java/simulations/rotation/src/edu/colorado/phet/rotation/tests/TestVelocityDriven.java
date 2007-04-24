@@ -4,7 +4,7 @@ package edu.colorado.phet.rotation.tests;
  * User: Sam Reid
  * Date: Dec 30, 2006
  * Time: 1:01:08 AM
- * Copyright (c) Dec 30, 2006 by Sam Reid
+ *
  */
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;

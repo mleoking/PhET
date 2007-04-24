@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -14,7 +14,7 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: May 30, 2005
  * Time: 6:45:21 PM
- * Copyright (c) May 30, 2005 by Sam Reid
+ *
  */
 
 public class SpeedReadoutGraphic extends PNode implements ModelElement {

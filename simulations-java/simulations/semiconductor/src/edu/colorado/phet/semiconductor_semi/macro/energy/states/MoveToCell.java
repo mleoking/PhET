@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.macro.energy.states;
 
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
@@ -10,7 +10,7 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.bands.EnergyCell;
  * User: Sam Reid
  * Date: Jan 18, 2004
  * Time: 6:52:53 PM
- * Copyright (c) Jan 18, 2004 by Sam Reid
+ *
  */
 public class MoveToCell implements BandParticleState {
 //    private BandParticle bp;

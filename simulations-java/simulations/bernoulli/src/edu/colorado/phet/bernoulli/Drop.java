@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 9:54:40 PM
- * Copyright (c) Aug 19, 2003 by Sam Reid
+ *
  */
 public class Drop extends ModelElement {
     Particle2d particle;

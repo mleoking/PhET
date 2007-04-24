@@ -17,7 +17,7 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Oct 5, 2006
  * Time: 12:23:20 AM
- * Copyright (c) Oct 5, 2006 by Sam Reid
+ *
  */
 
 public class CCKHelpSuite extends PhetPNode {

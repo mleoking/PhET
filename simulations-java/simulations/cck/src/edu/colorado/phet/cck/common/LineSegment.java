@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 1:48:42 AM
- * Copyright (c) May 24, 2004 by Sam Reid
+ *
  */
 public class LineSegment {
     public static Shape getSegment( Point2D p1, Point2D p2, double thickness ) {

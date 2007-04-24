@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
@@ -24,7 +24,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Feb 13, 2005
  * Time: 1:31:12 PM
- * Copyright (c) Feb 13, 2005 by Sam Reid
+ *
  */
 
 public class AdvancedRampControlPanel extends RampControlPanel {

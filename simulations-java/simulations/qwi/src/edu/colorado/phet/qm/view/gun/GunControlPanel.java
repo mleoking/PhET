@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -15,7 +15,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 23, 2006
  * Time: 8:53:50 AM
- * Copyright (c) Jan 23, 2006 by Sam Reid
+ *
  */
 
 public class GunControlPanel extends VerticalLayoutPanel {

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common_microwaves.view.mousecontrol;
 
 import java.awt.event.MouseEvent;
@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Oct 9, 2003
  * Time: 12:44:00 AM
- * Copyright (c) Oct 9, 2003 by Sam Reid
+ *
  */
 public interface MouseControl {
     public boolean canHandleMousePress(MouseEvent event, Point2D.Double modelLoc);

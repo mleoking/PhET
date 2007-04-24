@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view;
 
 import edu.umd.cs.piccolo.PNode;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 6, 2005
  * Time: 4:06:59 PM
- * Copyright (c) May 6, 2005 by Sam Reid
+ *
  */
 
 public class RampTickSetGraphic extends PNode {

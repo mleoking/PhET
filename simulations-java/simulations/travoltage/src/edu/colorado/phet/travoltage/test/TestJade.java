@@ -1,4 +1,4 @@
-package edu.colorado.phet.travoltage.test;/* Copyright 2004, Sam Reid */
+package edu.colorado.phet.travoltage.test;/*  */
 
 import org.cove.jade.DynamicsEngine;
 import org.cove.jade.primitives.CircleParticle;

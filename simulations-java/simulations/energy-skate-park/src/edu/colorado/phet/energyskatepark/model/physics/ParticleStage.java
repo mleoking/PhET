@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 18, 2007
  * Time: 3:19:27 PM
- * Copyright (c) Feb 18, 2007 by Sam Reid
+ *
  */
 
 public class ParticleStage implements Serializable {

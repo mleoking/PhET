@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common_sound.view;
 
 import edu.colorado.phet.common_sound.view.components.VerticalLayoutPanel;

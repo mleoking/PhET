@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 27, 2006
  * Time: 9:59:46 AM
- * Copyright (c) Mar 27, 2006 by Sam Reid
+ *
  */
 
 public class LaserControlPanel extends HorizontalLayoutPanel {

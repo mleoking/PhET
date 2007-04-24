@@ -21,7 +21,7 @@ import java.util.EventListener;
  * User: Sam Reid
  * Date: Oct 18, 2004
  * Time: 10:35:14 PM
- * Copyright (c) Oct 18, 2004 by Sam Reid
+ *
  */
 public class VerticalChartSlider2 extends GraphicLayerSet {
     private Chart chart;

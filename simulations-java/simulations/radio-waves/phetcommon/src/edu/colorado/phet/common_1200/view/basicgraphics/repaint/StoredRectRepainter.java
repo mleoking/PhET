@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 13, 2004
  * Time: 7:38:34 PM
- * Copyright (c) Sep 13, 2004 by Sam Reid
+ *
  */
 public abstract class StoredRectRepainter implements SynchronizedRepaintDelegate {
     private ArrayList list = new ArrayList();

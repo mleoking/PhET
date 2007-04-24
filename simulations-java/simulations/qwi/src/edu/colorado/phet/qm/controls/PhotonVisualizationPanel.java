@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Dec 17, 2005
  * Time: 7:40:43 PM
- * Copyright (c) Dec 17, 2005 by Sam Reid
+ *
  */
 
 public class PhotonVisualizationPanel extends VerticalLayoutPanel implements IVisualizationPanel {

@@ -37,7 +37,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Jun 1, 2004
  * Time: 11:03:06 AM
- * Copyright (c) Jun 1, 2004 by Sam Reid
+ *
  */
 public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.ControlPanel {
     private ICCKModule module;

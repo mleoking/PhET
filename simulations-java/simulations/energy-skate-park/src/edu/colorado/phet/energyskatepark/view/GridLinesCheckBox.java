@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jun 7, 2006
  * Time: 11:10:03 PM
- * Copyright (c) Jun 7, 2006 by Sam Reid
+ *
  */
 
 public class GridLinesCheckBox extends VerticalLayoutPanel {

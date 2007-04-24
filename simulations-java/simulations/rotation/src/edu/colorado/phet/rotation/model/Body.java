@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 2:29:21 PM
- * Copyright (c) Dec 28, 2006 by Sam Reid
+ *
  */
 
 public class Body implements Cloneable {

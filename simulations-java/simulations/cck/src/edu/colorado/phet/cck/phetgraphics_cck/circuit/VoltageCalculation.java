@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Oct 7, 2004
  * Time: 4:57:32 PM
- * Copyright (c) Oct 7, 2004 by Sam Reid
+ *
  */
 public class VoltageCalculation {
     private Circuit circuit;

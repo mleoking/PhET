@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.tests;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Dec 21, 2005
  * Time: 4:20:17 PM
- * Copyright (c) Dec 21, 2005 by Sam Reid
+ *
  */
 
 public class TestUnits2 {

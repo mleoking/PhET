@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 30, 2005
  * Time: 11:45:18 AM
- * Copyright (c) Sep 30, 2005 by Sam Reid
+ *
  */
 
 public class PreFabSplines {

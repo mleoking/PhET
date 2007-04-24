@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common_cck.util;
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 21, 2003
  * Time: 2:48:52 AM
- * Copyright (c) Aug 21, 2003 by Sam Reid
+ *
  */
 public class SimpleObservable {
     private ArrayList observers = new ArrayList();

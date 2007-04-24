@@ -28,7 +28,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: May 18, 2005
  * Time: 1:29:28 PM
- * Copyright (c) May 18, 2005 by Sam Reid
+ *
  */
 
 public class TestManyPhetJComponents extends PhetGraphicsModule {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Feb 18, 2006
  * Time: 1:23:59 PM
- * Copyright (c) Feb 18, 2006 by Sam Reid
+ *
  */
 
 public class DGReaderControlPanel extends VerticalLayoutPanel {

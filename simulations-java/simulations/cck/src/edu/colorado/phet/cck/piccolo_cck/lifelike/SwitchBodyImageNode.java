@@ -12,7 +12,7 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Sep 19, 2006
  * Time: 2:33:35 PM
- * Copyright (c) Sep 19, 2006 by Sam Reid
+ *
  */
 
 public class SwitchBodyImageNode extends ComponentImageNode {

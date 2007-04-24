@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.tests;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
@@ -17,7 +17,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Feb 27, 2005
  * Time: 4:04:37 PM
- * Copyright (c) Feb 27, 2005 by Sam Reid
+ *
  */
 
 public class Landscape extends GraphicLayerSet {

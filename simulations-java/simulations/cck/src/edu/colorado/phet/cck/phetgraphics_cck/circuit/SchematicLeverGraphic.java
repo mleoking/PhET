@@ -20,7 +20,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 19, 2004
  * Time: 12:26:09 AM
- * Copyright (c) Jun 19, 2004 by Sam Reid
+ *
  */
 public class SchematicLeverGraphic extends PhetShapeGraphic {
     private SchematicSwitchGraphic schematicSwitchGraphic;

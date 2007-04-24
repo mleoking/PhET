@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view.plot;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
@@ -56,7 +56,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 2, 2005
  * Time: 2:17:06 PM
- * Copyright (c) Aug 2, 2005 by Sam Reid
+ *
  */
 
 public class TimePlotSuitePNode extends PhetPNode {

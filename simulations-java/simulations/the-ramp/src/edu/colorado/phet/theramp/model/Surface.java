@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.model;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 11, 2005
  * Time: 10:12:53 AM
- * Copyright (c) Feb 11, 2005 by Sam Reid
+ *
  */
 
 public abstract class Surface extends SimpleObservable {

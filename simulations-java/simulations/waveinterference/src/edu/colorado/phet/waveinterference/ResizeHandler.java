@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.umd.cs.piccolo.PNode;
@@ -11,7 +11,7 @@ import java.awt.event.ComponentEvent;
  * User: Sam Reid
  * Date: May 24, 2006
  * Time: 1:27:08 PM
- * Copyright (c) May 24, 2006 by Sam Reid
+ *
  */
 
 public class ResizeHandler {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp;
 
 import javax.swing.*;
@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Oct 8, 2005
  * Time: 10:09:08 PM
- * Copyright (c) Oct 8, 2005 by Sam Reid
+ *
  */
 
 public class ShowZeroPointPotentialControl {

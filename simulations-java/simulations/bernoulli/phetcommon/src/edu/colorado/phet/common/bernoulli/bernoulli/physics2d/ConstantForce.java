@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.common.bernoulli.bernoulli.physics2d;
 
 import java.awt.geom.Point2D;
@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 3, 2003
  * Time: 5:32:21 PM
- * Copyright (c) Jun 3, 2003 by Sam Reid
+ *
  */
 public class ConstantForce implements Force {
     double x;

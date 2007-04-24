@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Apr 15, 2006
  * Time: 10:50:37 PM
- * Copyright (c) Apr 15, 2006 by Sam Reid
+ *
  */
 
 public class WaveMeasuringTape extends MeasuringTape {

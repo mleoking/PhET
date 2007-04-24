@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Nov 1, 2006
  * Time: 8:20:11 AM
- * Copyright (c) Nov 1, 2006 by Sam Reid
+ *
  */
 
 public class TestHorizontalDoubleSlit extends TestCase {

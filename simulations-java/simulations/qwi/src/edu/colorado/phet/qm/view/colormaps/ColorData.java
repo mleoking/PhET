@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.colormaps;
 
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -9,7 +9,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 18, 2005
  * Time: 10:58:38 PM
- * Copyright (c) Dec 18, 2005 by Sam Reid
+ *
  */
 public class ColorData {
     private float r;

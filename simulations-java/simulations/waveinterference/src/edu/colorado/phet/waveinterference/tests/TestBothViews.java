@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.waveinterference.view.WaveSideView;
@@ -8,7 +8,7 @@ import edu.colorado.phet.waveinterference.view.WaveSideViewFull;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 8:42:11 AM
- * Copyright (c) Apr 12, 2006 by Sam Reid
+ *
  */
 
 public class TestBothViews extends TestTopView {

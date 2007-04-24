@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
@@ -25,7 +25,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 2:41:14 PM
- * Copyright (c) Feb 5, 2006 by Sam Reid
+ *
  */
 
 public class DGPlotPanel extends PSwingCanvas {

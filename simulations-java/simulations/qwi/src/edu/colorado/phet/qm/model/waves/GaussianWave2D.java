@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model.waves;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 8:16:39 AM
- * Copyright (c) Jun 10, 2005 by Sam Reid
+ *
  */
 
 public class GaussianWave2D extends WaveSetup implements Wave {

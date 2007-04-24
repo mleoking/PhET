@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.model;
 
 import java.awt.geom.Point2D;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 11, 2005
  * Time: 10:14:01 AM
- * Copyright (c) Feb 11, 2005 by Sam Reid
+ *
  */
 
 public class Block {

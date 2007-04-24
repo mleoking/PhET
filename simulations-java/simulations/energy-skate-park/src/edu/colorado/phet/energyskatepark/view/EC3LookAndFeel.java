@@ -10,7 +10,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 27, 2006
  * Time: 12:01:24 PM
- * Copyright (c) Mar 27, 2006 by Sam Reid
+ *
  */
 
 public class EC3LookAndFeel extends PhetLookAndFeel {

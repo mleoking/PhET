@@ -9,7 +9,7 @@ import java.util.Vector;
  * User: Sam Reid
  * Date: Mar 2, 2007
  * Time: 2:26:20 PM
- * Copyright (c) Mar 2, 2007 by Sam Reid
+ *
  */
 
 public class TestJList extends JList {

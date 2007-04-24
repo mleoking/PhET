@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 1:37:51 AM
- * Copyright (c) May 24, 2004 by Sam Reid
+ *
  */
 public class Junction extends SimpleObservableDebug {
     private double x;

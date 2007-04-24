@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.tests;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
@@ -20,7 +20,7 @@ import java.awt.geom.AffineTransform;
  * User: Sam Reid
  * Date: Feb 27, 2005
  * Time: 3:41:35 PM
- * Copyright (c) Feb 27, 2005 by Sam Reid
+ *
  */
 
 public class TestViewport {

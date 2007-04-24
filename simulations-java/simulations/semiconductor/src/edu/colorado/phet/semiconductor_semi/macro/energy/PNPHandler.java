@@ -15,7 +15,7 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.transitions.Move;
  * User: Sam Reid
  * Date: May 2, 2004
  * Time: 11:02:50 AM
- * Copyright (c) May 2, 2004 by Sam Reid
+ *
  */
 public class PNPHandler implements ModelCriteria, ModelElement {
     private EnergySection energySection;

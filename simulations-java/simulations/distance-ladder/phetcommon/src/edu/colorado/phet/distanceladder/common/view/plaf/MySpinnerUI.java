@@ -14,7 +14,7 @@ import java.awt.event.MouseListener;
  * User: Sam Reid
  * Date: Apr 2, 2004
  * Time: 2:45:20 PM
- * Copyright (c) Apr 2, 2004 by Sam Reid
+ *
  */
 public class MySpinnerUI extends BasicSpinnerUI {
     static String foldername = "graymarble";

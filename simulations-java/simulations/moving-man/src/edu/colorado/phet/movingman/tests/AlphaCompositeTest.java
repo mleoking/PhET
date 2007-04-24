@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Nov 8, 2004
  * Time: 10:46:43 AM
- * Copyright (c) Nov 8, 2004 by Sam Reid
+ *
  */
 public class AlphaCompositeTest {
     private JFrame alphaFrame = new JFrame();

@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Oct 26, 2005
  * Time: 2:02:12 PM
- * Copyright (c) Oct 26, 2005 by Sam Reid
+ *
  */
 
 public class PieChartIndicator extends PNode {

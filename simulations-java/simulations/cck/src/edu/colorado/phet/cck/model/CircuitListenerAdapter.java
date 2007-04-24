@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.model.components.Branch;
  * User: Sam Reid
  * Date: Jun 8, 2004
  * Time: 1:47:25 PM
- * Copyright (c) Jun 8, 2004 by Sam Reid
+ *
  */
 public class CircuitListenerAdapter implements CircuitListener {
     public void junctionRemoved( Junction junction ) {

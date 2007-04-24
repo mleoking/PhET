@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.common.charts.controllers;
 
 import javax.swing.border.LineBorder;
@@ -8,7 +8,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 27, 2005
  * Time: 2:02:33 AM
- * Copyright (c) Apr 27, 2005 by Sam Reid
+ *
  */
 
 public class DottedLineBorder extends LineBorder {

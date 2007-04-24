@@ -20,7 +20,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Sep 19, 2006
  * Time: 7:17:42 AM
- * Copyright (c) Sep 19, 2006 by Sam Reid
+ *
  */
 
 public class BulbComponentNode extends ComponentNode {

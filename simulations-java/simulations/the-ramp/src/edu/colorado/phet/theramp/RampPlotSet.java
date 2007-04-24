@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.theramp.common.LayoutSet;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 16, 2005
  * Time: 10:49:44 AM
- * Copyright (c) May 16, 2005 by Sam Reid
+ *
  */
 
 public class RampPlotSet extends PNode {

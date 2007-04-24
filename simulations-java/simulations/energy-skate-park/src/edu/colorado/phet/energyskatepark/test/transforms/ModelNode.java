@@ -8,7 +8,7 @@ import edu.umd.cs.piccolo.PNode;
  * User: Sam Reid
  * Date: May 26, 2006
  * Time: 8:54:51 PM
- * Copyright (c) May 26, 2006 by Sam Reid
+ *
  */
 public class ModelNode extends PhetPNode {
     private PNode node;

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.view.colormaps;
 
 import edu.colorado.phet.qm.model.SplitModel;
@@ -12,7 +12,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 8:43:06 PM
- * Copyright (c) Jul 7, 2005 by Sam Reid
+ *
  */
 
 public class SplitColorMap implements ColorMap {

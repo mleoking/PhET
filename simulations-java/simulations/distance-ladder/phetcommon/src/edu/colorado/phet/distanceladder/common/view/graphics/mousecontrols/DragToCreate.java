@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Jan 27, 2004
  * Time: 9:47:46 PM
- * Copyright (c) Jan 27, 2004 by Sam Reid
+ *
  */
 public class DragToCreate implements MouseInputListener {
     InteractiveGraphicCreator interactiveGraphicCreator;

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.components.ACVoltageSource;
@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 20, 2004
  * Time: 11:45:11 PM
- * Copyright (c) Jun 20, 2004 by Sam Reid
+ *
  */
 public class SchematicACGraphic extends SchematicOscillateGraphic {
     private PhetShapeGraphic shapeGraphic;

@@ -44,7 +44,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Sep 13, 2006
  * Time: 12:03:58 PM
- * Copyright (c) Sep 13, 2006 by Sam Reid
+ *
  */
 
 public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {

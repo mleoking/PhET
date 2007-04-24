@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 // TODO: move up on level in package hierarchy
 package edu.colorado.phet.common_semiconductor.view.util.graphics;
 
@@ -13,7 +13,7 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Apr 16, 2003
  * Time: 9:34:20 AM
- * Copyright (c) Apr 16, 2003 by Sam Reid
+ *
  * This level of granularity is required because different loaders return different
  * pixel data, and the final result is highly dependent on that
  * and the conversion mechanism.

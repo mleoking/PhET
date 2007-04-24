@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -14,7 +14,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Mar 1, 2006
  * Time: 7:30:43 AM
- * Copyright (c) Mar 1, 2006 by Sam Reid
+ *
  */
 
 //public class StopwatchCheckBox extends JCheckBox {

@@ -14,7 +14,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 9, 2007
  * Time: 7:51:51 AM
- * Copyright (c) Jan 9, 2007 by Sam Reid
+ *
  */
 
 public class RotationControlPanel extends JPanel {

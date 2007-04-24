@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 14, 2004
  * Time: 7:15:03 PM
- * Copyright (c) Jun 14, 2004 by Sam Reid
+ *
  */
 public class Voltmeter {
     private VoltmeterUnit unit;

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -16,7 +16,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 8:22:47 PM
- * Copyright (c) Mar 26, 2006 by Sam Reid
+ *
  */
 
 public class MeasurementControlPanel extends VerticalLayoutPanel {

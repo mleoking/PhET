@@ -13,7 +13,7 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Sep 27, 2004
  * Time: 1:15:03 PM
- * Copyright (c) Sep 27, 2004 by Sam Reid
+ *
  */
 public class TransformDebug extends ModelViewTransform2D {
 

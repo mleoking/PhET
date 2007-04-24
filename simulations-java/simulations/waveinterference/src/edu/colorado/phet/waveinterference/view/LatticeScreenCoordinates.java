@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 1:46:29 AM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 
 public abstract class LatticeScreenCoordinates {

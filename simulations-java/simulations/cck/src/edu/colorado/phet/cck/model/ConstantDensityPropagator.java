@@ -12,7 +12,7 @@ import java.util.*;
  * User: Sam Reid
  * Date: Jun 8, 2004
  * Time: 4:01:09 PM
- * Copyright (c) Jun 8, 2004 by Sam Reid
+ *
  */
 public class ConstantDensityPropagator implements ModelElement {
     private ParticleSet particleSet;

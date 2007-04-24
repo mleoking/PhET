@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
@@ -22,7 +22,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jan 16, 2005
  * Time: 8:11:43 PM
- * Copyright (c) Jan 16, 2005 by Sam Reid
+ *
  */
 public class FreeBodyDiagramSuite {
     private FreeBodyDiagramPanel fbdPanel;

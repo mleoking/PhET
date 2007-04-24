@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*, 2003.*/
 package edu.colorado.phet.distanceladder.common.view.graphics.mousecontrols;
 
 import javax.swing.event.MouseInputListener;
@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Oct 9, 2003
  * Time: 12:53:40 AM
- * Copyright (c) Oct 9, 2003 by Sam Reid
+ *
  */
 public class HandCursorControl implements MouseInputListener {
     public void mouseClicked( MouseEvent e ) {

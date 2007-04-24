@@ -32,7 +32,7 @@ import java.awt.event.KeyEvent;
  * User: Sam Reid
  * Date: Dec 16, 2004
  * Time: 1:19:40 PM
- * Copyright (c) Dec 16, 2004 by Sam Reid
+ *
  *
  * @deprecated Use JTextField wrapped in a PhetJComponent.
  */

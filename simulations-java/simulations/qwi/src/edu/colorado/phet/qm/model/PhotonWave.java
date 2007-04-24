@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -12,7 +12,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 27, 2005
  * Time: 5:56:06 PM
- * Copyright (c) Jun 27, 2005 by Sam Reid
+ *
  */
 
 public class PhotonWave {

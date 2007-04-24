@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.waveinterference.view.ColorMap;
@@ -8,7 +8,7 @@ import edu.colorado.phet.waveinterference.view.WavelengthControlPanel;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:17:23 AM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ *
  */
 
 public class TestWaveColor extends TestTopView {

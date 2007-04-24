@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 9:43:52 PM
- * Copyright (c) Apr 12, 2006 by Sam Reid
+ *
  */
 
 public class MutableColor {

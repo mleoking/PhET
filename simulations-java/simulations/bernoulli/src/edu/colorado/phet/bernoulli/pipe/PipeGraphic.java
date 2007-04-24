@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 22, 2003
  * Time: 11:56:01 AM
- * Copyright (c) Aug 22, 2003 by Sam Reid
+ *
  */
 public class PipeGraphic extends CompositeGraphic implements TransformListener, InteractiveGraphic, SimpleObserver {
     ModelViewTransform2d transform;

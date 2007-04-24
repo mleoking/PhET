@@ -15,7 +15,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 2, 2006
  * Time: 12:00:34 AM
- * Copyright (c) Jun 2, 2006 by Sam Reid
+ *
  */
 
 public class BarGraphZoomPanel extends VerticalLayoutPanel {

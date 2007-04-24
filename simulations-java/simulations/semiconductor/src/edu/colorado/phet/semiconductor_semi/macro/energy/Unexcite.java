@@ -8,7 +8,7 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.bands.EnergyCell;
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 10:32:27 AM
- * Copyright (c) Apr 26, 2004 by Sam Reid
+ *
  */
 public class Unexcite implements ParticleAction {
     EnergyCell cell;

@@ -21,7 +21,7 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Sep 25, 2006
  * Time: 9:59:20 AM
- * Copyright (c) Sep 25, 2006 by Sam Reid
+ *
  */
 
 public class VoltmeterNode extends PhetPNode {

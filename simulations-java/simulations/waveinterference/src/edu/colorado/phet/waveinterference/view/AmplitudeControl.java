@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
@@ -13,7 +13,7 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 8:23:10 PM
- * Copyright (c) Mar 28, 2006 by Sam Reid
+ *
  */
 
 public class AmplitudeControl extends VerticalLayoutPanel {

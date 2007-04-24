@@ -8,7 +8,7 @@ import edu.colorado.phet.energyskatepark.model.SPoint2D;
  * User: Sam Reid
  * Date: Feb 17, 2007
  * Time: 6:34:17 PM
- * Copyright (c) Feb 17, 2007 by Sam Reid
+ *
  */
 
 public class TestCubicSpline2D extends TestCase {

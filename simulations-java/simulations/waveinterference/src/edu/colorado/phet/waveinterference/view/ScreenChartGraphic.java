@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
@@ -22,7 +22,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 8:01:59 PM
- * Copyright (c) Apr 12, 2006 by Sam Reid
+ *
  */
 
 public class ScreenChartGraphic extends PhetPNode {

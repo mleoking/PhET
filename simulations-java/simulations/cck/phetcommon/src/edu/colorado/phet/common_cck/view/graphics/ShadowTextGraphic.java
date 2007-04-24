@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 2, 2004
  * Time: 3:15:07 PM
- * Copyright (c) Jun 2, 2004 by Sam Reid
+ *
  */
 public class ShadowTextGraphic implements Graphic {
     TextGraphic foreground;

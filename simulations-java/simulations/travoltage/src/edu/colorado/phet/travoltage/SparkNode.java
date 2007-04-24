@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -17,7 +17,7 @@ import java.util.Vector;
  * User: Sam Reid
  * Date: Jun 30, 2006
  * Time: 11:26:37 PM
- * Copyright (c) Jun 30, 2006 by Sam Reid
+ *
  */
 
 public class SparkNode extends PNode {

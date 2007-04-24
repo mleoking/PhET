@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 9:47:20 PM
- * Copyright (c) Feb 5, 2006 by Sam Reid
+ *
  */
 
 public class ProtractorHandleGraphic extends PhetPNode {

@@ -12,7 +12,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 9:05:19 AM
- * Copyright (c) May 24, 2004 by Sam Reid
+ *
  */
 public class TotalBranchGraphic {
 

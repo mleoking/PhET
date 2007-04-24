@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.view.AbstractWaveSideView;
@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.PNode;
  * User: Sam Reid
  * Date: May 17, 2006
  * Time: 11:22:16 AM
- * Copyright (c) May 17, 2006 by Sam Reid
+ *
  */
 
 public class RotationWaveGraphic3D extends RotationWaveGraphic {

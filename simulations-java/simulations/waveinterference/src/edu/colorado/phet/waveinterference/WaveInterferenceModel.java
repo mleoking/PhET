@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 5:34:05 PM
- * Copyright (c) Mar 26, 2006 by Sam Reid
+ *
  */
 
 public class WaveInterferenceModel implements ModelElement {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.theramp.view.bars;
 
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 6, 2005
  * Time: 8:16:45 PM
- * Copyright (c) Jun 6, 2005 by Sam Reid
+ *
  */
 
 public class BarGraphSet extends PNode {

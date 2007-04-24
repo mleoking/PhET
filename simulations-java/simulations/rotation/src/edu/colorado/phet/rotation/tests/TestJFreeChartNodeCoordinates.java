@@ -4,7 +4,7 @@ package edu.colorado.phet.rotation.tests;
  * User: Sam Reid
  * Date: Jan 22, 2007
  * Time: 4:22:38 PM
- * Copyright (c) Jan 22, 2007 by Sam Reid
+ *
  */
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;

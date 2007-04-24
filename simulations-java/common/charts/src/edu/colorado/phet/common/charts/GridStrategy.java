@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 20, 2005
  * Time: 2:15:01 PM
- * Copyright (c) May 20, 2005 by Sam Reid
+ *
  */
 public interface GridStrategy {
     double[] getVisibleGridLines( Chart chart );//todo should this determine what's in and out of bounds?

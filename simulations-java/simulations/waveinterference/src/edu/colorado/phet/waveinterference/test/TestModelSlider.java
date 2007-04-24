@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.test;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
@@ -13,7 +13,7 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Apr 14, 2006
  * Time: 10:55:42 AM
- * Copyright (c) Apr 14, 2006 by Sam Reid
+ *
  */
 
 public class TestModelSlider {

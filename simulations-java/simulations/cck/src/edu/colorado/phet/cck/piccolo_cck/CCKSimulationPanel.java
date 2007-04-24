@@ -26,7 +26,7 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Sep 14, 2006
  * Time: 11:15:22 AM
- * Copyright (c) Sep 14, 2006 by Sam Reid
+ *
  */
 
 public class CCKSimulationPanel extends PhetPCanvas {

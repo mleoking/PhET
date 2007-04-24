@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.  Editing.*/
+/*, 2003.  Editing.*/
 package edu.colorado.phet.common_semiconductor.view;
 
 import edu.colorado.phet.common_semiconductor.application.Module;
@@ -13,7 +13,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 7:27:29 AM
- * Copyright (c) Jun 12, 2003 by Sam Reid
+ *
  */
 public class ApplicationView {
     private PhetFrame phetFrame;

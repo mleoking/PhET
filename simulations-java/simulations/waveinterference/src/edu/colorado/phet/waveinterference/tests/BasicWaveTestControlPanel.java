@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/*  */
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 22, 2006
  * Time: 7:11:02 PM
- * Copyright (c) Mar 22, 2006 by Sam Reid
+ *
  */
 public class BasicWaveTestControlPanel extends ControlPanel {
     private BasicWaveTestModule testWaveModule;
