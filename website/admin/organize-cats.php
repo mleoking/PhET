@@ -6,9 +6,8 @@
 	include_once("db-utils.php");
 	
 	// Compute all category orders:
-	$select_categories_st = "SELECT * FROM `category` ";
-    $category_rows        = mysql_query($select_categories_st, $connection);
-    $cat_orders           = array();
+    $category_rows = mysql_query(SQL_SELECT_ALL_VISIBLE_CATEGORIES, $connection);
+    $cat_orders    = array();
     
     while ($category = mysql_fetch_assoc($category_rows)) {
         $cat_orders[] = $category['cat_order'];

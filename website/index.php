@@ -1,3 +1,7 @@
+<?php
+    include_once("admin/sim-utils.php");
+    include_once("admin/web-utils.php");
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -53,77 +57,11 @@
         <div class="section">
 
 <div class="mainImage">
+
+
     
             <?php
-
-/*
-
-Instead of using Flash to display random slideshow, our strategy is to use PHP 
-to generate a JavaScript script that randomly cycles through the images. This 
-way, the user does not need Flash in order to correctly view the home page.
-
-*/
-            
-print <<<EOT
-    <script language="javascript">
-
-    var delay=50000
-    var curindex=0
-
-    var randomimages=new Array()
-    
-EOT;
-
-$thumbnails = glob("./admin/uploads/*.gif");
-
-$index = 0;
-
-print "\n";
-
-foreach($thumbnails as $thumbnail) {
-    print "randomimages[$index] = \"$thumbnail\"\n";
-    
-    $index++;
-}
-    
-    /*
- 	    randomimages[0]="1.jpg"
-    	randomimages[1]="5.jpg"
-    	randomimages[2]="2.jpg"
-    	randomimages[3]="4.jpg"
-    	randomimages[4]="3.jpg"
-    	randomimages[5]="6.jpg"
-    */
-
-print <<<EOT
-    var preload=new Array()
-
-    for (n=0;n<randomimages.length;n++)
-    {
-    	preload[n]=new Image()
-    	preload[n].src=randomimages[n]
-    }
-
-    document.write('<img name="defaultimage" width="350" height="277" src="'+randomimages[Math.floor(Math.random()*(randomimages.length))]+'">')
-
-    function rotateimage()
-    {
-
-    if (curindex==(tempindex=Math.floor(Math.random()*(randomimages.length)))){
-    curindex=curindex==0? 1 : curindex-1
-    }
-    else
-    curindex=tempindex
-
-    	document.images.defaultimage.src=randomimages[curindex]
-    }
-
-    setInterval("rotateimage()",delay)
-
-    </script>
-EOT;
-            
-            
+                print "<img width=\"350\" height=\"277\" src=\"random-thumbnail.php\" alt=\"\">";            
             ?>
             
 </div>
@@ -164,7 +102,7 @@ EOT;
             <dl>
                 <dt><a href="teacher_ideas/index.html"><img src="images/get-materials.jpg" alt="" title="" /></a></dt>
 
-                <dd><a href="teacher_ideas/index.html">Search for lesson plans and activites that were created by teachers to use with the PhET simulations</a></dd>
+                <dd><a href="teacher_ideas/index.html">Search for lesson plans and activities that were created by teachers to use with the PhET simulations</a></dd>
             </dl>
 
             <dl>
@@ -178,7 +116,12 @@ EOT;
             <dl class="last">
                 <dt><a href="simulations/index.php"><img src="images/simulations.jpg" alt="" title="" /></a></dt>
 
-                <dd><a class="nolink" href="simulations/index.php"><img src="random-thumbnail.php" /></a></dd>
+                <dd>
+                <a class="nolink" href="simulations/index.php">
+                    <?php
+                        display_slideshow(sim_get_static_previews(), "150", "110");
+                    ?>
+                </a></dd>
 
                 <dd class="readMore"><a href="simulations/index.php"><img src="images/search.gif" alt="Search" title="Search" /></a></dd>
             </dl>

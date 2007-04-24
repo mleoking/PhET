@@ -1,4 +1,5 @@
 <?php
+    include_once("sys-utils.php");
 
     function generate_check_status($item_num, $checked_item_num) {
         if ($checked_item_num == null && $item_num == "0" || $item_num == $checked_item_num) return "checked";
@@ -53,16 +54,139 @@
         print "</ul>";
     }
 
-    function print_editable_area($name, $contents, $rows = "20", $cols = "80") {
-        print("<textarea name=\"$name\" rows=\"$rows\" cols=\"$cols\">$contents</textarea>");
+    function print_editable_area($control_name, $contents, $rows = "20", $cols = "80") {
+        print("<textarea name=\"$control_name\" rows=\"$rows\" cols=\"$cols\">$contents</textarea>");
     }
     
-    function print_captioned_editable_area($caption, $name, $contents, $rows = "20", $cols = "80") {
+    function print_captioned_editable_area($caption, $control_name, $contents, $rows = "20", $cols = "80") {
         print("<p align=\"left\" class=\"style16\">$caption<br/>");
             
-        print_editable_area($name, $contents, $rows, $cols);
+        print_editable_area($control_name, $contents, $rows, $cols);
         
         print("</p>");
+    }
+    
+    function get_upload_path_prefix_from_name($name) {
+        $matches = array();
+        
+        preg_match('/^(.+?)((_url)?)$/', $name, $matches);
+        
+        $path_name = $matches[1];
+        
+        $path_prefix = preg_replace('/_/', '/', $path_name);
+        
+        print "Path prefix = $path_prefix\n";
+        
+        return $path_prefix;
+    }
+    
+    function print_captioned_url_upload_control($caption, $control_name, $contents, $rows = "20", $cols = "80") {
+        print("<p align=\"left\" class=\"style16\">$caption<br/>");
+        
+        print_editable_area($control_name, $contents, $rows, $cols);
+        print("<p align=\"left\" class=\"style16\">Or upload a file: <input name=\"${control_name}_file_upload\" type=\"file\" /></p>");
+        
+        print("</p>");
+    }
+    
+    function process_url_upload_control($control_name, $value) {
+        $files_key = "${control_name}_file_upload";
+        
+        if (isset($_FILES[$files_key])) {
+            print ("User uploading for $control_name");
+
+            $upload_path_prefix = get_upload_path_prefix_from_name($control_name);
+            
+            $file_user_name = $_FILES[$files_key]['name'];
+            $file_tmp_name  = $_FILES[$files_key]['tmp_name'];
+            
+            // If the user uploads a file, generate a URL relative to this directory:
+            $target_name = basename($file_user_name);
+            $target_dir  = dirname(__FILE__)."/uploads/$upload_path_prefix"; 
+            $target_path = "${target_dir}/${target_name}"; 
+             
+            if ($target_name !== "" && $target_name !== null) {                
+                mkdirs_r($target_dir);
+                
+                print("\nTarget name = $target_name; target path = $target_path\n");
+             
+                if (move_uploaded_file($file_tmp_name, $target_path)) {                
+                    return "$upload_path_prefix/$target_name";
+                }
+            }
+        }
+        
+        return $value;
+    }
+    
+    function resolve_url_upload($url) {
+        if (preg_match('/http.*/i', $url) == 1) {
+            // URL is absolute:
+            return $url;
+        }
+        else {
+            // URL is relative to this directory:        
+            
+            // Can't allow user to access files outside /uploads/ directory:
+            $url = preg_replace('/\.+/', '.', $url);
+            
+            return dirname(__FILE__)."/uploads/${url}";
+        }
+    }
+    
+    /**
+     * This function displays a randomized slideshow.
+     *
+     */
+    function display_slideshow($thumbnails, $width, $height, $prefix = "", $delay="10000") {
+        /*
+
+        Instead of using Flash to display random slideshow, our strategy is to use PHP 
+        to generate a JavaScript script that randomly cycles through the images. This 
+        way, the user does not need Flash in order to correctly view the home page.
+
+        */ 
+
+        print <<<EOT
+            <script language="javascript">
+
+            var delay=$delay
+            var curindex=0
+
+            var randomimages=new Array()
+
+EOT;
+
+        $index = 0;
+
+        print "\n";
+
+        foreach($thumbnails as $thumbnail) {
+            print "randomimages[$index] = \"${prefix}admin/get-upload.php?url=$thumbnail\"\n";
+
+            $index++;
+        }
+
+        print <<<EOT
+            var preload=new Array()
+
+            for (n=0;n<randomimages.length;n++) {
+            	preload[n]=new Image()
+            	preload[n].src=randomimages[n]
+            }
+
+            document.write('<img name="defaultimage" width="$width" height="$height" src="'+randomimages[Math.floor(Math.random()*(randomimages.length))]+'">')
+
+            function rotateimage() {
+                curindex=Math.floor(Math.random()*(randomimages.length))
+
+                document.images.defaultimage.src=randomimages[curindex]
+            }
+
+            setInterval("rotateimage()", delay)
+
+            </script>
+EOT;
     }
 
 ?>
