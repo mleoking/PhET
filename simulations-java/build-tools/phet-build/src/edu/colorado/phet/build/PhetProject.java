@@ -56,7 +56,8 @@ public class PhetProject {
     }
 
     public File getAntBaseDir() {
-        return new File( "../../" );
+//        return new File( "../../" );
+        return new File( ".");
     }
 
     public String getName() {

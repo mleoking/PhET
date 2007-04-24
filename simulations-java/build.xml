@@ -1063,4 +1063,169 @@
             <arg value="${dir.project}"/>
         </exec>
     </target>
+
+
+    <property name="phetbuild-classes" location="ant_output/phetbuild/classes"/>
+    <property name="proguard.jar" location="build-tools/proguard3.8/lib/proguard.jar"/>
+    <property name="phetbuild-src" location="build-tools/phet-build/src"/>
+    <property name="phetbuild-classname" value="edu.colorado.phet.build.PhetBuildTask"/>
+    <property name="phetclean-classname" value="edu.colorado.phet.build.PhetCleanTask"/>
+    <property name="phetjnlp-classname" value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
+
+    <property name="build-tools" value="build-tools"/>
+    <property name="phetbuild-dependencies" value="${phetbuild-classes};${proguard.jar}" />
+    <property file="local.properties"/>
+
+    <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh" classpath="${build-tools}/maverick/lib/maverick-ant.jar"/>
+
+    <target name="compile_phet-build">
+        <mkdir dir="${phetbuild-classes}"/>
+        <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes}" classpath="${proguard.jar}"/>
+    </target>
+
+    <target name="clean_phet-build">
+        <delete dir="${phetbuild-classes}" />
+    </target>
+
+
+    <target name="declare_phet-build-task" depends="clean_phet-build, compile_phet-build">
+        <taskdef name="phet-build"
+                 classname="${phetbuild-classname}"
+                 classpath="${phetbuild-dependencies}"/>
+
+        <taskdef name="phet-clean"
+                 classname="${phetclean-classname}"
+                 classpath="${phetbuild-dependencies}"/>
+
+        <taskdef name="phet-jnlp"
+                 classname="${phetjnlp-classname}"
+                 classpath="${phetbuild-dependencies}"/>
+
+    </target>
+
+    <target name="init" depends="declare_phet-build-task"/>
+
+    <target name="build-hydrogen-atom-jnlp" depends="init">
+        <phet-jnlp project="hydrogen-atom" />
+    </target>
+
+    <target name="clean-hydrogen-atom" depends="init">
+        <phet-clean project="hydrogen-atom" />
+    </target>
+
+    <target name="build_AllSimApp" depends="init">
+        <phet-build project="all-sims" shrink="false"/>
+    </target>
+
+    <target name="build_AllSimApp_shrink" depends="init">
+        <phet-build project="all-sims" />
+    </target>
+
+    <target name="build_esp" depends="init">
+        <phet-build project="energy-skate-park" destfile="deploy/energy-skate-park.jar"/>
+        <phet-jnlp project="energy-skate-park" flavor="energy-skate-park" deployurl="http://www.colorado.edu/physics/phet/dev/ec3/1.05.20/"/>
+    </target>
+
+    <target name="build_cck" depends="init">
+        <phet-build project="cck" destfile="deploy/cck.jar"/>
+        <phet-jnlp project="cck" flavor="cck-ac"/>
+        <phet-jnlp project="cck" flavor="cck-dc"/>
+    </target>
+
+    <target name="build_hydrogen-atom" depends="init">
+        <phet-build project="hydrogen-atom" destfile="deploy/hydrogen-atom.jar"/>
+    </target>
+
+    <target name="build_hydrogen-atom_dontshrink" depends="init">
+        <phet-build project="hydrogen-atom" shrink="false"/>
+    </target>
+
+    <target name="build_gaelic" depends="init">
+        <phet-build project="balloons"/>
+        <phet-build project="cck"/>
+        <phet-build project="sound"/>
+    </target>
+
+    <target name="build_qm_suite" depends="init">
+        <phet-build project="quantum" shrink="false"/>
+        <phet-build project="ideal-gas"/>
+        <phet-build project="lasers"/>
+        <phet-build project="fluorescent-lights"/>
+        <phet-build project="photoelectric"/>
+    </target>
+
+    <target name="build_all" depends="init">
+        <echo message="Starting build..."/>
+        <phet-build project="balloons"/>
+        <phet-build project="battery-voltage"/>
+        <phet-build project="bernoulli"/>
+        <phet-build project="bound-states"/>
+        <phet-build project="cck"/>
+        <phet-build project="color-vision"/>
+        <phet-build project="conductivity"/>
+        <phet-build project="distance-ladder"/>
+        <phet-build project="efield"/>
+        <phet-build project="electric-hockey"/>
+        <phet-build project="energy-skate-park"/>
+        <phet-build project="faraday"/>
+        <phet-build project="fluorescent-lights"/>
+        <phet-build project="forces-1d"/>
+        <phet-build project="fourier"/>
+        <phet-build project="greenhouse"/>
+        <phet-build project="hydrogen-atom"/>
+        <phet-build project="ideal-gas"/>
+        <phet-build project="lasers"/>
+        <phet-build project="maze-game"/>
+        <phet-build project="microwaves"/>
+        <phet-build project="motion-2d"/>
+        <phet-build project="moving-man"/>
+        <phet-build project="mri"/>
+        <phet-build project="nuclear-physics"/>
+        <phet-build project="ohm-1d"/>
+        <phet-build project="optical-quantum-control"/>
+        <phet-build project="optical-tweezers"/>
+        <phet-build project="photoelectric"/>
+        <phet-build project="quantum-tunneling"/>
+        <phet-build project="qwi"/>
+        <phet-build project="radio-waves"/>
+        <phet-build project="reactions-and-rates"/>
+        <phet-build project="rotation"/>
+        <phet-build project="rutherford-scattering"/>
+        <phet-build project="semiconductor"/>
+        <phet-build project="signal-circuit"/>
+        <phet-build project="soluble-salts"/>
+        <phet-build project="sound"/>
+        <phet-build project="the-ramp"/>
+        <phet-build project="travoltage"/>
+        <phet-build project="waveinterference"/>
+        <echo message="Finished build."/>
+    </target>
+
+    <!--Temporary tasks for working with energy skate park.  These can be removed after this build script is integrated
+    with top level build.xml, with maverick, etc.-->
+    <property name="esp_root" value="http://www.colorado.edu/physics/phet/dev/ec3"/>
+    <property name="esp_version" value="1.05.22"/>
+    <property name="esp_url" value="${esp_root}/${esp_version}"/>
+    <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
+    <property name="esp_path" value="dev/ec3"/>
+
+    <target name="build_and_post_esp" depends="init">
+        <!--<phet-build project="energy-skate-park" destfile="deploy/energy-skate-park.jar"/>-->
+        <!--<echo  message="${esp_url}"/>-->
+        <phet-jnlp project="energy-skate-park" flavor="energy-skate-park" deployurl="${esp_url}"/>
+        <copy file="simulations/energy-skate-park/todo.txt" tofile="simulations/energy-skate-park/deploy/todo.txt"/>
+        <copy file="simulations/energy-skate-park/changes.txt" tofile="simulations/energy-skate-park/deploy/changes.txt"/>
+        <copy file="simulations/energy-skate-park/README" tofile="simulations/energy-skate-park/deploy/README"/>
+        <copy file="simulations/energy-skate-park/energy-conservation.gif" tofile="simulations/energy-skate-park/deploy/energy-conservation.gif"/>
+        <maverick-ssh host="${ssh-host}" username="${username}" password="${password}" version="2">
+            <sftp action="mkdir" remotedir="${phet-ssh-root}/${esp_path}"/>
+            <sftp action="mkdir" remotedir="${phet-ssh-root}/${esp_path}/${esp_version}"/>
+            <sftp action="put" remotedir="${phet-ssh-root}/${esp_path}/${esp_version}" verbose="true">
+                <fileset dir="simulations/energy-skate-park/deploy"></fileset>
+            </sftp>
+        </maverick-ssh>
+        <exec executable="${browser}" spawn="true">
+            <arg value="${esp_url}"/>
+        </exec>
+    </target>
 </project>

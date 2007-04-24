@@ -12,7 +12,7 @@ import java.util.Set;
 
 //todo: see other todos below
 public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
-    private static final File JNLP_TEMPLATE = new File( "../../templates/webstart2.jnlp" );
+    private static final File JNLP_TEMPLATE = new File( "templates/webstart2.jnlp" );
 
     private volatile String flavorName;
     private volatile String deployUrl;
