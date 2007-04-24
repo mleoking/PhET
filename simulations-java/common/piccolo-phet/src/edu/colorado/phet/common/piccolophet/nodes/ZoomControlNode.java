@@ -1,15 +1,14 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author:samreid $
- * Revision : $Revision:14676 $
- * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
- */
+/* Copyright 2005-2007, University of Colorado */
 
 package edu.colorado.phet.common.piccolophet.nodes;
+
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.swing.JFrame;
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -19,23 +18,10 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import javax.swing.*;
-import javax.swing.event.EventListenerList;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-
 /**
  * ZoomControl is a control for horizontal or vertical zooming.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision:14676 $
- *          <p/>
- *          <p/>
- *          Copied from Fourier simulation on 9-3-2006.
- *          <p/>
- *          Ported from ZoomControl in Fourier/Moving Man.
  */
 public class ZoomControlNode extends PNode {
 
@@ -49,6 +35,17 @@ public class ZoomControlNode extends PNode {
     private static final Point IN_LOCATION = new Point( 31, 13 );
     private static final Point OUT_LOCATION = new Point( 3, 13 );
 
+    private static final String IMAGES_DIRECTORY = "piccolo-phet/images/";
+    public static final String ZOOM_BACKGROUND_HORIZONTAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundHorizontal.png";
+    public static final String ZOOM_BACKGROUND_VERTICAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundVertical.png";
+    public static final String ZOOM_IN_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomInButton.png";
+    public static final String ZOOM_IN_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomInButtonPressed.png";
+    public static final String ZOOM_OUT_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomOutButton.png";
+    public static final String ZOOM_OUT_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomOutButtonPressed.png";
+
+    public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
+    public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -59,16 +56,6 @@ public class ZoomControlNode extends PNode {
     private EventListenerList _listenerList;
     private boolean _inPressed, _outPressed;
 
-    private static final String IMAGES_DIRECTORY = "images/zoom/";
-    public static final String ZOOM_BACKGROUND_HORIZONTAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundHorizontal.png";
-    public static final String ZOOM_BACKGROUND_VERTICAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundVertical.png";
-    public static final String ZOOM_IN_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomInButton.png";
-    public static final String ZOOM_IN_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomInButtonPressed.png";
-    public static final String ZOOM_OUT_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomOutButton.png";
-    public static final String ZOOM_OUT_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomOutButtonPressed.png";
-
-    public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
-    public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
