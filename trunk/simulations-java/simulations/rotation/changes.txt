@@ -1,6 +1,5 @@
 0.00.06
 Fixed: Graphs shouldn't fill entire vertical space when there is only 1.
-Fixed: Angle graphs should wrap around instead of being modulo 2*Pi.
 
 0.00.05
 Added alignment for graphs.

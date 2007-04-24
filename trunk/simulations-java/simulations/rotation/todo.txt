@@ -2,6 +2,8 @@
 #           To Do:
 ################
 
+Angle graphs should wrap around instead of being modulo 2*Pi.
+
 Chart strokes are different for dynamic paint and static repaint.
 
 Add clipping for Buffered strategies in DynamicJFreeChartNode
