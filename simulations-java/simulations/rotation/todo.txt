@@ -1,7 +1,11 @@
 ################
 #           To Do:
 ################
- 
+
+Chart strokes are different for dynamic paint and static repaint.
+
+Add clipping for Buffered strategies in DynamicJFreeChartNode
+
 Should TimeSeriesModel be extended or listened to for Rotation-specific behaivor?
 
 Test at 1024x768
@@ -10,8 +14,6 @@ On rotational motion sim, lots of it worked well and looked good, but when showi
  Angular acceleration  worked well though.
 
 Performance optimization.
-
-Graphs shouldn't fill entire vertical space when there is only 1.
 
 When the time series is off-scale, dragging the slider doesn't immediately respond.
 Clicking on the slider thumb should set the current value, and allow immediate drags.
@@ -23,8 +25,6 @@ Add a graph cursor.
 Time derivatives need a time-offset to match other series.
 
 Time series are offset incorrectly in graphs (their x-offset is before the beginning of the graph).
-
-Angle graphs should wrap around instead of being modulo 2*Pi.
 
 When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.
 

@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.timeseries;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.rotation.RotationResources;
 
 import javax.swing.*;
 import java.awt.*;
@@ -106,7 +107,7 @@ public class TimeSeriesControlPanel extends JPanel {
         public TimeSeriesButton( String label, String imageIcon ) {
             super( label );
             try {
-                setIcon( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/java/media/" + imageIcon ) ) );
+                setIcon( new ImageIcon( RotationResources.loadBufferedImage( "icons/java/media/" + imageIcon ) ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();

@@ -66,6 +66,10 @@ import java.util.ArrayList;
  * This renderer is combined with a PClip to ensure no data is drawn outside the chart's data area (which could otherwise change the fullbounds of the jfreechartnode..
  * <p/>
  * 3. Buffered renderer: This draws directly to the buffer in the JFreeChartNode, and only repaints the changed region of the screen.
+ * <p/>
+ * 4. Buffered Immediate: This draws directly to the buffer,
+ * and immediately repaints the dirty region so that multiple regions don't accumulate in the RepaintManager.
+ *
  *
  * @author Sam Reid
  * @version $Revision$
@@ -389,10 +393,11 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                     }
                     Graphics2D graphics2D = image.createGraphics();
                     graphics2D.setPaint( getSeriesData().getColor() );
-                    BasicStroke stroke = new BasicStroke( 2.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f );
+                    BasicStroke stroke = new BasicStroke( 4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER,1.0f);
                     graphics2D.setStroke( stroke );
                     int itemCount = getSeries().getItemCount();
                     Line2D.Double viewLine = new Line2D.Double( getViewPoint( itemCount - 2 ), getViewPoint( itemCount - 1 ) );
+                    graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                     graphics2D.draw( viewLine );
 
                     Shape sh = stroke.createStrokedShape( viewLine );

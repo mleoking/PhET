@@ -28,14 +28,12 @@ public class CombinedControlGraph extends PNode {
     private JFreeChart jFreeChart;
     private JFreeChartNode chartNode;
     private PNode controlNode;
-    private PSwingCanvas pSwingCanvas;
     private ArrayList controlSets = new ArrayList();
     private double padX;
     private ArrayList chartSliders = new ArrayList();
     private ArrayList closeButtons = new ArrayList();
 
-    public CombinedControlGraph( PSwingCanvas pSwingCanvas, final XYPlot[] subplot ) {
-        this.pSwingCanvas = pSwingCanvas;
+    public CombinedControlGraph( final XYPlot[] subplot ) {
         final CombinedDomainXYPlot plot = new CombinedDomainXYPlot( new NumberAxis( "Domain" ) );
         plot.setOrientation( PlotOrientation.VERTICAL );
         plot.setGap( 10.0 );

@@ -2,6 +2,7 @@ package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.rotation.RotationResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -40,7 +41,7 @@ public class GraphComponent extends PNode {
 
         JButton minimizeButton = new JButton();
         try {
-            minimizeButton.setIcon( new ImageIcon( ImageLoader.loadBufferedImage( "images/minimizeButton.png" ) ) );
+            minimizeButton.setIcon( new ImageIcon( RotationResources.loadBufferedImage( "minimizeButton.png" ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -66,7 +67,7 @@ public class GraphComponent extends PNode {
             }
         } );
         try {
-            maximizeButton.setIcon( new ImageIcon( ImageLoader.loadBufferedImage( "images/maximizeButton.png" ) ) );
+            maximizeButton.setIcon( new ImageIcon( RotationResources.loadBufferedImage( "maximizeButton.png" ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
