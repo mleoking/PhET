@@ -109,6 +109,8 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
     // The slider knob.
     private SpectrumSliderKnob _knob;
     private PhetShapeGraphic spectrumCursor;
+    //    public static final String IMAGES_DIRECTORY = "images/";
+        public static final String SPECTRUM_IMAGE = "images/spectrum.png";
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -362,7 +364,7 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
     public void setSpectrumSize( Dimension size ) {
 
         // Read a fresh copy of the image.
-        String resourceName = Constants.SPECTRUM_IMAGE;
+        String resourceName = SPECTRUM_IMAGE;
         BufferedImage image;
         try {
             image = ImageLoader.loadBufferedImage( resourceName );
