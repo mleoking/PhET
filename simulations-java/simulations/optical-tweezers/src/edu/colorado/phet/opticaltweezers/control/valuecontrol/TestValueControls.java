@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -22,6 +23,7 @@ public class TestValueControls extends JFrame {
     
     public TestValueControls() {
         
+        // Linear control, center aligned
         double min = 0;
         double max = 1000;
         double value = 0;
@@ -29,6 +31,7 @@ public class TestValueControls extends JFrame {
         String valuePattern = "######0";
         String units = "meters";
         final LinearValueControl speedControl = new LinearValueControl( min, max, label, valuePattern, units );
+        speedControl.setHorizontalAlignment( SwingConstants.CENTER );
         speedControl.setValue( value );
         speedControl.setUpDownArrowDelta( 1 );
         speedControl.setTextFieldEditable( true );
@@ -39,6 +42,7 @@ public class TestValueControls extends JFrame {
             }
         } );
         
+        // Logarithmic control, default alignment
         min = 1E-6;
         max = 1E-2;
         value = 1E-4;
