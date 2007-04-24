@@ -64,12 +64,12 @@ public class TestCombinedModelPlot2 {
         xGraph = factory.createXYPlot( "position", "meters", 10 );
         vGraph = factory.createXYPlot( "vel", "meters/sec", 2 );
         aGraph = factory.createXYPlot( "acc", "meters/sec/sec", 0.25 );
-        combinedControlGraph = new CombinedControlGraph( phetPCanvas, new XYPlot[]{xGraph, vGraph, aGraph,} );
+        combinedControlGraph = new CombinedControlGraph( new XYPlot[]{xGraph, vGraph, aGraph,} );
         rotationModel.setUpdateStrategy( positionDriven );
         DefaultGraphTimeSeries graphTimeSeries = new DefaultGraphTimeSeries();
-        addDefaultControlSet( 0, "position", "a units", "A_abbr", xVariable, graphTimeSeries, phetPCanvas, combinedControlGraph, positionDriven );
-        addDefaultControlSet( 1, "velocity", "b units", "b_abbr", vVariable, graphTimeSeries, phetPCanvas, combinedControlGraph, velocityDriven );
-        addDefaultControlSet( 2, "acceleration", "c units", "c_abbr", aVariable, graphTimeSeries, phetPCanvas, combinedControlGraph, accelDriven );
+        addDefaultControlSet( 0, "position", "a units", "A_abbr", xVariable, graphTimeSeries,  combinedControlGraph, positionDriven );
+        addDefaultControlSet( 1, "velocity", "b units", "b_abbr", vVariable, graphTimeSeries, combinedControlGraph, velocityDriven );
+        addDefaultControlSet( 2, "acceleration", "c units", "c_abbr", aVariable, graphTimeSeries, combinedControlGraph, accelDriven );
 
         combinedControlGraph.setBounds( 0, 0, 400, 500 );
         phetPCanvas.addScreenChild( combinedControlGraph );
@@ -117,7 +117,7 @@ public class TestCombinedModelPlot2 {
         timer.start();
     }
 
-    public void addDefaultControlSet( int subplotIndex, String title, String units, String abbreviation, final SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries, PSwingCanvas pSwingCanvas, CombinedControlGraph combinedControlGraph, final UpdateStrategy updateStrategy ) {
+    public void addDefaultControlSet( int subplotIndex, String title, String units, String abbreviation, final SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries, CombinedControlGraph combinedControlGraph, final UpdateStrategy updateStrategy ) {
         PNode sliderThumb = new PText( title );
 
         GraphControlNode graphControlNode = new GraphControlNode( title, simulationVariable, graphTimeSeries );

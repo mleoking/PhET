@@ -56,7 +56,7 @@ public class TestCombinedModelPlot {
         xGraph = factory.createXYPlot( "position", "meters" );
         vGraph = factory.createXYPlot( "vel", "meters/sec" );
         aGraph = factory.createXYPlot( "acc", "meters/sec/sec" );
-        combinedControlGraph = new CombinedControlGraph( phetPCanvas, new XYPlot[]{xGraph, vGraph, aGraph,} );
+        combinedControlGraph = new CombinedControlGraph( new XYPlot[]{xGraph, vGraph, aGraph,} );
         xChartSlider = new CombinedChartSlider( combinedControlGraph.getChartNode(), new PText( "HELLO" ), 0 );
         xChartSlider.addListener( new AbstractChartSlider.Listener() {
             public void valueChanged() {

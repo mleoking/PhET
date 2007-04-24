@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation.graphs;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.rotation.model.SimulationVariable;
+import edu.colorado.phet.rotation.RotationResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -185,7 +186,7 @@ public class GraphControlNode extends PNode {
             this.goButton = b;
             setText( goButton ? "Go!" : "Stop" );
             try {
-                setIcon( new ImageIcon( ImageLoader.loadBufferedImage( goButton ? "images/go.png" : "images/stop.png" ) ) );
+                setIcon( new ImageIcon( RotationResources.loadBufferedImage( goButton ? "go.png" : "stop.png" ) ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();
