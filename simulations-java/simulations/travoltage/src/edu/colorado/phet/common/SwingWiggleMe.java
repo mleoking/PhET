@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.common;
 
 import javax.swing.*;

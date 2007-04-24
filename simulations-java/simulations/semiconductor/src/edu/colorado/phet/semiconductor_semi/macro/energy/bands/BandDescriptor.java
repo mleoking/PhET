@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.semiconductor_semi.macro.energy.bands;
 
 import edu.colorado.phet.semiconductor_semi.common.EnergySpaceRegion;

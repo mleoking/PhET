@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.cck.tests;
 
 import edu.colorado.phet.common_cck.view.components.PhetSlider;

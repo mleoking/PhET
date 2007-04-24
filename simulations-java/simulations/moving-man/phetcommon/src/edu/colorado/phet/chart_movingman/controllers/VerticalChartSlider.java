@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.chart_movingman.controllers;
 
 import edu.colorado.phet.chart_movingman.Chart;

@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;

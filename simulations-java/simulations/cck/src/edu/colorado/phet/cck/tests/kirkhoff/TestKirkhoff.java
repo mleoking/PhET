@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.cck.tests.kirkhoff;
 
 import edu.colorado.phet.cck.model.Circuit;

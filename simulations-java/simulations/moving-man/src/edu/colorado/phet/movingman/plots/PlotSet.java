@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.chart_movingman.Range2D;

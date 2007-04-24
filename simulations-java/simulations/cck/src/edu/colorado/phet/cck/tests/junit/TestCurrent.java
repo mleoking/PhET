@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.cck.tests.junit;
 
 import edu.colorado.phet.cck.model.CCKModel;

@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.theramp.common;
 
 import javax.sound.sampled.*;

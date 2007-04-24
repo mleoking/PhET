@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.force1d_tag_chart;
 
 import java.awt.*;

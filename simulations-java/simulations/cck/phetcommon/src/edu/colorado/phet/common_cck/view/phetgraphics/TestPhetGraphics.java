@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.common_cck.view.phetgraphics;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;

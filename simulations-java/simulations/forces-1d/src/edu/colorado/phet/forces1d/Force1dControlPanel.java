@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.forces1d;
 
 import edu.colorado.phet.common_force1d.view.components.ModelSlider;

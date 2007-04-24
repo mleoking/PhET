@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.common_cck.view.plaf;
 
 import java.awt.*;

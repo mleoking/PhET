@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common_movingman.view.util.ImageLoader;

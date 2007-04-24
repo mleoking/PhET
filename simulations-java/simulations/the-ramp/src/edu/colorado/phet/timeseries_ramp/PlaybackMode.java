@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.timeseries_ramp;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;

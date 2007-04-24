@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.cck;
 
 import edu.colorado.phet.cck.common.AdvancedPanel;

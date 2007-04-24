@@ -1,4 +1,4 @@
-/** Sam Reid*/
+
 package edu.colorado.phet.semiconductor_semi.macro.energy.statemodels;
 
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
