@@ -23,11 +23,11 @@ public class TestValueControls extends JFrame {
     public TestValueControls() {
         
         double min = 0;
-        double max = 1000000;
+        double max = 1000;
         double value = 0;
-        String label = "Fluid speed:";
+        String label = "Linear control:";
         String valuePattern = "######0";
-        String units = "nm/sec";
+        String units = "meters";
         final LinearValueControl speedControl = new LinearValueControl( min, max, label, valuePattern, units );
         speedControl.setValue( value );
         speedControl.setUpDownArrowDelta( 1 );
@@ -42,9 +42,9 @@ public class TestValueControls extends JFrame {
         min = 1E-6;
         max = 1E-2;
         value = 1E-4;
-        label = "Fluid viscosity:";
+        label = "Logarithmic control:";
         valuePattern = "0.0E0";
-        units = "Pa*sec";
+        units = "seconds";
         final LogarithmicValueControl viscosityControl = new LogarithmicValueControl( min, max, label, valuePattern, units );
         viscosityControl.setValue( value );
         viscosityControl.setTextFieldEditable( true );
