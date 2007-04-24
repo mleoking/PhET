@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- move control.valuecontrol to phetcommon
 - add developer control for Bead.BROWNIAN_MOTION_SCALE
 - add developer controls for disabling individual components of bead motion model
 
