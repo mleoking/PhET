@@ -16,6 +16,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+4/23/07 - delete SliderControl, not used
 4/6/07 - organize imports
 4/6/07 - set locale in Spanish JNLP file via javaws.locale property
 4/6/07 - encapsulate loading of strings and images in HAResources
