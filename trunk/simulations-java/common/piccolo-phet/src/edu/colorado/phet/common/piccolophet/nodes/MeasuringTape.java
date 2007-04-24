@@ -35,6 +35,9 @@ import java.text.DecimalFormat;
  */
 
 public class MeasuringTape extends PhetPNode {
+    
+    private static final String MEASURING_TAPE_IMAGE = "piccolo-phet/images/tape.gif";
+    
     private ModelViewTransform2D modelViewTransform2D;
     private Point2D.Double modelSrc;
     private Point2D.Double modelDst;
@@ -86,7 +89,7 @@ public class MeasuringTape extends PhetPNode {
 
         public BodyGraphic() {
             try {
-                imageGraphic = new PImage( ImageLoader.loadBufferedImage( "images/tape.gif" ) );
+                imageGraphic = new PImage( ImageLoader.loadBufferedImage( MEASURING_TAPE_IMAGE ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();
