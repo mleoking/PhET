@@ -55,6 +55,10 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/24/07 - simplifications to min/max tick mark code in AbstractValueControl
+4/24/07 - move testers to controls.valuecontrols
+4/24/07 - rename AbstractSliderStrategy etal to AbstractMappingStrategy
+4/24/07 - move ValueControl stuff to controls.valuecontrol
 4/23/07 - remove PhysicsDefaults references from FluidControlPanel, should be independent of module
 4/23/07 - set clock range to vary from realtime to 140E-16 * realtime
 4/23/07 - replace ClockSpeedSlider with a LogarithmicValueControl

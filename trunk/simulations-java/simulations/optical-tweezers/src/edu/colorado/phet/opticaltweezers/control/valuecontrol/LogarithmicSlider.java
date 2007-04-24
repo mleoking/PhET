@@ -2,16 +2,20 @@
 
 package edu.colorado.phet.opticaltweezers.control.valuecontrol;
 
-
+/**
+ * LogarithmicSlider is a JSlider with that provides a logarithmic mapping to model values.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class LogarithmicSlider extends AbstractSlider {
 
-    private static final int DEFAULT_RESOLUTION = 1000;
+    private static final int DEFAULT_SLIDER_RESOLUTION = 1000;
 
     public LogarithmicSlider( double min, double max ) {
-        this( min, max, DEFAULT_RESOLUTION );
+        this( min, max, DEFAULT_SLIDER_RESOLUTION );
     }
     
     public LogarithmicSlider( double min, double max, int resolution ) {
-        super( new LogarithmicSliderStrategy( min, max, 0, resolution ) );
+        super( new LogarithmicMappingStrategy( min, max, 0, resolution ) );
     }
 }

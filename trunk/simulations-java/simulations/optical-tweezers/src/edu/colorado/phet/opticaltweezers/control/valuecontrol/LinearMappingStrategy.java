@@ -4,11 +4,11 @@ package edu.colorado.phet.opticaltweezers.control.valuecontrol;
 
 
 /**
- * LinearSliderStrategy performs a linear conversion between slider and model coordinates.
+ * LinearMappingStrategy performs a linear mapping between slider and model coordinates.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LinearSliderStrategy extends AbstractSliderStrategy {
+public class LinearMappingStrategy extends AbstractMappingStrategy {
     
     /**
      * Constructor.
@@ -17,9 +17,8 @@ public class LinearSliderStrategy extends AbstractSliderStrategy {
      * @param modelMax
      * @param sliderMin
      * @param sliderMax
-
      */
-    public LinearSliderStrategy( double modelMin, double modelMax, int sliderMin, int sliderMax ) {
+    public LinearMappingStrategy( double modelMin, double modelMax, int sliderMin, int sliderMax ) {
         super( modelMin, modelMax, sliderMin, sliderMax );
     }
 

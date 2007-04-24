@@ -4,12 +4,12 @@ package edu.colorado.phet.opticaltweezers.control.valuecontrol;
 
 
 /**
- * LogarithmicSliderStrategy performs a logarithmic (base 10) conversion 
- * between slider and model coordinates.
+ * LogarithmicMappingStrategy performs a logarithmic (base 10)
+ * mapping between slider and model coordinates.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LogarithmicSliderStrategy extends AbstractSliderStrategy {
+public class LogarithmicMappingStrategy extends AbstractMappingStrategy {
     
     private final double _logMin, _logMax, _logRange;
     private final double _scalingFactor;
@@ -23,7 +23,7 @@ public class LogarithmicSliderStrategy extends AbstractSliderStrategy {
      * @param sliderMax
      * @throws IllegalArgumentException if modelMin and modelMax have different signs
      */
-    public LogarithmicSliderStrategy( double modelMin, double modelMax, int sliderMin, int sliderMax ) {
+    public LogarithmicMappingStrategy( double modelMin, double modelMax, int sliderMin, int sliderMax ) {
         super( modelMin, modelMax, sliderMin, sliderMax );
         
         if ( modelMin < 0 && modelMax > 0 || modelMin > 0 && modelMax < 0 ) {
@@ -62,11 +62,11 @@ public class LogarithmicSliderStrategy extends AbstractSliderStrategy {
         }
         if ( modelValue < getModelMin() ) {
             modelValue = getModelMin();
-            System.err.println( "WARNING: LogarithmicSliderStrategy.sliderToModel, sliderValue too small, clamping to " + sliderValue );
+            System.err.println( "WARNING: LogarithmicSliderStrategy.sliderToModel, modelValue too small, clamping to " + modelValue );
         }
         else if ( modelValue > getModelMax() ) {
             modelValue = getModelMax();
-            System.err.println( "WARNING: LogarithmicSliderStrategy.sliderToModel, sliderValue too big, clamping to " + sliderValue );
+            System.err.println( "WARNING: LogarithmicSliderStrategy.sliderToModel, modelValue too big, clamping to " + modelValue );
         }
         return modelValue;
     }
@@ -93,7 +93,7 @@ public class LogarithmicSliderStrategy extends AbstractSliderStrategy {
         return sliderValue;
     }
     
-    /* Handles log base 10 of 0 and negative values. */
+    /* Handles log10 of zero and negative values. */
     private static double adjustedLog10( double d ) {
         double value = 0;
         if ( d > 0 ) {
