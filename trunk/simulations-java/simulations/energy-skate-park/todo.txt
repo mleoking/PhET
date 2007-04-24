@@ -1,3 +1,16 @@
+   It seemed easy to freeze the program. We tried to save the track, so we could figure out why.
+   We were not able to save the track. (too bad because he had some cool designs)
+   We even tried to save it well before it froze.
+      When we froze the program, the Reset would look like everything was resetting, but the guy was frozen.
+      After hitting Reset again, even the track would not appear.
+      I wasn't able to document what cause freezing yet, but we usually had several pieces and jumps.
+      I turned on the pie chart to analyze it, but I just have some basic ideas.
+
+Some other things:
+   The user was very frustrated about how the track jumps together too easily.
+   He wondered where the "undo" option was. (would that be a reasonable option)
+   He also commented that it was hard to get the guy to start in the same place to test his ideas about the track.
+
 Maybe:
 • Track can become dissociated from mouse during drag after proposed match.
 • Save skater character as part of a saved state? (30 min or so)
