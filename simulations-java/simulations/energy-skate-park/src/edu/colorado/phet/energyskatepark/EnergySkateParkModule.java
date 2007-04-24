@@ -288,7 +288,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         xmlEncoder.setPersistenceDelegate( Point2D.Double.class, new Point2DPersistenceDelegate() );
         xmlEncoder.writeObject( new EnergySkateParkModuleBean( this ) );
         xmlEncoder.close();
-
+        System.out.println( "Saving: "+stringOutputStream.toString() );
         InputStream stream = new ByteArrayInputStream( stringOutputStream.toString().getBytes() );
         FileContents data = new InputStreamFileContents( "esp_output", stream );
         FileContents out = fos.saveAsFileDialog( null, new String[]{"esp"}, data );

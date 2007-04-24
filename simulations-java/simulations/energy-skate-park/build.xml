@@ -23,9 +23,10 @@
     <property name="dev-parent" value="${phet-ssh-root}/${dev-path}"/>
     <property name="dev-dir" value="${dev-parent}/${dev-version}"/>
     <property name="common" value="../../common"/>
-    <taskdef resource="proguard/ant/task.properties" classpath="${common}/antutil/lib/proguard.jar"/>
+    <property name="build-tools" value="../../build-tools"/>
+    <taskdef resource="proguard/ant/task.properties" classpath="${build-tools}/proguard3.8/lib/proguard.jar"/>
 
-    <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh" classpath="${common}/antutil/lib/maverick-ant.jar"/>
+    <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh" classpath="${build-tools}/maverick/lib/maverick-ant.jar"/>
 
     <target name="init">
         <tstamp/>
@@ -67,9 +68,6 @@
             <fileset dir="data"/>
 
             <fileset dir="../../common/phetcommon/data"/>
-
-            <!--Oyoaha-->
-            <fileset dir="lookandfeels/data"/>
 
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>

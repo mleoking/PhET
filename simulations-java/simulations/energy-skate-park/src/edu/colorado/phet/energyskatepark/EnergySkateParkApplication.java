@@ -48,7 +48,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 public class EnergySkateParkApplication extends PhetApplication {
-    private static final String VERSION = "1.05.20";
+    private static final String VERSION = "1.05.22";
     private EnergySkateParkModule module;
     public static double SIMULATION_TIME_DT = 0.03;
 
