@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14677 $
+ * Date modified : $Date:2007-04-17 03:40:29 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.phetcommon.util.persistence;
 
@@ -21,7 +21,7 @@ import java.io.*;
  * PersistenceUtil
  *
  * @author Ron LeMaster
- * @version $Revision$
+ * @version $Revision:14677 $
  */
 public class PersistenceUtil {
 
@@ -93,7 +93,7 @@ public class PersistenceUtil {
         public MyObjectOutputStream( OutputStream out, CopyObjectReplacementStrategy copyObjectReplacementStrategy ) throws IOException {
             super( out );
             this.copyObjectReplacementStrategy = copyObjectReplacementStrategy;
-            enableReplaceObject( true );
+//            enableReplaceObject( true );//fails under web start due to security restrictions
         }
 
         protected Object replaceObject( Object obj ) throws IOException {
