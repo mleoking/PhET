@@ -23,6 +23,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
@@ -51,8 +52,7 @@ public class TurbinePanel extends FaradayPanel {
     private CompassGridGraphic _gridGraphic;
 
     // UI components
-    private JLabel _strengthValue;
-    private JSlider _strengthSlider;
+    private LinearValueControl _strengthControl;
     private JCheckBox _gridCheckBox;
     private JCheckBox _fieldMeterCheckBox;
     private JCheckBox _compassCheckBox;
@@ -96,36 +96,20 @@ public class TurbinePanel extends FaradayPanel {
         setBorder( titleBorder );
         
         // Magnet strength
-        JPanel strengthPanel = new JPanel();
         {
-            strengthPanel.setBorder( BorderFactory.createEtchedBorder() );
-
             // Values are a percentage of the maximum.
             int max = 100;
-            int min = (int) ( 100.0 * _turbineModel.getMinStrength() / _turbineModel.getMaxStrength() );
-            int range = max - min;
+            int min = (int) ( 100.0 * FaradayConstants.BAR_MAGNET_STRENGTH_MIN / FaradayConstants.BAR_MAGNET_STRENGTH_MAX );
 
             // Slider
-            _strengthSlider = new JSlider();
-            _strengthSlider.setMaximum( max );
-            _strengthSlider.setMinimum( min );
-            _strengthSlider.setValue( min );
-
-            // Slider tick marks
-            _strengthSlider.setMajorTickSpacing( range );
-            _strengthSlider.setMinorTickSpacing( 10 );
-            _strengthSlider.setSnapToTicks( false );
-            _strengthSlider.setPaintTicks( true );
-            _strengthSlider.setPaintLabels( true );
-
-            // Value
-            _strengthValue = new JLabel( UNKNOWN_VALUE );
-
-            // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( strengthPanel );
-            strengthPanel.setLayout( layout );
-            layout.addAnchoredComponent( _strengthValue, 0, 0, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( _strengthSlider, 1, 0, GridBagConstraints.WEST );
+            String label = FaradayResources.getString( "TurbinePanel.strength" );
+            _strengthControl = new LinearValueControl( min, max, label, "0", "%" );
+            _strengthControl.setValue( min );
+            _strengthControl.setTickSpacing( 10 );
+            _strengthControl.setTextFieldEditable( true );
+            _strengthControl.setTextFieldColumns( 3 );
+            _strengthControl.setUpDownArrowDelta( 1 );
+            _strengthControl.setBorder( BorderFactory.createEtchedBorder() );
         }
 
         // Compass Grid on/off
@@ -141,14 +125,14 @@ public class TurbinePanel extends FaradayPanel {
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         int row = 0;
-        layout.addFilledComponent( strengthPanel, row++, 0, GridBagConstraints.HORIZONTAL );
+        layout.addFilledComponent( _strengthControl, row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _gridCheckBox, row++, 0 );
         layout.addComponent( _compassCheckBox, row++, 0 );
         layout.addComponent( _fieldMeterCheckBox, row++, 0 );
         
         // Wire up event handling.
         EventListener listener = new EventListener();
-        _strengthSlider.addChangeListener( listener );
+        _strengthControl.addChangeListener( listener );
         _gridCheckBox.addActionListener( listener );
         _fieldMeterCheckBox.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
@@ -161,7 +145,7 @@ public class TurbinePanel extends FaradayPanel {
      * Updates the control panel to match the state of the things that it's controlling.
      */
     public void update() {
-        _strengthSlider.setValue( (int) ( 100.0 * _turbineModel.getStrength() / _turbineModel.getMaxStrength() ) );
+        _strengthControl.setValue( (int) ( 100.0 * _turbineModel.getStrength() / _turbineModel.getMaxStrength() ) );
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
         _fieldMeterCheckBox.setSelected( _fieldMeterModel.isEnabled() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
@@ -223,16 +207,12 @@ public class TurbinePanel extends FaradayPanel {
          * @throws IllegalArgumentException if the event is unexpected
          */
         public void stateChanged( ChangeEvent e ) {
-            if ( e.getSource() == _strengthSlider ) {
+            if ( e.getSource() == _strengthControl ) {
                 // Read the value.
-                int percent = _strengthSlider.getValue();
+                int percent = (int)_strengthControl.getValue();
                 // Update the model.
                 double strength = (  percent / 100.0 ) * FaradayConstants.BAR_MAGNET_STRENGTH_MAX ;
                 _turbineModel.setStrength( strength );
-                // Update the label.
-                Object[] args = { new Integer( percent ) };
-                String text = MessageFormat.format( FaradayResources.getString( "TurbinePanel.strength" ), args );
-                _strengthValue.setText( text );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );

@@ -22,6 +22,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
@@ -53,7 +54,7 @@ public class PickupCoilPanel extends FaradayPanel {
 
     // UI components
     private JSpinner _loopsSpinner;
-    private ControlPanelSlider _areaSlider;
+    private LinearValueControl _areaControl;
     private JRadioButton _voltmeterRadioButton;
     private JRadioButton _lightbulbRadioButton;
     private JCheckBox _electronsCheckBox;
@@ -158,17 +159,16 @@ public class PickupCoilPanel extends FaradayPanel {
             // Values are a percentage of the maximum.
             int max = 100;
             int min = (int) ( 100.0 * FaradayConstants.MIN_PICKUP_LOOP_AREA / FaradayConstants.MAX_PICKUP_LOOP_AREA );
-            int range = max - min;
 
             // Slider
-            String format = FaradayResources.getString( "PickupCoilPanel.area" );
-            _areaSlider = new ControlPanelSlider( format );
-            _areaSlider.setMaximum( max );
-            _areaSlider.setMinimum( min );
-            _areaSlider.setValue( min );
-            _areaSlider.setMajorTickSpacing( range );
-            _areaSlider.setMinorTickSpacing( 10 );
-            _areaSlider.setSnapToTicks( false );
+            String label = FaradayResources.getString( "PickupCoilPanel.area" );
+            _areaControl = new LinearValueControl( min, max, label, "0", "%" );
+            _areaControl.setValue( min );
+            _areaControl.setTickSpacing( 10 );
+            _areaControl.setTextFieldEditable( true );
+            _areaControl.setTextFieldColumns( 3 );
+            _areaControl.setUpDownArrowDelta( 1 );
+            _areaControl.setBorder( BorderFactory.createEtchedBorder() );
         }
         
         // Electrons on/off
@@ -180,13 +180,13 @@ public class PickupCoilPanel extends FaradayPanel {
         int row = 0;
         layout.addFilledComponent( indicatorPanel, row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( loopsPanel, row++, 0 );
-        layout.addFilledComponent( _areaSlider, row++, 0, GridBagConstraints.HORIZONTAL );
+        layout.addFilledComponent( _areaControl, row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _electronsCheckBox, row++, 0 );
 
         // Wire up event handling
         EventListener listener = new EventListener();
         _loopsSpinner.addChangeListener( listener );
-        _areaSlider.addChangeListener( listener );
+        _areaControl.addChangeListener( listener );
         _lightbulbRadioButton.addActionListener( listener );
         _voltmeterRadioButton.addActionListener( listener );
         _electronsCheckBox.addActionListener( listener );
@@ -200,7 +200,7 @@ public class PickupCoilPanel extends FaradayPanel {
      */
     public void update() {
         _loopsSpinner.setValue( new Integer( _pickupCoilModel.getNumberOfLoops() ) );
-        _areaSlider.setValue( (int) ( 100.0 * _pickupCoilModel.getLoopArea() / FaradayConstants.MAX_PICKUP_LOOP_AREA ) );
+        _areaControl.setValue( (int) ( 100.0 * _pickupCoilModel.getLoopArea() / FaradayConstants.MAX_PICKUP_LOOP_AREA ) );
         _lightbulbRadioButton.setSelected( _lightbulbModel.isEnabled() );
         _voltmeterRadioButton.setSelected( _voltmeterModel.isEnabled() );
         _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
@@ -255,9 +255,9 @@ public class PickupCoilPanel extends FaradayPanel {
          * @throws IllegalArgumentException if the event is unexpected
          */
         public void stateChanged( ChangeEvent e ) {
-            if ( e.getSource() == _areaSlider ) {
+            if ( e.getSource() == _areaControl ) {
                 // Read the value.
-                int percent = _areaSlider.getValue();
+                int percent = (int)_areaControl.getValue();
                 // Update the model.
                 double area = ( percent / 100.0 ) * FaradayConstants.MAX_PICKUP_LOOP_AREA;
                 _pickupCoilModel.setLoopArea( area );

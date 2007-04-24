@@ -18,6 +18,7 @@ LOW PRIORITY:
 
 
 DONE:
+4/24/07 - replace ControlPanelSlider with LinearValueControl from phetcommon
 4/7/07 - organize imports
 4/7/07 - set locale in Spanish JNLP file via javaws.locale property
 4/7/07 - encapsulate loading of strings and images in FaradayResources
