@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.control.slider;
+package edu.colorado.phet.opticaltweezers.control.valuecontrol;
 
 
 /**
@@ -8,7 +8,7 @@ package edu.colorado.phet.opticaltweezers.control.slider;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractSliderStrategy implements ISliderStrategy {
+public abstract class AbstractSliderStrategy implements IConversionStrategy {
     
     private double _modelMin, _modelMax;
     private int _sliderMin, _sliderMax;

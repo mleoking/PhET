@@ -2,10 +2,10 @@
 
 package edu.colorado.phet.opticaltweezers.test;
 
-import edu.colorado.phet.opticaltweezers.control.slider.AbstractSliderStrategy;
-import edu.colorado.phet.opticaltweezers.control.slider.ISliderStrategy;
-import edu.colorado.phet.opticaltweezers.control.slider.LinearSliderStrategy;
-import edu.colorado.phet.opticaltweezers.control.slider.LogarithmicSliderStrategy;
+import edu.colorado.phet.opticaltweezers.control.valuecontrol.AbstractSliderStrategy;
+import edu.colorado.phet.opticaltweezers.control.valuecontrol.IConversionStrategy;
+import edu.colorado.phet.opticaltweezers.control.valuecontrol.LinearSliderStrategy;
+import edu.colorado.phet.opticaltweezers.control.valuecontrol.LogarithmicSliderStrategy;
 
 /**
  * Test harness for the ISliderStrategy hierarchy.
@@ -53,7 +53,7 @@ public class TestISliderStrategy {
     /*
      * Tests a strategy for specific slider and model value.
      */
-    private static void testStrategy( ISliderStrategy strategy, int sliderValue, double modelValue ) {
+    private static void testStrategy( IConversionStrategy strategy, int sliderValue, double modelValue ) {
         System.out.println( sliderValue + " -> " + strategy.sliderToModel( sliderValue ) + " (" + modelValue + ")" );
         System.out.println( modelValue  + " -> " + strategy.modelToSlider( modelValue )  + " (" + sliderValue + ")" );
     }
@@ -77,7 +77,7 @@ public class TestISliderStrategy {
         // Logarithmic test
         {
             System.out.println( "------------------------" );
-            ISliderStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 2E1, 2E5, -100, 100 );
+            IConversionStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 2E1, 2E5, -100, 100 );
             System.out.println( "test: " + logarithmicStrategy.toString() );
             testStrategy( logarithmicStrategy, -100, 2E1 );
             testStrategy( logarithmicStrategy,  -50, 2E2 );
@@ -89,7 +89,7 @@ public class TestISliderStrategy {
         // Logarithmic test
         {
             System.out.println( "------------------------" );
-            ISliderStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 2E1, 2E5, 0, 1000 );
+            IConversionStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 2E1, 2E5, 0, 1000 );
             System.out.println( "test: " + logarithmicStrategy.toString() );
             testStrategy( logarithmicStrategy,    0, 2E1 );
             testStrategy( logarithmicStrategy,  250, 2E2 );
@@ -101,7 +101,7 @@ public class TestISliderStrategy {
         // Logarithmic test
         {
             System.out.println( "------------------------" );
-            ISliderStrategy logarithmicStrategy = new LogarithmicSliderStrategy( -2E5, -2E1, 0, 1000 );
+            IConversionStrategy logarithmicStrategy = new LogarithmicSliderStrategy( -2E5, -2E1, 0, 1000 );
             System.out.println( "test: " + logarithmicStrategy.toString() );
             testStrategy( logarithmicStrategy,    0, -2E5 );
             testStrategy( logarithmicStrategy,  250, -2E4 );
@@ -113,7 +113,7 @@ public class TestISliderStrategy {
         // Logarithmic test
         {
             System.out.println( "------------------------" );
-            ISliderStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 1E-6, 1E-2, 0, 1000 );
+            IConversionStrategy logarithmicStrategy = new LogarithmicSliderStrategy( 1E-6, 1E-2, 0, 1000 );
             System.out.println( "test: " + logarithmicStrategy.toString() );
             testStrategy( logarithmicStrategy,    0, 1E-6 );
             testStrategy( logarithmicStrategy,  250, 1E-5 );
