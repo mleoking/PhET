@@ -4,7 +4,6 @@ package edu.colorado.phet.common.jfreechartphet.test;
  * User: Sam Reid
  * Date: Jan 22, 2007
  * Time: 11:56:07 PM
- * Copyright (c) Jan 22, 2007 by Sam Reid
  */
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.DynamicJFreeChartNode;

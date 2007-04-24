@@ -28,7 +28,6 @@ import java.awt.event.ComponentListener;
  * User: Sam Reid
  * Date: Dec 14, 2005
  * Time: 4:50:58 PM
- * Copyright (c) Dec 14, 2005 by Sam Reid
  */
 
 public class TestSplitRendering {
