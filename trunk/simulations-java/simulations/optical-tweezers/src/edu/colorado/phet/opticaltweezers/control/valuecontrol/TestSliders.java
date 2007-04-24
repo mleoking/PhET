@@ -2,13 +2,18 @@
 
 package edu.colorado.phet.opticaltweezers.control.valuecontrol;
 
-import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.text.DecimalFormat;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 
 /**
@@ -18,33 +23,54 @@ import javax.swing.event.ChangeListener;
  */
 public class TestSliders extends JFrame {
 
-    private static final Dimension FRAME_SIZE = new Dimension( 500, 500 );
-    
     public TestSliders() {
         
+        // Linear
+        final String linearPrefix = "LinearSlider: ";
+        final JLabel linearLabel = new JLabel();
+        final DecimalFormat linearFormat = new DecimalFormat( "0.0" );
         final LinearSlider linearSlider = new LinearSlider( -1, 1 );
         linearSlider.addChangeListener( new ChangeListener() {
            public void stateChanged( ChangeEvent event ) {
-               System.out.println( "TestSliders.stateChanged: " + linearSlider.getModelValue() );
+               updateLabel( linearLabel, linearPrefix, linearSlider, linearFormat );
            }
-        });
+        } );
+        updateLabel( linearLabel, linearPrefix, linearSlider, linearFormat );
         
-        final LogarithmicSlider logSlider = new LogarithmicSlider( 1E-6, 1E-2 );
+        // Logarithmic
+        final String logPrefix = "LogarithmicSlider: ";
+        final JLabel logLabel = new JLabel( );
+        final DecimalFormat logFormat = new DecimalFormat( "0E0" );
+        final LogarithmicSlider logSlider = new LogarithmicSlider( 1E2, 1E6 );
         logSlider.addChangeListener( new ChangeListener() {
            public void stateChanged( ChangeEvent event ) {
-               System.out.println( "TestSliders.stateChanged: " + logSlider.getModelValue() );
+               updateLabel( logLabel, logPrefix, logSlider, logFormat );
            }
-        });
+        } );
+        updateLabel( logLabel, logPrefix, logSlider, logFormat );
         
+        // Layout
         JPanel panel = new JPanel();
-        BoxLayout layout = new BoxLayout( panel, BoxLayout.Y_AXIS );
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        layout.setInsets( new Insets( 10, 10, 10, 10 ) );
+        layout.setAnchor( GridBagConstraints.WEST );
         panel.setLayout( layout );
-        panel.add( linearSlider );
-        panel.add( logSlider );
+        int row = 0;
+        int column = 0;
+        layout.addComponent( linearLabel, row++, column );
+        layout.addComponent( linearSlider, row++, column );
+        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( logLabel, row++, column );
+        layout.addComponent( logSlider, row++, column );
         
+        // Frame setup
         setContentPane( panel );
-        setSize( FRAME_SIZE );
+        pack();
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+    }
+    
+    private static void updateLabel( JLabel label, String prefix, AbstractSlider slider, DecimalFormat format ) {
+        label.setText( prefix + format.format( slider.getModelValue() ) );
     }
     
     public static void main( String[] args ) {
