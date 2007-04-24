@@ -7,7 +7,6 @@ IN PROGRESS:
 - add developer controls for disabling individual components of bead motion model
 
 HIGH PRIORITY:
-- left-align all fluid controls
 - new model for bead motion
 - better model for Fz trap force
 - implement E-field model for slow mode
@@ -55,6 +54,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/24/07 - left-align all fluid controls
 4/24/07 - simplifications to min/max tick mark code in AbstractValueControl
 4/24/07 - move testers to controls.valuecontrols
 4/24/07 - rename AbstractSliderStrategy etal to AbstractMappingStrategy
