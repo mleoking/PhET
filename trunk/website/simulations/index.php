@@ -164,7 +164,7 @@
                     }
                     
                     // This statement selects for all sims in the category, and orders by the sim sorting name:
-                    $select_sims_st = "SELECT * FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation`.`sim_sorting_name` ASC ";
+                    $select_sims_st = sim_get_select_sims_by_category_statement($cat);
                     
                     if ($view_type == "thumbs") {
                         // THUMBNAIL INDEX
@@ -200,7 +200,7 @@
                             gather_array_into_globals($simulation);
 
                             // Make sure the simulation is valid:
-                            if (is_numeric($sim_id) && url_exists($sim_image_url)) {
+                            if (is_numeric($sim_id)) {
                                 ++$sim_number;
 
                                 if ($sim_number <  $sim_start_number) continue;
@@ -217,7 +217,7 @@
                                 $link_to_sim = "<a href=\"sims/sims.php?sim_id=$sim_id\">";
 
                                 print "$link_to_sim";
-                                print "<img src=\"$sim_image_url\" width=\"130\" height=\"97\" alt=\"View $sim_name Simulation\" />";
+                                print "<img src=\"../admin/get-upload.php?url=$sim_image_url\" width=\"130\" height=\"97\" alt=\"View $sim_name Simulation\" />";
                                 print "</a>\n";
                                 //print "$link_to_sim$sim_name</a>\n";
                                 print "<br/><p>$link_to_sim$sim_name</a></p>\n";

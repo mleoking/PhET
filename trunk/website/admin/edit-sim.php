@@ -41,14 +41,18 @@
 
 <p align="left" class="style3">Edit Simulation Parameters</p>
     
-<form enctype=multipart/form-data action=update-sim.php method=post>
+<form enctype="multipart/form-data" action="update-sim.php" method="post">
     <?php
     
     print("<input type=hidden name=sim_id value=$sim_id>");
     
     print_captioned_editable_area("Specify the name of the simulation",                "sim_name",       $sim_name,       "1");
-    print_captioned_editable_area("Specify the URL that launches the simulation",      "sim_launch_url", $sim_launch_url, "1");
-    print_captioned_editable_area("Specify the URL of the JPEG simulation screenshot", "sim_image_url",  $sim_image_url,  "1");
+    
+    print_captioned_url_upload_control("Specify the URL that launches the simulation",      "sim_launch_url", $sim_launch_url, "2");
+    print_captioned_url_upload_control("Specify the URL of the JPEG simulation screenshot", "sim_image_url",  $sim_image_url,  "2");   
+    
+    print_captioned_url_upload_control("Specify the URL of the animated GIF preview",
+                                       "sim_animated_image_url", $sim_animated_image_url, "2");
 
     print ("<div class=style16>Please select a rating for this simulation</div>
             <p>
@@ -59,7 +63,7 @@
                 <input name=sim_rating type=radio value=2 $b_check>
                 <img src=../images/sims/ratings/beta-rating.gif width=16 height=16>
                 <input name=sim_rating type=radio value=3 $star_check>
-                <img src=../images/sims/ratings/star-rating.gif width=16 height=16>
+                <img src=../images/sims/ratings/check_Icon.gif width=16 height=16>
                 <input name=sim_rating type=radio value=4 $tri_check>
                 <img src=../images/sims/ratings/alpha-rating.gif width=16 height=14><br/>
             </p>");
@@ -70,14 +74,16 @@
     print_captioned_editable_area("Enter the members of the design team*",               "sim_design_team",     $sim_design_team, "2");
     print_captioned_editable_area("Enter the libraries used by the simulation*",         "sim_libraries",       $sim_libraries,   "2");  
     print_captioned_editable_area("Enter the 'thanks to' for the simulation*",           "sim_thanks_to",       $sim_thanks_to,   "2");  
-    print_captioned_editable_area("Enter the URL for the 'Ideas from PhET' PDF file",    "sim_phet_ideas_file", $sim_phet_ideas_file, "2");    
+
+    print_captioned_url_upload_control("Enter the URL for the teacher's guide PDF", "sim_teachers_guide_url", $sim_teachers_guide_url, "2");    
+    
     print_captioned_editable_area("Enter the main topics*",                              "sim_main_topics",     $sim_main_topics, "2");  
     print_captioned_editable_area("Enter the subtopics*",                                "sim_subtopics",       $sim_subtopics,   "2");  
     print_captioned_editable_area("Enter the sample learning goals*",                    "sim_sample_goals",    $sim_sample_goals,"2");
     
     print("<div class=style16>Please select the categories you would like the Simulation to appear under:</div>");
       
-    function print_category_checkbox($cat_id, $cat_name) {
+    function print_category_checkbox($cat_id, $cat_name, $cat_is_visible) {
         global $sim_id, $connection;
 
         $sql_cat        = "SELECT * FROM `simulation_listing` WHERE `sim_id`= '$sim_id' AND `cat_id`='$cat_id' ";
@@ -85,21 +91,27 @@
         $row_cat        = mysql_num_rows($sql_result_cat);
 
         $is_checked = ($row_cat >= 1 ? "checked" : "");
-
-        print "<input type=\"checkbox\" name=\"checkbox_cat_id_$cat_id\" value=\"true\" $is_checked>$cat_name<br/>";          
+        
+        if ($cat_is_visible == '1') {
+            print "<input type=\"checkbox\" name=\"checkbox_cat_id_$cat_id\" value=\"true\" $is_checked>$cat_name<br/>";          
+        }
+        else {
+            print "<input type=\"checkbox\" name=\"checkbox_cat_id_$cat_id\" value=\"true\" $is_checked><strong>$cat_name</strong><br/>";          
+        }
     }
 
     function print_category_checkboxes() {
         global $connection;
 
-        $select_categories_st = "SELECT * FROM `category` ";
+        $select_categories_st = "SELECT * FROM `category` ORDER BY `cat_order` ASC ";
         $category_rows        = mysql_query($select_categories_st, $connection);
 
-        while ($category_row=mysql_fetch_array($category_rows)) {
-            $cat_id   = $category_row[0];
-            $cat_name = $category_row[1];
+        while ($category_row=mysql_fetch_assoc($category_rows)) {
+            $cat_id         = $category_row['cat_id'];
+            $cat_name       = $category_row['cat_name'];
+            $cat_is_visible = $category_row['cat_is_visible'];
 
-            print_category_checkbox($cat_id, $cat_name);
+            print_category_checkbox($cat_id, $cat_name, $cat_is_visible);
         }
     }
 

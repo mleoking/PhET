@@ -161,8 +161,8 @@ window.open = SymWinOpen;
 
             <p>
                 <?php
-                    print "<a href=\"$sim_launch_url\">";
-                    print "<img class=\"sim-large\" src=\"$sim_image_url\"/>";
+                    print "<a href=\"../../admin/get-upload.php?url=$sim_launch_url\">";
+                    print "<img class=\"sim-large\" src=\"../../admin/get-upload.php?url=$sim_image_url\"/>";
                     print "</a>";
                     print "$sim_desc";                    
                 ?>
@@ -237,7 +237,7 @@ window.open = SymWinOpen;
             
             <p class="indi-sim">
                 <?php
-                    print "<a href=\"$sim_phet_ideas_file\">Click here to see Ideas and Activities for this simulation (PDF file).</a>";
+                    print "<a href=\"../../admin/get-upload.php?url=$sim_teachers_guide_url\">Click here to see Ideas and Activities for this simulation (PDF file).</a>";
                 ?>
             </p>
             

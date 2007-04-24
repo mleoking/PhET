@@ -72,5 +72,47 @@
         
         $GLOBALS["sim_id"] = "$sim_id"; 
     }
+    
+    function sim_get_select_sims_by_category_statement($cat) {
+        return "SELECT * FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation`.`sim_sorting_name` ASC ";
+    }
+    
+    function sim_get_image_previews($type, $field) {
+        global $connection;
+
+        $select_categories_st = "SELECT * FROM `category` WHERE `cat_is_visible`='0' ";
+        $category_rows        = mysql_query($select_categories_st, $connection);
+        
+        while ($category_row = mysql_fetch_assoc($category_rows)) {
+            $cat_id   = $category_row['cat_id'];
+            $cat_name = $category_row['cat_name'];
+            
+            if (preg_match("/.*$type.*preview.*/i", $cat_name) == 1) {                
+                $select_sims_st = sim_get_select_sims_by_category_statement($cat_id);
+                
+                $simulation_rows = mysql_query($select_sims_st, $connection);
+
+                $animated_images = array();
+                
+                while ($simulation_row = mysql_fetch_assoc($simulation_rows)) {
+                    $sim_animated_image_url = $simulation_row["$field"];
+                    
+                    $animated_images[] = $sim_animated_image_url;
+                }
+                
+                return $animated_images;
+            }
+        }
+        
+        return FALSE;
+    }
+    
+    function sim_get_animated_previews() {
+        return sim_get_image_previews("animated", "sim_animated_image_url");
+    }
+    
+    function sim_get_static_previews() {
+        return sim_get_image_previews("static", "sim_image_url");
+    }
 
 ?>
