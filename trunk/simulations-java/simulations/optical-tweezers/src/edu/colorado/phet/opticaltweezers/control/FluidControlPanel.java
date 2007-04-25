@@ -81,6 +81,8 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         _speedControl.setTextFieldEditable( true );
         _speedControl.setFont( font );
         _speedControl.setTickPattern( "0" );
+        _speedControl.setMajorTickSpacing( ( max - min ) / 2 );
+        _speedControl.setMinorTickSpacing( 100 );
         
         // Viscosity control
         value = fluid.getViscosity();
@@ -108,6 +110,8 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         _temperatureControl.setFont( font );
         _temperatureControl.setUpDownArrowDelta( 1 );
         _temperatureControl.setTickPattern( "0" );
+        _temperatureControl.setMajorTickSpacing( ( max - min ) / 2 );
+        _temperatureControl.setMinorTickSpacing( 50 );
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
