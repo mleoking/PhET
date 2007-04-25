@@ -23,16 +23,26 @@ import java.io.IOException;
  * @version $Revision$
  */
 public class LocalFileOpenService implements FileOpenService {
-    Component owner;
+    private Component owner;
 
     public LocalFileOpenService( Component owner ) {
         this.owner = owner;
     }
 
+    /**
+     *
+     * @param s
+     * @param strings may be null if there is no specified filter set; a null array is different
+     * than an array of zero size
+     * @return
+     * @throws IOException
+     */
     public FileContents openFileDialog( String s, String[] strings ) throws IOException {
         JFileChooser jfc = new JFileChooser( s );
-        LocalFileFilter eff = new LocalFileFilter( strings );
-        jfc.setFileFilter( eff );
+        if( strings != null ) {
+            LocalFileFilter eff = new LocalFileFilter( strings );
+            jfc.setFileFilter( eff );
+        }
         int answer = jfc.showOpenDialog( owner );
         if( answer == JFileChooser.CANCEL_OPTION ) {
             System.out.println( "Cancelled." );
