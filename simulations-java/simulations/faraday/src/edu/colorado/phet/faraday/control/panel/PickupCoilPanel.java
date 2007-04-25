@@ -163,7 +163,7 @@ public class PickupCoilPanel extends FaradayPanel {
             String label = FaradayResources.getString( "PickupCoilPanel.area" );
             _areaControl = new LinearValueControl( min, max, label, "0", "%" );
             _areaControl.setValue( min );
-            _areaControl.setTickSpacing( 10 );
+            _areaControl.setMinorTickSpacing( 10 );
             _areaControl.setTextFieldEditable( true );
             _areaControl.setTextFieldColumns( 3 );
             _areaControl.setUpDownArrowDelta( 1 );

@@ -114,7 +114,7 @@ public class BarMagnetPanel extends FaradayPanel {
             String label = FaradayResources.getString( "BarMagnetPanel.strength" );
             _strengthControl = new LinearValueControl( min, max, label, "0", "%" );
             _strengthControl.setValue( min );
-            _strengthControl.setTickSpacing( 10 );
+            _strengthControl.setMinorTickSpacing( 10 );
             _strengthControl.setTextFieldEditable( true );
             _strengthControl.setTextFieldColumns( 3 );
             _strengthControl.setUpDownArrowDelta( 1 );
