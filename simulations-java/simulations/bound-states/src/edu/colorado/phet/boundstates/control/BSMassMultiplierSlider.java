@@ -40,6 +40,7 @@ public class BSMassMultiplierSlider extends LinearValueControl {
         String minTickString = MessageFormat.format( MIN_MAX_PATTERN, minArgs );
         Object[] maxArgs = { format.format( max ) };
         String maxTickString = MessageFormat.format( MIN_MAX_PATTERN, maxArgs );
-        setMinMaxTickLabels( minTickString, maxTickString );
+        addTickLabel( min, minTickString );
+        addTickLabel( max, maxTickString );
     }
 }
