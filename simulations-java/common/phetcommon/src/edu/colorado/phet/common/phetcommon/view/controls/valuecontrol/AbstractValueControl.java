@@ -48,8 +48,6 @@ public abstract class AbstractValueControl extends JPanel {
     private AbstractSlider _slider; // slider that supports model coordinates
     private JFormattedTextField _textField;
     private JLabel _valueLabel, _unitsLabel;
-    private JPanel _valuePanel;
-    private EasyGridBagLayout _layout;
     private DecimalFormat _textFieldFormat; // format for the text field
     private DecimalFormat _tickFormat; // format for the tick mark labels
     private Font _font; // font used for all components
@@ -77,7 +75,7 @@ public abstract class AbstractValueControl extends JPanel {
      * @param horizontalAlignment GridBagConstraints.WEST, CENTER or EAST
      * @throws IllegalArgumentException
      */
-    public AbstractValueControl( AbstractSlider slider, String label, String textFieldPattern, String units ) {
+    public AbstractValueControl( AbstractSlider slider, String label, String textFieldPattern, String units, ILayoutStrategy layoutStrategy ) {
         super();
         
         _slider = slider;
@@ -97,33 +95,17 @@ public abstract class AbstractValueControl extends JPanel {
         _minTickString = _maxTickString = null;
         _minorTickLabelsVisible = true;
 
-        // Label
-        _valuePanel = new JPanel();
-        {
-            _valueLabel = new JLabel( label );
-            _unitsLabel = new JLabel( units );
+        // Labels
+        _valueLabel = new JLabel( label );
+        _unitsLabel = new JLabel( units );
 
-            _textField = new JFormattedTextField( _textFieldFormat );
-            _textField.setValue( new Double( _value ) );
-            _textField.setHorizontalAlignment( JTextField.RIGHT );
-            _textField.setColumns( textFieldPattern.length() );
-
-            EasyGridBagLayout layout = new EasyGridBagLayout( _valuePanel );
-            _valuePanel.setLayout( layout );
-            layout.setAnchor( GridBagConstraints.WEST );
-            layout.addComponent( _valueLabel, 0, 0 );
-            layout.addComponent( _textField, 0, 1 );
-            layout.addComponent( _unitsLabel, 0, 2 );
-        }
-
-        // Layout
-        {
-            _layout = new EasyGridBagLayout( this );
-            setLayout( _layout );
-            _layout.setAnchor( GridBagConstraints.WEST );
-            _layout.addComponent( _valuePanel, 0, 0 );
-            _layout.addComponent( _slider, 1, 0 );
-        }
+        // Textfield
+        _textField = new JFormattedTextField( _textFieldFormat );
+        _textField.setValue( new Double( _value ) );
+        _textField.setHorizontalAlignment( JTextField.RIGHT );
+        _textField.setColumns( textFieldPattern.length() );
+        
+        layoutStrategy.doLayout( this );
 
         // Interactivity
         _listener = new EventDispatcher();
@@ -136,6 +118,46 @@ public abstract class AbstractValueControl extends JPanel {
         setValue( _value );
         
         _initialized = true;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Access to components
+    //----------------------------------------------------------------------------
+
+    /**
+     * Gets a reference to the slider component.
+     * 
+     * @return the slider
+     */
+    public AbstractSlider getSlider() {
+        return _slider;
+    }
+
+    /**
+     * Gets a reference to the text field component.
+     * 
+     * @return the text field
+     */
+    public JFormattedTextField getTextField() {
+        return _textField;
+    }
+    
+    /**
+     * Gets a reference to the value label.
+     * 
+     * @return JLabel
+     */
+    public JLabel getValueLabel() {
+        return _valueLabel;
+    }
+    
+    /**
+     * Gets a reference to the units label.
+     * 
+     * @return JLabel
+     */
+    public JLabel getUnitsLabel() {
+        return _unitsLabel;
     }
     
     //----------------------------------------------------------------------------
@@ -245,57 +267,6 @@ public abstract class AbstractValueControl extends JPanel {
             _slider.setFont( font );
             updateTickLabels();
         }
-    }
-    
-    /**
-     * Sets the horizontal alignment of the text field and slider.
-     * 
-     * @param alignment SwingConstants.LEFT, CENTER or RIGHT
-     * @throws IllegalArgumentException if alignment is invalid
-     */
-    public void setHorizontalAlignment( final int alignment ) {
-        int anchor = 0;
-        if ( alignment == SwingConstants.LEFT ) {
-            anchor = GridBagConstraints.WEST;
-        }
-        else if ( alignment == SwingConstants.CENTER ) {
-            anchor = GridBagConstraints.CENTER;
-        }
-        else if ( alignment == SwingConstants.RIGHT ) {
-            anchor = GridBagConstraints.EAST;
-        }
-        else {
-            throw new IllegalArgumentException( "invalid alignment: " + alignment );
-        }
-        _layout.removeLayoutComponent( _valuePanel );
-        _layout.removeLayoutComponent( _slider );
-        _layout.setAnchor( anchor );
-        _layout.addComponent( _valuePanel, 0, 0 );
-        _layout.addComponent( _slider, 1, 0 );
-    }
-
-    //----------------------------------------------------------------------------
-    // Access to components
-    //----------------------------------------------------------------------------
-
-    /**
-     * Gets a reference to the slider component.
-     * Use this with caution if you have special needs that are not addressed by this API.
-     * 
-     * @return the slider
-     */
-    public AbstractSlider getSlider() {
-        return _slider;
-    }
-
-    /**
-     * Gets a reference to the text field component.
-     * Use this with caution if you have special needs that are not addressed by this API.
-     * 
-     * @return the text field
-     */
-    public JFormattedTextField getTextField() {
-        return _textField;
     }
 
     //----------------------------------------------------------------------------

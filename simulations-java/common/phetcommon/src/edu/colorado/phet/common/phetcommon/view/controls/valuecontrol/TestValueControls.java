@@ -28,8 +28,7 @@ public class TestValueControls extends JFrame {
         String label = "Linear control:";
         String valuePattern = "######0";
         String units = "meters";
-        final LinearValueControl speedControl = new LinearValueControl( min, max, label, valuePattern, units );
-        speedControl.setHorizontalAlignment( SwingConstants.CENTER );
+        final LinearValueControl speedControl = new LinearValueControl( min, max, label, valuePattern, units, new DefaultLayoutStrategy( SwingConstants.CENTER ) );
         speedControl.setValue( value );
         speedControl.setTickSpacing( 250 );
         speedControl.setMinorTickLabelsVisible( true );
