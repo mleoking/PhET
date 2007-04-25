@@ -129,7 +129,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _numberOfWellsControl.setUpDownArrowDelta( 1 );
             _numberOfWellsControl.setTextFieldEditable( true );
             _numberOfWellsControl.setTextFieldColumns( 2 );
-            _numberOfWellsControl.setTickSpacing( 1 );
+            _numberOfWellsControl.setMinorTickSpacing( 1 );
             _numberOfWellsControl.setNotifyWhileAdjusting( false );
             _numberOfWellsControl.getSlider().setSnapToTicks( true );
             
@@ -153,7 +153,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _efieldControl.setUpDownArrowDelta( 0.1 );
             _efieldControl.setTextFieldColumns( columns );
             _efieldControl.setTextFieldEditable( true );
-            _efieldControl.setTickSpacing( 0.5 );
+            _efieldControl.setMinorTickSpacing( 0.5 );
             _efieldControl.setNotifyWhileAdjusting( false );
             
             // Magnifying glass on/off
