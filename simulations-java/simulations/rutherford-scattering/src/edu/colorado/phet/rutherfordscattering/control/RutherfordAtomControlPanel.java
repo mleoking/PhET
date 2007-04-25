@@ -97,13 +97,14 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
                 String label = RSResources.getString( "string.energy" );
                 String units = "";
                 _energyControl = new LinearValueControl( min, max, label, valuePattern, units );
+                _energyControl.setValue( value );
                 _energyControl.setFont( RSConstants.CONTROL_FONT );
                 _energyControl.setTextFieldEditable( true );
                 if ( !DEBUG_SHOW_ENERGY_VALUE ) {
                     _energyControl.setTextFieldVisible( false );
                 }
-                _energyControl.setMinMaxTickLabels( RSResources.getString( "string.minEnergy" ), RSResources.getString( "string.maxEnergy" ) );
-                _energyControl.setValue( value );
+                _energyControl.addTickLabel( min, RSResources.getString( "string.minEnergy" ) );
+                _energyControl.addTickLabel( max, RSResources.getString( "string.maxEnergy" ) );
                 _energyListener = new ChangeListener() {
                     public void stateChanged( ChangeEvent event ) {
                         _module.removeAllAlphaParticles();
