@@ -13,16 +13,17 @@ import javax.swing.event.ChangeListener;
 
 
 /**
- * Test harness for the AbstractValueControl hierarchy.
+ * Test harness for the ILayoutStrategy hierarchy.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestValueControls extends JFrame {
+public class TestLayoutStrategies extends JFrame {
 
     private static final Dimension FRAME_SIZE = new Dimension( 500, 500 );
     
-    public TestValueControls() {
+    public TestLayoutStrategies() {
         
+        // Default layout
         final LinearValueControl protonsControl;
         {
             int value = 79;
@@ -46,7 +47,7 @@ public class TestValueControls extends JFrame {
             } );
         }
         
-        // Linear control
+        // Default layout, but centered
         final LinearValueControl speedControl;
         {
             double min = 0;
@@ -55,13 +56,10 @@ public class TestValueControls extends JFrame {
             String label = "Speed:";
             String valuePattern = "######0";
             String units = "mph";
-            speedControl = new LinearValueControl( min, max, label, valuePattern, units );
+            speedControl = new LinearValueControl( min, max, label, valuePattern, units, new DefaultLayoutStrategy( SwingConstants.CENTER ) );
             speedControl.setValue( value );
             speedControl.setMajorTickSpacing( 500 );
             speedControl.setMinorTickSpacing( 100 );
-            speedControl.addTickLabel( min, "min" );
-            speedControl.addTickLabel( 500, "half" );
-            speedControl.addTickLabel( max, "max" );
             speedControl.setMinorTickLabelsVisible( false );
             speedControl.setUpDownArrowDelta( 1 );
             speedControl.setTextFieldEditable( true );
@@ -72,33 +70,36 @@ public class TestValueControls extends JFrame {
             } );
         }
         
-        // Logarithmic control, default alignment
-        final LogarithmicValueControl viscosityControl;
+        // ModelSlider layout
+        final LinearValueControl directionControl;
         {
-            double min = 1E-6;
-            double max = 1E-2;
-            double value = 1E-4;
-            String label = "Viscosity:";
-            String valuePattern = "0.0E0";
-            String units = "Pa*sec";
-            viscosityControl = new LogarithmicValueControl( min, max, label, valuePattern, units );
-            viscosityControl.setValue( value );
-            viscosityControl.setTextFieldEditable( true );
-            viscosityControl.setTickPattern( "0E0" );
-            viscosityControl.addChangeListener( new ChangeListener() {
-
+            double min = 0;
+            double max = 360;
+            double value = 0;
+            String label = "Direction";
+            String valuePattern = "######0";
+            String units = "degrees";
+            directionControl = new LinearValueControl( min, max, label, valuePattern, units, new ModelSliderLayoutStrategy() );
+            directionControl.setValue( value );
+            directionControl.setMajorTickSpacing( 90 );
+            directionControl.setMinorTickLabelsVisible( false );
+            directionControl.setUpDownArrowDelta( 1 );
+            directionControl.setTextFieldEditable( true );
+            directionControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
-                    System.out.println( "viscosityControl.stateChanged " + viscosityControl.getValue() );
+                    System.out.println( "directionControl.stateChanged " + speedControl.getValue() );
                 }
             } );
         }
+        
+        
         
         JPanel panel = new JPanel();
         BoxLayout layout = new BoxLayout( panel, BoxLayout.Y_AXIS );
         panel.setLayout( layout );
         panel.add( protonsControl );
         panel.add( speedControl );
-        panel.add( viscosityControl );
+        panel.add( directionControl );
         
         setContentPane( panel );
         setSize( FRAME_SIZE );
@@ -106,7 +107,7 @@ public class TestValueControls extends JFrame {
     }
     
     public static void main( String[] args ) {
-        TestValueControls test = new TestValueControls();
+        TestLayoutStrategies test = new TestLayoutStrategies();
         test.show();
     }
 }
