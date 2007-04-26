@@ -55,6 +55,8 @@ a:hover {
 
         <li class="style1"><a href="organize-cats.php">Organize Categories</a></li>
         
+        <li class="style1"><a href="manage-contributors.php">Manage Contributors</a></li>
+        
         <li class="style1"><a href="logout.php">Logout</a></li>
     </ul>
 </body>

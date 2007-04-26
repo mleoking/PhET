@@ -231,16 +231,17 @@ window.open = SymWinOpen;
 
             <h1 class="indi-sim" id="ideas">Teaching Ideas</h1>
 
-            <h2 class="sub-title">Ideas and Activites for this Sim</h2>
-    
-            <h2 class="sub-title">Ideas for Teachers from PhET</h2>
+            <h2 class="sub-title">Tips for Teachers</h2>
             
             <p class="indi-sim">
                 <?php
-                    print "<a href=\"../../admin/get-upload.php?url=$sim_teachers_guide_url\">Click here to see Ideas and Activities for this simulation (PDF file).</a>";
+                    print "<a href=\"../../admin/get-upload.php?url=$sim_teachers_guide_url\">Click here to see the teacher's guide, which contains tips for teachers created by the PhET team (PDF).</a>";
                 ?>
             </p>
-            
+
+
+            <h2 class="sub-title">Ideas and Activites for this Sim</h2>    
+        
             <h2 class="sub-title">Submit Ideas &amp; Activities</h2>
 
             <form enctype="multipart/form-data" action="submit-file.php" method="post">

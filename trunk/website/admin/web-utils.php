@@ -1,5 +1,23 @@
 <?php
     include_once("sys-utils.php");
+    
+    function web_create_random_password() {
+        $chars = "abcdefghijkmnopqrstuvwxyz023456789";
+        
+        srand((double)microtime()*1000000);
+        
+        $i    = 0;
+        $pass = '';
+
+        while ($i <= 7) {
+            $num  = rand() % 33;
+            $tmp  = substr($chars, $num, 1);
+            $pass = $pass . $tmp;
+            $i++;
+        }
+
+        return $pass;
+    }
 
     function generate_check_status($item_num, $checked_item_num) {
         if ($checked_item_num == null && $item_num == "0" || $item_num == $checked_item_num) return "checked";
@@ -64,6 +82,27 @@
         print_editable_area($control_name, $contents, $rows, $cols);
         
         print("</p>");
+    }
+    
+    function print_text_input($control_name, $control_value, $width = 20) {
+        print <<<EO_PRINT_TEXT_INPUT
+            <input type="text" name="$control_name" value="$control_value" size="$width"/>
+EO_PRINT_TEXT_INPUT;
+
+    }
+    
+    function print_password_input($control_name, $control_value, $width = 20) {
+        print <<<EO_PRINT_PASSWORD_INPUT
+            <input type="password" name="$control_name" value="$control_value" size="$width"/>
+EO_PRINT_PASSWORD_INPUT;
+
+    }
+    
+    function print_hidden_input($control_name, $control_value) {
+        print <<<EO_PRINT_HIDDEN_INPUT
+            <input type="hidden" name="$control_name" value="$control_value"/>
+EO_PRINT_HIDDEN_INPUT;
+        
     }
     
     function get_upload_path_prefix_from_name($name) {
@@ -147,7 +186,7 @@
 
         */ 
 
-        print <<<EOT
+        print <<<EO_DISPLAY_SLIDESHOW_1
             <script language="javascript">
 
             var delay=$delay
@@ -155,7 +194,7 @@
 
             var randomimages=new Array()
 
-EOT;
+EO_DISPLAY_SLIDESHOW_1;
 
         $index = 0;
 
@@ -167,7 +206,7 @@ EOT;
             $index++;
         }
 
-        print <<<EOT
+        print <<<EO_DISPLAY_SLIDESHOW_2
             var preload=new Array()
 
             for (n=0;n<randomimages.length;n++) {
@@ -186,7 +225,7 @@ EOT;
             setInterval("rotateimage()", delay)
 
             </script>
-EOT;
+EO_DISPLAY_SLIDESHOW_2;
     }
 
 ?>
