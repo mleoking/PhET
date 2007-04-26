@@ -17,6 +17,7 @@ LOW PRIORITY:
 
 
 DONE:
+4/25/07 - eliminate 0 length ranges, causes LinearValueControl to hang
 4/24/07 - replace SliderControl with LinearValueControl from phetcommon
 4/7/07 - get clock control panel strings from phetcommon
 4/7/07 - use PhetCommonProjectConfig to get phetcommon images and strings

@@ -56,7 +56,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
     private static final int INDENTATION = 10; // pixels
     
     private static final int SUBPANEL_SPACING = 5; // pixels
-    private static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
 
     // Color key
     private static final int COLOR_KEY_SPACING = 7; // pixels, space between checkbox and color key
@@ -73,7 +72,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     private JButton _configureEnergyButton;
     private JButton _superpositionButton;
     private JCheckBox _magnifyingGlassCheckBox;
-    private LinearValueControl _efieldControl;
+    private LinearValueControl _fieldConstantControl;
 
     // Wave Function controls
     private JRadioButton _waveFunctionRadioButton;
@@ -122,16 +121,19 @@ public class BSControlPanel extends BSAbstractControlPanel {
 
             // Number of wells
             IntegerRange numberOfWellsRange = moduleSpec.getNumberOfWellsRange();
-            _numberOfWellsControl = new LinearValueControl( 
-                    numberOfWellsRange.getMin(), numberOfWellsRange.getMax(),
-                    BSResources.getString( "label.numberOfWells" ), "0", "" );
-            _numberOfWellsControl.setValue( numberOfWellsRange.getDefault() );
-            _numberOfWellsControl.setUpDownArrowDelta( 1 );
-            _numberOfWellsControl.setTextFieldEditable( true );
-            _numberOfWellsControl.setTextFieldColumns( 2 );
-            _numberOfWellsControl.setMinorTickSpacing( 1 );
-            _numberOfWellsControl.setNotifyWhileAdjusting( false );
-            _numberOfWellsControl.getSlider().setSnapToTicks( true );
+            if ( numberOfWellsRange.getLength() > 0 ) {
+                int minWells = numberOfWellsRange.getMin();
+                int maxWells = numberOfWellsRange.getMax();
+                int defaultWells = numberOfWellsRange.getDefault();
+                _numberOfWellsControl = new LinearValueControl( minWells, maxWells, BSResources.getString( "label.numberOfWells" ), "0", "" );
+                _numberOfWellsControl.setValue( defaultWells );
+                _numberOfWellsControl.setUpDownArrowDelta( 1 );
+                _numberOfWellsControl.setTextFieldEditable( true );
+                _numberOfWellsControl.setTextFieldColumns( 2 );
+                _numberOfWellsControl.setMinorTickSpacing( 1 );
+                _numberOfWellsControl.setNotifyWhileAdjusting( false );
+                _numberOfWellsControl.getSlider().setSnapToTicks( true );
+            }
             
             // Configure button
             _configureEnergyButton = new JButton( BSResources.getString( "button.configureEnergy" ) );
@@ -139,22 +141,24 @@ public class BSControlPanel extends BSAbstractControlPanel {
             // Superposition button
             _superpositionButton = new JButton( BSResources.getString( "button.superposition" ) );
             
-            // Electric Field (field constant)
+            // Field Constant (electric field)
             DoubleRange fieldConstantRange = moduleSpec.getFieldConstantRange();
-            final double value = fieldConstantRange.getDefault();
-            final double min = fieldConstantRange.getMin();
-            final double max = fieldConstantRange.getMax();
-            final String valuePattern = "0.0";
-            String label = BSResources.getString( "label.fieldConstant" );
-            String units = BSResources.getString( "units.fieldConstant" );
-            final int columns = 3;
-            _efieldControl = new LinearValueControl( min, max, label, valuePattern, units );
-            _efieldControl.setValue( value );
-            _efieldControl.setUpDownArrowDelta( 0.1 );
-            _efieldControl.setTextFieldColumns( columns );
-            _efieldControl.setTextFieldEditable( true );
-            _efieldControl.setMinorTickSpacing( 0.5 );
-            _efieldControl.setNotifyWhileAdjusting( false );
+            if ( fieldConstantRange.getLength() > 0 ) {
+                final double value = fieldConstantRange.getDefault();
+                final double min = fieldConstantRange.getMin();
+                final double max = fieldConstantRange.getMax();
+                final String valuePattern = "0.0";
+                String label = BSResources.getString( "label.fieldConstant" );
+                String units = BSResources.getString( "units.fieldConstant" );
+                final int columns = 3;
+                _fieldConstantControl = new LinearValueControl( min, max, label, valuePattern, units );
+                _fieldConstantControl.setValue( value );
+                _fieldConstantControl.setUpDownArrowDelta( 0.1 );
+                _fieldConstantControl.setTextFieldColumns( columns );
+                _fieldConstantControl.setTextFieldEditable( true );
+                _fieldConstantControl.setMinorTickSpacing( 0.5 );
+                _fieldConstantControl.setNotifyWhileAdjusting( false );
+            }
             
             // Magnifying glass on/off
             String magnifyingGlassLabel = BSResources.getString( "choice.magnifyingGlass" ) + " (?x)";
@@ -173,7 +177,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             row++;
             layout.addComponent( _configureEnergyButton, row, col );
             row++;
-            if ( numberOfWellsRange.getLength() > 0 ) {
+            if ( _numberOfWellsControl != null ) {
                 layout.addComponent( _numberOfWellsControl, row, col );
                 row++;
             }
@@ -181,8 +185,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 layout.addComponent( _superpositionButton, row, col );
                 row++;
             }
-            if ( fieldConstantRange.getLength() > 0 ) {
-                layout.addComponent( _efieldControl, row, col );
+            if ( _fieldConstantControl != null ) {
+                layout.addComponent( _fieldConstantControl, row, col );
                 row++;
             }
             if ( moduleSpec.isMagnifyingGlassSupported() ) {
@@ -359,11 +363,15 @@ public class BSControlPanel extends BSAbstractControlPanel {
         {
             _listener = new EventListener();
             _wellTypeComboBox.addItemListener( _listener );
-            _numberOfWellsControl.addChangeListener( _listener );
+            if ( _numberOfWellsControl != null ) {
+                _numberOfWellsControl.addChangeListener( _listener );
+            }
             _configureEnergyButton.addActionListener( _listener );
             _superpositionButton.addActionListener( _listener );
             _magnifyingGlassCheckBox.addActionListener( _listener );
-            _efieldControl.addChangeListener( _listener );
+            if ( _fieldConstantControl != null ) {
+                _fieldConstantControl.addChangeListener( _listener );
+            }
             _waveFunctionRadioButton.addActionListener( _listener );
             _probabilityDensityRadioButton.addActionListener( _listener );
             _averageProbabilityDensityRadioButton.addActionListener( _listener );
@@ -402,12 +410,18 @@ public class BSControlPanel extends BSAbstractControlPanel {
     }
     
     public void setNumberOfWells( int numberOfWells ) {
-        _numberOfWellsControl.setValue( numberOfWells );
-        handleNumberOfWells();
+        if ( _numberOfWellsControl != null ) {
+            _numberOfWellsControl.setValue( numberOfWells );
+            handleNumberOfWells();
+        }
     }
     
     public int getNumberOfWells() {
-        return (int) _numberOfWellsControl.getValue();
+        int numberOfWells = 0;
+        if ( _numberOfWellsControl != null ) {
+            numberOfWells = (int) _numberOfWellsControl.getValue();
+        }
+        return numberOfWells;
     }
     
     public void setMagnifyingGlassSelected( boolean selected ) {
@@ -504,11 +518,17 @@ public class BSControlPanel extends BSAbstractControlPanel {
     }
 
     public void setFieldConstant( double value ) {
-        _efieldControl.setValue( value );
+        if ( _fieldConstantControl != null ) {
+            _fieldConstantControl.setValue( value );
+        }
     }
     
     public double getFieldConstant() {
-        return _efieldControl.getValue();
+        double fieldConstant = 0;
+        if ( _fieldConstantControl != null ) {
+            fieldConstant = _fieldConstantControl.getValue();
+        }
+        return fieldConstant;
     }
     
     //----------------------------------------------------------------------------
@@ -532,7 +552,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
     //----------------------------------------------------------------------------
     
     public void setNumberOfWellsControlVisible( boolean visible ) {
-        _numberOfWellsControl.setVisible( visible );
+        if ( _numberOfWellsControl != null ) {
+            _numberOfWellsControl.setVisible( visible );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -594,9 +616,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 handleNumberOfWells();
                 adjustClockState( _numberOfWellsControl );
             }
-            else if ( event.getSource() == _efieldControl ) {
+            else if ( event.getSource() == _fieldConstantControl ) {
                 handleFieldConstantSlider();
-                adjustClockState( _efieldControl );
+                adjustClockState( _fieldConstantControl );
             }
             else if ( event.getSource() == _massMultiplierControl ) {
                 handleMassSlider();
@@ -651,8 +673,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
     }
 
     private void handleNumberOfWells() {
-        int numberOfWells = (int) _numberOfWellsControl.getValue();
-        _module.setNumberOfWells( numberOfWells );
+        if ( _numberOfWellsControl != null ) {
+            int numberOfWells = (int) _numberOfWellsControl.getValue();
+            _module.setNumberOfWells( numberOfWells );
+        }
     }
     
     private void handleConfigureEnergyButton() {
@@ -717,7 +741,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
     }
     
     private void handleFieldConstantSlider() {
-        double value = _efieldControl.getValue();
-        _module.setFieldConstant( value );
+        if ( _fieldConstantControl != null ) {
+            double value = _fieldConstantControl.getValue();
+            _module.setFieldConstant( value );
+        }
     }
 }
