@@ -104,7 +104,7 @@
                         $cat = $_REQUEST['cat'];
                     }
                     else {
-                        $cat = 0;
+                        $cat = 1;
                     }
 
                     $select_category_st = "SELECT * FROM `category` WHERE `cat_id`='$cat'";

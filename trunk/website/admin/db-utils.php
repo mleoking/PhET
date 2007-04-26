@@ -30,7 +30,7 @@
         foreach($update_array as $key => $value) {
             if ($first_item_already_printed) {
                 $content_st .= ", ";
-            }
+            }
 
             $content_st .= " `$key`='$value' ";
             
