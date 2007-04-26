@@ -35,7 +35,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     private EnergySkateParkModel energySkateParkModel;
     private MultiKeyHandler multiKeyHandler = new MultiKeyHandler();
     private EnergySkateParkRootNode rootNode;
-    private double matchThresholdWorldCoordinates = 1.5;
+    private double matchThresholdWorldCoordinates = 1.5*0.33;
     private ArrayList listeners = new ArrayList();
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 25;
 

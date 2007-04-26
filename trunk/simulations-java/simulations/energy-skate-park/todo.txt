@@ -1,8 +1,7 @@
 The user was very frustrated about how the track jumps together too easily.
-He wondered where the "undo" option was. (would that be a reasonable option)
-He also commented that it was hard to get the guy to start in the same place to test his ideas about the track.
 
 Maybe:
+• Support for undo?
 • Skater location is not correctly saved in File->Save (if on track)
 • Track can become dissociated from mouse during drag after proposed match.
 • Save skater character as part of a saved state? (30 min or so)

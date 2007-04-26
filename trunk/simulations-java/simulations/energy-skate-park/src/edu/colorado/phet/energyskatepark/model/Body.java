@@ -4,6 +4,7 @@ package edu.colorado.phet.energyskatepark.model;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
@@ -20,10 +21,11 @@ import java.util.List;
  * User: Sam Reid
  * Date: Sep 21, 2005
  * Time: 3:02:49 AM
- *
  */
 
 public class Body implements Serializable {
+    private Body restorePoint = null;
+
     private Particle particle;
     private boolean facingRight;
     private double width;
@@ -80,15 +82,28 @@ public class Body implements Serializable {
         particle.setPosition( x, y );
     }
 
+    public boolean isRestorePointSet() {
+        return restorePoint != null;
+    }
+
     public void reset() {
         setFreeFallMode();
-        setPosition( new SPoint2D( 4, 7.25 ) );
-        setAngularVelocity( 0.0 );
-        setVelocity( 0, 0 );
-        setPosition( 3, 6 );
         particle.setVelocity( 0, 0 );
-        particle.resetAngle();
         setThermalEnergy( 0.0 );
+        if( !isRestorePointSet() ) {
+            setPosition( new SPoint2D( 4, 7.25 ) );
+            setAngularVelocity( 0.0 );
+            setVelocity( 0, 0 );
+            setPosition( 3, 6 );
+            particle.resetAngle();
+        }
+        else {
+            setPosition( restorePoint.getPosition() );
+            setAngularVelocity( restorePoint.getAngularVelocity() );
+            setVelocity( restorePoint.getVelocity() );
+            setPosition( restorePoint.getPosition() );
+            particle.setAngle( restorePoint.particle.getAngle() );
+        }
     }
 
     private void setThermalEnergy( double thermalEnergy ) {
@@ -191,6 +206,14 @@ public class Body implements Serializable {
 
     public void setUserControlled( boolean userControlled ) {
         particle.setUserControlled( userControlled );
+        if( !userControlled ) {
+            try {
+                restorePoint = (Body)PersistenceUtil.copy( this );
+            }
+            catch( PersistenceUtil.CopyFailedException e ) {
+                e.printStackTrace();
+            }
+        }
         notifyEnergyChanged();
     }
 
