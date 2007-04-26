@@ -32,27 +32,41 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
 
     private static final String ID = "twoWellsModule";
     
-    private static final BSWellType[] WELL_TYPES = { BSWellType.SQUARE, BSWellType.COULOMB_1D };
-    private static final BSWellType DEFAULT_WELL_TYPE = BSWellType.SQUARE;
+    //----------------------------------------------------------------------------
+    // Feature support
+    //----------------------------------------------------------------------------
     
+    private static final boolean NUMBER_OF_WELLS_SUPPORTED = false;
     private static final boolean OFFSET_CONTROL_SUPPORTED = false;
     private static final boolean SUPERPOSITION_CONTROLS_SUPPORTED = true;
     private static final boolean PARTICLE_CONTROLS_SUPPORTED = false;
     private static final boolean MAGNIFYING_GLASS_SUPPORTED = true;
     private static final boolean MAGNIFYING_GLASS_SELECTED = false;
     private static final boolean AVERAGE_PROBABILITY_DENSITY_SUPPORTED = false;
+    private static final boolean FIELD_CONSTANT_SUPPORTED = false;
+    
+    //----------------------------------------------------------------------------
+    // Supported well types
+    //----------------------------------------------------------------------------
+    
+    private static final BSWellType[] WELL_TYPES = { BSWellType.SQUARE, BSWellType.COULOMB_1D };
+    private static final BSWellType DEFAULT_WELL_TYPE = BSWellType.SQUARE;
+    
+    //----------------------------------------------------------------------------
+    // Misc ranges
+    //----------------------------------------------------------------------------
     
     // Particle ranges (min, max, default, significantDecimalPlaces)
     private static final DoubleRange MASS_MULTIPLIER_RANGE = new DoubleRange( 0.5, 1.1, 1, 2 );
     
     // Number of wells (min, max, default, significantDecimalPlaces)
-    private static final IntegerRange NUMBER_OF_WELLS_RANGE = new IntegerRange( 2, 2, 2 );
+    private static final IntegerRange NUMBER_OF_WELLS_RANGE = new IntegerRange( 1, 2, 2 );
     
     // Magnification power of the magnifying glass
     private static final double MAGNIFICATION = 10;
     
     // Field constant
-    private static final DoubleRange FIELD_CONSTANT_RANGE = new DoubleRange( 0, 0, 0, 0 );
+    private static final DoubleRange FIELD_CONSTANT_RANGE = new DoubleRange( -1, 1, 0, 1 );
     
     //----------------------------------------------------------------------------
     // 1D Coulomb ranges
@@ -109,18 +123,19 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
         
         setWellTypes( WELL_TYPES );
         setDefaultWellType( DEFAULT_WELL_TYPE );
-        setNumberOfWellsRange( NUMBER_OF_WELLS_RANGE );
-        setFieldConstantRange( FIELD_CONSTANT_RANGE );
         
+        setNumberOfWellsSupported( NUMBER_OF_WELLS_SUPPORTED );
         setOffsetControlSupported( OFFSET_CONTROL_SUPPORTED );
         setSuperpositionControlsSupported( SUPERPOSITION_CONTROLS_SUPPORTED );
         setParticleControlsSupported( PARTICLE_CONTROLS_SUPPORTED );
         setMagnifyingGlassSupported( MAGNIFYING_GLASS_SUPPORTED );
         setMagnifyingGlassSelected( MAGNIFYING_GLASS_SELECTED );
         setAverageProbabilityDensityIsSupported( AVERAGE_PROBABILITY_DENSITY_SUPPORTED );
+        setFieldConstantSupported( FIELD_CONSTANT_SUPPORTED );
         
         setMassMultiplierRange( MASS_MULTIPLIER_RANGE );
-        
+        setNumberOfWellsRange( NUMBER_OF_WELLS_RANGE );
+        setFieldConstantRange( FIELD_CONSTANT_RANGE );
         setMagnification( MAGNIFICATION );
         
         // 1D Coulomb spec

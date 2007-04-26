@@ -120,8 +120,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
             }
 
             // Number of wells
-            IntegerRange numberOfWellsRange = moduleSpec.getNumberOfWellsRange();
-            if ( numberOfWellsRange.getLength() > 0 ) {
+            if ( moduleSpec.isNumberOfWellsSupported() ) {
+                IntegerRange numberOfWellsRange = moduleSpec.getNumberOfWellsRange();
                 int minWells = numberOfWellsRange.getMin();
                 int maxWells = numberOfWellsRange.getMax();
                 int defaultWells = numberOfWellsRange.getDefault();
@@ -130,9 +130,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 _numberOfWellsControl.setUpDownArrowDelta( 1 );
                 _numberOfWellsControl.setTextFieldEditable( true );
                 _numberOfWellsControl.setTextFieldColumns( 2 );
-                _numberOfWellsControl.setMinorTickSpacing( 1 );
+                _numberOfWellsControl.setMajorTickSpacing( 1 );
                 _numberOfWellsControl.setNotifyWhileAdjusting( false );
-                _numberOfWellsControl.getSlider().setSnapToTicks( true );
+                _numberOfWellsControl.setSnapToTicks( true );
             }
             
             // Configure button
@@ -142,8 +142,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _superpositionButton = new JButton( BSResources.getString( "button.superposition" ) );
             
             // Field Constant (electric field)
-            DoubleRange fieldConstantRange = moduleSpec.getFieldConstantRange();
-            if ( fieldConstantRange.getLength() > 0 ) {
+            if ( moduleSpec.isFieldConstantSupported() ) {
+                DoubleRange fieldConstantRange = moduleSpec.getFieldConstantRange();
                 final double value = fieldConstantRange.getDefault();
                 final double min = fieldConstantRange.getMin();
                 final double max = fieldConstantRange.getMax();
@@ -156,7 +156,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 _fieldConstantControl.setUpDownArrowDelta( 0.1 );
                 _fieldConstantControl.setTextFieldColumns( columns );
                 _fieldConstantControl.setTextFieldEditable( true );
-                _fieldConstantControl.setMinorTickSpacing( 0.5 );
+                _fieldConstantControl.setMajorTickSpacing( 0.5 );
                 _fieldConstantControl.setNotifyWhileAdjusting( false );
             }
             
