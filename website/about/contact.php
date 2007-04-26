@@ -90,20 +90,74 @@
         </div>
 
         <div id="content">
-            <br />
-            <br />
+            <h1>Contact Info</h1>
 
-            <h1>Licensing</h1>
+            <div class="cellTwo">
+                <h2 style="margin-bottom: -10px;">The PhET Project:</h2>
 
-            <p>All PhET software is Copyright (c) The University of Colorado, under the GNU General Public License (GPL). Anyone can have access to the source code and make changes in it. According to the GPL, the source code for any changes someone makes to the software must, in turn, be made publicly available by the party that makes the changes.</p>
+                <p style="margin-left:0px;">c/o Mindy Gratny<br />
+                University of Colorado 390 UCB<br />
+                Boulder, CO 80309-0390<br /></p>
 
-            <p>You may freely distribute copies of this software, but you may not change the copyright or the license. If you modify this software and distribute it you are required to license your copyrighted modifications under an GPL-compatible license and to make the entire source code for your derivation available to anybody you distribute the software to.</p>
+                <h2 style="margin-bottom: -10px;">License Information::</h2>
 
-            <p>For more information on the GPL, please see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>. The license itself can be found in its entirety at <a href="http://www.gnu.org/licenses/gpl.html">http://www.gnu.org/licenses/gpl.html</a>.</p>
+                <p style="margin-left:0px;">The PhET software is open source, <a href="licensing.htm"><em><u>Click here</u></em></a> to access the licensing information.</p>
 
-            <p>This program is distributed in the hope that it will be useful, but <strong>WITHOUT ANY WARRANTY</strong>; without even the implied warranty of <strong>MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE</strong>. See the GNU General Public License for more details.</p>
+                <h2 style="margin-bottom: -10px;">Email:</h2>
 
-            <p>For additional licensing options, please contact PhET at <a href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a>.</p>
+                <p style="margin-left:0px;">Please address all electronic correspondence to: <a href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a> Information on contributing to PhET can be found <a href="../contribute/index.html"><em><u>here.</u></em></a></p><img src="../images/contact-page.jpg" class="imageOne" alt="" />
+
+                <p class="names">&nbsp;</p>
+
+                <center>
+                    <em><strong><u>Back Row:</u></strong></em> Mindy Gratny, Chris Keller, Michael Dubson, Noah Podolefsky, Carl Wieman, Sam Reid, Ron LeMaster
+                </center>
+
+                <p class="names">&nbsp;</p>
+
+                <center>
+                    <em><strong><u>Front Row:</u></strong></em> Wendy Adams, Alex Adams, Sarah McKagan, Kathy Perkins, Linda Wellmann, Danielle Harlow, Linda Koch, Noah Finkelstein Not Shown: Krista Beck, Trish Loeblein, Chris Malley
+                </center>
+
+                <p>&nbsp;</p>
+                
+                <h4>The PhET Team</h4>
+                
+                <ul class="people">
+                    <?php
+                    
+                        include_once("../admin/contrib-utils.php");
+                        
+                        $team_members = contributor_get_team_members();
+                        
+                        foreach($team_members as $team_member) {
+                            $name  = $team_member['contributor_name'];
+                            $email = $team_member['contributor_email'];
+                            
+                            print "<li>$name</li>";
+                        }
+                    
+                    ?>
+                </ul>
+                
+                <!--
+<h4>The PhET Team:</h4>         
+<ul class="people">
+<li>Member 1 <em>Title</em> <span>(303 555-5555 <a href="mailto:.edu">Email</a></span> </li>
+<li>Member 2 <em>Title</em> <span>(303 555-5555 <a href="mailto:.edu">Email</a></span> </li>
+<li>Member 3 <em>Title</em> <span>(303 555-5555 <a href="mailto:.edu">Email</a></span> </li>
+<li>Member 4 <em>Title</em> <span>(303 555-5555 <a href="mailto:.edu">Email</a></span> </li>
+<li>Member 5 <em>Title</em> <span>(303 555-5555 <a href="mailto:.edu">Email</a></span> </li>
+<li>Member 6 <em>Title</em> <span>(303 555-5555 <a href="mailto:.edu">Email</a></span> </li>
+<li>Member 7 <em>Title</em> <span>(303 555-5555 <a href="mailto:.edu">Email</a></span> </li>
+<li>Member 8 <em>Title</em> <span>(303 555-5555 <a href="mailto:.edu">Email</a></span> </li>
+<li>Member 9 <em>Title</em> <span>(303 555-5555 <a href="mailto:.edu">Email</a></span> </li>
+<li>Member 10 <em>Title</em> <span>(303 555-5555 <a href="mailto:.edu">Email</a></span> </li>
+<li>Member 11 <em>Title</em> <span>(303 555-5555 <a href="mailto:.edu">Email</a></span> </li>
+<li>Member 12 <em>Title</em> <span>(303 555-5555 <a href="mailto:.edu">Email</a></span> </li>
+</ul>
+-->
+            </div>
 
             <p class="footer">© 2007 PhET. All rights reserved.<br />
             
