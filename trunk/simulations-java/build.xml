@@ -1080,7 +1080,7 @@
 
     <target name="compile_phet-build">
         <mkdir dir="${phetbuild-classes}"/>
-        <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes}" classpath="${proguard.jar}"/>
+        <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes}" classpath="${proguard.jar}" debug="on" debuglevel="lines"/>
     </target>
 
     <target name="clean_phet-build">
