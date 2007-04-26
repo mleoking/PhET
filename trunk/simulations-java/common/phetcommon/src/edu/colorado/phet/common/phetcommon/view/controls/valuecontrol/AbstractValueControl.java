@@ -88,7 +88,8 @@ public abstract class AbstractValueControl extends JPanel {
         _value = slider.getModelValue();
         _min = slider.getModelMin();
         _max = slider.getModelMax();
-        _majorTickSpacing = _minorTickSpacing = _max - _min; // default is major tick marks at min and max
+        _majorTickSpacing = _max - _min; // default is major tick marks at min and max
+        _minorTickSpacing = 0;
         _upDownArrowDelta = ( _max - _min ) / 100;
 
         _textFieldFormat = new DecimalFormat( textFieldPattern );
@@ -366,7 +367,7 @@ public abstract class AbstractValueControl extends JPanel {
     //----------------------------------------------------------------------------
     // Tick marks
     //----------------------------------------------------------------------------
-
+    
     /**
      * Sets the pattern used to format tick labels.
      * The same format is used for both major and minor tick labels.
@@ -459,6 +460,15 @@ public abstract class AbstractValueControl extends JPanel {
         _labelTable = null;
         updateTickLabels();
     }
+    
+    /**
+     * Determines whether the slider snaps to tick marks.
+     * 
+     * @param b true or false
+     */
+    public void setSnapToTicks( boolean b ) {
+        _slider.setSnapToTicks( b );
+    }
 
     //----------------------------------------------------------------------------
     // Private methods
@@ -488,7 +498,9 @@ public abstract class AbstractValueControl extends JPanel {
 
         // Slider properties related to ticks
         _slider.setMajorTickSpacing( _slider.modelToSlider( _min + _majorTickSpacing ) );
-        _slider.setMinorTickSpacing( _slider.modelToSlider( _min + _minorTickSpacing ) );
+        if ( _minorTickSpacing > 0 ) {
+            _slider.setMinorTickSpacing( _slider.modelToSlider( _min + _minorTickSpacing ) );
+        }
         _slider.setPaintTicks( true );
         _slider.setPaintLabels( true );
         
@@ -512,7 +524,7 @@ public abstract class AbstractValueControl extends JPanel {
             }
 
             // Minor ticks
-            if ( _minorTickLabelsVisible ) {
+            if ( _minorTickLabelsVisible && _minorTickSpacing > 0 ) {
                 double value = _min + _minorTickSpacing;
                 while ( value < _max ) {
                     JLabel label = new JLabel( _tickFormat.format( value ) );
@@ -541,8 +553,9 @@ public abstract class AbstractValueControl extends JPanel {
             if ( e.getSource() == _slider ) {
                 _isAdjusting = _slider.getValueIsAdjusting();
                 boolean notify = ( _notifyWhileAdjusting || !_isAdjusting );
-                double value = _slider.getModelValue();
-                setValue( value, notify );
+                double modelValue = _slider.getModelValue();
+                System.out.println( "AbstractValueControl.stateChanged slider=" + _slider.getValue() + " model=" + modelValue );//XXX
+                setValue( modelValue, notify );
             }
         }
     }
