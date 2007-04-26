@@ -1,5 +1,3 @@
-The user was very frustrated about how the track jumps together too easily.
-
 Maybe:
 • Support for undo?
 • Skater location is not correctly saved in File->Save (if on track)
