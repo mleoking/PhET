@@ -33,6 +33,7 @@ public abstract class BSAbstractModuleSpec {
     private BSWellType[] _wellTypes;
     private BSWellType _defaultWellType;
 
+    private boolean _numberOfWellsSupported;
     private boolean _offsetControlSupported;
     private boolean _superpositionControlsSupported;
     private boolean _particleControlsSupported;
@@ -40,6 +41,7 @@ public abstract class BSAbstractModuleSpec {
     private boolean _magnifyingGlassSelected;
     private DoubleRange _massMultiplierRange;
     private boolean _averageProbabilityDensitySupported;
+    private boolean _fieldConstantSupported;
     
     private IntegerRange _numberOfWellsRange;
     
@@ -69,6 +71,14 @@ public abstract class BSAbstractModuleSpec {
     
     public void setId( String id ) {
         _id = id;
+    }
+    
+    public void setNumberOfWellsSupported( boolean supported ) {
+        _numberOfWellsSupported = supported;
+    }
+    
+    public boolean isNumberOfWellsSupported() {
+        return _numberOfWellsSupported;
     }
     
     public boolean isOffsetControlSupported() {
@@ -153,6 +163,14 @@ public abstract class BSAbstractModuleSpec {
 
     public boolean isMagnifyingGlassSelected() {
         return _magnifyingGlassSelected;
+    }
+    
+    public void setFieldConstantSupported( boolean supported ) {
+        _fieldConstantSupported = supported;
+    }
+    
+    public boolean isFieldConstantSupported() {
+        return _fieldConstantSupported;
     }
     
     protected void setMagnifyingGlassSelected( boolean magnifyingGlassSelected ) {

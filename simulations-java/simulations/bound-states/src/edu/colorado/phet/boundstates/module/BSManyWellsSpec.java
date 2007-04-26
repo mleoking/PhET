@@ -30,16 +30,30 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 public class BSManyWellsSpec extends BSAbstractModuleSpec {
 
     private static final String ID = "manyWellsModule";
+
+    //----------------------------------------------------------------------------
+    // Feature support
+    //----------------------------------------------------------------------------
     
-    private static final BSWellType[] WELL_TYPES = { BSWellType.SQUARE, BSWellType.COULOMB_1D };
-    private static final BSWellType DEFAULT_WELL_TYPE = BSWellType.SQUARE;
-    
+    private static final boolean NUMBER_OF_WELLS_SUPPORTED = true;
     private static final boolean OFFSET_CONTROL_SUPPORTED = false;
     private static final boolean SUPERPOSITION_CONTROLS_SUPPORTED = false;
     private static final boolean PARTICLE_CONTROLS_SUPPORTED = false;
     private static final boolean MAGNIFYING_GLASS_SUPPORTED = true;
     private static final boolean MAGNIFYING_GLASS_SELECTED = true;
     private static final boolean AVERAGE_PROBABILITY_DENSITY_SUPPORTED = true;
+    private static final boolean FIELD_CONSTANT_SUPPORTED = true;
+    
+    //----------------------------------------------------------------------------
+    // Supported well types
+    //----------------------------------------------------------------------------
+    
+    private static final BSWellType[] WELL_TYPES = { BSWellType.SQUARE, BSWellType.COULOMB_1D };
+    private static final BSWellType DEFAULT_WELL_TYPE = BSWellType.SQUARE;
+    
+    //----------------------------------------------------------------------------
+    // Misc ranges
+    //----------------------------------------------------------------------------
     
     // Particle ranges (min, max, default, significantDecimalPlaces)
     private static final DoubleRange MASS_MULTIPLIER_RANGE = new DoubleRange( 0.5, 1.1, 1, 2 );
@@ -112,18 +126,19 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
         
         setWellTypes( WELL_TYPES );
         setDefaultWellType( DEFAULT_WELL_TYPE );
-        setNumberOfWellsRange( NUMBER_OF_WELLS_RANGE );
-        setFieldConstantRange( FIELD_CONSTANT_RANGE );
-        
+
+        setNumberOfWellsSupported( NUMBER_OF_WELLS_SUPPORTED );
         setOffsetControlSupported( OFFSET_CONTROL_SUPPORTED );
         setSuperpositionControlsSupported( SUPERPOSITION_CONTROLS_SUPPORTED );
         setParticleControlsSupported( PARTICLE_CONTROLS_SUPPORTED );
         setMagnifyingGlassSupported( MAGNIFYING_GLASS_SUPPORTED );
         setMagnifyingGlassSelected( MAGNIFYING_GLASS_SELECTED );
         setAverageProbabilityDensityIsSupported( AVERAGE_PROBABILITY_DENSITY_SUPPORTED );
+        setFieldConstantSupported( FIELD_CONSTANT_SUPPORTED );
         
         setMassMultiplierRange( MASS_MULTIPLIER_RANGE );
-        
+        setNumberOfWellsRange( NUMBER_OF_WELLS_RANGE );
+        setFieldConstantRange( FIELD_CONSTANT_RANGE );
         setMagnification( MAGNIFICATION );
 
         // 1D Coulomb spec
