@@ -169,7 +169,9 @@ EO_PRINT_HIDDEN_INPUT;
             // Can't allow user to access files outside /uploads/ directory:
             $url = preg_replace('/\.+/', '.', $url);
             
-            return dirname(__FILE__)."/uploads/${url}";
+            $resolved_path = dirname(__FILE__)."/uploads/${url}";
+            
+            return $resolved_path;
         }
     }
     
@@ -177,7 +179,7 @@ EO_PRINT_HIDDEN_INPUT;
      * This function displays a randomized slideshow.
      *
      */
-    function display_slideshow($thumbnails, $width, $height, $prefix = "", $delay="10000") {
+    function display_slideshow($thumbnails, $width, $height, $prefix = "", $delay="5000") {
         /*
 
         Instead of using Flash to display random slideshow, our strategy is to use PHP 

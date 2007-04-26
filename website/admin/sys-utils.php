@@ -163,14 +163,9 @@
         return $mime_type;
     }
     
-    function send_file_to_browser($file_path, $opt_mime_type = null) {
+    function send_file_to_browser($file_path, $opt_mime_type = null, $send_mode = "inline") {
         ini_set("zlib.output_compression", "Off");
-        
-        $size = url_or_file_size($file_path);
 
-        // Open the file as a binary file:
-        $fp = fopen($file_path, 'rb');
-        
         if ($opt_mime_type == null) {
             // Hand-coding for some file types:
             if (preg_match('/.*\.jnlp/i', $file_path) == 1) {
@@ -187,13 +182,47 @@
         else {
             $mime_type = $opt_mime_type;
         }
-
+        
         // Set the content type and length:
-        header("Content-Type: $mime_type");
-        header("Content-Length: $size");
+        // header("Content-Type: $mime_type");
+        // header("Content-Length: $size");
+        $name = basename($file_path);
+        
+        if (($file_contents = file_get_contents($file_path)) == FALSE) {
+            print("Error reading $file_path");
+            
+            return false;
+        }
+        
+        $file_size = strlen($file_contents);
 
-        // Pass the contents of the file through to the browser:
-        fpassthru($fp);
+        if (isset($_SERVER["HTTPS"])) {
+            /**
+             * We need to set the following headers to make downloads work using IE in HTTPS mode.
+             */
+            header("Pragma: ");
+            header("Cache-Control: ");
+            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+            header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
+            header("Cache-Control: post-check=0, pre-check=0", false);
+        }
+        else {
+            header("Cache-Control: no-cache, must-revalidate");
+            header("Pragma: no-cache");
+        }
+        
+        header("Content-Type: $mime_type");
+        header("Content-Disposition: $send_mode; filename=\"".trim(htmlentities($name))."\"");
+        header("Content-Description: ".trim(htmlentities($name)));
+        header("Content-Length: $file_size");
+        header("Content-Transfer-Encoding: binary");
+        header("Connection: close");
+        
+        print($file_contents);
+        
+        ob_end_flush();
+        flush();
     }
 
 ?>
