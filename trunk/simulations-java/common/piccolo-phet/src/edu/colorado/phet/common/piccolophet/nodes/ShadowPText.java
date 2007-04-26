@@ -45,8 +45,10 @@ public class ShadowPText extends PNode {
     }
 
     public void setText( String s ) {
-        foreground.setText( s );
-        background.setText( s );
+        if( !s.equals( foreground.getText() ) ) {
+            foreground.setText( s );
+            background.setText( s );
+        }
     }
 
     public void setShadowOffset( double dx, double dy ) {
