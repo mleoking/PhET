@@ -25,6 +25,6 @@ public class DNADefaults {
     // Clock
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
     public static final boolean CLOCK_PAUSED = false ;
-    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 1, 1, 1, 0 );
+    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 1, 2, 1, 0 );
     public static final OTClock CLOCK = new OTClock( CLOCK_FRAME_RATE, CLOCK_DT_RANGE );
 }
