@@ -2,12 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
-import java.awt.Dimension;
-
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -19,8 +14,6 @@ import javax.swing.event.ChangeListener;
  */
 public class TestLayoutStrategies extends JFrame {
 
-    private static final Dimension FRAME_SIZE = new Dimension( 500, 500 );
-    
     public TestLayoutStrategies() {
         
         // Default layout
@@ -30,7 +23,7 @@ public class TestLayoutStrategies extends JFrame {
             int min = 20;
             int max = 100;
             String valuePattern = "0";
-            String label = "Number of protons";
+            String label = "Number of protons:";
             String units = "";
             int columns = 3;
             protonsControl = new LinearValueControl( min, max, label, valuePattern, units );
@@ -92,17 +85,18 @@ public class TestLayoutStrategies extends JFrame {
             } );
         }
         
-        
-        
         JPanel panel = new JPanel();
+        panel.setBorder( BorderFactory.createEmptyBorder( 20, 20, 20, 20 ) );
         BoxLayout layout = new BoxLayout( panel, BoxLayout.Y_AXIS );
         panel.setLayout( layout );
         panel.add( protonsControl );
+        panel.add( new JSeparator() );
         panel.add( speedControl );
+        panel.add( new JSeparator() );
         panel.add( directionControl );
         
         setContentPane( panel );
-        setSize( FRAME_SIZE );
+        pack();
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
     
