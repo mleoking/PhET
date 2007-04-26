@@ -33,7 +33,6 @@ import java.io.IOException;
 public class SkaterNode extends PNode {
     private Body body;
     private double heightDivisor = 1.0;
-    private PPath boundsDebugPPath;
     private PImage skaterImageNode;
 
     private PPath centerDebugger;
@@ -47,9 +46,6 @@ public class SkaterNode extends PNode {
 
     public SkaterNode( final Body body ) {
         this.body = body;
-        boundsDebugPPath = new PPath( new Rectangle2D.Double( 0, 0, body.getWidth(), body.getHeight() ) );
-        boundsDebugPPath.setStroke( null );
-        boundsDebugPPath.setPaint( new Color( 0, 0, 255, 128 ) );
 
         try {
             jetPackImage = ImageLoader.loadBufferedImage( "energy-skate-park/images/rocket5.png" );
@@ -145,7 +141,6 @@ public class SkaterNode extends PNode {
     }
 
     public void update() {
-        boundsDebugPPath.setPathTo( body.getShape() );
         updateSkaterTransform();
 
         jetPackNode.setVisible( body.getThrust().getMagnitude() > 0 );
@@ -178,19 +173,6 @@ public class SkaterNode extends PNode {
         if( body.isFacingRight() ) {
             skaterImageNode.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
             skaterImageNode.translate( -skaterImage.getWidth(), 0 );
-        }
-    }
-
-    public boolean isBoxVisible() {
-        return getChildrenReference().contains( boundsDebugPPath );
-    }
-
-    public void setBoxVisible( boolean v ) {
-        if( v && !isBoxVisible() ) {
-            addChild( boundsDebugPPath );
-        }
-        else if( !v && isBoxVisible() ) {
-            removeChild( boundsDebugPPath );
         }
     }
 

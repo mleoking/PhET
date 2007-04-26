@@ -194,14 +194,6 @@ public class Body implements Serializable {
         notifyEnergyChanged();
     }
 
-    public double getMinY() {
-        return getShape().getBounds2D().getMinY();
-    }
-
-    public double getMaxY() {
-        return getShape().getBounds2D().getMaxY();
-    }
-
     public double getHeight() {
         return height;
     }
@@ -285,10 +277,6 @@ public class Body implements Serializable {
     public Shape getFeetShape() {
         double feetFraction = 0.6;
         return getTransform().createTransformedShape( new Rectangle2D.Double( 0, height * ( 1 - feetFraction ), width, height * feetFraction ) );
-    }
-
-    public Shape getShape() {
-        return getTransform().createTransformedShape( new Rectangle2D.Double( 0, 0, width, height ) );
     }
 
     public AffineTransform getTransform() {

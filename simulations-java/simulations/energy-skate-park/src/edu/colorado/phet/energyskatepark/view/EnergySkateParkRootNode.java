@@ -261,16 +261,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         }
     }
 
-    public void toggleBox() {
-        if( bodyGraphics.getChildrenReference().size() > 0 ) {
-            boolean state = ( (SkaterNode)bodyGraphics.getChildrenReference().get( 0 ) ).isBoxVisible();
-            for( int i = 0; i < bodyGraphics.getChildrenReference().size(); i++ ) {
-                SkaterNode skaterNode = (SkaterNode)bodyGraphics.getChildrenReference().get( i );
-                skaterNode.setBoxVisible( !state );
-            }
-        }
-    }
-
     public SplineNode splineGraphicAt( int i ) {
         return (SplineNode)splineGraphics.getChildrenReference().get( i );
     }
