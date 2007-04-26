@@ -93,12 +93,35 @@ public class TestValueControls extends JFrame {
             } );
         }
         
+        // Linear control, snaps to ticks
+        final LinearValueControl potatoControl;
+        {
+            int min = 1;
+            int max = 4;
+            int value = 2;
+            String label = "Potatoes:";
+            String valuePattern = "0";
+            String units = "";
+            potatoControl = new LinearValueControl( min, max, label, valuePattern, units );
+            potatoControl.setValue( value );
+            potatoControl.setMajorTickSpacing( 1 );
+            potatoControl.setUpDownArrowDelta( 1 );
+            potatoControl.setTextFieldEditable( true );
+            potatoControl.setSnapToTicks( true );
+            potatoControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
+                    System.out.println( "potatoControl.stateChanged " + potatoControl.getValue() );
+                }
+            } );
+        }
+        
         JPanel panel = new JPanel();
         BoxLayout layout = new BoxLayout( panel, BoxLayout.Y_AXIS );
         panel.setLayout( layout );
         panel.add( protonsControl );
         panel.add( speedControl );
         panel.add( viscosityControl );
+        panel.add( potatoControl );
         
         setContentPane( panel );
         setSize( FRAME_SIZE );
