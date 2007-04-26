@@ -1,3 +1,23 @@
+Bug: roller-coaster mode isn't being saved/loaded correctly.
+
+Add "skater restore point" to file save/load to be able to share initial conditions.
+
+Tone down the colors on bulldog skateboard.  They are crazy bright right now.
+Reduce the length of his skateboard by about 15% so that his skate board is the same size as the PhET guy’s.
+
+Make the bug about ¼ to 1/3 the length of his board.  Again make his board the same size as the PhET skater.
+
+Make the proportions of all the possible skaters accurate in the Choose Character menu.
+
+When I use a bounciness of 1.0 and a stickiness of anything less than 1 thermo energy is
+reduced on a bounce eventually acquiring a nice huge negative thermo energy.
+
+Implement a mode in which attachment to track can happen without converting perpendicular velocity to thermal.
+
+Under discussion:
+Reorient on bounce?
+Bounciness & Stickiness to give realistic behavior for little perpendicular bounces?
+
 Maybe:
 • Support for undo?
 • Skater location is not correctly saved in File->Save (if on track)
