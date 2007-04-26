@@ -1,3 +1,8 @@
+1.05.05 (4-26-2007)
+Added restore point, so when user presses "Return Skater" or "Bring Back..." it is placed
+       in the last location the user specified.  This information is cleared when "Reset" is pressed.
+Reduced the radius for track autoconnect.       
+
 1.05.23 (4-24-2007)
 Testing build process.
 

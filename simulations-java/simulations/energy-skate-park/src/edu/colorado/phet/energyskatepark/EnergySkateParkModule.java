@@ -41,7 +41,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 21, 2005
  * Time: 3:06:31 AM
- *
  */
 
 public class EnergySkateParkModule extends PiccoloModule {
@@ -161,7 +160,9 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void resetSkater( Body body ) {
         body.reset();
-        initBodyOnTrack( body );
+        if( !body.isRestorePointSet() ) {
+            initBodyOnTrack( body );
+        }
     }
 
     private void init() {
