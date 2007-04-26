@@ -45,11 +45,11 @@ public class ModelSliderLayoutStrategy implements ILayoutStrategy {
         JComponent valueLabel = valueControl.getValueLabel();
         JComponent unitsLabel = valueControl.getUnitsLabel();
 
+        // Layout code below was copied verbatim from ModelSlider
         JPanel textPanel = new JPanel();
         textPanel.setLayout( new BorderLayout() );
         textPanel.add( textField, BorderLayout.WEST );
         textPanel.add( unitsLabel, BorderLayout.EAST );
-        
         valueControl.setLayout( new GridBagLayout() );
         try {
             SwingUtils.addGridBagComponent( valueControl, valueLabel, 0, 0, 1, 1,
