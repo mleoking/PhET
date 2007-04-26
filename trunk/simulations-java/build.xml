@@ -1204,7 +1204,7 @@
     <!--Temporary tasks for working with energy skate park.  These can be removed after this build script is integrated
     with top level build.xml, with maverick, etc.-->
     <property name="esp_root" value="http://www.colorado.edu/physics/phet/dev/ec3"/>
-    <property name="esp_version" value="1.05.23"/>
+    <property name="esp_version" value="1.05.24"/>
     <property name="esp_url" value="${esp_root}/${esp_version}"/>
     <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
     <property name="esp_path" value="dev/ec3"/>

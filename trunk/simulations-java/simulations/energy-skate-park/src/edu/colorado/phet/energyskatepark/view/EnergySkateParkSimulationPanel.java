@@ -211,10 +211,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         rootNode.addBodyGraphic( skaterNode );
     }
 
-    private void toggleBox() {
-        rootNode.toggleBox();
-    }
-
     private void printControlPoints() {
         energySkateParkModel.getSpline( 0 ).printControlPointCode();
     }
@@ -335,9 +331,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
             if( e.getKeyCode() == KeyEvent.VK_P ) {
                 System.out.println( "spline.getSegmentPath().getLength() = " + energySkateParkModel.getSpline( 0 ).numControlPoints() );
                 printControlPoints();
-            }
-            else if( e.getKeyCode() == KeyEvent.VK_B ) {
-                toggleBox();
             }
             else if( e.getKeyCode() == KeyEvent.VK_A ) {
                 addSkater();
