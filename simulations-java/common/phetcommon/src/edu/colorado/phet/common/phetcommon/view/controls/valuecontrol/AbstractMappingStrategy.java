@@ -23,6 +23,12 @@ public abstract class AbstractMappingStrategy {
      * @param sliderMax
      */
     public AbstractMappingStrategy( double modelMin, double modelMax, int sliderMin, int sliderMax ) {
+        if ( ! ( modelMin < modelMax ) ) {
+            throw new IllegalArgumentException( "modelMin (" + modelMin + ") must be < modelMax (" + modelMax + ")" );
+        }
+        if ( ! ( sliderMin < sliderMax ) ) {
+            throw new IllegalArgumentException( "sliderMin (" + sliderMin + ") must be < sliderMax (" + sliderMax + ")" );
+        }
         _modelMin = modelMin;
         _modelMax = modelMax;
         _sliderMin = sliderMin;
