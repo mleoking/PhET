@@ -14,7 +14,8 @@ public class SkaterCharacterSet {
         addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/starskater2.gif", "Star Skater", 60.0, 1.5 ) );
 //        addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/bulldog.gif", "Bulldog", 20.0, 1.125 ) );
         addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/bulldog.png", "Bulldog", 20.0, 1.125 ) );
-        addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/bluebug.gif", "Bug", 0.2, 0.75 ) );
+//        addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/bluebug.gif", "Bug", 0.2, 0.75 ) );
+        addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/bugboard.gif", "Bug", 0.2, 0.6) );
         addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/red-ball.png", "Ball", 5.0, 0.3, 2.0 ) );
     }
 
