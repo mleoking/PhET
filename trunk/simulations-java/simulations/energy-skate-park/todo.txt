@@ -1,5 +1,5 @@
-Tone down the colors on bulldog skateboard.  They are crazy bright right now.
-Reduce the length of his skateboard by about 15% so that his skate board is the same size as the PhET guy’s.
+Toned down the colors on bulldog skateboard.
+Reduce the length of the bulldog skateboard by about 15% so that his skate board is the same size as the PhET guy’s.
 
 Make the bug about ¼ to 1/3 the length of his board.  Again make his board the same size as the PhET skater.
 
