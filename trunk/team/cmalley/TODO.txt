@@ -3,8 +3,9 @@
 ===============================================================================
 
 TODO:
+- replace fourier's AbstractFourierSlider with a LinearSliderControl extension
+- replace quantum-tunneling's SliderControl with a LinearSliderControl extension
 - combine Play & Pause clock buttons in my sims (waiting for OK from Wendy)
-- migrate SliderControl to phetcommon
 - migrate Complex and MutableComplex to phetcommon
 - migrate ColorIntensitySlider to phetcommon
 - remove bogus build files
