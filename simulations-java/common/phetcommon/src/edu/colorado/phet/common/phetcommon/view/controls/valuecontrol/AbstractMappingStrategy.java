@@ -5,7 +5,7 @@ package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
 /**
  * AbstractMappingStrategy is the base class for all classes that provide a mapping
- * between slider values (integer precision) and model values (double precision).. 
+ * between slider values (integer precision) and model values (double precision).
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
