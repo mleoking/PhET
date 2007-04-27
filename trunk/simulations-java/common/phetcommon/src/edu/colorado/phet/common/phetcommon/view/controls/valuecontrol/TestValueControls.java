@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
-import java.awt.Dimension;
+import java.util.Hashtable;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -110,6 +110,34 @@ public class TestValueControls extends JFrame {
             } );
         }
         
+        // Linear control with custom label table
+        final LinearValueControl customLabelsControl;
+        {
+            int min = 0;
+            int max = 10;
+            int value = 5;
+            String label = "Custom Tick Labels:";
+            String valuePattern = "###0";
+            String units = "";
+            customLabelsControl = new LinearValueControl( min, max, label, valuePattern, units );
+            customLabelsControl.setValue( value );
+            customLabelsControl.setMajorTickSpacing( 5 );
+            customLabelsControl.setUpDownArrowDelta( 1 );
+            customLabelsControl.setTextFieldEditable( true );
+            customLabelsControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
+                    System.out.println( "customLabelsControl.stateChanged " + customLabelsControl.getValue() );
+                }
+            } );
+            
+            Hashtable labelTable = new Hashtable();
+            labelTable.put( new Double( 0 ),  new JLabel( "zero" ) );
+            labelTable.put( new Double( 5 ),  new JLabel( "five" ) );
+            labelTable.put( new Double( 10 ),  new JLabel( "ten" ) );
+            customLabelsControl.setTickLabels( labelTable );
+        }
+        
+        
         JPanel panel = new JPanel();
         panel.setBorder( BorderFactory.createEmptyBorder( 20, 20, 20, 20 ) );
         BoxLayout layout = new BoxLayout( panel, BoxLayout.Y_AXIS );
@@ -121,6 +149,8 @@ public class TestValueControls extends JFrame {
         panel.add( viscosityControl );
         panel.add( new JSeparator() );
         panel.add( potatoControl );
+        panel.add( new JSeparator() );
+        panel.add( customLabelsControl );
         
         setContentPane( panel );
         pack();

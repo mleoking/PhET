@@ -10,6 +10,8 @@ import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -428,6 +430,32 @@ public abstract class AbstractValueControl extends JPanel {
     }
     
     /**
+     * Sets the tick labels.  
+     * Any previously set labels are replaced.
+     * The key values in the Hashtable must be of type Number.
+     * 
+     * @param labelTable
+     * @throws IllegalArgumentException if any key in labelTable is not of type Number
+     */
+    public void setTickLabels( Hashtable labelTable ) {
+        clearTickLabels();
+        Set keys = labelTable.keySet();
+        Iterator i = keys.iterator();
+        while ( i.hasNext() ) {
+            Object o = i.next();
+            if ( o instanceof Number ) {
+                double modelValue = ( (Number) o ).doubleValue();
+                Object label = labelTable.get( o );
+                addTickLabel( modelValue, label );
+            }
+            else {
+                throw new IllegalArgumentException( "labelTable contains a key that is not a Number: " + o.getClass().getName() );
+            }
+        }
+        updateTickLabels();
+    }
+    
+    /**
      * Labels a specified value with a string.
      * 
      * @param value
@@ -449,7 +477,8 @@ public abstract class AbstractValueControl extends JPanel {
         if ( _labelTable == null ) {
             _labelTable = new Hashtable();
         }
-        _labelTable.put( new Integer( _slider.modelToSlider( value ) ), label );
+        int sliderValue = _slider.modelToSlider( value );
+        _labelTable.put( new Integer( sliderValue ), label );
         updateTickLabels();
     }
     
@@ -554,7 +583,6 @@ public abstract class AbstractValueControl extends JPanel {
                 _isAdjusting = _slider.getValueIsAdjusting();
                 boolean notify = ( _notifyWhileAdjusting || !_isAdjusting );
                 double modelValue = _slider.getModelValue();
-                System.out.println( "AbstractValueControl.stateChanged slider=" + _slider.getValue() + " model=" + modelValue );//XXX
                 setValue( modelValue, notify );
             }
         }
