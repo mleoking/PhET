@@ -217,6 +217,14 @@ public class EnergySkateParkModuleBean {
             return controlPoints;
         }
 
+        public boolean isRollerCoaster() {
+            return rollerCoaster;
+        }
+
+        public void setRollerCoaster( boolean rollerCoaster ) {
+            this.rollerCoaster = rollerCoaster;
+        }
+
         public void setControlPoints( Point2D[] controlPoints ) {
             this.controlPoints = controlPoints;
         }
@@ -226,7 +234,9 @@ public class EnergySkateParkModuleBean {
             for( int i = 0; i < pt.length; i++ ) {
                 pt[i] = new SPoint2D( controlPoints[i] );
             }
-            return new EnergySkateParkSpline( pt );
+            EnergySkateParkSpline skateParkSpline = new EnergySkateParkSpline( pt );
+            skateParkSpline.setRollerCoasterMode( rollerCoaster );
+            return skateParkSpline;
         }
     }
 }
