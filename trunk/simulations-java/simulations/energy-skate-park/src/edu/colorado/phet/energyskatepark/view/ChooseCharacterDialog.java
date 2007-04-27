@@ -41,8 +41,19 @@ public class ChooseCharacterDialog extends JDialog {
             }
         } );
         SkaterCharacter[] sk = module.getSkaterCharacters();
+        CharacterPanel[] cp = new CharacterPanel[sk.length];
         for( int i = 0; i < sk.length; i++ ) {
-            addCharacterPanel( new CharacterPanel( module, sk[i] ) );
+            cp[i] = new CharacterPanel( module, sk[i] );
+        }
+        Dimension max=new Dimension( 0,0);
+        for( int i = 0; i < cp.length; i++ ) {
+            max.width=Math.max( max.width,cp[i].getPreferredSize().width );
+            max.height=Math.max( max.height,cp[i].getPreferredSize().height );
+
+        }
+        for( int i = 0; i < sk.length; i++ ) {
+            cp[i].setPreferredSize( max);
+            addCharacterPanel( cp[i] );
         }
 
         contentPanel.add( ok, gridBagConstraints );
@@ -51,6 +62,7 @@ public class ChooseCharacterDialog extends JDialog {
     }
 
     private void addCharacterPanel( final CharacterPanel characterPanel ) {
+
         contentPanel.add( characterPanel, gridBagConstraints );
         characterPanel.addMouseListener( new MouseInputAdapter() {
             // implements java.awt.event.MouseListener
@@ -82,8 +94,11 @@ public class ChooseCharacterDialog extends JDialog {
             this.skaterCharacter = skaterCharacter;
             GridBagConstraints gridBagConstraints = new GridBagConstraints();
             try {
-                JLabel label = new JLabel( skaterCharacter.getName() + " (" + skaterCharacter.getMass() + " kg)", new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( skaterCharacter.getImageURL() ), 100 ) ), JLabel.TRAILING );
+                JLabel label = new JLabel( skaterCharacter.getName() + " (" + skaterCharacter.getMass() + " kg)",
+                                           new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio(
+                                                   ImageLoader.loadBufferedImage( skaterCharacter.getImageURL() ), (int)( skaterCharacter.getModelHeight() * 75 ) ) ), JLabel.TRAILING );
                 add( label, gridBagConstraints );
+//                label.setPreferredSize( new Dimension( label.getPreferredSize().width, 200 ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();

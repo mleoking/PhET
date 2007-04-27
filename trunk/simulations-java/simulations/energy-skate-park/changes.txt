@@ -9,6 +9,7 @@ Added "skater restore point" to file save/load to be able to share initial condi
 Toned down the colors on bulldog skateboard.
 Reduce the length of the bulldog skateboard by about 15% so that his skate board is the same size as the PhET guy’s.
 Made the bug about ¼ to 1/3 the length of his board, and made his board the same size as the PhET skater.
+Made the proportions of all the possible skaters accurate in the Choose Character menu.
 
 1.05.25 (4-26-2007)
 Added restore point, so when user presses "Return Skater" or "Bring Back..." it is placed
