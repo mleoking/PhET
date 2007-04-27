@@ -428,6 +428,14 @@ public class Body implements Serializable {
         this.restorePoint = restorePoint;
     }
 
+    public boolean isKeepEnergyOnLanding() {
+        return !particle.isConvertNormalVelocityToThermalOnLanding();
+    }
+
+    public void setKeepEnergyOnLanding( boolean selected ) {
+        particle.setConvertNormalVelocityToThermalOnLanding( !selected );
+    }
+
     public static interface Listener {
         void thrustChanged();
 

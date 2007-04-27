@@ -1,8 +1,6 @@
 When I use a bounciness of 1.0 and a stickiness of anything less than 1 thermo energy is
 reduced on a bounce eventually acquiring a nice huge negative thermo energy.
 
-Implement a mode in which attachment to track can happen without converting perpendicular velocity to thermal.
-
 Under discussion:
 Reorient on bounce?
 Bounciness & Stickiness to give realistic behavior for little perpendicular bounces?
