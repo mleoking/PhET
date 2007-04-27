@@ -27,7 +27,7 @@ public class PhysicsDefaults {
     // Clock
     public static final boolean CLOCK_PAUSED = false;
     private static final int FRAME_RATE = 25; // fps, frames per second (wall time)
-    private static final double MAX_DT = 1.0 / FRAME_RATE; // real time
+    private static final double MAX_DT = ( 1E-3 / FRAME_RATE );
     private static final double MIN_DT = 140E-16 * MAX_DT;
     private static final double DEFAULT_DT = MAX_DT;
     public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( MIN_DT, MAX_DT, DEFAULT_DT, 20 /* significantDecimalPlaces */ );
