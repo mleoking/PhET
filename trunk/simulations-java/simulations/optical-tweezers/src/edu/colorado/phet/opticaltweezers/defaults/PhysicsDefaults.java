@@ -66,7 +66,7 @@ public class PhysicsDefaults {
     public static final boolean ELECTRIC_FIELD_SELECTED = false;
     public static final boolean BEAD_CHARGES_SELECTED = false;
     public static final boolean ALL_BEAD_CHARGES_SELECTED = true;
-    public static final boolean TRAP_FORCE_SELECTED = false;
+    public static final boolean TRAP_FORCE_SELECTED = true;
     public static final boolean WHOLE_BEAD_SELECTED = true;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
     public static final boolean BROWNIAN_FORCE_SELECTED = false;

@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - new model for bead motion
-- better model for Fz trap force
 - add developer control for Bead.BROWNIAN_MOTION_SCALE
 - add developer controls for disabling individual components of bead motion model
 - implement E-field model for slow mode
@@ -52,6 +51,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/27/07 - add display of x & y components to TrapForceNode
+4/27/07 - change model for Fz trap force
 4/24/07 - move control.valuecontrol to phetcommon.view.controls.valuecontrol
 4/24/07 - add AbstractValueControl.setMinorTickLabelsVisible
 4/24/07 - use predefined cursors that indicate drag constraints (left/right vs up/down)

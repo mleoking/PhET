@@ -274,7 +274,7 @@ public class Laser extends MovableObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the trap force vector at a point.
+     * Gets the trap force at a point.
      * 
      * @param x coordinate relative to global model origin (nm)
      * @param y coordinate relative to global model origin (nm) 
@@ -283,40 +283,50 @@ public class Laser extends MovableObject implements ModelElement {
     public Vector2D getTrapForce( final double x, final double y ) {
         final double xOffset = x - getX();
         final double yOffset = y - getY();
-        final double radius = getRadius( yOffset );
         final double power = ( _running ) ? _power : 0;
-        return getTrapForce( xOffset, yOffset, radius, power );
+        return getTrapForce( xOffset, yOffset, power );
     }
     
     /**
-     * Gets trap force vector.
+     * Gets the maximum trap force.
+     * 
+     * @return trap force (pN)
+     */
+    public Vector2D getMaxTrapForce() {
+        double xOffset = _diameterAtWaist / 4; // halfway between center and edge of waist
+        double yOffset = 0;
+        double maxPower = _powerRange.getMax();
+        return getTrapForce( xOffset, yOffset, maxPower );
+    }
+    
+    /*
+     * Gets the trap force for at a specific offset from the center of the 
+     * trap, and a specific power value.
      * 
      * @param xOffset horizontal distance from the center of the trap  (nm)
      * @param yOffset vertical distance from the center of the trap (nm)
-     * @param radius radius of the beam at yOffset (nm)
-     * @param power power of the laser (mW)
+     * @param power a power value (mW)
      * @return trap force (pN)
      */
-    public static Vector2D getTrapForce( final double xOffset, final double yOffset, final double radius, final double power ) {
-        if ( radius <= 0 ) {
-            throw new IllegalArgumentException( "radius must be > 0: " + radius );
-        }
+    private Vector2D getTrapForce( final double xOffset, final double yOffset, final double power ) {
         if ( power < 0 ) {
             throw new IllegalArgumentException( "power must be >= 0 : " + power );
         }
         
+        final double ry = getRadius( yOffset ); // radius at yOffset, nm
+        final double intensity = getIntensityOnRadius( xOffset, ry, power );
+        
         // x component
-        final double K = 582771.6; //XXX units?, provided by Tom Perkins
-        final double intensity = getIntensityOnRadius( xOffset, radius, power );
-        final double fx = -1 * K * ( xOffset / ( radius * radius ) ) * intensity;
+        final double Kx = 582771.6; // provided by Tom Perkins
+        final double fx = -1 * Kx * ( xOffset / ( ry * ry ) ) * intensity;
 
         // y component
-        final double L = 56000; // mW*nm/pN, provided by Kathy Perkins
-        final double fy = -1 * ( power / L ) * yOffset;
+        final double Ky = Kx / 5.6;
+        final double r0 = getRadius( 0 ); // radius at waist, nm
+        final double fy = -1 * Ky * ( yOffset / ( r0 * r0 ) ) * intensity;
 
         return new Vector2D( fx, fy );
     }
-
     
     //----------------------------------------------------------------------------
     // ModelElement implementation
