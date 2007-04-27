@@ -19,6 +19,7 @@ MEDIUM PRIORITY:
 - get spec for "Simulation speed" control
 - get spec for "Show change in momentum model" feature
 - get spec for "Show charge on bead" feature
+- adjust clock time display and units as dt is changed
 
 LOW PRIORITY:
 - improve location of value for Vector2DNode
@@ -52,6 +53,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/27/07 - adjust clock dt so that fastest speed is 1E-3 realtime
 4/27/07 - add display of x & y components to TrapForceNode
 4/27/07 - change model for Fz trap force
 4/27/07 - set laser run state in resetAll
