@@ -100,6 +100,7 @@
         <div id="content">  
             <div class="productList">    
                 <?php
+
                     if (isset($_REQUEST['cat'])) {
                         $cat = $_REQUEST['cat'];
                     }
@@ -215,10 +216,31 @@
                                 */
 
                                 $link_to_sim = "<a href=\"sims/sims.php?sim_id=$sim_id\">";
+                                
 
-                                print "$link_to_sim";
-                                print "<img src=\"../admin/get-upload.php?url=$sim_image_url\" width=\"130\" height=\"97\" alt=\"View $sim_name Simulation\" />";
-                                print "</a>\n";
+                                if ($sim_animated_image_url == "") {
+                                    $sim_animated_image_url = $sim_image_url;
+                                }
+                                
+                                print <<<EOT
+                                    <a href="sims/sims.php?sim_id=$sim_id"
+                                    
+                                        onMouseOver="now = new Date();                                         document.images['image_preview_$sim_id'].src =                                       '../admin/get-upload.php?url=$sim_animated_image_url&amp;' + now.getTime();"
+                                        
+                                        onMouseOut="document.images['image_preview_$sim_id'].src = '../admin/get-upload.php?url=$sim_image_url'; "
+                                        
+                                        >
+
+                                        <img src="../admin/get-upload.php?url=$sim_image_url" 
+                                             name="image_preview_$sim_id"
+                                             width="130" height="97" 
+                                             alt="View $sim_name Simulation"
+                                         />
+                                    </a>
+                                
+EOT;
+                                // print "<img src=\"../admin/get-upload.php?url=$sim_image_url\" width=\"130\" height=\"97\" alt=\"View $sim_name Simulation\" />";
+                                // print "</a>\n";
                                 //print "$link_to_sim$sim_name</a>\n";
                                 print "<br/><p>$link_to_sim$sim_name</a></p>\n";
 

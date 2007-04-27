@@ -1,5 +1,6 @@
 <?php
     include_once("sys-utils.php");
+    include_once("contrib-utils.php");
     
     function web_create_random_password() {
         $chars = "abcdefghijkmnopqrstuvwxyz023456789";
@@ -228,6 +229,80 @@ EO_DISPLAY_SLIDESHOW_1;
 
             </script>
 EO_DISPLAY_SLIDESHOW_2;
+    }
+    
+    function print_login_form($optional_message = null, $standard_message = "<p>Please enter your email and password.</p>", $username = '') {
+        $script = get_self_url();
+        
+        print <<<EOT
+            <form id="loginform" method="post" action="$script">
+                <fieldset>
+                    <legend>Log in</legend>
+EOT;
+
+        if ($optional_message !== null) {
+            print "$optional_message";
+        }
+
+        print <<<EOT
+                    $standard_message
+                
+                    <label for="email">
+                        <input type="text"     name="username" tabindex="1" id="username" size="25" value="$username" />your email:
+                    </label>
+                
+                    <label for="password">
+                        <input type="password" name="password" tabindex="2" id="password" size="25"/>your password:
+                    </label>
+            
+                    <label for="submit">
+                        <input name="Submit" type="submit" id="submit" tabindex="4" value="Log in" />
+                    </label>
+                 </fieldset>
+            </form>
+EOT;
+    }
+    
+    function cookie_var_clear($name) {
+        setcookie("$name");
+    }
+    
+    function cookie_var_store($name, $var) {        
+        cookie_var_clear($name);
+        
+        setcookie("$name", $var);
+    }
+    
+    function cookie_var_is_stored($name) {
+        return isset($_COOKIE["$name"]);
+    }
+    
+    function cookie_var_get($name) {
+        if (!isset($_COOKIE["$name"])) {            
+            return "";
+        } 
+        
+        return $_COOKIE["$name"];
+    }
+    
+    function get_self_url() {
+        $url = basename($_SERVER['SCRIPT_NAME']);
+        
+        if (isset($_SERVER['QUERY_STRING'])) {
+            $query_string = str_replace(array('&amp;', '&'), array('&', '&amp;'), $_SERVER['QUERY_STRING']);
+            
+            $url .= "?$query_string";
+        }
+        
+        return $url;
+    }
+    
+    function is_email($email) {
+        $p  = '/^[a-z0-9!#$%&*+-=?^_`{|}~]+(\.[a-z0-9!#$%&*+-=?^_`{|}~]+)*';
+        $p .= '@([-a-z0-9]+\.)+([a-z]{2,3}';
+        $p .= '|info|arpa|aero|coop|name|museum)$/ix';
+        
+        return preg_match($p, $email) == 1;
     }
 
 ?>

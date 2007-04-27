@@ -4,7 +4,7 @@
     include_once("sim-utils.php");
     include_once("db-utils.php");
     
-    function print_site_page($content, $prefix = "..") {
+    function print_site_page($content_printer, $prefix = "..") {
         print <<<EOT
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -42,13 +42,13 @@
 
                         <div class="mainNav">
                             <ul>
-                                <li><a href="$prefix/index.html" accesskey="1">Home</a></li>
+                                <li><a href="$prefix/index.html"            accesskey="1">Home</a></li>
 
-                                <li><a href="$prefix/index.php" accesskey="2">Simulations</a></li>
+                                <li><a href="$prefix/index.php"             accesskey="2">Simulations</a></li>
 
-                                <li><a href="$prefix/research/index.html" accesskey="3">Research</a></li>
+                                <li><a href="$prefix/research/index.html"   accesskey="3">Research</a></li>
 
-                                <li><a href="$prefix/about/index.html" accesskey="4">About PhET</a></li>
+                                <li><a href="$prefix/about/index.html"      accesskey="4">About PhET</a></li>
                             </ul>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                         <ul>
                             <li><a href="$prefix/index.html" accesskey="1">Home</a></li>
 
-                            <li><a href="$prefix/simulations/index.php">Simulations</a></li>
+                            <li><a href="$prefix/simulations/index.phpd">Simulations</a></li>
 
                             <li><a href="$prefix/teacher_ideas/index.html">Teacher Ideas &amp; Activities</a></li>
 
@@ -94,15 +94,18 @@
                     </div>
 
                     <div id="content">  
-
+                        <div class="productList">
 EOT;
 
-        print $content;
+        call_user_func($content_printer);
 
         print <<<EOT
+                        </div>
+                        
                         <p class="footer">© 2007 PhET. All rights reserved.<br />
                     </div>
                 </div>
             </body>
             </html>
 EOT;
+    }
