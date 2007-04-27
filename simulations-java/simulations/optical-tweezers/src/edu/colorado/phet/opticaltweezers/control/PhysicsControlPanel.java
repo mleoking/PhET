@@ -31,7 +31,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     //----------------------------------------------------------------------------
     
     // Prints debugging output for event handler entries
-    private static final boolean PRINT_DEBUG_EVENT_HANDLERS = true;
+    private static final boolean PRINT_DEBUG_EVENT_HANDLERS = false;
     
     //----------------------------------------------------------------------------
     // Instance data

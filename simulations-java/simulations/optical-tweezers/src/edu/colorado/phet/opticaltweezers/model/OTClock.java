@@ -41,7 +41,6 @@ public class OTClock extends SwingClock {
     }
     
     public void setDt( final double dt ) {
-        System.out.println( "OTClock.setDt dt=" + dt );//XXX
         if ( dt < _dtRange.getMin() || dt > _dtRange.getMax() ) {
             throw new IllegalArgumentException( "dt is out of range: " + dt );
         }
