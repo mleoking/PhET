@@ -48,7 +48,7 @@ public class Vector2DNode extends PhetPNode {
     
     private static final Font DEFAULT_VALUE_FONT = new JLabel().getFont();
     private static final Paint DEFAULT_VALUE_PAINT = Color.BLACK;
-    private static final double DEFAULT_VALUE_SPACING = 2;
+    private static final double DEFAULT_VALUE_SPACING = 0;
     private static final DecimalFormat DEFAULT_VALUE_FORMAT = new DecimalFormat( "0.##E0" );
     private static final String DEFAULT_UNITS = "";
     

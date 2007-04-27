@@ -39,8 +39,10 @@ public class TrapForceNode extends PComposite implements Observer {
     private static final Stroke VECTOR_STROKE = new BasicStroke( 1f );
     private static final Paint VECTOR_STROKE_PAINT = Color.BLACK;
     private static final Paint SUM_VECTOR_FILL_PAINT = Color.WHITE;
+    private static final Paint SUM_VECTOR_VALUE_PAINT = Color.BLACK;
     private static final Paint COMPONENT_VECTOR_FILL_PAINT = Color.LIGHT_GRAY;
-    private static final double VALUE_SPACING = 2; // space between value and arrow head
+    private static final Paint COMPONENT_VECTOR_VALUE_PAINT = new Color( 0, 0, 0, 100 );
+    private static final double VALUE_SPACING = 0; // space between value and arrow head
     
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0.##E0" );
     
@@ -53,7 +55,7 @@ public class TrapForceNode extends PComposite implements Observer {
     private Laser _laser;
     private Bead _bead;
     private ModelViewTransform _modelViewTransform;
-    private Vector2DNode _vectorNode, _xComponentNode, _yComponentNode;
+    private Vector2DNode _sumNode, _xComponentNode, _yComponentNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -72,25 +74,25 @@ public class TrapForceNode extends PComposite implements Observer {
         
         _modelViewTransform = modelViewTransform;
         
-        double xOffset = _laser.getDiameterAtWaist() / 4; // halfway between center and edge of waist
-        double yOffset = 0;
-        double radius = _laser.getRadius( yOffset );
-        double maxPower = _laser.getPowerRange().getMax();
-        Vector2D maxTrapForce = Laser.getTrapForce( xOffset, yOffset, radius, maxPower );
+        Vector2D maxTrapForce = _laser.getMaxTrapForce();
 
         _xComponentNode = createVectorNode( COMPONENT_VECTOR_FILL_PAINT, maxTrapForce.getMagnitude(), VECTOR_MAX_TAIL_LENGTH );
-        _xComponentNode.setValueVisible( false );
+        _xComponentNode.setValuePaint( COMPONENT_VECTOR_VALUE_PAINT );
+        _xComponentNode.setValueVisible( SHOW_VALUES );
         
         _yComponentNode = createVectorNode( COMPONENT_VECTOR_FILL_PAINT, maxTrapForce.getMagnitude(), VECTOR_MAX_TAIL_LENGTH );
-        _yComponentNode.setValueVisible( false );
+        _yComponentNode.setValuePaint( COMPONENT_VECTOR_VALUE_PAINT );
+        _yComponentNode.setValueVisible( SHOW_VALUES );
         
-        _vectorNode = createVectorNode( SUM_VECTOR_FILL_PAINT, maxTrapForce.getMagnitude(), VECTOR_MAX_TAIL_LENGTH );
+        _sumNode = createVectorNode( SUM_VECTOR_FILL_PAINT, maxTrapForce.getMagnitude(), VECTOR_MAX_TAIL_LENGTH );
+        _sumNode.setValuePaint( SUM_VECTOR_VALUE_PAINT );
+        _sumNode.setValueVisible( SHOW_VALUES );
         
         if ( SHOW_XY_COMPONENTS ) {
             addChild( _xComponentNode );
             addChild( _yComponentNode );
         }
-        addChild( _vectorNode );
+        addChild( _sumNode );
         
         updatePosition();
         updateVectors();
@@ -151,7 +153,7 @@ public class TrapForceNode extends PComposite implements Observer {
         // calcuate the trap force vector at the bead's position
         Vector2D trapForce = _laser.getTrapForce( _bead.getX(), _bead.getY() );
         // update the x & y component vectors
-        _vectorNode.setVector( trapForce );
+        _sumNode.setVector( trapForce );
         if ( SHOW_XY_COMPONENTS ) {
             _xComponentNode.setVectorXY( trapForce.getX(), 0 );
             _yComponentNode.setVectorXY( 0, trapForce.getY() );

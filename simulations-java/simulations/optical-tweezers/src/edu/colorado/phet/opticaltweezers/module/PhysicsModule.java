@@ -466,6 +466,7 @@ public class PhysicsModule extends AbstractModule {
             Laser laser = _model.getLaser();
             laser.setPosition( PhysicsDefaults.LASER_POSITION );
             laser.setPower( PhysicsDefaults.LASER_POWER_RANGE.getDefault() );
+            laser.setRunning( PhysicsDefaults.LASER_RUNNING );
             
             // Fluid
             Fluid fluid = _model.getFluid();
