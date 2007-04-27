@@ -4,10 +4,10 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.energyskatepark.model.SPoint2D;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 
 import java.awt.geom.Line2D;
-import edu.colorado.phet.energyskatepark.model.SPoint2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -15,7 +15,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 18, 2007
  * Time: 11:42:19 AM
- *
  */
 
 public class Particle implements Serializable {
@@ -42,9 +41,10 @@ public class Particle implements Serializable {
     private double yThrust = 0;
     private double frictionCoefficient = 0;
     private boolean verboseDebug = true;
-    
+
     private static final double DEFAULT_ANGLE = 0;
-    public static final double DEFAULT_ELASTICITY= 0.9;
+    public static final double DEFAULT_ELASTICITY = 0.9;
+//    private boolean keepEnergyOnLanding = false;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );
@@ -216,6 +216,10 @@ public class Particle implements Serializable {
         return particleStage.isSplineUserControlled();
     }
 
+//    public boolean isKeepEnergyOnLanding() {
+//        return keepEnergyOnLanding;
+//    }
+
     interface UpdateStrategy extends Serializable {
         void stepInTime( double dt );
     }
@@ -254,7 +258,7 @@ public class Particle implements Serializable {
             if( netForceRadial > centripForce && !outsideCircle ) {
                 leaveTrack = true;
             }
-            if( leaveTrack&&!particle1D.isRollerCoasterMode() ) {
+            if( leaveTrack && !particle1D.isRollerCoasterMode() ) {
                 System.out.println( "Switching to freefall" );
                 switchToFreeFall();
 
@@ -357,8 +361,8 @@ public class Particle implements Serializable {
     see http://local.wasp.uwa.edu.au/~pbourke/geometry/pointline/
      */
     public static double pointSegmentDistance( SPoint2D pt3, Line2D.Double line ) {
-        SPoint2D p1 = new SPoint2D( line.getP1());
-        SPoint2D p2 = new SPoint2D( line.getP2());
+        SPoint2D p1 = new SPoint2D( line.getP1() );
+        SPoint2D p2 = new SPoint2D( line.getP2() );
         double u = ( ( pt3.getX() - p1.getX() ) * ( p2.getX() - p1.getX() ) + ( pt3.getY() - p1.getY() ) * ( p2.getY() - p1.getY() ) ) / p1.distanceSq( p2 );
         if( u < 0 ) {
             return pt3.distance( line.getP1() );
@@ -607,7 +611,7 @@ public class Particle implements Serializable {
         AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
         SPoint2D splineLoc = cubicSpline.evaluate( alpha );
         double sign = top ? 1.0 : -1.0;
-        SPoint2D finalPosition = new SPoint2D( norm.getInstanceOfMagnitude( 1.0E-3 * sign ).getDestination( splineLoc ));//todo: determine this free parameter
+        SPoint2D finalPosition = new SPoint2D( norm.getInstanceOfMagnitude( 1.0E-3 * sign ).getDestination( splineLoc ) );//todo: determine this free parameter
         setPosition( finalPosition );
     }
 
