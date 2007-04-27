@@ -2,6 +2,7 @@
 
     include_once("db.inc");
     include_once("db-utils.php");
+    include_once("web-utils.php");
     
     function contributor_get_all_contributors() {
         $contributors = array();
@@ -75,6 +76,18 @@
         
         return false;
     }    
+
+    function contributor_get_id_from_username($username) {
+        $contributors = contributor_get_all_contributors();
+        
+        foreach($contributors as $contributor) {
+            if (strtolower($contributor['contributor_email']) == strtolower($username)) {
+                return $contributor['contributor_id'];
+            }
+        }
+        
+        return false;        
+    }
     
     function contributor_get_id_from_username_and_password($username, $password) {
         $contributors = contributor_get_all_contributors();
@@ -136,36 +149,117 @@
         return mysql_fetch_assoc($result);
     }
     
-    function contributor_print_full_edit_form($contributor_id) {
+    function contributor_print_full_edit_form($contributor_id, $script, $optional_message = null, 
+                                              $standard_message = "<p>You may edit your profile information below.</p>") {
+                                                  
         $contributor = contributor_get_contributor_from_id($contributor_id);
         
-        print_hidden_input('contributor_id',            $contributor['contributor_id']);
-        print "<p>E-mail";
-        print_text_input(contributor_email,             $contributor['contributor_email']);
-        print "Password";
-        print_password_input(contributor_password,      $contributor['contributor_password']);
-        print "</p>";
-        print "<p>Name";
-        print_text_input(contributor_name,              $contributor['contributor_name']);
-        print "</p>";
-        print "<p>Address";
-        print_text_input(contributor_address,           $contributor['contributor_address'], 50);
-        print "Office";
-        print_text_input(contributor_office,            $contributor['contributor_office']);
-        print "</p>";
-        print "<p>City";
-        print_text_input(contributor_city,              $contributor['contributor_city']);
-        print "State";
-        print_text_input(contributor_state,             $contributor['contributor_state'], 2);
-        print "Postal Code";
-        print_text_input(contributor_postal_code,       $contributor['contributor_postal_code'], 10);
-        print "</p>";
-        print "<p>Primary Phone";
-        print_text_input(contributor_primary_phone,     $contributor['contributor_primary_phone'], 12);
-        print "Secondary Phone";
-        print_text_input(contributor_secondary_phone,   $contributor['contributor_secondary_phone'], 12);
-        print "Fax";
-        print_text_input(contributor_fax,               $contributor['contributor_fax'], 12);        
+        gather_array_into_globals($contributor);
+        
+        global $contributor_name,        $contributor_title, $contributor_address,
+               $contributor_office,      $contributor_city,  $contributor_state, 
+               $contributor_postal_code, $contributor_primary_phone,
+               $contributor_secondary_phone, $contributor_fax,
+               $contributor_password;
+        
+        print <<<EOT
+            <form id="userprofileform" method="post" action="$script">
+                <fieldset>
+                    <legend>Edit Profile</legend>
+EOT;
+
+        if ($optional_message !== null) {
+            print "$optional_message";
+        }
+
+        print <<<EOT
+                    
+                    $standard_message
+                    <label for="contributor_name">
+                        name:
+                        
+                        <input type="text" name="contributor_name" 
+                            value="$contributor_name" tabindex="1" id="name" size="25"/>
+                    </label>
+                    
+                    <label for="contributor_title">
+                        title:
+                        
+                        <input type="text" name="contributor_title"
+                            value="$contributor_title" tabindex="2" id="title" size="20" />
+                    </label>
+                    
+                    <label for="contributor_address">
+                        address:
+                        
+                        <input type="text" name="contributor_address"
+                            value="$contributor_address" tabindex="3" id="address" size="25" />
+                    </label>
+                    
+                    <label for="contributor_office">
+                        office:
+                        
+                        <input type="text" name="contributor_office"
+                            value="$contributor_office" tabindex="4" id="office" size="15" />
+                    </label>
+                    
+                    <label for="contributor_city">
+                        city:
+                        
+                        <input type="text" name="contributor_city"
+                            value="$contributor_city" tabindex="5" id="city" size="20" />
+                    </label>
+                    
+                    <label for="contributor_state">
+                        state or province:
+                    
+                        <input type="text" name="contributor_state"
+                            value="$contributor_state" tabindex="6" id="state" size="15" />
+                    </label>
+                    
+                    <label for="contributor_postal_code">
+                        postal code:
+                        
+                        <input type="text" name="contributor_postal_code"
+                            value="$contributor_postal_code" tabindex="7" id="postal_code" size="15" />
+                    </label>
+                    
+                    
+                    <label for="contributor_primary_phone">
+                        primary phone:
+                        
+                        <input type="text" name="contributor_primary_phone"
+                            value="$contributor_primary_phone" tabindex="8" id="primary_phone" size="12" />
+                    </label>
+                    
+                    <label for="contributor_secondary_phone">
+                        secondary phone:
+                    
+                        <input type="text" name="contributor_secondary_phone"
+                            value="$contributor_secondary_phone" tabindex="9" id="secondary_phone" size="12" />
+
+                    </label>
+                    
+                    <label for="contributor_fax">
+                        <input type="text" name="contributor_fax"
+                            value="$contributor_fax" tabindex="10" id="fax" size="12" />
+
+                        fax:
+                    </label>
+
+                    <label for="contributor_password">
+                        <input type="password" name="contributor_password" 
+                            value="$contributor_password" tabindex="11" id="password" size="25"/>
+                        
+                        password:
+                    </label>
+
+                    <label for="submit">
+                        <input name="Submit" type="submit" id="submit" tabindex="12" value="Done" />
+                    </label>
+                 </fieldset>
+            </form>
+EOT;
     }
     
     function contributor_delete_contributor($contributor_id) {
