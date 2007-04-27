@@ -13,7 +13,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Nov 7, 2006
  * Time: 12:49:52 PM
- *
  */
 
 public class EnergySkateParkModuleBean {
@@ -99,6 +98,7 @@ public class EnergySkateParkModuleBean {
         private double thermalEnergy;
         private double attachmentPointRotation;
         private boolean freeFrame;
+        private BodyElement restorePoint;
 
         public BodyElement() {
         }
@@ -112,6 +112,15 @@ public class EnergySkateParkModuleBean {
             thermalEnergy = body.getThermalEnergy();
             freeFrame = body.isFreeFallMode();
             this.attachmentPointRotation = body.getAngle();
+            this.restorePoint = body.isRestorePointSet() ? new BodyElement( body.getRestorePoint() ) : null;
+        }
+
+        public BodyElement getRestorePoint() {
+            return restorePoint;
+        }
+
+        public void setRestorePoint( BodyElement restorePoint ) {
+            this.restorePoint = restorePoint;
         }
 
         public void apply( Body body ) {
@@ -121,6 +130,12 @@ public class EnergySkateParkModuleBean {
             body.setAngularVelocity( angularVelocity );
             body.setFrictionCoefficient( frictionCoefficient );
             body.setMass( mass );
+
+            if( restorePoint != null ) {
+                Body restored = new Body( body.getWidth(), body.getHeight(), body.getParticleStage(), body.getGravity(), body.getZeroPointPotentialY() );
+                restorePoint.apply( restored );
+                body.setRestorePoint( restored );
+            }
         }
 
         public boolean isFreeFrame() {

@@ -1,5 +1,3 @@
-Add "skater restore point" to file save/load to be able to share initial conditions.
-
 Tone down the colors on bulldog skateboard.  They are crazy bright right now.
 Reduce the length of his skateboard by about 15% so that his skate board is the same size as the PhET guy’s.
 

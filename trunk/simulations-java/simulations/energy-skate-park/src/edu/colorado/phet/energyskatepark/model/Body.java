@@ -221,6 +221,10 @@ public class Body implements Serializable {
         notifyEnergyChanged();
     }
 
+    public Body getRestorePoint() {
+        return restorePoint;//todo: should this be a deep copy? 
+    }
+
     public double getHeight() {
         return height;
     }
@@ -410,6 +414,18 @@ public class Body implements Serializable {
 
     public double getStickiness() {
         return particle.getStickiness();
+    }
+
+    public ParticleStage getParticleStage() {
+        return particle.getParticleStage();
+    }
+
+    public double getZeroPointPotentialY() {
+        return particle.getZeroPointPotentialY();
+    }
+
+    public void setRestorePoint( Body restorePoint ) {
+        this.restorePoint = restorePoint;
     }
 
     public static interface Listener {

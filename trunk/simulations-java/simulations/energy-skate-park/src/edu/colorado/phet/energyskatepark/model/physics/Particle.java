@@ -57,6 +57,10 @@ public class Particle implements Serializable {
         setMass( 1.0 );//ensures particle1d has synchronized mass
     }
 
+    public ParticleStage getParticleStage() {
+        return particleStage;
+    }
+
     public void stepInTime( double dt ) {
         if( !userControlled ) {
             double origEnergy = getTotalEnergy();
@@ -161,6 +165,10 @@ public class Particle implements Serializable {
     public void setZeroPointPotentialY( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
         particle1D.setZeroPointPotentialY( zeroPointPotentialY );
+    }
+
+    public double getZeroPointPotentialY() {
+        return zeroPointPotentialY;
     }
 
     public AbstractVector2D getThrust() {
