@@ -512,7 +512,7 @@ public abstract class AbstractValueControl extends JPanel {
     }
     
     /**
-     * Clears all tick labels that were specified via addTickLabel.
+     * Clears all tick labels that were specified via setTickLabels or addTickLabel.
      */
     public void clearTickLabels() {
         _labelTable = null;
