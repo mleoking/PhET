@@ -1,4 +1,15 @@
 <?php
+    /*
+    
+        This script handles user login. It's designed to be included in 
+        another script (the 'including script'), to restrict access to that
+        script to individuals who have a contributor account on the PhET 
+        website.
+        
+        If this script is successfully included, it will define a global
+        variable 'contributor_id', corresponding to the id of the contributor.
+    
+    */
 
     include_once("../admin/site-utils.php");
     include_once("../admin/web-utils.php");
@@ -13,7 +24,8 @@
     function print_retry_login_form() {        
         print_login_form(null, 
             "<p>The password you entered is incorrect. If you entered the correct email address, please check your email now for a password reminder.</p>
-            <p>If you don't have an account on the PhET website, please enter your email and desired password.</p>");
+            <p>If you don't have an account on the PhET website, please enter your email and desired password.</p>",
+             $GLOBALS['username']);
     }
     
     function print_not_an_email_login_form() {        
@@ -31,7 +43,7 @@
     
     gather_script_params_into_globals();
  
-    if (!isset($username) || !isset($password)) {    
+    if (!isset($username) || !isset($password)) {   
         if (cookie_var_is_stored("username")) {
             $username      = cookie_var_get("username");
             $password_hash = cookie_var_get("password_hash");
@@ -76,6 +88,10 @@
             else {
                 // Create new user account:
                 contributor_add_new_contributor($username, $password);
+                
+                // Store the information in a cookie:
+                cookie_var_store("username",      $username);
+                cookie_var_store("password_hash", md5($password));
             }
         }
         else {
@@ -84,4 +100,7 @@
             exit;
         }
     }
+    
+    // Store the contributor id globally so the including script can use it:
+    $contributor_id = contributor_get_id_from_username($username);
 ?>

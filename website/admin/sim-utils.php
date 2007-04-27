@@ -58,12 +58,6 @@
         return $matches[3];
     }
     
-    function gather_array_into_globals($array) {
-        foreach($array as $key => $value) {
-            $GLOBALS["$key"] = format_for_html("$value");
-        }
-    }
-    
     function gather_sim_fields_into_globals($sim_id) {
         $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
         $simulation    = mysql_fetch_assoc(mysql_query($select_sim_st));

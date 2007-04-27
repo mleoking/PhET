@@ -55,10 +55,14 @@
         return $default_value;
     }
     
-    function gather_script_params_into_globals() {        
-        foreach($_REQUEST as $key => $value) {
-            $GLOBALS["$key"] = "$value";
+    function gather_array_into_globals($array) {
+        foreach($array as $key => $value) {
+            $GLOBALS["$key"] = format_for_html("$value");
         }
+    }
+    
+    function gather_script_params_into_globals() {     
+        gather_array_into_globals($_REQUEST);
     }
     
     function print_comma_list_as_bulleted_list($comma_list) {
@@ -264,7 +268,7 @@ EOT;
     }
     
     function cookie_var_clear($name) {
-        setcookie("$name");
+        setcookie("$name", '', time() - 60*60*24*365*10);
     }
     
     function cookie_var_store($name, $var) {        
