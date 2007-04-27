@@ -510,7 +510,6 @@ public class PhysicsModule extends AbstractModule {
     //----------------------------------------------------------------------------
     
     private void handleReturnBeadButton() {
-        System.out.println( "handleReturnBeadButton" );//XXX
         Rectangle2D b = _returnBeadButtonWrapper.getFullBounds().getBounds();
         double x = b.getX() + ( b.getWidth() / 2 );
         double y = b.getY() + ( b.getHeight() / 2 );
