@@ -525,9 +525,10 @@ public class Particle implements Serializable {
                 //set the position to be just on top of the spline
                 offsetOnSpline( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
 
-                double energyAfterBounce = getTotalEnergy();
-                thermalEnergy += ( energyBeforeBounce - energyAfterBounce );
-
+                if (getTotalEnergy()>energyBeforeBounce){
+                    correctEnergyReduceVelocity( energyBeforeBounce );
+                }
+                thermalEnergy += ( energyBeforeBounce - getTotalEnergy() );
 //                    System.out.println( "bounced" );
             }
             else {
