@@ -314,8 +314,8 @@ public class Vector2DNode extends PhetPNode {
                 // update the arrow, vector magnitude determines tail length
                 double tailWidth = _vector.getX() * ( _referenceLength / _referenceMagnitude );
                 double tailHeight = _vector.getY() * ( _referenceLength / _referenceMagnitude );
-                double headWidth = _headHeight * Math.cos( _vector.getAngle() );
-                double headHeight = _headHeight * Math.sin( _vector.getAngle() );
+                double headWidth = ( _headHeight + 1 ) * Math.cos( _vector.getAngle() ); // + 1 to avoid Arrow problems with headHeight being bigger than arrow length
+                double headHeight = ( _headHeight + 1 ) * Math.sin( _vector.getAngle() ); // + 1 to avoid Arrow problems with headHeight being bigger than arrow length
                 double xTip = tailWidth + headWidth;
                 double yTip = tailHeight + headHeight;
                 Point2D tipPosition = new Point2D.Double( xTip, yTip );
