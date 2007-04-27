@@ -6,6 +6,7 @@ package edu.colorado.phet.energyskatepark.model;
  */
 public class BumpUpSplines {
     private EnergySkateParkModel model;
+    public static final double MIN_SPLINE_Y = 0.1;
 
     public BumpUpSplines( EnergySkateParkModel model ) {
         this.model = model;
@@ -16,8 +17,8 @@ public class BumpUpSplines {
             EnergySkateParkSpline spline = model.getSpline( i );
             double y = spline.getMinY();
 //            System.out.println( "y = " + y );
-            if( y < 0 ) {
-                spline.translate( 0, Math.abs( y ) );
+            if( y < MIN_SPLINE_Y ) {
+                spline.translate( 0, Math.abs( y ) + MIN_SPLINE_Y );
             }
         }
     }

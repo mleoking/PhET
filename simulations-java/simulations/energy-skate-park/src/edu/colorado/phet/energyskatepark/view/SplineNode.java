@@ -10,6 +10,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.SPoint2D;
+import edu.colorado.phet.energyskatepark.model.BumpUpSplines;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -404,8 +405,9 @@ public class SplineNode extends PNode {
 
                 public void mouseDragged( PInputEvent event ) {
                     PDimension rel = event.getDeltaRelativeTo( SplineNode.this );
-                    if( spline.getControlPoints()[index].getY() + rel.getHeight() < 0 ) {
-                        rel.height = 0 - spline.getControlPoints()[index].getY();
+                    double epsilon= BumpUpSplines.MIN_SPLINE_Y;
+                    if( spline.getControlPoints()[index].getY() + rel.getHeight() < epsilon ) {
+                        rel.height = epsilon - spline.getControlPoints()[index].getY();
                     }
                     spline.translateControlPoint( index, rel.getWidth(), rel.getHeight() );
                     if( index == 0 || index == numControlPointGraphics() - 1 ) {

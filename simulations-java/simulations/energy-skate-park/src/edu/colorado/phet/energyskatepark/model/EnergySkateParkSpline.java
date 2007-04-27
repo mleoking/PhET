@@ -33,7 +33,7 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
 
 
     public String toString() {
-        return "fn="+parametricFunction2D;
+        return "fn=" + parametricFunction2D;
     }
 
     public Object clone() {
@@ -147,6 +147,11 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
             SPoint2D pt = parametricFunction2D.evaluate( ( (double)i ) / 100.0 );
             if( pt.getY() < minY ) {
                 minY = pt.getY();
+            }
+        }
+        for( int i = 0; i < numControlPoints(); i++ ) {
+            if( controlPointAt( i ).getY() < minY ) {
+                minY = controlPointAt( i ).getY();
             }
         }
         return minY;

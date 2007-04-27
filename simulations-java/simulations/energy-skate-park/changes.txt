@@ -1,4 +1,11 @@
-1.05.05 (4-26-2007)
+1.05.26
+Made it so tracks remain a certain threshold above ground (10 cm); to make it more difficult to direct the skater underground.
+Bugfix: if skater moves beneath ground, he is instantly transported above ground.
+The ball character should be slightly larger than the dots that appear in record path (or make the dots appear behind the ball).
+    >>This is true at default zoom.
+Bugfix: When you zoom out, the area that you cannot play on gets bigger (because the ground gradually takes up 1/2 of the screen).
+
+1.05.25 (4-26-2007)
 Added restore point, so when user presses "Return Skater" or "Bring Back..." it is placed
        in the last location the user specified.  This information is cleared when "Reset" is pressed.
 Reduced the radius for track autoconnect.       

@@ -128,6 +128,9 @@ public class Body implements Serializable {
         particle.stepInTime( dt );
 
         updateStateFromParticle();
+        if( getY() < -0.1 && isFreeFallMode() ) {
+            setPosition( getX(), 0.1 );
+        }
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.stepFinished();
@@ -138,6 +141,7 @@ public class Body implements Serializable {
             errorCount++;
             fractionalEnergyError += err / Math.abs( origEnergy );
         }
+
     }
 
     private boolean isSplineUserControlled() {
