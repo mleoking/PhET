@@ -52,6 +52,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+********* version 0.00.04 (?)
 4/27/07 - change model for bead motion, Mike Dubson's 4/26/07 model
 4/27/07 - add water viscosity constant and normalization method to Fluid
 4/27/07 - adjust clock dt so that fastest speed is 1E-3 realtime
