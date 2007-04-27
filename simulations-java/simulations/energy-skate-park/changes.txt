@@ -4,6 +4,7 @@ Bugfix: if skater moves beneath ground, he is instantly transported above ground
 The ball character should be slightly larger than the dots that appear in record path (or make the dots appear behind the ball).
     >>This is true at default zoom.
 Bugfix: When you zoom out, the area that you cannot play on gets bigger (because the ground gradually takes up 1/2 of the screen).
+Bugfix: roller-coaster mode isn't being saved/loaded correctly.
 
 1.05.25 (4-26-2007)
 Added restore point, so when user presses "Return Skater" or "Bring Back..." it is placed
