@@ -131,7 +131,6 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         int viscosityWidth = (int)_viscosityControl.getPreferredSize().getWidth();
         int temperatureWidth = (int)_temperatureControl.getPreferredSize().getWidth();
         int maxWidth = Math.max( speedWidth, Math.max( viscosityWidth, temperatureWidth ) );
-        System.out.println( "max slider width = " + maxWidth + " " + speedWidth + " " + viscosityWidth + " " + temperatureWidth );//XXX
         _speedControl.setSliderWidth( maxWidth );
         _viscosityControl.setSliderWidth( maxWidth );
         _temperatureControl.setSliderWidth( maxWidth );
