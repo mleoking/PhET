@@ -84,19 +84,19 @@ public class Arrow {
         AbstractVector2D.Double tailPt = new ImmutableVector2D.Double( tailLocation );
         AbstractVector2D.Double tipPt = new ImmutableVector2D.Double( tipLocation );
         direction = tipPt.getSubtractedInstance( tailPt ).getNormalizedInstance();
-        double dist = tipLocation.distance( tailLocation );
+        double length = tipLocation.distance( tailLocation );
         double tempHeadHeight = headHeight;
         double tempHeadWidth = headWidth;
         double tempTailWidth = tailWidth;
-        if( isHeadDynamic && dist < headHeight / fractionalHeadHeight ) {
-            tempHeadHeight = dist * fractionalHeadHeight;
+        if( isHeadDynamic && length < headHeight / fractionalHeadHeight ) {
+            tempHeadHeight = length * fractionalHeadHeight;
             if( scaleTailToo ) {
                 tempTailWidth = tailWidth * tempHeadHeight / headHeight;
                 tempHeadWidth = headWidth * tempHeadHeight / headHeight;
             }
         }
-        else if( dist < headHeight ) {
-            throw new RuntimeException( "Head too big." );
+        else if( length < headHeight ) {
+            throw new RuntimeException( "headHeight is bigger than arrow length: length=" + length + " headHeight=" + headHeight );
         }
         norm = direction.getNormalVector();
 
@@ -104,8 +104,8 @@ public class Arrow {
         AbstractVector2D.Double leftFlap = getPoint( -1 * tempHeadHeight, tempHeadWidth / 2 );
         AbstractVector2D.Double rightPin = getPoint( -1 * tempHeadHeight, -tempTailWidth / 2 );
         AbstractVector2D.Double leftPin = getPoint( -1 * tempHeadHeight, tempTailWidth / 2 );
-        AbstractVector2D.Double rightTail = getPoint( -1 * dist, -tempTailWidth / 2 );
-        AbstractVector2D.Double leftTail = getPoint( -1 * dist, tempTailWidth / 2 );
+        AbstractVector2D.Double rightTail = getPoint( -1 * length, -tempTailWidth / 2 );
+        AbstractVector2D.Double leftTail = getPoint( -1 * length, tempTailWidth / 2 );
 
         this.arrowPath.reset();
         arrowPath.moveTo( (float)tipPt.getX(), (float)tipPt.getY() );
