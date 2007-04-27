@@ -81,8 +81,8 @@ public class LocalFileFilter extends FileFilter {
      * @see #addExtension
      */
     public LocalFileFilter( String[] filters, String description ) {
-        this.filters = new Hashtable( filters.length );
-        for( int i = 0; i < filters.length; i++ ) {
+        this.filters = new Hashtable();
+        for( int i = 0; filters != null && i < filters.length; i++ ) {
             // add filters one by one
             addExtension( filters[i] );
         }
