@@ -33,6 +33,13 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * <p>
  * The default "look" is to have numeric labels at the min and max tick marks,
  * and no minor tick marks.
+ * <p>
+ * A note on the design philosophy for this class...
+ * Rather than provide a constructor that permits lots of customization
+ * (and therefore has an explosion of arguments),
+ * I've provided a single constructor that provides the most common behavior
+ * for this control, hopefully setting a standard for PhET.  If you need to 
+ * customize the behavior, there are many setter's provided. 
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -44,7 +51,6 @@ public abstract class AbstractValueControl extends JPanel {
 
     // Model
     private double _value; // the current value
-    private final double _min, _max; // for convenience, could get these from _slider
     private double _majorTickSpacing; // spacing of major tick marks
     private double _minorTickSpacing; // spacing of minor tick marks
     private double _upDownArrowDelta; // delta applied when you press the up/down arrow keys
@@ -77,7 +83,7 @@ public abstract class AbstractValueControl extends JPanel {
      * 
      * @param slider
      * @param label label that appears to the left of the value
-     * @param textFieldPattern pattern used to format the text field
+     * @param textFieldPattern pattern used to format the text field (see DecimalFormat)
      * @param units units that appear to the right of the value
      * @param horizontalAlignment GridBagConstraints.WEST, CENTER or EAST
      * @throws IllegalArgumentException
@@ -88,11 +94,9 @@ public abstract class AbstractValueControl extends JPanel {
         _slider = slider;
 
         _value = slider.getModelValue();
-        _min = slider.getModelMin();
-        _max = slider.getModelMax();
-        _majorTickSpacing = _max - _min; // default is major tick marks at min and max
+        _majorTickSpacing = _slider.getModelRange(); // default is major tick marks at min and max
         _minorTickSpacing = 0;
-        _upDownArrowDelta = ( _max - _min ) / 100;
+        _upDownArrowDelta = _slider.getModelRange() / 100;
 
         _textFieldFormat = new DecimalFormat( textFieldPattern );
         _tickFormat = new DecimalFormat( textFieldPattern ); // use same format for ticks and textfield
@@ -133,7 +137,12 @@ public abstract class AbstractValueControl extends JPanel {
     }
     
     //----------------------------------------------------------------------------
-    // Access to components
+    // Access to components.
+    //
+    // NOTE !!
+    // These methods are provided primarily for use by ILayoutStrategy subclasses.
+    // But you can use these to customize the components in ways that are 
+    // not supported by this class.  If you do so, proceed with caution.
     //----------------------------------------------------------------------------
 
     /**
@@ -192,7 +201,7 @@ public abstract class AbstractValueControl extends JPanel {
      * @param notify
      */
     private void setValue( double value, boolean notify ) {
-        if ( value >= _min && value <= _max ) {
+        if ( value >= getMinimum() && value <= getMaximum() ) {
             _value = value;
             updateView();
             if ( notify ) {
@@ -202,7 +211,7 @@ public abstract class AbstractValueControl extends JPanel {
         else {
             Toolkit.getDefaultToolkit().beep();
             System.out.println( getClass().getName() + ".setValue: invalid value for slider labeled \"" + 
-                    _valueLabel.getText() + "\", " + "range is " + _min + " to " + _max + ", tried to set " + value );
+                    _valueLabel.getText() + "\", " + "range is " + getMinimum() + " to " + getMaximum() + ", tried to set " + value );
             updateView(); // revert
         }
     }
@@ -217,12 +226,32 @@ public abstract class AbstractValueControl extends JPanel {
     }
 
     /**
+     * Changes the min/max range.
+     * 
+     * @param min
+     * @param max
+     */
+    public void setRange( double min, double max ) {
+        _slider.setModelRange( min, max );
+        if ( _value < min ) {
+            setValue( min );
+        }
+        else if ( _value > max ) {
+            setValue( max );
+        }
+        else { 
+            setValue( _value );
+        }
+        updateTickLabels();
+    }
+    
+    /**
      * Gets maximum value.
      * 
      * @return max
      */
     public double getMaximum() {
-        return _max;
+        return _slider.getModelMax();
     }
 
     /**
@@ -231,7 +260,7 @@ public abstract class AbstractValueControl extends JPanel {
      * @return min
      */
     public double getMinimum() {
-        return _min;
+        return _slider.getModelMin();
     }
 
     /**
@@ -524,11 +553,14 @@ public abstract class AbstractValueControl extends JPanel {
      * Otherwise, generate numberic labels for the major and minor tick marks.
      */
     private void updateTickLabels() {
+        
+        final double min = getMinimum();
+        final double max = getMaximum();
 
         // Slider properties related to ticks
-        _slider.setMajorTickSpacing( _slider.modelToSlider( _min + _majorTickSpacing ) );
+        _slider.setMajorTickSpacing( _slider.modelToSlider( min + _majorTickSpacing ) );
         if ( _minorTickSpacing > 0 ) {
-            _slider.setMinorTickSpacing( _slider.modelToSlider( _min + _minorTickSpacing ) );
+            _slider.setMinorTickSpacing( _slider.modelToSlider( min + _minorTickSpacing ) );
         }
         _slider.setPaintTicks( true );
         _slider.setPaintLabels( true );
@@ -543,8 +575,8 @@ public abstract class AbstractValueControl extends JPanel {
 
             // Major ticks
             if ( _majorTickLabelsVisible ) {
-                double value = _min;
-                while ( value <= _max ) {
+                double value = min;
+                while ( value <= max ) {
                     JLabel label = new JLabel( _tickFormat.format( value ) );
                     label.setFont( _font );
                     labelTable.put( new Integer( _slider.modelToSlider( value ) ), label );
@@ -554,8 +586,8 @@ public abstract class AbstractValueControl extends JPanel {
 
             // Minor ticks
             if ( _minorTickLabelsVisible && _minorTickSpacing > 0 ) {
-                double value = _min + _minorTickSpacing;
-                while ( value < _max ) {
+                double value = min + _minorTickSpacing;
+                while ( value < max ) {
                     JLabel label = new JLabel( _tickFormat.format( value ) );
                     label.setFont( _font );
                     labelTable.put( new Integer( _slider.modelToSlider( value ) ), label );
@@ -600,13 +632,13 @@ public abstract class AbstractValueControl extends JPanel {
             if ( e.getSource() == _textField ) {
                 if ( e.getKeyCode() == KeyEvent.VK_UP ) {
                     final double value = getValue() + _upDownArrowDelta;
-                    if ( value <= _max ) {
+                    if ( value <= getMaximum() ) {
                         setValue( value );
                     }
                 }
                 else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
                     final double value = getValue() - _upDownArrowDelta;
-                    if ( value >= _min ) {
+                    if ( value >= getMinimum() ) {
                         setValue( value );
                     }
                 }
@@ -619,12 +651,12 @@ public abstract class AbstractValueControl extends JPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _textField ) {
                 double value = getTextFieldValue();
-                if ( value < _min ) {
-                    value = _min;
+                if ( value < getMinimum() ) {
+                    value = getMinimum();
                     Toolkit.getDefaultToolkit().beep();
                 }
-                else if ( value > _max ) {
-                    value = _max;
+                else if ( value > getMaximum() ) {
+                    value = getMaximum();
                     Toolkit.getDefaultToolkit().beep();
                 }
                 setValue( value );
