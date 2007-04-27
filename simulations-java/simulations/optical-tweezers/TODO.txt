@@ -5,9 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- new model for bead motion
 - add developer control for Bead.BROWNIAN_MOTION_SCALE
-- add developer controls for disabling individual components of bead motion model
 - implement E-field model for slow mode
 
 MEDIUM PRIORITY:
@@ -44,7 +42,6 @@ CLEANUP:
 DEFER UNTIL AFTER INTERVIEWS:
 
 MODEL INFO NEEDED:
-- bead motion
 - E-field
 - fluid drag force (slide 14)
 - charge on the bead
@@ -53,6 +50,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/27/07 - change model for bead motion, Mike Dubson's 4/26/07 model
+4/27/07 - add water viscosity constant and normalization method to Fluid
 4/27/07 - adjust clock dt so that fastest speed is 1E-3 realtime
 4/27/07 - add display of x & y components to TrapForceNode
 4/27/07 - change model for Fz trap force

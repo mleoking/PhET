@@ -18,6 +18,8 @@ public class Fluid extends MovableObject implements ModelElement {
     // Class data
     //----------------------------------------------------------------------------
     
+    public static final double WATER_VISCOSITY = 1E-3; // Pa*sec
+    
     private static final String PROPERTY_VISCOSITY = "viscosity";
     private static final String PROPERTY_TEMPERATURE = "temperature";
     
@@ -190,6 +192,15 @@ public class Fluid extends MovableObject implements ModelElement {
         return _temperatureRange;
     }
 
+    /**
+     * Gets the dimensionless normalized viscosity, where the viscosity of water is 1.
+     * 
+     * @return double
+     */
+    public double getDimensionlessNormalizedViscosity() {
+        return _viscosity / WATER_VISCOSITY;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
