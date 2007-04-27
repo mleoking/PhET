@@ -130,7 +130,7 @@ public class TestValueControls extends JFrame {
             rangeControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
                     System.out.println( "rangeControl.stateChanged " + rangeControl.getValue() );
-                    potatoControl.setRange( potatoControl.getMinimum(), rangeControl.getValue() );
+                    potatoControl.setRange( potatoControl.getMinimum(), (int)rangeControl.getValue() );
                 }
             } );
         }
