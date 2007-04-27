@@ -12,7 +12,7 @@
     }
     
     function do_new() {
-        $contributor_id = contributor_add_new_contributor();
+        $contributor_id = contributor_add_new_blank_contributor();
         
         $GLOBALS['contributor_id']       = "$contributor_id";
         $GLOBALS['contributor_password'] = web_create_random_password();

@@ -15,6 +15,18 @@
         
         return $contributors;
     }
+    
+    function contributor_is_contributor($username) {
+        $contributors = contributor_get_all_contributors();
+        
+        foreach($contributors as $contributor) {
+            if (strtolower($contributor['contributor_email']) == strtolower($username)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 
     function contributor_send_password_reminder($username) {
         $contributors = contributor_get_all_contributors();
@@ -65,9 +77,9 @@
     }    
     
     function contributor_get_id_from_username_and_password($username, $password) {
-        $admins = contributor_get_team_members();
+        $contributors = contributor_get_all_contributors();
         
-        foreach($admins as $contributor) {
+        foreach($contributors as $contributor) {
             if (strtolower($contributor['contributor_email']) == strtolower($username)) {
                 if ($contributor['contributor_password'] == $password) {
                     return $contributor['contributor_id'];
@@ -79,9 +91,9 @@
     }
     
     function contributor_get_id_from_username_and_password_hash($username, $password_hash) {
-        $admins = contributor_get_team_members();
+        $contributors = contributor_get_all_contributors();
         
-        foreach($admins as $contributor) {            
+        foreach($contributors as $contributor) {            
             if (strtolower($contributor['contributor_email']) == strtolower($username)) {
                 if (md5($contributor['contributor_password']) == $password_hash) {
                     return $contributor['contributor_id'];
@@ -91,15 +103,29 @@
         
         return false;        
     }
-    
-    function contributor_is_admin($username, $password_hash) {
-       return contributor_get_id_from_username_and_password_hash($username, $password_hash) !== false;
+
+    function contributor_is_valid_login($username, $password_hash) {
+        return contributor_get_id_from_username_and_password_hash($username, $password_hash) !== false;
     }
     
-    function contributor_add_new_contributor($is_team_member = false) {
+    function contributor_is_valid_admin_login($username, $password_hash) {
+        if (!contributor_is_admin_username($username)) return false;
+        
+        return contributor_is_valid_login($username, $password_hash);
+    }
+    
+    function contributor_add_new_blank_contributor($is_team_member = false) {
         $team_member_field = $is_team_member ? '1' : '0';
         
         run_sql_statement("INSERT INTO `contributor` (`contributor_is_team_member`) VALUES ('$team_member_field') ");
+        
+        return mysql_insert_id();
+    }
+    
+    function contributor_add_new_contributor($username, $password, $is_team_member = false) {
+        $team_member_field = $is_team_member ? '1' : '0';
+        
+        run_sql_statement("INSERT INTO `contributor` (`contributor_email`, `contributor_password`, `contributor_is_team_member`) VALUES ('$username', '$password', '$team_member_field') ");
         
         return mysql_insert_id();
     }

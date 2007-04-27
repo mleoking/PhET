@@ -110,6 +110,39 @@ table td.smartClient,table th.smartClient {
  top:0;
  right:0;
 }
+/******** Login form *********/
+#loginform {
+    width:400px;
+    margin:auto;
+    padding:0px 0px 25px 0px;
+}
+#loginform fieldset {
+    padding:10px;
+}
+#loginform legend {
+    font-weight:bold;
+    font-size:9pt;
+}
+#loginform label {
+    display:block;
+    height:2em;
+    padding:10px 10px 0;
+}
+#loginform input {
+    margin-right:20px;
+    border:1px solid #999999;
+    float:right;
+    clear:right;
+    background:#CCCCCC;
+}
+#loginform input:focus,#loginform input:hover {
+	border:1px solid #333333;
+}
+#loginform .error{
+    color:red;
+    font-weight:bold;
+}
+
 /* -------- modified sliding doors on globalNav -------- */
 #headerContainer div.globalNav {
 	background:url(../images/globalNavLeft_BG.gif) left bottom no-repeat;
