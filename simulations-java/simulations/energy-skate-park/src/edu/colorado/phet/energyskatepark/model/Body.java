@@ -52,24 +52,6 @@ public class Body implements Serializable {
         particles.add( this );
     }
 
-//    static {
-//        JFrame controls = new JFrame();
-//        final ModelSlider stickiness = new ModelSlider( "Stickiness", "", 0, 5, staticSticky );
-//        stickiness.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                staticSticky = stickiness.getValue();
-//                for( int i = 0; i < particles.size(); i++ ) {
-//                    Body body = (Body)particles.get( i );
-//                    body.particle.setStickiness( staticSticky );
-//                }
-//            }
-//        } );
-//
-//        controls.setContentPane( stickiness );
-//        controls.pack();
-//        controls.setVisible( true );
-//    }
-
     public void setSpline( EnergySkateParkSpline spline, boolean top, double alpha ) {
         particle.switchToTrack( spline.getParametricFunction2D(), alpha, top );
     }

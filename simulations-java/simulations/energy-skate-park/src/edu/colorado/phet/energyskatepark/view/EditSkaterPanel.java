@@ -3,7 +3,6 @@ package edu.colorado.phet.energyskatepark.view;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.Body;
@@ -26,7 +25,7 @@ public class EditSkaterPanel extends AdvancedPanel {
     public EditSkaterPanel( final EnergySkateParkModule module ) {
         super( EnergySkateParkStrings.getString( "edit.skater" ), EnergySkateParkStrings.getString( "hide.skater.properties" ) );
         this.module = module;
-        final ModelSlider restitution = new ModelSlider( EnergySkateParkStrings.getString( "bounciness" ), "", 0, 1.0, 1.0 );
+        final EnergySkateParkSlider restitution = new EnergySkateParkSlider( EnergySkateParkStrings.getString( "bounciness" ), "", 0, 1.0, 1.0 );
         restitution.setModelTicks( new double[]{0, 0.5, 1} );
         restitution.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -42,11 +41,11 @@ public class EditSkaterPanel extends AdvancedPanel {
         } );
 
 
-        final ModelSlider mass = new ModelSlider( EnergySkateParkStrings.getString( "mass" ), EnergySkateParkStrings.getString( "kg" ), 1, 200, 75 );
+        final EnergySkateParkSlider mass = new EnergySkateParkSlider( EnergySkateParkStrings.getString( "mass" ), EnergySkateParkStrings.getString( "kg" ), 1, 200, 75 );
         mass.setModelTicks( new double[]{1, 75, 200} );
         mass.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                setMass( mass.getValue() );
+                setMass( mass.getValue());
             }
         } );
         module.getClock().addClockListener( new ClockAdapter() {
@@ -57,7 +56,7 @@ public class EditSkaterPanel extends AdvancedPanel {
             }
         } );
 
-        final ModelSlider stickiness = new ModelSlider( "Stickiness", "", 0.01, 5, Body.DEFAULT_STICKINESS );
+        final EnergySkateParkSlider stickiness = new EnergySkateParkSlider( "Stickiness", "", 0.01, 5, Body.DEFAULT_STICKINESS );
         stickiness.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setStickiness( stickiness.getValue() );
@@ -98,7 +97,7 @@ public class EditSkaterPanel extends AdvancedPanel {
 
     private boolean isKeepEnergyOnLanding() {
         EnergySkateParkModel model = module.getEnergySkateParkModel();
-        
+
         for( int i = 0; i < model.getNumBodies(); i++ ) {
             Body b = model.getBody( i );
             return b.isKeepEnergyOnLanding();
