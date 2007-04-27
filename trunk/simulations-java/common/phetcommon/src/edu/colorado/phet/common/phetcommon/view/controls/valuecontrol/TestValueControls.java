@@ -95,17 +95,42 @@ public class TestValueControls extends JFrame {
             int max = 4;
             int value = 2;
             String label = "Potatoes:";
-            String valuePattern = "0";
+            String valuePattern = "#0.0";
             String units = "";
             potatoControl = new LinearValueControl( min, max, label, valuePattern, units );
             potatoControl.setValue( value );
             potatoControl.setMajorTickSpacing( 1 );
+            potatoControl.setMinorTickSpacing( 0.5 );
+            potatoControl.setTickPattern( "0" );
             potatoControl.setUpDownArrowDelta( 1 );
             potatoControl.setTextFieldEditable( true );
             potatoControl.setSnapToTicks( true );
             potatoControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
                     System.out.println( "potatoControl.stateChanged " + potatoControl.getValue() );
+                }
+            } );
+        }
+        
+        // One control that changes the range of another control
+        final LinearValueControl rangeControl;
+        {
+            int min = 2;
+            int max = 10;
+            int value = (int) potatoControl.getMaximum();
+            String label = "Potatoes range:";
+            String valuePattern = "#0";
+            String units = "";
+            rangeControl = new LinearValueControl( min, max, label, valuePattern, units );
+            rangeControl.setValue( value );
+            rangeControl.setMajorTickSpacing( 1 );
+            rangeControl.setUpDownArrowDelta( 1 );
+            rangeControl.setSnapToTicks( true );
+            rangeControl.setTextFieldEditable( true );
+            rangeControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
+                    System.out.println( "rangeControl.stateChanged " + rangeControl.getValue() );
+                    potatoControl.setRange( potatoControl.getMinimum(), rangeControl.getValue() );
                 }
             } );
         }
@@ -117,7 +142,7 @@ public class TestValueControls extends JFrame {
             int max = 10;
             int value = 5;
             String label = "Custom Tick Labels:";
-            String valuePattern = "###0";
+            String valuePattern = "###0.0";
             String units = "";
             customLabelsControl = new LinearValueControl( min, max, label, valuePattern, units );
             customLabelsControl.setValue( value );
@@ -137,7 +162,6 @@ public class TestValueControls extends JFrame {
             customLabelsControl.setTickLabels( labelTable );
         }
         
-        
         JPanel panel = new JPanel();
         panel.setBorder( BorderFactory.createEmptyBorder( 20, 20, 20, 20 ) );
         BoxLayout layout = new BoxLayout( panel, BoxLayout.Y_AXIS );
@@ -149,6 +173,7 @@ public class TestValueControls extends JFrame {
         panel.add( viscosityControl );
         panel.add( new JSeparator() );
         panel.add( potatoControl );
+        panel.add( rangeControl );
         panel.add( new JSeparator() );
         panel.add( customLabelsControl );
         

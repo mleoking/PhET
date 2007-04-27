@@ -12,7 +12,7 @@ package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 public abstract class AbstractMappingStrategy {
     
     private double _modelMin, _modelMax;
-    private int _sliderMin, _sliderMax;
+    private final int _sliderMin, _sliderMax; // immutable
     
     /**
      * Constructor.
@@ -23,18 +23,26 @@ public abstract class AbstractMappingStrategy {
      * @param sliderMax
      */
     public AbstractMappingStrategy( double modelMin, double modelMax, int sliderMin, int sliderMax ) {
-        if ( ! ( modelMin < modelMax ) ) {
-            throw new IllegalArgumentException( "modelMin (" + modelMin + ") must be < modelMax (" + modelMax + ")" );
-        }
         if ( ! ( sliderMin < sliderMax ) ) {
             throw new IllegalArgumentException( "sliderMin (" + sliderMin + ") must be < sliderMax (" + sliderMax + ")" );
         }
-        _modelMin = modelMin;
-        _modelMax = modelMax;
+        setModelRange( modelMin, modelMax );
         _sliderMin = sliderMin;
         _sliderMax = sliderMax;
     }
 
+    public void setModelRange( double modelMin, double modelMax ) {
+        if ( ! ( modelMin < modelMax ) ) {
+            throw new IllegalArgumentException( "modelMin (" + modelMin + ") must be < modelMax (" + modelMax + ")" );
+        }
+        _modelMin = modelMin;
+        _modelMax = modelMax;
+    }
+    
+    public double getModelRange() {
+        return _modelMax - _modelMin;
+    }
+    
     public double getModelMin() {
         return _modelMin;
     }
@@ -49,6 +57,10 @@ public abstract class AbstractMappingStrategy {
     
     public int getSliderMax() {
         return _sliderMax;
+    }
+    
+    public int getSliderRange() {
+        return _sliderMax - _sliderMin;
     }
     
     public String toString() {

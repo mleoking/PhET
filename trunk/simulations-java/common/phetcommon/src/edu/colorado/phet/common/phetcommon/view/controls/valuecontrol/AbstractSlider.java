@@ -17,9 +17,14 @@ public abstract class AbstractSlider extends JSlider {
     protected AbstractSlider( AbstractMappingStrategy strategy ) {
         super();
         _strategy = strategy;
-        setMinimum( strategy.getSliderMin() );
-        setMaximum( strategy.getSliderMax() );
-        setValue( strategy.getSliderMin() );
+        setMinimum( _strategy.getSliderMin() );
+        setMaximum( _strategy.getSliderMax() );
+    }
+    
+    public void setModelRange( double min, double max ) {
+        _strategy.setModelRange( min, max );
+        setMinimum( _strategy.getSliderMin() );
+        setMaximum( _strategy.getSliderMax() );
     }
     
     public void setModelValue( double modelValue ) {
@@ -40,12 +45,20 @@ public abstract class AbstractSlider extends JSlider {
         return _strategy.getModelMax();
     }
     
+    public double getModelRange() {
+        return _strategy.getModelRange();
+    }
+    
     public int getSliderMin() {
         return _strategy.getSliderMin();
     }
     
     public int getSliderMax() {
         return _strategy.getSliderMax();
+    }
+    
+    public int getSliderRange() {
+        return _strategy.getSliderRange();
     }
     
     public double sliderToModel( int sliderValue ) {
