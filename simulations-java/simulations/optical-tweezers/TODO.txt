@@ -7,8 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - above some dt value, divide dt in N sub-dt, run bead motion algorithm N times, then update model
 - add developer controls for N (number of dt subdividions) and dt threshold
-- add developer control for Bead.BROWNIAN_MOTION_SCALE
-- implement E-field model for slow mode
+
 
 MEDIUM PRIORITY:
 - change fluid model to use velocity instead of speed
@@ -54,6 +53,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/30/07 - add developer control for bead's Brownian motion scale factor
 4/30/07 - set up framework for opening developer-only dialog from control panel
 4/30/07 - implement display of fluid drag force
 4/30/07 - generalize node for displaying forces
