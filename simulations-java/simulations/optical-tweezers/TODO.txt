@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- convert bead motion model to use nm distance units
 - above some dt value, divide dt in N sub-dt, run bead motion algorithm N times, then update model
 
 
