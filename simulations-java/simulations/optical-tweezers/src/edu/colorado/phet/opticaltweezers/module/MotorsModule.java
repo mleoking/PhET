@@ -2,21 +2,14 @@
 
 package edu.colorado.phet.opticaltweezers.module;
 
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.Dimension2D;
-
-import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.MotorsControlPanel;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
+import edu.colorado.phet.opticaltweezers.model.MotorsModel;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
-import edu.colorado.phet.opticaltweezers.model.PhysicsModel;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
-import edu.colorado.phet.opticaltweezers.view.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.opticaltweezers.view.MotorsCanvas;
 
 /**
  * MotorsModule is the "Molecular Motors" module.
@@ -29,15 +22,8 @@ public class MotorsModule extends AbstractModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    // Model
-    private PhysicsModel _model;
-    
-    // View
-    private PhetPCanvas _canvas;
-    private PNode _rootNode;
-    private ModelViewTransform _modelViewTransform;
-
-    // Control
+    private MotorsModel _model;
+    private MotorsCanvas _canvas;
     private MotorsControlPanel _controlPanel;
     private OTClockControlPanel _clockControlPanel;
     
@@ -47,46 +33,11 @@ public class MotorsModule extends AbstractModule {
 
     public MotorsModule() {
         super( OTResources.getString( "title.molecularMotors" ), MotorsDefaults.CLOCK, MotorsDefaults.CLOCK_PAUSED );
-
-        //----------------------------------------------------------------------------
-        // Model
-        //----------------------------------------------------------------------------
-
-        OTClock clock = (OTClock) getClock();
         
-        //----------------------------------------------------------------------------
-        // View
-        //----------------------------------------------------------------------------
-
-        // Piccolo canvas
-        {
-            _canvas = new PhetPCanvas( MotorsDefaults.VIEW_SIZE );
-            _canvas.setBackground( OTConstants.CANVAS_BACKGROUND );
-            setSimulationPanel( _canvas );
-
-            _canvas.addComponentListener( new ComponentAdapter() {
-                public void componentResized( ComponentEvent e ) {
-                    // update the layout when the canvas is resized
-                    updateCanvasLayout();
-                }
-            } );
-        }
-
-        // Root of our scene graph
-        _rootNode = new PNode();
-        _canvas.addWorldChild( _rootNode );
-
-        // Model View transform
-        _modelViewTransform = new ModelViewTransform( MotorsDefaults.MODEL_TO_VIEW_SCALE );
+        _model = new MotorsModel();
         
-        // Layering order on the canvas (back-to-front)
-        {
-//            _rootNode.addChild(...);
-        }
-        
-        //----------------------------------------------------------------------------
-        // Control
-        //----------------------------------------------------------------------------
+        _canvas = new MotorsCanvas( _model );
+        setSimulationPanel( _canvas );
         
         // Control Panel
         _controlPanel = new MotorsControlPanel( this );
@@ -96,18 +47,7 @@ public class MotorsModule extends AbstractModule {
         _clockControlPanel = new OTClockControlPanel( (OTClock) getClock() );
         setClockControlPanel( _clockControlPanel );
 
-        //----------------------------------------------------------------------------
-        // Help
-        //----------------------------------------------------------------------------
-
-        //XXX
-
-        //----------------------------------------------------------------------------
-        // Initialize the module state
-        //----------------------------------------------------------------------------
-
         resetAll();
-        updateCanvasLayout();
     }
     
     //----------------------------------------------------------------------------
@@ -120,27 +60,12 @@ public class MotorsModule extends AbstractModule {
      * @return true
      */
     public boolean hasHelp() {
-        return true;
+        return false;
     }
     
-    //----------------------------------------------------------------------------
-    // Canvas layout
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Updates the layout of stuff on the canvas.
-     */
-    public void updateCanvasLayout() {
-
-        Dimension2D worldSize = _canvas.getWorldSize();
-//        System.out.println( "MotorsModule.updateCanvasLayout worldSize=" + worldSize );//XXX
-        if ( worldSize.getWidth() == 0 || worldSize.getHeight() == 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
-        }
-        
-        // reusable (x,y) coordinates, for setting offsets
-        double x, y;
+    public void deactive() {
+        super.deactivate();
+        //XXX close dialogs
     }
     
     //----------------------------------------------------------------------------

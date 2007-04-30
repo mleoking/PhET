@@ -2,9 +2,8 @@
 
 package edu.colorado.phet.opticaltweezers.control;
 
-import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.module.MotorsModule;
+import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 
 /**
  * MotorsControlPanel is the control panel for MotorsModule.
@@ -17,8 +16,6 @@ public class MotorsControlPanel extends AbstractControlPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private MotorsModule _module;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -28,10 +25,8 @@ public class MotorsControlPanel extends AbstractControlPanel {
      * 
      * @param module
      */
-    public MotorsControlPanel( MotorsModule module ) {
+    public MotorsControlPanel( AbstractModule module ) {
         super( module );
-
-        _module = module;
 
         // Set the control panel's minimum width.
         int minimumWidth = OTResources.getInt( "int.minControlPanelWidth", 215 );
@@ -42,5 +37,4 @@ public class MotorsControlPanel extends AbstractControlPanel {
             addResetButton();
         }
     }
-
 }

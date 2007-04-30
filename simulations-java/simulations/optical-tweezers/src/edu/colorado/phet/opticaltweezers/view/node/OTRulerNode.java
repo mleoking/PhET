@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.view;
+package edu.colorado.phet.opticaltweezers.view.node;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;

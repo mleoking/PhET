@@ -38,7 +38,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private AbstractModule _module; // module that this control panel is associated with
-    private JButton _resetButton;
+    private JButton _resetAllButton;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -73,12 +73,24 @@ public abstract class AbstractControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     /**
+     * Sets the minumum width of the control panel.
+     * 
+     * @param minimumWidth
+     */
+    public void setMinumumWidth( int minimumWidth ) {
+        JPanel fillerPanel = new JPanel();
+        fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
+        fillerPanel.add( Box.createHorizontalStrut( minimumWidth ) );
+        addControlFullWidth( fillerPanel );
+    }
+    
+    /**
      * Gets the reset button, usually for attaching a help item to it.
      * 
      * @return the reset button
      */
-    public JButton getResetButton() {
-        return _resetButton;
+    public JButton getResetAllButton() {
+        return _resetAllButton;
     }
     
     /**
@@ -86,8 +98,8 @@ public abstract class AbstractControlPanel extends ControlPanel {
      * The button handler calls the module's reset method.
      */
     public void addResetButton() {
-        _resetButton = new JButton( OTResources.getString( "button.resetAll" ) );
-        _resetButton.addActionListener( new ActionListener() { 
+        _resetAllButton = new JButton( OTResources.getString( "button.resetAll" ) );
+        _resetAllButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent e ) {
                 Frame frame = PhetApplication.instance().getPhetFrame();
                 String message = OTResources.getString( "message.confirmResetAll" );
@@ -99,18 +111,6 @@ public abstract class AbstractControlPanel extends ControlPanel {
                 }
             }
         } );
-        addControl( _resetButton );
-    }
-    
-    /**
-     * Sets the minumum width of the control panel.
-     * 
-     * @param minimumWidth
-     */
-    public void setMinumumWidth( int minimumWidth ) {
-        JPanel fillerPanel = new JPanel();
-        fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
-        fillerPanel.add( Box.createHorizontalStrut( minimumWidth ) );
-        addControlFullWidth( fillerPanel );
+        addControl( _resetAllButton );
     }
 }

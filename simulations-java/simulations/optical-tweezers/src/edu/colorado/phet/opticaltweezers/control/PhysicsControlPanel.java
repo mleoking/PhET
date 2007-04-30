@@ -5,8 +5,11 @@ package edu.colorado.phet.opticaltweezers.control;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -14,10 +17,14 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
-import edu.colorado.phet.opticaltweezers.model.OTClock;
+import edu.colorado.phet.opticaltweezers.dialog.FluidControlDialog;
+import edu.colorado.phet.opticaltweezers.model.Fluid;
+import edu.colorado.phet.opticaltweezers.model.PhysicsModel;
 import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
+import edu.colorado.phet.opticaltweezers.view.PhysicsCanvas;
 
 /**
  * PhysicsControlPanel is the control panel for PhysicsModule.
@@ -38,7 +45,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     //----------------------------------------------------------------------------
     
     private PhysicsModule _module;
-    private OTClock _clock;
+    private PhysicsModel _model;
+    private PhysicsCanvas _canvas;
+    private FluidControlDialog _fluidControlDialog;
     
     private LogarithmicValueControl _timestepControl;
     
@@ -72,11 +81,13 @@ public class PhysicsControlPanel extends AbstractControlPanel {
      * 
      * @param module
      */
-    public PhysicsControlPanel( PhysicsModule module ) {
+    public PhysicsControlPanel( PhysicsModule module) {
         super( module );
         
         _module = module;
-        _clock = _module.getOTClock();
+        _model = module.getPhysicsModel();
+        _canvas = module.getPhysicsCanvas();
+        _fluidControlDialog = null;
 
         // Set the control panel's minimum width.
         int minimumWidth = OTResources.getInt( "int.minControlPanelWidth", 215 );
@@ -176,6 +187,11 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Histogram
         _positionHistogramCheckBox = new JCheckBox( OTResources.getString( "label.showPositionHistogram" ) );
+        _canvas.getPositionHistogramChartNode().addCloseListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                _positionHistogramCheckBox.setSelected( false );
+            }
+        });
         
         // Advanced features
         JPanel advancedPanel = new JPanel();
@@ -184,6 +200,12 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _fluidControlsCheckBox = new JCheckBox( OTResources.getString( "label.controlFluidFlow" ) );
             _momemtumChangeCheckBox = new JCheckBox( OTResources.getString( "label.showMomentumChange" ) );
             _potentialEnergyChartCheckBox = new JCheckBox( OTResources.getString( "label.showPotentialEnergyChart" ) );
+            
+            _canvas.getPotentialEnergyChartNode().addCloseListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    _potentialEnergyChartCheckBox.setSelected( false );
+                }
+            });
             
             _advancedPanel = new Box( BoxLayout.Y_AXIS );
             _advancedPanel.add( _fluidControlsCheckBox );
@@ -267,7 +289,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Default state
         {
-            _timestepControl.setValue( _clock.getDt() );
+            _timestepControl.setValue( _model.getClock().getDt() );
             
             _electricFieldCheckBox.setSelected( false );
             _beadChargesCheckBox.setSelected( false );
@@ -315,6 +337,10 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
+    
+    public void closeAllDialogs() {
+        setFluidControlSelected( false );
+    }
     
     public void setClockSpeed( double dt ) {
         _timestepControl.setValue( dt );
@@ -542,7 +568,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _wholeBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
         _halfBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
         
-        _clock.setDt( _timestepControl.getValue() );
+        _model.getClock().setDt( _timestepControl.getValue() );
     }
 
     private void handleElectricFieldCheckBox() {
@@ -589,18 +615,13 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     }
     
     private void handleTrapForceCheckBox() {
-        
         final boolean selected = _trapForceCheckBox.isSelected();
-
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleTrapForceCheckBox " + selected );
-        }
-        
+        // related controls
         _horizontalTrapForceLabel.setEnabled( selected );
         _wholeBeadRadioButton.setEnabled( selected );
         _halfBeadRadioButton.setEnabled( selected );
-        
-        _module.setTrapForceVisible( selected );
+        // update view
+        _canvas.getTrapForceNode().setVisible( selected );
     }
     
     private void handleWholeBeadRadioButton() {
@@ -644,27 +665,18 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     }
     
     private void handleRulerCheckBox() {
-       
         final boolean selected = _rulerCheckBox.isSelected();
-        
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleRulerCheckBox " + selected );
-        }
-        
-        _module.setRulerVisible( selected );
+        _canvas.getRulerNode().setVisible( selected );
     }
     
     private void handlePositionHistogramCheckBox() {
         boolean selected = _positionHistogramCheckBox.isSelected();
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handlePositionHistogramCheckBox " + selected );
-        }
         if ( selected ) {
-            //HACK: only show one chart
+            //HACK: hide the other chart
             _potentialEnergyChartCheckBox.setSelected( false );
-            _module.setPotentialEnergyChartVisible( false );
+            _canvas.getPotentialEnergyChartNode().setVisible( false );
         }
-        _module.setPositionHistogramChartVisible( selected );
+        _canvas.getPositionHistogramChartNode().setVisible( selected );
     }
     
     private void handleAdvancedButton() {
@@ -686,11 +698,34 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         final boolean selected = _fluidControlsCheckBox.isSelected();
         
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleFluidControlsCheckBox " + selected );
+        if ( !selected ) {
+            if ( _fluidControlDialog != null ) {
+                _fluidControlDialog.dispose();
+                _fluidControlDialog = null;
+            }
         }
-        
-        _module.setFluidControlsVisible( selected );
+        else {
+            JFrame parentFrame = _module.getFrame();
+            Fluid fluid = _model.getFluid();
+            _fluidControlDialog = new FluidControlDialog( parentFrame, OTConstants.CONTROL_PANEL_CONTROL_FONT, fluid );
+            _fluidControlDialog.addWindowListener( new WindowAdapter() {
+
+                // called when the close button in the dialog's window dressing is clicked
+                public void windowClosing( WindowEvent e ) {
+                    _fluidControlDialog.dispose();
+                }
+
+                // called by JDialog.dispose
+                public void windowClosed( WindowEvent e ) {
+                    _fluidControlDialog = null;
+                    _fluidControlsCheckBox.setSelected( false );
+                }
+            } );
+            // Position a the left-center of the main frame
+            Point p = parentFrame.getLocationOnScreen();
+            _fluidControlDialog.setLocation( (int) p.getX() + 10, (int) p.getY() + ( ( parentFrame.getHeight() - _fluidControlDialog.getHeight() ) / 2 ) );
+            _fluidControlDialog.show();
+        }
     }
     
     private void handleMomentumChangeCheckBox() {
@@ -706,14 +741,11 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     private void handlePotentialEnergyChartCheckBox() {
         boolean selected = _potentialEnergyChartCheckBox.isSelected();
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handlePotentialEnergyChartCheckBox " + selected );
-        }
         if ( selected ) {
-            //HACK: only show one chart
+            //HACK: hide the other chart
             _positionHistogramCheckBox.setSelected( false );
-            _module.setPositionHistogramChartVisible( false );
+            _canvas.getPositionHistogramChartNode().setVisible( false );
         }
-        _module.setPotentialEnergyChartVisible( selected );
+        _canvas.getPotentialEnergyChartNode().setVisible( selected );
     }
 }
