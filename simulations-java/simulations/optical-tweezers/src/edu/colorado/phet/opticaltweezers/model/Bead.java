@@ -226,20 +226,22 @@ public class Bead extends MovableObject implements ModelElement {
         final double NANOMETERS_PER_MICRON = 1E3;
         
         // Bead position
-        final double xBead = getX() / NANOMETERS_PER_MICRON; // microns
-        final double yBead = getY() / NANOMETERS_PER_MICRON; // microns
+        final double xOld = getX() / NANOMETERS_PER_MICRON; // microns
+        final double yOld = getY() / NANOMETERS_PER_MICRON; // microns
         
         // Bead velocity
-        final double vx = _velocity.getX() / NANOMETERS_PER_MICRON; // microns/sec
-        final double vy = _velocity.getY() / NANOMETERS_PER_MICRON; // microns/sec
+        final double vxOld = _velocity.getX() / NANOMETERS_PER_MICRON; // microns/sec
+        final double vyOld = _velocity.getY() / NANOMETERS_PER_MICRON; // microns/sec
         
         // Top and bottom edges of microscope slide, bead treated as a point
         final double yTopOfSlide = ( _fluid.getMinY() + ( getDiameter() / 2 ) ) / NANOMETERS_PER_MICRON; // microns
         final double yBottomOfSlide = ( _fluid.getMaxY() - ( getDiameter() / 2 ) ) / NANOMETERS_PER_MICRON; // microns
         
         // Mobility
-        double normalizedViscosity = _fluid.getDimensionlessNormalizedViscosity(); // unitless
-        double mobility = _fluid.getMobility(); // (microns/sec)/pN
+        final double normalizedViscosity = _fluid.getDimensionlessNormalizedViscosity(); // unitless
+        final double mobility = _fluid.getMobility() / NANOMETERS_PER_MICRON; // (microns/sec)/pN
+        final double fluidSpeed = _fluid.getSpeed() / NANOMETERS_PER_MICRON; // microns/sec
+        final double fluidTemperature = _fluid.getTemperature(); // Kelvin
         
         // Trap force
         Vector2D trapForce = getTrapForce(); // pN
@@ -247,14 +249,13 @@ public class Bead extends MovableObject implements ModelElement {
         final double Fy = trapForce.getY(); // pN
         
         // Brownian motion components (microns)
-        final double fluidTemperature = _fluid.getTemperature(); // Kelvin
-        final double stepLength = _brownianMotionScale * ( 2.2 / Math.sqrt( normalizedViscosity ) ) * Math.sqrt( fluidTemperature / 300 ) * Math.sqrt( dt ); // nm
+        final double stepLength = _brownianMotionScale * ( 2.2 / Math.sqrt( normalizedViscosity ) ) * Math.sqrt( fluidTemperature / 300 ) * Math.sqrt( dt ); // microns
         double stepAngle = 0; // radians
-        if ( yBead <= yTopOfSlide ) {
+        if ( yOld <= yTopOfSlide ) {
             // bounce off top edge of microscope slide at an angle between 45 and 135 degrees
             stepAngle = ( Math.PI / 4 ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
         }
-        else if ( yBead >= yBottomOfSlide ) {
+        else if ( yOld >= yBottomOfSlide ) {
             // bounce off bottom edge of microscope slide at an angle between -45 and -135 degrees
             stepAngle = ( Math.PI + ( Math.PI / 4 ) ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
         }
@@ -263,12 +264,12 @@ public class Bead extends MovableObject implements ModelElement {
             stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI );
         }
         // covert from Polar to Cartesian coordinates
-        double bx = stepLength * Math.cos( stepAngle ); // nm
-        double by = stepLength * Math.sin( stepAngle ); // nm
+        double bx = stepLength * Math.cos( stepAngle ); // microns
+        double by = stepLength * Math.sin( stepAngle ); // microns
         
         // New position
-        final double xNew = xBead + ( vx * dt ) + bx; // microns
-        double yNew = yBead + ( vy * dt ) + by; // microns
+        double xNew = xOld + ( vxOld * dt ) + bx; // microns
+        double yNew = yOld + ( vyOld * dt ) + by; // microns
 
         // Collision detection
         if ( yNew < yTopOfSlide ) {
@@ -281,14 +282,13 @@ public class Bead extends MovableObject implements ModelElement {
         }
         
         // New velocity
-        final double fluidSpeed = _fluid.getSpeed() / NANOMETERS_PER_MICRON; // microns/sec
-        final double vxNew = ( mobility * Fx ) + fluidSpeed; // microns/sec
-        final double vyNew = ( mobility * Fy ); // microns/sec
+        double vxNew = ( mobility * Fx ) + fluidSpeed; // microns/sec
+        double vyNew = ( mobility * Fy ); // microns/sec
 
         if ( MOTION_DEBUG_OUTPUT ) {
-            System.out.println( "old position = " + new Point2D.Double( xBead, yBead ) + " um" );
+            System.out.println( "old position = " + new Point2D.Double( xOld, yOld ) + " um" );
             System.out.println( "new position = " + new Point2D.Double( xNew, yNew ) + " um" );
-            System.out.println( "old velocity = [" + vx + "," + vy + "] um/sec" );
+            System.out.println( "old velocity = [" + vxOld + "," + vyOld + "] um/sec" );
             System.out.println( "new velocity = [" + vxNew + "," + vyNew + "] um/sec" );
             System.out.println( "dt = " + dt );
             System.out.println( "normalized viscosity = " + normalizedViscosity );

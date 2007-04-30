@@ -204,18 +204,20 @@ public class Fluid extends MovableObject implements ModelElement {
      * @return drag force (pN)
      */
     public Vector2D getDragForce( Vector2D beadVelocity ) {
-        double mobility = getMobility() * 1E3; // convert from microns to nm
+        double mobility = getMobility();
         double Fx = ( getSpeed() - beadVelocity.getX() ) / mobility;
         double Fy = ( 0 - beadVelocity.getY() ) / mobility;
         return new Vector2D( Fx, Fy );
     }
     
     /**
-     * Gets mobility, in (microns/sec)/pN.
+     * Gets mobility.
+     * 
+     * @return double (nm/sec)/pN
      */
     public double getMobility() {
-        double normalizedViscosity = getDimensionlessNormalizedViscosity(); // unitless
-        return ( 600 / normalizedViscosity ); // (microns/sec)/pN
+        double normalizedViscosity = getDimensionlessNormalizedViscosity();
+        return ( 600000 / normalizedViscosity ); // (nm/sec)/pN
     }
     
     /**
