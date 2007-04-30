@@ -20,14 +20,16 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 
 /**
- * DeveloperControlsDialog is a dialog that contains "developer only" controls.
+ * Developer controls for PhysicsModule.
  * These controls will not be available to the user, and are not localized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DeveloperControlsDialog extends JDialog {
+public class PhysicsDeveloperDialog extends JDialog {
     
     // Title labels
     private static class TitleLabel extends JLabel {
@@ -56,9 +58,9 @@ public class DeveloperControlsDialog extends JDialog {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DeveloperControlsDialog( Frame owner ) {
-        super( owner, "Developer Controls" );
-        setResizable( false );
+    public PhysicsDeveloperDialog( Frame owner, PhysicsModule module ) {
+        super( owner );
+        setTitle( OTResources.getString( "title.physicsOfTweezers" ) + " Developer Controls");
         
         JPanel inputPanel = createInputPanel();
         
@@ -67,6 +69,7 @@ public class DeveloperControlsDialog extends JDialog {
         panel.add( inputPanel );
         
         setContentPane( panel );
+        setResizable( false );
         pack();
         SwingUtils.centerDialogInParent( this );
     }
