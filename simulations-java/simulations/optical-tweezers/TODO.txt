@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- convert bead motion model to use nm distance units
 - above some dt value, divide dt in N sub-dt, run bead motion algorithm N times, then update model
 
 
@@ -53,6 +52,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/30/07 - convert bead motion model to use nm distance units
 4/30/07 - add developer controls for bead motion: N (number of dt subdividions) and dt threshold, not connected to model
 4/30/07 - add developer control for bead's Brownian motion scale factor
 4/30/07 - set up framework for opening developer-only dialog from control panel

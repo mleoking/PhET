@@ -213,33 +213,32 @@ public class Bead extends MovableObject implements ModelElement {
      * Bead motion algorithm.
      * 
      * Units used herein:
-     * time - seconds
-     * force - pN
-     * distance - microns
-     * velocity - microns/sec
+     *     time - sec
+     *     force - pN
+     *     distance - nm
+     *     velocity - nm/sec
+     *     temperature - Kelvin
      */
     private void moveBead( double clockDt ) {
         
         // algorithm works only for horizontal fluid flow
         assert( _fluid.getOrientation() == 0 || _fluid.getOrientation() == Math.PI );
         
-        final double NANOMETERS_PER_MICRON = 1E3;
-        
         // Top and bottom edges of microscope slide, bead treated as a point
-        final double yTopOfSlide = ( _fluid.getMinY() + ( getDiameter() / 2 ) ) / NANOMETERS_PER_MICRON; // microns
-        final double yBottomOfSlide = ( _fluid.getMaxY() - ( getDiameter() / 2 ) ) / NANOMETERS_PER_MICRON; // microns
+        final double yTopOfSlide = _fluid.getMinY() + ( getDiameter() / 2 ); // nm
+        final double yBottomOfSlide = _fluid.getMaxY() - ( getDiameter() / 2 ); // nm
         
         // Mobility
         final double normalizedViscosity = _fluid.getDimensionlessNormalizedViscosity(); // unitless
-        final double mobility = _fluid.getMobility() / NANOMETERS_PER_MICRON; // (microns/sec)/pN
-        final double fluidSpeed = _fluid.getSpeed() / NANOMETERS_PER_MICRON; // microns/sec
+        final double mobility = _fluid.getMobility(); // (nm/sec)/pN
+        final double fluidSpeed = _fluid.getSpeed(); // nm/sec
         final double fluidTemperature = _fluid.getTemperature(); // Kelvin
         
         // Old position and velocity
-        double xOld = getX() / NANOMETERS_PER_MICRON; // microns
-        double yOld = getY() / NANOMETERS_PER_MICRON; // microns
-        double vxOld = _velocity.getX() / NANOMETERS_PER_MICRON; // microns/sec
-        double vyOld = _velocity.getY() / NANOMETERS_PER_MICRON; // microns/sec
+        double xOld = getX(); // nm
+        double yOld = getY(); // nm
+        double vxOld = _velocity.getX(); // nm/sec
+        double vyOld = _velocity.getY(); // nm/sec
         
         // New position and velocity
         double xNew = 0;
@@ -247,8 +246,8 @@ public class Bead extends MovableObject implements ModelElement {
         double vxNew = 0;
         double vyNew = 0;
         
-        double dt = clockDt;
-        int loops = 1;
+        double dt = clockDt; //XXX
+        int loops = 1; //XXX
         for ( int i = 0; i < loops; i++ ) {
 
             // Trap force
@@ -256,8 +255,8 @@ public class Bead extends MovableObject implements ModelElement {
             final double Fx = trapForce.getX(); // pN
             final double Fy = trapForce.getY(); // pN
 
-            // Brownian motion components (microns)
-            final double stepLength = _brownianMotionScale * ( 2.2 / Math.sqrt( normalizedViscosity ) ) * Math.sqrt( fluidTemperature / 300 ) * Math.sqrt( dt ); // microns
+            // Brownian motion components
+            final double stepLength = _brownianMotionScale * ( 2200 / Math.sqrt( normalizedViscosity ) ) * Math.sqrt( fluidTemperature / 300 ) * Math.sqrt( dt ); // nm
             double stepAngle = 0; // radians
             if ( yOld <= yTopOfSlide ) {
                 // bounce off top edge of microscope slide at an angle between 45 and 135 degrees
@@ -272,12 +271,12 @@ public class Bead extends MovableObject implements ModelElement {
                 stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI );
             }
             // covert from Polar to Cartesian coordinates
-            double bx = stepLength * Math.cos( stepAngle ); // microns
-            double by = stepLength * Math.sin( stepAngle ); // microns
+            double bx = stepLength * Math.cos( stepAngle ); // nm
+            double by = stepLength * Math.sin( stepAngle ); // nm
 
             // New position
-            xNew = xOld + ( vxOld * dt ) + bx; // microns
-            yNew = yOld + ( vyOld * dt ) + by; // microns
+            xNew = xOld + ( vxOld * dt ) + bx; // nm
+            yNew = yOld + ( vyOld * dt ) + by; // nm
 
             // Collision detection
             if ( yNew < yTopOfSlide ) {
@@ -290,18 +289,18 @@ public class Bead extends MovableObject implements ModelElement {
             }
 
             // New velocity
-            vxNew = ( mobility * Fx ) + fluidSpeed; // microns/sec
-            vyNew = ( mobility * Fy ); // microns/sec
+            vxNew = ( mobility * Fx ) + fluidSpeed; // nm/sec
+            vyNew = ( mobility * Fy ); // nm/sec
 
             if ( MOTION_DEBUG_OUTPUT ) {
-                System.out.println( "old position = " + new Point2D.Double( xOld, yOld ) + " microns" );
-                System.out.println( "new position = " + new Point2D.Double( xNew, yNew ) + " microns" );
-                System.out.println( "old velocity = [" + vxOld + "," + vyOld + "] microns/sec" );
-                System.out.println( "new velocity = [" + vxNew + "," + vyNew + "] microns/sec" );
+                System.out.println( "old position = " + new Point2D.Double( xOld, yOld ) + " nm" );
+                System.out.println( "new position = " + new Point2D.Double( xNew, yNew ) + " nm" );
+                System.out.println( "old velocity = [" + vxOld + "," + vyOld + "] nm/sec" );
+                System.out.println( "new velocity = [" + vxNew + "," + vyNew + "] nm/sec" );
                 System.out.println( "dt = " + dt );
                 System.out.println( "normalized viscosity = " + normalizedViscosity );
-                System.out.println( "mobility = " + mobility + " (microns/sec)/pN" );
-                System.out.println( "fluid speed = " + fluidSpeed + " microns/sec" );
+                System.out.println( "mobility = " + mobility + " (nm/sec)/pN" );
+                System.out.println( "fluid speed = " + fluidSpeed + " nm/sec" );
                 System.out.println( "trap Fx = " + Fx + " pN" );
                 System.out.println( "trap Fy = " + Fy + " pN" );
                 System.out.println();
@@ -313,8 +312,8 @@ public class Bead extends MovableObject implements ModelElement {
             vyOld = vyNew;
         }
 
-        // Convert to nm distance and set new values
-        _velocity.setXY( vxNew * NANOMETERS_PER_MICRON, vyNew * NANOMETERS_PER_MICRON );
-        setPosition( xNew * NANOMETERS_PER_MICRON, yNew * NANOMETERS_PER_MICRON );
+        // Set new values
+        _velocity.setXY( vxNew, vyNew );
+        setPosition( xNew, yNew );
     }
 }
