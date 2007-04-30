@@ -50,6 +50,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+********* version 0.00.05 (?)
 4/30/07 - set reasonal defaults and ranges for bead motion dt subdivision parameters
 4/30/07 - fix precision roundoff errors at min/max for LinearValueControl and LogarithmicValueControl
 4/30/07 - subdivide clock timestep in bead motion algorithm
