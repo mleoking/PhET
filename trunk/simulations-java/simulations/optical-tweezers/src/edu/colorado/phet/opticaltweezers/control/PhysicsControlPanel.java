@@ -328,7 +328,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _horizontalTrapForceLabel.setForeground( fg );
             _wholeBeadRadioButton.setForeground( fg );
             _halfBeadRadioButton.setForeground( fg );
-            _fluidDragCheckBox.setForeground( fg );
             _brownianForceCheckBox.setForeground( fg );
             _momemtumChangeCheckBox.setForeground( fg );
         }
@@ -643,14 +642,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     }
     
     private void handleFluidDragCheckBox() {
-        
         final boolean selected = _fluidDragCheckBox.isSelected();
-        
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleFluidDragCheckBox " + selected );
-        }
-        
-        //XXX
+        _canvas.getDragForceNode().setVisible( selected );
     }
     
     private void handleBrownianForceCheckBox() {

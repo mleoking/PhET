@@ -19,24 +19,24 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * TrapForceNode displays the optical trap force acting on a bead.
+ * DragForceNode displays the fluid drag force acting on a bead.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TrapForceNode extends AbstractForceNode implements Observer {
+public class DragForceNode extends AbstractForceNode implements Observer {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String UNITS = OTResources.getString( "units.trapForce" );
-    private static final Color COLOR = Color.BLACK;
+    private static final String UNITS = OTResources.getString( "units.dragForce" );
+    private static final Color COLOR = Color.BLUE;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Laser _laser;
+    private Fluid _fluid;
     private Bead _bead;
     private ModelViewTransform _modelViewTransform;
     
@@ -44,11 +44,11 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public TrapForceNode( Laser laser, Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
+    public DragForceNode( Fluid fluid, Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
         super( modelReferenceMagnitude, viewReferenceLength, UNITS, COLOR );
         
-        _laser = laser;
-        _laser.addObserver( this );
+        _fluid = fluid;
+        _fluid.addObserver( this );
         
         _bead = bead;
         _bead.addObserver( this );
@@ -60,7 +60,7 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     }
     
     public void cleanup() {
-        _laser.deleteObserver( this );
+        _fluid.deleteObserver( this );
         _bead.deleteObserver( this );
     }
     
@@ -69,7 +69,7 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _laser ) {
+        if ( o == _fluid ) {
             updateVectors();
         }
         else if ( o == _bead ) {
@@ -88,9 +88,9 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     }
     
     private void updateVectors() {
-        // calcuate the trap force at the bead's position
-        Vector2D trapForce = _bead.getTrapForce();
-        // update the vector
-        setForce( trapForce );
+        // calcuate the drag force at the bead's position
+        Vector2D dragForce = _bead.getDragForce();
+        // update the vectors
+        setForce( dragForce );
     }
 }

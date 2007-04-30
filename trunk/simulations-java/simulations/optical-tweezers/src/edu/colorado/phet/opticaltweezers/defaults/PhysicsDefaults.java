@@ -76,4 +76,7 @@ public class PhysicsDefaults {
     public static final boolean FLUID_CONTROLS_SELECTED = false;
     public static final boolean MOMENTUM_CHANGE_MODEL_SELECTED = false;
     public static final boolean POTENTIAL_ENERGY_CHART_SELECTED = false;
+    
+    // View stuff
+    public static final double FORCE_VECTOR_REFERENCE_LENGTH = 125; // pixels
 }

@@ -8,11 +8,9 @@ HIGH PRIORITY:
 - above some dt value, divide dt in N sub-dt, run bead motion algorithm N times, then update model
 - add developer controls for N (number of dt subdividions) and dt threshold
 - add developer control for Bead.BROWNIAN_MOTION_SCALE
-- display fluid drag force, add checkbox
 - implement E-field model for slow mode
 
 MEDIUM PRIORITY:
-- close FluidControlsDialog when switching modules
 - add checkbox to Fluid Controls to turn off viscosity
 - when viscosity is off, turn miscroscope slide black to indicate vacuum
 - connect position histogram to model
@@ -56,6 +54,9 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/30/07 - implement display of fluid drag force
+4/30/07 - generalize node for displaying forces
+4/30/07 - close FluidControlsDialog when switching modules
 4/30/07 - reduce complexity of PhysicsModule
 4/30/07 - move all node creation into PhysicsCanvas
 4/30/07 - move all nodes into package view.nodes
