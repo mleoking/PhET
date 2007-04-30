@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
  * Fluid is the model of fluid that contains the glass bead.
@@ -20,8 +21,8 @@ public class Fluid extends MovableObject implements ModelElement {
     
     public static final double WATER_VISCOSITY = 1E-3; // Pa*sec
     
-    private static final String PROPERTY_VISCOSITY = "viscosity";
-    private static final String PROPERTY_TEMPERATURE = "temperature";
+    public static final String PROPERTY_VISCOSITY = "viscosity";
+    public static final String PROPERTY_TEMPERATURE = "temperature";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -192,10 +193,35 @@ public class Fluid extends MovableObject implements ModelElement {
         return _temperatureRange;
     }
 
+    //----------------------------------------------------------------------------
+    // Drag force model
+    //----------------------------------------------------------------------------
+
+    /**
+     * Gets the drag force acting on a bead that is moving at a specified velocity.
+     * 
+     * @param beadVelocity
+     * @return drag force (pN)
+     */
+    public Vector2D getDragForce( Vector2D beadVelocity ) {
+        double mobility = getMobility() * 1E3; // convert from microns to nm
+        double Fx = ( getSpeed() - beadVelocity.getX() ) / mobility;
+        double Fy = ( 0 - beadVelocity.getY() ) / mobility;
+        return new Vector2D( Fx, Fy );
+    }
+    
+    /**
+     * Gets mobility, in (microns/sec)/pN.
+     */
+    public double getMobility() {
+        double normalizedViscosity = getDimensionlessNormalizedViscosity(); // unitless
+        return ( 600 / normalizedViscosity ); // (microns/sec)/pN
+    }
+    
     /**
      * Gets the dimensionless normalized viscosity, where the viscosity of water is 1.
      * 
-     * @return double
+     * @return double (dimensionless)
      */
     public double getDimensionlessNormalizedViscosity() {
         return _viscosity / WATER_VISCOSITY;

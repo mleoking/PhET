@@ -5,8 +5,6 @@ package edu.colorado.phet.opticaltweezers.model;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import org.apache.xpath.operations.Mod;
-
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
@@ -31,10 +29,6 @@ public class Bead extends MovableObject implements ModelElement {
     
     // Brownian motion scaling factor, bigger values cause bigger motion
     private static final double BROWNIAN_MOTION_SCALE = 1;
-    
-    private static final boolean MOTION_TRAP_FORCE_COMPONENT_ENABLED = false;
-    private static final boolean MOTION_FLUID_COMPONENT_ENABLED = false;
-    private static final boolean MOTION_BROWNIAN_COMPONENT_ENABLED = true;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -139,6 +133,30 @@ public class Bead extends MovableObject implements ModelElement {
     }
     
     //----------------------------------------------------------------------------
+    // Trap Force model
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the optical trap force acting on the bead.
+     */
+    public Vector2D getTrapForce() {
+        return _laser.getTrapForce( getX(), getY() );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Drag Force model
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the drag force acting on the bead.
+     * 
+     * @return
+     */
+    public Vector2D getDragForce() {
+        return _fluid.getDragForce( _velocity );
+    }
+    
+    //----------------------------------------------------------------------------
     // Motion model
     //----------------------------------------------------------------------------
 
@@ -172,37 +190,32 @@ public class Bead extends MovableObject implements ModelElement {
         
         // Mobility
         double normalizedViscosity = _fluid.getDimensionlessNormalizedViscosity(); // unitless
-        double mobility = ( 600 / normalizedViscosity ); // (microns/sec)/pN
+        double mobility = _fluid.getMobility(); // (microns/sec)/pN
         
         // Trap force
-        Vector2D trapForce = _laser.getTrapForce( getX(), getY() ); // pN
+        Vector2D trapForce = getTrapForce(); // pN
         final double Fx = trapForce.getX(); // pN
         final double Fy = trapForce.getY(); // pN
         
         // Brownian motion components (microns)
-        double bx = 0;
-        double by = 0;
-        if ( MOTION_BROWNIAN_COMPONENT_ENABLED ) {
-
-            final double fluidTemperature = _fluid.getTemperature(); // Kelvin
-            final double stepLength = BROWNIAN_MOTION_SCALE * ( 2.2 / Math.sqrt( normalizedViscosity ) ) * Math.sqrt( fluidTemperature / 300 ) * Math.sqrt( dt ); // nm
-            double stepAngle = 0; // radians
-            if ( yBead <= yTopOfSlide ) {
-                // bounce off top edge of microscope slide at an angle between 45 and 135 degrees
-                stepAngle = ( Math.PI / 4 ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
-            }
-            else if ( yBead >= yBottomOfSlide ) {
-                // bounce off bottom edge of microscope slide at an angle between -45 and -135 degrees
-                stepAngle = ( Math.PI + ( Math.PI / 4 ) ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
-            }
-            else {
-                // no collision with the edges of the microscope slide, any random angle will do
-                stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI );
-            }
-            // covert from Polar to Cartesian coordinates
-            bx = stepLength * Math.cos( stepAngle ); // nm
-            by = stepLength * Math.sin( stepAngle ); // nm
+        final double fluidTemperature = _fluid.getTemperature(); // Kelvin
+        final double stepLength = BROWNIAN_MOTION_SCALE * ( 2.2 / Math.sqrt( normalizedViscosity ) ) * Math.sqrt( fluidTemperature / 300 ) * Math.sqrt( dt ); // nm
+        double stepAngle = 0; // radians
+        if ( yBead <= yTopOfSlide ) {
+            // bounce off top edge of microscope slide at an angle between 45 and 135 degrees
+            stepAngle = ( Math.PI / 4 ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
         }
+        else if ( yBead >= yBottomOfSlide ) {
+            // bounce off bottom edge of microscope slide at an angle between -45 and -135 degrees
+            stepAngle = ( Math.PI + ( Math.PI / 4 ) ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
+        }
+        else {
+            // no collision with the edges of the microscope slide, any random angle will do
+            stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI );
+        }
+        // covert from Polar to Cartesian coordinates
+        double bx = stepLength * Math.cos( stepAngle ); // nm
+        double by = stepLength * Math.sin( stepAngle ); // nm
         
         // New position
         final double xNew = xBead + ( vx * dt ) + bx; // microns
