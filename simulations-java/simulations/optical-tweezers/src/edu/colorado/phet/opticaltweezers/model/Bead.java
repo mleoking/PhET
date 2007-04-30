@@ -29,6 +29,8 @@ public class Bead extends MovableObject implements ModelElement {
     
     // Brownian motion scaling factor, bigger values cause bigger motion
     private static final double DEFAULT_BROWNIAN_MOTION_SCALE = 1;
+    private static final double DEFAULT_DT_SUBDIVISION_THRESHOLD = 1E-4;
+    private static final int DEFAULT_NUMBER_OF_DT_SUBDIVISIONS = 100;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -41,7 +43,10 @@ public class Bead extends MovableObject implements ModelElement {
     private Random _stepAngleRandom;
     private boolean _motionEnabled;
     private Vector2D _velocity; // nm/sec
+    
     private double _brownianMotionScale;
+    private double _dtSubdivisionThreshold;
+    private int _numberOfDtSubdivisions;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -72,7 +77,10 @@ public class Bead extends MovableObject implements ModelElement {
         _stepAngleRandom = new Random();
         _motionEnabled = true;
         _velocity = new Vector2D();
+        
         _brownianMotionScale = DEFAULT_BROWNIAN_MOTION_SCALE;
+        _dtSubdivisionThreshold = DEFAULT_DT_SUBDIVISION_THRESHOLD;
+        _numberOfDtSubdivisions = DEFAULT_NUMBER_OF_DT_SUBDIVISIONS;
     }
     
     //----------------------------------------------------------------------------
@@ -124,6 +132,10 @@ public class Bead extends MovableObject implements ModelElement {
         _motionEnabled = motionEnabled;    
     }
     
+    //----------------------------------------------------------------------------
+    // Developer methods for tuning bead motion algorithm
+    //----------------------------------------------------------------------------
+    
     /**
      * Sets the scaling factor used to calculate Brownian motion.
      * Bigger values cause bigger motion.
@@ -141,6 +153,22 @@ public class Bead extends MovableObject implements ModelElement {
      */
     public double getBrownianMotionScale() {
         return _brownianMotionScale;
+    }
+    
+    public void setDtSubdivisionThreshold( double threshold ) {
+        _dtSubdivisionThreshold = threshold;
+    }
+    
+    public double getDtSubdivisionThreshold() {
+        return _dtSubdivisionThreshold;
+    }
+    
+    public void setNumberOfDtSubdivisions( int numberOfDtSubdivisions ) {
+        _numberOfDtSubdivisions = numberOfDtSubdivisions;
+    }
+    
+    public int getNumberOfDtSubdivisions() {
+        return _numberOfDtSubdivisions;
     }
     
     //----------------------------------------------------------------------------

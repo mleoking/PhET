@@ -67,6 +67,7 @@ public class PhysicsModel extends ClockAdapter {
                 PhysicsDefaults.BEAD_DENSITY,
                 _fluid,
                 _laser );
+         _bead.setDtSubdivisionThreshold( PhysicsDefaults.CLOCK_DT_RANGE.getMax() );
          _modelElements.add( _bead );
 
          _modelViewTransform = new ModelViewTransform( PhysicsDefaults.MODEL_TO_VIEW_SCALE );
