@@ -28,7 +28,7 @@ public class Bead extends MovableObject implements ModelElement {
     private static final boolean MOTION_DEBUG_OUTPUT = false;
     
     // Brownian motion scaling factor, bigger values cause bigger motion
-    private static final double BROWNIAN_MOTION_SCALE = 1;
+    private static final double DEFAULT_BROWNIAN_MOTION_SCALE = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -41,6 +41,7 @@ public class Bead extends MovableObject implements ModelElement {
     private Random _stepAngleRandom;
     private boolean _motionEnabled;
     private Vector2D _velocity; // nm/sec
+    private double _brownianMotionScale;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -71,6 +72,7 @@ public class Bead extends MovableObject implements ModelElement {
         _stepAngleRandom = new Random();
         _motionEnabled = true;
         _velocity = new Vector2D();
+        _brownianMotionScale = DEFAULT_BROWNIAN_MOTION_SCALE;
     }
     
     //----------------------------------------------------------------------------
@@ -120,6 +122,25 @@ public class Bead extends MovableObject implements ModelElement {
      */
     public void setMotionEnabled( boolean motionEnabled ) {
         _motionEnabled = motionEnabled;    
+    }
+    
+    /**
+     * Sets the scaling factor used to calculate Brownian motion.
+     * Bigger values cause bigger motion.
+     * 
+     * @param scale
+     */
+    public void setBrownianMotionScale( double scale ) {
+        _brownianMotionScale = scale;
+    }
+    
+    /**
+     * Gets the scaling factor used to calculate Brownian motion.
+     * 
+     * @return double
+     */
+    public double getBrownianMotionScale() {
+        return _brownianMotionScale;
     }
     
     //----------------------------------------------------------------------------
@@ -199,7 +220,7 @@ public class Bead extends MovableObject implements ModelElement {
         
         // Brownian motion components (microns)
         final double fluidTemperature = _fluid.getTemperature(); // Kelvin
-        final double stepLength = BROWNIAN_MOTION_SCALE * ( 2.2 / Math.sqrt( normalizedViscosity ) ) * Math.sqrt( fluidTemperature / 300 ) * Math.sqrt( dt ); // nm
+        final double stepLength = _brownianMotionScale * ( 2.2 / Math.sqrt( normalizedViscosity ) ) * Math.sqrt( fluidTemperature / 300 ) * Math.sqrt( dt ); // nm
         double stepAngle = 0; // radians
         if ( yBead <= yTopOfSlide ) {
             // bounce off top edge of microscope slide at an angle between 45 and 135 degrees
