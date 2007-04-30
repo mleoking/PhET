@@ -11,8 +11,8 @@ HIGH PRIORITY:
 - implement E-field model for slow mode
 
 MEDIUM PRIORITY:
-- add checkbox to Fluid Controls to turn off viscosity
-- when viscosity is off, turn miscroscope slide black to indicate vacuum
+- change fluid model to use velocity instead of speed
+- add checkbox to Fluid Controls to turn off viscosity, off means turn miscroscope slide black to indicate vacuum (?)
 - connect position histogram to model
 - connect potential energy chart to model
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
