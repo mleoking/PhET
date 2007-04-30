@@ -32,7 +32,7 @@ public class PhysicsDefaults {
     private static final double DEFAULT_DT = MAX_DT;
     public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( MIN_DT, MAX_DT, DEFAULT_DT, 20 /* significantDecimalPlaces */ );
     public static final OTClock CLOCK = new OTClock( FRAME_RATE, CLOCK_DT_RANGE );
-    public static final String CLOCK_CONTROL_PATTERN = "0E0";
+    public static final String CLOCK_CONTROL_PATTERN = "0.0E0";
     public static final String CLOCK_DISPLAY_PATTERN = "0.0000000000000000";
     
     // Fluid model, local origin at fluid's center
@@ -61,7 +61,9 @@ public class PhysicsDefaults {
     public static final double BEAD_ORIENTATION = Math.toRadians( 0 );
     public static final double BEAD_DIAMETER = 200; // nm
     public static final double BEAD_DENSITY = 1.05E-21; // g/nm^3, polystyrene
-
+    public static final double BEAD_DT_SUBDIVISION_THRESHOLD = 1E-6;
+    public static final int BEAD_NUMBER_OF_DT_SUBDIVISIONS = 10;
+    
     // Control panel settings
     public static final boolean ELECTRIC_FIELD_SELECTED = false;
     public static final boolean BEAD_CHARGES_SELECTED = false;
