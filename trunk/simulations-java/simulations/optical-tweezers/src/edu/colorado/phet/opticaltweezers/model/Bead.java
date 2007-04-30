@@ -29,8 +29,8 @@ public class Bead extends MovableObject implements ModelElement {
     
     // Brownian motion scaling factor, bigger values cause bigger motion
     private static final double DEFAULT_BROWNIAN_MOTION_SCALE = 1;
-    private static final double DEFAULT_DT_SUBDIVISION_THRESHOLD = 1E-4;
-    private static final int DEFAULT_NUMBER_OF_DT_SUBDIVISIONS = 100;
+    private static final double DEFAULT_DT_SUBDIVISION_THRESHOLD = 1;
+    private static final int DEFAULT_NUMBER_OF_DT_SUBDIVISIONS = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -248,7 +248,7 @@ public class Bead extends MovableObject implements ModelElement {
         
         double dt = clockDt;
         int loops = 1;
-        if ( clockDt > _dtSubdivisionThreshold ) {
+        if ( clockDt > ( _dtSubdivisionThreshold + ( 0.001 * _dtSubdivisionThreshold ) ) ) {
             dt = clockDt / _numberOfDtSubdivisions;
             loops = _numberOfDtSubdivisions;
         }

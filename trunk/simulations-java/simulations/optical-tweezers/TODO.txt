@@ -50,6 +50,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/30/07 - set reasonal defaults and ranges for bead motion dt subdivision parameters
+4/30/07 - fix precision roundoff errors at min/max for LinearValueControl and LogarithmicValueControl
 4/30/07 - subdivide clock timestep in bead motion algorithm
 4/30/07 - convert bead motion model to use nm distance units
 4/30/07 - add developer controls for bead motion: N (number of dt subdividions) and dt threshold, not connected to model

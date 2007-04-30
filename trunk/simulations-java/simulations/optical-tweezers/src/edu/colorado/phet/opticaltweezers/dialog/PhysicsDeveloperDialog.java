@@ -44,10 +44,10 @@ public class PhysicsDeveloperDialog extends JDialog {
     //----------------------------------------------------------------------------
     
     private PhysicsModule _module;
-    
-    private LinearValueControl _brownianMotionScaleControl;
+
     private LogarithmicValueControl _dtSubdivisionThresholdControl;
     private LinearValueControl _numberOfDtSubdivisions;
+    private LinearValueControl _brownianMotionScaleControl;
    
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,30 +81,30 @@ public class PhysicsDeveloperDialog extends JDialog {
             titledBorder.setTitleFont( TITLE_FONT );
             beadMotionPanel.setBorder( titledBorder );
             
-            _brownianMotionScaleControl = new LinearValueControl( 0, 5, "Brownian motion scale:", "0.00", "" );
-            _brownianMotionScaleControl.setValue( bead.getBrownianMotionScale() );
-            _brownianMotionScaleControl.setUpDownArrowDelta( 0.01 );
-            
-            double dtMin = PhysicsDefaults.CLOCK_DT_RANGE.getMin();
+            double dtMin = PhysicsDefaults.CLOCK_DT_RANGE.getMax() * 1E-2;
             double dtMax = PhysicsDefaults.CLOCK_DT_RANGE.getMax();
-            _dtSubdivisionThresholdControl = new LogarithmicValueControl( dtMin, dtMax, "dt subdivision threshold:", "0E0", "" );
+            _dtSubdivisionThresholdControl = new LogarithmicValueControl( dtMin, dtMax, "dt subdivision threshold:", "0.0E0", "" );
             _dtSubdivisionThresholdControl.setValue( bead.getDtSubdivisionThreshold() );
             _dtSubdivisionThresholdControl.setTextFieldColumns( 4 );
             
-            _numberOfDtSubdivisions = new LinearValueControl( 1, 1000, "number of dt subdivisions:", "###0", "" );
+            _numberOfDtSubdivisions = new LinearValueControl( 1, 100, "number of dt subdivisions:", "###0", "" );
             _numberOfDtSubdivisions.setValue( bead.getNumberOfDtSubdivisions() );
             _numberOfDtSubdivisions.setUpDownArrowDelta( 1 );
+            
+            _brownianMotionScaleControl = new LinearValueControl( 0, 5, "Brownian motion scale:", "0.00", "" );
+            _brownianMotionScaleControl.setValue( bead.getBrownianMotionScale() );
+            _brownianMotionScaleControl.setUpDownArrowDelta( 0.01 );
             
             EasyGridBagLayout layout = new EasyGridBagLayout( beadMotionPanel );
             layout.setInsets( new Insets( 0, 0, 0, 0 ) );
             beadMotionPanel.setLayout( layout );
             int row = 0;
             int column = 0;
-            layout.addComponent( _brownianMotionScaleControl, row++, column );
-            layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
             layout.addComponent( _dtSubdivisionThresholdControl, row++, column );
             layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
             layout.addComponent( _numberOfDtSubdivisions, row++, column );
+            layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+            layout.addComponent( _brownianMotionScaleControl, row++, column );
         }
         
         // Layout
