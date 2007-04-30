@@ -54,6 +54,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/30/07 - set up framework for opening developer-only dialog from control panel
 4/30/07 - implement display of fluid drag force
 4/30/07 - generalize node for displaying forces
 4/30/07 - close FluidControlsDialog when switching modules

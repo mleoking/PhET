@@ -31,13 +31,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 public class OTApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // Provide this program argument to enable developer-only features.
-    private static final String DEVELOPER_ARG = "-dev";
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -123,9 +116,9 @@ public class OTApplication extends PiccoloPhetApplication {
         }
 
         // Developer menu
-        if ( CommandLineUtils.contains( args, DEVELOPER_ARG ) ) {
-            DeveloperMenu developerMenu = new DeveloperMenu();
-            getPhetFrame().addMenu( developerMenu );
+        DeveloperMenu developerMenu = new DeveloperMenu();
+        if ( optionsMenu.getMenuComponentCount() > 0 && System.getProperty( OTConstants.PROPERTY_PHET_DEVELOPER ) != null ) {
+            frame.addMenu( developerMenu );
         }
         
         // Help menu additions

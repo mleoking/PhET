@@ -21,6 +21,7 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.dialog.FluidControlDialog;
+import edu.colorado.phet.opticaltweezers.dialog.PhysicsDeveloperDialog;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.model.PhysicsModel;
 import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
@@ -48,6 +49,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     private PhysicsModel _model;
     private PhysicsCanvas _canvas;
     private FluidControlDialog _fluidControlDialog;
+    private PhysicsDeveloperDialog _developerControlsDialog;
+    
+    private JCheckBox _developerControlsCheckBox;
     
     private LogarithmicValueControl _timestepControl;
     
@@ -92,6 +96,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Set the control panel's minimum width.
         int minimumWidth = OTResources.getInt( "int.minControlPanelWidth", 215 );
         setMinumumWidth( minimumWidth );
+        
+        // Developer controls
+        _developerControlsCheckBox = new JCheckBox( "Show Developer Controls" );
         
         // Clock speed
         JPanel speedPanel = new JPanel();
@@ -228,6 +235,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Fonts
         {
+            _developerControlsCheckBox.setFont( CONTROL_FONT );
+            
             _timestepControl.setFont( CONTROL_FONT );
             
             _electricFieldCheckBox.setFont( CONTROL_FONT );
@@ -252,6 +261,10 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Layout
         {
+            if ( System.getProperty( OTConstants.PROPERTY_PHET_DEVELOPER ) != null ) {
+                addControlFullWidth( _developerControlsCheckBox );
+                addSeparator();
+            }
             addControlFullWidth( speedPanel );
             addSeparator();
             addControlFullWidth( fieldAndChargesPanel );
@@ -269,6 +282,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Listeners
         {
             EventListener listener = new EventListener();
+            _developerControlsCheckBox.addActionListener( listener );
             _timestepControl.addChangeListener( listener );
             _electricFieldCheckBox.addActionListener( listener );
             _beadChargesCheckBox.addActionListener( listener );
@@ -339,6 +353,12 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public void closeAllDialogs() {
         setFluidControlSelected( false );
+        setDeveloperControlsSelected( false );
+    }
+    
+    public void setDeveloperControlsSelected( boolean b ) {
+        _developerControlsCheckBox.setSelected( b );
+        handleDeveloperControlsCheckBox();
     }
     
     public void setClockSpeed( double dt ) {
@@ -539,6 +559,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             else if ( source == _potentialEnergyChartCheckBox ) {
                 handlePotentialEnergyChartCheckBox();
             }
+            else if ( source == _developerControlsCheckBox ) {
+                handleDeveloperControlsCheckBox();
+            }
         }
 
         public void stateChanged( ChangeEvent e ) {
@@ -714,7 +737,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
                     _fluidControlsCheckBox.setSelected( false );
                 }
             } );
-            // Position a the left-center of the main frame
+            // Position at the left-center of the main frame
             Point p = parentFrame.getLocationOnScreen();
             _fluidControlDialog.setLocation( (int) p.getX() + 10, (int) p.getY() + ( ( parentFrame.getHeight() - _fluidControlDialog.getHeight() ) / 2 ) );
             _fluidControlDialog.show();
@@ -740,5 +763,35 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _canvas.getPositionHistogramChartNode().setVisible( false );
         }
         _canvas.getPotentialEnergyChartNode().setVisible( selected );
+    }
+    
+    private void handleDeveloperControlsCheckBox() {
+        
+        final boolean selected = _developerControlsCheckBox.isSelected();
+        
+        if ( !selected ) {
+            if ( _developerControlsDialog != null ) {
+                _developerControlsDialog.dispose();
+                _developerControlsDialog = null;
+            }
+        }
+        else {
+            JFrame parentFrame = _module.getFrame();
+            _developerControlsDialog = new PhysicsDeveloperDialog( parentFrame, _module );
+            _developerControlsDialog.addWindowListener( new WindowAdapter() {
+
+                // called when the close button in the dialog's window dressing is clicked
+                public void windowClosing( WindowEvent e ) {
+                    _developerControlsDialog.dispose();
+                }
+
+                // called by JDialog.dispose
+                public void windowClosed( WindowEvent e ) {
+                    _developerControlsDialog = null;
+                    _developerControlsCheckBox.setSelected( false );
+                }
+            } );
+            _developerControlsDialog.show();
+        }
     }
 }
