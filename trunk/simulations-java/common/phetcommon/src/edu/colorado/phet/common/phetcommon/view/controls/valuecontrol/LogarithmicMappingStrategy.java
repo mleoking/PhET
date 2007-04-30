@@ -50,23 +50,32 @@ public class LogarithmicMappingStrategy extends AbstractMappingStrategy {
      */
     public double sliderToModel( int sliderValue ) {
         double modelValue = 0;
-        int resolution = getSliderMax() - getSliderMin();
-        double ratio = _logRange / (double)resolution;
-        double pos = (double)( sliderValue - getSliderMin() ) * ratio;
-        double adjustedPos = _logMin + pos;
-        if ( adjustedPos >= 0 ) {
-            modelValue = Math.pow( 10.0, adjustedPos ) / _scalingFactor;
+        // Handle min and max specially to avoid precision errors
+        if ( sliderValue == getSliderMin() ) {
+            modelValue = getModelMin();
+        }
+        else if ( sliderValue == getSliderMax() ) {
+            modelValue = getModelMax();
         }
         else {
-            modelValue = -Math.pow( 10.0, -adjustedPos ) / _scalingFactor;
-        }
-        if ( modelValue < getModelMin() ) {
-            modelValue = getModelMin();
-            System.err.println( "WARNING: LogarithmicSliderStrategy.sliderToModel, modelValue too small, clamping to " + modelValue );
-        }
-        else if ( modelValue > getModelMax() ) {
-            modelValue = getModelMax();
-            System.err.println( "WARNING: LogarithmicSliderStrategy.sliderToModel, modelValue too big, clamping to " + modelValue );
+            int resolution = getSliderMax() - getSliderMin();
+            double ratio = _logRange / (double) resolution;
+            double pos = (double) ( sliderValue - getSliderMin() ) * ratio;
+            double adjustedPos = _logMin + pos;
+            if ( adjustedPos >= 0 ) {
+                modelValue = Math.pow( 10.0, adjustedPos ) / _scalingFactor;
+            }
+            else {
+                modelValue = -Math.pow( 10.0, -adjustedPos ) / _scalingFactor;
+            }
+            if ( modelValue < getModelMin() ) {
+                modelValue = getModelMin();
+                System.err.println( "WARNING: LogarithmicSliderStrategy.sliderToModel, modelValue too small, clamping to " + modelValue );
+            }
+            else if ( modelValue > getModelMax() ) {
+                modelValue = getModelMax();
+                System.err.println( "WARNING: LogarithmicSliderStrategy.sliderToModel, modelValue too big, clamping to " + modelValue );
+            }
         }
         return modelValue;
     }
@@ -79,16 +88,25 @@ public class LogarithmicMappingStrategy extends AbstractMappingStrategy {
      */
     public int modelToSlider( double modelValue ) {
         int sliderValue = 0;
-        int resolution = getSliderMax() - getSliderMin();
-        double logModelValue = adjustedLog10( modelValue * _scalingFactor );
-        sliderValue = getSliderMin() + (int)( ( resolution * ( logModelValue - _logMin ) / _logRange ) );
-        if ( sliderValue < getSliderMin() ) {
+        // Handle min and max specially to avoid precision errors
+        if ( modelValue == getModelMin() ) {
             sliderValue = getSliderMin();
-            System.err.println( "WARNING: LogarithmicSliderStrategy.modelToSlider, sliderValue too small, clamping to " + sliderValue );
         }
-        else if ( sliderValue > getSliderMax() ) {
+        else if ( modelValue == getModelMax() ) {
             sliderValue = getSliderMax();
-            System.err.println( "WARNING: LogarithmicSliderStrategy.modelToSlider, sliderValue too big, clamping to " + sliderValue );
+        }
+        else {
+            int resolution = getSliderMax() - getSliderMin();
+            double logModelValue = adjustedLog10( modelValue * _scalingFactor );
+            sliderValue = getSliderMin() + (int) ( ( resolution * ( logModelValue - _logMin ) / _logRange ) );
+            if ( sliderValue < getSliderMin() ) {
+                sliderValue = getSliderMin();
+                System.err.println( "WARNING: LogarithmicSliderStrategy.modelToSlider, sliderValue too small, clamping to " + sliderValue );
+            }
+            else if ( sliderValue > getSliderMax() ) {
+                sliderValue = getSliderMax();
+                System.err.println( "WARNING: LogarithmicSliderStrategy.modelToSlider, sliderValue too big, clamping to " + sliderValue );
+            }
         }
         return sliderValue;
     }

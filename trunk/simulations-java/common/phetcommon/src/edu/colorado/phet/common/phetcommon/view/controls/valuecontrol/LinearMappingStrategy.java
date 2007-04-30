@@ -29,8 +29,19 @@ public class LinearMappingStrategy extends AbstractMappingStrategy {
      * @return model value
      */
     public double sliderToModel( int sliderValue ) {
-        double ratio = ( sliderValue - getSliderMin() ) / (double)( getSliderMax() - getSliderMin() );
-        return getModelMin() + ( ratio * ( getModelMax() - getModelMin() ) );
+        double modelValue = 0;
+        // Handle min and max specially to avoid precision errors
+        if ( sliderValue == getSliderMin() ) {
+            modelValue = getModelMin();
+        }
+        else if ( sliderValue == getSliderMax() ) {
+            modelValue = getModelMax();
+        }
+        else {
+            double ratio = ( sliderValue - getSliderMin() ) / (double) ( getSliderMax() - getSliderMin() );
+            modelValue = getModelMin() + ( ratio * ( getModelMax() - getModelMin() ) );
+        }
+        return modelValue;
     }
 
     /**
@@ -40,7 +51,18 @@ public class LinearMappingStrategy extends AbstractMappingStrategy {
      * @return slider value
      */
     public int modelToSlider( double modelValue ) {
-        double ratio = ( modelValue - getModelMin() ) / ( getModelMax() - getModelMin() );
-        return getSliderMin() + (int)( ratio * ( getSliderMax() - getSliderMin() ) );
+        int sliderValue = 0;
+        // Handle min and max specially to avoid precision errors
+        if ( modelValue == getModelMin() ) {
+            sliderValue = getSliderMin();
+        }
+        else if ( modelValue == getModelMax() ) {
+            sliderValue = getSliderMax();
+        }
+        else {
+            double ratio = ( modelValue - getModelMin() ) / ( getModelMax() - getModelMin() );
+            sliderValue = getSliderMin() + (int) ( ratio * ( getSliderMax() - getSliderMin() ) );
+        }
+        return sliderValue;
     }
 }
