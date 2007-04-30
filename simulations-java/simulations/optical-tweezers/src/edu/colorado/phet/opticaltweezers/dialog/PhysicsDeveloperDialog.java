@@ -83,15 +83,17 @@ public class PhysicsDeveloperDialog extends JDialog {
             
             _brownianMotionScaleControl = new LinearValueControl( 0, 5, "Brownian motion scale:", "0.00", "" );
             _brownianMotionScaleControl.setValue( bead.getBrownianMotionScale() );
+            _brownianMotionScaleControl.setUpDownArrowDelta( 0.01 );
             
             double dtMin = PhysicsDefaults.CLOCK_DT_RANGE.getMin();
             double dtMax = PhysicsDefaults.CLOCK_DT_RANGE.getMax();
-            _dtSubdivisionThresholdControl = new LogarithmicValueControl( dtMin, dtMax, "dt subdivision threshold:", "0E0", "" );
+            _dtSubdivisionThresholdControl = new LogarithmicValueControl( dtMin, dtMax, "dt subdivision threshold:", "0.0E0", "" );
             _dtSubdivisionThresholdControl.setValue( bead.getDtSubdivisionThreshold() );
             _dtSubdivisionThresholdControl.setTextFieldColumns( 4 );
             
-            _numberOfDtSubdivisions = new LinearValueControl( 1, 200, "number of dt subdivisions:", "##0", "" );
+            _numberOfDtSubdivisions = new LinearValueControl( 1, 1000, "number of dt subdivisions:", "###0", "" );
             _numberOfDtSubdivisions.setValue( bead.getNumberOfDtSubdivisions() );
+            _numberOfDtSubdivisions.setUpDownArrowDelta( 1 );
             
             EasyGridBagLayout layout = new EasyGridBagLayout( beadMotionPanel );
             layout.setInsets( new Insets( 0, 0, 0, 0 ) );

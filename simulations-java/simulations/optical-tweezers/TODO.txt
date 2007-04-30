@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- above some dt value, divide dt in N sub-dt, run bead motion algorithm N times, then update model
-
 
 MEDIUM PRIORITY:
 - change fluid model to use velocity instead of speed
@@ -52,6 +50,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/30/07 - subdivide clock timestep in bead motion algorithm
 4/30/07 - convert bead motion model to use nm distance units
 4/30/07 - add developer controls for bead motion: N (number of dt subdividions) and dt threshold, not connected to model
 4/30/07 - add developer control for bead's Brownian motion scale factor

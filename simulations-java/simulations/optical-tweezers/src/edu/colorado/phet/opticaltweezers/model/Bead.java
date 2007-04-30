@@ -246,12 +246,17 @@ public class Bead extends MovableObject implements ModelElement {
         double vxNew = 0;
         double vyNew = 0;
         
-        double dt = clockDt; //XXX
-        int loops = 1; //XXX
+        double dt = clockDt;
+        int loops = 1;
+        if ( clockDt > _dtSubdivisionThreshold ) {
+            dt = clockDt / _numberOfDtSubdivisions;
+            loops = _numberOfDtSubdivisions;
+        }
+        
         for ( int i = 0; i < loops; i++ ) {
 
             // Trap force
-            Vector2D trapForce = getTrapForce(); // pN
+            Vector2D trapForce = _laser.getTrapForce( xOld, yOld ); // pN
             final double Fx = trapForce.getX(); // pN
             final double Fy = trapForce.getY(); // pN
 
