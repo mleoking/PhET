@@ -44,7 +44,7 @@ public class MriLegend extends JPanel {
         BufferedImage atomImage = null;
         try {
             atomImage = ImageLoader.loadBufferedImage( MriConfig.IMAGE_PATH + "dipole-5-hydrogen.gif" );
-            atomImage = BufferedImageUtils.getRotatedImage( atomImage, -Math.PI / 2 );
+            atomImage = BufferedImageUtils.getRotatedImage( atomImage, Math.PI / 2 );
         }
         catch( IOException e ) {
             e.printStackTrace();
