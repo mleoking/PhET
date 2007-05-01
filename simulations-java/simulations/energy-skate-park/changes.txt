@@ -1,4 +1,4 @@
-1.05.27
+1.05.27 (5-1-2007)
 Changed default stickiness to 0.9 and bounciness to 0.6.
 Added a threshold to prevent tiny bounces (if v/(g*dt) < threshold, track is grabbed)
 
