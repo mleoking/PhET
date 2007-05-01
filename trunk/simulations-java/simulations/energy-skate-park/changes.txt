@@ -1,3 +1,7 @@
+1.05.27
+Changed default stickiness to 0.9 and bounciness to 0.6.
+Added a threshold to prevent tiny bounces (if v/(g*dt) < threshold, track is grabbed)
+
 1.05.26 (4-27-2007)
 Made it so tracks remain a certain threshold above ground (10 cm); to make it more difficult to direct the skater underground.
 Bugfix: if skater moves beneath ground, he is instantly transported above ground.

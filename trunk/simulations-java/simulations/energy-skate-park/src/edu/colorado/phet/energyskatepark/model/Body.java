@@ -38,7 +38,8 @@ public class Body implements Serializable {
 
     public static final List particles = new ArrayList();
 
-    public static double DEFAULT_STICKINESS = 0.75;
+//    public static double DEFAULT_STICKINESS = 0.75;
+    public static double DEFAULT_STICKINESS = 0.9;
     public static double staticSticky = DEFAULT_STICKINESS;
 
     public Body( double width, double height, ParticleStage particleStage, double gravity, double zeroPointPotentialY ) {

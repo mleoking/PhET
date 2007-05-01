@@ -43,7 +43,8 @@ public class Particle implements Serializable {
     private boolean verboseDebug = true;
 
     private static final double DEFAULT_ANGLE = 0;
-    public static final double DEFAULT_ELASTICITY = 0.9;
+    //    public static final double DEFAULT_ELASTICITY = 0.9;
+    public static final double DEFAULT_ELASTICITY = 0.6;
 //    private boolean keepEnergyOnLanding = false;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
@@ -230,26 +231,13 @@ public class Particle implements Serializable {
 
     class Particle1DUpdate implements UpdateStrategy, Serializable {
         public void stepInTime( double dt ) {
-
-//            AbstractVector2D sideVector = getSideVector( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
             AbstractVector2D sideVector = particle1D.getSideVector();
             boolean outsideCircle = sideVector.dot( particle1D.getCurvatureDirection() ) < 0;
-
-//            System.out.println( "outsideCircle= " + outsideCircle );
-//            if( !debugFrame.isVisible() ) {
-//                debugFrame.setVisible( true );
-//            }
-//            debugFrame.appendLine( "outsideCircle=" + outsideCircle );
 
             //compare a to v/r^2 to see if it leaves the track
             double r = Math.abs( particle1D.getRadiusOfCurvature() );
             double centripForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r;
             double netForceRadial = particle1D.getNetForce().dot( particle1D.getCurvatureDirection() );
-
-//            System.out.println( "r = " + r );
-//            System.out.println( "particle1D.getCurvatureDirection() = " + particle1D.getCurvatureDirection() );
-//            System.out.println( "centripForce = " + centripForce );
-//            System.out.println( "netForceRadial = " + netForceRadial );
 
             boolean leaveTrack = false;
             if( netForceRadial < centripForce && outsideCircle ) {
@@ -259,10 +247,7 @@ public class Particle implements Serializable {
                 leaveTrack = true;
             }
             if( leaveTrack && !particle1D.isRollerCoasterMode() ) {
-                System.out.println( "Switching to freefall" );
                 switchToFreeFall();
-
-//                System.out.println( "switched to freefall, above=" + isAboveSplineZero() );
                 Particle.this.stepInTime( dt );
             }
             else {
@@ -456,7 +441,6 @@ public class Particle implements Serializable {
         public void stepInTime( double dt ) {
             double origEnergy = getTotalEnergy();
             boolean[] origAbove = getOrigAbove();
-//            System.out.println( "stepping freefall, origAbove=" + origAbove );
 
             SPoint2D origLoc = new SPoint2D( x, y );
             double ay = g + yThrust;
@@ -468,25 +452,20 @@ public class Particle implements Serializable {
             x += vx * dt + 0.5 * ax * dt * dt;
 
             double dE = getTotalEnergy() - origEnergy;
-//            System.out.println( "FreeFall dE[0]= " + Math.abs( dE ) );
-            //todo test for mass * gravity >0 before fixing energy
             if( shouldFixFreeFallEnergy() ) {
                 double dH = dE / ( getMass() * getGravity() );
                 y += dH;
             }
-//            System.out.println( "FreeFall dE[1]= " + Math.abs( getTotalEnergy() - origEnergy ) );
-
             SPoint2D newLoc = new SPoint2D( x, y );
 
             //take a min over all possible crossover points
             SearchState searchState = getBestCrossPoint( newLoc, origAbove, origLoc );
             if( !Double.isInfinite( searchState.getDistance() ) ) {
                 System.out.println( "searchState.getDistance() = " + searchState.getDistance() );
-//                SearchState debugit = getBestCrossPoint( newLoc, origAbove, origLoc );
             }
             boolean interactWithTrack = searchState.getDistance() < 0.2;//this number was determined heuristically for a set of tests (free parameter), doesn't work very well for large gravity field
             if( interactWithTrack ) {
-                interactWithTrack( searchState, newLoc, origLoc, origAbove, origEnergy );
+                interactWithTrack( searchState, newLoc, origLoc, origAbove, origEnergy, dt );
             }
             double finalEnergy = getTotalEnergy();
             if( shouldFixFreeFallEnergy() && Math.abs( finalEnergy - origEnergy ) >= 1E-6 ) {
@@ -498,7 +477,7 @@ public class Particle implements Serializable {
             return Math.abs( getMass() * getGravity() ) > 1E-6 && xThrust == 0 && yThrust == 0;
         }
 
-        private void interactWithTrack( SearchState searchState, SPoint2D newLoc, SPoint2D origLoc, boolean[] origAbove, double origEnergy ) {
+        private void interactWithTrack( SearchState searchState, SPoint2D newLoc, SPoint2D origLoc, boolean[] origAbove, double origEnergy, double dt ) {
             ParametricFunction2D cubicSpline = searchState.getTrack();
             double alpha = searchState.getAlpha();
             AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
@@ -511,7 +490,21 @@ public class Particle implements Serializable {
 
             double testVal = Math.abs( newNormalVelocity.getMagnitude() / newVelocity.getMagnitude() );
 //                System.out.println( "testv = " + testVal );
+
+            double p = Math.abs( getVelocity().getMagnitude() / getGravity() / dt );
+
+//            System.out.println( "getVelocity() = " + getVelocity() + ", testVal=" + testVal + ", newVelocity=" + newVelocity );
             boolean bounce = testVal >= ( stickiness + getTrackStickiness( cubicSpline ) );
+            double GRAB_THRESHOLD = 3.0;
+            if( p < GRAB_THRESHOLD ) {
+                System.out.println( "p = " + p );
+                System.out.println( "Grabbing due to small speed (for this g and dt), threshold="+GRAB_THRESHOLD+", v/(g*dt)="+p);
+                bounce = false;
+            }
+//            if( getVelocity().getMagnitude() < 1.0 ) {
+//                System.out.println( "Grabbing due to small speed, speed= " + getVelocity().getMagnitude() );
+//                bounce = false;
+//            }
 
             double newAlpha = cubicSpline.getClosestPoint( newLoc );
 
@@ -525,7 +518,7 @@ public class Particle implements Serializable {
                 //set the position to be just on top of the spline
                 offsetOnSpline( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
 
-                if (getTotalEnergy()>energyBeforeBounce){
+                if( getTotalEnergy() > energyBeforeBounce ) {
                     correctEnergyReduceVelocity( energyBeforeBounce );
                 }
                 thermalEnergy += ( energyBeforeBounce - getTotalEnergy() );
