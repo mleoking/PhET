@@ -87,7 +87,7 @@ public class PhysicsDeveloperDialog extends JDialog {
             _dtSubdivisionThresholdControl.setValue( bead.getDtSubdivisionThreshold() );
             _dtSubdivisionThresholdControl.setTextFieldColumns( 4 );
             
-            _numberOfDtSubdivisions = new LinearValueControl( 1, 100, "number of dt subdivisions:", "###0", "" );
+            _numberOfDtSubdivisions = new LinearValueControl( 1, 1000, "number of dt subdivisions:", "###0", "" );
             _numberOfDtSubdivisions.setValue( bead.getNumberOfDtSubdivisions() );
             _numberOfDtSubdivisions.setUpDownArrowDelta( 1 );
             
