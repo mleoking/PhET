@@ -177,7 +177,7 @@ public class Bead extends MovableObject implements ModelElement {
     
     public void stepInTime( double dt ) {
         if ( _motionEnabled ) {
-            moveBead( dt );
+            move( dt );
         }
     }
     
@@ -218,8 +218,11 @@ public class Bead extends MovableObject implements ModelElement {
      *     distance - nm
      *     velocity - nm/sec
      *     temperature - Kelvin
+     *     
+     * Constraints:
+     *     direction of fluid flow must be horizontal
      */
-    private void moveBead( double clockDt ) {
+    private void move( double clockDt ) {
         
         // algorithm works only for horizontal fluid flow
         assert( _fluid.getOrientation() == 0 || _fluid.getOrientation() == Math.PI );
@@ -231,7 +234,10 @@ public class Bead extends MovableObject implements ModelElement {
         // Mobility
         final double normalizedViscosity = _fluid.getDimensionlessNormalizedViscosity(); // unitless
         final double mobility = _fluid.getMobility(); // (nm/sec)/pN
-        final double fluidSpeed = _fluid.getSpeed(); // nm/sec
+        final Vector2D fluidVelocity = _fluid.getVelocity(); // nm/sec
+        if ( fluidVelocity.getY() != 0 ) {
+            throw new IllegalStateException( "bead motion algorithm requires horizontal fluid flow" );
+        }
         final double fluidTemperature = _fluid.getTemperature(); // Kelvin
         
         // Old position and velocity
@@ -294,8 +300,8 @@ public class Bead extends MovableObject implements ModelElement {
             }
 
             // New velocity
-            vxNew = ( mobility * Fx ) + fluidSpeed; // nm/sec
-            vyNew = ( mobility * Fy ); // nm/sec
+            vxNew = ( mobility * Fx ) + fluidVelocity.getX(); // nm/sec
+            vyNew = ( mobility * Fy ) + fluidVelocity.getY(); // nm/sec
 
             if ( MOTION_DEBUG_OUTPUT ) {
                 System.out.println( "old position = " + new Point2D.Double( xOld, yOld ) + " nm" );
@@ -305,7 +311,7 @@ public class Bead extends MovableObject implements ModelElement {
                 System.out.println( "dt = " + dt );
                 System.out.println( "normalized viscosity = " + normalizedViscosity );
                 System.out.println( "mobility = " + mobility + " (nm/sec)/pN" );
-                System.out.println( "fluid speed = " + fluidSpeed + " nm/sec" );
+                System.out.println( "fluid velocity = " + fluidVelocity + " nm/sec" );
                 System.out.println( "trap Fx = " + Fx + " pN" );
                 System.out.println( "trap Fy = " + Fy + " pN" );
                 System.out.println();
