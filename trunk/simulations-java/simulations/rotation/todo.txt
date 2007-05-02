@@ -1,36 +1,35 @@
 ################
 #           To Do:
 ################
-
-Angle graphs should wrap around instead of being modulo 2*Pi.
-
-Chart strokes are different for dynamic paint and static repaint.
+Charts:
 
 Add clipping for Buffered strategies in DynamicJFreeChartNode
+
+Add a graph cursor.
+
+When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.
+
+Move charts to jfreechart-phet directory?
+
+When the time series is off-scale, dragging the slider doesn't immediately respond.
+Clicking on the slider thumb should set the current value, and allow immediate drags.
+
+Chart strokes are different for dynamic paint and static repaint.
 
 Should TimeSeriesModel be extended or listened to for Rotation-specific behaivor?
 
 Test at 1024x768
 
-On rotational motion sim, lots of it worked well and looked good, but when showing acceleration a, the zero and the curve was below bottom of graph sometime.
- Angular acceleration  worked well though.
+On rotational motion sim, lots of it worked well and looked good, but when showing acceleration a,
+the zero and the curve was below bottom of graph sometime. Angular acceleration  worked well though.
 
 Performance optimization.
 
-When the time series is off-scale, dragging the slider doesn't immediately respond.
-Clicking on the slider thumb should set the current value, and allow immediate drags.
-
 Time series implementation.
-
-Add a graph cursor.
 
 Time derivatives need a time-offset to match other series.
 
 Time series are offset incorrectly in graphs (their x-offset is before the beginning of the graph).
-
-When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.
-
-Move charts to jfreechart-phet directory?
 
 ################
 #           Postponed:
