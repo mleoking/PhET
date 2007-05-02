@@ -1,0 +1,46 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: April 26 - May 2, 2007 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+  
+  Optical Tweezers:
+  - reduce max clock speed by 1E-3
+  - replace bead motion algorithm
+  - add "dt subdivisions" feature to bead motion algorithm
+  - add developer controls for bead motion algorithm
+  - display fluid drag force
+  - change fluid viscosity range
+  - publish 0.00.05
+  - move some general code to phetcommon
+
+  Simplified MRI:
+  - fix orientation of atomic nuclei
+  - figure out dev directory
+  - publish 1.02.00
+    
+  Common:
+  - add features to phetcommon value control
+  - migrate code from optical tweezers to phetcommon
+  - add symbolic constants for phetcommon image resource names
+  
+WHAT'S NEXT:
+
+  - continue work on Optical Tweezers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/optical-tweezers/TODO.txt?view=markup
+  
+  - work on additional Simpified MRI bug
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  - 5/3 & 5/4
+  - 5/21...5/24
+  - 7/16...7/24
+  - 7/30...8/9
+  
+--
