@@ -19,8 +19,6 @@ import java.util.List;
  * hide/show the contents of that node.
  */
 public class PNodeShowHideControl {
-    private static final String HIDE_BUTTON_RESOURCE = "buttons/minimizeButton.png";
-    private static final String SHOW_BUTTON_RESOURCE = "buttons/maximizeButton.png";
 
     private final static ImageIcon HIDE_IMAGE_ICON;
     private final static ImageIcon SHOW_IMAGE_ICON;
@@ -38,8 +36,8 @@ public class PNodeShowHideControl {
     private volatile boolean isHidden = false;
 
     static {
-        HIDE_IMAGE_ICON = new ImageIcon( PhetCommonResources.getInstance().getImage( HIDE_BUTTON_RESOURCE ) );
-        SHOW_IMAGE_ICON = new ImageIcon( PhetCommonResources.getInstance().getImage( SHOW_BUTTON_RESOURCE ) );
+        HIDE_IMAGE_ICON = new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_MINIMIZE_BUTTON ) );
+        SHOW_IMAGE_ICON = new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_MAXIMIZE_BUTTON ) );
     }
 
     /**
