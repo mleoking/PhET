@@ -46,15 +46,12 @@ public class MinimizeMaximizeNode extends PNode {
     private static final Font DEFAULT_FONT = new JLabel().getFont();
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
 
-    private static final String MINIMIZE_IMAGE_RESOURCE_NAME = "buttons/minimizeButton.png";
-    private static final String MAXIMIZE_IMAGE_RESOURCE_NAME = "buttons/maximizeButton.png";
-
     private final static Image MINIMIZE_IMAGE;
     private final static Image MAXIMIZE_IMAGE;
     
     static {
-        MINIMIZE_IMAGE = PhetCommonResources.getInstance().getImage( MINIMIZE_IMAGE_RESOURCE_NAME );
-        MAXIMIZE_IMAGE = PhetCommonResources.getInstance().getImage( MAXIMIZE_IMAGE_RESOURCE_NAME );
+        MINIMIZE_IMAGE = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_MINIMIZE_BUTTON );
+        MAXIMIZE_IMAGE = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_MAXIMIZE_BUTTON );
     }
     
     //----------------------------------------------------------------------------

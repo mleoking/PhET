@@ -14,8 +14,12 @@ import javax.swing.event.ChangeListener;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-
-public class ZMimimizeMaximizeNodeTester {
+/**
+ * Test harness for MimimizeMaximizeNode.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class TestMimimizeMaximizeNode {
     
     public static void main( String[] args ) {
         
