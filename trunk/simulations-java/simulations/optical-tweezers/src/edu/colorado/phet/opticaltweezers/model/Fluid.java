@@ -97,7 +97,6 @@ public class Fluid extends MovableObject implements ModelElement {
 
     /**
      * Gets the fluid speed.
-     * This is a scalar quantity because our model only supports left-to-right fluid flow.
      * 
      * @return speed (nm/sec)
      */
@@ -116,6 +115,25 @@ public class Fluid extends MovableObject implements ModelElement {
             throw new IllegalArgumentException( "speed out of range: " + speed );
         }
         super.setSpeed( speed );
+    }
+    
+    /**
+     * Get the fluid velocity, a vector describing speed (nm/sec) and orientation (radians).
+     * 
+     * @return Vector2D
+     */
+    public Vector2D getVelocity() {
+        return new Vector2D( getSpeed(), getOrientation() );
+    }
+    
+    /**
+     * Sets the fluid velocity, a vector describing speed (nm/sec) and orientation (radians).
+     * 
+     * @param Vector2D
+     */
+    public void setVelocity( Vector2D velocity ) {
+        setSpeed( velocity.getMagnitude() );
+        setOrientation( velocity.getAngle() );
     }
     
     /**
@@ -205,8 +223,9 @@ public class Fluid extends MovableObject implements ModelElement {
      */
     public Vector2D getDragForce( Vector2D beadVelocity ) {
         double mobility = getMobility();
-        double Fx = ( getSpeed() - beadVelocity.getX() ) / mobility;
-        double Fy = ( 0 - beadVelocity.getY() ) / mobility;
+        Vector2D velocity = getVelocity();
+        double Fx = ( velocity.getX() - beadVelocity.getX() ) / mobility;
+        double Fy = ( velocity.getY() - beadVelocity.getY() ) / mobility;
         return new Vector2D( Fx, Fy );
     }
     

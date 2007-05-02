@@ -7,7 +7,9 @@ IN PROGRESS:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- change fluid model to use velocity instead of speed
+- implement potential energy model
+- better algorithm for trap force y component Fy
+- improve collision detection in Bead.move
 - add checkbox to Fluid Controls to turn off viscosity, off means turn miscroscope slide black to indicate vacuum (?)
 - connect position histogram to model
 - connect potential energy chart to model
@@ -43,13 +45,15 @@ DEFER UNTIL AFTER INTERVIEWS:
 
 MODEL INFO NEEDED:
 - E-field
-- fluid drag force (slide 14)
 - charge on the bead
 - position histogram (slide 15)
 - stuff related to “Show change in momentum model” (shape of 2 rays of light, vectors, etc.)
 
  
 DONE:
+5/2/07 - generalize new velocity computation in Bead.move to work with any fluid velocity direction
+5/2/07 - generalize Fluid.getDragForce to work with any fluid velocity direction
+5/2/07 - add Fluid.getVelocity and setVelocity
 ********* version 0.00.05 (14935)
 5/1/07 - increase nubmer of subdivisions range to 1-1000 for bead motion algorithm
 4/30/07 - change viscosity range to 1E-4 to 1E-2
