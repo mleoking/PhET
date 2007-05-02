@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.grabbag;
 
 import edu.colorado.phet.cck.model.CCKModel;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 14, 2004
  * Time: 8:08:15 PM
- *
  */
 public class GrabBag {
     ArrayList items = new ArrayList();
@@ -33,6 +31,20 @@ Dog = infinite
 //        add( new GrabBagItem( getClass().getClassLoader().getResource( "pencil.gif" ), SimStrings.get( "GrabBag.PencilLead" ), 3000, 3.5 ) );
 //        add( new GrabBagItem( getClass().getClassLoader().getResource( "hand.gif" ), SimStrings.get( "GrabBag.Hand" ), Math.pow( 10, 6 ), 1 ) );
 //        add( new GrabBagItem( getClass().getClassLoader().getResource( "dog.gif" ), SimStrings.get( "GrabBag.Dog" ), Math.pow( 10, 9 ), 2.5 ) );
+
+        /*
+        Pencil lead resistivity=
+         5.351E-3 ohm-m
+         http://panda.unm.edu/regener/lab/161L/Resistance.pdf
+        for A=4E-6m^2, L=1cm, this gives resistance R=135 Ohms
+
+        http://www.ndt-ed.org/GeneralResources/MaterialProperties/ET/ET_matlprop_Misc_Matls.htm
+         7.837E-06 ohm-m
+        for A=4E-6m^2, L=1cm, this gives resistance R=0.2 Ohms
+
+        we have been using R=3000 Ohms, although my notes say at one time we considered 30,000 Ohms
+            */
+
 
         add( new GrabBagItem( "dollarbill.gif", SimStrings.getInstance().getString( "GrabBag.DollarBill" ), Math.pow( 10, 9 ), 1 * SCALE ) );
         add( new GrabBagItem( "paperclip.gif", SimStrings.getInstance().getString( "GrabBag.PaperClip" ), CCKModel.MIN_RESISTANCE, .7 * SCALE ) );
