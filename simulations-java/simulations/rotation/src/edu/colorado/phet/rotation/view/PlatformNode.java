@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation.view;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.rotation.util.MathUtil;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 2:44:08 PM
- *
  */
 
 public class PlatformNode extends PNode {
@@ -56,8 +56,7 @@ public class PlatformNode extends PNode {
             public Point2D initLoc;
 
             public void mousePressed( PInputEvent event ) {
-                initAngle = angle;
-                initLoc = event.getPositionRelativeTo( PlatformNode.this );
+                resetDrag( angle, event );
             }
 
             public void mouseReleased( PInputEvent event ) {
@@ -70,10 +69,19 @@ public class PlatformNode extends PNode {
                 Vector2D.Double b = new Vector2D.Double( center, loc );
                 double angleDiff = b.getAngle() - a.getAngle();
 //                System.out.println( "a=" + a + ", b=" + b + ", center=" + center + ", angleDiff = " + angleDiff );
-                System.out.println( "angleDiff=" + angleDiff );
 
-                setAngle( initAngle + angleDiff );
+                angleDiff = MathUtil.clampAngle( angleDiff, -Math.PI, Math.PI );
+
+                double angle = initAngle + angleDiff;
+//                System.out.println( "angleDiff=" + angleDiff + ", angle=" + angle );
+                setAngle( angle );
                 notifyListeners();
+                resetDrag( angle, event );//have to reset drag in order to keep track of the winding number
+            }
+
+            private void resetDrag( double angle, PInputEvent event ) {
+                initAngle = angle;
+                initLoc = event.getPositionRelativeTo( PlatformNode.this );
             }
         } );
         addInputEventListener( new CursorHandler() );
