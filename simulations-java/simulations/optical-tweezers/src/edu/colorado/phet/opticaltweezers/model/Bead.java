@@ -212,7 +212,7 @@ public class Bead extends MovableObject implements ModelElement {
     /*
      * Bead motion algorithm.
      * 
-     * Units used herein:
+     * Units:
      *     time - sec
      *     force - pN
      *     distance - nm
