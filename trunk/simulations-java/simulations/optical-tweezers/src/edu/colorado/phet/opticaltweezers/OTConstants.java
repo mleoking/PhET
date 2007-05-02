@@ -71,7 +71,6 @@ public class OTConstants {
     //----------------------------------------------------------------------------
     
     public static final String IMAGE_CLOCK = "clock.png";
-    public static final String IMAGE_CLOSE_BUTTON = "closeButton.png";
     public static final String IMAGE_LASER_SIGN = "laserDangerSign.png";
     
     //----------------------------------------------------------------------------

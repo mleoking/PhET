@@ -22,11 +22,10 @@ MEDIUM PRIORITY:
 - adjust clock time display and units as dt is changed
 
 LOW PRIORITY:
-- improve location of value for Vector2DNode
-- try to make laser control panel draggable
+- improve positioning of value in Vector2DNode
+- try to make entire laser control panel draggable
 - use TrigCache to improve performance?
 - replace OTRuler alignment hack with permanent solution
-- migrate CloseButtonNode to common, reuse phetcommon/data/images/buttons/closeButton.png
 - add close button to ruler?
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
 - save/load
@@ -51,6 +50,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/2/07 - migrate CloseButton to phetcommon, CloseButtonNode to piccolo-phet, remove duplicate image file
 5/2/07 - generalize new velocity computation in Bead.move to work with any fluid velocity direction
 5/2/07 - generalize Fluid.getDragForce to work with any fluid velocity direction
 5/2/07 - add Fluid.getVelocity and setVelocity
