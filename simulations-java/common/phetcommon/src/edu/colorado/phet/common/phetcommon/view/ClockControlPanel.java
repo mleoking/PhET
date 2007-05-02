@@ -36,15 +36,13 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class ClockControlPanel extends JPanel implements ClockListener {
     
-    private static final String IMAGES_SUBDIRECTORY = "clock/";
-    
-    // These image filenames may be used by sim-specific classes that have custom clock control panels!
-    public static final String IMAGE_PAUSE = IMAGES_SUBDIRECTORY + "Pause24.gif";
-    public static final String IMAGE_PLAY = IMAGES_SUBDIRECTORY + "Play24.gif";
-    public static final String IMAGE_STEP = IMAGES_SUBDIRECTORY + "StepForward24.gif";
-    public static final String IMAGE_REWIND = IMAGES_SUBDIRECTORY + "Rewind24.gif";
-    public static final String IMAGE_FAST_FORWARD = IMAGES_SUBDIRECTORY + "FastForward24.gif";
-    public static final String IMAGE_STOP = IMAGES_SUBDIRECTORY + "Stop24.gif";
+    // Image resource names
+    public static final String IMAGE_PAUSE = PhetCommonResources.IMAGE_PAUSE;
+    public static final String IMAGE_PLAY = PhetCommonResources.IMAGE_PLAY;
+    public static final String IMAGE_STEP = PhetCommonResources.IMAGE_STEP_FORWARD;
+    public static final String IMAGE_REWIND = PhetCommonResources.IMAGE_REWIND;
+    public static final String IMAGE_FAST_FORWARD = PhetCommonResources.IMAGE_FAST_FORWARD;
+    public static final String IMAGE_STOP = PhetCommonResources.IMAGE_STOP;
     
     public static final String PROPERTY_PLAY = "Common.ClockControlPanel.Play";
     public static final String PROPERTY_PAUSE = "Common.ClockControlPanel.Pause";

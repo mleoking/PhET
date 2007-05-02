@@ -14,7 +14,7 @@ public class PhetCommonResources {
     public static final String IMAGE_FAST_FORWARD = "clock/FastForward24.gif";
     public static final String IMAGE_PAUSE = "clock/Pause24.gif";
     public static final String IMAGE_PLAY = "clock/Play24.gif";
-    public static final String IMAGE_REWIND = "clock/Rewind.gif";
+    public static final String IMAGE_REWIND = "clock/Rewind24.gif";
     public static final String IMAGE_STEP_FORWARD = "clock/StepForward24.gif";
     public static final String IMAGE_STOP = "clock/Stop24.gif";
     
