@@ -10,7 +10,7 @@ import org.jfree.chart.plot.PlotRenderingInfo;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.CloseButtonNode;
+import edu.colorado.phet.opticaltweezers.control.CloseButtonNode;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 
