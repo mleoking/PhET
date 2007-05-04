@@ -436,6 +436,14 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         rootNode.setSkaterCharacter( skaterCharacter );
     }
 
+    public void setEnergyErrorVisible( boolean selected ) {
+        rootNode.setEnergyErrorVisible(selected);
+    }
+
+    public boolean isEnergyErrorVisible() {
+        return rootNode.isEnergyErrorVisible();
+    }
+
     public static interface Listener {
         void zoomChanged();
     }

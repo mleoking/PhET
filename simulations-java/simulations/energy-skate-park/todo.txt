@@ -1,4 +1,3 @@
-move energy error notification enable/disable to options menu
 move track to the right so it doesn't look like it's sitting on the mountain
 increment main version number and post on dev and main site
 
