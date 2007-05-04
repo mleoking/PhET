@@ -1,6 +1,8 @@
 package edu.colorado.phet.energyskatepark;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * User: Sam Reid
@@ -10,11 +12,20 @@ import javax.swing.*;
  */
 
 public class EnergySkateParkOptionsMenu extends JMenu {
+    private EnergySkateParkModule energySkateParkModule;
 
-    public EnergySkateParkOptionsMenu() {
+    public EnergySkateParkOptionsMenu( final EnergySkateParkModule energySkateParkModule) {
         super( "Options" );
+        this.energySkateParkModule = energySkateParkModule;
         setMnemonic( 'o' );
-
+        final JRadioButtonMenuItem showEnergyError=new JRadioButtonMenuItem( "Show Energy Error",energySkateParkModule.isEnergyErrorVisible());
+        showEnergyError.setMnemonic( 's');
+        showEnergyError.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                energySkateParkModule.setEnergyErrorVisible(showEnergyError.isSelected());
+            }
+        } );
+        add(showEnergyError);
 //        final JRadioButtonMenuItem thermal = new JRadioButtonMenuItem( "Thermal Landing", EnergySkateParkModel.isThermalLanding() );
 //        thermal.setMnemonic( 't' );
 //        thermal.addActionListener( new ActionListener() {

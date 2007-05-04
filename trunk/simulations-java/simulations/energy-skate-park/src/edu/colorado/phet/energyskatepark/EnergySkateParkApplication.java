@@ -61,7 +61,7 @@ public class EnergySkateParkApplication extends PhetApplication {
 new EnergySkateParkFrameSetup() );
         module = new EnergySkateParkModule( "Module", new SwingClock( 30, SIMULATION_TIME_DT ), getPhetFrame() );
         setModules( new Module[]{module} );
-        getPhetFrame().addMenu( new EnergySkateParkOptionsMenu() );
+        getPhetFrame().addMenu( new EnergySkateParkOptionsMenu(module ) );
         getPhetFrame().addMenu( new EnergySkateParkTestMenu( this, args ) );
 
         JMenuItem saveItem = new JMenuItem( "Save" );

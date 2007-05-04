@@ -3,12 +3,12 @@ package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.common.MeasuringTape;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
-import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -26,7 +26,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Oct 21, 2005
  * Time: 2:16:21 PM
- *
  */
 
 public class EnergySkateParkRootNode extends PhetRootPNode {
@@ -54,6 +53,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private GridNode gridNode;
     private PanZoomOnscreenControl panZoomControls;
     private SkaterCharacter skaterCharacter;
+    private PNode energyErrorIndicatorContainer = new PNode();
     private EnergyErrorIndicator energyErrorIndicator;
 
     public EnergySkateParkRootNode( final EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
@@ -140,7 +140,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 //        PDebug.debugPaintCalls=true;
 
         energyErrorIndicator = new EnergyErrorIndicator( module.getEnergySkateParkModel() );
-        addScreenChild( energyErrorIndicator );
+        energyErrorIndicatorContainer.setVisible( false );
+        energyErrorIndicatorContainer.addChild( energyErrorIndicator );
+        addScreenChild( energyErrorIndicatorContainer );
         simulationPanel.addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
                 updateEnergyIndicator();
@@ -444,5 +446,13 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         for( int i = 0; i < bodyGraphics.getChildrenCount(); i++ ) {
             bodyGraphicAt( i ).setSkaterCharacter( skaterCharacter );
         }
+    }
+
+    public void setEnergyErrorVisible( boolean selected ) {
+        energyErrorIndicatorContainer.setVisible( selected );
+    }
+
+    public boolean isEnergyErrorVisible() {
+        return energyErrorIndicatorContainer.getVisible(); 
     }
 }

@@ -361,6 +361,14 @@ public class EnergySkateParkModule extends PiccoloModule {
         return new Body( getSkaterCharacter().getModelWidth(), getSkaterCharacter().getModelHeight(), getEnergySkateParkModel().getParticleStage(), getEnergySkateParkModel().getGravity(), getEnergySkateParkModel().getZeroPointPotentialY() );
     }
 
+    public void setEnergyErrorVisible( boolean selected ) {
+        energyCanvas.setEnergyErrorVisible(selected);
+    }
+
+    public boolean isEnergyErrorVisible() {
+        return energyCanvas.isEnergyErrorVisible();
+    }
+
     public static interface Listener {
         void skaterCharacterChanged();
     }
