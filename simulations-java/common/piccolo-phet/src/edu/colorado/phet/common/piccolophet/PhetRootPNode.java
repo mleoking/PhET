@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14676 $
+ * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.piccolophet;
 
@@ -50,6 +50,10 @@ public class PhetRootPNode extends PNode {
             return index;
         }
         return -1;
+    }
+
+    public boolean containsChild(PNode node){
+        return indexOfChild( node )>=0;
     }
 
     /**
