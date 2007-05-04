@@ -1,4 +1,4 @@
-1.05.28
+1.05.28 (5-3-2007)
 Moved energy error notification enable/disable to options menu.
 Moved track 1.5 meters to the right so it doesn't look like it's sitting on the mountain.
 Switched gravity slider to use LinearValueControl, changed looks slightly.
