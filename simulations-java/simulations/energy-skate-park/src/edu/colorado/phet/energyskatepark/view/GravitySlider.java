@@ -48,4 +48,10 @@ public class GravitySlider extends LinearValueControl {
         getSlider().setFocusable( false );
         setBorder( BorderFactory.createEtchedBorder() );
     }
+
+    public void setValue( double value ) {
+        if( value != super.getValue() ) {
+            super.setValue( value );
+        }
+    }
 }
