@@ -74,10 +74,9 @@ public class Body implements Serializable {
         particle.setVelocity( 0, 0 );
         setThermalEnergy( 0.0 );
         if( !isRestorePointSet() ) {
-            setPosition( new SPoint2D( 4, 7.25 ) );
             setAngularVelocity( 0.0 );
             setVelocity( 0, 0 );
-            setPosition( 3, 6 );
+            setPosition( 3+1.5, 6 );
             particle.resetAngle();
         }
         else {

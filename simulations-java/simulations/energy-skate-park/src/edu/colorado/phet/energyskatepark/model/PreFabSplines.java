@@ -55,8 +55,10 @@ public class PreFabSplines {
     public CubicSpline getParabolic() {
         CubicSpline spline = new CubicSpline();
 
-        double min = 2;
-        double max = 11;
+        double dx=1.5;
+//        double dx=0;
+        double min = 2+dx;
+        double max = 11+dx;
         double h = 7;
         spline.addControlPoint( min, h );
         spline.addControlPoint( ( max + min ) / 2.0, 1.5 );
