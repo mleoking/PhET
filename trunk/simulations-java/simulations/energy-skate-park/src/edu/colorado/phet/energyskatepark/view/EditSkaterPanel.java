@@ -41,8 +41,9 @@ public class EditSkaterPanel extends AdvancedPanel {
         } );
 
 
-        final EnergySkateParkSlider mass = new EnergySkateParkSlider( EnergySkateParkStrings.getString( "mass" ), EnergySkateParkStrings.getString( "kg" ), 1, 200, 75 );
-        mass.setModelTicks( new double[]{1, 75, 200} );
+        final EnergySkateParkSlider mass = new EnergySkateParkSlider(
+                EnergySkateParkStrings.getString( "mass" ), EnergySkateParkStrings.getString( "kg" ), 0.2, 200, 75 );
+        mass.setModelTicks( new double[]{0.2, 75, 200} );
         mass.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setMass( mass.getValue());

@@ -13,6 +13,7 @@ import java.util.Hashtable;
 public class EnergySkateParkSlider extends LinearValueControl {
     public EnergySkateParkSlider( String title, String units, double min, double max, double initialValue ) {
         super( min, max, title, "0.00", units );
+        super.setValue( min );
         super.setValue( initialValue );
         setMinorTickSpacing( ( max - min ) / 8.0 );
         setMajorTickSpacing( ( max - min ) / 4.0 );
@@ -29,4 +30,9 @@ public class EnergySkateParkSlider extends LinearValueControl {
         super.setTickLabels( hash );
     }
 
+    public void setValue( double value ) {
+        if( super.getValue() != value ) {
+            super.setValue( value );
+        }
+    }
 }
