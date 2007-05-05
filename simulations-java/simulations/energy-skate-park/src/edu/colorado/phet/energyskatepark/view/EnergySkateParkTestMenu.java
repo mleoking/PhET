@@ -11,37 +11,14 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Oct 18, 2006
  * Time: 8:38:53 AM
- *
  */
 
-public class EnergySkateParkTestMenu extends JMenu {
+public class EnergySkateParkTestMenu extends EnergySkateParkTrackMenu {
     private EnergySkateParkApplication parentApp;
 
-    public EnergySkateParkTestMenu( final EnergySkateParkApplication parentApp, final String[] args ) {
-        super( "Tests" );
+    public EnergySkateParkTestMenu( final EnergySkateParkApplication parentApp ) {
+        super( "Tests", parentApp, createTestItems() );
         this.parentApp = parentApp;
-
-        TestItem[] testItems = new TestItem[]{
-                new TestItem( "energy-skate-park/tests/a.esp", "Head Bounce Get Stuck" ),
-                new TestItem( "energy-skate-park/tests/double-fall.esp", "Double Well fall-through" ),
-                new TestItem( "energy-skate-park/tests/moon-upside.esp", "Upside-Down on moon" ),
-                new TestItem( "energy-skate-park/tests/angle.esp", "Slight angle/speed" ),
-                new TestItem( "energy-skate-park/tests/fall-through-ground.esp", "Shoulder through ground" ),
-                new TestItem( "energy-skate-park/tests/dw-rc.esp", "double well roller coaster" ),
-                new TestItem( "energy-skate-park/tests/skater-jump.esp", "Skater Jump" ),
-                new TestItem( "energy-skate-park/tests/droptofloor_test.esp", "Drop to floor" ),
-                new TestItem( "energy-skate-park/tests/fallthrough_test.esp", "High Friction parabolic" ),
-                new TestItem( "energy-skate-park/tests/loop_test.esp", "Loop Test" ),
-                new TestItem( "energy-skate-park/tests/upside-down_test.esp", "Upside Down" )
-        };
-        for( int i = 0; i < testItems.length; i++ ) {
-            final TestItem testItem = testItems[i];
-            add( new JMenuItem( new AbstractAction( testItem.getTitle() ) {
-                public void actionPerformed( ActionEvent e ) {
-                    parentApp.getModule().open( testItem.getLocation() );
-                }
-            } ) );
-        }
 
         addSeparator();
         JMenuItem jMenuItem = new JMenuItem( "New Spline" );
@@ -53,7 +30,25 @@ public class EnergySkateParkTestMenu extends JMenu {
         add( jMenuItem );
     }
 
-    class TestItem {
+    private static TestItem[] createTestItems() {
+        TestItem[] testItems = new TestItem[]{
+                new TestItem( "energy-skate-park/tests/a.esp", "Head Bounce Get Stuck" ),
+                new TestItem( "energy-skate-park/tests/double-fall.esp", "Double Well fall-through" ),
+                new TestItem( "energy-skate-park/tests/moon-upside.esp", "Upside-Down on moon" ),
+                new TestItem( "energy-skate-park/tests/angle.esp", "Slight angle/speed" ),
+                new TestItem( "energy-skate-park/tests/fall-through-ground.esp", "Shoulder through ground" ),
+                new TestItem( "energy-skate-park/tests/dw-rc.esp", "double well roller coaster" ),
+                new TestItem( "energy-skate-park/tests/skater-jump.esp", "Skater Jump" ),
+                new TestItem( "energy-skate-park/tests/droptofloor_test.esp", "Drop to floor" ),
+                new TestItem( "energy-skate-park/tests/fallthrough_test.esp", "High Friction parabolic" ),
+                new TestItem( "energy-skate-park/tests/loop_test.esp", "Loop Test" ),
+                new TestItem( "energy-skate-park/tests/upside-down_test.esp", "Upside Down" ),
+                new TestItem( "energy-skate-park/tests/s-track.esp", "S-Track" )
+        };
+        return testItems;
+    }
+
+    public static class TestItem {
         private String location;
         private String title;
 
