@@ -1,11 +1,5 @@
 4. When I open the Energy vs Position graph, the performance rapidly decreases.
     On my machine, it is approx 25% processor usage without this E vs X graph, 40% with.
-5. I think it would be nice to leave some of the Tests available.
-Loop, double well roller coaster (but delete the extra characters because they cause performance
-degradation and make one well lower than the other),
-double well (without roller coaster mode), high friction parabolic and  jump
-( maybe adjust the situation so it fits on the screen without zooming), I also like S curve in roller coaster
-and then w/o (I attached an S track, but feel free to make a better looking one)
 
 post on main site
 
