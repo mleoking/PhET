@@ -1,3 +1,7 @@
+2.00.02
+Changed the name of the Return Skater button under Reset to Return Character.
+    I could also easily make this match the name of the particular skater, as in the "Return Character" button in the play area.
+
 2.00.01 (5-4-2007)
 Fixed slider to have range that spans all characters
 Workaround for AbstractValueControl to repeatedly call setValue() without performance degradation
