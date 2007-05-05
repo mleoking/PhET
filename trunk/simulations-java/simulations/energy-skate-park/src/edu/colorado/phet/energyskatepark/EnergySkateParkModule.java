@@ -149,6 +149,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         init();
         energyTimeSeriesModel.startLiveMode();
         barGraphCanvas.reset();
+        setSkaterCharacter( getDefaultSkaterCharacter() );
     }
 
     public void resetSkater() {
