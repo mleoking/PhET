@@ -108,8 +108,6 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 
         addControlFullWidth( new GridLinesCheckBox( module ) );
         addControlFullWidth( new PathRecordContol( module ) );
-//        getControlPane().setAnchor( GridBagConstraints.CENTER );
-//        getControlPane().setFillNone();
 
         piePanel = new PieChartControlPanel( module, this );
         addControlFullWidth( piePanel );
@@ -144,15 +142,15 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         } );
         chartPanel.add( showBarChart );
         addControlFullWidth( chartPanel );
+
         addControlFullWidth( getLocationPanel( module ) );
 
         final FrictionControl frictionControl = new FrictionControl( module );
-        final JComponent clearHeatButton = new ClearHeatButton( module );
 
         AdvancedPanel frictionPanel = new AdvancedPanel( EnergySkateParkStrings.getString( "friction" ), EnergySkateParkStrings.getString( "hide.friction" ) );
         frictionPanel.addControl( frictionControl );
         frictionControl.getModelSlider().setBorder( null );
-        frictionPanel.addControl( clearHeatButton );
+        frictionPanel.addControl( new ClearHeatButton( module ) );
         addControl( frictionPanel );
 
         EditSkaterPanel editSkaterPanel = new EditSkaterPanel( module );

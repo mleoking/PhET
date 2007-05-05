@@ -1,5 +1,3 @@
-2. When you choose a character and then Reset, the Skater doesn't look the same. For example, he is very tiny after using the ball. And kind of sideways after the bug.
-3. To clear the heat, the only button is on the Bar Graph window. I realize that you can carefully move the guy, but it seems odd that that there is the one "secret button".
 4. When I open the Energy vs Position graph, the performance rapidly decreases.
 5. I think it would be nice to leave some of the Tests available. Loop, double well roller coaster (but delete the extra characters because they cause performance degradation and make one well lower than the other),  double well (without roller coaster mode), high friction parabolic and  jump( maybe adjust the situation so it fits on the screen without zooming), I also like  S curve in roller coaster and then w/o (I attached an S track, but feel free to make a better looking one)
 
