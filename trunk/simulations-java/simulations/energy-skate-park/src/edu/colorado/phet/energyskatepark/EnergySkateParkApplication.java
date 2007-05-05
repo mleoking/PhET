@@ -34,12 +34,11 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
-import edu.colorado.phet.energyskatepark.model.SPoint2D;
 import edu.colorado.phet.energyskatepark.view.EC3LookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkTestMenu;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkTrackMenu;
 
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.*;
@@ -61,8 +60,9 @@ public class EnergySkateParkApplication extends PhetApplication {
 new EnergySkateParkFrameSetup() );
         module = new EnergySkateParkModule( "Module", new SwingClock( 30, SIMULATION_TIME_DT ), getPhetFrame() );
         setModules( new Module[]{module} );
-        getPhetFrame().addMenu( new EnergySkateParkOptionsMenu(module ) );
-        getPhetFrame().addMenu( new EnergySkateParkTestMenu( this, args ) );
+        getPhetFrame().addMenu( new EnergySkateParkOptionsMenu( module ) );
+        getPhetFrame().addMenu( new EnergySkateParkTestMenu( this ) );
+        getPhetFrame().addMenu( new EnergySkateParkTrackMenu( this ) );
 
         JMenuItem saveItem = new JMenuItem( "Save" );
         saveItem.addActionListener( new ActionListener() {
@@ -100,7 +100,6 @@ new EnergySkateParkFrameSetup() );
         getPhetFrame().addFileMenuItem( saveItem );
 
         getPhetFrame().addFileMenuSeparator();
-//        getPhetFrame().addMenu( new LookAndFeelMenu() );
     }
 
     public EnergySkateParkModule getModule() {
@@ -135,27 +134,6 @@ new EnergySkateParkFrameSetup() );
         } );
     }
 
-    public static void mainESP( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-//                EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
-                new EC3LookAndFeel().initLookAndFeel();
-                new EnergySkateParkApplication( args ).start();
-
-                try {
-                    SPoint2D.main(args );
-                }
-                catch( PersistenceUtil.CopyFailedException e ) {
-                    e.printStackTrace();
-                }
-            }
-        } );
-    }
-
-    public static void main( final String[] args ) throws PersistenceUtil.CopyFailedException {
-        mainESP( args );
-    }
-
     public static void mainTestPhysics1D( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
@@ -188,8 +166,15 @@ new EnergySkateParkFrameSetup() );
                 frame.setLocation( x, y );
                 frame.setSize( tk.getScreenSize().width - 200, tk.getScreenSize().height - 200 );
             }
-//        new CenteredWithInsets(50,50).initialize( frame );
         }
     }
 
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                new EC3LookAndFeel().initLookAndFeel();
+                new EnergySkateParkApplication( args ).start();
+            }
+        } );
+    }
 }
