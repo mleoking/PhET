@@ -2,6 +2,8 @@
 Changed the name of the Return Skater button under Reset to Return Character.
     I could also easily make this match the name of the particular skater, as in the "Return Character" button in the play area.
 Bugfix: When you choose a character and then Reset, the Skater doesn't look the same. For example, he is very tiny after using the ball. And kind of sideways after the bug.
+Added "Clear Heat" button in pie chart control panel.
+Made "Clear Heat" buttons become disabled when the system's thermal energy is zero.
 
 2.00.01 (5-4-2007)
 Fixed slider to have range that spans all characters
