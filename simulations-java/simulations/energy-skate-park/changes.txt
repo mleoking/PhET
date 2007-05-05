@@ -1,4 +1,4 @@
-2.00.02
+2.00.02 (5-5-2007)
 Changed the name of the Return Skater button under Reset to Return Character.
     I could also easily make this match the name of the particular skater, as in the "Return Character" button in the play area.
 Bugfix: When you choose a character and then Reset, the Skater doesn't look the same. For example, he is very tiny after using the ball. And kind of sideways after the bug.
