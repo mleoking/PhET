@@ -50,7 +50,6 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         } );
         addControl( resetSkater );
 
-
         BufferedImage measuringTapeIcon = null;
         try {
             measuringTapeIcon = ImageLoader.loadBufferedImage( "energy-skate-park/images/ruler-thumb.png" );
