@@ -45,7 +45,7 @@ import java.util.List;
  */
 public class MonitorPanel extends PhetPCanvas {
 
-    private BufferedImage spinUpImage, spinDownImage;
+    private BufferedImage upperDipoleImage, lowerDipoleImage;
     private double imageWidth;
     private double scale = 0.4;
     private double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.45; // for scale = 0.4
@@ -81,11 +81,11 @@ public class MonitorPanel extends PhetPCanvas {
         makeImages( scale, model.getSampleMaterial() );
 
         // Add graphics for the energy levels
-        lowerLine = new EnergyLevel( 200, spinDownReps, model, spinDownImage );
+        lowerLine = new EnergyLevel( 200, spinDownReps, model, lowerDipoleImage );
         addWorldChild( lowerLine );
         lowerLine.setOffset( 0, 100 );
 
-        upperLine = new EnergyLevel( 200, spinUpReps, model, spinUpImage );
+        upperLine = new EnergyLevel( 200, spinUpReps, model, upperDipoleImage );
         addWorldChild( upperLine );
         upperLine.setOffset( 0, 60 );
 
@@ -133,7 +133,7 @@ public class MonitorPanel extends PhetPCanvas {
      * symetrically above and below it
      */
     private void setLinePositions( MriModel model ) {
-        double imageReserveSpace = spinDownImage.getHeight() * 1 / 2;
+        double imageReserveSpace = lowerDipoleImage.getHeight() * 1 / 2;
         double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace;
         double fractionMaxField = Math.min( fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
         double sampleMaterialRatio = model.getSampleMaterial().getMu() / SampleMaterial.HYDROGEN.getMu();
@@ -340,23 +340,23 @@ public class MonitorPanel extends PhetPCanvas {
             makeImages( scale, sampleMaterial );
 
             // Add graphics for the energy levels
-            lowerLine.setDipoleRepImage( spinDownImage );
-            upperLine.setDipoleRepImage( spinDownImage );
+            lowerLine.setDipoleRepImage( lowerDipoleImage );
+            upperLine.setDipoleRepImage( upperDipoleImage );
         }
     }
 
     private void makeImages( double scale, SampleMaterial sampleMaterial ) {
-        spinDownImage = DipoleGraphic.getDipoleImage( sampleMaterial );
-        spinUpImage = DipoleGraphic.getDipoleImage( sampleMaterial );
-        spinDownImage = BufferedImageUtils.getRotatedImage( spinDownImage, Math.PI / 2 );
-        spinUpImage = BufferedImageUtils.getRotatedImage( spinUpImage, -Math.PI / 2 );
+        lowerDipoleImage = DipoleGraphic.getDipoleImage( sampleMaterial );
+        upperDipoleImage = DipoleGraphic.getDipoleImage( sampleMaterial );
+        lowerDipoleImage = BufferedImageUtils.getRotatedImage( lowerDipoleImage, Math.PI / 2 );
+        upperDipoleImage = BufferedImageUtils.getRotatedImage( upperDipoleImage, -Math.PI / 2 );
 
         AffineTransform scaleTx = AffineTransform.getScaleInstance( scale, scale );
         AffineTransformOp scaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
-        spinDownImage = scaleOp.filter( spinDownImage, null );
-        spinUpImage = scaleOp.filter( spinUpImage, null );
+        lowerDipoleImage = scaleOp.filter( lowerDipoleImage, null );
+        upperDipoleImage = scaleOp.filter( upperDipoleImage, null );
 
-        imageWidth = Math.max( spinDownImage.getWidth(), spinUpImage.getWidth() );
+        imageWidth = Math.max( lowerDipoleImage.getWidth(), upperDipoleImage.getWidth() );
     }
 
     //--------------------------------------------------------------------------------------------------
