@@ -131,6 +131,8 @@ public abstract class AbstractValueControl extends JPanel {
         _textField.addKeyListener( _textFieldListener );
 
         updateTickLabels();
+        
+        _value = _slider.getModelMin() - 1; // force setValue to initalize the components
         setValue( _value );
         
         _initialized = true;
@@ -201,18 +203,19 @@ public abstract class AbstractValueControl extends JPanel {
      * @param notify
      */
     private void setValue( double value, boolean notify ) {
-        if ( value >= getMinimum() && value <= getMaximum() ) {
-            _value = value;
-            updateView();
-            if ( notify ) {
-                fireChangeEvent( new ChangeEvent( this ) );
+        if ( value != _value ) {
+            if ( value >= getMinimum() && value <= getMaximum() ) {
+                _value = value;
+                updateView();
+                if ( notify ) {
+                    fireChangeEvent( new ChangeEvent( this ) );
+                }
             }
-        }
-        else {
-            Toolkit.getDefaultToolkit().beep();
-            System.out.println( getClass().getName() + ".setValue: invalid value for slider labeled \"" + 
-                    _valueLabel.getText() + "\", " + "range is " + getMinimum() + " to " + getMaximum() + ", tried to set " + value );
-            updateView(); // revert
+            else {
+                Toolkit.getDefaultToolkit().beep();
+                System.out.println( getClass().getName() + ".setValue: invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + "range is " + getMinimum() + " to " + getMaximum() + ", tried to set " + value );
+                updateView(); // revert
+            }
         }
     }
 
