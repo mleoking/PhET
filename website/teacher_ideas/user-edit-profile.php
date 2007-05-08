@@ -7,9 +7,11 @@
     function print_edit_profile_form() {
         global $contributor_id;
         
+        print "<h1>Edit Profile</h1>";
+        
         contributor_print_full_edit_form($contributor_id, "user-update-profile.php");
     }
     
-    print_site_page('print_edit_profile_form', 6);
+    print_site_page('print_edit_profile_form', 3);
 
 ?>

@@ -81,6 +81,8 @@ EOT;
                 <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/search.php">→ Search</a></span></li>
 
                 <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/contribute.php">→ Contribute</a></span></li>
+                
+                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/user-edit-profile.php">→ Edit Profile</a></span></li>                
 EOT
         );
         
@@ -101,11 +103,7 @@ EOT
         );
         
         print_navigation_element($prefix, $selected_page, "$prefix/contribute/index.php",      "Contribute",
-            <<<EOT
-                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/index.php">→ Ideas and Activities</a></span></li>
-                
-                <li class="sub"><span class="sub-nav"><a href="$prefix/contribute/user-edit-profile.php">→ Edit Profile</a></span></li>
-EOT
+            ''
         );
         
         print_navigation_element($prefix, $selected_page, "$prefix/research/index.php",        "Research",
