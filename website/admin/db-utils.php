@@ -28,13 +28,15 @@
         $first_item_already_printed = false;
         
         foreach($update_array as $key => $value) {
-            if ($first_item_already_printed) {
-                $content_st .= ", ";
-            }
+            if ($key !== $id_field_name) {
+                if ($first_item_already_printed) {
+                    $content_st .= ", ";
+                }
 
-            $content_st .= " `$key`='$value' ";
+                $content_st .= " `$key`='$value' ";
             
-            $first_item_already_printed = true;
+                $first_item_already_printed = true;
+            }
         }
         
         if ($id_field_name !== null && $id_field_value !== null) {

@@ -165,7 +165,7 @@
         print <<<EOT
             <form id="userprofileform" method="post" action="$script">
                 <fieldset>
-                    <legend>Edit Profile</legend>
+                    <legend>Profile for $contributor_name</legend>
 EOT;
 
         if ($optional_message !== null) {
@@ -173,8 +173,15 @@ EOT;
         }
 
         print <<<EOT
-                    
                     $standard_message
+                    
+                    <label for="contributor_password">
+                        <input type="password" name="contributor_password" 
+                            value="$contributor_password" tabindex="11" id="password" size="25"/>
+                        
+                        password:
+                    </label>
+                    
                     <label for="contributor_name">
                         name:
                         
@@ -186,7 +193,7 @@ EOT;
                         title:
                         
                         <input type="text" name="contributor_title"
-                            value="$contributor_title" tabindex="2" id="title" size="20" />
+                            value="$contributor_title" tabindex="2" id="title" size="25" />
                     </label>
                     
                     <label for="contributor_address">
@@ -207,7 +214,7 @@ EOT;
                         city:
                         
                         <input type="text" name="contributor_city"
-                            value="$contributor_city" tabindex="5" id="city" size="20" />
+                            value="$contributor_city" tabindex="5" id="city" size="15" />
                     </label>
                     
                     <label for="contributor_state">
@@ -245,13 +252,6 @@ EOT;
                             value="$contributor_fax" tabindex="10" id="fax" size="12" />
 
                         fax:
-                    </label>
-
-                    <label for="contributor_password">
-                        <input type="password" name="contributor_password" 
-                            value="$contributor_password" tabindex="11" id="password" size="25"/>
-                        
-                        password:
                     </label>
 
                     <label for="submit">

@@ -55,6 +55,18 @@
         return $default_value;
     }
     
+    function gather_script_params_into_array($prefix = '') {
+        $array = array();
+        
+        foreach($_REQUEST as $key => $value) {
+            if ($prefix == '' || strstr("$key", $prefix) == "$key") {
+                $array["$key"] = "$value";
+            }
+        }
+        
+        return $array;
+    }
+    
     function gather_array_into_globals($array) {
         foreach($array as $key => $value) {
             $GLOBALS["$key"] = format_for_html("$value");
