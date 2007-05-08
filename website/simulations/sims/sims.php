@@ -90,63 +90,27 @@ window.open = SymWinOpen;
 
             <div class="mainNav">
                 <ul>
-                    <li><a href="../../index.html" accesskey="1">Home</a></li>
+                    <li><a href="../../index.php" accesskey="1">Home</a></li>
 
                     <li class="selected"><a href="../../simulations/index.php" accesskey="2">Simulations</a></li>
 
-                    <li><a href="../../research/index.html" accesskey="3">Research</a></li>
+                    <li><a href="../../research/index.php" accesskey="3">Research</a></li>
 
-                    <li><a href="../../about/index.html" accesskey="4">About PhET</a></li>
+                    <li><a href="../../about/index.php" accesskey="4">About PhET</a></li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <div id="container">
-        <div id="localNav">
-            <ul>
-                <li><a href="../../index.html" accesskey="1">Home</a></li>
+    <div id="container">        
+        <?php 
+            include_once("../../admin/site-utils.php");
 
-                <li class=" selected"><a href="../index.php">Simulations</a></li>
-
-                <?php
-                    print_sim_categories("../");
-                ?>
-
-                <li><a href="../../teacher_ideas/index.html">Teacher Ideas &amp; Activities</a></li>
-
-                <li><a href="../../get_phet/index.html">Get PhET</a></li>
-
-                <li><a href="../../tech_support/index.html">Technical Support</a></li>
-
-                <li><a href="../../contribute/index.html">Contribute</a></li>
-                
-                <li><a href="../../research/index.html">Research</a></li>
-
-                <li><a href="../../about/index.html">About PhET</a></li>
-            </ul>
-
-            <h4><br />
-            Principle Sponsors</h4>
-
-            <dl>
-                <dt><a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a></dt>
-
-                <dd><a href="http://www.hewlett.org/Default.htm"><img src="../../images/hewlett-logo.jpg" alt="The Hewlett Logo"/></a><br />
-                <br />
-                Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time.</dd>
-
-                <dt><a href="http://www.nsf.gov/"><img class="sponsors" src="../../images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a></dt>
-
-                <dd><br />
-                An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
-                <br />
-                <a href="../sponsors/index.html"><img src="../../images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
-            </dl>
-        </div>
+            print_navigation_bar(2, "../..");
+        ?>
 
         <div id="content">
-            <!--<p><a class="breadcrumbs" href="../../index.html">Home</a><a class="breadcrumbs"  href="../../simulations/index.php">Main Simulations</a><a class="breadcrumbs"  href="../../simulations/index.php">Top Sims</a></p>-->
+            <!--<p><a class="breadcrumbs" href="../../index.php">Home</a><a class="breadcrumbs"  href="../../simulations/index.php">Main Simulations</a><a class="breadcrumbs"  href="../../simulations/index.php">Top Sims</a></p>-->
 
 
             <?php

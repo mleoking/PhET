@@ -160,7 +160,9 @@
                $contributor_office,      $contributor_city,  $contributor_state, 
                $contributor_postal_code, $contributor_primary_phone,
                $contributor_secondary_phone, $contributor_fax,
-               $contributor_password;
+               $contributor_password,    $contributor_receive_email;
+               
+        $contributor_receive_email_checked = $contributor_receive_email == '1' ? 'checked="checked"' : '';     
         
         print <<<EOT
             <form id="userprofileform" method="post" action="$script">
@@ -177,7 +179,7 @@ EOT;
                     
                     <label for="contributor_password">
                         <input type="password" name="contributor_password" 
-                            value="$contributor_password" tabindex="11" id="password" size="25"/>
+                            value="$contributor_password" tabindex="1" id="password" size="25"/>
                         
                         password:
                     </label>
@@ -186,49 +188,49 @@ EOT;
                         name:
                         
                         <input type="text" name="contributor_name" 
-                            value="$contributor_name" tabindex="1" id="name" size="25"/>
+                            value="$contributor_name" tabindex="2" id="name" size="25"/>
                     </label>
                     
                     <label for="contributor_title">
                         title:
                         
                         <input type="text" name="contributor_title"
-                            value="$contributor_title" tabindex="2" id="title" size="25" />
+                            value="$contributor_title" tabindex="3" id="title" size="25" />
                     </label>
                     
                     <label for="contributor_address">
                         address:
                         
                         <input type="text" name="contributor_address"
-                            value="$contributor_address" tabindex="3" id="address" size="25" />
+                            value="$contributor_address" tabindex="4" id="address" size="25" />
                     </label>
                     
                     <label for="contributor_office">
                         office:
                         
                         <input type="text" name="contributor_office"
-                            value="$contributor_office" tabindex="4" id="office" size="15" />
+                            value="$contributor_office" tabindex="5" id="office" size="15" />
                     </label>
                     
                     <label for="contributor_city">
                         city:
                         
                         <input type="text" name="contributor_city"
-                            value="$contributor_city" tabindex="5" id="city" size="15" />
+                            value="$contributor_city" tabindex="6" id="city" size="15" />
                     </label>
                     
                     <label for="contributor_state">
                         state or province:
                     
                         <input type="text" name="contributor_state"
-                            value="$contributor_state" tabindex="6" id="state" size="15" />
+                            value="$contributor_state" tabindex="7" id="state" size="15" />
                     </label>
                     
                     <label for="contributor_postal_code">
                         postal code:
                         
                         <input type="text" name="contributor_postal_code"
-                            value="$contributor_postal_code" tabindex="7" id="postal_code" size="15" />
+                            value="$contributor_postal_code" tabindex="8" id="postal_code" size="15" />
                     </label>
                     
                     
@@ -236,26 +238,35 @@ EOT;
                         primary phone:
                         
                         <input type="text" name="contributor_primary_phone"
-                            value="$contributor_primary_phone" tabindex="8" id="primary_phone" size="12" />
+                            value="$contributor_primary_phone" tabindex="9" id="primary_phone" size="12" />
                     </label>
                     
                     <label for="contributor_secondary_phone">
                         secondary phone:
                     
                         <input type="text" name="contributor_secondary_phone"
-                            value="$contributor_secondary_phone" tabindex="9" id="secondary_phone" size="12" />
+                            value="$contributor_secondary_phone" tabindex="10" id="secondary_phone" size="12" />
 
                     </label>
                     
                     <label for="contributor_fax">
                         <input type="text" name="contributor_fax"
-                            value="$contributor_fax" tabindex="10" id="fax" size="12" />
+                            value="$contributor_fax" tabindex="10" id="fax" size="11" />
 
                         fax:
                     </label>
+                    
+                    <input type="hidden" name="contributor_receive_email" value="0" />
+                    
+                    <label for="contributor_receive_email">
+                        <input type="checkbox" name="contributor_receive_email"
+                            value="1" tabindex="12" $contributor_receive_email_checked>
+                            
+                        receive email from phet:
+                    </label>
 
                     <label for="submit">
-                        <input name="Submit" type="submit" id="submit" tabindex="12" value="Done" />
+                        <input name="Submit" type="submit" id="submit" tabindex="13" value="Done" />
                     </label>
                  </fieldset>
             </form>

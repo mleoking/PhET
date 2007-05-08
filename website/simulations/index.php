@@ -43,13 +43,13 @@
 
             <div class="mainNav">
                 <ul>
-                    <li><a href="../index.html" accesskey="1">Home</a></li>
+                    <li><a href="../index.php" accesskey="1">Home</a></li>
 
                     <li class="selected"><a href="index.php" accesskey="2">Simulations</a></li>
 
-                    <li><a href="../research/index.html" accesskey="3">Research</a></li>
+                    <li><a href="../research/index.php" accesskey="3">Research</a></li>
 
-                    <li><a href="../about/index.html" accesskey="4">About PhET</a></li>
+                    <li><a href="../about/index.php" accesskey="4">About PhET</a></li>
                 </ul>
             </div>
         </div>

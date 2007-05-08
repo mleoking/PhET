@@ -41,7 +41,7 @@ EOT;
             $cat_id   = $category['cat_id'];
             $cat_name = format_for_html($category['cat_name']);
 
-            $categories .= "<li class=\"sub\"><span class=\"sub-nav\"><a href=\"${prefix}/index.php?cat=$cat_id\">&rarr; $cat_name</a></span></li>";          
+            $categories .= "<li class=\"sub\"><span class=\"sub-nav\"><a href=\"${prefix}/simulations/index.php?cat=$cat_id\">&rarr; $cat_name</a></span></li>";          
         } 
         
         return $categories;
@@ -53,7 +53,7 @@ EOT;
                 <ul>
 EOT;
 
-        print_navigation_element($prefix, $selected_page, "index.html",                 "Home",
+        print_navigation_element($prefix, $selected_page, "index.php",                 "Home",
             ''
         );
         
@@ -61,47 +61,47 @@ EOT;
             get_sim_categories_html($prefix)
         );
         
-        print_navigation_element($prefix, $selected_page, "$prefix/teacher_ideas/index.html",   "Teacher Ideas &amp; Activities",
+        print_navigation_element($prefix, $selected_page, "$prefix/teacher_ideas/index.php",   "Teacher Ideas &amp; Activities",
             <<<EOT
-                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/search.htm">→ Search</a></span></li>
+                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/search.php">→ Search</a></span></li>
 
-                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/contribute.htm">→ Contribute</a></span></li>
+                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/contribute.php">→ Contribute</a></span></li>
 EOT
         );
         
-        print_navigation_element($prefix, $selected_page, "$prefix/get_phet/index.html",        "Download PhET",
+        print_navigation_element($prefix, $selected_page, "$prefix/get_phet/index.php",        "Download PhET",
             <<<EOT
-                <li class="sub"><span class="sub-nav"><a href="$prefix/get_phet/full_install.htm">→ Full Install</a></span></li>
+                <li class="sub"><span class="sub-nav"><a href="$prefix/get_phet/full_install.php">→ Full Install</a></span></li>
 
-                <li class="sub"><span class="sub-nav"><a href="$prefix/get_phet/simlauncher.htm">→ Partial Install</a></span></li>
+                <li class="sub"><span class="sub-nav"><a href="$prefix/get_phet/simlauncher.php">→ Partial Install</a></span></li>
 EOT
         );
         
-        print_navigation_element($prefix, $selected_page, "$prefix/tech_support/index.html",    "Technical Support",
+        print_navigation_element($prefix, $selected_page, "$prefix/tech_support/index.php",    "Technical Support",
             <<<EOT
-                <li class="sub"><span class="sub-nav"><a href="$prefix/tech_support/support-java.htm">→ Java</a></span></li>
+                <li class="sub"><span class="sub-nav"><a href="$prefix/tech_support/support-java.php">→ Java</a></span></li>
 
-                <li class="sub"><span class="sub-nav"><a href="$prefix/tech_support/support-flash.htm">→ Flash</a></span></li>
+                <li class="sub"><span class="sub-nav"><a href="$prefix/tech_support/support-flash.php">→ Flash</a></span></li>
 EOT
         );
         
-        print_navigation_element($prefix, $selected_page, "$prefix/contribute/index.html",      "Contribute",
+        print_navigation_element($prefix, $selected_page, "$prefix/contribute/index.php",      "Contribute",
             <<<EOT
-                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/index.html">→ Ideas and Activities</a></span></li>
+                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/index.php">→ Ideas and Activities</a></span></li>
                 
                 <li class="sub"><span class="sub-nav"><a href="$prefix/contribute/user-edit-profile.php">→ Edit Profile</a></span></li>
 EOT
         );
         
-        print_navigation_element($prefix, $selected_page, "$prefix/research/index.html",        "Research",
+        print_navigation_element($prefix, $selected_page, "$prefix/research/index.php",        "Research",
             ''
         );
         
-        print_navigation_element($prefix, $selected_page, "$prefix/about/index.html",           "About PhET",
+        print_navigation_element($prefix, $selected_page, "$prefix/about/index.php",           "About PhET",
             <<<EOT
                 <li class="sub"><span class="sub-nav"><a href="$prefix/about/contact.php">→ Contact</a></span></li>
 
-                <li class="sub"><span class="sub-nav"><a href="$prefix/about/licensing.htm">→ Licensing</a></span></li>
+                <li class="sub"><span class="sub-nav"><a href="$prefix/about/licensing.php">→ Licensing</a></span></li>
 EOT
         );
                     
@@ -126,7 +126,7 @@ EOT
                     <dd><br />
                     An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
                     <br />
-                    <a href="../sponsors/index.html"><
+                    <a href="../sponsors/index.php"><
                     img src="$prefix/images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
                 </dl>
             </div>
@@ -171,10 +171,10 @@ EOT;
 
                         <div class="mainNav">
                             <ul>
-                                <li><a href="$prefix/index.html">           Home        </a></li>
+                                <li><a href="$prefix/index.php">           Home        </a></li>
                                 <li><a href="$prefix/index.php">            Simulations </a></li>
-                                <li><a href="$prefix/research/index.html">  Research    </a></li>
-                                <li><a href="$prefix/about/index.html">     About PhET  </a></li>
+                                <li><a href="$prefix/research/index.php">  Research    </a></li>
+                                <li><a href="$prefix/about/index.php">     About PhET  </a></li>
                             </ul>
                         </div>
                     </div>
