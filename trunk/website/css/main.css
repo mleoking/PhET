@@ -143,6 +143,39 @@ table td.smartClient,table th.smartClient {
     font-weight:bold;
 }
 
+/******** User-profile form *********/
+#userprofileform {
+	width:   	400;
+	margin:  	auto;
+	padding: 	0px 0px 25px 0px;
+}
+#userprofileform fieldset {
+	padding: 	10px;
+}
+#userprofileform legend {
+    font-weight:bold;
+    font-size:  9pt;
+}
+#userprofileform label {
+    display:	block;
+    height:		2em;
+    padding:	10px 10px 0;
+}
+#userprofileform input {
+    margin-right:20px;
+    border:		1px solid #999999;
+    float:		right;
+    clear:		right;
+    background: #CCCCCC;
+}
+#userprofileform input:focus, #userprofileform input:hover {
+	border:1px solid #333333;
+}
+#userprofileform .error{
+    color:			red;
+    font-weight:	bold;
+}
+
 /* -------- modified sliding doors on globalNav -------- */
 #headerContainer div.globalNav {
 	background:url(../images/globalNavLeft_BG.gif) left bottom no-repeat;
