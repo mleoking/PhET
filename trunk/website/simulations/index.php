@@ -181,7 +181,7 @@ EOT;
             while ($simulation = mysql_fetch_assoc($simulations)) {
                 gather_array_into_globals($simulation);
                 
-                global $sim_id, $sim_animated_image_url, $sim_image_url, $sim_name;
+                global $sim_id, $sim_name;
                 
                 $sim_sorting_name = get_sorting_name($sim_name);
                 

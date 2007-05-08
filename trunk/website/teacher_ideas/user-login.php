@@ -58,7 +58,7 @@
             }
         }
         else {            
-            print_site_page('print_first_time_login_form');
+            print_site_page('print_first_time_login_form', 3);
         
             exit;
         }
@@ -68,7 +68,7 @@
             $password_hash = md5($password);
             
             if (!contributor_is_valid_login($username, $password_hash)) {
-                print_site_page('print_retry_login_form');
+                print_site_page('print_retry_login_form', 3);
     
                 contributor_send_password_reminder($username);
             
@@ -81,7 +81,7 @@
         }
         else if (is_email($username)) {
             if ($password == '') {
-                print_site_page('print_empty_password_login_form');
+                print_site_page('print_empty_password_login_form', 3);
                 
                 exit;
             }
@@ -95,7 +95,7 @@
             }
         }
         else {
-            print_site_page('print_not_an_email_login_form');
+            print_site_page('print_not_an_email_login_form', 3);
 
             exit;
         }
