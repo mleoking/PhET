@@ -52,7 +52,7 @@ public class PhetRootPNode extends PNode {
         return -1;
     }
 
-    public boolean containsChild(PNode node){
+    public boolean hasChild(PNode node){
         return indexOfChild( node )>=0;
     }
 
