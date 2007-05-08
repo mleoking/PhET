@@ -1,8 +1,13 @@
 <?php
 
+    include_once("../admin/db.inc");
+    include_once("../admin/sim-utils.php");
     include_once("../admin/site-utils.php");
+    include_once("../admin/web-utils.php");
     
     function print_content() {
+        global $connection;
+        
         if (isset($_REQUEST['cat'])) {
             $cat = $_REQUEST['cat'];
         }
@@ -85,6 +90,8 @@
 
              while ($simulation = mysql_fetch_assoc($simulations)) {
                 gather_array_into_globals($simulation);
+                
+                global $sim_id, $sim_animated_image_url, $sim_image_url, $sim_name;
 
                 // Make sure the simulation is valid:
                 if (is_numeric($sim_id)) {
@@ -150,6 +157,8 @@ EOT;
             while ($simulation = mysql_fetch_assoc($simulations)) {
                 gather_array_into_globals($simulation);
                 
+                global $sim_id, $sim_animated_image_url, $sim_image_url, $sim_name;
+                
                 $sim_sorting_name = get_sorting_name($sim_name);
                 
                 $cur_char = $sim_sorting_name[0];
@@ -171,6 +180,8 @@ EOT;
             
             while ($simulation = mysql_fetch_assoc($simulations)) {
                 gather_array_into_globals($simulation);
+                
+                global $sim_id, $sim_animated_image_url, $sim_image_url, $sim_name;
                 
                 $sim_sorting_name = get_sorting_name($sim_name);
                 

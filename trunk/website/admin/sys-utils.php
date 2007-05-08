@@ -221,7 +221,6 @@
         
         print($file_contents);
         
-        ob_end_flush();
         flush();
     }
 
