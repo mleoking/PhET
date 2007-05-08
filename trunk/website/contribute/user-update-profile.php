@@ -16,6 +16,6 @@
         print("<p>Your profile has been successfully updated!</p><br/>");
     }
     
-    print_site_page('print_profile_updated_message');
+    print_site_page('print_profile_updated_message', 6);
 
 ?>

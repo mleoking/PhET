@@ -5,6 +5,7 @@
     include_once("../admin/web-utils.php");
     include_once("../admin/sim-utils.php");
     include_once("../admin/db-utils.php");
+    include_once("../admin/site-utils.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -55,47 +56,9 @@
     </div>
 
     <div id="container">
-        <div id="localNav">
-            <ul>
-                <li><a href="../index.html" accesskey="1">Home</a></li>
-
-                <li class=" selected"><a href="#">Simulations</a></li>
-                
-                <?php
-                    print_sim_categories();
-                ?>
-
-                <li><a href="../teacher_ideas/index.html">Teacher Ideas &amp; Activities</a></li>
-
-                <li><a href="../get_phet/index.html">Download PhET</a></li>
-
-                <li><a href="../tech_support/index.html">Technical Support</a></li>
-                
-                <li><a href="../contribute/index.html">Contribute</a></li>
-                
-                <li><a href="../research/index.html">Research</a></li>
-
-                <li><a href="../about/index.html">About PhET</a></li>
-            </ul>
-
-            <h4><br />
-            Principle Sponsors</h4>
-
-            <dl>
-                <dt><a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a></dt>
-
-                <dd><a href="http://www.hewlett.org/Default.htm"><img src="../images/hewlett-logo.jpg" alt="The Hewlett Logo"/></a><br />
-                <br />
-                Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time.</dd>
-
-                <dt><a href="http://www.nsf.gov/"><img class="sponsors" src="../images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a></dt>
-
-                <dd><br />
-                An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
-                <br />
-                <a href="../sponsors/index.html"><img src="../images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
-            </dl>
-        </div>
+        <?php
+            print_navigation_bar(2);
+        ?>
 
         <div id="content">  
             <div class="productList">    

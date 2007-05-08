@@ -10,6 +10,6 @@
         contributor_print_full_edit_form($contributor_id, "user-update-profile.php");
     }
     
-    print_site_page('print_edit_profile_form');
+    print_site_page('print_edit_profile_form', 6);
 
 ?>
