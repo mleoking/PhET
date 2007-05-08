@@ -8,6 +8,11 @@
     
     function print_content() {
             gather_sim_fields_into_globals($_REQUEST['sim_id']);
+            
+            global $sim_name, $sim_rating, $sim_type, $sim_desc, $sim_launch_url, $sim_image_url,
+                   $sim_main_topics, $sim_subtopics, $sim_teachers_guide_url, $sim_design_team,
+                   $sim_libraries, $sim_thanks_to, $SIM_TYPE_TO_IMAGE, $SIM_RATING_TO_IMAGE,
+                   $sim_sample_goals;
         ?>
 
         <div class="productListHeader">

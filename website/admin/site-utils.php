@@ -141,8 +141,8 @@ EOT
                     <dd><br />
                     An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
                     <br />
-                    <a href="../sponsors/index.php"><
-                    img src="$prefix/images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
+                    <a href="../sponsors/index.php">
+                    <img src="$prefix/images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
                 </dl>
             </div>
 EOT;
