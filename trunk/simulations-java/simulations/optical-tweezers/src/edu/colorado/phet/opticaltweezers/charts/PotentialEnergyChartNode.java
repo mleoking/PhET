@@ -2,29 +2,51 @@
 
 package edu.colorado.phet.opticaltweezers.charts;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Stroke;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotRenderingInfo;
+import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.CloseButtonNode;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 
 public class PotentialEnergyChartNode extends PhetPNode {
     
-    private PotentialEnergyChart _chart;
+    public static final double DEFAULT_HEIGHT = 200;
+    
+    private static final Color BACKGROUND_COLOR = new Color( 255, 255, 255, 200 ); // translucent white
+    private static final Color CHART_BORDER_COLOR = Color.BLACK;
+    private static final Stroke CHART_BORDER_STROKE = new BasicStroke( 6f );
+    private static final RectangleInsets CHART_INSETS = new RectangleInsets( 10, 10, 10, 10 ); // top,left,bottom,right
+
+    private PotentialEnergyPlot _plot;
+    private JFreeChart _chart;
     private JFreeChartNode _chartWrapper;
     private CloseButtonNode _closeButtonNode;
     
-    public PotentialEnergyChartNode( PSwingCanvas canvas, PotentialEnergyChart chart ) {
+    public PotentialEnergyChartNode() {
         super();
         
-        _chart = chart;
-        _chartWrapper = new JFreeChartNode( chart );
+        _plot = new PotentialEnergyPlot();
+        
+        _chart = new JFreeChart( OTResources.getString( "title.potentialEnergyChart" ), null /* titleFont */, _plot, false /* createLegend */ );
+        _chart.setAntiAlias( true );
+        _chart.setBorderVisible( true );
+        _chart.setBackgroundPaint( BACKGROUND_COLOR );
+        _chart.setBorderPaint( CHART_BORDER_COLOR );
+        _chart.setBorderStroke( CHART_BORDER_STROKE );
+        _chart.setPadding( CHART_INSETS );
+        
+        _chartWrapper = new JFreeChartNode( _chart );
         addChild( _chartWrapper );
         
         _closeButtonNode = new CloseButtonNode();
@@ -37,17 +59,10 @@ public class PotentialEnergyChartNode extends PhetPNode {
         updateLayout();
     }
     
-    public PotentialEnergyChart getPotentialEnergyChart() {
-        return _chart;
-    }
-    
     public void setChartSize( double w, double h ) {
         _chartWrapper.setBounds( 0, 0, w, h );
-        updateLayout();
-    }
-    
-    public void updateChartRenderingInfo() {
         _chartWrapper.updateChartRenderingInfo();
+        updateLayout();
     }
     
     /**

@@ -14,7 +14,6 @@ MEDIUM PRIORITY:
 - connect position histogram to model
 - connect potential energy chart to model
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
-- use proper plot type for PositionHistogramPlot
 - clock speed: fast=[realtime* 10^-2, realtime], slow=[realtime*140*10^-16, realtime*7*10^-16], dead in between
 - get spec for "Simulation speed" control
 - get spec for "Show change in momentum model" feature
@@ -50,6 +49,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/8/07 - change implementation of PositionHistogramPlot to use HistogramDataset
+5/8/07 - delete PositionHistogramChart and PotentialEnergyChart, collapse into associated nodes
 5/2/07 - migrate CloseButton to phetcommon, CloseButtonNode to piccolo-phet, remove duplicate image file
 5/2/07 - generalize new velocity computation in Bead.move to work with any fluid velocity direction
 5/2/07 - generalize Fluid.getDragForce to work with any fluid velocity direction

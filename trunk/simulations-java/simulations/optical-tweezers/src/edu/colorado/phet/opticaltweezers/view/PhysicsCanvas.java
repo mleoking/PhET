@@ -137,9 +137,7 @@ public class PhysicsCanvas extends PhetPCanvas {
         _rulerNode = new OTRulerNode( laser, model.getModelViewTransform(), _rulerDragBoundsNode );
         
         // Position Histogram chart
-        PositionHistogramPlot positionHistogramPlot = new PositionHistogramPlot();
-        PositionHistogramChart positionHistogramChart = new PositionHistogramChart( positionHistogramPlot );
-        _positionHistogramChartNode = new PositionHistogramChartNode( positionHistogramChart, laser, bead, clock );
+        _positionHistogramChartNode = new PositionHistogramChartNode( bead, clock, modelViewTransform );
         _positionHistogramChartNode.addCloseListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 _positionHistogramChartNode.setVisible( false );
@@ -147,9 +145,7 @@ public class PhysicsCanvas extends PhetPCanvas {
         });
         
         // Potential Energy chart
-        PotentialEnergyPlot potentialEnergyPlot = new PotentialEnergyPlot();
-        PotentialEnergyChart potentialEnergyChart = new PotentialEnergyChart( potentialEnergyPlot );
-        _potentialEnergyChartNode = new PotentialEnergyChartNode( this, potentialEnergyChart );
+        _potentialEnergyChartNode = new PotentialEnergyChartNode();
         _potentialEnergyChartNode.addCloseListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 _potentialEnergyChartNode.setVisible( false );
@@ -269,19 +265,13 @@ public class PhysicsCanvas extends PhetPCanvas {
             return;
         }
         
-        // Fluid width adjusts to fill the canvas.
-        _fluidNode.setWorldSize( worldSize );
-        
-        // Ruler width adjusts to fill the canvas.
-        _rulerNode.setWorldSize( worldSize );
-        
-        // Position Histogram chart resizes to fill the canvas.
-        _positionHistogramChartNode.setChartSize( worldSize.getWidth(), 200 );
-        _positionHistogramChartNode.updateChartRenderingInfo();
-        
-        // Potential Energy chart resizes to fill the canvas.
-        _potentialEnergyChartNode.setChartSize( worldSize.getWidth(), 250 );
-        _potentialEnergyChartNode.updateChartRenderingInfo();
+        // Adjust width of things that must fill the canvas width
+        {
+            _fluidNode.setWorldSize( worldSize );
+            _rulerNode.setWorldSize( worldSize );
+            _positionHistogramChartNode.setChartSize( worldSize.getWidth(), PositionHistogramChartNode.DEFAULT_HEIGHT );
+            _potentialEnergyChartNode.setChartSize( worldSize.getWidth(), PotentialEnergyChartNode.DEFAULT_HEIGHT );
+        }
 
         // Adjust drag bounds of bead, so it stays in the fluid
         {
