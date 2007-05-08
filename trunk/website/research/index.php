@@ -1,62 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?php
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>PhET :: Physics Education Technology at CU Boulder</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" />
-<style type="text/css">
-/*<![CDATA[*/
-        @import url(../css/main.css);
-/*]]>*/
-</style>
-</head>
-
-<body>
-    <div id="skipNav">
-        <a href="#content" accesskey="0">Skip to Main Content</a>
-    </div>
-
-    <div id="header">
-        <div id="headerContainer">
-            <div class="images">
-                <span class="logo">
-                    <img src="../images/phet-logo.gif" alt="" title="" />
-                </span>
-                
-                <span class="title">
-                    <img src="../images/logo-title.jpg" alt="" title="" />
-                </span>
-            </div>
-
-            <div class="clear"></div>
-
-            <div class="mainNav">
-                <ul>
-                    <li><a href="../index.php" accesskey="1">Home</a></li>
-
-                    <li><a href="../simulations/index.php" accesskey="2">Simulations</a></li>
-
-                    <li><a href="../research/index.php" accesskey="3">Research</a></li>
-
-                    <li><a href="../about/index.php" accesskey="4">About PhET</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="container">
-        <?php
-            include_once("../admin/site-utils.php");
-            
-            print_navigation_bar(7);
+    include_once("../admin/site-utils.php");
+    
+    function print_content() {
         ?>
-
-        <div id="content">
-            <br />
-            <br />
-
             <h1>PhET Research</h1>
 
             <p>We direct our research at assessing the effectiveness of our interactive simulations in a variety of educational environments, particularly introductory physics courses and as stand-alone, informal educational tools.</p>
@@ -136,10 +83,9 @@
 
                 <li><a href="http://phet.colorado.edu/web-pages/publications/Perkins_PERC_revisedfinal.pdf"><span class="red"><em>Correlating Student Beliefs With Student Learning Using The Colorado Learning Attitudes about Science Survey,</em></span></a> K. K. Perkins, W. K. Adams, N. D. Finkelstein, S. J. Pollock, and C. E. Wieman. PERC Proceedings 2004.</li>
             </ul>
+        <?php
+    }
 
-            <p class="footer">© 2007 PhET. All rights reserved.<br />
-            
-        </div>
-    </div>
-</body>
-</html>
+    print_site_page('print_content', 7);
+
+?>

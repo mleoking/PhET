@@ -1,68 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?php
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>PhET :: Physics Education Technology at CU Boulder</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" />
-<style type="text/css">
-/*<![CDATA[*/
-        @import url(../css/main.css);
-        @import url(../css/test.css);
-/*]]>*/
-</style>
-<script type="text/javascript" src="../js/dropdown.js">
-</script>
-</head>
-
-<body>
-    <div id="skipNav">
-        <a href="#content" accesskey="0">Skip to Main Content</a>
-    </div>
-
-    <div id="header">
-        <div id="headerContainer">
-            <div class="images">
-                <span class="logo">
-                    <img src="../images/phet-logo.gif" alt="" title="" />
-                </span>
-                
-                <span class="title">
-                    <img src="../images/logo-title.jpg" alt="" title="" />
-                </span>
-            </div>
-
-            <div class="clear"></div>
-
-            <div class="mainNav">
-                <ul>
-                    <li><a href="../index.php" accesskey="1">Home</a></li>
-
-                    <li><a href="../simulations/index.php" accesskey="2">Simulations</a></li>
-
-                    <li><a href="../research/index.php" accesskey="3">Research</a></li>
-
-                    <li><a href="../about/index.php" accesskey="4">About PhET</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="container">
-        <?php 
-            include_once("../admin/site-utils.php");
-            
-            print_navigation_bar(5);
+    include_once("../admin/site-utils.php");
+    
+    function print_content() {
         ?>
-
-        <div id="content">
-            <br />
-            <br />
-
             <h1>Technical Support</h1>
 
-            <p>This page will help you solve some of the problems people commonly have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.</p>
+            <p>This page will help you solve some of the problems people commonly have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu?Subject=Help"><span class="red">phethelp@colorado.edu</span></a>.</p>
 
             <ul class="content-points">
                 <li><a href="support-java.php">Java Installation and Troubleshooting</a></li>
@@ -208,41 +152,9 @@
             <h3 id="10" style="margin: 0px 0px -10px 0px;">I would like to translate PhET Simulations into another Language. Can this be easily done?</h3>
 
             <p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vehicula sodales dui. Integer feugiat augue id diam. Vivamus vitae ante id velit sagittis tincidunt. Aliquam sed orci. Maecenas nibh sapien, commodo vel, tristique in, sodales ut, quam. Sed dolor lorem, condimentum a, ultrices in, rhoncus eu, nisi. Donec nec ipsum et lectus volutpat mattis. Mauris eget dolor. Maecenas auctor, sem a sollicitudin bibendum, urna est fermentum nisi, id vehicula tortor augue at nibh. Donec pulvinar euismod justo. Nunc in turpis. Pellentesque eu purus quis enim pellentesque aliquam. Morbi scelerisque ipsum vel neque. Sed eget magna. Vestibulum dictum, nisi non auctor suscipit, enim sapien pulvinar tellus, sollicitudin cursus libero purus vitae mi. In hac habitasse platea dictumst. Donec vel eros. Maecenas interdum, magna non scelerisque cursus, mi massa sodales diam, a pulvinar magna diam vitae mi. Sed molestie lobortis urna.</p>
+        <?php
+    }
 
-            <p><a href="#top"><img src="../images/top.gif" /></a></p>
+    print_site_page('print_content', 5);
 
-            <p class="footer">© 2007 PhET. All rights reserved.<br />
-            
-        </div>
-    </div>
-
-    <p><script language="JavaScript" type="text/javascript">
-//<![CDATA[
-<!--
-var SymRealOnLoad;
-var SymRealOnUnload;
-
-function SymOnUnload()
-{
-  window.open = SymWinOpen;
-  if(SymRealOnUnload != null)
-     SymRealOnUnload();
-}
-
-function SymOnLoad()
-{
-  if(SymRealOnLoad != null)
-     SymRealOnLoad();
-  window.open = SymRealWinOpen;
-  SymRealOnUnload = window.onunload;
-  window.onunload = SymOnUnload;
-}
-
-SymRealOnLoad = window.onload;
-window.onload = SymOnLoad;
-
-//-->
-//]]>
-</script></p>
-</body>
-</html>
+?>

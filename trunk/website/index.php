@@ -57,25 +57,12 @@
         <div class="section">
 
 <div class="mainImage">
-
-
     
             <?php
                 print "<img width=\"350\" height=\"277\" src=\"random-thumbnail.php\" alt=\"\">";            
             ?>
             
 </div>
-
-            <!-- <object class="mainImage" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="350" height="277">
-                <param name="movie" value="slide-home.swf" />
-                <param name="quality" value="high" />
-                
-                <embed src="slide-home.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="350" height="277" />
-                
-                
-                
-                
-            </object> -->
 
             <h1>Interactive Physics Simulations</h1>
 

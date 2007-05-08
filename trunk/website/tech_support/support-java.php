@@ -1,65 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?php
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>PhET :: Physics Education Technology at CU Boulder</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" />
-<style type="text/css">
-/*<![CDATA[*/
-        @import url(../css/main.css);
-        @import url(../css/test.css);
-/*]]>*/
-</style>
-<script type="text/javascript" src="../js/dropdown.js">
-</script>
-</head>
-
-<body>
-    <div id="skipNav">
-        <a href="#content" accesskey="0">Skip to Main Content</a>
-    </div>
-
-    <div id="header">
-        <div id="headerContainer">
-            <div class="images">
-                <span class="logo">
-                    <img src="../images/phet-logo.gif" alt="" title="" />
-                </span>
-                
-                <span class="title">
-                    <img src="../images/logo-title.jpg" alt="" title="" />
-                </span>
-            </div>
-
-            <div class="clear"></div>
-
-            <div class="mainNav">
-                <ul>
-                    <li><a href="../index.php" accesskey="1">Home</a></li>
-
-                    <li><a href="../simulations/index.php" accesskey="2">Simulations</a></li>
-
-                    <li><a href="../research/index.php" accesskey="3">Research</a></li>
-
-                    <li><a href="../about/index.php" accesskey="4">About PhET</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="container">
-        <?php 
-            include_once("../admin/site-utils.php");
-
-            print_navigation_bar(5);
+    include_once("../admin/site-utils.php");
+    
+    function print_content() {
         ?>
-
-        <div id="content">
-            <br />
-            <br />
-
             <h1>Technical Support - Java</h1>
 
             <p>PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This page will help you ensure that you have Java installed properly, and address some of the problems people might have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.</p>
@@ -175,39 +119,9 @@
             Please ensure that your firewall is configured to allow both Java and Java Web Start to communicate through the firewall.</p>
 
             <p><a href="#top"><img src="../images/top.gif" /></a></p>
+        <?php
+    }
 
-            <p class="footer">© 2007 PhET. All rights reserved.<br />
-            
-        </div>
-    </div>
+    print_site_page('print_content', 5);
 
-    <p><script language="JavaScript" type="text/javascript">
-//<![CDATA[
-<!--
-var SymRealOnLoad;
-var SymRealOnUnload;
-
-function SymOnUnload()
-{
-  window.open = SymWinOpen;
-  if(SymRealOnUnload != null)
-     SymRealOnUnload();
-}
-
-function SymOnLoad()
-{
-  if(SymRealOnLoad != null)
-     SymRealOnLoad();
-  window.open = SymRealWinOpen;
-  SymRealOnUnload = window.onunload;
-  window.onunload = SymOnUnload;
-}
-
-SymRealOnLoad = window.onload;
-window.onload = SymOnLoad;
-
-//-->
-//]]>
-</script></p>
-</body>
-</html>
+?>

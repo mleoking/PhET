@@ -2,7 +2,22 @@
     include_once("db.inc");
     include_once("web-utils.php");
     include_once("sim-utils.php");
-    include_once("db-utils.php");
+    include_once("db-utils.php");    
+    
+    function print_header_navigation_element($prefix, $selected_page, $link, $desc, $access_key) {
+        $this_element_is_selected = "$access_key" == "$selected_page";
+
+        if ($this_element_is_selected) {
+            $selected_status = "class=\"selected\"";
+        }
+        else {
+            $selected_status = '';
+        }
+
+        print <<<EOT
+            <li $selected_status><a href="$prefix/$link" accesskey="$access_key">$desc</a></li>
+EOT;
+    }
     
     function print_navigation_element($prefix, $selected_page, $link, $desc, $submenu_text) {
         static $access_key = 1;
@@ -171,10 +186,14 @@ EOT;
 
                         <div class="mainNav">
                             <ul>
-                                <li><a href="$prefix/index.php">           Home        </a></li>
-                                <li><a href="$prefix/index.php">            Simulations </a></li>
-                                <li><a href="$prefix/research/index.php">  Research    </a></li>
-                                <li><a href="$prefix/about/index.php">     About PhET  </a></li>
+EOT;
+
+        print_header_navigation_element($prefix, $selected_page, "$prefix/index.php",              "Home",          1);
+        print_header_navigation_element($prefix, $selected_page, "$prefix/simulations/index.php",  "Simulations",   2);
+        print_header_navigation_element($prefix, $selected_page, "$prefix/research/index.php",     "Research",      7);
+        print_header_navigation_element($prefix, $selected_page, "$prefix/about/index.php",        "About PhET",    8);
+                                
+       print <<<EOT
                             </ul>
                         </div>
                     </div>
