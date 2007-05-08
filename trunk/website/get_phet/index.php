@@ -34,62 +34,24 @@
 
             <div class="mainNav">
                 <ul>
-                    <li><a href="../index.html" accesskey="1">Home</a></li>
+                    <li><a href="../index.php" accesskey="1">Home</a></li>
 
                     <li><a href="../simulations/index.php" accesskey="2">Simulations</a></li>
 
-                    <li><a href="../research/index.html" accesskey="3">Research</a></li>
+                    <li><a href="../research/index.php" accesskey="3">Research</a></li>
 
-                    <li><a href="../about/index.html" accesskey="4">About PhET</a></li>
+                    <li><a href="../about/index.php" accesskey="4">About PhET</a></li>
                 </ul>
             </div>
         </div>
     </div>
 
     <div id="container">
-        <div id="localNav">
-            <ul>
-                <li><a href="../index.html">Home</a></li>
-                
-                <li><a href="../simulations/index.php">Simulations</a></li>
-
-                <li><a href="../teacher_ideas/index.html">Teacher Ideas &amp; Activities</a></li>
-
-                <li class=" selected"><a href="index.html">Download PhET</a></li>
-
-                <li class="sub"><span class="sub-nav"><a href="../simulations/index.php">→ Online</a></span></li>
-
-                <li class="sub"><span class="sub-nav"><a href="full_install.htm">→ Full Install</a></span></li>
-
-                <li class="sub"><span class="sub-nav"><a href="simlauncher.htm">→ Partial Install</a></span></li>
-
-                <li><a href="../tech_support/index.html">Technical Support</a></li>
-
-                <li><a href="../contribute/index.html">Contribute</a></li>
-                
-                <li><a href="../research/index.html">Research</a></li>
-
-                <li><a href="../about/index.html">About PhET</a></li>
-            </ul>
-
-            <h4><br />
-            Principle Sponsors</h4>
-
-            <dl>
-                <dt><a href="http://www.hewlett.org/Default.htm" target="_blank">The William and Flora Hewlett Foundation</a></dt>
-
-                <dd><img src="../images/hewlett-logo.jpg" /><br />
-                <br />
-                Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time.</dd>
-
-                <dt><a href="http://www.nsf.gov/" target="_blank"><img class="sponsors" src="../images/nsf-logo.gif" />National Science Foundation</a></dt>
-
-                <dd><br />
-                An independent federal agency created by Congress in 1950 "to promote the progress of science.<br />
-                <br />
-                <a href="../sponsors/index.html"><img src="../images/other-sponsors.gif" /></a></dd>
-            </dl>
-        </div>
+        <?php
+            include_once("../admin/site-utils.php");
+            
+            print_navigation_bar(4);
+        ?>
 
         <div id="content">
             <br />
@@ -111,14 +73,14 @@
                     <th scope="row" abbr="" class="specalt-none">
                         <center>
                             Full PhET Installation<br />
-                            <a href="full_install.htm"><img src="../images/button-clickhere.jpg" /></a>
+                            <a href="full_install.php"><img src="../images/button-clickhere.jpg" /></a>
                         </center>
                     </th>
 
                     <th scope="row" abbr="" class="specalt-none">
                         <center>
                             Individual Sim Installers<br />
-                            <a href="simlauncher.htm"><img src="../images/button-clickhere.jpg" /></a>
+                            <a href="simlauncher.php"><img src="../images/button-clickhere.jpg" /></a>
                         </center>
                     </th>
                 </tr>

@@ -39,13 +39,13 @@
 
             <div class="mainNav">
                 <ul>
-                    <li  class="selected"><a href="index.html" accesskey="1">Home</a></li>
+                    <li  class="selected"><a href="index.php" accesskey="1">Home</a></li>
 
                     <li><a href="simulations/index.php" accesskey="2">Simulations</a></li>
 
-                    <li><a href="research/index.html" accesskey="3">Research</a></li>
+                    <li><a href="research/index.php" accesskey="3">Research</a></li>
 
-                    <li><a href="about/index.html" accesskey="4">About PhET</a></li>
+                    <li><a href="about/index.php" accesskey="4">About PhET</a></li>
                 </ul>
             </div>
             
@@ -90,27 +90,27 @@
 
         <div class="practices">
             <dl>
-                <dt><a href="get_phet/index.html"><img src="images/three-ways.jpg" alt="" title="" /></a></dt>
+                <dt><a href="get_phet/index.php"><img src="images/three-ways.jpg" alt="" title="" /></a></dt>
 
                 <dd><a href="simulations/index.php">On Line</a></dd>
 
-                <dd><a href="get_phet/full_install.htm">Full Installation</a></dd>
+                <dd><a href="get_phet/full_install.php">Full Installation</a></dd>
 
-                <dd><a href="get_phet/simlauncher.htm">Partial Installation</a></dd>
+                <dd><a href="get_phet/simlauncher.php">Partial Installation</a></dd>
             </dl>
 
             <dl>
-                <dt><a href="teacher_ideas/index.html"><img src="images/get-materials.jpg" alt="" title="" /></a></dt>
+                <dt><a href="teacher_ideas/index.php"><img src="images/get-materials.jpg" alt="" title="" /></a></dt>
 
-                <dd><a href="teacher_ideas/index.html">Search for lesson plans and activities that were created by teachers to use with the PhET simulations</a></dd>
+                <dd><a href="teacher_ideas/index.php">Search for lesson plans and activities that were created by teachers to use with the PhET simulations</a></dd>
             </dl>
 
             <dl>
-                <dt><a href="contribute/index.html"><img src="images/contribute.jpg" alt="" title="" /></a></dt>
+                <dt><a href="contribute/index.php"><img src="images/contribute.jpg" alt="" title="" /></a></dt>
 
-                <dd><a href="teacher_ideas/index.html">Provide ideas you've used in class</a></dd>
+                <dd><a href="teacher_ideas/index.php">Provide ideas you've used in class</a></dd>
 
-                <dd><a href="contribute/index.html">Other contributions</a></dd>
+                <dd><a href="contribute/index.php">Other contributions</a></dd>
             </dl>
 
             <dl class="last">

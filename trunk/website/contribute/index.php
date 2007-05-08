@@ -34,60 +34,24 @@
 
             <div class="mainNav">
                 <ul>
-                    <li><a href="../index.html" accesskey="1">Home</a></li>
+                    <li><a href="../index.php" accesskey="1">Home</a></li>
 
                     <li><a href="../simulations/index.php" accesskey="2">Simulations</a></li>
 
-                    <li><a href="../research/index.html" accesskey="3">Research</a></li>
+                    <li><a href="../research/index.php" accesskey="3">Research</a></li>
 
-                    <li><a href="../about/index.html" accesskey="4">About PhET</a></li>
+                    <li><a href="../about/index.php" accesskey="4">About PhET</a></li>
                 </ul>
             </div>
         </div>
     </div>
 
     <div id="container">
-        <div id="localNav">
-            <ul>
-                <li><a href="../index.html">Home</a></li>
-                
-                <li><a href="../simulations/index.php">Simulations</a></li>
-
-                <li><a href="../teacher_ideas/index.html">Teacher Ideas &amp; Activities</a></li>
-
-                <li><a href="../get_phet/index.html">Download PhET</a></li>
-
-                <li><a href="../tech_support/index.html">Technical Support</a></li>
-
-                <li class=" selected"><a href="index.html">Contribute</a></li>
-
-                <li class="sub"><span class="sub-nav"><a href="../teacher_ideas/index.html">→ Ideas and Activities</a></span></li>
-                
-                <li class="sub"><span class="sub-nav"><a href="../contribute/user-edit-profile.php">→ Edit Profile</a></span></li>
-                
-                <li><a href="../research/index.html">Research</a></li>
-
-                <li><a href="../about/index.html">About PhET</a></li>
-            </ul>
-
-            <h4><br />
-            Principle Sponsors</h4>
-
-            <dl>
-                <dt><a href="http://www.hewlett.org/Default.htm" target="_blank">The William and Flora Hewlett Foundation</a></dt>
-
-                <dd><img src="../images/hewlett-logo.jpg" /><br />
-                <br />
-                Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time.</dd>
-
-                <dt><a href="http://www.nsf.gov/" target="_blank"><img class="sponsors" src="../images/nsf-logo.gif" />National Science Foundation</a></dt>
-
-                <dd><br />
-                An independent federal agency created by Congress in 1950 "to promote the progress of science.<br />
-                <br />
-                <a href="../sponsors/index.html"><img src="../images/other-sponsors.gif" /></a></dd>
-            </dl>
-        </div>
+        <?php
+            include_once("../admin/site-utils.php");
+            
+            print_navigation_bar(6);
+        ?>
 
         <div id="content">
             <br />
@@ -97,13 +61,13 @@
 
             <h2>Academic Contributions</h2>
 
-            <p>If you have developed concept questions, problem sets, lesson plans, and other educational activities based on PhET simulations that may be of use to others, we encourage you to share your work with other educators by contributing to our <a href="../teacher_ideas/index.html">activities database</a>.</p>
+            <p>If you have developed concept questions, problem sets, lesson plans, and other educational activities based on PhET simulations that may be of use to others, we encourage you to share your work with other educators by contributing to our <a href="../teacher_ideas/index.php">activities database</a>.</p>
 
             <h2>Financial Contributions</h2>
 
             <p>Our philosophy is to make PhET simulations freely available to all users around the world. They have now been run hundreds of thousands of times from our web site, and the full PhET suite has been installed on thousands of computers. But while the simulations may be free to users, they are expensive for us to create, test and maintain, and our financial support is limited. If you would like to help make it possible for us to develop more and better simulations, please contact Krista Beck at kristab@jila.colorado.edu or phone (303-492-7746) to find out how you can make a tax deductible contribution.</p>
 
-            <p>PhET would like to thank <a href="../sponsors/index.html">→ our sponsors</a>.</p>
+            <p>PhET would like to thank <a href="../sponsors/index.php">→ our sponsors</a>.</p>
 
             <h2>Translate Simulations</h2>
 
