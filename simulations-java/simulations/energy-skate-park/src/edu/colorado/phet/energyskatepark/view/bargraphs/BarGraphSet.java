@@ -33,7 +33,7 @@ import java.util.ArrayList;
  */
 
 public class BarGraphSet extends PNode {
-    private EnergySkateParkSimulationPanel rampPanel;
+//    private EnergySkateParkSimulationPanel rampPanel;
     private EnergySkateParkModel model;
     private ModelViewTransform1D transform1D;
     private double barChartHeight;
@@ -55,7 +55,7 @@ public class BarGraphSet extends PNode {
 
     public BarGraphSet( EnergySkateParkSimulationPanel energySkateParkSimulationPanel, EnergySkateParkModel energySkateParkModel,
                         String title, ModelViewTransform1D transform1D ) {
-        this.rampPanel = energySkateParkSimulationPanel;
+//        this.rampPanel = energySkateParkSimulationPanel;
         this.model = energySkateParkModel;
         this.transform1D = transform1D;
         topY = 0;
@@ -158,9 +158,9 @@ public class BarGraphSet extends PNode {
         return minimized;
     }
 
-    public EnergyLookAndFeel getLookAndFeel() {
-        return rampPanel.getEnergyConservationModule().getEnergyLookAndFeel();
-    }
+//    public EnergyLookAndFeel getLookAndFeel() {
+//        return rampPanel.getEnergyConservationModule().getEnergyLookAndFeel();
+//    }
 
     public ModelViewTransform1D getTransform1D() {
         return new ModelViewTransform1D( transform1D );
