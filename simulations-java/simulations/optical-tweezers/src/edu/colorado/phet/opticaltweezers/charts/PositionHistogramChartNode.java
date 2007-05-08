@@ -15,19 +15,21 @@ import java.util.Observer;
 import javax.swing.JButton;
 
 import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotRenderingInfo;
+import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.CloseButtonNode;
 import edu.colorado.phet.opticaltweezers.model.Bead;
-import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.opticaltweezers.view.node.ModelViewTransform;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -35,6 +37,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class PositionHistogramChartNode extends PhetPNode implements Observer {
 
+    public static final double DEFAULT_HEIGHT = 100;
+    
+    private static final Color BACKGROUND_COLOR = new Color( 255, 255, 255, 200 ); // translucent white
     private static final Color BORDER_COLOR = Color.BLACK;
     private static final Stroke BORDER_STROKE = new BasicStroke( 6f );
     private static final Font TITLE_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
@@ -42,11 +47,12 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
     private static final Font LABEL_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 14 );
     private static final Color LABEL_COLOR = Color.BLACK;
 
-    private PositionHistogramChart _chart;
-    private Laser _laser;
+    private PositionHistogramPlot _plot;
+    private JFreeChart _chart;
     private Bead _bead;
     private IClock _clock;
     private ClockListener _clockListener;
+    private ModelViewTransform _modelViewTransform;
 
     private boolean _isRunning;
     private int _numberOfMeasurements;
@@ -64,20 +70,24 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
     private String _measurementsString;
     private CloseButtonNode _closeButtonNode;
 
-    public PositionHistogramChartNode( PositionHistogramChart chart, Laser laser, Bead bead, IClock clock ) {
+    public PositionHistogramChartNode( Bead bead, IClock clock, ModelViewTransform modelViewTransform ) {
         super();
 
-        _chart = chart;
+        _plot = new PositionHistogramPlot();
         _bead = bead;
+        _clock = clock;
+        _modelViewTransform = modelViewTransform;
+        
         _isRunning = false;
         _numberOfMeasurements = 0;
 
-        _laser = laser;
-        _laser.addObserver( this );
-
-        _clock = clock;
+        _chart = new JFreeChart( null /* title */, null /* titleFont */, _plot, false /* createLegend */ );
+        _chart.setAntiAlias( true );
+        _chart.setBorderVisible( false );
+        _chart.setBackgroundPaint( BACKGROUND_COLOR );
+        _chart.setPadding( new RectangleInsets( 0, 5, 5, 5 ) ); // top,left,bottom,right
+        
         _clockListener = new ClockAdapter() {
-
             public void clockTicked( ClockEvent event ) {
                 if ( _isRunning ) {
                     handleClockEvent( event );
@@ -92,7 +102,7 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         _borderNode.setStrokePaint( BORDER_COLOR );
 
         _controlsBackgroundNode = new PPath();
-        _controlsBackgroundNode.setPaint( _chart.getBackgroundPaint() );
+        _controlsBackgroundNode.setPaint( BACKGROUND_COLOR );
         _controlsBackgroundNode.setStroke( null );
 
         _measurementsString = OTResources.getString( "label.measurements" );
@@ -123,7 +133,6 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         clearButton.setFont( LABEL_FONT );
         clearButton.setForeground( LABEL_COLOR );
         clearButton.addActionListener( new ActionListener() {
-
             public void actionPerformed( ActionEvent event ) {
                 clearMeasurements();
             }
@@ -157,21 +166,13 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
     }
 
     public void cleanup() {
-        _laser.deleteObserver( this );
         _clock.removeClockListener( _clockListener );
-    }
-
-    public PositionHistogramChart getPositionHistogramChart() {
-        return _chart;
     }
 
     public void setChartSize( double w, double h ) {
         _chartWrapper.setBounds( 0, 0, w, h );
-        updateLayout();
-    }
-
-    public void updateChartRenderingInfo() {
         _chartWrapper.updateChartRenderingInfo();
+        updateLayout();
     }
 
     public void setVisible( boolean visible ) {
@@ -222,7 +223,7 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
      * Clears all measurements from the chart.
      */
     private void clearMeasurements() {
-        _chart.clearData();
+        _plot.clear();
         setNumberOfMeasurements( 0 );
     }
 
@@ -230,23 +231,23 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         if ( _isRunning ) {
             setNumberOfMeasurements( _numberOfMeasurements + 1 );
             double x = _bead.getPositionRef().getX();
-            //XXX add measurement to the chart's dataset
+            _plot.addPosition( x );
         }
     }
 
     public void update( Observable o, Object arg ) {
-        if ( o == _laser ) {
-            if ( arg == Laser.PROPERTY_POSITION ) {
-                updatePosition();
+        if ( o == _bead ) {
+            if ( arg == Bead.PROPERTY_POSITION ) {
+                updateData();
             }
         }
     }
 
     /*
-     * Updates the x-axis range to match the position of the laser.
+     * Updates the histogram data.
      */
-    private void updatePosition() {
-    //XXX
+    private void updateData() {
+        //XXX
     }
 
     /*
@@ -259,7 +260,11 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         final double buttonSpacing = 5;
 
         final double maxWidth = _chartWrapper.getFullBounds().getWidth();
-        final double maxHeight = Math.max( Math.max( Math.max( _measurementsLabel.getFullBounds().getHeight(), _titleLabel.getFullBounds().getHeight() ), _startStopButtonWrapper.getFullBounds().getHeight() ), _clearButtonWrapper.getFullBounds().getHeight() ) + vertMargin;
+        double maxHeight = Math.max( _measurementsLabel.getFullBounds().getHeight(), _titleLabel.getFullBounds().getHeight() );
+        maxHeight = Math.max( maxHeight, _startStopButtonWrapper.getFullBounds().getHeight() );
+        maxHeight = Math.max( maxHeight, _clearButtonWrapper.getFullBounds().getHeight() );
+        maxHeight = Math.max( maxHeight, _closeButtonNode.getFullBounds().getHeight() );
+        maxHeight += vertMargin;
 
         double x = 0;
         double y = 0;

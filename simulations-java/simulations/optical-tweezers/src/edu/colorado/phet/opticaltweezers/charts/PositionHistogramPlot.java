@@ -6,53 +6,45 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.Random;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.Range;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.data.statistics.HistogramDataset;
+import org.jfree.data.statistics.HistogramType;
 
 import edu.colorado.phet.opticaltweezers.OTConstants;
 
 
-public class PositionHistogramPlot extends XYPlot implements Observer {
+public class PositionHistogramPlot extends XYPlot {
 
     private static final String SERIES_KEY = "positionFrequencySeries";
     private static final Color BACKGROUND_COLOR = new Color( 0, 0, 0, 0 ); // transparent
-    private static final Color PLOT_COLOR = Color.BLACK; //XXX
-    private static final Stroke PLOT_STROKE = new BasicStroke( 1f );
+    private static final Color BAR_FILL_COLOR = Color.YELLOW;
+    private static final Color BAR_OUTLINE_COLOR = Color.BLACK;
     private static final Color GRIDLINES_COLOR = Color.BLACK;
     private static final Font AXIS_LABEL_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 14 );
     private static final Stroke AXIS_STROKE = new BasicStroke( 1f );
     private static final Color AXIS_COLOR = Color.BLACK;
+    private static final int NUMBER_OF_HISTOGRAM_BINS = 100;
     
-    private XYSeries _series;
     private NumberAxis _xAxis, _yAxis;
+    private double[] _positions;
     
     public PositionHistogramPlot() {
         super();
         
+        XYBarRenderer renderer = new XYBarRenderer();
+        renderer.setPaint( BAR_FILL_COLOR );
+        renderer.setOutlinePaint( BAR_OUTLINE_COLOR );
+        setRenderer( renderer );
+        
         // axis labels
         String positonLabel = "";
         String frequencyLabel = "";
-        
-        // Series & dataset
-        _series = new XYSeries( SERIES_KEY, false /* autoSort */);
-        XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries( _series );
-        setDataset( dataset );
-        
-        // Renderer
-        StandardXYItemRenderer renderer = new StandardXYItemRenderer();
-        renderer.setDrawSeriesLineAsPath( true );
-        renderer.setPaint( PLOT_COLOR );
-        renderer.setStroke( PLOT_STROKE );
-        setRenderer( renderer );
         
         _xAxis = new NumberAxis();
         _xAxis.setLabel( positonLabel );
@@ -79,23 +71,49 @@ public class PositionHistogramPlot extends XYPlot implements Observer {
         setDomainAxis( _xAxis );
         setRangeAxis( _yAxis );
         
-        _xAxis.setRange( new Range( 0, 100 ) ); //XXX
-        _yAxis.setRange( new Range( 0, 100 ) ); //XXX
+        // frequency will be normalized, so set range to 1
+        _yAxis.setRange( new Range( 0, 1 ) );
+        
+        //XXX some dummy data for testing
+        {
+            _xAxis.setRange( new Range( 0, 10 ) );
+            double[] positions = new double[1000];
+            Random generator = new Random( 12345678L );
+            for ( int i = 0; i < 1000; i++ ) {
+                positions[i] = generator.nextGaussian() + 5;
+            }
+            setPositions( positions );
+        }
     }
-    
+
     public void setPositionRange( Range range ) {
         _xAxis.setRange( range );
     }
     
-    public void setFrequencyRange( Range range ) {
-        _yAxis.setRange( range );
+    public void addPosition( double position ) {
+        if ( _positions == null ) {
+            _positions = new double[1];
+            _positions[0] = position;
+        }
+        else {
+            double[] newPositions = new double[ _positions.length + 1 ];
+            System.arraycopy( _positions, 0, newPositions, 0, _positions.length );
+            newPositions[ newPositions.length - 1 ] = position;
+            _positions = newPositions;
+        }
+        setPositions( _positions );
+    }
+
+    public void clear() {
+        setPositions( null );
     }
     
-    public void clearData() {
-        _series.clear();
-    }
-    
-    public void update( Observable o, Object arg ) {
-        //XXX
+    private void setPositions( double[] positions ) {
+        HistogramDataset dataset = new HistogramDataset();
+        dataset.setType( HistogramType.SCALE_AREA_TO_1 );
+        if ( positions != null ) {
+            dataset.addSeries( SERIES_KEY, positions, NUMBER_OF_HISTOGRAM_BINS );
+        }
+        setDataset( dataset );
     }
 }
