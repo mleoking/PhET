@@ -117,7 +117,7 @@
             <br />
             <br />
             <p class="indi-sim">
-                Enter keywords to associate with your submission:
+                Please enter a title to describe your contribution:
             </p>             
             <input name="submission_file" type="text" size="50">
             <br />

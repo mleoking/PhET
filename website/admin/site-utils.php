@@ -80,7 +80,9 @@ EOT;
             <<<EOT
                 <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/search.php">→ Search</a></span></li>
 
-                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/contribute.php">→ Contribute</a></span></li>
+                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/contribute.php">→ New Contribution</a></span></li>
+
+                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/manage-contributions.php">→ Manage Contributions</a></span></li>  
                 
                 <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/user-edit-profile.php">→ Edit Profile</a></span></li>                
 EOT
