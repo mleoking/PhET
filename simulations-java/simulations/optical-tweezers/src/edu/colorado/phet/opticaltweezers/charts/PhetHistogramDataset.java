@@ -247,14 +247,8 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
             }
         }
 
-        //XXX dummy observations, for testing
-        for ( int i = 0; i < 50; i++ ) {
-            addObservation( seriesIndex, 100 );
-        }
-
         notifyListeners( new DatasetChangeEvent( this, this ) );
 
-        System.out.println( "PhetHistogramDataset.addSeries " + series.toString() );//XXX
         return seriesIndex;
     }
 
@@ -430,7 +424,6 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      * @return the series key.
      */
     public Comparable getSeriesKey( int seriesIndex ) {
-        System.out.println( "PhetHistogramDataset.getSeriesKey series=" + seriesIndex );//XXX
         HistogramSeries series = getSeries( seriesIndex );
         return series.key;
     }
@@ -441,7 +434,6 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      * @return the series count.
      */
     public int getSeriesCount() {
-        System.out.println( "getSeriesCount" );//XXX
         return _seriesList.size();
     }
 
@@ -453,7 +445,6 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      */
     public int getItemCount( int seriesIndex ) {
         int count = getNumberOfBins( seriesIndex );
-        System.out.println( "PhetHistogramDataset.getItemCount series=" + seriesIndex + " count=" + count );//XXX
         return count;
     }
 
@@ -468,7 +459,6 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      * @return the start value.
      */
     public Number getX( int seriesIndex, int binIndex ) {
-        System.out.println( "PhetHistogramDataset.getX series=" + seriesIndex + " bin=" + binIndex );//XXX
         HistogramBin bin = getBin( seriesIndex, binIndex );
         final double x = ( bin.startBoundary + bin.endBoundary ) / 2.;
         return new Double( x );
@@ -483,8 +473,6 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      * @return the y-value.
      */
     public Number getY( int seriesIndex, int binIndex ) {
-
-        System.out.println( "PhetHistogramDataset.getY series=" + seriesIndex + " bin=" + binIndex );//XXX
 
         HistogramBin bin = getBin( seriesIndex, binIndex );
         final double total = getNumberOfObservations( seriesIndex );
@@ -514,7 +502,6 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      * @return the start value.
      */
     public Number getStartX( int seriesIndex, int binIndex ) {
-        System.out.println( "PhetHistogramDataset.getStartX series=" + seriesIndex + " bin=" + binIndex );//XXX
         HistogramBin bin = getBin( seriesIndex, binIndex );
         return new Double( bin.startBoundary );
     }
@@ -527,7 +514,6 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      * @return the end value.
      */
     public Number getEndX( int seriesIndex, int binIndex ) {
-        System.out.println( "PhetHistogramDataset.getEndX series=" + seriesIndex + " bin=" + binIndex );//XXX
         HistogramBin bin = getBin( seriesIndex, binIndex );
         return new Double( bin.endBoundary );
     }
@@ -542,7 +528,6 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      * @return the y-value.
      */
     public Number getStartY( int seriesIndex, int binIndex ) {
-        System.out.println( "PhetHistogramDataset.getStartY series=" + seriesIndex + " bin=" + binIndex );//XXX
         return getY( seriesIndex, binIndex );
     }
 
@@ -556,7 +541,6 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      * @return the Y value.
      */
     public Number getEndY( int seriesIndex, int binIndex ) {
-        System.out.println( "PhetHistogramDataset.getEndY series=" + seriesIndex + " bin=" + binIndex );//XXX
         return getY( seriesIndex, binIndex );
     }
 
