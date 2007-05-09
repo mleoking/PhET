@@ -3,8 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- normalize PositionHistogramPlot
-- after clearing PositionHistogramPlot, renderer no longer draws bar outlines
+- uncomment jfreechart 1.0.5 method calls in PositionHistogramPlot
 
 HIGH PRIORITY:
 
@@ -13,7 +12,6 @@ MEDIUM PRIORITY:
 - better algorithm for trap force y component Fy
 - improve collision detection in Bead.move
 - add checkbox to Fluid Controls to turn off viscosity, off means turn miscroscope slide black to indicate vacuum (?)
-- connect position histogram to model
 - connect potential energy chart to model
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - clock speed: fast=[realtime* 10^-2, realtime], slow=[realtime*140*10^-16, realtime*7*10^-16], dead in between
