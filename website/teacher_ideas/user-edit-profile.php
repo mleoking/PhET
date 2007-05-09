@@ -1,5 +1,6 @@
 <?php
 
+    include_once("../admin/global.php");
     include_once("../admin/contrib-utils.php");
     include_once("../admin/site-utils.php");
     include_once("user-login.php");

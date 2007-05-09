@@ -20,6 +20,25 @@
         return $result;
     }
     
+    function delete_row_from_table($table_name, $array) {
+        $delete_st = "DELETE FROM $table_name WHERE ";
+        
+        $is_first = true;
+        
+        foreach($array as $key => $value) {
+            if ($is_first) {
+                $is_first = false;
+            }
+            else {
+                $delete_st .= ' AND ';
+            }
+            
+            $delete_st .= "`$key`='$value'";
+        }
+        
+        return run_sql_statement($delete_st);
+    }
+    
     function insert_row_into_table($table_name, $array) {
         $insert_st = "INSERT INTO $table_name ";
         

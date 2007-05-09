@@ -11,8 +11,7 @@
     
     */
     
-    define("SITE_ROOT", dirname(__FILE__)."/../");
-
+    include_once(SITE_ROOT."admin/global.php");
     include_once(SITE_ROOT."admin/site-utils.php");
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."admin/contrib-utils.php");
@@ -43,9 +42,20 @@
                          $GLOBALS['username']);
     }
     
-    gather_script_params_into_globals();
+    if (isset($_REQUEST['username'])) {
+        $username = $_REQUEST['username'];
+    }
+    if (isset($_REQUEST['password'])) {
+        $password = $_REQUEST['password'];
+    }    
+    if (!isset($prefix)) {
+       $prefix = "..";
+    }
+    if (!isset($g_login_required)) {
+        $g_login_required = true;
+    }
     
-    if (!isset($prefix)) $prefix = "..";
+    $contributor_authenticated = false;
  
     if (!isset($username) || !isset($password)) {   
         if (cookie_var_is_stored("username")) {
@@ -56,15 +66,21 @@
                 cookie_var_clear("username");
                 cookie_var_clear("password_hash");
 
-                force_redirect(get_self_url(), 0);
+                if ($g_login_required) {
+                    force_redirect(get_self_url(), 0);
 
-                exit;
+                    exit;
+                }
             }
+            
+            $contributor_authenticated = true;
         }
         else {            
-            print_site_page('print_first_time_login_form', 3, $prefix);
+            if ($g_login_required) {
+                print_site_page('print_first_time_login_form', 3, $prefix);
         
-            exit;
+                exit;
+            }
         }
     }
     else {
@@ -72,22 +88,28 @@
             $password_hash = md5($password);
             
             if (!contributor_is_valid_login($username, $password_hash)) {
-                print_site_page('print_retry_login_form', 3, $prefix);
+                if ($g_login_required) {
+                    print_site_page('print_retry_login_form', 3, $prefix);
     
-                contributor_send_password_reminder($username);
+                    contributor_send_password_reminder($username);
             
-                exit;
+                    exit;
+                }
             }
             else {
                 cookie_var_store("username",      $username);
                 cookie_var_store("password_hash", $password_hash);
+                
+                $contributor_authenticated = true;
             }
         }
         else if (is_email($username)) {
             if ($password == '') {
-                print_site_page('print_empty_password_login_form', 3, $prefix);
+                if ($g_login_required) {
+                    print_site_page('print_empty_password_login_form', 3, $prefix);
                 
-                exit;
+                    exit;
+                }
             }
             else {
                 // Create new user account:
@@ -96,18 +118,24 @@
                 // Store the information in a cookie:
                 cookie_var_store("username",      $username);
                 cookie_var_store("password_hash", md5($password));
+                
+                $contributor_authenticated = true;
             }
         }
         else {
-            print_site_page('print_not_an_email_login_form', 3, $prefix);
+            if ($g_login_required) {
+                print_site_page('print_not_an_email_login_form', 3, $prefix);
 
-            exit;
+                exit;
+            }
         }
     }
     
-    // Store the contributor id globally so the including script can use it:
-    $contributor_id = contributor_get_id_from_username($username);
+    if ($contributor_authenticated) {
+        // Store the contributor id globally so the including script can use it:
+        $contributor_id = contributor_get_id_from_username($username);
     
-    // Stuff all the contributor fields into global variables:
-    gather_array_into_globals(contributor_get_contributor_from_id($contributor_id));
+        // Stuff all the contributor fields into global variables:
+        gather_array_into_globals(contributor_get_contributor_by_id($contributor_id));
+    }
 ?>
