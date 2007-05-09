@@ -3,6 +3,100 @@
     include_once("db.inc");
     include_once("db-utils.php");
     include_once("web-utils.php");
+    include_once("sys-utils.php");
+    
+    function contribution_add_new_contribution($contribution_title, $contributor_id, $file_tmp_name, $file_user_name) {
+        $this_dir = dirname(__FILE__);
+
+        $new_file_dir_rel = "./uploads/contributions";        
+        $new_file_dir_abs = "$this_dir/uploads/contributions";
+        
+        mkdirs($new_file_dir);
+        
+        if (preg_match('/.+\\.(doc|txt|rtf|pdf|odt)/i', $file_user_name) == 1) {
+            $contribution_type = "Activity";
+        }
+        else if (preg_match('/.+\\.(ppt|odp)/i', $file_user_name) == 1) {
+            $contribution_type = "Lecture";
+        }
+        else {
+            $contribution_type = "Support";
+        }
+        
+        $new_name          = basename($file_tmp_name)."_$file_user_name";
+        $new_file_path_rel = "$new_file_dir_rel/$new_name";
+        $new_file_path_abs = "$new_file_dir_abs/$new_name";
+        
+        if (move_uploaded_file($file_tmp_name, $new_file_path_abs)) {
+            $contribution_id = insert_row_into_table(
+                'contribution',
+                array(
+                    'contribution_title' => $contribution_title,
+                    'contribution_type'  => $contribution_type,
+                    'contributor_id'     => $contributor_id
+                )
+            );
+            
+            $contribution_file_id = insert_row_into_table(
+                'contribution_file',
+                array(
+                    'contribution_id'       => $contribution_id,
+                    'contribution_file_url' => $new_file_path_rel
+                )
+            );
+            
+            return $contribution_id;
+        }
+        
+        return FALSE;
+    }
+    
+    function contribution_associate_contribution_with_simulation($contribution_id, $sim_id) {
+        $simulation_contribution_id = insert_row_into_table(
+            'simulation_contribution',
+            array(
+                'sim_id'          => $sim_id,
+                'contribution_id' => $contribution_id
+            )
+        );
+        
+        return $simulation_contribution_id;
+    }
+    
+    function contribution_set_approved($contribution_id, $status) {
+        if ($status) {
+            $status = '1';
+        }
+        else {
+            $status = '0';
+        }
+        
+        return update_table('contribution', array( 'contribution_approved' => $status ), 'contribution_id', $contribution_id);
+    }
+    
+    function contribution_get_all_contributions($sim_id) {
+        $contributions = array();
+        
+        $contribution_rows = run_sql_statement("SELECT * FROM `contribution` , `simulation_contribution` WHERE `contribution` . `contribution_id` = `simulation_contribution` . `contribution_id` AND `simulation_contribution` . `sim_id` = '$sim_id' ORDER BY `contribution_title` ASC");
+        
+        while ($contribution = mysql_fetch_assoc($contribution_rows)) {
+            $contributions[] = $contribution;
+        }
+        
+        return $contributions;
+    }
+    
+    function contribution_get_approved_contributions($sim_id) {
+        $contributions = contribution_get_all_contributions($sim_id);
+        
+        foreach($contributions as $index => $contribution) {
+            if ($contribution['contribution_approved'] == '0') {
+                unset($contributions[$index]);
+            }
+        }
+        
+        return $contributions;
+    }
     
     function contributor_get_all_contributors() {
         $contributors = array();

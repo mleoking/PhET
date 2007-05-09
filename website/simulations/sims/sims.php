@@ -5,14 +5,15 @@
     include_once("../../admin/web-utils.php");
     include_once("../../admin/sim-utils.php");
     include_once("../../admin/site-utils.php");
+    include_once("../../admin/contrib-utils.php");
     
     function print_content() {
-            gather_sim_fields_into_globals($_REQUEST['sim_id']);
+        global $SIM_RATING_TO_IMAGE, $SIM_TYPE_TO_IMAGE;
+        
+        $simulation = sim_get_simulation_by_id($_REQUEST['sim_id']);
             
-            global $sim_name, $sim_rating, $sim_type, $sim_desc, $sim_launch_url, $sim_image_url,
-                   $sim_main_topics, $sim_subtopics, $sim_teachers_guide_url, $sim_design_team,
-                   $sim_libraries, $sim_thanks_to, $SIM_TYPE_TO_IMAGE, $SIM_RATING_TO_IMAGE,
-                   $sim_sample_goals;
+        eval(get_code_to_create_variables_from_array($simulation));
+        
         ?>
 
         <div class="productListHeader">
@@ -102,24 +103,43 @@
         </p>
 
 
-        <h2 class="sub-title">Ideas and Activites for this Sim</h2>    
+        <h2 class="sub-title">Ideas and Activites for this Sim</h2>   
+        
+        <ul>
+        <?php
+        
+            $contributions = contribution_get_approved_contributions($sim_id);
+            
+            foreach($contributions as $contribution) {
+                eval(get_code_to_create_variables_from_array($contribution));
+                
+                print "<li><a href=''>$contribution_title</a> - $contribution_type (<a href=''>details</a>)</li>";
+            }
+        
+        ?>
+        </ul> 
     
         <h2 class="sub-title">Submit Ideas &amp; Activities</h2>
 
-        <form enctype="multipart/form-data" action="submit-file.php" method="post">
+        <form enctype="multipart/form-data" action="submit-contribution.php" method="post">
             <p class="indi-sim">
                 If you have ideas or activities you would like to contribute, you can use this form to submit them to PhET.
                 For security reasons, you may only submit PDF files, and submissions will not appear on the PhET website 
                 until they have been reviewed and accepted by PhET personnel.
             </p>
             <br />
-            <input name="keywords" type="file" size="50" accept="application/pdf">
+            
+            <?php
+                print "<input type=\"hidden\" name=\"sim_id\" value=\"$sim_id\" />";
+            ?>
+            
+            <input type="file" name="contribution_file_url" size="50" accept="application/pdf" />
             <br />
             <br />
             <p class="indi-sim">
                 Please enter a title to describe your contribution:
             </p>             
-            <input name="submission_file" type="text" size="50">
+            <input type="text" name="contribution_title" size="50" />
             <br />
             <br />
             <input type="submit" value="Submit" class="buttonSubmit" />

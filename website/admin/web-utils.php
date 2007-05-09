@@ -77,6 +77,20 @@
         gather_array_into_globals($_REQUEST);
     }
     
+    function get_code_to_create_variables_from_array($array) {
+        $code = '';
+        
+        foreach($array as $key => $value) {
+            $code .= "\$$key = '$value'; ";
+        }
+        
+        return $code;
+    }
+    
+    function get_code_to_create_variables_from_script_params() {
+        return get_code_to_create_variables_from_array($_REQUEST);
+    }
+    
     function print_comma_list_as_bulleted_list($comma_list) {
         print "<ul>";
         
@@ -162,7 +176,7 @@ EO_PRINT_HIDDEN_INPUT;
             $target_path = "${target_dir}/${target_name}"; 
              
             if ($target_name !== "" && $target_name !== null) {                
-                mkdirs_r($target_dir);
+                mkdirs($target_dir);
                 
                 print("\nTarget name = $target_name; target path = $target_path\n");
              
