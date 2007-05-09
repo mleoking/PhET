@@ -1,9 +1,66 @@
 <?php
 
+    include_once("global.php");
     include_once("db.inc");
     include_once("db-utils.php");
     include_once("web-utils.php");
-    include_once("sys-utils.php");
+    include_once("sys-utils.php");    
+    
+    function contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member) {
+        eval(get_code_to_create_variables_from_array($contribution));
+        
+        $path_prefix = SITE_ROOT."teacher_ideas/";
+        
+        $view    = "<a href=\"${path_prefix}view-contribution.php?contribution_id=$contribution_id\">details</a>";
+        $edit    = '';
+        $delete  = '';
+        $approve = '';
+        
+        if (contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {
+            $edit   .= ", <a href=\"${path_prefix}edit-contribution.php?contribution_id=$contribution_id\">edit</a>";
+            $delete .= ", <a href=\"${path_prefix}delete-contribution.php?contribution_id=$contribution_id\">delete</a>";
+        
+            if ($contributor_is_team_member) {
+                if ($contribution_approved) {
+                    $approve .= ", <a href=\"${path_prefix}unapprove-contribution.php?contribution_id=$contribution_id\">unapprove</a>";
+                }
+                else {
+                    $approve .= ", <a href=\"${path_prefix}approve-contribution.php?contribution_id=$contribution_id\">approve</a>";
+                }
+            }
+        }
+        
+        print "<li>$contribution_title - ($view$edit$delete$approve)</li>";        
+    }
+    
+    function contribution_can_contributor_manage_contribution($contributor_id, $contribution_id) {
+        $contribution = contribution_get_contribution_by_id($contribution_id);
+        $contributor  = contributor_get_contributor_by_id($contributor_id);        
+        
+        return $contribution['contributor_id'] == $contributor_id || $contributor['contributor_is_team_member'] == '1';
+    }
+    
+    function contribution_get_manageable_contributions_for_contributor_id($contributor_id) {
+        $contributions = contribution_get_all_contributions();
+        
+        foreach($contributions as $index => $contribution) {
+            if (!contribution_can_contributor_manage_contribution($contributor_id, $contribution['contribution_id'])) {
+                unset($contributions[$index]);
+            }
+        }
+        
+        return $contributions;
+    }
+    
+    function contribution_delete_contribution($contribution_id) {
+        $condition = array( 'contribution_id' => $contribution_id );
+        
+        delete_row_from_table('contribution',            $condition);
+        delete_row_from_table('contribution_file',       $condition);
+        delete_row_from_table('simulation_contribution', $condition);
+        
+        return true;
+    }
     
     function contribution_add_new_contribution($contribution_title, $contributor_id, $file_tmp_name, $file_user_name) {
         $this_dir = dirname(__FILE__);
@@ -73,8 +130,20 @@
         
         return update_table('contribution', array( 'contribution_approved' => $status ), 'contribution_id', $contribution_id);
     }
+
+    function contribution_get_all_contributions() {
+        $contributions = array();
+        
+        $contribution_rows = run_sql_statement("SELECT * FROM `contribution` , `simulation_contribution` WHERE `contribution` . `contribution_id` = `simulation_contribution` . `contribution_id` ORDER BY `contribution_title` ASC");
+        
+        while ($contribution = mysql_fetch_assoc($contribution_rows)) {
+            $contributions[] = $contribution;
+        }
+        
+        return $contributions;
+    }
     
-    function contribution_get_all_contributions($sim_id) {
+    function contribution_get_all_contributions_for_sim($sim_id) {
         $contributions = array();
         
         $contribution_rows = run_sql_statement("SELECT * FROM `contribution` , `simulation_contribution` WHERE `contribution` . `contribution_id` = `simulation_contribution` . `contribution_id` AND `simulation_contribution` . `sim_id` = '$sim_id' ORDER BY `contribution_title` ASC");
@@ -86,8 +155,8 @@
         return $contributions;
     }
     
-    function contribution_get_approved_contributions($sim_id) {
-        $contributions = contribution_get_all_contributions($sim_id);
+    function contribution_get_approved_contributions_for_sim($sim_id) {
+        $contributions = contribution_get_all_contributions_for_sim($sim_id);
         
         foreach($contributions as $index => $contribution) {
             if ($contribution['contribution_approved'] == '0') {
@@ -96,6 +165,12 @@
         }
         
         return $contributions;
+    }
+    
+    function contribution_get_contribution_by_id($contribution_id) {
+        $contribution_rows = run_sql_statement("SELECT * FROM `contribution` WHERE `contribution_id`='$contribution_id' ");
+        
+        return mysql_fetch_assoc($contribution_rows);
     }
     
     function contributor_get_all_contributors() {
@@ -237,7 +312,7 @@
         return mysql_insert_id();
     }
     
-    function contributor_get_contributor_from_id($contributor_id) {
+    function contributor_get_contributor_by_id($contributor_id) {
         $result = run_sql_statement("SELECT * FROM `contributor` WHERE `contributor_id`='$contributor_id' ");
         
         return mysql_fetch_assoc($result);
@@ -246,7 +321,7 @@
     function contributor_print_full_edit_form($contributor_id, $script, $optional_message = null, 
                                               $standard_message = "<p>You may edit your profile information below.</p>") {
                                                   
-        $contributor = contributor_get_contributor_from_id($contributor_id);
+        $contributor = contributor_get_contributor_by_id($contributor_id);
         
         gather_array_into_globals($contributor);
         
@@ -392,7 +467,7 @@ EOT;
     }
     
     function contributor_gather_fields_into_globals($contributor_id) {
-        $contributor = contributor_get_contributor_from_id($contributor_id);
+        $contributor = contributor_get_contributor_by_id($contributor_id);
         
         foreach($contributor as $key => $value) {
             $GLOBALS["$key"] = "$value";
