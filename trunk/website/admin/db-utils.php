@@ -20,6 +20,54 @@
         return $result;
     }
     
+    function insert_row_into_table($table_name, $array) {
+        $insert_st = "INSERT INTO $table_name ";
+        
+        if (count($array) > 0) {
+            $insert_st .= '(';
+            
+            $is_first = true;
+            
+            foreach($array as $key => $value) {
+                if ($is_first) {
+                    $is_first = false;
+                }
+                else {
+                    $insert_st .= ', ';
+                }
+                
+                $insert_st .= '`';                
+                $insert_st .= "$key";                
+                $insert_st .= '`';                
+            }
+            
+            $insert_st .= ')';
+            
+            $insert_st .= ' VALUES(';
+            
+            $is_first = true;
+            
+            foreach($array as $key => $value) {
+                if ($is_first) {
+                    $is_first = false;
+                }
+                else {
+                    $insert_st .= ', ';
+                }
+                
+                $insert_st .= "'";
+                $insert_st .= "$value";
+                $insert_st .= "'";
+            }
+            
+            $insert_st .= ') ';
+        }
+        
+        run_sql_statement($insert_st);
+        
+        return mysql_insert_id();
+    }
+    
     function update_table($table_name, $update_array, $id_field_name = null, $id_field_value = null) {
         $heading_st = "UPDATE `$table_name` SET ";
         

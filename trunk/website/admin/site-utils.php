@@ -56,7 +56,8 @@ EOT;
             $cat_id   = $category['cat_id'];
             $cat_name = format_for_html($category['cat_name']);
 
-            $categories .= "<li class=\"sub\"><span class=\"sub-nav\"><a href=\"${prefix}/simulations/index.php?cat=$cat_id\">&rarr; $cat_name</a></span></li>";          
+            $categories .= "<li class=\"sub\"><span class=\"sub-nav\">".
+                           "<a href=\"${prefix}/simulations/index.php?cat=$cat_id\">&rarr; $cat_name</a></span></li>";          
         } 
         
         return $categories;
@@ -78,29 +79,29 @@ EOT;
         
         print_navigation_element($prefix, $selected_page, "$prefix/teacher_ideas/index.php",   "Teacher Ideas &amp; Activities",
             <<<EOT
-                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/search.php">→ Search</a></span></li>
+            <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/search.php">→ Search</a></span></li>
 
-                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/contribute.php">→ New Contribution</a></span></li>
+            <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/contribute.php">→ New Contribution</a></span></li>
 
-                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/manage-contributions.php">→ Manage Contributions</a></span></li>  
-                
-                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/user-edit-profile.php">→ Edit Profile</a></span></li>                
+            <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/manage-contributions.php">→ Manage Contributions</a></span></li>  
+            
+            <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/user-edit-profile.php">→ Edit Profile</a></span></li>                
 EOT
         );
         
         print_navigation_element($prefix, $selected_page, "$prefix/get_phet/index.php",        "Download PhET",
             <<<EOT
-                <li class="sub"><span class="sub-nav"><a href="$prefix/get_phet/full_install.php">→ Full Install</a></span></li>
+            <li class="sub"><span class="sub-nav"><a href="$prefix/get_phet/full_install.php">→ Full Install</a></span></li>
 
-                <li class="sub"><span class="sub-nav"><a href="$prefix/get_phet/simlauncher.php">→ Partial Install</a></span></li>
+            <li class="sub"><span class="sub-nav"><a href="$prefix/get_phet/simlauncher.php">→ Partial Install</a></span></li>
 EOT
         );
         
         print_navigation_element($prefix, $selected_page, "$prefix/tech_support/index.php",    "Technical Support",
             <<<EOT
-                <li class="sub"><span class="sub-nav"><a href="$prefix/tech_support/support-java.php">→ Java</a></span></li>
+            <li class="sub"><span class="sub-nav"><a href="$prefix/tech_support/support-java.php">→ Java</a></span></li>
 
-                <li class="sub"><span class="sub-nav"><a href="$prefix/tech_support/support-flash.php">→ Flash</a></span></li>
+            <li class="sub"><span class="sub-nav"><a href="$prefix/tech_support/support-flash.php">→ Flash</a></span></li>
 EOT
         );
         
@@ -114,9 +115,9 @@ EOT
         
         print_navigation_element($prefix, $selected_page, "$prefix/about/index.php",           "About PhET",
             <<<EOT
-                <li class="sub"><span class="sub-nav"><a href="$prefix/about/contact.php">→ Contact</a></span></li>
+            <li class="sub"><span class="sub-nav"><a href="$prefix/about/contact.php">→ Contact</a></span></li>
 
-                <li class="sub"><span class="sub-nav"><a href="$prefix/about/licensing.php">→ Licensing</a></span></li>
+            <li class="sub"><span class="sub-nav"><a href="$prefix/about/licensing.php">→ Licensing</a></span></li>
 EOT
         );
                     

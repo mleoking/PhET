@@ -89,9 +89,7 @@
             $simulations = run_sql_statement($select_sims_st, $connection);
 
              while ($simulation = mysql_fetch_assoc($simulations)) {
-                gather_array_into_globals($simulation);
-                
-                global $sim_id, $sim_animated_image_url, $sim_image_url, $sim_name;
+                eval(get_code_to_create_variables_from_array($simulation));
 
                 // Make sure the simulation is valid:
                 if (is_numeric($sim_id)) {
@@ -155,9 +153,7 @@ EOT;
             $last_printed_char = '';
             
             while ($simulation = mysql_fetch_assoc($simulations)) {
-                gather_array_into_globals($simulation);
-                
-                global $sim_id, $sim_animated_image_url, $sim_image_url, $sim_name;
+                eval(get_code_to_create_variables_from_array($simulation));
                 
                 $sim_sorting_name = get_sorting_name($sim_name);
                 
@@ -179,9 +175,7 @@ EOT;
             $last_printed_char = '';
             
             while ($simulation = mysql_fetch_assoc($simulations)) {
-                gather_array_into_globals($simulation);
-                
-                global $sim_id, $sim_name;
+                eval(get_code_to_create_variables_from_array($simulation));
                 
                 $sim_sorting_name = get_sorting_name($sim_name);
                 
