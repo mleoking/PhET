@@ -5,6 +5,7 @@ package edu.colorado.phet.opticaltweezers.charts;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
@@ -29,7 +30,6 @@ public class PotentialEnergyChartNode extends PhetPNode {
     private static final RectangleInsets CHART_INSETS = new RectangleInsets( 10, 10, 10, 10 ); // top,left,bottom,right
 
     private PotentialEnergyPlot _plot;
-    private JFreeChart _chart;
     private JFreeChartNode _chartWrapper;
     private CloseButtonNode _closeButtonNode;
     
@@ -38,18 +38,23 @@ public class PotentialEnergyChartNode extends PhetPNode {
         
         _plot = new PotentialEnergyPlot();
         
-        _chart = new JFreeChart( OTResources.getString( "title.potentialEnergyChart" ), null /* titleFont */, _plot, false /* createLegend */ );
-        _chart.setAntiAlias( true );
-        _chart.setBorderVisible( true );
-        _chart.setBackgroundPaint( BACKGROUND_COLOR );
-        _chart.setBorderPaint( CHART_BORDER_COLOR );
-        _chart.setBorderStroke( CHART_BORDER_STROKE );
-        _chart.setPadding( CHART_INSETS );
-        
-        _chartWrapper = new JFreeChartNode( _chart );
-        addChild( _chartWrapper );
-        
+        JFreeChart chart = new JFreeChart( OTResources.getString( "title.potentialEnergyChart" ), null /* titleFont */, _plot, false /* createLegend */ );
+        chart.setAntiAlias( true );
+        chart.setBorderVisible( true );
+        chart.setBackgroundPaint( BACKGROUND_COLOR );
+        chart.setBorderPaint( CHART_BORDER_COLOR );
+        chart.setBorderStroke( CHART_BORDER_STROKE );
+        chart.setPadding( CHART_INSETS );
+        _chartWrapper = new JFreeChartNode( chart );
+
         _closeButtonNode = new CloseButtonNode();
+        _closeButtonNode.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setVisible( false );
+            }
+        });
+        
+        addChild( _chartWrapper );
         addChild( _closeButtonNode );
         
         setPickable( false );
@@ -104,13 +109,5 @@ public class PotentialEnergyChartNode extends PhetPNode {
         x = maxWidth - horizMargin - _closeButtonNode.getFullBounds().getWidth();
         y = ( maxHeight - _closeButtonNode.getFullBounds().getHeight() ) / 2;
         _closeButtonNode.setOffset( x, y );
-    }
-    
-    public void addCloseListener( ActionListener listener ) {
-        _closeButtonNode.addActionListener( listener );
-    }
-    
-    public void removeCloseListener( ActionListener listener ) {
-        _closeButtonNode.removeActionListener( listener );
     }
 }
