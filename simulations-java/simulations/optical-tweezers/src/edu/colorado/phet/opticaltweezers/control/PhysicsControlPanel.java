@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -194,9 +196,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Histogram
         _positionHistogramCheckBox = new JCheckBox( OTResources.getString( "label.showPositionHistogram" ) );
-        _canvas.getPositionHistogramChartNode().addCloseListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                _positionHistogramCheckBox.setSelected( false );
+        _canvas.getPositionHistogramChartNode().addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                _positionHistogramCheckBox.setSelected( _canvas.getPositionHistogramChartNode().isVisible() );
             }
         });
         
@@ -208,9 +210,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _momemtumChangeCheckBox = new JCheckBox( OTResources.getString( "label.showMomentumChange" ) );
             _potentialEnergyChartCheckBox = new JCheckBox( OTResources.getString( "label.showPotentialEnergyChart" ) );
             
-            _canvas.getPotentialEnergyChartNode().addCloseListener( new ActionListener() {
-                public void actionPerformed( ActionEvent event ) {
-                    _potentialEnergyChartCheckBox.setSelected( false );
+            _canvas.getPotentialEnergyChartNode().addPropertyChangeListener( new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    _potentialEnergyChartCheckBox.setSelected( _canvas.getPotentialEnergyChartNode().isVisible() );
                 }
             });
             

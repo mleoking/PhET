@@ -9,8 +9,6 @@ import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JButton;
 
@@ -35,7 +33,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
-public class PositionHistogramChartNode extends PhetPNode implements Observer {
+public class PositionHistogramChartNode extends PhetPNode {
 
     public static final double DEFAULT_HEIGHT = 100;
     
@@ -48,7 +46,6 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
     private static final Color LABEL_COLOR = Color.BLACK;
 
     private PositionHistogramPlot _plot;
-    private JFreeChart _chart;
     private Bead _bead;
     private IClock _clock;
     private ClockListener _clockListener;
@@ -80,12 +77,6 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         
         _isRunning = false;
         _numberOfMeasurements = 0;
-
-        _chart = new JFreeChart( null /* title */, null /* titleFont */, _plot, false /* createLegend */ );
-        _chart.setAntiAlias( true );
-        _chart.setBorderVisible( false );
-        _chart.setBackgroundPaint( BACKGROUND_COLOR );
-        _chart.setPadding( new RectangleInsets( 0, 5, 5, 5 ) ); // top,left,bottom,right
         
         _clockListener = new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
@@ -121,7 +112,6 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         _startStopButton.setFont( LABEL_FONT );
         _startStopButton.setForeground( LABEL_COLOR );
         _startStopButton.addActionListener( new ActionListener() {
-
             public void actionPerformed( ActionEvent event ) {
                 setRunning( !_isRunning );
             }
@@ -140,8 +130,18 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         _clearButtonWrapper = new PSwing( clearButton );
 
         _closeButtonNode = new CloseButtonNode();
+        _closeButtonNode.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setVisible( false );
+            }
+        });
 
-        _chartWrapper = new JFreeChartNode( _chart );
+        JFreeChart chart = new JFreeChart( null /* title */, null /* titleFont */, _plot, false /* createLegend */ );
+        chart.setAntiAlias( true );
+        chart.setBorderVisible( false );
+        chart.setBackgroundPaint( BACKGROUND_COLOR );
+        chart.setPadding( new RectangleInsets( 0, 5, 5, 5 ) ); // top,left,bottom,right
+        _chartWrapper = new JFreeChartNode( chart );
 
         // Layering order
         addChild( _controlsBackgroundNode );
@@ -170,11 +170,23 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
     }
 
     public void setChartSize( double w, double h ) {
+        // resize the chart
         _chartWrapper.setBounds( 0, 0, w, h );
         _chartWrapper.updateChartRenderingInfo();
+        // update the layout of this node
         updateLayout();
+        // update the range of the x-axis
+        Rectangle2D dataArea = getPlotBounds();
+        double minPosition = _modelViewTransform.viewToModel( dataArea.getMinX() );
+        double maxPosition = _modelViewTransform.viewToModel( dataArea.getMaxX() );
+        _plot.setPositionRange( minPosition, maxPosition );
     }
 
+    /**
+     * When the chart is made invisible, clear it and stop making measurements.
+     * 
+     * @param visible true or false
+     */
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         if ( !visible ) {
@@ -199,6 +211,9 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         return dataArea;
     }
 
+    /*
+     * Sets the number of measurements displayed.
+     */
     private void setNumberOfMeasurements( int numberOfMeasurements ) {
         _numberOfMeasurements = numberOfMeasurements;
         _measurementsLabel.setText( _measurementsString + String.valueOf( _numberOfMeasurements ) );
@@ -227,27 +242,13 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         setNumberOfMeasurements( 0 );
     }
 
-    private void handleClockEvent( ClockEvent event ) {
-        if ( _isRunning ) {
-            setNumberOfMeasurements( _numberOfMeasurements + 1 );
-            double x = _bead.getPositionRef().getX();
-            _plot.addPosition( x );
-        }
-    }
-
-    public void update( Observable o, Object arg ) {
-        if ( o == _bead ) {
-            if ( arg == Bead.PROPERTY_POSITION ) {
-                updateData();
-            }
-        }
-    }
-
     /*
-     * Updates the histogram data.
+     * Makes a position measurement and updates the plot.
      */
-    private void updateData() {
-        //XXX
+    private void handleClockEvent( ClockEvent event ) {
+        setNumberOfMeasurements( _numberOfMeasurements + 1 );
+        double x = _bead.getPositionRef().getX();
+        _plot.addPosition( x );
     }
 
     /*
@@ -314,13 +315,5 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         w = maxWidth;
         h = maxHeight + _chartWrapper.getFullBounds().getHeight();
         _borderNode.setPathTo( new Rectangle2D.Double( x, y, w, h ) );
-    }
-
-    public void addCloseListener( ActionListener listener ) {
-        _closeButtonNode.addActionListener( listener );
-    }
-
-    public void removeCloseListener( ActionListener listener ) {
-        _closeButtonNode.removeActionListener( listener );
     }
 }

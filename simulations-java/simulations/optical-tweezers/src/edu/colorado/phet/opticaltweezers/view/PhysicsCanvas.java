@@ -19,7 +19,8 @@ import javax.swing.JButton;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.charts.*;
+import edu.colorado.phet.opticaltweezers.charts.PositionHistogramChartNode;
+import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.*;
@@ -138,19 +139,9 @@ public class PhysicsCanvas extends PhetPCanvas {
         
         // Position Histogram chart
         _positionHistogramChartNode = new PositionHistogramChartNode( bead, clock, modelViewTransform );
-        _positionHistogramChartNode.addCloseListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                _positionHistogramChartNode.setVisible( false );
-            }
-        });
         
         // Potential Energy chart
         _potentialEnergyChartNode = new PotentialEnergyChartNode();
-        _potentialEnergyChartNode.addCloseListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                _potentialEnergyChartNode.setVisible( false );
-            }
-        });
         
         // "Return Bead" button
         JButton returnBeadButton = new JButton( OTResources.getString( "button.returnBead" ) );

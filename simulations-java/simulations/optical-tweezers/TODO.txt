@@ -3,6 +3,8 @@
 ===============================================================================
 
 IN PROGRESS:
+- normalize PositionHistogramPlot
+- after clearing PositionHistogramPlot, renderer no longer draws bar outlines
 
 HIGH PRIORITY:
 
@@ -49,6 +51,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/8/07 - remove ChangeListener interface on charts, add PropertyListener that watches visibility
+5/8/07 - remove dummy data from PositionHistogramPlot
 5/8/07 - change implementation of PositionHistogramPlot to use HistogramDataset
 5/8/07 - delete PositionHistogramChart and PotentialEnergyChart, collapse into associated nodes
 5/2/07 - migrate CloseButton to phetcommon, CloseButtonNode to piccolo-phet, remove duplicate image file

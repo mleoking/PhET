@@ -37,11 +37,6 @@ public class PositionHistogramPlot extends XYPlot {
     public PositionHistogramPlot() {
         super();
         
-        XYBarRenderer renderer = new XYBarRenderer();
-        renderer.setPaint( BAR_FILL_COLOR );
-        renderer.setOutlinePaint( BAR_OUTLINE_COLOR );
-        setRenderer( renderer );
-        
         // axis labels
         String positonLabel = "";
         String frequencyLabel = "";
@@ -73,35 +68,25 @@ public class PositionHistogramPlot extends XYPlot {
         
         // frequency will be normalized, so set range to 1
         _yAxis.setRange( new Range( 0, 1 ) );
-        
-        //XXX some dummy data for testing
-        {
-            _xAxis.setRange( new Range( 0, 10 ) );
-            double[] positions = new double[1000];
-            Random generator = new Random( 12345678L );
-            for ( int i = 0; i < 1000; i++ ) {
-                positions[i] = generator.nextGaussian() + 5;
-            }
-            setPositions( positions );
-        }
     }
 
-    public void setPositionRange( Range range ) {
-        _xAxis.setRange( range );
+    public void setPositionRange( double minPosition, double maxPosition ) {
+        _xAxis.setRange( minPosition, maxPosition );
+        setPositions( _positions );
     }
     
     public void addPosition( double position ) {
+        double[] newPositions = null;
         if ( _positions == null ) {
-            _positions = new double[1];
-            _positions[0] = position;
+            newPositions = new double[1];
+            newPositions[0] = position;
         }
         else {
-            double[] newPositions = new double[ _positions.length + 1 ];
+            newPositions = new double[ _positions.length + 1 ];
             System.arraycopy( _positions, 0, newPositions, 0, _positions.length );
             newPositions[ newPositions.length - 1 ] = position;
-            _positions = newPositions;
         }
-        setPositions( _positions );
+        setPositions( newPositions );
     }
 
     public void clear() {
@@ -109,11 +94,20 @@ public class PositionHistogramPlot extends XYPlot {
     }
     
     private void setPositions( double[] positions ) {
+        
+        _positions = positions;
+        
         HistogramDataset dataset = new HistogramDataset();
-        dataset.setType( HistogramType.SCALE_AREA_TO_1 );
+        dataset.setType( HistogramType.RELATIVE_FREQUENCY );
         if ( positions != null ) {
             dataset.addSeries( SERIES_KEY, positions, NUMBER_OF_HISTOGRAM_BINS );
         }
         setDataset( dataset );
+        
+        XYBarRenderer renderer = new XYBarRenderer();
+        renderer.setPaint( BAR_FILL_COLOR );
+        renderer.setOutlinePaint( BAR_OUTLINE_COLOR );
+        renderer.setDrawBarOutline( true );
+        setRenderer( renderer );
     }
 }
