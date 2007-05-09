@@ -46,11 +46,12 @@ DEFER UNTIL AFTER INTERVIEWS:
 MODEL INFO NEEDED:
 - E-field
 - charge on the bead
-- position histogram (slide 15)
 - stuff related to “Show change in momentum model” (shape of 2 rays of light, vectors, etc.)
 
  
 DONE:
+5/9/07 - integrate PhetHistogramDataset into PositionHistogramPlot
+5/9/07 - write PhetHistogramDataset, mutable version of JFreeChart's HistogramDataset
 5/8/07 - remove ChangeListener interface on charts, add PropertyListener that watches visibility
 5/8/07 - remove dummy data from PositionHistogramPlot
 5/8/07 - change implementation of PositionHistogramPlot to use HistogramDataset
