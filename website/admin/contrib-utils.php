@@ -18,7 +18,7 @@
         $delete  = '';
         $approve = '';
         
-        if (contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {
+        if ($contributor_id !== null && contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {
             $edit   .= ", <a href=\"${path_prefix}edit-contribution.php$query_string\">edit</a>";
             $delete .= ", <a href=\"${path_prefix}delete-contribution.php$query_string\">delete</a>";
         

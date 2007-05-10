@@ -77,7 +77,7 @@ EOT;
             get_sim_categories_html($prefix)
         );
         
-        print_navigation_element($prefix, $selected_page, "$prefix/teacher_ideas/index.php",   "Teacher Ideas &amp; Activities",
+        print_navigation_element($prefix, $selected_page, "teacher_ideas/index.php",   "Teacher Ideas &amp; Activities",
             <<<EOT
             <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/search.php">→ Search</a></span></li>
 
@@ -89,7 +89,7 @@ EOT;
 EOT
         );
         
-        print_navigation_element($prefix, $selected_page, "$prefix/get_phet/index.php",        "Download PhET",
+        print_navigation_element($prefix, $selected_page, "get_phet/index.php",        "Download PhET",
             <<<EOT
             <li class="sub"><span class="sub-nav"><a href="$prefix/get_phet/full_install.php">→ Full Install</a></span></li>
 
@@ -97,7 +97,7 @@ EOT
 EOT
         );
         
-        print_navigation_element($prefix, $selected_page, "$prefix/tech_support/index.php",    "Technical Support",
+        print_navigation_element($prefix, $selected_page, "tech_support/index.php",    "Technical Support",
             <<<EOT
             <li class="sub"><span class="sub-nav"><a href="$prefix/tech_support/support-java.php">→ Java</a></span></li>
 
@@ -105,15 +105,15 @@ EOT
 EOT
         );
         
-        print_navigation_element($prefix, $selected_page, "$prefix/contribute/index.php",      "Contribute",
+        print_navigation_element($prefix, $selected_page, "contribute/index.php",      "Contribute",
             ''
         );
         
-        print_navigation_element($prefix, $selected_page, "$prefix/research/index.php",        "Research",
+        print_navigation_element($prefix, $selected_page, "research/index.php",        "Research",
             ''
         );
         
-        print_navigation_element($prefix, $selected_page, "$prefix/about/index.php",           "About PhET",
+        print_navigation_element($prefix, $selected_page, "about/index.php",           "About PhET",
             <<<EOT
             <li class="sub"><span class="sub-nav"><a href="$prefix/about/contact.php">→ Contact</a></span></li>
 
@@ -149,7 +149,9 @@ EOT
 EOT;
     }
     
-    function print_site_page($content_printer, $selected_page = null, $prefix = "..") {
+    function print_site_page($content_printer, $selected_page = null) {
+        $prefix = "..";
+        
         print <<<EOT
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

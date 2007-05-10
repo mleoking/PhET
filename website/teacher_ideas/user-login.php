@@ -47,9 +47,6 @@
     }
     if (isset($_REQUEST['password'])) {
         $password = $_REQUEST['password'];
-    }    
-    if (!isset($prefix)) {
-       $prefix = "..";
     }
     if (!isset($g_login_required)) {
         $g_login_required = true;
@@ -77,7 +74,7 @@
         }
         else {            
             if ($g_login_required) {
-                print_site_page('print_first_time_login_form', 3, $prefix);
+                print_site_page('print_first_time_login_form', 3);
         
                 exit;
             }
@@ -89,7 +86,7 @@
             
             if (!contributor_is_valid_login($username, $password_hash)) {
                 if ($g_login_required) {
-                    print_site_page('print_retry_login_form', 3, $prefix);
+                    print_site_page('print_retry_login_form', 3);
     
                     contributor_send_password_reminder($username);
             
@@ -106,7 +103,7 @@
         else if (is_email($username)) {
             if ($password == '') {
                 if ($g_login_required) {
-                    print_site_page('print_empty_password_login_form', 3, $prefix);
+                    print_site_page('print_empty_password_login_form', 3);
                 
                     exit;
                 }
@@ -124,7 +121,7 @@
         }
         else {
             if ($g_login_required) {
-                print_site_page('print_not_an_email_login_form', 3, $prefix);
+                print_site_page('print_not_an_email_login_form', 3);
 
                 exit;
             }
