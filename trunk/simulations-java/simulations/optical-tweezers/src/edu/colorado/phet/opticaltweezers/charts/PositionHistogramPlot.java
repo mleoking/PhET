@@ -87,8 +87,6 @@ public class PositionHistogramPlot extends XYPlot {
         setRangeGridlinePaint( GRIDLINES_COLOR );
         setDomainAxis( _xAxis );
         setRangeAxis( _yAxis );
-//        setDomainZeroBaselineVisible( false ); // 1.0.5 feature
-//        setRangeZeroBaselineVisible( false ); // 1.0.5 feature
     }
 
     public void setPositionRange( double minPosition, double maxPosition ) {
