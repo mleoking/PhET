@@ -154,27 +154,6 @@ public class PhysicsCanvas extends PhetPCanvas {
             }
         });
         _returnBeadButtonWrapper = new PSwing( returnBeadButton );
-        // Activity that flashes the returnBeadButton whenever it's visible.
-        // If the button is made visible, flash its text red for 10 seconds.
-        long duration = -1; // forever
-        long step = 500; // every 1/2 second
-        long startTime = System.currentTimeMillis(); // now
-        PActivity flash = new PActivity( duration, step, startTime ) {
-            boolean fRed = true;
-            protected void activityStep( long elapsedTime ) {
-                if ( _returnBeadButtonWrapper.getVisible() ) {
-                    super.activityStep( elapsedTime );
-                    if ( fRed ) {
-                        _returnBeadButtonWrapper.getComponent().setForeground( Color.RED );
-                    }
-                    else {
-                        _returnBeadButtonWrapper.getComponent().setForeground( Color.BLACK );
-                    }
-                    fRed = !fRed;
-                }
-            }
-        };
-        getRoot().addActivity( flash );
         
         // Layering order of nodes on the canvas
         _rootNode.addChild( _fluidNode );

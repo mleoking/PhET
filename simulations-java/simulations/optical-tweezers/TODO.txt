@@ -3,11 +3,13 @@
 ===============================================================================
 
 IN PROGRESS:
-- uncomment jfreechart 1.0.5 method calls in PositionHistogramPlot
 
 HIGH PRIORITY:
+- get rid of x-axis line that initially appears in center of position histogram
+- clean up "look" of position histogram
 
 MEDIUM PRIORITY:
+- scale arrow heads on vectors
 - migrate PhetHistogramDataset to jfreechart-phet
 - look at jfree.HistogramDataset 1.0.5 for fixes that apply to PhetHistogramDataset
 - implement potential energy model
@@ -50,6 +52,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/10/07 - remove flash activity on "Return Bead" button node
 5/10/07 - upgrade jfreechart from 1.0.0 to 1.0.5
 ********* version 0.00.06 (15001)
 5/9/07 - integrate PhetHistogramDataset into PositionHistogramPlot
