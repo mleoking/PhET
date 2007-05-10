@@ -5,6 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- take a close look at all charts after upgrade from jfreechart 1.0.0 to 1.0.5
+- after upgrade from jfreechart 1.0.0 to 1.0.5, single-well module shows 
+  bogus spacing drag handle for 1D Coulomb, bogus separatation handle for Square
 
 MEDIUM PRIORITY:
 - combine Play & Pause clock buttons ?
@@ -17,6 +20,7 @@ LOW PRIORITY:
 
 
 DONE:
+5/10/07 - upgrade jfreechart from 1.0.0 to 1.0.5
 4/25/07 - add feature flags to module specs so we're not relying on range values to disable features
 4/25/07 - eliminate 0 length ranges, causes LinearValueControl to hang
 4/24/07 - replace SliderControl with LinearValueControl from phetcommon
