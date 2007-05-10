@@ -130,7 +130,7 @@ public class TestValueControls extends JFrame {
             rangeControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
                     System.out.println( "rangeControl.stateChanged " + rangeControl.getValue() );
-                    potatoControl.setRange( potatoControl.getMinimum(), (int)rangeControl.getValue() );
+                    potatoControl.setRange( potatoControl.getMinimum(), Math.round( rangeControl.getValue() ) );
                 }
             } );
         }
@@ -162,6 +162,27 @@ public class TestValueControls extends JFrame {
             customLabelsControl.setTickLabels( labelTable );
         }
         
+        // Number of wells, integers
+        final LinearValueControl numberOfWellsControl;
+        {
+            int minWells = 1;
+            int maxWells = 10;
+            int defaultWells = 5;
+            numberOfWellsControl = new LinearValueControl( minWells, maxWells, "Number of wells:", "0", "" );
+            numberOfWellsControl.setValue( defaultWells );
+            numberOfWellsControl.setUpDownArrowDelta( 1 );
+            numberOfWellsControl.setTextFieldEditable( true );
+            numberOfWellsControl.setTextFieldColumns( 2 );
+            numberOfWellsControl.setMajorTickSpacing( 1 );
+            numberOfWellsControl.setNotifyWhileAdjusting( false );
+            numberOfWellsControl.setSnapToTicks( true );
+            numberOfWellsControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
+                    System.out.println( "numberOfWellsControl.stateChanged " + Math.round( numberOfWellsControl.getValue() ) );
+                }
+            } );
+        }
+        
         JPanel panel = new JPanel();
         panel.setBorder( BorderFactory.createEmptyBorder( 20, 20, 20, 20 ) );
         BoxLayout layout = new BoxLayout( panel, BoxLayout.Y_AXIS );
@@ -176,6 +197,8 @@ public class TestValueControls extends JFrame {
         panel.add( rangeControl );
         panel.add( new JSeparator() );
         panel.add( customLabelsControl );
+        panel.add( new JSeparator() );
+        panel.add( numberOfWellsControl );
         
         setContentPane( panel );
         pack();
