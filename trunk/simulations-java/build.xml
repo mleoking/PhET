@@ -743,7 +743,8 @@
     <property name="dev_root" value="http://www.colorado.edu/physics/phet/dev"/>
 
     <target name="build2" depends="init">
-        <phet-build project="${name.sim}" destfile="deploy/${name.sim}.jar"/>
+        <!--<phet-build project="${name.sim}" destfile="deploy/${name.sim}.jar"/>-->
+        <phet-jnlp project="${name.sim}" flavor="${name.sim}" deployurl="${dev_root}/${name.sim}/${sim.version}"/>
     </target>
 
     <!--Temporary tasks for working with energy skate park.  These can be removed after this build script is integrated

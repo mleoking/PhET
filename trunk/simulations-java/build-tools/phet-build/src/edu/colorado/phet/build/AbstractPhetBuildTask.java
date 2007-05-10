@@ -21,6 +21,7 @@ public abstract class AbstractPhetBuildTask extends Task implements AntTaskRunne
             executeImpl( phetProject );
         }
         catch( Exception e ) {
+            e.printStackTrace( );
             throw new BuildException( "A problem occurred while trying to build " + projectName + ".", e );
         }
     }
