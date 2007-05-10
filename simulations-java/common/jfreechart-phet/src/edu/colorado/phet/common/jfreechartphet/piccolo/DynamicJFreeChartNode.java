@@ -36,6 +36,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PClip;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -69,7 +70,6 @@ import java.util.ArrayList;
  * <p/>
  * 4. Buffered Immediate: This draws directly to the buffer,
  * and immediately repaints the dirty region so that multiple regions don't accumulate in the RepaintManager.
- *
  *
  * @author Sam Reid
  * @version $Revision$
@@ -393,11 +393,14 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                     }
                     Graphics2D graphics2D = image.createGraphics();
                     graphics2D.setPaint( getSeriesData().getColor() );
-                    BasicStroke stroke = new BasicStroke( 4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER,1.0f);
+                    BasicStroke stroke = new BasicStroke( 4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
                     graphics2D.setStroke( stroke );
                     int itemCount = getSeries().getItemCount();
                     Line2D.Double viewLine = new Line2D.Double( getViewPoint( itemCount - 2 ), getViewPoint( itemCount - 1 ) );
                     graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//                    graphics2D.clip( getChartViewBounds() );
+//                    System.out.println( "getChartViewBounds() = " + getChartViewBounds() );
+                    graphics2D.clip( getChartViewBounds() );
                     graphics2D.draw( viewLine );
 
                     Shape sh = stroke.createStrokedShape( viewLine );
@@ -410,6 +413,16 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                     repaintPanel( bounds );
                 }
             }
+        }
+
+        //todo: is there a simpler way to do this?
+        public Rectangle2D getChartViewBounds() {
+            XYPlot xyPlot = dynamicJFreeChartNode.getChart().getXYPlot();
+            Rectangle2D rect = new Rectangle2D.Double( xyPlot.getDomainAxis().getLowerBound(),
+                                                       xyPlot.getRangeAxis().getLowerBound(),
+                                                       xyPlot.getDomainAxis().getUpperBound() - xyPlot.getDomainAxis().getLowerBound(),
+                                                       xyPlot.getRangeAxis().getUpperBound() - xyPlot.getRangeAxis().getLowerBound() );
+            return dynamicJFreeChartNode.plotToNode( rect );
         }
 
         private Point2D getViewPoint( int index ) {
