@@ -122,7 +122,9 @@
                 $contributions = contribution_get_approved_contributions_for_sim($sim_id);
                     
                 foreach($contributions as $contribution) {
-                    contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member);
+                    contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member,
+                        SITE_ROOT."simulations/sims.php?sim_id=$sim_id"
+                    );
                 }
             }
             
