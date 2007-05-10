@@ -6,31 +6,54 @@
     include_once("web-utils.php");
     include_once("sys-utils.php");    
     
-    function contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member) {
+    function contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member, $referrer = '') {
         eval(get_code_to_create_variables_from_array($contribution));
         
         $path_prefix = SITE_ROOT."teacher_ideas/";
         
-        $view    = "<a href=\"${path_prefix}view-contribution.php?contribution_id=$contribution_id\">details</a>";
+        $query_string = "?contribution_id=$contribution_id&amp;referrer=$referrer";
+        
+        $view    = "<a href=\"${path_prefix}view-contribution.php$query_string\">details</a>";
         $edit    = '';
         $delete  = '';
         $approve = '';
         
         if (contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {
-            $edit   .= ", <a href=\"${path_prefix}edit-contribution.php?contribution_id=$contribution_id\">edit</a>";
-            $delete .= ", <a href=\"${path_prefix}delete-contribution.php?contribution_id=$contribution_id\">delete</a>";
+            $edit   .= ", <a href=\"${path_prefix}edit-contribution.php$query_string\">edit</a>";
+            $delete .= ", <a href=\"${path_prefix}delete-contribution.php$query_string\">delete</a>";
         
             if ($contributor_is_team_member) {
                 if ($contribution_approved) {
-                    $approve .= ", <a href=\"${path_prefix}unapprove-contribution.php?contribution_id=$contribution_id\">unapprove</a>";
+                    $approve .= ", <a href=\"${path_prefix}unapprove-contribution.php$query_string\">unapprove</a>";
                 }
                 else {
-                    $approve .= ", <a href=\"${path_prefix}approve-contribution.php?contribution_id=$contribution_id\">approve</a>";
+                    $approve .= ", <a href=\"${path_prefix}approve-contribution.php$query_string\">approve</a>";
                 }
             }
         }
         
-        print "<li>$contribution_title - ($view$edit$delete$approve)</li>";        
+        $contribution_files = contribution_get_contribution_files($contribution_id);
+        
+        if (count($contribution_files) == 1) {
+            $contribution_link = SITE_ROOT.$contribution_files[0]['contribution_file_url'];
+        }
+        else {
+            $contribution_link = "${path_prefix}view-contribution.php$query_string";
+        }
+        
+        print "<li><a href=\"$contribution_link\">$contribution_title</a> - ($view$edit$delete$approve)</li>";        
+    }
+    
+    function contribution_get_contribution_files($contribution_id) {
+        $contribution_files = array();
+        
+        $contribution_file_rows = run_sql_statement("SELECT * FROM `contribution_file` WHERE `contribution_id`='$contribution_id' ");
+        
+        while ($contribution = mysql_fetch_assoc($contribution_file_rows)) {
+            $contribution_files[] = $contribution;
+        }
+        
+        return $contribution_files;
     }
     
     function contribution_can_contributor_manage_contribution($contributor_id, $contribution_id) {
@@ -65,7 +88,7 @@
     function contribution_add_new_contribution($contribution_title, $contributor_id, $file_tmp_name, $file_user_name) {
         $this_dir = dirname(__FILE__);
 
-        $new_file_dir_rel = "./uploads/contributions";        
+        $new_file_dir_rel = "admin/uploads/contributions";        
         $new_file_dir_abs = "$this_dir/uploads/contributions";
         
         mkdirs($new_file_dir);

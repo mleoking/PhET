@@ -28,10 +28,10 @@
         $referrer = $_REQUEST['referrer'];
     }
     else {
-        $referrer = 'teacher_ideas/manage-contributions.php';
+        $referrer = SITE_ROOT.'teacher_ideas/manage-contributions.php';
     }
 
-    force_redirect("../$referrer", 3);
+    force_redirect("$referrer", 3);
     
     if (isset($_REQUEST['contribution_id'])) {
         $contribution_id = $_REQUEST['contribution_id'];

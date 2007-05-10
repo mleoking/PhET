@@ -16,7 +16,9 @@
         print "<ul>";
         
         foreach($contributions as $contribution) {
-            contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member);
+            contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member,
+                SITE_ROOT."teacher_ideas/manage-contributions.php"
+            );
         }
         
         print "</ul>";

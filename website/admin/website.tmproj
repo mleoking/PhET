@@ -37,8 +37,6 @@
 			<date>2007-04-12T21:56:39Z</date>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>incl</string>
 			<key>regexFolderFilter</key>
@@ -91,8 +89,6 @@
 			<date>2007-04-12T21:29:00Z</date>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>files</string>
 			<key>regexFolderFilter</key>
@@ -110,7 +106,7 @@
 			<key>filename</key>
 			<string>sim-utils.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-16T19:52:43Z</date>
+			<date>2007-05-10T03:55:12Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -356,26 +352,16 @@
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>ctrl_sim_delete.php</string>
-		<string>updateexistingsim.php</string>
-		<string>addsim_confirmpg.php</string>
-		<string>updatesim2.php</string>
-		<string>update_sim.php</string>
-		<string>ctrl_simsindex.php</string>
 		<string>index.php</string>
-		<string>addsim.php</string>
-		<string>addnewsim2.php</string>
 		<string>db.inc</string>
 		<string>login-info.php</string>
-		<string>addnewsim.php</string>
 		<string>web-utils.php</string>
 		<string>password-protection.php</string>
-		<string>addsim2.php</string>
 		<string>sim-utils.php</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{296, 47}, {1067, 868}}</string>
+	<string>{{213, 50}, {1067, 868}}</string>
 </dict>
 </plist>
