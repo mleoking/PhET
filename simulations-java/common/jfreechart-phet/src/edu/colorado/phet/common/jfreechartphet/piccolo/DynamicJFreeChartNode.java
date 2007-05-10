@@ -458,6 +458,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                 BasicStroke stroke = new BasicStroke( 2.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f );
                 graphics2D.setStroke( stroke );
                 GeneralPath path = toGeneralPath();
+                graphics2D.clip( getChartViewBounds() );
                 graphics2D.draw( path );
                 repaintPanel( new Rectangle2D.Double( 0, 0, dynamicJFreeChartNode.phetPCanvas.getWidth(), dynamicJFreeChartNode.phetPCanvas.getHeight() ) );
             }
