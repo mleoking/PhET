@@ -1201,9 +1201,14 @@
         <echo message="Finished build."/>
     </target>
 
+    <target name="build2" depends="init">
+        <phet-build project="${name.sim}" destfile="deploy/${name.sim}.jar"/>
+    </target>
+
     <!--Temporary tasks for working with energy skate park.  These can be removed after this build script is integrated
-    with top level build.xml, with maverick, etc.-->
-    <property name="esp_root" value="http://www.colorado.edu/physics/phet/dev/ec3"/>
+with top level build.xml, with maverick, etc.-->
+    <property name="dev_root" value="http://www.colorado.edu/physics/phet/dev"/>
+    <property name="esp_root" value="${dev_root}/ec3"/>
     <property name="esp_version" value="2.01"/>
     <property name="esp_url" value="${esp_root}/${esp_version}"/>
     <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
