@@ -4,7 +4,6 @@ package edu.colorado.phet.rotation.model;
  * User: Sam Reid
  * Date: Dec 30, 2006
  * Time: 12:04:53 AM
- *
  */
 
 public class TimeData {

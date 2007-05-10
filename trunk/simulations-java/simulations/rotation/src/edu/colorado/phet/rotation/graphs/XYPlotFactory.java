@@ -11,7 +11,6 @@ import org.jfree.data.xy.XYSeriesCollection;
  * User: Sam Reid
  * Date: Jan 1, 2007
  * Time: 3:00:22 PM
- *
  */
 
 public class XYPlotFactory {

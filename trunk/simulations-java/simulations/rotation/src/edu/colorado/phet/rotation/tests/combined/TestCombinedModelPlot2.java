@@ -11,7 +11,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -67,7 +66,7 @@ public class TestCombinedModelPlot2 {
         combinedControlGraph = new CombinedControlGraph( new XYPlot[]{xGraph, vGraph, aGraph,} );
         rotationModel.setUpdateStrategy( positionDriven );
         DefaultGraphTimeSeries graphTimeSeries = new DefaultGraphTimeSeries();
-        addDefaultControlSet( 0, "position", "a units", "A_abbr", xVariable, graphTimeSeries,  combinedControlGraph, positionDriven );
+        addDefaultControlSet( 0, "position", "a units", "A_abbr", xVariable, graphTimeSeries, combinedControlGraph, positionDriven );
         addDefaultControlSet( 1, "velocity", "b units", "b_abbr", vVariable, graphTimeSeries, combinedControlGraph, velocityDriven );
         addDefaultControlSet( 2, "acceleration", "c units", "c_abbr", aVariable, graphTimeSeries, combinedControlGraph, accelDriven );
 

@@ -16,7 +16,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 8:23:39 AM
- *
  */
 
 public class RotationGraphSet {

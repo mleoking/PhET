@@ -1,7 +1,6 @@
 package edu.colorado.phet.rotation.tests.jfreechart;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 
@@ -12,7 +11,6 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Jan 31, 2007
  * Time: 5:53:10 PM
- *
  */
 
 public class TestBufferedPropertyListener {

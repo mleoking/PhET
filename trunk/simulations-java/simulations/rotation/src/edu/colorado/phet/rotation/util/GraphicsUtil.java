@@ -6,7 +6,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 9:32:26 AM
- *
  */
 
 public class GraphicsUtil {

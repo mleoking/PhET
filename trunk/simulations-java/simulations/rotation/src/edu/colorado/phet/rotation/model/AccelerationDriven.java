@@ -4,7 +4,6 @@ package edu.colorado.phet.rotation.model;
  * User: Sam Reid
  * Date: Dec 29, 2006
  * Time: 11:37:32 PM
- *
  */
 
 public class AccelerationDriven implements UpdateStrategy {

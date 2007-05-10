@@ -8,7 +8,6 @@ import edu.umd.cs.piccolo.PNode;
  * User: Sam Reid
  * Date: Jan 9, 2007
  * Time: 7:52:02 AM
- *
  */
 
 public class RotationPlayArea extends PNode {

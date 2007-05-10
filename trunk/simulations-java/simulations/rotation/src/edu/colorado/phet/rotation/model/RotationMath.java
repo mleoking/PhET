@@ -7,7 +7,6 @@ import JSci.maths.vectors.AbstractDoubleVector;
  * User: Sam Reid
  * Date: Dec 30, 2006
  * Time: 12:04:24 AM
- *
  */
 
 public class RotationMath {

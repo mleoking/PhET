@@ -15,7 +15,6 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Jan 9, 2007
  * Time: 7:52:23 AM
- *
  */
 
 public class TimeSeriesGraphSetNode extends PNode {
