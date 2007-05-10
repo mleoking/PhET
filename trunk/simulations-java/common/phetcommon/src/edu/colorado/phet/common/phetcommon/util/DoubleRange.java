@@ -32,8 +32,8 @@ public class DoubleRange {
      * @param significantDecimalPlaces
      */
     public DoubleRange( double min, double max, double defaultValue, int significantDecimalPlaces ) {
-        if ( ! ( min < max ) ) {
-            throw new IllegalArgumentException( "min must be < max" );
+        if ( ! ( min <= max ) ) {
+            throw new IllegalArgumentException( "min must be <= max" );
         }
         if ( defaultValue < min || defaultValue > max ) {
             throw new IllegalArgumentException( "defaultValue out of range" );
