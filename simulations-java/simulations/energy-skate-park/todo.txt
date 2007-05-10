@@ -1,3 +1,13 @@
+ellipsis for menu items or buttons that pop up a dialog
+
+"Bar Graph" button and "Bar Chart" window have different text.
+
+"Bring back the skater" button broken sometimes
+
+"Bring back the skater" button should have setopaque false for mac
+
+Zoom out button on mac chopped off right 1/4 due to resize handles on window.
+
 Small bug: On the tracks that open in roller coaster mode, when you right click, you cannot change the mode
 
 Would it take much time to have a right click on the character bring up the character choices?
