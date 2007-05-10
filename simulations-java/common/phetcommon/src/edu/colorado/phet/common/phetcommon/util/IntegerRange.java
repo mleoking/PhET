@@ -30,8 +30,8 @@ public class IntegerRange {
      * @param defaultValue
      */
     public IntegerRange( int min, int max, int defaultValue ) {
-        if ( ! ( min < max ) ) {
-            throw new IllegalArgumentException( "min must be < max" );
+        if ( ! ( min <= max ) ) {
+            throw new IllegalArgumentException( "min must be <= max" );
         }
         if ( defaultValue < min || defaultValue > max ) {
             throw new IllegalArgumentException( "defaultValue out of range" );
