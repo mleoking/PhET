@@ -18,6 +18,15 @@ import org.jfree.util.PublicCloneable;
  * PhetHistogramDataset is a dataset that can be used for creating histograms.
  * It is based on org.jfree.data.statistics.HistogramDataset, 
  * which was unfortunately not written to be extensible.
+ * <p>
+ * This dataset can constain multiple histogram series.
+ * Each series has an immutable range, which is divided into a specified 
+ * number of bins, each bin having equal width.
+ * When a one-dimensional data point (referred to as an observation)
+ * is added to a series, it is placed in the bin that corresponds to
+ * its value. When the histogram is rendered, each bin is drawn as 
+ * a vertical bar, where the height of the bar corresponds to the number
+ * of observations in the bin.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -35,7 +44,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
         private final Comparable key;
         private final List bins; // list of HistogramBin
         private final double binWidth;
-        private int numberOfObservations; // mutable
+        private int numberOfObservations; // mutable, included to improve performance
         private final double minimum;
         private final double maximum;
         private boolean ignoreOutOfRangeObservations;
@@ -67,19 +76,19 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      */
     private static class HistogramBin {
 
-        private int count; // mutable
+        private int numberOfObservations; // mutable
         private final double startBoundary;
         private final double endBoundary;
 
         /* Creates an empty bin */
         public HistogramBin( double startBoundary, double endBoundary ) {
-            this.count = 0;
+            this.numberOfObservations = 0;
             this.startBoundary = startBoundary;
             this.endBoundary = endBoundary;
         }
 
         public String toString() {
-            return "count=" + count + 
+            return "numberOfObservations=" + numberOfObservations + 
             " startBoundary=" + startBoundary + 
             " endBoundary=" + endBoundary;
         }
@@ -288,7 +297,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
             final int numberOfBins = getNumberOfBins( seriesIndex );
             final int binIndex = (int) ( fraction * numberOfBins );
             HistogramBin bin = getBin( seriesIndex, binIndex );
-            bin.count++;
+            bin.numberOfObservations++;
             series.numberOfObservations++;
         }
         else if ( !series.ignoreOutOfRangeObservations ) {
@@ -312,7 +321,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
         HistogramBin bin;
         while ( i.hasNext() ) {
             bin = (HistogramBin) i.next();
-            bin.count = 0;
+            bin.numberOfObservations = 0;
         }
         // clear the series
         HistogramSeries series = getSeries( seriesIndex );
@@ -480,13 +489,13 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
         double y = 0;
         if ( _histogramType == HistogramType.FREQUENCY ) {
-            y = bin.count;
+            y = bin.numberOfObservations;
         }
         else if ( _histogramType == HistogramType.RELATIVE_FREQUENCY ) {
-            y = bin.count / total;
+            y = bin.numberOfObservations / total;
         }
         else if ( _histogramType == HistogramType.SCALE_AREA_TO_1 ) {
-            y = bin.count / ( binWidth * total );
+            y = bin.numberOfObservations / ( binWidth * total );
         }
         else {
             throw new IllegalStateException( "unsupported HistogramType: " + _histogramType );
