@@ -59,7 +59,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     private static final DoubleRange MASS_MULTIPLIER_RANGE = new DoubleRange( 0.5, 1.1, 1, 2 );
     
     // Number of wells (min, max, default, significantDecimalPlaces)
-    private static final IntegerRange NUMBER_OF_WELLS_RANGE = new IntegerRange( 0, 1, 1 );
+    private static final IntegerRange NUMBER_OF_WELLS_RANGE = new IntegerRange( 1, 1, 1 );
     
     // Magnification power of the magnifying glass
     private static final double MAGNIFICATION = 10;
@@ -92,7 +92,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     
     // Potential attributes
     private static final DoubleRange COULOMB_1D_OFFSET_RANGE = new DoubleRange( -15, 5, 0, 1 ); // eV
-    private static final DoubleRange COULOMB_1D_SPACING_RANGE = new DoubleRange( 0, 1, 0, 0 ); // nm (don't care for one well)
+    private static final DoubleRange COULOMB_1D_SPACING_RANGE = new DoubleRange( 0, 0, 0, 0 ); // nm, don't care for 1 well
     
     //----------------------------------------------------------------------------
     // 3D Coulomb ranges
@@ -132,7 +132,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV
     private static final DoubleRange SQUARE_WIDTH_RANGE = new DoubleRange( 0.1, 6, 1, 1 ); // nm
     private static final DoubleRange SQUARE_HEIGHT_RANGE = new DoubleRange( 0, 20, 10, 1 ); // eV
-    private static final DoubleRange SQUARE_SEPARATION_RANGE = new DoubleRange( 0, 1, 0, 0 ); // nm (don't care for one well)
+    private static final DoubleRange SQUARE_SEPARATION_RANGE = new DoubleRange( 0, 0, 0, 0 ); // nm, don't care for 1 well
     
     //----------------------------------------------------------------------------
     // Constructors

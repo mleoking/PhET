@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
@@ -36,7 +37,7 @@ public abstract class BSAbstractDragManager extends PClip {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSPotentialSpec _potentialSpec;
+    private BSAbstractModuleSpec _moduleSpec;
     private BSCombinedChartNode _chartNode;
     private ArrayList _handles; // array of BSAbstractHandle
     private ArrayList _markers; // array of BSAbstractMarker
@@ -48,12 +49,12 @@ public abstract class BSAbstractDragManager extends PClip {
     /**
      * Constructor.
      * 
-     * @param potentialSpec describes ranges for potential's attributes
+     * @param moduleSpec
      * @param chartNode the chart that the drag handles and markers pertain to
      */
-    public BSAbstractDragManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
+    public BSAbstractDragManager( BSAbstractModuleSpec moduleSpec, BSCombinedChartNode chartNode ) {
         super();
-        _potentialSpec = potentialSpec;
+        _moduleSpec = moduleSpec;
         _chartNode = chartNode;
         _handles = new ArrayList();
         _markers = new ArrayList();
@@ -64,11 +65,11 @@ public abstract class BSAbstractDragManager extends PClip {
     //----------------------------------------------------------------------------
     
     /*
-     * Gets the range specification for the potential's attributes.
+     * Gets the module specification.
      * This is intended for use by subclasses.
      */
-    protected BSPotentialSpec getPotentialSpec() {
-        return _potentialSpec;
+    protected BSAbstractModuleSpec getModuleSpec() {
+        return _moduleSpec;
     }
     
     /*

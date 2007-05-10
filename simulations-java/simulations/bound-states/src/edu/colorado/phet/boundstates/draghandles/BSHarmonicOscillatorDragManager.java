@@ -12,6 +12,7 @@
 package edu.colorado.phet.boundstates.draghandles;
 
 import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorPotential;
+import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 
@@ -31,11 +32,11 @@ public class BSHarmonicOscillatorDragManager extends BSAbstractDragManager {
     /**
      * Constructor.
      * 
-     * @param potentialSpec describes ranges for potential's attributes
+     * @param moduleSpec
      * @param chartNode the chart that the drag handles and markers pertain to
      */
-    public BSHarmonicOscillatorDragManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( potentialSpec, chartNode );
+    public BSHarmonicOscillatorDragManager( BSAbstractModuleSpec moduleSpec, BSCombinedChartNode chartNode ) {
+        super( moduleSpec, chartNode );
     }
     
     //----------------------------------------------------------------------------
@@ -52,10 +53,11 @@ public class BSHarmonicOscillatorDragManager extends BSAbstractDragManager {
         removeAllHandlesAndMarkers();
         if ( potential != null ) {
 
-            BSPotentialSpec potentialSpec = getPotentialSpec();
+            BSAbstractModuleSpec moduleSpec = getModuleSpec();
+            BSPotentialSpec potentialSpec = moduleSpec.getHarmonicOscillatorSpec();
             BSCombinedChartNode chartNode = getChartNode();
             
-            if ( !potentialSpec.getOffsetRange().isZero() ) {
+            if ( moduleSpec.isOffsetControlSupported() ) {
                 BSAbstractHandle offsetHandle = new BSHarmonicOscillatorOffsetHandle( potential, potentialSpec, chartNode );
                 addHandle( offsetHandle );
             }

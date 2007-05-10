@@ -674,7 +674,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
 
     private void handleNumberOfWells() {
         if ( _numberOfWellsControl != null ) {
-            int numberOfWells = (int) _numberOfWellsControl.getValue();
+            int numberOfWells = (int) Math.round( _numberOfWellsControl.getValue() );
             _module.setNumberOfWells( numberOfWells );
         }
     }

@@ -12,6 +12,7 @@
 package edu.colorado.phet.boundstates.draghandles;
 
 import edu.colorado.phet.boundstates.model.BSCoulomb3DPotential;
+import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 
@@ -31,11 +32,11 @@ public class BSCoulomb3DDragManager extends BSAbstractDragManager {
     /**
      * Constructor.
      * 
-     * @param potentialSpec describes ranges for potential's attributes
+     * @param moduleSpec
      * @param chartNode the chart that the drag handles and markers pertain to
      */
-    public BSCoulomb3DDragManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( potentialSpec, chartNode );
+    public BSCoulomb3DDragManager( BSAbstractModuleSpec moduleSpec, BSCombinedChartNode chartNode ) {
+        super( moduleSpec, chartNode );
     }
     
     //----------------------------------------------------------------------------
@@ -52,10 +53,11 @@ public class BSCoulomb3DDragManager extends BSAbstractDragManager {
         removeAllHandlesAndMarkers();
         if ( potential != null ) {
             
-            BSPotentialSpec potentialSpec = getPotentialSpec();
+            BSAbstractModuleSpec moduleSpec = getModuleSpec();
+            BSPotentialSpec potentialSpec = moduleSpec.getCoulomb3DSpec();
             BSCombinedChartNode chartNode = getChartNode();
             
-            if ( !potentialSpec.getOffsetRange().isZero() ) {
+            if ( moduleSpec.isOffsetControlSupported() ) {
                 BSAbstractHandle offsetHandle = new BSCoulomb3DOffsetHandle( potential, potentialSpec, chartNode );
                 addHandle( offsetHandle );
             }

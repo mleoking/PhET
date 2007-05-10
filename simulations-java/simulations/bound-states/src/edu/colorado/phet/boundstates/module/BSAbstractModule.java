@@ -273,11 +273,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         
         // Potential drag handles
         {
-            _asymmetricDragManager = new BSAsymmetricDragManager( _moduleSpec.getAsymmetricSpec(), _chartNode );
-            _coulomb1DDragManager = new BSCoulomb1DDragManager( _moduleSpec.getCoulomb1DSpec(), _chartNode );
-            _coulomb3DDragManager = new BSCoulomb3DDragManager( _moduleSpec.getCoulomb3DSpec(), _chartNode );
-            _harmonicOscillatorDragManager = new BSHarmonicOscillatorDragManager( _moduleSpec.getHarmonicOscillatorSpec(), _chartNode );
-            _squareDragManager = new BSSquareDragManager( _moduleSpec.getSquareSpec(), _chartNode );
+            _asymmetricDragManager = new BSAsymmetricDragManager( _moduleSpec, _chartNode );
+            _coulomb1DDragManager = new BSCoulomb1DDragManager( _moduleSpec, _chartNode );
+            _coulomb3DDragManager = new BSCoulomb3DDragManager( _moduleSpec, _chartNode );
+            _harmonicOscillatorDragManager = new BSHarmonicOscillatorDragManager( _moduleSpec, _chartNode );
+            _squareDragManager = new BSSquareDragManager( _moduleSpec, _chartNode );
 
             if ( ENABLE_DRAG_HANDLES ) {
                 _parentNode.addChild( _asymmetricDragManager );

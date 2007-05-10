@@ -21,6 +21,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
+import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -33,7 +34,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements ChangeListener {
+public class BSCoulomb1DDialog extends BSAbstractConfigureDialog {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -50,9 +51,9 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Chan
     /**
      * Constructor.
      */
-    public BSCoulomb1DDialog( Frame parent, BSCoulomb1DPotential potential, BSPotentialSpec potentialSpec, boolean offsetControlSupported ) {
+    public BSCoulomb1DDialog( Frame parent, BSCoulomb1DPotential potential, BSAbstractModuleSpec moduleSpec ) {
         super( parent, BSResources.getString( "BSCoulomb1DDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( potentialSpec, offsetControlSupported );
+        JPanel inputPanel = createInputPanel( moduleSpec );
         createUI( inputPanel );
         updateControls();
     }
@@ -62,13 +63,14 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Chan
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel( BSPotentialSpec potentialSpec, boolean offsetControlSupported ) {
+    protected JPanel createInputPanel( BSAbstractModuleSpec moduleSpec ) {
         
+        BSPotentialSpec potentialSpec = moduleSpec.getCoulomb1DSpec();
         String positionUnits = BSResources.getString( "units.position" );
         String energyUnits = BSResources.getString( "units.energy" );
 
         // Offset
-        {
+        if ( moduleSpec.isOffsetControlSupported() ) {
             DoubleRange offsetRange = potentialSpec.getOffsetRange();
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
@@ -82,10 +84,15 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Chan
             _offsetControl.setTextFieldColumns( columns );
             _offsetControl.setTextFieldEditable( true );
             _offsetControl.setNotifyWhileAdjusting( NOTIFY_WHILE_DRAGGING );   
+            _offsetControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    handleOffsetChange();
+                }
+            } );
         }
 
         // Spacing
-        {
+        if ( moduleSpec.getNumberOfWellsRange().getMax() > 1 ) {
             DoubleRange spacingRange = potentialSpec.getSpacingRange();
             double value = spacingRange.getDefault();
             double min = spacingRange.getMin();
@@ -99,15 +106,12 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Chan
             _spacingControl.setTextFieldColumns( columns );
             _spacingControl.setTextFieldEditable( true );
             _spacingControl.setNotifyWhileAdjusting( NOTIFY_WHILE_DRAGGING );
-            
-            _spacingSeparator = new JSeparator();
+            _spacingControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    handleSpacingChange();
+                }
+            } );
         };
-        
-        // Events
-        {
-            _offsetControl.addChangeListener( this );
-            _spacingControl.addChangeListener( this );
-        }
         
         // Layout
         JPanel inputPanel = new JPanel();
@@ -117,13 +121,18 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Chan
             layout.setAnchor( GridBagConstraints.WEST );
             int row = 0;
             int col = 0;
-            if ( offsetControlSupported ) {
+            if ( _offsetControl != null ) {
                 layout.addComponent( _offsetControl, row, col );
                 row++;
+            }
+            if ( _offsetControl != null && _spacingControl != null ) {
+                _spacingSeparator = new JSeparator();
                 layout.addFilledComponent( _spacingSeparator, row, col, GridBagConstraints.HORIZONTAL );
                 row++;
             }
-            layout.addComponent( _spacingControl, row, col );
+            if ( _spacingControl != null ) {
+                layout.addComponent( _spacingControl, row, col );
+            }
             row++;
         }
         
@@ -138,54 +147,19 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Chan
         
         BSCoulomb1DPotential potential = (BSCoulomb1DPotential) getPotential();
         
-        // Sync values
-        _offsetControl.setValue( potential.getOffset() );
-        _spacingControl.setValue( potential.getSpacing() );
+        if ( _offsetControl != null ) {
+            _offsetControl.setValue( potential.getOffset() );
+        }
         
-        // Visiblility
-        _spacingControl.setVisible( potential.getNumberOfWells() > 1 );
-        _spacingSeparator.setVisible( _spacingControl.isVisible() );
-        pack();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Overrides
-    //----------------------------------------------------------------------------
-
-    /**
-     * Removes change listeners before disposing of the dialog.
-     * If we don't do this, then we'll get events that are caused by
-     * the sliders losing focus.
-     */
-    public void dispose() {
-        _offsetControl.removeChangeListener( this );
-        _spacingControl.removeChangeListener( this );
-        super.dispose();
-    }
-    
-    //----------------------------------------------------------------------------
-    // ChangeListener implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Dispatches a ChangeEvent to the proper handler method.
-     */
-    public void stateChanged( ChangeEvent e ) {
-        setObservePotential( false );
-        {
-            if ( e.getSource() == _offsetControl ) {
-                handleOffsetChange();
-                adjustClockState( _offsetControl );
-            }
-            else if ( e.getSource() == _spacingControl ) {
-                handleSpacingChange();
-                adjustClockState( _spacingControl );
-            }
-            else {
-                System.err.println( "WARNING: BSCoulomb3DDialog - unsupported event source: " + e.getSource() );
+        if ( _spacingControl != null ) {
+            _spacingControl.setValue( potential.getSpacing() );
+            _spacingControl.setVisible( potential.getNumberOfWells() > 1 );
+            if ( _spacingSeparator != null ) {
+                _spacingSeparator.setVisible( _spacingControl.isVisible() );
             }
         }
-        setObservePotential( true );
+
+        pack();
     }
     
     //----------------------------------------------------------------------------
@@ -194,13 +168,18 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Chan
     
     private void handleOffsetChange() {
         final double offset = _offsetControl.getValue();
+        setObservePotential( false );
         getPotential().setOffset( offset );
+        setObservePotential( true );
+        adjustClockState( _offsetControl );
     }
     
     private void handleSpacingChange() {
-        BSCoulomb1DPotential potential = (BSCoulomb1DPotential) getPotential();
         final double spacing = _spacingControl.getValue();
-        potential.setSpacing( spacing );
+        setObservePotential( false );
+        ((BSCoulomb1DPotential) getPotential()).setSpacing( spacing );
+        setObservePotential( true );
+        adjustClockState( _spacingControl );
     }
 
 }
