@@ -1,3 +1,6 @@
+2.01.00 (5-10-2007)
+Same as 2.00.02
+
 2.00.02 (5-5-2007)
 Changed the name of the Return Skater button under Reset to Return Character.
     I could also easily make this match the name of the particular skater, as in the "Return Character" button in the play area.

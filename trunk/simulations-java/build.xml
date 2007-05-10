@@ -1204,7 +1204,7 @@
     <!--Temporary tasks for working with energy skate park.  These can be removed after this build script is integrated
     with top level build.xml, with maverick, etc.-->
     <property name="esp_root" value="http://www.colorado.edu/physics/phet/dev/ec3"/>
-    <property name="esp_version" value="2.00.02"/>
+    <property name="esp_version" value="2.01.00"/>
     <property name="esp_url" value="${esp_root}/${esp_version}"/>
     <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
     <property name="esp_path" value="dev/ec3"/>
@@ -1217,16 +1217,16 @@
         <copy file="simulations/energy-skate-park/changes.txt" tofile="simulations/energy-skate-park/deploy/changes.txt"/>
         <copy file="simulations/energy-skate-park/README" tofile="simulations/energy-skate-park/deploy/README"/>
         <copy file="simulations/energy-skate-park/energy-conservation.gif" tofile="simulations/energy-skate-park/deploy/energy-conservation.gif"/>
-        <!--<maverick-ssh host="${ssh-host}" username="${username}" password="${password}" version="2">-->
-            <!--<sftp action="mkdir" remotedir="${phet-ssh-root}/${esp_path}"/>-->
-            <!--<sftp action="mkdir" remotedir="${phet-ssh-root}/${esp_path}/${esp_version}"/>-->
-            <!--<sftp action="put" remotedir="${phet-ssh-root}/${esp_path}/${esp_version}" verbose="true">-->
-                <!--<fileset dir="simulations/energy-skate-park/deploy"></fileset>-->
-            <!--</sftp>-->
-        <!--</maverick-ssh>-->
-        <!--<exec executable="${browser}" spawn="true">-->
-            <!--<arg value="${esp_url}"/>-->
-        <!--</exec>-->
+        <maverick-ssh host="${ssh-host}" username="${username}" password="${password}" version="2">
+            <sftp action="mkdir" remotedir="${phet-ssh-root}/${esp_path}"/>
+            <sftp action="mkdir" remotedir="${phet-ssh-root}/${esp_path}/${esp_version}"/>
+            <sftp action="put" remotedir="${phet-ssh-root}/${esp_path}/${esp_version}" verbose="true">
+                <fileset dir="simulations/energy-skate-park/deploy"></fileset>
+            </sftp>
+        </maverick-ssh>
+        <exec executable="${browser}" spawn="true">
+            <arg value="${esp_url}"/>
+        </exec>
     </target>
 
     <target name="esp_show_browser">
