@@ -50,6 +50,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+********* version 0.00.06 (?)
 5/9/07 - integrate PhetHistogramDataset into PositionHistogramPlot
 5/9/07 - write PhetHistogramDataset, mutable version of JFreeChart's HistogramDataset
 5/8/07 - remove ChangeListener interface on charts, add PropertyListener that watches visibility
