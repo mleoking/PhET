@@ -8,6 +8,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
+- migrate PhetHistogramDataset to jfreechart-phet
 - implement potential energy model
 - better algorithm for trap force y component Fy
 - improve collision detection in Bead.move
