@@ -200,6 +200,10 @@
         </if>
     </target>
 
+    <target name="_build-project">
+        <antcall taskname="build2"></antcall>
+    </target>
+
     <target name="test" description="Runs all unit tests for the specified simulation" depends="_sim-build-depends, _build-project">
         <echo message="Running all unit tests for ${dirname.project}" />
 
@@ -225,7 +229,7 @@
 
     <target name="build" description="Builds the specified simulation" depends="clean, _sim-build-depends, _build-project" />
 
-    <target name="build-proguard" description="Builds the specified simulation and runs ProGuard on the JAR to reduce file size" depends="build, _proguard" />
+    <target name="build-proguard" description="Builds the specified simulation and runs ProGuard on the JAR to reduce file size" depends="build" />
 
     <target name="clean" description="Deletes all buildfile-generated files for the specified simulation" depends="_sim-build-depends">
         <echo message="Cleaning up ${dir.temp.project}" />
@@ -735,17 +739,18 @@
         <echo message="Finished build."/>
     </target>
 
+    <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
+    <property name="dev_root" value="http://www.colorado.edu/physics/phet/dev"/>
+
     <target name="build2" depends="init">
         <phet-build project="${name.sim}" destfile="deploy/${name.sim}.jar"/>
     </target>
 
     <!--Temporary tasks for working with energy skate park.  These can be removed after this build script is integrated
 with top level build.xml, with maverick, etc.-->
-    <property name="dev_root" value="http://www.colorado.edu/physics/phet/dev"/>
     <property name="esp_root" value="${dev_root}/ec3"/>
     <property name="esp_version" value="2.01"/>
     <property name="esp_url" value="${esp_root}/${esp_version}"/>
-    <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
     <property name="esp_path" value="dev/ec3"/>
 
     <target name="esp_build_and_post" depends="init">
