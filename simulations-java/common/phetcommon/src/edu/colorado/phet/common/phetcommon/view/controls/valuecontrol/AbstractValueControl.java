@@ -193,7 +193,9 @@ public abstract class AbstractValueControl extends JPanel {
      * @param value
      */
     public void setValue( double value ) {
-        setValue( value, true );
+        if ( value != _value ) {
+            setValue( value, true );
+        }
     }
 
     /*
@@ -203,19 +205,17 @@ public abstract class AbstractValueControl extends JPanel {
      * @param notify
      */
     private void setValue( double value, boolean notify ) {
-        if ( value != _value ) {
-            if ( value >= getMinimum() && value <= getMaximum() ) {
-                _value = value;
-                updateView();
-                if ( notify ) {
-                    fireChangeEvent( new ChangeEvent( this ) );
-                }
+        if ( value >= getMinimum() && value <= getMaximum() ) {
+            _value = value;
+            updateView();
+            if ( notify ) {
+                fireChangeEvent( new ChangeEvent( this ) );
             }
-            else {
-                Toolkit.getDefaultToolkit().beep();
-                System.out.println( getClass().getName() + ".setValue: invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + "range is " + getMinimum() + " to " + getMaximum() + ", tried to set " + value );
-                updateView(); // revert
-            }
+        }
+        else {
+            Toolkit.getDefaultToolkit().beep();
+            System.out.println( getClass().getName() + ".setValue: invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + "range is " + getMinimum() + " to " + getMaximum() + ", tried to set " + value );
+            updateView(); // revert
         }
     }
 
@@ -242,8 +242,9 @@ public abstract class AbstractValueControl extends JPanel {
         else if ( _value > max ) {
             setValue( max );
         }
-        else { 
-            setValue( _value );
+        else {
+            // use this form of setValue to reset the existing value
+            setValue( _value, true );
         }
         updateTickLabels();
     }
