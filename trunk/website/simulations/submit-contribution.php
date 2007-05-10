@@ -51,5 +51,5 @@
 EOT;
     }
     
-    print_site_page('print_content', 2, "../..");
+    print_site_page('print_content', 2);
 ?>
