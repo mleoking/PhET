@@ -378,6 +378,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     static class BufferedSeriesView extends SeriesView {
         private BufferedImage lastFullPaint = null;
         private boolean origStateBuffered;
+        private BasicStroke stroke = new BasicStroke( 4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
 
         public BufferedSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
             super( dynamicJFreeChartNode, seriesData );
@@ -393,11 +394,11 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                     }
                     Graphics2D graphics2D = image.createGraphics();
                     graphics2D.setPaint( getSeriesData().getColor() );
-                    BasicStroke stroke = new BasicStroke( 4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
+
                     graphics2D.setStroke( stroke );
                     int itemCount = getSeries().getItemCount();
                     Line2D.Double viewLine = new Line2D.Double( getViewPoint( itemCount - 2 ), getViewPoint( itemCount - 1 ) );
-                    graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                    setupRenderingHints( graphics2D );
 //                    graphics2D.clip( getChartViewBounds() );
 //                    System.out.println( "getChartViewBounds() = " + getChartViewBounds() );
                     graphics2D.clip( getChartViewBounds() );
@@ -413,6 +414,10 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                     repaintPanel( bounds );
                 }
             }
+        }
+
+        private void setupRenderingHints( Graphics2D graphics2D ) {
+            graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         }
 
         //todo: is there a simpler way to do this?
@@ -455,9 +460,9 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             if( image != null ) {
                 Graphics2D graphics2D = image.createGraphics();
                 graphics2D.setPaint( getSeriesData().getColor() );
-                BasicStroke stroke = new BasicStroke( 2.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f );
                 graphics2D.setStroke( stroke );
                 GeneralPath path = toGeneralPath();
+                setupRenderingHints( graphics2D );
                 graphics2D.clip( getChartViewBounds() );
                 graphics2D.draw( path );
                 repaintPanel( new Rectangle2D.Double( 0, 0, dynamicJFreeChartNode.phetPCanvas.getWidth(), dynamicJFreeChartNode.phetPCanvas.getHeight() ) );

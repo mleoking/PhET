@@ -3,8 +3,6 @@
 ################
 Charts:
 
-Add clipping for Buffered strategies in DynamicJFreeChartNode
-
 Add a graph cursor.
 
 When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.
