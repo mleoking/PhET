@@ -6,7 +6,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 9, 2007
  * Time: 11:43:13 AM
- *
  */
 
 public class LucidaSansFont extends Font {

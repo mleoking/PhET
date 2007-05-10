@@ -12,7 +12,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -29,7 +28,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 10:38:00 PM
- *
  */
 
 public class ControlGraph extends PNode {

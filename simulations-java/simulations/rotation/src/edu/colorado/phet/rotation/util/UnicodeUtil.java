@@ -4,7 +4,6 @@ package edu.colorado.phet.rotation.util;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 9:27:51 AM
- *
  */
 
 public class UnicodeUtil {

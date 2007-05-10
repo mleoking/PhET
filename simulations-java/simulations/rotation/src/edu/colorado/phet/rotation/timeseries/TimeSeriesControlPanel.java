@@ -1,6 +1,5 @@
 package edu.colorado.phet.rotation.timeseries;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.rotation.RotationResources;
 
 import javax.swing.*;
@@ -13,7 +12,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jan 9, 2007
  * Time: 12:47:07 PM
- *
  */
 
 public class TimeSeriesControlPanel extends JPanel {

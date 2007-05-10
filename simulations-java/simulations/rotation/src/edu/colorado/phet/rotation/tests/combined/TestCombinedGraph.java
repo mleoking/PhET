@@ -26,9 +26,9 @@ public class TestCombinedGraph {
         XYPlotFactory factory = new XYPlotFactory();
         CombinedControlGraph combinedControlGraph = new CombinedControlGraph(
                 new XYPlot[]{
-                                                                                      factory.createXYPlot( "graph a", "range a" ),
-                                                                                      factory.createXYPlot( "graph b", "range b" )
-                                                                              } );
+                        factory.createXYPlot( "graph a", "range a" ),
+                        factory.createXYPlot( "graph b", "range b" )
+                } );
         phetPCanvas.addScreenChild( combinedControlGraph );
         combinedControlGraph.setBounds( 0, 0, 700, 500 );
         frame.setContentPane( phetPCanvas );

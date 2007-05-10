@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jan 31, 2007
  * Time: 6:00:38 PM
- *
  */
 
 public class CompareListeners {

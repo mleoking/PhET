@@ -13,7 +13,6 @@ import edu.colorado.phet.rotation.model.RotationModel;
  * User: Sam Reid
  * Date: Dec 27, 2006
  * Time: 11:32:36 AM
- *
  */
 
 public class RotationModule extends PiccoloModule {

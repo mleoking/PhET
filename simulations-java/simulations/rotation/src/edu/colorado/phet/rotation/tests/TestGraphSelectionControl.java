@@ -12,7 +12,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 8:42:32 AM
- *
  */
 
 public class TestGraphSelectionControl {

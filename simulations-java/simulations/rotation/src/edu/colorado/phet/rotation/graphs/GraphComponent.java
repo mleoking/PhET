@@ -1,6 +1,5 @@
 package edu.colorado.phet.rotation.graphs;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.umd.cs.piccolo.PNode;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 8:22:10 AM
- *
  */
 
 public class GraphComponent extends PNode {

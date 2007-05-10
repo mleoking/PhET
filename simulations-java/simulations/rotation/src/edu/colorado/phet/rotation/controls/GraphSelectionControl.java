@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 8:16:34 AM
- *
  */
 
 public class GraphSelectionControl extends JPanel {

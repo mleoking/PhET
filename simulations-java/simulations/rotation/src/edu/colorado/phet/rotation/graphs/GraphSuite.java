@@ -4,7 +4,6 @@ package edu.colorado.phet.rotation.graphs;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 8:30:07 AM
- *
  */
 
 public class GraphSuite {

@@ -7,9 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Jan 30, 2007
- * Time: 11:23:23 AM
+ * Demonstrates the failure of JComboBox when embedded in PSwing.
  */
 
 public class TestJComboBox {
@@ -27,7 +25,7 @@ public class TestJComboBox {
         JComboBox jComboBox2 = new JComboBox( new String[]{"cat", "dog", "squirrel", "anteater"} );
         panel.add( jComboBox1, gridBagConstraints );
         panel.add( jComboBox2, gridBagConstraints );
-        PSwing pSwing = new PSwing(panel );
+        PSwing pSwing = new PSwing( panel );
         pSwing.setOffset( 200, 200 );
         pSwing.scale( 2.0 );
         pCanvas.getLayer().addChild( pSwing );

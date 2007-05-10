@@ -1,9 +1,8 @@
 package edu.colorado.phet.rotation.graphs;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
-import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.colorado.phet.rotation.RotationResources;
+import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -18,7 +17,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Dec 29, 2006
  * Time: 8:55:43 AM
- *
  */
 
 public class GraphControlNode extends PNode {
@@ -31,10 +29,10 @@ public class GraphControlNode extends PNode {
     public GraphControlNode( GraphTimeSeries graphTimeSeries ) {
         addChild( seriesLayer );
 
-        goStopButton = new PSwing(new GoStopButton( graphTimeSeries ) );
+        goStopButton = new PSwing( new GoStopButton( graphTimeSeries ) );
         addChild( goStopButton );
 
-        clearButton = new PSwing(new ClearButton( graphTimeSeries ) );
+        clearButton = new PSwing( new ClearButton( graphTimeSeries ) );
         addChild( clearButton );
 
         constructed = true;
@@ -72,7 +70,7 @@ public class GraphControlNode extends PNode {
             addChild( shadowPText );
 
             box = new TextBox( title, simulationVariable );
-            textBox = new PSwing(box );
+            textBox = new PSwing( box );
             addChild( textBox );
         }
 

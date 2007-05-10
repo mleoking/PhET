@@ -6,7 +6,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 8:21:40 AM
- *
  */
 
 public class GraphSetModel {

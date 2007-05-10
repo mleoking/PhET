@@ -6,7 +6,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jan 9, 2007
  * Time: 1:00:05 PM
- *
  */
 
 public class TimeSeriesModel {

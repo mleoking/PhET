@@ -7,7 +7,6 @@ import edu.colorado.phet.rotation.model.TimeData;
  * User: Sam Reid
  * Date: Dec 30, 2006
  * Time: 12:30:09 AM
- *
  */
 
 public class TestTimeDerivative {

@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 9:25:23 AM
- *
  */
 
 public class RotationLookAndFeel extends PhetLookAndFeel {

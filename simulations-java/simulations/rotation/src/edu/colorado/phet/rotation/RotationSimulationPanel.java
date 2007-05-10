@@ -15,7 +15,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Dec 27, 2006
  * Time: 11:34:12 AM
- *
  */
 
 public class RotationSimulationPanel extends BufferedPhetPCanvas {
@@ -54,7 +53,7 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
         timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( graphSetModel, timeSeriesModel );
 
         rotationControlPanel = new RotationControlPanel( rotationGraphSet, graphSetModel, rotationModule.getVectorViewModel() );
-        rotationControlPanelNode = new PSwing(rotationControlPanel );
+        rotationControlPanelNode = new PSwing( rotationControlPanel );
 
         addScreenChild( rotationPlayArea );
         addScreenChild( rotationControlPanelNode );

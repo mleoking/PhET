@@ -6,7 +6,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 29, 2006
  * Time: 11:39:00 PM
- *
  */
 
 public class RotationModel {

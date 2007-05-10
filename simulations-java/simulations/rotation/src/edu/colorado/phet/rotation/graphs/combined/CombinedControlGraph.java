@@ -3,7 +3,6 @@ package edu.colorado.phet.rotation.graphs.combined;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jan 1, 2007
  * Time: 11:33:46 AM
- *
  */
 
 public class CombinedControlGraph extends PNode {
@@ -69,7 +67,7 @@ public class CombinedControlGraph extends PNode {
                     plot.remove( subplot[i1] );
                 }
             } );
-            PSwing pSwing = new PSwing(closeButton );
+            PSwing pSwing = new PSwing( closeButton );
             addCloseButton( pSwing );
         }
     }

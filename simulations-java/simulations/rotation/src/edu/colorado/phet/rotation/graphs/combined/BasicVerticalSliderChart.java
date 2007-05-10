@@ -7,7 +7,6 @@ import edu.umd.cs.piccolo.PNode;
  * User: Sam Reid
  * Date: Jan 1, 2007
  * Time: 10:59:15 AM
- *
  */
 
 public class BasicVerticalSliderChart extends PNode {
