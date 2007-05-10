@@ -12,6 +12,7 @@
 package edu.colorado.phet.boundstates.draghandles;
 
 import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
+import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 
@@ -31,11 +32,11 @@ public class BSAsymmetricDragManager extends BSAbstractDragManager {
     /**
      * Constructor.
      * 
-     * @param potentialSpec describes ranges for potential's attributes
+     * @param moduleSpec
      * @param chartNode the chart that the drag handles and markers pertain to
      */
-    public BSAsymmetricDragManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( potentialSpec, chartNode );
+    public BSAsymmetricDragManager( BSAbstractModuleSpec moduleSpec, BSCombinedChartNode chartNode ) {
+        super( moduleSpec, chartNode );
     }
     
     //----------------------------------------------------------------------------
@@ -49,13 +50,15 @@ public class BSAsymmetricDragManager extends BSAbstractDragManager {
      * @param potential
      */
     public void setPotential( BSAsymmetricPotential potential ) {
+        
         removeAllHandlesAndMarkers();
         if ( potential != null ) {
             
-            BSPotentialSpec potentialSpec = getPotentialSpec();
+            BSAbstractModuleSpec moduleSpec = getModuleSpec();
+            BSPotentialSpec potentialSpec = moduleSpec.getAsymmetricSpec();
             BSCombinedChartNode chartNode = getChartNode();
             
-            if ( !potentialSpec.getOffsetRange().isZero() ) {
+            if ( moduleSpec.isOffsetControlSupported() ) {
                 BSAbstractHandle offsetHandle = new BSAsymmetricOffsetHandle( potential, potentialSpec, chartNode );
                 addHandle( offsetHandle );
             }

@@ -5,9 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- take a close look at all charts after upgrade from jfreechart 1.0.0 to 1.0.5
-- after upgrade from jfreechart 1.0.0 to 1.0.5, single-well module shows 
-  bogus spacing drag handle for 1D Coulomb, bogus separatation handle for Square
 
 MEDIUM PRIORITY:
 - combine Play & Pause clock buttons ?
@@ -20,6 +17,9 @@ LOW PRIORITY:
 
 
 DONE:
+5/10/07 - fix problems introduced on 4/25/07, resulted in bogus drag handles for offset, spacing and separation
+5/10/07 - fix problem introduced on 4/24/07, value for number of wells needed to be rounded (not truncated) to int
+5/10/07 - pass AbstractModuleSpec into potential config dialogs and drag handle managers
 5/10/07 - upgrade jfreechart from 1.0.0 to 1.0.5
 4/25/07 - add feature flags to module specs so we're not relying on range values to disable features
 4/25/07 - eliminate 0 length ranges, causes LinearValueControl to hang

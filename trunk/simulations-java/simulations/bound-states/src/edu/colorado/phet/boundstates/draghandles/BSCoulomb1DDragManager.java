@@ -12,6 +12,7 @@
 package edu.colorado.phet.boundstates.draghandles;
 
 import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
+import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 
@@ -31,11 +32,11 @@ public class BSCoulomb1DDragManager extends BSAbstractDragManager {
     /**
      * Constructor.
      * 
-     * @param potentialSpec describes ranges for potential's attributes
+     * @param moduleSpec
      * @param chartNode the chart that the drag handles and markers pertain to
      */
-    public BSCoulomb1DDragManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( potentialSpec, chartNode );
+    public BSCoulomb1DDragManager( BSAbstractModuleSpec moduleSpec, BSCombinedChartNode chartNode ) {
+        super( moduleSpec, chartNode );
     }
     
     //----------------------------------------------------------------------------
@@ -52,21 +53,22 @@ public class BSCoulomb1DDragManager extends BSAbstractDragManager {
         removeAllHandlesAndMarkers();
         if ( potential != null ) {
             
-            BSPotentialSpec potentialSpec = getPotentialSpec();
+            BSAbstractModuleSpec moduleSpec = getModuleSpec();
+            BSPotentialSpec potentialSpec = moduleSpec.getCoulomb1DSpec();
             BSCombinedChartNode chartNode = getChartNode();
             
-            if ( !potentialSpec.getSpacingRange().isZero() ) {
+            if ( moduleSpec.isOffsetControlSupported() ) {
+                BSAbstractHandle offsetHandle = new BSCoulomb1DOffsetHandle( potential, potentialSpec, chartNode );
+                addHandle( offsetHandle );
+            }
+            
+            if ( moduleSpec.getNumberOfWellsRange().getMax() > 1 ) {
                 
                 BSAbstractMarker spacingMarkers = new BSCoulomb1DSpacingMarker( potential, chartNode );
                 addMarker( spacingMarkers );
                 
                 BSAbstractHandle spacingHandle = new BSCoulomb1DSpacingHandle( potential, potentialSpec, chartNode );
                 addHandle( spacingHandle );
-            }
-            
-            if ( !potentialSpec.getOffsetRange().isZero() ) {
-                BSAbstractHandle offsetHandle = new BSCoulomb1DOffsetHandle( potential, potentialSpec, chartNode );
-                addHandle( offsetHandle );
             }
         }
     }

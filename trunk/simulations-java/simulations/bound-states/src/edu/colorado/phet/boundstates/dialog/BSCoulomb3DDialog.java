@@ -21,6 +21,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
 import edu.colorado.phet.boundstates.model.BSCoulomb3DPotential;
+import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -33,7 +34,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements ChangeListener {
+public class BSCoulomb3DDialog extends BSAbstractConfigureDialog {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -48,9 +49,9 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
     /**
      * Constructor.
      */
-    public BSCoulomb3DDialog( Frame parent, BSCoulomb3DPotential potential, BSPotentialSpec potentialSpec ) {
+    public BSCoulomb3DDialog( Frame parent, BSCoulomb3DPotential potential, BSAbstractModuleSpec moduleSpec ) {
         super( parent, BSResources.getString( "BSCoulomb3DDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( potentialSpec );
+        JPanel inputPanel = createInputPanel( moduleSpec );
         createUI( inputPanel );
         updateControls();
     }
@@ -60,8 +61,9 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel( BSPotentialSpec potentialSpec ) {
+    protected JPanel createInputPanel( BSAbstractModuleSpec moduleSpec ) {
         
+        BSPotentialSpec potentialSpec = moduleSpec.getCoulomb3DSpec();
         String energyUnits = BSResources.getString( "units.energy" );
 
         // Offset
@@ -79,11 +81,11 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
             _offsetControl.setTextFieldColumns( columns );
             _offsetControl.setTextFieldEditable( true );
             _offsetControl.setNotifyWhileAdjusting( NOTIFY_WHILE_DRAGGING );   
-        }
-        
-        // Events
-        {
-            _offsetControl.addChangeListener( this );
+            _offsetControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    handleOffsetChange();
+                }
+            });
         }
         
         // Layout
@@ -94,8 +96,10 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
             layout.setAnchor( GridBagConstraints.WEST );
             int row = 0;
             int col = 0;
-            layout.addComponent( _offsetControl, row, col );
-            row++;
+            if ( _offsetControl != null ) {
+                layout.addComponent( _offsetControl, row, col );
+                row++;
+            }
         }
         
         return inputPanel;
@@ -106,46 +110,8 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
     //----------------------------------------------------------------------------
 
     protected void updateControls() {
-        
         BSCoulomb1DPotential potential = (BSCoulomb1DPotential) getPotential();
-        
-        // Sync values
         _offsetControl.setValue( potential.getOffset() );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Overrides
-    //----------------------------------------------------------------------------
-
-    /**
-     * Removes change listeners before disposing of the dialog.
-     * If we don't do this, then we'll get events that are caused by
-     * the sliders losing focus.
-     */
-    public void dispose() {
-        _offsetControl.removeChangeListener( this );
-        super.dispose();
-    }
-    
-    //----------------------------------------------------------------------------
-    // ChangeListener implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Dispatches a ChangeEvent to the proper handler method.
-     */
-    public void stateChanged( ChangeEvent e ) {
-        setObservePotential( false );
-        {
-            if ( e.getSource() == _offsetControl ) {
-                handleOffsetChange();
-                adjustClockState( _offsetControl );
-            }
-            else {
-                System.err.println( "WARNING: BSCoulomb3DDialog - unsupported event source: " + e.getSource() );
-            }
-        }
-        setObservePotential( true );
     }
     
     //----------------------------------------------------------------------------
@@ -154,6 +120,9 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
     
     private void handleOffsetChange() {
         final double offset = _offsetControl.getValue();
+        setObservePotential( false );
         getPotential().setOffset( offset );
+        setObservePotential( true );
+        adjustClockState( _offsetControl );
     }
 }

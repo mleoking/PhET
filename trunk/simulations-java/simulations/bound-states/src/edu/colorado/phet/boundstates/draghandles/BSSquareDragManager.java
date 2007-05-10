@@ -12,6 +12,7 @@
 package edu.colorado.phet.boundstates.draghandles;
 
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
+import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 
@@ -31,11 +32,11 @@ public class BSSquareDragManager extends BSAbstractDragManager {
     /**
      * Constructor.
      * 
-     * @param potentialSpec describes ranges for potential's attributes
+     * @param moduleSpec
      * @param chartNode the chart that the drag handles and markers pertain to
      */
-    public BSSquareDragManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( potentialSpec, chartNode );
+    public BSSquareDragManager( BSAbstractModuleSpec moduleSpec, BSCombinedChartNode chartNode ) {
+        super( moduleSpec, chartNode );
     }
     
     //----------------------------------------------------------------------------
@@ -52,18 +53,11 @@ public class BSSquareDragManager extends BSAbstractDragManager {
         removeAllHandlesAndMarkers();      
         if ( potential != null ) {
             
-            BSPotentialSpec potentialSpec = getPotentialSpec();
+            BSAbstractModuleSpec moduleSpec = getModuleSpec();
+            BSPotentialSpec potentialSpec = moduleSpec.getSquareSpec();
             BSCombinedChartNode chartNode = getChartNode();
             
-            if ( !potentialSpec.getSeparationRange().isZero() ) {
-                BSAbstractMarker separationMarkers = new BSSquareSeparationMarker( potential, chartNode );
-                addMarker( separationMarkers );
-
-                BSAbstractHandle separationHandle = new BSSquareSeparationHandle( potential, potentialSpec, chartNode );
-                addHandle( separationHandle );
-            }
-
-            if ( !potentialSpec.getOffsetRange().isZero() ) {
+            if ( moduleSpec.isOffsetControlSupported() ) {
                 BSAbstractHandle offsetHandle = new BSSquareOffsetHandle( potential, potentialSpec, chartNode );
                 addHandle( offsetHandle );
             }
@@ -76,6 +70,14 @@ public class BSSquareDragManager extends BSAbstractDragManager {
             if ( !potentialSpec.getWidthRange().isZero() ) {
                 BSAbstractHandle widthHandle = new BSSquareWidthHandle( potential, potentialSpec, chartNode );
                 addHandle( widthHandle );
+            }
+            
+            if ( moduleSpec.getNumberOfWellsRange().getMax() > 1 ) {
+                BSAbstractMarker separationMarkers = new BSSquareSeparationMarker( potential, chartNode );
+                addMarker( separationMarkers );
+
+                BSAbstractHandle separationHandle = new BSSquareSeparationHandle( potential, potentialSpec, chartNode );
+                addHandle( separationHandle );
             }
         }
     }
