@@ -1,0 +1,635 @@
+Starting audit...
+../source/org/jfree/chart/plot/LocalizationBundle_nl.properties:0: Key 'Polar_Plot' missing.
+../source/org/jfree/chart/plot/LocalizationBundle_fr.properties:0: Key 'Polar_Plot' missing.
+../source/org/jfree/chart/plot/LocalizationBundle_ru.properties:0: Key 'Polar_Plot' missing.
+../source/org/jfree/chart/plot/LocalizationBundle_pt_PT.properties:0: Key 'Polar_Plot' missing.
+../source/org/jfree/chart/plot/LocalizationBundle_de.properties:0: Key 'Polar_Plot' missing.
+../source/org/jfree/chart/plot/LocalizationBundle_es.properties:0: Key 'Polar_Plot' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_ru.properties:0: Key 'Draw_lines' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_ru.properties:0: Key 'Draw_shapes' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_ru.properties:0: Key 'Orientation' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_ru.properties:0: Key 'Show_Legend' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_ru.properties:0: Key 'Show_Title' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_ru.properties:0: Key 'Title' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_nl.properties:0: Key 'Draw_lines' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_nl.properties:0: Key 'Draw_shapes' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_nl.properties:0: Key 'Orientation' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_nl.properties:0: Key 'Show_Legend' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_nl.properties:0: Key 'Show_Title' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_nl.properties:0: Key 'Title' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_fr.properties:0: Key 'Draw_lines' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_fr.properties:0: Key 'Draw_shapes' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_fr.properties:0: Key 'Orientation' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_fr.properties:0: Key 'Show_Legend' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_fr.properties:0: Key 'Show_Title' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_fr.properties:0: Key 'Title' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_pl.properties:0: Key 'Draw_lines' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_pl.properties:0: Key 'Draw_shapes' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_pl.properties:0: Key 'Orientation' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_pl.properties:0: Key 'Show_Legend' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_pl.properties:0: Key 'Show_Title' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_pl.properties:0: Key 'Title' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_pt_PT.properties:0: Key 'Draw_lines' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_pt_PT.properties:0: Key 'Draw_shapes' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_pt_PT.properties:0: Key 'Orientation' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_pt_PT.properties:0: Key 'Show_Legend' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_pt_PT.properties:0: Key 'Show_Title' missing.
+../source/org/jfree/chart/editor/LocalizationBundle_pt_PT.properties:0: Key 'Title' missing.
+../source/org/jfree/chart/annotations/CategoryLineAnnotation.java:341: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/annotations/XYImageAnnotation.java:75: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/annotations/XYShapeAnnotation.java:257: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/annotations/XYTextAnnotation.java:422: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/annotations/CategoryPointerAnnotation.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/annotations/CategoryPointerAnnotation.java:379: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/ChartFactory.java:212:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/chart/ChartFactory.java:349: Line is longer than 80 characters.
+../source/org/jfree/chart/ChartPanel.java:417:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/ChartPanel.java:534:12: More than 12 parameters.
+../source/org/jfree/chart/ChartUtilities.java:104:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/chart/JFreeChart.java:1058:57: Expected @param tag for 'dimensions'.
+../source/org/jfree/chart/JFreeChart.java:1059:25: Expected @param tag for 'frame'.
+../source/org/jfree/chart/JFreeChart.java:1059:52: Expected @param tag for 'hAlign'.
+../source/org/jfree/chart/JFreeChart.java:1060:31: Expected @param tag for 'vAlign'.
+../source/org/jfree/chart/LegendItem.java:267:12: More than 12 parameters.
+../source/org/jfree/chart/LegendItem.java:412:12: More than 12 parameters.
+../source/org/jfree/chart/axis/CategoryAxis.java:988: Line is longer than 80 characters.
+../source/org/jfree/chart/axis/CategoryAxis.java:1195:20: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/axis/CategoryAxis.java:1195:33: Expected @throws tag for 'ClassNotFoundException'.
+../source/org/jfree/chart/axis/CategoryAxis.java:1221:60: Expected @param tag for 'out'.
+../source/org/jfree/chart/axis/CategoryAxis.java:1222:20: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/axis/CompassFormat.java:101:5: Missing a Javadoc comment.
+../source/org/jfree/chart/axis/CompassFormat.java:110:5: Missing a Javadoc comment.
+../source/org/jfree/chart/axis/CyclicNumberAxis.java:130:26: Name 'DEFAULT_ADVANCE_LINE_STROKE' must match pattern '^[a-z][a-zA-Z0-9]*$'.
+../source/org/jfree/chart/axis/CyclicNumberAxis.java:130:26: Variable 'DEFAULT_ADVANCE_LINE_STROKE' must be private and have accessor methods.
+../source/org/jfree/chart/axis/CyclicNumberAxis.java:136:22: Variable 'offset' must be private and have accessor methods.
+../source/org/jfree/chart/axis/CyclicNumberAxis.java:139:22: Variable 'period' must be private and have accessor methods.
+../source/org/jfree/chart/axis/CyclicNumberAxis.java:142:23: Variable 'boundMappedToLastCycle' must be private and have accessor methods.
+../source/org/jfree/chart/axis/CyclicNumberAxis.java:145:23: Variable 'advanceLineVisible' must be private and have accessor methods.
+../source/org/jfree/chart/axis/CyclicNumberAxis.java:148:32: Variable 'advanceLineStroke' must be private and have accessor methods.
+../source/org/jfree/chart/axis/CyclicNumberAxis.java:151:31: Variable 'advanceLinePaint' must be private and have accessor methods.
+../source/org/jfree/chart/axis/CyclicNumberAxis.java:153:5: Missing a Javadoc comment.
+../source/org/jfree/chart/axis/CyclicNumberAxis.java:154:5: Missing a Javadoc comment.
+../source/org/jfree/chart/axis/CyclicNumberAxis.java:364:24: Variable 'mapToLastCycle' must be private and have accessor methods.
+../source/org/jfree/chart/axis/LogarithmicAxis.java:123:23: Variable 'allowNegativesFlag' must be private and have accessor methods.
+../source/org/jfree/chart/axis/LogarithmicAxis.java:127:23: Variable 'strictValuesFlag' must be private and have accessor methods.
+../source/org/jfree/chart/axis/LogarithmicAxis.java:130:34: Variable 'numberFormatterObj' must be private and have accessor methods.
+../source/org/jfree/chart/axis/LogarithmicAxis.java:134:23: Variable 'expTickLabelsFlag' must be private and have accessor methods.
+../source/org/jfree/chart/axis/LogarithmicAxis.java:137:23: Variable 'log10TickLabelsFlag' must be private and have accessor methods.
+../source/org/jfree/chart/axis/LogarithmicAxis.java:140:23: Variable 'autoRangeNextLogFlag' must be private and have accessor methods.
+../source/org/jfree/chart/axis/LogarithmicAxis.java:143:23: Variable 'smallLogFlag' must be private and have accessor methods.
+../source/org/jfree/chart/axis/LogarithmicAxis.java:484:45: Inner assignments should be avoided.
+../source/org/jfree/chart/axis/LogarithmicAxis.java:488:27: Inner assignments should be avoided.
+../source/org/jfree/chart/axis/LogarithmicAxis.java:510:45: Inner assignments should be avoided.
+../source/org/jfree/chart/axis/LogarithmicAxis.java:514:27: Inner assignments should be avoided.
+../source/org/jfree/chart/axis/ModuloAxis.java:309:14: Must have at least one statement.
+../source/org/jfree/chart/axis/PeriodAxis.java:499: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/axis/PeriodAxis.java:831:18: 'first' hides a field.
+../source/org/jfree/chart/axis/PeriodAxis.java:832:18: 'last' hides a field.
+../source/org/jfree/chart/axis/PeriodAxis.java:1139:29: Must have at least one statement.
+../source/org/jfree/chart/axis/PeriodAxisLabelInfo.java:73: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/axis/PeriodAxisLabelInfo.java:159: Line is longer than 80 characters.
+../source/org/jfree/chart/axis/PeriodAxisLabelInfo.java:162: Line is longer than 80 characters.
+../source/org/jfree/chart/axis/PeriodAxisLabelInfo.java:171: Line is longer than 80 characters.
+../source/org/jfree/chart/axis/PeriodAxisLabelInfo.java:174: Line is longer than 80 characters.
+../source/org/jfree/chart/axis/PeriodAxisLabelInfo.java:177: Line is longer than 80 characters.
+../source/org/jfree/chart/axis/PeriodAxisLabelInfo.java:281:29: Must have at least one statement.
+../source/org/jfree/chart/axis/SegmentedTimeline.java:198:24: Name 'FIRST_MONDAY_AFTER_1900' must match pattern '^[a-z][a-zA-Z0-9]*$'.
+../source/org/jfree/chart/axis/SegmentedTimeline.java:198:24: Variable 'FIRST_MONDAY_AFTER_1900' must be private and have accessor methods.
+../source/org/jfree/chart/axis/SegmentedTimeline.java:205:28: Name 'NO_DST_TIME_ZONE' must match pattern '^[a-z][a-zA-Z0-9]*$'.
+../source/org/jfree/chart/axis/SegmentedTimeline.java:205:28: Variable 'NO_DST_TIME_ZONE' must be private and have accessor methods.
+../source/org/jfree/chart/axis/SegmentedTimeline.java:213:28: Name 'DEFAULT_TIME_ZONE' must match pattern '^[a-z][a-zA-Z0-9]*$'.
+../source/org/jfree/chart/axis/SegmentedTimeline.java:213:28: Variable 'DEFAULT_TIME_ZONE' must be private and have accessor methods.
+../source/org/jfree/chart/axis/SegmentedTimeline.java:575:54: Inner assignments should be avoided.
+../source/org/jfree/chart/axis/SegmentedTimeline.java:1211:24: Variable 'segmentNumber' must be private and have accessor methods.
+../source/org/jfree/chart/axis/SegmentedTimeline.java:1214:24: Variable 'segmentStart' must be private and have accessor methods.
+../source/org/jfree/chart/axis/SegmentedTimeline.java:1217:24: Variable 'segmentEnd' must be private and have accessor methods.
+../source/org/jfree/chart/axis/SegmentedTimeline.java:1220:24: Variable 'millisecond' must be private and have accessor methods.
+../source/org/jfree/chart/block/AbstractBlock.java:404:5: Missing a Javadoc comment.
+../source/org/jfree/chart/block/AbstractBlock.java:419:5: Missing a Javadoc comment.
+../source/org/jfree/chart/block/BorderArrangement.java:407: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/CenterArrangement.java:195: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/CenterArrangement.java:216: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/CenterArrangement.java:303: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/ColorBlock.java:55:5: Missing a Javadoc comment.
+../source/org/jfree/chart/block/ColumnArrangement.java:162: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/ColumnArrangement.java:180: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/ColumnArrangement.java:251:5: Missing a Javadoc comment.
+../source/org/jfree/chart/block/ColumnArrangement.java:258: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/ColumnArrangement.java:329:60: Must have at least one statement.
+../source/org/jfree/chart/block/ColumnArrangement.java:330: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/ColumnArrangement.java:333:59: Must have at least one statement.
+../source/org/jfree/chart/block/ColumnArrangement.java:334: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/FlowArrangement.java:266: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/FlowArrangement.java:287: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/FlowArrangement.java:383:77: Must have at least one statement.
+../source/org/jfree/chart/block/FlowArrangement.java:384: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/FlowArrangement.java:387:58: Must have at least one statement.
+../source/org/jfree/chart/block/FlowArrangement.java:388: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/FlowArrangement.java:408: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/GridArrangement.java:145: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/block/RectangleConstraint.java:78:5: Missing a Javadoc comment.
+../source/org/jfree/chart/editor/ChartEditor.java:45:8: Unused import - javax.swing.JComponent.
+../source/org/jfree/chart/editor/ChartEditorManager.java:53: Class ChartEditorManager should be declared as final.
+../source/org/jfree/chart/editor/ChartEditorManager.java:56:31: Variable 'factory' must be private and have accessor methods.
+../source/org/jfree/chart/editor/DefaultAxisEditor.java:135:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/editor/DefaultAxisEditor.java:468: Line is longer than 80 characters.
+../source/org/jfree/chart/editor/DefaultChartEditor.java:90:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/editor/DefaultChartEditorFactory.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/editor/DefaultColorBarEditor.java:98:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/editor/DefaultNumberAxisEditor.java:107:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/editor/DefaultPlotEditor.java:90:19: 'static' modifier out of order with the JLS suggestions.
+../source/org/jfree/chart/editor/DefaultPlotEditor.java:90:35: Name 'orientationNames' must match pattern '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.
+../source/org/jfree/chart/editor/DefaultPlotEditor.java:91:5: Missing a Javadoc comment.
+../source/org/jfree/chart/editor/DefaultPlotEditor.java:91:19: 'static' modifier out of order with the JLS suggestions.
+../source/org/jfree/chart/editor/DefaultPlotEditor.java:92:5: Missing a Javadoc comment.
+../source/org/jfree/chart/editor/DefaultPlotEditor.java:92:19: 'static' modifier out of order with the JLS suggestions.
+../source/org/jfree/chart/editor/DefaultPlotEditor.java:158:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/editor/DefaultPlotEditor.java:199: Line is longer than 80 characters.
+../source/org/jfree/chart/editor/DefaultPlotEditor.java:247: Line is longer than 80 characters.
+../source/org/jfree/chart/editor/DefaultTitleEditor.java:101:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/editor/DefaultTitleEditor.java:273:43: Expression can be simplified.
+../source/org/jfree/chart/encoders/EncoderUtil.java:55:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/chart/encoders/EncoderUtil.java:67:16: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/encoders/EncoderUtil.java:83:61: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/encoders/EncoderUtil.java:100:55: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/encoders/EncoderUtil.java:120:16: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/encoders/EncoderUtil.java:135:43: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/encoders/EncoderUtil.java:151:58: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/encoders/EncoderUtil.java:168:64: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/encoders/EncoderUtil.java:188:16: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/encoders/ImageEncoder.java:65:62: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/encoders/ImageEncoder.java:76:16: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/encoders/ImageEncoderFactory.java:56:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/chart/encoders/ImageEncoderFactory.java:57:5: Missing a Javadoc comment.
+../source/org/jfree/chart/encoders/ImageFormat.java:50: interfaces should describe a type and hence have methods.
+../source/org/jfree/chart/encoders/KeypointPNGEncoderAdapter.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/encoders/KeypointPNGEncoderAdapter.java:59:5: Missing a Javadoc comment.
+../source/org/jfree/chart/encoders/KeypointPNGEncoderAdapter.java:60:5: Missing a Javadoc comment.
+../source/org/jfree/chart/encoders/KeypointPNGEncoderAdapter.java:111:62: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/encoders/KeypointPNGEncoderAdapter.java:129:16: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/encoders/SunJPEGEncoderAdapter.java:137:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/chart/encoders/SunJPEGEncoderAdapter.java:155:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/chart/encoders/SunPNGEncoderAdapter.java:107:62: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/encoders/SunPNGEncoderAdapter.java:121:16: Expected @throws tag for 'IOException'.
+../source/org/jfree/chart/entity/StandardEntityCollection.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/entity/CategoryLabelEntity.java:47:8: Unused import - org.jfree.chart.axis.CategoryAxis.
+../source/org/jfree/chart/event/MarkerChangeListener.java:47:8: Unused import - org.jfree.chart.plot.Marker.
+../source/org/jfree/chart/imagemap/DynamicDriveToolTipTagFragmentGenerator.java:34: Line is longer than 80 characters.
+../source/org/jfree/chart/imagemap/DynamicDriveToolTipTagFragmentGenerator.java:52:22: Variable 'title' must be private and have accessor methods.
+../source/org/jfree/chart/imagemap/DynamicDriveToolTipTagFragmentGenerator.java:55:19: Variable 'style' must be private and have accessor methods.
+../source/org/jfree/chart/imagemap/ImageMapUtilities.java:60:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/chart/imagemap/OverLIBToolTipTagFragmentGenerator.java:34: Line is longer than 80 characters.
+../source/org/jfree/chart/imagemap/StandardToolTipTagFragmentGenerator.java:34: Line is longer than 80 characters.
+../source/org/jfree/chart/imagemap/StandardURLTagFragmentGenerator.java:34: Line is longer than 80 characters.
+../source/org/jfree/chart/imagemap/ToolTipTagFragmentGenerator.java:34: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/AbstractCategoryItemLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/AbstractPieItemLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/AbstractXYItemLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/BoxAndWhiskerToolTipGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/BoxAndWhiskerToolTipGenerator.java:47:8: Unused import - java.text.MessageFormat.
+../source/org/jfree/chart/labels/BoxAndWhiskerXYToolTipGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/BoxAndWhiskerXYToolTipGenerator.java:55:8: Unused import - java.text.MessageFormat.
+../source/org/jfree/chart/labels/BubbleXYItemLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/BubbleXYItemLabelGenerator.java:52:8: Unused import - org.jfree.chart.renderer.xy.XYBubbleRenderer.
+../source/org/jfree/chart/labels/BubbleXYItemLabelGenerator.java:66:5: Missing a Javadoc comment.
+../source/org/jfree/chart/labels/CategoryItemLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/CategorySeriesLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/CategoryToolTipGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/CustomXYToolTipGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/HighLowItemLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/HighLowItemLabelGenerator.java:177: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/labels/IntervalCategoryItemLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/IntervalCategoryToolTipGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/MultipleXYSeriesLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/PieSectionLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/PieSectionLabelGenerator.java:58:8: Unused import - java.awt.Font.
+../source/org/jfree/chart/labels/PieSectionLabelGenerator.java:59:8: Unused import - java.awt.Paint.
+../source/org/jfree/chart/labels/PieSectionLabelGenerator.java:60:8: Unused import - java.awt.font.TextAttribute.
+../source/org/jfree/chart/labels/StandardCategoryItemLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/StandardCategorySeriesLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/StandardCategoryToolTipGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/StandardContourToolTipGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/StandardPieSectionLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/StandardPieSectionLabelGenerator.java:49:8: Unused import - java.awt.Font.
+../source/org/jfree/chart/labels/StandardPieSectionLabelGenerator.java:50:8: Unused import - java.awt.Paint.
+../source/org/jfree/chart/labels/StandardPieSectionLabelGenerator.java:51:8: Unused import - java.awt.font.TextAttribute.
+../source/org/jfree/chart/labels/StandardPieToolTipGenerator.java:36: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/StandardXYItemLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/StandardXYSeriesLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/StandardXYToolTipGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/StandardXYZToolTipGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/StandardXYZToolTipGenerator.java:139: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/labels/SymbolicXYItemLabelGenerator.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/labels/SymbolicXYItemLabelGenerator.java:122: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/needle/MeterNeedle.java:101:38: Variable 'transform' must be private and have accessor methods.
+../source/org/jfree/chart/plot/CategoryPlot.java:250:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/plot/CategoryPlot.java:707: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/plot/CategoryPlot.java:941: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/plot/CategoryPlot.java:1437: Line is longer than 80 characters.
+../source/org/jfree/chart/plot/CategoryPlot.java:1710: Line is longer than 80 characters.
+../source/org/jfree/chart/plot/CategoryPlot.java:2156: Line is longer than 80 characters.
+../source/org/jfree/chart/plot/CategoryPlot.java:2975:14: 'datasets' hides a field.
+../source/org/jfree/chart/plot/ColorPalette.java:63:22: Variable 'minZ' must be private and have accessor methods.
+../source/org/jfree/chart/plot/ColorPalette.java:66:22: Variable 'maxZ' must be private and have accessor methods.
+../source/org/jfree/chart/plot/ColorPalette.java:69:21: Variable 'r' must be private and have accessor methods.
+../source/org/jfree/chart/plot/ColorPalette.java:72:21: Variable 'g' must be private and have accessor methods.
+../source/org/jfree/chart/plot/ColorPalette.java:75:21: Variable 'b' must be private and have accessor methods.
+../source/org/jfree/chart/plot/ColorPalette.java:78:24: Variable 'tickValues' must be private and have accessor methods.
+../source/org/jfree/chart/plot/ColorPalette.java:81:23: Variable 'logscale' must be private and have accessor methods.
+../source/org/jfree/chart/plot/ColorPalette.java:84:23: Variable 'inverse' must be private and have accessor methods.
+../source/org/jfree/chart/plot/ColorPalette.java:87:22: Variable 'paletteName' must be private and have accessor methods.
+../source/org/jfree/chart/plot/ColorPalette.java:90:23: Variable 'stepped' must be private and have accessor methods.
+../source/org/jfree/chart/plot/ColorPalette.java:93:35: Name 'log10' must match pattern '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.
+../source/org/jfree/chart/plot/CombinedDomainCategoryPlot.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/plot/CombinedDomainCategoryPlot.java:103: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/plot/CombinedDomainXYPlot.java:132: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/plot/CombinedRangeCategoryPlot.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/plot/CombinedRangeCategoryPlot.java:104: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/plot/CompassPlot.java:160:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/plot/CompassPlot.java:166:22: Variable 'revolutionDistance' must be private and have accessor methods.
+../source/org/jfree/chart/plot/ContourPlot.java:223:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/plot/ContourPlot.java:1185:26: Must have at least one statement.
+../source/org/jfree/chart/plot/ContourPlot.java:1759: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/plot/ContourPlot.java:1772: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/plot/ContourPlot.java:1783: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/plot/ContourPlot.java:1796: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/plot/ContourPlot.java:1821: Expected an @return tag.
+../source/org/jfree/chart/plot/ContourPlot.java:1821:34: Expected @throws tag for 'CloneNotSupportedException'.
+../source/org/jfree/chart/plot/ContourPlotUtilities.java:54:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/chart/plot/CrosshairState.java:46: Line is longer than 80 characters.
+../source/org/jfree/chart/plot/CrosshairState.java:85: Line is longer than 80 characters.
+../source/org/jfree/chart/plot/FastScatterPlot.java:155:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/plot/Marker.java:167:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/plot/Marker.java:181: 'if' construct must use '{}'s.
+../source/org/jfree/chart/plot/Marker.java:323:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/plot/Marker.java:329: 'if' construct must use '{}'s.
+../source/org/jfree/chart/plot/MeterPlot.java:211:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/plot/MeterPlot.java:599: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/plot/MultiplePiePlot.java:316: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/plot/PiePlot.java:419:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/plot/PiePlot.java:868:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/plot/PiePlot.java:887:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/plot/PiePlot.java:1062:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/plot/PiePlot.java:1081:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/plot/PiePlot.java:1124: Line is longer than 80 characters.
+../source/org/jfree/chart/plot/PiePlot.java:1228:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/plot/PiePlot.java:1247:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/plot/PiePlot.java:1368:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/plot/Plot.java:692:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/plot/Plot.java:698: 'if' construct must use '{}'s.
+../source/org/jfree/chart/plot/Plot.java:972: Line is longer than 80 characters.
+../source/org/jfree/chart/plot/PolarPlot.java:121:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/plot/SpiderWebPlot.java:166:22: Variable 'headPercent' must be private and have accessor methods.
+../source/org/jfree/chart/plot/SpiderWebPlot.java:384:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/plot/SpiderWebPlot.java:1002:5: '{' should be on the previous line.
+../source/org/jfree/chart/plot/SpiderWebPlot.java:1035: 'if' construct must use '{}'s.
+../source/org/jfree/chart/plot/SpiderWebPlot.java:1045:20: Name 'X' must match pattern '^[a-z][a-zA-Z0-9]*$'.
+../source/org/jfree/chart/plot/SpiderWebPlot.java:1046:20: Name 'Y' must match pattern '^[a-z][a-zA-Z0-9]*$'.
+../source/org/jfree/chart/plot/SpiderWebPlot.java:1047:20: Name 'W' must match pattern '^[a-z][a-zA-Z0-9]*$'.
+../source/org/jfree/chart/plot/SpiderWebPlot.java:1048:20: Name 'H' must match pattern '^[a-z][a-zA-Z0-9]*$'.
+../source/org/jfree/chart/plot/SpiderWebPlot.java:1185: Line is longer than 80 characters.
+../source/org/jfree/chart/plot/SpiderWebPlot.java:1303:5: '{' should be on the previous line.
+../source/org/jfree/chart/plot/ThermometerPlot.java:307:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/plot/ThermometerPlot.java:924: Line is longer than 80 characters.
+../source/org/jfree/chart/plot/ThermometerPlot.java:1418: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/plot/WaferMapPlot.java:102:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/plot/XYPlot.java:278:37: Variable 'localizationResources' must be private and have accessor methods.
+../source/org/jfree/chart/plot/XYPlot.java:279: Line is longer than 80 characters.
+../source/org/jfree/chart/plot/XYPlot.java:1544:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/plot/XYPlot.java:1575:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/plot/Zoomable.java:48:8: Unused import - org.jfree.chart.ChartPanel.
+../source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/renderer/category/BarRenderer.java:170: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/renderer/category/BarRenderer.java:174: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/renderer/category/BarRenderer.java:452: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/renderer/category/BarRenderer.java:463: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/renderer/category/BarRenderer3D.java:574: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/renderer/category/CategoryItemRenderer.java:103:8: Unused import - org.jfree.chart.event.RendererChangeEvent.
+../source/org/jfree/chart/renderer/category/CategoryItemRendererState.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/renderer/category/CategoryStepRenderer.java:61:8: Unused import - org.jfree.chart.renderer.xy.XYStepRenderer.
+../source/org/jfree/chart/renderer/category/DefaultCategoryItemRenderer.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/renderer/category/GroupedStackedBarRenderer.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/renderer/category/LayeredBarRenderer.java:87:26: Variable 'seriesBarWidthList' must be private and have accessor methods.
+../source/org/jfree/chart/renderer/category/LayeredBarRenderer.java:199: Line is longer than 80 characters.
+../source/org/jfree/chart/renderer/category/StackedAreaRenderer.java:231: Line is longer than 80 characters.
+../source/org/jfree/chart/renderer/category/StackedAreaRenderer.java:303: Line is longer than 80 characters.
+../source/org/jfree/chart/renderer/category/StackedAreaRenderer.java:356:14: '!' is followed by whitespace.
+../source/org/jfree/chart/renderer/category/StatisticalLineAndShapeRenderer.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/renderer/category/WaterfallBarRenderer.java:75:8: Unused import - org.jfree.chart.renderer.AbstractRenderer.
+../source/org/jfree/chart/renderer/DefaultPolarItemRenderer.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/renderer/xy/AbstractXYItemRenderer.java:199:5: Missing a Javadoc comment.
+../source/org/jfree/chart/renderer/xy/AbstractXYItemRenderer.java:201:5: Missing a Javadoc comment.
+../source/org/jfree/chart/renderer/xy/AbstractXYItemRenderer.java:203:5: Missing a Javadoc comment.
+../source/org/jfree/chart/renderer/xy/AbstractXYItemRenderer.java:205:5: Missing a Javadoc comment.
+../source/org/jfree/chart/renderer/xy/AbstractXYItemRenderer.java:756: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/renderer/xy/AbstractXYItemRenderer.java:789: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/renderer/xy/AbstractXYItemRenderer.java:1232:60: Expected @param tag for 'labelOffsetForRange'.
+../source/org/jfree/chart/renderer/xy/CandlestickRenderer.java:575:13: switch without "default" clause.
+../source/org/jfree/chart/renderer/xy/ClusteredXYBarRenderer.java:202: 'if' construct must use '{}'s.
+../source/org/jfree/chart/renderer/xy/ClusteredXYBarRenderer.java:204: 'else' construct must use '{}'s.
+../source/org/jfree/chart/renderer/xy/CyclicXYItemRenderer.java:335:29: Variable 'delegateSet' must be private and have accessor methods.
+../source/org/jfree/chart/renderer/xy/CyclicXYItemRenderer.java:338:18: Variable 'x' must be private and have accessor methods.
+../source/org/jfree/chart/renderer/xy/CyclicXYItemRenderer.java:338:21: Variable 'y' must be private and have accessor methods.
+../source/org/jfree/chart/renderer/xy/CyclicXYItemRenderer.java:400:20: 'x' hides a field.
+../source/org/jfree/chart/renderer/xy/CyclicXYItemRenderer.java:430:20: 'y' hides a field.
+../source/org/jfree/chart/renderer/xy/StackedXYAreaRenderer.java:336:8: Unused @throws tag for 'ClassCastException'.
+../source/org/jfree/chart/renderer/xy/StackedXYAreaRenderer.java:366:8: Unused @throws tag for 'ClassCastException'.
+../source/org/jfree/chart/renderer/xy/StandardXYItemRenderer.java:586:28: Variable 'seriesPath' must be private and have accessor methods.
+../source/org/jfree/chart/renderer/xy/StandardXYItemRenderer.java:752: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/renderer/xy/XYAreaRenderer.java:126:24: Variable 'area' must be private and have accessor methods.
+../source/org/jfree/chart/renderer/xy/XYAreaRenderer.java:129:23: Variable 'line' must be private and have accessor methods.
+../source/org/jfree/chart/renderer/xy/XYDifferenceRenderer.java:762:18: Must have at least one statement.
+../source/org/jfree/chart/renderer/xy/XYDifferenceRenderer.java:832: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/renderer/xy/XYDotRenderer.java:113:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/renderer/xy/XYDotRenderer.java:144:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/renderer/xy/XYItemRenderer.java:95:8: Unused import - org.jfree.chart.event.RendererChangeEvent.
+../source/org/jfree/chart/renderer/xy/XYItemRendererState.java:60:19: Variable 'workingLine' must be private and have accessor methods.
+../source/org/jfree/chart/renderer/xy/XYLineAndShapeRenderer.java:667:28: Variable 'seriesPath' must be private and have accessor methods.
+../source/org/jfree/chart/renderer/xy/XYStepAreaRenderer.java:113:33: Variable 'pArea' must be private and have accessor methods.
+../source/org/jfree/chart/renderer/xy/XYStepRenderer.java:56: Line is longer than 80 characters.
+../source/org/jfree/chart/renderer/xy/YIntervalRenderer.java:84:5: Missing a Javadoc comment.
+../source/org/jfree/chart/servlet/DisplayChart.java:0: Got an exception - java.lang.RuntimeException: Unable to get class information for @throws tag 'ServletException'.
+../source/org/jfree/chart/servlet/ServletUtilities.java:83:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/chart/title/LegendGraphic.java:698:5: '{' should be on the previous line.
+../source/org/jfree/chart/title/LegendTitle.java:144:5: Missing a Javadoc comment.
+../source/org/jfree/chart/title/LegendTitle.java:146:5: Missing a Javadoc comment.
+../source/org/jfree/chart/title/TextTitle.java:98:8: Unused import - org.jfree.chart.entity.EntityCollection.
+../source/org/jfree/chart/title/TextTitle.java:442: Line is longer than 80 characters.
+../source/org/jfree/chart/title/TextTitle.java:454: Line is longer than 80 characters.
+../source/org/jfree/chart/title/TextTitle.java:465: Line is longer than 80 characters.
+../source/org/jfree/chart/title/TextTitle.java:558: Line is longer than 80 characters.
+../source/org/jfree/chart/title/TextTitle.java:763:5: '{' should be on the previous line.
+../source/org/jfree/chart/title/LegendItemBlockContainer.java:35: Line is longer than 80 characters.
+../source/org/jfree/chart/title/LegendItemBlockContainer.java:54:8: Unused import - org.jfree.chart.block.EntityBlockResult.
+../source/org/jfree/chart/title/LegendItemBlockContainer.java:85:49: Expected @param tag for 'arrangement'.
+../source/org/jfree/chart/title/LegendItemBlockContainer.java:85:66: Expected @param tag for 'dataset'.
+../source/org/jfree/chart/title/LegendItemBlockContainer.java:86:17: Expected @param tag for 'series'.
+../source/org/jfree/chart/urls/CustomPieURLGenerator.java:53:8: Unused import - org.jfree.chart.plot.MultiplePiePlot.
+../source/org/jfree/chart/urls/StandardCategoryURLGenerator.java:36: Line is longer than 80 characters.
+../source/org/jfree/chart/urls/StandardPieURLGenerator.java:137: Line is longer than 80 characters.
+../source/org/jfree/chart/PaintMap.java:90:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/PaintMap.java:120:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/PaintMap.java:176: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/StrokeMap.java:88:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/chart/StrokeMap.java:171: Comment matches to-do format 'TODO:'.
+../source/org/jfree/chart/HashUtilities.java:54:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/chart/HashUtilities.java:65: 'if' construct must use '{}'s.
+../source/org/jfree/chart/util/RelativeDateFormat.java:105:25: Name 'MILLISECONDS_IN_ONE_HOUR' must match pattern '^[a-z][a-zA-Z0-9]*$'.
+../source/org/jfree/chart/util/RelativeDateFormat.java:110:25: Name 'MILLISECONDS_IN_ONE_DAY' must match pattern '^[a-z][a-zA-Z0-9]*$'.
+../source/org/jfree/data/category/CategoryToPieDataset.java:69:5: Missing a Javadoc comment.
+../source/org/jfree/data/category/CategoryToPieDataset.java:166:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/category/CategoryToPieDataset.java:193:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/category/DefaultCategoryDataset.java:53:8: Unused import - org.jfree.data.UnknownKeyException.
+../source/org/jfree/data/category/DefaultCategoryDataset.java:55:8: Unused import - org.jfree.data.general.DatasetChangeEvent.
+../source/org/jfree/data/category/DefaultCategoryDataset.java:176:8: Unused @throws tag for 'UnknownKeyException'.
+../source/org/jfree/data/category/DefaultCategoryDataset.java:242:8: Unused @throws tag for 'UnknownKeyException'.
+../source/org/jfree/data/category/DefaultIntervalCategoryDataset.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/category/DefaultIntervalCategoryDataset.java:241:14: 'seriesKeys' hides a field.
+../source/org/jfree/data/category/DefaultIntervalCategoryDataset.java:633:14: 'seriesKeys' hides a field.
+../source/org/jfree/data/DataUtilities.java:49:8: Unused import - org.jfree.data.general.DatasetUtilities.
+../source/org/jfree/data/DataUtilities.java:55:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/data/DefaultKeyedValue.java:122: Comment matches to-do format 'TODO:'.
+../source/org/jfree/data/DefaultKeyedValue.java:126: Comment matches to-do format 'TODO:'.
+../source/org/jfree/data/DefaultKeyedValues.java:52: Line is longer than 80 characters.
+../source/org/jfree/data/DefaultKeyedValues.java:107:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/DefaultKeyedValues.java:125:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/DefaultKeyedValues.java:143:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/DefaultKeyedValues.java:184:8: Unused @throws tag for 'UnknownKeyException'.
+../source/org/jfree/data/DefaultKeyedValues.java:253:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/DefaultKeyedValues.java:266:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/KeyedObjects.java:104:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/KeyedValueComparatorType.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/KeyedValues.java:70:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/KeyedValues.java:82:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/KeyedValues.java:104:8: Unused @throws tag for 'UnknownKeyException'.
+../source/org/jfree/data/KeyedValues2D.java:61:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/KeyedValues2D.java:88:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/KeyedValues2D.java:116:8: Unused @throws tag for 'UnknownKeyException'.
+../source/org/jfree/data/Values.java:68:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/Values2D.java:72:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/contour/DefaultContourDataset.java:55:8: Unused import - org.jfree.data.xy.XYDataset.
+../source/org/jfree/data/contour/DefaultContourDataset.java:67:26: Variable 'seriesKey' must be private and have accessor methods.
+../source/org/jfree/data/contour/DefaultContourDataset.java:70:24: Variable 'xValues' must be private and have accessor methods.
+../source/org/jfree/data/contour/DefaultContourDataset.java:73:24: Variable 'yValues' must be private and have accessor methods.
+../source/org/jfree/data/contour/DefaultContourDataset.java:76:24: Variable 'zValues' must be private and have accessor methods.
+../source/org/jfree/data/contour/DefaultContourDataset.java:79:21: Variable 'xIndex' must be private and have accessor methods.
+../source/org/jfree/data/contour/DefaultContourDataset.java:82:15: Variable 'dateAxis' must be private and have accessor methods.
+../source/org/jfree/data/function/NormalDistributionFunction2D.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/general/DefaultKeyedValues2DDataset.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/general/DefaultPieDataset.java:66:8: Unused import - org.jfree.data.UnknownKeyException.
+../source/org/jfree/data/general/DefaultPieDataset.java:134:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/general/DefaultPieDataset.java:148:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/general/DefaultPieDataset.java:179:8: Unused @throws tag for 'UnknownKeyException'.
+../source/org/jfree/data/general/DefaultPieDataset.java:195:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/general/DefaultPieDataset.java:210:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/general/DefaultPieDataset.java:223:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/general/SeriesDataset.java:48:8: Unused import - org.jfree.data.category.CategoryDataset.
+../source/org/jfree/data/general/SeriesDataset.java:49:8: Unused import - org.jfree.data.xy.IntervalXYDataset.
+../source/org/jfree/data/general/SeriesDataset.java:50:8: Unused import - org.jfree.data.xy.IntervalXYZDataset.
+../source/org/jfree/data/general/SeriesDataset.java:51:8: Unused import - org.jfree.data.xy.XYDataset.
+../source/org/jfree/data/general/SeriesDataset.java:52:8: Unused import - org.jfree.data.xy.XYZDataset.
+../source/org/jfree/data/jdbc/JDBCCategoryDataset.java:75:8: Unused import - org.jfree.data.category.CategoryDataset.
+../source/org/jfree/data/jdbc/JDBCCategoryDataset.java:244:42: Avoid nested blocks.
+../source/org/jfree/data/jdbc/JDBCCategoryDataset.java:256:47: Avoid nested blocks.
+../source/org/jfree/data/jdbc/JDBCCategoryDataset.java:269:49: Avoid nested blocks.
+../source/org/jfree/data/jdbc/JDBCCategoryDataset.java:281:61: Must have at least one statement.
+../source/org/jfree/data/jdbc/JDBCCategoryDataset.java:300:37: Must have at least one statement.
+../source/org/jfree/data/jdbc/JDBCCategoryDataset.java:308:37: Must have at least one statement.
+../source/org/jfree/data/jdbc/JDBCPieDataset.java:69:8: Unused import - org.jfree.data.general.PieDataset.
+../source/org/jfree/data/jdbc/JDBCXYDataset.java:86:8: Unused import - org.jfree.data.general.Dataset.
+../source/org/jfree/data/jdbc/JDBCXYDataset.java:406:37: Must have at least one statement.
+../source/org/jfree/data/jdbc/JDBCXYDataset.java:407: Comment matches to-do format 'TODO:'.
+../source/org/jfree/data/jdbc/JDBCXYDataset.java:414:37: Must have at least one statement.
+../source/org/jfree/data/jdbc/JDBCXYDataset.java:415: Comment matches to-do format 'TODO:'.
+../source/org/jfree/data/resources/DataPackageResources_de.java:53:14: Name 'DataPackageResources_de' must match pattern '^[A-Z][a-zA-Z0-9]*$'.
+../source/org/jfree/data/resources/DataPackageResources_es.java:53:14: Name 'DataPackageResources_es' must match pattern '^[A-Z][a-zA-Z0-9]*$'.
+../source/org/jfree/data/resources/DataPackageResources_fr.java:52:14: Name 'DataPackageResources_fr' must match pattern '^[A-Z][a-zA-Z0-9]*$'.
+../source/org/jfree/data/resources/DataPackageResources_pl.java:54:14: Name 'DataPackageResources_pl' must match pattern '^[A-Z][a-zA-Z0-9]*$'.
+../source/org/jfree/data/resources/DataPackageResources_ru.java:50:14: Name 'DataPackageResources_ru' must match pattern '^[A-Z][a-zA-Z0-9]*$'.
+../source/org/jfree/data/statistics/BoxAndWhiskerCalculator.java:61:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/data/statistics/BoxAndWhiskerCategoryDataset.java:36: Line is longer than 80 characters.
+../source/org/jfree/data/statistics/DefaultBoxAndWhiskerCategoryDataset.java:36: Line is longer than 80 characters.
+../source/org/jfree/data/statistics/DefaultBoxAndWhiskerCategoryDataset.java:71:30: Variable 'data' must be private and have accessor methods.
+../source/org/jfree/data/statistics/DefaultBoxAndWhiskerXYDataset.java:36: Line is longer than 80 characters.
+../source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java:380: 'if' construct must use '{}'s.
+../source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java:386: 'if' construct must use '{}'s.
+../source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java:388: Line is longer than 80 characters.
+../source/org/jfree/data/statistics/HistogramDataset.java:267:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/statistics/HistogramDataset.java:316:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/statistics/HistogramDataset.java:332:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/statistics/HistogramDataset.java:351:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/statistics/HistogramDataset.java:371:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/statistics/HistogramDataset.java:403:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/statistics/HistogramDataset.java:421:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/statistics/HistogramDataset.java:441:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/statistics/HistogramDataset.java:459:8: Unused @throws tag for 'IndexOutOfBoundsException'.
+../source/org/jfree/data/statistics/HistogramType.java:52: Class HistogramType should be declared as final.
+../source/org/jfree/data/statistics/MeanAndStandardDeviation.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/statistics/Regression.java:53:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/data/statistics/StatisticalCategoryDataset.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/statistics/Statistics.java:62:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/data/time/Day.java:317:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Day.java:339:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Day.java:460:39: Must have at least one statement.
+../source/org/jfree/data/time/DynamicTimeSeriesCollection.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/time/DynamicTimeSeriesCollection.java:112:19: Variable 'historyCount' must be private and have accessor methods.
+../source/org/jfree/data/time/DynamicTimeSeriesCollection.java:121:35: Variable 'pointsInTime' must be private and have accessor methods.
+../source/org/jfree/data/time/DynamicTimeSeriesCollection.java:132:17: Variable 'dataPoints' must be private and have accessor methods.
+../source/org/jfree/data/time/DynamicTimeSeriesCollection.java:176:31: Variable 'valueHistory' must be private and have accessor methods.
+../source/org/jfree/data/time/DynamicTimeSeriesCollection.java:179:24: Variable 'workingCalendar' must be private and have accessor methods.
+../source/org/jfree/data/time/Hour.java:312:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Hour.java:332:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Millisecond.java:389:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Millisecond.java:395:13: 'day' hides a field.
+../source/org/jfree/data/time/Millisecond.java:410:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Minute.java:320:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Minute.java:327:13: 'day' hides a field.
+../source/org/jfree/data/time/Minute.java:346:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Minute.java:353:13: 'day' hides a field.
+../source/org/jfree/data/time/Month.java:378:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Month.java:397:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Month.java:512:45: Must have at least one statement.
+../source/org/jfree/data/time/MovingAverage.java:60:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/data/time/Quarter.java:398:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Quarter.java:418:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/RegularTimePeriod.java:94:29: Must have at least one statement.
+../source/org/jfree/data/time/RegularTimePeriod.java:246:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Second.java:283:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Second.java:289:13: 'day' hides a field.
+../source/org/jfree/data/time/Second.java:304:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/SimpleTimePeriod.java:147:8: Unused @throws tag for 'ClassCastException'.
+../source/org/jfree/data/time/TimePeriodFormatException.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/time/TimePeriodValue.java:68:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/time/TimePeriodValue.java:85:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/time/TimePeriodValues.java:56:8: Unused import - org.jfree.data.general.SeriesChangeEvent.
+../source/org/jfree/data/time/TimePeriodValuesCollection.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/time/TimeSeries.java:87:8: Unused import - org.jfree.data.general.SeriesChangeEvent.
+../source/org/jfree/data/time/TimeSeries.java:112:21: Variable 'timePeriodClass' must be private and have accessor methods.
+../source/org/jfree/data/time/TimeSeries.java:115:20: Variable 'data' must be private and have accessor methods.
+../source/org/jfree/data/time/TimeSeriesTableModel.java:212:13: Conditional logic can be removed.
+../source/org/jfree/data/time/Week.java:355:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Week.java:380:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Week.java:400: Comment matches to-do format 'TODO:'.
+../source/org/jfree/data/time/Week.java:598:45: Must have at least one statement.
+../source/org/jfree/data/time/Week.java:623:41: Must have at least one statement.
+../source/org/jfree/data/time/Year.java:233:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/Year.java:252:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/time/ohlc/OHLCSeriesCollection.java:48:8: Unused import - org.jfree.data.general.DatasetChangeEvent.
+../source/org/jfree/data/time/ohlc/OHLCSeriesCollection.java:68:5: Missing a Javadoc comment.
+../source/org/jfree/data/time/ohlc/OHLCSeriesCollection.java:108:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/time/ohlc/OHLCSeriesCollection.java:126:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/time/ohlc/OHLCSeriesCollection.java:141:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/time/ohlc/OHLCSeriesCollection.java:315:5: Missing a Javadoc comment.
+../source/org/jfree/data/time/ohlc/OHLCSeriesCollection.java:319:5: Missing a Javadoc comment.
+../source/org/jfree/data/xml/DatasetReader.java:61:1: Utility classes should not have a public or default constructor.
+../source/org/jfree/data/xml/DatasetTags.java:48: interfaces should describe a type and hence have methods.
+../source/org/jfree/data/xy/AbstractIntervalXYDataset.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/xy/CategoryTableXYDataset.java:54:8: Unused import - org.jfree.data.general.DatasetChangeEvent.
+../source/org/jfree/data/xy/DefaultHighLowDataset.java:209:16: 'high' hides a field.
+../source/org/jfree/data/xy/DefaultHighLowDataset.java:243:16: 'low' hides a field.
+../source/org/jfree/data/xy/DefaultHighLowDataset.java:277:16: 'open' hides a field.
+../source/org/jfree/data/xy/DefaultHighLowDataset.java:311:16: 'close' hides a field.
+../source/org/jfree/data/xy/DefaultHighLowDataset.java:345:16: 'volume' hides a field.
+../source/org/jfree/data/xy/DefaultTableXYDataset.java:71:8: Unused import - org.jfree.data.general.DatasetChangeEvent.
+../source/org/jfree/data/xy/DefaultWindDataset.java:82:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/xy/DefaultWindDataset.java:95:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/xy/DefaultWindDataset.java:120:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/DefaultWindDataset.java:122:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/DefaultWindDataset.java:124:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/xy/DefaultWindDataset.java:276:8: Unused @throws tag for 'NullPointerException'.
+../source/org/jfree/data/xy/IntervalXYDelegate.java:59:8: Unused import - org.jfree.data.RangeInfo.
+../source/org/jfree/data/xy/IntervalXYDelegate.java:385: Comment matches to-do format 'TODO:'.
+../source/org/jfree/data/xy/IntervalXYDelegate.java:396: Expected an @return tag.
+../source/org/jfree/data/xy/IntervalXYDelegate.java:410: Expected an @return tag.
+../source/org/jfree/data/xy/MatrixSeries.java:67:26: Variable 'data' must be private and have accessor methods.
+../source/org/jfree/data/xy/NormalizedMatrixSeries.java:63:20: Name 'm_scaleFactor' must match pattern '^[a-z][a-zA-Z0-9]*$'.
+../source/org/jfree/data/xy/NormalizedMatrixSeries.java:66:20: Name 'm_totalSum' must match pattern '^[a-z][a-zA-Z0-9]*$'.
+../source/org/jfree/data/xy/NormalizedMatrixSeries.java:134:28: Expected @param tag for 'i'.
+../source/org/jfree/data/xy/NormalizedMatrixSeries.java:134:35: Expected @param tag for 'j'.
+../source/org/jfree/data/xy/NormalizedMatrixSeries.java:134:45: Expected @param tag for 'mij'.
+../source/org/jfree/data/xy/XYDataItem.java:56:5: Missing a Javadoc comment.
+../source/org/jfree/data/xy/XYDatasetTableModel.java:71:20: Variable 'model' must be private and have accessor methods.
+../source/org/jfree/data/xy/XYDatasetTableModel.java:197:42: Must have at least one statement.
+../source/org/jfree/data/xy/XYSeries.java:80:8: Unused import - org.jfree.data.general.SeriesChangeEvent.
+../source/org/jfree/data/xy/XYSeries.java:101:20: Variable 'data' must be private and have accessor methods.
+../source/org/jfree/data/xy/XYSeries.java:505:8: Unused @throws tag for 'SeriesException'.
+../source/org/jfree/data/xy/XYSeries.java:579: Line is longer than 80 characters.
+../source/org/jfree/data/xy/XYSeriesCollection.java:65:8: Unused import - org.jfree.data.general.DatasetChangeEvent.
+../source/org/jfree/data/xy/XYSeriesCollection.java:206:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/XYSeriesCollection.java:224:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/XYSeriesCollection.java:239:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/DefaultXYDataset.java:101:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/DefaultXYDataset.java:142:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/DefaultXYDataset.java:163:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYDataset.java:165:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYDataset.java:185:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYDataset.java:187:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYDataset.java:206:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYDataset.java:208:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYDataset.java:228:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYDataset.java:230:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:103:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:144:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:165:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:167:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:187:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:189:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:208:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:210:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:230:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:232:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:251:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:253:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:273:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultXYZDataset.java:275:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/XIntervalSeriesCollection.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/xy/XIntervalSeriesCollection.java:49:8: Unused import - org.jfree.data.general.DatasetChangeEvent.
+../source/org/jfree/data/xy/XIntervalSeriesCollection.java:103:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/XIntervalSeriesCollection.java:121:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/XIntervalSeriesCollection.java:136:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/XYIntervalSeriesCollection.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/xy/XYIntervalSeriesCollection.java:48:8: Unused import - org.jfree.data.general.DatasetChangeEvent.
+../source/org/jfree/data/xy/XYIntervalSeriesCollection.java:102:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/XYIntervalSeriesCollection.java:120:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/XYIntervalSeriesCollection.java:135:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/YIntervalSeriesCollection.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/xy/YIntervalSeriesCollection.java:49:8: Unused import - org.jfree.data.general.DatasetChangeEvent.
+../source/org/jfree/data/xy/YIntervalSeriesCollection.java:103:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/YIntervalSeriesCollection.java:121:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/YIntervalSeriesCollection.java:136:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:35: Line is longer than 80 characters.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:105:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:123:8: Unused @throws tag for 'IllegalArgumentException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:144:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:146:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:166:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:168:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:188:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:190:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:210:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:212:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:232:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:234:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:254:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:256:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:276:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:278:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:297:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:299:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:318:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:320:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:339:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:341:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:360:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:362:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:381:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/xy/DefaultIntervalXYDataset.java:383:8: Unused @throws tag for 'ArrayIndexOutOfBoundsException'.
+../source/org/jfree/data/ComparableObjectItem.java:58:5: Missing a Javadoc comment.
+../source/org/jfree/data/ComparableObjectSeries.java:50:8: Unused import - org.jfree.data.general.SeriesChangeEvent.
+../source/org/jfree/data/ComparableObjectSeries.java:63:20: Variable 'data' must be private and have accessor methods.
+../source/org/jfree/data/ComparableObjectSeries.java:275: Line is longer than 80 characters.
+../source/org/jfree/data/ComparableObjectSeries.java:279: Line is longer than 80 characters.
+../source/org/jfree/data/ComparableObjectSeries.java:294:8: Unused @throws tag for 'SeriesException'.
+../source/org/jfree/data/ComparableObjectSeries.java:366: Line is longer than 80 characters.
+Audit done.
