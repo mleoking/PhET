@@ -20,13 +20,9 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 public class PositionHistogramPlot extends XYPlot {
 
     private static final String SERIES_KEY = "position";
-    private static final Color BACKGROUND_COLOR = new Color( 0, 0, 0, 0 ); // transparent
+    private static final Color BACKGROUND_COLOR = OTConstants.COLOR_TRANSPARENT;
     private static final Color BAR_FILL_COLOR = Color.YELLOW;
     private static final Color BAR_OUTLINE_COLOR = Color.BLACK;
-    private static final Color GRIDLINES_COLOR = Color.BLACK;
-    private static final Font AXIS_LABEL_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 14 );
-    private static final Stroke AXIS_STROKE = new BasicStroke( 1f );
-    private static final Color AXIS_COLOR = Color.BLACK;
     
     //XXX this stuff should be in constructor
     private static final double MIN_POSITION = 0; // nm
@@ -55,27 +51,17 @@ public class PositionHistogramPlot extends XYPlot {
         renderer.setDrawBarOutline( true );
         setRenderer( renderer );
         
-        // axis labels
-        String positonLabel = "";
-        String frequencyLabel = "";
-        
-        // x-axis configuration
+        // x-axis, no label, no ticks
         _xAxis = new NumberAxis();
-        _xAxis.setLabel( positonLabel );
-        _xAxis.setLabelFont( AXIS_LABEL_FONT );
+        _xAxis.setLabel( "" );
         _xAxis.setTickLabelsVisible( false );
         _xAxis.setTickMarksVisible( false );
-        _xAxis.setAxisLineStroke( AXIS_STROKE );
-        _xAxis.setAxisLinePaint( AXIS_COLOR );
         
-        // y-axis configuration
+        // y-axis, no label, no ticks
         _yAxis = new NumberAxis();
-        _yAxis.setLabel( frequencyLabel );
-        _yAxis.setLabelFont( AXIS_LABEL_FONT );
+        _yAxis.setLabel( "" );
         _yAxis.setTickLabelsVisible( false );
         _yAxis.setTickMarksVisible( false );
-        _yAxis.setAxisLineStroke( AXIS_STROKE );
-        _yAxis.setAxisLinePaint( AXIS_COLOR );
         // If we don't set a range for the y-axis, the data will appear to be normalized.
         
         // plot configuration
@@ -83,8 +69,6 @@ public class PositionHistogramPlot extends XYPlot {
         setBackgroundPaint( BACKGROUND_COLOR );
         setDomainGridlinesVisible( false );
         setRangeGridlinesVisible( false );
-        setDomainGridlinePaint( GRIDLINES_COLOR );
-        setRangeGridlinePaint( GRIDLINES_COLOR );
         setDomainAxis( _xAxis );
         setRangeAxis( _yAxis );
     }
