@@ -9,6 +9,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - migrate PhetHistogramDataset to jfreechart-phet
+- look at jfree.HistogramDataset 1.0.5 for fixes that apply to PhetHistogramDataset
 - implement potential energy model
 - better algorithm for trap force y component Fy
 - improve collision detection in Bead.move
