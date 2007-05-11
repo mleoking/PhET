@@ -2,7 +2,7 @@ package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.rotation.RotationBody;
 import edu.colorado.phet.rotation.RotationBodyNode;
-import edu.colorado.phet.rotation.model.RotationPlatform;
+import edu.colorado.phet.rotation.view.PlatformNode;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Time: 11:39:00 PM
  */
 
-public class RotationModel implements RotationBodyNode.RotationBodyEnvironment {
+public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, PlatformNode.RotationPlatformEnvironment {
     private ArrayList rotationModelStates = new ArrayList();
     private UpdateStrategy updateStrategy = new PositionDriven( 0.0 );
 
@@ -37,6 +37,11 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment {
     private RotationPlatform rotationPlatform = new RotationPlatform();
 
     public RotationModel() {
+        rotationPlatform.addListener( new RotationPlatform.Listener() {
+            public void angleChanged( double dtheta ) {
+                xVariable.setValue( rotationPlatform.getAngle() );
+            }
+        } );
         addRotationBody( new RotationBody() );
         rotationModelStates.add( new RotationModelState() );
 
@@ -106,6 +111,7 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment {
         xVelocityVariable.setValue( getLastState().getBody( 0 ).getX( getLastState() ) );
         yVelocityVariable.setValue( getLastState().getBody( 0 ).getY( getLastState() ) );
         centripetalAcceleration.setValue( getLastState().getBody( 0 ).getAcceleration( getLastState() ).getMagnitude() );
+        rotationPlatform.setAngle( getLastState().getAngle() );
 
         notifySteppedInTime();
     }
@@ -231,7 +237,8 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment {
         Point2D loc = rotationBody.getPosition();
         if( rotationPlatform.containsPosition( loc ) ) {
             rotationBody.setOnPlatform( rotationPlatform );
-        }else{
+        }
+        else {
             rotationBody.setOffPlatform();
         }
     }

@@ -30,9 +30,10 @@ public class TestPlatformNode {
 
         phetPCanvas = new PhetPCanvas();
         phetPCanvas.setSize( frame.getSize() );
-        platformNode = new PlatformNode( rotationPlatform );
-//        platformNode.setOffset( 200, 200 );
-//        platformNode.setOffset( 0,0);
+        platformNode = new PlatformNode( new PlatformNode.RotationPlatformEnvironment() {
+            public void setPositionDriven() {
+            }
+        }, rotationPlatform );
         phetPCanvas.addScreenChild( platformNode );
 
         final ModelSlider modelSlider = new ModelSlider( "angle", "radians", 0, Math.PI * 2 * 2, Math.PI * 2 );

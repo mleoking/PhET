@@ -18,25 +18,12 @@ public class RotationPlayAreaNode extends PNode {
 
     public RotationPlayAreaNode( final RotationModel rotationModel ) {
         this.rotationModel=rotationModel;
-        platformNode = new PlatformNode( rotationModel.getRotationPlatform() );
+        platformNode = new PlatformNode( rotationModel, rotationModel.getRotationPlatform() );
         platformNode.setOffset( 5, 5 );
 
         addChild( platformNode );
         addChild( rotationBodyLayer );
 
-        rotationModel.addListener( new RotationModel.Listener() {
-            public void steppedInTime() {
-                platformNode.setAngle( rotationModel.getLastState().getAngle() );
-            }
-        } );
-        rotationModel.getRotationPlatform().addListener( new RotationPlatform.Listener() {
-            public void angleChanged( double dtheta ) {
-                rotationModel.setPositionDriven();
-                rotationModel.setAngle( platformNode.getAngle() );
-                //todo: this is a hack, to ensure time goes forward during a drag. When the simulation is based on time series, this should be removed
-                rotationModel.stepInTime( 1.0 );
-            }
-        } );
         for( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
             RotationBody rotationBody = rotationModel.getRotationBody( i );
             addRotationBodyNode( rotationBody );
