@@ -1,5 +1,7 @@
 package edu.colorado.phet.rotation.model;
 
+import edu.colorado.phet.rotation.RotationBody;
+
 import java.util.ArrayList;
 
 /**
@@ -28,8 +30,10 @@ public class RotationModel {
     private SimulationVariable centripetalAcceleration;
 
     private ArrayList listeners = new ArrayList();
+    private ArrayList rotationBodies = new ArrayList();
 
     public RotationModel() {
+        addRotationBody( new RotationBody() );
         rotationModelStates.add( new RotationModelState() );
 
         xVariable = new SimulationVariable( getLastState().getAngle() );
@@ -58,6 +62,10 @@ public class RotationModel {
                 accelDriven.setAcceleration( aVariable.getValue() );
             }
         } );
+    }
+
+    private void addRotationBody( RotationBody rotationBody ) {
+        rotationBodies.add( rotationBody );
     }
 
     public void setPositionDriven() {
@@ -197,6 +205,18 @@ public class RotationModel {
         rotationModelStates.clear();
         rotationModelStates.add( state );
         notifySteppedInTime();
+    }
+
+    public void setAngle( double angle ) {
+        getXVariable().setValue( angle );
+    }
+
+    public int getNumRotationBodies() {
+        return rotationBodies.size();
+    }
+
+    public RotationBody getRotationBody( int i ) {
+        return (RotationBody)rotationBodies.get( i );
     }
 
     public static interface Listener {

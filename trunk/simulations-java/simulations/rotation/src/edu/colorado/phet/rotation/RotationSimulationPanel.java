@@ -26,7 +26,7 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
     private RotationControlPanel rotationControlPanel;
 
     /* PNodes*/
-    private RotationPlayArea rotationPlayArea;
+    private RotationPlayAreaNode rotationPlayAreaNode;
     private TimeSeriesGraphSetNode timeSeriesGraphSetNode;
     private PSwing rotationControlPanelNode;
     private RotationGraphSet rotationGraphSet;
@@ -39,7 +39,7 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
         rotationGraphSet = new RotationGraphSet( this, rotationModule.getRotationModel() );
         graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
-        rotationPlayArea = new RotationPlayArea( rotationModule );
+        rotationPlayAreaNode = new RotationPlayAreaNode( rotationModule.getRotationModel( ) );
         TimeSeriesModel timeSeriesModel = new TimeSeriesModel();
         timeSeriesModel.addListener( new TimeSeriesModel.Listener() {
             public void stateChanged() {
@@ -55,7 +55,7 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
         rotationControlPanel = new RotationControlPanel( rotationGraphSet, graphSetModel, rotationModule.getVectorViewModel() );
         rotationControlPanelNode = new PSwing( rotationControlPanel );
 
-        addScreenChild( rotationPlayArea );
+        addScreenChild( rotationPlayAreaNode );
         addScreenChild( rotationControlPanelNode );
         addScreenChild( timeSeriesGraphSetNode );
 
@@ -121,9 +121,9 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
     }
 
     private void relayout() {
-        rotationPlayArea.setOffset( 0, 0 );
+        rotationPlayAreaNode.setOffset( 0, 0 );
         rotationControlPanelNode.setOffset( 0, getHeight() - rotationControlPanelNode.getFullBounds().getHeight() );
-        double maxX = Math.max( rotationPlayArea.getFullBounds().getMaxX(), rotationControlPanelNode.getFullBounds().getMaxX() );
+        double maxX = Math.max( rotationPlayAreaNode.getFullBounds().getMaxX(), rotationControlPanelNode.getFullBounds().getMaxX() );
         Rectangle2D bounds = new Rectangle2D.Double( maxX, 0, getWidth() - maxX, getHeight() );
         System.out.println( "RSP::bounds = " + bounds );
         timeSeriesGraphSetNode.setBounds( bounds );
