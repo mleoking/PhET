@@ -747,15 +747,12 @@
         <property name="sim_url" value="${dev_root}/${name.sim}/${sim.version}"/>
         <phet-jnlp project="${name.sim}" flavor="${name.sim}" deployurl="${sim_url}"/>
 
-        <copy file="simulations/${name.sim}/todo.txt" tofile="simulations/${name.sim}/deploy/todo.txt"/>
-        <copy file="simulations/${name.sim}/changes.txt" tofile="simulations/${name.sim}/deploy/changes.txt"/>
-        <copy file="simulations/${name.sim}/README" tofile="simulations/${name.sim}/deploy/README"/>
-        <copy file="simulations/${name.sim}/${name.sim}.gif" tofile="simulations/${name.sim}/deploy/${name.sim}.gif"/>
         <maverick-ssh host="${ssh-host}" username="${username}" password="${password}" version="2">
             <sftp action="mkdir" remotedir="${phet-ssh-root}/dev/${name.sim}"/>
             <sftp action="mkdir" remotedir="${phet-ssh-root}/dev/${name.sim}/${sim.version}"/>
             <sftp action="put" remotedir="${phet-ssh-root}/dev/${name.sim}/${sim.version}" verbose="true">
                 <fileset dir="simulations/${name.sim}/deploy"></fileset>
+                <fileset dir="simulations/${name.sim}/dev"></fileset>
             </sftp>
         </maverick-ssh>
         <exec executable="${browser}" spawn="true">
