@@ -31,7 +31,7 @@ public class TestPlatformNode {
         phetPCanvas = new PhetPCanvas();
         phetPCanvas.setSize( frame.getSize() );
         platformNode = new PlatformNode( rotationPlatform );
-        platformNode.setOffset( 200, 200 );
+//        platformNode.setOffset( 200, 200 );
 //        platformNode.setOffset( 0,0);
         phetPCanvas.addScreenChild( platformNode );
 

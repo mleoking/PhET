@@ -17,10 +17,12 @@ public class RotationBody {
 
     public void setOffPlatform() {
         rotationBodyState = new OffPlatform( getPosition() );
+        notifyPositionChanged();
     }
 
     public void setOnPlatform( RotationPlatform rotationPlatform ) {
         rotationBodyState = new OnPlatform( getPosition(), rotationPlatform );
+        notifyPositionChanged();
     }
 
     public void addListener( Listener listener ) {
@@ -52,6 +54,7 @@ public class RotationBody {
         public void setPosition( double x, double y ) {
             this.angle = Math.atan2( y, x );
             this.radius = rotationPlatform.getCenter().distance( x, y );
+            notifyPositionChanged();
         }
 
         public Point2D getPosition() {

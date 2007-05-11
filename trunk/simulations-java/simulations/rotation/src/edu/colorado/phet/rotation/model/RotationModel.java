@@ -231,6 +231,8 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment {
         Point2D loc = rotationBody.getPosition();
         if( rotationPlatform.containsPosition( loc ) ) {
             rotationBody.setOnPlatform( rotationPlatform );
+        }else{
+            rotationBody.setOffPlatform();
         }
     }
 
