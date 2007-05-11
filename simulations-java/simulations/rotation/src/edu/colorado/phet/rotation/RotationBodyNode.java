@@ -19,7 +19,10 @@ public class RotationBodyNode extends PhetPNode {
 
     public RotationBodyNode( final RotationBodyEnvironment model, final RotationBody rotationBody ) {
         this.rotationBody = rotationBody;
-        addChild( new PText( "body" ) );
+        PText pText = new PText( "body" );
+        pText.translate( -pText.getFullBounds().getWidth()/2,-pText.getFullBounds().getHeight()/2);
+        addChild( pText );
+
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 rotationBody.setOffPlatform();
