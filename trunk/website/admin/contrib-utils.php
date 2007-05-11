@@ -85,14 +85,7 @@
         return true;
     }
     
-    function contribution_add_new_contribution($contribution_title, $contributor_id, $file_tmp_name, $file_user_name) {
-        $this_dir = dirname(__FILE__);
-
-        $new_file_dir_rel = "admin/uploads/contributions";        
-        $new_file_dir_abs = "$this_dir/uploads/contributions";
-        
-        mkdirs($new_file_dir);
-        
+    function contribution_add_new_contribution($contribution_title, $contributor_id, $file_tmp_name, $file_user_name) {    
         if (preg_match('/.+\\.(doc|txt|rtf|pdf|odt)/i', $file_user_name) == 1) {
             $contribution_type = "Activity";
         }
@@ -103,20 +96,36 @@
             $contribution_type = "Support";
         }
         
-        $new_name          = basename($file_tmp_name)."_$file_user_name";
+        $contribution_id = insert_row_into_table(
+            'contribution',
+            array(
+                'contribution_title' => $contribution_title,
+                'contribution_type'  => $contribution_type,
+                'contributor_id'     => $contributor_id
+            )
+        );
+        
+        if (contribution_add_new_file_to_contribution($contribution_id, $file_tmp_name, $file_user_name) == FALSE) {
+            return FALSE;
+        }
+        
+        return $contribution_id;
+    }
+    
+    function contribution_add_new_file_to_contribution($contribution_id, $file_tmp_name, $file_user_name) {
+        $this_dir = dirname(__FILE__);
+
+        $new_file_dir_rel = "admin/uploads/contributions";        
+        $new_file_dir_abs = "$this_dir/uploads/contributions";
+        
+        mkdirs($new_file_dir_abs);
+        
+        $new_name = basename($file_tmp_name)."_$file_user_name";
+        
         $new_file_path_rel = "$new_file_dir_rel/$new_name";
         $new_file_path_abs = "$new_file_dir_abs/$new_name";
         
         if (move_uploaded_file($file_tmp_name, $new_file_path_abs)) {
-            $contribution_id = insert_row_into_table(
-                'contribution',
-                array(
-                    'contribution_title' => $contribution_title,
-                    'contribution_type'  => $contribution_type,
-                    'contributor_id'     => $contributor_id
-                )
-            );
-            
             $contribution_file_id = insert_row_into_table(
                 'contribution_file',
                 array(
@@ -125,7 +134,7 @@
                 )
             );
             
-            return $contribution_id;
+            return $contribution_file_id;
         }
         
         return FALSE;
