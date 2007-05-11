@@ -27,7 +27,12 @@ public class PlatformNode extends PNode {
     private double angle = 0.0;
     private RotationPlatform rotationPlatform;
 
-    public PlatformNode( final RotationPlatform rotationPlatform ) {
+    public interface RotationPlatformEnvironment {
+
+        void setPositionDriven();
+    }
+
+    public PlatformNode( final RotationPlatformEnvironment environment, final RotationPlatform rotationPlatform ) {
         this.rotationPlatform = rotationPlatform;
         ringRadius = rotationPlatform.getRadius();
         contentNode = new PNode();
@@ -59,6 +64,8 @@ public class PlatformNode extends PNode {
 
             public void mousePressed( PInputEvent event ) {
                 resetDrag( angle, event );
+                environment.setPositionDriven();
+//                rotationPlatform.setAngle( );
             }
 
             public void mouseReleased( PInputEvent event ) {
@@ -99,19 +106,13 @@ public class PlatformNode extends PNode {
         contentNode.addChild( ringNode );
     }
 
-    public void setAngle( double angle ) {
+    private void setAngle( double angle ) {
         if( this.angle != angle ) {
             this.angle = angle;
             contentNode.setRotation( 0 );
             contentNode.setOffset( 0, 0 );
-//            contentNode.translate( -ringRadius, -ringRadius );
-            double x = rotationPlatform.getCenter().getX() - ringRadius;
-            double y = rotationPlatform.getCenter().getY() - ringRadius;
-            contentNode.translate( x, y );
-//            contentNode.rotateAboutPoint( angle, ringRadius-rotationPlatform.getCenter().getX(), ringRadius-rotationPlatform.getCenter().getY() );
-//            contentNode.rotateAboutPoint( angle, ringRadius + rotationPlatform.getCenter().getX(), ringRadius + rotationPlatform.getCenter().getY() );
-            contentNode.rotateAboutPoint( angle, rotationPlatform.getCenter().getX(),rotationPlatform.getCenter().getY() );
-
+            contentNode.translate( rotationPlatform.getCenter().getX() - ringRadius, rotationPlatform.getCenter().getY() - ringRadius );
+            contentNode.rotateAboutPoint( angle, rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() );
         }
     }
 
