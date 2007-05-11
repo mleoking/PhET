@@ -1,8 +1,10 @@
 package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.rotation.RotationBody;
-import edu.colorado.phet.rotation.view.RotationPlatform;
+import edu.colorado.phet.rotation.RotationBodyNode;
+import edu.colorado.phet.rotation.model.RotationPlatform;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +13,7 @@ import java.util.ArrayList;
  * Time: 11:39:00 PM
  */
 
-public class RotationModel {
+public class RotationModel implements RotationBodyNode.RotationBodyEnvironment {
     private ArrayList rotationModelStates = new ArrayList();
     private UpdateStrategy updateStrategy = new PositionDriven( 0.0 );
 
@@ -32,7 +34,7 @@ public class RotationModel {
 
     private ArrayList listeners = new ArrayList();
     private ArrayList rotationBodies = new ArrayList();
-    private RotationPlatform rotationPlatform=new RotationPlatform();
+    private RotationPlatform rotationPlatform = new RotationPlatform();
 
     public RotationModel() {
         addRotationBody( new RotationBody() );
@@ -223,6 +225,13 @@ public class RotationModel {
 
     public RotationPlatform getRotationPlatform() {
         return rotationPlatform;
+    }
+
+    public void dropBody( RotationBody rotationBody ) {
+        Point2D loc = rotationBody.getPosition();
+        if( rotationPlatform.containsPosition( loc ) ) {
+            rotationBody.setOnPlatform( rotationPlatform );
+        }
     }
 
     public static interface Listener {

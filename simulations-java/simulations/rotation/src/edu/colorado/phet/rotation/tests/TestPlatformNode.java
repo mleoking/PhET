@@ -10,7 +10,7 @@ package edu.colorado.phet.rotation.tests;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.view.PlatformNode;
-import edu.colorado.phet.rotation.view.RotationPlatform;
+import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
@@ -21,6 +21,7 @@ public class TestPlatformNode {
     private JFrame frame;
     private PlatformNode platformNode;
     private PhetPCanvas phetPCanvas;
+    private RotationPlatform rotationPlatform = new RotationPlatform();
 
     public TestPlatformNode() {
         frame = new JFrame();
@@ -29,14 +30,15 @@ public class TestPlatformNode {
 
         phetPCanvas = new PhetPCanvas();
         phetPCanvas.setSize( frame.getSize() );
-        platformNode = new PlatformNode(new RotationPlatform( ));
-        platformNode.setOffset( 100, 10 );
+        platformNode = new PlatformNode( rotationPlatform );
+        platformNode.setOffset( 200, 200 );
+//        platformNode.setOffset( 0,0);
         phetPCanvas.addScreenChild( platformNode );
 
         final ModelSlider modelSlider = new ModelSlider( "angle", "radians", 0, Math.PI * 2 * 2, Math.PI * 2 );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                platformNode.setAngle( modelSlider.getValue() );
+                rotationPlatform.setAngle( modelSlider.getValue() );
             }
         } );
         PSwing pSwing = new PSwing( modelSlider );
@@ -59,5 +61,9 @@ public class TestPlatformNode {
 
     void start() {
         frame.setVisible( true );
+    }
+
+    public RotationPlatform getRotationPlatform() {
+        return rotationPlatform;
     }
 }

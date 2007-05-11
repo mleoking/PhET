@@ -4,6 +4,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.util.MathUtil;
+import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -13,7 +14,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -22,20 +22,19 @@ import java.util.ArrayList;
  */
 
 public class PlatformNode extends PNode {
-    private RingNode[] ringNode = {};
     private double ringRadius;
     private PNode contentNode;
     private double scale = 1.0 / 100;
     private double angle = 0.0;
 
     public PlatformNode( final RotationPlatform rotationPlatform ) {
-        ringRadius = 2.0;
+        ringRadius = rotationPlatform.getRadius();
         contentNode = new PNode();
-        addRingNode( 2.0, Color.green );
-        addRingNode( 1.5, Color.yellow );
-        addRingNode( 1.0, Color.magenta );
-        addRingNode( 0.5, Color.white );
-        addRingNode( 0.01, Color.white );
+        addRingNode( ringRadius * 2.0 / 2.0, Color.green );
+        addRingNode( ringRadius * 1.5 / 2.0, Color.yellow );
+        addRingNode( ringRadius * 1.0 / 2.0, Color.magenta );
+        addRingNode( ringRadius * 0.5 / 2.0, Color.white );
+        addRingNode( ringRadius * 0.01 / 2.0, Color.white );
 
         PhetPPath verticalCrossHair = new PhetPPath( new Line2D.Double( ringRadius, 0, ringRadius, ringRadius * 2 ), new BasicStroke( (float)( 2 * scale ) ), Color.black );
         contentNode.addChild( verticalCrossHair );
@@ -50,7 +49,8 @@ public class PlatformNode extends PNode {
 
         addChild( contentNode );
 
-        contentNode.scale( 100 );
+        contentNode.scale( 1.0 / scale );
+        contentNode.translate( -ringRadius, -ringRadius );
         addInputEventListener( new PBasicInputEventHandler() {
             double initAngle;
             public Point2D initLoc;
@@ -64,7 +64,8 @@ public class PlatformNode extends PNode {
 
             public void mouseDragged( PInputEvent event ) {
                 Point2D loc = event.getPositionRelativeTo( PlatformNode.this );
-                Point2D.Double center = new Point2D.Double( ringRadius / scale, ringRadius / scale );
+//                Point2D.Double center = new Point2D.Double( ringRadius / scale, ringRadius / scale );
+                Point2D.Double center = new Point2D.Double( 0,0 );
                 Vector2D.Double a = new Vector2D.Double( center, initLoc );
                 Vector2D.Double b = new Vector2D.Double( center, loc );
                 double angleDiff = b.getAngle() - a.getAngle();
@@ -85,7 +86,7 @@ public class PlatformNode extends PNode {
         } );
         addInputEventListener( new CursorHandler() );
         rotationPlatform.addListener( new RotationPlatform.Listener() {
-            public void angleChanged() {
+            public void angleChanged( double dtheta ) {
                 setAngle( rotationPlatform.getAngle() );
             }
         } );
@@ -101,7 +102,9 @@ public class PlatformNode extends PNode {
             this.angle = angle;
             contentNode.setRotation( 0 );
             contentNode.setOffset( 0, 0 );
-            contentNode.rotateAboutPoint( angle, ringRadius, ringRadius );
+            contentNode.translate( -ringRadius, -ringRadius );
+            contentNode.rotateAboutPoint( angle, ringRadius, ringRadius);
+
         }
     }
 

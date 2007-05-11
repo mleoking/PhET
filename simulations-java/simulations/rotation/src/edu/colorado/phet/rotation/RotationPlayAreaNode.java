@@ -1,8 +1,8 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.PlatformNode;
-import edu.colorado.phet.rotation.view.RotationPlatform;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -14,8 +14,10 @@ import edu.umd.cs.piccolo.PNode;
 public class RotationPlayAreaNode extends PNode {
     private PlatformNode platformNode;
     private PNode rotationBodyLayer = new PNode();
+    private RotationModel rotationModel;
 
     public RotationPlayAreaNode( final RotationModel rotationModel ) {
+        this.rotationModel=rotationModel;
         platformNode = new PlatformNode( rotationModel.getRotationPlatform() );
         platformNode.setOffset( 5, 5 );
 
@@ -28,7 +30,7 @@ public class RotationPlayAreaNode extends PNode {
             }
         } );
         rotationModel.getRotationPlatform().addListener( new RotationPlatform.Listener() {
-            public void angleChanged() {
+            public void angleChanged( double dtheta ) {
                 rotationModel.setPositionDriven();
                 rotationModel.setAngle( platformNode.getAngle() );
                 //todo: this is a hack, to ensure time goes forward during a drag. When the simulation is based on time series, this should be removed
@@ -42,7 +44,7 @@ public class RotationPlayAreaNode extends PNode {
     }
 
     private void addRotationBodyNode( RotationBody rotationBody ) {
-        RotationBodyNode rotationBodyNode = new RotationBodyNode( rotationBody );
+        RotationBodyNode rotationBodyNode = new RotationBodyNode( rotationModel, rotationBody );
         rotationBodyLayer.addChild( rotationBodyNode );
     }
 
