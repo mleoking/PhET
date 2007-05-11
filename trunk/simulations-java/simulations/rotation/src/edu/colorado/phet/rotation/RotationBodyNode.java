@@ -13,7 +13,11 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class RotationBodyNode extends PhetPNode {
     private RotationBody rotationBody;
 
-    public RotationBodyNode( final RotationBody rotationBody ) {
+    public interface RotationBodyEnvironment {
+        void dropBody( RotationBody rotationBody );
+    }
+
+    public RotationBodyNode( final RotationBodyEnvironment model, final RotationBody rotationBody ) {
         this.rotationBody = rotationBody;
         addChild( new PText( "body" ) );
         addInputEventListener( new PBasicInputEventHandler() {
@@ -27,7 +31,7 @@ public class RotationBodyNode extends PhetPNode {
             }
 
             public void mouseReleased( PInputEvent event ) {
-                super.mouseReleased( event );
+                model.dropBody( rotationBody );
             }
         } );
         rotationBody.addListener( new RotationBody.Listener() {

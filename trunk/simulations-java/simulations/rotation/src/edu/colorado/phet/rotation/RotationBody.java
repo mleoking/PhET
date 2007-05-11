@@ -1,5 +1,9 @@
 package edu.colorado.phet.rotation;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.rotation.model.RotationPlatform;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -15,8 +19,8 @@ public class RotationBody {
         rotationBodyState = new OffPlatform( getPosition() );
     }
 
-    public void setOnPlatform() {
-        rotationBodyState = new OnPlatform( getPosition() );
+    public void setOnPlatform( RotationPlatform rotationPlatform ) {
+        rotationBodyState = new OnPlatform( getPosition(), rotationPlatform );
     }
 
     public void addListener( Listener listener ) {
@@ -33,20 +37,31 @@ public class RotationBody {
         public abstract Point2D getPosition();
     }
 
-    private class OnPlatform extends RotationBodyState {
+    private class OnPlatform extends RotationBodyState implements RotationPlatform.Listener {
         double radius;
         double angle;
         double orientation;
+        private RotationPlatform rotationPlatform;
 
-        public OnPlatform( Point2D position ) {
+        public OnPlatform( Point2D position, RotationPlatform rotationPlatform ) {
+            this.rotationPlatform = rotationPlatform;
             setPosition( position.getX(), position.getY() );
+            rotationPlatform.addListener( this );//todo: memory leak
         }
 
         public void setPosition( double x, double y ) {
+            this.angle = Math.atan2( y, x );
+            this.radius = rotationPlatform.getCenter().distance( x, y );
         }
 
         public Point2D getPosition() {
-            return null;
+            AbstractVector2D vector = Vector2D.Double.parseAngleAndMagnitude( radius, angle );
+            return vector.getDestination( rotationPlatform.getCenter() );
+        }
+
+        public void angleChanged( double dtheta ) {
+            angle += dtheta;
+            notifyPositionChanged();
         }
     }
 

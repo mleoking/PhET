@@ -1,5 +1,6 @@
-package edu.colorado.phet.rotation.view;
+package edu.colorado.phet.rotation.model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 public class RotationPlatform {
     private ArrayList listeners = new ArrayList();
     private double angle;
+    private Point2D.Double center = new Point2D.Double(200,200);
+    private double radius = 2.0;
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
@@ -19,20 +22,33 @@ public class RotationPlatform {
     }
 
     public void setAngle( double angle ) {
+        double origAngle=this.angle;
         if( this.angle != angle ) {
             this.angle = angle;
-            notifyListeners();
+            notifyAngleChanged(angle-origAngle);
         }
     }
 
-    public static interface Listener {
-        void angleChanged();
+    public boolean containsPosition( Point2D loc ) {
+        return loc.distance( center ) < radius;
     }
 
-    public void notifyListeners() {
+    public Point2D getCenter() {
+        return center;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public static interface Listener {
+        void angleChanged( double dtheta );
+    }
+
+    public void notifyAngleChanged( double dtheta ) {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
-            listener.angleChanged();
+            listener.angleChanged(dtheta);
         }
     }
 }
