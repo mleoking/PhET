@@ -8,10 +8,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -28,19 +25,37 @@ public class JFreeChartCursorNode extends PNode {
     private PhetPPath path;
     private double time;
     private double width = 9;
+    final PropertyChangeListener updater = new PropertyChangeListener() {
+        public void propertyChange( PropertyChangeEvent evt ) {
+            update();
+        }
+    };
+
+    //todo: for certain circumstances, this will be a memory leak.
+    PropertyChangeListener updateParent = new PropertyChangeListener() {
+        public void propertyChange( PropertyChangeEvent evt ) {
+            PNode parent = jFreeChartNode.getParent();
+            while( parent != null ) {
+                parent.removePropertyChangeListener( PNode.PROPERTY_TRANSFORM, updater );
+                parent.removePropertyChangeListener( PNode.PROPERTY_PARENT, updateParent );
+                parent.addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, updater );
+                parent.addPropertyChangeListener( PNode.PROPERTY_PARENT, updateParent );
+                parent=parent.getParent();
+                update();
+            }
+        }
+    };
 
     public JFreeChartCursorNode( final JFreeChartNode jFreeChartNode ) {
         this.jFreeChartNode = jFreeChartNode;
         path = new PhetPPath( new Color( 50, 50, 200, 80 ), new BasicStroke( 1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[]{10.0f, 5.0f}, 0 ), Color.darkGray );
         addChild( path );
-        update();
-        //todo: add a listener for jfreechartnode chart area bounds change.
 
-        jFreeChartNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                update();
-            }
-        } );
+        jFreeChartNode.addPropertyChangeListener( updater );
+        addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, updater );
+
+        addPropertyChangeListener( PNode.PROPERTY_PARENT, updateParent );
+
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             Point2D pressPoint;
@@ -73,6 +88,7 @@ public class JFreeChartCursorNode extends PNode {
                 update();
             }
         } );
+        update();
     }
 
     private void update() {
