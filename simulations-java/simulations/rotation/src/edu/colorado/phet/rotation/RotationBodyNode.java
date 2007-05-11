@@ -6,6 +6,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import java.awt.geom.Point2D;
+
 /**
  * Author: Sam Reid
  * May 11, 2007, 12:12:50 AM
@@ -20,7 +22,7 @@ public class RotationBodyNode extends PhetPNode {
     public RotationBodyNode( final RotationBodyEnvironment model, final RotationBody rotationBody ) {
         this.rotationBody = rotationBody;
         PText pText = new PText( "body" );
-        pText.translate( -pText.getFullBounds().getWidth()/2,-pText.getFullBounds().getHeight()/2);
+        pText.translate( -pText.getFullBounds().getWidth() / 2, -pText.getFullBounds().getHeight() / 2 );
         addChild( pText );
 
         addInputEventListener( new PBasicInputEventHandler() {
@@ -29,7 +31,7 @@ public class RotationBodyNode extends PhetPNode {
             }
 
             public void mouseDragged( PInputEvent event ) {
-                PDimension d = event.getDeltaRelativeTo( RotationBodyNode.this );
+                PDimension d = event.getDeltaRelativeTo( RotationBodyNode.this.getParent() );
                 rotationBody.translate( d.width, d.height );
             }
 
@@ -46,6 +48,15 @@ public class RotationBodyNode extends PhetPNode {
     }
 
     private void update() {
+        setOffset( 0, 0 );
+        Point2D center = getFullBounds().getCenter2D();
+        setRotation( 0 );
+        rotateAboutPoint( rotationBody.getOrientation(), center );
         setOffset( rotationBody.getPosition() );
+
+
+//        angle += Math.PI / 128;
     }
+
+    double angle = 0;
 }

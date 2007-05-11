@@ -1,9 +1,9 @@
 package edu.colorado.phet.rotation;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -12,17 +12,23 @@ import java.util.ArrayList;
  * May 11, 2007, 12:12:12 AM
  */
 public class RotationBody {
-    private RotationBodyState rotationBodyState = new OffPlatform( new Point2D.Double() );
+    private UpdateStrategy updateStrategy = new OffPlatform();
+    private double x;
+    private double y;
     private ArrayList listeners = new ArrayList();
+    private double orientation = 0.0;
 
     public void setOffPlatform() {
-        rotationBodyState = new OffPlatform( getPosition() );
-        notifyPositionChanged();
+        setUpdateStrategy( new OffPlatform() );
+    }
+
+    private void setUpdateStrategy( UpdateStrategy updateStrategy ) {
+        this.updateStrategy.detach();
+        this.updateStrategy = updateStrategy;
     }
 
     public void setOnPlatform( RotationPlatform rotationPlatform ) {
-        rotationBodyState = new OnPlatform( getPosition(), rotationPlatform );
-        notifyPositionChanged();
+        setUpdateStrategy( new OnPlatform( rotationPlatform ) );
     }
 
     public void addListener( Listener listener ) {
@@ -33,61 +39,58 @@ public class RotationBody {
         setPosition( getPosition().getX() + dx, getPosition().getY() + dy );
     }
 
-    private static abstract class RotationBodyState {
-        public abstract void setPosition( double x, double y );
-
-        public abstract Point2D getPosition();
+    public double getOrientation() {
+        return orientation;
     }
 
-    private class OnPlatform extends RotationBodyState implements RotationPlatform.Listener {
-        double radius;
-        double angle;
-        double orientation;
+    private static abstract class UpdateStrategy {
+        public abstract void detach();
+    }
+
+    private static Point2D rotate( Point2D pt, Point2D center, double angle ) {
+        Vector2D.Double v = new Vector2D.Double( center, pt );
+        v.rotate( angle );
+        return v.getDestination( center );
+    }
+
+    private static Line2D rotate( Line2D line, Point2D center, double angle ) {
+        return new Line2D.Double( rotate( line.getP1(), center, angle ), rotate( line.getP2(), center, angle ) );
+    }
+
+    private class OffPlatform extends UpdateStrategy {
+
+        public void detach() {
+        }
+    }
+
+    private class OnPlatform extends UpdateStrategy implements RotationPlatform.Listener {
         private RotationPlatform rotationPlatform;
 
-        public OnPlatform( Point2D position, RotationPlatform rotationPlatform ) {
+        public OnPlatform( RotationPlatform rotationPlatform ) {
             this.rotationPlatform = rotationPlatform;
-            setPosition( position.getX(), position.getY() );
-            rotationPlatform.addListener( this );//todo: memory leak
-        }
-
-        public void setPosition( double x, double y ) {
-            this.angle = Math.atan2( y, x );
-            this.radius = rotationPlatform.getCenter().distance( x, y );
-            notifyPositionChanged();
-        }
-
-        public Point2D getPosition() {
-            AbstractVector2D vector = Vector2D.Double.parseAngleAndMagnitude( radius, angle );
-            return vector.getDestination( rotationPlatform.getCenter() );
+            rotationPlatform.addListener( this );
         }
 
         public void angleChanged( double dtheta ) {
-            angle += dtheta;
+            Line2D segment = new Line2D.Double( getPosition(), Vector2D.Double.parseAngleAndMagnitude( 0.01, getOrientation() ).getDestination( getPosition() ) );
+            setPosition( rotate( getPosition(), rotationPlatform.getCenter(), dtheta ) );
+            Line2D rot = rotate( segment, rotationPlatform.getCenter(), dtheta );
+
+            setOrientation( new Vector2D.Double( rot.getP1(), rot.getP2() ).getAngle() );
             notifyPositionChanged();
+        }
+
+        public void detach() {
+            rotationPlatform.removeListener( this );
         }
     }
 
-    private class OffPlatform extends RotationBodyState {
-        double x;
-        double y;
-        double orientation;
+    private void setPosition( Point2D point2D ) {
+        setPosition( point2D.getX(), point2D.getY() );
+    }
 
-        public OffPlatform( Point2D position ) {
-            setPosition( position.getX(), position.getY() );
-        }
-
-        public void setPosition( double x, double y ) {
-            if( this.x != x || this.y != y ) {
-                this.x = x;
-                this.y = y;
-                notifyPositionChanged();
-            }
-        }
-
-        public Point2D getPosition() {
-            return new Point2D.Double( x, y );
-        }
+    private void setOrientation( double orientation ) {
+        this.orientation = orientation;
     }
 
     private void notifyPositionChanged() {
@@ -98,7 +101,7 @@ public class RotationBody {
     }
 
     public Point2D getPosition() {
-        return rotationBodyState.getPosition();
+        return new Point2D.Double( x, y );
     }
 
     public static interface Listener {
@@ -106,6 +109,10 @@ public class RotationBody {
     }
 
     public void setPosition( double x, double y ) {
-        rotationBodyState.setPosition( x, y );
+        if( this.x != x || this.y != y ) {
+            this.x = x;
+            this.y = y;
+            notifyPositionChanged();
+        }
     }
 }

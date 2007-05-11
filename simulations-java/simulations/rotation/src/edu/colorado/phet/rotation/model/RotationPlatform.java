@@ -1,5 +1,7 @@
 package edu.colorado.phet.rotation.model;
 
+import edu.colorado.phet.rotation.RotationBody;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -39,6 +41,10 @@ public class RotationPlatform {
 
     public double getRadius() {
         return radius;
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove(listener );
     }
 
     public static interface Listener {
