@@ -159,14 +159,20 @@ EOT;
             <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
                 <title>PhET :: Physics Education Technology at CU Boulder</title>
+                
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                
                 <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" />
-            <style type="text/css">
-            /*<![CDATA[*/
-                    @import url($prefix/css/main.css);
-            /*]]>*/
-            </style>
+                
+                <style type="text/css">
+                /*<![CDATA[*/
+                        @import url($prefix/css/main.css);
+                /*]]>*/
+                </style>
+                
+                <script src="$prefix/js/multifile.js"></script>
             </head>
+            
 
             <body>
                 <div id="skipNav">

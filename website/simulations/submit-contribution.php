@@ -10,7 +10,7 @@
     $sim_id             = $_REQUEST['sim_id'];
     $contribution_title = $_REQUEST['contribution_title'];
     
-    $file = $_FILES['contribution_file_url'];
+    $file = $_FILES['file_0'];
     
     $name     = $file['name'];
     $type     = $file['type'];
@@ -23,6 +23,28 @@
     }
     
     $contribution_id = contribution_add_new_contribution($contribution_title, $contributor_id, $tmp_name, $name);
+    
+    for ($i = 1; true; $i++) {
+        $file_key = "file_$i";
+        
+        $file = $_FILES['file_0'];
+
+        $name     = $file['name'];
+        $type     = $file['type'];
+        $tmp_name = $file['tmp_name'];
+        $size     = $file['size'];
+        $error    = $file['error'] !== 0;
+        
+        if (!isset($_FILES[$file_key])) {
+            break;
+        }
+        else if (!$error){
+            contribution_add_new_file_to_contribution($contribution_id, $name, $tmp_name);
+        }
+        else {
+            // Some error occurred during file upload
+        }
+    }
     
     if (is_numeric($sim_id)) {
         contribution_associate_contribution_with_simulation($contribution_id, $sim_id);
