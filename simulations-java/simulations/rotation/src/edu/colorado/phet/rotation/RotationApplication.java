@@ -8,9 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Dec 27, 2006
- * Time: 11:28:24 AM
+ * PhET's Rotation simulation.
+ * @author Sam Reid
  */
 
 public class RotationApplication extends PhetApplication {

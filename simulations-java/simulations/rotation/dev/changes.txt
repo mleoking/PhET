@@ -1,6 +1,7 @@
 0.00.08
 Add clipping for Buffered strategies in DynamicJFreeChartNode
 Fixed: When repainting a chart, there can be a pixel or 2 offset that looks incorrect.  i.e. BufferedSeriesView.paintAll differs from incremental paint
+Chart cursor node: updates are change driven (not every time step)
 
 0.00.07
 Fixed: Angle graphs should wrap around instead of being modulo 2*Pi.
