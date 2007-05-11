@@ -62,31 +62,38 @@ function MultiSelector( list_target, max ){
 		if( element.tagName == 'INPUT' && element.type == 'file' ){
 
 			// Element name -- what number am I?
-			element.name = 'file_' + this.id++;
+			element.name  = 'file_' + this.id++;
+			
+			element.block = false;
 
 			// Add reference to this object
 			element.multi_selector = this;
 
 			// What to do when a file is selected
 			element.onchange = function(){
+				if (!element.block)	{
+					element.block = true;
 
-				// New file input
-				var new_element = document.createElement( 'input' );
-				new_element.type = 'file';
+					// New file input
+					var new_element = document.createElement( 'input' );
+					new_element.type = 'file';
 
-				// Add new element
-				this.parentNode.insertBefore( new_element, this );
+					// Add new element
+					this.parentNode.insertBefore( new_element, this );
 
-				// Apply 'update' to element
-				this.multi_selector.addElement( new_element );
+					// Apply 'update' to element
+					this.multi_selector.addElement( new_element );
 
-				// Update list
-				this.multi_selector.addListRow( this );
+					// Update list
+					this.multi_selector.addListRow( this );
+					
+					// Append the input to the form for use in FF1.5 and OP9.2
+					document.getElementById('upload-form').appendChild(this);
 
-				// Hide this: we can't use display:none because Safari doesn't like it
-				this.style.position = 'absolute';
-				this.style.left = '-1000px';
-
+					// Hide this: we can't use display:none because Safari doesn't like it
+					this.style.position = 'absolute';
+					this.style.left = '-1000px';
+				}
 			};
 			// If we've reached maximum number, disable input element
 			if( this.max != -1 && this.count >= this.max ){
