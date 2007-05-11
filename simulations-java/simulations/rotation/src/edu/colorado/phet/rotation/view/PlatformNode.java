@@ -22,13 +22,13 @@ import java.util.ArrayList;
  */
 
 public class PlatformNode extends PNode {
-    RingNode[] ringNode = {};
+    private RingNode[] ringNode = {};
     private double ringRadius;
     private PNode contentNode;
     private double scale = 1.0 / 100;
     private double angle = 0.0;
 
-    public PlatformNode() {
+    public PlatformNode( final RotationPlatform rotationPlatform ) {
         ringRadius = 2.0;
         contentNode = new PNode();
         addRingNode( 2.0, Color.green );
@@ -74,8 +74,7 @@ public class PlatformNode extends PNode {
 
                 double angle = initAngle + angleDiff;
 //                System.out.println( "angleDiff=" + angleDiff + ", angle=" + angle );
-                setAngle( angle );
-                notifyListeners();
+                rotationPlatform.setAngle( angle );
                 resetDrag( angle, event );//have to reset drag in order to keep track of the winding number
             }
 
@@ -85,6 +84,11 @@ public class PlatformNode extends PNode {
             }
         } );
         addInputEventListener( new CursorHandler() );
+        rotationPlatform.addListener( new RotationPlatform.Listener() {
+            public void angleChanged() {
+                setAngle( rotationPlatform.getAngle() );
+            }
+        } );
     }
 
     private void addRingNode( double radius, Color color ) {
@@ -103,23 +107,6 @@ public class PlatformNode extends PNode {
 
     public double getAngle() {
         return angle;
-    }
-
-    private ArrayList listeners = new ArrayList();
-
-    public static interface Listener {
-        void angleChanged();
-    }
-
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
-
-    public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.angleChanged();
-        }
     }
 
     class RingNode extends PNode {

@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.rotation.RotationBody;
+import edu.colorado.phet.rotation.view.RotationPlatform;
 
 import java.util.ArrayList;
 
@@ -31,6 +32,7 @@ public class RotationModel {
 
     private ArrayList listeners = new ArrayList();
     private ArrayList rotationBodies = new ArrayList();
+    private RotationPlatform rotationPlatform=new RotationPlatform();
 
     public RotationModel() {
         addRotationBody( new RotationBody() );
@@ -217,6 +219,10 @@ public class RotationModel {
 
     public RotationBody getRotationBody( int i ) {
         return (RotationBody)rotationBodies.get( i );
+    }
+
+    public RotationPlatform getRotationPlatform() {
+        return rotationPlatform;
     }
 
     public static interface Listener {

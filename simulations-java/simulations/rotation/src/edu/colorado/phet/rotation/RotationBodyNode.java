@@ -1,7 +1,10 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Author: Sam Reid
@@ -10,8 +13,32 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class RotationBodyNode extends PhetPNode {
     private RotationBody rotationBody;
 
-    public RotationBodyNode( RotationBody rotationBody ) {
+    public RotationBodyNode( final RotationBody rotationBody ) {
         this.rotationBody = rotationBody;
         addChild( new PText( "body" ) );
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
+                rotationBody.setOffPlatform();
+            }
+
+            public void mouseDragged( PInputEvent event ) {
+                PDimension d = event.getDeltaRelativeTo( RotationBodyNode.this );
+                rotationBody.translate( d.width, d.height );
+            }
+
+            public void mouseReleased( PInputEvent event ) {
+                super.mouseReleased( event );
+            }
+        } );
+        rotationBody.addListener( new RotationBody.Listener() {
+            public void positionChanged() {
+                update();
+            }
+        } );
+        update();
+    }
+
+    private void update() {
+        setOffset( rotationBody.getPosition() );
     }
 }
