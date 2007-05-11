@@ -10,8 +10,8 @@ import java.util.ArrayList;
 public class RotationPlatform {
     private ArrayList listeners = new ArrayList();
     private double angle;
-    private Point2D.Double center = new Point2D.Double(200,200);
-    private double radius = 2.0;
+    private Point2D.Double center = new Point2D.Double( 200, 200 );
+    private double radius = 200.0;
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
@@ -22,10 +22,10 @@ public class RotationPlatform {
     }
 
     public void setAngle( double angle ) {
-        double origAngle=this.angle;
+        double origAngle = this.angle;
         if( this.angle != angle ) {
             this.angle = angle;
-            notifyAngleChanged(angle-origAngle);
+            notifyAngleChanged( angle - origAngle );
         }
     }
 
@@ -48,7 +48,7 @@ public class RotationPlatform {
     public void notifyAngleChanged( double dtheta ) {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
-            listener.angleChanged(dtheta);
+            listener.angleChanged( dtheta );
         }
     }
 }
