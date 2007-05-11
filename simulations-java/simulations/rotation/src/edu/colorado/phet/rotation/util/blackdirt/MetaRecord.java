@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.util;
+package edu.colorado.phet.rotation.util.blackdirt;
 // Copyright 1997, 1998,1999 Carmen Delessio (carmen@blackdirt.com)
 // Black Dirt Software http://www.blackdirt.com/graphics
 // Free for non-commercial use

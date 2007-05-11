@@ -1,8 +1,5 @@
 package edu.colorado.phet.rotation.util.blackdirt;
 
-import edu.colorado.phet.rotation.util.MetaRecord;
-import edu.colorado.phet.rotation.util.WMFHandleTable;
-import edu.colorado.phet.rotation.util.WMFToolkit;
 
 import java.io.*;
 import java.awt.*;
@@ -845,7 +842,7 @@ public class wmf2svg {
 
   public static void main(String args[]){
 
-  edu.colorado.phet.rotation.util.wmf2svg wmf;
+  wmf2svg wmf;
   File source_file;
   File dest_file;
   FileInputStream source = null;
@@ -874,7 +871,7 @@ public class wmf2svg {
    //?? make is stage WMF2SVG.read
    // WMF2SVawrite
 
-       wmf = new edu.colorado.phet.rotation.util.wmf2svg(dataIn,dataOut);
+       wmf = new wmf2svg(dataIn,dataOut);
 
     }
      catch(IOException e){ System.err.println(e);
