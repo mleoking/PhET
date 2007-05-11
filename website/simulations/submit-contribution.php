@@ -10,7 +10,12 @@
     $sim_id             = $_REQUEST['sim_id'];
     $contribution_title = $_REQUEST['contribution_title'];
     
-    $file = $_FILES['file_0'];
+    if (isset($_FILES['contribution_file_url'])) {
+        $file = $_FILES['contribution_file_url'];
+    }
+    else {
+        $file = $_FILES['MF__F_0_0'];
+    }
     
     $name     = $file['name'];
     $type     = $file['type'];
@@ -25,24 +30,26 @@
     $contribution_id = contribution_add_new_contribution($contribution_title, $contributor_id, $tmp_name, $name);
     
     for ($i = 1; true; $i++) {
-        $file_key = "file_$i";
+        $file_key = "MF__F_0_$i";
         
-        $file = $_FILES['file_0'];
-
-        $name     = $file['name'];
-        $type     = $file['type'];
-        $tmp_name = $file['tmp_name'];
-        $size     = $file['size'];
-        $error    = $file['error'] !== 0;
-        
-        if (!isset($_FILES[$file_key])) {
+        if (!isset($_FILES[$file_key])) {            
             break;
         }
-        else if (!$error){
-            contribution_add_new_file_to_contribution($contribution_id, $name, $tmp_name);
-        }
         else {
-            // Some error occurred during file upload
+            $file = $_FILES[$file_key];
+
+            $name     = $file['name'];
+            $type     = $file['type'];
+            $tmp_name = $file['tmp_name'];
+            $size     = $file['size'];
+            $error    = $file['error'] !== 0;
+            
+            if (!$error){                
+                contribution_add_new_file_to_contribution($contribution_id, $tmp_name, $name);
+            }
+            else {
+                // Some error occurred during file upload
+            }
         }
     }
     
@@ -60,7 +67,7 @@
     contribution_set_approved($contribution_id, true);
     
     function print_content() {
-        global $contributor_is_team_member;
+        global $edit_contrib;
         
         print <<<EOT
         <h1>New Contribution</h1>

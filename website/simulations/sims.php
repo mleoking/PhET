@@ -135,14 +135,16 @@
     
         <h2 class="sub-title">Submit Ideas &amp; Activities</h2>
 
-        <form enctype="multipart/form-data" action="submit-contribution.php" method="post">
+        <form id="upload-form" enctype="multipart/form-data" action="submit-contribution.php" method="post">
+            
             <p class="indi-sim">
                 If you have ideas or activities you would like to contribute, you can use this form to submit them to PhET.
+                You may submit up to 10 files per contribution.
             </p>
             <br />
             
             <?php
-                print "<input type=\"hidden\" name=\"sim_id\" value=\"$sim_id\" />";
+                print "<input type=\"hidden\" name=\"sim_id\"   value=\"$sim_id\" />";
             ?>
 
             <p class="indi-sim">
@@ -154,19 +156,9 @@
             <br/>
             <br/>            
             <!-- The file element -- NOTE: it has an ID -->
-        	<input id="my_file_element" type="file" name="contribution_file_url">
-        	
-            <br />
-            <p>Files:</p>
-            <!-- This is where the output will appear -->
-            <div id="files_list"></div>
+        	<input type="file" class="multi" name="contribution_file_url">
 
-            <script>
-            	<!-- Create an instance of the multiSelector class, pass it the output target and the max number of files -->
-            	var multi_selector = new MultiSelector( document.getElementById( 'files_list' ), 10 );
-            	<!-- Pass in the file element -->
-            	multi_selector.addElement( document.getElementById( 'my_file_element' ) );
-            </script>
+            <br/>
             
             <input type="submit" value="Submit" class="buttonSubmit" />
         </form>

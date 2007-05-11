@@ -170,7 +170,8 @@ EOT;
                 /*]]>*/
                 </style>
                 
-                <script src="$prefix/js/multifile.js"></script>
+                <script src="$prefix/js/jquery.pack.js"      type="text/javascript" language="javascript"></script>
+                <script src="$prefix/js/jquery.MultiFile.js" type="text/javascript" language="javascript"></script>
             </head>
             
 
