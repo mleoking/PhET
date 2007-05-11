@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public class RotationBody {
     private UpdateStrategy updateStrategy = new OffPlatform();
-    private double x;
-    private double y;
+    private double x=10;
+    private double y=10;
     private ArrayList listeners = new ArrayList();
     private double orientation = 0.0;
 
