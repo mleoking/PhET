@@ -58,14 +58,6 @@ public class RotationModule extends PiccoloModule {
         return rotationModel;
     }
 
-    public void setAngleUpdateStrategy() {
-        rotationModel.setPositionDriven();
-    }
-
-    public void setAngle( double angle ) {
-        rotationModel.getXVariable().setValue( angle );
-    }
-
     public RotationSimulationPanel getRotationSimulationPanel() {
         return rotationSimulationPanel;
     }
