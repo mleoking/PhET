@@ -343,7 +343,7 @@
         <echo message="Cleaned up project description: ${project.description}" />
     </target>
 
-    <target name="_deploy-with-dynamic-jnlp" description="Deploys the simulation along with a dynamically created JNLP" depends="_read-username-and-password, _create-jnlp">
+    <target name="_deploy-with-dynamic-jnlp" description="Deploys the simulation along with a dynamically created JNLP" depends="_read-username-and-password">
         <!--
 
             Internal deployment task expects the following properties to be defined:
