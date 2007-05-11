@@ -343,50 +343,6 @@
         <echo message="Cleaned up project description: ${project.description}" />
     </target>
 
-    <target name="_create-jnlp" description="Creates a JNLP file for the specified simulation, for use with Java Webstart" depends="_cleanup-project-desc">
-        <!--
-            Internal task expects the following to be defined:
-                ${project.name}
-                ${project.description}
-                ${deploy.url}
-                ${filename.project.jnlp.deploy}
-                ${filename.project.jar.deploy-pro}
-                ${project.screenshot}
-
-            Template contains these macros that need replacing:
-
-                $PROJECT.NAME$
-                $PROJECT.DEPLOY.PATH$
-                $JNLP.NAME$
-                $PROJECT.DESCRIPTION$
-                $PROJECT.JAR$
-                $PROJECT.SCREENSHOT$
-        -->
-
-        <echo message="Copying template ${file.template.jnlp} to ${dir.project.deploy.local}" />
-
-        <!-- Use the template JNLP file to create the JNLP for the current application: -->
-        <copy todir="${dir.project.deploy.local}" overwrite="yes">
-            <fileset file="${file.template.jnlp}"/>
-
-            <filterset>
-                <filter token="PROJECT.NAME"        value="${project.name}"                     />
-                <filter token="PROJECT.DEPLOY.PATH" value="${deploy.url}"                       />
-                <filter token="JNLP.NAME"           value="${filename.project.jnlp.deploy}"     />
-                <filter token="PROJECT.DESCRIPTION" value="${project.description}"              />
-                <filter token="PROJECT.JAR"         value="${filename.project.jar.deploy-pro}"  />
-                <filter token="PROJECT.SCREENSHOT"  value="${project.screenshot}"               />
-            </filterset>
-        </copy>
-
-        <echo message="Renaming ${dir.project.deploy.local}${filename.template.jnlp} to ${dir.project.deploy.local}${filename.project.jnlp.deploy}" />
-
-        <!-- Rename JNLP file from webstart.jnlp to [shortname].jnlp -->
-        <move file="${dir.project.deploy.local}${filename.template.jnlp}" tofile="${dir.project.deploy.local}${filename.project.jnlp.deploy}" />
-
-        <echo message="Successfully created JNLP ${dir.project.deploy.local}${filename.project.jnlp.deploy}" />
-    </target>
-
     <target name="_deploy-with-dynamic-jnlp" description="Deploys the simulation along with a dynamically created JNLP" depends="_read-username-and-password, _create-jnlp">
         <!--
 
@@ -638,18 +594,9 @@
         <taskdef name="phet-jnlp"
                  classname="${phetjnlp-classname}"
                  classpath="${phetbuild-dependencies}"/>
-
     </target>
 
     <target name="init" depends="declare_phet-build-task"/>
-
-    <target name="build-hydrogen-atom-jnlp" depends="init">
-        <phet-jnlp project="hydrogen-atom" />
-    </target>
-
-    <target name="clean-hydrogen-atom" depends="init">
-        <phet-clean project="hydrogen-atom" />
-    </target>
 
     <target name="build_AllSimApp" depends="init">
         <phet-build project="all-sims" shrink="false"/>
@@ -668,28 +615,6 @@
         <phet-build project="cck" destfile="deploy/cck.jar"/>
         <phet-jnlp project="cck" flavor="cck-ac"/>
         <phet-jnlp project="cck" flavor="cck-dc"/>
-    </target>
-
-    <target name="build_hydrogen-atom" depends="init">
-        <phet-build project="hydrogen-atom" destfile="deploy/hydrogen-atom.jar"/>
-    </target>
-
-    <target name="build_hydrogen-atom_dontshrink" depends="init">
-        <phet-build project="hydrogen-atom" shrink="false"/>
-    </target>
-
-    <target name="build_gaelic" depends="init">
-        <phet-build project="balloons"/>
-        <phet-build project="cck"/>
-        <phet-build project="sound"/>
-    </target>
-
-    <target name="build_qm_suite" depends="init">
-        <phet-build project="quantum" shrink="false"/>
-        <phet-build project="ideal-gas"/>
-        <phet-build project="lasers"/>
-        <phet-build project="fluorescent-lights"/>
-        <phet-build project="photoelectric"/>
     </target>
 
     <target name="build_all" depends="init">
@@ -758,43 +683,6 @@
         <exec executable="${browser}" spawn="true">
             <arg value="${sim_url}"/>
         </exec>
-    </target>
-
-    <!--Temporary tasks for working with energy skate park.  These can be removed after this build script is integrated
-with top level build.xml, with maverick, etc.-->
-    <property name="esp_root" value="${dev_root}/ec3"/>
-    <property name="esp_version" value="2.01"/>
-    <property name="esp_url" value="${esp_root}/${esp_version}"/>
-    <property name="esp_path" value="dev/ec3"/>
-
-    <target name="esp_build_and_post" depends="init">
-        <phet-build project="energy-skate-park" destfile="deploy/energy-skate-park.jar"/>
-
-        <phet-jnlp project="energy-skate-park" flavor="energy-skate-park" deployurl="${esp_url}"/>
-        <copy file="simulations/energy-skate-park/todo.txt" tofile="simulations/energy-skate-park/deploy/todo.txt"/>
-        <copy file="simulations/energy-skate-park/changes.txt" tofile="simulations/energy-skate-park/deploy/changes.txt"/>
-        <copy file="simulations/energy-skate-park/README" tofile="simulations/energy-skate-park/deploy/README"/>
-        <copy file="simulations/energy-skate-park/energy-conservation.gif" tofile="simulations/energy-skate-park/deploy/energy-conservation.gif"/>
-        <maverick-ssh host="${ssh-host}" username="${username}" password="${password}" version="2">
-            <sftp action="mkdir" remotedir="${phet-ssh-root}/${esp_path}"/>
-            <sftp action="mkdir" remotedir="${phet-ssh-root}/${esp_path}/${esp_version}"/>
-            <sftp action="put" remotedir="${phet-ssh-root}/${esp_path}/${esp_version}" verbose="true">
-                <fileset dir="simulations/energy-skate-park/deploy"></fileset>
-            </sftp>
-        </maverick-ssh>
-        <exec executable="${browser}" spawn="true">
-            <arg value="${esp_url}"/>
-        </exec>
-    </target>
-
-    <target name="esp_show_browser">
-        <exec executable="${browser}" spawn="true">
-            <arg value="${esp_url}"/>
-        </exec>
-    </target>
-
-    <target name="build_mri" depends="init">
-        <phet-build project="mri"/>
     </target>
 
 </project>
