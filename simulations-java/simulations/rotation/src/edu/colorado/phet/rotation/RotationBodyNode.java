@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -34,7 +35,7 @@ public class RotationBodyNode extends PhetPNode {
 //        PNode pText = new PhetPPath( new Rectangle( -5, -5, 10, 10 ), Color.blue );
         node.translate( -node.getFullBounds().getWidth() / 2, -node.getFullBounds().getHeight() / 2 );
         addChild( node );
-
+        addInputEventListener( new CursorHandler( ));
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 rotationBody.setOffPlatform();

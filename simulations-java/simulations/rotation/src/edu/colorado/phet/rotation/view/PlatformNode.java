@@ -55,9 +55,6 @@ public class PlatformNode extends PNode {
 
         addChild( contentNode );
 
-//        contentNode.scale( 1.0 / scale );
-//        contentNode.translate( -ringRadius, -ringRadius );
-//        contentNode.translate( rotationPlatform.getCenter().getX(),rotationPlatform.getCenter().getY() );
         addInputEventListener( new PBasicInputEventHandler() {
             double initAngle;
             public Point2D initLoc;
@@ -65,7 +62,6 @@ public class PlatformNode extends PNode {
             public void mousePressed( PInputEvent event ) {
                 resetDrag( angle, event );
                 environment.setPositionDriven();
-//                rotationPlatform.setAngle( );
             }
 
             public void mouseReleased( PInputEvent event ) {
@@ -123,8 +119,6 @@ public class PlatformNode extends PNode {
     class RingNode extends PNode {
         public RingNode( double x, double y, double radius, Color color ) {
             PhetPPath path = new PhetPPath( new Ellipse2D.Double( x - radius, y - radius, radius * 2, radius * 2 ), color, new BasicStroke( 1 ), Color.black );
-//            PhetPPath path = new PhetPPath( new Ellipse2D.Double( x - radius, y - radius, radius * 2, radius * 2 ), color, new BasicStroke( 2.0f / 100.0f ,BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,1.0f,new float[]{10.0f/100.0f,10.0f/100.0f},0.0f), Color.black );
-//            PhetPPath path = new PhetPPath( new Ellipse2D.Double( x - radius, y - radius, radius * 2, radius * 2 ), color, new BasicStroke( 2.0f / 100.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[]{30.0f / 100.0f, 30.0f / 100.0f}, 0.0f ), Color.black );
             addChild( path );
         }
     }
