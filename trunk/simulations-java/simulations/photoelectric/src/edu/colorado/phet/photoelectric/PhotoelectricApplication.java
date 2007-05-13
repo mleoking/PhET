@@ -34,13 +34,7 @@ public class PhotoelectricApplication extends PhetApplication {
     // Class data
     //----------------------------------------------------------------
 
-    static private String resourceBundleName = "localization/PhotoelectricStrings";
-    static{
-        SimStrings.getInstance().addStrings( resourceBundleName );
-    }
-    static private String description = SimStrings.getInstance().getString( "PhotoelectricApplication.description" );
-    static private String version = "1.02";
-    static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 680 );
+    private static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 680 );
 
     // Clock specification
     public static final double DT = 12;
@@ -57,7 +51,7 @@ public class PhotoelectricApplication extends PhetApplication {
                SimStrings.getInstance().getString( "PhotoelectricApplication.title" ),
                SimStrings.getInstance().getString( "PhotoelectricApplication.description" ),
                PhotoelectricConfig.VERSION,
-               frameSetup );
+               FRAME_SETUP );
 
         // Make the frame non-resizable until we make the intensity slider a graphic
         getPhetFrame().setResizable( false );
@@ -102,7 +96,7 @@ public class PhotoelectricApplication extends PhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new PhetLookAndFeel().initLookAndFeel();
-                SimStrings.getInstance().init( args, resourceBundleName );
+                SimStrings.getInstance().init( args, PhotoelectricConfig.LOCALIZATION_RESOURCE_NAME );
                 new PhotoelectricApplication( args ).startApplication();
             }
         } );
