@@ -5,6 +5,7 @@ import edu.colorado.phet.rotation.graphs.GraphSuite;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.timeseries.TimeSeriesModel;
 import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -17,8 +18,8 @@ import java.awt.geom.Rectangle2D;
  * Time: 11:34:12 AM
  */
 
-public class RotationSimulationPanel extends BufferedPhetPCanvas {
-    //public class RotationSimulationPanel extends PhetPCanvas {
+//public class RotationSimulationPanel extends BufferedPhetPCanvas {
+    public class RotationSimulationPanel extends PhetPCanvas {
     /*MVC Model components*/
     private RotationModule rotationModule;
 
@@ -81,9 +82,24 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
                 }
             }
         } );
+
         addKeyListener( new KeyAdapter() {
             public void keyReleased( KeyEvent e ) {
                 if( e.getKeyCode() == KeyEvent.VK_F2 && e.isAltDown() ) {
+                    PDebug.debugBounds= !PDebug.debugBounds;
+                }
+            }
+        } );
+        addKeyListener( new KeyAdapter() {
+            public void keyReleased( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_F3 && e.isAltDown() ) {
+                    PDebug.debugFullBounds = !PDebug.debugFullBounds;
+                }
+            }
+        } );
+        addKeyListener( new KeyAdapter() {
+            public void keyReleased( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_F4 && e.isAltDown() ) {
                     relayout();
                 }
             }

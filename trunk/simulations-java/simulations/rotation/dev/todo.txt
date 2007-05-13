@@ -12,8 +12,6 @@ Move charts to jfreechart-phet directory?
 When the time series is off-scale, dragging the slider doesn't immediately respond.
 Clicking on the slider thumb should set the current value, and allow immediate drags.
 
-Chart strokes are different for dynamic paint and static repaint.
-
 Should TimeSeriesModel be extended or listened to for Rotation-specific behaivor?
 
 Test at 1024x768
