@@ -34,7 +34,7 @@ public class PhetBuildUtils {
      * @return  The build properties file.
      */
     public static File getBuildPropertiesFile( File dir, String projectName ) {
-        return new File( dir, projectName + ".properties" );
+        return new File( dir, projectName + "-build.properties" );
     }
 
     /**

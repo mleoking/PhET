@@ -159,12 +159,7 @@ public class PhetProject {
         if( !file.exists() || !file.isDirectory() ) {
             return false;
         }
-        if( new File( file, file.getName() + ".properties" ).exists() ) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return new File( file, file.getName() + "-build.properties" ).exists();
     }
 
     private String[] split( String str, String delimiters ) {
