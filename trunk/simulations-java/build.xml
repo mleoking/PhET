@@ -667,6 +667,10 @@
     <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
     <property name="dev_root" value="http://www.colorado.edu/physics/phet/dev"/>
 
+    <target name="build-sim" depends="init">
+        <phet-build project="${name.sim}" destfile="deploy/${name.sim}.jar"/>
+    </target>
+
     <target name="build2" depends="init">
         <phet-build project="${name.sim}" destfile="deploy/${name.sim}.jar"/>
         <property name="sim_url" value="${dev_root}/${name.sim}/${sim.version}"/>
