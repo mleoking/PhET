@@ -24,7 +24,7 @@ import java.text.DecimalFormat;
 public class PhotoelectricConfig {
 
     // Version
-    public static final String VERSION = "1.04";
+    public static final String VERSION = "1.05.00, ";
 
     // Images
     public static final String IMAGE_DIRECTORY = "images/";
