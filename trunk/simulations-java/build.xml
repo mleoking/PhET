@@ -685,4 +685,12 @@
         </exec>
     </target>
 
+    <target name="build_mri" depends="init">
+        <phet-build project="mri"/>
+    </target>
+    
+    <target name="build_photoelectric" depends="init">
+        <phet-build project="photoelectric"/>
+    </target>
+    
 </project>
