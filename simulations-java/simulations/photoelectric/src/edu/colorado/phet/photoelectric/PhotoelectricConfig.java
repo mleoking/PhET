@@ -23,17 +23,22 @@ import java.text.DecimalFormat;
  */
 public class PhotoelectricConfig {
 
+    public static final String PROJECT_NAME = "photoelectric";
+    
     // Version
     public static final String VERSION = "1.05.00, ";
+    
+    public static final String LOCALIZATION_RESOURCE_NAME = PROJECT_NAME + "/localization/" + PROJECT_NAME + "-strings";
 
     // Images
     public static final String IMAGE_DIRECTORY = "images/";
     public static final String LAMP_IMAGE_FILE = IMAGE_DIRECTORY + "flashlight.png";
-    public static final String SLIDER_KNOB_IMAGE = IMAGE_DIRECTORY + "sliderKnob.png";
     public static final String BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "photoelectric-beam-control.png";
     public static final String SNAPSHOT_BUTTON_IMAGE = IMAGE_DIRECTORY + "camera.png";
     public static final String ZOOM_IN_BUTTON_IMAGE = IMAGE_DIRECTORY + "zoomIn.gif";
     public static final String ZOOM_OUT_BUTTON_IMAGE = IMAGE_DIRECTORY + "zoomOut.gif";
+    public static final String CIRCUIT_A_IMAGE = IMAGE_DIRECTORY + "circuit-A.png";
+    public static final String CIRCUIT_B_IMAGE = IMAGE_DIRECTORY + "circuit-B.png";
 
     // View parameters
     public static final int GRAPH_DOT_RADIUS = 5;

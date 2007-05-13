@@ -345,8 +345,8 @@ public class PhotoelectricModule extends BaseLaserModule {
      */
     private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
         try {
-            circuitImageA = ImageLoader.loadBufferedImage( "images/circuit-A.png" );
-            circuitImageB = ImageLoader.loadBufferedImage( "images/circuit-B.png" );
+            circuitImageA = ImageLoader.loadBufferedImage( PhotoelectricConfig.CIRCUIT_A_IMAGE );
+            circuitImageB = ImageLoader.loadBufferedImage( PhotoelectricConfig.CIRCUIT_B_IMAGE );
             circuitImageA = scaleImage( circuitImageA );
             circuitImageB = scaleImage( circuitImageB );
 
