@@ -49,6 +49,7 @@ public class PhysicsModule extends AbstractModule {
         _clockControlPanel = new ClockControlPanelWithTimeDisplay( (OTClock) getClock() );
         _clockControlPanel.setTimeFormat( PhysicsDefaults.CLOCK_TIME_PATTERN );
         _clockControlPanel.setTimeColumns( PhysicsDefaults.CLOCK_TIME_COLUMNS );
+        _clockControlPanel.setUnits( OTResources.getString( "units.time" ) );
         setClockControlPanel( _clockControlPanel );
         
         // Set initial state
