@@ -15,7 +15,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import java.util.Hashtable;
 
 import javax.swing.*;
@@ -26,10 +26,10 @@ import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSClock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
+import edu.colorado.phet.common.phetcommon.view.ClockTimePanel;
 
 
 /**
@@ -39,7 +39,7 @@ import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSClockControls extends JPanel implements ClockListener {
+public class BSClockControls extends ClockControlPanel {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -47,15 +47,9 @@ public class BSClockControls extends JPanel implements ClockListener {
     
     private BSClock _clock;
     
-    private JButton _restartButton;
-    private JButton _playButton;
-    private JButton _pauseButton;
-    private JButton _stepButton;
-    private JTextField _timeTextField;
-    private JLabel _timeUnitsLabel;
+    private ClockTimePanel _timePanel;
     private JSlider _clockIndexSlider;
-    
-    private NumberFormat _timeFormat;
+    private JButton _restartButton;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -67,47 +61,25 @@ public class BSClockControls extends JPanel implements ClockListener {
      * @param clock
      */
     public BSClockControls( BSClock clock ) {
-        super();
+        super( clock );
         
         // Clock
         _clock = clock;
         _clock.setSimulationTimeChange( BSConstants.DEFAULT_CLOCK_STEP );
         _clock.addClockListener( this );
         
-        // Labels
+        // Restart button
         String restartLabel = BSResources.getString( "button.restart" );
-        String playLabel = BSResources.getCommonString( ClockControlPanel.PROPERTY_PLAY );
-        String pauseLabel = BSResources.getCommonString( ClockControlPanel.PROPERTY_PAUSE );
-        String stepLabel = BSResources.getCommonString( ClockControlPanel.PROPERTY_STEP );
-        String timeUnitsLabel = BSResources.getString( "units.time" );
-
-        // Icons
         Icon restartIcon = new ImageIcon( BSResources.getCommonImage( PhetCommonResources.IMAGE_REWIND ) );
-        Icon playIcon = new ImageIcon( BSResources.getCommonImage( PhetCommonResources.IMAGE_PLAY ) );
-        Icon pauseIcon = new ImageIcon( BSResources.getCommonImage( PhetCommonResources.IMAGE_PAUSE ) );
-        Icon stepIcon = new ImageIcon( BSResources.getCommonImage( PhetCommonResources.IMAGE_STEP_FORWARD ) );
-        Icon clockIcon = new ImageIcon( BSResources.getCommonImage( PhetCommonResources.IMAGE_CLOCK ) );
+        _restartButton = new JButton( restartLabel, restartIcon );
 
         // Time display
-        JPanel timePanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
-        {
-            JLabel clockLabel = new JLabel( clockIcon );
-            _timeTextField = new JTextField( "00000000" );
-            _timeTextField.setFont( BSConstants.TIME_DISPLAY_FONT );
-            _timeTextField.setPreferredSize( _timeTextField.getPreferredSize() );
-            _timeTextField.setText( "0" );
-            _timeTextField.setEditable( false );
-            _timeTextField.setHorizontalAlignment( JTextField.RIGHT );
-            
-            _timeUnitsLabel = new JLabel( timeUnitsLabel );
-            _timeUnitsLabel.setFont( BSConstants.TIME_UNITS_FONT );
-            
-            _timeFormat = BSConstants.DEFAULT_CLOCK_FORMAT;
-            
-            timePanel.add( clockLabel );
-            timePanel.add( _timeTextField );
-            timePanel.add( _timeUnitsLabel );
-        }
+        String units = BSResources.getString( "units.time" );
+        DecimalFormat format = BSConstants.DEFAULT_CLOCK_FORMAT;
+        int columns = 6;
+        _timePanel = new ClockTimePanel( clock, units, format, columns );
+        _timePanel.setTimeFont( BSConstants.TIME_DISPLAY_FONT );
+        _timePanel.setUnitsFont( BSConstants.TIME_UNITS_FONT );
         
         // Speed slider
         {
@@ -134,25 +106,11 @@ public class BSClockControls extends JPanel implements ClockListener {
             _clockIndexSlider.setPreferredSize( size );
         }
         
-        // Clock control buttons
-        JPanel controlsPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
-        {
-            _restartButton = new JButton( restartLabel, restartIcon );
-            _playButton = new JButton( playLabel, playIcon );
-            _pauseButton = new JButton( pauseLabel, pauseIcon );
-            _stepButton = new JButton( stepLabel, stepIcon );
-            
-            controlsPanel.add( _restartButton );
-            controlsPanel.add( _playButton );
-            controlsPanel.add( _pauseButton );
-            controlsPanel.add( _stepButton );
-        }
-        
         // Layout
         setLayout(  new FlowLayout( FlowLayout.CENTER ) );
-        add( timePanel );
-        add( _clockIndexSlider );
-        add( controlsPanel );
+        addControlToLeft( _restartButton );
+        addControlToLeft( _clockIndexSlider );
+        addControlToLeft( _timePanel );
         
         // Interactivity
         _clockIndexSlider.addChangeListener( new ChangeListener() { 
@@ -165,25 +123,6 @@ public class BSClockControls extends JPanel implements ClockListener {
                 handleRestart();
             }
         } );
-        _playButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handlePlay();
-            }
-        } );
-        _pauseButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handlePause();
-            }
-        } );
-        _stepButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleStep();
-            }
-        } );
-        
-        // Inital state
-        updateTimeDisplay();
-        updateButtonState();
     }
     
     /**
@@ -208,15 +147,6 @@ public class BSClockControls extends JPanel implements ClockListener {
     }
     
     /**
-     * Gets the "Pause" component, used for attaching help items.
-     * 
-     * @return JComponent
-     */
-    public JComponent getPauseComponent() {
-        return _pauseButton;
-    }
-    
-    /**
      * Gets the clock index (speed) component, used for attaching help items.
      * 
      * @return JComponent
@@ -225,15 +155,6 @@ public class BSClockControls extends JPanel implements ClockListener {
         return _clockIndexSlider;
     }
     
-    /**
-     * Gets the clock associated with this control panel.
-     * 
-     * @return the clock
-     */
-    public IClock getClock() {
-        return _clock;
-    }
-
     /**
      * Gets the clock index.
      * 
@@ -259,72 +180,12 @@ public class BSClockControls extends JPanel implements ClockListener {
     
     private void handleClockIndexChange() {
         int index = _clockIndexSlider.getValue();
-        _timeFormat = BSConstants.CLOCK_FORMATS[index];
+        _timePanel.setTimeFormat( BSConstants.CLOCK_FORMATS[index] );
         _clock.setSimulationTimeChange( BSConstants.CLOCK_STEPS[index] );
         _clock.resetSimulationTime(); // so the clock display doesn't overflow
     }
     
     private void handleRestart() {
         _clock.resetSimulationTime();
-        updateTimeDisplay();
-    }
-    
-    private void handlePlay() {
-        _clock.start();
-    }
-    
-    private void handlePause() {
-        _clock.pause();
-    }
-    
-    private void handleStep() {
-        _clock.stepClockWhilePaused();
-    }
-   
-    //----------------------------------------------------------------------------
-    // Updaters
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Updates the state of the buttons to match the state of the clock.
-     */
-    private void updateButtonState() {
-        boolean isPaused = _clock.isPaused();
-        _playButton.setEnabled( isPaused );
-        _pauseButton.setEnabled( !isPaused );
-        _stepButton.setEnabled( isPaused );
-    }
-    
-    /*
-     * Updates the time display.
-     */
-    private void updateTimeDisplay() {
-        double time = _clock.getSimulationTime();
-        String sValue = _timeFormat.format( time );
-        _timeTextField.setText( sValue );
-    }
-    
-    //----------------------------------------------------------------------------
-    // ClockListener implementation
-    //----------------------------------------------------------------------------
-    
-    public void clockTicked( ClockEvent clockEvent ) {
-        updateTimeDisplay();
-    }
-
-    public void clockStarted( ClockEvent clockEvent ) {
-        updateButtonState();
-    }
-
-    public void clockPaused( ClockEvent clockEvent ) {
-        updateButtonState();
-    }
-
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
-        updateTimeDisplay();
-    }
-
-    public void simulationTimeReset( ClockEvent clockEvent ) {
-        updateTimeDisplay();
     }
 }
