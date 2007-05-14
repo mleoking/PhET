@@ -312,7 +312,8 @@ public class PhetProject {
             if( s.startsWith( prefix ) ) {
                 String lastPart = s.substring( prefix.length() );
                 int lastIndex = lastPart.indexOf( '.' );
-                String flavorName = lastPart.substring( 0, lastIndex - 1 );
+//                String flavorName = lastPart.substring( 0, lastIndex - 1 );
+                String flavorName = lastPart.substring( 0, lastIndex );
                 if( !flavorNames.contains( flavorName ) ) {
                     flavorNames.add( flavorName );
                 }
