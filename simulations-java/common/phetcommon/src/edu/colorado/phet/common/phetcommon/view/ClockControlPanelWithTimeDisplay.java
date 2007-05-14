@@ -46,6 +46,13 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
     //----------------------------------------------------------------------------
     
     /**
+     * Constructs a control panel with a default time format and no units.
+     */
+    public ClockControlPanelWithTimeDisplay( IClock clock ) {
+        this( clock, "" );
+    }
+    
+    /**
      * Constructs a control panel with a default format for the time display.
      * 
      * @param clock the clock to be controlled
