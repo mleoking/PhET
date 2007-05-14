@@ -17,6 +17,7 @@ public class PhetCommonResources {
     public static final String IMAGE_REWIND = "clock/Rewind24.gif";
     public static final String IMAGE_STEP_FORWARD = "clock/StepForward24.gif";
     public static final String IMAGE_STOP = "clock/Stop24.gif";
+    public static final String IMAGE_CLOCK = "clock/clock.png";
     
     private static PhetResources INSTANCE = PhetResources.forProject( "phetcommon" );
 
