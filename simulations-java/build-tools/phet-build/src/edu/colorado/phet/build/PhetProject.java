@@ -57,7 +57,7 @@ public class PhetProject {
 
     public File getAntBaseDir() {
 //        return new File( "../../" );
-        return new File( ".");
+        return new File( "." );
     }
 
     public String getName() {
@@ -294,12 +294,13 @@ public class PhetProject {
         ArrayList all = new ArrayList();
         all.add( getMainClass() );
         all.addAll( Arrays.asList( getKeepMains() ) );
-        all.addAll( Arrays.asList( getAllFlavorMainClasses() ));//todo: remove duplicate class declarations
+        all.addAll( Arrays.asList( getAllFlavorMainClasses() ) );//todo: remove duplicate class declarations
         return (String[])all.toArray( new String[0] );
     }
 
     /**
      * Returns the key values [flavorname], not the titles for all flavors declared in this project.
+     *
      * @return
      */
     public String[] getFlavorNames() {
@@ -322,6 +323,7 @@ public class PhetProject {
 
     /**
      * Return an array of all declared flavors for this project.
+     *
      * @param locale
      * @return
      */
@@ -335,24 +337,31 @@ public class PhetProject {
     }
 
     private String[] getAllFlavorMainClasses() {
-        ArrayList mainClasses=new ArrayList( );
-        PhetProjectFlavor[]flavors=getFlavors( "en");//see todo: in getFlavors(String)
+        ArrayList mainClasses = new ArrayList();
+        PhetProjectFlavor[] flavors = getFlavors( "en" );//see todo: in getFlavors(String)
         for( int i = 0; i < flavors.length; i++ ) {
             PhetProjectFlavor flavor = flavors[i];
-            if (!mainClasses.contains( flavor.getMainclass( ))){
-                mainClasses.add(flavor.getMainclass( ));
+            if( !mainClasses.contains( flavor.getMainclass() ) ) {
+                mainClasses.add( flavor.getMainclass() );
             }
         }
-        return (String[])mainClasses.toArray( new String[0]);
+        return (String[])mainClasses.toArray( new String[0] );
     }
+
     /**
      * Load the flavor for associated with this project for the specified name and locale.
      * todo: better error handling for missing attributes (for sims that don't support flavors yet)
      */
     public PhetProjectFlavor getFlavor( String flavorName, String locale ) {
         String mainclass = properties.getProperty( "project.flavor." + flavorName + ".mainclass" );
+        if( mainclass == null ) {
+            mainclass = properties.getProperty( "project.mainclass" );
+        }
+        if( mainclass == null ) {
+            throw new RuntimeException( "Mainclass was null for project=" + name + ", flavor=" + flavorName );
+        }
         String argsString = properties.getProperty( "project.flavor." + flavorName + ".args" );
-        String[] args = PhetBuildUtils.toStringArray( argsString == null ? "" : argsString,"," );
+        String[] args = PhetBuildUtils.toStringArray( argsString == null ? "" : argsString, "," );
         String screenshotPathname = properties.getProperty( "project.flavor." + flavorName + ".screenshot" );
         File screenshot = new File( screenshotPathname == null ? "screenshot.gif" : screenshotPathname );
 
@@ -360,17 +369,34 @@ public class PhetProject {
         Properties localizedProperties = new Properties();
         try {
             File localizationFile = new File( dir, "data/" + name + "/localization/" + name + "-strings.properties" );
-            localizedProperties.load( new FileInputStream( localizationFile ) );//todo: handle locale (graceful support for missings locale
-            String titleKey = flavorName + ".name";
-            String title = localizedProperties.getProperty( titleKey );
-            if( title == null ) {
-                throw new RuntimeException( "Missing title for simulation: key=" + titleKey + ", in file: " + localizationFile.getAbsolutePath() );
+            String title = null;
+            String description = null;
+            if( localizationFile.exists() ) {
+                localizedProperties.load( new FileInputStream( localizationFile ) );//todo: handle locale (graceful support for missings locale
+                String titleKey = flavorName + ".name";
+                title = localizedProperties.getProperty( titleKey );
+                if( title == null ) {
+                    throw new RuntimeException( "Missing title for simulation: key=" + titleKey + ", in file: " + localizationFile.getAbsolutePath() );
+                }
+                String descriptionKey = flavorName + ".description";
+                description = localizedProperties.getProperty( descriptionKey );
+                if( description == null ) {
+                    throw new RuntimeException( "Missing description for simulation: key=" + descriptionKey + ", in file: " + localizationFile.getAbsolutePath() );
+                }
+            }else{
+                System.out.println( "Localization file doesn't exist: "+localizationFile.getAbsolutePath() );
+                title=properties.getProperty( "project.name");
+                description=properties.getProperty( "project.description");
+                if (title==null){
+                    System.out.println( "Project.name not found, using: "+name );
+                    title=name;
+                }
+                if (description==null){
+                    System.out.println( "Project.description not found; using empty string" );
+                    description="";
+                }
             }
-            String descriptionKey = flavorName + ".description";
-            String description = localizedProperties.getProperty( descriptionKey );
-            if( description == null ) {
-                throw new RuntimeException( "Missing description for simulation: key=" + descriptionKey + ", in file: " + localizationFile.getAbsolutePath() );
-            }
+
             return new PhetProjectFlavor( title, description, mainclass, args, screenshot );
         }
         catch( IOException e ) {
