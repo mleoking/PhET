@@ -48,7 +48,8 @@ public class QTConstants {
     public static final double CLOCK_STEP = 0.1; // fs, femtoseconds (model time)
     
     /* Controls how time is displayed, should match CLOCK_STEP precision */
-    public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.0" );
+    public static final String TIME_FORMAT_PATTERN = "0.0";
+    public static final int TIME_COLUMNS = 8;
     
     /* Is the time display visible next to the clock controls? */
     public static final boolean TIME_DISPLAY_VISIBLE = true;
