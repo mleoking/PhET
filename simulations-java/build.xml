@@ -671,6 +671,18 @@
         <phet-build project="${name.sim}" destfile="deploy/${name.sim}.jar"/>
     </target>
 
+    <target name="build-jnlp" depends="init">
+        <if>
+            <not>
+                <isset property="sim.flavor"/>
+            </not>
+            <then>
+                <property name="sim.flavor" value="${name.sim}"/>
+            </then>
+        </if>
+        <phet-jnlp project="${name.sim}" flavor="${sim.flavor}" deployurl="${sim_url}"/>
+    </target>
+
     <target name="build2" depends="init">
         <phet-build project="${name.sim}" destfile="deploy/${name.sim}.jar"/>
         <property name="sim_url" value="${dev_root}/${name.sim}/${sim.version}"/>
