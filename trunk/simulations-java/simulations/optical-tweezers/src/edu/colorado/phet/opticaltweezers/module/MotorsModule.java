@@ -2,9 +2,9 @@
 
 package edu.colorado.phet.opticaltweezers.module;
 
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.MotorsControlPanel;
-import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
 import edu.colorado.phet.opticaltweezers.model.MotorsModel;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
@@ -25,7 +25,7 @@ public class MotorsModule extends AbstractModule {
     private MotorsModel _model;
     private MotorsCanvas _canvas;
     private MotorsControlPanel _controlPanel;
-    private OTClockControlPanel _clockControlPanel;
+    private ClockControlPanelWithTimeDisplay _clockControlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -44,7 +44,7 @@ public class MotorsModule extends AbstractModule {
         setControlPanel( _controlPanel );
         
         // Clock controls
-        _clockControlPanel = new OTClockControlPanel( (OTClock) getClock() );
+        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (OTClock) getClock() );
         setClockControlPanel( _clockControlPanel );
 
         resetAll();
