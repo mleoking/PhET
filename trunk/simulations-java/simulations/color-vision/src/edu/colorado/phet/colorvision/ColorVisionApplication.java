@@ -61,8 +61,8 @@ public class ColorVisionApplication extends PhetApplication {
         Properties simulationProperties = PropertiesLoader.loadProperties( ColorVisionConstants.SIM_PROPERTIES_NAME );
         
         // Get stuff needed to initialize the application model.
-        String title = SimStrings.get( "ColorVisionApplication.title" );
-        String description = SimStrings.get( "ColorVisionApplication.description" );
+        String title = SimStrings.get( "color-vision.name" );
+        String description = SimStrings.get( "color-vision.description" );
         String version = PhetApplication.getVersionString( simulationProperties );
         int width = ColorVisionConstants.APP_FRAME_WIDTH;
         int height = ColorVisionConstants.APP_FRAME_HEIGHT;
