@@ -36,10 +36,7 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
     //----------------------------------------------------------------------------
     
     private JButton restartButton;
-    private JPanel timePanel;
-    private JTextField timeTextField;
-    private JLabel unitsLabel;
-    private NumberFormat timeFormat;
+    private ClockTimePanel timePanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -80,29 +77,11 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
         restartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 getClock().resetSimulationTime();
-                updateTimeDisplay();
             }
         } );
         
         // Time display
-        this.timeFormat = timeFormat;
-        timePanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
-        {
-            Icon clockIcon = new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOCK ) );
-            JLabel clockLabel = new JLabel( clockIcon );
-            timeTextField = new JTextField();
-            timeTextField.setColumns( DEFAULT_TIME_DISPLAY_COLUMNS );
-            timeTextField.setPreferredSize( timeTextField.getPreferredSize() );
-            timeTextField.setText( "0" );
-            timeTextField.setEditable( false );
-            timeTextField.setHorizontalAlignment( JTextField.RIGHT );
-            
-            unitsLabel = new JLabel();
-            
-            timePanel.add( clockLabel );
-            timePanel.add( timeTextField );
-            timePanel.add( unitsLabel );
-        }
+        timePanel = new ClockTimePanel( clock, units, timeFormat, timeColumns );
         
         addControlToLeft( restartButton );
         addControlToLeft( timePanel );
@@ -128,9 +107,6 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
      */
     public void setTimeVisible( boolean visible ) {
        timePanel.setVisible( visible );
-       if ( visible ) {
-           updateTimeDisplay();
-       }
     }
     
     /**
@@ -140,7 +116,7 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
      * @param formatPattern
      */
     public void setTimeFormat( String formatPattern ) {
-        setTimeFormat( new DecimalFormat( formatPattern ) );
+        timePanel.setTimeFormat( formatPattern );
     }
     
     /**
@@ -149,8 +125,7 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
      * @param format
      */
     public void setTimeFormat( NumberFormat format ) {
-        timeFormat = format;
-        updateTimeDisplay();
+        timePanel.setTimeFormat( format );
     }
     
     /**
@@ -159,7 +134,7 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
      * @param font
      */
     public void setTimeFont( Font font ) {
-        timeTextField.setFont( font );
+        timePanel.setTimeFont( font );
     }
     
     /**
@@ -168,7 +143,7 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
      * @param columns
      */
     public void setTimeColumns( int columns ) {
-        timeTextField.setColumns( columns );
+        timePanel.setTimeColumns( columns );
     }
 
     /**
@@ -177,7 +152,7 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
      * @param units
      */
     public void setUnits( String units ) {
-        unitsLabel.setText( units );
+        timePanel.setUnits( units );
     }
     
     /**
@@ -186,41 +161,6 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
      * @param font
      */
     public void setUnitsFont( Font font ) {
-        unitsLabel.setFont( font );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Updaters
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Updates the time display if it's visible.
-     */
-    private void updateTimeDisplay() {
-        if ( timePanel.isVisible() ) {
-            double time = getClock().getSimulationTime();
-            String sValue = timeFormat.format( time );
-            timeTextField.setText( sValue );
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // ClockListener, overrides superclass
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the time display when the clock changes.
-     */
-    public void simulationTimeChanged( ClockEvent event ) {
-        super.simulationTimeChanged( event );
-        updateTimeDisplay();
-    }
-    
-    /**
-     * Updates the time display when the clock is reset.
-     */
-    public void simulationTimeReset( ClockEvent event ) {
-        super.simulationTimeReset( event );
-        updateTimeDisplay();
+        timePanel.setUnitsFont( font );
     }
 }
