@@ -15,9 +15,9 @@ import org.jfree.util.ObjectUtilities;
 import org.jfree.util.PublicCloneable;
 
 /**
- * PhetHistogramDataset is a dataset that can be used for creating histograms.
+ * PhetHistogramDataset is a JFreeChart dataset for creating histograms.
  * It is based on org.jfree.data.statistics.HistogramDataset, 
- * which was unfortunately not written to be extensible.
+ * which was unfortunately not written to be extensible or dynamic.
  * <p>
  * This dataset can constain multiple histogram series.
  * Each series has an immutable range, which is divided into a specified 
@@ -38,41 +38,48 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
     /*
      * Data structure that describes a histogram series.
+     * numberOfObservations is the sole mutable member, and is included 
+     * only to improved performance; the same information could be obtained
+     * by summing the number of observations for each bin.
      */
     private static class HistogramSeries {
 
         private final Comparable key;
-        private final List bins; // list of HistogramBin
-        private final double binWidth;
-        private int numberOfObservations; // mutable, included to improve performance
         private final double minimum;
         private final double maximum;
-        private boolean ignoreOutOfRangeObservations;
-
+        private final double binWidth;
+        private int numberOfObservations; // mutable
+        private final List bins; // list of HistogramBin
+        
         /* Creates an empty series */
-        public HistogramSeries( Comparable key, List bins, double binWidth, double minimum, double maximum ) {
+        public HistogramSeries( Comparable key, double minimum, double maximum, int numberOfBins ) {
+            
             this.key = key;
-            this.bins = bins;
-            this.binWidth = binWidth;
-            this.numberOfObservations = 0;
             this.minimum = minimum;
             this.maximum = maximum;
-            this.ignoreOutOfRangeObservations = true;
-        }
-        
-        public String toString() {
-            return "key=" + key +
-            " binWidth=" + binWidth +
-            " numberOfBins=" + bins.size() +
-            " numberOfObservations=" + numberOfObservations +
-            " minimum=" + minimum +
-            " maximum=" + maximum +
-            " ignoreOutOfRangeObservations=" + ignoreOutOfRangeObservations;
+            this.binWidth = ( maximum - minimum ) / numberOfBins;
+
+            // create a set of empty bins
+            this.numberOfObservations = 0;
+            double startBoundary = minimum;
+            double endBoundary = startBoundary + binWidth;
+            List bins = new ArrayList( numberOfBins );
+            for ( int i = 0; i < numberOfBins; i++ ) {
+                // Set the last bin's upper boundary to the maximum to avoid precision issues.
+                if ( i == numberOfBins - 1 ) {
+                    endBoundary = maximum;
+                }
+                bins.add( new HistogramBin( startBoundary, endBoundary ) );
+                startBoundary = endBoundary;
+                endBoundary = startBoundary + binWidth;
+            }
+            this.bins = bins;
         }
     }
 
     /*
      * Data structure that describes a histogram bin.
+     * numberOfObservations is the sole mutable member.
      */
     private static class HistogramBin {
 
@@ -86,12 +93,6 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
             this.startBoundary = startBoundary;
             this.endBoundary = endBoundary;
         }
-
-        public String toString() {
-            return "numberOfObservations=" + numberOfObservations + 
-            " startBoundary=" + startBoundary + 
-            " endBoundary=" + endBoundary;
-        }
     }
 
     //----------------------------------------------------------------------------
@@ -100,7 +101,8 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
     private HistogramType _histogramType;
     private List _seriesList; // list of HistogramSeries
-
+    private boolean _ignoreOutOfRangeObservations;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -175,16 +177,24 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
     /**
      * Determines what happens when you attempt to add an observation
-     * that is outside of the range for a series.
+     * that is outside of the range to the dataset.
      * If true, simply ignore the observation.
      * If false, throw an exception.
      * 
      * @param seriesIndex
      * @param ignore
      */
-    public void setIgnoreOutOfRangeObservations( int seriesIndex, boolean ignore ) {
-        HistogramSeries series = getSeries( seriesIndex );
-        series.ignoreOutOfRangeObservations = ignore;
+    public void setIgnoreOutOfRangeObservations( boolean ignore ) {
+        _ignoreOutOfRangeObservations = ignore;
+    }
+    
+    /**
+     * Are we ignoring observations that are out of range?
+     * 
+     * @return true or false
+     */
+    public boolean getIgnoreOutOfRangeObservations() {
+        return _ignoreOutOfRangeObservations;
     }
 
     //----------------------------------------------------------------------------
@@ -217,6 +227,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      * @param minimum the lower bound of the bin range.
      * @param maximum the upper bound of the bin range.
      * @param observations the raw observations (null OK)
+     * @param ignoreOutOfRangeObservations whether to ignore observations that are out of range
      * @return the series index
      */
     public int addSeries( Comparable seriesKey, int numberOfBins, double minimum, double maximum, double[] observations ) {
@@ -230,22 +241,8 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
             throw new IllegalArgumentException( "minimum > maximum" );
         }
 
-        final double binWidth = ( maximum - minimum ) / numberOfBins;
-        double startBoundary = minimum;
-        double endBoundary = startBoundary + binWidth;
-        List binList = new ArrayList( numberOfBins );
-        for ( int i = 0; i < numberOfBins; i++ ) {
-            // Set the last bin's upper boundary to the maximum to avoid precision issues.
-            if ( i == numberOfBins - 1 ) {
-                endBoundary = maximum;
-            }
-            binList.add( new HistogramBin( startBoundary, endBoundary ) );
-            startBoundary = endBoundary;
-            endBoundary = startBoundary + binWidth;
-        }
-
         // create the series
-        HistogramSeries series = new HistogramSeries( seriesKey, binList, binWidth, minimum, maximum );
+        HistogramSeries series = new HistogramSeries( seriesKey, minimum, maximum, numberOfBins );
         _seriesList.add( series );
         final int seriesIndex = _seriesList.indexOf( series );
 
@@ -271,6 +268,15 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      */
     public void removeSeries( int seriesIndex ) {
         _seriesList.remove( seriesIndex );
+        notifyListeners( new DatasetChangeEvent( this, this ) );
+    }
+    
+    /**
+     * Removes all series.
+     * Sends a DatasetChangeEvent to all registered listeners.
+     */
+    public void removeAllSeries() {
+        _seriesList.clear();
         notifyListeners( new DatasetChangeEvent( this, this ) );
     }
 
@@ -300,7 +306,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
             bin.numberOfObservations++;
             series.numberOfObservations++;
         }
-        else if ( !series.ignoreOutOfRangeObservations ) {
+        else if ( !_ignoreOutOfRangeObservations ) {
             throw new IllegalArgumentException( "series " + seriesIndex + " observation is out of range: " + observation );
         }
 
