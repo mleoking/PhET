@@ -163,4 +163,13 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
     public void setUnitsFont( Font font ) {
         timePanel.setUnitsFont( font );
     }
+    
+    /**
+     * Gets the "Restart" component, used for attaching help items.
+     * @return
+     */
+    public JComponent getRestartComponent() {
+        return restartButton;
+    }
+    
 }
