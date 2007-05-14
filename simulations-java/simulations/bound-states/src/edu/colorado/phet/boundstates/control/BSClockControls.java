@@ -28,6 +28,7 @@ import edu.colorado.phet.boundstates.model.BSClock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 
 
@@ -81,11 +82,11 @@ public class BSClockControls extends JPanel implements ClockListener {
         String timeUnitsLabel = BSResources.getString( "units.time" );
 
         // Icons
-        Icon restartIcon = new ImageIcon( BSResources.getCommonImage( ClockControlPanel.IMAGE_REWIND ) );
-        Icon playIcon = new ImageIcon( BSResources.getCommonImage( ClockControlPanel.IMAGE_PLAY ) );
-        Icon pauseIcon = new ImageIcon( BSResources.getCommonImage( ClockControlPanel.IMAGE_PAUSE ) );
-        Icon stepIcon = new ImageIcon( BSResources.getCommonImage( ClockControlPanel.IMAGE_STEP ) );
-        Icon clockIcon = new ImageIcon( BSResources.getImage( BSConstants.IMAGE_CLOCK ) );
+        Icon restartIcon = new ImageIcon( BSResources.getCommonImage( PhetCommonResources.IMAGE_REWIND ) );
+        Icon playIcon = new ImageIcon( BSResources.getCommonImage( PhetCommonResources.IMAGE_PLAY ) );
+        Icon pauseIcon = new ImageIcon( BSResources.getCommonImage( PhetCommonResources.IMAGE_PAUSE ) );
+        Icon stepIcon = new ImageIcon( BSResources.getCommonImage( PhetCommonResources.IMAGE_STEP_FORWARD ) );
+        Icon clockIcon = new ImageIcon( BSResources.getCommonImage( PhetCommonResources.IMAGE_CLOCK ) );
 
         // Time display
         JPanel timePanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
