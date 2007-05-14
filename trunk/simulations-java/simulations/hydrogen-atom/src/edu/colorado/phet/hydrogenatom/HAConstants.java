@@ -135,7 +135,6 @@ public class HAConstants {
     public static final String IMAGE_BILLIARD_BALL_BUTTON = "billiardBallButton.png";
     public static final String IMAGE_BOHR_BUTTON = "bohrButton.png";
     public static final String IMAGE_CAMERA = "camera.png";
-    public static final String IMAGE_CLOCK = "clock.png";
     public static final String IMAGE_CLOSE_BUTTON = "closeButton.png";
     public static final String IMAGE_DEBROGLIE_BUTTON = "deBroglieButton.png";
     public static final String IMAGE_GUN = "gun.png";
