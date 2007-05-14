@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- combine Play & Pause clock buttons ?
 
 LOW PRIORITY:
 
