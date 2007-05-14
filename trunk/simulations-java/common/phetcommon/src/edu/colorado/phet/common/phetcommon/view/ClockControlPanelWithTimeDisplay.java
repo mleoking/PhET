@@ -47,19 +47,23 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
     
     /**
      * Constructs a control panel with a default format for the time display.
+     * 
+     * @param clock the clock to be controlled
+     * @param units time units
      */
-    public ClockControlPanelWithTimeDisplay( IClock clock ) {
-        this( clock, DEFAULT_TIME_FORMAT, DEFAULT_TIME_DISPLAY_COLUMNS );
+    public ClockControlPanelWithTimeDisplay( IClock clock, String units ) {
+        this( clock, units, DEFAULT_TIME_FORMAT, DEFAULT_TIME_DISPLAY_COLUMNS );
     }
    
     /**
      * Constructor that specifies the format for the time display.
      * 
      * @param clock the clock to be controlled
+     * @param units time units
      * @param timeFormat format of the time display
      * @param timeColumns number of columns in the time display
      */
-    public ClockControlPanelWithTimeDisplay( IClock clock, NumberFormat timeFormat, int timeColumns ) {
+    public ClockControlPanelWithTimeDisplay( IClock clock, String units, NumberFormat timeFormat, int timeColumns ) {
         super( clock );
         
         // Restart button
@@ -117,6 +121,9 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
      */
     public void setTimeVisible( boolean visible ) {
        timePanel.setVisible( visible );
+       if ( visible ) {
+           updateTimeDisplay();
+       }
     }
     
     /**
@@ -180,12 +187,14 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
     //----------------------------------------------------------------------------
     
     /*
-     * Updates the time display.
+     * Updates the time display if it's visible.
      */
     private void updateTimeDisplay() {
-        double time = getClock().getSimulationTime();
-        String sValue = timeFormat.format( time );
-        timeTextField.setText( sValue );
+        if ( timePanel.isVisible() ) {
+            double time = getClock().getSimulationTime();
+            String sValue = timeFormat.format( time );
+            timeTextField.setText( sValue );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -193,18 +202,18 @@ public class ClockControlPanelWithTimeDisplay extends ClockControlPanel {
     //----------------------------------------------------------------------------
     
     /**
-     * Update the time display when the clock is reset.
+     * Updates the time display when the clock changes.
      */
-    public void simulationTimeReset( ClockEvent event ) {
-        super.simulationTimeReset( event );
+    public void simulationTimeChanged( ClockEvent event ) {
+        super.simulationTimeChanged( event );
         updateTimeDisplay();
     }
     
     /**
-     * Update time display when the clock changes.
+     * Updates the time display when the clock is reset.
      */
-    public void simulationTimeChanged( ClockEvent event ) {
-        super.simulationTimeChanged( event );
+    public void simulationTimeReset( ClockEvent event ) {
+        super.simulationTimeReset( event );
         updateTimeDisplay();
     }
 }
