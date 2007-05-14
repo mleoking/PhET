@@ -564,6 +564,7 @@
     <property name="phetbuild-src" location="build-tools/phet-build/src"/>
     <property name="phetbuild-classname" value="edu.colorado.phet.build.PhetBuildTask"/>
     <property name="phetbuildall-classname" value="edu.colorado.phet.build.PhetBuildAllTask"/>
+    <property name="phetbuildalljnlp-classname" value="edu.colorado.phet.build.PhetBuildAllJNLPTask"/>
     <property name="phetclean-classname" value="edu.colorado.phet.build.PhetCleanTask"/>
     <property name="phetjnlp-classname" value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
 
@@ -582,7 +583,6 @@
         <delete dir="${phetbuild-classes}" />
     </target>
 
-
     <target name="declare_phet-build-task" depends="clean_phet-build, compile_phet-build">
         <taskdef name="phet-build"
                  classname="${phetbuild-classname}"
@@ -598,6 +598,10 @@
 
         <taskdef name="phet-build-all"
                  classname="${phetbuildall-classname}"
+                 classpath="${phetbuild-dependencies}"/>
+
+        <taskdef name="phet-build-all-jnlp"
+                 classname="${phetbuildalljnlp-classname}"
                  classpath="${phetbuild-dependencies}"/>
     </target>
 
@@ -622,107 +626,17 @@
         <phet-jnlp project="cck" flavor="cck-dc"/>
     </target>
 
-    <target name="build_all2" depends="init">
+    <target name="build_all" depends="init">
         <echo message="Starting build all..."/>
         <phet-build-all/>
         <echo message="Finished build all."/>
     </target>
 
-    <target name="build_all" depends="init">
-        <echo message="Starting build..."/>
-        <phet-build project="balloons"/>
-        <phet-build project="battery-voltage"/>
-        <phet-build project="bernoulli"/>
-        <phet-build project="bound-states"/>
-        <phet-build project="cck"/>
-        <phet-build project="color-vision"/>
-        <phet-build project="conductivity"/>
-        <phet-build project="distance-ladder"/>
-        <phet-build project="efield"/>
-        <phet-build project="electric-hockey"/>
-        <phet-build project="energy-skate-park"/>
-        <phet-build project="faraday"/>
-        <phet-build project="fluorescent-lights"/>
-        <phet-build project="forces-1d"/>
-        <phet-build project="fourier"/>
-        <phet-build project="greenhouse"/>
-        <phet-build project="hydrogen-atom"/>
-        <phet-build project="ideal-gas"/>
-        <phet-build project="lasers"/>
-        <phet-build project="maze-game"/>
-        <phet-build project="microwaves"/>
-        <phet-build project="motion-2d"/>
-        <phet-build project="moving-man"/>
-        <phet-build project="mri"/>
-        <phet-build project="nuclear-physics"/>
-        <phet-build project="ohm-1d"/>
-        <phet-build project="optical-quantum-control"/>
-        <phet-build project="optical-tweezers"/>
-        <phet-build project="photoelectric"/>
-        <phet-build project="quantum-tunneling"/>
-        <phet-build project="qwi"/>
-        <phet-build project="radio-waves"/>
-        <phet-build project="reactions-and-rates"/>
-        <phet-build project="rotation"/>
-        <phet-build project="rutherford-scattering"/>
-        <phet-build project="semiconductor"/>
-        <phet-build project="signal-circuit"/>
-        <phet-build project="soluble-salts"/>
-        <phet-build project="sound"/>
-        <phet-build project="the-ramp"/>
-        <phet-build project="travoltage"/>
-        <phet-build project="waveinterference"/>
-        <echo message="Finished build."/>
-    </target>
-
     <target name="build_all_jnlp" depends="init">
         <echo message="Starting build..."/>
-        <phet-jnlp project="balloons"/>
-        <phet-jnlp project="battery-voltage"/>
-        <phet-jnlp project="bernoulli"/>
-        <phet-jnlp project="bound-states"/>
-        <phet-jnlp project="cck" flavor="cck-ac"/>
-        <phet-jnlp project="cck" flavor="cck-dc"/>
-        <phet-jnlp project="color-vision"/>
-        <phet-jnlp project="conductivity"/>
-        <phet-jnlp project="distance-ladder"/>
-        <phet-jnlp project="efield"/>
-        <phet-jnlp project="electric-hockey"/>
-        <phet-jnlp project="energy-skate-park"/>
-        <phet-jnlp project="faraday"/>
-        <phet-jnlp project="fluorescent-lights"/>
-        <phet-jnlp project="forces-1d"/>
-        <phet-jnlp project="fourier"/>
-        <phet-jnlp project="greenhouse"/>
-        <phet-jnlp project="hydrogen-atom"/>
-        <phet-jnlp project="ideal-gas"/>
-        <phet-jnlp project="lasers"/>
-        <phet-jnlp project="maze-game"/>
-        <phet-jnlp project="microwaves"/>
-        <phet-jnlp project="motion-2d"/>
-        <phet-jnlp project="moving-man"/>
-        <phet-jnlp project="mri"/>
-        <phet-jnlp project="nuclear-physics"/>
-        <phet-jnlp project="ohm-1d"/>
-        <phet-jnlp project="optical-quantum-control"/>
-        <phet-jnlp project="optical-tweezers"/>
-        <phet-jnlp project="photoelectric"/>
-        <phet-jnlp project="quantum-tunneling"/>
-        <phet-jnlp project="qwi"/>
-        <phet-jnlp project="radio-waves"/>
-        <phet-jnlp project="reactions-and-rates"/>
-        <phet-jnlp project="rotation"/>
-        <phet-jnlp project="rutherford-scattering"/>
-        <phet-jnlp project="semiconductor"/>
-        <phet-jnlp project="signal-circuit"/>
-        <phet-jnlp project="soluble-salts"/>
-        <phet-jnlp project="sound"/>
-        <phet-jnlp project="the-ramp"/>
-        <phet-jnlp project="travoltage"/>
-        <phet-jnlp project="waveinterference"/>
+        <phet-build-all-jnlp deployURL="dev_root/temp/dev"/>
         <echo message="Finished build."/>
     </target>
-
 
     <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
     <property name="dev_root" value="http://www.colorado.edu/physics/phet/dev"/>
