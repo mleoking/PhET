@@ -73,12 +73,12 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         String stepString = PhetCommonResources.getInstance().getLocalizedString( PROPERTY_STEP );
         
         // Button icons
-        BufferedImage playU = PhetCommonResources.getInstance().getImage( IMAGE_PLAY );
-        BufferedImage pauseU = PhetCommonResources.getInstance().getImage( IMAGE_PAUSE );
-        BufferedImage stepU = PhetCommonResources.getInstance().getImage( IMAGE_STEP );
-        playIcon = new ImageIcon( playU );
-        pauseIcon = new ImageIcon( pauseU );
-        ImageIcon stepIcon = new ImageIcon( stepU );
+        BufferedImage playImage = PhetCommonResources.getInstance().getImage( IMAGE_PLAY );
+        BufferedImage pauseImage = PhetCommonResources.getInstance().getImage( IMAGE_PAUSE );
+        BufferedImage stepImage = PhetCommonResources.getInstance().getImage( IMAGE_STEP );
+        playIcon = new ImageIcon( playImage );
+        pauseIcon = new ImageIcon( pauseImage );
+        ImageIcon stepIcon = new ImageIcon( stepImage );
         
         // Play/Pause button
         // Set this button to its maximum size so that the contents of
@@ -138,11 +138,28 @@ public class ClockControlPanel extends JPanel implements ClockListener {
     }
 
     /**
+     * Gets the clock that's being controlled.
+     * 
+     * @return IClock
+     */
+    protected IClock getClock() {
+        return clock;
+    }
+    
+    /**
      * Adds a component to the sub-panel which contains the main content for this control panel.
      * @param control
      */
     public void addControl(JComponent control){
         buttonPanel.add(control);
+    }
+    
+    /**
+     * Adds a component to the left of the sub-panel which contains the main content for this control panel.
+     * @param control
+     */
+    public void addControlToLeft(JComponent control){
+        buttonPanel.add(control,0);
     }
 
     /**
