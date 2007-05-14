@@ -563,6 +563,7 @@
     <property name="proguard.jar" location="build-tools/proguard3.8/lib/proguard.jar"/>
     <property name="phetbuild-src" location="build-tools/phet-build/src"/>
     <property name="phetbuild-classname" value="edu.colorado.phet.build.PhetBuildTask"/>
+    <property name="phetbuildall-classname" value="edu.colorado.phet.build.PhetBuildAllTask"/>
     <property name="phetclean-classname" value="edu.colorado.phet.build.PhetCleanTask"/>
     <property name="phetjnlp-classname" value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
 
@@ -594,6 +595,10 @@
         <taskdef name="phet-jnlp"
                  classname="${phetjnlp-classname}"
                  classpath="${phetbuild-dependencies}"/>
+
+        <taskdef name="phet-build-all"
+                 classname="${phetbuildall-classname}"
+                 classpath="${phetbuild-dependencies}"/>
     </target>
 
     <target name="init" depends="declare_phet-build-task"/>
@@ -615,6 +620,12 @@
         <phet-build project="cck" destfile="deploy/cck.jar"/>
         <phet-jnlp project="cck" flavor="cck-ac"/>
         <phet-jnlp project="cck" flavor="cck-dc"/>
+    </target>
+
+    <target name="build_all2" depends="init">
+        <echo message="Starting build all..."/>
+        <phet-build-all/>
+        <echo message="Finished build all."/>
     </target>
 
     <target name="build_all" depends="init">
