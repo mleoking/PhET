@@ -6,7 +6,7 @@ import org.apache.tools.ant.BuildException;
 
 import java.io.File;
 
-public abstract class AbstractPhetBuildTask extends Task implements AntTaskRunner {
+public abstract class AbstractPhetBuildTask extends AbstractPhetTask {
     private volatile String projectName;
 
     // The method executing the task
@@ -27,14 +27,6 @@ public abstract class AbstractPhetBuildTask extends Task implements AntTaskRunne
     }
 
     protected abstract void executeImpl( PhetProject phetProject ) throws Exception;
-
-    public void runTask( Task childTask ) {
-        childTask.setProject( getProject() );
-        childTask.setLocation( getLocation() );
-        childTask.setOwningTarget( getOwningTarget() );
-        childTask.init();
-        childTask.execute();
-    }
 
     public void setProject( String projectName ) {
         this.projectName = projectName;
