@@ -17,6 +17,8 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
     private volatile String flavorName;
     private volatile String deployUrl;
     private volatile String locale = "en";
+    private String END_MACROS = "<!-- END_MACROS -->";
+    private String START_MACROS = "<!-- START_MACROS -->";
 
     protected void executeImpl( PhetProject phetProject ) throws Exception {
         if( flavorName == null ) {
@@ -85,7 +87,15 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
             outStream.write( c );
         }
         outStream.flush();
-        return new String( outStream.toByteArray(), "utf-16" );
+        String template = new String( outStream.toByteArray(), "utf-16" );
+        int start=template.indexOf( START_MACROS );
+        int end=template.indexOf( END_MACROS );
+        
+//        System.out.println( "start = " + start +" end="+end);
+        if (start>=0&&end>=0){
+            template=template.substring( 0,start)+template.substring( end+1+END_MACROS.length());
+        }
+        return template;
     }
 
     public void setFlavor( String flavorName ) {

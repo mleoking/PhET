@@ -664,6 +664,55 @@
         <echo message="Finished build."/>
     </target>
 
+    <target name="build_all_jnlp" depends="init">
+        <echo message="Starting build..."/>
+        <phet-jnlp project="balloons"/>
+        <phet-jnlp project="battery-voltage"/>
+        <phet-jnlp project="bernoulli"/>
+        <phet-jnlp project="bound-states"/>
+        <phet-jnlp project="cck" flavor="cck-ac"/>
+        <phet-jnlp project="cck" flavor="cck-dc"/>
+        <phet-jnlp project="color-vision"/>
+        <phet-jnlp project="conductivity"/>
+        <phet-jnlp project="distance-ladder"/>
+        <phet-jnlp project="efield"/>
+        <phet-jnlp project="electric-hockey"/>
+        <phet-jnlp project="energy-skate-park"/>
+        <phet-jnlp project="faraday"/>
+        <phet-jnlp project="fluorescent-lights"/>
+        <phet-jnlp project="forces-1d"/>
+        <phet-jnlp project="fourier"/>
+        <phet-jnlp project="greenhouse"/>
+        <phet-jnlp project="hydrogen-atom"/>
+        <phet-jnlp project="ideal-gas"/>
+        <phet-jnlp project="lasers"/>
+        <phet-jnlp project="maze-game"/>
+        <phet-jnlp project="microwaves"/>
+        <phet-jnlp project="motion-2d"/>
+        <phet-jnlp project="moving-man"/>
+        <phet-jnlp project="mri"/>
+        <phet-jnlp project="nuclear-physics"/>
+        <phet-jnlp project="ohm-1d"/>
+        <phet-jnlp project="optical-quantum-control"/>
+        <phet-jnlp project="optical-tweezers"/>
+        <phet-jnlp project="photoelectric"/>
+        <phet-jnlp project="quantum-tunneling"/>
+        <phet-jnlp project="qwi"/>
+        <phet-jnlp project="radio-waves"/>
+        <phet-jnlp project="reactions-and-rates"/>
+        <phet-jnlp project="rotation"/>
+        <phet-jnlp project="rutherford-scattering"/>
+        <phet-jnlp project="semiconductor"/>
+        <phet-jnlp project="signal-circuit"/>
+        <phet-jnlp project="soluble-salts"/>
+        <phet-jnlp project="sound"/>
+        <phet-jnlp project="the-ramp"/>
+        <phet-jnlp project="travoltage"/>
+        <phet-jnlp project="waveinterference"/>
+        <echo message="Finished build."/>
+    </target>
+
+
     <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
     <property name="dev_root" value="http://www.colorado.edu/physics/phet/dev"/>
 
