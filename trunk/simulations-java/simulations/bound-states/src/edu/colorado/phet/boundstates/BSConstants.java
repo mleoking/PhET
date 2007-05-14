@@ -122,7 +122,6 @@ public class BSConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGE_CLOCK = "clock.png";
     public static final String IMAGE_ZOOM_IN = "zoomIn.gif";
     public static final String IMAGE_ZOOM_OUT = "zoomOut.gif";
 
