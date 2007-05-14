@@ -2,9 +2,9 @@
 
 package edu.colorado.phet.opticaltweezers.module;
 
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.DNAControlPanel;
-import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.model.DNAModel;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
@@ -25,7 +25,7 @@ public class DNAModule extends AbstractModule {
     private DNAModel _model;
     private DNACanvas _canvas;
     private DNAControlPanel _controlPanel;
-    private OTClockControlPanel _clockControlPanel;
+    private ClockControlPanelWithTimeDisplay _clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -44,7 +44,7 @@ public class DNAModule extends AbstractModule {
         setControlPanel( _controlPanel );
         
         // Clock controls
-        _clockControlPanel = new OTClockControlPanel( (OTClock) getClock() );
+        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (OTClock) getClock() );
         setClockControlPanel( _clockControlPanel );
 
         resetAll();
