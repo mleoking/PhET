@@ -17,6 +17,7 @@ LOW PRIORITY:
 
 
 DONE:
+5/14/07 - reimplement BSClockControls using ClockControlPanel and ClockTimeDisplay
 5/14/07 - move clock.png to phetcommon
 5/10/07 - fix problems introduced on 4/25/07, resulted in bogus drag handles for offset, spacing and separation
 5/10/07 - fix problem introduced on 4/24/07, value for number of wells needed to be rounded (not truncated) to int
