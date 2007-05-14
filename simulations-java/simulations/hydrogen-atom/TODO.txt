@@ -16,6 +16,8 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+5/14/07 - remove duplicate code by making HAClockControlPanel extend ClockControlPanel
+5/14/07 - get clock.png from phetcommon
 4/23/07 - delete SliderControl, not used
 4/6/07 - organize imports
 4/6/07 - set locale in Spanish JNLP file via javaws.locale property
