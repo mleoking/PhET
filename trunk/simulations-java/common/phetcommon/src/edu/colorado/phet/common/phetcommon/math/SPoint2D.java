@@ -1,10 +1,6 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.phetcommon.math;
 
-import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
-
 import java.awt.geom.Point2D;
 import java.io.Externalizable;
 import java.io.IOException;
@@ -36,22 +32,5 @@ public class SPoint2D extends Point2D.Double implements Externalizable {
     public void writeExternal( ObjectOutput out ) throws IOException {
         out.writeDouble( x );
         out.writeDouble( y );
-    }
-
-    public static void main( String[] args ) throws PersistenceUtil.CopyFailedException {
-        System.out.println( "SPoint2D.main" );
-
-        SPoint2D pt = (SPoint2D)PersistenceUtil.copy( new SPoint2D( 3, 4 ) );
-        System.out.println( "pt = " + pt );
-
-        EnergySkateParkSpline spline = new EnergySkateParkSpline( new SPoint2D[]{new SPoint2D( 5, 5 ), new SPoint2D( 10, 10 )} );
-        EnergySkateParkSpline copy = (EnergySkateParkSpline)PersistenceUtil.copy( spline );
-        System.out.println( "copy = " + copy );
-
-        EnergySkateParkModel model = new EnergySkateParkModel( 5 );
-        model.addSplineSurface( spline );
-        EnergySkateParkModel modelCopy = (EnergySkateParkModel)PersistenceUtil.copy( model );
-        System.out.println( "modelCopy = " + modelCopy.getNumSplines() );
-        System.out.println( "modelCopy.getSpline( 0) = " + modelCopy.getSpline( 0 ) );
     }
 }
