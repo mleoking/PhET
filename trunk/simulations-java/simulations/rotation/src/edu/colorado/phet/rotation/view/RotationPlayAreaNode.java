@@ -30,6 +30,10 @@ public class RotationPlayAreaNode extends PNode {
         }
     }
 
+    public PlatformNode getPlatformNode() {
+        return platformNode;
+    }
+
     private void addRotationBodyNode( RotationBody rotationBody ) {
         RotationBodyNode rotationBodyNode = new RotationBodyNode( rotationModel, rotationBody );
         rotationBodyLayer.addChild( rotationBodyNode );

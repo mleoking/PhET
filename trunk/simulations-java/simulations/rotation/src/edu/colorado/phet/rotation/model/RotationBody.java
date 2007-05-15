@@ -143,7 +143,7 @@ public class RotationBody implements Serializable {
         if( this.x != x || this.y != y ) {
             this.x = x;
             this.y = y;
-            System.out.println( "x = " + x );
+//            System.out.println( "x = " + x );
             notifyPositionChanged();
         }
     }

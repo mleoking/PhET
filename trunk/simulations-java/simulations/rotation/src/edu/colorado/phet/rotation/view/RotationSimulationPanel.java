@@ -1,15 +1,13 @@
 package edu.colorado.phet.rotation.view;
 
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.rotation.RotationControlPanel;
+import edu.colorado.phet.rotation.RotationModule;
+import edu.colorado.phet.rotation.TimeSeriesGraphSetNode;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSuite;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.timeseries.TimeSeriesModel;
-import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
-import edu.colorado.phet.rotation.RotationModule;
-import edu.colorado.phet.rotation.RotationControlPanel;
-import edu.colorado.phet.rotation.TimeSeriesGraphSetNode;
-import edu.colorado.phet.rotation.view.RotationLookAndFeel;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -23,7 +21,7 @@ import java.awt.geom.Rectangle2D;
  */
 
 //public class RotationSimulationPanel extends BufferedPhetPCanvas {
-    public class RotationSimulationPanel extends PhetPCanvas {
+public class RotationSimulationPanel extends PhetPCanvas {
     /*MVC Model components*/
     private RotationModule rotationModule;
 
@@ -44,7 +42,7 @@ import java.awt.geom.Rectangle2D;
         rotationGraphSet = new RotationGraphSet( this, rotationModule.getRotationModel() );
         graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
-        rotationPlayAreaNode = new RotationPlayAreaNode( rotationModule.getRotationModel( ) );
+        rotationPlayAreaNode = new RotationPlayAreaNode( rotationModule.getRotationModel() );
         TimeSeriesModel timeSeriesModel = new TimeSeriesModel();
         timeSeriesModel.addListener( new TimeSeriesModel.Listener() {
             public void stateChanged() {
@@ -90,7 +88,7 @@ import java.awt.geom.Rectangle2D;
         addKeyListener( new KeyAdapter() {
             public void keyReleased( KeyEvent e ) {
                 if( e.getKeyCode() == KeyEvent.VK_F2 && e.isAltDown() ) {
-                    PDebug.debugBounds= !PDebug.debugBounds;
+                    PDebug.debugBounds = !PDebug.debugBounds;
                 }
             }
         } );
@@ -103,7 +101,7 @@ import java.awt.geom.Rectangle2D;
         } );
         addKeyListener( new KeyAdapter() {
             public void keyReleased( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_F4 && e.isAltDown() ) {
+                if( e.getKeyCode() == KeyEvent.VK_F5 && e.isAltDown() ) {
                     relayout();
                 }
             }
@@ -142,10 +140,23 @@ import java.awt.geom.Rectangle2D;
 
     private void relayout() {
         rotationPlayAreaNode.setOffset( 0, 0 );
+        rotationPlayAreaNode.setScale( 1.0 );
         rotationControlPanelNode.setOffset( 0, getHeight() - rotationControlPanelNode.getFullBounds().getHeight() );
         double maxX = Math.max( rotationPlayAreaNode.getFullBounds().getMaxX(), rotationControlPanelNode.getFullBounds().getMaxX() );
+
+        double width = rotationControlPanelNode.getFullBounds().getWidth();
+        double sx = width / rotationPlayAreaNode.getPlatformNode().getFullBounds().getWidth();
+
+        double height = getHeight() - rotationControlPanelNode.getFullBounds().getHeight();
+        double sy = height / rotationPlayAreaNode.getPlatformNode().getFullBounds().getHeight();
+        double scale = Math.min( sx, sy );
+        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
+        if( scale > 0 ) {
+            rotationPlayAreaNode.scale( scale );
+        }
+
         Rectangle2D bounds = new Rectangle2D.Double( maxX, 0, getWidth() - maxX, getHeight() );
-        System.out.println( "RSP::bounds = " + bounds );
+//        System.out.println( "RSP::bounds = " + bounds );
         timeSeriesGraphSetNode.setBounds( bounds );
     }
 
