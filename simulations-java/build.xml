@@ -563,6 +563,7 @@
     <property name="proguard.jar" location="build-tools/proguard3.8/lib/proguard.jar"/>
     <property name="phetbuild-src" location="build-tools/phet-build/src"/>
     <property name="phetbuild-classname" value="edu.colorado.phet.build.PhetBuildTask"/>
+    <property name="phetdisplaystats-classname" value="edu.colorado.phet.build.PhetDisplayStatsTask"/>
     <property name="phetbuildall-classname" value="edu.colorado.phet.build.PhetBuildAllTask"/>
     <property name="phetbuildalljnlp-classname" value="edu.colorado.phet.build.PhetBuildAllJNLPTask"/>
     <property name="phetclean-classname" value="edu.colorado.phet.build.PhetCleanTask"/>
@@ -603,6 +604,14 @@
         <taskdef name="phet-build-all-jnlp"
                  classname="${phetbuildalljnlp-classname}"
                  classpath="${phetbuild-dependencies}"/>
+
+        <taskdef name="phet-display-stats"
+                 classname="${phetdisplaystats-classname}"
+                 classpath="${phetbuild-dependencies}"/>
+    </target>
+
+    <target name="display-stats" depends="init">
+        <phet-display-stats/>
     </target>
 
     <target name="init" depends="declare_phet-build-task"/>
@@ -634,7 +643,7 @@
 
     <target name="build_all_jnlp" depends="init">
         <echo message="Starting build..."/>
-        <phet-build-all-jnlp deployURL="dev_root/temp/dev"/>
+        <phet-build-all-jnlp deployURL="${dev_root}/temp/dev"/>
         <echo message="Finished build."/>
     </target>
 
@@ -657,7 +666,7 @@
         <phet-jnlp project="${name.sim}" flavor="${sim.flavor}" deployurl="${sim_url}"/>
     </target>
 
-    <target name="build2" depends="init">
+    <target name="build_and_post" depends="init">
         <phet-build project="${name.sim}" destfile="deploy/${name.sim}.jar"/>
         <property name="sim_url" value="${dev_root}/${name.sim}/${sim.version}"/>
         <phet-jnlp project="${name.sim}" flavor="${name.sim}" deployurl="${sim_url}"/>

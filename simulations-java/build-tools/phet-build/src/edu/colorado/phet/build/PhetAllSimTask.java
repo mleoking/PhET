@@ -9,7 +9,10 @@ import java.util.ArrayList;
  */
 public class PhetAllSimTask extends AbstractPhetTask {
     protected String[] getSimNames() {
-        File simsroot = new File( getProject().getBaseDir(), "simulations" );
+        return getSimNames( new File( getProject().getBaseDir(), "simulations" ));
+    }
+
+    public static String[] getSimNames(File simsroot){
         File[] simulations = simsroot.listFiles();
         ArrayList sims = new ArrayList();
         for( int i = 0; i < simulations.length; i++ ) {
@@ -21,7 +24,7 @@ public class PhetAllSimTask extends AbstractPhetTask {
         return (String[])sims.toArray( new String[0] );
     }
 
-    private boolean isSimulation( File simulation ) {
+    private static boolean isSimulation( File simulation ) {
         return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" );
     }
 }
