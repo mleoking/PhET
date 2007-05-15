@@ -56,14 +56,14 @@ public class RotationGraphSet {
 
         rotationModel.addListener( new RotationModel.Listener() {
             public void steppedInTime() {
-                angleGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngle() );
-                angularVelocityGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularVelocity() );
-                angularAccelerationGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularAcceleration() );
+                angleGraph.addValue( rotationModel.getTime(), rotationModel.getAngle() );
+                angularVelocityGraph.addValue( rotationModel.getTime(), rotationModel.getAngularVelocity() );
+                angularAccelerationGraph.addValue( rotationModel.getTime(), rotationModel.getAngularAcceleration() );
 
-                positionGraph.addValue( 0, rotationModel.getLastState().getTime(), rotationModel.getLastState().getRotationBody( 0 ).getX() );
-                positionGraph.addValue( 1, rotationModel.getLastState().getTime(), rotationModel.getLastState().getRotationBody( 0 ).getY() );
-                speedGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getRotationBody( 0 ).getVelocity().getMagnitude() );
-                accelerationGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getRotationBody( 0 ).getAcceleration().getMagnitude() );
+                positionGraph.addValue( 0, rotationModel.getTime(), rotationModel.getRotationBody( 0 ).getX() );
+                positionGraph.addValue( 1, rotationModel.getTime(), rotationModel.getRotationBody( 0 ).getY() );
+                speedGraph.addValue( rotationModel.getTime(), rotationModel.getRotationBody( 0 ).getVelocity().getMagnitude() );
+                accelerationGraph.addValue( rotationModel.getTime(), rotationModel.getRotationBody( 0 ).getAcceleration().getMagnitude() );
             }
         } );
         angleGraph.addControlGraphListener( new ControlGraph.Listener() {
