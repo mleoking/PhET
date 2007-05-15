@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.common.phetcommon.math.SPoint2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 
 import java.util.ArrayList;
 
@@ -41,15 +41,15 @@ public class PreFabSplines {
         private ArrayList pts = new ArrayList();
 
         public void addControlPoint( double x, double y ) {
-            pts.add( new SPoint2D( x, y ) );
+            pts.add( new SerializablePoint2D( x, y ) );
         }
 
-        public void addControlPoint( SPoint2D point2D ) {
+        public void addControlPoint( SerializablePoint2D point2D ) {
             addControlPoint( point2D.getX(), point2D.getY() );
         }
 
-        public SPoint2D[] getControlPoints() {
-            return (SPoint2D[])pts.toArray( new SPoint2D[0] );
+        public SerializablePoint2D[] getControlPoints() {
+            return (SerializablePoint2D[])pts.toArray( new SerializablePoint2D[0] );
         }
     }
 

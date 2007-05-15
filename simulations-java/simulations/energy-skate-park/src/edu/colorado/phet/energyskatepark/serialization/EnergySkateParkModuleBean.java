@@ -4,7 +4,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.common.phetcommon.math.SPoint2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -220,7 +220,7 @@ public class EnergySkateParkModuleBean {
         }
 
         public SplineElement( EnergySkateParkSpline splineSurface ) {
-            SPoint2D[] pts = splineSurface.getControlPoints();
+            SerializablePoint2D[] pts = splineSurface.getControlPoints();
             controlPoints = new Point2D[pts.length];
             for( int i = 0; i < pts.length; i++ ) {
                 controlPoints[i] = new Point2D.Double( pts[i].getX(), pts[i].getY() );
@@ -245,9 +245,9 @@ public class EnergySkateParkModuleBean {
         }
 
         public EnergySkateParkSpline toEnergySkateParkSpline() {
-            SPoint2D[] pt = new SPoint2D[controlPoints.length];
+            SerializablePoint2D[] pt = new SerializablePoint2D[controlPoints.length];
             for( int i = 0; i < pt.length; i++ ) {
-                pt[i] = new SPoint2D( controlPoints[i] );
+                pt[i] = new SerializablePoint2D( controlPoints[i] );
             }
             EnergySkateParkSpline skateParkSpline = new EnergySkateParkSpline( pt );
             skateParkSpline.setRollerCoasterMode( rollerCoaster );

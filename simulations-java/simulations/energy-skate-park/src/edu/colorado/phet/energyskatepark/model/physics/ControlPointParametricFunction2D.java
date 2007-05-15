@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import edu.colorado.phet.common.phetcommon.math.SPoint2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,9 +10,9 @@ import java.util.Arrays;
  * Mar 16, 2007, 12:09:59 PM
  */
 public abstract class ControlPointParametricFunction2D extends ParametricFunction2D {
-    private SPoint2D[] pts;
+    private SerializablePoint2D[] pts;
 
-    public ControlPointParametricFunction2D( SPoint2D[] pts ) {
+    public ControlPointParametricFunction2D( SerializablePoint2D[] pts ) {
         this.pts = pts;
     }
 
@@ -29,9 +29,9 @@ public abstract class ControlPointParametricFunction2D extends ParametricFunctio
     public Object clone() {
         try {
             ControlPointParametricFunction2D cppf2d = (ControlPointParametricFunction2D)super.clone();
-            cppf2d.pts = new SPoint2D[pts.length];
+            cppf2d.pts = new SerializablePoint2D[pts.length];
             for( int i = 0; i < pts.length; i++ ) {
-                cppf2d.pts[i] = (SPoint2D)pts[i].clone();
+                cppf2d.pts[i] = (SerializablePoint2D)pts[i].clone();
             }
             return cppf2d;
         }
@@ -41,20 +41,20 @@ public abstract class ControlPointParametricFunction2D extends ParametricFunctio
         }
     }
 
-    public void setControlPoints( SPoint2D[] pts ) {
+    public void setControlPoints( SerializablePoint2D[] pts ) {
         this.pts = pts;
     }
 
-    public SPoint2D[] getControlPoints() {
-        SPoint2D[] a = new SPoint2D[pts.length];
+    public SerializablePoint2D[] getControlPoints() {
+        SerializablePoint2D[] a = new SerializablePoint2D[pts.length];
         for( int i = 0; i < a.length; i++ ) {
-            a[i] = new SPoint2D( pts[i].getX(), pts[i].getY() );
+            a[i] = new SerializablePoint2D( pts[i].getX(), pts[i].getY() );
         }
         return a;
     }
 
-    public void setControlPoint( int i, SPoint2D pt ) {
-        pts[i] = new SPoint2D( pt.getX(), pt.getY() );
+    public void setControlPoint( int i, SerializablePoint2D pt ) {
+        pts[i] = new SerializablePoint2D( pt.getX(), pt.getY() );
     }
 
     public int getNumControlPoints() {
@@ -64,7 +64,7 @@ public abstract class ControlPointParametricFunction2D extends ParametricFunctio
 
     public void translateControlPoints( double dx, double dy ) {
         for( int i = 0; i < pts.length; i++ ) {
-            SPoint2D pt = pts[i];
+            SerializablePoint2D pt = pts[i];
             pt.setLocation( pt.getX() + dx, pt.getY() + dy );
         }
     }
@@ -76,14 +76,14 @@ public abstract class ControlPointParametricFunction2D extends ParametricFunctio
     public void removeControlPoint( int index ) {
         ArrayList list = new ArrayList( Arrays.asList( pts ) );
         list.remove( index );
-        setControlPoints( (SPoint2D[])list.toArray( new SPoint2D[list.size()] ) );
+        setControlPoints( (SerializablePoint2D[])list.toArray( new SerializablePoint2D[list.size()] ) );
     }
 
     public int numControlPoints() {
         return pts.length;
     }
 
-    public SPoint2D controlPointAt( int i ) {
+    public SerializablePoint2D controlPointAt( int i ) {
         return pts[i];
     }
 }

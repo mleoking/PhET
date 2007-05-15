@@ -1,7 +1,7 @@
 package edu.colorado.phet.energyskatepark.test;
 
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.common.phetcommon.math.SPoint2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSplineEnvironment;
 import edu.colorado.phet.energyskatepark.view.SplineMatch;
 import edu.colorado.phet.energyskatepark.view.SplineNode;
@@ -20,9 +20,9 @@ public class TestSplineNode {
 
     public TestSplineNode() {
         PhetPCanvas phetPCanvas = new PhetPCanvas( new Rectangle2D.Double( 0, 0, 10, 10 ) );
-        EnergySkateParkSpline spline = new EnergySkateParkSpline( new SPoint2D[]{
-                new SPoint2D( 0, 0 ),
-                new SPoint2D( 5, 5 )}  );
+        EnergySkateParkSpline spline = new EnergySkateParkSpline( new SerializablePoint2D[]{
+                new SerializablePoint2D( 0, 0 ),
+                new SerializablePoint2D( 5, 5 )}  );
         SplineNode splineNode = new SplineNode( phetPCanvas, spline, new EnergySkateParkSplineEnvironment() {
             public void removeSpline( SplineNode splineNode ) {
             }

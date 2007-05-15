@@ -4,7 +4,7 @@ package edu.colorado.phet.energyskatepark.model;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.SPoint2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
@@ -156,7 +156,7 @@ public class Body implements Serializable {
         return getCenterOfMass().getX();
     }
 
-    public SPoint2D getCenterOfMass() {
+    public SerializablePoint2D getCenterOfMass() {
         return particle.getPosition();
     }
 
@@ -212,7 +212,7 @@ public class Body implements Serializable {
         return height;
     }
 
-    public SPoint2D getPosition() {
+    public SerializablePoint2D getPosition() {
         return particle.getPosition();
     }
 
@@ -228,7 +228,7 @@ public class Body implements Serializable {
         return getVelocity().getMagnitude();
     }
 
-    public void setPosition( SPoint2D point2D ) {
+    public void setPosition( SerializablePoint2D point2D ) {
         setPosition( point2D.getX(), point2D.getY() );
     }
 
@@ -353,7 +353,7 @@ public class Body implements Serializable {
 
     public TraversalState getBestTraversalState( TraversalState origState ) {
         AbstractVector2D normal = new Vector2D.Double( origState.getParametricFunction2D().getUnitNormalVector( origState.getAlpha() ) ).getScaledInstance( origState.isTop() ? 1.0 : -1.0 );
-        SPoint2D location = origState.getParametricFunction2D().evaluate( origState.getAlpha() );
+        SerializablePoint2D location = origState.getParametricFunction2D().evaluate( origState.getAlpha() );
         return particle.getBestTraversalState( location, normal );
     }
 

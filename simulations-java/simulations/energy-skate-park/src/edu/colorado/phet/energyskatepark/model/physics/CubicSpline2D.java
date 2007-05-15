@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import edu.colorado.phet.common.phetcommon.math.SPoint2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
 
     private ArrayList listeners = new ArrayList();
 
-    public CubicSpline2D( SPoint2D[] pts ) {
+    public CubicSpline2D( SerializablePoint2D[] pts ) {
         super( pts );
         update();
     }
@@ -50,7 +50,7 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
         }
     }
 
-    public void setControlPoints( SPoint2D[] pts ) {
+    public void setControlPoints( SerializablePoint2D[] pts ) {
         super.setControlPoints( pts );
         update();
     }
@@ -65,12 +65,12 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
         update();
     }
 
-    public SPoint2D getControlPoint( int i ) {
-        SPoint2D[] pts = getControlPoints();
-        return new SPoint2D( pts[i].getX(), pts[i].getY() );
+    public SerializablePoint2D getControlPoint( int i ) {
+        SerializablePoint2D[] pts = getControlPoints();
+        return new SerializablePoint2D( pts[i].getX(), pts[i].getY() );
     }
 
-    public void setControlPoint( int i, SPoint2D pt ) {
+    public void setControlPoint( int i, SerializablePoint2D pt ) {
         super.setControlPoint( i, pt );
         update();
     }
@@ -82,7 +82,7 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
     }
 
     private void update() {
-        SPoint2D[] pts = getControlPoints();
+        SerializablePoint2D[] pts = getControlPoints();
         double[] s = new double[pts.length];
         double[] x = new double[pts.length];
         double[] y = new double[pts.length];
@@ -102,7 +102,7 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
     }
 
     public String toStringSerialization() {
-        SPoint2D[] pts = getControlPoints();
+        SerializablePoint2D[] pts = getControlPoints();
         String a = "new SPoint2D[]{";
         for( int i = 0; i < pts.length; i++ ) {
             a += "new SPoint2D(" + pts[i].getX() + ", " + pts[i].getY() + ")";
@@ -129,18 +129,18 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
     }
 
 
-    public SPoint2D evaluate( double alpha ) {
-        return new SPoint2D( x.evaluate( alpha ), y.evaluate( alpha ) );
+    public SerializablePoint2D evaluate( double alpha ) {
+        return new SerializablePoint2D( x.evaluate( alpha ), y.evaluate( alpha ) );
     }
 
     public static void main( String[] args ) {
-        ParametricFunction2D parametricFunction2D = new CubicSpline2D( new SPoint2D[]{
-                new SPoint2D( 0, 0 ),
-                new SPoint2D( 1, 1 ),
-                new SPoint2D( 2, 0 )
+        ParametricFunction2D parametricFunction2D = new CubicSpline2D( new SerializablePoint2D[]{
+                new SerializablePoint2D( 0, 0 ),
+                new SerializablePoint2D( 1, 1 ),
+                new SerializablePoint2D( 2, 0 )
         } );
         for( double s = 0.0; s < 1.0; s += 0.1 ) {
-            SPoint2D at = parametricFunction2D.evaluate( s );
+            SerializablePoint2D at = parametricFunction2D.evaluate( s );
             System.out.println( "s = " + s + ", at=" + at );
         }
         double delta = parametricFunction2D.getMetricDelta( 0, 1 );
