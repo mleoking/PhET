@@ -3,8 +3,6 @@
 ################
 Charts:
 
-Data generating model should not change when zooming in or out of a graph.
-
 Add a graph cursor.
 
 When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.
