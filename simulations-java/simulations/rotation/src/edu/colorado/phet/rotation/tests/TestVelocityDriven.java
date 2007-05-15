@@ -29,12 +29,12 @@ public class TestVelocityDriven {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         rotationModel = new RotationModel();
-        final VelocityDriven updateStrategy = new VelocityDriven( 0.0 );
+        final VelocityDriven updateStrategy = new VelocityDriven( );
         rotationModel.setUpdateStrategy( updateStrategy );
-        final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, updateStrategy.getVelocity() );
+        final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, rotationModel.getAngularVelocity() );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateStrategy.setVelocity( modelSlider.getValue() );
+                rotationModel.setAngularVelocity( modelSlider.getValue() );
             }
         } );
         timer = new Timer( 30, new ActionListener() {
