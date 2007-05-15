@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- get rid of x-axis line that initially appears in center of position histogram
-- clean up "look" of position histogram
 
 MEDIUM PRIORITY:
 - scale arrow heads on vectors
@@ -50,6 +48,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/15/07 - workaround for horizontal line that appears in center of position histogram when series is empty
+5/15/07 - clean up "look" of position histogram
 5/15/07 - migrate PhetHistogramSeries and PhetHistogramDataset to jfreechart-phet
 5/15/07 - test for PhetHistogramSeries and PhetHistogramDataset
 5/15/07 - extract PhetHistogramSeries from PhetHistogramDataset, reorganize to be more like JFreeChart series/dataset

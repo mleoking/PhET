@@ -32,9 +32,18 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * PositionHistogramChartNode is the Piccolo node that draws the position histogram 
+ * and associated controls.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PositionHistogramChartNode extends PhetPNode {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     public static final double DEFAULT_HEIGHT = 100;
     
     private static final Color BACKGROUND_COLOR = new Color( 255, 255, 255, 200 ); // translucent white
@@ -45,6 +54,10 @@ public class PositionHistogramChartNode extends PhetPNode {
     private static final Font LABEL_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 14 );
     private static final Color LABEL_COLOR = Color.BLACK;
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private PositionHistogramPlot _plot;
     private Bead _bead;
     private IClock _clock;
@@ -67,6 +80,17 @@ public class PositionHistogramChartNode extends PhetPNode {
     private String _measurementsString;
     private CloseButtonNode _closeButtonNode;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * 
+     * @param bead
+     * @param clock
+     * @param modelViewTransform
+     */
     public PositionHistogramChartNode( Bead bead, IClock clock, ModelViewTransform modelViewTransform, 
             double minPosition, double maxPosition, double binWidth ) {
         super();
@@ -166,10 +190,17 @@ public class PositionHistogramChartNode extends PhetPNode {
         updateLayout();
     }
 
+    /**
+     * Call this method before releasing all references.
+     */
     public void cleanup() {
         _clock.removeClockListener( _clockListener );
     }
 
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
     public void setChartSize( double w, double h ) {
         // resize the chart
         _chartWrapper.setBounds( 0, 0, w, h );
@@ -212,12 +243,16 @@ public class PositionHistogramChartNode extends PhetPNode {
         return dataArea;
     }
 
+    //----------------------------------------------------------------------------
+    // private setters
+    //----------------------------------------------------------------------------
+    
     /*
      * Sets the number of measurements displayed.
      */
     private void setNumberOfMeasurements( int numberOfMeasurements ) {
         _numberOfMeasurements = numberOfMeasurements;
-        _measurementsLabel.setText( _measurementsString + String.valueOf( _numberOfMeasurements ) );
+        _measurementsLabel.setText( _measurementsString + " " + String.valueOf( _numberOfMeasurements ) );
     }
 
     /*
@@ -243,6 +278,10 @@ public class PositionHistogramChartNode extends PhetPNode {
         setNumberOfMeasurements( 0 );
     }
 
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+    
     /*
      * Makes a position measurement and updates the plot.
      */
@@ -252,69 +291,78 @@ public class PositionHistogramChartNode extends PhetPNode {
         _plot.addPosition( x );
     }
 
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
     /*
      * Updates the layout when the bounds change.
      */
     private void updateLayout() {
+        
+        final double horizMargin = 15; // margin around controls
+        final double vertMargin = 4; // margin around controls
+        final double buttonSpacing = 5;  // space between buttons
 
-        final double horizMargin = 15;
-        final double vertMargin = 8;
-        final double buttonSpacing = 5;
-
-        final double maxWidth = _chartWrapper.getFullBounds().getWidth();
-        double maxHeight = Math.max( _measurementsLabel.getFullBounds().getHeight(), _titleLabel.getFullBounds().getHeight() );
-        maxHeight = Math.max( maxHeight, _startStopButtonWrapper.getFullBounds().getHeight() );
-        maxHeight = Math.max( maxHeight, _clearButtonWrapper.getFullBounds().getHeight() );
-        maxHeight = Math.max( maxHeight, _closeButtonNode.getFullBounds().getHeight() );
-        maxHeight += vertMargin;
+        // chart dimensions
+        final double chartWidth = _chartWrapper.getFullBounds().getWidth();
+        final double chartHeight = _chartWrapper.getFullBounds().getHeight();
+        
+        // control area dimensions
+        final double controlsWidth = chartWidth;
+        double controlsHeight = Math.max( _measurementsLabel.getFullBounds().getHeight(), _titleLabel.getFullBounds().getHeight() );
+        controlsHeight = Math.max( controlsHeight, _startStopButtonWrapper.getFullBounds().getHeight() );
+        controlsHeight = Math.max( controlsHeight, _clearButtonWrapper.getFullBounds().getHeight() );
+        controlsHeight = Math.max( controlsHeight, _closeButtonNode.getFullBounds().getHeight() );
+        controlsHeight += ( 2 * vertMargin );
 
         double x = 0;
         double y = 0;
         double w = 0;
         double h = 0;
 
-        // measurements display: left edge, vertically centered
+        // # of measurements: left edge, vertically centered
         x = horizMargin;
-        y = ( maxHeight - _measurementsLabel.getFullBounds().getHeight() ) / 2;
+        y = ( controlsHeight - _measurementsLabel.getFullBounds().getHeight() ) / 2;
         _measurementsLabel.setOffset( x, y );
 
         // title: vertically and horizontally centered
-        x = ( maxWidth - _titleLabel.getFullBounds().getWidth() ) / 2;
-        y = ( maxHeight - _titleLabel.getFullBounds().getHeight() ) / 2;
+        x = ( controlsWidth - _titleLabel.getFullBounds().getWidth() ) / 2;
+        y = ( controlsHeight - _titleLabel.getFullBounds().getHeight() ) / 2;
         _titleLabel.setOffset( x, y );
 
         // close button: right edge, vertically centered
-        x = maxWidth - horizMargin - _closeButtonNode.getFullBounds().getWidth();
-        y = ( maxHeight - _closeButtonNode.getFullBounds().getHeight() ) / 2;
+        x = controlsWidth - horizMargin - _closeButtonNode.getFullBounds().getWidth();
+        y = ( controlsHeight - _closeButtonNode.getFullBounds().getHeight() ) / 2;
         _closeButtonNode.setOffset( x, y );
 
         // clear button: right edge, vertically centered
         x = _closeButtonNode.getOffset().getX() - buttonSpacing - _clearButtonWrapper.getFullBounds().getWidth();
-        y = ( maxHeight - _clearButtonWrapper.getFullBounds().getHeight() ) / 2;
+        y = ( controlsHeight - _clearButtonWrapper.getFullBounds().getHeight() ) / 2;
         _clearButtonWrapper.setOffset( x, y );
 
         // start/stop button: to left of Clear button, vertically centered
         x = _clearButtonWrapper.getOffset().getX() - buttonSpacing - _startStopButtonWrapper.getFullBounds().getWidth();
-        y = ( maxHeight - _startStopButtonWrapper.getFullBounds().getHeight() ) / 2;
+        y = ( controlsHeight - _startStopButtonWrapper.getFullBounds().getHeight() ) / 2;
         _startStopButtonWrapper.setOffset( x, y );
 
         // chart: below all of the controls
         x = 0;
-        y = maxHeight;
+        y = controlsHeight;
         _chartWrapper.setOffset( x, y );
 
         // size the background to fit the controls
         x = 0;
         y = 0;
-        w = maxWidth;
-        h = maxHeight;
+        w = controlsWidth;
+        h = controlsHeight;
         _controlsBackgroundNode.setPathTo( new Rectangle2D.Double( x, y, w, h ) );
 
         // size the border to fit around everything
         x = 0;
         y = 0;
-        w = maxWidth;
-        h = maxHeight + _chartWrapper.getFullBounds().getHeight();
+        w = chartWidth;
+        h = controlsHeight + chartHeight;
         _borderNode.setPathTo( new Rectangle2D.Double( x, y, w, h ) );
     }
 }
