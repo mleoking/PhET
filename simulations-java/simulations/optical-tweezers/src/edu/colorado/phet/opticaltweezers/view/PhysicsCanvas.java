@@ -138,7 +138,8 @@ public class PhysicsCanvas extends PhetPCanvas {
         _rulerNode = new OTRulerNode( laser, model.getModelViewTransform(), _rulerDragBoundsNode );
         
         // Position Histogram chart
-        _positionHistogramChartNode = new PositionHistogramChartNode( bead, clock, modelViewTransform );
+        _positionHistogramChartNode = new PositionHistogramChartNode( bead, clock, modelViewTransform,
+                PhysicsDefaults.POSITION_HISTOGRAM_MIN_POSITION, PhysicsDefaults.POSITION_HISTOGRAM_MAX_POSITION, PhysicsDefaults.POSITION_HISTOGRAM_BIN_WIDTH );
         
         // Potential Energy chart
         _potentialEnergyChartNode = new PotentialEnergyChartNode();

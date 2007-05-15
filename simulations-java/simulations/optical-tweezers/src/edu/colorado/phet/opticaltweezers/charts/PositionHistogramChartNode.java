@@ -67,10 +67,11 @@ public class PositionHistogramChartNode extends PhetPNode {
     private String _measurementsString;
     private CloseButtonNode _closeButtonNode;
 
-    public PositionHistogramChartNode( Bead bead, IClock clock, ModelViewTransform modelViewTransform ) {
+    public PositionHistogramChartNode( Bead bead, IClock clock, ModelViewTransform modelViewTransform, 
+            double minPosition, double maxPosition, double binWidth ) {
         super();
 
-        _plot = new PositionHistogramPlot();
+        _plot = new PositionHistogramPlot( minPosition, maxPosition, binWidth );
         _bead = bead;
         _clock = clock;
         _modelViewTransform = modelViewTransform;
