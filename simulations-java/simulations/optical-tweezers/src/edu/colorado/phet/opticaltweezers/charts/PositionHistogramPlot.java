@@ -3,13 +3,12 @@
 package edu.colorado.phet.opticaltweezers.charts;
 
 import java.awt.Color;
-import java.awt.geom.Point2D;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
+import org.jfree.data.Range;
 import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.common.jfreechartphet.PhetHistogramDataset;
@@ -39,7 +38,7 @@ public class PositionHistogramPlot extends XYPlot {
     
     private PhetHistogramDataset _dataset;
     private PhetHistogramSeries _series;
-    private NumberAxis _xAxis;
+    private NumberAxis _xAxis, _yAxis;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -77,15 +76,19 @@ public class PositionHistogramPlot extends XYPlot {
         _xAxis.setLabel( null );
         _xAxis.setTickLabelsVisible( false );
         _xAxis.setTickMarksVisible( false );
+        _xAxis.setAxisLineVisible( false );
+        _xAxis.setAxisLinePaint( Color.RED );
+        _xAxis.setVisible( false );
         setDomainAxis( _xAxis );
         
         // y-axis, no label, no ticks
-        NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel( null );
-        yAxis.setTickLabelsVisible( false );
-        yAxis.setTickMarksVisible( false );
-        yAxis.setAutoRange( true ); // adjust range to fit data, so data appears normalized
-        setRangeAxis( yAxis );
+        _yAxis = new NumberAxis();
+        _yAxis.setLabel( null );
+        _yAxis.setTickLabelsVisible( false );
+        _yAxis.setTickMarksVisible( false );
+        _yAxis.setAxisLineVisible( false );
+        _yAxis.setAutoRange( true ); // adjust range to fit data, so data appears normalized
+        setRangeAxis( _yAxis );
 
         // plot configuration
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
@@ -103,30 +106,23 @@ public class PositionHistogramPlot extends XYPlot {
     
     /**
      * Sets the position range for the x axis and series.
+     * A series' range is not mutable, so this involves creating a new series.
+     * The data from the existing series is lost, so the plot appears to clear.
      * 
      * @param minPosition
      * @param maxPosition
      */
     public void setPositionRange( double minPosition, double maxPosition ) {
-        // add 2 extra bins to the series, see applyEmptySeriesWorkaround
-        setSeriesRange( minPosition, maxPosition + ( 2 * _series.getBinWidth() ) );
+        
         // set the range for the x axis
         _xAxis.setRange( minPosition, maxPosition );
-    }
-    
-    /*
-     * Sets the range for the series.
-     * A series' range is not mutable, so this involved creating a new series.
-     * The data from the existing series is lost, so the plot appears to clear.
-     */
-    private void setSeriesRange( double minPosition, double maxPosition ) {
+        
         // set the range for the series
         final double binWidth = _series.getBinWidth();
         final int numberOfBins = (int) ( ( maxPosition - minPosition ) / binWidth );
         _dataset.removeSeries( _series );
         _series = new PhetHistogramSeries( SERIES_KEY, minPosition, maxPosition, numberOfBins );
         _dataset.addSeries( _series );
-        applyEmptySeriesWorkaround();
     }
     
     //----------------------------------------------------------------------------
@@ -140,6 +136,7 @@ public class PositionHistogramPlot extends XYPlot {
      */
     public void addPosition( double position ) {
         _series.addObservation( position );
+        applyEmptySeriesWorkaround();
     }
 
     /**
@@ -153,14 +150,17 @@ public class PositionHistogramPlot extends XYPlot {
     /*
      * WORKAROUND:
      * When the series is empty, a horizontal black line is drawn across the center of the plot.
-     * I couldn't figure out how to get rid of this line, and as soon as the series contains 
-     * data, the line disappears. So this workaround ensures that the series is never empty.
-     * setSeriesRange adds 2 extra bins to the upper end of the series range. These bins 
-     * will not be visible, since they are above the upper bound of the x-axis range.
-     * This workaround places one observation in the upper bin, ensuring that the series
-     * is not empty and the horizontal line is not visible.
+     * I couldn't figure out how to get rid of this line, but manipulating the y axis range
+     * makes it disappear.  When the series is empty, use a range that starts with zero.
+     * When the series contains data, make the y axis adjust is range automatically, so
+     * that the data appears to be normalized.
      */
     private void applyEmptySeriesWorkaround() {
-        _series.addObservation( _series.getMaximum() );
+        if ( _series.getNumberOfObservations() == 0 ) {
+            _yAxis.setRange( 0, 1 );
+        }
+        else {
+            _yAxis.setAutoRange( true );
+        }
     }
 }
