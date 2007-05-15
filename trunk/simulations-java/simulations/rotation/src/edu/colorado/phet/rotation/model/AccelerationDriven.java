@@ -27,6 +27,6 @@ public class AccelerationDriven implements UpdateStrategy {
         RotationModelState state = rotationModel.getLastState();
         double newAngVel = state.getAngularVelocity() + acceleration * dt;
         double newAngle = state.getAngle() + ( state.getAngularVelocity() + newAngVel ) / 2.0 * dt;
-        return new RotationModelState( state.copyBodies(), newAngle, newAngVel, acceleration, state.getTime() + dt );
+        return new RotationModelState( rotationModel.copyRotationBodies(), newAngle, newAngVel, acceleration, state.getTime() + dt );
     }
 }

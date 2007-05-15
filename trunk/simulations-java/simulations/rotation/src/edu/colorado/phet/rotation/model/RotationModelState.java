@@ -1,24 +1,21 @@
 package edu.colorado.phet.rotation.model;
 
+import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.rotation.RotationBody;
 
-import javax.crypto.interfaces.DHPrivateKey;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * Immutable state object for Rotation simulation.
  */
 
-public class RotationModelState implements Cloneable {
+public class RotationModelState implements Serializable {
     private RotationBody[] bodies;
     private double angle;
     private double angularVelocity;
     private double angularAcceleration;
     private double time;
-
-//    public RotationModelState() {
-//        this( new RotationBody[]{new RotationBody( 1.0 )}, 0, 0, 0, 0 );
-//    }
 
     public RotationModelState( RotationBody[] bodies, double angle, double angularVelocity, double angularAcceleration, double time ) {
         this.bodies = bodies;
@@ -29,26 +26,17 @@ public class RotationModelState implements Cloneable {
     }
 
     public RotationModelState copy() {
-        return (RotationModelState)clone();
+        try {
+            return (RotationModelState)PersistenceUtil.copy( this );
+        }
+        catch( PersistenceUtil.CopyFailedException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
     }
 
     public String toString() {
         return "time=" + time + ", angle=" + angle + ", angularVelocity=" + angularVelocity + ", angularAcceleration=" + angularAcceleration + ", bodies=" + Arrays.asList( bodies );
-    }
-
-    public Object clone() {
-        try {
-            RotationModelState clone = (RotationModelState)super.clone();
-            clone.angle = angle;
-            clone.angularVelocity = angularVelocity;
-            clone.angularAcceleration = angularAcceleration;
-            clone.bodies = copyBodies();
-            clone.time = time;
-            return clone;
-        }
-        catch( CloneNotSupportedException e ) {
-            throw new RuntimeException( e );
-        }
     }
 
     public RotationBody[] copyBodies() {
