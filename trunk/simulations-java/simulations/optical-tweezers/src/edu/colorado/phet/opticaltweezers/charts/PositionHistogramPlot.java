@@ -16,7 +16,11 @@ import org.jfree.data.statistics.HistogramType;
 
 import edu.colorado.phet.opticaltweezers.OTConstants;
 
-
+/**
+ * PositionHistogramPlot is the plot for the position histogram chart.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PositionHistogramPlot extends XYPlot {
 
     private static final String SERIES_KEY = "position";
@@ -24,16 +28,18 @@ public class PositionHistogramPlot extends XYPlot {
     private static final Color BAR_FILL_COLOR = Color.YELLOW;
     private static final Color BAR_OUTLINE_COLOR = Color.BLACK;
     
-    //XXX this stuff should be in constructor
-    private static final double MIN_POSITION = 0; // nm
-    private static final double MAX_POSITION = 10000; // nm
-    private static final double BIN_WIDTH = 20; // nm
-    
     private PhetHistogramDataset _dataset;
-    private int _seriesIndex;
+    private PhetHistogramSeries _series;
     private NumberAxis _xAxis, _yAxis;
     
-    public PositionHistogramPlot() {
+    /**
+     * Constructor.
+     * 
+     * @param minPosition
+     * @param maxPosition
+     * @param binWidth
+     */
+    public PositionHistogramPlot( double minPosition, double maxPosition, double binWidth ) {
         super();
         
         // dataset
@@ -41,9 +47,10 @@ public class PositionHistogramPlot extends XYPlot {
         setDataset( _dataset );
         
         // series
-        int numberOfBins = (int) ( ( MAX_POSITION - MIN_POSITION ) / BIN_WIDTH );
-        _seriesIndex = _dataset.addSeries( SERIES_KEY, numberOfBins, MIN_POSITION, MAX_POSITION );
-        
+        final int numberOfBins = (int) ( ( maxPosition - minPosition ) / binWidth );
+        _series = new PhetHistogramSeries( SERIES_KEY, minPosition, maxPosition, numberOfBins );
+        _dataset.addSeries( _series );
+
         // renderer
         XYBarRenderer renderer = new XYBarRenderer();
         renderer.setPaint( BAR_FILL_COLOR );
@@ -73,15 +80,36 @@ public class PositionHistogramPlot extends XYPlot {
         setRangeAxis( _yAxis );
     }
 
+    /**
+     * Sets the position range for the chart and underlying series.
+     * 
+     * @param minPosition
+     * @param maxPosition
+     */
     public void setPositionRange( double minPosition, double maxPosition ) {
+        // set the range for the series
+        final double binWidth = _series.getBinWidth();
+        final int numberOfBins = (int) ( ( maxPosition - minPosition ) / binWidth );
+        _dataset.removeSeries( _series );
+        _series = new PhetHistogramSeries( SERIES_KEY, minPosition, maxPosition, numberOfBins );
+        _dataset.addSeries( _series );
+        // set the range for the x axis
         _xAxis.setRange( minPosition, maxPosition );
     }
     
+    /**
+     * Adds a position observation.
+     * 
+     * @param position
+     */
     public void addPosition( double position ) {
-        _dataset.addObservation( _seriesIndex, position );
+        _series.addObservation( position );
     }
 
+    /**
+     * Clears the plot.
+     */
     public void clear() {
-        _dataset.clearObservations( _seriesIndex );
+        _series.clear();
     }
 }

@@ -19,7 +19,11 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.CloseButtonNode;
 
-
+/**
+ * PotentialEnergyChartNode is the Piccolo node that draws the position histogram.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PotentialEnergyChartNode extends PhetPNode {
     
     public static final double DEFAULT_HEIGHT = 200;
@@ -33,6 +37,9 @@ public class PotentialEnergyChartNode extends PhetPNode {
     private JFreeChartNode _chartWrapper;
     private CloseButtonNode _closeButtonNode;
     
+    /**
+     * Constructor.
+     */
     public PotentialEnergyChartNode() {
         super();
         
@@ -64,6 +71,12 @@ public class PotentialEnergyChartNode extends PhetPNode {
         updateLayout();
     }
     
+    /**
+     * Sets the dimensions of the chart.
+     * 
+     * @param w
+     * @param h
+     */
     public void setChartSize( double w, double h ) {
         _chartWrapper.setBounds( 0, 0, w, h );
         _chartWrapper.updateChartRenderingInfo();

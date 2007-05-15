@@ -1,8 +1,9 @@
-===============================================================================
+-===============================================================================
 "To Do" list for "Optical Tweezers" simulation
 ===============================================================================
 
 IN PROGRESS:
+- migrate PhetHistogramDataset to jfreechart-phet
 
 HIGH PRIORITY:
 - get rid of x-axis line that initially appears in center of position histogram
@@ -10,7 +11,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - scale arrow heads on vectors
-- migrate PhetHistogramDataset to jfreechart-phet
 - implement potential energy model
 - better algorithm for trap force y component Fy
 - improve collision detection in Bead.move
@@ -51,6 +51,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/15/07 - test for PhetHistogramSeries and PhetHistogramDataset
+5/15/07 - extract PhetHistogramSeries from PhetHistogramDataset, reorganize to be more like JFreeChart series/dataset
 5/14/07 - replace custom clock control panel with ClockControlPanelWithTimeDisplay
 5/14/07 - create ClockControlPanelWithTimeDisplay in phetcommon
 5/10/07 - remove flash activity on "Return Bead" button node
