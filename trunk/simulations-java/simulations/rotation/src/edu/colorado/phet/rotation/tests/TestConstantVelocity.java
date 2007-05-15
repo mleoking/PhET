@@ -12,7 +12,7 @@ import edu.colorado.phet.rotation.model.TimeData;
 
 public class TestConstantVelocity {
     public static void main( String[] args ) {
-        PositionDriven updateRule = new PositionDriven( 1.0 );
+        PositionDriven updateRule = new PositionDriven( );
         RotationModel model = new RotationModel();
         model.setUpdateStrategy( updateRule );
         System.out.println( "init state=" + model.getLastState() );

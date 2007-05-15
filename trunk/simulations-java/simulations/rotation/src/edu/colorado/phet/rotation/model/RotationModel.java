@@ -15,10 +15,12 @@ import java.util.ArrayList;
 public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, PlatformNode.RotationPlatformEnvironment {
 
     private ArrayList states = new ArrayList();
-    private UpdateStrategy updateStrategy = new PositionDriven( 0.0 );
-    private PositionDriven positionDriven = new PositionDriven( 0.0 );
-    private VelocityDriven velocityDriven = new VelocityDriven( 0.0 );
+
+    private PositionDriven positionDriven = new PositionDriven( );
+    private VelocityDriven velocityDriven = new VelocityDriven( );
     private AccelerationDriven accelDriven = new AccelerationDriven();
+
+    private UpdateStrategy updateStrategy = positionDriven;
 
     private SimulationVariable xVariable;
     private SimulationVariable vVariable;
@@ -58,13 +60,11 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
 
         xVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
-                positionDriven.setPosition( xVariable.getValue() );
                 currentState.getRotationPlatform().setAngle( xVariable.getValue() );
             }
         } );
         vVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
-                velocityDriven.setVelocity( vVariable.getValue() );
                 currentState.getRotationPlatform().setAngularVelocity( vVariable.getValue() );
             }
         } );
@@ -221,7 +221,6 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
 
     public void setAngle( double angle ) {
         currentState.setAngle( angle );
-//        getXVariable().setValue( angle );
     }
 
     public int getNumRotationBodies() {

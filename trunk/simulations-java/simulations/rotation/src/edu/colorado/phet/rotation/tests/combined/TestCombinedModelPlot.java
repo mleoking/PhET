@@ -48,8 +48,8 @@ public class TestCombinedModelPlot {
         vVariable = new SimulationVariable( rotationModel.getLastState().getAngularVelocity() );
         aVariable = new SimulationVariable( rotationModel.getLastState().getAngularAcceleration() );
 
-        positionDriven = new PositionDriven( xVariable.getValue() );
-        velocityDriven = new VelocityDriven( vVariable.getValue() );
+        positionDriven = new PositionDriven( );
+        velocityDriven = new VelocityDriven( );
         accelDriven = new AccelerationDriven( );
 
         XYPlotFactory factory = new XYPlotFactory();
@@ -125,8 +125,8 @@ public class TestCombinedModelPlot {
     }
 
     private void step() {
-        positionDriven.setPosition( xVariable.getValue() );
-        velocityDriven.setVelocity( vVariable.getValue() );
+        rotationModel.setAngle( xVariable.getValue() );
+        rotationModel.setAngularVelocity( vVariable.getValue() );
 
         rotationModel.stepInTime( 1.0 );
         xVariable.setValue( rotationModel.getLastState().getAngle() );
