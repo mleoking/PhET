@@ -7,8 +7,8 @@ package edu.colorado.phet.rotation.tests;
  *
  */
 
-import edu.colorado.phet.rotation.RotationBody;
-import edu.colorado.phet.rotation.RotationBodyNode;
+import edu.colorado.phet.rotation.model.RotationBody;
+import edu.colorado.phet.rotation.view.RotationBodyNode;
 
 public class TestPlatformNodeWithBody extends TestPlatformNode implements RotationBodyNode.RotationBodyEnvironment {
     public TestPlatformNodeWithBody() {

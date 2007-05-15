@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 
 import javax.swing.*;
 import java.awt.*;

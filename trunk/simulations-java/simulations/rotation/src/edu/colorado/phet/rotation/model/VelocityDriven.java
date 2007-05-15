@@ -21,11 +21,13 @@ public class VelocityDriven implements UpdateStrategy {
         this.velocity = velocity;
     }
 
-    public RotationModelState update( RotationModel rotationModel, double dt ) {
+    public void update( RotationModel model, double dt ) {
         //assume a constant acceleration model with the given acceleration.
-        RotationModelState origState = rotationModel.getLastState();
-        double newAngle = origState.getAngle() + velocity * dt;
-        double angularAcceleration = RotationMath.estimateDerivative( rotationModel.getAvailableVelocityTimeSeries( 10 ) );
-        return new RotationModelState( rotationModel.copyRotationBodies(), newAngle, velocity, angularAcceleration, origState.getTime() + dt );
+//        RotationModelState origState = rotationModel.getLastState();
+        double newAngle = model.getAngle() + velocity * dt;
+        double angularAcceleration = RotationMath.estimateDerivative( model.getAvailableVelocityTimeSeries( 10 ) );
+        model.setAngle( newAngle );
+        model.setAngularAcceleration( angularAcceleration );
+//        return new RotationModelState( rotationModel.copyRotationBodies(), newAngle, velocity, angularAcceleration, origState.getTime() + dt );
     }
 }

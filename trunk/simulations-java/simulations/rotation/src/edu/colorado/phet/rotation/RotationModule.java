@@ -8,6 +8,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.view.RotationSimulationPanel;
 
 /**
  * User: Sam Reid

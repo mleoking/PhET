@@ -1,6 +1,6 @@
 package edu.colorado.phet.rotation.controls;
 
-import edu.colorado.phet.rotation.RotationLookAndFeel;
+import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSuite;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;

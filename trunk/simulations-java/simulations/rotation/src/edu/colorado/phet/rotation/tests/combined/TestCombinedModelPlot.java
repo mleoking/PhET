@@ -50,7 +50,7 @@ public class TestCombinedModelPlot {
 
         positionDriven = new PositionDriven( xVariable.getValue() );
         velocityDriven = new VelocityDriven( vVariable.getValue() );
-        accelDriven = new AccelerationDriven( aVariable.getValue() );
+        accelDriven = new AccelerationDriven( );
 
         XYPlotFactory factory = new XYPlotFactory();
         xGraph = factory.createXYPlot( "position", "meters" );
@@ -127,7 +127,6 @@ public class TestCombinedModelPlot {
     private void step() {
         positionDriven.setPosition( xVariable.getValue() );
         velocityDriven.setVelocity( vVariable.getValue() );
-        accelDriven.setAcceleration( aVariable.getValue() );
 
         rotationModel.stepInTime( 1.0 );
         xVariable.setValue( rotationModel.getLastState().getAngle() );
