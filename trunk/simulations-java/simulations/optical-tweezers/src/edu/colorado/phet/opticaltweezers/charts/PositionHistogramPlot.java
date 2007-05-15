@@ -3,12 +3,18 @@
 package edu.colorado.phet.opticaltweezers.charts;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CrosshairState;
+import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
-import org.jfree.data.Range;
+import org.jfree.chart.renderer.xy.XYItemRendererState;
+import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.common.jfreechartphet.PhetHistogramDataset;
@@ -64,7 +70,7 @@ public class PositionHistogramPlot extends XYPlot {
         _dataset.addSeries( _series );
 
         // renderer
-        XYBarRenderer renderer = new XYBarRenderer();
+        XYBarRenderer renderer = new PositionHistogramRenderer();
         renderer.setPaint( BAR_FILL_COLOR );
         renderer.setOutlinePaint( BAR_OUTLINE_COLOR );
         renderer.setDrawBarOutline( true );
@@ -76,8 +82,6 @@ public class PositionHistogramPlot extends XYPlot {
         _xAxis.setLabel( null );
         _xAxis.setTickLabelsVisible( false );
         _xAxis.setTickMarksVisible( false );
-        _xAxis.setAxisLineVisible( false );
-        _xAxis.setAxisLinePaint( Color.RED );
         _xAxis.setVisible( false );
         setDomainAxis( _xAxis );
         
@@ -86,7 +90,6 @@ public class PositionHistogramPlot extends XYPlot {
         _yAxis.setLabel( null );
         _yAxis.setTickLabelsVisible( false );
         _yAxis.setTickMarksVisible( false );
-        _yAxis.setAxisLineVisible( false );
         _yAxis.setAutoRange( true ); // adjust range to fit data, so data appears normalized
         setRangeAxis( _yAxis );
 
@@ -96,8 +99,6 @@ public class PositionHistogramPlot extends XYPlot {
         setDomainGridlinesVisible( false );
         setRangeGridlinesVisible( false );
         setInsets( new RectangleInsets( 0, 0, 0, 0 ) );
-
-        applyEmptySeriesWorkaround();
     }
     
     //----------------------------------------------------------------------------
@@ -136,7 +137,6 @@ public class PositionHistogramPlot extends XYPlot {
      */
     public void addPosition( double position ) {
         _series.addObservation( position );
-        applyEmptySeriesWorkaround();
     }
 
     /**
@@ -144,23 +144,34 @@ public class PositionHistogramPlot extends XYPlot {
      */
     public void clear() {
         _series.clear();
-        applyEmptySeriesWorkaround();
     }
     
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
     /*
-     * WORKAROUND:
-     * When the series is empty, a horizontal black line is drawn across the center of the plot.
-     * I couldn't figure out how to get rid of this line, but manipulating the y axis range
-     * makes it disappear.  When the series is empty, use a range that starts with zero.
-     * When the series contains data, make the y axis adjust is range automatically, so
-     * that the data appears to be normalized.
+     * If the series is empty, don't render anything.
+     * When rendering an empty series, it appears as a horizontal line across the middle of the plot.
      */
-    private void applyEmptySeriesWorkaround() {
-        if ( _series.getNumberOfObservations() == 0 ) {
-            _yAxis.setRange( 0, 1 );
-        }
-        else {
-            _yAxis.setAutoRange( true );
+    private static class PositionHistogramRenderer extends XYBarRenderer {
+        public void drawItem(Graphics2D g2,
+                XYItemRendererState state,
+                Rectangle2D dataArea,
+                PlotRenderingInfo info,
+                XYPlot plot,
+                ValueAxis domainAxis,
+                ValueAxis rangeAxis,
+                XYDataset dataset,
+                int seriesIndex,
+                int itemIndex,
+                CrosshairState crosshairState,
+                int pass) {
+            PhetHistogramSeries series = ((PhetHistogramDataset)dataset).getSeries( seriesIndex );
+            if ( series.getNumberOfObservations() == 0 ) {
+                return;
+            }
+            super.drawItem( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, seriesIndex, itemIndex, crosshairState, pass );
         }
     }
 }
