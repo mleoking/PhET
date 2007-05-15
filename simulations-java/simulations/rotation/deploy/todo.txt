@@ -27,6 +27,8 @@ Time derivatives need a time-offset to match other series.
 
 Time series are offset incorrectly in graphs (their x-offset is before the beginning of the graph).
 
+Consolidate MovingMan, Forces1D, Ramp, Rotation, Torque into a single codebase.
+
 ################
 #           Postponed:
 ################
