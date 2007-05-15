@@ -68,8 +68,9 @@ public class TestPhetHistogram extends JFrame {
     }
     
     public static void main(String[] args) throws IOException {
-        TestPhetHistogram demo = new TestPhetHistogram();
-        demo.pack();
-        demo.setVisible( true );
+        TestPhetHistogram testFrame = new TestPhetHistogram();
+        testFrame.pack();
+        testFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        testFrame.setVisible( true );
     }
 }
