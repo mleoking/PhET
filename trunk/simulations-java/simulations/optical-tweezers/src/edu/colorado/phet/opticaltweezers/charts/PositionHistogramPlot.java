@@ -14,6 +14,8 @@ import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.statistics.HistogramType;
 
+import edu.colorado.phet.common.jfreechartphet.PhetHistogramDataset;
+import edu.colorado.phet.common.jfreechartphet.PhetHistogramSeries;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 
 /**
