@@ -5,6 +5,7 @@ package edu.colorado.phet.opticaltweezers.charts;
 import java.io.IOException;
 import java.util.Random;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartPanel;
@@ -12,7 +13,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
-import org.jfree.ui.ApplicationFrame;
 
 /**
  * Test application for PhetHistogramSeries and PhetHistogramDataset.
@@ -20,10 +20,10 @@ import org.jfree.ui.ApplicationFrame;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestPhetHistogram extends ApplicationFrame {
+public class TestPhetHistogram extends JFrame {
 
-    public TestPhetHistogram(String title) {
-        super(title);  
+    public TestPhetHistogram() {
+        super();  
         
         // Series 1
         double[] values = new double[1000];
@@ -65,7 +65,7 @@ public class TestPhetHistogram extends ApplicationFrame {
     }
     
     public static void main(String[] args) throws IOException {
-        TestPhetHistogram demo = new TestPhetHistogram( "Histogram Demo 1" );
+        TestPhetHistogram demo = new TestPhetHistogram();
         demo.pack();
         demo.setVisible( true );
     }
