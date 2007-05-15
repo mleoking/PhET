@@ -8,7 +8,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - scale arrow heads on vectors
-- implement potential energy model
+- implement potential energy model (P=05.*Fx*x*x)
 - connect potential energy chart to model
 - better algorithm for trap force y component Fy
 - improve collision detection in Bead.move
@@ -25,6 +25,7 @@ LOW PRIORITY:
 - try to make entire laser control panel draggable
 - use TrigCache to improve performance?
 - replace OTRuler alignment hack with permanent solution
+- replace PositionHistogramPlot.applyEmptySeriesWorkaround with permanent solution
 - add close button to ruler?
 - get requirements for "Fun With DNA" panel
 - get requirements for "Molecular Motors" panel
@@ -48,6 +49,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/15/07 - better workaround for position histogram that doesn't involve adding bogus observations
 5/15/07 - workaround for horizontal line that appears in center of position histogram when series is empty
 5/15/07 - clean up "look" of position histogram
 5/15/07 - migrate PhetHistogramSeries and PhetHistogramDataset to jfreechart-phet
