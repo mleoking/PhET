@@ -1,28 +1,21 @@
 package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
-import edu.colorado.phet.rotation.RotationBody;
 
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
- * Immutable state object for Rotation simulation.
+ * Author: Sam Reid
+ * May 14, 2007, 10:44:25 PM
  */
-
 public class RotationModelState implements Serializable {
-    private RotationBody[] bodies;
-    private double angle;
-    private double angularVelocity;
-    private double angularAcceleration;
-    private double time;
+    private ArrayList rotationBodies = new ArrayList();
+    private RotationPlatform rotationPlatform = new RotationPlatform();
+    private double time = 0.0;
 
-    public RotationModelState( RotationBody[] bodies, double angle, double angularVelocity, double angularAcceleration, double time ) {
-        this.bodies = bodies;
-        this.angle = angle;
-        this.angularVelocity = angularVelocity;
-        this.angularAcceleration = angularAcceleration;
-        this.time = time;
+    public RotationBody getRotationBody( int i ) {
+        return (RotationBody)rotationBodies.get( i );
     }
 
     public RotationModelState copy() {
@@ -35,51 +28,51 @@ public class RotationModelState implements Serializable {
         }
     }
 
-    public String toString() {
-        return "time=" + time + ", angle=" + angle + ", angularVelocity=" + angularVelocity + ", angularAcceleration=" + angularAcceleration + ", bodies=" + Arrays.asList( bodies );
-    }
-
-    public RotationBody[] copyBodies() {
-        RotationBody[] bodies = new RotationBody[getRotationBodyCount()];
-        for( int i = 0; i < bodies.length; i++ ) {
-            bodies[i] = getRotationBody( i ).copy();
-        }
-        return bodies;
-    }
-
-    public RotationBody getRotationBody( int i ) {
-        return bodies[i];
-    }
-
-    public int getRotationBodyCount() {
-        return bodies.length;
-    }
-
-    public RotationBody[] getBodies() {
-        return bodies;
-    }
-
-    public double getAngle() {
-        return angle;
-    }
-
-    public double getAngularVelocity() {
-        return angularVelocity;
-    }
-
     public double getAngularAcceleration() {
-        return angularAcceleration;
+        return rotationPlatform.getAngularAcceleration();
+    }
+
+    public RotationPlatform getRotationPlatform() {
+        return rotationPlatform;
     }
 
     public double getTime() {
         return time;
     }
 
+    public double getAngle() {
+        return rotationPlatform.getAngle();
+    }
+
+    public double getAngularVelocity() {
+        return rotationPlatform.getAngularVelocity();
+    }
+
     public void setTime( double time ) {
         this.time = time;
     }
 
-    public RotationBody getBody( int i ) {
-        return bodies[i];
+    public void setAngle( double angle ) {
+        rotationPlatform.setAngle(angle );
+    }
+
+    public void setAngularVelocity( double angularVelocity ) {
+        rotationPlatform.setAngularVelocity(angularVelocity);
+    }
+
+    public void setAngularAcceleration( double angularAcceleration ) {
+        rotationPlatform.setAngularAcceleration(angularAcceleration);
+    }
+
+    public void stepInTime( double dt ) {
+        time += dt;
+    }
+
+    public int getNumRotationBodies() {
+        return rotationBodies.size();
+    }
+
+    public void addRotationBody( RotationBody rotationBody ) {
+        rotationBodies.add( rotationBody );
     }
 }

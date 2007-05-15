@@ -1,9 +1,7 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
-import edu.colorado.phet.rotation.RotationBody;
-import edu.colorado.phet.rotation.RotationBodyNode;
 import edu.colorado.phet.rotation.view.PlatformNode;
+import edu.colorado.phet.rotation.view.RotationBodyNode;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -15,12 +13,12 @@ import java.util.ArrayList;
  */
 
 public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, PlatformNode.RotationPlatformEnvironment {
-    private ArrayList rotationModelStates = new ArrayList();
-    private UpdateStrategy updateStrategy = new PositionDriven( 0.0 );
 
+    private ArrayList states = new ArrayList();
+    private UpdateStrategy updateStrategy = new PositionDriven( 0.0 );
     private PositionDriven positionDriven = new PositionDriven( 0.0 );
     private VelocityDriven velocityDriven = new VelocityDriven( 0.0 );
-    private AccelerationDriven accelDriven = new AccelerationDriven( 0.0 );
+    private AccelerationDriven accelDriven = new AccelerationDriven();
 
     private SimulationVariable xVariable;
     private SimulationVariable vVariable;
@@ -34,58 +32,50 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
     private SimulationVariable centripetalAcceleration;
 
     private ArrayList listeners = new ArrayList();
-    private ArrayList rotationBodies = new ArrayList();
-    private RotationPlatform rotationPlatform = new RotationPlatform();
+
+    private RotationModelState currentState;
 
     public RotationModel() {
-        rotationPlatform.addListener( new RotationPlatform.Listener() {
+        currentState = new RotationModelState();
+        currentState.getRotationPlatform().addListener( new RotationPlatform.Listener() {
             public void angleChanged( double dtheta ) {
-                xVariable.setValue( rotationPlatform.getAngle() );
+                xVariable.setValue( currentState.getRotationPlatform().getAngle() );
             }
         } );
         addRotationBody( new RotationBody() );
-        rotationModelStates.add( new RotationModelState( copyRotationBodies(), 0.0, 0.0, 0.0, 0 ) );
+        states.add( copy() );
 
-        xVariable = new SimulationVariable( getLastState().getAngle() );
-        vVariable = new SimulationVariable( getLastState().getAngularVelocity() );
-        aVariable = new SimulationVariable( getLastState().getAngularAcceleration() );
+        xVariable = new SimulationVariable( getAngle() );
+        vVariable = new SimulationVariable( getAngularVelocity() );
+        aVariable = new SimulationVariable( getAngularAcceleration() );
 
-        xPositionVariable = new SimulationVariable( getLastState().getBody( 0 ).getX() );
-        yPositionVariable = new SimulationVariable( getLastState().getBody( 0 ).getY() );
-        speedVariable = new SimulationVariable( getLastState().getBody( 0 ).getVelocity().getMagnitude() );
-        xVelocityVariable = new SimulationVariable( getLastState().getBody( 0 ).getVelocity().getX() );
-        yVelocityVariable = new SimulationVariable( getLastState().getBody( 0 ).getVelocity().getY() );
-        centripetalAcceleration = new SimulationVariable( getLastState().getBody( 0 ).getAcceleration().getMagnitude() );
+        xPositionVariable = new SimulationVariable( getRotationBody( 0 ).getX() );
+        yPositionVariable = new SimulationVariable( getRotationBody( 0 ).getY() );
+        speedVariable = new SimulationVariable( getRotationBody( 0 ).getVelocity().getMagnitude() );
+        xVelocityVariable = new SimulationVariable( getRotationBody( 0 ).getVelocity().getX() );
+        yVelocityVariable = new SimulationVariable( getRotationBody( 0 ).getVelocity().getY() );
+        centripetalAcceleration = new SimulationVariable( getRotationBody( 0 ).getAcceleration().getMagnitude() );
 
         xVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
                 positionDriven.setPosition( xVariable.getValue() );
+                currentState.getRotationPlatform().setAngle( xVariable.getValue() );
             }
         } );
         vVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
                 velocityDriven.setVelocity( vVariable.getValue() );
-            }
-        } );
-        aVariable.addListener( new SimulationVariable.Listener() {
-            public void valueChanged() {
-                accelDriven.setAcceleration( aVariable.getValue() );
+                currentState.getRotationPlatform().setAngularVelocity( vVariable.getValue() );
             }
         } );
     }
 
-    public RotationBody[] copyRotationBodies() {
-        try {
-            return (RotationBody[])PersistenceUtil.copy( rotationBodies.toArray( new RotationBody[0] ) );
-        }
-        catch( PersistenceUtil.CopyFailedException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
+    private RotationModelState copy() {
+        return currentState.copy();
     }
 
     private void addRotationBody( RotationBody rotationBody ) {
-        rotationBodies.add( rotationBody );
+        currentState.addRotationBody( rotationBody );
     }
 
     public void setPositionDriven() {
@@ -105,38 +95,35 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
     }
 
     public RotationModelState getLastState() {
-        return (RotationModelState)rotationModelStates.get( rotationModelStates.size() - 1 );
+        return (RotationModelState)states.get( states.size() - 1 );
     }
 
     public void stepInTime( double dt ) {
-        RotationModelState state = updateStrategy.update( this, dt );
-        rotationModelStates.add( state );
+        states.add( copy() );
+        currentState.setAngle( currentState.getRotationPlatform().getAngle() );
+        updateStrategy.update( this, dt );
+        currentState.stepInTime( dt );
 
-        xVariable.setValue( getLastState().getAngle() );
-        vVariable.setValue( getLastState().getAngularVelocity() );
-        aVariable.setValue( getLastState().getAngularAcceleration() );
+        xVariable.setValue( getAngle() );
+        vVariable.setValue( getAngularVelocity() );
+        aVariable.setValue( getAngularAcceleration() );
 
-        System.out.println( "getLastState().getBodyCount() = " + getLastState().getRotationBodyCount() );
-
-        System.out.println( "getLastState().getBody( 0 ).getX() = " + getLastState().getBody( 0 ).getX() );
-        
-        xPositionVariable.setValue( getLastState().getBody( 0 ).getX() );
-        yPositionVariable.setValue( getLastState().getBody( 0 ).getY() );
-        speedVariable.setValue( getLastState().getBody( 0 ).getVelocity().getMagnitude() );
-        xVelocityVariable.setValue( getLastState().getBody( 0 ).getX() );
-        yVelocityVariable.setValue( getLastState().getBody( 0 ).getY() );
-        centripetalAcceleration.setValue( getLastState().getBody( 0 ).getAcceleration().getMagnitude() );
-        rotationPlatform.setAngle( getLastState().getAngle() );
+        xPositionVariable.setValue( getRotationBody( 0 ).getX() );
+        yPositionVariable.setValue( getRotationBody( 0 ).getY() );
+        speedVariable.setValue( getRotationBody( 0 ).getVelocity().getMagnitude() );
+        xVelocityVariable.setValue( getRotationBody( 0 ).getX() );
+        yVelocityVariable.setValue( getRotationBody( 0 ).getY() );
+        centripetalAcceleration.setValue( getRotationBody( 0 ).getAcceleration().getMagnitude() );
 
         notifySteppedInTime();
     }
 
     public RotationModelState getStateFromEnd( int i ) {
-        return getState( rotationModelStates.size() - 1 - i );
+        return getState( states.size() - 1 - i );
     }
 
     private RotationModelState getState( int index ) {
-        return (RotationModelState)rotationModelStates.get( index );
+        return (RotationModelState)states.get( index );
     }
 
     public TimeData[] getAvailableAccelerationTimeSeries( int numPts ) {
@@ -177,7 +164,7 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
     }
 
     private int getStateCount() {
-        return rotationModelStates.size();
+        return states.size();
     }
 
     public TimeData[] getAvailableVelocityTimeSeries( int numPts ) {
@@ -227,35 +214,56 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
     public void clear() {
         RotationModelState state = getLastState().copy();
         state.setTime( 0.0 );
-        rotationModelStates.clear();
-        rotationModelStates.add( state );
+        states.clear();
+        states.add( state );
         notifySteppedInTime();
     }
 
     public void setAngle( double angle ) {
-        getXVariable().setValue( angle );
+        currentState.setAngle( angle );
+//        getXVariable().setValue( angle );
     }
 
     public int getNumRotationBodies() {
-        return rotationBodies.size();
+        return currentState.getNumRotationBodies();
     }
 
     public RotationBody getRotationBody( int i ) {
-        return (RotationBody)rotationBodies.get( i );
+        return currentState.getRotationBody( i );
     }
 
     public RotationPlatform getRotationPlatform() {
-        return rotationPlatform;
+        return currentState.getRotationPlatform();
     }
 
     public void dropBody( RotationBody rotationBody ) {
         Point2D loc = rotationBody.getPosition();
-        if( rotationPlatform.containsPosition( loc ) ) {
-            rotationBody.setOnPlatform( rotationPlatform );
+        if( currentState.getRotationPlatform().containsPosition( loc ) ) {
+            rotationBody.setOnPlatform( currentState.getRotationPlatform() );
         }
         else {
             rotationBody.setOffPlatform();
         }
+    }
+
+    public double getAngularVelocity() {
+        return currentState.getAngularVelocity();
+    }
+
+    public double getAngle() {
+        return currentState.getAngle();
+    }
+
+    public void setAngularVelocity( double newAngVel ) {
+        this.currentState.setAngularVelocity( newAngVel );
+    }
+
+    public double getAngularAcceleration() {
+        return currentState.getAngularAcceleration();
+    }
+
+    public void setAngularAcceleration( double angularAcceleration ) {
+        this.currentState.setAngularAcceleration( angularAcceleration );
     }
 
     public static interface Listener {
@@ -272,4 +280,13 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
             listener.steppedInTime();
         }
     }
+
+    public double getTime() {
+        return currentState.getTime();
+    }
+
+    public RotationBody getBody( int i ) {
+        return currentState.getRotationBody( i );
+    }
+
 }

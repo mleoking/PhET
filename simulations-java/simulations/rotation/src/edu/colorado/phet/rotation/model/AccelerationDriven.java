@@ -8,25 +8,9 @@ package edu.colorado.phet.rotation.model;
 
 public class AccelerationDriven implements UpdateStrategy {
 
-    private double acceleration;
-
-    public AccelerationDriven( double acceleration ) {
-        this.acceleration = acceleration;
-    }
-
-    public double getAcceleration() {
-        return acceleration;
-    }
-
-    public void setAcceleration( double acceleration ) {
-        this.acceleration = acceleration;
-    }
-
-    public RotationModelState update( RotationModel rotationModel, double dt ) {
+    public void update( RotationModel model, double dt ) {
         //assume a constant acceleration model with the given acceleration.
-        RotationModelState state = rotationModel.getLastState();
-        double newAngVel = state.getAngularVelocity() + acceleration * dt;
-        double newAngle = state.getAngle() + ( state.getAngularVelocity() + newAngVel ) / 2.0 * dt;
-        return new RotationModelState( rotationModel.copyRotationBodies(), newAngle, newAngVel, acceleration, state.getTime() + dt );
+        model.setAngularVelocity( model.getAngularVelocity() + model.getAngularAcceleration() * dt );
+        model.setAngle( model.getAngle() + ( model.getAngularVelocity() + model.getAngularVelocity() ) / 2.0 * dt );
     }
 }

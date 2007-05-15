@@ -12,8 +12,9 @@ import edu.colorado.phet.rotation.model.TimeData;
 
 public class TestConstantAcceleration {
     public static void main( String[] args ) {
-        AccelerationDriven accelerationDriven = new AccelerationDriven( 1.0 );
+        AccelerationDriven accelerationDriven = new AccelerationDriven();
         RotationModel model = new RotationModel();
+        model.setAngularAcceleration( 1.0 );
         model.setUpdateStrategy( accelerationDriven );
         System.out.println( "init state=" + model.getLastState() );
         for( int i = 0; i <= 100; i++ ) {

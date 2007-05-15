@@ -1,9 +1,7 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
-import edu.colorado.phet.common.mechanics.PhysicalVector;
-import edu.colorado.phet.rotation.model.RotationPlatform;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -65,11 +63,15 @@ public class RotationBody implements Serializable {
     }
 
     public Vector2D getVelocity() {
-        return new Vector2D.Double( );
+        return new Vector2D.Double();
     }
 
     public Vector2D getAcceleration() {
-        return new Vector2D.Double( );
+        return new Vector2D.Double();
+    }
+
+    public double getAngle( RotationPlatform rotationPlatform ) {
+        return new Vector2D.Double( rotationPlatform.getCenter(), getPosition() ).getAngle();
     }
 
     private static abstract class UpdateStrategy implements Serializable {

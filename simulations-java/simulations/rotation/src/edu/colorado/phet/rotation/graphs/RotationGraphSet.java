@@ -59,10 +59,10 @@ public class RotationGraphSet {
                 angularVelocityGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularVelocity() );
                 angularAccelerationGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularAcceleration() );
 
-                positionGraph.addValue( 0, rotationModel.getLastState().getTime(), rotationModel.getLastState().getBody( 0 ).getX() );
-                positionGraph.addValue( 1, rotationModel.getLastState().getTime(), rotationModel.getLastState().getBody( 0 ).getY() );
-                speedGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getBody( 0 ).getVelocity().getMagnitude() );
-                accelerationGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getBody( 0 ).getAcceleration().getMagnitude() );
+                positionGraph.addValue( 0, rotationModel.getLastState().getTime(), rotationModel.getLastState().getRotationBody( 0 ).getX() );
+                positionGraph.addValue( 1, rotationModel.getLastState().getTime(), rotationModel.getLastState().getRotationBody( 0 ).getY() );
+                speedGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getRotationBody( 0 ).getVelocity().getMagnitude() );
+                accelerationGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getRotationBody( 0 ).getAcceleration().getMagnitude() );
             }
         } );
         angleGraph.addControlGraphListener( new ControlGraph.Listener() {

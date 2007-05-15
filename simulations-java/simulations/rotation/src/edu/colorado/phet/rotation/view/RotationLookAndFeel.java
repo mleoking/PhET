@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.rotation.util.LucidaSansFont;
