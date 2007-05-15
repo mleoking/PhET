@@ -80,11 +80,11 @@ public class PositionHistogramPlot extends XYPlot {
         setDomainAxis( _xAxis );
         
         // y-axis, no label, no ticks
-        // If we don't set a range for the y-axis, the plot will automatically scale and data will appear to be normalized.
         NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel( null );
         yAxis.setTickLabelsVisible( false );
         yAxis.setTickMarksVisible( false );
+        yAxis.setAutoRange( true ); // adjust range to fit data, so data appears normalized
         setRangeAxis( yAxis );
 
         // plot configuration
