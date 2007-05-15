@@ -149,6 +149,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      * Notifies all DatasetChangedListeners.
      * 
      * @param series
+     * @return the index of the series
      */
     public int addSeries( PhetHistogramSeries series ) {
         seriesList.add( series );
@@ -162,7 +163,8 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      * Removes this dataset as a listener for series changes.
      * Notifies all DatasetChangedListeners.
      * <p>
-     * After calling this method, the indicies of other series may be changed.
+     * Calling this method changes the indicies of series that the dataset is managing.
+     * Clients should refresh any indicies they are using by requesting new indicies.
      * 
      * @param seriesIndex
      */
@@ -177,7 +179,8 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      * Removes this dataset as a listener for series changes.
      * Notifies all DatasetChangedListeners.
      * <p>
-     * After calling this method, the indicies of other series may be changed.
+     * Calling this method changes the indicies of series that the dataset is managing.
+     * Clients should refresh any indicies they are using by requesting new indicies.
      * 
      * @param seriesIndex
      */
