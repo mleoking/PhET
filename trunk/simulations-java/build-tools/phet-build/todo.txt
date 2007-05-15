@@ -1,6 +1,12 @@
 Add clean functions
-Add per-simulation build task
 Add tasks to run/post/checkout simulations
 Add task to build all simulations quickly (less duplication of work)
-Add option to not shrink proguard
-Support for mac (proguard lib dependencies, batch scripts)
+Add tasks to automatically manage and use revision numbers. (integrate with statistics task)
+Clarify requirements for different parts of the build task (e.g. which strings must be in localization files)
+Simplify build file
+GUI for build process (display statistics, allow edit of simulation version (or title, etc), view simulations, build, launch, post simulations)?
+Add tasks to facilitate posting on the main site?
+
+Questions:
+Should jnlp and jar files be checked in to subversion?
+What is our timeline for per-simulation bitrock installer builders?  How will this relate to the build process?
