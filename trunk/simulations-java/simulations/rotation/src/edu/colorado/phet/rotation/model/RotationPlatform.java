@@ -1,6 +1,6 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.common.phetcommon.math.SPoint2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class RotationPlatform implements Serializable {
     private transient ArrayList listeners = new ArrayList();
     private double angle;
-    private SPoint2D center = new SPoint2D( 200, 200 );
+    private SerializablePoint2D center = new SerializablePoint2D( 200, 200 );
     private double radius = 200.0;
 
     public void addListener( Listener listener ) {

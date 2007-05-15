@@ -1,7 +1,7 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
-import edu.colorado.phet.common.phetcommon.math.SPoint2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -38,7 +38,7 @@ public class ParticleImageNode extends PNode {
         } );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                particle.setPosition( new SPoint2D( event.getPositionRelativeTo( ParticleImageNode.this )) );
+                particle.setPosition( new SerializablePoint2D( event.getPositionRelativeTo( ParticleImageNode.this )) );
                 particle.setUserControlled( true );
                 particle.setVelocity( 0, 0 );
             }

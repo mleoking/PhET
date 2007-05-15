@@ -2,7 +2,7 @@ package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.SPoint2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -44,12 +44,12 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setContentPane( pSwingCanvas );
 
-        final ParametricFunction2D cubicSpline = new CubicSpline2D( new SPoint2D[]{
-                new SPoint2D( 1 * 2, 0.5 * 2 ),
-                new SPoint2D( 2 * 2, 1 * 2 ),
-                new SPoint2D( 3 * 2, 0.5 * 2 ),
-                new SPoint2D( 4 * 2, 2 * 2 ),
-                new SPoint2D( 5 * 2, 0.5 * 2 )
+        final ParametricFunction2D cubicSpline = new CubicSpline2D( new SerializablePoint2D[]{
+                new SerializablePoint2D( 1 * 2, 0.5 * 2 ),
+                new SerializablePoint2D( 2 * 2, 1 * 2 ),
+                new SerializablePoint2D( 3 * 2, 0.5 * 2 ),
+                new SerializablePoint2D( 4 * 2, 2 * 2 ),
+                new SerializablePoint2D( 5 * 2, 0.5 * 2 )
         } );
 
         particleStage.addCubicSpline2D( cubicSpline );
@@ -57,7 +57,7 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.getLayer().addChild( splineLayer );
         setSize( 800, 600 );
 
-        SPoint2D[] pts = cubicSpline.getOffsetSpline( 1.0, true, 100 );
+        SerializablePoint2D[] pts = cubicSpline.getOffsetSpline( 1.0, true, 100 );
         final LinearSpline2D linearSpline2D = new LinearSpline2D( pts );
         final ParametricFunction2DNode linearSegmentNode = new ParametricFunction2DNode( linearSpline2D );
         linearSegmentNode.setVisible( false );
@@ -331,7 +331,7 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.getLayer().addChild( closestPoint );
         phetPPath.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                SPoint2D coords = new SPoint2D( event.getPositionRelativeTo( phetPPath ));
+                SerializablePoint2D coords = new SerializablePoint2D( event.getPositionRelativeTo( phetPPath ));
                 System.out.println( "coords = " + coords );
 //                TraversalState traversalState=new TraversalState( cubicSpline, true,);
                 TraversalState traversalState = particle.getBestTraversalState( coords, new Vector2D.Double( 1, 0 ) );
