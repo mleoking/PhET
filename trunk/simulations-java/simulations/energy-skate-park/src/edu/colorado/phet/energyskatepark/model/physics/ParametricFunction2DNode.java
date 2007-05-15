@@ -1,13 +1,13 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.SPoint2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
-import edu.colorado.phet.energyskatepark.model.SPoint2D;
 
 /**
  * User: Sam Reid

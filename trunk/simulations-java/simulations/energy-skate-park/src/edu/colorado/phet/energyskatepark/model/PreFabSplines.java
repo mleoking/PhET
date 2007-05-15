@@ -1,7 +1,8 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.energyskatepark.model.SPoint2D;
+import edu.colorado.phet.common.phetcommon.math.SPoint2D;
+
 import java.util.ArrayList;
 
 /**

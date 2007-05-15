@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public class RotationBodyNode extends PhetPNode {
     private RotationBody rotationBody;
-
+    
     public interface RotationBodyEnvironment {
         void dropBody( RotationBody rotationBody );
     }
@@ -67,5 +67,5 @@ public class RotationBodyNode extends PhetPNode {
         setOffset( rotationBody.getPosition() );
     }
 
-    double angle = 0;
+
 }

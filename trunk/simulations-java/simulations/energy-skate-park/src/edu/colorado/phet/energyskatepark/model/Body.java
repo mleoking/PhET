@@ -4,6 +4,7 @@ package edu.colorado.phet.energyskatepark.model;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.SPoint2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;

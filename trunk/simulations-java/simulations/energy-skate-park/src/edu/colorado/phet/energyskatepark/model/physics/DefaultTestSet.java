@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import edu.colorado.phet.energyskatepark.model.SPoint2D;
+import edu.colorado.phet.common.phetcommon.math.SPoint2D;
+
 import java.util.ArrayList;
 
 /**

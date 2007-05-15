@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.math.SPoint2D;
 import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
 

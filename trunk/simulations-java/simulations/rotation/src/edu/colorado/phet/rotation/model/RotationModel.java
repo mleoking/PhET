@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation.model;
 
+import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.rotation.RotationBody;
 import edu.colorado.phet.rotation.RotationBodyNode;
 import edu.colorado.phet.rotation.view.PlatformNode;
@@ -43,18 +44,18 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
             }
         } );
         addRotationBody( new RotationBody() );
-        rotationModelStates.add( new RotationModelState() );
+        rotationModelStates.add( new RotationModelState( copyRotationBodies(), 0.0, 0.0, 0.0, 0 ) );
 
         xVariable = new SimulationVariable( getLastState().getAngle() );
         vVariable = new SimulationVariable( getLastState().getAngularVelocity() );
         aVariable = new SimulationVariable( getLastState().getAngularAcceleration() );
 
-        xPositionVariable = new SimulationVariable( getLastState().getBody( 0 ).getX( getLastState() ) );
-        yPositionVariable = new SimulationVariable( getLastState().getBody( 0 ).getY( getLastState() ) );
-        speedVariable = new SimulationVariable( getLastState().getBody( 0 ).getVelocity( getLastState() ).getMagnitude() );
-        xVelocityVariable = new SimulationVariable( getLastState().getBody( 0 ).getVelocity( getLastState() ).getX() );
-        yVelocityVariable = new SimulationVariable( getLastState().getBody( 0 ).getVelocity( getLastState() ).getY() );
-        centripetalAcceleration = new SimulationVariable( getLastState().getBody( 0 ).getAcceleration( getLastState() ).getMagnitude() );
+        xPositionVariable = new SimulationVariable( getLastState().getBody( 0 ).getX() );
+        yPositionVariable = new SimulationVariable( getLastState().getBody( 0 ).getY() );
+        speedVariable = new SimulationVariable( getLastState().getBody( 0 ).getVelocity().getMagnitude() );
+        xVelocityVariable = new SimulationVariable( getLastState().getBody( 0 ).getVelocity().getX() );
+        yVelocityVariable = new SimulationVariable( getLastState().getBody( 0 ).getVelocity().getY() );
+        centripetalAcceleration = new SimulationVariable( getLastState().getBody( 0 ).getAcceleration().getMagnitude() );
 
         xVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
@@ -71,6 +72,16 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
                 accelDriven.setAcceleration( aVariable.getValue() );
             }
         } );
+    }
+
+    public RotationBody[] copyRotationBodies() {
+        try {
+            return (RotationBody[])PersistenceUtil.copy( rotationBodies.toArray( new RotationBody[0] ) );
+        }
+        catch( PersistenceUtil.CopyFailedException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
     }
 
     private void addRotationBody( RotationBody rotationBody ) {
@@ -105,12 +116,16 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
         vVariable.setValue( getLastState().getAngularVelocity() );
         aVariable.setValue( getLastState().getAngularAcceleration() );
 
-        xPositionVariable.setValue( getLastState().getBody( 0 ).getX( getLastState() ) );
-        yPositionVariable.setValue( getLastState().getBody( 0 ).getY( getLastState() ) );
-        speedVariable.setValue( getLastState().getBody( 0 ).getVelocity( getLastState() ).getMagnitude() );
-        xVelocityVariable.setValue( getLastState().getBody( 0 ).getX( getLastState() ) );
-        yVelocityVariable.setValue( getLastState().getBody( 0 ).getY( getLastState() ) );
-        centripetalAcceleration.setValue( getLastState().getBody( 0 ).getAcceleration( getLastState() ).getMagnitude() );
+        System.out.println( "getLastState().getBodyCount() = " + getLastState().getRotationBodyCount() );
+
+        System.out.println( "getLastState().getBody( 0 ).getX() = " + getLastState().getBody( 0 ).getX() );
+        
+        xPositionVariable.setValue( getLastState().getBody( 0 ).getX() );
+        yPositionVariable.setValue( getLastState().getBody( 0 ).getY() );
+        speedVariable.setValue( getLastState().getBody( 0 ).getVelocity().getMagnitude() );
+        xVelocityVariable.setValue( getLastState().getBody( 0 ).getX() );
+        yVelocityVariable.setValue( getLastState().getBody( 0 ).getY() );
+        centripetalAcceleration.setValue( getLastState().getBody( 0 ).getAcceleration().getMagnitude() );
         rotationPlatform.setAngle( getLastState().getAngle() );
 
         notifySteppedInTime();

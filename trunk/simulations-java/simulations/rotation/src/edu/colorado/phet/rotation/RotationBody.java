@@ -1,21 +1,24 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
+import edu.colorado.phet.common.mechanics.PhysicalVector;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
  * May 11, 2007, 12:12:12 AM
  */
-public class RotationBody {
+public class RotationBody implements Serializable {
     private UpdateStrategy updateStrategy = new OffPlatform();
-    private double x=10;
-    private double y=10;
-    private ArrayList listeners = new ArrayList();
+    private double x = 10;
+    private double y = 10;
+    private transient ArrayList listeners = new ArrayList();
     private double orientation = 0.0;
 
     public void setOffPlatform() {
@@ -43,7 +46,33 @@ public class RotationBody {
         return orientation;
     }
 
-    private static abstract class UpdateStrategy {
+    public RotationBody copy() {
+        try {
+            return (RotationBody)PersistenceUtil.copy( this );
+        }
+        catch( PersistenceUtil.CopyFailedException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public Vector2D getVelocity() {
+        return new Vector2D.Double( );
+    }
+
+    public Vector2D getAcceleration() {
+        return new Vector2D.Double( );
+    }
+
+    private static abstract class UpdateStrategy implements Serializable {
         public abstract void detach();
     }
 
@@ -112,6 +141,7 @@ public class RotationBody {
         if( this.x != x || this.y != y ) {
             this.x = x;
             this.y = y;
+            System.out.println( "x = " + x );
             notifyPositionChanged();
         }
     }
