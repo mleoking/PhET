@@ -43,32 +43,23 @@ public class TestModelPlot {
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
 
         xGraph = new ControlGraph( phetPCanvas, rotationModel.getXVariable(), "theta", "Angle", -10, 10, Color.blue, PImageFactory.create( "images/blue-arrow.png" ) );
-        xGraph.addListener( new ControlGraph.Listener() {
-            public void mousePressed() {
+        xGraph.addListener( new ControlGraph.Adapter() {
+            public void controlFocusGrabbed() {
                 rotationModel.setPositionDriven();
-            }
-
-            public void valueChanged() {
             }
         } );
 
         vGraph = new ControlGraph( phetPCanvas, rotationModel.getVVariable(), "omega", "Angular Velocity", -5, 5, Color.red, PImageFactory.create( "images/red-arrow.png" ) );
-        vGraph.addListener( new ControlGraph.Listener() {
-            public void mousePressed() {
+        vGraph.addListener( new ControlGraph.Adapter() {
+            public void controlFocusGrabbed() {
                 rotationModel.setVelocityDriven();
-            }
-
-            public void valueChanged() {
             }
         } );
 
         aGraph = new ControlGraph( phetPCanvas, rotationModel.getAVariable(), "alpha", "Angular Acceleration", -1, 1, Color.green, PImageFactory.create( "images/green-arrow.png" ) );
-        aGraph.addListener( new ControlGraph.Listener() {
-            public void mousePressed() {
+        aGraph.addListener( new ControlGraph.Adapter() {
+            public void controlFocusGrabbed() {
                 rotationModel.setAccelerationDriven();
-            }
-
-            public void valueChanged() {
             }
         } );
 

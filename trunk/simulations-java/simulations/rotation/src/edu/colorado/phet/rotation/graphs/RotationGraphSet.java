@@ -46,8 +46,8 @@ public class RotationGraphSet {
         accelerationGraph = new GraphComponent( "a", toControlGraph( pSwingCanvas, "a", "Centripetal Acceleration", 0, 0.001, Color.green, rotationModel.getCentripetalAcceleration(), new PImage( loadImage( "green-arrow.png" ) ), false ) );
         graphComponents.addAll( Arrays.asList( new GraphComponent[]{angleGraph, angularVelocityGraph, angularAccelerationGraph, positionGraph, speedGraph, accelerationGraph} ) );
         suites = new GraphSuite[]{
-//                new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),
-                new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph(),getAngularAccelerationGraph()} ),
+//                new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),//todo: remove after testing
+                new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph(), getAngularAccelerationGraph()} ),
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getAngularAccelerationGraph()} ),
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getSpeedGraph()} ),
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getAccelerationGraph()} ),
@@ -66,28 +66,19 @@ public class RotationGraphSet {
                 accelerationGraph.addValue( rotationModel.getTime(), rotationModel.getRotationBody( 0 ).getAcceleration().getMagnitude() );
             }
         } );
-        angleGraph.addControlGraphListener( new ControlGraph.Listener() {
-            public void mousePressed() {
+        angleGraph.addControlGraphListener( new ControlGraph.Adapter() {
+            public void controlFocusGrabbed() {
                 rotationModel.setPositionDriven();
             }
-
-            public void valueChanged() {
-            }
         } );
-        angularVelocityGraph.addControlGraphListener( new ControlGraph.Listener() {
-            public void mousePressed() {
+        angularVelocityGraph.addControlGraphListener( new ControlGraph.Adapter() {
+            public void controlFocusGrabbed() {
                 rotationModel.setVelocityDriven();
             }
-
-            public void valueChanged() {
-            }
         } );
-        angularAccelerationGraph.addControlGraphListener( new ControlGraph.Listener() {
-            public void mousePressed() {
+        angularAccelerationGraph.addControlGraphListener( new ControlGraph.Adapter() {
+            public void controlFocusGrabbed() {
                 rotationModel.setAccelerationDriven();
-            }
-
-            public void valueChanged() {
             }
         } );
     }
