@@ -1,18 +1,19 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.rotation.RotationBody;
+import edu.colorado.phet.common.phetcommon.math.SPoint2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  * Author: Sam Reid
  * May 11, 2007, 3:41:07 AM
  */
-public class RotationPlatform {
-    private ArrayList listeners = new ArrayList();
+public class RotationPlatform implements Serializable {
+    private transient ArrayList listeners = new ArrayList();
     private double angle;
-    private Point2D.Double center = new Point2D.Double( 200, 200 );
+    private SPoint2D center = new SPoint2D( 200, 200 );
     private double radius = 200.0;
 
     public void addListener( Listener listener ) {

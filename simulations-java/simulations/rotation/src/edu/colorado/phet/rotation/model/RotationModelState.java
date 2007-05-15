@@ -1,5 +1,8 @@
 package edu.colorado.phet.rotation.model;
 
+import edu.colorado.phet.rotation.RotationBody;
+
+import javax.crypto.interfaces.DHPrivateKey;
 import java.util.Arrays;
 
 /**
@@ -7,17 +10,17 @@ import java.util.Arrays;
  */
 
 public class RotationModelState implements Cloneable {
-    private Body[] bodies;
+    private RotationBody[] bodies;
     private double angle;
     private double angularVelocity;
     private double angularAcceleration;
     private double time;
 
-    public RotationModelState() {
-        this( new Body[]{new Body( 1.0 )}, 0, 0, 0, 0 );
-    }
+//    public RotationModelState() {
+//        this( new RotationBody[]{new RotationBody( 1.0 )}, 0, 0, 0, 0 );
+//    }
 
-    public RotationModelState( Body[] bodies, double angle, double angularVelocity, double angularAcceleration, double time ) {
+    public RotationModelState( RotationBody[] bodies, double angle, double angularVelocity, double angularAcceleration, double time ) {
         this.bodies = bodies;
         this.angle = angle;
         this.angularVelocity = angularVelocity;
@@ -48,23 +51,23 @@ public class RotationModelState implements Cloneable {
         }
     }
 
-    public Body[] copyBodies() {
-        Body[] bodies = new Body[getBodyCount()];
+    public RotationBody[] copyBodies() {
+        RotationBody[] bodies = new RotationBody[getRotationBodyCount()];
         for( int i = 0; i < bodies.length; i++ ) {
-            bodies[i] = getBody( i ).copy();
+            bodies[i] = getRotationBody( i ).copy();
         }
         return bodies;
     }
 
-    public Body getBody( int i ) {
+    public RotationBody getRotationBody( int i ) {
         return bodies[i];
     }
 
-    public int getBodyCount() {
+    public int getRotationBodyCount() {
         return bodies.length;
     }
 
-    public Body[] getBodies() {
+    public RotationBody[] getBodies() {
         return bodies;
     }
 
@@ -86,5 +89,9 @@ public class RotationModelState implements Cloneable {
 
     public void setTime( double time ) {
         this.time = time;
+    }
+
+    public RotationBody getBody( int i ) {
+        return bodies[i];
     }
 }

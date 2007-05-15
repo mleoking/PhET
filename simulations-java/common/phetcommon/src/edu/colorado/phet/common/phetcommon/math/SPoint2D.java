@@ -1,7 +1,9 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.energyskatepark.model;
+package edu.colorado.phet.common.phetcommon.math;
 
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 
 import java.awt.geom.Point2D;
 import java.io.Externalizable;

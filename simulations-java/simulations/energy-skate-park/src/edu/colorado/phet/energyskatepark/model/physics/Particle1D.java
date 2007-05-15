@@ -8,7 +8,7 @@ import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.timeseries.OptionalItemSerializableList;
 
-import edu.colorado.phet.energyskatepark.model.SPoint2D;
+import edu.colorado.phet.common.phetcommon.math.SPoint2D;
 import java.io.Serializable;
 import java.util.List;
 

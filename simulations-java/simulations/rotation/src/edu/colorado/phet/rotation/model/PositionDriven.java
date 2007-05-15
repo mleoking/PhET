@@ -23,10 +23,10 @@ public class PositionDriven implements UpdateStrategy {
 
     public RotationModelState update( RotationModel rotationModel, double dt ) {
         //assume a constant acceleration model with the given acceleration.
-        RotationModelState origState = rotationModel.getLastState();
+//        RotationModelState origState = rotationModel.getLastState();
         double vel = RotationMath.estimateDerivative( rotationModel.getAvailablePositionTimeSeries( 10 ) );
         double acc = RotationMath.estimateDerivative( rotationModel.getAvailableVelocityTimeSeries( 10 ) );
         //todo: try 2nd order derivative directly from position data
-        return new RotationModelState( origState.copyBodies(), position, vel, acc, origState.getTime() + dt );
+        return new RotationModelState( rotationModel.copyRotationBodies(), position, vel, acc, rotationModel.getLastState().getTime() + dt );
     }
 }

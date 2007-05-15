@@ -2,7 +2,7 @@ package edu.colorado.phet.energyskatepark.model.physics;
 
 import junit.framework.TestCase;
 
-import edu.colorado.phet.energyskatepark.model.SPoint2D;
+import edu.colorado.phet.common.phetcommon.math.SPoint2D;
 
 /**
  * User: Sam Reid
