@@ -9,10 +9,10 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - scale arrow heads on vectors
 - implement potential energy model
+- connect potential energy chart to model
 - better algorithm for trap force y component Fy
 - improve collision detection in Bead.move
 - add checkbox to Fluid Controls to turn off viscosity, off means turn miscroscope slide black to indicate vacuum (?)
-- connect potential energy chart to model
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - clock speed: fast=[realtime* 10^-2, realtime], slow=[realtime*140*10^-16, realtime*7*10^-16], dead in between
 - get spec for "Simulation speed" control
@@ -26,12 +26,12 @@ LOW PRIORITY:
 - use TrigCache to improve performance?
 - replace OTRuler alignment hack with permanent solution
 - add close button to ruler?
-- get requirements for "Fun With DNA" and "Molecular Motors" panels
+- get requirements for "Fun With DNA" panel
+- get requirements for "Molecular Motors" panel
 - save/load
 - javadoc
 - package level javadoc
 - make laser danger sign look better
-- combine Play & Pause clock buttons ?
 - Spanish translations
 
 CLEANUP:
