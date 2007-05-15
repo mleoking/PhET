@@ -25,7 +25,7 @@ public class PhetProguardConfigBuilder {
         builder.setProguardTemplate( new File( project.getAntBaseDir(), "templates/proguard2.pro" ) );
         builder.setInputJars( prepend( project.getAllJarFiles(), project.getJarFile() ) );
         builder.setProguardOutputFile( new File( project.getAntOutputDir(), project.getName() + ".pro" ) );
-        builder.setMainClasses( project.getMainClasses() );
+        builder.setMainClasses( project.getAllMainClasses() );
     }
 
     public void setShrink( boolean shrink ) {
