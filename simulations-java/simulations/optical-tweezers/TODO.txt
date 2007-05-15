@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- migrate PhetHistogramDataset to jfreechart-phet
 
 HIGH PRIORITY:
 - get rid of x-axis line that initially appears in center of position histogram
@@ -51,6 +50,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/15/07 - migrate PhetHistogramSeries and PhetHistogramDataset to jfreechart-phet
 5/15/07 - test for PhetHistogramSeries and PhetHistogramDataset
 5/15/07 - extract PhetHistogramSeries from PhetHistogramDataset, reorganize to be more like JFreeChart series/dataset
 5/14/07 - replace custom clock control panel with ClockControlPanelWithTimeDisplay
