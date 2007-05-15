@@ -42,6 +42,7 @@ public class ChartSlider extends PNode {
             public void mousePressed( PInputEvent event ) {
                 initDragPoint = event.getPositionRelativeTo( sliderThumb.getParent() );
                 origY = value;
+                notifySliderThumbGrabbed();
             }
 
             public void mouseReleased( PInputEvent event ) {
@@ -75,6 +76,13 @@ public class ChartSlider extends PNode {
 
         updateLayout();
 
+    }
+
+    private void notifySliderThumbGrabbed() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.sliderThumbGrabbed();
+        }
     }
 
     protected double getMaxRangeValue() {
@@ -147,6 +155,8 @@ public class ChartSlider extends PNode {
      */
     public static interface Listener {
         void valueChanged();
+
+        void sliderThumbGrabbed();
     }
 
     /**

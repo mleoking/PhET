@@ -108,7 +108,12 @@ public class ControlGraph extends PNode {
             public void valueChanged() {
                 simulationVariable.setValue( chartSlider.getValue() );
             }
+
+            public void sliderThumbGrabbed() {
+                notifyControlGrabbed();
+            }
         } );
+        
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 notifyListeners();
@@ -140,6 +145,13 @@ public class ControlGraph extends PNode {
                 event.getInputManager().setKeyboardFocus( event.getPath() );
             }
         } );
+    }
+
+    private void notifyControlGrabbed() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.controlFocusGrabbed();
+        }
     }
 
     public void addHorizontalZoomListener( ZoomControlNode.ZoomListener zoomListener ) {
@@ -366,8 +378,22 @@ public class ControlGraph extends PNode {
         void mousePressed();
 
         void valueChanged();
-    }
 
+        //This method is called when the user makes an input event that indicates
+        //that this component should be "in control" of the simulation
+        void controlFocusGrabbed();
+    }
+    public static class Adapter implements Listener{
+
+        public void mousePressed() {
+        }
+
+        public void valueChanged() {
+        }
+
+        public void controlFocusGrabbed() {
+        }
+    }
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
