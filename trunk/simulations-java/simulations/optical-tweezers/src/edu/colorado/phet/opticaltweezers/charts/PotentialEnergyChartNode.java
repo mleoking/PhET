@@ -14,7 +14,6 @@ import java.util.Observer;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotRenderingInfo;
-import org.jfree.data.Range;
 import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
@@ -23,6 +22,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.CloseButtonNode;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
+import edu.colorado.phet.opticaltweezers.view.node.BeadNode;
 import edu.colorado.phet.opticaltweezers.view.node.ModelViewTransform;
 
 /**
@@ -55,6 +55,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
     private PotentialEnergyPlot _plot;
     private JFreeChartNode _chartWrapper;
     private CloseButtonNode _closeButtonNode;
+    private BeadNode _beadNode;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -101,8 +102,11 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
             }
         });
         
+        _beadNode = new BeadNode( 20 );
+        
         addChild( _chartWrapper );
         addChild( _closeButtonNode );
+        addChild( _beadNode );
         
         setPickable( false );
         _chartWrapper.setPickable( false );
@@ -245,6 +249,20 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
      * Updates the position of the bead on the potential energy curve.
      */
     private void updateBeadPosition() {
-        //XXX move the bead to a point on the potential energy curve
+        // model values
+        double beadX = _bead.getX();
+        double beadY = _bead.getY();
+        double potentialEnergy = _laser.getPotentialEnergy( beadX, beadY );
+        
+        // plot bounds (view and model coordinates)
+        Rectangle2D plotBounds = getPlotBounds();
+        double minPosition = _plot.getPositionRange().getLowerBound();
+        double maxPosition = _plot.getPositionRange().getUpperBound();
+        double minEnergy = _plot.getPotentialEnergyRange().getLowerBound();
+        double maxEnergy = _plot.getPotentialEnergyRange().getUpperBound();
+        
+        double nodeX = _chartWrapper.getXOffset() + plotBounds.getMinX() + ( plotBounds.getWidth() * ( beadX - minPosition ) / ( maxPosition - minPosition ) );
+        double nodeY = _chartWrapper.getYOffset() + plotBounds.getMaxY() - ( plotBounds.getHeight() * ( potentialEnergy - minEnergy ) / ( maxEnergy - minEnergy ) );
+        _beadNode.setOffset( nodeX, nodeY );
     }
 }
