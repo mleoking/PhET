@@ -74,11 +74,11 @@ public class PhysicsDefaults {
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
     public static final boolean BROWNIAN_FORCE_SELECTED = false;
     public static final boolean RULER_SELECTED = false;
-    public static final boolean POSITION_HISTOGRAM_SELECTED = true;
+    public static final boolean POSITION_HISTOGRAM_SELECTED = false;
     public static final boolean ADVANCED_VISIBLE = true;
     public static final boolean FLUID_CONTROLS_SELECTED = false;
     public static final boolean MOMENTUM_CHANGE_MODEL_SELECTED = false;
-    public static final boolean POTENTIAL_ENERGY_CHART_SELECTED = false;
+    public static final boolean POTENTIAL_ENERGY_CHART_SELECTED = true;
     
     // Position Histogram
     public static final double POSITION_HISTOGRAM_MIN_POSITION = 0; // nm
