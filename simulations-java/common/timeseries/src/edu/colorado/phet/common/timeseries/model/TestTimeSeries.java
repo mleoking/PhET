@@ -1,7 +1,8 @@
-package edu.colorado.phet.common.timeseries;
+package edu.colorado.phet.common.timeseries.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.timeseries.ui.TimeSeriesPlaybackPanel;
 
 import javax.swing.*;
 

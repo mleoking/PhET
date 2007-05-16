@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.common.timeseries.RecordableModel;
+import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 
 /**

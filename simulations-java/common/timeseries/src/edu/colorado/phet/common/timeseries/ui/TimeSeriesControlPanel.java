@@ -1,6 +1,7 @@
-package edu.colorado.phet.common.timeseries;
+package edu.colorado.phet.common.timeseries.ui;
 
 import edu.colorado.phet.rotation.RotationResources;
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,36 +28,36 @@ public class TimeSeriesControlPanel extends JPanel {
         this.timeSeriesModel = timeSeriesModel;
         setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        ButtonMode recordMode = new ButtonMode( "Record", loadIcon( "Play24.gif" ), new ActionListener() {
+        ButtonMode recordMode = new ButtonMode( TimeseriesResources.getString( "record" ), loadIcon( "Play24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startRecording();
             }
         } );
-        ButtonMode pauseRecordMode = new ButtonMode( "Pause Recording", loadIcon( "Pause24.gif" ), new ActionListener() {
+        ButtonMode pauseRecordMode = new ButtonMode( TimeseriesResources.getString( "pause.recording" ), loadIcon( "Pause24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.setPaused( true );
             }
         } );
         recordButton = new TwoModeButton( recordMode, pauseRecordMode );
 
-        ButtonMode playMode = new ButtonMode( "Playback", loadIcon( "Play24.gif" ), new ActionListener() {
+        ButtonMode playMode = new ButtonMode( TimeseriesResources.getString( "playback" ), loadIcon( "Play24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startPlaybackMode( 1.0 );
             }
         } );
-        ButtonMode pausePlayback = new ButtonMode( "Pause Playback", loadIcon( "Pause24.gif" ), new ActionListener() {
+        ButtonMode pausePlayback = new ButtonMode( TimeseriesResources.getString( "pause.playback" ), loadIcon( "Pause24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.setPaused( true );
             }
         } );
         playbackButton = new TwoModeButton( playMode, pausePlayback );
 
-        ButtonMode slowMode = new ButtonMode( "Slow Playback", loadIcon( "StepForward24.gif" ), new ActionListener() {
+        ButtonMode slowMode = new ButtonMode( TimeseriesResources.getString( "slow.playback" ), loadIcon( "StepForward24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startPlaybackMode( 0.5 );
             }
         } );
-        ButtonMode pauseSlow = new ButtonMode( "Pause Playback", loadIcon( "Pause24.gif" ), new ActionListener() {
+        ButtonMode pauseSlow = new ButtonMode( TimeseriesResources.getString( "pause.playback" ), loadIcon( "Pause24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.setPaused( true );
             }
@@ -64,20 +65,20 @@ public class TimeSeriesControlPanel extends JPanel {
 
         slowMotionButton = new TwoModeButton( slowMode, pauseSlow );
 
-        rewindButton = new TimeSeriesButton( "Rewind", "Rewind24.gif" );
+        rewindButton = new TimeSeriesButton( TimeseriesResources.getString( "rewind" ), "Rewind24.gif" );
         rewindButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.rewind();
             }
         } );
-        stepButton = new TimeSeriesButton( "Step", "StepForward24.gif" );
+        stepButton = new TimeSeriesButton( TimeseriesResources.getString( "step" ), "StepForward24.gif" );
         stepButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.setPlaybackMode();
                 timeSeriesModel.stepMode();
             }
         } );
-        clearButton = new TimeSeriesButton( "Clear", "Stop24.gif" );
+        clearButton = new TimeSeriesButton( TimeseriesResources.getString( "clear" ), "Stop24.gif" );
         clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.clear();

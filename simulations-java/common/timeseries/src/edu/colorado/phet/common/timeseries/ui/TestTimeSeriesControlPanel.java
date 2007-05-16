@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.timeseries;
+package edu.colorado.phet.common.timeseries.ui;
 
 /**
  * User: Sam Reid
@@ -8,6 +8,8 @@ package edu.colorado.phet.common.timeseries;
  */
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 
 import javax.swing.*;
 

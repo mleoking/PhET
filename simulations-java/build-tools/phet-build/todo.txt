@@ -6,6 +6,8 @@ Clarify requirements for different parts of the build task (e.g. which strings m
 Simplify build file
 GUI for build process (display statistics, allow edit of simulation version (or title, etc), view simulations, build, launch, post simulations)?
 Add tasks to facilitate posting on the main site?
+Build task for gathering up all localization files for a project?
+Statistics could include coverage for localization.
 
 Questions:
 Should jnlp and jar files be checked in to subversion?

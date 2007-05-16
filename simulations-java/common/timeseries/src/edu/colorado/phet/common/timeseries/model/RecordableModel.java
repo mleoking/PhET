@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.timeseries;
+package edu.colorado.phet.common.timeseries.model;
 
 /**
  * Author: Sam Reid
