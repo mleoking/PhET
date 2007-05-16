@@ -1,5 +1,5 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.common.timeseries;
+package edu.colorado.phet.common.timeseries.model;
 
 /**
  * User: Sam Reid

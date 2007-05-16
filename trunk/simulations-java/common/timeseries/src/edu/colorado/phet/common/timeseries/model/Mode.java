@@ -1,5 +1,5 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.common.timeseries;
+package edu.colorado.phet.common.timeseries.model;
 
 
 /**

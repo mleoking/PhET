@@ -1,11 +1,14 @@
-package edu.colorado.phet.common.timeseries;
+package edu.colorado.phet.common.timeseries.ui;
+
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 
 import javax.swing.*;
 
-public class TestPlaybackPanel {
+public class TestTimeSeriesPlaybackPanel {
     private JFrame frame;
 
-    public TestPlaybackPanel() {
+    public TestTimeSeriesPlaybackPanel() {
         frame = new JFrame();
         frame.setSize( 800, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -14,7 +17,7 @@ public class TestPlaybackPanel {
     }
 
     public static void main( String[] args ) {
-        new TestPlaybackPanel().start();
+        new TestTimeSeriesPlaybackPanel().start();
     }
 
     private void start() {
