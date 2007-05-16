@@ -42,6 +42,7 @@ public class PositionHistogramPlot extends XYPlot {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private final double _binWidth;
     private PhetHistogramDataset _dataset;
     private PhetHistogramSeries _series;
     private NumberAxis _xAxis;
@@ -53,21 +54,19 @@ public class PositionHistogramPlot extends XYPlot {
     /**
      * Constructor.
      * 
-     * @param minPosition
-     * @param maxPosition
      * @param binWidth
      */
-    public PositionHistogramPlot( double minPosition, double maxPosition, double binWidth ) {
+    public PositionHistogramPlot( double binWidth ) {
         super();
+        
+        _binWidth = binWidth;
         
         // dataset
         _dataset = new PhetHistogramDataset();
         setDataset( _dataset );
         
-        // series
-        final int numberOfBins = (int) ( ( maxPosition - minPosition ) / binWidth );
-        _series = new PhetHistogramSeries( SERIES_KEY, minPosition, maxPosition, numberOfBins );
-        _dataset.addSeries( _series );
+        // series will be create when setPositionRange is called
+        _series = null;
 
         // renderer
         XYBarRenderer renderer = new PositionHistogramRenderer();
@@ -99,6 +98,9 @@ public class PositionHistogramPlot extends XYPlot {
         setDomainGridlinesVisible( false );
         setRangeGridlinesVisible( false );
         setInsets( new RectangleInsets( 0, 0, 0, 0 ) );
+        
+        // Default
+        setPositionRange( 0, binWidth );
     }
     
     //----------------------------------------------------------------------------
@@ -119,9 +121,10 @@ public class PositionHistogramPlot extends XYPlot {
         _xAxis.setRange( minPosition, maxPosition );
         
         // set the range for the series
-        final double binWidth = _series.getBinWidth();
-        final int numberOfBins = (int) ( ( maxPosition - minPosition ) / binWidth );
-        _dataset.removeSeries( _series );
+        final int numberOfBins = (int) ( ( maxPosition - minPosition ) / _binWidth );
+        if ( _series != null ) {
+            _dataset.removeSeries( _series );
+        }
         _series = new PhetHistogramSeries( SERIES_KEY, minPosition, maxPosition, numberOfBins );
         _dataset.addSeries( _series );
     }

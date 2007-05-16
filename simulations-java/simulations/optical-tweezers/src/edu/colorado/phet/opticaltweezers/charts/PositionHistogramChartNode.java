@@ -87,22 +87,14 @@ public class PositionHistogramChartNode extends PhetPNode {
     /**
      * Constructor.
      * 
-     * @param bead
      * @param clock
+     * @param bead
      * @param modelViewTransform
      */
-    public PositionHistogramChartNode( Bead bead, IClock clock, ModelViewTransform modelViewTransform, 
-            double minPosition, double maxPosition, double binWidth ) {
+    public PositionHistogramChartNode( IClock clock, Bead bead, ModelViewTransform modelViewTransform, double binWidth ) {
         super();
 
-        _plot = new PositionHistogramPlot( minPosition, maxPosition, binWidth );
-        _bead = bead;
         _clock = clock;
-        _modelViewTransform = modelViewTransform;
-        
-        _isRunning = false;
-        _numberOfMeasurements = 0;
-        
         _clockListener = new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
                 if ( _isRunning ) {
@@ -111,7 +103,15 @@ public class PositionHistogramChartNode extends PhetPNode {
             }
         };
         _clock.addClockListener( _clockListener );
-
+        
+        _bead = bead;
+        _modelViewTransform = modelViewTransform;
+        
+        _plot = new PositionHistogramPlot( binWidth );
+        
+        _isRunning = false;
+        _numberOfMeasurements = 0;
+        
         _borderNode = new PPath();
         _borderNode.setPaint( null );
         _borderNode.setStroke( BORDER_STROKE );

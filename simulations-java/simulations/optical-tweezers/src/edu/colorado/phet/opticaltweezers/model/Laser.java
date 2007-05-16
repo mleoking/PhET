@@ -23,6 +23,9 @@ public class Laser extends MovableObject implements ModelElement {
     public static final String PROPERTY_POWER = "power";
     public static final String PROPERTY_RUNNING = "running";
     
+    // fudge factor for potential energy model
+    private static final double ALPHA = 1;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -332,8 +335,14 @@ public class Laser extends MovableObject implements ModelElement {
     // Potential Energy model
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the potential energy at a point.
+     * 
+     * @param x coordinate relative to global model origin (nm)
+     * @param y coordinate relative to global model origin (nm) 
+     */
     public double getPotentialEnergy( double x, double y ) {
-        return -1 * getIntensity( x, y );
+        return -1 * ALPHA * getIntensity( x, y );
     }
     
     //----------------------------------------------------------------------------

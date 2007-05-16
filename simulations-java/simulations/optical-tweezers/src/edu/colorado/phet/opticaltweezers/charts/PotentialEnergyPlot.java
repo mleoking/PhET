@@ -41,7 +41,7 @@ public class PotentialEnergyPlot extends XYPlot {
     //----------------------------------------------------------------------------
     
     private XYSeries _series;
-    private NumberAxis _xAxis;
+    private NumberAxis _xAxis, _yAxis;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -49,11 +49,8 @@ public class PotentialEnergyPlot extends XYPlot {
     
     /**
      * Constructor.
-     * 
-     * @param minPosition
-     * @param maxPosition
      */
-    public PotentialEnergyPlot( double minPosition, double maxPosition ) {
+    public PotentialEnergyPlot() {
         super();
         
         // axis labels
@@ -78,21 +75,23 @@ public class PotentialEnergyPlot extends XYPlot {
         _xAxis.setLabelFont( AXIS_LABEL_FONT );
         _xAxis.setTickLabelsVisible( false );
         _xAxis.setTickMarksVisible( false );
-        _xAxis.setRange( minPosition, maxPosition );
         setDomainAxis( _xAxis );
         
-        NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel( potentialLabel );
-        yAxis.setLabelFont( AXIS_LABEL_FONT );
-        yAxis.setTickLabelsVisible( false );
-        yAxis.setTickMarksVisible( false );
-        yAxis.setAutoRange( true ); // automatically scale to fit
-        setRangeAxis( yAxis );
+        _yAxis = new NumberAxis();
+        _yAxis.setLabel( potentialLabel );
+        _yAxis.setLabelFont( AXIS_LABEL_FONT );
+        _yAxis.setTickLabelsVisible( false );
+        _yAxis.setTickMarksVisible( false );
+        setRangeAxis( _yAxis );
         
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
         setBackgroundPaint( BACKGROUND_COLOR );
         setDomainGridlinesVisible( false );
         setRangeGridlinesVisible( false );
+        
+        // Defaults
+        setPositionRange( 0, 1 );
+        setPotentialEnergyRange( 0, 1 );
     }
     
     //----------------------------------------------------------------------------
@@ -101,6 +100,9 @@ public class PotentialEnergyPlot extends XYPlot {
     
     /**
      * Sets the position (x axis) range.
+     * 
+     * @param minPosition
+     * @param maxPosition
      */
     public void setPositionRange( double minPosition, double maxPosition ) {
         _xAxis.setRange( minPosition, maxPosition );
@@ -113,6 +115,25 @@ public class PotentialEnergyPlot extends XYPlot {
      */
     public Range getPositionRange() {
         return _xAxis.getRange();
+    }
+    
+    /**
+     * Sets the potential energy (y axis) range.
+     * 
+     * @param minPotentialEnergy
+     * @param maxPotentialEnergy
+     */
+    public void setPotentialEnergyRange( double minPotentialEnergy, double maxPotentialEnergy ) {
+        _yAxis.setRange( minPotentialEnergy, maxPotentialEnergy );
+    }
+    
+    /**
+     * Gets the potential energy (y axis) range.
+     * 
+     * @return Range
+     */
+    public Range getPotentialEnergyRange() {
+        return _yAxis.getRange();
     }
     
     //----------------------------------------------------------------------------
