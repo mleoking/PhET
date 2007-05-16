@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- call PotentialEnergyPlot.setPotentialEnergyRange in PositionHistogramChartNode constructor
+- implement Laser.getMinPotentialEnergy
 - add bead representation to potential energy chart
 - document units for Laser.getPotentialEnergy, Laser.ALPHA, and Bead.getPotentialEnergy
 
@@ -49,6 +49,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/15/07 - potential energy chart should not autoscale, set Y-axis range to max in PositionHistogramChartNode constructor
 5/15/07 - simplify chart creation, reduce number of constructor args
 5/15/07 - add ALPHA fudge factor to potential energy model 
 5/15/07 - rewrite potential energy model, model in design doc is wrong

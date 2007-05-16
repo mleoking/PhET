@@ -108,6 +108,11 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
         _chartWrapper.setPickable( false );
         _chartWrapper.setChildrenPickable( false );
         
+        // y axis range
+        double minPotentialEnergy = _laser.getMinPotentialEnergy();
+        double maxPotentialEnergy = _laser.getMaxPotentialEnergy();
+        _plot.setPotentialEnergyRange( minPotentialEnergy, maxPotentialEnergy );
+    
         updateLayout();
         updatePotentialEnergyCurve();
         updateBeadPosition();
@@ -142,7 +147,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
         _chartWrapper.updateChartRenderingInfo();
         // update the layout of this node
         updateLayout();
-        // update the range of the x-axis
+        // x axis
         Rectangle2D dataArea = getPlotBounds();
         double minPosition = _modelViewTransform.viewToModel( dataArea.getMinX() );
         double maxPosition = _modelViewTransform.viewToModel( dataArea.getMaxX() );
