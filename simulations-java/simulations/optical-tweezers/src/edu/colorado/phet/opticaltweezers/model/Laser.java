@@ -244,11 +244,15 @@ public class Laser extends MovableObject implements ModelElement {
      * @param intensity (mW/nm^2)
      */
     public double getIntensity( final double x, final double y ) {
+        final double power = ( _running ) ? _power : 0;
+        return getIntensity( x, y, power );
+    }
+    
+    private double getIntensity( final double x, final double y, final double power ) {
         final double xOffset = x - getX();
         final double yOffset = y - getY();
         final double radius = getRadius( yOffset );
-        final double power = ( _running ) ? _power : 0;
-        return getIntensityOnRadius( xOffset, radius, power );
+        return getIntensityOnRadius( xOffset, radius, power ); 
     }
     
     /**
@@ -342,7 +346,20 @@ public class Laser extends MovableObject implements ModelElement {
      * @param y coordinate relative to global model origin (nm) 
      */
     public double getPotentialEnergy( double x, double y ) {
-        return -1 * ALPHA * getIntensity( x, y );
+        final double power = ( _running ) ? _power : 0;
+        return getPotentialEnergy( x, y, power );
+    }
+    
+    private double getPotentialEnergy( double x, double y, double power ) {
+        return -1 * ALPHA * getIntensity( x, y, power );
+    }
+    
+    public double getMinPotentialEnergy() {
+        return -0.011; //XXX getPotentialEnergy( 0, 0, _powerRange.getMax() );
+    }
+    
+    public double getMaxPotentialEnergy() {
+        return 0;
     }
     
     //----------------------------------------------------------------------------
