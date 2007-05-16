@@ -17,7 +17,7 @@ public class TestTimeSeriesControlPanel {
 
     public TestTimeSeriesControlPanel() {
         frame = new JFrame();
-        frame.setSize( 600, 600 );
+        frame.setSize( 800, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         frame.setContentPane( new TimeSeriesControlPanel( new TimeSeriesModel() ) );

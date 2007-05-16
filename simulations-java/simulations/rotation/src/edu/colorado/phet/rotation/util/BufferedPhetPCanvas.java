@@ -7,11 +7,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
- * User: Sam Reid
- * Date: Jan 1, 2007
- * Time: 11:57:30 PM
+ * This class uses manual buffering to resolve some issues related to piccolo (pswing) scene graph rendering.
+ *
+ * @author Sam Reid
  */
-
 public class BufferedPhetPCanvas extends PhetPCanvas {
     private BufferedImage bufferedImage;
 
@@ -22,10 +21,7 @@ public class BufferedPhetPCanvas extends PhetPCanvas {
 
         Graphics2D bufferedGraphics = bufferedImage.createGraphics();
         bufferedGraphics.setClip( g.getClipBounds() );//todo is this correct?
-//        bufferedGraphics.setTransform( ((Graphics2D)g).getTransform() );
         super.paintComponent( bufferedGraphics );
-        Graphics2D g2 = (Graphics2D)g;
-        g2.drawRenderedImage( bufferedImage, new AffineTransform() );
-
+        ( (Graphics2D)g ).drawRenderedImage( bufferedImage, new AffineTransform() );
     }
 }

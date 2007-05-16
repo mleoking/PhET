@@ -15,9 +15,8 @@ import java.io.IOException;
  */
 
 public class TimeSeriesControlPanel extends JPanel {
-    private TimeSeriesButton recordButton;
-    private TimeSeriesButton pauseButton;
-    private TimeSeriesButton playbackButton;
+    private TwoModeButton recordButton;
+    private TwoModeButton playbackButton;
     private TimeSeriesButton slowMotionButton;
     private TimeSeriesButton rewindButton;
     private TimeSeriesButton stepButton;
@@ -28,25 +27,29 @@ public class TimeSeriesControlPanel extends JPanel {
         this.timeSeriesModel = timeSeriesModel;
         setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-
-        recordButton = new TimeSeriesButton( "Record", "Play24.gif" );
-        recordButton.addActionListener( new ActionListener() {
+        ButtonMode recordMode = new ButtonMode( "Record", loadIcon( "Play24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.setRecording();
             }
         } );
-        pauseButton = new TimeSeriesButton( "Pause", "Pause24.gif" );
-        pauseButton.addActionListener( new ActionListener() {
+        ButtonMode pauseRecordMode = new ButtonMode( "Pause Recording", loadIcon( "Pause24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.setPaused();
             }
         } );
-        playbackButton = new TimeSeriesButton( "Playback", "Play24.gif" );
-        playbackButton.addActionListener( new ActionListener() {
+        recordButton = new TwoModeButton( recordMode, pauseRecordMode );
+
+        ButtonMode playMode = new ButtonMode( "Playback", loadIcon( "Play24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.setPlayback();
             }
         } );
+        ButtonMode pausePlayback = new ButtonMode( "Pause Playback", loadIcon( "Pause24.gif" ), new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                timeSeriesModel.setPaused();
+            }
+        } );
+        playbackButton = new TwoModeButton( playMode, pausePlayback );
         slowMotionButton = new TimeSeriesButton( "Slow Playback", "StepForward24.gif" );
         slowMotionButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -73,7 +76,6 @@ public class TimeSeriesControlPanel extends JPanel {
         } );
 
         add( recordButton, gridBagConstraints );
-        add( pauseButton, gridBagConstraints );
         add( playbackButton, gridBagConstraints );
         add( slowMotionButton, gridBagConstraints );
         add( stepButton, gridBagConstraints );
@@ -91,25 +93,118 @@ public class TimeSeriesControlPanel extends JPanel {
         setBorder( BorderFactory.createLineBorder( Color.lightGray ) );
     }
 
+    private ImageIcon loadIcon( String s ) {
+        try {
+            return new ImageIcon( RotationResources.loadBufferedImage( "icons/java/media/" + s ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( s );
+        }
+    }
+
     private void updateButtons() {
-        recordButton.setEnabled( !timeSeriesModel.isRecording() || timeSeriesModel.isPaused() );
-        pauseButton.setEnabled( !timeSeriesModel.isPaused() );
-        playbackButton.setEnabled( !timeSeriesModel.isPlayback() || timeSeriesModel.isPaused() );
+        if( timeSeriesModel.isRecording() && !timeSeriesModel.isPaused() ) {
+            recordButton.setPauseMode();
+        }
+        else {
+            recordButton.setGoMode();
+        }
+        if( timeSeriesModel.isPlayback() && !timeSeriesModel.isPaused() ) {
+            playbackButton.setPauseMode();
+        }
+        else {
+            playbackButton.setGoMode();
+        }
         slowMotionButton.setEnabled( !timeSeriesModel.isSlowMotion() || timeSeriesModel.isPaused() );
-        stepButton.setEnabled( timeSeriesModel.isPaused() );
-        rewindButton.setEnabled( true );
-        clearButton.setEnabled( true );
+        stepButton.setEnabled( timeSeriesModel.getPlaybackIndex() < timeSeriesModel.numPlaybackStates() );
+        rewindButton.setEnabled( timeSeriesModel.getPlaybackIndex() > 0 && timeSeriesModel.numPlaybackStates() > 0 );
+        clearButton.setEnabled( timeSeriesModel.numPlaybackStates() > 0 );
+    }
+
+    private static class ButtonMode {
+        private String label;
+        private Icon icon;
+        private ActionListener actionListener;
+
+        public ButtonMode( String label, Icon icon, ActionListener actionListener ) {
+            this.label = label;
+            this.icon = icon;
+            this.actionListener = actionListener;
+        }
+
+        public void actionPerformed( ActionEvent e ) {
+            actionListener.actionPerformed( e );
+        }
+
+        public String getLabel() {
+            return label;
+        }
+
+        public Icon getIcon() {
+            return icon;
+        }
+    }
+
+    static class TwoModeButton extends JButton {
+        ButtonMode goMode;
+        ButtonMode pauseMode;
+
+        ButtonMode currentMode;
+
+        public TwoModeButton( ButtonMode goMode, ButtonMode pauseMode ) {
+            this.goMode = goMode;
+            this.pauseMode = pauseMode;
+            setMode( goMode );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    currentMode.actionPerformed( e );
+                }
+            } );
+        }
+
+        private void setMode( ButtonMode mode ) {
+            currentMode = mode;
+            setText( mode.getLabel() );
+            setIcon( mode.getIcon() );
+        }
+
+        public void setPauseMode() {
+            setMode( pauseMode );
+        }
+
+        public void setGoMode() {
+            setMode( goMode );
+        }
     }
 
     static class TimeSeriesButton extends JButton {
+        private ImageIcon icon;
+        private String label;
+
         public TimeSeriesButton( String label, String imageIcon ) {
             super( label );
             try {
-                setIcon( new ImageIcon( RotationResources.loadBufferedImage( "icons/java/media/" + imageIcon ) ) );
+                icon = new ImageIcon( RotationResources.loadBufferedImage( "icons/java/media/" + imageIcon ) );
+                this.label = label;
+                setIcon( icon );
             }
             catch( IOException e ) {
                 e.printStackTrace();
             }
+        }
+
+        public void restoreIcon() {
+            setIcon( icon );
+        }
+
+        public void restoreLabel() {
+            setText( label );
+        }
+
+        public void restore() {
+            restoreIcon();
+            restoreLabel();
         }
     }
 }

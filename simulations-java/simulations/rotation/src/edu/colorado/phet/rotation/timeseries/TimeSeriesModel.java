@@ -10,21 +10,25 @@ import java.util.ArrayList;
 
 public class TimeSeriesModel {
     private ArrayList listeners = new ArrayList();
-    private boolean recording = false;
+
+    private Mode recordMode = new Mode( "record" );
+    private Mode playbackMode = new Mode( "playback" );
+    private Mode slowMotionMode = new Mode( "slow" );
+    private Mode currentMode = recordMode;
     private boolean paused = false;
-    private boolean playback;
-    private boolean slowMotion;
+    private ArrayList playbackStates = new ArrayList();
+    private int playbackIndex = 0;
 
     public boolean isRecording() {
-        return recording;
+        return currentMode == recordMode;
     }
 
     public boolean isPlayback() {
-        return playback;
+        return currentMode == playbackMode;
     }
 
     public boolean isSlowMotion() {
-        return slowMotion;
+        return currentMode == slowMotionMode;
     }
 
     public boolean isPaused() {
@@ -32,8 +36,14 @@ public class TimeSeriesModel {
     }
 
     public void setRecording() {
-        this.recording = true;
-        unpause();
+        setMode( recordMode, true );
+    }
+
+    private void setMode( Mode mode, boolean unpause ) {
+        this.currentMode = mode;
+        if( unpause ) {
+            unpause();
+        }
         notifyListeners();
     }
 
@@ -48,21 +58,35 @@ public class TimeSeriesModel {
     }
 
     public void setPlayback() {
-        this.playback = true;
-        unpause();
-        notifyListeners();
+        setMode( playbackMode, true );
     }
 
     public void setSlowMotion() {
-        this.slowMotion = true;
-        unpause();
-        notifyListeners();
+        setMode( slowMotionMode, true );
+    }
+
+    public int numPlaybackStates() {
+        return playbackStates.size();
     }
 
     public void rewind() {
+        setPlaybackIndex( 0 );
+    }
+
+    private void setPlaybackIndex( int i ) {
+        this.playbackIndex = i;
+        setPlaybackState( playbackStates.get( i ) );
+    }
+
+    protected void setPlaybackState( Object o ) {
     }
 
     public void step() {
+        setPlaybackIndex( getPlaybackIndex() + 1 );
+    }
+
+    public int getPlaybackIndex() {
+        return playbackIndex;
     }
 
     public void clear() {
@@ -77,6 +101,7 @@ public class TimeSeriesModel {
 
         void clear();
     }
+    
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
@@ -89,4 +114,15 @@ public class TimeSeriesModel {
         }
     }
 
+    class Mode {
+        String name;
+
+        public Mode( String name ) {
+            this.name = name;
+        }
+
+        public boolean equals( Object obj ) {
+            return obj instanceof Mode && ( (Mode)obj ).name.equals( name );
+        }
+    }
 }
