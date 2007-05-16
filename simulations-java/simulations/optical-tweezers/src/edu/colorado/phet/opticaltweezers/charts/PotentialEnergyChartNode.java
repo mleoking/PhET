@@ -118,6 +118,19 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     /**
+     * Update the chart when it becomes visible.
+     * 
+     * @param visible true or false
+     */
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        if ( visible ) {
+            updatePotentialEnergyCurve();
+            updateBeadPosition();
+        }
+    }
+
+    /**
      * Sets the dimensions of the chart.
      * 
      * @param w
@@ -173,6 +186,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
         }
         else if ( o == _bead ) {
             if ( arg == Bead.PROPERTY_POSITION ) {
+                updatePotentialEnergyCurve();
                 updateBeadPosition();
             }
         }
@@ -212,13 +226,13 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
      */
     private void updatePotentialEnergyCurve() {
         _plot.clear();
-        Range positionRange = _plot.getPositionRange();
-        final double maxPositon = positionRange.getUpperBound();
-        double position = positionRange.getLowerBound();
-        while ( position <= maxPositon ) {
-            double potentialEnergy = _laser.getPotentialEnergy( position );
-            _plot.addData( position, potentialEnergy );
-            position += _sampleWidth;
+        double x = _plot.getPositionRange().getLowerBound();
+        final double y = _bead.getX();
+        final double maxX = _plot.getPositionRange().getUpperBound();
+        while ( x <= maxX ) {
+            double potentialEnergy = _laser.getPotentialEnergy( x, y );
+            _plot.addData( x, potentialEnergy );
+            x += _sampleWidth;
         }
     }
     

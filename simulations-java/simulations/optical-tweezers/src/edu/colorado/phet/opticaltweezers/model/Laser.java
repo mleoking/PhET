@@ -332,9 +332,8 @@ public class Laser extends MovableObject implements ModelElement {
     // Potential Energy model
     //----------------------------------------------------------------------------
     
-    public double getPotentialEnergy( double position ) {
-        Vector2D trapForce = getTrapForce( position, 0 );
-        return 0.5 * trapForce.getX() * position * position;
+    public double getPotentialEnergy( double x, double y ) {
+        return -1 * getIntensity( x, y );
     }
     
     //----------------------------------------------------------------------------
