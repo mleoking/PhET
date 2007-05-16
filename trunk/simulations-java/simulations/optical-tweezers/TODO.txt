@@ -47,6 +47,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/16/07 - add additional constructor to BeadNode, for creating images that are not connected to the model
 5/16/07 - add Laser.getMaxIntensity
 5/16/07 - document units for Laser.getPotentialEnergy, Laser.ALPHA, and Bead.getPotentialEnergy
 5/16/07 - implement Laser.getMinPotentialEnergy
