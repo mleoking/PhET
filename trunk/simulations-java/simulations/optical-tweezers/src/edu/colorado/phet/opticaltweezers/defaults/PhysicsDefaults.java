@@ -85,6 +85,11 @@ public class PhysicsDefaults {
     public static final double POSITION_HISTOGRAM_MAX_POSITION = 2000; // nm
     public static final double POSITION_HISTOGRAM_BIN_WIDTH = 20; // nm
     
+    // Potential Energy chart
+    public static final double POTENTIAL_ENERGY_MIN_POSITION = 0; // nm
+    public static final double POTENTIAL_ENERGY_MAX_POSITION = 2000; // nm
+    public static final double POTENTIAL_ENERGY_SAMPLE_WIDTH = 5; // nm
+    
     // View stuff
     public static final double FORCE_VECTOR_REFERENCE_LENGTH = 125; // pixels
 }
