@@ -43,14 +43,15 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
         graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
         rotationPlayAreaNode = new RotationPlayAreaNode( rotationModule.getRotationModel() );
-        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( rotationModule.getRotationModel().getTimeSeries(), 1000.0 );
+
+//        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( rotationModule.getRotationModel().getTimeSeries(), 1000.0 );
+        final TimeSeriesModel timeSeriesModel = rotationModule.getRotationModel().getTimeSeriesModel();
         timeSeriesModel.addListener( new TimeSeriesModel.Listener() {
             public void stateChanged() {
-            }
-
-            public void clear() {
-                rotationModule.getRotationModel().clear();
-                rotationGraphSet.clear();
+                if( timeSeriesModel.numPlaybackStates() == 0 ) {
+                    rotationModule.getRotationModel().clear();
+                    rotationGraphSet.clear();
+                }
             }
         } );
         timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( graphSetModel, timeSeriesModel );

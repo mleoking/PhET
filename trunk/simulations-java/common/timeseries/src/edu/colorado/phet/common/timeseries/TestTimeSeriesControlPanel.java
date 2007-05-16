@@ -20,7 +20,7 @@ public class TestTimeSeriesControlPanel {
         frame.setSize( 800, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyTimeSeries(), 100.0 );
+        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), 1.0 );
         frame.setContentPane( new TimeSeriesControlPanel( timeSeriesModel ) );
         clock.addClockListener( timeSeriesModel );
     }

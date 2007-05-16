@@ -1,6 +1,8 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.common.timeseries.TimeSeries;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.timeseries.RecordableModel;
+import edu.colorado.phet.common.timeseries.TimeSeriesModel;
 import edu.colorado.phet.rotation.view.PlatformNode;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 
@@ -36,7 +38,7 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
     private SimulationVariable centripetalAcceleration;
 
     private ArrayList listeners = new ArrayList();
-    private TimeSeries timeSeries = new TimeSeries() {
+    private RecordableModel recordableModel = new RecordableModel() {
         public void stepInTime( double simulationTimeChange ) {
             RotationModel.this.stepInTime( simulationTimeChange );
         }
@@ -46,15 +48,20 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
         }
 
         public void setState( Object o ) {
-            currentState = (RotationModelState)o;
-            notifySteppedInTime();
+            //the setState paradigm is used to allow attachment of listeners to model substructure
+            //states are copied without listeners
+            currentState.setState( (RotationModelState)o );
+//            System.out.println( "currentState.getRotationPlatform().getAngle() = " + currentState.getRotationPlatform().getAngle() );
         }
 
         public void resetTime() {
         }
     };
+    private TimeSeriesModel timeSeriesModel;
 
     public RotationModel() {
+        timeSeriesModel = new TimeSeriesModel( recordableModel, 1.0 );
+        timeSeriesModel.setRecordMode();
         currentState = new RotationModelState();
         currentState.getRotationPlatform().addListener( new RotationPlatform.Listener() {
             public void angleChanged( double dtheta ) {
@@ -287,8 +294,16 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
         currentState.setAngularAcceleration( angularAcceleration );
     }
 
-    public TimeSeries getTimeSeries() {
-        return timeSeries;
+    public RecordableModel getTimeSeries() {
+        return recordableModel;
+    }
+
+    public TimeSeriesModel getTimeSeriesModel() {
+        return timeSeriesModel;
+    }
+
+    public void clockTicked( ClockEvent clockEvent ) {
+        timeSeriesModel.clockTicked( clockEvent );
     }
 
     public static interface Listener {

@@ -14,6 +14,18 @@ public class RotationModelState implements Serializable {
     private RotationPlatform rotationPlatform = new RotationPlatform();
     private double time = 0.0;
 
+    public void setState( RotationModelState state ) {
+        time = state.time;
+        rotationPlatform.setState( state.rotationPlatform );
+        if( rotationBodies.size() != state.rotationBodies.size() ) {
+            throw new IllegalArgumentException( "Different number of bodies not supported: orig=" + rotationBodies.size() + ", new=" + state.rotationBodies.size() );
+        }
+        for( int i = 0; i < rotationBodies.size(); i++ ) {
+            RotationBody rotationBody = (RotationBody)rotationBodies.get( i );
+            rotationBody.setState((RotationBody)state.rotationBodies.get( i));
+        }
+    }
+
     public RotationBody getRotationBody( int i ) {
         return (RotationBody)rotationBodies.get( i );
     }
@@ -53,15 +65,15 @@ public class RotationModelState implements Serializable {
     }
 
     public void setAngle( double angle ) {
-        rotationPlatform.setAngle(angle );
+        rotationPlatform.setAngle( angle );
     }
 
     public void setAngularVelocity( double angularVelocity ) {
-        rotationPlatform.setAngularVelocity(angularVelocity);
+        rotationPlatform.setAngularVelocity( angularVelocity );
     }
 
     public void setAngularAcceleration( double angularAcceleration ) {
-        rotationPlatform.setAngularAcceleration(angularAcceleration);
+        rotationPlatform.setAngularAcceleration( angularAcceleration );
     }
 
     public void stepInTime( double dt ) {
@@ -75,4 +87,5 @@ public class RotationModelState implements Serializable {
     public void addRotationBody( RotationBody rotationBody ) {
         rotationBodies.add( rotationBody );
     }
+
 }

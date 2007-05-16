@@ -16,8 +16,21 @@ public class RotationBody implements Serializable {
     private UpdateStrategy updateStrategy = new OffPlatform();
     private double x = 10;
     private double y = 10;
-    private transient ArrayList listeners = new ArrayList();
     private double orientation = 0.0;
+
+    private transient ArrayList listeners = new ArrayList();
+
+    public void setState( RotationBody rotationBody ) {
+        try {
+            updateStrategy = (UpdateStrategy)PersistenceUtil.copy( rotationBody.updateStrategy );
+        }
+        catch( PersistenceUtil.CopyFailedException e ) {
+            e.printStackTrace();
+        }
+        x = rotationBody.x;
+        y = rotationBody.y;
+        orientation = rotationBody.orientation;
+    }
 
     public void setOffPlatform() {
         setUpdateStrategy( new OffPlatform() );

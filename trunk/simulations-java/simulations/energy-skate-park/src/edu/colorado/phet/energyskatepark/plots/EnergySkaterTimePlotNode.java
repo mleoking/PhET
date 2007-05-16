@@ -157,7 +157,7 @@ public class EnergySkaterTimePlotNode extends PNode {
                 else if( t > timeSeriesModel.getRecordTime() ) {
                     t = timeSeriesModel.getRecordTime();
                 }
-                timeSeriesModel.setReplayTime( t );
+                timeSeriesModel.setPlaybackTime( t );
                 System.out.println( "out = " + out );
 //                double dx = event.getDelta().getWidth();
 

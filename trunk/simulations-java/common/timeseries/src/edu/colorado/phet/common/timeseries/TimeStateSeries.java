@@ -10,19 +10,10 @@ import java.util.ArrayList;
  */
 public class TimeStateSeries {
     private ArrayList pts = new ArrayList();
-    private ArrayList observers = new ArrayList();
 
     public void addPoint( Object value, double time ) {
         TimeState timePoint = new TimeState( value, time );
         this.pts.add( timePoint );
-        notifyAdded();
-    }
-
-    private void notifyAdded() {
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
-            observer.dataAdded( this );
-        }
     }
 
     public TimeState getLastPoint() {
@@ -38,16 +29,8 @@ public class TimeStateSeries {
         return pts.size();
     }
 
-    public void reset() {
+    public void clear() {
         this.pts = new ArrayList();
-        notifyCleared();
-    }
-
-    private void notifyCleared() {
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
-            observer.cleared( this );
-        }
     }
 
     public TimeState lastPointAt( int i ) {
@@ -58,28 +41,16 @@ public class TimeStateSeries {
         return ( (TimeState)pts.get( i ) );
     }
 
-    public boolean indexInBounds( int index ) {
-        return index >= 0 && index < pts.size();
-    }
-
-    public void addObserver( Observer observer ) {
-        observers.add( observer );
-    }
-
     public int numPoints() {
         return pts.size();
     }
 
-    public double getLastTime() {
-        if( numPoints() == 0 ) {
-            return 0;
-        }
-        else {
-            return getLastPoint().getTime();
-        }
+    public java.lang.Object getTimeStateValue( double time ) {
+        TimeState timeState = getTimeState( time );
+        return timeState != null ? timeState.getValue() : null;
     }
 
-    public TimeState getValueForTime( double time ) {
+    public TimeState getTimeState( double time ) {
         if( numPoints() == 0 ) {
             return new TimeState( null, 0 );
         }
@@ -137,16 +108,7 @@ public class TimeStateSeries {
         }
     }
 
-    public void remove( int i ) {
-        pts.remove( i );
+    public double getStartTime() {
+        return pointAt( 0 ).getTime();
     }
-
-    public static interface Observer {
-        void dataAdded( TimeStateSeries timeStateSeries );
-
-        void cleared( TimeStateSeries timeStateSeries );
-
-        void dataRemoved( TimeStateSeries timeStateSeries );
-    }
-
 }
