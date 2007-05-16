@@ -48,6 +48,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/15/07 - first attempt at potential energy model and diagram, missing some info
 5/15/07 - permanent solution for position histogram, custom renderer that ignores empty series 
 5/15/07 - better workaround for position histogram that doesn't involve adding bogus observations
 5/15/07 - workaround for horizontal line that appears in center of position histogram when series is empty

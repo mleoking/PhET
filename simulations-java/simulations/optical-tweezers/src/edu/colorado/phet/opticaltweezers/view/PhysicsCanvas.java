@@ -142,7 +142,8 @@ public class PhysicsCanvas extends PhetPCanvas {
                 PhysicsDefaults.POSITION_HISTOGRAM_MIN_POSITION, PhysicsDefaults.POSITION_HISTOGRAM_MAX_POSITION, PhysicsDefaults.POSITION_HISTOGRAM_BIN_WIDTH );
         
         // Potential Energy chart
-        _potentialEnergyChartNode = new PotentialEnergyChartNode();
+        _potentialEnergyChartNode = new PotentialEnergyChartNode( bead, laser, modelViewTransform,
+                PhysicsDefaults.POTENTIAL_ENERGY_MIN_POSITION, PhysicsDefaults.POTENTIAL_ENERGY_MAX_POSITION, PhysicsDefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH );
         
         // "Return Bead" button
         JButton returnBeadButton = new JButton( OTResources.getString( "button.returnBead" ) );

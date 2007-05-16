@@ -6,8 +6,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
-import java.util.Observable;
-import java.util.Observer;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
@@ -20,22 +18,42 @@ import org.jfree.data.xy.XYSeriesCollection;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 
+/**
+ * PotentialEnergyPlot is the plot for the potential energy chart.
+ * The data is normalized.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class PotentialEnergyPlot extends XYPlot {
 
-public class PotentialEnergyPlot extends XYPlot implements Observer {
-
-    private static final String SERIES_KEY = "positionPotentialEnergySeries";
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final String SERIES_KEY = "potentialEnergy";
     private static final Color BACKGROUND_COLOR = new Color( 0, 0, 0, 0 ); // transparent
     private static final Color PLOT_COLOR = new Color( 178, 25, 205 ); // purple
     private static final Stroke PLOT_STROKE = new BasicStroke( 1f );
-    private static final Color GRIDLINES_COLOR = Color.BLACK;
     private static final Font AXIS_LABEL_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 14 );
-    private static final Stroke AXIS_STROKE = new BasicStroke( 1f );
-    private static final Color AXIS_COLOR = Color.BLACK;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private XYSeries _series;
-    private NumberAxis _xAxis, _yAxis;
+    private NumberAxis _xAxis;
     
-    public PotentialEnergyPlot() {
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * 
+     * @param minPosition
+     * @param maxPosition
+     */
+    public PotentialEnergyPlot( double minPosition, double maxPosition ) {
         super();
         
         // axis labels
@@ -60,43 +78,61 @@ public class PotentialEnergyPlot extends XYPlot implements Observer {
         _xAxis.setLabelFont( AXIS_LABEL_FONT );
         _xAxis.setTickLabelsVisible( false );
         _xAxis.setTickMarksVisible( false );
-        _xAxis.setAxisLineStroke( AXIS_STROKE );
-        _xAxis.setAxisLinePaint( AXIS_COLOR );
+        _xAxis.setRange( minPosition, maxPosition );
+        setDomainAxis( _xAxis );
         
-        _yAxis = new NumberAxis();
-        _yAxis.setLabel( potentialLabel );
-        _yAxis.setLabelFont( AXIS_LABEL_FONT );
-        _yAxis.setTickLabelsVisible( false );
-        _yAxis.setTickMarksVisible( false );
-        _yAxis.setAxisLineStroke( AXIS_STROKE );
-        _yAxis.setAxisLinePaint( AXIS_COLOR );
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel( potentialLabel );
+        yAxis.setLabelFont( AXIS_LABEL_FONT );
+        yAxis.setTickLabelsVisible( false );
+        yAxis.setTickMarksVisible( false );
+        yAxis.setAutoRange( true ); // automatically scale to fit
+        setRangeAxis( yAxis );
         
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
         setBackgroundPaint( BACKGROUND_COLOR );
         setDomainGridlinesVisible( false );
         setRangeGridlinesVisible( false );
-        setDomainGridlinePaint( GRIDLINES_COLOR );
-        setRangeGridlinePaint( GRIDLINES_COLOR );
-        setDomainAxis( _xAxis );
-        setRangeAxis( _yAxis );
-        
-        _xAxis.setRange( new Range( 0, 100 ) ); //XXX
-        _yAxis.setRange( new Range( 0, 100 ) ); //XXX
     }
     
-    public void setPositionRange( Range range ) {
-        _xAxis.setRange( range );
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the position (x axis) range.
+     */
+    public void setPositionRange( double minPosition, double maxPosition ) {
+        _xAxis.setRange( minPosition, maxPosition );
     }
     
-    public void setPotentialRange( Range range ) {
-        _yAxis.setRange( range );
+    /**
+     * Gets the position (x axis) range.
+     * 
+     * @return Range
+     */
+    public Range getPositionRange() {
+        return _xAxis.getRange();
     }
     
-    public void clearData() {
+    //----------------------------------------------------------------------------
+    // Data management
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Adds a data point.
+     * 
+     * @param position
+     * @param potentialEnergy
+     */
+    public void addData( double position, double potentialEnergy ) {
+        _series.add( position, potentialEnergy );
+    }
+    
+    /**
+     * Clears all data.
+     */
+    public void clear() {
         _series.clear();
-    }
-    
-    public void update( Observable o, Object arg ) {
-        //XXX
     }
 }
