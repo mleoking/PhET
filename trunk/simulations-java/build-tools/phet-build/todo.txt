@@ -8,6 +8,7 @@ GUI for build process (display statistics, allow edit of simulation version (or 
 Add tasks to facilitate posting on the main site?
 Build task for gathering up all localization files for a project?
 Statistics could include coverage for localization.
+Clean up naming conventions for input variables to build.xml
 
 Questions:
 Should jnlp and jar files be checked in to subversion?
