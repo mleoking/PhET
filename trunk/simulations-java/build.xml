@@ -1,4 +1,8 @@
 <!--
+
+This build file is specific to building phet simulation files, in particular building jars and jnlp files.
+PhET -specific tasks are moved to an auxiliary build file.  
+
 The JNLP task requires:
 [project]/data/[project]/localization/[project]-strings.properties
 has properties
@@ -15,10 +19,13 @@ version.revision
 about.credits (optional)
 -->
 
-<project name="PhET Master Build Script" default="build-all" basedir=".">
+<project name="PhET Master Build Script" default="build-all-jars" basedir=".">
 
-<!--Newer Build Tasks-->
+    <!--Properties for deploy output-->
+    <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
+    <property name="dev_root" value="http://www.colorado.edu/physics/phet/dev"/>
 
+    <!--Do not modify: these properties define the codebase for java-implementation of ant tasks.-->
     <property name="phetbuild-classes" location="ant_output/phetbuild/classes"/>
     <property name="proguard.jar" location="build-tools/proguard3.8/lib/proguard.jar"/>
     <property name="phetbuild-src" location="build-tools/phet-build/src"/>
@@ -29,22 +36,42 @@ about.credits (optional)
     <property name="phetclean-classname" value="edu.colorado.phet.build.PhetCleanTask"/>
     <property name="phetjnlp-classname" value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
 
+    <!--Properties for the structure of the phet codebase.-->
     <property name="build-tools" value="build-tools"/>
-    <property name="phetbuild-dependencies" value="${phetbuild-classes};${proguard.jar}" />
+    <property name="phetbuild-dependencies" value="${phetbuild-classes};${proguard.jar}"/>
     <property file="local.properties"/>
+    <property name="simulations-directory" value="${basedir}/simulations/"/>
 
-    <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh" classpath="${build-tools}/maverick/lib/maverick-ant.jar"/>
+    <property name="dir.build-tools" value="${basedir}/build-tools/"/>
+    <!-- Support jars -->
+    <property name="jar.ant-contrib" value="${dir.build-tools}ant-contrib/ant-contrib-1.0b3.jar"/>
+    <property name="jar.junit" value="${dir.build-tools}junit3.8.2/junit.jar"/>
+    <property name="jar.antform" value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"/>
 
-    <target name="compile_phet-build">
+    <!-- Ant-Contrib tasks definition -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="${jar.ant-contrib}"/>
+        </classpath>
+    </taskdef>
+
+    <!-- AntForm task definition -->
+    <taskdef name="antform" classname="com.sardak.antform.AntForm" classpath="${jar.antform}"/>
+
+    <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh"
+             classpath="${build-tools}/maverick/lib/maverick-ant.jar"/>
+
+    <target name="_compile-phet-build">
         <mkdir dir="${phetbuild-classes}"/>
-        <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes}" classpath="${proguard.jar}" debug="true" debuglevel="lines,source"/>
+        <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes}" classpath="${proguard.jar}" debug="true"
+               debuglevel="lines,source"/>
     </target>
 
-    <target name="clean_phet-build">
-        <delete dir="${phetbuild-classes}" />
+    <target name="clean-phet-build">
+        <delete dir="${phetbuild-classes}"/>
     </target>
 
-    <target name="declare_phet-build-task" depends="clean_phet-build, compile_phet-build">
+    <target name="_declare-phet-build-task" depends="clean-phet-build, _compile-phet-build">
         <taskdef name="phet-build"
                  classname="${phetbuild-classname}"
                  classpath="${phetbuild-dependencies}"/>
@@ -70,85 +97,100 @@ about.credits (optional)
                  classpath="${phetbuild-dependencies}"/>
     </target>
 
-    <target name="display-stats" depends="init">
-        <phet-display-stats/>
+    <target name="_init" depends="_declare-phet-build-task"/>
+
+    <target name="build-jar" depends="_init">
+        <phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
     </target>
 
-    <target name="init" depends="declare_phet-build-task"/>
-
-    <target name="build_AllSimApp" depends="init">
-        <phet-build project="all-sims" shrink="false"/>
-    </target>
-
-    <target name="build_AllSimApp_shrink" depends="init">
-        <phet-build project="all-sims" />
-    </target>
-
-    <target name="build_esp" depends="init">
-        <phet-build project="energy-skate-park" destfile="deploy/energy-skate-park.jar"/>
-        <phet-jnlp project="energy-skate-park" flavor="energy-skate-park" deployurl="http://www.colorado.edu/physics/phet/dev/ec3/1.05.20/"/>
-    </target>
-
-    <target name="build_cck" depends="init">
-        <phet-build project="cck" destfile="deploy/cck.jar"/>
-        <phet-jnlp project="cck" flavor="cck-ac"/>
-        <phet-jnlp project="cck" flavor="cck-dc"/>
-    </target>
-
-    <target name="build_all" depends="init">
+    <target name="build-all-jars" depends="_init">
         <echo message="Starting build all..."/>
         <phet-build-all/>
         <echo message="Finished build all."/>
     </target>
 
-    <target name="build_all_jnlp" depends="init">
-        <echo message="Starting build..."/>
-        <phet-build-all-jnlp deployURL="${dev_root}/temp/dev"/>
-        <echo message="Finished build."/>
-    </target>
+    <target name="build-jnlp" depends="_init">
+        <var name="file.project.properties"
+             value="${simulations-directory}/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
+        <echo message="${file.project.properties}"/>
+        <if>
+            <not>
+                <isset property="sim.version"/>
+            </not>
+            <then>
 
-    <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
-    <property name="dev_root" value="http://www.colorado.edu/physics/phet/dev"/>
+                <loadproperties srcFile="${file.project.properties}"/>
+                <!--<propertyfile file="${file.project.properties}"/>-->
+                <property name="sim.version" value="${version.major}.${version.minor}.${version.dev}"/>
+            </then>
+        </if>
 
-    <target name="build-sim" depends="init">
-        <phet-build project="${name.sim}" destfile="deploy/${name.sim}.jar"/>
-    </target>
-
-    <target name="build-jnlp" depends="init">
         <if>
             <not>
                 <isset property="sim.flavor"/>
             </not>
             <then>
-                <property name="sim.flavor" value="${name.sim}"/>
+                <property name="sim.flavor" value="${sim.name}"/>
             </then>
         </if>
-        <phet-jnlp project="${name.sim}" flavor="${sim.flavor}" deployurl="${sim_url}"/>
+
+        <if>
+            <not>
+                <isset property="sim.url"/>
+            </not>
+            <then>
+                <property name="sim.url" value="${dev_root}/${sim.name}/${sim.version}"/>
+            </then>
+        </if>
+
+        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${sim.url}"/>
     </target>
 
-    <target name="build_and_post" depends="init">
-        <phet-build project="${name.sim}" destfile="deploy/${name.sim}.jar"/>
-        <property name="sim_url" value="${dev_root}/${name.sim}/${sim.version}"/>
-        <phet-jnlp project="${name.sim}" flavor="${name.sim}" deployurl="${sim_url}"/>
+    <target name="build-all-jnlp" depends="_init">
+        <echo message="Starting build..."/>
+        <phet-build-all-jnlp deployURL="${dev_root}/temp/dev"/>
+        <echo message="Finished build."/>
+    </target>
+
+    <!--These tasks are still under consideration, and will probably be changed, moved or deleted.-->
+    <target name="display-stats" depends="_init">
+        <phet-display-stats/>
+    </target>
+
+    <target name="build-esp" depends="_init">
+        <phet-build project="energy-skate-park" destfile="deploy/energy-skate-park.jar"/>
+        <phet-jnlp project="energy-skate-park" flavor="energy-skate-park"
+                   deployurl="http://www.colorado.edu/physics/phet/dev/ec3/1.05.20/"/>
+    </target>
+
+    <target name="build_cck" depends="_init">
+        <phet-build project="cck" destfile="deploy/cck.jar"/>
+        <phet-jnlp project="cck" flavor="cck-ac"/>
+        <phet-jnlp project="cck" flavor="cck-dc"/>
+    </target>
+
+    <target name="build-and-post" depends="_init">
+        <phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
+        <if>
+            <not>
+                <isset property="sim.url"/>
+            </not>
+            <then>
+                <property name="sim.url" value="${dev_root}/${sim.name}/${sim.version}"/>
+            </then>
+        </if>
+
+        <phet-jnlp project="${sim.name}" flavor="${sim.name}" deployurl="${sim.url}"/>
 
         <maverick-ssh host="${ssh-host}" username="${username}" password="${password}" version="2">
-            <sftp action="mkdir" remotedir="${phet-ssh-root}/dev/${name.sim}"/>
-            <sftp action="mkdir" remotedir="${phet-ssh-root}/dev/${name.sim}/${sim.version}"/>
-            <sftp action="put" remotedir="${phet-ssh-root}/dev/${name.sim}/${sim.version}" verbose="true">
-                <fileset dir="simulations/${name.sim}/deploy"></fileset>
+            <sftp action="mkdir" remotedir="${phet-ssh-root}/dev/${sim.name}"/>
+            <sftp action="mkdir" remotedir="${phet-ssh-root}/dev/${sim.name}/${sim.version}"/>
+            <sftp action="put" remotedir="${phet-ssh-root}/dev/${sim.name}/${sim.version}" verbose="true">
+                <fileset dir="simulations/${sim.name}/deploy"></fileset>
             </sftp>
         </maverick-ssh>
         <exec executable="${browser}" spawn="true">
-            <arg value="${sim_url}"/>
+            <arg value="${sim.url}"/>
         </exec>
     </target>
-
-    <target name="build_mri" depends="init">
-        <phet-build project="mri"/>
-    </target>
-    
-    <target name="build_photoelectric" depends="init">
-        <phet-build project="photoelectric"/>
-    </target>
-    
 </project>
