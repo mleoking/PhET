@@ -9,4 +9,5 @@ Add tasks to facilitate posting on the main site?
 
 Questions:
 Should jnlp and jar files be checked in to subversion?
+Should any build features be written outside of the ant task interface?
 What is our timeline for per-simulation bitrock installer builders?  How will this relate to the build process?
