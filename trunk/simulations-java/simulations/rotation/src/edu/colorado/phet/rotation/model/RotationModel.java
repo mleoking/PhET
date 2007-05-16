@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation.model;
 
+import edu.colorado.phet.common.timeseries.TimeSeries;
 import edu.colorado.phet.rotation.view.PlatformNode;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 
@@ -35,6 +36,23 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
     private SimulationVariable centripetalAcceleration;
 
     private ArrayList listeners = new ArrayList();
+    private TimeSeries timeSeries = new TimeSeries() {
+        public void stepInTime( double simulationTimeChange ) {
+            RotationModel.this.stepInTime( simulationTimeChange );
+        }
+
+        public Object getState() {
+            return currentState.copy();
+        }
+
+        public void setState( Object o ) {
+            currentState = (RotationModelState)o;
+            notifySteppedInTime();
+        }
+
+        public void resetTime() {
+        }
+    };
 
     public RotationModel() {
         currentState = new RotationModelState();
@@ -267,6 +285,10 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
 
     public void setAngularAcceleration( double angularAcceleration ) {
         currentState.setAngularAcceleration( angularAcceleration );
+    }
+
+    public TimeSeries getTimeSeries() {
+        return timeSeries;
     }
 
     public static interface Listener {

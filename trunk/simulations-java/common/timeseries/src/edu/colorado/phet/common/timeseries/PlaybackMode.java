@@ -1,7 +1,6 @@
 package edu.colorado.phet.common.timeseries;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -10,14 +9,12 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
  */
 public class PlaybackMode extends Mode {
     private double playbackSpeed;
-    private PhetTimer timer;
-    private TimeSeriesModel timeSeriesModel;
-    private static final double SIMULATION_TIME_DT = 1.0;
+    private double playbackTime;
+    private ArrayList listeners = new ArrayList();
 
     public PlaybackMode( TimeSeriesModel timeSeriesModel ) {
-        super( timeSeriesModel, "playback" );
-        this.timeSeriesModel = timeSeriesModel;
-        timer = new PhetTimer( "playback.timer" );
+        super( timeSeriesModel );
+        playbackTime = 0.0;
     }
 
     public double getPlaybackSpeed() {
@@ -28,49 +25,41 @@ public class PlaybackMode extends Mode {
         this.playbackSpeed = playbackSpeed;
     }
 
-    public void step() {
-        setPlaybackSpeed( 1.0 );
-        doStep( SIMULATION_TIME_DT );
-    }
-
-    public void clockTicked( ClockEvent event ) {
-        double dt = event.getSimulationTimeChange();
-        step( dt );
-    }
-
-    private void step( double dt ) {
-        if( !timeSeriesModel.isPaused() ) {
-            doStep( dt );
-        }
-    }
-
     public double getPlaybackTime() {
-        return timeSeriesModel.getPlaybackTimer().getTime();
+        return playbackTime;
     }
 
-    private void doStep( double dt ) {
-        timeSeriesModel.getPlaybackTimer().stepInTime( dt * playbackSpeed, timeSeriesModel.getRecordTimer().getTime() );
-        double playTime = timeSeriesModel.getPlaybackTimer().getTime();
-        double recTime = timeSeriesModel.getRecordTimer().getTime();
-        if( playTime < recTime ) {
-            timeSeriesModel.setReplayTime( playTime );
+    public void step( double dt ) {
+        playbackTime += dt * playbackSpeed;
+        if( playbackTime > getTimeSeriesModel().getRecordTime() ) {
+            playbackTime = getTimeSeriesModel().getRecordTime();
+        }
+        if( playbackTime < getTimeSeriesModel().getRecordTime() ) {
+            getTimeSeriesModel().setReplayTime( playbackTime );
         }
         else {
-            timeSeriesModel.setPaused( true );
-            timeSeriesModel.firePlaybackFinished();
+            getTimeSeriesModel().setPaused( true );
+        }
+        for( int i = 0; i < listeners.size(); i++ ) {
+            TimeSeriesModel.PlaybackTimeListener playbackTimeListener = (TimeSeriesModel.PlaybackTimeListener)listeners.get( i );
+            playbackTimeListener.timeChanged();
         }
     }
 
     public void reset() {
-        timer.reset();
+        playbackTime = 0.0;
     }
 
     public void rewind() {
-        timeSeriesModel.setReplayTime( 0.0 );
-        timer.setTime( 0 );
+        getTimeSeriesModel().setReplayTime( 0.0 );
+        reset();
     }
 
-    public PhetTimer getTimer() {
-        return timer;
+    public void setTime( double requestedTime ) {
+        this.playbackTime = requestedTime;
+    }
+
+    public void addListener( TimeSeriesModel.PlaybackTimeListener playbackTimeListener ) {
+        listeners.add( playbackTimeListener );
     }
 }

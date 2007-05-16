@@ -1,13 +1,13 @@
 package edu.colorado.phet.rotation.view;
 
+import edu.colorado.phet.common.timeseries.TimeSeriesModel;
 import edu.colorado.phet.rotation.RotationControlPanel;
 import edu.colorado.phet.rotation.RotationModule;
 import edu.colorado.phet.rotation.TimeSeriesGraphSetNode;
-import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSuite;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
-import edu.colorado.phet.common.timeseries.TimeSeriesModel2;
+import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -21,7 +21,7 @@ import java.awt.geom.Rectangle2D;
  */
 
 public class RotationSimulationPanel extends BufferedPhetPCanvas {
-//public class RotationSimulationPanel extends PhetPCanvas {
+    //public class RotationSimulationPanel extends PhetPCanvas {
     /*MVC Model components*/
     private RotationModule rotationModule;
 
@@ -43,8 +43,8 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
         graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
         rotationPlayAreaNode = new RotationPlayAreaNode( rotationModule.getRotationModel() );
-        TimeSeriesModel2 timeSeriesModel = new TimeSeriesModel2();
-        timeSeriesModel.addListener( new TimeSeriesModel2.Listener() {
+        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( rotationModule.getRotationModel().getTimeSeries(), 1000.0 );
+        timeSeriesModel.addListener( new TimeSeriesModel.Listener() {
             public void stateChanged() {
             }
 

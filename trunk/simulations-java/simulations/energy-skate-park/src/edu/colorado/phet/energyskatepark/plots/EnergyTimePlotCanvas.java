@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.timeseries.TimeSeriesModelListenerAdapter;
+import edu.colorado.phet.common.timeseries.TimeSeriesModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
@@ -94,11 +94,18 @@ public class EnergyTimePlotCanvas extends PhetPCanvas {
                 plot.updateReadouts();
             }
         } );
-        ec3Module.getTimeSeriesModel().addListener( new TimeSeriesModelListenerAdapter() {
-            public void reset() {
-                EnergyTimePlotCanvas.this.reset();
+//        ec3Module.getTimeSeriesModel().addListener( new TimeSeriesModelListenerAdapter() {
+//            public void reset() {
+//                EnergyTimePlotCanvas.this.reset();
+//            }
+//        } );
+        ec3Module.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
+            public void stateChanged() {
+                if (ec3Module.getTimeSeriesModel().numPlaybackStates()==0){
+                    reset();
+                }
             }
-        } );
+        });
 
         JButton clear = new JButton( "Clear" );
         clear.addActionListener( new ActionListener() {

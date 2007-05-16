@@ -2,43 +2,21 @@
 package edu.colorado.phet.common.timeseries;
 
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
-
 /**
  * User: Sam Reid
  * Date: Jul 1, 2003
  * Time: 1:12:18 PM
- *
  */
-public abstract class Mode implements ClockListener {
-    private String name;
+public abstract class Mode {
     private TimeSeriesModel timeSeriesModel;
 
-    public Mode( TimeSeriesModel timeSeriesModel, String name ) {
+    public Mode( TimeSeriesModel timeSeriesModel ) {
         this.timeSeriesModel = timeSeriesModel;
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public TimeSeriesModel getTimeSeriesModel() {
         return timeSeriesModel;
     }
 
-    public void clockStarted( ClockEvent clockEvent ) {
-    }
-
-    public void clockPaused( ClockEvent clockEvent ) {
-    }
-
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
-    }
-
-    public void simulationTimeReset( ClockEvent clockEvent ) {
-    }
-
-    public abstract void step();
+    public abstract void step( double dt );
 }

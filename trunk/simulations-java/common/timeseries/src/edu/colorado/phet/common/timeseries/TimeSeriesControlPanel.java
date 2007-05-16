@@ -21,44 +21,44 @@ public class TimeSeriesControlPanel extends JPanel {
     private TimeSeriesButton rewindButton;
     private TimeSeriesButton stepButton;
     private TimeSeriesButton clearButton;
-    private TimeSeriesModel2 timeSeriesModel;
+    private TimeSeriesModel timeSeriesModel;
 
-    public TimeSeriesControlPanel( final TimeSeriesModel2 timeSeriesModel ) {
+    public TimeSeriesControlPanel( final TimeSeriesModel timeSeriesModel ) {
         this.timeSeriesModel = timeSeriesModel;
         setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         ButtonMode recordMode = new ButtonMode( "Record", loadIcon( "Play24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.setRecording();
+                timeSeriesModel.startRecording();
             }
         } );
         ButtonMode pauseRecordMode = new ButtonMode( "Pause Recording", loadIcon( "Pause24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.setPaused();
+                timeSeriesModel.setPaused( true );
             }
         } );
         recordButton = new TwoModeButton( recordMode, pauseRecordMode );
 
         ButtonMode playMode = new ButtonMode( "Playback", loadIcon( "Play24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.setPlayback();
+                timeSeriesModel.startPlaybackMode( 1.0 );
             }
         } );
         ButtonMode pausePlayback = new ButtonMode( "Pause Playback", loadIcon( "Pause24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.setPaused();
+                timeSeriesModel.setPaused( true );
             }
         } );
         playbackButton = new TwoModeButton( playMode, pausePlayback );
 
         ButtonMode slowMode = new ButtonMode( "Slow Playback", loadIcon( "StepForward24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.setSlowMotion();
+                timeSeriesModel.startPlaybackMode( 0.5 );
             }
         } );
         ButtonMode pauseSlow = new ButtonMode( "Pause Playback", loadIcon( "Pause24.gif" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.setPaused();
+                timeSeriesModel.setPaused( true );
             }
         } );
 
@@ -67,13 +67,14 @@ public class TimeSeriesControlPanel extends JPanel {
         rewindButton = new TimeSeriesButton( "Rewind", "Rewind24.gif" );
         rewindButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-//                timeSeriesModel.rewind();
+                timeSeriesModel.rewind();
             }
         } );
         stepButton = new TimeSeriesButton( "Step", "StepForward24.gif" );
         stepButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-//                timeSeriesModel.step();
+                timeSeriesModel.setPlaybackMode();
+                timeSeriesModel.stepMode();
             }
         } );
         clearButton = new TimeSeriesButton( "Clear", "Stop24.gif" );
@@ -89,12 +90,9 @@ public class TimeSeriesControlPanel extends JPanel {
         add( stepButton, gridBagConstraints );
         add( rewindButton, gridBagConstraints );
         add( clearButton, gridBagConstraints );
-        timeSeriesModel.addListener( new TimeSeriesModel2.Listener() {
+        timeSeriesModel.addListener( new TimeSeriesModel.Listener() {
             public void stateChanged() {
                 updateButtons();
-            }
-
-            public void clear() {
             }
         } );
         updateButtons();
@@ -118,13 +116,13 @@ public class TimeSeriesControlPanel extends JPanel {
         else {
             recordButton.setGoMode();
         }
-        if( timeSeriesModel.isPlayback() && !timeSeriesModel.isPaused() ) {
+        if( timeSeriesModel.isPlaybackMode() && !timeSeriesModel.isPaused() ) {
             playbackButton.setPauseMode();
         }
         else {
             playbackButton.setGoMode();
         }
-        if( timeSeriesModel.isSlowMotion() && !timeSeriesModel.isPaused() ) {
+        if( timeSeriesModel.isPlaybackMode() && timeSeriesModel.getPlaybackMode().getPlaybackSpeed() == 0.5 && !timeSeriesModel.isPaused() ) {
             slowMotionButton.setPauseMode();
         }
         else {

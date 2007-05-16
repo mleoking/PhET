@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.tests;
+package edu.colorado.phet.common.timeseries;
 
 /**
  * User: Sam Reid
@@ -7,20 +7,22 @@ package edu.colorado.phet.rotation.tests;
  *
  */
 
-import edu.colorado.phet.common.timeseries.TimeSeriesControlPanel;
-import edu.colorado.phet.common.timeseries.TimeSeriesModel2;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
 import javax.swing.*;
 
 public class TestTimeSeriesControlPanel {
     private JFrame frame;
+    private SwingClock clock = new SwingClock( 30, 1 );
 
     public TestTimeSeriesControlPanel() {
         frame = new JFrame();
         frame.setSize( 800, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        frame.setContentPane( new TimeSeriesControlPanel( new TimeSeriesModel2() ) );
+        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyTimeSeries(), 100.0 );
+        frame.setContentPane( new TimeSeriesControlPanel( timeSeriesModel ) );
+        clock.addClockListener( timeSeriesModel );
     }
 
     public static void main( String[] args ) {
@@ -29,5 +31,6 @@ public class TestTimeSeriesControlPanel {
 
     private void start() {
         frame.setVisible( true );
+        clock.start();
     }
 }
