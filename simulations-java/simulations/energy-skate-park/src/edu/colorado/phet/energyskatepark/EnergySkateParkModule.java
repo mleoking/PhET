@@ -50,7 +50,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     private JDialog barChartFrame;
     private double floorY = 0.0;
     private TimeSeriesPlaybackPanel timeSeriesPlaybackPanel;
-    private EC3TimeSeriesModel energyTimeSeriesModel;
+    private EC3RecordableModel energyTimeSeriesModel;
     private JDialog chartFrame;
     private EnergyTimePlotCanvas energyTimePlotCanvas;
 
@@ -79,8 +79,9 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyModel = new EnergySkateParkModel( floorY );
         setModel( new BaseModel() );
 
-        energyTimeSeriesModel = new EC3TimeSeriesModel( this );
-        timeSeriesModel = new TimeSeriesModel( energyTimeSeriesModel, 200.0 );
+        energyTimeSeriesModel = new EC3RecordableModel( this );
+        timeSeriesModel = new TimeSeriesModel( energyTimeSeriesModel, EnergySkateParkApplication.SIMULATION_TIME_DT );
+        timeSeriesModel.setMaxRecordTime(200.0);
         clock.addClockListener( timeSeriesModel );
 
         energyCanvas = new EnergySkateParkSimulationPanel( this );

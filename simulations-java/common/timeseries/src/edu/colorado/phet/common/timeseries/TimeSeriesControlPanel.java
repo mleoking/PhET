@@ -190,32 +190,16 @@ public class TimeSeriesControlPanel extends JPanel {
     }
 
     static class TimeSeriesButton extends JButton {
-        private ImageIcon icon;
-        private String label;
 
         public TimeSeriesButton( String label, String imageIcon ) {
             super( label );
             try {
-                icon = new ImageIcon( RotationResources.loadBufferedImage( "icons/java/media/" + imageIcon ) );
-                this.label = label;
-                setIcon( icon );
+                setIcon( new ImageIcon( RotationResources.loadBufferedImage( "icons/java/media/" + imageIcon ) ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();
             }
         }
 
-        public void restoreIcon() {
-            setIcon( icon );
-        }
-
-        public void restoreLabel() {
-            setText( label );
-        }
-
-        public void restore() {
-            restoreIcon();
-            restoreLabel();
-        }
     }
 }

@@ -19,6 +19,16 @@ public class RotationPlatform implements Serializable {
     private double angularVelocity = 0.0;
     private double angularAcceleration = 0.0;
 
+    public void setState( RotationPlatform rotationPlatform ) {
+        double origAngle = angle;
+        center = new SerializablePoint2D( rotationPlatform.center );
+        radius = rotationPlatform.radius;
+        angle = rotationPlatform.angle;
+        angularVelocity = rotationPlatform.angularVelocity;
+        angularAcceleration = rotationPlatform.angularAcceleration;
+        notifyAngleChanged( angle - origAngle );
+    }
+
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }

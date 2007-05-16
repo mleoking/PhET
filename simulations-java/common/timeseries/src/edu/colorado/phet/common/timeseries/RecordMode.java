@@ -17,7 +17,7 @@ public class RecordMode extends Mode {
     }
 
     public void step( double dt ) {
-        double maxTime = getTimeSeriesModel().getMaxAllowedTime();
+        double maxTime = getTimeSeriesModel().getMaxRecordTime();
         double newTime = recordTime + dt;
         if( newTime > maxTime ) {
             dt = ( maxTime - recordTime );

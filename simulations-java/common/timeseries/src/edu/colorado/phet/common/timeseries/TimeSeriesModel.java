@@ -13,26 +13,23 @@ import java.util.ArrayList;
  */
 
 public class TimeSeriesModel extends ClockAdapter {
-    private ArrayList listeners = new ArrayList();
-    private boolean paused = false;
-
-    private Mode mode;//the current mode.
-    private RecordMode recordMode;
-    private PlaybackMode playbackMode;
-    private LiveMode liveMode;
-
-    public static double TIME_SCALE = 1.0;// for dynamic model.
-    private double maxAllowedTime;
+    private RecordableModel recordableModel;
     private TimeStateSeries series = new TimeStateSeries();
-    private double simulationDT = 0.03;
-    private TimeSeries timeSeries;
+    private double singleStepDT;
+    private boolean paused = false;
+    private double maxRecordTime = Double.POSITIVE_INFINITY;
 
-    public TimeSeriesModel( TimeSeries timeSeries, double maxAllowedTime ) {
-        this.timeSeries = timeSeries;
-        recordMode = new RecordMode( this );
-        playbackMode = new PlaybackMode( this );
-        liveMode = new LiveMode( this );
-        this.maxAllowedTime = maxAllowedTime;
+    private RecordMode recordMode = new RecordMode( this );
+    private PlaybackMode playbackMode = new PlaybackMode( this );
+    private LiveMode liveMode = new LiveMode( this );
+
+    private Mode mode = liveMode;//the current mode.
+
+    private ArrayList listeners = new ArrayList();
+
+    public TimeSeriesModel( RecordableModel recordableModel, double singleStepDT ) {
+        this.recordableModel = recordableModel;
+        this.singleStepDT = singleStepDT;
         this.mode = liveMode;
     }
 
@@ -48,18 +45,10 @@ public class TimeSeriesModel extends ClockAdapter {
         return playbackMode.getPlaybackTime();
     }
 
-    public void setReplayTime( double requestedTime ) {
-        if( requestedTime < 0 || requestedTime > getRecordTime() ) {
-        }
-        else {
+    public void setPlaybackTime( double requestedTime ) {
+        if( requestedTime >= 0 && requestedTime <= getRecordTime() && numPlaybackStates() > 0 ) {
             playbackMode.setTime( requestedTime );
-            TimeState value = series.getValueForTime( requestedTime );
-            if( value != null ) {
-                Object v = value.getValue();
-                if( v != null ) {
-                    timeSeries.setState( v );
-                }
-            }
+            recordableModel.setState( series.getTimeStateValue( requestedTime ) );
         }
     }
 
@@ -67,16 +56,8 @@ public class TimeSeriesModel extends ClockAdapter {
         return mode;
     }
 
-    public RecordMode getRecordMode() {
-        return recordMode;
-    }
-
     public PlaybackMode getPlaybackMode() {
         return playbackMode;
-    }
-
-    public static double getTimeScale() {
-        return TIME_SCALE;
     }
 
     public void addListener( Listener listener ) {
@@ -94,23 +75,19 @@ public class TimeSeriesModel extends ClockAdapter {
         }
     }
 
-    public boolean isLiveMode() {
-        return mode == liveMode;
-    }
-
     public void reset() {
         boolean origPauseState = isPaused();
         setPaused( true );
         recordMode.reset();
-        playbackMode.reset();
-        series.reset();
-        timeSeries.resetTime();
+        rewind();
+        series.clear();
+        recordableModel.resetTime();
         setPaused( origPauseState );
         notifyStateChanged();
     }
 
-    public int getTimeIndex( double requestedTime ) {
-        return (int)( requestedTime / TIME_SCALE );
+    public boolean isLiveMode() {
+        return mode == liveMode;
     }
 
     public boolean isRecordMode() {
@@ -120,14 +97,6 @@ public class TimeSeriesModel extends ClockAdapter {
     public void setRecordMode() {
         setMode( recordMode );
     }
-
-    void setLastPoint() {
-        if( series.size() > 0 ) {
-            TimeState lastPoint = series.getLastPoint();
-            timeSeries.setState( lastPoint.getValue() );
-        }
-    }
-
 
     public void confirmAndApplyReset() {
         if( confirmReset() ) {
@@ -139,7 +108,7 @@ public class TimeSeriesModel extends ClockAdapter {
         return true;
     }
 
-    public void setMode( Mode mode ) {
+    protected void setMode( Mode mode ) {
         boolean same = mode == this.mode;
         if( !same ) {
             this.mode = mode;
@@ -148,8 +117,17 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void rewind() {
-        playbackMode.rewind();
+        setPlaybackTime( getRecordStartTime() );
         notifyStateChanged();
+    }
+
+    private double getRecordStartTime() {
+        if( series.numPoints() > 0 ) {
+            return series.getStartTime();
+        }
+        else {
+            return 0.0;
+        }
     }
 
     private void notifyStateChanged() {
@@ -182,17 +160,8 @@ public class TimeSeriesModel extends ClockAdapter {
         return series;
     }
 
-    public double getMaxAllowedTime() {
-        return maxAllowedTime;
-    }
-
-    public double getTime() {
-        if( isRecordMode() ) {
-            return getRecordTime();
-        }
-        else {
-            return getPlaybackTime();
-        }
+    public double getMaxRecordTime() {
+        return maxRecordTime;
     }
 
     public void addSeriesPoint( Object state, double recordTime ) {
@@ -234,23 +203,33 @@ public class TimeSeriesModel extends ClockAdapter {
         return getSeries().size() > 0 && isPlaybackMode() && playbackMode.getPlaybackTime() == 0;
     }
 
-    public double getSimulationDT() {
-        return simulationDT;
+    public double getSingleStepDT() {
+        return singleStepDT;
+    }
+
+    public void setSingleStepDT( double singleStepDT ) {
+        this.singleStepDT = singleStepDT;
     }
 
     public void updateModel( double dt ) {
-        timeSeries.stepInTime( dt );
+        recordableModel.stepInTime( dt );
     }
 
     public Object getModelState() {
-        return timeSeries.getState();
+        return recordableModel.getState();
     }
 
     public void clear() {
+        series.clear();
+        notifyStateChanged();
     }
 
     public int numPlaybackStates() {
         return series.numPoints();
+    }
+
+    public void setMaxRecordTime( double maxRecordTime ) {
+        this.maxRecordTime = maxRecordTime;
     }
 
     public interface PlaybackTimeListener {
@@ -258,16 +237,14 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void clockTicked( ClockEvent event ) {
-        if( mode != null ) {
-            ifRecordTooMuchSwitchToLive();
-            if( !isPaused() ) {
-                stepMode( event.getSimulationTimeChange() );
-            }
+        ifRecordTooMuchSwitchToLive();
+        if( !isPaused() ) {
+            stepMode( event.getSimulationTimeChange() );
         }
     }
 
     public void stepMode() {
-        stepMode( getSimulationDT() );
+        stepMode( getSingleStepDT() );
     }
 
     public void stepMode( double simulationTimeChange ) {
@@ -275,7 +252,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void setPlaybackMode() {
-        setMode( getPlaybackMode() );
+        setMode( playbackMode );
     }
 
     public static interface Listener {

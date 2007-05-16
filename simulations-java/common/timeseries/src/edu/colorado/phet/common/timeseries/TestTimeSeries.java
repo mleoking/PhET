@@ -17,8 +17,8 @@ public class TestTimeSeries {
         frame.setSize( 800, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        TimeSeries timeSeries = new MyTimeSeries();
-        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( timeSeries, 100.0 );
+        RecordableModel recordableModel = new MyRecordableModel();
+        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( recordableModel, 1.0);
         frame.setContentPane( new TimeSeriesPlaybackPanel( timeSeriesModel ) );
         Clock clock = new SwingClock( 30, 1.0 );
         clock.addClockListener( timeSeriesModel );
@@ -33,7 +33,7 @@ public class TestTimeSeries {
         frame.setVisible( true );
     }
 
-    public static class MyTimeSeries implements TimeSeries {
+    public static class MyRecordableModel implements RecordableModel {
         double time = 0;
 
         public void stepInTime( double simulationTimeChange ) {

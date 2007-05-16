@@ -17,10 +17,6 @@ public class TimeState {
         this.time = time;
     }
 
-    public TimeState( TimeState timePoint ) {
-        this( timePoint.value, timePoint.time );
-    }
-
     public Object getValue() {
         return value;
     }

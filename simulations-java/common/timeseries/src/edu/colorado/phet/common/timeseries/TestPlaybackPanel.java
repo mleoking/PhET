@@ -10,7 +10,7 @@ public class TestPlaybackPanel {
         frame.setSize( 800, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        frame.setContentPane( new TimeSeriesPlaybackPanel( new TimeSeriesModel( new TestTimeSeries.MyTimeSeries(), 1000.0 ) ) );
+        frame.setContentPane( new TimeSeriesPlaybackPanel( new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), 1.0) ) );
     }
 
     public static void main( String[] args ) {

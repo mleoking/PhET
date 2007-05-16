@@ -35,7 +35,7 @@ public class PlaybackMode extends Mode {
             playbackTime = getTimeSeriesModel().getRecordTime();
         }
         if( playbackTime < getTimeSeriesModel().getRecordTime() ) {
-            getTimeSeriesModel().setReplayTime( playbackTime );
+            getTimeSeriesModel().setPlaybackTime( playbackTime );
         }
         else {
             getTimeSeriesModel().setPaused( true );
@@ -46,14 +46,7 @@ public class PlaybackMode extends Mode {
         }
     }
 
-    public void reset() {
-        playbackTime = 0.0;
-    }
-
-    public void rewind() {
-        getTimeSeriesModel().setReplayTime( 0.0 );
-        reset();
-    }
+    
 
     public void setTime( double requestedTime ) {
         this.playbackTime = requestedTime;
