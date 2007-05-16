@@ -1,18 +1,43 @@
-Add clean functions
-Add tasks to run/post/checkout simulations
-Add task to build all simulations quickly (less duplication of work)
-Add tasks to automatically manage and use revision numbers. (integrate with statistics task)
-Clarify requirements for different parts of the build task (e.g. which strings must be in localization files)
+High Priority:
+Add/cleanup tasks:
+Build
+Build-All
+Clean
+Run (check for existence, maybe build if out of date (or maybe always build), then run)
+
 Simplify build file
-GUI for build process (display statistics, allow edit of simulation version (or title, etc), view simulations, build, launch, post simulations)?
-Add tasks to facilitate posting on the main site?
-Build task for gathering up all localization files for a project?
-Statistics could include coverage for localization.
 Clean up naming conventions for input variables to build.xml
+Clarify requirements for different parts of the build task (e.g. which strings must be in localization files)
+    -document this requirement
+    -visit each sim to standardize        
+Phet-specific tasks (deploy, etc) should be moved to a phet-specific build file
+    -deploy should probably be here as well
+
+Medium Priority:
+Task "build distribution" that prepares a zip file of source, etc. for other developers to download
+Cleanup sourceforge deploy files
+Add task to build all simulations quickly (less duplication of work)
+Build task for gathering up all localization files for a project? (not in build.xml)
+Statistics could include coverage for localization.
+
+Low Priority:
+Tasks for subversion
+    Add tasks to facilitate posting on the main site?
+Version management
+Add tasks to automatically manage and use revision numbers. (integrate with statistics task)
+GUI for build process (display statistics, allow edit of simulation version (or title, etc), view simulations, build, launch, post simulations)?
 
 Questions:
 Should jnlp and jar files be checked in to subversion?
+    No, should be left out.
 Should any build features be written outside of the ant task interface?
+    Not necessary in build.xml, ok to leave as java or ant task.
 What is our timeline for per-simulation bitrock installer builders?  How will this relate to the build process?
+    There should be a "build installer" task.
 Should build-all tasks work on a single project at a time or a single phase at a time?
+    Deploy to server should all be done as a batch (so outputs can be verified)
 Should properties be defined in build.xml or java files?
+    If properties are specific to java files only (no reference in build.xml), and are not meant to be user-configurable.
+
+specify modules
+
