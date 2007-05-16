@@ -3,9 +3,9 @@ package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
+import edu.colorado.phet.energyskatepark.util.OptionalItemSerializableList;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
-import edu.colorado.phet.energyskatepark.timeseries.OptionalItemSerializableList;
 
 import java.io.Serializable;
 import java.util.ArrayList;

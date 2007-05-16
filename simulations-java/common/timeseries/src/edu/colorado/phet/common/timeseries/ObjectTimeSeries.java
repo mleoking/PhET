@@ -1,5 +1,5 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.energyskatepark.timeseries;
+package edu.colorado.phet.common.timeseries;
 
 import java.util.ArrayList;
 

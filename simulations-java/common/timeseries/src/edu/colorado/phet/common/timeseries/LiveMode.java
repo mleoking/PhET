@@ -1,5 +1,5 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.energyskatepark.timeseries;
+package edu.colorado.phet.common.timeseries;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;

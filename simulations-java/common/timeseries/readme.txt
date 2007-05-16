@@ -1,0 +1,1 @@
+The PhET common timeseries subproject represents time series geared toward recording and playback for simulations.

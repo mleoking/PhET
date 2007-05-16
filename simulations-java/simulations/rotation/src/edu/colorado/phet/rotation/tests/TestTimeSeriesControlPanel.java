@@ -7,8 +7,8 @@ package edu.colorado.phet.rotation.tests;
  *
  */
 
-import edu.colorado.phet.rotation.timeseries.TimeSeriesControlPanel;
-import edu.colorado.phet.rotation.timeseries.TimeSeriesModel;
+import edu.colorado.phet.common.timeseries.TimeSeriesControlPanel;
+import edu.colorado.phet.common.timeseries.TimeSeriesModel2;
 
 import javax.swing.*;
 
@@ -20,7 +20,7 @@ public class TestTimeSeriesControlPanel {
         frame.setSize( 800, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        frame.setContentPane( new TimeSeriesControlPanel( new TimeSeriesModel() ) );
+        frame.setContentPane( new TimeSeriesControlPanel( new TimeSeriesModel2() ) );
     }
 
     public static void main( String[] args ) {

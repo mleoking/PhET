@@ -2,8 +2,8 @@ package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSetNode;
-import edu.colorado.phet.rotation.timeseries.TimeSeriesControlPanel;
-import edu.colorado.phet.rotation.timeseries.TimeSeriesModel;
+import edu.colorado.phet.common.timeseries.TimeSeriesControlPanel;
+import edu.colorado.phet.common.timeseries.TimeSeriesModel2;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -22,7 +22,7 @@ public class TimeSeriesGraphSetNode extends PNode {
     private PSwing timeSeriesControlPanelNode;
     private boolean constructed = false;
 
-    public TimeSeriesGraphSetNode( GraphSetModel graphSetModel, TimeSeriesModel timeSeriesModel ) {
+    public TimeSeriesGraphSetNode( GraphSetModel graphSetModel, TimeSeriesModel2 timeSeriesModel ) {
         setBounds( 0, 0, 800, 600 );
         graphSetNode = new GraphSetNode( graphSetModel );
         TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel );

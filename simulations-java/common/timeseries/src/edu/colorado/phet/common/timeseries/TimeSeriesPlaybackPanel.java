@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.energyskatepark.timeseries;
+package edu.colorado.phet.common.timeseries;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;

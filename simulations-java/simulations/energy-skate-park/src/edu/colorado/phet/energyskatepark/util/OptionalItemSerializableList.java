@@ -1,5 +1,7 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.energyskatepark.timeseries;
+package edu.colorado.phet.energyskatepark.util;
+
+import edu.colorado.phet.energyskatepark.util.ListDecorator;
 
 import java.io.*;
 import java.util.ArrayList;

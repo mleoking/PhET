@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.energyskatepark.model.TrackWithFriction;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.energyskatepark.timeseries.OptionalItemSerializableList;
+import edu.colorado.phet.energyskatepark.util.OptionalItemSerializableList;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import java.io.Serializable;

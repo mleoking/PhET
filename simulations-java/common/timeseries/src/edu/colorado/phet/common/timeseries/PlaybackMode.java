@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.energyskatepark.timeseries;
+package edu.colorado.phet.common.timeseries;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
@@ -37,7 +37,6 @@ public class PlaybackMode extends Mode {
     }
 
     public void clockTicked( ClockEvent event ) {
-//        System.out.println( "PlaybackMode.clockTicked" );
         double dt = event.getSimulationTimeChange();
         step( dt );
     }
