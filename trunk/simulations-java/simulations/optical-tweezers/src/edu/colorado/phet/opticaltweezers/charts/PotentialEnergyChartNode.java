@@ -70,7 +70,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
      * @param maxPosition
      * @param sampleWidth
      */
-    public PotentialEnergyChartNode( Bead bead, Laser laser, ModelViewTransform modelViewTransform, double minPosition, double maxPosition, double sampleWidth ) {
+    public PotentialEnergyChartNode( Bead bead, Laser laser, ModelViewTransform modelViewTransform, double sampleWidth ) {
         super();
         
         _bead = bead;
@@ -83,7 +83,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
         
         _sampleWidth = sampleWidth;
         
-        _plot = new PotentialEnergyPlot( minPosition, maxPosition );
+        _plot = new PotentialEnergyPlot();
         
         JFreeChart chart = new JFreeChart( OTResources.getString( "title.potentialEnergyChart" ), null /* titleFont */, _plot, false /* createLegend */ );
         chart.setAntiAlias( true );
