@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.energyskatepark.timeseries;
+package edu.colorado.phet.common.timeseries;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
@@ -47,20 +47,9 @@ public class RecordMode extends Mode {
         if( newTime > maxTime ) {
             dt = ( maxTime - recorderTime );// / timer.getTimerScale();
         }
-        timer.stepInTime( dt, maxTime );//this could go over the max.
+        timer.stepInTime( dt, maxTime );
         timeSeriesModel.updateModel( dt );
 
         timeSeriesModel.addSeriesPoint( timeSeriesModel.getModelState(), timeSeriesModel.getRecordTime() );
-
-//        System.out.println( "timeSeriesModel.getSeries().size() = " + timeSeriesModel.getSeries().size() );
-//        int NUM_TO_RECORD_ADDITIONAL = 20;
-//        for( int i = 0; i < NUM_TO_RECORD_ADDITIONAL; i++ ) {
-//            timeSeriesModel.addSeriesPoint( timeSeriesModel.getModelState(), timeSeriesModel.getRecordTime() );
-//        }
-
-//        while( timeSeriesModel.getSeries().size() > MAX ) {
-////            timeSeriesModel.getSeries().remove( 0 );
-//            timeSeriesModel.getSeries().remove( 0 );
-//        }
     }
 }

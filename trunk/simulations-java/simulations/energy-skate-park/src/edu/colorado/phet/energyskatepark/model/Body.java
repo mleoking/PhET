@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
-import edu.colorado.phet.energyskatepark.timeseries.OptionalItemSerializableList;
+import edu.colorado.phet.energyskatepark.util.OptionalItemSerializableList;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
