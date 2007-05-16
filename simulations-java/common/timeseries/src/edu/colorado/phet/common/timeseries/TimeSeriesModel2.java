@@ -105,40 +105,40 @@ public class TimeSeriesModel2 extends ClockAdapter {
         return history.size();
     }
 
-    public void rewind() {
-        setPlaybackTime( 0 );
-    }
+//    public void rewind() {
+//        setPlaybackTime( 0 );
+//    }
 
-    private void setPlaybackTime( double playbackTime ) {
-        this.playbackTime = playbackTime;
-        timeSeries.setState( history.get( getClosestPlaybackIndex() ) );
-    }
+//    private void setPlaybackTime( double playbackTime ) {
+//        this.playbackTime = playbackTime;
+//        timeSeries.setState( history.get( getClosestPlaybackIndex() ) );
+//    }
+//
+//    public void step() {
+//        setPlaybackTime( getClosestPlaybackIndex() + 1 );
+//    }
 
-    public void step() {
-        setPlaybackTime( getClosestPlaybackIndex() + 1 );
-    }
-
-    public int getClosestPlaybackIndex() {
-        //binay search on time indices
-        //assume sorted
-        ArrayList list=new ArrayList( );
-        Collections.binarySearch( list, )
-        int lowerBound = 0;
-        int upperBound = history.size() - 1;
-        int middle = ( upperBound - lowerBound ) / 2;
-        double midTime = getTimeForIndex( middle );
-        if( midTime > playbackTime) {
-            return playbackIndex;
-        }
-    }
-
-    private double getTimeForIndex( int middle ) {
-        return getHistoryPoint( middle ).getTime();
-    }
-
-    private HistoryState getHistoryPoint( int index ) {
-        return history.get( index );
-    }
+//    public int getClosestPlaybackIndex() {
+//        //binay search on time indices
+//        //assume sorted
+//        ArrayList list=new ArrayList( );
+//        Collections.binarySearch( list, )
+//        int lowerBound = 0;
+//        int upperBound = history.size() - 1;
+//        int middle = ( upperBound - lowerBound ) / 2;
+//        double midTime = getTimeForIndex( middle );
+//        if( midTime > playbackTime) {
+//            return playbackIndex;
+//        }
+//    }
+//
+//    private double getTimeForIndex( int middle ) {
+//        return getHistoryPoint( middle ).getTime();
+//    }
+//
+//    private HistoryState getHistoryPoint( int index ) {
+//        return history.get( index );
+//    }
 
     public void clear() {
         for( int i = 0; i < listeners.size(); i++ ) {

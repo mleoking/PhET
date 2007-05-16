@@ -67,13 +67,13 @@ public class TimeSeriesControlPanel extends JPanel {
         rewindButton = new TimeSeriesButton( "Rewind", "Rewind24.gif" );
         rewindButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.rewind();
+//                timeSeriesModel.rewind();
             }
         } );
         stepButton = new TimeSeriesButton( "Step", "StepForward24.gif" );
         stepButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.step();
+//                timeSeriesModel.step();
             }
         } );
         clearButton = new TimeSeriesButton( "Clear", "Stop24.gif" );
@@ -130,8 +130,8 @@ public class TimeSeriesControlPanel extends JPanel {
         else {
             slowMotionButton.setGoMode();
         }
-        stepButton.setEnabled( timeSeriesModel.getClosestPlaybackIndex() < timeSeriesModel.numPlaybackStates() );
-        rewindButton.setEnabled( timeSeriesModel.getClosestPlaybackIndex() > 0 && timeSeriesModel.numPlaybackStates() > 0 );
+//        stepButton.setEnabled( timeSeriesModel.getClosestPlaybackIndex() < timeSeriesModel.numPlaybackStates() );
+//        rewindButton.setEnabled( timeSeriesModel.getClosestPlaybackIndex() > 0 && timeSeriesModel.numPlaybackStates() > 0 );
         clearButton.setEnabled( timeSeriesModel.numPlaybackStates() > 0 );
     }
 
