@@ -14,3 +14,5 @@ Questions:
 Should jnlp and jar files be checked in to subversion?
 Should any build features be written outside of the ant task interface?
 What is our timeline for per-simulation bitrock installer builders?  How will this relate to the build process?
+Should build-all tasks work on a single project at a time or a single phase at a time?
+Should properties be defined in build.xml or java files?
