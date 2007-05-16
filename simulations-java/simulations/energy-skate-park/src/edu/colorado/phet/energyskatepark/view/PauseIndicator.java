@@ -5,7 +5,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
-import edu.colorado.phet.common.timeseries.TimeSeriesModelListenerAdapter;
+import edu.colorado.phet.common.timeseries.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -42,31 +42,41 @@ public class PauseIndicator extends PNode {
         text.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
         text.setTextPaint( Color.red );
         text.setShadowColor( Color.black );
-        module.getTimeSeriesModel().addListener( new TimeSeriesModelListenerAdapter() {
-            public void liveModeStarted() {
-                hideMe();
-            }
+        module.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
 
-            public void recordingStarted() {
-                hideMe();
+            public void stateChanged() {
+                if (module.getTimeSeriesModel().isPaused()){
+                    showMe();
+                }else{
+                    hideMe();
+                }
             }
-
-            public void recordingPaused() {
-                showMe();
-            }
-
-            public void playbackStarted() {
-                hideMe();
-            }
-
-            public void playbackPaused() {
-                showMe();
-            }
-
-            public void liveModePaused() {
-                showMe();
-            }
-        } );
+        });
+//        module.getTimeSeriesModel().addListener( new TimeSeriesModelListenerAdapter() {
+//            public void liveModeStarted() {
+//                hideMe();
+//            }
+//
+//            public void recordingStarted() {
+//                hideMe();
+//            }
+//
+//            public void recordingPaused() {
+//                showMe();
+//            }
+//
+//            public void playbackStarted() {
+//                hideMe();
+//            }
+//
+//            public void playbackPaused() {
+//                showMe();
+//            }
+//
+//            public void liveModePaused() {
+//                showMe();
+//            }
+//        } );
 
         JButton record = new JButton( EnergySkateParkStrings.getString( "go" ) );
         record.addActionListener( new ActionListener() {

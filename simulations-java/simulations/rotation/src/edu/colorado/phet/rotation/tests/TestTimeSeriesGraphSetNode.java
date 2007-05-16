@@ -8,7 +8,8 @@ package edu.colorado.phet.rotation.tests;
  */
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.timeseries.TimeSeriesModel2;
+import edu.colorado.phet.common.timeseries.TestTimeSeries;
+import edu.colorado.phet.common.timeseries.TimeSeriesModel;
 import edu.colorado.phet.rotation.TimeSeriesGraphSetNode;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
@@ -30,7 +31,7 @@ public class TestTimeSeriesGraphSetNode {
 
         pSwingCanvas = new PhetPCanvas();
         frame.setContentPane( pSwingCanvas );
-        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( new GraphSetModel( new RotationGraphSet( pSwingCanvas, new RotationModel() ).getGraphSuite( 0 ) ), new TimeSeriesModel2() );
+        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( new GraphSetModel( new RotationGraphSet( pSwingCanvas, new RotationModel() ).getGraphSuite( 0 ) ), new TimeSeriesModel( new TestTimeSeries.MyTimeSeries(), 100.0 ) );
         pSwingCanvas.getLayer().addChild( timeSeriesGraphSetNode );
         pSwingCanvas.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {

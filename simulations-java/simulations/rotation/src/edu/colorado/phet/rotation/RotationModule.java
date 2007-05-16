@@ -62,4 +62,5 @@ public class RotationModule extends PiccoloModule {
     public RotationSimulationPanel getRotationSimulationPanel() {
         return rotationSimulationPanel;
     }
+
 }

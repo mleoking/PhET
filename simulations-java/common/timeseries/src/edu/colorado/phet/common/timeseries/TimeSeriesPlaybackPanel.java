@@ -67,7 +67,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
                 timeSeriesModel.startLiveMode();
             }
         } );
-        record = createButton( TimeseriesStrings.getString( "record" ), "Movie" );
+        record = createButton( TimeseriesStrings.getString( "record" ), "Play" );
         record.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startRecording();
@@ -89,7 +89,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             }
         } );
 
-        play = createButton( TimeseriesStrings.getString( "playback" ), "Forward" );
+        play = createButton( TimeseriesStrings.getString( "playback" ), "Play" );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startPlaybackMode( PLAYBACK_FULL );
@@ -127,55 +127,12 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         add( step );
         add( rewind );
         add( clear );
-
-        TimeSeriesModelListener timeListener = new TimeSeriesModelListener() {
-            public void liveModeStarted() {
+        timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
+            public void stateChanged() {
                 updateButtons();
             }
-
-            public void recordingStarted() {
-                updateButtons();
-            }
-
-            public void recordingPaused() {
-                updateButtons();
-            }
-
-            public void recordingFinished() {
-                updateButtons();
-            }
-
-            public void playbackFinished() {
-                updateButtons();
-            }
-
-            public void playbackStarted() {
-                updateButtons();
-            }
-
-            public void playbackPaused() {
-                updateButtons();
-            }
-
-            public void reset() {
-                updateButtons();
-            }
-
-            public void rewind() {
-                updateButtons();
-            }
-
-            public void liveModePaused() {
-                updateButtons();
-            }
-
-            public void seriesPointAdded() {
-                updateButtons();
-            }
-        };
-
-        timeSeriesModel.addListener( timeListener );
-        timeListener.liveModeStarted();
+        } );
+        updateButtons();
     }
 
     private BufferedImage loadImage( String s ) {
@@ -196,7 +153,6 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         slowMotion.setEnabled( ( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isPlaybackMode( PLAYBACK_SLOW ) ) || ( timeSeriesModel.isPlaybackMode() && timeSeriesModel.isPaused() ) );
         pause.setEnabled( !timeSeriesModel.isPaused() );
         rewind.setEnabled( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isFirstPlaybackPoint() );
-//        boolean disableStep = timeSeriesModel.isLastPlaybackPoint();
         step.setEnabled( timeSeriesModel.isPaused() );
         clear.setEnabled( timeSeriesModel.isThereRecordedData() );
     }

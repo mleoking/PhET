@@ -8,16 +8,16 @@ package edu.colorado.phet.common.timeseries;
  *
  */
 
-public class ObjectTimePoint {
+public class TimeState {
     private Object value;
     private double time;
 
-    public ObjectTimePoint( Object value, double time ) {
+    public TimeState( Object value, double time ) {
         this.value = value;
         this.time = time;
     }
 
-    public ObjectTimePoint( ObjectTimePoint timePoint ) {
+    public TimeState( TimeState timePoint ) {
         this( timePoint.value, timePoint.time );
     }
 

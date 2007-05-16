@@ -5,10 +5,9 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.energyskatepark.common.LucidaSansFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.timeseries.TimeSeriesModel;
-import edu.colorado.phet.common.timeseries.TimeSeriesModelListenerAdapter;
+import edu.colorado.phet.energyskatepark.common.LucidaSansFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -44,7 +43,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 2, 2005
  * Time: 2:17:06 PM
- *
  */
 
 public class EnergySkaterTimePlotNode extends PNode {
@@ -99,42 +97,46 @@ public class EnergySkaterTimePlotNode extends PNode {
                 cursorPNode.setVisible( true );
                 updateCursorLocation();
             }
-
-
         } );
-        timeSeriesModel.addListener( new TimeSeriesModelListenerAdapter() {
-            public void recordingStarted() {
-                hideCursor();
-            }
+        timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
 
-            public void recordingPaused() {
-                showCursor();
-            }
-
-            public void recordingFinished() {
-                showCursor();
-            }
-
-            public void playbackStarted() {
-                showCursor();
-            }
-
-            public void playbackPaused() {
-                showCursor();
-            }
-
-            public void playbackFinished() {
-                showCursor();
-            }
-
-            public void reset() {
-                hideCursor();
-            }
-
-            public void rewind() {
-                showCursor();
+            public void stateChanged() {
+                setCursorVisible( timeSeriesModel.isPlaybackMode() );
             }
         } );
+//        timeSeriesModel.addListener( new TimeSeriesModelListenerAdapter() {
+//            public void recordingStarted() {
+//                hideCursor();
+//            }
+//
+//            public void recordingPaused() {
+//                showCursor();
+//            }
+//
+//            public void recordingFinished() {
+//                showCursor();
+//            }
+//
+//            public void playbackStarted() {
+//                showCursor();
+//            }
+//
+//            public void playbackPaused() {
+//                showCursor();
+//            }
+//
+//            public void playbackFinished() {
+//                showCursor();
+//            }
+//
+//            public void reset() {
+//                hideCursor();
+//            }
+//
+//            public void rewind() {
+//                showCursor();
+//            }
+//        } );
         Rectangle2D d = getDataArea();
         int cursorWidth = 6;
         cursorPNode = new PPath( new Rectangle2D.Double( -cursorWidth / 2, -d.getHeight() / 2, cursorWidth, d.getHeight() ) );
@@ -388,12 +390,8 @@ public class EnergySkaterTimePlotNode extends PNode {
         return minimized;
     }
 
-    private void showCursor() {
-        cursorPNode.setVisible( true );
-    }
-
-    private void hideCursor() {
-        cursorPNode.setVisible( false );
+    private void setCursorVisible( boolean vis ) {
+        cursorPNode.setVisible( vis );
     }
 
     public void setChartSize( int chartWidth, int chartHeight ) {
