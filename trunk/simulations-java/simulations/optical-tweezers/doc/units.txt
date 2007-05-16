@@ -13,6 +13,7 @@ Units used in the model:
     acceleration = nm/sec^2
     temperature = Kelvin
     angles = radians
+    potential energy = mJ
 
 Some useful units conversions:
 

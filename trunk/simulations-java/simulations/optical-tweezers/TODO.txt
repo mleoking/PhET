@@ -5,9 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- implement Laser.getMinPotentialEnergy
 - add bead representation to potential energy chart
-- document units for Laser.getPotentialEnergy, Laser.ALPHA, and Bead.getPotentialEnergy
 
 MEDIUM PRIORITY:
 - scale arrow heads on vectors
@@ -49,10 +47,13 @@ MODEL INFO NEEDED:
 
  
 DONE:
-5/15/07 - potential energy chart should not autoscale, set Y-axis range to max in PositionHistogramChartNode constructor
-5/15/07 - simplify chart creation, reduce number of constructor args
-5/15/07 - add ALPHA fudge factor to potential energy model 
-5/15/07 - rewrite potential energy model, model in design doc is wrong
+5/16/07 - add Laser.getMaxIntensity
+5/16/07 - document units for Laser.getPotentialEnergy, Laser.ALPHA, and Bead.getPotentialEnergy
+5/16/07 - implement Laser.getMinPotentialEnergy
+5/16/07 - potential energy chart should not autoscale, set Y-axis range to max in PositionHistogramChartNode constructor
+5/16/07 - simplify chart creation, reduce number of constructor args
+5/16/07 - add ALPHA fudge factor to potential energy model 
+5/16/07 - rewrite potential energy model, model in design doc is wrong
 5/15/07 - first attempt at potential energy model and diagram, missing some info
 5/15/07 - permanent solution for position histogram, custom renderer that ignores empty series 
 5/15/07 - better workaround for position histogram that doesn't involve adding bogus observations

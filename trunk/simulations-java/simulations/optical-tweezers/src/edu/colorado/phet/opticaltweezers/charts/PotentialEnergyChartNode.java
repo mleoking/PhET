@@ -111,7 +111,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
         // y axis range
         double minPotentialEnergy = _laser.getMinPotentialEnergy();
         double maxPotentialEnergy = _laser.getMaxPotentialEnergy();
-        _plot.setPotentialEnergyRange( minPotentialEnergy, maxPotentialEnergy );
+        _plot.setPotentialEnergyRange( minPotentialEnergy * 1.02, maxPotentialEnergy );
     
         updateLayout();
         updatePotentialEnergyCurve();
