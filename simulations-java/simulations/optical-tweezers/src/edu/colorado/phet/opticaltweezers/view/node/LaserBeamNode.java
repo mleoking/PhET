@@ -153,9 +153,8 @@ public class LaserBeamNode extends PhetPNode implements Observer {
         final int blue = c.getBlue();
         
         // Max power intensity, at center of trap
-        final double waistRadius = _laser.getRadius( 0 );
         final double maxPower = _laser.getPowerRange().getMax();
-        final double maxIntensity = Laser.getIntensityOnRadius( 0, waistRadius, maxPower );
+        final double maxIntensity = _laser.getMaxIntensity();
         
         // Create the gradient pixel data
         int[][] dataBuffer = new int[gradientWidth][gradientHeight];

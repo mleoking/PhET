@@ -24,7 +24,7 @@ public class Laser extends MovableObject implements ModelElement {
     public static final String PROPERTY_RUNNING = "running";
     
     // fudge factor for potential energy model
-    private static final double ALPHA = 1;
+    private static final double ALPHA = 1; // nm^2/sec
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -241,14 +241,22 @@ public class Laser extends MovableObject implements ModelElement {
      * 
      * @param x coordinate relative to global model origin (nm)
      * @param y coordinate relative to global model origin (nm)
-     * @param intensity (mW/nm^2)
+     * @return intensity (mW/nm^2)
      */
     public double getIntensity( final double x, final double y ) {
         final double power = ( _running ) ? _power : 0;
         return getIntensity( x, y, power );
     }
-    
-    private double getIntensity( final double x, final double y, final double power ) {
+
+    /**
+     * Gets the intensity at a point for a specific power.
+     * 
+     * @param x coordinate relative to global model origin (nm)
+     * @param y coordinate relative to global model origin (nm)
+     * @param power power (mW)
+     * @return intensity (mW/nm^2)
+     */
+    public double getIntensity( final double x, final double y, final double power ) {
         final double xOffset = x - getX();
         final double yOffset = y - getY();
         final double radius = getRadius( yOffset );
@@ -261,7 +269,7 @@ public class Laser extends MovableObject implements ModelElement {
      * 
      * @param xOffset horizontal distance from the center of the waist (nm)
      * @param radius beam radius (nm)
-     * @param power laser power (mW)
+     * @param power power (mW)
      * @return intensity (mW/nm^2)
      */
     public static double getIntensityOnRadius( final double xOffset, final double radius, final double power ) {
@@ -274,6 +282,15 @@ public class Laser extends MovableObject implements ModelElement {
         final double t1 = power / ( Math.PI * ( ( radius * radius ) / 2 ) );
         final double t2 = Math.exp( ( -2 * xOffset * xOffset ) / ( radius * radius ) );
         return t1 * t2;
+    }
+    
+    /**
+     * Gets the maximum intensity of the laser, at the center of the trap with max power.
+     * 
+     * @return intensity (mW/nm^2)
+     */
+    public double getMaxIntensity() {
+        return getIntensity( getX(), getY(), _powerRange.getMax() );
     }
     
     //----------------------------------------------------------------------------
@@ -344,20 +361,40 @@ public class Laser extends MovableObject implements ModelElement {
      * 
      * @param x coordinate relative to global model origin (nm)
      * @param y coordinate relative to global model origin (nm) 
+     * @return potential energy (mJ)
      */
-    public double getPotentialEnergy( double x, double y ) {
+    public double getPotentialEnergy( final double x, final double y ) {
         final double power = ( _running ) ? _power : 0;
         return getPotentialEnergy( x, y, power );
     }
     
-    private double getPotentialEnergy( double x, double y, double power ) {
+    /**
+     * Gets the potential energy at a point for a hypothetical power value.
+     * 
+     * @param x
+     * @param y
+     * @param power
+     * @return potential energy (mJ)
+     */
+    private double getPotentialEnergy( final double x, final double y, final double power ) {
         return -1 * ALPHA * getIntensity( x, y, power );
     }
     
+    /**
+     * Gets the minimum potential energy for the laser, at the center of the trap with max power..
+     * 
+     * @return minimum potential energy (mJ)
+     */
     public double getMinPotentialEnergy() {
-        return -0.011; //XXX getPotentialEnergy( 0, 0, _powerRange.getMax() );
+        return getPotentialEnergy( getX(), getY(), _powerRange.getMax() );
     }
     
+    /**
+     * Gets the maximum potential energy for the laser.
+     * The maximum potential energy will approach zero.
+     * 
+     * @return 0 (mJ)
+     */
     public double getMaxPotentialEnergy() {
         return 0;
     }

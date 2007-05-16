@@ -212,7 +212,7 @@ public class Bead extends MovableObject implements ModelElement {
     /**
      * Gets the potential energy of the bead.
      * 
-     * @return double
+     * @return potential energy (mJ)
      */
     public double getPotentialEnergy() {
         return _laser.getPotentialEnergy( getX(), getY() );
