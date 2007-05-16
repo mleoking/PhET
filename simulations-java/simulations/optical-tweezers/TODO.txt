@@ -5,11 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- get details for potential energy model
+- add bead representation to potential energy chart
 
 MEDIUM PRIORITY:
 - scale arrow heads on vectors
-- implement potential energy model (P=05.*Fx*x*x)
-- connect potential energy chart to model
 - better algorithm for trap force y component Fy
 - improve collision detection in Bead.move
 - add checkbox to Fluid Controls to turn off viscosity, off means turn miscroscope slide black to indicate vacuum (?)
