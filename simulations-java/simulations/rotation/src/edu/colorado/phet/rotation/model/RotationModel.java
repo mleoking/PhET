@@ -55,6 +55,7 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
         }
 
         public void resetTime() {
+            currentState.setTime( 0.0 );
         }
     };
     private TimeSeriesModel timeSeriesModel;
