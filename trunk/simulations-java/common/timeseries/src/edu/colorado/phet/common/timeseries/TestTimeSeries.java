@@ -53,6 +53,7 @@ public class TestTimeSeries {
 
         public void resetTime() {
             time=0;
+            System.out.println( "reset time = " + time );
         }
     }
 }
