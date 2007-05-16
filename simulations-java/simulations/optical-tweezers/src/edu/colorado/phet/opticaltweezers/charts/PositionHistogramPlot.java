@@ -44,7 +44,7 @@ public class PositionHistogramPlot extends XYPlot {
     
     private PhetHistogramDataset _dataset;
     private PhetHistogramSeries _series;
-    private NumberAxis _xAxis, _yAxis;
+    private NumberAxis _xAxis;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -86,12 +86,12 @@ public class PositionHistogramPlot extends XYPlot {
         setDomainAxis( _xAxis );
         
         // y-axis, no label, no ticks
-        _yAxis = new NumberAxis();
-        _yAxis.setLabel( null );
-        _yAxis.setTickLabelsVisible( false );
-        _yAxis.setTickMarksVisible( false );
-        _yAxis.setAutoRange( true ); // adjust range to fit data, so data appears normalized
-        setRangeAxis( _yAxis );
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel( null );
+        yAxis.setTickLabelsVisible( false );
+        yAxis.setTickMarksVisible( false );
+        yAxis.setAutoRange( true ); // adjust range to fit data, so data appears normalized
+        setRangeAxis( yAxis );
 
         // plot configuration
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
