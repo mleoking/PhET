@@ -1,26 +1,23 @@
-
 package edu.colorado.phet.common.timeseries;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 
 /**
  * User: Sam Reid
  * Date: Aug 15, 2004
  * Time: 7:42:16 PM
- *
  */
 public class PlaybackMode extends Mode {
     private double playbackSpeed;
     private PhetTimer timer;
     private TimeSeriesModel timeSeriesModel;
+    private static final double SIMULATION_TIME_DT = 1.0;
 
     public PlaybackMode( TimeSeriesModel timeSeriesModel ) {
-        super( timeSeriesModel, EnergySkateParkStrings.getString( "playback" ) );
+        super( timeSeriesModel, "playback" );
         this.timeSeriesModel = timeSeriesModel;
-        timer = new PhetTimer( EnergySkateParkStrings.getString( "playback.timer" ) );
+        timer = new PhetTimer( "playback.timer" );
     }
 
     public double getPlaybackSpeed() {
@@ -33,7 +30,7 @@ public class PlaybackMode extends Mode {
 
     public void step() {
         setPlaybackSpeed( 1.0 );
-        doStep( EnergySkateParkApplication.SIMULATION_TIME_DT );
+        doStep( SIMULATION_TIME_DT );
     }
 
     public void clockTicked( ClockEvent event ) {

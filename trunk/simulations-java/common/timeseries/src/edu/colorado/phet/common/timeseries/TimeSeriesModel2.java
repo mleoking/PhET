@@ -4,7 +4,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * User: Sam Reid

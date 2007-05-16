@@ -2,8 +2,6 @@
 package edu.colorado.phet.common.timeseries;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 
 /**
@@ -14,14 +12,15 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
  */
 public class RecordMode extends Mode {
     private PhetTimer timer;
+    private static final double SIMULATION_TIME_DT = 1.0;
 
     public RecordMode( final TimeSeriesModel timeSeriesModel ) {
-        super( timeSeriesModel, EnergySkateParkStrings.getString( "record" ) );
-        timer = new PhetTimer( EnergySkateParkStrings.getString( "record.timer" ) );
+        super( timeSeriesModel, "record" );
+        timer = new PhetTimer( "record timer" );
     }
 
     public void step() {
-        doStep( EnergySkateParkApplication.SIMULATION_TIME_DT );
+        doStep( SIMULATION_TIME_DT );
     }
 
     public void reset() {
