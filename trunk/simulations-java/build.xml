@@ -122,15 +122,12 @@ PhET -specific tasks are moved to an auxiliary build file.
     <target name="build-jnlp" depends="_init">
         <var name="file.project.properties"
              value="${simulations-directory}/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
-        <echo message="${file.project.properties}"/>
         <if>
             <not>
                 <isset property="sim.version"/>
             </not>
             <then>
-
                 <loadproperties srcFile="${file.project.properties}"/>
-                <!--<propertyfile file="${file.project.properties}"/>-->
                 <property name="sim.version" value="${version.major}.${version.minor}.${version.dev}"/>
             </then>
         </if>
@@ -162,7 +159,7 @@ PhET -specific tasks are moved to an auxiliary build file.
         <echo message="Finished build."/>
     </target>
 
-    <!--These tasks are still under consideration, and will probably be changed, moved or deleted.-->
+    <!--These tasks are still under consideration, and may be changed, moved or deleted.-->
     <target name="display-stats" depends="_init">
         <phet-display-stats/>
     </target>
