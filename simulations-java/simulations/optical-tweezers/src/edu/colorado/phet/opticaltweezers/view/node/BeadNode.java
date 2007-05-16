@@ -56,7 +56,15 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
     //----------------------------------------------------------------------------
     
     /**
-     * Constructor.
+     * Constructs a node that is NOT connected to a model.
+     * This is useful for drawing a static representation of the bead.
+     */
+    public BeadNode() {
+        this( null, null, null );
+    }
+    
+    /**
+     * Constructs a node that is connected to a model.
      * 
      * @param bead
      * @param modelViewTransform
@@ -65,37 +73,42 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
     public BeadNode( Bead bead, ModelViewTransform modelViewTransform, PNode dragBoundsNode ) {
         super( true /* convertToImage */ );
         
-        _bead = bead;
-        _bead.addObserver( this );
-        
-        _modelViewTransform = modelViewTransform;
-        _pModel = new Point2D.Double();
-        
         setStroke( STROKE );
         setStrokePaint( STROKE_PAINT );
         
         // faint crosshair at the bead's center
         addChild( new FineCrosshairNode( CROSSHAIRS_SIZE, CROSSHAIRS_STROKE, CROSSHAIRS_COLOR  ) );
         
-        addInputEventListener( new CursorHandler() );
-        
-        _dragHandler = new BoundedDragHandler( this, dragBoundsNode );
-        addInputEventListener( _dragHandler  );
-        addInputEventListener( new PBasicInputEventHandler() {
-            public void mousePressed( PInputEvent event ) {
-                _bead.setMotionEnabled( false );
-            }
-            public void mouseReleased( PInputEvent event ) {
-                _bead.setMotionEnabled( true );
-            }
-        });
-        
-        // Update the model when this node is dragged.
-        addPropertyChangeListener( this );
-        
-        // Default state
-        updateDiameter();
-        updatePosition();
+        if ( bead != null ) {
+            
+            _bead = bead;
+            _bead.addObserver( this );
+
+            _modelViewTransform = modelViewTransform;
+            _pModel = new Point2D.Double();
+
+            addInputEventListener( new CursorHandler() );
+
+            _dragHandler = new BoundedDragHandler( this, dragBoundsNode );
+            addInputEventListener( _dragHandler );
+            addInputEventListener( new PBasicInputEventHandler() {
+
+                public void mousePressed( PInputEvent event ) {
+                    _bead.setMotionEnabled( false );
+                }
+
+                public void mouseReleased( PInputEvent event ) {
+                    _bead.setMotionEnabled( true );
+                }
+            } );
+
+            // Update the model when this node is dragged.
+            addPropertyChangeListener( this );
+
+            // Default state
+            updateDiameter();
+            updatePosition();
+        }
     }
     
     /**
@@ -106,15 +119,11 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
     }
     
     //----------------------------------------------------------------------------
-    // Accessors and mutators
-    //----------------------------------------------------------------------------
-    
-    //----------------------------------------------------------------------------
     // Property change handlers
     //----------------------------------------------------------------------------
     
     /**
-     * Updates the laser model when this node is dragged.
+     * Updates the bead model when this node is dragged.
      */
     public void propertyChange( PropertyChangeEvent event ) {
         if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
