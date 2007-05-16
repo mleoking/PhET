@@ -2,21 +2,6 @@
 
 This build file is specific to building phet simulation files, in particular building jars and jnlp files.
 PhET -specific tasks are moved to an auxiliary build file.  
-
-The JNLP task requires:
-[project]/data/[project]/localization/[project]-strings.properties
-has properties
-[project].name
-[project].description
-
-[project]/data/[project]/[project].properties
-has properties
-version.major
-version.minor
-version.dev
-version.revision
-
-about.credits (optional)
 -->
 
 <project name="PhET Master Build Script" default="build-all-jars" basedir=".">
@@ -108,6 +93,31 @@ about.credits (optional)
         <phet-build-all/>
         <echo message="Finished build all."/>
     </target>
+
+
+    <!--
+    To use this task, call ant like this:
+    ant build-jnlp -Dsim.name=cck -Dsim.flavor=cck-dc -Dsim.version=1.2.3.445
+
+    sim.flavor defaults to sim.name
+    sim.version defaults to the value in [project].properties (see below)
+
+        The JNLP task requires these files and properties:
+    [project]/data/[project]/localization/[project]-strings.properties
+    has properties
+    [project].name
+    [project].description
+
+    [project]/data/[project]/[project].properties
+    has properties
+    version.major
+    version.minor
+    version.dev
+    version.revision
+
+    about.credits (optional)
+
+    -->
 
     <target name="build-jnlp" depends="_init">
         <var name="file.project.properties"
