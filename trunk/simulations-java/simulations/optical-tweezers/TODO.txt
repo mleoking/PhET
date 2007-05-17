@@ -51,6 +51,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/17/07 - bug fix in Fluid.getVelocity, should create vector using polar coordinates
+5/17/07 - added Vector2D.Cartesian and Vector2D.Polar to prevent errors in construction
 5/17/07 - javadoc methods related to bead's "clock step subdivision" feature
 5/17/07 - remove bogus collision detection code from Brownian force algorithm
 5/17/07 - save Brownian force vector in Bead, connect to force display node
