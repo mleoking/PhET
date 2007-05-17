@@ -1,7 +1,6 @@
 package edu.colorado.phet.common.timeseries.ui;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.timeseries.ui.TimeseriesResources;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
 import javax.swing.*;

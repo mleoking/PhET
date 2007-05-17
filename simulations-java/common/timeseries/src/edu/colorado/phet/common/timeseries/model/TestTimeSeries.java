@@ -19,7 +19,7 @@ public class TestTimeSeries {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         RecordableModel recordableModel = new MyRecordableModel();
-        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( recordableModel, 1.0);
+        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( recordableModel, 1.0 );
         frame.setContentPane( new TimeSeriesPlaybackPanel( timeSeriesModel ) );
         Clock clock = new SwingClock( 30, 1.0 );
         clock.addClockListener( timeSeriesModel );
@@ -53,7 +53,7 @@ public class TestTimeSeries {
         }
 
         public void resetTime() {
-            time=0;
+            time = 0;
             System.out.println( "reset time = " + time );
         }
     }

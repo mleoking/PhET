@@ -2,6 +2,8 @@ package edu.colorado.phet.common.timeseries.ui;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
+import java.awt.image.BufferedImage;
+
 /**
  * Author: Sam Reid
  * May 15, 2007, 8:12:31 PM
@@ -15,5 +17,9 @@ public class TimeseriesResources {
 
     public static String getString( String s ) {
         return instance.getLocalizedString( s );
+    }
+
+    public static BufferedImage loadBufferedImage( String s ) {
+        return instance.getImage( s );
     }
 }
