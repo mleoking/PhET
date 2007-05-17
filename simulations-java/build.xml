@@ -122,32 +122,20 @@ PhET -specific tasks are moved to an auxiliary build file.
     <target name="build-jnlp" depends="_init">
         <var name="file.project.properties"
              value="${simulations-directory}/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
-        <if>
-            <not>
-                <isset property="sim.version"/>
-            </not>
+        <if><not><isset property="sim.version"/></not>
             <then>
                 <loadproperties srcFile="${file.project.properties}"/>
                 <property name="sim.version" value="${version.major}.${version.minor}.${version.dev}"/>
             </then>
         </if>
 
-        <if>
-            <not>
-                <isset property="sim.flavor"/>
-            </not>
-            <then>
-                <property name="sim.flavor" value="${sim.name}"/>
-            </then>
+        <if><not><isset property="sim.flavor"/></not>
+            <then><property name="sim.flavor" value="${sim.name}"/></then>
         </if>
 
         <if>
-            <not>
-                <isset property="sim.url"/>
-            </not>
-            <then>
-                <property name="sim.url" value="${dev_root}/${sim.name}/${sim.version}"/>
-            </then>
+            <not><isset property="sim.url"/></not>
+            <then><property name="sim.url" value="${dev_root}/${sim.name}/${sim.version}"/></then>
         </if>
 
         <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${sim.url}"/>
@@ -178,13 +166,8 @@ PhET -specific tasks are moved to an auxiliary build file.
 
     <target name="build-and-post" depends="_init">
         <phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
-        <if>
-            <not>
-                <isset property="sim.url"/>
-            </not>
-            <then>
-                <property name="sim.url" value="${dev_root}/${sim.name}/${sim.version}"/>
-            </then>
+        <if><not><isset property="sim.url"/></not>
+            <then><property name="sim.url" value="${dev_root}/${sim.name}/${sim.version}"/></then>
         </if>
 
         <phet-jnlp project="${sim.name}" flavor="${sim.name}" deployurl="${sim.url}"/>
