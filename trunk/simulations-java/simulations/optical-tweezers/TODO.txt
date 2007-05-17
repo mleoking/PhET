@@ -51,6 +51,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+********* version 0.00.07 (?)
 5/17/07 - bug fix in Fluid.getVelocity, should create vector using polar coordinates
 5/17/07 - added Vector2D.Cartesian and Vector2D.Polar to prevent errors in construction
 5/17/07 - javadoc methods related to bead's "clock step subdivision" feature
@@ -58,7 +59,6 @@ DONE:
 5/17/07 - save Brownian force vector in Bead, connect to force display node
 5/17/07 - add view of Brownian force node, model not implemented
 5/17/07 - use units.force string for all force vectors
-********* version 0.00.07 (15183)
 5/17/07 - bugfix in computation of potential energy curve
 5/17/07 - increase width of potential energy curve stroke
 5/16/07 - add bead representation to potential energy chart
