@@ -74,6 +74,23 @@
         $GLOBALS["sim_id"] = "$sim_id"; 
     }
     
+    function sim_get_all_sim_names() {
+        $simulations = array();
+        
+        $simulation_rows = run_sql_statement("SELECT * FROM `simulation` ");
+        
+        while($simulation = mysql_fetch_assoc($simulation_rows)) {
+            $sim_id   = $simulation['sim_id'];
+            $sim_name = $simulation['sim_name'];
+            
+            if (is_numeric($sim_id)) {
+                $simulations["$sim_id"] = "$sim_name";
+            }
+        }
+        
+        return $simulations;        
+    }
+    
     function sim_get_select_sims_by_category_statement($cat) {
         return "SELECT * FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation`.`sim_sorting_name` ASC ";
     }

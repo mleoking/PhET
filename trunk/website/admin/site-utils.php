@@ -170,8 +170,9 @@ EOT;
                 /*]]>*/
                 </style>
                 
-                <script src="$prefix/js/jquery.pack.js"      type="text/javascript" language="javascript"></script>
-                <script src="$prefix/js/jquery.MultiFile.js" type="text/javascript" language="javascript"></script>
+                <script src="$prefix/js/jquery.pack.js"         type="text/javascript" language="javascript" />
+                <script src="$prefix/js/jquery.MultiFile.js"    type="text/javascript" language="javascript" />
+                <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript" language="javascript" />
             </head>
             
 
