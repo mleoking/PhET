@@ -10,6 +10,7 @@ Standardize simulations
     -visit each sim to standardize        
 Phet-specific tasks (deploy, etc) should be moved to a phet-specific build file
     -deploy should probably be here as well
+Build jnlp task should automatically account for flavors for multi-flavor simulations.
 
 Medium Priority:
 Task "build distribution" that prepares a zip file of source, etc. for other developers to download
