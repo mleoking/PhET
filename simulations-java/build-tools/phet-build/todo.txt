@@ -5,6 +5,7 @@ Build-All
 Clean
 Run (check for existence, maybe build if out of date (or maybe always build), then run)
 
+Build and Deploy
 Standardize simulations
     (requirements for different parts of the build task (e.g. which strings must be in localization files))
     -visit each sim to standardize        
@@ -12,8 +13,10 @@ Phet-specific tasks (deploy, etc) should be moved to a phet-specific build file
     -deploy should probably be here as well
 Build jnlp task should automatically account for flavors for multi-flavor simulations.
 
+
 Medium Priority:
 Task "build distribution" that prepares a zip file of source, etc. for other developers to download
+    exclude ant_output, do clean in advance, ignore local password files, etc.
 Cleanup sourceforge deploy files
 Add task to build all simulations quickly (less duplication of work)
 Build task for gathering up all localization files for a project? (not in build.xml)

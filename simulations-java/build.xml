@@ -6,9 +6,16 @@ PhET -specific tasks are moved to an auxiliary build file.
 
 <project name="PhET Master Build Script" default="build-all-jars" basedir=".">
 
+
+    <!-- Deployment properties -->
+    <property name="dev.server.name"            value="spot.colorado.edu"                                   />
+    <property name="prod.server.name"           value="tigercat.colorado.edu"                               />
+
     <!--Properties for deploy output-->
-    <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
-    <property name="dev_root" value="http://www.colorado.edu/physics/phet/dev"/>
+    <property name="dev.server.path" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev"/>
+    <property name="dev.server.url" value="http://www.colorado.edu/physics/phet/dev"/>
+    <property name="prod.server.path" value="/web/htdocs/phet/simulations/"/>
+    <property name="prod.server.url" value="http://phet.colorado.edu/simulations/"/>
 
     <!--Do not modify: these properties define the codebase for java-implementation of ant tasks.-->
     <property name="phetbuild-classes" location="ant_output/phetbuild/classes"/>
@@ -96,20 +103,16 @@ PhET -specific tasks are moved to an auxiliary build file.
         <phet-list-sims/>
     </target>
 
-    <target name="list-sims" depends="_init">
-        <antcallback target="_list-sims" return="phet.simlist"/>
-    </target>
-
-    <target name="build-all-jars" depends="_init,list-sims">
+    <target name="build-all-jars" depends="_init, _list-sims">
         <foreach list="${phet.simlist}" target="build-jar" param="sim.name"/>
     </target>
 
-    <target name="build-all-jnlp" depends="_init,list-sims">
+    <target name="build-all-jnlp" depends="_init, _list-sims">
         <foreach list="${phet.simlist}" target="build-jnlp" param="sim.name"/>
     </target>
 
     <!--Cleans a single simulation's jar and jnlp files in the deploy directory-->
-    <target name="clean-sim" depends="_init">
+    <target name="clean-sim" depends="_init, _verify-sim-name-specified">
         <delete file="${simulations-directory}/${sim.name}/deploy/${sim.name}.jar"/>
         <delete file="${simulations-directory}/${sim.name}/deploy/${sim.name}.jnlp"/>
     </target>
@@ -120,10 +123,10 @@ PhET -specific tasks are moved to an auxiliary build file.
     </target>
 
     <!--Builds jars and jnlp files for all phet simulations-->
-    <target name="build-all" depends="_init,clean-all,list-sims,build-all-jars,build-all-jnlp"/>
+    <target name="build-all" depends="_init,clean-all,_list-sims,build-all-jars,build-all-jnlp"/>
 
     <!--Builds the jar file for the simulation specified as property "sim.name"-->
-    <target name="build-jar" depends="_init">
+    <target name="build-jar" depends="_init,_verify-sim-name-specified">
         <phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
     </target>
 
@@ -150,7 +153,9 @@ PhET -specific tasks are moved to an auxiliary build file.
 
     about.credits (optional)
     -->
-    <target name="build-jnlp" depends="_init">
+    <target name="build-jnlp" depends="_init,_verify-sim-name-specified">
+
+       
         <var name="file.project.properties"
              value="${simulations-directory}/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
         <if>
@@ -174,14 +179,14 @@ PhET -specific tasks are moved to an auxiliary build file.
 
         <if>
             <not>
-                <isset property="sim.url"/>
+                <isset property="sim.server.url"/>
             </not>
             <then>
-                <property name="sim.url" value="${dev_root}/${sim.name}/${sim.version}"/>
+                <property name="sim.server.url" value="${dev.server.url}"/>
             </then>
         </if>
 
-        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${sim.url}"/>
+        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${sim.server.url}/${sim.name}/${sim.version}"/>
     </target>
 
     <!--These tasks are still under consideration, and may be changed, moved or deleted.-->
@@ -189,17 +194,84 @@ PhET -specific tasks are moved to an auxiliary build file.
         <phet-display-stats/>
     </target>
 
+        <target name="_read-username-and-password">
+        <if>
+            <not>
+                <and>
+                    <isset property="deploy.username" />
+                    <isset property="deploy.password" />
+                </and>
+            </not>
+            <then>
+                <echo message="Gathering username and password from user" />
+
+                <!-- If the username and password are not set, get them now: -->
+                <antform title="Deployment Host Login" width="550" height="300" focus="login">
+                    <label>Please enter your username and password that you use to login to the deployment host machine ${deploy.host}.</label>
+
+                    <textProperty label="Username:" property="deploy.username" required="true"/>
+                    <textProperty label="Password:" property="deploy.password" required="true" password="true"/>
+                </antform>
+            </then>
+        </if>
+    </target>
+
+
+    <target name="_verify-sim-name-specified" description="Verifies that the simulation name has been specified" >
+        <if>
+            <not>
+                <isset property="sim.name"/>
+            </not>
+            <then>
+                <antform title="Enter Simulation Name" focus="OK" width="750" height="300">
+                    <label>Please enter the name of the simulation with which to perform the operation. This is the name of the Subversion folder that the simulation is stored in.</label>
+                    <textProperty label="Simulation Name: " property="sim.name" required="true" tooltip="The simulation name"/>
+                </antform>
+            </then>
+        </if>
+    </target>
+
+
     <!--This task builds a simulation's jar file and jnlp file and posts it to PhET's dev/ site-->
-    <target name="build-and-post" depends="_init, build-jar, build-jnlp">
-        <maverick-ssh host="${ssh-host}" username="${username}" password="${password}" version="2">
-            <sftp action="mkdir" remotedir="${phet-ssh-root}/dev/${sim.name}"/>
-            <sftp action="mkdir" remotedir="${phet-ssh-root}/dev/${sim.name}/${sim.version}"/>
-            <sftp action="put" remotedir="${phet-ssh-root}/dev/${sim.name}/${sim.version}" verbose="true">
+    <target name="_build-and-deploy"
+            depends="_init, _read-username-and-password,build-jar, build-jnlp">
+        <property name="sim.deploy.dir" value="${sim.server.path}/${sim.name}"/>
+        <property name="sim.deploy.dir.version"
+                  value="${sim.deploy.dir}/${sim.version}"/>
+        <maverick-ssh host="${ssh-host}" username="${deploy.username}"
+                      password="${deploy.password}" version="2">
+            <sftp action="mkdir" remotedir="${sim.deploy.dir}"/>
+            <sftp action="mkdir" remotedir="${sim.deploy.dir.version}"/>
+            <sftp action="put" remotedir="${sim.deploy.dir.version}"
+                  verbose="true">
                 <fileset dir="simulations/${sim.name}/deploy"></fileset>
             </sftp>
         </maverick-ssh>
-        <exec executable="${browser}" spawn="true">
-            <arg value="${sim.url}"/>
-        </exec>
+        <if>
+            <isset property="browser"/>
+            <then>
+                <exec executable="${browser}" spawn="true">
+                    <arg value="${sim.server.url}"/>
+                </exec>
+            </then>
+        </if>
+
     </target>
+
+    <target name="build-and-deploy-dev" >
+        <antcall target="_build-and-deploy">
+            <param name="sim.server.url" value="${dev.server.url}"/>
+            <param name="sim.server.path" value="${dev.server.path}"/>
+            <param name="ssh-host" value="${dev.server.name}"/>
+        </antcall>
+    </target>
+
+    <target name="build-and-deploy-prod" >
+        <antcall target="_build-and-deploy">
+            <param name="sim.server.url" value="${prod.server.url}"/>
+            <param name="sim.server.path" value="${prod.server.path}"/>
+            <param name="ssh-host" value="${prod.server.name}"/>
+        </antcall>
+    </target>
+
 </project>
