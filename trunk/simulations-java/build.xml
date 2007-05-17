@@ -24,15 +24,17 @@ PhET -specific tasks are moved to an auxiliary build file.
 
     <!--Properties for the structure of the phet codebase.-->
     <property name="build-tools" value="build-tools"/>
+    <property name="simulations-directory" value="${basedir}/simulations"/>
+
     <property name="phetbuild-dependencies" value="${phetbuild-classes};${proguard.jar}"/>
-    <property file="local.properties"/>
-    <property name="simulations-directory" value="${basedir}/simulations/"/>
 
     <property name="dir.build-tools" value="${basedir}/build-tools/"/>
     <!-- Support jars -->
     <property name="jar.ant-contrib" value="${dir.build-tools}ant-contrib/ant-contrib-1.0b3.jar"/>
     <property name="jar.junit" value="${dir.build-tools}junit3.8.2/junit.jar"/>
     <property name="jar.antform" value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"/>
+
+    <property file="local.properties"/>
 
     <!-- Ant-Contrib tasks definition -->
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
@@ -98,12 +100,12 @@ PhET -specific tasks are moved to an auxiliary build file.
         <foreach list="${phet.simlist}" target="build-jnlp" param="sim.name"/>
     </target>
 
-<!--Cleans a single simulation's jar and jnlp files in the deploy directory-->
+    <!--Cleans a single simulation's jar and jnlp files in the deploy directory-->
     <target name="clean-sim" depends="_init">
-    <delete file="${sim}"
-        <foreach list="${phet.simlist}" target="clean-sim" param="sim.name"/>
+        <delete file="${simulations-directory}/${sim.name}/deploy/${sim.name}.jar"/>
+        <delete file="${simulations-directory}/${sim.name}/deploy/${sim.name}.jnlp"/>
     </target>
-
+    
     <!--Cleans deploy directories of jar and jnlp files-->
     <target name="clean-all" depends="_init">
         <foreach list="${phet.simlist}" target="clean-sim" param="sim.name"/>
