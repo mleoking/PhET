@@ -101,6 +101,7 @@ PhET -specific tasks are moved to an auxiliary build file.
 
     sim.flavor defaults to sim.name
     sim.version defaults to the value in [project].properties (see below)
+    sim.url defaults to the location on PhET's dev/ site
 
         The JNLP task requires these files and properties:
     [project]/data/[project]/localization/[project]-strings.properties
@@ -122,20 +123,32 @@ PhET -specific tasks are moved to an auxiliary build file.
     <target name="build-jnlp" depends="_init">
         <var name="file.project.properties"
              value="${simulations-directory}/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
-        <if><not><isset property="sim.version"/></not>
+        <if>
+            <not>
+                <isset property="sim.version"/>
+            </not>
             <then>
                 <loadproperties srcFile="${file.project.properties}"/>
                 <property name="sim.version" value="${version.major}.${version.minor}.${version.dev}"/>
             </then>
         </if>
 
-        <if><not><isset property="sim.flavor"/></not>
-            <then><property name="sim.flavor" value="${sim.name}"/></then>
+        <if>
+            <not>
+                <isset property="sim.flavor"/>
+            </not>
+            <then>
+                <property name="sim.flavor" value="${sim.name}"/>
+            </then>
         </if>
 
         <if>
-            <not><isset property="sim.url"/></not>
-            <then><property name="sim.url" value="${dev_root}/${sim.name}/${sim.version}"/></then>
+            <not>
+                <isset property="sim.url"/>
+            </not>
+            <then>
+                <property name="sim.url" value="${dev_root}/${sim.name}/${sim.version}"/>
+            </then>
         </if>
 
         <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${sim.url}"/>
@@ -152,26 +165,8 @@ PhET -specific tasks are moved to an auxiliary build file.
         <phet-display-stats/>
     </target>
 
-    <target name="build-esp" depends="_init">
-        <phet-build project="energy-skate-park" destfile="deploy/energy-skate-park.jar"/>
-        <phet-jnlp project="energy-skate-park" flavor="energy-skate-park"
-                   deployurl="http://www.colorado.edu/physics/phet/dev/ec3/1.05.20/"/>
-    </target>
-
-    <target name="build_cck" depends="_init">
-        <phet-build project="cck" destfile="deploy/cck.jar"/>
-        <phet-jnlp project="cck" flavor="cck-ac"/>
-        <phet-jnlp project="cck" flavor="cck-dc"/>
-    </target>
-
-    <target name="build-and-post" depends="_init">
-        <phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
-        <if><not><isset property="sim.url"/></not>
-            <then><property name="sim.url" value="${dev_root}/${sim.name}/${sim.version}"/></then>
-        </if>
-
-        <phet-jnlp project="${sim.name}" flavor="${sim.name}" deployurl="${sim.url}"/>
-
+    <!--This task builds a simulation's jar file and jnlp file and posts it to PhET's dev/ site-->
+    <target name="build-and-post" depends="_init, build-jar, build-jnlp">
         <maverick-ssh host="${ssh-host}" username="${username}" password="${password}" version="2">
             <sftp action="mkdir" remotedir="${phet-ssh-root}/dev/${sim.name}"/>
             <sftp action="mkdir" remotedir="${phet-ssh-root}/dev/${sim.name}/${sim.version}"/>
