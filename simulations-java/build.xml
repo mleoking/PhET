@@ -141,6 +141,10 @@ PhET -specific tasks are moved to an auxiliary build file.
         <phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
     </target>
 
+    <target name="_build-jnlp">
+        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${sim.server.url}/${sim.name}/${sim.version}"/>
+    </target>
+
     <!--
     To use this task, call ant like this:
     ant build-jnlp -Dsim.name=cck -Dsim.flavor=cck-dc -Dsim.version=1.2.3.445
@@ -165,8 +169,6 @@ PhET -specific tasks are moved to an auxiliary build file.
     about.credits (optional)
     -->
     <target name="build-jnlp" depends="_init,_verify-sim-name-specified">
-
-       
         <var name="file.project.properties"
              value="${simulations-directory}/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
         <if>
@@ -181,10 +183,10 @@ PhET -specific tasks are moved to an auxiliary build file.
 
         <if>
             <not>
-                <isset property="sim.flavor"/>
+                <isset property="sim.flavors"/>
             </not>
             <then>
-                <property name="sim.flavor" value="${sim.name}"/>
+                <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
             </then>
         </if>
 
@@ -197,7 +199,9 @@ PhET -specific tasks are moved to an auxiliary build file.
             </then>
         </if>
 
-        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${sim.server.url}/${sim.name}/${sim.version}"/>
+        <var name="deployurl" value="${sim.server.url}/${sim.name}/${sim.version}" />
+
+        <foreach list="${sim.flavors}" target="_build-jnlp" param="sim.flavor" inheritall="true" inheritrefs="true"/>
     </target>
 
     <!--These tasks are still under consideration, and may be changed, moved or deleted.-->

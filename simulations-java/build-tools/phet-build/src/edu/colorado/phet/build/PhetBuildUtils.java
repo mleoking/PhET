@@ -30,11 +30,22 @@ public class PhetBuildUtils {
      * @param taskRunner    An Ant task runner.
      *
      * @param message       The message to echo.
+     *
+     * @param taskName      Task name.
      */
-    public static void antEcho( AntTaskRunner taskRunner, String message ) {
+    public static void antEcho( AntTaskRunner taskRunner, String message, String taskName ) {
         Echo echo = new Echo();
+        echo.setTaskName( taskName );
         echo.setMessage( message );
         taskRunner.runTask( echo );
+    }
+
+    public static void antEcho( AntTaskRunner taskRunner, String message, Class theClass ) {
+        String className = theClass.getName();
+
+        String simpleName = className.substring( className.lastIndexOf(".") + 1 );
+
+        antEcho( taskRunner, message, simpleName );
     }
 
     /**
