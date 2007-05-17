@@ -3,8 +3,9 @@
 ===============================================================================
 
 IN PROGRESS:
-- implement Brownian force model
-- force vectors shown are those at old bead position, need to recalc just before moving bead
+- trap force and drag force vectors are for bead's current state, not after running the motion algorithm the next N times
+- Brownian force vector is the last Brownian force applied before the bead moved to its current position, not the next force after running the motion algorithm the next N times
+- why is fluid.getDragForce not used in Bead.move ?
 
 HIGH PRIORITY:
 
@@ -50,6 +51,9 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/17/07 - javadoc methods related to bead's "clock step subdivision" feature
+5/17/07 - remove bogus collision detection code from Brownian force algorithm
+5/17/07 - save Brownian force vector in Bead, connect to force display node
 5/17/07 - add view of Brownian force node, model not implemented
 5/17/07 - use units.force string for all force vectors
 ********* version 0.00.07 (15183)
