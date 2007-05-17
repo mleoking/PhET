@@ -21,6 +21,7 @@ MEDIUM PRIORITY:
 - adjust clock time display and units as dt is changed
 
 LOW PRIORITY:
+- dialogs don't repaint or close immediately when clock is running, thread priority?
 - improve positioning of value in Vector2DNode
 - try to make entire laser control panel draggable
 - use TrigCache to improve performance?
