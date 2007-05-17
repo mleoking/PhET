@@ -3,19 +3,18 @@
 ===============================================================================
 
 IN PROGRESS:
-- trap force and drag force vectors are for bead's current state, not after running the motion algorithm the next N times
-- Brownian force vector is the last Brownian force applied before the bead moved to its current position, not the next force after running the motion algorithm the next N times
-- why is fluid.getDragForce not used in Bead.move ?
 
 HIGH PRIORITY:
+- vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
+- scale arrow heads on vectors
 
 MEDIUM PRIORITY:
-- position histogram should make an observation every N seconds, not every clock tick
-- scale arrow heads on vectors
+- trap force and drag force vectors are for bead's current state, not after running the motion algorithm the next N times
+- Brownian force vector is the last Brownian force applied before the bead moved to its current position, not the next force after running the motion algorithm the next N times
+- why is fluid.getDragForce not used directly in Bead.move ?
+- position histogram should make an observation every N seconds, not every clock tick (?)
 - better algorithm for trap force y component Fy
-- improve collision detection in Bead.move
 - add checkbox to Fluid Controls to turn off viscosity, off means turn miscroscope slide black to indicate vacuum (?)
-- vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - clock speed: fast=[realtime* 10^-2, realtime], slow=[realtime*140*10^-16, realtime*7*10^-16], dead in between
 - get spec for "Simulation speed" control
 - get spec for "Show change in momentum model" feature
@@ -41,6 +40,7 @@ CLEANUP:
 - setPickable(false) on non-interactive nodes
 - rescale image files to minimize file size
 - disable all debug output
+- optimize memory management by reusing mutable objects
 
 DEFER UNTIL AFTER INTERVIEWS:
 
@@ -330,6 +330,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+5/17/07 - improve collision detection in Bead.move (not necessary, only Brownian force causes collisions)
 4/24/07 - add AbstractValueControl.setInverted (makes things unnecessarily complex)
 3/26/07 - change diameter to radius for bead and laser properties (using diameter makes layout clearer)
 3/12/07 - generalize LaserPowerControl (probably not generally useful)
