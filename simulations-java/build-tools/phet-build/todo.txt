@@ -37,5 +37,4 @@ Should build-all tasks work on a single project at a time or a single phase at a
 Should properties be defined in build.xml or java files?
     If properties are specific to java files only (no reference in build.xml), and are not meant to be user-configurable.
 
-specify modules
-
+Should assumptions about default values be encoded in build.xml or java implementation of tasks?
