@@ -118,8 +118,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
         _plot.setPotentialEnergyRange( minPotentialEnergy * 1.02, maxPotentialEnergy );
     
         updateLayout();
-        updatePotentialEnergyCurve();
-        updateBeadPosition();
+        updateCurve();
     }
     
     //----------------------------------------------------------------------------
@@ -134,8 +133,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         if ( visible ) {
-            updatePotentialEnergyCurve();
-            updateBeadPosition();
+            updateCurve();
         }
     }
 
@@ -157,8 +155,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
         double maxPosition = _modelViewTransform.viewToModel( dataArea.getMaxX() );
         _plot.setPositionRange( minPosition, maxPosition );
         // update chart
-        updatePotentialEnergyCurve();
-        updateBeadPosition();
+        updateCurve();
     }
     
     /**
@@ -190,13 +187,12 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
     public void update( Observable o, Object arg ) {
         if ( o == _laser ) {
             if ( arg == Laser.PROPERTY_POSITION ) {
-                updatePotentialEnergyCurve();
+                updateCurve();
             }
         }
         else if ( o == _bead ) {
             if ( arg == Bead.PROPERTY_POSITION ) {
-                updatePotentialEnergyCurve();
-                updateBeadPosition();
+                updateCurve();
             }
         }
     }
@@ -233,16 +229,23 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
     /*
      * Updates the potential energy curve.
      */
-    private void updatePotentialEnergyCurve() {
+    private void updateCurve() {
+        
+        //  remove existing data
         _plot.clear();
+        
+        // compute the new potential energy curve
         double x = _plot.getPositionRange().getLowerBound();
-        final double y = _bead.getX();
+        final double y = _bead.getY();
         final double maxX = _plot.getPositionRange().getUpperBound();
         while ( x <= maxX ) {
             double potentialEnergy = _laser.getPotentialEnergy( x, y );
             _plot.addData( x, potentialEnergy );
             x += _sampleWidth;
         }
+        
+        // move the bead to a point on the curve
+        updateBeadPosition();
     }
     
     /*
@@ -251,8 +254,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
     private void updateBeadPosition() {
         // model values
         double beadX = _bead.getX();
-        double beadY = _bead.getY();
-        double potentialEnergy = _laser.getPotentialEnergy( beadX, beadY );
+        double potentialEnergy = _bead.getPotentialEnergy();
         
         // plot bounds (view and model coordinates)
         Rectangle2D plotBounds = getPlotBounds();
@@ -261,8 +263,14 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
         double minEnergy = _plot.getPotentialEnergyRange().getLowerBound();
         double maxEnergy = _plot.getPotentialEnergyRange().getUpperBound();
         
-        double nodeX = _chartWrapper.getXOffset() + plotBounds.getMinX() + ( plotBounds.getWidth() * ( beadX - minPosition ) / ( maxPosition - minPosition ) );
-        double nodeY = _chartWrapper.getYOffset() + plotBounds.getMaxY() - ( plotBounds.getHeight() * ( potentialEnergy - minEnergy ) / ( maxEnergy - minEnergy ) );
-        _beadNode.setOffset( nodeX, nodeY );
+        if ( beadX < minPosition || beadX > maxPosition ) {
+            _beadNode.setVisible( false );
+        }
+        else {
+            _beadNode.setVisible( true );
+            double nodeX = _chartWrapper.getXOffset() + plotBounds.getMinX() + ( plotBounds.getWidth() * ( beadX - minPosition ) / ( maxPosition - minPosition ) );
+            double nodeY = _chartWrapper.getYOffset() + plotBounds.getMaxY() - ( plotBounds.getHeight() * ( potentialEnergy - minEnergy ) / ( maxEnergy - minEnergy ) );
+            _beadNode.setOffset( nodeX, nodeY );
+        }
     }
 }

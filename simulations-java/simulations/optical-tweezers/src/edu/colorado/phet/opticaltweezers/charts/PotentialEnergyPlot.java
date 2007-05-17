@@ -33,7 +33,7 @@ public class PotentialEnergyPlot extends XYPlot {
     private static final String SERIES_KEY = "potentialEnergy";
     private static final Color BACKGROUND_COLOR = new Color( 0, 0, 0, 0 ); // transparent
     private static final Color PLOT_COLOR = new Color( 178, 25, 205 ); // purple
-    private static final Stroke PLOT_STROKE = new BasicStroke( 1f );
+    private static final Stroke PLOT_STROKE = new BasicStroke( 2f );
     private static final Font AXIS_LABEL_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 14 );
     
     //----------------------------------------------------------------------------
