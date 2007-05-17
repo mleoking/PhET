@@ -3,13 +3,13 @@
 ===============================================================================
 
 IN PROGRESS:
+- implement Brownian force model
+- force vectors shown are those at old bead position, need to recalc just before moving bead
 
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- force vectors shown are those at old bead position, need to recalc just before moving bead
 - position histogram should make an observation every N seconds, not every clock tick
-- implement "Show Brownian force" feature
 - scale arrow heads on vectors
 - better algorithm for trap force y component Fy
 - improve collision detection in Bead.move
