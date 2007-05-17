@@ -29,6 +29,10 @@
         print "<p><a href=\"$referrer\">cancel</a></p>";
     }
     
+    if (isset($_REQUEST['sim_id'])) {
+        $sim_id = $_REQUEST['sim_id'];
+    }
+    
     $contribution_id = $_REQUEST['contribution_id'];
     
     if (isset($_REQUEST['action'])) {
