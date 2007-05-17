@@ -11,6 +11,19 @@ public class PhetBuildUtils {
     private PhetBuildUtils() {
     }
 
+    public static String convertArrayToList(String[] array) {
+        String list = "";
+        
+        for( int i = 0; i < array.length; i++ ) {
+            list += array[i];
+            if( i < array.length - 1 ) {
+                list += ",";
+            }
+        }
+
+        return list;
+    }
+
     /**
      * Echos the string via the Ant echo task.
      *
