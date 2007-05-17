@@ -47,6 +47,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/17/07 - bugfix in computation of potential energy curve
+5/17/07 - increase width of potential energy curve stroke
 5/16/07 - add bead representation to potential energy chart
 5/16/07 - add additional constructor to BeadNode, for creating images that are not connected to the model
 5/16/07 - add Laser.getMaxIntensity
