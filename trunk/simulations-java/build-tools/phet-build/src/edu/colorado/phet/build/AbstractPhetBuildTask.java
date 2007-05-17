@@ -1,7 +1,6 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.build;
 
-import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
 
 import java.io.File;
@@ -11,7 +10,7 @@ public abstract class AbstractPhetBuildTask extends AbstractPhetTask {
 
     // The method executing the task
     public final void execute() throws BuildException {
-        PhetBuildUtils.antEcho( this, "Building " + projectName + "..." );
+        echo( "Building " + projectName + "..." );
 
         try {
             File projectDir = PhetBuildUtils.resolveProject( getProject().getBaseDir(), projectName );
@@ -24,6 +23,10 @@ public abstract class AbstractPhetBuildTask extends AbstractPhetTask {
             e.printStackTrace( );
             throw new BuildException( "A problem occurred while trying to build " + projectName + ".", e );
         }
+    }
+
+    protected void echo(String string) {
+        PhetBuildUtils.antEcho( this, string, getClass() );
     }
 
     protected abstract void executeImpl( PhetProject phetProject ) throws Exception;

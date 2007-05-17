@@ -43,7 +43,7 @@ public class PhetBuildCommand implements Command {
         File[] src = project.getAllSourceRoots();
         File[] classpath = project.getAllJarFiles();
         
-        PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + "." );
+        PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + ".", getClass() );
         
         Javac javac = new Javac();
         javac.setSource( "1.4" );
@@ -62,7 +62,7 @@ public class PhetBuildCommand implements Command {
 
         antTaskRunner.runTask( javac );
 
-        PhetBuildUtils.antEcho( antTaskRunner, "Finished compiling " + project.getName() + "." );
+        PhetBuildUtils.antEcho( antTaskRunner, "Finished compiling " + project.getName() + ".", getClass() );
     }
 
     private void jar() throws ManifestException {
