@@ -14,12 +14,15 @@ PhET -specific tasks are moved to an auxiliary build file.
     <property name="phetbuild-classes" location="ant_output/phetbuild/classes"/>
     <property name="proguard.jar" location="build-tools/proguard3.8/lib/proguard.jar"/>
     <property name="phetbuild-src" location="build-tools/phet-build/src"/>
+
+    <!--Phet task implementations-->
     <property name="phetbuild-classname" value="edu.colorado.phet.build.PhetBuildTask"/>
     <property name="phetdisplaystats-classname" value="edu.colorado.phet.build.PhetDisplayStatsTask"/>
     <property name="phetbuildall-classname" value="edu.colorado.phet.build.PhetBuildAllTask"/>
     <property name="phetbuildalljnlp-classname" value="edu.colorado.phet.build.PhetBuildAllJNLPTask"/>
     <property name="phetclean-classname" value="edu.colorado.phet.build.PhetCleanTask"/>
     <property name="phetjnlp-classname" value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
+    <property name="phet-list-sims-classname" value="edu.colorado.phet.build.PhetListSimTask"/>
 
     <!--Properties for the structure of the phet codebase.-->
     <property name="build-tools" value="build-tools"/>
@@ -46,17 +49,17 @@ PhET -specific tasks are moved to an auxiliary build file.
     <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh"
              classpath="${build-tools}/maverick/lib/maverick-ant.jar"/>
 
+    <target name="clean-phet-build">
+        <delete dir="${phetbuild-classes}"/>
+    </target>
+
     <target name="_compile-phet-build">
         <mkdir dir="${phetbuild-classes}"/>
         <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes}" classpath="${proguard.jar}" debug="true"
                debuglevel="lines,source"/>
     </target>
 
-    <target name="clean-phet-build">
-        <delete dir="${phetbuild-classes}"/>
-    </target>
-
-    <target name="_declare-phet-build-task" depends="clean-phet-build, _compile-phet-build">
+    <target name="_declare-phet-build-tasks" depends="clean-phet-build, _compile-phet-build">
         <taskdef name="phet-build"
                  classname="${phetbuild-classname}"
                  classpath="${phetbuild-dependencies}"/>
@@ -80,9 +83,28 @@ PhET -specific tasks are moved to an auxiliary build file.
         <taskdef name="phet-display-stats"
                  classname="${phetdisplaystats-classname}"
                  classpath="${phetbuild-dependencies}"/>
+
+        <taskdef name="phet-list-sims"
+                 classname="${phet-list-sims-classname}"
+                 classpath="${phetbuild-dependencies}"/>
     </target>
 
-    <target name="_init" depends="_declare-phet-build-task"/>
+    <target name="_init" depends="_declare-phet-build-tasks"/>
+
+    <target name="_list-sims">
+        <phet-list-sims/>
+    </target>
+
+    <target name="list-sims" depends="_init">
+        <!--<echo message="sim list=${phet.simlist}"/>-->
+        <antcallback target="_list-sims" return="phet.simlist"/>
+        <!--<echo message="sim list=${phet.simlist}"/>-->
+    </target>
+
+    <target name="build-all-jars-iterate" depends="_init,list-sims">
+        <!--<echo message="build2 got simlist: ${phet.simlist}"/>-->
+        <foreach list="${phet.simlist}" target="build-jar" param="sim.name"/>
+    </target>
 
     <target name="build-jar" depends="_init">
         <phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
