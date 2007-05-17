@@ -13,7 +13,17 @@ import java.awt.geom.Point2D;
 public class Vector2D {
 
     /**
-     * Polar is a specialization of Vector2D that is specified in polar coordinates.
+     * Cartesian describes a 2D vector in Cartesian coordinates.
+     */
+    public static class Cartesian extends Vector2D {
+        public Cartesian( double x, double y ) {
+            super();
+            setXY( x, y );
+        }
+    }
+    
+    /**
+     * Polar describes a 2D vector in Polar coordinates.
      */
     public static class Polar extends Vector2D {
         public Polar( double magnitude, double angle ) {
@@ -36,37 +46,22 @@ public class Vector2D {
     //----------------------------------------------------------------------------
     
     /**
-     * Creates a vector with zero magnitude and zero angle.
+     * Creates a zero vector.
      */
     public Vector2D() {
-        this( 0, 0 );
-    }
-
-    /**
-     * Creates a vector with the specified X and Y components.
-     * 
-     * @param x the magnitude of the X component
-     * @param y the magnitude of the Y component
-     */    
-    public Vector2D( double x, double y ) {
-        setXY( x, y );
+        _x = 0;
+        _y = 0;
+        _magnitude = 0;
+        _angle = 0;
     }
     
     /**
-     * Creates a vector that is a copy of a specified vector.
+     * Copy constructor.
      * 
-     * @param v the vector to copy
+     * @param v
      */
     public Vector2D( Vector2D v ) {
-        this( v.getX(), v.getY() );
-    }
-
-    /**
-     * Copies a vector.
-     * 
-     * @param v the vector to copy
-     */
-    public void copy( Vector2D v ) {
+        this();
         _x = v.getX();
         _y = v.getY();
         _magnitude = v.getMagnitude();

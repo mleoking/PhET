@@ -349,7 +349,7 @@ public class Laser extends MovableObject implements ModelElement {
         final double r0 = getRadius( 0 ); // radius at waist, nm
         final double fy = -1 * Ky * ( yOffset / ( r0 * r0 ) ) * intensity;
 
-        return new Vector2D( fx, fy );
+        return new Vector2D.Cartesian( fx, fy );
     }
     
     //----------------------------------------------------------------------------

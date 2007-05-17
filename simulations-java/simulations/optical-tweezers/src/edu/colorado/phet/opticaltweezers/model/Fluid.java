@@ -123,7 +123,7 @@ public class Fluid extends MovableObject implements ModelElement {
      * @return Vector2D
      */
     public Vector2D getVelocity() {
-        return new Vector2D( getSpeed(), getOrientation() );
+        return new Vector2D.Polar( getSpeed(), getOrientation() );
     }
     
     /**
@@ -224,9 +224,9 @@ public class Fluid extends MovableObject implements ModelElement {
     public Vector2D getDragForce( Vector2D beadVelocity ) {
         double mobility = getMobility();
         Vector2D velocity = getVelocity();
-        double Fx = ( velocity.getX() - beadVelocity.getX() ) / mobility;
-        double Fy = ( velocity.getY() - beadVelocity.getY() ) / mobility;
-        return new Vector2D( Fx, Fy );
+        double fx = ( velocity.getX() - beadVelocity.getX() ) / mobility;
+        double fy = ( velocity.getY() - beadVelocity.getY() ) / mobility;
+        return new Vector2D.Cartesian( fx, fy );
     }
     
     /**
