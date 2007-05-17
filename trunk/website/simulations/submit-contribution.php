@@ -58,7 +58,7 @@
     }
     
     $sims_page    = "../simulations/sims.php?sim_id=$sim_id";    
-    $edit_contrib = "$prefix/teacher_ideas/edit-contribution.php?contribution_id=$contribution_id&amp;referrer=$sims_page";
+    $edit_contrib = "$prefix/teacher_ideas/edit-contribution.php?contribution_id=$contribution_id&amp;referrer=$sims_page;sim_id=$sim_id";
     
     // Redirect to contribution editing page:
     force_redirect("$edit_contrib", 7);

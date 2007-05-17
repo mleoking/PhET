@@ -60,6 +60,22 @@
         
         eval(get_code_to_create_variables_from_array($contribution));
         
+        // Set reasonable defaults:
+        if (!isset($contribution_authors_organization) || $contribution_authors_organization == '') {
+            $contribution_authors_organization = $GLOBALS['contributor_organization'];
+        }
+        if (!isset($contribution_contact_email) || $contribution_contact_email == '') {
+            $contribution_contact_email = $GLOBALS['contributor_email'];
+        }
+        if (!isset($contribution_authors) || $contribution_authors == '') {
+            $contribution_authors = $GLOBALS['contributor_name'];
+        }
+        if (!isset($contribution_keywords) || $contribution_keywords == '' && isset($GLOBALS['sim_id'])) {
+            $simulation = sim_get_simulation_by_id($GLOBALS['sim_id']);
+            
+            $contribution_keywords = $simulation['sim_keywords'];
+        }
+        
         $files_html = contribution_get_files_listing_html($contribution_id);
         
         //$simulations_html = contribution_get_simulations_listing_html($contribution_id);
@@ -80,9 +96,7 @@ EOT;
         }
         
         print <<<EOT
-                    <h3>General</h3>
-                    
-                    Please describe the contribution:
+                    <h3>Submitter</h3>
                     
                     <label for="contribution_authors">
                         authors:
@@ -90,6 +104,22 @@ EOT;
                         <input type="text" name="contribution_authors"
                             value="$contribution_authors" tabindex="1" id="contribution_authors" size="50" />
                     </label>
+
+                    <label for="contribution_authors_organization">
+                        organization:
+                        
+                        <input type="text" name="contribution_authors_organization" 
+                            value="$contribution_authors_organization" tabindex="1" id="contribution_authors_organization" size="50"/>
+                    </label>
+                    
+                    <label for="contribution_contact_email">
+                        contact email:
+                        
+                        <input type="text" name="contribution_contact_email" 
+                            value="$contribution_contact_email" tabindex="1" id="contribution_contact_email" size="50"/>
+                    </label>
+
+                    <h3>Submission</h3>                    
                     
                     <label for="contribution_title">
                         title:
