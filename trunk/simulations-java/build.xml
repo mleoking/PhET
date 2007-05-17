@@ -28,6 +28,7 @@ PhET -specific tasks are moved to an auxiliary build file.
     <property name="phetclean-classname" value="edu.colorado.phet.build.PhetCleanTask"/>
     <property name="phetjnlp-classname" value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
     <property name="phet-list-sims-classname" value="edu.colorado.phet.build.PhetListSimTask"/>
+     <property name="phet-list-flavors-classname" value="edu.colorado.phet.build.PhetListFlavorsTask"/>
 
     <!--Properties for the structure of the phet codebase.-->
     <property name="build-tools" value="build-tools"/>
@@ -67,6 +68,12 @@ PhET -specific tasks are moved to an auxiliary build file.
     <target name="clean-phet-build">
         <delete dir="${phetbuild-classes}"/>
     </target>
+    
+    <target name="print-flavors" depends="_init, _verify-sim-name-specified">
+        <phet-list-flavors property="flavors-list" project="${sim.name}"/>
+        
+        <echo message="Flavors list: ${flavors-list}" />        
+    </target>
 
     <target name="_compile-phet-build">
         <mkdir dir="${phetbuild-classes}"/>
@@ -94,6 +101,10 @@ PhET -specific tasks are moved to an auxiliary build file.
         <taskdef name="phet-list-sims"
                  classname="${phet-list-sims-classname}"
                  classpath="${phetbuild-dependencies}"/>
+                 
+         <taskdef name="phet-list-flavors"
+                  classname="${phet-list-flavors-classname}"
+                  classpath="${phetbuild-dependencies}"/>                 
     </target>
 
     <target name="_init" depends="_declare-phet-build-tasks"/>

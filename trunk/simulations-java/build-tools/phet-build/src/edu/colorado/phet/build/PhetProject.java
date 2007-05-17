@@ -319,6 +319,10 @@ public class PhetProject {
                 }
             }
         }
+        if (flavorNames.size() == 0) {
+            flavorNames.add(getName());
+        }
+        
         return (String[])flavorNames.toArray( new String[0] );
     }
 
