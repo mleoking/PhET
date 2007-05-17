@@ -1,13 +1,11 @@
 package edu.colorado.phet.common.timeseries.ui;
 
-import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -101,13 +99,7 @@ public class TimeSeriesControlPanel extends JPanel {
     }
 
     private ImageIcon loadIcon( String s ) {
-        try {
-            return new ImageIcon( RotationResources.loadBufferedImage( "icons/java/media/" + s ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( s );
-        }
+        return new ImageIcon( TimeseriesResources.loadBufferedImage( "icons/java/media/" + s ) );
     }
 
     private void updateButtons() {
@@ -193,13 +185,7 @@ public class TimeSeriesControlPanel extends JPanel {
     static class TimeSeriesButton extends JButton {
 
         public TimeSeriesButton( String label, String imageIcon ) {
-            super( label );
-            try {
-                setIcon( new ImageIcon( RotationResources.loadBufferedImage( "icons/java/media/" + imageIcon ) ) );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
+            super( label, new ImageIcon( TimeseriesResources.loadBufferedImage( "icons/java/media/" + imageIcon ) ) );
         }
 
     }

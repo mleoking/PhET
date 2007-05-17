@@ -8,8 +8,8 @@ package edu.colorado.phet.common.timeseries.ui;
  */
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
 import javax.swing.*;
 

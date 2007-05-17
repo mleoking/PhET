@@ -46,7 +46,6 @@ public class PlaybackMode extends Mode {
         }
     }
 
-    
 
     public void setTime( double requestedTime ) {
         this.playbackTime = requestedTime;
