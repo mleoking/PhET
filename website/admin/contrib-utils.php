@@ -4,7 +4,307 @@
     include_once("db.inc");
     include_once("db-utils.php");
     include_once("web-utils.php");
-    include_once("sys-utils.php");    
+    include_once("sys-utils.php"); 
+    include_once("sim-utils.php");  
+    
+    function contribution_get_files_listing_html($contribution_id) {
+        $files_html = '<ul>';
+        
+        $files = contribution_get_contribution_files($contribution_id);
+        
+        foreach($files as $file) {
+            eval(get_code_to_create_variables_from_array($file));
+            
+            $basename = basename($contribution_file_url);
+            
+            $matches = array();
+            
+            preg_match('/php.*_(.+)/i', $basename, $matches);
+            
+            $name = $matches[1];
+            
+            $delete = "<input name=\"delete_contribution_file_id_${contribution_file_id}\" type=\"submit\" value=\"Delete\" >";
+            
+            $files_html .= "<li>$delete <a href=\"".SITE_ROOT."$contribution_file_url\">$name</a></li>";
+        }
+        
+        $files_html .= "</ul>";
+        
+        return $files_html;
+    }
+    
+    function contribution_get_simulations_listing_html($contribution_id) {
+        $simulations_html = "<ul>";
+        
+        $simulation_listings = contribution_get_associated_simulation_listings($contribution_id);
+                
+        foreach($simulation_listings as $simulation_listing) {
+            eval(get_code_to_create_variables_from_array($simulation_listing));
+            
+            $simulation = sim_get_simulation_by_id($sim_id);
+            
+            eval(get_code_to_create_variables_from_array($simulation));
+            
+            $delete = "<input name=\"delete_simulation_contribution_id_${simulation_contribution_id}\" type=\"submit\" value=\"Delete\" >";
+            
+            $simulations_html .= "<li>$delete <a href=\"".SITE_ROOT."simulations/sims.php?sim_id=$sim_id\">$sim_name</a></li>";
+        }
+        
+        $simulations_html .= "</ul>";
+        
+        return $simulations_html;
+    }
+    
+    function contribution_print_full_edit_form($contribution_id, $script, $referrer, $optional_message = null) {
+        $contribution = contribution_get_contribution_by_id($contribution_id);
+        
+        eval(get_code_to_create_variables_from_array($contribution));
+        
+        $files_html = contribution_get_files_listing_html($contribution_id);
+        
+        //$simulations_html = contribution_get_simulations_listing_html($contribution_id);
+            
+        
+        $all_contribution_types = contribution_get_all_template_contribution_types();
+        $contribution_types     = contribution_get_contribution_types_for_contribution($contribution_id);
+        
+
+        print <<<EOT
+            <form id="contributioneditform" method="post" action="$script">
+                <fieldset>
+                    <legend>Required</legend>
+EOT;
+
+        if ($optional_message !== null) {
+            print "$optional_message";
+        }
+        
+        print <<<EOT
+                    <h3>General</h3>
+                    
+                    Please describe the contribution:
+                    
+                    <label for="contribution_authors">
+                        authors:
+                        
+                        <input type="text" name="contribution_authors"
+                            value="$contribution_authors" tabindex="1" id="contribution_authors" size="50" />
+                    </label>
+                    
+                    <label for="contribution_title">
+                        title:
+                        
+                        <input type="text" name="contribution_title" 
+                            value="$contribution_title" tabindex="1" id="contribution_title" size="50"/>
+                    </label>
+                    
+                    <label for="contribution_keywords">
+                        keywords:
+                        
+                        <input type="text" name="contribution_keywords"
+                            value="$contribution_keywords" tabindex="3" id="contribution_keywords" size="50" />
+                    </label>
+                    
+                    <h3>Simulations</h3>
+
+                    <p>Choose the simulations that the contribution was designed for:<p/>
+EOT;
+
+        print_multiple_selection(
+            sim_get_all_sim_names(),
+            contribution_get_associated_simulation_listing_names($contribution_id)
+        );
+                    
+        print <<<EOT
+                    <h3>Classification</h3>
+                    
+                    <p>Choose the type of contribution:</p>
+                    
+EOT;
+        print_multiple_selection($all_contribution_types, $contribution_types);
+        
+        print <<<EOT
+                    <p>Choose the level of the contribution:</p>
+                    
+EOT;
+
+        print_multiple_selection(
+            contribution_get_all_template_level_names(),
+            contribution_get_level_names_for_contribution($contribution_id)
+        );
+
+        print <<<EOT
+                    <h3>Files</h3>
+                    
+                    <p>Remove existing files from the contribution:</p>
+                    
+                    $files_html
+                    
+                    <p>Add any number of files to the contribution:</p>
+                    
+                    <label for="contribution_file_url">                        
+                        <input type="file" name="contribution_file_url" class="multi" />
+                    </label>
+
+                    <br/>
+                    <br/>
+                    <p/>
+
+
+                </fieldset>
+                <fieldset>
+                    <legend>Optional</legend>
+                                        
+                    <label for="contribution_desc">
+                        description:
+                        
+                        <textarea name="contribution_desc" tabindex="4" id="contribution_desc" rows="5" cols="50">$contribution_desc</textarea>
+                    </label>
+                    
+                    <p>Please choose the subject areas covered by the contribution:</p>
+
+EOT;
+        
+        print_multiple_selection(
+            contribution_get_all_template_subject_names(),
+            contribution_get_subject_names_for_contribution($contribution_id)
+        );
+        
+        print <<<EOT
+                    <label for="contribution_duration">
+                        duration:
+EOT;
+
+        print_single_selection(
+            "contribution_duration",
+            array(
+                "30"    => "30 minutes",
+                "60"    => "60 minutes",
+                "120"   => "120 minutes"
+            ),
+            $contribution_duration
+        );
+
+        print <<<EOT
+                    </label>
+                    
+                    <label for="contribution_answers_included">
+                        answers included:
+EOT;
+
+        print_checkbox(
+            "contribution_answers_included",
+            "",
+            $contribution_answers_included
+        );
+
+        print <<<EOT
+                    </label>
+                    
+                    <p>Please describe how the contribution complies with the K-12 National Science Standards:</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <td width="400" height="25" align="right">&nbsp;</td>
+
+                                <td colspan="3" align="center"><span class="style9">Content Level</span></td>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                            <tr>
+                                <td width="400" height="30" align="right"><span class="style9">Content Standard</span></td>
+
+                                <td width="50" height="30" align="center">K-4</td>
+
+                                <td width="50" height="30" align="center">5-8</td>
+
+                                <td width="50" height="30" align="center">9-12</td>
+                            </tr>
+
+                            <tr>
+                                <td width="400" height="30" align="right"><label>Science as Inquiry - A</label></td>
+
+                                <td width="50" height="30" align="center"><input name="K4A" type="checkbox" id="K4A" value="1"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="58A" value="8"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="912A" value="15"></td>
+                            </tr>
+
+                            <tr>
+                                <td width="400" height="30" align="right"><label>Physical Science - B</label></td>
+
+                                <td width="50" height="30" align="center"><input name="K4B" type="checkbox" id="K4B" value="2"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="58B" value="9"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="912B" value="16"></td>
+                            </tr>
+
+                            <tr>
+                                <td width="400" height="30" align="right"><label>Life Science - C</label></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="K4C" value="3"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="58C" value="10"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="912C" value="17"></td>
+                            </tr>
+
+                            <tr>
+                                <td width="400" height="30" align="right">Earth &amp; Space Science - D</td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="K4D" value="4"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="58D" value="11"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="912D" value="18"></td>
+                            </tr>
+
+                            <tr>
+                                <td width="400" height="30" align="right"><label>Science &amp; Technology - E</label></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="K4E" value="5"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="58E" value="12"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="912E" value="19"></td>
+                            </tr>
+
+                            <tr>
+                                <td width="400" height="30" align="right"><label>Science in Personal and Social Perspective - F</label></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="K4F" value="6"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="58F" value="13"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="912F" value="20"></td>
+                            </tr>
+
+                            <tr>
+                                <td width="400" height="30" align="right">History and Nature of Science - G</td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="K4G" value="7"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="58G" value="14"></td>
+
+                                <td width="50" height="30" align="center"><input type="checkbox" name="912G" value="21"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <input type="hidden" name="referrer"        value="$referrer" />
+                    <input type="hidden" name="contribution_id" value="$contribution_id" />
+                 </fieldset>
+                 
+                 <label for="submit">
+                     <input name="submit" type="submit" id="submit" tabindex="13" value="Update" />
+                 </label>
+            </form>
+EOT;
+    }
     
     function contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member, $referrer = '') {
         eval(get_code_to_create_variables_from_array($contribution));
@@ -81,6 +381,12 @@
         delete_row_from_table('contribution',            $condition);
         delete_row_from_table('contribution_file',       $condition);
         delete_row_from_table('simulation_contribution', $condition);
+        delete_row_from_table('contribution_type',       $condition);
+        delete_row_from_table('contribution_level',      $condition);
+        delete_row_from_table('contribution_subject',    $condition);        
+        delete_row_from_table('contribution_comment',    $condition);            
+        delete_row_from_table('contribution_flagging',   $condition);            
+        delete_row_from_table('contribution_nomination', $condition);                            
         
         return true;
     }
@@ -99,15 +405,23 @@
         $contribution_id = insert_row_into_table(
             'contribution',
             array(
-                'contribution_title' => $contribution_title,
-                'contribution_type'  => $contribution_type,
-                'contributor_id'     => $contributor_id
+                'contribution_title'        => $contribution_title,
+                'contributor_id'            => $contributor_id,
+                'contribution_date_created' => date('YmdHis')
             )
         );
         
         if (contribution_add_new_file_to_contribution($contribution_id, $file_tmp_name, $file_user_name) == FALSE) {
             return FALSE;
         }
+
+        $contribution_type_id = insert_row_into_table(
+            'contribution_type',
+            array(
+                'contribution_id'        => $contribution_id,
+                'contribution_type_desc' => $contribution_type
+            )
+        );
         
         return $contribution_id;
     }
@@ -151,6 +465,173 @@
         
         return $simulation_contribution_id;
     }
+
+    function contribution_get_all_template_levels() {
+        $levels = array();
+        
+        $contribution_level_rows = run_sql_statement("SELECT * FROM `contribution_level` WHERE `contribution_level_is_template`='1' ORDER BY `contribution_level_desc` ASC ");
+        
+        while ($contribution_level = mysql_fetch_assoc($contribution_level_rows)) {
+            $id = $contribution_level['contribution_level_id'];
+            
+            $levels["contribution_level_id_$id"] = $contribution_level;
+        }
+        
+        return $levels;
+    }
+    
+    function contribution_get_all_template_level_names() {
+        $levels = contribution_get_all_template_levels();
+        
+        $level_names = array();
+        
+        foreach($levels as $key => $level) {
+            $level_names[$key] = $level['contribution_level_desc'];
+        }
+        
+        return $level_names;
+    }
+    
+    function contribution_get_levels_for_contribution($contribution_id) {
+        $levels = array();
+        
+        $contribution_level_rows = run_sql_statement("SELECT * FROM `contribution_level` WHERE `contribution_id`='$contribution_id' ORDER BY `contribution_level_desc` ASC ");
+        
+        while ($contribution_level = mysql_fetch_assoc($contribution_level_rows)) {
+            $id = $contribution_level['contribution_level_id'];
+            
+            $levels["contribution_level_id_$id"] = $contribution_level;
+        }
+        
+        return $levels;
+    }
+    
+    function contribution_get_level_names_for_contribution($contribution_id) {
+        $levels = contribution_get_levels_for_contribution($contribution_id);
+        
+        $level_names = array();
+        
+        foreach($levels as $key => $level) {
+            $level_names[$key] = $level['contribution_level_desc'];
+        }
+        
+        return $level_names;
+    }
+    
+    function contribution_get_all_template_subjects() {
+        $subjects = array();
+        
+        $contribution_subject_rows = run_sql_statement("SELECT * FROM `contribution_subject` WHERE `contribution_subject_is_template`='1' ORDER BY `contribution_subject_desc` ASC ");
+        
+        while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
+            $id = $contribution_subject['contribution_subject_id'];
+            
+            $subjects["contribution_subject_id_$id"] = $contribution_subject;
+        }
+        
+        return $subjects;
+    }
+    
+    function contribution_get_all_template_subject_names() {
+        $subjects = array();
+        
+        $contribution_subject_rows = run_sql_statement("SELECT * FROM `contribution_subject` WHERE `contribution_subject_is_template`='1' ORDER BY `contribution_subject_desc` ASC ");
+        
+        while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
+            $id = $contribution_subject['contribution_subject_id'];
+            
+            $subjects["contribution_subject_id_$id"] = $contribution_subject['contribution_subject_desc'];
+        }
+        
+        return $subjects;
+    }
+    
+    function contribution_get_subject_names_for_contribution($contribution_id) {
+        $subjects = array();
+        
+        $contribution_subject_rows = run_sql_statement("SELECT * FROM `contribution_subject` WHERE `contribution_id`='$contribution_id' ORDER BY `contribution_subject_desc` ASC ");
+        
+        while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
+            $id = $contribution_subject['contribution_subject_id'];
+            
+            $subjects["contribution_subject_id_$id"] = $contribution_subject['contribution_subject_desc'];
+        }
+        
+        return $subjects;
+    }
+    
+    function contribution_get_subjects_for_contribution($contribution_id) {
+        $subjects = array();
+        
+        $contribution_subject_rows = run_sql_statement("SELECT * FROM `contribution_subject` WHERE `contribution_id`='$contribution_id' ORDER BY `contribution_subject_desc` ASC ");
+        
+        while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
+            $id = $contribution_subject['contribution_subject_id'];
+            
+            $subjects["contribution_subject_id_$id"] = $contribution_subject;
+        }
+        
+        return $subjects;
+    }    
+    
+    function contribution_get_all_template_contribution_types() {
+        $types = array();
+        
+        $contribution_type_rows = run_sql_statement("SELECT * FROM `contribution_type` WHERE `contribution_type_is_template` = '1' ORDER BY `contribution_type_desc` ASC ");
+        
+        while ($contribution_type = mysql_fetch_assoc($contribution_type_rows)) {
+            $id   = $contribution_type['contribution_type_id'];
+            $type = $contribution_type['contribution_type_desc'];
+        
+            $types["contribution_type_id_$id"] = "$type";
+        }
+        
+        return $types;
+    }
+    
+    function contribution_get_contribution_types_for_contribution($contribution_id) {
+        $types = array();
+        
+        $contribution_type_rows = run_sql_statement("SELECT * FROM `contribution_type` WHERE `contribution_id` = '$contribution_id'  ORDER BY `contribution_type_desc` ASC ");
+        
+        while ($contribution_type = mysql_fetch_assoc($contribution_type_rows)) {
+            $id   = $contribution_type['contribution_type_id'];
+            $type = $contribution_type['contribution_type_desc'];
+        
+            $types["contribution_type_id_$id"] = "$type";
+        }
+        
+        return $types;
+    }    
+
+    function contribution_get_associated_simulation_listing_names($contribution_id) {
+        $simulation_rows = run_sql_statement("SELECT * FROM `simulation`,`simulation_contribution` WHERE `simulation`.`sim_id`=`simulation_contribution`.`sim_id` AND `simulation_contribution`.`contribution_id`='$contribution_id' ");
+        
+        $simulations = array();
+        
+        while ($simulation = mysql_fetch_assoc($simulation_rows)) {
+            $sim_id   = $simulation['sim_id'];
+            $sim_name = $simulation['sim_name'];
+            
+            $simulations["$sim_id"] = "$sim_name";
+        }
+        
+        return $simulations;
+    }
+    
+    function contribution_get_associated_simulation_listings($contribution_id) {
+        $simulation_rows = run_sql_statement("SELECT * FROM `simulation_contribution` WHERE `contribution_id`='$contribution_id' ");
+        
+        $simulations = array();
+        
+        while ($simulation = mysql_fetch_assoc($simulation_rows)) {
+            $sim_id = $simulation['sim_id'];
+            
+            $simulations["$sim_id"] = $simulation;
+        }
+        
+        return $simulations;
+    }
     
     function contribution_set_approved($contribution_id, $status) {
         if ($status) {
@@ -166,7 +647,7 @@
     function contribution_get_all_contributions() {
         $contributions = array();
         
-        $contribution_rows = run_sql_statement("SELECT * FROM `contribution` , `simulation_contribution` WHERE `contribution` . `contribution_id` = `simulation_contribution` . `contribution_id` ORDER BY `contribution_title` ASC");
+        $contribution_rows = run_sql_statement("SELECT * FROM `contribution` ORDER BY `contribution_title` ASC");
         
         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
             $contributions[] = $contribution;

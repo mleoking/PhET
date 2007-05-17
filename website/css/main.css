@@ -143,6 +143,40 @@ table td.smartClient,table th.smartClient {
     font-weight:bold;
 }
 
+/******** Contribution edit form *********/
+#contributioneditform {
+    width:		100%;
+    margin:		auto;
+    padding:	0px 0px 25px 0px;
+}
+#contributioneditform fieldset {
+    padding:10px;
+}
+#contributioneditform legend {
+    font-weight:bold;
+    font-size:9pt;
+}
+#contributioneditform label, p {
+    display:		block;
+	clear:			right;
+    padding-top:    5px;
+	padding-bottom: 0px;
+}
+#contributioneditform input, textarea {
+    margin-right:20px;
+    border:1px solid #999999;
+    float:right;
+    clear:right;
+    background:#CCCCCC;
+}
+#contributioneditform input:focus,#loginform input:hover {
+	border:1px solid #333333;
+}
+#contributioneditform .error{
+    color:red;
+    font-weight:bold;
+}
+
 /******** User-profile form *********/
 #userprofileform {
 	width:   	400;
@@ -1383,4 +1417,50 @@ img.sponsors {
 }
 .faq {
 	width: 500px;
+}
+
+.ac_results {
+	padding: 0px;
+	border: 1px solid WindowFrame;
+	background-color: Window;
+	overflow: hidden;
+}
+
+.ac_results ul {
+	width: 100%;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ac_results iframe {
+	display:none;/*sorry for IE5*/
+	display/**/:block;/*sorry for IE5*/
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:-1;
+	filter:mask();
+	width:3000px;
+	height:3000px;
+}
+
+.ac_results li {
+	margin: 0px;
+	padding: 2px 5px;
+	cursor: pointer;
+	display: block;
+	width: 100%;
+	font: menu;
+	font-size: 12px;
+	overflow: hidden;
+}
+
+.ac_loading {
+}
+
+.ac_over {
+	background-color: black;
+	color: 			  white;
 }

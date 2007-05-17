@@ -334,5 +334,178 @@ EOT;
         
         return preg_match($p, $email) == 1;
     }
+    
+    function php_array_to_javascript_array($array, $baseName) {
+        $code = ($baseName . " = new Array(); \r\n ");    
+
+        reset ($array);
+
+        while (list($key, $value) = each($array)) {
+            if (is_numeric($key)) {
+                $outKey = "[" . $key . "]";
+            }
+            else {
+                $outKey = "['" . $key . "']";
+            }
+
+            if (is_array($value)) {
+                $code .= php_array_to_javascript_array($value, $baseName . $outKey);
+            } 
+            else { 
+                $code .= ($baseName . $outKey . " = ");      
+
+                if (is_string($value)) {
+                    $code .= ("'" . $value . "'; \r\n ");
+                }
+                else if ($value === false) {
+                    $code .= ("false; \r\n");
+                }
+                else if ($value === NULL) {
+                    $code .= ("null; \r\n");
+                }
+                else if ($value === true) {
+                    $code .= ("true; \r\n");
+                } 
+                else {
+                    $code .= ($value . "; \r\n");
+                }
+            }
+        }
+       
+       return $code;
+    }
+
+    function print_multiple_selection($options_array, $selections_array = array(), $name_prefix = "ms") {
+        static $has_printed_javascript = false;
+        static $ms_id_num = 1;
+        
+        $name = "${name_prefix}_${ms_id_num}";
+        
+        ++$ms_id_num;
+        
+        $text_to_identifier = array();
+        
+        $options = '';
+        
+        foreach($options_array as $identifier => $text) {            
+            $options .= "<option value=\"$identifier\">$text</option>";
+            
+            $text_to_identifier["$text"] = "$identifier";
+        }
+        
+        $selections = '';
+        
+        static $child_id_index = 1;
+        
+        $list_id = "${name}_list_uid";
+        
+        foreach($selections_array as $text) {
+            $identifier = $text_to_identifier["$text"];
+            
+            $child_id = "child_${name}_${child_id_index}";
+            
+            $selections .= "<li id=\"$child_id\">";
+            $selections .= "<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('$list_id', '$child_id')\">$text</a>";
+            $selections .= "<input type=\"hidden\" name=\"$identifier\" value=\"1\" />";
+            $selections .= "</li>";
+            
+            ++$child_id_index;
+        }
+        
+        $select_id   = "${name}_uid";
+        $select_name = "${name}_select";
+        
+        print <<<EOT
+            <ul id="$list_id">
+                $selections
+            </ul>
+                        
+            <select name="$select_name" id="$select_id" 
+                        onclick="ms_on_change('$name',  '$list_id', this.form.$select_name);" 
+                        onchange="ms_on_change('$name', '$list_id', this.form.$select_name);">
+                $options
+            </select>
+EOT;
+        if (!$has_printed_javascript) {
+            $has_printed_javascript = true;
+            
+            print <<<EOT
+            <script type="text/javascript" language="javascript">
+                var child_id_index = $child_id_index;
+                
+                function ms_remove_li(id, child_id) {
+                    var Parent = document.getElementById(id);
+                    var Child  = document.getElementById(child_id);
+                    
+                    Parent.removeChild(Child);
+                    
+                    return false;
+                }
+                
+                function ms_add_li(basename, list_id, text, name) {
+                    var Parent = document.getElementById(list_id);
+                    
+                    var li_children = Parent.getElementsByTagName("li");
+                    
+                    for(var i = 0, li_child; li_child = li_children[i]; i++) {
+                        var input_child = li_child.getElementsByTagName("input")[0];
+                        
+                        if (input_child.name == name) {
+                            return false;
+                        }
+                    }
+                    
+                    var NewLI = document.createElement("li");
+
+                    NewLI.id        = "child_" + basename + "_" + child_id_index;                    
+                    NewLI.innerHTML = "<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('" + list_id + "','" + NewLI.id + "')\">" + text + "</a>" +
+                                      "<input type=\"hidden\" name=\"" + name + "\" value=\"1\" />";
+
+                    Parent.appendChild(NewLI);
+                    
+                    child_id_index++;
+                }
+                
+                function ms_on_change(basename, list_id, dropdown) {
+                	var index  = dropdown.selectedIndex;
+                	
+                	var text   = dropdown.options[index].text;
+                	var value  = dropdown.options[index].value;
+
+                    ms_add_li(basename, list_id, text, value);
+
+                	return false;
+                }
+            </script>
+EOT;
+        }
+    }
+    
+    function print_single_selection($select_name, $value_to_text, $selected_text) {
+        print <<<EOT
+            <select name="$select_name" id="${select_name}_uid">
+EOT;
+
+        foreach($value_to_text as $value => $text) {
+            $is_selected = ($text == $selected_text) ? "selected=\"selected\"" : "";
+            
+            print <<<EOT
+                <option value="$value" $is_selected>$text</option>
+EOT;
+        }
+
+        print <<<EOT
+            </select>
+EOT;
+    }
+    
+    function print_checkbox($checkbox_name, $checkbox_text, $checkbox_value) {
+        $is_checked = $checkbox_value == "1" ? "checked=\"checked\"" : "";
+        
+        print <<<EOT
+            <input type="hidden"   name="$checkbox_name" value="0" />
+            <input type="checkbox" name="$checkbox_name" $is_checked>$checkbox_text</input>
+EOT;
+    }
 
 ?>
