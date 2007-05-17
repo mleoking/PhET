@@ -12,6 +12,16 @@ import java.awt.geom.Point2D;
  */
 public class Vector2D {
 
+    /**
+     * Polar is a specialization of Vector2D that is specified in polar coordinates.
+     */
+    public static class Polar extends Vector2D {
+        public Polar( double magnitude, double angle ) {
+            super();
+            setMagnitudeAngle( magnitude, angle );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------

@@ -25,11 +25,16 @@ public class Bead extends MovableObject implements ModelElement {
     // Private class data
     //----------------------------------------------------------------------------
     
+    // Debugging output for the motion algorithm
     private static final boolean MOTION_DEBUG_OUTPUT = false;
     
     // Brownian motion scaling factor, bigger values cause bigger motion
     private static final double DEFAULT_BROWNIAN_MOTION_SCALE = 1;
+    
+    // Clock steps above this value will be subdivided for running the motion algorithm
     private static final double DEFAULT_DT_SUBDIVISION_THRESHOLD = 1;
+    
+    // How many times to equally divide the clock step when running the motion algorithm
     private static final int DEFAULT_NUMBER_OF_DT_SUBDIVISIONS = 1;
     
     //----------------------------------------------------------------------------
@@ -47,6 +52,8 @@ public class Bead extends MovableObject implements ModelElement {
     private double _brownianMotionScale;
     private double _dtSubdivisionThreshold;
     private int _numberOfDtSubdivisions;
+    
+    private Vector2D _brownianForce;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,6 +88,8 @@ public class Bead extends MovableObject implements ModelElement {
         _brownianMotionScale = DEFAULT_BROWNIAN_MOTION_SCALE;
         _dtSubdivisionThreshold = DEFAULT_DT_SUBDIVISION_THRESHOLD;
         _numberOfDtSubdivisions = DEFAULT_NUMBER_OF_DT_SUBDIVISIONS;
+        
+        _brownianForce = new Vector2D();
     }
     
     //----------------------------------------------------------------------------
@@ -93,7 +102,7 @@ public class Bead extends MovableObject implements ModelElement {
      * @param diameter diameter (nm)
      */
     public void setDiameter( double diameter ) {
-        if ( diameter <= 0 ) {
+        if ( !( diameter > 0 ) ) {
             throw new IllegalArgumentException( "diameter must be > 0" );
         }
         if ( diameter != _diameter ) {
@@ -132,6 +141,42 @@ public class Bead extends MovableObject implements ModelElement {
         _motionEnabled = motionEnabled;    
     }
     
+    /**
+     * Gets the Brownian force acting on the bead.
+     * 
+     * @return Vector2D
+     */
+    public Vector2D getBrownianForce() {
+        return _brownianForce;
+    }
+    
+    /**
+     * Gets the drag force acting on the bead at its current velocity.
+     * 
+     * @return Vector2D
+     */
+    public Vector2D getDragForce() {
+        return _fluid.getDragForce( _velocity );
+    }
+    
+    /**
+     * Gets the optical trap force acting on the bead at its current location.
+     * 
+     * @return Vector2D
+     */
+    public Vector2D getTrapForce() {
+        return _laser.getTrapForce( getX(), getY() );
+    }
+    
+    /**
+     * Gets the potential energy of the bead.
+     * 
+     * @return potential energy (mJ)
+     */
+    public double getPotentialEnergy() {
+        return _laser.getPotentialEnergy( getX(), getY() );
+    }
+    
     //----------------------------------------------------------------------------
     // Developer methods for tuning bead motion algorithm
     //----------------------------------------------------------------------------
@@ -143,6 +188,9 @@ public class Bead extends MovableObject implements ModelElement {
      * @param scale
      */
     public void setBrownianMotionScale( double scale ) {
+        if ( !( scale >= 0 ) ) {
+            throw new IllegalArgumentException( "scale must be >= 0: " + scale );
+        }
         _brownianMotionScale = scale;
     }
     
@@ -155,18 +203,45 @@ public class Bead extends MovableObject implements ModelElement {
         return _brownianMotionScale;
     }
     
+    /**
+     * Sets the subdivision threshold for the clock step.
+     * Clock steps above this value will be subdivided as specified by
+     * setNumberOfDtSubdivisions.
+     * 
+     * @param threshold
+     */
     public void setDtSubdivisionThreshold( double threshold ) {
         _dtSubdivisionThreshold = threshold;
     }
     
+    /**
+     * Gets the subdivision threshold for the clock step.
+     * 
+     * @return threshold
+     */
     public double getDtSubdivisionThreshold() {
         return _dtSubdivisionThreshold;
     }
     
+    /**
+     * Sets the number of subdivisions for the clock step.
+     * This determines how many times the motion algorithm is run
+     * each time the clock ticks.
+     * 
+     * @param numberOfDtSubdivisions
+     */
     public void setNumberOfDtSubdivisions( int numberOfDtSubdivisions ) {
+        if ( ! ( numberOfDtSubdivisions > 0 ) ) {
+            throw new IllegalArgumentException( "numberOfSubdivisions must be > 0: " + numberOfDtSubdivisions );
+        }
         _numberOfDtSubdivisions = numberOfDtSubdivisions;
     }
     
+    /**
+     * Gets the number of subdivisions for the clock step.
+     * 
+     * @retun number of subdivisions
+     */
     public int getNumberOfDtSubdivisions() {
         return _numberOfDtSubdivisions;
     }
@@ -182,55 +257,9 @@ public class Bead extends MovableObject implements ModelElement {
     }
     
     //----------------------------------------------------------------------------
-    // Brownian Force model
-    //----------------------------------------------------------------------------
-    
-    public Vector2D getBrownianForce() {
-        //XXX need to implement this
-        return new Vector2D( 1, 1 );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Trap Force model
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Gets the optical trap force acting on the bead.
-     */
-    public Vector2D getTrapForce() {
-        return _laser.getTrapForce( getX(), getY() );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Drag Force model
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Gets the drag force acting on the bead.
-     * 
-     * @return
-     */
-    public Vector2D getDragForce() {
-        return _fluid.getDragForce( _velocity );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Potential Energy model
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Gets the potential energy of the bead.
-     * 
-     * @return potential energy (mJ)
-     */
-    public double getPotentialEnergy() {
-        return _laser.getPotentialEnergy( getX(), getY() );
-    }
-    
-    //----------------------------------------------------------------------------
     // Motion model
     //----------------------------------------------------------------------------
-
+    
     /*
      * Bead motion algorithm.
      * 
@@ -260,7 +289,6 @@ public class Bead extends MovableObject implements ModelElement {
         if ( fluidVelocity.getY() != 0 ) {
             throw new IllegalStateException( "bead motion algorithm requires horizontal fluid flow" );
         }
-        final double fluidTemperature = _fluid.getTemperature(); // Kelvin
         
         // Old position and velocity
         double xOld = getX(); // nm
@@ -274,44 +302,32 @@ public class Bead extends MovableObject implements ModelElement {
         double vxNew = 0;
         double vyNew = 0;
         
+        // Subdivide the clock step into N equals pieces
         double dt = clockDt;
         int loops = 1;
-        if ( clockDt > ( _dtSubdivisionThreshold + ( 0.001 * _dtSubdivisionThreshold ) ) ) {
+        if ( clockDt > ( 1.001 * _dtSubdivisionThreshold ) ) {
             dt = clockDt / _numberOfDtSubdivisions;
             loops = _numberOfDtSubdivisions;
         }
         
+        // Run the motion algorithm for subdivided clock step
         for ( int i = 0; i < loops; i++ ) {
 
             // Trap force
             Vector2D trapForce = _laser.getTrapForce( xOld, yOld ); // pN
-            final double Fx = trapForce.getX(); // pN
-            final double Fy = trapForce.getY(); // pN
 
-            // Brownian motion components
-            final double stepLength = _brownianMotionScale * ( 2200 / Math.sqrt( normalizedViscosity ) ) * Math.sqrt( fluidTemperature / 300 ) * Math.sqrt( dt ); // nm
-            double stepAngle = 0; // radians
-            if ( yOld <= yTopOfSlide ) {
-                // bounce off top edge of microscope slide at an angle between 45 and 135 degrees
-                stepAngle = ( Math.PI / 4 ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
-            }
-            else if ( yOld >= yBottomOfSlide ) {
-                // bounce off bottom edge of microscope slide at an angle between -45 and -135 degrees
-                stepAngle = ( Math.PI + ( Math.PI / 4 ) ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
-            }
-            else {
-                // no collision with the edges of the microscope slide, any random angle will do
-                stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI );
-            }
-            // covert from Polar to Cartesian coordinates
-            double bx = stepLength * Math.cos( stepAngle ); // nm
-            double by = stepLength * Math.sin( stepAngle ); // nm
+            // Brownian force
+            _brownianForce = computeBrownianForce( dt ); // pN;
 
             // New position
-            xNew = xOld + ( vxOld * dt ) + bx; // nm
-            yNew = yOld + ( vyOld * dt ) + by; // nm
+            xNew = xOld + ( vxOld * dt ) + _brownianForce.getX(); // nm
+            yNew = yOld + ( vyOld * dt ) + _brownianForce.getY(); // nm
 
-            // Collision detection
+            /*
+             * Collision detection.
+             * This is very simplified, because the only thing causing collisions
+             * with the edges of the microscope slide is the Brownian force.
+             */
             if ( yNew < yTopOfSlide ) {
                 // collide with top edge of microscope slide
                 yNew = yTopOfSlide;
@@ -322,8 +338,8 @@ public class Bead extends MovableObject implements ModelElement {
             }
 
             // New velocity
-            vxNew = ( mobility * Fx ) + fluidVelocity.getX(); // nm/sec
-            vyNew = ( mobility * Fy ) + fluidVelocity.getY(); // nm/sec
+            vxNew = ( mobility * trapForce.getX() ) + fluidVelocity.getX(); // nm/sec
+            vyNew = ( mobility * trapForce.getY() ) + fluidVelocity.getY(); // nm/sec
 
             if ( MOTION_DEBUG_OUTPUT ) {
                 System.out.println( "old position = " + new Point2D.Double( xOld, yOld ) + " nm" );
@@ -334,8 +350,8 @@ public class Bead extends MovableObject implements ModelElement {
                 System.out.println( "normalized viscosity = " + normalizedViscosity );
                 System.out.println( "mobility = " + mobility + " (nm/sec)/pN" );
                 System.out.println( "fluid velocity = " + fluidVelocity + " nm/sec" );
-                System.out.println( "trap Fx = " + Fx + " pN" );
-                System.out.println( "trap Fy = " + Fy + " pN" );
+                System.out.println( "Brownian force = " + _brownianForce + " pN" );
+                System.out.println( "trap force = " + trapForce + " pN" );
                 System.out.println();
             }
             
@@ -346,7 +362,24 @@ public class Bead extends MovableObject implements ModelElement {
         }
 
         // Set new values
-        _velocity.setXY( vxNew, vyNew );
-        setPosition( xNew, yNew );
+        _velocity.setXY( vxNew, vyNew ); // nm/sec
+        setPosition( xNew, yNew ); // nm
+    }
+    
+
+    /*
+     * Computes a random Brownian force.
+     * 
+     * @return Brownian force (pN)
+     */
+    private Vector2D computeBrownianForce( double dt ) {
+        
+        final double normalizedViscosity = _fluid.getDimensionlessNormalizedViscosity(); // unitless
+        final double fluidTemperature = _fluid.getTemperature(); // Kelvin
+        
+        final double stepLength = _brownianMotionScale * ( 2200 / Math.sqrt( normalizedViscosity ) ) * Math.sqrt( fluidTemperature / 300 ) * Math.sqrt( dt ); // nm
+        double stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI ); // radians
+        
+        return new Vector2D.Polar( stepLength, stepAngle );
     }
 }
