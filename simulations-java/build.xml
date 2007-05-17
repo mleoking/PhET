@@ -129,7 +129,7 @@ PhET -specific tasks are moved to an auxiliary build file.
     </target>
 
     <!--Cleans deploy directories of jar and jnlp files-->
-    <target name="clean-all" depends="_init">
+    <target name="clean-all" depends="_init,_list-sims">
         <foreach list="${phet.simlist}" target="clean-sim" param="sim.name"/>
     </target>
 
