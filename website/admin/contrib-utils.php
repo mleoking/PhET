@@ -866,14 +866,8 @@ EOT;
                                                   
         $contributor = contributor_get_contributor_by_id($contributor_id);
         
-        gather_array_into_globals($contributor);
+        eval(get_code_to_create_variables_from_array($contributor));
         
-        global $contributor_name,        $contributor_title, $contributor_address,
-               $contributor_office,      $contributor_city,  $contributor_state, 
-               $contributor_postal_code, $contributor_primary_phone,
-               $contributor_secondary_phone, $contributor_fax,
-               $contributor_password,    $contributor_receive_email;
-               
         $contributor_receive_email_checked = $contributor_receive_email == '1' ? 'checked="checked"' : '';     
         
         print <<<EOT
@@ -901,6 +895,13 @@ EOT;
                         
                         <input type="text" name="contributor_name" 
                             value="$contributor_name" tabindex="2" id="name" size="25"/>
+                    </label>
+                    
+                    <label for="contributor_organization">
+                        organization:
+                        
+                        <input type="text" name="contributor_organization" 
+                            value="$contributor_organization" tabindex="2" id="contributor_organization" size="25"/>
                     </label>
                     
                     <label for="contributor_title">
