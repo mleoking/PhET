@@ -7,6 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
+- force vectors shown are those at old bead position, need to recalc just before moving bead
 - position histogram should make an observation every N seconds, not every clock tick
 - implement "Show Brownian force" feature
 - scale arrow heads on vectors
@@ -49,6 +50,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/17/07 - add view of Brownian force node, model not implemented
+5/17/07 - use units.force string for all force vectors
 ********* version 0.00.07 (15183)
 5/17/07 - bugfix in computation of potential energy curve
 5/17/07 - increase width of potential energy curve stroke

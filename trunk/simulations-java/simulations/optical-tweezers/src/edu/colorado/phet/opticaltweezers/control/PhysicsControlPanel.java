@@ -344,7 +344,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _horizontalTrapForceLabel.setForeground( fg );
             _wholeBeadRadioButton.setForeground( fg );
             _halfBeadRadioButton.setForeground( fg );
-            _brownianForceCheckBox.setForeground( fg );
             _momemtumChangeCheckBox.setForeground( fg );
         }
     }
@@ -672,14 +671,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     }
     
     private void handleBrownianForceCheckBox() {
-        
         final boolean selected = _brownianForceCheckBox.isSelected();
-        
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleBrownianForceCheckBox " + selected );
-        }
-        
-        //XXX
+        _canvas.getBrownianForceNode().setVisible( selected );
     }
     
     private void handleRulerCheckBox() {

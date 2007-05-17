@@ -65,6 +65,7 @@ public class PhysicsCanvas extends PhetPCanvas {
     private PotentialEnergyChartNode _potentialEnergyChartNode;
     private TrapForceNode _trapForceNode;
     private DragForceNode _dragForceNode;
+    private BrownianForceNode _brownianForceNode;
     
     // Control
     private PSwing _returnBeadButtonWrapper;
@@ -132,6 +133,9 @@ public class PhysicsCanvas extends PhetPCanvas {
         // Drag Force -- use same reference values as trap force so that scale is the same!
         _dragForceNode = new DragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
         
+        // Brownian Force -- use same reference values as trap force so that scale is the same!
+        _brownianForceNode = new BrownianForceNode( bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
+        
         // Ruler
         _rulerDragBoundsNode = new PPath();
         _rulerDragBoundsNode.setStroke( null );
@@ -163,6 +167,7 @@ public class PhysicsCanvas extends PhetPCanvas {
         _rootNode.addChild( _beadDragBoundsNode );
         _rootNode.addChild( _trapForceNode );
         _rootNode.addChild( _dragForceNode );
+        _rootNode.addChild( _brownianForceNode );
         _rootNode.addChild( _positionHistogramChartNode );
         _rootNode.addChild( _potentialEnergyChartNode );
         _rootNode.addChild( _rulerNode );
@@ -212,6 +217,10 @@ public class PhysicsCanvas extends PhetPCanvas {
     
     public DragForceNode getDragForceNode() {
         return _dragForceNode;
+    }
+    
+    public BrownianForceNode getBrownianForceNode() {
+        return _brownianForceNode;
     }
 
     //----------------------------------------------------------------------------

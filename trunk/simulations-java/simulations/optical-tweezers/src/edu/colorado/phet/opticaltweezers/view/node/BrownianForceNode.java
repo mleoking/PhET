@@ -19,24 +19,23 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * DragForceNode displays the fluid drag force acting on a bead.
+ * BrownianForceNode displays the Brownian force acting on a bead.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DragForceNode extends AbstractForceNode implements Observer {
+public class BrownianForceNode extends AbstractForceNode implements Observer {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
     private static final String UNITS = OTResources.getString( "units.force" );
-    private static final Color COLOR = Color.BLUE;
+    private static final Color COLOR = Color.GREEN;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Fluid _fluid;
     private Bead _bead;
     private ModelViewTransform _modelViewTransform;
     
@@ -44,11 +43,8 @@ public class DragForceNode extends AbstractForceNode implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DragForceNode( Fluid fluid, Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
+    public BrownianForceNode( Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
         super( modelReferenceMagnitude, viewReferenceLength, UNITS, COLOR );
-        
-        _fluid = fluid;
-        _fluid.addObserver( this );
         
         _bead = bead;
         _bead.addObserver( this );
@@ -60,7 +56,6 @@ public class DragForceNode extends AbstractForceNode implements Observer {
     }
     
     public void cleanup() {
-        _fluid.deleteObserver( this );
         _bead.deleteObserver( this );
     }
     
@@ -69,10 +64,7 @@ public class DragForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _fluid ) {
-            updateVectors();
-        }
-        else if ( o == _bead ) {
+        if ( o == _bead ) {
             updatePosition();
             updateVectors();
         }
@@ -88,9 +80,9 @@ public class DragForceNode extends AbstractForceNode implements Observer {
     }
     
     private void updateVectors() {
-        // calcuate the drag force at the bead's position
-        Vector2D dragForce = _bead.getDragForce();
-        // update the vectors
-        setForce( dragForce );
+        // get the Brownian force at the bead's position
+        Vector2D brownianForce = _bead.getBrownianForce();
+        // update the vector
+        setForce( brownianForce );
     }
 }

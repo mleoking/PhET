@@ -182,6 +182,15 @@ public class Bead extends MovableObject implements ModelElement {
     }
     
     //----------------------------------------------------------------------------
+    // Brownian Force model
+    //----------------------------------------------------------------------------
+    
+    public Vector2D getBrownianForce() {
+        //XXX need to implement this
+        return new Vector2D( 1, 1 );
+    }
+    
+    //----------------------------------------------------------------------------
     // Trap Force model
     //----------------------------------------------------------------------------
     
