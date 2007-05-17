@@ -33,7 +33,7 @@ public class PhysicsDefaults {
     public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( MIN_DT, MAX_DT, DEFAULT_DT, 20 /* significantDecimalPlaces */ );
     public static final OTClock CLOCK = new OTClock( FRAME_RATE, CLOCK_DT_RANGE );
     public static final String CLOCK_CONTROL_PATTERN = "0.0E0";
-    public static final String CLOCK_TIME_PATTERN = "0.000000000000000000";
+    public static final String CLOCK_TIME_PATTERN = "0.0000000000000000000";
     public static final int CLOCK_TIME_COLUMNS = 15;
     
     // Fluid model, local origin at fluid's center
