@@ -5,9 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- fix potential energy curve or bead location, one (or both) are wrong
 
 MEDIUM PRIORITY:
+- implement "Show Brownian force" feature
 - scale arrow heads on vectors
 - better algorithm for trap force y component Fy
 - improve collision detection in Bead.move
@@ -47,6 +47,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+********* version 0.00.07 (?)
 5/17/07 - bugfix in computation of potential energy curve
 5/17/07 - increase width of potential energy curve stroke
 5/16/07 - add bead representation to potential energy chart
