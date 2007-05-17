@@ -51,7 +51,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
-********* version 0.00.07 (?)
+********* version 0.00.07 (15198)
 5/17/07 - bug fix in Fluid.getVelocity, should create vector using polar coordinates
 5/17/07 - added Vector2D.Cartesian and Vector2D.Polar to prevent errors in construction
 5/17/07 - javadoc methods related to bead's "clock step subdivision" feature
