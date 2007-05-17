@@ -35,18 +35,48 @@ public class StandardizeSimUtil {
             }
             File propFile = new File( simDir, name + ".properties" );
             if( !propFile.exists() ) {
-                propFile.createNewFile();
-                BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( propFile ) );
-                bufferedWriter.write( "# " + name + ".properties\n" +
-                                      "#--------------------------------------------------------------------------\n" +
-                                      "\n" +
-                                      "version.major=0\n" +
-                                      "version.minor=00\n" +
-                                      "version.dev=00\n" +
-                                      "version.revision=sandbox" );
-                bufferedWriter.close();
+
+                String text = "# " + name + ".properties\n" +
+                              "#--------------------------------------------------------------------------\n" +
+                              "\n" +
+                              "version.major=0\n" +
+                              "version.minor=00\n" +
+                              "version.dev=00\n" +
+                              "version.revision=sandbox";
+
+                createFile( propFile, text );
                 System.out.println( "created property file: " + propFile );
             }
+            File localizationDir = new File( simDir, "localization" );
+            if( !localizationDir.exists() ) {
+                localizationDir.mkdirs();
+            }
+            File englishLocalizationFile = new File( localizationDir, name + "-strings.properties" );
+            if( !englishLocalizationFile.exists() ) {
+                createFile( englishLocalizationFile, "#===============================================================================\n" +
+                                                     "#\n" +
+                                                     "#  US English (en) localized strings for \"" + name + "\" simulation.\n" +
+                                                     "#\n" +
+                                                     "#===============================================================================\n" +
+                                                     "\n" +
+                                                     "#===============================================================================\n" +
+                                                     "# Mandatory properties\n" +
+                                                     "#===============================================================================\n" +
+                                                     "\n" +
+                                                     "" + name + ".name         =" + name + "\n" +
+                                                     "" + name + ".description  =<html>\\\n" +
+                                                     "" + name + "\\\n" +
+                                                     "</html>" );
+                System.out.println( "created englishLocalizationFile = " + englishLocalizationFile.getAbsolutePath() );
+            }
         }
+    }
+
+    private static void createFile( File propFile, String text ) throws IOException {
+        propFile.createNewFile();
+        BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( propFile ) );
+
+        bufferedWriter.write( text );
+        bufferedWriter.close();
     }
 }
