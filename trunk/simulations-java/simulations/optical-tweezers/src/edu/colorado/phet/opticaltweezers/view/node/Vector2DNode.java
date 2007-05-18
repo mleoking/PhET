@@ -53,7 +53,7 @@ public class Vector2DNode extends PhetPNode {
     private static final String DEFAULT_UNITS = "";
     
     private static final Point2D TAIL_POSITION = new Point2D.Double( 0, 0 );
-    private static final double ARROW_FRACTIONAL_HEAD_HEIGHT = 0.5;
+    private static final double DEFAULT_FRACTIONAL_HEAD_HEIGHT = 0.5;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -67,6 +67,7 @@ public class Vector2DNode extends PhetPNode {
     
     private double _headWidth, _headHeight;
     private double _tailWidth;
+    private double _fractionalHeadHeight;
     private double _valueSpacing;
     private DecimalFormat _valueFormat;
     private String _units;
@@ -115,6 +116,8 @@ public class Vector2DNode extends PhetPNode {
         _headWidth = DEFAULT_ARROW_HEAD_WIDTH;
         _headHeight = DEFAULT_ARROW_HEAD_HEIGHT;
         _tailWidth = DEFAULT_ARROW_TAIL_WIDTH;
+        _fractionalHeadHeight = DEFAULT_FRACTIONAL_HEAD_HEIGHT;
+        
         _valueSpacing = DEFAULT_VALUE_SPACING;
         _valueFormat = DEFAULT_VALUE_FORMAT;
         _units = DEFAULT_UNITS;
@@ -291,6 +294,25 @@ public class Vector2DNode extends PhetPNode {
         update();
     }
     
+    /**
+     * Sets the fractonal head height for the arrow.
+     * When the (head height)/(arrow length) > fractionalHeadHeight,
+     * the arrow head and tail will be scaled.
+     * <p>
+     * To disable scaling, set this to 1.
+     * 
+     * @param fractionHeadHeight
+     */
+    public void setFractionalHeadHeight( double fractionHeadHeight ) {
+        if ( !( fractionHeadHeight > 0 && fractionHeadHeight <= 1 ) ) {
+            throw new IllegalArgumentException( "fractionalHeadHeight must be > 0 and <= 1" );
+        }
+        if ( fractionHeadHeight != _fractionalHeadHeight ) {
+            _fractionalHeadHeight = fractionHeadHeight;
+            update();
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
@@ -320,7 +342,7 @@ public class Vector2DNode extends PhetPNode {
                 double xTip = tailWidth + headWidth;
                 double yTip = tailHeight + headHeight;
                 Point2D tipPosition = new Point2D.Double( xTip, yTip );
-                Arrow arrow = new Arrow( TAIL_POSITION, tipPosition, _headHeight, _headWidth, _tailWidth, ARROW_FRACTIONAL_HEAD_HEIGHT, true /* scaleTailToo */ );
+                Arrow arrow = new Arrow( TAIL_POSITION, tipPosition, _headHeight, _headWidth, _tailWidth, _fractionalHeadHeight, true /* scaleTailToo */ );
                 _arrowNode.setPathTo( arrow.getShape() );
 
                 // update the text
