@@ -240,7 +240,7 @@ PhET -specific tasks are moved to an auxiliary build file.
                 <!-- If the username and password are not set, get them now: -->
                 <antform title="Deployment Host Login" width="550" height="300" focus="login">
                     <label>Please enter your username and password that you use to login to the deployment host machine
-                        ${deploy.host}.
+                        ${ssh-host}.
                     </label>
 
                     <textProperty label="Username:" property="deploy.username" required="true"/>
@@ -287,8 +287,9 @@ PhET -specific tasks are moved to an auxiliary build file.
         <if>
             <isset property="browser"/>
             <then>
+                <echo message="Opening browser: ${browser} ${deployurl}"/>
                 <exec executable="${browser}" spawn="true">
-                    <arg value="${sim.server.url}"/>
+                    <arg value="${deployurl}"/>
                 </exec>
             </then>
         </if>
