@@ -47,6 +47,16 @@
         return preg_replace('/&(?!amp;)/', '&amp;', $string);
     }
     
+    function format_array_values_for_html($array) {
+        $clean = array();
+        
+        foreach($array as $key => $value) {
+            $clean["$key"] = format_for_html("$value");
+        }
+        
+        return $clean;
+    }
+    
     function get_script_param($param_name, $default_value = "") {
         if (isset($_REQUEST['sim_id'])) {
             return $_REQUEST['sim_id'];
@@ -430,7 +440,9 @@ EOT;
             $has_printed_javascript = true;
             
             print <<<EOT
-            <script type="text/javascript" language="javascript">
+            <script type="text/javascript">
+                <![CDATA[
+                
                 var child_id_index = $child_id_index;
                 
                 function ms_remove_li(id, child_id) {
@@ -476,6 +488,8 @@ EOT;
 
                 	return false;
                 }
+                
+                ]]>
             </script>
 EOT;
         }
@@ -504,7 +518,7 @@ EOT;
         
         print <<<EOT
             <input type="hidden"   name="$checkbox_name" value="0" />
-            <input type="checkbox" name="$checkbox_name" $is_checked>$checkbox_text</input>
+            <input type="checkbox" id="${checkbox_name}_uid" name="$checkbox_name" $is_checked>$checkbox_text</input>
 EOT;
     }
 

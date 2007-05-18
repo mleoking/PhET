@@ -1,5 +1,6 @@
 <?php
     include_once("db.inc");
+    include_once("web-utils.php");
     
     function verify_mysql_result($result, $statement) {
         if (!$result && $statement !== "") {
@@ -18,6 +19,20 @@
         verify_mysql_result($result, $statement);
     
         return $result;
+    }
+    
+    function get_row_by_id($table_name, $id_name, $id_value) {
+        $rows = run_sql_statement("SELECT * FROM `$table_name` WHERE `$id_name`='$id_value' ");
+        
+        if (!$rows) return FALSE;
+
+        $assoc = mysql_fetch_assoc($rows);
+        
+        $cleaned = array();
+        
+        foreach($assoc as $key => $value) {
+            $cleaned["$key"] = format_for_html("$value");
+        }
     }
     
     function delete_row_from_table($table_name, $array) {
