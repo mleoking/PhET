@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class PhetDisplayStatsTask extends PhetAllSimTask {
     public final void execute() throws BuildException {
@@ -38,7 +39,12 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
             }
         }
         ArrayList locales=new ArrayList( languages.keySet( ));
-        System.out.println( "Number of Sims: " + simNames.length + ", number of declared flavors: " + flavorCount + ", number of locales used at least once: " + languages.size() +", all languages="+locales);
+        ArrayList language=new ArrayList( );
+        for( int i = 0; i < locales.size(); i++ ) {
+            String o = (String)locales.get( i );
+            language.add( new Locale(o).getDisplayLanguage());
+        }
+        System.out.println( "Number of Sims: " + simNames.length + ", number of declared flavors: " + flavorCount + ", number of locales used at least once: " + languages.size() +", all locales="+locales+", languages="+language);
     }
 
     public static void main( String[] args ) {
