@@ -25,6 +25,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Locale;
 
 
 /**
@@ -196,7 +197,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
         controlPanel.add( resetBtn );
         controlPanel.add( buttonPanel );
 
-        JCheckBox twoBalloons = new JCheckBox( "Two Balloons", false );
+        JCheckBox twoBalloons = new JCheckBox( BalloonsResources.getString( "BalloonApplet.TwoBalloons" ), false );
         twoBalloons.addActionListener( new TwoBalloonsHandler( twoBalloons, blueBalloon ) );
 
         SetBalloonCharge sbc = ( new SetBalloonCharge( chargedBalloonBtn, bPainter, showNoCharges, showDiff, showAllCharges ) );
@@ -369,7 +370,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
     }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
-//        Locale.setDefault( new Locale( "ie", "ga" ) );
+        Locale.setDefault( new Locale( "fr") );
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         isApplet = false;
         BalloonsApplication ba = new BalloonsApplication( args );
