@@ -7,14 +7,13 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
-import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.opticaltweezers.model.Fluid;
+import edu.colorado.phet.opticaltweezers.util.Vector2D;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -43,10 +42,9 @@ public class FluidNode extends PhetPNode implements Observer {
     private static final double VELOCITY_VECTOR_HEAD_HEIGHT = 20;
     private static final double VELOCITY_VECTOR_HEAD_WIDTH = 20;
     private static final double VELOCITY_VECTOR_TAIL_WIDTH = 10;
-    private static final double VELOCITY_VECTOR_MIN_TAIL_LENGTH = 2;
     private static final double VELOCITY_VECTOR_MAX_TAIL_LENGTH = 125;
     private static final Stroke VELOCITY_VECTOR_STROKE = new BasicStroke( 1f );
-    private static final Paint VELOCITY_VECTOR_STROKE_PAINT = Color.black;
+    private static final Paint VELOCITY_VECTOR_STROKE_PAINT = Color.BLACK;
     private static final Paint VELOCITY_VECTOR_FILL_PAINT = EDGE_FILL_COLOR;
     private static final double VELOCITY_VECTOR_X_OFFSET = 30;
 
@@ -60,8 +58,7 @@ public class FluidNode extends PhetPNode implements Observer {
     
     // parts of the microscope slide
     private PPath _topEdgeNode, _bottomEdgeNode, _centerNode;
-    // parent node for all velocity vectors
-    private PComposite _velocityVectorsParentNode;
+    private PNode _velocityVectorsParentNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -85,26 +82,41 @@ public class FluidNode extends PhetPNode implements Observer {
         _modelViewTransform = modelViewTransform;
         _worldWidth = 1;
         
+        // top edge of the miscroscope slide
         _topEdgeNode = new PPath();
         _topEdgeNode.setStroke( EDGE_STROKE );
         _topEdgeNode.setStrokePaint( EDGE_STROKE_COLOR );
         _topEdgeNode.setPaint( EDGE_FILL_COLOR );
         
+        // bottom edge of the miscroscope slide
         _bottomEdgeNode = new PPath();
         _bottomEdgeNode.setStroke( EDGE_STROKE );
         _bottomEdgeNode.setStrokePaint( EDGE_STROKE_COLOR );
         _bottomEdgeNode.setPaint( EDGE_FILL_COLOR );
         
+        // center portion of the microscope slide, where the bead moves
         _centerNode = new PPath();
         _centerNode.setStroke( null );
         _centerNode.setPaint( CENTER_FILL_COLOR );
         
+        // fluid velocity vectors
+        final double fluidHeight = _modelViewTransform.modelToView( _fluid.getHeight() );
+        final double referenceMagnitude = _fluid.getSpeedRange().getMax();
+        final double referenceLength = VELOCITY_VECTOR_MAX_TAIL_LENGTH;
+        Vector2D vector = new Vector2D.Polar( referenceMagnitude, 0 );
         _velocityVectorsParentNode = new PComposite();
+        for ( int i = 0; i < NUMBER_OF_VELOCITY_VECTORS; i++ ) {
+            VelocityVectorNode vectorNode = new VelocityVectorNode( vector, referenceMagnitude, referenceLength );
+            double x = VELOCITY_VECTOR_X_OFFSET;
+            double y = ( i * fluidHeight / NUMBER_OF_VELOCITY_VECTORS ) + ( ( fluidHeight / NUMBER_OF_VELOCITY_VECTORS ) - vectorNode.getFullBounds().getHeight() );
+            vectorNode.setOffset( x, y );
+            _velocityVectorsParentNode.addChild( vectorNode );
+        }
         
         addChild( _centerNode );
         addChild( _topEdgeNode );
         addChild( _bottomEdgeNode );
-        _centerNode.addChild( _velocityVectorsParentNode );
+        addChild( _velocityVectorsParentNode );
         
         updateSlide();
         updateVelocityVectors();
@@ -186,6 +198,8 @@ public class FluidNode extends PhetPNode implements Observer {
         _topEdgeNode.setOffset( 0, -( height / 2 ) - EDGE_HEIGHT );
         _centerNode.setOffset( 0, -( height / 2 ) );
         _bottomEdgeNode.setOffset( 0, +( height / 2 ) );
+        _velocityVectorsParentNode.setOffset( 0, 
+                _centerNode.getOffset().getY() + ( ( _centerNode.getFullBounds().getHeight() - _velocityVectorsParentNode.getFullBounds().getHeight() ) / 2 ) );
         
         setOffset( 0, y );
     }
@@ -195,26 +209,16 @@ public class FluidNode extends PhetPNode implements Observer {
      */
     private void updateVelocityVectors() {
         
-        _velocityVectorsParentNode.removeAllChildren();
-
-        double speed = _fluid.getSpeed();
-        if ( speed > 0 ) {
-            
-            double minSpeed = _fluid.getSpeedRange().getMin();
-            double maxSpeed = _fluid.getSpeedRange().getMax();
-            double tailScale = ( speed - minSpeed ) / ( maxSpeed - minSpeed );
-            double tailLength = VELOCITY_VECTOR_MIN_TAIL_LENGTH + ( tailScale * ( VELOCITY_VECTOR_MAX_TAIL_LENGTH - VELOCITY_VECTOR_MIN_TAIL_LENGTH ) );
-            double arrowLength = tailLength + VELOCITY_VECTOR_HEAD_HEIGHT;
-            Point2D tailPosition = new Point2D.Double( 0, 0 );
-            Point2D tipPosition = new Point2D.Double( arrowLength, 0 );
-            final double fluidHeight = _modelViewTransform.modelToView( _fluid.getHeight() );
-
-            for ( int i = 0; i < NUMBER_OF_VELOCITY_VECTORS; i++ ) {
-                VelocityVectorNode vectorNode = new VelocityVectorNode( tailPosition, tipPosition );
-                double x = VELOCITY_VECTOR_X_OFFSET;
-                double y = ( i * fluidHeight / NUMBER_OF_VELOCITY_VECTORS ) + ( ( fluidHeight / NUMBER_OF_VELOCITY_VECTORS ) - vectorNode.getFullBounds().getHeight() );
-                vectorNode.setOffset( x, y );
-                _velocityVectorsParentNode.addChild( vectorNode );
+        final double speed = _fluid.getSpeed();
+        final double orientation = _fluid.getOrientation();
+        
+        List childNodes = _velocityVectorsParentNode.getChildrenReference();
+        Iterator i = childNodes.iterator();
+        while ( i.hasNext() ) {
+            Object nextChild = i.next();
+            if ( nextChild instanceof VelocityVectorNode ) {
+                VelocityVectorNode velocityVectorNode = (VelocityVectorNode) nextChild;
+                velocityVectorNode.setVectorMagnitudeAngle( speed, orientation );
             }
         }
     }
@@ -224,14 +228,18 @@ public class FluidNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     /*
-     * VelocityVectorNode draws a vector that represents the fluid velocity.
+     * VelocityVectorNode encapsulates the "look" of a fluid velocity vector.
      */
-    private class VelocityVectorNode extends ArrowNode {
-        public VelocityVectorNode( Point2D tailPosition, Point2D tipPosition ) {
-            super( tailPosition, tipPosition, VELOCITY_VECTOR_HEAD_HEIGHT, VELOCITY_VECTOR_HEAD_WIDTH, VELOCITY_VECTOR_TAIL_WIDTH );
-            setStroke( VELOCITY_VECTOR_STROKE );
-            setStrokePaint( VELOCITY_VECTOR_STROKE_PAINT );
-            setPaint( VELOCITY_VECTOR_FILL_PAINT );
+    private class VelocityVectorNode extends Vector2DNode {
+        public VelocityVectorNode( Vector2D vector, double referenceMagnitude, double referenceLength ) {
+            super( vector, referenceMagnitude, referenceLength );
+            setHeadSize( VELOCITY_VECTOR_HEAD_WIDTH, VELOCITY_VECTOR_HEAD_HEIGHT );
+            setTailWidth( VELOCITY_VECTOR_TAIL_WIDTH );
+            setArrowFillPaint( VELOCITY_VECTOR_FILL_PAINT );
+            setArrowStroke( VELOCITY_VECTOR_STROKE );
+            setArrowStrokePaint( VELOCITY_VECTOR_STROKE_PAINT );
+            setFractionalHeadHeight( 0.5 );
+            setValueVisible( false );
         }
     }
 }
