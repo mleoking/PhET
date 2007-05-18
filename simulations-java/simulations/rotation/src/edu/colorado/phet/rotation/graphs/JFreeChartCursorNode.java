@@ -13,6 +13,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -40,7 +41,7 @@ public class JFreeChartCursorNode extends PNode {
                 parent.removePropertyChangeListener( PNode.PROPERTY_PARENT, updateParent );
                 parent.addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, updater );
                 parent.addPropertyChangeListener( PNode.PROPERTY_PARENT, updateParent );
-                parent=parent.getParent();
+                parent = parent.getParent();
                 update();
             }
         }
@@ -86,9 +87,41 @@ public class JFreeChartCursorNode extends PNode {
                 time = MathUtil.clamp( jFreeChartNode.getChart().getXYPlot().getDomainAxis().getRange().getLowerBound(), time, jFreeChartNode.getChart().getXYPlot().getDomainAxis().getRange().getUpperBound() );
 
                 update();
+                notifySliderDragged();
             }
         } );
         update();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public static interface Listener {
+        void changed();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    public void notifySliderDragged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener)listeners.get( i ) ).changed();
+        }
+    }
+
+    public void setTime( double time ) {
+        if( this.time != time ) {
+            this.time = time;
+            update();
+        }
+    }
+
+    public double getTime() {
+        return time;
     }
 
     private void update() {

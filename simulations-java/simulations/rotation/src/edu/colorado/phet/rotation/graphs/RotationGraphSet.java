@@ -29,21 +29,27 @@ public class RotationGraphSet {
     private GraphComponent accelerationGraph;
     private ArrayList graphComponents = new ArrayList();
     private GraphSuite[] suites;
+    private CursorModel cursorModel;
 
     public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel rotationModel ) {
-        angleGraph = new GraphComponent( UnicodeUtil.THETA, toControlGraph( pSwingCanvas, UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, rotationModel.getXVariable(), new PImage( loadImage( "blue-arrow.png" ) ), true ) );
-        angularVelocityGraph = new GraphComponent( UnicodeUtil.OMEGA, toControlGraph( pSwingCanvas, UnicodeUtil.OMEGA, "Angular Velocity", -0.1, 0.1, Color.red, rotationModel.getVVariable(), new PImage( loadImage( "red-arrow.png" ) ), true ) );
-        angularAccelerationGraph = new GraphComponent( UnicodeUtil.ALPHA, toControlGraph( pSwingCanvas, UnicodeUtil.ALPHA, "Angular Acceleration", -0.001, 0.001, Color.green, rotationModel.getAVariable(), new PImage( loadImage( "green-arrow.png" ) ), true ) );
+        this( pSwingCanvas, rotationModel, new CursorModel() );
+    }
+
+    public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel rotationModel, CursorModel cursorModel ) {
+        this.cursorModel = cursorModel;
+        angleGraph = new GraphComponent( UnicodeUtil.THETA, toControlGraph( pSwingCanvas, UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, rotationModel.getXVariable(), new PImage( loadImage( "blue-arrow.png" ) ), true, cursorModel ) );
+        angularVelocityGraph = new GraphComponent( UnicodeUtil.OMEGA, toControlGraph( pSwingCanvas, UnicodeUtil.OMEGA, "Angular Velocity", -0.1, 0.1, Color.red, rotationModel.getVVariable(), new PImage( loadImage( "red-arrow.png" ) ), true, cursorModel ) );
+        angularAccelerationGraph = new GraphComponent( UnicodeUtil.ALPHA, toControlGraph( pSwingCanvas, UnicodeUtil.ALPHA, "Angular Acceleration", -0.001, 0.001, Color.green, rotationModel.getAVariable(), new PImage( loadImage( "green-arrow.png" ) ), true, cursorModel ) );
 
 //        ControlGraph positionControlGraph = toControlGraph( pSwingCanvas, "x", "Position", -1.2, 1.2, Color.blue, rotationModel.getXPositionVariable(), new PImage( loadImage( "blue-arrow.png" ) ), false );
-        ControlGraph positionControlGraph = toControlGraph( pSwingCanvas, "x", "Position", 0, 500, Color.blue, rotationModel.getXPositionVariable(), new PImage( loadImage( "blue-arrow.png" ) ), false );
+        ControlGraph positionControlGraph = toControlGraph( pSwingCanvas, "x", "Position", 0, 500, Color.blue, rotationModel.getXPositionVariable(), new PImage( loadImage( "blue-arrow.png" ) ), false, cursorModel );
         positionControlGraph.addSeries( "Position", Color.red, "y", rotationModel.getYPositionVariable() );
 
         positionGraph = new GraphComponent( "x,y", positionControlGraph );
-        ControlGraph speedControlGraph = toControlGraph( pSwingCanvas, "|v|", "Linear Speed", 0, 0.1, Color.red, rotationModel.getSpeedVariable(), new PImage( loadImage( "red-arrow.png" ) ), false );
+        ControlGraph speedControlGraph = toControlGraph( pSwingCanvas, "|v|", "Linear Speed", 0, 0.1, Color.red, rotationModel.getSpeedVariable(), new PImage( loadImage( "red-arrow.png" ) ), false, cursorModel );
         speedGraph = new GraphComponent( "vx, vy", speedControlGraph );
 
-        accelerationGraph = new GraphComponent( "a", toControlGraph( pSwingCanvas, "a", "Centripetal Acceleration", 0, 0.001, Color.green, rotationModel.getCentripetalAcceleration(), new PImage( loadImage( "green-arrow.png" ) ), false ) );
+        accelerationGraph = new GraphComponent( "a", toControlGraph( pSwingCanvas, "a", "Centripetal Acceleration", 0, 0.001, Color.green, rotationModel.getCentripetalAcceleration(), new PImage( loadImage( "green-arrow.png" ) ), false, cursorModel ) );
         graphComponents.addAll( Arrays.asList( new GraphComponent[]{angleGraph, angularVelocityGraph, angularAccelerationGraph, positionGraph, speedGraph, accelerationGraph} ) );
         suites = new GraphSuite[]{
 //                new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),//todo: remove after testing
@@ -93,7 +99,9 @@ public class RotationGraphSet {
         }
     }
 
-    ControlGraph toControlGraph( PhetPCanvas pSwingCanvas, String label, String title, double min, double max, Color color, SimulationVariable simulationVariable, PNode thumb, boolean editable ) {
+    ControlGraph toControlGraph( PhetPCanvas pSwingCanvas, String label, String title,
+                                 double min, double max, Color color,
+                                 SimulationVariable simulationVariable, PNode thumb, boolean editable, final CursorModel cursorModel ) {
         final ControlGraph controlGraph = new ControlGraph( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb );
         controlGraph.addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
@@ -105,6 +113,19 @@ public class RotationGraphSet {
             }
         } );
         controlGraph.setEditable( editable );
+
+        final JFreeChartCursorNode jFreeChartCursorNode = new JFreeChartCursorNode( controlGraph.getJFreeChartNode() );
+        controlGraph.addChild( jFreeChartCursorNode );
+        cursorModel.addListener( new CursorModel.Listener() {
+            public void changed() {
+                jFreeChartCursorNode.setTime( cursorModel.getTime() );
+            }
+        } );
+        jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
+            public void changed() {
+                cursorModel.setTime(jFreeChartCursorNode.getTime());
+            }
+        } );
         return controlGraph;
     }
 
