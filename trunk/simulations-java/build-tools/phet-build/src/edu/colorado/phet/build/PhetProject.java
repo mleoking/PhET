@@ -319,10 +319,10 @@ public class PhetProject {
                 }
             }
         }
-        if (flavorNames.size() == 0) {
-            flavorNames.add(getName());
+        if( flavorNames.size() == 0 ) {
+            flavorNames.add( getName() );
         }
-        
+
         return (String[])flavorNames.toArray( new String[0] );
     }
 
@@ -388,17 +388,18 @@ public class PhetProject {
                 if( description == null ) {
                     throw new RuntimeException( "Missing description for simulation: key=" + descriptionKey + ", in file: " + localizationFile.getAbsolutePath() );
                 }
-            }else{
-                System.out.println( "Localization file doesn't exist: "+localizationFile.getAbsolutePath() );
-                title=properties.getProperty( "project.name");
-                description=properties.getProperty( "project.description");
-                if (title==null){
-                    System.out.println( "Project.name not found, using: "+name );
-                    title=name;
+            }
+            else {
+                System.out.println( "Localization file doesn't exist: " + localizationFile.getAbsolutePath() );
+                title = properties.getProperty( "project.name" );
+                description = properties.getProperty( "project.description" );
+                if( title == null ) {
+                    System.out.println( "Project.name not found, using: " + name );
+                    title = name;
                 }
-                if (description==null){
+                if( description == null ) {
                     System.out.println( "Project.description not found; using empty string" );
-                    description="";
+                    description = "";
                 }
             }
 
@@ -410,4 +411,29 @@ public class PhetProject {
         }
     }
 
+    /*
+     * Returns an array of the 2-character locale codes supported by this application (the empty string represents the default locale).
+     */
+    public String[] getLocales() {
+        File localeDir = getLocalizationDir();
+        File[] children = localeDir.listFiles();
+        ArrayList locales = new ArrayList();
+        for( int i = 0; i < children.length; i++ ) {
+            File child = children[i];
+            String filename = child.getName();
+            String prefix = getName()+"-strings_";
+            String suffix = ".properties";
+//            System.out.println( "filename = " + filename );
+            if( child.isFile() && filename.startsWith( prefix ) && filename.endsWith( suffix ) ) {
+                String middle = filename.substring( prefix.length(), filename.length() - suffix.length() );
+//                System.out.println( "middle = " + middle );
+                locales.add( middle );
+            }
+        }
+        return (String[])locales.toArray( new String[0] );
+    }
+
+    private File getLocalizationDir() {
+        return new File( getDir(), "data/" + getName() + "/localization" );
+    }
 }
