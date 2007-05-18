@@ -84,7 +84,7 @@
             $sim_name = $simulation['sim_name'];
             
             if (is_numeric($sim_id)) {
-                $simulations["$sim_id"] = "$sim_name";
+                $simulations["$sim_id"] = format_for_html("$sim_name");
             }
         }
         

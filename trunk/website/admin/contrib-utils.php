@@ -23,7 +23,7 @@
             
             $name = $matches[1];
             
-            $delete = "<input name=\"delete_contribution_file_id_${contribution_file_id}\" type=\"submit\" value=\"Delete\" >";
+            $delete = "<input name=\"delete_contribution_file_id_${contribution_file_id}\" type=\"submit\" value=\"Delete\" />";
             
             $files_html .= "<li>$delete <a href=\"".SITE_ROOT."$contribution_file_url\">$name</a></li>";
         }
@@ -45,7 +45,7 @@
             
             eval(get_code_to_create_variables_from_array($simulation));
             
-            $delete = "<input name=\"delete_simulation_contribution_id_${simulation_contribution_id}\" type=\"submit\" value=\"Delete\" >";
+            $delete = "<input name=\"delete_simulation_contribution_id_${simulation_contribution_id}\" type=\"submit\" value=\"Delete\" />";
             
             $simulations_html .= "<li>$delete <a href=\"".SITE_ROOT."simulations/sims.php?sim_id=$sim_id\">$sim_name</a></li>";
         }
@@ -137,7 +137,7 @@ EOT;
                     
                     <h3>Simulations</h3>
 
-                    <p>Choose the simulations that the contribution was designed for:<p/>
+                    <p>Choose the simulations that the contribution was designed for:</p>
 EOT;
 
         print_multiple_selection(
@@ -172,9 +172,7 @@ EOT;
                     
                     <p>Add any number of files to the contribution:</p>
                     
-                    <label for="contribution_file_url">                        
-                        <input type="file" name="contribution_file_url" class="multi" />
-                    </label>
+                    <input type="file" name="contribution_file_url" class="multi" />
 
                     <br/>
                     <br/>
@@ -201,7 +199,7 @@ EOT;
         );
         
         print <<<EOT
-                    <label for="contribution_duration">
+                    <label for="contribution_duration_uid">
                         duration:
 EOT;
 
@@ -218,7 +216,7 @@ EOT;
         print <<<EOT
                     </label>
                     
-                    <label for="contribution_answers_included">
+                    <label for="contribution_answers_included_uid">
                         answers included:
 EOT;
 
@@ -236,7 +234,7 @@ EOT;
                     <table>
                         <thead>
                             <tr>
-                                <td width="400" height="25" align="right">&nbsp;</td>
+                                <td  align="right">&nbsp;</td>
 
                                 <td colspan="3" align="center"><span class="style9">Content Level</span></td>
                             </tr>
@@ -244,94 +242,92 @@ EOT;
                         
                         <tbody>
                             <tr>
-                                <td width="400" height="30" align="right"><span class="style9">Content Standard</span></td>
+                                <td  align="right"><span class="style9">Content Standard</span></td>
 
-                                <td width="50" height="30" align="center">K-4</td>
+                                <td  align="center">K-4</td>
 
-                                <td width="50" height="30" align="center">5-8</td>
+                                <td  align="center">5-8</td>
 
-                                <td width="50" height="30" align="center">9-12</td>
+                                <td  align="center">9-12</td>
                             </tr>
 
                             <tr>
-                                <td width="400" height="30" align="right"><label>Science as Inquiry - A</label></td>
+                                <td  align="right"><label>Science as Inquiry - A</label></td>
 
-                                <td width="50" height="30" align="center"><input name="K4A" type="checkbox" id="K4A" value="1"></td>
+                                <td  align="center"><input name="K4A" type="checkbox" id="K4A" value="1" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="58A" value="8"></td>
+                                <td  align="center"><input type="checkbox" name="58A" value="8" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="912A" value="15"></td>
+                                <td  align="center"><input type="checkbox" name="912A" value="15" /></td>
                             </tr>
 
                             <tr>
-                                <td width="400" height="30" align="right"><label>Physical Science - B</label></td>
+                                <td  align="right"><label>Physical Science - B</label></td>
 
-                                <td width="50" height="30" align="center"><input name="K4B" type="checkbox" id="K4B" value="2"></td>
+                                <td  align="center"><input name="K4B" type="checkbox" id="K4B" value="2" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="58B" value="9"></td>
+                                <td  align="center"><input type="checkbox" name="58B" value="9" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="912B" value="16"></td>
+                                <td  align="center"><input type="checkbox" name="912B" value="16" /></td>
                             </tr>
 
                             <tr>
-                                <td width="400" height="30" align="right"><label>Life Science - C</label></td>
+                                <td  align="right"><label>Life Science - C</label></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="K4C" value="3"></td>
+                                <td  align="center"><input type="checkbox" name="K4C" value="3" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="58C" value="10"></td>
+                                <td  align="center"><input type="checkbox" name="58C" value="10" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="912C" value="17"></td>
+                                <td  align="center"><input type="checkbox" name="912C" value="17" /></td>
                             </tr>
 
                             <tr>
-                                <td width="400" height="30" align="right">Earth &amp; Space Science - D</td>
+                                <td  align="right">Earth &amp; Space Science - D</td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="K4D" value="4"></td>
+                                <td  align="center"><input type="checkbox" name="K4D" value="4" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="58D" value="11"></td>
+                                <td  align="center"><input type="checkbox" name="58D" value="11" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="912D" value="18"></td>
+                                <td  align="center"><input type="checkbox" name="912D" value="18" /></td>
                             </tr>
 
                             <tr>
-                                <td width="400" height="30" align="right"><label>Science &amp; Technology - E</label></td>
+                                <td  align="right"><label>Science &amp; Technology - E</label></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="K4E" value="5"></td>
+                                <td  align="center"><input type="checkbox" name="K4E" value="5" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="58E" value="12"></td>
+                                <td  align="center"><input type="checkbox" name="58E" value="12" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="912E" value="19"></td>
+                                <td  align="center"><input type="checkbox" name="912E" value="19" /></td>
                             </tr>
 
                             <tr>
-                                <td width="400" height="30" align="right"><label>Science in Personal and Social Perspective - F</label></td>
+                                <td  align="right"><label>Science in Personal and Social Perspective - F</label></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="K4F" value="6"></td>
+                                <td  align="center"><input type="checkbox" name="K4F" value="6" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="58F" value="13"></td>
+                                <td  align="center"><input type="checkbox" name="58F" value="13" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="912F" value="20"></td>
+                                <td  align="center"><input type="checkbox" name="912F" value="20" /></td>
                             </tr>
 
                             <tr>
-                                <td width="400" height="30" align="right">History and Nature of Science - G</td>
+                                <td  align="right">History and Nature of Science - G</td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="K4G" value="7"></td>
+                                <td  align="center"><input type="checkbox" name="K4G" value="7" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="58G" value="14"></td>
+                                <td  align="center"><input type="checkbox" name="58G" value="14" /></td>
 
-                                <td width="50" height="30" align="center"><input type="checkbox" name="912G" value="21"></td>
+                                <td  align="center"><input type="checkbox" name="912G" value="21" /></td>
                             </tr>
                         </tbody>
                     </table>
 
                     <input type="hidden" name="referrer"        value="$referrer" />
                     <input type="hidden" name="contribution_id" value="$contribution_id" />
+
+                    <input name="submit" type="submit" id="submit" tabindex="13" value="Update" />
                  </fieldset>
-                 
-                 <label for="submit">
-                     <input name="submit" type="submit" id="submit" tabindex="13" value="Update" />
-                 </label>
             </form>
 EOT;
     }
@@ -380,7 +376,7 @@ EOT;
         $contribution_file_rows = run_sql_statement("SELECT * FROM `contribution_file` WHERE `contribution_id`='$contribution_id' ");
         
         while ($contribution = mysql_fetch_assoc($contribution_file_rows)) {
-            $contribution_files[] = $contribution;
+            $contribution_files[] = format_array_values_for_html($contribution);
         }
         
         return $contribution_files;
@@ -556,7 +552,7 @@ EOT;
         while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
             $id = $contribution_subject['contribution_subject_id'];
             
-            $subjects["contribution_subject_id_$id"] = $contribution_subject;
+            $subjects["contribution_subject_id_$id"] = format_array_values_for_html($contribution_subject);
         }
         
         return $subjects;
@@ -598,7 +594,7 @@ EOT;
         while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
             $id = $contribution_subject['contribution_subject_id'];
             
-            $subjects["contribution_subject_id_$id"] = $contribution_subject;
+            $subjects["contribution_subject_id_$id"] = format_array_values_for_html($contribution_subject);
         }
         
         return $subjects;
@@ -657,7 +653,7 @@ EOT;
         while ($simulation = mysql_fetch_assoc($simulation_rows)) {
             $sim_id = $simulation['sim_id'];
             
-            $simulations["$sim_id"] = $simulation;
+            $simulations["$sim_id"] = format_array_values_for_html($simulation);
         }
         
         return $simulations;
@@ -680,7 +676,7 @@ EOT;
         $contribution_rows = run_sql_statement("SELECT * FROM `contribution` ORDER BY `contribution_title` ASC");
         
         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
-            $contributions[] = $contribution;
+            $contributions[] = format_array_values_for_html($contribution);
         }
         
         return $contributions;
@@ -692,7 +688,7 @@ EOT;
         $contribution_rows = run_sql_statement("SELECT * FROM `contribution` , `simulation_contribution` WHERE `contribution` . `contribution_id` = `simulation_contribution` . `contribution_id` AND `simulation_contribution` . `sim_id` = '$sim_id' ORDER BY `contribution_title` ASC");
         
         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
-            $contributions[] = $contribution;
+            $contributions[] = format_array_values_for_html($contribution);
         }
         
         return $contributions;
@@ -713,7 +709,7 @@ EOT;
     function contribution_get_contribution_by_id($contribution_id) {
         $contribution_rows = run_sql_statement("SELECT * FROM `contribution` WHERE `contribution_id`='$contribution_id' ");
         
-        return mysql_fetch_assoc($contribution_rows);
+        return format_array_values_for_html(mysql_fetch_assoc($contribution_rows));
     }
     
     function contributor_get_all_contributors() {
@@ -723,7 +719,7 @@ EOT;
         run_sql_statement("SELECT * from `contributor` ORDER BY `contributor_name` ASC ");
         
         while ($contributor = mysql_fetch_assoc($contributor_rows)) {
-            $contributors[] = $contributor;
+            $contributors[] = format_array_values_for_html($contributor);
         }
         
         return $contributors;
@@ -771,7 +767,7 @@ EOT;
         $contributor_rows = run_sql_statement("SELECT * from `contributor` WHERE `contributor_is_team_member`='1' ORDER BY `contributor_name` ASC ");
         
         while ($contributor = mysql_fetch_assoc($contributor_rows)) {
-            $admins[] = $contributor;
+            $admins[] = format_array_values_for_html($contributor);
         }
         
         return $admins;
@@ -858,7 +854,7 @@ EOT;
     function contributor_get_contributor_by_id($contributor_id) {
         $result = run_sql_statement("SELECT * FROM `contributor` WHERE `contributor_id`='$contributor_id' ");
         
-        return mysql_fetch_assoc($result);
+        return format_array_values_for_html(mysql_fetch_assoc($result));
     }
     
     function contributor_print_full_edit_form($contributor_id, $script, $optional_message = null, 
@@ -978,9 +974,7 @@ EOT;
                         receive email from phet:
                     </label>
 
-                    <label for="submit">
-                        <input name="Submit" type="submit" id="submit" tabindex="13" value="Done" />
-                    </label>
+                   <input name="Submit" type="submit" id="submit" tabindex="13" value="Done" />
                  </fieldset>
             </form>
 EOT;

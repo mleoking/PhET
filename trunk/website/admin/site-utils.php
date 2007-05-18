@@ -170,9 +170,9 @@ EOT;
                 /*]]>*/
                 </style>
                 
-                <script src="$prefix/js/jquery.pack.js"         type="text/javascript" language="javascript" />
-                <script src="$prefix/js/jquery.MultiFile.js"    type="text/javascript" language="javascript" />
-                <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript" language="javascript" />
+                <script src="$prefix/js/jquery.pack.js"         type="text/javascript" />
+                <script src="$prefix/js/jquery.MultiFile.js"    type="text/javascript" />
+                <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript" />
             </head>
             
 
@@ -225,7 +225,7 @@ EOT;
         print <<<EOT
                         </div>
                         
-                        <p class="footer">© 2007 PhET. All rights reserved.<br />
+                        <p class="footer">© 2007 PhET. All rights reserved.</p><br />
                     </div>
                 </div>
             </body>
