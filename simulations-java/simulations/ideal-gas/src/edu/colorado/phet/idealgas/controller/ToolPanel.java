@@ -13,6 +13,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.coreadditions_idealgas.ToggleButton;
 import edu.colorado.phet.idealgas.model.Pump;
+import edu.colorado.phet.idealgas.IdealGasResources;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -56,10 +57,10 @@ public class ToolPanel extends JPanel {
     public ToolPanel( final IdealGasModule module ) {
         setLayout( new GridBagLayout() );
 
-        setBorder( new TitledBorder( SimStrings.getInstance().getString( "IdealGasControlPanel.Tools_and_options" ) ) );
+        setBorder( new TitledBorder( IdealGasResources.getString( "IdealGasControlPanel.Tools_and_options" ) ) );
 
-        button = new ToggleButton( SimStrings.getInstance().getString( "IdealGasControlPanel.Measurement_Tools_on" ),
-                                   SimStrings.getInstance().getString( "IdealGasControlPanel.Measurement_Tools_off" ) ) {
+        button = new ToggleButton( IdealGasResources.getString( "IdealGasControlPanel.Measurement_Tools_on" ),
+                                   IdealGasResources.getString( "IdealGasControlPanel.Measurement_Tools_off" ) ) {
             public void onAction() {
                 toolsPanel.setVisible( true );
                 module.getControlPanel().revalidate();
@@ -89,8 +90,8 @@ public class ToolPanel extends JPanel {
         topLevelGbc.fill = GridBagConstraints.HORIZONTAL;
         add( toolsPanel, topLevelGbc );
 
-        ToggleButton advButton = new ToggleButton( SimStrings.getInstance().getString( "IdealGasControlPanel.MoreOptions" ),
-                                                   SimStrings.getInstance().getString( "IdealGasControlPanel.FewerOptions" ) ) {
+        ToggleButton advButton = new ToggleButton( IdealGasResources.getString( "IdealGasControlPanel.MoreOptions" ),
+                                                   IdealGasResources.getString( "IdealGasControlPanel.FewerOptions" ) ) {
             public void onAction() {
                 advToolPanel.setVisible( true );
                 module.getControlPanel().revalidate();

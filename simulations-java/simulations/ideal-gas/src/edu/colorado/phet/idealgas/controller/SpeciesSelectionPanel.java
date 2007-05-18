@@ -16,6 +16,7 @@ import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.LightSpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
+import edu.colorado.phet.idealgas.IdealGasResources;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -37,7 +38,7 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
 
 
     public SpeciesSelectionPanel( final IdealGasModule module ) {
-        this( module, new String[]{SimStrings.getInstance().getString( "Common.Heavy_Species" ), SimStrings.getInstance().getString( "Common.Light_Species" )} );
+        this( module, new String[]{IdealGasResources.getString( "Common.Heavy_Species" ), IdealGasResources.getString( "Common.Light_Species" )} );
     }
 
     public SpeciesSelectionPanel( final IdealGasModule module, final String[] speciesNames ) {

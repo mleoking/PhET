@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.HotAirBalloon;
 
 import java.awt.*;
@@ -40,13 +41,8 @@ public class HotAirBalloonGraphic extends PhetGraphic implements SimpleObserver 
         super( component );
         this.balloon = balloon;
         balloon.addObserver( this );
-        try {
-            burner = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_IMAGE_FILE );
-            flames = ImageLoader.loadBufferedImage( IdealGasConfig.HOT_AIR_BALLOON_FLAMES_IMAGE_FILE );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        burner = IdealGasResources.getImage( IdealGasConfig.STOVE_IMAGE_FILE );
+        flames = IdealGasResources.getImage( IdealGasConfig.HOT_AIR_BALLOON_FLAMES_IMAGE_FILE );
 
         imgObs = new ImageObserver() {
             public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {

@@ -10,6 +10,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.HotAirBalloon;
 
 import javax.swing.*;
@@ -37,26 +38,21 @@ public class HotAirBalloonControlPanel extends JPanel {
         JPanel stovePanel = this;
 
         JPanel iconPanel = new JPanel( new GridLayout( 2, 1 ) );
-        try {
-            BufferedImage stoveAndFlameImage = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_AND_FLAME_ICON_FILE );
-            BufferedImage stoveImage = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_ICON_FILE );
-            Icon stoveAndFlameIcon = new ImageIcon( stoveAndFlameImage );
-            Icon stoveIcon = new ImageIcon( stoveImage );
-            iconPanel.add( new JLabel( stoveAndFlameIcon ) );
-            iconPanel.add( new JLabel( stoveIcon ) );
-            stovePanel.add( iconPanel );
-            iconPanel.setPreferredSize( new Dimension( 24, 50 ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        BufferedImage stoveAndFlameImage = IdealGasResources.getImage( IdealGasConfig.STOVE_AND_FLAME_ICON_FILE );
+        BufferedImage stoveImage = IdealGasResources.getImage( IdealGasConfig.STOVE_ICON_FILE );
+        Icon stoveAndFlameIcon = new ImageIcon( stoveAndFlameImage );
+        Icon stoveIcon = new ImageIcon( stoveImage );
+        iconPanel.add( new JLabel( stoveAndFlameIcon ) );
+        iconPanel.add( new JLabel( stoveIcon ) );
+        stovePanel.add( iconPanel );
+        iconPanel.setPreferredSize( new Dimension( 24, 50 ) );
 
         final JSlider stoveSlider = new JSlider( JSlider.VERTICAL, 0, 30, 0 );
         stoveSlider.setMajorTickSpacing( 5 );
         stoveSlider.setSnapToTicks( true );
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( 0 ), new JLabel( SimStrings.getInstance().getString( "Common.0" ) ) );
-        labelTable.put( new Integer( 30 ), new JLabel( SimStrings.getInstance().getString( "Common.Add" ) ) );
+        labelTable.put( new Integer( 0 ), new JLabel( IdealGasResources.getString( "Common.0" ) ) );
+        labelTable.put( new Integer( 30 ), new JLabel( IdealGasResources.getString( "Common.Add" ) ) );
         stoveSlider.setLabelTable( labelTable );
         stoveSlider.setPaintTicks( true );
 
@@ -75,7 +71,7 @@ public class HotAirBalloonControlPanel extends JPanel {
         } );
         stovePanel.add( stoveSlider );
 
-        stovePanel.setBorder( new TitledBorder( SimStrings.getInstance().getString( "ModuleTitle.HotAirBalloon" ) ) );
+        stovePanel.setBorder( new TitledBorder( IdealGasResources.getString( "ModuleTitle.HotAirBalloon" ) ) );
     }
 
 

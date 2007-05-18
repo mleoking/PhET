@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.Box2D;
 
 import java.awt.*;
@@ -158,12 +159,7 @@ public class Box2DGraphic extends CompositePhetGraphic implements Box2D.ChangeLi
             super( component, null, s_defaultStroke, wallColor );
             box.addObserver( this );
             this.setShape( mouseableArea );
-            try {
-                wallHandle = ImageLoader.loadBufferedImage( IdealGasConfig.IMAGE_DIRECTORY + "wall-handle.gif" );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
+            wallHandle = IdealGasResources.getImage( IdealGasConfig.IMAGE_DIRECTORY + "wall-handle.gif" );
             update();
         }
 

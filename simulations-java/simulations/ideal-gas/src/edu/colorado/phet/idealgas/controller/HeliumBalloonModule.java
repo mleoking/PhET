@@ -16,6 +16,7 @@ import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.model.Command;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
@@ -41,7 +42,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
     private int defaultGravity = IdealGasConfig.MAX_GRAVITY / 2;
 
     public HeliumBalloonModule( SimulationClock clock ) {
-        super( clock, SimStrings.getInstance().getString( "ModuleTitle.HeliumBalloon" ) );
+        super( clock, IdealGasResources.getString( "ModuleTitle.HeliumBalloon" ) );
 
         // So we'll get events sent by parent classes
         this.addResetListener( this );
@@ -67,7 +68,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
 
         // Set up the control panel
         JPanel controlPanel = new JPanel( new GridBagLayout() );
-        controlPanel.setBorder( new TitledBorder( SimStrings.getInstance().getString( "HeliumBalloonControlPanel.controlsTitle" ) ) );
+        controlPanel.setBorder( new TitledBorder( IdealGasResources.getString( "HeliumBalloonControlPanel.controlsTitle" ) ) );
 
         GridBagConstraints gbc = null;
         Insets insets = new Insets( 0, 0, 0, 0 );
@@ -187,7 +188,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
 
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "MeasurementControlPanel.Number_of_particles" ) );
+            JLabel label = new JLabel( IdealGasResources.getString( "MeasurementControlPanel.Number_of_particles" ) );
             this.add( label, gbc );
             // Set up the spinner for controlling the number of particles in
             // the hollow sphere

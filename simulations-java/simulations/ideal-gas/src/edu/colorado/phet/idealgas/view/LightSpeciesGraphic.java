@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import java.awt.*;
@@ -35,15 +36,10 @@ public class LightSpeciesGraphic extends GasMoleculeGraphic {
 
 
     static {
-        try {
-            s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
-            AffineTransform atx = AffineTransform.getScaleInstance( 0.7, 0.7 );
-            BufferedImageOp op = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
-            myImage = op.filter( s_particleImage, null );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        s_particleImage = IdealGasResources.getImage( s_imageName );
+        AffineTransform atx = AffineTransform.getScaleInstance( 0.7, 0.7 );
+        BufferedImageOp op = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+        myImage = op.filter( s_particleImage, null );
     }
 
     /**
@@ -52,15 +48,10 @@ public class LightSpeciesGraphic extends GasMoleculeGraphic {
      */
     public static void setColor( Color color ) {
         GasMoleculeGraphic.setColor( color );
-        try {
-            s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
-            MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( color.getRed(), color.getGreen(), color.getBlue() ));
-            op.filter( s_particleImage, s_particleImage );
-            myImage = s_particleImage;
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        s_particleImage = IdealGasResources.getImage( s_imageName );
+        MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( color.getRed(), color.getGreen(), color.getBlue() ));
+        op.filter( s_particleImage, s_particleImage );
+        myImage = s_particleImage;
     }
 
 

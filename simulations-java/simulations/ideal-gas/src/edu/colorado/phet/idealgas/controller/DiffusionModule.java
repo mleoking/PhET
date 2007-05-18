@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.WallGraphic;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
+import edu.colorado.phet.idealgas.IdealGasResources;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,8 +54,8 @@ public class DiffusionModule extends AdvancedModule {
         ControlPanel controlPanel = new ControlPanel( this );
         setControlPanel( controlPanel );
         controlPanel.add( new AdvancedIdealGasControlPanel( this,
-                                                            SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_A" ),
-                                                            SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_A" ) ));
+                                                            IdealGasResources.getString( "AdvancedModule.Particle_Type_A" ),
+                                                            IdealGasResources.getString( "AdvancedModule.Particle_Type_A" ) ));
 
         createWalls( box );
 
@@ -80,11 +81,11 @@ public class DiffusionModule extends AdvancedModule {
         } );
 
         // Add the particle counters
-        addParticleCounters( SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_A" ),
-                             SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_A" ) );
+        addParticleCounters( IdealGasResources.getString( "AdvancedModule.Particle_Type_A" ),
+                             IdealGasResources.getString( "AdvancedModule.Particle_Type_A" ) );
 
         // Change title of control under the pump
-        setPumpSelectorPanelTitle( SimStrings.getInstance().getString( "IdealGasControlPanel.Pump_Particles"));
+        setPumpSelectorPanelTitle( IdealGasResources.getString( "IdealGasControlPanel.Pump_Particles"));
 
         // Remove the mannequin graphic and the box door
         getApparatusPanel().removeGraphic( getPusher() );

@@ -14,6 +14,7 @@ import edu.colorado.phet.collision_idealgas.SphereSphereExpert;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.SimulationClock;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
@@ -59,7 +60,7 @@ public class OptionsMenu extends JMenu {
 
     private class AdvancedPanelsMI extends JCheckBoxMenuItem {
         public AdvancedPanelsMI() {
-            super( SimStrings.getInstance().getString("OptionsMenu.Advanced_panels"), false );
+            super( IdealGasResources.getString("OptionsMenu.Advanced_panels"), false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( AdvancedPanelsMI.this.isSelected() ) {
@@ -77,7 +78,7 @@ public class OptionsMenu extends JMenu {
 
     private class MoleculeInteractionsMI extends JCheckBoxMenuItem {
         public MoleculeInteractionsMI() {
-            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Molecules_interact" ), true );
+            super( IdealGasResources.getString( "MeasurementControlPanel.Molecules_interact" ), true );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     SphereSphereExpert.setIgnoreGasMoleculeInteractions( !MoleculeInteractionsMI.this.isSelected() );
@@ -88,7 +89,7 @@ public class OptionsMenu extends JMenu {
 
     private class AddHeatFromFloorMI extends JCheckBoxMenuItem {
         public AddHeatFromFloorMI() {
-            super( SimStrings.getInstance().getString( "OptionsMenu.Add_remove_heat_from_floor_only"), false );
+            super( IdealGasResources.getString( "OptionsMenu.Add_remove_heat_from_floor_only"), false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     IdealGasConfig.HEAT_ONLY_FROM_FLOOR = isSelected();

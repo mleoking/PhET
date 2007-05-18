@@ -24,9 +24,9 @@ public class AdvancedGasApplication extends PhetApplication {
 
 
     public AdvancedGasApplication( String[] args ) {
-        super( args, SimStrings.getInstance().getString( "UnimolecularApplication.title" ),
-               SimStrings.getInstance().getString( "UnimolecularApplication.description" ),
-               IdealGasConfig.VERSION,
+        super( args, IdealGasResources.getString( "advanced-gas.name" ),
+               IdealGasResources.getString( "advanced-gas.description" ),
+               IdealGasConfig.getVersion().formatForTitleBar(),
 //               new SwingClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true ),
 //               true,
                IdealGasConfig.FRAME_SETUP );

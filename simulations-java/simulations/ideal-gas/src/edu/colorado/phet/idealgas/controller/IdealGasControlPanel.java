@@ -12,6 +12,7 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
@@ -82,7 +83,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         this.add( new ToolPanel( module ), gbc );
 
         // Reset button
-        JButton resetBtn = new JButton( SimStrings.getInstance().getString( "IdealGasControlPanel.Reset" ) );
+        JButton resetBtn = new JButton( IdealGasResources.getString( "IdealGasControlPanel.Reset" ) );
         resetBtn.setBackground( new Color( 180, 255, 180 ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -111,7 +112,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
 
         // Add controls for the number and type of molecules to put in the box
         JPanel speciesButtonPanel = new PumpControlPanel( module, module.getPump(), module.getSpeciesNames() );
-        speciesButtonPanel.setBorder( new TitledBorder( SimStrings.getInstance().getString( "IdealGasControlPanel.Gas_In_Chamber" ) ) );
+        speciesButtonPanel.setBorder( new TitledBorder( IdealGasResources.getString( "IdealGasControlPanel.Gas_In_Chamber" ) ) );
         particleControlsPanel.add( speciesButtonPanel, particleControlsGbc );
     }
 
@@ -134,10 +135,10 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
      */
     private JPanel constantParamControls() {
         JPanel constantParamButtonPanel = new JPanel( new GridBagLayout() );
-        final JRadioButton constantVolumeRB = new JRadioButton( SimStrings.getInstance().getString( "Common.Volume" ) );
-        final JRadioButton constantPressureRB = new JRadioButton( SimStrings.getInstance().getString( "Common.Pressure" ) );
-        final JRadioButton constantTempRB = new JRadioButton( SimStrings.getInstance().getString( "Common.Temperature" ) );
-        final JRadioButton noneRB = new JRadioButton( SimStrings.getInstance().getString( "Common.None" ) );
+        final JRadioButton constantVolumeRB = new JRadioButton( IdealGasResources.getString( "Common.Volume" ) );
+        final JRadioButton constantPressureRB = new JRadioButton( IdealGasResources.getString( "Common.Pressure" ) );
+        final JRadioButton constantTempRB = new JRadioButton( IdealGasResources.getString( "Common.Temperature" ) );
+        final JRadioButton noneRB = new JRadioButton( IdealGasResources.getString( "Common.None" ) );
         final ButtonGroup constantParameterGroup = new ButtonGroup();
         constantParameterGroup.add( constantVolumeRB );
         constantParameterGroup.add( constantPressureRB );
@@ -164,7 +165,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         JPanel container = new JPanel( new GridBagLayout() );
         localGbc.anchor = GridBagConstraints.CENTER;
         container.add( constantParamButtonPanel, localGbc );
-        container.setBorder( new TitledBorder( SimStrings.getInstance().getString( "IdealGasControlPanel.Constant_Parameter" ) ) );
+        container.setBorder( new TitledBorder( IdealGasResources.getString( "IdealGasControlPanel.Constant_Parameter" ) ) );
 
         constantVolumeRB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -207,8 +208,8 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         gravitySlider.setMajorTickSpacing( 10 );
         gravitySlider.setMinorTickSpacing( 5 );
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( 0 ), new JLabel( SimStrings.getInstance().getString( "Common.0" ) ) );
-        labelTable.put( new Integer( IdealGasConfig.MAX_GRAVITY ), new JLabel( SimStrings.getInstance().getString( "Common.Lots" ) ) );
+        labelTable.put( new Integer( 0 ), new JLabel( IdealGasResources.getString( "Common.0" ) ) );
+        labelTable.put( new Integer( IdealGasConfig.MAX_GRAVITY ), new JLabel( IdealGasResources.getString( "Common.Lots" ) ) );
         gravitySlider.setLabelTable( labelTable );
         gravitySlider.setPaintLabels( true );
         gravityControlPanel.add( gravitySlider, gbc );
@@ -226,7 +227,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         gravityFormat.setMinimumFractionDigits( 2 );
         gravityTF.setText( gravityFormat.format( 0 ) );
 
-        Border gravityBorder = new TitledBorder( SimStrings.getInstance().getString( "Common.Gravity" ) );
+        Border gravityBorder = new TitledBorder( IdealGasResources.getString( "Common.Gravity" ) );
         gravityControlPanel.setBorder( gravityBorder );
         return gravityControlPanel;
     }
