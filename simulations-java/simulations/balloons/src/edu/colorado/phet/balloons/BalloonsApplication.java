@@ -11,9 +11,10 @@ import edu.colorado.phet.balloons.common.phys2d.ParticleLaw;
 import edu.colorado.phet.balloons.common.phys2d.Repaint;
 import edu.colorado.phet.balloons.common.phys2d.System2D;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,14 +25,13 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
-import java.util.Locale;
 
 
 /**
  * Test comment.
  */
 public class BalloonsApplication extends JApplet implements IHelp {
-    private static final String VERSION = "1.00.01";
+    //    private static final String VERSION = "1.00.01";
     static final int CHARGE_LEVEL = 1;
     static boolean isApplet = true;
     int width;
@@ -53,7 +53,11 @@ public class BalloonsApplication extends JApplet implements IHelp {
     public int wallWidth;
     public JPanel controlPanel;
     private JFrame frame;
+    private PhetApplicationConfig phetApplicationConfig;
 
+    public BalloonsApplication( String[] args ) {
+        phetApplicationConfig = new PhetApplicationConfig( args, new FrameSetup.NoOp(), BalloonsResources.getResourceLoader() );
+    }
 
     public static void paintCharge( BufferedImage bi ) {
         Graphics2D g2 = (Graphics2D)bi.getGraphics();
@@ -84,8 +88,8 @@ public class BalloonsApplication extends JApplet implements IHelp {
         minusPainter.paintAt( 84, 167, g2 );
     }
 
-    public void init( String[] args ) throws IOException {
-        SimStrings.getInstance().init( args, BalloonsConfig.localizedStringsPath );
+    public void init( final String[] args ) throws IOException {
+//        BalloonStrings.init( args, BalloonsConfig.localizedStringsPath );
 
         plusPainter.setPaint( PlusPainter.NONE );
         minusPainter.setPaint( MinusPainter.NONE );
@@ -95,11 +99,11 @@ public class BalloonsApplication extends JApplet implements IHelp {
 
         String blueBalloonIm = "balloon-blue.gif";
         String yellowBalloonIm = "balloon-yellow.gif";
-        BufferedImage balloon = new ImageLoader().loadImage( "images/" + blueBalloonIm );
-        BufferedImage blueCharge = new ImageLoader().loadImage( "images/" + blueBalloonIm );
+        BufferedImage balloon = BalloonsResources.getImage( "" + blueBalloonIm );
+        BufferedImage blueCharge = BalloonsResources.getImage( "" + blueBalloonIm );
 
-        BufferedImage yelBal = new ImageLoader().loadImage( "images/" + yellowBalloonIm );
-        BufferedImage yelCharge = new ImageLoader().loadImage( "images/" + yellowBalloonIm );
+        BufferedImage yelBal = BalloonsResources.getImage( "" + yellowBalloonIm );
+        BufferedImage yelCharge = BalloonsResources.getImage( "" + yellowBalloonIm );
 
         paintCharge( yelCharge );
         paintCharge( blueCharge );
@@ -148,7 +152,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
         cm.addBalloonDragListener( chargeMover );
         bd.addBalloonDragListener( cm );
 
-        sweaterImage = ImageLoader.loadBufferedImage( "images/sweaterWidth300.gif" );
+        sweaterImage = BalloonsResources.getImage( "sweaterWidth300.gif" );
 
         FixedImagePainter sweater = new FixedImagePainter( sweaterImage );
         layeredPainter.addPainter( sweater, 0 );
@@ -162,12 +166,12 @@ public class BalloonsApplication extends JApplet implements IHelp {
         panel.add( painterPanel, BorderLayout.CENTER );
         panel.add( controlPanel, BorderLayout.SOUTH );
 
-        JCheckBox chargedBalloonBtn = new JCheckBox( SimStrings.getInstance().getString( "BalloonApplet.IgnoreInitialBalloonCharge" ), true );
-        JRadioButton showAllCharges = new JRadioButton( SimStrings.getInstance().getString( "BalloonApplet.ShowAllCharges" ) );
+        JCheckBox chargedBalloonBtn = new JCheckBox( BalloonsResources.getString( "BalloonApplet.IgnoreInitialBalloonCharge" ), true );
+        JRadioButton showAllCharges = new JRadioButton( BalloonsResources.getString( "BalloonApplet.ShowAllCharges" ) );
         showAllCharges.addActionListener( new ShowAll( plusPainter, minusPainter ) );
-        JRadioButton showNoCharges = new JRadioButton( SimStrings.getInstance().getString( "BalloonApplet.ShowNoCharges" ) );
+        JRadioButton showNoCharges = new JRadioButton( BalloonsResources.getString( "BalloonApplet.ShowNoCharges" ) );
         showNoCharges.addActionListener( new ShowNone( plusPainter, minusPainter ) );
-        JRadioButton showDiff = new JRadioButton( SimStrings.getInstance().getString( "BalloonApplet.ShowChargeDifferences" ) );
+        JRadioButton showDiff = new JRadioButton( BalloonsResources.getString( "BalloonApplet.ShowChargeDifferences" ) );
         showDiff.addActionListener( new ShowDiff( plusPainter, minusPainter ) );
 
         ButtonGroup bg = new ButtonGroup();
@@ -187,8 +191,8 @@ public class BalloonsApplication extends JApplet implements IHelp {
         buttonPanel.add( showAllCharges );
         buttonPanel.add( showNoCharges );
         buttonPanel.add( showDiff );
-        buttonPanel.setBorder( PhetLookAndFeel.createSmoothBorder( SimStrings.getInstance().getString( "BalloonApplet.ChargeDisplay" ) ) );
-        JButton resetBtn = new JButton( SimStrings.getInstance().getString( "BalloonApplet.Reset" ) );
+        buttonPanel.setBorder( PhetLookAndFeel.createSmoothBorder( BalloonsResources.getString( "BalloonApplet.ChargeDisplay" ) ) );
+        JButton resetBtn = new JButton( BalloonsResources.getString( "BalloonApplet.Reset" ) );
         controlPanel.add( resetBtn );
         controlPanel.add( buttonPanel );
 
@@ -212,7 +216,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
         twoBtn.add( chargedBalloonBtn );
         controlPanel.add( twoBtn );
 
-        JCheckBox showWall = new JCheckBox( SimStrings.getInstance().getString( "BalloonApplet.Wall" ), true );
+        JCheckBox showWall = new JCheckBox( BalloonsResources.getString( "BalloonApplet.Wall" ), true );
         controlPanel.add( showWall );
 
         HelpPanel helpPanel = new HelpPanel( this );
@@ -220,8 +224,11 @@ public class BalloonsApplication extends JApplet implements IHelp {
 
         JButton about = new JButton( "About" );
         about.addActionListener( new ActionListener() {
+
+
             public void actionPerformed( ActionEvent e ) {
-                PhetAboutDialog phetAboutDialog = new PhetAboutDialog( frame, new PhetAboutDialog.SimpleDialogConfig( getTitle(), "", VERSION, null ) );
+                PhetAboutDialog phetAboutDialog = new PhetAboutDialog( frame, new PhetAboutDialog.SimpleDialogConfig(
+                        phetApplicationConfig.getName(), phetApplicationConfig.getDescription(), phetApplicationConfig.getVersion().formatForAboutDialog(), phetApplicationConfig.getCredits() ) );
                 phetAboutDialog.show();
             }
         } );
@@ -333,13 +340,8 @@ public class BalloonsApplication extends JApplet implements IHelp {
     }
 
     public void showMegaHelp() {
-        try {
-//            new ImageDebugFrame( ImageLoader2.loadBufferedImage("images/sweaterWidth300.gif" ) ).setVisible( true );
-            new ImageFrame( ImageLoader.loadBufferedImage( "balloon-meg.gif" ) ).setVisible( true );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        //            new ImageDebugFrame( ImageLoader2.loadBufferedImage("sweaterWidth300.gif" ) ).setVisible( true );
+        new ImageFrame( BalloonsResources.getImage( "balloon-meg.gif" ) ).setVisible( true );
     }
 
     public boolean hasMegaHelp() {
@@ -358,9 +360,9 @@ public class BalloonsApplication extends JApplet implements IHelp {
         return painterPanel.getHeight();
     }
 
-    private static String getTitle() {
-        return SimStrings.getInstance().getString( "BalloonApplet.Title" ) + " (" + VERSION + ")";
-    }
+//    private static String getTitle() {
+//        return BalloonStrings.getString( "balloons.name" ) + " (" + VERSION + ")";
+//    }
 
     private void setFrame( JFrame frame ) {
         this.frame = frame;
@@ -370,10 +372,10 @@ public class BalloonsApplication extends JApplet implements IHelp {
 //        Locale.setDefault( new Locale( "ie", "ga" ) );
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         isApplet = false;
-        BalloonsApplication ba = new BalloonsApplication();
+        BalloonsApplication ba = new BalloonsApplication( args );
         ba.init( args );
 
-        JFrame frame = new JFrame( getTitle() );
+        JFrame frame = new JFrame( ba.phetApplicationConfig.getName() +" ("+ba.phetApplicationConfig.getVersion().formatForTitleBar()+")");
         ba.setFrame( frame );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setContentPane( ba );

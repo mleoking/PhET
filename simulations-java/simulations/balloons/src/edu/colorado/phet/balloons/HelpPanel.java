@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.balloons;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,9 +23,9 @@ import java.awt.event.ActionListener;
  */
 public class HelpPanel extends JPanel {
     private boolean miniHelpShowing = false;
-    private String showHelpStr = SimStrings.getInstance().getString( "Common.HelpPanel.ShowHelp" );
-    private String hideHelpStr = SimStrings.getInstance().getString( "Common.HelpPanel.HideHelp" );
-    private String megaHelpStr = SimStrings.getInstance().getString( "Common.HelpPanel.MegaHelp" );
+    private String showHelpStr = BalloonsResources.getString( "Common.HelpPanel.ShowHelp" );
+    private String hideHelpStr = BalloonsResources.getString( "Common.HelpPanel.HideHelp" );
+    private String megaHelpStr = BalloonsResources.getString( "Common.HelpPanel.MegaHelp" );
     private JButton miniHelpBtn;
     private JButton megaHelpBtn;
     private int padY = 2;

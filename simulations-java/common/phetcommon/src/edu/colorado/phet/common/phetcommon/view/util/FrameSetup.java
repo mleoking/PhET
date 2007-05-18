@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14677 $
+ * Date modified : $Date:2007-04-17 03:40:29 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.phetcommon.view.util;
 
@@ -17,7 +17,7 @@ import java.awt.*;
  * FrameSetup
  *
  * @author ?
- * @version $Revision$
+ * @version $Revision:14677 $
  */
 public interface FrameSetup {
     public void initialize( JFrame frame );
@@ -122,6 +122,14 @@ public interface FrameSetup {
             int y = 0;
             frame.setLocation( x, y );
             frame.setSize( width, height );
+        }
+    }
+
+    /**
+     * This class does nothing to a JFrame, provided to support older applications until they are standardized.
+     */
+    public static class NoOp implements FrameSetup{
+        public void initialize( JFrame frame ) {
         }
     }
 }
