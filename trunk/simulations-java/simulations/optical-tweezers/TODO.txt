@@ -6,6 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
+- E-field feature
 
 MEDIUM PRIORITY:
 - why is fluid.getDragForce not used directly in Bead.move ?
