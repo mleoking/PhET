@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * Author: Sam Reid
- * May 18, 2007, 11:44:33 AM
+ * May 18, 2007, 11:44:33 AM 
  */
 public class BalloonsResources {
     private static PhetResources INSTANCE = PhetResources.forProject( "balloons" );
