@@ -68,12 +68,6 @@ PhET -specific tasks are moved to an auxiliary build file.
     <target name="clean-phet-build">
         <delete dir="${phetbuild-classes}"/>
     </target>
-    
-    <target name="print-flavors" depends="_init, _verify-sim-name-specified">
-        <phet-list-flavors property="flavors-list" project="${sim.name}"/>
-        
-        <echo message="Flavors list: ${flavors-list}" />        
-    </target>
 
     <target name="_compile-phet-build">
         <mkdir dir="${phetbuild-classes}"/>
@@ -124,8 +118,18 @@ PhET -specific tasks are moved to an auxiliary build file.
 
     <!--Cleans a single simulation's jar and jnlp files in the deploy directory-->
     <target name="clean-sim" depends="_init, _verify-sim-name-specified">
+        <!--Delete the simulation jar file.-->
         <delete file="${simulations-directory}/${sim.name}/deploy/${sim.name}.jar"/>
-        <delete file="${simulations-directory}/${sim.name}/deploy/${sim.name}.jnlp"/>
+
+        <!--Delete all jnlp files (one per flavor)-->
+        <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
+        <foreach list="${sim.flavors}" target="clean-sim-jnlp" param="sim.flavor"/>
+    </target>
+
+    <target name="clean-sim-jnlp">
+        <property name="sim.flavor.jnlp" value="${simulations-directory}/${sim.name}/deploy/${sim.flavor}.jnlp"/>
+        <echo message="Cleaning jnlp file ${sim.flavor.jnlp}"/>
+        <delete file="${sim.flavor.jnlp}"/>
     </target>
 
     <!--Cleans deploy directories of jar and jnlp files-->
@@ -180,8 +184,7 @@ PhET -specific tasks are moved to an auxiliary build file.
                 <property name="sim.version" value="${version.major}.${version.minor}.${version.dev}"/>
             </then>
         </if>
-
-        <if>
+                <if>
             <not>
                 <isset property="sim.flavors"/>
             </not>
@@ -189,7 +192,6 @@ PhET -specific tasks are moved to an auxiliary build file.
                 <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
             </then>
         </if>
-
         <if>
             <not>
                 <isset property="sim.server.url"/>
