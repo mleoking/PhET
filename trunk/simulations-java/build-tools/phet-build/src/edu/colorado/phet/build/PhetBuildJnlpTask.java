@@ -2,7 +2,9 @@
 package edu.colorado.phet.build;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 //todo: needs better error handling for loading flavors
 //todo: test support for deploying with online url
 
@@ -27,7 +29,17 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         }
         String jnlpFile = filterJNLP( createJNLPFilterMap( flavor, phetProject ), loadJnlpTemplate() );
         System.out.println( "filtered jnlp = " + jnlpFile );
-        writeJNLP( new File( phetProject.getDefaultDeployDir(), "" + flavorName + ".jnlp" ), jnlpFile );
+        writeJNLP( getDestFile( phetProject ), jnlpFile );
+    }
+
+    private String getJNLPFileName() {
+        System.out.println( "locale = " + locale );
+        String localeSuffix = locale.equals( "en" ) ? "" : "_" + locale;
+        return "" + flavorName + localeSuffix + ".jnlp";
+    }
+
+    private File getDestFile( PhetProject phetProject ) {
+        return new File( phetProject.getDefaultDeployDir(), getJNLPFileName() );
     }
 
     private String filterJNLP( HashMap map, String jnlpFile ) {
@@ -36,7 +48,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
             String key = (String)iterator.next();
             String value = (String)map.get( key );
 
-            echo( "key = " + key+", value="+value );
+            echo( "key = " + key + ", value=" + value );
 
             jnlpFile = jnlpFile.replaceAll( "@" + key + "@", value );
         }
@@ -52,7 +64,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
     private HashMap createJNLPFilterMap( PhetProjectFlavor flavor, PhetProject phetProject ) {
         HashMap map = new HashMap();
         map.put( "PROJECT.NAME", flavor.getName() );
-        map.put( "JNLP.NAME", flavorName + ".jnlp" );
+        map.put( "JNLP.NAME", getJNLPFileName() );
         map.put( "PROJECT.DESCRIPTION", flavor.getDescription() );
         map.put( "PROJECT.JAR", phetProject.getJarFile().getName() );
         map.put( "PROJECT.SCREENSHOT", "http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg" );//todo: map this to correct sim-specific (possibly online) URL
@@ -64,15 +76,15 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
     }
 
     private String[] getArgs( PhetProjectFlavor flavor ) {
-        ArrayList arguments=new ArrayList( Arrays.asList( flavor.getArgs( )));
-        if (locale!=null&&!locale.equals( "en")){
-            arguments.add( "javaws.phet.locale="+locale);
-        }
-        return (String[])arguments.toArray( new String[0]);
+        return flavor.getArgs();
     }
 
     private String getJNLPProperties() {//todo: locale support
-        return "";
+        String properties = "";
+        if( locale != null && !locale.equals( "en" ) ) {
+            properties += "<property name=\"javaws.phet.locale\" value=\"" + locale + "\" />";
+        }
+        return properties;
     }
 
     private String toJNLPArgs( String[] args ) {
@@ -92,12 +104,12 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         }
         outStream.flush();
         String template = new String( outStream.toByteArray(), "utf-16" );
-        int start=template.indexOf( START_MACROS );
-        int end=template.indexOf( END_MACROS );
-        
+        int start = template.indexOf( START_MACROS );
+        int end = template.indexOf( END_MACROS );
+
 //        System.out.println( "start = " + start +" end="+end);
-        if (start>=0&&end>=0){
-            template=template.substring( 0,start)+template.substring( end+1+END_MACROS.length());
+        if( start >= 0 && end >= 0 ) {
+            template = template.substring( 0, start ) + template.substring( end + 1 + END_MACROS.length() );
         }
         return template;
     }
@@ -127,7 +139,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
 
         PhetBuildJnlpTask phetBuildJnlpTask = new PhetBuildJnlpTask();
 //        phetBuildJnlpTask.setFlavor( "cck-ac" );
-        phetBuildJnlpTask.setLocale( "fr");
+        phetBuildJnlpTask.setLocale( "fr" );
         phetBuildJnlpTask.executeImpl( phetProject );
     }
 }
