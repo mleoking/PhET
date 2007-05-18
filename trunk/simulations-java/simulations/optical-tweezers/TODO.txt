@@ -9,8 +9,6 @@ HIGH PRIORITY:
 - scale arrow heads on vectors
 
 MEDIUM PRIORITY:
-- trap force and drag force vectors are for bead's current state, not after running the motion algorithm the next N times
-- Brownian force vector is the last Brownian force applied before the bead moved to its current position, not the next force after running the motion algorithm the next N times
 - why is fluid.getDragForce not used directly in Bead.move ?
 - position histogram should make an observation every N seconds, not every clock tick (?)
 - better algorithm for trap force y component Fy
@@ -22,6 +20,7 @@ MEDIUM PRIORITY:
 - adjust clock time display and units as dt is changed
 
 LOW PRIORITY:
+- when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
 - dialogs don't repaint or close immediately when clock is running, thread priority?
 - improve positioning of value in Vector2DNode
 - try to make entire laser control panel draggable
@@ -52,6 +51,7 @@ MODEL INFO NEEDED:
  
 DONE:
 ********* version 0.00.07 (15198)
+5/18/07 - precompute Brownian force so that displayed vector is accurate when no dt subdivision is applied
 5/17/07 - bug fix in Fluid.getVelocity, should create vector using polar coordinates
 5/17/07 - added Vector2D.Cartesian and Vector2D.Polar to prevent errors in construction
 5/17/07 - javadoc methods related to bead's "clock step subdivision" feature
