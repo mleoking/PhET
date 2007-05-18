@@ -9,6 +9,9 @@ High Priority:
 
 
 Medium Priority:
+    Some multi-flavored simulations generate a jar that doesn't have a main class specified in the manifest (e.g. java -jar bound-states.jar
+ produces Exception in thread "main" java.lang.NoClassDefFoundError: null)
+    Clean-all task duplicates work (_init is called for each sim, and the phet-build codebase is recomplied 43 times)
     Run (check for existence, maybe build if out of date (or maybe always build), then run)
     Task "build distribution" that prepares a zip file of source, etc. for other developers to download
         exclude ant_output, do clean in advance, ignore local password files, etc.
