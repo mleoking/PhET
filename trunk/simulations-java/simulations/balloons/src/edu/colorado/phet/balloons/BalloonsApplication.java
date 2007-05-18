@@ -370,7 +370,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
     }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
-        Locale.setDefault( new Locale( "fr") );
+//        Locale.setDefault( new Locale( "fr") );
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         isApplet = false;
         BalloonsApplication ba = new BalloonsApplication( args );
