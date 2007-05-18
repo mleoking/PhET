@@ -29,6 +29,7 @@ PhET -specific tasks are moved to an auxiliary build file.
     <property name="phetjnlp-classname" value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
     <property name="phet-list-sims-classname" value="edu.colorado.phet.build.PhetListSimTask"/>
     <property name="phet-list-flavors-classname" value="edu.colorado.phet.build.PhetListFlavorsTask"/>
+    <property name="phet-list-locales-classname" value="edu.colorado.phet.build.PhetListLocalesTask"/>
 
     <!--Properties for the structure of the phet codebase.-->
     <property name="build-tools" value="build-tools"/>
@@ -113,6 +114,10 @@ PhET -specific tasks are moved to an auxiliary build file.
         <taskdef name="phet-list-flavors"
                  classname="${phet-list-flavors-classname}"
                  classpath="${phetbuild-dependencies}"/>
+
+        <taskdef name="phet-list-locales"
+                 classname="${phet-list-locales-classname}"
+                 classpath="${phetbuild-dependencies}"/>
     </target>
 
     <target name="_init" depends="_declare-phet-build-tasks"/>
@@ -120,6 +125,11 @@ PhET -specific tasks are moved to an auxiliary build file.
     <!--This internal task puts a comma delimited list of all phet simulations into property phet.simlist-->
     <target name="_list-sims">
         <phet-list-sims/>
+    </target>
+
+    <target name="list-locales" depends="_init">
+        <phet-list-locales property="locale-list" project="balloons"/>
+        <echo message="locales: ${locale-list}"/>
     </target>
 
     <target name="build-all-jars" depends="_init, _list-sims">
@@ -159,9 +169,14 @@ PhET -specific tasks are moved to an auxiliary build file.
         <phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
     </target>
 
-    <target name="_build-jnlp">
-        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}"
+    <target name="_build_jnlp_locale_flavor">
+        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" locale="${sim.locale}"
                    deployurl="${sim.server.url}/${sim.name}/${sim.version}"/>
+    </target>
+
+    <target name="_build-jnlp">
+        <phet-list-locales property="sim.locales" project="${sim.name}"/>
+        <foreach list="${sim.flavors}" target="_build-jnlp_locale_flavor" param="sim.locale" inheritall="true" inheritrefs="true"/>
     </target>
 
     <!--
