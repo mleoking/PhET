@@ -169,14 +169,19 @@ PhET -specific tasks are moved to an auxiliary build file.
         <phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
     </target>
 
-    <target name="_build_jnlp_locale_flavor">
+    <!--Builds the jnlp file for a specific locale and flavor-->
+    <target name="_build-jnlp-locale-flavor">
         <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" locale="${sim.locale}"
                    deployurl="${sim.server.url}/${sim.name}/${sim.version}"/>
     </target>
 
+    <!--Builds jnlp files for all locales for a specific flavor, as well as the locale-less version.-->
     <target name="_build-jnlp">
         <phet-list-locales property="sim.locales" project="${sim.name}"/>
-        <foreach list="${sim.flavors}" target="_build-jnlp_locale_flavor" param="sim.locale" inheritall="true" inheritrefs="true"/>
+        <foreach list="${sim.locales}" target="_build-jnlp-locale-flavor" param="sim.locale" inheritall="true" inheritrefs="true"/>
+
+        <!--And build a locale-less version-->
+        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${sim.server.url}/${sim.name}/${sim.version}"/>
     </target>
 
     <!--
