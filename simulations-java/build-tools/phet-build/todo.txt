@@ -6,7 +6,7 @@ High Priority:
     Standardize simulations
         (requirements for different parts of the build task (e.g. which strings must be in localization files))
         -visit each sim to standardize
-    Clean all needs to clean ant-output, not just deploy.
+    Clean all needs to clean ant-output, not just deploy. (This looks like it is being done in the java side).
 
 Medium Priority:
     Some multi-flavored simulations generate a jar that doesn't have a main class specified in the manifest (e.g. java -jar bound-states.jar
