@@ -53,6 +53,7 @@ public class Vector2DNode extends PhetPNode {
     private static final String DEFAULT_UNITS = "";
     
     private static final Point2D TAIL_POSITION = new Point2D.Double( 0, 0 );
+    private static final double ARROW_FRACTIONAL_HEAD_HEIGHT = 0.5;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -319,7 +320,7 @@ public class Vector2DNode extends PhetPNode {
                 double xTip = tailWidth + headWidth;
                 double yTip = tailHeight + headHeight;
                 Point2D tipPosition = new Point2D.Double( xTip, yTip );
-                Arrow arrow = new Arrow( TAIL_POSITION, tipPosition, _headHeight, _headWidth, _tailWidth );
+                Arrow arrow = new Arrow( TAIL_POSITION, tipPosition, _headHeight, _headWidth, _tailWidth, ARROW_FRACTIONAL_HEAD_HEIGHT, true /* scaleTailToo */ );
                 _arrowNode.setPathTo( arrow.getShape() );
 
                 // update the text

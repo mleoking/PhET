@@ -50,6 +50,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/18/07 - scale arrow heads/tails on vectors for trap/drag/Brownian forces
 ********* version 0.00.07 (15214)
 5/18/07 - precompute Brownian force so that displayed vector is accurate when no dt subdivision is applied
 5/17/07 - bug fix in Fluid.getVelocity, should create vector using polar coordinates
