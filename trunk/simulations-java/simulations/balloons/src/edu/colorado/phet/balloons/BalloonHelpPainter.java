@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 19, 2005
  * Time: 9:49:45 AM
- *
  */
 
 public class BalloonHelpPainter implements Painter {
@@ -22,14 +21,18 @@ public class BalloonHelpPainter implements Painter {
     public void paint( Graphics2D g ) {
         g.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         g.setColor( Color.blue );
-        g.drawString( "Rub the balloon", balloonsApplication.getSweaterMaxX(), 50 );
-        double height = g.getFont().getStringBounds( "Rub", g.getFontRenderContext() ).getHeight();
-        g.drawString( "on the sweater", balloonsApplication.getSweaterMaxX(), (int)( 50 + height ) );
+        String rubTheBalloon = BalloonsResources.getString( "rub.the.balloon" );
 
-        double w = g.getFont().getStringBounds( "Bring the balloon", g.getFontRenderContext() ).getWidth();
+        double height = g.getFont().getStringBounds( rubTheBalloon, g.getFontRenderContext() ).getHeight();
+
+        g.drawString( rubTheBalloon, balloonsApplication.getSweaterMaxX(), 50 );
+        g.drawString( BalloonsResources.getString( "on.the.sweater" ), balloonsApplication.getSweaterMaxX(), (int)( 50 + height ) );
+
+        String bringNear = BalloonsResources.getString( "bring.the.balloon" );
+        double w = g.getFont().getStringBounds( bringNear, g.getFontRenderContext() ).getWidth();
         int x = (int)( balloonsApplication.getWallX() - w - 10 );
         int y = (int)( balloonsApplication.getWallHeight() - height * 5 );
-        g.drawString( "Bring the balloon", x, y );
-        g.drawString( "near the wall", x, (int)( y + height ) );
+        g.drawString( bringNear, x, y );                                   
+        g.drawString( BalloonsResources.getString( "near.the.wall" ), x, (int)( y + height ) );
     }
 }
