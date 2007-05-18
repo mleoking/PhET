@@ -8,8 +8,8 @@ PhET -specific tasks are moved to an auxiliary build file.
 
 
     <!-- Deployment properties -->
-    <property name="dev.server.name"            value="spot.colorado.edu"                                   />
-    <property name="prod.server.name"           value="tigercat.colorado.edu"                               />
+    <property name="dev.server.name" value="spot.colorado.edu"/>
+    <property name="prod.server.name" value="tigercat.colorado.edu"/>
 
     <!--Properties for deploy output-->
     <property name="dev.server.path" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev"/>
@@ -28,7 +28,7 @@ PhET -specific tasks are moved to an auxiliary build file.
     <property name="phetclean-classname" value="edu.colorado.phet.build.PhetCleanTask"/>
     <property name="phetjnlp-classname" value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
     <property name="phet-list-sims-classname" value="edu.colorado.phet.build.PhetListSimTask"/>
-     <property name="phet-list-flavors-classname" value="edu.colorado.phet.build.PhetListFlavorsTask"/>
+    <property name="phet-list-flavors-classname" value="edu.colorado.phet.build.PhetListFlavorsTask"/>
 
     <!--Properties for the structure of the phet codebase.-->
     <property name="build-tools" value="build-tools"/>
@@ -65,7 +65,7 @@ PhET -specific tasks are moved to an auxiliary build file.
     <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh"
              classpath="${build-tools}/maverick/lib/maverick-ant.jar"/>
 
-    <target name="clean-phet-build">
+    <target name="_clean-phet-build">
         <delete dir="${phetbuild-classes}"/>
     </target>
 
@@ -75,7 +75,21 @@ PhET -specific tasks are moved to an auxiliary build file.
                debuglevel="lines,source"/>
     </target>
 
-    <target name="_declare-phet-build-tasks" depends="clean-phet-build, _compile-phet-build">
+    <!--This task was rewritten to avoid recompilation of the phet-java ant task implementations.-->
+    <target name="_build-phet-build">
+        <if>
+            <not>
+                <isset property="init.complete"/>
+            </not>
+            <then>
+                <antcall target="_clean-phet-build"/>
+                <antcall target="_compile-phet-build"/>
+                <var name="init.complete" value="true"/>
+            </then>
+        </if>
+    </target>
+
+    <target name="_declare-phet-build-tasks" depends="_build-phet-build, _build-phet-build">
         <taskdef name="phet-build"
                  classname="${phetbuild-classname}"
                  classpath="${phetbuild-dependencies}"/>
@@ -95,10 +109,10 @@ PhET -specific tasks are moved to an auxiliary build file.
         <taskdef name="phet-list-sims"
                  classname="${phet-list-sims-classname}"
                  classpath="${phetbuild-dependencies}"/>
-                 
-         <taskdef name="phet-list-flavors"
-                  classname="${phet-list-flavors-classname}"
-                  classpath="${phetbuild-dependencies}"/>                 
+
+        <taskdef name="phet-list-flavors"
+                 classname="${phet-list-flavors-classname}"
+                 classpath="${phetbuild-dependencies}"/>
     </target>
 
     <target name="_init" depends="_declare-phet-build-tasks"/>
@@ -146,7 +160,8 @@ PhET -specific tasks are moved to an auxiliary build file.
     </target>
 
     <target name="_build-jnlp">
-        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${sim.server.url}/${sim.name}/${sim.version}"/>
+        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}"
+                   deployurl="${sim.server.url}/${sim.name}/${sim.version}"/>
     </target>
 
     <!--
@@ -184,7 +199,7 @@ PhET -specific tasks are moved to an auxiliary build file.
                 <property name="sim.version" value="${version.major}.${version.minor}.${version.dev}"/>
             </then>
         </if>
-                <if>
+        <if>
             <not>
                 <isset property="sim.flavors"/>
             </not>
@@ -201,7 +216,7 @@ PhET -specific tasks are moved to an auxiliary build file.
             </then>
         </if>
 
-        <var name="deployurl" value="${sim.server.url}/${sim.name}/${sim.version}" />
+        <var name="deployurl" value="${sim.server.url}/${sim.name}/${sim.version}"/>
 
         <foreach list="${sim.flavors}" target="_build-jnlp" param="sim.flavor" inheritall="true" inheritrefs="true"/>
     </target>
@@ -211,20 +226,22 @@ PhET -specific tasks are moved to an auxiliary build file.
         <phet-display-stats/>
     </target>
 
-        <target name="_read-username-and-password">
+    <target name="_read-username-and-password">
         <if>
             <not>
                 <and>
-                    <isset property="deploy.username" />
-                    <isset property="deploy.password" />
+                    <isset property="deploy.username"/>
+                    <isset property="deploy.password"/>
                 </and>
             </not>
             <then>
-                <echo message="Gathering username and password from user" />
+                <echo message="Gathering username and password from user"/>
 
                 <!-- If the username and password are not set, get them now: -->
                 <antform title="Deployment Host Login" width="550" height="300" focus="login">
-                    <label>Please enter your username and password that you use to login to the deployment host machine ${deploy.host}.</label>
+                    <label>Please enter your username and password that you use to login to the deployment host machine
+                        ${deploy.host}.
+                    </label>
 
                     <textProperty label="Username:" property="deploy.username" required="true"/>
                     <textProperty label="Password:" property="deploy.password" required="true" password="true"/>
@@ -234,15 +251,18 @@ PhET -specific tasks are moved to an auxiliary build file.
     </target>
 
 
-    <target name="_verify-sim-name-specified" description="Verifies that the simulation name has been specified" >
+    <target name="_verify-sim-name-specified" description="Verifies that the simulation name has been specified">
         <if>
             <not>
                 <isset property="sim.name"/>
             </not>
             <then>
                 <antform title="Enter Simulation Name" focus="OK" width="750" height="300">
-                    <label>Please enter the name of the simulation with which to perform the operation. This is the name of the Subversion folder that the simulation is stored in.</label>
-                    <textProperty label="Simulation Name: " property="sim.name" required="true" tooltip="The simulation name"/>
+                    <label>Please enter the name of the simulation with which to perform the operation. This is the name
+                        of the Subversion folder that the simulation is stored in.
+                    </label>
+                    <textProperty label="Simulation Name: " property="sim.name" required="true"
+                                  tooltip="The simulation name"/>
                 </antform>
             </then>
         </if>
@@ -275,7 +295,7 @@ PhET -specific tasks are moved to an auxiliary build file.
 
     </target>
 
-    <target name="build-and-deploy-dev" >
+    <target name="build-and-deploy-dev">
         <antcall target="_build-and-deploy">
             <param name="sim.server.url" value="${dev.server.url}"/>
             <param name="sim.server.path" value="${dev.server.path}"/>
@@ -283,7 +303,7 @@ PhET -specific tasks are moved to an auxiliary build file.
         </antcall>
     </target>
 
-    <target name="build-and-deploy-prod" >
+    <target name="build-and-deploy-prod">
         <antcall target="_build-and-deploy">
             <param name="sim.server.url" value="${prod.server.url}"/>
             <param name="sim.server.path" value="${prod.server.path}"/>
