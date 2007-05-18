@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.IdealGasResources;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -42,9 +43,9 @@ public class StoveControlPanel extends GraphicLayerSet {
         stoveSlider.setMinorTickSpacing( 10 );
         stoveSlider.setSnapToTicks( true );
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( -40 ), new JLabel( SimStrings.getInstance().getString( "Common.Remove" ) ) );
-        labelTable.put( new Integer( 0 ), new JLabel( SimStrings.getInstance().getString( "Common.0" ) ) );
-        labelTable.put( new Integer( 40 ), new JLabel( SimStrings.getInstance().getString( "Common.Add" ) ) );
+        labelTable.put( new Integer( -40 ), new JLabel( IdealGasResources.getString( "Common.Remove" ) ) );
+        labelTable.put( new Integer( 0 ), new JLabel( IdealGasResources.getString( "Common.0" ) ) );
+        labelTable.put( new Integer( 40 ), new JLabel( IdealGasResources.getString( "Common.Add" ) ) );
         stoveSlider.setLabelTable( labelTable );
         stoveSlider.setPaintTicks( true );
         stoveSlider.setSnapToTicks( true );
@@ -64,7 +65,7 @@ public class StoveControlPanel extends GraphicLayerSet {
         Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
                                                             new Color( 40, 20, 255 ),
                                                             Color.black ),
-                                          SimStrings.getInstance().getString( "IdealGasControlPanel.Heat_Control" ) );
+                                          IdealGasResources.getString( "IdealGasControlPanel.Heat_Control" ) );
         stovePanel.setBorder( border );
         stovePanel.setPreferredSize( new Dimension( 115, 85 ) );
         Color background = new Color( 240, 230, 255 );

@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.Box2DGraphic;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
@@ -121,11 +122,11 @@ abstract public class AdvancedModule extends IdealGasModule {
         setParticleCounterRegions();
 
         // Put readouts on the apparatus panel
-        PhetGraphic leftCounterReadout = new ReadoutGraphic( leftRegionParticleCounter, SimStrings.getInstance().getString( "AdvancedModule.Count" ) + ": " );
+        PhetGraphic leftCounterReadout = new ReadoutGraphic( leftRegionParticleCounter, IdealGasResources.getString( "AdvancedModule.Count" ) + ": " );
         leftCounterReadout.setLocation( (int)boxBounds.getMinX() + 0, (int)boxBounds.getMaxY() + 7 );
         addGraphic( leftCounterReadout, IdealGasConfig.READOUT_LAYER );
 
-        PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter, SimStrings.getInstance().getString( "AdvancedModule.Count" ) + ": " );
+        PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter, IdealGasResources.getString( "AdvancedModule.Count" ) + ": " );
         rightCounterReadout.setLocation( (int)boxBounds.getMaxX() - 110, (int)boxBounds.getMaxY() + 7 );
         addGraphic( rightCounterReadout, IdealGasConfig.READOUT_LAYER );
 
@@ -139,7 +140,7 @@ abstract public class AdvancedModule extends IdealGasModule {
 
         // Add a pair of arrows that point from one character to the other
         double arrowThickness = 2;
-        double headMultiplier = 5;
+        double headMultiplier = 4;
         Arrow lrArrow = new Arrow( new Point2D.Double( leftTextGraphic.getLocation().x + 100, leftTextGraphic.getLocation().y - 20 ),
                                    new Point2D.Double( rightTextGraphic.getLocation().x - 100, rightTextGraphic.getLocation().y - 20 ),
                                    arrowThickness * headMultiplier, arrowThickness * headMultiplier, arrowThickness );
@@ -157,8 +158,8 @@ abstract public class AdvancedModule extends IdealGasModule {
      * @return
      */
     protected String[] getSpeciesNames() {
-        return new String[]{SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_A" ),
-                            SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_B" )};
+        return new String[]{IdealGasResources.getString( "AdvancedModule.Particle_Type_A" ),
+                            IdealGasResources.getString( "AdvancedModule.Particle_Type_B" )};
     }
 
     /**

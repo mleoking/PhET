@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HotAirBalloonGraphic;
 
@@ -28,7 +29,7 @@ public class HotAirBalloonModule extends IdealGasModule {
     private int defaultGravity = IdealGasConfig.MAX_GRAVITY / 4;
 
     public HotAirBalloonModule( SimulationClock clock ) {
-        super( clock, SimStrings.getInstance().getString( "ModuleTitle.HotAirBalloon" ) );
+        super( clock, IdealGasResources.getString( "ModuleTitle.HotAirBalloon" ) );
         
         // Add collision experts to the model
         getIdealGasModel().addCollisionExpert( new SphereHotAirBalloonExpert( getIdealGasModel(), clock.getDt() ) );

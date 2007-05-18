@@ -11,6 +11,9 @@
 package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersionInfo;
 import edu.colorado.phet.idealgas.view.ColorScheme;
 
 import java.awt.*;
@@ -24,7 +27,7 @@ public class IdealGasConfig {
     public static final String TITLE = "Ideal Gas Law";
     public static final String DESCRIPTION = "<html>A simulation for investigating"
                                              + "<br>the model of gasses.</html>";
-    public static final String VERSION = "3.05";
+//    public static final String VERSION = "3.05";
 
     // Location of localized strings
     public static final String localizedStringsPath = "localization/IdealGasStrings";
@@ -50,7 +53,7 @@ public class IdealGasConfig {
     public static final double PIXELS_PER_NANOMETER = 45.4;
 
     // Images
-    public static final String IMAGE_DIRECTORY = "images/";
+    public static final String IMAGE_DIRECTORY = "";
     public static final String HELP_ITEM_ICON_IMAGE_FILE = IMAGE_DIRECTORY + "help-item-icon.gif";
     public static final String BLUE_PARTICLE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-xsml.gif";
 //    public static final String RED_PARTICLE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-B-xsml.gif";
@@ -78,7 +81,7 @@ public class IdealGasConfig {
     public static final String RULER_IMAGE_FILE = IMAGE_DIRECTORY + "10-nanometer-stick.png";
 
     // Animation images
-    public static final String ANIMATION_DIRECTORY = IMAGE_DIRECTORY + "animations/";
+    public static final String ANIMATION_DIRECTORY = "ideal-gas/images/animations/";
     public static final int NUM_PUSHER_ANIMATION_FRAMES = 19;
     public static final String PUSHER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-light-w-tank/pusher-3-light-w-tank";
     public static final int NUM_LEANER_ANIMATION_FRAMES = 15;
@@ -108,4 +111,8 @@ public class IdealGasConfig {
     // Graphic layer specs
     public static final double READOUT_LAYER = 100;
     public static final double MOLECULE_LAYER = 10;
+
+    public static PhetVersionInfo getVersion() {
+        return new PhetApplicationConfig( new String[0],new FrameSetup.NoOp(), PhetResources.forProject( "ideal-gas")).getVersion();
+    }
 }

@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.PressureSensingBox;
@@ -63,12 +64,7 @@ public class BoxDoorGraphic extends CompositePhetGraphic
                            PressureSensingBox box, Color color, IdealGasModule module ) {
         super( component );
         BufferedImage doorImg = null;
-        try {
-            doorImg = ImageLoader.loadBufferedImage( IdealGasConfig.DOOR_IMAGE_FILE );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        doorImg = IdealGasResources.getImage( IdealGasConfig.DOOR_IMAGE_FILE );
         imageGraphic = new PhetImageGraphic( component, doorImg );
         this.addGraphic( imageGraphic );
 

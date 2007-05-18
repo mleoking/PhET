@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.LightSpecies;
+import edu.colorado.phet.idealgas.IdealGasResources;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,14 +25,14 @@ import java.awt.*;
  */
 public class SpeciesMonitorDialog extends JDialog {
     private String[] speciesPanelTitles = new String[]{
-        SimStrings.getInstance().getString( "IdealGasMonitorPanel.Heavy_species" ),
-        SimStrings.getInstance().getString( "IdealGasMonitorPanel.Light_species" )
+        IdealGasResources.getString( "IdealGasMonitorPanel.Heavy_species" ),
+        IdealGasResources.getString( "IdealGasMonitorPanel.Light_species" )
     };
     private GasSpeciesMonitorPanel heavySpeciesPanel;
     private GasSpeciesMonitorPanel lightSpeciesPanel;
 
     public SpeciesMonitorDialog( PhetFrame phetFrame, IdealGasModel idealGasModel ) {
-        super( phetFrame, SimStrings.getInstance().getString( "GasSpeciesMonitorPanel.Title" ), false );
+        super( phetFrame, IdealGasResources.getString( "GasSpeciesMonitorPanel.Title" ), false );
         this.setResizable( false );
 
         JPanel speciesPanel = new JPanel( new GridLayout( 2, 1 ) );

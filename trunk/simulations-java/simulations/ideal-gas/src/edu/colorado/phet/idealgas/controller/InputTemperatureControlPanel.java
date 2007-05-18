@@ -12,6 +12,7 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.Pump;
 
@@ -56,7 +57,7 @@ public class InputTemperatureControlPanel extends JPanel {
         final JSpinner tempSpinner = new JSpinner( new SpinnerNumberModel( IdealGasModel.DEFAULT_ENERGY / IdealGasConfig.TEMPERATURE_SCALE_FACTOR / hackConst,
                                                                            50, maxTemperature, 1 ) );
         tempSpinner.setEnabled( false );
-        final JCheckBox tempLbl = new JCheckBox( SimStrings.getInstance().getString( "AdvancedControlPanel.Particle_Temperature" ), false );
+        final JCheckBox tempLbl = new JCheckBox( IdealGasResources.getString( "AdvancedControlPanel.Particle_Temperature" ), false );
         tempLbl.addActionListener( new ActionListener() {
             Pump.PumpingEnergyStrategy orgEnergyStrategy = module.getPumpingEnergyStrategy();
             Pump.PumpingEnergyStrategy energyStrategy = null;

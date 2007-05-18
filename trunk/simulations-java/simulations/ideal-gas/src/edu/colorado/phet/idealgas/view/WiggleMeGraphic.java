@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -33,8 +34,8 @@ public class WiggleMeGraphic extends CompositePhetGraphic {
         this.model = model;
 
         PhetMultiLineTextGraphic textGraphic = new PhetMultiLineTextGraphic( component, font,
-                                                                             new String[]{SimStrings.getInstance().getString( "WiggleMe.Pump_the" ),
-                                                                                          SimStrings.getInstance().getString( "WiggleMe.handle!" )}, color );
+                                                                             new String[]{IdealGasResources.getString( "WiggleMe.Pump_the" ),
+                                                                                          IdealGasResources.getString( "WiggleMe.handle!" )}, color );
         addGraphic( textGraphic, 0 );
         Arrow arrow = new Arrow( new Point2D.Double( 0,0 ),
                                  new Point2D.Double( 15, 12 ), 6, 6, 2, 100, false );

@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import java.awt.*;
@@ -26,15 +27,10 @@ public class HeavySpeciesGraphic extends GasMoleculeGraphic {
     static BufferedImage s_particleImage;
 
     static {
-        try {
-            s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
-            MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( 90, 90, 255 ));
+        s_particleImage = IdealGasResources.getImage( s_imageName );
+        MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( 90, 90, 255 ));
 //            MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( 120, 120, 255 ));
-            op.filter( s_particleImage, s_particleImage );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        op.filter( s_particleImage, s_particleImage );
     }
 
 
@@ -44,14 +40,9 @@ public class HeavySpeciesGraphic extends GasMoleculeGraphic {
      */
     public static void setColor( Color color ) {
         GasMoleculeGraphic.setColor( color );
-        try {
-            s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
-            MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( color.getRed(), color.getGreen(), color.getBlue() ));
-            op.filter( s_particleImage, s_particleImage );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        s_particleImage = IdealGasResources.getImage( s_imageName );
+        MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( color.getRed(), color.getGreen(), color.getBlue() ));
+        op.filter( s_particleImage, s_particleImage );
     }
 
     /**

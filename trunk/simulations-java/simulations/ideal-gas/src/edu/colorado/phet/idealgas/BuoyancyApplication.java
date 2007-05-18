@@ -27,9 +27,9 @@ import java.awt.geom.Point2D;
 public class BuoyancyApplication extends PhetApplication {
 
     public BuoyancyApplication( String[] args ) {
-        super( args, SimStrings.getInstance().getString( "BuoyancyApplication.title" ),
-               SimStrings.getInstance().getString( "BuoyancyApplication.description" ),
-               IdealGasConfig.VERSION,
+        super( args, IdealGasResources.getString( "balloons-and-buoyancy.name" ),
+               IdealGasResources.getString( "balloons-and-buoyancy.description" ),
+               IdealGasConfig.getVersion().formatForTitleBar(),
 //               new SwingClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true ),
 //               true,
                IdealGasConfig.FRAME_SETUP );

@@ -16,6 +16,7 @@ import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.LightSpecies;
+import edu.colorado.phet.idealgas.IdealGasResources;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -65,7 +66,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         setTitle( speciesName );
 
         // Set up the readout for the number of gas molecules
-        this.add( new JLabel( SimStrings.getInstance().getString( "GasSpeciesMonitorPanel.Number_of_Gas_Molecules" ) + ": " ) );
+        this.add( new JLabel( IdealGasResources.getString( "GasSpeciesMonitorPanel.Number_of_Gas_Molecules" ) + ": " ) );
         numParticlesTF = new JTextField( 4 );
         numParticlesTF.setEditable( false );
         this.add( numParticlesTF );
@@ -73,7 +74,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         // Set up the average speed readout
         aveSpeedFormat.setMaximumFractionDigits( 2 );
         //aveSpeedFormat.setMinimumFractionDigits( 2 );
-        this.add( new JLabel( SimStrings.getInstance().getString( "GasSpeciesMonitorPanel.Average_speed" ) + ": " ) );
+        this.add( new JLabel( IdealGasResources.getString( "GasSpeciesMonitorPanel.Average_speed" ) + ": " ) );
         aveSpeedTF = new JTextField( 6 );
         aveSpeedTF.setEditable( false );
         this.add( aveSpeedTF );

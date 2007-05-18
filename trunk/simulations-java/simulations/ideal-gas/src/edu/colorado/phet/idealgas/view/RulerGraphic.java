@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -26,12 +27,7 @@ public class RulerGraphic extends PhetGraphic {
     public RulerGraphic( Component component ) {
         super( component );
         BufferedImage rulerImage = null;
-        try {
-            rulerImage = ImageLoader.loadBufferedImage( IdealGasConfig.RULER_IMAGE_FILE );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        rulerImage = IdealGasResources.getImage( IdealGasConfig.RULER_IMAGE_FILE );
         rulerGraphic = new PhetImageGraphic( component, rulerImage );
 
         setCursorHand();

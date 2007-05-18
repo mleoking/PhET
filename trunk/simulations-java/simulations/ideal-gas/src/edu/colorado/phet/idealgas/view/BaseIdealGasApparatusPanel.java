@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasApplication;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -67,30 +68,25 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
         // Set the background color
         setBackground( IdealGasConfig.COLOR_SCHEME.background );
 
-        try {
-            // Set up the stove, flames, and ice
-            stoveImg = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_IMAGE_FILE );
-            Point stoveLocation = new Point( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET,
-                                             IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET );
-            PhetImageGraphic stoveGraphic = new PhetImageGraphic( this, stoveImg );
-            stoveGraphic.setLocation( stoveLocation );
-            this.addGraphic( stoveGraphic, -4 );
-            BufferedImage flamesImg = ImageLoader.loadBufferedImage( IdealGasConfig.FLAMES_IMAGE_FILE );
-            flamesGraphicImage = new PhetImageGraphic( this, flamesImg, IdealGasConfig.X_BASE_OFFSET + 260, IdealGasConfig.Y_BASE_OFFSET + 545 );
-            this.addGraphic( flamesGraphicImage, -6 );
-            BufferedImage iceImg = ImageLoader.loadBufferedImage( IdealGasConfig.ICE_IMAGE_FILE );
-            iceGraphicImage = new PhetImageGraphic( this, iceImg, IdealGasConfig.X_BASE_OFFSET + 260, IdealGasConfig.Y_BASE_OFFSET + 545 );
-            this.addGraphic( iceGraphicImage, -6 );
+        // Set up the stove, flames, and ice
+        stoveImg = IdealGasResources.getImage( IdealGasConfig.STOVE_IMAGE_FILE );
+        Point stoveLocation = new Point( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET,
+                                         IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET );
+        PhetImageGraphic stoveGraphic = new PhetImageGraphic( this, stoveImg );
+        stoveGraphic.setLocation( stoveLocation );
+        this.addGraphic( stoveGraphic, -4 );
+        BufferedImage flamesImg = IdealGasResources.getImage( IdealGasConfig.FLAMES_IMAGE_FILE );
+        flamesGraphicImage = new PhetImageGraphic( this, flamesImg, IdealGasConfig.X_BASE_OFFSET + 260, IdealGasConfig.Y_BASE_OFFSET + 545 );
+        this.addGraphic( flamesGraphicImage, -6 );
+        BufferedImage iceImg = IdealGasResources.getImage( IdealGasConfig.ICE_IMAGE_FILE );
+        iceGraphicImage = new PhetImageGraphic( this, iceImg, IdealGasConfig.X_BASE_OFFSET + 260, IdealGasConfig.Y_BASE_OFFSET + 545 );
+        this.addGraphic( iceGraphicImage, -6 );
 
-            // Add a rectangle that will mask the ice and flames when they are behind the stove
-            Rectangle2D mask = new Rectangle2D.Double( 0, 0, stoveImg.getWidth(), stoveImg.getHeight() );
-            PhetShapeGraphic maskGraphic = new PhetShapeGraphic( this, mask, IdealGasConfig.COLOR_SCHEME.background );
-            maskGraphic.setLocation( stoveLocation );
-            this.addGraphic( maskGraphic, -5 );
-        }
-        catch( IOException ioe ) {
-            throw new RuntimeException( ioe.getMessage() );
-        }
+        // Add a rectangle that will mask the ice and flames when they are behind the stove
+        Rectangle2D mask = new Rectangle2D.Double( 0, 0, stoveImg.getWidth(), stoveImg.getHeight() );
+        PhetShapeGraphic maskGraphic = new PhetShapeGraphic( this, mask, IdealGasConfig.COLOR_SCHEME.background );
+        maskGraphic.setLocation( stoveLocation );
+        this.addGraphic( maskGraphic, -5 );
 
         // Add a listener that will adjust the flames and ice graphics as the heat
         // source in the model changes
