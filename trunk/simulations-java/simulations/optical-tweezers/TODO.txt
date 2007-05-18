@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
-- scale arrow heads on vectors
 
 MEDIUM PRIORITY:
 - why is fluid.getDragForce not used directly in Bead.move ?
@@ -50,6 +49,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+5/18/07 - use Vector2DNode in FluidNode, scale arrow heads/tails
 5/18/07 - scale arrow heads/tails on vectors for trap/drag/Brownian forces
 ********* version 0.00.07 (15214)
 5/18/07 - precompute Brownian force so that displayed vector is accurate when no dt subdivision is applied
