@@ -17,6 +17,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 /**
@@ -60,7 +61,7 @@ public class PhetBuildGUI extends AbstractPhetTask {
         String[] objects = toArray( getProperty( new PhetListSimTask() ) );
 
         simList = new JList( objects );
-        simList.setPreferredSize( new Dimension( simList.getPreferredSize().width, 400 ) );
+//        simList.setPreferredSize( new Dimension( simList.getPreferredSize().width, 400 ) );
         simList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         simList.addListSelectionListener( new ListSelectionListener() {
             public void valueChanged( ListSelectionEvent e ) {
@@ -78,6 +79,12 @@ public class PhetBuildGUI extends AbstractPhetTask {
         contentPane.add( new JScrollPane( localeList ), gridBagConstraints );
 
         JPanel commandPanel = new JPanel();
+        JButton refresh = new JButton( "Refresh" );
+        refresh.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                refresh();
+            }
+        } );
         JButton run = new JButton( "Run" );
         run.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -86,7 +93,9 @@ public class PhetBuildGUI extends AbstractPhetTask {
         } );
         GridBagConstraints commandConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         commandPanel.setLayout( new GridBagLayout() );
+        commandPanel.add( refresh, commandConstraints );
         commandPanel.add( run, commandConstraints );
+        commandPanel.add( Box.createVerticalBox() );
 
         contentPane.add( commandPanel );
 
@@ -96,7 +105,27 @@ public class PhetBuildGUI extends AbstractPhetTask {
         frame.setSize( frame.getWidth() + 100, frame.getHeight() + 100 );
     }
 
+    private void refresh() {
+        updateLists();
+    }
+
     private void run() {
+        final JDialog dialog = new JDialog( frame, "Building Sim" );
+        JLabel pane = new JLabel( "Building " + simList.getSelectedValue() + ". Please wait..." );
+        pane.setOpaque( true );
+        dialog.setContentPane( pane );
+        dialog.pack();
+        dialog.setLocation( frame.getX() + frame.getWidth() / 2 - dialog.getWidth() / 2, frame.getY() + frame.getHeight() / 2 - dialog.getHeight() / 2 );
+        dialog.setVisible( true );
+        Thread thread = new Thread( new Runnable() {
+            public void run() {
+                doRun( dialog );
+            }
+        } );
+        thread.start();
+    }
+
+    private void doRun( final JDialog dialog ) {
         String sim = (String)simList.getSelectedValue();
         String flavor = (String)flavorList.getSelectedValue();
         String locale = (String)localeList.getSelectedValue();
@@ -116,13 +145,19 @@ public class PhetBuildGUI extends AbstractPhetTask {
             set.setFile( phetProject.getDefaultDeployJar() );
             classpath.addFileset( set );
             java.setClasspath( classpath );
-            java.setJvmargs( "-Djavaws.phet.locale=" + locale );
+            if( !locale.equals( "en" ) ) {
+                java.setJvmargs( "-Djavaws.phet.locale=" + locale );
+            }
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    dialog.dispose();
+                }
+            } );
             runTask( java );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-
     }
 
     private String[] toArray( String simListString ) {
@@ -148,10 +183,19 @@ public class PhetBuildGUI extends AbstractPhetTask {
         PhetListFlavorsTask flavorsTask = new PhetListFlavorsTask();
         flavorsTask.setProject( getSelectedSim() );
         flavorList.setListData( toArray( getProperty( flavorsTask ) ) );
+        flavorList.setSelectedIndex( 0 );
 
         PhetListLocalesTask localesTask = new PhetListLocalesTask();
         localesTask.setProject( getSelectedSim() );
-        localeList.setListData( toArray( getProperty( localesTask ) ) );
+        localeList.setListData( setDefaultValueEnglish( toArray( getProperty( localesTask ) ) ) );
+        localeList.setSelectedIndex( 0 );
+    }
+
+    private String[] setDefaultValueEnglish( String[] strings ) {
+        ArrayList list = new ArrayList( Arrays.asList( strings ) );
+        list.remove( "en" );
+        list.add( 0, "en" );
+        return (String[])list.toArray( new String[0] );
     }
 
     private void start() {
