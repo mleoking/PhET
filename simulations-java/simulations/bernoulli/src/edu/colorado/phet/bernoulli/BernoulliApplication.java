@@ -32,6 +32,7 @@ import edu.colorado.phet.common.bernoulli.bernoulli.plaf.PlafUtil;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObservable;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
 import edu.colorado.phet.common.bernoulli.bernoulli.util.VersionUtils;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,7 +51,7 @@ import java.util.ArrayList;
  *
  */
 public class BernoulliApplication extends Module {
-    private static final String VERSION = "0.00.01";
+    private static final String VERSION = PhetApplicationConfig.getVersion("bernoulli").formatForTitleBar();
     private int backgroundGraphicLevel = 0;
     int vesselGraphicLevel = 50;
     private int valveGraphicLevel = 60;
@@ -412,8 +413,7 @@ public class BernoulliApplication extends Module {
         final FirefighterModule firefighterModule = new FirefighterModule( defaultClock );
         String title = "Bernoulli's Fountain (" + VERSION + ")";
         String desc = "The user tries to pump water in their computer.";
-        String version = "0.00.01";
-        final PhetApplication app = new PhetApplication( new ApplicationDescriptor( title, desc, version, new FrameSetup() {
+        final PhetApplication app = new PhetApplication( new ApplicationDescriptor( title, desc, VERSION, new FrameSetup() {
             public void initialize( JFrame frame ) {
                 Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
                 frame.setSize( dim.width - 100, dim.height - 100 );
