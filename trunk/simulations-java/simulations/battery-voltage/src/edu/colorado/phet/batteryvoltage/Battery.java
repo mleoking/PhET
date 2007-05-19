@@ -108,10 +108,10 @@ public class Battery {
         rightPropagator.add( new PositionUpdate() );
 
         sys.addLaw( new Repaint( panel ) );
-        this.electronImage = imageLoader.loadBufferedImage( "images/electron9.gif" );
+        this.electronImage = BatteryVoltageResources.getImage( "electron9.gif" );
         electronImage = ImageUtils.scale( electronImage, .45 );
-        this.rightPlusImage = imageLoader.loadBufferedImage( "images/components/batteries/AA-battery-600.gif" );
-        this.leftPlusImage = imageLoader.loadBufferedImage( "images/components/batteries/AA-battery-600-left.gif" );
+        this.rightPlusImage = BatteryVoltageResources.getImage( "components/batteries/AA-battery-600.gif" );
+        this.leftPlusImage = BatteryVoltageResources.getImage( "components/batteries/AA-battery-600-left.gif" );
         this.rightPlusImage = ImageUtils.scaleToSizeApproximate( rightPlusImage, width + 60, height + 35 );
         this.leftPlusImage = ImageUtils.scaleToSizeApproximate( leftPlusImage, width + 60, height + 35 );
 
@@ -161,11 +161,11 @@ public class Battery {
         heightSlider.setMinorTickSpacing( 2 );
         heightSlider.setPaintTicks( true );
         CompositeVoltageListener cvl = new CompositeVoltageListener( heightSlider, this );
-        heightSlider.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "Battery.VoltageSlider" ) ) );
+        heightSlider.setBorder( BorderFactory.createTitledBorder( BatteryVoltageResources.getString( "Battery.VoltageSlider" ) ) );
         heightSlider.addChangeListener( cvl );
         controlPanel.setLayout( new FlowLayout() );
 
-        JCheckBox show = new JCheckBox( SimStrings.get( "Battery.ShowBatteryCheckBox" ) );
+        JCheckBox show = new JCheckBox( BatteryVoltageResources.getString( "Battery.ShowBatteryCheckBox" ) );
         show.addItemListener( new ShowBattery( show, bip ) );
         controlPanel.add( show );
         controlPanel.add( heightSlider );
@@ -203,7 +203,7 @@ public class Battery {
         Gauge g = new Gauge( gx, gy, -numElectrons, numElectrons, 0, gaugeWidth );
         GaugeUpdate gu = new GaugeUpdate( g, numElectrons, sys, rightPropagator, leftPropagator );
         addParticleMoveListener( gu );
-        g.setText( SimStrings.get( "Battery.GaugeText" ) );
+        g.setText( BatteryVoltageResources.getString( "Battery.GaugeText" ) );
         panel.addPainter( new GuiToPaint( g ) );
 
         Vector all = new Vector();
