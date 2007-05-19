@@ -22,6 +22,8 @@ PhET -specific tasks are moved to an auxiliary build file.
     <property name="proguard.jar" location="build-tools/proguard3.8/lib/proguard.jar"/>
     <property name="phetbuild-src" location="build-tools/phet-build/src"/>
 
+    <property name="phet.version" value="0.0.1"/>
+
     <!--Phet task implementations-->
     <property name="phetbuild-classname" value="edu.colorado.phet.build.PhetBuildTask"/>
     <property name="phetdisplaystats-classname" value="edu.colorado.phet.build.PhetDisplayStatsTask"/>
@@ -248,6 +250,11 @@ PhET -specific tasks are moved to an auxiliary build file.
         <var name="deployurl" value="${sim.server.url}/${sim.name}/${sim.version}"/>
 
         <foreach list="${sim.flavors}" target="_build-jnlp" param="sim.flavor" inheritall="true" inheritrefs="true"/>
+    </target>
+
+    <target name="build-source-distribution" depends="_init,clean-all" >
+        <zip destfile="${basedir}/deploy/phet-src-${phet.version}.zip" basedir="${basedir}"
+                excludes="local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output"></zip>
     </target>
 
     <!--These tasks are still under consideration, and may be changed, moved or deleted.-->
