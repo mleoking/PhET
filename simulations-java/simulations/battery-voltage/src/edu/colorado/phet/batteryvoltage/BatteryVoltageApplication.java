@@ -27,7 +27,7 @@ public class BatteryVoltageApplication extends JApplet {
 
     public BatteryVoltageApplication() {
         if ( applet ) {
-            String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
+            String applicationLocale = Toolkit.getProperty( "javaws.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
                 SimStrings.setLocale( new Locale( applicationLocale ) );
             }

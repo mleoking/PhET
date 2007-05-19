@@ -2,6 +2,7 @@ package edu.colorado.phet.batteryvoltage.common.phys2d.gui;
 
 import edu.colorado.phet.batteryvoltage.common.view.util.SimStrings;
 import edu.colorado.phet.batteryvoltage.common.phys2d.SystemRunner;
+import edu.colorado.phet.batteryvoltage.BatteryVoltageResources;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -41,7 +42,7 @@ public class SystemRunnerControl {
                 updateSystem();
             }
         } );
-        dtSlider.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "SystemRunnerControl.TimeIncrementSlider" ) ) );
+        dtSlider.setBorder( BorderFactory.createTitledBorder( BatteryVoltageResources.getString( "SystemRunnerControl.TimeIncrementSlider" ) ) );
         panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
 
         this.waitTimeSlider = new JSlider( 0, 100, 50 );
@@ -51,7 +52,7 @@ public class SystemRunnerControl {
                 updateSystem();
             }
         } );
-        waitTimeSlider.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "SystemRunnerControl.WaitTimeSlider" ) ) );
+        waitTimeSlider.setBorder( BorderFactory.createTitledBorder( BatteryVoltageResources.getString( "SystemRunnerControl.WaitTimeSlider" ) ) );
         panel.add( dtSlider );
         panel.add( dtField );
         panel.add( waitTimeSlider );
@@ -73,7 +74,7 @@ public class SystemRunnerControl {
 
         int waitReadout = waitTimeSlider.getValue();
         double wait = waitSliderRange.convertTo( waitRange, waitReadout );
-        waitField.setText( SimStrings.get( "SystemRunnerControl.WaitTimeText" ) + "=" + ( (int)wait ) );
+        waitField.setText( BatteryVoltageResources.getString( "SystemRunnerControl.WaitTimeText" ) + "=" + ( (int)wait ) );
         sr.setWaitTime( (int)wait );
     }
 }
