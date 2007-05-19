@@ -5,7 +5,6 @@ package edu.colorado.phet.cck.chart;
  * User: Sam Reid
  * Date: Jun 30, 2006
  * Time: 2:30:01 PM
- *
  */
 
 public class CCKTime {

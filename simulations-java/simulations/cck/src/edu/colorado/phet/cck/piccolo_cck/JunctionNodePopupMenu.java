@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Sep 19, 2006
  * Time: 2:47:08 PM
- *
  */
 
 public class JunctionNodePopupMenu extends JPopupMenu {

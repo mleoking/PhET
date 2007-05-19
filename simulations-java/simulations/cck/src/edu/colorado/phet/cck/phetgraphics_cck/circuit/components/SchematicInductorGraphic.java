@@ -15,7 +15,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 8:34:54 PM
- *
  */
 public class SchematicInductorGraphic extends SchematicOscillateGraphic {
     private PhetShapeGraphic leftBranch;

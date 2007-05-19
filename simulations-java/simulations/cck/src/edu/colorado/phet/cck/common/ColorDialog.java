@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.common;
 
 import edu.colorado.phet.common_cck.view.util.SwingUtils;
@@ -14,7 +13,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 19, 2004
  * Time: 9:55:48 PM
- *
  */
 public class ColorDialog {
 

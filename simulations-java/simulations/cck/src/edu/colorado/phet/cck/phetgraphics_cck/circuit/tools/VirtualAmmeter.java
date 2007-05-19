@@ -1,6 +1,6 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.tools;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
@@ -8,7 +8,6 @@ import edu.colorado.phet.cck.phetgraphics_cck.TargetReadoutTool;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.BranchGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.InteractiveBranchGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.graphics.mousecontrols.Translatable;
@@ -20,7 +19,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 14, 2004
  * Time: 7:56:28 PM
- *
  */
 public class VirtualAmmeter extends DefaultInteractiveGraphic {
     private TargetReadoutTool trt;
@@ -71,7 +69,7 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
                     double current = branch.getCurrent();
                     DecimalFormat df = circuitGraphic.getModule().getDecimalFormat();
                     String amps = df.format( Math.abs( current ) );
-                    trt.setText( amps + " " + SimStrings.getInstance().getString( "VirtualAmmeter.Amps" ) );
+                    trt.setText( amps + " " + CCKResources.getString( "VirtualAmmeter.Amps" ) );
                     return;
                 }
             }
@@ -81,8 +79,8 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
 
     private void resetText() {
         String[] text = new String[]{
-                SimStrings.getInstance().getString( "VirtualAmmeter.HelpString1" ),
-                SimStrings.getInstance().getString( "VirtualAmmeter.HelpString2" )
+                CCKResources.getString( "VirtualAmmeter.HelpString1" ),
+                CCKResources.getString( "VirtualAmmeter.HelpString2" )
         };
         trt.setText( text );
     }

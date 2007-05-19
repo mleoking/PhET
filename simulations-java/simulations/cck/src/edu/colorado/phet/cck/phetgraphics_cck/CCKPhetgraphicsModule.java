@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck;
 
 import edu.colorado.phet.cck.*;
@@ -17,7 +16,7 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.particles.ParticleSetGraph
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck.piccolo_cck.VoltmeterModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.application.PhetApplication;
 import edu.colorado.phet.common_cck.model.BaseModel;
@@ -25,7 +24,6 @@ import edu.colorado.phet.common_cck.model.ModelElement;
 import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShadowTextGraphic;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -44,7 +42,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 1:27:42 AM
- *
  */
 public class CCKPhetgraphicsModule extends Module implements ICCKModule {
     /**
@@ -74,7 +71,7 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
     private PNode stopwatch;
 
     public CCKPhetgraphicsModule( String[] args ) throws IOException {
-        super( SimStrings.getInstance().getString( "ModuleTitle.CCK3Module" ) );
+        super( CCKResources.getString( "ModuleTitle.CCK3Module" ) );
         this.parameters = new CCKParameters( this, args );
         setModel( new BaseModel() );
         model = new CCKModelPhetgraphics();
@@ -107,7 +104,7 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
     }
 
     private void setupStopwatch() {
-        stopwatch = new MyPhetPNode( cckApparatusPanel, new PSwing(new StopwatchDecorator( stripChartClock, 1.0 * CCKTime.viewTimeScale, "s" ) ) );
+        stopwatch = new MyPhetPNode( cckApparatusPanel, new PSwing( new StopwatchDecorator( stripChartClock, 1.0 * CCKTime.viewTimeScale, "s" ) ) );
         stopwatch.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         stopwatch.addInputEventListener( new PDragEventHandler() );
         getApparatusPanel().addScreenChild( stopwatch );

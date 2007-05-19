@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model;
 
 import edu.colorado.phet.cck.common.SimpleObservableDebug;
@@ -11,7 +10,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 1:37:51 AM
- *
  */
 public class Junction extends SimpleObservableDebug {
     private double x;

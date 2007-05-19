@@ -12,7 +12,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Sep 20, 2006
  * Time: 8:59:30 AM
- *
  */
 
 public class ACVoltageSourceNode extends ComponentImageNode {

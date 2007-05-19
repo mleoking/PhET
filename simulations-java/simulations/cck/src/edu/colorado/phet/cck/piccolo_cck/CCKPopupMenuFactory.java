@@ -10,7 +10,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Oct 6, 2006
  * Time: 7:30:11 AM
- *
  */
 
 public class CCKPopupMenuFactory {

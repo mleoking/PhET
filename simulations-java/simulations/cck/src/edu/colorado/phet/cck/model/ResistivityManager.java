@@ -7,7 +7,6 @@ import edu.colorado.phet.cck.model.components.Wire;
  * User: Sam Reid
  * Date: Sep 12, 2006
  * Time: 11:56:28 PM
- *
  */
 public class ResistivityManager extends CircuitListenerAdapter {
     private Circuit circuit;

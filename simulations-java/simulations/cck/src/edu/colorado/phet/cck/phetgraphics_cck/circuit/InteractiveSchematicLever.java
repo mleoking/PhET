@@ -1,9 +1,8 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.Boundary;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
@@ -23,7 +22,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 10, 2004
  * Time: 12:50:23 PM
- *
  */
 public class InteractiveSchematicLever extends DefaultInteractiveGraphic implements LeverInteraction {
     private ModelViewTransform2D transform;
@@ -36,7 +34,7 @@ public class InteractiveSchematicLever extends DefaultInteractiveGraphic impleme
         BufferedImage image = null;
         try {
             image = ImageLoader.loadBufferedImage( "cck/images/hand40.gif" );
-            rotate = Toolkit.getDefaultToolkit().createCustomCursor( image, new Point(), SimStrings.getInstance().getString( "InteractiveSchematicLever.CursorName" ) );
+            rotate = Toolkit.getDefaultToolkit().createCustomCursor( image, new Point(), CCKResources.getString( "InteractiveSchematicLever.CursorName" ) );
         }
         catch( IOException e ) {
             throw new RuntimeException( e );

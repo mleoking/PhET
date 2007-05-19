@@ -13,7 +13,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 19, 2006
  * Time: 12:42:14 PM
- *
  */
 
 public class ACReadoutGraphic extends ReadoutGraphic {

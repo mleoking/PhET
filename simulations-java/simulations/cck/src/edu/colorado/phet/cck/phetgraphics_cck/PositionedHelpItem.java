@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck;
 
 import edu.colorado.phet.cck.common.SimpleObservableDebug;
@@ -15,7 +14,6 @@ import java.awt.geom.Area;
  * User: Sam Reid
  * Date: Jun 25, 2004
  * Time: 12:04:51 AM
- *
  */
 public class PositionedHelpItem extends CCKCompositePhetGraphic {
     private Target target;

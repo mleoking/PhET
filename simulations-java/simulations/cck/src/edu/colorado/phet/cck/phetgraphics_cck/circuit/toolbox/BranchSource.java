@@ -1,6 +1,6 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.toolbox;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.ComponentDimension;
 import edu.colorado.phet.cck.model.Junction;
@@ -11,7 +11,6 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
@@ -32,7 +31,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 29, 2004
  * Time: 2:32:10 AM
- *
  */
 public abstract class BranchSource extends DefaultInteractiveGraphic {
     private PhetGraphic schematic;
@@ -145,7 +143,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private double finalLength;
 
         public WireSource( Branch branch, PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, CircuitChangeListener kl, double finalLength, CCKPhetgraphicsModule module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.getInstance().getString( "BranchSource.Wire" ), module );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, CCKResources.getString( "BranchSource.Wire" ), module );
             this.finalLength = finalLength;
         }
 
@@ -163,7 +161,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private ComponentDimension finalDim;
 
         public BatterySource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, ComponentDimension finalDim, CircuitChangeListener kl, CCKPhetgraphicsModule module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.getInstance().getString( "BranchSource.Battery" ), module );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, CCKResources.getString( "BranchSource.Battery" ), module );
             this.finalDim = finalDim;
         }
 
@@ -185,7 +183,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         public BulbSource( PhetGraphic boundedGraphic, CircuitGraphic circuitGraphic,
                            ApparatusPanel panel, Bulb branch, PhetGraphic schematic, ComponentDimension finalDim, CircuitChangeListener kl,
                            double distBetweenJunctions, CCKPhetgraphicsModule module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.getInstance().getString( "BranchSource.LightBulb" ), module );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, CCKResources.getString( "BranchSource.LightBulb" ), module );
             this.finalDim = finalDim;
             this.distBetweenJunctions = distBetweenJunctions;
         }
@@ -215,7 +213,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 
         public ResistorSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic,
                                ApparatusPanel panel, Branch branch, CircuitChangeListener kl, ComponentDimension cd, CCKPhetgraphicsModule module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.getInstance().getString( "BranchSource.Resistor" ), module );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, CCKResources.getString( "BranchSource.Resistor" ), module );
             this.cd = cd;
         }
 
@@ -231,7 +229,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         Switch myswitch;
 
         public SwitchSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Switch branch, CircuitChangeListener kl, ComponentDimension cd, CCKPhetgraphicsModule module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.getInstance().getString( "BranchSource.Switch" ), module );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, CCKResources.getString( "BranchSource.Switch" ), module );
             this.cd = cd;
             this.myswitch = branch;
         }
@@ -250,7 +248,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 
         public AmmeterSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, CircuitChangeListener kl,
                               AbstractVector2D dir, double length, double height, CCKPhetgraphicsModule module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.getInstance().getString( "BranchSource.Ammeter" ), module );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, CCKResources.getString( "BranchSource.Ammeter" ), module );
             this.dir = dir;
             this.length = length;
             this.height = height;
@@ -272,7 +270,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 
         public CapacitorSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic,
                                 ApparatusPanel panel, Branch branch, CircuitChangeListener kl, ComponentDimension cd, CCKPhetgraphicsModule module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.getInstance().getString( "BranchSource.Capacitor" ), module );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, CCKResources.getString( "BranchSource.Capacitor" ), module );
             this.cd = cd;
         }
 
@@ -288,7 +286,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 
         public InductorSource( PhetGraphic lifelike, PhetGraphic schematic, CircuitGraphic circuitGraphic,
                                ApparatusPanel panel, Branch branch, CircuitChangeListener kl, ComponentDimension cd, CCKPhetgraphicsModule module ) {
-            super( lifelike, schematic, circuitGraphic, panel, branch, kl, SimStrings.getInstance().getString( "BranchSource.Inductor" ), module );
+            super( lifelike, schematic, circuitGraphic, panel, branch, kl, CCKResources.getString( "BranchSource.Inductor" ), module );
             this.cd = cd;
         }
 
@@ -304,7 +302,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 
         public ACSource( PhetGraphic lifelike, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch,
                          ComponentDimension finalDim, CircuitChangeListener kl, CCKPhetgraphicsModule module ) {
-            super( lifelike, schematic, circuitGraphic, panel, branch, kl, SimStrings.getInstance().getString( "BranchSource.AC" ), module );
+            super( lifelike, schematic, circuitGraphic, panel, branch, kl, CCKResources.getString( "BranchSource.AC" ), module );
             this.finalDim = finalDim;
             super.textOffsetY = 0;
         }

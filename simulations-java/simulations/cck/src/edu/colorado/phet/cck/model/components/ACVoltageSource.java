@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 15, 2006
  * Time: 11:01:58 PM
- *
  */
 
 public class ACVoltageSource extends Battery implements DynamicBranch {

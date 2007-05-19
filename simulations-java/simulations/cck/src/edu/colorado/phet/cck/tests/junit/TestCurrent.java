@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.tests.junit;
 
 import edu.colorado.phet.cck.model.CCKModel;
@@ -18,7 +17,6 @@ import junit.framework.TestCase;
  * User: Sam Reid
  * Date: Jul 8, 2004
  * Time: 4:37:13 PM
- *
  */
 public class TestCurrent extends TestCase {
     private CCKPhetgraphicsModule module;

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.tools;
 
 import edu.colorado.phet.cck.common.SimpleObservableDebug;
@@ -10,7 +9,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 14, 2004
  * Time: 7:15:03 PM
- *
  */
 public class Voltmeter {
     private VoltmeterUnit unit;

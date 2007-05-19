@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model.components;
 
 import edu.colorado.phet.cck.model.CCKModel;
@@ -12,7 +11,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 29, 2004
  * Time: 1:03:09 AM
- *
  */
 public class Switch extends CircuitComponent {
     boolean closed;

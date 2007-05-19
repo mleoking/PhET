@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.common;
 
 
@@ -12,7 +11,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 10:13:15 PM
- *
  */
 public class AffineTransformUtil {
 

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
 import edu.colorado.phet.cck.model.components.Resistor;
@@ -11,7 +10,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: May 29, 2004
  * Time: 12:57:37 AM
- *
  */
 public class ResistorGraphic extends CircuitComponentImageGraphic {
     private ColorBandsGraphic colorBandsGraphic;

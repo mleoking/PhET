@@ -15,7 +15,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 16, 2006
  * Time: 12:50:58 AM
- *
  */
 
 public class Inductor extends CircuitComponent implements DynamicBranch {

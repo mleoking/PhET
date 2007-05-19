@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model.analysis;
 
 import Jama.Matrix;
@@ -16,7 +15,6 @@ import java.util.*;
  * User: Sam Reid
  * Date: Jun 1, 2004
  * Time: 4:14:19 PM
- *
  */
 public class KirkhoffSolver extends CircuitSolver {
     public static boolean debugging = false;

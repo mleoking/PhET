@@ -1,13 +1,12 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.common.JPopupMenuRepaintWorkaround;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 
@@ -20,7 +19,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 9:29:56 AM
- *
  */
 public class InteractiveBranchGraphic extends DefaultInteractiveGraphic implements Deletable {
     private boolean isDragging = false;
@@ -63,7 +61,7 @@ public class InteractiveBranchGraphic extends DefaultInteractiveGraphic implemen
             super( module.getApparatusPanel() );
             this.circuit = circuit;
             this.branch = branch;
-            JMenuItem item = new JMenuItem( SimStrings.getInstance().getString( "InteractiveBranchGraphic.RemoveMenuItem" ) );
+            JMenuItem item = new JMenuItem( CCKResources.getString( "InteractiveBranchGraphic.RemoveMenuItem" ) );
             item.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.removeBranch( branch );

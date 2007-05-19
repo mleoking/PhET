@@ -2,8 +2,8 @@ package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.CCKImageSuite;
 import edu.colorado.phet.cck.model.Electron;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
@@ -16,7 +16,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Sep 18, 2006
  * Time: 11:24:35 AM
- *
  */
 
 public class ElectronNode extends PhetPNode {

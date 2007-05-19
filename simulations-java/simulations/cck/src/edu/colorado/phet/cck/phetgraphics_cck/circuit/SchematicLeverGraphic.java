@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.common.LineSegment;
@@ -20,7 +19,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 19, 2004
  * Time: 12:26:09 AM
- *
  */
 public class SchematicLeverGraphic extends PhetShapeGraphic {
     private SchematicSwitchGraphic schematicSwitchGraphic;

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.particles;
 
 import edu.colorado.phet.cck.common.AffineTransformUtil;
@@ -26,7 +25,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: May 29, 2004
  * Time: 12:20:04 AM
- *
  */
 public class ElectronGraphic extends PhetImageGraphic {
     private Electron electron;

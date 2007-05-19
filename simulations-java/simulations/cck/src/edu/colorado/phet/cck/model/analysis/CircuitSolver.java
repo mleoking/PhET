@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 12, 2006
  * Time: 9:06:26 AM
- *
  */
 public abstract class CircuitSolver {
     private ArrayList listeners = new ArrayList();

@@ -1,6 +1,6 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.toolbox;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.*;
@@ -10,7 +10,6 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.*;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.*;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObservable;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
@@ -29,7 +28,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: May 29, 2004
  * Time: 2:30:15 AM
- *
  */
 public class Toolbox extends CompositeGraphic {
     private SimpleObservable simpleObservable = new SimpleObservable();
@@ -122,7 +120,7 @@ public class Toolbox extends CompositeGraphic {
         double samHeight = CCKModel.SERIES_AMMETER_DIMENSION.getHeightForLength( samLength );
         SeriesAmmeter sam = new SeriesAmmeter( module.getCircuitChangeListener(), new Point2D.Double( componentX, y ),
                                                new edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.Double( 1, 0 ), samLength, samHeight );
-        SeriesAmmeterGraphic sag = new SeriesAmmeterGraphic( parent, sam, transform, module, SimStrings.getInstance().getString( "Toolbox.AmmeterTitle" ) );
+        SeriesAmmeterGraphic sag = new SeriesAmmeterGraphic( parent, sam, transform, module, CCKResources.getString( "Toolbox.AmmeterTitle" ) );
         sag.setFont( new Font( "Lucida Sans", Font.PLAIN, 8 ) );
         SchematicAmmeterGraphic schAg = new SchematicAmmeterGraphic( parent, sam, transform, schematicWireThickness, module.getDecimalFormat() );
         ammeterSource = new BranchSource.AmmeterSource( sag, schAg, module.getCircuitGraphic(), parent, sam, module.getCircuitChangeListener(), dir,

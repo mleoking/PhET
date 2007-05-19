@@ -13,7 +13,6 @@ import edu.colorado.phet.cck.model.components.Resistor;
  * User: Sam Reid
  * Date: Jun 16, 2006
  * Time: 3:08:18 AM
- *
  */
 
 public class TestMNAReactive extends NodeAnalysisTest {

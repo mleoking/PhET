@@ -20,7 +20,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 8:34:54 PM
- *
  */
 public class SchematicPlatedGraphic extends PhetShapeGraphic implements IComponentGraphic {
     private CircuitComponent component;

@@ -16,7 +16,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Sep 17, 2006
  * Time: 7:49:22 PM
- *
  */
 
 public abstract class RectangularComponentNode extends ComponentNode {

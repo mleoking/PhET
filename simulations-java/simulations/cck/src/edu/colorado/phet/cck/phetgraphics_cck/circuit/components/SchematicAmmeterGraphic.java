@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
 import edu.colorado.phet.cck.common.LineSegment;
@@ -22,7 +21,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 8:34:54 PM
- *
  */
 public class SchematicAmmeterGraphic extends PhetShapeGraphic implements IComponentGraphic {
     private CircuitComponent component;

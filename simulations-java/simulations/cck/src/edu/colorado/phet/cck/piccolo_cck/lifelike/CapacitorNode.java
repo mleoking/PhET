@@ -8,8 +8,8 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.Capacitor3DShapeSet;
 import edu.colorado.phet.cck.piccolo_cck.CircuitInteractionModel;
 import edu.colorado.phet.cck.piccolo_cck.ComponentNode;
 import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 
@@ -23,7 +23,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Sep 20, 2006
  * Time: 9:07:00 AM
- *
  */
 
 public class CapacitorNode extends ComponentNode {

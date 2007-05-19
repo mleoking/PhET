@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model;
 
 import edu.colorado.phet.cck.model.components.*;
@@ -20,7 +19,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 1:31:24 AM
- *
  */
 public class Circuit {
     private ArrayList branches = new ArrayList();

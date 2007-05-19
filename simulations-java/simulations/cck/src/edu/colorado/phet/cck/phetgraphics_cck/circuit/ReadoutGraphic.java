@@ -1,13 +1,12 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Switch;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
@@ -25,7 +24,6 @@ import java.util.StringTokenizer;
  * User: Sam Reid
  * Date: Jun 2, 2004
  * Time: 3:17:14 PM
- *
  */
 public class ReadoutGraphic implements Graphic {
     PhetMultiLineTextGraphic textGraphic;
@@ -135,7 +133,7 @@ public class ReadoutGraphic implements Graphic {
         vol = abs( vol );
 
 //        String text = "R=" + res + " I=" + cur;
-        String text = res + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Ohms" );  //, " + cur + " " + SimStrings.get( "ReadoutGraphic.Amps" );
+        String text = res + " " + CCKResources.getString( "ReadoutGraphic.Ohms" );  //, " + cur + " " + SimStrings.get( "ReadoutGraphic.Amps" );
         return new String[]{text};
     }
 
@@ -176,11 +174,11 @@ public class ReadoutGraphic implements Graphic {
             boolean internal = super.module.isInternalResistanceOn();
             double volts = Math.abs( branch.getVoltageDrop() );
             String vol = super.formatter.format( volts );
-            String str = "" + vol + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Volts" );
+            String str = "" + vol + " " + CCKResources.getString( "ReadoutGraphic.Volts" );
             ArrayList text = new ArrayList();
             text.add( str );
             if( internal ) {
-                String s2 = super.formatter.format( branch.getResistance() ) + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Ohms" );
+                String s2 = super.formatter.format( branch.getResistance() ) + " " + CCKResources.getString( "ReadoutGraphic.Ohms" );
                 text.add( s2 );
             }
             String[] out = (String[])text.toArray( new String[0] );

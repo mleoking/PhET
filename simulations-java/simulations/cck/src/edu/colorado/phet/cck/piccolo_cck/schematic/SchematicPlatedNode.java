@@ -19,7 +19,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 8:34:54 PM
- *
  */
 public class SchematicPlatedNode extends ComponentNode {
     private double wireThickness;

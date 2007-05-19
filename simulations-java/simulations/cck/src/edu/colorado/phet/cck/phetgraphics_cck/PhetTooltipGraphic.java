@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck;
 
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
@@ -12,7 +11,6 @@ import java.awt.geom.Area;
  * User: Sam Reid
  * Date: Jul 17, 2004
  * Time: 7:47:12 PM
- *
  */
 public class PhetTooltipGraphic extends CCKCompositePhetGraphic {
     PhetShapeGraphic backgroundGraphic;

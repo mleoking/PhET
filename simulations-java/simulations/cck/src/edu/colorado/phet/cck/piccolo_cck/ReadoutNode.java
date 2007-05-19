@@ -1,12 +1,11 @@
-
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.components.*;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import javax.swing.*;
@@ -21,7 +20,6 @@ import java.util.StringTokenizer;
  * User: Sam Reid
  * Date: Jun 2, 2004
  * Time: 3:17:14 PM
- *
  */
 public class ReadoutNode extends PhetPNode {
     private ShadowHTMLGraphic htmlNode;
@@ -136,27 +134,27 @@ public class ReadoutNode extends PhetPNode {
         cur = abs( cur );
         vol = abs( vol );
 
-        String text = res + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Ohms" );  //, " + cur + " " + SimStrings.get( "ReadoutGraphic.Amps" );
+        String text = res + " " + CCKResources.getString( "ReadoutGraphic.Ohms" );  //, " + cur + " " + SimStrings.get( "ReadoutGraphic.Amps" );
         return new String[]{text};
     }
 
     private String[] getInductorText( Inductor inductor ) {
-        return new String[]{formatter.format( inductor.getInductance() ) + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Henries" )};
+        return new String[]{formatter.format( inductor.getInductance() ) + " " + CCKResources.getString( "ReadoutGraphic.Henries" )};
     }
 
     private String[] getCapacitorText( Capacitor capacitor ) {
-        return new String[]{formatter.format( capacitor.getCapacitance() ) + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Farads" )};
+        return new String[]{formatter.format( capacitor.getCapacitance() ) + " " + CCKResources.getString( "ReadoutGraphic.Farads" )};
     }
 
     private String[] getBatteryText() {
         boolean internal = module.isInternalResistanceOn();
         double volts = Math.abs( branch.getVoltageDrop() );
         String vol = formatter.format( volts );
-        String str = "" + vol + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Volts" );
+        String str = "" + vol + " " + CCKResources.getString( "ReadoutGraphic.Volts" );
         ArrayList text = new ArrayList();
         text.add( str );
         if( internal ) {
-            String s2 = formatter.format( branch.getResistance() ) + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Ohms" );
+            String s2 = formatter.format( branch.getResistance() ) + " " + CCKResources.getString( "ReadoutGraphic.Ohms" );
             text.add( s2 );
         }
         return (String[])text.toArray( new String[0] );

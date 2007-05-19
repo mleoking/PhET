@@ -10,7 +10,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 30, 2005
  * Time: 7:43:35 AM
- *
  */
 
 public class DynamicPopupMenuHandler extends PBasicInputEventHandler {

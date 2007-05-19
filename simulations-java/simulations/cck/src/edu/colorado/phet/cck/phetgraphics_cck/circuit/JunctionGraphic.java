@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.*;
@@ -19,7 +18,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 2:05:05 AM
- *
  */
 public class JunctionGraphic extends CCKCompositePhetGraphic {
     private PhetShapeGraphic shapeGraphic;

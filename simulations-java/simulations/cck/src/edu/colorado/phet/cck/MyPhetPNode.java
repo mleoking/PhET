@@ -8,7 +8,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * User: Sam Reid
  * Date: Jul 10, 2006
  * Time: 3:19:44 PM
- *
  */
 
 public class MyPhetPNode extends PhetPNode {

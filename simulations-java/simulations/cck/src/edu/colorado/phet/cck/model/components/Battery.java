@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model.components;
 
 import edu.colorado.phet.cck.model.CCKModel;
@@ -13,7 +12,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 28, 2004
  * Time: 1:11:39 PM
- *
  */
 public class Battery extends CircuitComponent {
     private double internalResistance;

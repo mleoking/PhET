@@ -1,7 +1,7 @@
 package edu.colorado.phet.cck.grabbag;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.model.CCKModel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.util.ArrayList;
 
@@ -46,13 +46,13 @@ Dog = infinite
             */
 
 
-        add( new GrabBagItem( "dollarbill.gif", SimStrings.getInstance().getString( "GrabBag.DollarBill" ), Math.pow( 10, 9 ), 1 * SCALE ) );
-        add( new GrabBagItem( "paperclip.gif", SimStrings.getInstance().getString( "GrabBag.PaperClip" ), CCKModel.MIN_RESISTANCE, .7 * SCALE ) );
-        add( new GrabBagItem( "penny.gif", SimStrings.getInstance().getString( "GrabBag.Penny" ), CCKModel.MIN_RESISTANCE, .6 * SCALE ) );
-        add( new GrabBagItem( "eraser.gif", SimStrings.getInstance().getString( "GrabBag.Eraser" ), Math.pow( 10, 9 ), .7 * SCALE ) );
-        add( new GrabBagItem( "pencil.gif", SimStrings.getInstance().getString( "GrabBag.PencilLead" ), 3000, 3.5 * SCALE ) );
-        add( new GrabBagItem( "hand.gif", SimStrings.getInstance().getString( "GrabBag.Hand" ), Math.pow( 10, 6 ), 1 * SCALE ) );
-        add( new GrabBagItem( "dog.gif", SimStrings.getInstance().getString( "GrabBag.Dog" ), Math.pow( 10, 9 ), 2.5 * SCALE ) );
+        add( new GrabBagItem( "dollarbill.gif", CCKResources.getString( "GrabBag.DollarBill" ), Math.pow( 10, 9 ), 1 * SCALE ) );
+        add( new GrabBagItem( "paperclip.gif", CCKResources.getString( "GrabBag.PaperClip" ), CCKModel.MIN_RESISTANCE, .7 * SCALE ) );
+        add( new GrabBagItem( "penny.gif", CCKResources.getString( "GrabBag.Penny" ), CCKModel.MIN_RESISTANCE, .6 * SCALE ) );
+        add( new GrabBagItem( "eraser.gif", CCKResources.getString( "GrabBag.Eraser" ), Math.pow( 10, 9 ), .7 * SCALE ) );
+        add( new GrabBagItem( "pencil.gif", CCKResources.getString( "GrabBag.PencilLead" ), 3000, 3.5 * SCALE ) );
+        add( new GrabBagItem( "hand.gif", CCKResources.getString( "GrabBag.Hand" ), Math.pow( 10, 6 ), 1 * SCALE ) );
+        add( new GrabBagItem( "dog.gif", CCKResources.getString( "GrabBag.Dog" ), Math.pow( 10, 9 ), 2.5 * SCALE ) );
     }
 
     private void add( GrabBagItem grabBagItem ) {

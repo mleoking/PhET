@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.tests;
 
 import java.awt.geom.AffineTransform;
@@ -8,7 +7,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 9:24:10 PM
- *
  */
 public class TestAffineTransform {
     public static void main( String[] args ) {

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model.components;
 
 import edu.colorado.phet.cck.common.SimpleObservableDebug;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 1:32:58 AM
- *
  */
 public abstract class Branch extends SimpleObservableDebug {
     private double resistance = CCKModel.MIN_RESISTANCE;

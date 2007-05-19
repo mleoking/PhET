@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.BranchSet;
@@ -19,7 +18,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: May 28, 2004
  * Time: 1:45:35 PM
- *
  */
 public class WireMouseListener extends MouseInputAdapter {
     boolean isDragging = false;

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model.components;
 
 import edu.colorado.phet.cck.model.CircuitChangeListener;
@@ -13,7 +12,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 8:33:56 PM
- *
  */
 public abstract class CircuitComponent extends Branch {
     private double length;

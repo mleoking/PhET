@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.components.Branch;
@@ -12,7 +11,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Oct 3, 2004
  * Time: 8:35:49 PM
- *
  */
 public class GrabBagReadoutGraphic extends ReadoutGraphic {
     public GrabBagReadoutGraphic( CCKPhetgraphicsModule module, Branch branch, ModelViewTransform2D transform, ApparatusPanel apparatusPanel, DecimalFormat decimalFormat ) {

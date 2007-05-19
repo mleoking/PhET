@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model;
 
 import edu.colorado.phet.cck.model.components.Branch;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 13, 2004
  * Time: 2:46:47 PM
- *
  */
 public class BranchSet {
     private ArrayList branches = new ArrayList();

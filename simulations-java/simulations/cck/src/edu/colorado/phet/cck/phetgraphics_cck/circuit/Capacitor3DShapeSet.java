@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 8, 2006
  * Time: 6:07:22 PM
- *
  */
 
 public class Capacitor3DShapeSet {

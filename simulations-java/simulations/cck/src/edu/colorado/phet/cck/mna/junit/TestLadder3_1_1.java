@@ -8,12 +8,11 @@ import junit.framework.TestCase;
  * User: Sam Reid
  * Date: Jun 18, 2006
  * Time: 11:26:05 PM
- *
  */
 
 public class TestLadder3_1_1 extends TestCase {
     public void testLadder() {
-        String[]netlist = new String[]{
+        String[] netlist = new String[]{
                 "I1 0 1 1.0",
                 "R2 0 1 1.0",
                 "R3 1 2 1.0",

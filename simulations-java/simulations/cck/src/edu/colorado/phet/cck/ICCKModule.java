@@ -15,7 +15,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Sep 14, 2006
  * Time: 10:55:51 AM
- *
  */
 public interface ICCKModule {
     public static Color BACKGROUND_COLOR = new Color( 100, 160, 255 );

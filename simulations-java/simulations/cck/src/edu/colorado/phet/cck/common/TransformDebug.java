@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.common;
 
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
@@ -13,7 +12,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Sep 27, 2004
  * Time: 1:15:03 PM
- *
  */
 public class TransformDebug extends ModelViewTransform2D {
 

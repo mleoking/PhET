@@ -7,12 +7,12 @@ import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.piccolo_cck.CCKPiccoloModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
 
@@ -20,18 +20,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 import java.util.Arrays;
 
 /**
  * User: Sam Reid
  * Date: Jul 7, 2006
  * Time: 9:17:52 AM
- *
  */
 
 public class CCKApplication extends PiccoloPhetApplication {
@@ -41,8 +37,8 @@ public class CCKApplication extends PiccoloPhetApplication {
     public static final String AC_OPTION = "-dynamics";
 
     public CCKApplication( String[] args ) throws IOException {
-        super( args, SimStrings.getInstance().getString( isDynamic( args ) ? "cck-ac.name" : "cck-dc.name" ),
-               SimStrings.getInstance().getString( isDynamic( args ) ? "cck-ac.description" : "cck-dc.description" ),
+        super( args, CCKResources.getString( isDynamic( args ) ? "cck-ac.name" : "cck-dc.name" ),
+               CCKResources.getString( isDynamic( args ) ? "cck-ac.description" : "cck-dc.description" ),
                readVersion(), createFrameSetup() );
 
         boolean debugMode = false;
@@ -89,10 +85,6 @@ public class CCKApplication extends PiccoloPhetApplication {
         return new PhetFrameWorkaround( this );
     }
 
-//    public static String getSubTitle( String[] args ) {
-//        return ": " + ( isDynamic( args ) ? "DC & AC" : "DC Only" );
-//    }
-
     private static boolean isDynamic( String[] args ) {
         return Arrays.asList( args ).contains( AC_OPTION );
     }
@@ -107,15 +99,7 @@ public class CCKApplication extends PiccoloPhetApplication {
     }
 
     private static String readVersion() {
-        URL url = Thread.currentThread().getContextClassLoader().getResource( "cck.version" );
-        try {
-            BufferedReader br = new BufferedReader( new InputStreamReader( url.openStream() ) );
-            return br.readLine();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            return "Version Not Found";
-        }
+        return PhetApplicationConfig.getVersion( "cck" ).formatForTitleBar();
     }
 
     static class CCKPhetGraphicModuleAdapter extends Module {
@@ -154,10 +138,11 @@ public class CCKApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
+
 //        Locale.setDefault( new Locale( "ie", "ga" ) );
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
-                SimStrings.getInstance().init( args, CCKApplication.localizedStringsPath );
+//                CCKResources.init( args, CCKApplication.localizedStringsPath );
                 new CCKPhetLookAndFeel().initLookAndFeel();
                 try {
                     CCKApplication cckApplication = new CCKApplication( args );

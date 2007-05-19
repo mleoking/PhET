@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model;
 
 import edu.colorado.phet.cck.model.components.Branch;
@@ -7,7 +6,6 @@ import edu.colorado.phet.cck.model.components.Branch;
  * User: Sam Reid
  * Date: Jun 8, 2004
  * Time: 1:47:25 PM
- *
  */
 public class CircuitListenerAdapter implements CircuitListener {
     public void junctionRemoved( Junction junction ) {

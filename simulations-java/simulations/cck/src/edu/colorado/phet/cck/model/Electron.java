@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model;
 
 import edu.colorado.phet.cck.common.SimpleObservableDebug;
@@ -12,7 +11,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: May 29, 2004
  * Time: 12:19:48 AM
- *
  */
 public class Electron extends SimpleObservableDebug {
     private Branch branch;

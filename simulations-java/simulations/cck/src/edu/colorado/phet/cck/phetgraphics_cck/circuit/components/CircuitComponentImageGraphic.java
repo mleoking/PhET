@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
 import edu.colorado.phet.cck.model.components.Battery;
@@ -26,7 +25,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 8:34:54 PM
- *
  */
 public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implements IComponentGraphic {
     private CircuitComponent component;

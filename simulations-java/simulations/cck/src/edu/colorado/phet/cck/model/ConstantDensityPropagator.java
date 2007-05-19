@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model;
 
 import edu.colorado.phet.cck.model.components.Branch;
@@ -12,7 +11,6 @@ import java.util.*;
  * User: Sam Reid
  * Date: Jun 8, 2004
  * Time: 4:01:09 PM
- *
  */
 public class ConstantDensityPropagator implements ModelElement {
     private ParticleSet particleSet;

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model.components;
 
 import edu.colorado.phet.cck.CCKLookAndFeel;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 13, 2004
  * Time: 9:22:33 PM
- *
  */
 public class PathBranch extends Branch {
     protected ArrayList segments = new ArrayList();

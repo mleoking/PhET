@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck;
 
 import edu.colorado.phet.cck.common.AdvancedPanel;
@@ -9,13 +8,12 @@ import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.servicemanager.InputStreamFileContents;
-import edu.colorado.phet.common.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HelpPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.servicemanager.InputStreamFileContents;
+import edu.colorado.phet.common.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
 import net.n3.nanoxml.*;
 
@@ -37,7 +35,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Jun 1, 2004
  * Time: 11:03:06 AM
- *
  */
 public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.ControlPanel {
     private ICCKModule module;
@@ -49,8 +46,8 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
     public CCKControlPanel( final ICCKModule module, Module m ) {
         advancedControlPanel = new AdvancedControlPanel( module );
         advancedControlPanel.setBorder( null );
-        JLabel logoLabel = new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( "logos/phet-logo-120x50.jpg")) );
-        logoLabel.setToolTipText( SimStrings.getInstance().getString( "CCK3ControlPanel.PhETToolTip" ) );
+        JLabel logoLabel = new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( "logos/phet-logo-120x50.jpg" ) ) );
+        logoLabel.setToolTipText( CCKResources.getString( "CCK3ControlPanel.PhETToolTip" ) );
         logoLabel.setBorder( BorderFactory.createRaisedBevelBorder() );
         logoLabel.setBorder( BorderFactory.createLineBorder( Color.black, 2 ) );
         logoLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
@@ -75,27 +72,27 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         }
         JPanel sizePanel = new SizeControlPanel( module );
 
-        JButton jb = new JButton( SimStrings.getInstance().getString( "CCK3ControlPanel.LocalHelpButton" ) );
+        JButton jb = new JButton( CCKResources.getString( "CCK3ControlPanel.LocalHelpButton" ) );
         jb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showHelpImage();
             }
         } );
-        JButton browserGIF = new JButton( SimStrings.getInstance().getString( "CCK3ControlPanel.GIFHelpButton" ) );
+        JButton browserGIF = new JButton( CCKResources.getString( "CCK3ControlPanel.GIFHelpButton" ) );
         browserGIF.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showHelpGIF();
             }
         } );
 
-        JButton xml = new JButton( SimStrings.getInstance().getString( "CCK3ControlPanel.ShowXMLButton" ) );
+        JButton xml = new JButton( CCKResources.getString( "CCK3ControlPanel.ShowXMLButton" ) );
         xml.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 CircuitXML.toXML( module.getCircuit() );
             }
         } );
 
-        JButton changeBunch = new JButton( SimStrings.getInstance().getString( "CCK3ControlPanel.ChangeViewButton" ) );
+        JButton changeBunch = new JButton( CCKResources.getString( "CCK3ControlPanel.ChangeViewButton" ) );
         changeBunch.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 int IMAX = 200;
@@ -166,7 +163,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         ImageIcon nonContactAmmIcon = new ImageIcon( ImageLoader.loadBufferedImage( "cck/images/va-thumb.gif" ) );
         ImageIcon ammIcon = new ImageIcon( ImageLoader.loadBufferedImage( "cck/images/ammeter60.gif" ) );
 
-        final JCheckBox voltmeter = new JCheckBox( SimStrings.getInstance().getString( "CCK3ControlPanel.VoltmeterCheckBox" ), false );
+        final JCheckBox voltmeter = new JCheckBox( CCKResources.getString( "CCK3ControlPanel.VoltmeterCheckBox" ), false );
         voltmeter.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setVoltmeterVisible( voltmeter.isSelected() );
@@ -174,13 +171,13 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             }
         } );
 
-        final JCheckBox virtualAmmeter = new JCheckBox( SimStrings.getInstance().getString( "CCK3ControlPanel.NonContactAmmeterCheckBox" ), false );
+        final JCheckBox virtualAmmeter = new JCheckBox( CCKResources.getString( "CCK3ControlPanel.NonContactAmmeterCheckBox" ), false );
         virtualAmmeter.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setVirtualAmmeterVisible( virtualAmmeter.isSelected() );
             }
         } );
-        seriesAmmeter = new JCheckBox( SimStrings.getInstance().getString( "CCK3ControlPanel.AmmeterCheckBox" ), false );
+        seriesAmmeter = new JCheckBox( CCKResources.getString( "CCK3ControlPanel.AmmeterCheckBox" ), false );
         seriesAmmeter.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setSeriesAmmeterVisible( seriesAmmeter.isSelected() );
@@ -247,13 +244,13 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             } );
             toolPanel.add( voltageChartButton, rhs );
         }
-        toolPanel.setBorder( new CCKTitledBorder( SimStrings.getInstance().getString( "CCK3ControlPanel.ToolsPanelBorder" ) ) );
+        toolPanel.setBorder( new CCKTitledBorder( CCKResources.getString( "CCK3ControlPanel.ToolsPanelBorder" ) ) );
         return toolPanel;
     }
 
     private JPanel makeVisualPanel() {
-        JRadioButton lifelike = new JRadioButton( SimStrings.getInstance().getString( "CCK3ControlPanel.LIfelikeRadioButton" ), true );
-        JRadioButton schematic = new JRadioButton( SimStrings.getInstance().getString( "CCK3ControlPanel.SchematicRadioButton" ), false );
+        JRadioButton lifelike = new JRadioButton( CCKResources.getString( "CCK3ControlPanel.LIfelikeRadioButton" ), true );
+        JRadioButton schematic = new JRadioButton( CCKResources.getString( "CCK3ControlPanel.SchematicRadioButton" ), false );
 
         ButtonGroup bg = new ButtonGroup();
         bg.add( lifelike );
@@ -277,7 +274,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         if( module.getParameters().allowShowReadouts() ) {
             visualizationPanel.add( new ShowReadoutPanel( module ) );
         }
-        visualizationPanel.setBorder( new CCKTitledBorder( SimStrings.getInstance().getString( "CCK3ControlPanel.VisualPanelBorder" ) ) );
+        visualizationPanel.setBorder( new CCKTitledBorder( CCKResources.getString( "CCK3ControlPanel.VisualPanelBorder" ) ) );
         return visualizationPanel;
     }
 
@@ -289,8 +286,8 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         catch( UnavailableServiceException e ) {
             e.printStackTrace();
         }
-        FileContents open = fos.openFileDialog( SimStrings.getInstance().getString( "CCK3ControlPanel.OpenFileDialog" ),
-                                                new String[]{SimStrings.getInstance().getString( "CCK3ControlPanel.FileExtension" )} );
+        FileContents open = fos.openFileDialog( CCKResources.getString( "CCK3ControlPanel.OpenFileDialog" ),
+                                                new String[]{CCKResources.getString( "CCK3ControlPanel.FileExtension" )} );
         if( open == null ) {
             return;
         }
@@ -328,15 +325,15 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         String circuitxml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + sw.toString();
         InputStream stream = new ByteArrayInputStream( circuitxml.getBytes() );
         FileContents data = new InputStreamFileContents( "circuitxml", stream );
-        FileContents out = fos.saveAsFileDialog( SimStrings.getInstance().getString( "CCK3ControlPanel.DefaultFileName" ),
-                                                 new String[]{SimStrings.getInstance().getString( "CCK3ControlPanel.FileExtension" )}, data );
+        FileContents out = fos.saveAsFileDialog( CCKResources.getString( "CCK3ControlPanel.DefaultFileName" ),
+                                                 new String[]{CCKResources.getString( "CCK3ControlPanel.FileExtension" )}, data );
         System.out.println( "out = " + out );
     }
 
     public void showHelpGIF() {
         try {
             BasicService bs = PhetServiceManager.getBasicService();
-            URL url = new URL( SimStrings.getInstance().getString( "CCK3ControlPanel.CCKHelpGifURL" ) );
+            URL url = new URL( CCKResources.getString( "CCK3ControlPanel.CCKHelpGifURL" ) );
             System.out.println( "url = " + url );
             bs.showDocument( url );
         }
@@ -370,7 +367,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             StringWriter sw = new StringWriter();
             e.printStackTrace( new PrintWriter( sw ) );
             JOptionPane.showMessageDialog( module.getSimulationPanel(), sw.getBuffer().toString(),
-                                           SimStrings.getInstance().getString( "CCK3ControlPanel.ErrorLoadingHelpDialog" ), JOptionPane.ERROR_MESSAGE );
+                                           CCKResources.getString( "CCK3ControlPanel.ErrorLoadingHelpDialog" ), JOptionPane.ERROR_MESSAGE );
         }
     }
 
@@ -384,14 +381,14 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         KirkhoffSolver.Equation[] loopEquations = ks.getLoopEquations( circuit, mt );
         KirkhoffSolver.Equation[] ohmsLaws = ks.getOhmsLaw( circuit, mt );
 
-        String je = mt.describe( junctionEquations, SimStrings.getInstance().getString( "CCK3ControlPanel.JunctionEquations" ) );
-        String le = mt.describe( loopEquations, SimStrings.getInstance().getString( "CCK3ControlPanel.LoopEquations" ) );
-        String oh = mt.describe( ohmsLaws, SimStrings.getInstance().getString( "CCK3ControlPanel.OhmsLawEquations" ) );
+        String je = mt.describe( junctionEquations, CCKResources.getString( "CCK3ControlPanel.JunctionEquations" ) );
+        String le = mt.describe( loopEquations, CCKResources.getString( "CCK3ControlPanel.LoopEquations" ) );
+        String oh = mt.describe( ohmsLaws, CCKResources.getString( "CCK3ControlPanel.OhmsLawEquations" ) );
         System.out.println( je );
         System.out.println( le );
         System.out.println( oh );
 
-        JFrame readoutFrame = new JFrame( SimStrings.getInstance().getString( "CCK3ControlPanel.CircuitEquationsFrame" ) );
+        JFrame readoutFrame = new JFrame( CCKResources.getString( "CCK3ControlPanel.CircuitEquationsFrame" ) );
         String plainText = je + "\n" + le + "\n" + oh + "\n";
         JTextArea jta = new JTextArea( plainText ) {
             protected void paintComponent( Graphics g ) {
@@ -417,7 +414,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
 
 
     private JPanel makeFilePanel() {
-        JButton save = new JButton( SimStrings.getInstance().getString( "CCK3ControlPanel.SaveButton" ) );
+        JButton save = new JButton( CCKResources.getString( "CCK3ControlPanel.SaveButton" ) );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -428,7 +425,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
                 }
             }
         } );
-        JButton load = new JButton( SimStrings.getInstance().getString( "CCK3ControlPanel.LoadButton" ) );
+        JButton load = new JButton( CCKResources.getString( "CCK3ControlPanel.LoadButton" ) );
         load.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -440,13 +437,13 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             }
         } );
 
-        JButton clear = new JButton( SimStrings.getInstance().getString( "CCK3ControlPanel.ClearButton" ) );
+        JButton clear = new JButton( CCKResources.getString( "CCK3ControlPanel.ClearButton" ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean needsClearing = module.getCircuit().numBranches() != 0 || module.getCircuit().numJunctions() != 0;
                 if( needsClearing ) {
                     int answer = JOptionPane.showConfirmDialog( module.getSimulationPanel(),
-                                                                SimStrings.getInstance().getString( "CCK3ControlPanel.DeleteConfirm" ) );
+                                                                CCKResources.getString( "CCK3ControlPanel.DeleteConfirm" ) );
                     if( answer == JOptionPane.OK_OPTION ) {
                         module.clear();
                     }
@@ -457,7 +454,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         filePanelContents.add( clear );
         filePanelContents.add( save );
         filePanelContents.add( load );
-        filePanelContents.setBorder( new CCKTitledBorder( SimStrings.getInstance().getString( "CCK3ControlPanel.FilePanelBorder" ) ) );
+        filePanelContents.setBorder( new CCKTitledBorder( CCKResources.getString( "CCK3ControlPanel.FilePanelBorder" ) ) );
         return filePanelContents;
     }
 
@@ -484,10 +481,10 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         private JCheckBox hideElectrons;
 
         public AdvancedControlPanel( final ICCKModule module ) {
-            super( SimStrings.getInstance().getString( "CCK3ControlPanel.Enable" ), SimStrings.getInstance().getString( "CCK3ControlPanel.Disable" ) );
+            super( CCKResources.getString( "CCK3ControlPanel.Enable" ), CCKResources.getString( "CCK3ControlPanel.Disable" ) );
             this.module = module;
-            resistivitySlider = new PhetSlider( SimStrings.getInstance().getString( "CCK3ControlPanel.WireResistivitySlider" ),
-                                                SimStrings.getInstance().getString( "CCK3ControlPanel.WireResistivitySliderMeasure" ),
+            resistivitySlider = new PhetSlider( CCKResources.getString( "CCK3ControlPanel.WireResistivitySlider" ),
+                                                CCKResources.getString( "CCK3ControlPanel.WireResistivitySliderMeasure" ),
                                                 ResistivityManager.DEFAULT_RESISTIVITY, 1, module.getResistivityManager().getResistivity(),
                                                 new DecimalFormat( "0.0000000" ) );
             resistivitySlider.setBorder( null );
@@ -496,9 +493,9 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             resistivitySlider.setNumMinorTicksPerMajorTick( 5 );
 
             Font labelFont = new Font( "Lucida Sans", Font.PLAIN, 10 );
-            JLabel lowLabel = new JLabel( SimStrings.getInstance().getString( "CCK3ControlPanel.AlmostNoneLabel" ) );
+            JLabel lowLabel = new JLabel( CCKResources.getString( "CCK3ControlPanel.AlmostNoneLabel" ) );
             lowLabel.setFont( labelFont );
-            JLabel highLabel = new JLabel( SimStrings.getInstance().getString( "CCK3ControlPanel.LotsLabel" ) );
+            JLabel highLabel = new JLabel( CCKResources.getString( "CCK3ControlPanel.LotsLabel" ) );
             highLabel.setFont( labelFont );
 
             resistivitySlider.setExtremumLabels( lowLabel, highLabel );
@@ -516,7 +513,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
                 }
             } );
 
-            JButton printKirkhoffsLaws = new JButton( SimStrings.getInstance().getString( "CCK3ControlPanel.ShowEquationsButton" ) );
+            JButton printKirkhoffsLaws = new JButton( CCKResources.getString( "CCK3ControlPanel.ShowEquationsButton" ) );
             printKirkhoffsLaws.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     printEm( module );
@@ -524,7 +521,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             } );
             addControl( printKirkhoffsLaws );
 
-            hideElectrons = new JCheckBox( SimStrings.getInstance().getString( "CCK3ControlPanel.HideElectronsCheckBox" ),
+            hideElectrons = new JCheckBox( CCKResources.getString( "CCK3ControlPanel.HideElectronsCheckBox" ),
                                            !module.isElectronsVisible() );
             hideElectrons.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -532,20 +529,20 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
                 }
             } );
             addControl( hideElectrons );
-            JButton close = new JButton( SimStrings.getInstance().getString( "CCK3ControlPanel.CloseButton" ) );
+            JButton close = new JButton( CCKResources.getString( "CCK3ControlPanel.CloseButton" ) );
             close.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     dialog.setVisible( false );
                 }
             } );
-            setBorder( new CCKTitledBorder( SimStrings.getInstance().getString( "CCK3ControlPanel.AdvancedPanelBorder" ) ) );
+            setBorder( new CCKTitledBorder( CCKResources.getString( "CCK3ControlPanel.AdvancedPanelBorder" ) ) );
         }
 
         /* Shows the advanced controls in a dialog. */
         public void showDialog() {
             if( dialog == null ) {
                 Window parent = SwingUtilities.getWindowAncestor( module.getSimulationPanel() );
-                dialog = new JDialog( (Frame)parent, SimStrings.getInstance().getString( "CCK3ControlPanel.AdvancedControlsDialog" ) );
+                dialog = new JDialog( (Frame)parent, CCKResources.getString( "CCK3ControlPanel.AdvancedControlsDialog" ) );
                 dialog.setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
                 dialog.setModal( false );
                 dialog.setContentPane( this );
@@ -561,7 +558,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
 
         try {
             BasicService bs = PhetServiceManager.getBasicService();
-            URL url = new URL( SimStrings.getInstance().getString( "CCK3ControlPanel.PhETURL" ) );
+            URL url = new URL( CCKResources.getString( "CCK3ControlPanel.PhETURL" ) );
             bs.showDocument( url );
         }
         catch( MalformedURLException e ) {

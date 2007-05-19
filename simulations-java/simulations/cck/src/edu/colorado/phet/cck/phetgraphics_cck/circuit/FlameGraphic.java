@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.components.Branch;
@@ -20,7 +19,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jun 24, 2004
  * Time: 12:10:55 PM
- *
  */
 public class FlameGraphic extends PhetImageGraphic {
     CircuitComponent component;

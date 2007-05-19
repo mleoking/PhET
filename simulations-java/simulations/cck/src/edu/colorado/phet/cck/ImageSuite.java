@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Nov 16, 2003
  * Time: 12:48:07 PM
- *
  */
 public class ImageSuite {
     BufferedImage resistorImage;

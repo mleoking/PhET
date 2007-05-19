@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.components.Branch;
@@ -12,7 +11,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 9:05:19 AM
- *
  */
 public class TotalBranchGraphic {
 

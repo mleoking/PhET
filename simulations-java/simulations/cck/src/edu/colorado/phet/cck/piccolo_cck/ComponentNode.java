@@ -5,8 +5,8 @@ import edu.colorado.phet.cck.common.DynamicPopupMenuHandler;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -18,7 +18,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 19, 2006
  * Time: 1:06:43 AM
- *
  */
 
 public abstract class ComponentNode extends BranchNode {

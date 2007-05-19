@@ -1,6 +1,6 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.common.LineSegment;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
@@ -10,7 +10,6 @@ import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.IComponentGraphic;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
@@ -29,7 +28,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 29, 2004
  * Time: 12:57:37 AM
- *
  */
 public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements IComponentGraphic {
     private SeriesAmmeter component;
@@ -38,7 +36,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
     private Stroke stroke = new BasicStroke( 5 );
     private Font font = new Font( "Lucida Sans", Font.BOLD, 17 );
     private Shape shape;
-    private String text = SimStrings.getInstance().getString( "SeriesAmmeterGraphic.Ammeter" );
+    private String text = CCKResources.getString( "SeriesAmmeterGraphic.Ammeter" );
     private String fixedMessage;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
@@ -80,7 +78,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
             public void circuitSolverFinished() {
                 DecimalFormat df = module.getDecimalFormat();
                 String form = df.format( Math.abs( component.getCurrent() ) );
-                text = "" + form + " " + SimStrings.getInstance().getString( "SeriesAmmeterGraphic.Amps" );
+                text = "" + form + " " + CCKResources.getString( "SeriesAmmeterGraphic.Amps" );
                 changed();
             }
         };

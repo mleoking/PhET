@@ -12,7 +12,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Oct 4, 2006
  * Time: 11:36:24 PM
- *
  */
 
 public class FlameNode extends PhetPNode {

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.particles;
 
 import edu.colorado.phet.cck.model.Electron;
@@ -15,7 +14,6 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Jun 8, 2004
  * Time: 1:56:11 PM
- *
  */
 public class ParticleSetGraphic extends CompositeGraphic {
     private CCKPhetgraphicsModule module;

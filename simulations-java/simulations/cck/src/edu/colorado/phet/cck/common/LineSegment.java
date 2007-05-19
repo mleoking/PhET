@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.common;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -12,7 +11,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 1:48:42 AM
- *
  */
 public class LineSegment {
     public static Shape getSegment( Point2D p1, Point2D p2, double thickness ) {

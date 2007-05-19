@@ -7,9 +7,9 @@ import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.cck.piccolo_cck.BranchNode;
 import edu.colorado.phet.cck.piccolo_cck.CircuitInteractionModel;
 import edu.colorado.phet.cck.piccolo_cck.WirePopupMenu;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -20,7 +20,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 14, 2006
  * Time: 5:24:18 PM
- *
  */
 
 public class WireNode extends BranchNode {

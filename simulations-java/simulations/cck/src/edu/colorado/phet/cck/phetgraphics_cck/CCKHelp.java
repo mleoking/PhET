@@ -1,6 +1,6 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
@@ -11,7 +11,6 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.JunctionGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.toolbox.Toolbox;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
@@ -28,7 +27,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 25, 2004
  * Time: 1:32:51 AM
- *
  */
 public class CCKHelp {
 
@@ -51,7 +49,7 @@ public class CCKHelp {
         Font helpFont = new Font( "Lucida Sans", Font.BOLD, 16 );
 
         ToolboxTarget toolboxTarget = new ToolboxTarget();
-        myToolboxHelpItem = new PositionedHelpItem( SimStrings.getInstance().getString( "CCKHelp.ToolboxHelp" ),
+        myToolboxHelpItem = new PositionedHelpItem( CCKResources.getString( "CCKHelp.ToolboxHelp" ),
                                                     toolboxTarget, helpFont, getApparatusPanel() );
         observer = new SimpleObserver() {
             public void update() {
@@ -61,10 +59,10 @@ public class CCKHelp {
         toolbox.addObserver( observer );
         myToolboxHelpItem.changed();
         JunctionTarget jt = new JunctionTarget();
-        junctionHelpItem = new PositionedHelpItem( SimStrings.getInstance().getString( "CCKHelp.JunctionHelp" ),
+        junctionHelpItem = new PositionedHelpItem( CCKResources.getString( "CCKHelp.JunctionHelp" ),
                                                    jt, helpFont, getApparatusPanel() );
         ComponentTarget ct = new ComponentTarget();
-        componentHelpItem = new PositionedHelpItem( SimStrings.getInstance().getString( "CCKHelp.ComponentHelp" ),
+        componentHelpItem = new PositionedHelpItem( CCKResources.getString( "CCKHelp.ComponentHelp" ),
                                                     ct, helpFont, getApparatusPanel() );
 
         getApparatusPanel().addGraphic( myToolboxHelpItem, Double.POSITIVE_INFINITY );

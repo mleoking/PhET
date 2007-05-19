@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 25, 2004
  * Time: 8:34:54 PM
- *
  */
 public class BulbComponentGraphic extends CCKPhetGraphic implements IComponentGraphic {
     private Bulb component;
