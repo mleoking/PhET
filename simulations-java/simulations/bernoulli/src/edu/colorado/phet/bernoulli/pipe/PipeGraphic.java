@@ -1,6 +1,7 @@
 package edu.colorado.phet.bernoulli.pipe;
 
 import edu.colorado.phet.bernoulli.BernoulliApplication;
+import edu.colorado.phet.bernoulli.BernoulliResources;
 import edu.colorado.phet.bernoulli.common.RepaintManager;
 import edu.colorado.phet.bernoulli.spline.Spline;
 import edu.colorado.phet.bernoulli.spline.SplineGraphic;
@@ -50,7 +51,7 @@ public class PipeGraphic extends CompositeGraphic implements TransformListener, 
     }
 
     public PipeGraphic( ModelViewTransform2d transform, Pipe pipe, RepaintManager rm, int numFlowLines, BernoulliApplication application ) {
-        endImage = new ImageLoader().loadBufferedImage( "images/bernoulli/pipe.gif" );
+        endImage = BernoulliResources.getImage( "bernoulli/pipe.gif" );
         this.transform = transform;
         this.pipe = pipe;
         this.rm = rm;
