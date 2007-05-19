@@ -26,7 +26,6 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Sep 14, 2006
  * Time: 11:15:22 AM
- *
  */
 
 public class CCKSimulationPanel extends PhetPCanvas {
@@ -192,7 +191,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
     public void addGrabBag() {
         GrabBagButton grabBagButton = new GrabBagButton( module );
-        grabBagPSwing = new PSwing(grabBagButton );
+        grabBagPSwing = new PSwing( grabBagButton );
         addScreenChild( grabBagPSwing );
     }
 

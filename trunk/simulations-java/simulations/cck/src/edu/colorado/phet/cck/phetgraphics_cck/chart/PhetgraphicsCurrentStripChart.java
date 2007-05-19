@@ -7,8 +7,8 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.BranchGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common_cck.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -17,7 +17,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 22, 2006
  * Time: 11:43:52 AM
- *
  */
 
 public class PhetgraphicsCurrentStripChart extends SingleTerminalFloatingChart.Phetgraphics {

@@ -5,8 +5,8 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 
 import java.awt.*;
 
@@ -14,7 +14,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Oct 3, 2006
  * Time: 4:42:36 PM
- *
  */
 
 public class SolderNode extends PhetPNode {

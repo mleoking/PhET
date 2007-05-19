@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck;
 
 import edu.colorado.phet.cck.model.Circuit;
@@ -10,7 +9,6 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
  * User: Sam Reid
  * Date: Jun 24, 2004
  * Time: 12:05:48 PM
- *
  */
 public class FireHandler implements CircuitSolutionListener {
     CircuitGraphic circuitGraphic;

@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Sep 17, 2006
  * Time: 7:49:22 PM
- *
  */
 
 public abstract class ComponentImageNode extends RectangularComponentNode {

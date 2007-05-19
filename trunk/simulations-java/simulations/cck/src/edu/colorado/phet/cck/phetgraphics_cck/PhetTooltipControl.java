@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck;
 
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
@@ -13,7 +12,6 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Jul 17, 2004
  * Time: 6:33:13 PM
- *
  */
 public class PhetTooltipControl implements MouseInputListener {
     JComponent component;

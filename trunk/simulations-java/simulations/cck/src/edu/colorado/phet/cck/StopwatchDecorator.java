@@ -13,7 +13,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 7, 2006
  * Time: 12:04:56 AM
- *
  */
 
 public class StopwatchDecorator extends VerticalLayoutPanel {

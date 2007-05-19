@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.tests;
 
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
@@ -12,7 +11,6 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Jun 8, 2004
  * Time: 4:59:31 PM
- *
  */
 public class TestPhetSlider {
     public static void main( String[] args ) {

@@ -6,8 +6,8 @@ import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
@@ -21,7 +21,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 19, 2006
  * Time: 1:03:35 AM
- *
  */
 
 public class BulbNode extends PhetPNode {

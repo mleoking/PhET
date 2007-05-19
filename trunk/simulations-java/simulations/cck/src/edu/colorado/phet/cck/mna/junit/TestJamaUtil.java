@@ -9,7 +9,6 @@ import junit.framework.TestCase;
  * User: Sam Reid
  * Date: Jun 18, 2006
  * Time: 10:22:59 PM
- *
  */
 
 public class TestJamaUtil extends TestCase {

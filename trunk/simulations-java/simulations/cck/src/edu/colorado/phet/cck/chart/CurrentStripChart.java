@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 22, 2006
  * Time: 11:43:52 AM
- *
  */
 
 public class CurrentStripChart extends SingleTerminalFloatingChart.Piccolo {

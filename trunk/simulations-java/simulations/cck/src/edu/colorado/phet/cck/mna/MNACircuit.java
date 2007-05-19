@@ -30,7 +30,7 @@ public class MNACircuit {
         return components.toString();
     }
 
-    public void parseNetList( String[]netlist ) {
+    public void parseNetList( String[] netlist ) {
         clear();
         for( int i = 0; i < netlist.length; i++ ) {
             String line = netlist[i];
@@ -47,7 +47,7 @@ public class MNACircuit {
         while( st.hasMoreTokens() ) {
             details.add( st.nextToken() );
         }
-        String[]detailArray = (String[])details.toArray( new String[0] );
+        String[] detailArray = (String[])details.toArray( new String[0] );
         if( name.toLowerCase().startsWith( "r" ) ) {
             return new MNAResistor( name, start, end, Double.parseDouble( detailArray[0] ) );
         }
@@ -104,7 +104,7 @@ public class MNACircuit {
 //                circuit.addComponent( veq );
                 circuit.addComponent( req );
                 companionVoltageSources.add( veq );
-                freeIndex ++;
+                freeIndex++;
             }
             else if( getComponent( i ) instanceof MNAInductor ) {
                 //Use Norton form of Trapezoidal companion model, see [1] p 86
@@ -116,7 +116,7 @@ public class MNACircuit {
 //                circuit.addComponent( veq );
                 companionVoltageSources.add( veq );
                 circuit.addComponent( req );
-                freeIndex ++;
+                freeIndex++;
             }
             else {
                 circuit.addComponent( (MNAComponent)getComponent( i ).clone() );
@@ -521,8 +521,7 @@ public class MNACircuit {
             for( int i = 0; i < solutionMatrix.getRowDimension(); i++ ) {
                 for( int j = 0; j < solutionMatrix.getColumnDimension(); j++ ) {
                     double value = solutionMatrix.get( i, j );
-                    if( Double.isNaN( value ) || Double.isInfinite( value ) || Math.abs( value ) > 10E10 )
-                    {//this change is recent; if we get more than 1 billion amps, we have a problem (maybe) 
+                    if( Double.isNaN( value ) || Double.isInfinite( value ) || Math.abs( value ) > 10E10 ) {//this change is recent; if we get more than 1 billion amps, we have a problem (maybe)
                         return false;
                     }
                 }

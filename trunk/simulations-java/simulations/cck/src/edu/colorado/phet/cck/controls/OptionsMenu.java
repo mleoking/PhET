@@ -1,8 +1,8 @@
 package edu.colorado.phet.cck.controls;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 
@@ -16,8 +16,8 @@ import javax.swing.*;
 
 public class OptionsMenu extends JMenu {
     public OptionsMenu( PhetApplication application, final ICCKModule cck ) {
-        super( SimStrings.getInstance().getString( "OptionsMenu.Title" ) );
-        setMnemonic( SimStrings.getInstance().getString( "OptionsMenu.TitleMnemonic" ).charAt( 0 ) );
+        super( CCKResources.getString( "OptionsMenu.Title" ) );
+        setMnemonic( CCKResources.getString( "OptionsMenu.TitleMnemonic" ).charAt( 0 ) );
 //        cck.setFrame( application.getApplicationView().getPhetFrame() );
         add( new BackgroundColorMenuItem( application, cck ) );
         add( new ToolboxColorMenuItem( application, cck ) );

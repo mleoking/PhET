@@ -3,7 +3,6 @@ package edu.colorado.phet.cck;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +12,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Dec 16, 2006
  * Time: 10:15:13 AM
- *
  */
 
 public class ShowReadoutPanel extends JPanel {
@@ -23,8 +21,8 @@ public class ShowReadoutPanel extends JPanel {
 
     public ShowReadoutPanel( final ICCKModule module ) {
         this.module = module;
-        showValues = new JButton( SimStrings.getInstance().getString( "CCK3ControlPanel.ShowValuesCheckBox" ) );
-        hideValues = new JButton( SimStrings.getInstance().getString( "CCK3ControlPanel.HideValuesCheckBox" ) );
+        showValues = new JButton( CCKResources.getString( "CCK3ControlPanel.ShowValuesCheckBox" ) );
+        hideValues = new JButton( CCKResources.getString( "CCK3ControlPanel.HideValuesCheckBox" ) );
         add( showValues );
         add( hideValues );
 

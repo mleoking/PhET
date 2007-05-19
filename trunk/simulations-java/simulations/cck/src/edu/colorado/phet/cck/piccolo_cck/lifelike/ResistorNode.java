@@ -7,8 +7,8 @@ import edu.colorado.phet.cck.model.components.Resistor;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.ResistorColors;
 import edu.colorado.phet.cck.piccolo_cck.ComponentImageNode;
 import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 20, 2006
  * Time: 12:05:30 PM
- *
  */
 public class ResistorNode extends ComponentImageNode {
     private Resistor resistor;

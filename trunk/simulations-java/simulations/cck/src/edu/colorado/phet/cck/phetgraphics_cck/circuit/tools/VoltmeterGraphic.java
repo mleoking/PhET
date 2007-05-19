@@ -1,13 +1,12 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.tools;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.common.SimpleObservableDebug;
 import edu.colorado.phet.cck.model.Connection;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.VoltageCalculation;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.CompositeGraphic;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
@@ -30,7 +29,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 17, 2004
  * Time: 2:17:01 PM
- *
  */
 public class VoltmeterGraphic extends CompositeGraphic {
     private UnitGraphic unitGraphic;
@@ -202,7 +200,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
         private Point ctr;
         double relX = -35;
         double relY = -73;
-        private final String UNKNOWN_VOLTS = SimStrings.getInstance().getString( "VoltmeterGraphic.UnknownVolts" );
+        private final String UNKNOWN_VOLTS = CCKResources.getString( "VoltmeterGraphic.UnknownVolts" );
         private String voltageString = UNKNOWN_VOLTS;
         private DecimalFormat voltFormatter;
 
@@ -257,7 +255,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
                 if( Double.parseDouble( voltageString ) == 0 ) {
                     voltageString = voltFormatter.format( 0 );
                 }
-                textGraphic.setText( voltageString + " " + SimStrings.getInstance().getString( "VoltmeterGraphic.VoltAbrev" ) );
+                textGraphic.setText( voltageString + " " + CCKResources.getString( "VoltmeterGraphic.VoltAbrev" ) );
             }
         }
 

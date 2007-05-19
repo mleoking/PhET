@@ -12,7 +12,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 6, 2006
  * Time: 7:50:47 PM
- *
  */
 
 public abstract class SingleTerminalFloatingChart extends AbstractFloatingChart {

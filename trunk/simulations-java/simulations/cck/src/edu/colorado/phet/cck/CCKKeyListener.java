@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck;
 
 import edu.colorado.phet.cck.model.analysis.ModifiedNodalAnalysis_Orig;
@@ -12,7 +11,6 @@ import java.awt.event.KeyListener;
  * User: Sam Reid
  * Date: Jun 30, 2004
  * Time: 1:09:58 PM
- *
  */
 public class CCKKeyListener implements KeyListener {
     ICCKModule cck;

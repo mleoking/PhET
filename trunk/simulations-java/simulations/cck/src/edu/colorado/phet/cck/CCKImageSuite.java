@@ -10,7 +10,7 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Dec 6, 2003
  * Time: 9:38:59 PM
- *
+ * <p/>
  * Testing cvs.
  */
 public class CCKImageSuite {
@@ -48,7 +48,6 @@ public class CCKImageSuite {
 //        acImage = BufferedImageUtils.flipY( ImageLoader.loadBufferedImage( acImageLoc ) );//todo used in phetgraphics implementation
         acImage = ImageLoader.loadBufferedImage( acImageLoc );
         inductorImage = ImageLoader.loadBufferedImage( inductorImageLoc );
-//        capacitorImage = BufferedImageUtils.rescaleYMaintainAspectRatio( null,capacitorImage, 50);
     }
 
     public ImageSuite getLifelikeSuite() {

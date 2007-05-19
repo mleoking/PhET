@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.components.CircuitComponent;
@@ -13,7 +12,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 28, 2004
  * Time: 12:47:28 PM
- *
  */
 public interface IComponentGraphic extends BoundedGraphic {
     ModelViewTransform2D getModelViewTransform2D();

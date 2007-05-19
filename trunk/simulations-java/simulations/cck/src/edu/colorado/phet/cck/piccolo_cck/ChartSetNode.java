@@ -11,7 +11,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
  * User: Sam Reid
  * Date: Oct 8, 2006
  * Time: 9:20:59 PM
- *
  */
 
 public class ChartSetNode extends PhetPNode {

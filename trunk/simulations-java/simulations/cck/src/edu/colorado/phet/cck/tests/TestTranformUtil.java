@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.tests;
 
 import edu.colorado.phet.cck.common.AffineTransformUtil;
@@ -18,7 +17,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: May 26, 2004
  * Time: 8:49:03 AM
- *
  */
 public class TestTranformUtil {
     static AffineTransform testTrf;

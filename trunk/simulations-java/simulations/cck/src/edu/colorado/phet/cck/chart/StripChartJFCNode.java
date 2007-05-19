@@ -1,8 +1,8 @@
 /*  */
 package edu.colorado.phet.cck.chart;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.umd.cs.piccolo.PNode;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -21,7 +21,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Dec 20, 2005
  * Time: 1:18:43 AM
- *
  */
 
 public class StripChartJFCNode extends PNode {

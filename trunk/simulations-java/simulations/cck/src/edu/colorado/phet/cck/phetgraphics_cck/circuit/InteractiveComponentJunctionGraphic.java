@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.Junction;
@@ -18,7 +17,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 26, 2004
  * Time: 9:46:27 PM
- *
  */
 public class InteractiveComponentJunctionGraphic extends DefaultInteractiveGraphic implements HasJunctionGraphic {
     private JunctionGraphic junctionGraphic;

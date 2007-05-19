@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jun 30, 2006
  * Time: 2:32:46 AM
- *
  */
 
 public class ResetDynamicsMenuItem extends JMenuItem {

@@ -1,6 +1,6 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.model.CCKModel;
@@ -13,7 +13,6 @@ import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
 import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
@@ -30,7 +29,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 9, 2004
  * Time: 10:19:00 AM
- *
  */
 public abstract class ComponentEditorPhetgraphics extends JDialog {
     private ICCKModule module;
@@ -70,7 +68,7 @@ public abstract class ComponentEditorPhetgraphics extends JDialog {
                 doChange( value );
             }
         } );
-        JButton done = new JButton( SimStrings.getInstance().getString( "ComponentEditor.DoneButton" ) );
+        JButton done = new JButton( CCKResources.getString( "ComponentEditor.DoneButton" ) );
         done.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean ok = slider.testCommit();
@@ -194,12 +192,12 @@ public abstract class ComponentEditorPhetgraphics extends JDialog {
 
     public static class BatteryEditorPhetgraphics extends ComponentEditorPhetgraphics {
         public BatteryEditorPhetgraphics( ICCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
-            super( module, SimStrings.getInstance().getString( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
-                   SimStrings.getInstance().getString( "ComponentEditor.BatteryVoltageName" ),
-                   SimStrings.getInstance().getString( "ComponentEditor.BatteryVoltageUnits" ), 0, 100, element.getVoltageDrop(), circuit );
+            super( module, CCKResources.getString( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
+                   CCKResources.getString( "ComponentEditor.BatteryVoltageName" ),
+                   CCKResources.getString( "ComponentEditor.BatteryVoltageUnits" ), 0, 100, element.getVoltageDrop(), circuit );
             if( module.getParameters().hugeRangeOnBatteries() ) {
 
-                final JCheckBox hugeRange = new JCheckBox( SimStrings.getInstance().getString( "ComponentEditor.MoreVoltsCheckBox" ), false );
+                final JCheckBox hugeRange = new JCheckBox( CCKResources.getString( "ComponentEditor.MoreVoltsCheckBox" ), false );
                 hugeRange.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
 //                            System.out.println( "hugeRange.isSelected() = " + hugeRange.isSelected() );
@@ -246,9 +244,9 @@ public abstract class ComponentEditorPhetgraphics extends JDialog {
 
     public static class ResistorEditorPhetgraphics extends ComponentEditorPhetgraphics {
         public ResistorEditorPhetgraphics( ICCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
-            super( module, SimStrings.getInstance().getString( "ComponentEditor.ResistorResistanceTitle" ),
-                   element, parent, SimStrings.getInstance().getString( "ComponentEditor.ResistorResistanceName" ),
-                   SimStrings.getInstance().getString( "ComponentEditor.ResistorResistanceUnits" ), 0, 100, element.getResistance(), circuit );
+            super( module, CCKResources.getString( "ComponentEditor.ResistorResistanceTitle" ),
+                   element, parent, CCKResources.getString( "ComponentEditor.ResistorResistanceName" ),
+                   CCKResources.getString( "ComponentEditor.ResistorResistanceUnits" ), 0, 100, element.getResistance(), circuit );
         }
 
         protected void doChange( double value ) {
@@ -262,9 +260,9 @@ public abstract class ComponentEditorPhetgraphics extends JDialog {
 
     public static class BulbResistanceEditorPhetgraphics extends ComponentEditorPhetgraphics {
         public BulbResistanceEditorPhetgraphics( ICCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
-            super( module, SimStrings.getInstance().getString( "ComponentEditor.BulbResistanceTitle" ),
-                   element, parent, SimStrings.getInstance().getString( "ComponentEditor.BulbResistanceName" ),
-                   SimStrings.getInstance().getString( "ComponentEditor.BulbResistanceTitle" ), 0, 100, element.getResistance(), circuit );
+            super( module, CCKResources.getString( "ComponentEditor.BulbResistanceTitle" ),
+                   element, parent, CCKResources.getString( "ComponentEditor.BulbResistanceName" ),
+                   CCKResources.getString( "ComponentEditor.BulbResistanceTitle" ), 0, 100, element.getResistance(), circuit );
         }
 
         protected void doChange( double value ) {
@@ -280,9 +278,9 @@ public abstract class ComponentEditorPhetgraphics extends JDialog {
         private Battery battery;
 
         public BatteryResistanceEditorPhetgraphics( ICCKModule module, Battery element, Component parent, Circuit circuit ) {
-            super( module, SimStrings.getInstance().getString( "ComponentEditor.BatteryResistanceTitle" ),
-                   element, parent, SimStrings.getInstance().getString( "ComponentEditor.BatteryResistanceName" ),
-                   SimStrings.getInstance().getString( "ComponentEditor.BatteryResistanceUnits" ), 0, 9, element.getInteralResistance(), circuit );
+            super( module, CCKResources.getString( "ComponentEditor.BatteryResistanceTitle" ),
+                   element, parent, CCKResources.getString( "ComponentEditor.BatteryResistanceName" ),
+                   CCKResources.getString( "ComponentEditor.BatteryResistanceUnits" ), 0, 9, element.getInteralResistance(), circuit );
             this.battery = element;
         }
 

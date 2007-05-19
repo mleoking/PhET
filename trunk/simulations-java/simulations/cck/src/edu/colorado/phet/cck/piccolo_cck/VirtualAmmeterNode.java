@@ -1,12 +1,12 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -21,7 +21,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 14, 2004
  * Time: 7:56:28 PM
- *
  */
 public class VirtualAmmeterNode extends PhetPNode {
     private TargetReadoutToolNode targetReadoutToolNode;
@@ -104,7 +103,7 @@ public class VirtualAmmeterNode extends PhetPNode {
             double current = branch.getCurrent();
             DecimalFormat df = new DecimalFormat( "0.00" );
             String amps = df.format( Math.abs( current ) );
-            targetReadoutToolNode.setText( amps + " " + SimStrings.getInstance().getString( "VirtualAmmeter.Amps" ) );
+            targetReadoutToolNode.setText( amps + " " + CCKResources.getString( "VirtualAmmeter.Amps" ) );
         }
         else {
             resetText();
@@ -113,8 +112,8 @@ public class VirtualAmmeterNode extends PhetPNode {
 
     private void resetText() {
         String[] text = new String[]{
-                SimStrings.getInstance().getString( "VirtualAmmeter.HelpString1" ),
-                SimStrings.getInstance().getString( "VirtualAmmeter.HelpString2" )
+                CCKResources.getString( "VirtualAmmeter.HelpString1" ),
+                CCKResources.getString( "VirtualAmmeter.HelpString2" )
         };
         targetReadoutToolNode.setText( text );
     }

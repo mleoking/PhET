@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model.components;
 
 import edu.colorado.phet.cck.model.CCKModel;
@@ -16,7 +15,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 13, 2004
  * Time: 8:06:21 PM
- *
  */
 public class Filament extends PathBranch {
     private Junction shellJunction;

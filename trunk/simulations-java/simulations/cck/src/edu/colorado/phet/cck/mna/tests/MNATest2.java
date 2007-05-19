@@ -8,12 +8,11 @@ import edu.colorado.phet.cck.mna.MNACircuit;
  * User: Sam Reid
  * Date: Jun 18, 2006
  * Time: 4:16:22 PM
- *
  */
 
 public class MNATest2 {
     public static void main( String[] args ) {
-        String[]netlist = new String[]{
+        String[] netlist = new String[]{
                 "V1 0 1 9",
                 "R1 1 2 1",
                 "R2 2 3 1",

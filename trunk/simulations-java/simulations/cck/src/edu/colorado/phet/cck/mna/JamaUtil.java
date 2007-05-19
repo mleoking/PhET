@@ -7,7 +7,6 @@ import Jama.Matrix;
  * User: Sam Reid
  * Date: Jun 18, 2006
  * Time: 10:07:09 PM
- *
  */
 
 public class JamaUtil {

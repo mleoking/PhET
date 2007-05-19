@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Oct 7, 2004
  * Time: 4:57:32 PM
- *
  */
 public class PiccoloVoltageCalculation {
     private Circuit circuit;

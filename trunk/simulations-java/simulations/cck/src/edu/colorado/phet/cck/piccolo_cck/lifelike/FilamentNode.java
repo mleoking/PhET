@@ -5,8 +5,8 @@ import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Filament;
 import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
 import edu.colorado.phet.cck.piccolo_cck.TotalBulbComponentNode;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
@@ -17,7 +17,6 @@ import java.awt.geom.Area;
  * User: Sam Reid
  * Date: Sep 19, 2006
  * Time: 1:50:04 PM
- *
  */
 
 public class FilamentNode extends PhetPNode {

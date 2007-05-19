@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 11, 2006
  * Time: 8:44:14 PM
- *
  */
 
 public class NodeAnalysisTest {

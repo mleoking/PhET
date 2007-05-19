@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
 import edu.colorado.phet.cck.common.RoundGradientPaint;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 27, 2004
  * Time: 9:13:28 PM
- *
  */
 public class LightBulbGraphic implements Graphic {
     private Rectangle2D bounds;

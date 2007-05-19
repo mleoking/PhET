@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model.analysis;
 
 import Jama.Matrix;
@@ -22,7 +21,6 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Jun 1, 2004
  * Time: 4:14:19 PM
- *
  */
 public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
     public static boolean debugging = false;
@@ -38,7 +36,7 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
 
     private Circuit createSubCircuit( Branch[] branchs ) {
         Circuit subCircuit = new Circuit();
-        subCircuit.setAllowUserEdits(false);
+        subCircuit.setAllowUserEdits( false );
         for( int j = 0; j < branchs.length; j++ ) {
             Branch branch = branchs[j];
             subCircuit.addBranch( branch );

@@ -12,7 +12,6 @@ import edu.colorado.phet.cck.model.components.Resistor;
  * User: Sam Reid
  * Date: Jun 16, 2006
  * Time: 1:54:22 AM
- *
  */
 
 public class TestDCRCSnapshotSeq extends NodeAnalysisTest {

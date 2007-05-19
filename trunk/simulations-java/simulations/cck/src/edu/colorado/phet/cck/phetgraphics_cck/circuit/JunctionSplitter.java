@@ -1,9 +1,8 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.model.ModelElement;
 
 import javax.swing.*;
@@ -14,7 +13,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: May 28, 2004
  * Time: 3:25:46 PM
- *
  */
 public class JunctionSplitter {
     Junction junction;
@@ -29,7 +27,7 @@ public class JunctionSplitter {
     }
 
     public JMenuItem toJMenuItem() {
-        JMenuItem item = new JMenuItem( SimStrings.getInstance().getString( "JunctionSplitter.SplitMenuItem" ) );
+        JMenuItem item = new JMenuItem( CCKResources.getString( "JunctionSplitter.SplitMenuItem" ) );
         item.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getModel().addModelElement( new ModelElement() {

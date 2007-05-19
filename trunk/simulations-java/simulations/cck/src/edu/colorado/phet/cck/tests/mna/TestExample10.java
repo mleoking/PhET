@@ -5,7 +5,6 @@ package edu.colorado.phet.cck.tests.mna;
  * User: Sam Reid
  * Date: Jun 16, 2006
  * Time: 5:36:54 AM
- *
  */
 
 public class TestExample10 {

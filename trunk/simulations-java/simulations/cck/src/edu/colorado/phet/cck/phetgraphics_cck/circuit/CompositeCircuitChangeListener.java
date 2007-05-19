@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.CircuitChangeListener;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 9, 2004
  * Time: 2:45:10 PM
- *
  */
 public class CompositeCircuitChangeListener implements CircuitChangeListener {
     ArrayList list = new ArrayList();

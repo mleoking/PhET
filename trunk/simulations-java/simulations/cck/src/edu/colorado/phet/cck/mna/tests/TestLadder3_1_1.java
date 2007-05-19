@@ -7,12 +7,11 @@ import edu.colorado.phet.cck.mna.MNACircuit;
  * User: Sam Reid
  * Date: Jun 18, 2006
  * Time: 11:21:33 PM
- *
  */
 
 public class TestLadder3_1_1 {
     public static void main( String[] args ) {
-        String[]netlist = new String[]{
+        String[] netlist = new String[]{
                 "I1 0 1 1.0",
                 "R2 0 1 1.0",
                 "R3 1 2 1.0",

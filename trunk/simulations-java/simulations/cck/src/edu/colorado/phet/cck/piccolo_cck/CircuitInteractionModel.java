@@ -19,7 +19,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Sep 17, 2006
  * Time: 8:43:39 PM
- *
  */
 
 public class CircuitInteractionModel {

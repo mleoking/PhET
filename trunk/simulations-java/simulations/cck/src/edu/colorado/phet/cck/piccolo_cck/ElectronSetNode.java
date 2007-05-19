@@ -9,7 +9,6 @@ import edu.umd.cs.piccolo.PNode;
  * User: Sam Reid
  * Date: Sep 18, 2006
  * Time: 11:23:41 AM
- *
  */
 
 public class ElectronSetNode extends PNode {

@@ -1,11 +1,10 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.common.JPopupMenuRepaintWorkaround;
 import edu.colorado.phet.cck.model.Connection;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.tools.VoltmeterGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.CompositeGraphic;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common_cck.view.graphics.mousecontrols.Translatable;
@@ -22,7 +21,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 17, 2004
  * Time: 2:27:28 PM
- *
  */
 public class InteractiveVoltmeter extends CompositeGraphic {
     private Voltmeter voltmeter;
@@ -67,7 +65,7 @@ public class InteractiveVoltmeter extends CompositeGraphic {
                 }
             }
         } );
-        final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( SimStrings.getInstance().getString( "InteractiveVoltmeter.VerticalLeadsCheckBox" ) );
+        final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( CCKResources.getString( "InteractiveVoltmeter.VerticalLeadsCheckBox" ) );
         jcbmi.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setLeadsVertical( jcbmi.isSelected() );

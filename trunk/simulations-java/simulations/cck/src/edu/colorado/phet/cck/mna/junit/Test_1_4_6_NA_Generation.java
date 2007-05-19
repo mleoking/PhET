@@ -10,7 +10,6 @@ import junit.framework.TestCase;
  * User: Sam Reid
  * Date: Jun 18, 2006
  * Time: 9:46:11 PM
- *
  */
 
 public class Test_1_4_6_NA_Generation extends TestCase {
@@ -30,7 +29,7 @@ public class Test_1_4_6_NA_Generation extends TestCase {
         MNACircuit.MNASystem system = circuit.getMNASystem();
 
 
-        double[][]values = new double[][]{
+        double[][] values = new double[][]{
                 {4, -1, -1, -1, -1},
                 {-1, 2, -1, 0, 0},
                 {-1, -1, 3, -1, 0},

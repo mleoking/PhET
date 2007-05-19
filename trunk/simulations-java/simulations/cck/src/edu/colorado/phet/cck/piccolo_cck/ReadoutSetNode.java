@@ -4,8 +4,8 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 
 import java.text.DecimalFormat;
 
@@ -13,7 +13,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Sep 27, 2006
  * Time: 1:39:13 PM
- *
  */
 
 public class ReadoutSetNode extends PhetPNode {

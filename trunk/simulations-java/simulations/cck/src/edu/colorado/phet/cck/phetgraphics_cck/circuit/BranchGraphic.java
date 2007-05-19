@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.CCKLookAndFeel;
@@ -20,7 +19,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 1:39:53 AM
- *
  */
 public class BranchGraphic extends CCKCompositePhetGraphic {
     private Branch branch;

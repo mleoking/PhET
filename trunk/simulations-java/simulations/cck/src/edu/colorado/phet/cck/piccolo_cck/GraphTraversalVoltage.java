@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 27, 2006
  * Time: 9:05:21 AM
- *
  */
 public class GraphTraversalVoltage implements VoltageDifference {
     Circuit circuit;

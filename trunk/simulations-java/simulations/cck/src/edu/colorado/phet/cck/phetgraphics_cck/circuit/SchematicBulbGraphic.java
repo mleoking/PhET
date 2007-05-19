@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.components.Bulb;
@@ -15,7 +14,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 20, 2004
  * Time: 11:45:11 PM
- *
  */
 public class SchematicBulbGraphic extends SchematicResistorGraphic {
     private Bulb bulb;

@@ -1,12 +1,11 @@
-
 package edu.colorado.phet.cck.grabbag;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Resistor;
 import edu.colorado.phet.cck.phetgraphics_cck.HasCircuitGraphic;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_cck.view.util.BufferedImageUtils;
 import edu.colorado.phet.common_cck.view.util.SwingUtils;
@@ -22,7 +21,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Sep 14, 2004
  * Time: 8:17:40 PM
- *
  */
 public class GrabBagButton extends JButton {
     private GrabBag bag;
@@ -30,11 +28,11 @@ public class GrabBagButton extends JButton {
     private JFrame dialog;
 
     public GrabBagButton( ICCKModule module ) {
-        super( SimStrings.getInstance().getString( "GrabBagButton.ButtonTitle" ) );
+        super( CCKResources.getString( "GrabBagButton.ButtonTitle" ) );
 //        setOpaque( false );
 
         try {
-            setIcon( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( module.getSimulationPanel(), ImageLoader.loadBufferedImage( "cck/images/bag.gif" ),45) ) );
+            setIcon( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( module.getSimulationPanel(), ImageLoader.loadBufferedImage( "cck/images/bag.gif" ), 45 ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -46,12 +44,12 @@ public class GrabBagButton extends JButton {
             }
         } );
         bag = new GrabBag();
-        dialog = new JFrame( SimStrings.getInstance().getString( "GrabBagButton.DialogTitle" ) );
+        dialog = new JFrame( CCKResources.getString( "GrabBagButton.DialogTitle" ) );
         VerticalLayoutPanel contentPane = new VerticalLayoutPanel();
         contentPane.setAnchor( GridBagConstraints.CENTER );
         contentPane.setFill( GridBagConstraints.NONE );
 
-        JLabel click = new JLabel( SimStrings.getInstance().getString( "GrabBagButton.Help" ) );
+        JLabel click = new JLabel( CCKResources.getString( "GrabBagButton.Help" ) );
         contentPane.add( click );
         JLabel empty = new JLabel( " " );
         contentPane.add( empty );

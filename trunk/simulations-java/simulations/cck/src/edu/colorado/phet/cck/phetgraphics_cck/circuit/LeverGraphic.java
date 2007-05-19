@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.components.Switch;
@@ -19,7 +18,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jun 10, 2004
  * Time: 12:54:18 PM
- *
  */
 public class LeverGraphic extends PhetImageGraphic {
     private CircuitComponentImageGraphic baseGraphic;

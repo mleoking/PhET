@@ -7,7 +7,6 @@ import edu.colorado.phet.cck.mna.MNACircuit;
  * User: Sam Reid
  * Date: Jun 19, 2006
  * Time: 2:04:44 PM
- *
  */
 
 public class TestRC_Time {

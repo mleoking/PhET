@@ -1,9 +1,9 @@
 package edu.colorado.phet.cck.controls;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.common.ColorDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,12 +14,11 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 11, 2006
  * Time: 12:46:42 AM
- *
  */
 
 public class ToolboxColorMenuItem extends JMenuItem {
     public ToolboxColorMenuItem( final PhetApplication application, final ICCKModule cck ) {
-        super( SimStrings.getInstance().getString( "OptionsMenu.ToolboxcolorMenuItem" ) );
+        super( CCKResources.getString( "OptionsMenu.ToolboxcolorMenuItem" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ColorDialog.Listener listy = new ColorDialog.Listener() {
@@ -35,7 +34,7 @@ public class ToolboxColorMenuItem extends JMenuItem {
                         cck.setToolboxBackgroundColor( color );
                     }
                 };
-                ColorDialog.showDialog( SimStrings.getInstance().getString( "OptionsMenu.ToolboxColorDialogTitle" ),
+                ColorDialog.showDialog( CCKResources.getString( "OptionsMenu.ToolboxColorDialogTitle" ),
                                         application.getPhetFrame(), cck.getToolboxBackgroundColor(), listy );
             }
         } );

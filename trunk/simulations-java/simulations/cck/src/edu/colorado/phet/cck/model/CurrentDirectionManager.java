@@ -6,7 +6,6 @@ import edu.colorado.phet.cck.model.components.Branch;
  * User: Sam Reid
  * Date: Dec 16, 2006
  * Time: 11:38:12 AM
- *
  */
 
 public class CurrentDirectionManager implements CircuitListener {

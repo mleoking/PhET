@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.*;
@@ -17,7 +16,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Jul 17, 2004
  * Time: 10:21:39 PM
- *
  */
 public class SolderGraphic extends PhetShapeGraphic {
     private Junction junction;

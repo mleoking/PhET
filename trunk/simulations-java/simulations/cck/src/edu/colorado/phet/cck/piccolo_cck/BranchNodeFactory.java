@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Oct 6, 2006
  * Time: 1:12:06 AM
- *
  */
 
 public class BranchNodeFactory {

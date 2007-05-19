@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.grabbag;
 
 import edu.colorado.phet.cck.model.CircuitChangeListener;

@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 11, 2006
  * Time: 12:32:54 AM
- *
  */
 
 public class CCKPhetLookAndFeel extends PhetLookAndFeel {

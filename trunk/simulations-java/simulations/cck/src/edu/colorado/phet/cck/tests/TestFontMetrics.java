@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.tests;
 
 import edu.colorado.phet.common_cck.model.clock.AbstractClock;
@@ -20,7 +19,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 24, 2004
  * Time: 10:16:32 PM
- *
  */
 public class TestFontMetrics {
     static double time = 0;

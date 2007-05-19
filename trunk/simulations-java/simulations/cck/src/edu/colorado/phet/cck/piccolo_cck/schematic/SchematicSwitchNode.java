@@ -6,9 +6,9 @@ import edu.colorado.phet.cck.model.components.Switch;
 import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
 import edu.colorado.phet.cck.piccolo_cck.lifelike.SwitchBodyRectangleNode;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -23,7 +23,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Sep 19, 2006
  * Time: 2:33:35 PM
- *
  */
 
 public class SchematicSwitchNode extends SwitchBodyRectangleNode {

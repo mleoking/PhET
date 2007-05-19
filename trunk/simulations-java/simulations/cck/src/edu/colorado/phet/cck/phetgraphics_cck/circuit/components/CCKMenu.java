@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
 import javax.swing.*;
@@ -7,7 +6,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Sep 27, 2004
  * Time: 1:45:26 PM
- *
  */
 public interface CCKMenu {
 

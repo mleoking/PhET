@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.CCKLookAndFeel;
@@ -30,7 +29,6 @@ import java.util.*;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 10:17:59 AM
- *
  */
 public class CircuitGraphic extends CompositeGraphic {
     private static double JUNCTION_RADIUS = CCKModel.JUNCTION_RADIUS;

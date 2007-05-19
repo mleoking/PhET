@@ -16,7 +16,6 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Oct 5, 2006
  * Time: 1:07:29 AM
- *
  */
 
 public class CCKHelpNode extends PhetPNode {

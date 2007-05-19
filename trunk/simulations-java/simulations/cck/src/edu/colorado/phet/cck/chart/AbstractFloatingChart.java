@@ -28,7 +28,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 18, 2005
  * Time: 11:28:29 PM
- *
  */
 
 public abstract class AbstractFloatingChart extends PhetPNode {
@@ -68,7 +67,7 @@ public abstract class AbstractFloatingChart extends PhetPNode {
                     close();
                 }
             } );
-            closeButtonPSwing = new PSwing(closeButton );
+            closeButtonPSwing = new PSwing( closeButton );
             PropertyChangeListener listener = new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     updateCloseButtonLocation();

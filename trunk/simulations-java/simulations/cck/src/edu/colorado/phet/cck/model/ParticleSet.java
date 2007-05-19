@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model;
 
 import edu.colorado.phet.cck.model.components.Branch;
@@ -12,7 +11,6 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Jun 1, 2004
  * Time: 4:07:51 PM
- *
  */
 public class ParticleSet implements ModelElement {
     private ArrayList particles = new ArrayList();

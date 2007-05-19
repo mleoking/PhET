@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
@@ -21,7 +21,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Sep 25, 2006
  * Time: 9:59:20 AM
- *
  */
 
 public class VoltmeterNode extends PhetPNode {
@@ -74,7 +73,7 @@ public class VoltmeterNode extends PhetPNode {
         private VoltmeterModel voltmeterModel;
         private PText textNode;
         private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
-        private final String UNKNOWN_VOLTS = SimStrings.getInstance().getString( "VoltmeterGraphic.UnknownVolts" );
+        private final String UNKNOWN_VOLTS = CCKResources.getString( "VoltmeterGraphic.UnknownVolts" );
 
         public UnitNode( final VoltmeterModel voltmeterModel ) {
             this.voltmeterModel = voltmeterModel;

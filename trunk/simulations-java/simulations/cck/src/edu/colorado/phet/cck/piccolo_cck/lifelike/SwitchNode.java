@@ -5,9 +5,9 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Switch;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -22,7 +22,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Sep 19, 2006
  * Time: 2:33:35 PM
- *
  */
 
 public class SwitchNode extends SwitchBodyImageNode {

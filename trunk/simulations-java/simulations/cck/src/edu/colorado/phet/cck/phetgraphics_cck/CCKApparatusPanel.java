@@ -2,6 +2,7 @@ package edu.colorado.phet.cck.phetgraphics_cck;
 
 import edu.colorado.phet.cck.CCKControlPanel;
 import edu.colorado.phet.cck.CCKLookAndFeel;
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.*;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
@@ -17,7 +18,6 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.tools.VirtualAmmeter;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.BasicGraphicsSetup;
 import edu.colorado.phet.common_cck.view.graphics.Boundary;
@@ -44,7 +44,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Sep 13, 2006
  * Time: 12:03:58 PM
- *
  */
 
 public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
@@ -125,8 +124,8 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
                 String percent = propagator.getPercentString();
                 if( !percent.equals( propagator.getDecimalFormat().format( 100 ) ) && propagator.getTimeScalingPercentValue() < 95 ) {
                     if( !module.getParameters().hideAllElectrons() ) {
-                        module.getTimescaleGraphic().setText( SimStrings.getInstance().getString( "ConstantDensityPropagator.SpeedLimitReached1" )
-                                                              + " " + percent + SimStrings.getInstance().getString( "ConstantDensityPropagator.SpeedLimitReached2" ) );
+                        module.getTimescaleGraphic().setText( CCKResources.getString( "ConstantDensityPropagator.SpeedLimitReached1" )
+                                                              + " " + percent + CCKResources.getString( "ConstantDensityPropagator.SpeedLimitReached2" ) );
                         module.getTimescaleGraphic().setVisible( true );
                     }
                 }
@@ -223,7 +222,7 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
         Point pt = transform.modelToView( rect.getX(), rect.getY() + rect.getHeight() );
         pt.translate( -130, 5 );
         wiggleMe = new WiggleMe( getApparatusPanel(), pt, new ImmutableVector2D.Double( 0, 1 ), 10, .025,
-                                 SimStrings.getInstance().getString( "CCK3Module.GrabAWire" ) );
+                                 CCKResources.getString( "CCK3Module.GrabAWire" ) );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 Rectangle2D rect = toolbox.getBounds2D();

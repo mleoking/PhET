@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.common.JPopupMenuRepaintWorkaround;
@@ -14,7 +13,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 28, 2004
  * Time: 9:48:27 PM
- *
  */
 public class JunctionPopupMenu extends JPopupMenuRepaintWorkaround {
     private Junction junction;

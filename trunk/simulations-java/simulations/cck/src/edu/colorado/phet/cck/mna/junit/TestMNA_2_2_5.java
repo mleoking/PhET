@@ -10,7 +10,6 @@ import junit.framework.TestCase;
  * User: Sam Reid
  * Date: Jun 18, 2006
  * Time: 10:49:36 PM
- *
  */
 
 public class TestMNA_2_2_5 extends TestCase {

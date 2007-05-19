@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.tests;
 
 import edu.colorado.phet.cck.model.Circuit;
@@ -11,7 +10,6 @@ import edu.colorado.phet.cck.model.components.Wire;
  * User: Sam Reid
  * Date: Jun 2, 2004
  * Time: 9:42:34 AM
- *
  */
 public class TestLoops1 {
     public static void main( String[] args ) {

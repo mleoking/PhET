@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.grabbag;
 
 import edu.colorado.phet.cck.ICCKModule;
@@ -17,7 +16,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Sep 14, 2004
  * Time: 8:07:23 PM
- *
  */
 public class GrabBagItem {
     private URL imageURL;

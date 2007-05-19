@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.ResetDynamicsMenuItem;
 import edu.colorado.phet.cck.common.CCKStrings;
@@ -7,7 +8,6 @@ import edu.colorado.phet.cck.common.JPopupMenuRepaintWorkaround;
 import edu.colorado.phet.cck.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.*;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
@@ -33,7 +33,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
     }
 
     protected JCheckBoxMenuItem createShowValueButton( JPopupMenuRepaintWorkaround menu, final ICCKModule module, final Branch branch ) {
-        final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( SimStrings.getInstance().getString( "CircuitComponentInteractiveGraphic.ShowValueMenuItem" ) );
+        final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.ShowValueMenuItem" ) );
         menu.addPopupMenuListener( new PopupMenuListener() {
             public void popupMenuCanceled( PopupMenuEvent e ) {
             }
@@ -61,7 +61,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
     }
 
     protected void addRemoveButton( JPopupMenuRepaintWorkaround menu, final ICCKModule module, final Branch branch ) {
-        JMenuItem remove = new JMenuItem( SimStrings.getInstance().getString( "CircuitComponentInteractiveGraphic.RemoveMenuItem" ) );
+        JMenuItem remove = new JMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.RemoveMenuItem" ) );
         remove.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getCCKModel().getCircuit().removeBranch( branch );
@@ -114,7 +114,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             }
             else {
                 editor = new ComponentEditor.ResistorEditor( module, res, module.getSimulationPanel(), module.getCircuit() );
-                JMenuItem edit = new JMenuItem( SimStrings.getInstance().getString( "CircuitComponentInteractiveGraphic.ResistanceMenuItem" ) );
+                JMenuItem edit = new JMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.ResistanceMenuItem" ) );
                 edit.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         editor.setVisible( true );
@@ -214,14 +214,14 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             super( bulb, module );
             this.bulb = bulb;
             editor = new ComponentEditor.BulbResistanceEditor( module, bulb, module.getSimulationPanel(), module.getCircuit() );
-            JMenuItem edit = new JMenuItem( SimStrings.getInstance().getString( "CircuitComponentInteractiveGraphic.ResistanceMenuItem" ) );
+            JMenuItem edit = new JMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.ResistanceMenuItem" ) );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     editor.setVisible( true );
                 }
             } );
             add( edit );
-            flip = new JMenuItem( SimStrings.getInstance().getString( "CircuitComponentInteractiveGraphic.FlipMenuItem" ) );
+            flip = new JMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.FlipMenuItem" ) );
             flip.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     bulb.flip( module.getCircuit() );
@@ -252,10 +252,10 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
                 flip.setEnabled( false );
             }
             if( bulb.isConnectAtLeft() ) {
-                flip.setText( SimStrings.getInstance().getString( "CircuitComponentInteractiveGraphic.RightConnectMenuItem" ) );
+                flip.setText( CCKResources.getString( "CircuitComponentInteractiveGraphic.RightConnectMenuItem" ) );
             }
             else {
-                flip.setText( SimStrings.getInstance().getString( "CircuitComponentInteractiveGraphic.LeftConnectMenuItem" ) );
+                flip.setText( CCKResources.getString( "CircuitComponentInteractiveGraphic.LeftConnectMenuItem" ) );
             }
         }
 
@@ -297,7 +297,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         public BatteryJMenu( final Battery branch, ICCKModule module ) {
             super( branch, module );
             this.battery = branch;
-            JMenuItem edit = new JMenuItem( SimStrings.getInstance().getString( "CircuitComponentInteractiveGraphic.VoltageMenuItem" ) );
+            JMenuItem edit = new JMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.VoltageMenuItem" ) );
             editor = createVoltageEditor( branch );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -307,7 +307,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             add( edit );
             addOptionalItemsAfterEditor();
 
-            editInternal = new JMenuItem( SimStrings.getInstance().getString( "CircuitComponentInteractiveGraphic.InternalResistanceMenuItem" ) );
+            editInternal = new JMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.InternalResistanceMenuItem" ) );
             editInternal.setEnabled( false );
             resistanceEditor = new ComponentEditor.BatteryResistanceEditor( module, battery, module.getSimulationPanel(), module.getCircuit() );
             editInternal.addActionListener( new ActionListener() {
@@ -317,7 +317,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             } );
             add( editInternal );
 
-            JMenuItem reverse = new JMenuItem( SimStrings.getInstance().getString( "CircuitComponentInteractiveGraphic.ReverseMenuItem" ) );
+            JMenuItem reverse = new JMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.ReverseMenuItem" ) );
             reverse.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     reverse( branch );

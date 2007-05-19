@@ -1,7 +1,6 @@
 package edu.colorado.phet.cck;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -14,7 +13,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Dec 16, 2006
  * Time: 11:03:19 AM
- *
  */
 
 public class SizeControlPanel extends VerticalLayoutPanel {
@@ -35,19 +33,19 @@ public class SizeControlPanel extends VerticalLayoutPanel {
         zoom.setPreferredSize( new Dimension( 50, zoom.getPreferredSize().height ) );
 
         ButtonGroup zoomGroup = new ButtonGroup();
-        JRadioButton small = new JRadioButton( SimStrings.getInstance().getString( "CCK3ControlPanel.SmallRadioButton" ) );
+        JRadioButton small = new JRadioButton( CCKResources.getString( "CCK3ControlPanel.SmallRadioButton" ) );
         small.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( 2 );
             }
         } );
-        JRadioButton medium = new JRadioButton( SimStrings.getInstance().getString( "CCK3ControlPanel.MediumRadioButton" ) );
+        JRadioButton medium = new JRadioButton( CCKResources.getString( "CCK3ControlPanel.MediumRadioButton" ) );
         medium.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( 1 );
             }
         } );
-        JRadioButton large = new JRadioButton( SimStrings.getInstance().getString( "CCK3ControlPanel.LargeRadioButton" ) );
+        JRadioButton large = new JRadioButton( CCKResources.getString( "CCK3ControlPanel.LargeRadioButton" ) );
         large.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( .5 );
@@ -60,7 +58,7 @@ public class SizeControlPanel extends VerticalLayoutPanel {
         this.add( large );
         this.add( medium );
         this.add( small );
-        setBorder( new CCKControlPanel.CCKTitledBorder( SimStrings.getInstance().getString( "CCK3ControlPanel.SizePanelBorder" ) ) );
+        setBorder( new CCKControlPanel.CCKTitledBorder( CCKResources.getString( "CCK3ControlPanel.SizePanelBorder" ) ) );
 
 //        return addBorder( SimStrings.get( "CCK3ControlPanel.SizePanelBorder" ), this );
     }

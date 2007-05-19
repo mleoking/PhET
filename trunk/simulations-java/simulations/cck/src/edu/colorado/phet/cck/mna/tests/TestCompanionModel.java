@@ -7,12 +7,11 @@ import edu.colorado.phet.cck.mna.MNACircuit;
  * User: Sam Reid
  * Date: Jun 18, 2006
  * Time: 11:40:40 PM
- *
  */
 
 public class TestCompanionModel {
     public static void main( String[] args ) {
-        String[]netlist = new String[]{
+        String[] netlist = new String[]{
                 "C1 0 1 1.0"
         };
         MNACircuit circuit = new MNACircuit();

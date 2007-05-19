@@ -6,7 +6,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Jul 7, 2006
  * Time: 9:22:23 AM
- *
  */
 public class CCKParameters {
     private String[] args;

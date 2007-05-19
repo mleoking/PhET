@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.model.components;
 
 import edu.colorado.phet.cck.model.CCKModel;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 28, 2004
  * Time: 1:11:17 PM
- *
  */
 public class Capacitor extends CircuitComponent implements DynamicBranch {
     public static final double DEFAULT_CAPACITANCE = 0.02;

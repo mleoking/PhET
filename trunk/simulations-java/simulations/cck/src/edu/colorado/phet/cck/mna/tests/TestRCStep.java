@@ -7,12 +7,11 @@ import edu.colorado.phet.cck.mna.MNACircuit;
  * User: Sam Reid
  * Date: Jun 19, 2006
  * Time: 12:12:34 AM
- *
  */
 
 public class TestRCStep {
     public static void main( String[] args ) {
-        String[]netlist = new String[]{
+        String[] netlist = new String[]{
                 "v0 0 1 9.0",
                 "r1 1 2 3",
                 "c2 2 0 3"

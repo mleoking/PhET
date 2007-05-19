@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jun 19, 2006
  * Time: 3:49:05 AM
- *
  */
 
 public class ACVoltageSourceMenu extends CircuitComponentInteractiveGraphic.BatteryJMenu {

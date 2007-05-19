@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
 import edu.colorado.phet.cck.model.components.Filament;
@@ -13,7 +12,6 @@ import java.awt.geom.Area;
  * User: Sam Reid
  * Date: Jun 13, 2004
  * Time: 8:34:45 PM
- *
  */
 public class FilamentGraphic implements Graphic {
     private Filament fil;

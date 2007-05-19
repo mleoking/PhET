@@ -15,7 +15,6 @@ import junit.framework.TestCase;
  * User: Sam Reid
  * Date: Jun 19, 2006
  * Time: 2:04:44 PM
- *
  */
 
 public class TestRCCharge extends TestCase {

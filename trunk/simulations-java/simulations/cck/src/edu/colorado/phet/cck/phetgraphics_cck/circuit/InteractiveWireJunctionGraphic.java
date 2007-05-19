@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.common.JPopupMenuRepaintWorkaround;
@@ -22,7 +21,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: May 24, 2004
  * Time: 9:10:07 AM
- *
  */
 public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic implements HasJunctionGraphic {
     private CircuitGraphic circuitGraphic;
