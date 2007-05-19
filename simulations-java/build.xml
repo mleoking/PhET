@@ -30,6 +30,7 @@ PhET -specific tasks are moved to an auxiliary build file.
     <property name="phet-list-sims-classname" value="edu.colorado.phet.build.PhetListSimTask"/>
     <property name="phet-list-flavors-classname" value="edu.colorado.phet.build.PhetListFlavorsTask"/>
     <property name="phet-list-locales-classname" value="edu.colorado.phet.build.PhetListLocalesTask"/>
+    <property name="phet-build-gui-classname" value="edu.colorado.phet.build.PhetBuildGUI"/>
 
     <!--Properties for the structure of the phet codebase.-->
     <property name="build-tools" value="build-tools"/>
@@ -118,9 +119,17 @@ PhET -specific tasks are moved to an auxiliary build file.
         <taskdef name="phet-list-locales"
                  classname="${phet-list-locales-classname}"
                  classpath="${phetbuild-dependencies}"/>
+
+        <taskdef name="phet-build-gui"
+                 classname="${phet-build-gui-classname}"
+                 classpath="${phetbuild-dependencies}"/>
     </target>
 
     <target name="_init" depends="_declare-phet-build-tasks"/>
+
+    <target name="_phet-build-gui" depends="_init">
+        <phet-build-gui/>
+    </target>
 
     <!--This internal task puts a comma delimited list of all phet simulations into property phet.simlist-->
     <target name="_list-sims">

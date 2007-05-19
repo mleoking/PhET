@@ -3,7 +3,7 @@ package edu.colorado.phet.build;
 /**
  * Constructs an iterable list of simulations for use in ant-contrib.
  */
-public class PhetListLocalesTask extends AbstractPhetBuildTask {
+public class PhetListLocalesTask extends AbstractPhetBuildTask implements PropertyTask{
     private String property = "sim.locales";
 
     protected void executeImpl( PhetProject phetProject ) throws Exception {
