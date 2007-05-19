@@ -2,7 +2,6 @@ package edu.colorado.phet.bernoulli;
 
 import edu.colorado.phet.bernoulli.common.RectangleImageGraphic2WithBuffer;
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
-import edu.colorado.phet.common.bernoulli.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
@@ -29,7 +28,7 @@ public class FlameGraphic implements Graphic {
                 update();
             }
         } );
-        image = new RectangleImageGraphic2WithBuffer( new ImageLoader().loadBufferedImage( "images/flame.gif" ), observer );
+        image = new RectangleImageGraphic2WithBuffer( BernoulliResources.getImage( "flame.gif" ), observer );
         update();
         flame.addObserver( new SimpleObserver() {
             public void update() {

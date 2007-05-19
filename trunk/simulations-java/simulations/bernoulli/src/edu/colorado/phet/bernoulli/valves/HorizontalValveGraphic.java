@@ -1,6 +1,7 @@
 package edu.colorado.phet.bernoulli.valves;
 
 import edu.colorado.phet.bernoulli.common.RectangleImageGraphic2;
+import edu.colorado.phet.bernoulli.BernoulliResources;
 import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
 import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.bernoulli.view.util.graphics.ImageLoader;
@@ -29,13 +30,11 @@ public class HorizontalValveGraphic implements InteractiveGraphic, SimpleObserve
     int width = 40;
     int height = 30;
     int tankStrokeWidth = 4;
-//    int barrierWidth = 4;
-//    double scaleBarrierWidth = 5;
     private Rectangle rect;
     RectangleImageGraphic2 rig2;
 
     public HorizontalValveGraphic( Valve model, ModelViewTransform2d transform, ApparatusPanel target, boolean right, Color backgroundColor ) {
-        rig2 = new RectangleImageGraphic2( new ImageLoader().loadBufferedImage( "images/valvewrap.gif" ) );
+        rig2 = new RectangleImageGraphic2( BernoulliResources.getImage( "valvewrap.gif" ) );
         this.model = model;
         this.transform = transform;
         this.target = target;
@@ -46,7 +45,6 @@ public class HorizontalValveGraphic implements InteractiveGraphic, SimpleObserve
         update();
         this.height = transform.modelToViewDifferentialY( model.getHeight() );
         this.width = transform.modelToViewDifferentialX( model.getWidth() );
-//        this.barrierWidth = transform.modelToViewDifferentialX(model.getWidth() / scaleBarrierWidth);
     }
 
     public void valveChanged() {
@@ -94,16 +92,8 @@ public class HorizontalValveGraphic implements InteractiveGraphic, SimpleObserve
         if( rect != null ) {
             if( open ) {
                 rig2.paint( g );
-//                g.setColor(backgroundColor);
-//                g.fillRect(rect.x, rect.y, rect.width, rect.height);
-//                g.setColor(color);
-//                g.fillRect(rect.x, rect.y, rect.width, barrierWidth);
-//                g.fillRect(rect.x, rect.width - barrierWidth + rect.y, rect.width, barrierWidth);
             }
             else {
-//                g.setColor(color);
-
-//                g.fillRect(rect.x, rect.y, rect.width, rect.height);
                 rig2.paint( g );
             }
         }
@@ -116,7 +106,6 @@ public class HorizontalValveGraphic implements InteractiveGraphic, SimpleObserve
     public void transformChanged( ModelViewTransform2d mvt ) {
         height = Math.abs( transform.modelToViewDifferentialY( model.getHeight() ) );
         this.width = Math.abs( transform.modelToViewDifferentialX( model.getWidth() ) );
-//        this.barrierWidth = Math.abs(transform.modelToViewDifferentialX(model.getWidth() / scaleBarrierWidth));
         update();
     }
 

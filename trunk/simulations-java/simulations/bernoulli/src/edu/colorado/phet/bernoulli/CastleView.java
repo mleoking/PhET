@@ -2,7 +2,6 @@ package edu.colorado.phet.bernoulli;
 
 import edu.colorado.phet.bernoulli.common.RectangleImageGraphic2WithBuffer;
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
-import edu.colorado.phet.common.bernoulli.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
 
@@ -25,7 +24,7 @@ public class CastleView implements Graphic {
         this.castle = castle;
         this.transform = transform;
         this.observer = observer;
-        image = new RectangleImageGraphic2WithBuffer( new ImageLoader().loadBufferedImage( "images/castle300.gif" ), observer );
+        image = new RectangleImageGraphic2WithBuffer( BernoulliResources.getImage( "castle300.gif" ), observer );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2d mvt ) {
                 update();

@@ -3,6 +3,7 @@ package edu.colorado.phet.bernoulli.pipe;
 import edu.colorado.phet.bernoulli.common.*;
 import edu.colorado.phet.bernoulli.spline.segments.Segment;
 import edu.colorado.phet.bernoulli.spline.segments.SegmentPath;
+import edu.colorado.phet.bernoulli.BernoulliResources;
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.arrows.Arrow;
@@ -47,7 +48,7 @@ public class VolumeGraphic implements Graphic, SimpleObserver, TransformListener
 
         color = Color.orange;
 
-        textureImage = new ImageLoader().loadBufferedImage( "images/bernoulli/drop15blue.gif" );
+        textureImage = BernoulliResources.getImage( "bernoulli/drop15blue.gif" );
         textureRectangle = new Rectangle( 0, 0, 15, 15 );
         texturePaint = new TexturePaint( textureImage, textureRectangle );
 
