@@ -5,7 +5,7 @@ import org.apache.tools.ant.BuildException;
 /**
  * Constructs an iterable list of simulations for use in ant-contrib.
  */
-public class PhetListSimTask extends PhetAllSimTask {
+public class PhetListSimTask extends PhetAllSimTask implements PropertyTask{
     private String property = "phet.simlist";
 
     public final void execute() throws BuildException {
