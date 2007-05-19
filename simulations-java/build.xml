@@ -127,7 +127,7 @@ PhET -specific tasks are moved to an auxiliary build file.
 
     <target name="_init" depends="_declare-phet-build-tasks"/>
 
-    <target name="_phet-build-gui" depends="_init">
+    <target name="gui" depends="_init">
         <phet-build-gui/>
     </target>
 
