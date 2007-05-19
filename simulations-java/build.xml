@@ -4,7 +4,7 @@ This build file is specific to building phet simulation files, in particular bui
 PhET -specific tasks are moved to an auxiliary build file.  
 -->
 
-<project name="PhET Master Build Script" default="build-all-jars" basedir=".">
+<project name="PhET Master Build Script" default="gui" basedir=".">
 
 
     <!-- Deployment properties -->
@@ -254,7 +254,10 @@ PhET -specific tasks are moved to an auxiliary build file.
 
     <target name="build-source-distribution" depends="_init,clean-all" >
         <zip destfile="${basedir}/deploy/phet-src-${phet.version}.zip" basedir="${basedir}"
-                excludes="local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output"></zip>
+                excludes="local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output/, **/classes/, deploy/,
+                **/ant-contrib/docs/, **/antform-bin-2.0beta2/doc/, **/apache-ant-1.7.0/docs/, **/junit3.8.2/doc/, **/junit3.8.2/javadoc/,
+                **/proguard3.8/docs, **/retroweaver-2.0/, **/retroweaver-test/, **/JSci/documentation/, **/JSci/examples/,
+                **/liquidlnf-2.9.1-src/, **/oyoaha/"></zip>
     </target>
 
     <!--These tasks are still under consideration, and may be changed, moved or deleted.-->
