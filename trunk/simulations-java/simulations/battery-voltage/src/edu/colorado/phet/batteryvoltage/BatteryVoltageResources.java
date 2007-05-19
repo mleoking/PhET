@@ -18,4 +18,8 @@ public class BatteryVoltageResources {
     public static BufferedImage getImage( String name ) {
         return INSTANCE.getImage( name );
     }
+
+    public static PhetResources getResourceLoader() {
+        return INSTANCE;
+    }
 }

@@ -70,7 +70,7 @@ public class Battery {
         return sys;
     }
 
-    public Battery( int x, int y, int width, int height, int barrierX, int barrierWidth, ImageLoader imageLoader, int numElectrons, Random r, int numMen, double dt ) {
+    public Battery( int x, int y, int width, int height, int barrierX, int barrierWidth, int numElectrons, Random r, int numMen, double dt ) {
         this.r = r;
         this.y = y;
         this.height = height;
