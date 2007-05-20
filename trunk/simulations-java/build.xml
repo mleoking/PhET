@@ -18,7 +18,8 @@ PhET -specific tasks are moved to an auxiliary build file.
     <property name="prod.server.url" value="http://phet.colorado.edu/simulations/"/>
 
     <!--Do not modify: these properties define the codebase for java-implementation of ant tasks.-->
-    <property name="phetbuild-classes" location="ant_output/phetbuild/classes"/>
+    <property name="ant-output" location="ant_output"/>
+    <property name="phetbuild-classes" location="${ant-output}/phetbuild/classes"/>
     <property name="proguard.jar" location="build-tools/proguard3.8/lib/proguard.jar"/>
     <property name="phetbuild-src" location="build-tools/phet-build/src"/>
 
@@ -135,7 +136,7 @@ PhET -specific tasks are moved to an auxiliary build file.
 
     <!--This internal task puts a comma delimited list of all phet simulations into property phet.simlist-->
     <target name="_list-sims">
-        <phet-list-sims/>
+        <phet-list-sims property="phet.simlist"/>
     </target>
 
     <target name="list-locales" depends="_init">
@@ -170,6 +171,7 @@ PhET -specific tasks are moved to an auxiliary build file.
     <!--Cleans deploy directories of jar and jnlp files-->
     <target name="clean-all" depends="_init,_list-sims">
         <foreach list="${phet.simlist}" target="clean-sim" param="sim.name"/>
+        <!--<delete dir="${ant-output}" excludes="${phetbuild-classes}"/>-->
     </target>
 
     <!--Builds jars and jnlp files for all phet simulations-->
@@ -258,6 +260,25 @@ PhET -specific tasks are moved to an auxiliary build file.
                 **/ant-contrib/docs/, **/antform-bin-2.0beta2/doc/, **/apache-ant-1.7.0/docs/, **/junit3.8.2/doc/, **/junit3.8.2/javadoc/,
                 **/proguard3.8/docs, **/retroweaver-2.0/, **/retroweaver-test/, **/JSci/documentation/, **/JSci/examples/,
                 **/liquidlnf-2.9.1-src/, **/oyoaha/"></zip>
+    </target>
+
+    <target name="_build-translatable-sim" depends="_init,_verify-sim-name-specified">
+        <phet-build project="${sim.name}"/>
+        <property name="sim.translation.dir" value="${ant-output}/translation/sims/${sim.name}"/>
+        <property name="sim.localization.dir" value="${sim.translation.dir}/${sim.name}/localization"/>
+        <mkdir dir="${sim.localization.dir}"/>
+        <copy file="${basedir}/simulations/${sim.name}/deploy/${sim.name}.jar" todir="${sim.translation.dir}"/>
+        <copy todir="${sim.localization.dir}">
+            <fileset dir="${basedir}/simulations/${sim.name}/data/${sim.name}/localization"/>
+        </copy>
+    </target>
+
+    <target name="_build-translatable-distribution" depends="_init,clean-all,_list-sims">
+        <delete dir="${ant-output}/translation"/>
+        <copy file="${basedir}/docs/translation-readme.txt" tofile="${ant-output}/translation/readme.txt"/>
+        <copy file="${basedir}/phet-license.txt" todir="${ant-output}/translation/"/>
+        <copy file="${basedir}/LICENSE.txt" todir="${ant-output}/translation/"/>
+        <foreach list="${phet.simlist}" target="_build-translatable-sim" param="sim.name"/>
     </target>
 
     <!--These tasks are still under consideration, and may be changed, moved or deleted.-->
