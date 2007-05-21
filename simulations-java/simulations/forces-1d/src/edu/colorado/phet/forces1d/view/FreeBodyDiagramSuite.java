@@ -55,8 +55,8 @@ public class FreeBodyDiagramSuite {
 
             fbdApparatusPanel = this.fbdPanel.getFBDPanel();
             fbdApparatusPanel.setLayout( null );
-            BufferedImage tearImage = ImageLoader.loadBufferedImage( "images/tear-20.png" );
-            BufferedImage xImage = ImageLoader.loadBufferedImage( "images/x-20.png" );
+            BufferedImage tearImage = ImageLoader.loadBufferedImage( "forces-1d/images/tear-20.png" );
+            BufferedImage xImage = ImageLoader.loadBufferedImage( "forces-1d/images/x-20.png" );
 
             JButton tearButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( buttonPanel, tearImage, 14 ) ) );
             JButton closeButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( buttonPanel, xImage, 14 ) ) );

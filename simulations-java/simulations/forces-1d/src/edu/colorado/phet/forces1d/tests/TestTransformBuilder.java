@@ -23,7 +23,7 @@ public class TestTransformBuilder {
     public static void main( String[] args ) {
         ApparatusPanel panel = new ApparatusPanel();
         panel.addGraphicsSetup( new BasicGraphicsSetup() );
-        final PhetImageGraphic graphic = new PhetImageGraphic( panel, "images/ollie.gif" );
+        final PhetImageGraphic graphic = new PhetImageGraphic( panel, "forces-1d/images/ollie.gif" );
         panel.addGraphic( graphic );
         JFrame frame = new JFrame();
         frame.setContentPane( panel );
