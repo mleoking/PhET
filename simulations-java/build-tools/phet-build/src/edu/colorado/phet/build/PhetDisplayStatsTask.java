@@ -25,8 +25,8 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
             try {
                 File projectParentDir = PhetBuildUtils.resolveProject( baseDir, simName );
                 PhetProject phetProject = new PhetProject( projectParentDir, simName );
-                System.out.println( phetProject.getName() + ": " + Arrays.asList( phetProject.getFlavorNames() ) + " locales: " + Arrays.asList( phetProject.getLocales() ) + " standardizedData=" + isStandardizedData( phetProject ) );
-                numStandardized+=isStandardizedData( phetProject )?1:0;
+                System.out.println( phetProject.getName() + ": " + Arrays.asList( phetProject.getFlavorNames() ) + " locales: " + Arrays.asList( phetProject.getLocales() ) + " non-clash-data=" + isNonClashData( phetProject ) );
+                numStandardized+= isNonClashData( phetProject )?1:0;
                 flavorCount += phetProject.getFlavorNames().length;
                 for( int j = 0; j < phetProject.getLocales().length; j++ ) {
                     String locale = phetProject.getLocales()[j];
@@ -43,7 +43,7 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
             String o = (String)locales.get( i );
             language.add( new Locale( o ).getDisplayLanguage() );
         }
-        System.out.println( "Number of Sims: " + simNames.length + ", number of declared flavors: " + flavorCount + ", number of locales used at least once: " + languages.size() + ", all locales=" + locales + ", languages=" + language+", standardizedData="+numStandardized );
+        System.out.println( "Number of Sims: " + simNames.length + ", number of declared flavors: " + flavorCount + ", number of locales used at least once: " + languages.size() + ", all locales=" + locales + ", languages=" + language+", non-clash-data="+numStandardized );
     }
 
     private boolean containsExactly( File root, File[] files ) {
@@ -54,7 +54,10 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
         return a.equals( b );
     }
 
-    private boolean isStandardizedData( PhetProject phetProject ) {
+    /**
+     * Quick check to make sure resources are inside data/[simname]/
+     */
+    private boolean isNonClashData( PhetProject phetProject ) {
         File dir = new File( phetProject.getDir(), "data" );
 
         //standardized if contains "[simname]/" "[simname].properties" and optionally ".svn"
