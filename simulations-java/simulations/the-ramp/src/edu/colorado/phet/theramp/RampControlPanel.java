@@ -43,7 +43,7 @@ public class RampControlPanel extends ControlPanel {
         } );
         addControl( jb );
 
-        JButton clearHeat = new JButton( TheRampStrings.getString( "cool.ramp" ) );
+        JButton clearHeat = new JButton( TheRampStrings.getString( "controls.cool-ramp" ) );
         addControl( clearHeat );
         clearHeat.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -84,7 +84,7 @@ public class RampControlPanel extends ControlPanel {
 //            return frictionSlider;
 //        }
 //        else {
-        final ModelSlider frictionSlider = new ModelSlider( TheRampStrings.getString( "coefficient.of.friction" ), "", 0.1, 1.5, 0.5 );
+        final ModelSlider frictionSlider = new ModelSlider( TheRampStrings.getString( "property.coefficient-of-friction" ), "", 0.1, 1.5, 0.5 );
         frictionSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setFriction( frictionSlider.getValue() );
@@ -145,7 +145,7 @@ public class RampControlPanel extends ControlPanel {
                 getModule().getRampPanel().setEnergyBarsVisible( energyBars.isSelected() );
             }
         } );
-        final JCheckBox workBars = new JCheckBox( TheRampStrings.getString( "work" ), true );
+        final JCheckBox workBars = new JCheckBox( TheRampStrings.getString( "energy.work" ), true );
         workBars.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getModule().getRampPanel().setWorkBarsVisible( workBars.isSelected() );

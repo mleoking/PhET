@@ -29,7 +29,7 @@ public class AppliedForceControl extends PNode {
         this.module = module;
         this.rampPanel = rampPanel;
         double maxValue = 3000;
-        final ModelSlider modelSlider = new ModelSlider( TheRampStrings.getString( "applied.force" ), TheRampStrings.getString( "newtons" ), -maxValue, maxValue, 0, new DecimalFormat( "0.00" ) );
+        final ModelSlider modelSlider = new ModelSlider( TheRampStrings.getString( "forces.applied" ), TheRampStrings.getString( "newtons" ), -maxValue, maxValue, 0, new DecimalFormat( "0.00" ) );
         modelSlider.setModelTicks( new double[]{-maxValue, 0, maxValue} );
         PSwing pSwing = new PSwing(modelSlider );
         addChild( pSwing );

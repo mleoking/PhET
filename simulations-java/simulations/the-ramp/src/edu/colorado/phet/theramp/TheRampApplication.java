@@ -15,7 +15,6 @@ import java.lang.reflect.InvocationTargetException;
  * User: Sam Reid
  * Date: Feb 11, 2005                            ÷
  * Time: 9:57:09 AM
- *
  */
 
 public class TheRampApplication extends PhetApplication {
@@ -24,7 +23,6 @@ public class TheRampApplication extends PhetApplication {
 
     private RampModule simpleRampModule;
     private RampModule advancedFeatureModule;
-//    private static PhetStartupWindow startupWindow;
 
     public TheRampApplication( String[] args, IClock clock, FrameSetup frameSetup ) {
         super( args, TheRampStrings.getString( "the.ramp" ), TheRampStrings.getString( "the.ramp.simulation" ),
@@ -32,16 +30,6 @@ public class TheRampApplication extends PhetApplication {
         simpleRampModule = new SimpleRampModule( getPhetFrame(), clock );
         advancedFeatureModule = new RampModule( getPhetFrame(), clock );
         setModules( new Module[]{simpleRampModule, advancedFeatureModule} );
-//
-//        simpleRampModule = new SimpleRampModule( getPhetFrame(), clock );
-//        setModules( new Module[]{simpleRampModule} );
-
-//        addClockTickListener( new ClockTickListener() {
-//            public void clockTicked( ClockEvent event ) {
-//                System.out.println( "surfaceType=: " + simpleRampModule.getRampPhysicalModel().getBlock().getSurface().getName()+", surfaceOffset="+simpleRampModule.getRampPhysicalModel().getBlock().getSurface().getDistanceOffset()+", distInSurface="+simpleRampModule.getRampPhysicalModel().getBlock().getPositionInSurface()+", totalDist="+simpleRampModule.getRampPhysicalModel().getBlock().getPosition());
-////                System.out.println( "RampApplication.clockTicked: " + simpleRampModule.getRampPhysicalModel().getBlock().getPosition() );
-//            }
-//        } );
     }
 
     public static void main( final String[] args ) {
@@ -59,10 +47,6 @@ public class TheRampApplication extends PhetApplication {
                     //workaround for 1.4.1, in which applying maxextent to an invisible frame does nothing.
                     new FrameSetup.MaxExtent().initialize( applicationThe.getPhetFrame() );
                     applicationThe.simpleRampModule.getPhetPCanvas().requestFocus();
-//        System.out.println( "getSize() = " + application.simpleRampModule.getPhetPCanvas().getSize() );
-//        new DebugPiccoloTree().printTree( application.advancedFeatureModule.getRampPanel().getRoot() );
-
-//        application.getModuleManager().getActiveModule().getPhetPCanvas().requestFocus();
                 }
             } );
         }

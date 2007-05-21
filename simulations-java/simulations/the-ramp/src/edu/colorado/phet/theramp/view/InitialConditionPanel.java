@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
 public class InitialConditionPanel extends VerticalLayoutPanel {
     public InitialConditionPanel( final RampModule rampModule ) {
         double maxValue = 3000;
-        final ModelSlider modelSlider = new ModelSlider( TheRampStrings.getString( "applied.force" ), TheRampStrings.getString( "newtons" ), -maxValue, maxValue, 0, new DecimalFormat( "0.00" ) );
+        final ModelSlider modelSlider = new ModelSlider( TheRampStrings.getString( "forces.applied" ), TheRampStrings.getString( "newtons" ), -maxValue, maxValue, 0, new DecimalFormat( "0.00" ) );
         modelSlider.setModelTicks( new double[]{-maxValue, 0, maxValue} );
 //        PSwing pSwing = new PSwing( rampPanel, modelSlider );
 //        addChild( pSwing );
@@ -40,7 +40,7 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         } );
         addFullWidth( modelSlider );
 
-        final ModelSlider rampAngleSlider = new ModelSlider( TheRampStrings.getString( "ramp.angle" ), TheRampStrings.getString( "degrees" ), 0, 90, rampModule.getRampAngle() * 180.0 / Math.PI );
+        final ModelSlider rampAngleSlider = new ModelSlider( TheRampStrings.getString( "property.ramp-angle" ), TheRampStrings.getString( "degrees" ), 0, 90, rampModule.getRampAngle() * 180.0 / Math.PI );
         rampAngleSlider.setModelTicks( new double[]{0, 45, 90} );
         rampAngleSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -55,7 +55,7 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         } );
         addFullWidth( rampAngleSlider );
 
-        final ModelSlider blockPosition = new ModelSlider( TheRampStrings.getString( "position" ), TheRampStrings.getString( "meters" ), rampModule.getGlobalMinPosition(), rampModule.getGlobalMaxPosition(), rampModule.getGlobalBlockPosition() );
+        final ModelSlider blockPosition = new ModelSlider( TheRampStrings.getString( "property.position" ), TheRampStrings.getString( "meters" ), rampModule.getGlobalMinPosition(), rampModule.getGlobalMaxPosition(), rampModule.getGlobalBlockPosition() );
         blockPosition.setModelTicks( new double[]{rampModule.getGlobalMinPosition(), ( rampModule.getGlobalMaxPosition() + rampModule.getGlobalMinPosition() ) / 2, rampModule.getGlobalMaxPosition()} );
         blockPosition.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
