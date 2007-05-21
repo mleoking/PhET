@@ -1,6 +1,5 @@
 package edu.colorado.phet.batteryvoltage.common.electron.components;
 
-import edu.colorado.phet.batteryvoltage.common.view.util.SimStrings;
 import edu.colorado.phet.batteryvoltage.BatteryVoltageResources;
 
 import java.awt.*;

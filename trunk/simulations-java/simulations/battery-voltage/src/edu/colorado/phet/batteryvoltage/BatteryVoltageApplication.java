@@ -8,7 +8,6 @@ import edu.colorado.phet.batteryvoltage.common.phys2d.System2D;
 import edu.colorado.phet.batteryvoltage.common.phys2d.SystemRunner;
 import edu.colorado.phet.batteryvoltage.common.phys2d.gui.Range;
 import edu.colorado.phet.batteryvoltage.common.phys2d.gui.SystemRunnerControl;
-import edu.colorado.phet.batteryvoltage.common.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
