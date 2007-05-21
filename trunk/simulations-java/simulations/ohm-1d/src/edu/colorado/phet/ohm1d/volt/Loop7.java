@@ -142,7 +142,7 @@
 //        int maxResistance = 14;
 //        double vMax = 10;
 //        //cp.addPainter(new WirePatchPainter(goldStroke,Color.yellow, scatterPatch));
-//        Spectrum cm = new Spectrum(loader.loadBufferedImage("images/spectra/spect3.jpg"), 100);
+//        Spectrum cm = new Spectrum(loader.loadBufferedImage("ohm-1d/images/spectra/spect3.jpg"), 100);
 //        //Filament filament=new Filament(goldStroke,scatterPatch,vMax,1,cm);
 //        Filament filament = new Filament(goldStroke, scatterPatch, vMax * .6, 1, cm);
 //        cp.addPainter(filament);
@@ -176,7 +176,7 @@
 //        ShowPainters showCores = new ShowPainters(cp, CORE_LEVEL);
 //
 //        //CenteredDotPainter dp = new CenteredDotPainter(Color.red, 12);
-//        ParticlePainter dp = new phet.paint.particle.ImagePainter(loader.loadBufferedImage("images/ron/particle-green-med.gif"));
+//        ParticlePainter dp = new phet.paint.particle.ImagePainter(loader.loadBufferedImage("ohm-1d/images/ron/particle-green-med.gif"));
 //        Resistance resistance = new Resistance(CORE_START, CORE_END, numCores, wp, amplitude, freq, decay, dp, CORE_LEVEL, cp, showCores, sys);
 //        double scatteringRegionNoCoulombInset = 35;
 //        PatchRegion accelRegion = new PatchRegion(CORE_START - scatteringRegionNoCoulombInset, CORE_END + scatteringRegionNoCoulombInset, wp);
@@ -230,19 +230,19 @@
 //        prop.addPropagator(new DualJunction(wp2, wp));
 //
 //        //o.O.bottomRightWirePoint("Working dir="+System.getProperty("user.dir"));
-//        //BufferedImage bi = loader.loadBufferedImage("images/Electron3V.GIF");
+//        //BufferedImage bi = loader.loadBufferedImage("ohm-1d/images/Electron3V.GIF");
 //        //bi = new AlphaFixer2(new int[]{252, 254, 252, 255}).patchAlpha(bi);
 //        //bi = ImageUtils.scaleToSizeApproximate(bi, 20, 20);
 //        //ParticlePainter painter=new phet.paint.particle.ImagePainter(bi);
-//        BufferedImage ronImage = loader.loadBufferedImage("images/ron/particle-blue-sml.gif");
+//        BufferedImage ronImage = loader.loadBufferedImage("ohm-1d/images/ron/particle-blue-sml.gif");
 //        //ronImage=new AlphaFixer2(new int[]{252,254,252,255}).patchAlpha(ronImage);
 //        ParticlePainter painter = new phet.paint.particle.ImagePainter(ronImage);
 //
 //        //ParticlePainter painter = new CenteredDotPainter(Color.black, 16);
 //
-////        BufferedImage batteryImage = loader.loadBufferedImage("images/components/batteries/AA256_H100-Hollow-Left-big-empty-hack2.GIF");
+////        BufferedImage batteryImage = loader.loadBufferedImage("ohm-1d/images/components/batteries/AA256_H100-Hollow-Left-big-empty-hack2.GIF");
 ////        batteryImage = new AlphaFixer2(new int[]{248, 248, 247, 255}).patchAlpha(batteryImage);
-//        BufferedImage batteryImage = loader.loadBufferedImage("images/ron/AA-battery-555-left.gif");
+//        BufferedImage batteryImage = loader.loadBufferedImage("ohm-1d/images/ron/AA-battery-555-left.gif");
 //        //batteryImage=new MakeTransparentImage(195).patchAlpha(batteryImage);
 //        int battImageX = (int) bottomLeftWirePoint.getX() + 59;
 //        int battImageY = (int) bottomLeftWirePoint.getY() - batteryImage.getHeight() / 2 + 3;
@@ -250,9 +250,9 @@
 //        int BATT_LAYER = 10;
 //
 //        //Need an image changer component
-//        //BufferedImage batteryImage2 = loader.loadBufferedImage("images/components/batteries/AA256_H100-Hollow-Right-big-empty-hack2.GIF");
+//        //BufferedImage batteryImage2 = loader.loadBufferedImage("ohm-1d/images/components/batteries/AA256_H100-Hollow-Right-big-empty-hack2.GIF");
 //        //batteryImage2 = new AlphaFixer2(new int[]{248, 248, 247, 255}).patchAlpha(batteryImage2);
-//        BufferedImage batteryImage2 = loader.loadBufferedImage("images/ron/AA-battery-555.gif");
+//        BufferedImage batteryImage2 = loader.loadBufferedImage("ohm-1d/images/ron/AA-battery-555.gif");
 //        //batteryImage2=new MakeTransparentImage(195).patchAlpha(batteryImage2);
 //        //batteryImage2=batteryImage;
 //        BufferedImagePainter battPainter2 = new BufferedImagePainter(batteryImage2, (int) bottomLeftWirePoint.getX() + 59, (int) bottomLeftWirePoint.getY() - batteryImage2.getHeight() / 2 + 3);
@@ -277,7 +277,7 @@
 ////        GaugeBackground gauge = new GaugeBackground(gaugeX, gaugeY, -maxCurrent, maxCurrent, amount, length, text);
 ////        DoubleBufferGauge dbg = new DoubleBufferGauge(gauge);//,im);
 ////        cp.addPainter(dbg);
-//        BufferedImage gaugeImage = loader.loadBufferedImage("images/components/gauges/vdo_samp_srr.JPG");
+//        BufferedImage gaugeImage = loader.loadBufferedImage("ohm-1d/images/components/gauges/vdo_samp_srr.JPG");
 //
 //        int needleX = gaugeImage.getWidth() / 2;
 //        int needleY = gaugeImage.getHeight() / 2 + 38;
@@ -405,7 +405,7 @@
 //        NumberFormat nf = new DecimalFormat();
 //        nf.setMaximumFractionDigits(2);
 //        nf.setMinimumFractionDigits(2);
-//        Image tinyBatteryImage = loader.loadBufferedImage("images/ron/AA-battery-100.gif");
+//        Image tinyBatteryImage = loader.loadBufferedImage("ohm-1d/images/ron/AA-battery-100.gif");
 //        VoltageSlider voltageSlider = new VoltageSlider(new Transform(0, 100, minAcc, accWidth), "Voltage", tinyBatteryImage, accDefault, nf);
 //        voltageSlider.addVoltageListener(battery);
 //        voltageSlider.addVoltageListener(bdc);
@@ -413,7 +413,7 @@
 //        voltageSlider.addVoltageListener(scatProp);
 //        voltageSlider.addVoltageListener(filament);
 //
-//        Image coreThumbnail = loader.loadBufferedImage("images/ron/CoreCountImage.gif");
+//        Image coreThumbnail = loader.loadBufferedImage("ohm-1d/images/ron/CoreCountImage.gif");
 //        CoreCountSlider is = new CoreCountSlider(1, maxResistance, 6, "Resistance", coreThumbnail);
 //        is.addIntListener(resistance);
 //        is.addIntListener(current);
@@ -499,9 +499,9 @@
 //        vp.addPainter(vpa2);
 //
 //
-//        BufferedImage leftAngel = loader.loadBufferedImage("images/pushers/PushLeft.gif");
+//        BufferedImage leftAngel = loader.loadBufferedImage("ohm-1d/images/pushers/PushLeft.gif");
 //        leftAngel = new AlphaFixer2(new int[]{252, 254, 252, 255}).patchAlpha(leftAngel);
-//        BufferedImage rightAngel = loader.loadBufferedImage("images/pushers/PushRight.gif");
+//        BufferedImage rightAngel = loader.loadBufferedImage("ohm-1d/images/pushers/PushRight.gif");
 //        rightAngel = new AlphaFixer2(new int[]{252, 254, 252, 255}).patchAlpha(rightAngel);
 //
 //        Point angeldx = new Point(-leftAngel.getWidth() / 2 - 20, -leftAngel.getHeight() / 2 + 4);
@@ -511,7 +511,7 @@
 //        cp.addPainter(angelPaint, 2);
 //
 //        Point turnstileCenter = new Point(100, 100);
-//        BufferedImage turnstileImage = loader.loadBufferedImage("images/ron/turnstile-0-deg.gif");
+//        BufferedImage turnstileImage = loader.loadBufferedImage("ohm-1d/images/ron/turnstile-0-deg.gif");
 //        Turnstile turnstile = new Turnstile(turnstileCenter, turnstileImage);
 //        cp.addPainter(turnstile, 1000);
 //        sys.addLaw(turnstile);
