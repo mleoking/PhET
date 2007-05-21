@@ -41,7 +41,7 @@ public class StopwatchCheckBox extends HorizontalLayoutPanel {
         } ).start();
         add( checkBox );
         try {
-            add( new JLabel( new ImageIcon( edu.colorado.phet.common.phetcommon.view.util.ImageLoader.loadBufferedImage( "images/stopwatch.png" ) ) ) );
+            add( new JLabel( new ImageIcon( edu.colorado.phet.common.phetcommon.view.util.ImageLoader.loadBufferedImage( "qwi/images/stopwatch.png" ) ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();

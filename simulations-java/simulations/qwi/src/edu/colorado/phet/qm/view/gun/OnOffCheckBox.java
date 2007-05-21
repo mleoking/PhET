@@ -32,8 +32,8 @@ public class OnOffCheckBox extends JCheckBox {
         } );
         setFont( new LucidaSansFont( 13, true ) );
         try {
-            ImageIcon on = new ImageIcon( ImageLoader.loadBufferedImage( "images/button-in-40.gif" ) );
-            ImageIcon off = new ImageIcon( ImageLoader.loadBufferedImage( "images/button-out-40.gif" ) );
+            ImageIcon on = new ImageIcon( ImageLoader.loadBufferedImage( "qwi/images/button-in-40.gif" ) );
+            ImageIcon off = new ImageIcon( ImageLoader.loadBufferedImage( "qwi/images/button-out-40.gif" ) );
             setIcon( new ToggleIcon( on, off ) );
         }
         catch( IOException e ) {

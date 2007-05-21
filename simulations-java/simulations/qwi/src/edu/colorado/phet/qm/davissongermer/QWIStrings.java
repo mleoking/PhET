@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  */
 
 public class QWIStrings {
-    private static String bundleName = "localization/QWIStrings";
+    private static String bundleName = "qwi/localization/qwi-strings";
 
     public static String getString( String s ) {
         return SimStrings.getInstance().getString( s );

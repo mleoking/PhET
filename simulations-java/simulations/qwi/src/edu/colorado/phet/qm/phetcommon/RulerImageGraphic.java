@@ -33,7 +33,7 @@ public class RulerImageGraphic extends PNode {
     public BufferedImage vert;
 
     public RulerImageGraphic( PSwingCanvas component ) {
-        imageGraphic = PImageFactory.create( "images/10-nanometer-stick.png" );
+        imageGraphic = PImageFactory.create( "qwi/images/10-nanometer-stick.png" );
         horiz = BufferedImageUtils.toBufferedImage( imageGraphic.getImage() );
         vert = BufferedImageUtils.getRotatedImage( horiz, 3 * Math.PI / 2 );
         addChild( imageGraphic );
@@ -80,7 +80,7 @@ public class RulerImageGraphic extends PNode {
     private JButton createRotateButton() {
         JButton rotate = null;
         try {
-            rotate = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/rot.jpg" ) ) );
+            rotate = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "qwi/images/rot.jpg" ) ) );
             rotate.setMargin( new Insets( 1, 1, 1, 1 ) );
         }
         catch( IOException e ) {
