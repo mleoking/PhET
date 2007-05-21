@@ -96,7 +96,7 @@ public class GreenhouseControlPanel extends JPanel {
         //--------------------------------------------------------------------------------------------------
 
         // PhET logo
-        JLabel logo = new JLabel( ( new ImageIcon( new ImageLoader().loadImage( "images/Phet-Flatirons-logo-3-small.gif" ) ) ) );
+        JLabel logo = new JLabel( ( new ImageIcon( new ImageLoader().loadImage( "greenhouse/images/Phet-Flatirons-logo-3-small.gif" ) ) ) );
 
         // Incident photon's from the sun
         final SliderWithReadout sunRateControl = new SliderWithReadout( SimStrings.get( "GreenhouseControlPanel.SunRateSlider" ),

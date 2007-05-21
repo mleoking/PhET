@@ -38,7 +38,7 @@ public class AtmosphereGraphic extends CompositeGraphic implements Observer, Sha
     public AtmosphereGraphic( Atmosphere atmosphere, final Rectangle2D modelBounds, Component containingComponent ) {
         this.atmosphere = atmosphere;
         atmosphere.addObserver( this );
-        BufferedImage atmosphereBI = new ImageLoader().loadBufferedImage( "images/pollution.gif" );
+        BufferedImage atmosphereBI = new ImageLoader().loadBufferedImage( "greenhouse/images/pollution.gif" );
         atmosphereImageGraphic = new ImageGraphic( atmosphereBI, new Point2D.Double( -modelBounds.getWidth() / 2, 0 ) );
 //        atmosphereImageGraphic = new ImageGraphic( atmosphereBI, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
         addGraphic( atmosphereImageGraphic, 1 );

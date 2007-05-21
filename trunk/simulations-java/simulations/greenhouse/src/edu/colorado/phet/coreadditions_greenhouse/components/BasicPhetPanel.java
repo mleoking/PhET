@@ -80,7 +80,7 @@ public class BasicPhetPanel extends JPanel {
             final JDialog buttonDlg = new JDialog();
             buttonDlg.setTitle( SimStrings.get( "BasicPhetPanel.ReturnTitle") );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
-            ImageIcon logo = new ImageIcon( new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" ));
+            ImageIcon logo = new ImageIcon( new ImageLoader().loadImage( "greenhouse/images/Phet-logo-48x48.gif" ));
             JButton logoButton = new JButton( logo );
             logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ));
             logoButton.addActionListener( new ActionListener() {

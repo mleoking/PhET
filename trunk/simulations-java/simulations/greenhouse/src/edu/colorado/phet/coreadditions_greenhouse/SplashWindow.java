@@ -47,7 +47,7 @@ public class SplashWindow extends JDialog {
 
         // Phet logo
         BufferedImage image = null;
-        image = ImageLoader.fetchBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" );
+        image = ImageLoader.fetchBufferedImage( "greenhouse/images/Phet-Flatirons-logo-3-small.gif" );
         ImageIcon logo = new ImageIcon( image );
 
         // Layout

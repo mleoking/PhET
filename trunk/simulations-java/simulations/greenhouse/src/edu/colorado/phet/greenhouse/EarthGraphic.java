@@ -47,9 +47,9 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
     private Animation earthAnimation;
     private EarthAnimator earthAnimator;
     private BufferedImage currentBackdropImage;
-    private BufferedImage backgroundToday = ImageLoader.fetchBufferedImage( "images/today-2.gif" );
-    private BufferedImage background1750 = ImageLoader.fetchBufferedImage( "images/1750-2.gif" );
-    private BufferedImage backgroundIceAge = ImageLoader.fetchBufferedImage( "images/ice-age-2.gif" );
+    private BufferedImage backgroundToday = ImageLoader.fetchBufferedImage( "greenhouse/images/today-2.gif" );
+    private BufferedImage background1750 = ImageLoader.fetchBufferedImage( "greenhouse/images/1750-2.gif" );
+    private BufferedImage backgroundIceAge = ImageLoader.fetchBufferedImage( "greenhouse/images/ice-age-2.gif" );
     private Map scaledBackgroundImages = new HashMap();
     Point2D.Double pUtil = new Point2D.Double();
 
@@ -66,11 +66,11 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         apparatusPanel.addGraphic( disk, GreenhouseConfig.EARTH_BASE_LAYER );
 
         // Set up the gif of the Earth
-        earthAnimation = new Animation( "images/earthGifs/earth", 30 );
+        earthAnimation = new Animation( "greenhouse/images/earthGifs/earth", 30 );
         earthAnimator = new EarthAnimator();
         earthAnimator.start();
 
-        this.gif = ImageLoader.fetchBufferedImage( "images/earth-a.gif" );
+        this.gif = ImageLoader.fetchBufferedImage( "greenhouse/images/earth-a.gif" );
         double gifToModelScale = ( 2 * earth.getRadius() ) / this.gif.getWidth();
         Point2D.Double earthLoc = new Point2D.Double( earth.getLocation().getX(), earth.getLocation().getY() );
         earthLoc.setLocation( earthLoc.getX() - earth.getRadius() / 2,
