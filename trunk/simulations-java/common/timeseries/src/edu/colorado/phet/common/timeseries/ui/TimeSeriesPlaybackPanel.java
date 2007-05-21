@@ -129,7 +129,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         add( rewind );
         add( clear );
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
-            public void stateChanged() {
+            public void dataAdded() {
                 updateButtons();
             }
         } );

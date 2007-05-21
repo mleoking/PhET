@@ -1,5 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+
 import java.util.ArrayList;
 
 /**
@@ -9,6 +11,14 @@ import java.util.ArrayList;
 public class CursorModel {
     private ArrayList listeners = new ArrayList();
     private double time;
+
+    public CursorModel( final TimeSeriesModel timeSeriesModel ) {
+        timeSeriesModel.addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
+            public void timeChanged() {
+                setTime( timeSeriesModel.getPlaybackTime() );
+            }
+        } );
+    }
 
     public double getTime() {
         return time;
