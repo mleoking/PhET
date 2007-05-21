@@ -140,6 +140,7 @@ public class RotationGraphSet {
                 updateCursorVisible( jFreeChartCursorNode, rotationModel );
             }
         } );
+//        rotationModel.getTimeSeriesModel().addPlaybackTimeChangeListener( );
         updateCursorVisible( jFreeChartCursorNode, rotationModel );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
             public void changed() {
