@@ -132,6 +132,10 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             public void dataAdded() {
                 updateButtons();
             }
+
+            public void pauseChanged() {
+                updateButtons();
+            }
         } );
         updateButtons();
     }

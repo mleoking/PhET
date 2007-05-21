@@ -93,6 +93,10 @@ public class TimeSeriesControlPanel extends JPanel {
             public void dataAdded() {
                 updateButtons();
             }
+
+            public void pauseChanged() {
+                updateButtons();
+            }
         } );
         updateButtons();
         setBorder( BorderFactory.createLineBorder( Color.lightGray ) );

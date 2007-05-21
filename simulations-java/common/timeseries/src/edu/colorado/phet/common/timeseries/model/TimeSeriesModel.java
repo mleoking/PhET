@@ -72,6 +72,14 @@ public class TimeSeriesModel extends ClockAdapter {
         if( paused != this.paused ) {
             this.paused = paused;
             notifyDataAdded();
+            notifyPauseChanged();
+        }
+    }
+
+    private void notifyPauseChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.pauseChanged();
         }
     }
 
@@ -266,6 +274,7 @@ public class TimeSeriesModel extends ClockAdapter {
     public static interface Listener {
         void dataAdded();
         void modeChanged();
+        void pauseChanged();
     }
 
     public static class Adapter implements Listener {
@@ -273,6 +282,9 @@ public class TimeSeriesModel extends ClockAdapter {
         }
 
         public void modeChanged() {
+        }
+
+        public void pauseChanged() {
         }
     }
 }
