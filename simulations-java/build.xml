@@ -179,7 +179,7 @@ PhET -specific tasks are moved to an auxiliary build file.
 
     <!--Builds the jar file for the simulation specified as property "sim.name"-->
     <target name="build-jar" depends="_init,_verify-sim-name-specified">
-        <phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
+        <phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar" shrink="false"/>
     </target>
 
     <!--Builds the jnlp file for a specific locale and flavor-->
