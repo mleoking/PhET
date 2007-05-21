@@ -113,7 +113,7 @@ public class MovingManModule extends Module {
 //    }
 
     public void showMegaHelp() {
-        showHelpImage( "images/mm-mh.gif" );
+        showHelpImage( "moving-man/images/mm-mh.gif" );
     }
 
     public void showHelpImage( String imageName ) {
@@ -236,7 +236,7 @@ public class MovingManModule extends Module {
         final JPanel appPanel = new JPanel( new BorderLayout() );
         final JComponent playbackPanel = movingManControlPanel.getPlaybackPanel();
         appPanel.add( playbackPanel, BorderLayout.CENTER );
-        ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.jpg" ) );
+        ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "moving-man/images/Phet-Flatirons-logo-3-small.jpg" ) );
         final JLabel phetIconLabel = new JLabel( imageIcon );
 //        appPanel.add( phetIconLabel, BorderLayout.WEST );
         HelpPanel hp = new HelpPanel( this );
@@ -273,7 +273,7 @@ public class MovingManModule extends Module {
 //        GridBagConstraints centerConstraints=new GridBagConstraints( 1,0,1,1,10,10,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 2,2,2,2),1,1 );
 //        final JComponent playbackPanel = movingManControlPanel.getPlaybackPanel();
 //        appPanel.add( playbackPanel, centerConstraints);
-//        ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.jpg" ) );
+//        ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "moving-man/images/Phet-Flatirons-logo-3-small.jpg" ) );
 //        final JLabel phetIconLabel = new JLabel( imageIcon );
 //        GridBagConstraints logoConstraints=new GridBagConstraints( 0,0,1,1,0,0,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 2,2,2,2),1,1 );
 //        GridBagConstraints helpConstraints=new GridBagConstraints( 1,0,1,1,0,0,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets( 2,2,2,2),1,1 );

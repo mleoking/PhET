@@ -26,7 +26,7 @@ public class PlaybackPanel extends JPanel {
 
     public PlaybackPanel( final MovingManModule module ) throws IOException {
         this.module = module;
-        ImageIcon pauseIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Pause24.gif" ) );
+        ImageIcon pauseIcon = new ImageIcon( new ImageLoader().loadImage( "moving-man/images/icons/java/media/Pause24.gif" ) );
 
         pause = new JButton( SimStrings.get( "PlaybackPanel.PauseButton" ), pauseIcon );
         pause.addActionListener( new ActionListener() {
@@ -35,7 +35,7 @@ public class PlaybackPanel extends JPanel {
                 module.setPaused( true );
             }
         } );
-        ImageIcon playIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Play24.gif" ) );
+        ImageIcon playIcon = new ImageIcon( new ImageLoader().loadImage( "moving-man/images/icons/java/media/Play24.gif" ) );
         play = new JButton( SimStrings.get( "PlaybackPanel.PlaybackButton" ), playIcon );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -43,7 +43,7 @@ public class PlaybackPanel extends JPanel {
             }
         } );
 
-        ImageIcon rewindIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Rewind24.gif" ) );
+        ImageIcon rewindIcon = new ImageIcon( new ImageLoader().loadImage( "moving-man/images/icons/java/media/Rewind24.gif" ) );
         rewind = new JButton( SimStrings.get( "PlaybackPanel.RewindButton" ), rewindIcon );
         rewind.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -52,7 +52,7 @@ public class PlaybackPanel extends JPanel {
             }
         } );
 
-        ImageIcon slowIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/StepForward24.gif" ) );
+        ImageIcon slowIcon = new ImageIcon( new ImageLoader().loadImage( "moving-man/images/icons/java/media/StepForward24.gif" ) );
         slowMotion = new JButton( SimStrings.get( "PlaybackPanel.ShowPlaybackButton" ), slowIcon );
         slowMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

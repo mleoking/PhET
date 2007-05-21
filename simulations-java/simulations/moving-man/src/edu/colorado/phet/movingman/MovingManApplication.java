@@ -28,7 +28,7 @@ public class MovingManApplication {
     private static boolean addJEP = true;
 
     // Localization
-    public static final String localizedStringsPath = "localization/MovingManStrings";
+    public static final String localizedStringsPath = "moving-man/localization/moving-man-strings";
 
     public static void main( final String[] args ) throws Exception {
         QuickTimer initTime = new QuickTimer();

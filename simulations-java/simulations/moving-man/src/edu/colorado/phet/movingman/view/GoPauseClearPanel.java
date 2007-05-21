@@ -41,8 +41,8 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
         };
         goPauseButton = new ControlButton( SimStrings.get( "MMPlot.PauseButton" ) );//longer text
         try {
-            goIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/light3.png" ) );
-            pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/stop-20.png" ) );
+            goIcon = new ImageIcon( ImageLoader.loadBufferedImage( "moving-man/images/light3.png" ) );
+            pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( "moving-man/images/stop-20.png" ) );
             goPauseButton.setIcon( goIcon );
         }
         catch( IOException e ) {

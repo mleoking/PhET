@@ -54,15 +54,15 @@ public class WalkWayGraphic extends CompositePhetGraphic {
                            int numTickMarks, double treex, double housex, Function.LinearFunction transform ) throws IOException {
         super( panel );
         this.transform = transform;
-        this.treeObject = new WalkwayObjectGraphic( this, treex, "images/tree.gif" );
-        this.houseObject = new WalkwayObjectGraphic( this, housex, "images/cottage.gif" );
+        this.treeObject = new WalkwayObjectGraphic( this, treex, "moving-man/images/tree.gif" );
+        this.houseObject = new WalkwayObjectGraphic( this, housex, "moving-man/images/cottage.gif" );
 
         backgroundGraphic = new PhetShapeGraphic( panel, null, Color.white, new BasicStroke( 1.0f ), Color.black );
         floorGraphic = new PhetShapeGraphic( panel, null, Color.white );
 
         tickSetGraphic = new TickSetGraphic( panel, transform );
 
-        BufferedImage barrierImage = ImageLoader.loadBufferedImage( "images/barrier.jpg" );
+        BufferedImage barrierImage = ImageLoader.loadBufferedImage( "moving-man/images/barrier.jpg" );
         this.barrierImage = BufferedImageUtils.rescaleYMaintainAspectRatio( panel, barrierImage, 130 );
         setWalls();
 

@@ -47,8 +47,8 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
         this.m = m;
         this.y = y;
         this.transform = transform;
-        standingMan = ImageLoader.loadBufferedImage( "images/stand-ii.gif" );
-        leftMan = ImageLoader.loadBufferedImage( "images/left-ii.gif" );
+        standingMan = ImageLoader.loadBufferedImage( "moving-man/images/stand-ii.gif" );
+        leftMan = ImageLoader.loadBufferedImage( "moving-man/images/left-ii.gif" );
         int height = 120;
         standingMan = BufferedImageUtils.rescaleYMaintainAspectRatio( apparatusPanel, standingMan, height );
         leftMan = BufferedImageUtils.rescaleYMaintainAspectRatio( apparatusPanel, leftMan, height );
