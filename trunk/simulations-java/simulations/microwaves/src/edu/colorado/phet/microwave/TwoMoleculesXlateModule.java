@@ -11,7 +11,8 @@ import edu.colorado.phet.coreadditions_microwaves.MessageFormatter;
 import edu.colorado.phet.microwave.model.Microwave;
 import edu.colorado.phet.microwave.model.WaterMolecule;
 import edu.colorado.phet.microwave.view.WaterMoleculeGraphic;
-import edu.colorado.phet.common_microwaves.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 
 import javax.swing.*;
 

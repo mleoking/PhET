@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.colorvision.phetcommon.model.BaseModel;
 import edu.colorado.phet.colorvision.phetcommon.view.graphics.shapes.Arrow;
 import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.colorvision.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * IntensitySliderWiggleMe is a help graphic that tells the user to move an 

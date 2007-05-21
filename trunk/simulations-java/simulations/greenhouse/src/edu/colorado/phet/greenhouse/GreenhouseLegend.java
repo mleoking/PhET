@@ -7,7 +7,7 @@
 package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common_greenhouse.view.util.GraphicsUtil;
-import edu.colorado.phet.common_greenhouse.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

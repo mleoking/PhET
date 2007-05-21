@@ -11,7 +11,7 @@
 package edu.colorado.phet.common_force1d.view.components;
 
 import edu.colorado.phet.common_force1d.math.ModelViewTransform1D;
-import edu.colorado.phet.common_force1d.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.view.util.SwingUtils;
 
 import javax.swing.*;

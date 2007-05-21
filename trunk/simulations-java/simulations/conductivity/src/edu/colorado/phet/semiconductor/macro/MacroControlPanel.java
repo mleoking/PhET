@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.semiconductor.macro;
 
-import edu.colorado.phet.common.conductivity.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

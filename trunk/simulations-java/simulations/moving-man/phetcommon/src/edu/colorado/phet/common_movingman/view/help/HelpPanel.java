@@ -11,7 +11,7 @@
 package edu.colorado.phet.common_movingman.view.help;
 
 import edu.colorado.phet.common_movingman.application.Module;
-import edu.colorado.phet.common_movingman.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

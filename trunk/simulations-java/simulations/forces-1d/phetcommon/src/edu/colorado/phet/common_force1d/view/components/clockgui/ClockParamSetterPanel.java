@@ -14,7 +14,7 @@ import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
 import edu.colorado.phet.common_force1d.model.clock.ClockStateEvent;
 import edu.colorado.phet.common_force1d.model.clock.ClockStateListener;
 import edu.colorado.phet.common_force1d.model.clock.ThreadedClock;
-import edu.colorado.phet.common_force1d.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

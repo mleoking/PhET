@@ -9,7 +9,6 @@ import edu.colorado.phet.common_movingman.view.ContentPanel;
 import edu.colorado.phet.common_movingman.view.PhetFrame;
 import edu.colorado.phet.common_movingman.view.help.HelpPanel;
 import edu.colorado.phet.common_movingman.view.util.ImageLoader;
-import edu.colorado.phet.common_movingman.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.view.util.SwingUtils;
 import edu.colorado.phet.movingman.common.CircularBuffer;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
@@ -22,6 +21,7 @@ import edu.colorado.phet.movingman.view.GoPauseClearPanel;
 import edu.colorado.phet.movingman.view.ManGraphic;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
 import edu.colorado.phet.movingman.view.WalkWayGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

@@ -21,9 +21,9 @@ import edu.colorado.phet.common.conductivity.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.conductivity.view.util.AspectRatioLayout;
-import edu.colorado.phet.common.conductivity.view.util.SimStrings;
 import edu.colorado.phet.common.conductivity.view.util.framesetup.FrameCenterer;
 import edu.colorado.phet.common.conductivity.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.Flashlight;
 import edu.colorado.phet.semiconductor.FlashlightGraphic;
 import edu.colorado.phet.semiconductor.Photon;
@@ -268,7 +268,7 @@ public class ConductivityApplication extends Module {
     }
 
     public static void main( String args[] ) throws IOException {
-        SimStrings.init( args, localizedStringsPath );
+        SimStrings.getInstance().init( args,localizedStringsPath );
 
         SwingTimerClock swingtimerclock = new SwingTimerClock( 1.0D, 30, true );
         final ConductivityApplication module = new ConductivityApplication( swingtimerclock );

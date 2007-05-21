@@ -9,7 +9,7 @@ package edu.colorado.phet.coreadditions_microwaves.components;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.components.menu.HelpMenu;
 import edu.colorado.phet.common_microwaves.view.components.menu.PhetFileMenu;
-import edu.colorado.phet.common_microwaves.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

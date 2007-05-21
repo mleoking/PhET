@@ -11,7 +11,7 @@ import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
 import edu.colorado.phet.microwave.CoffeeModule;
 import edu.colorado.phet.microwave.MicrowaveModule;
 import edu.colorado.phet.microwave.model.MicrowaveModel;
-import edu.colorado.phet.common_microwaves.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

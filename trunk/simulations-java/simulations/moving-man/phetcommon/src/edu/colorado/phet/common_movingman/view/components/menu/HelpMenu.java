@@ -15,7 +15,7 @@ import edu.colorado.phet.common_movingman.application.ModuleManager;
 import edu.colorado.phet.common_movingman.application.ModuleObserver;
 import edu.colorado.phet.common_movingman.application.PhetApplication;
 import edu.colorado.phet.common_movingman.util.VersionUtils;
-import edu.colorado.phet.common_movingman.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -12,7 +12,7 @@ import edu.colorado.phet.common_greenhouse.application.PhetApplication;
 import edu.colorado.phet.common_greenhouse.model.IClock;
 import edu.colorado.phet.common_greenhouse.view.ApplicationDescriptor;
 import edu.colorado.phet.common_greenhouse.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
-import edu.colorado.phet.common_greenhouse.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.coreadditions_greenhouse.MessageFormatter;
 import edu.colorado.phet.coreadditions_greenhouse.SplashWindow;
 import edu.colorado.phet.coreadditions_greenhouse.clock.StaticClockModel;
@@ -59,7 +59,7 @@ public class GreenhouseApplication extends PhetApplication {
 
 
     public static void main( String[] args ) {
-        SimStrings.init( args, localizedStringsPath );
+        SimStrings.getInstance().init( args, localizedStringsPath );
 
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {

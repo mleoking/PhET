@@ -1,7 +1,7 @@
 /*, 2003.*/
 package edu.colorado.phet.coreadditions_greenhouse.components;
 
-import edu.colorado.phet.common_greenhouse.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
 
 import javax.swing.*;

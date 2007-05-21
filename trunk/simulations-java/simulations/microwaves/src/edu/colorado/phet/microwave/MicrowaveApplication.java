@@ -16,7 +16,8 @@ import edu.colorado.phet.coreadditions_microwaves.PhetLookAndFeel;
 import edu.colorado.phet.coreadditions_microwaves.clock.DynamicClockModel;
 import edu.colorado.phet.coreadditions_microwaves.clock.SwingTimerClock;
 import edu.colorado.phet.coreadditions_microwaves.components.PhetFrame;
-import edu.colorado.phet.common_microwaves.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 
 import java.util.logging.Logger;
 
@@ -34,7 +35,7 @@ public class MicrowaveApplication {
     public static final String localizedStringsPath = "microwaves/localization/microwaves-strings";
 
     public static void main( String[] args ) {
-        SimStrings.init( args, localizedStringsPath );
+        SimStrings.getInstance().init( args, localizedStringsPath );
 
         // Get a logger; the logger is automatically created if
         // it doesn't already exist

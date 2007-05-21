@@ -6,7 +6,7 @@ import edu.colorado.phet.common_microwaves.model.command.Command;
 import edu.colorado.phet.common_microwaves.view.ApplicationView;
 import edu.colorado.phet.common_microwaves.view.components.media.Resettable;
 import edu.colorado.phet.common_microwaves.view.util.graphics.ImageLoader;
-import edu.colorado.phet.common_microwaves.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

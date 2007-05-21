@@ -14,7 +14,7 @@ package edu.colorado.phet.common_force1d.application;
 import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
 import edu.colorado.phet.common_force1d.util.VersionUtils;
 import edu.colorado.phet.common_force1d.view.util.FrameSetup;
-import edu.colorado.phet.common_force1d.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.io.IOException;
 

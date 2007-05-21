@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common_force1d.application.Module;
 import edu.colorado.phet.common_force1d.application.PhetApplication;
-import edu.colorado.phet.common_force1d.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * HelpPanel

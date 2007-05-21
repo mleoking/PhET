@@ -13,11 +13,11 @@ import edu.colorado.phet.common_greenhouse.model.ModelElement;
 import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
 import edu.colorado.phet.common_greenhouse.view.CompositeGraphic;
 import edu.colorado.phet.common_greenhouse.view.FlipperAffineTransformFactory;
-import edu.colorado.phet.common_greenhouse.view.util.SimStrings;
 import edu.colorado.phet.filter.BandpassFilter;
 import edu.colorado.phet.filter.Filter1D;
 import edu.colorado.phet.instrumentation.Thermometer;
 import edu.colorado.phet.instrumentation.ThermometerGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

@@ -7,7 +7,6 @@ package edu.colorado.phet.efield.electron.gui.media;
 import edu.colorado.phet.efield.electron.core.SystemFactory;
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
-import edu.colorado.phet.efield.electron.utils.SimStrings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.util.Vector;
 import javax.swing.*;
 import edu.colorado.phet.efield.electron.phys2d_efield.SystemRunner;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.media:
 //            SelectableJButton, Resettable

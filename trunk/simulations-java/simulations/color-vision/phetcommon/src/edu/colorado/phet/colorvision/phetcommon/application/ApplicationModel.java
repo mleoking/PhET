@@ -14,7 +14,7 @@ package edu.colorado.phet.colorvision.phetcommon.application;
 import edu.colorado.phet.colorvision.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.colorvision.phetcommon.view.PhetFrame;
 import edu.colorado.phet.colorvision.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.colorvision.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * This class is essentially a data structure that contains specifications for the top-level

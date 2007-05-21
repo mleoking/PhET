@@ -136,4 +136,20 @@ public class SimStrings {
         return value;
     }
 
+    /**
+     *
+     * @param s
+     * @return
+     * @deprecated use getString()
+     */
+    public static String get( String s ) {
+        return INSTANCE.getString( s);
+    }
+
+    /**
+     * @deprecated use addStrings 
+     */
+    public static void setStrings( String s ) {
+        INSTANCE.addStrings( s );
+    }
 }

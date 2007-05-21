@@ -8,7 +8,8 @@ package edu.colorado.phet.common_cck.view.help;
 
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.view.util.FractionSpring;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

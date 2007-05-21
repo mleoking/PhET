@@ -12,7 +12,7 @@ package edu.colorado.phet.common_force1d.view.components.clockgui;
 
 import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
 import edu.colorado.phet.common_force1d.model.clock.ThreadedClock;
-import edu.colorado.phet.common_force1d.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

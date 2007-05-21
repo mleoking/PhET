@@ -11,7 +11,7 @@
 package edu.colorado.phet.colorvision.phetcommon.view;
 
 import edu.colorado.phet.colorvision.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.colorvision.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

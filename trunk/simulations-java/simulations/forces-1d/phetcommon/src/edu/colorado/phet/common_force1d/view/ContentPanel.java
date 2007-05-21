@@ -12,7 +12,7 @@ package edu.colorado.phet.common_force1d.view;
 
 import edu.colorado.phet.common_force1d.application.PhetApplication;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
-import edu.colorado.phet.common_force1d.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

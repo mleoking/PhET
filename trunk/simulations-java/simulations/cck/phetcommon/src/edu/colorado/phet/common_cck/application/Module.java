@@ -7,7 +7,7 @@ import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.help.HelpItem;
 import edu.colorado.phet.common_cck.view.help.HelpManager;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 

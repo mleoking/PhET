@@ -13,10 +13,10 @@ import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_movingman.view.util.BufferedImageUtils;
 import edu.colorado.phet.common_movingman.view.util.ImageLoader;
-import edu.colorado.phet.common_movingman.view.util.SimStrings;
 import edu.colorado.phet.movingman.common.ZoomControl;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

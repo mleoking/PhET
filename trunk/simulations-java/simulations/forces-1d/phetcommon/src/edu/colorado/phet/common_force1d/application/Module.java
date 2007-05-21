@@ -22,7 +22,7 @@ import edu.colorado.phet.common_force1d.view.help.HelpItem;
 import edu.colorado.phet.common_force1d.view.help.HelpManager;
 import edu.colorado.phet.common_force1d.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common_force1d.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 

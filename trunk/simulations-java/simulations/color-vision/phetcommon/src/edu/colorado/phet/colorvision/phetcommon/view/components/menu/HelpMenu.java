@@ -4,15 +4,15 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14443 $
+ * Date modified : $Date:2007-04-12 23:10:41 -0600 (Thu, 12 Apr 2007) $
  */
 package edu.colorado.phet.colorvision.phetcommon.view.components.menu;
 
 import edu.colorado.phet.colorvision.phetcommon.application.ApplicationModel;
 import edu.colorado.phet.colorvision.phetcommon.util.VersionUtils;
-import edu.colorado.phet.colorvision.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
  * HelpMenu
  *
  * @author Ron LeMaster
- * @version $Revision$
+ * @version $Revision:14443 $
  */
 public class HelpMenu extends JMenu {
     public HelpMenu( final ApplicationModel appDescriptor ) {

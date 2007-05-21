@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.microwave;
 
-import edu.colorado.phet.common_microwaves.view.util.SimStrings;
+
 
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
@@ -17,6 +17,7 @@ import edu.colorado.phet.microwave.model.MicrowaveModel;
 import edu.colorado.phet.microwave.model.WaterMolecule;
 import edu.colorado.phet.microwave.view.CoffeeControlPanel;
 import edu.colorado.phet.microwave.view.WaterMoleculeGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
