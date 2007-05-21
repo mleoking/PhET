@@ -33,7 +33,7 @@ public class TravoltageRootNode extends PNode {
         backgroundNode.setOffset( -inset.getX(), -inset.getY() );
         addChild( backgroundNode );
 
-        final PImage doorNode = PImageFactory.create( "images/door.gif" );
+        final PImage doorNode = PImageFactory.create( "travoltage/images/door.gif" );
         doorNode.scale( 0.75 );
         addChild( doorNode );
         doorNode.setOffset( 290, -42 );

@@ -22,7 +22,7 @@ public class JadeElectronNode extends PNode {
 
     public static double getViewRadius() {
         try {
-            return ImageLoader.loadBufferedImage( "images/Electron3.GIF" ).getWidth() / 2;
+            return ImageLoader.loadBufferedImage( "travoltage/images/Electron3.GIF" ).getWidth() / 2;
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -33,7 +33,7 @@ public class JadeElectronNode extends PNode {
     public JadeElectronNode( TravoltageBodyNode travoltageBodyNode, JadeElectron electron ) {
         this.travoltageBodyNode = travoltageBodyNode;
         this.electron = electron;
-        addChild( PImageFactory.create( "images/Electron3.GIF" ) );
+        addChild( PImageFactory.create( "travoltage/images/Electron3.GIF" ) );
         setPickable( false );
         setChildrenPickable( false );
         update();

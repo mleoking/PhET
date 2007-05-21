@@ -47,11 +47,11 @@
 //
 //        final ParticlePanel pp = new ParticlePanel();
 //
-//        AudioClip ouch = ResourceLoader.loadAudioClip( "sound/OuchSmallest.wav", pp );
-//        AudioClip zzt = ResourceLoader.loadAudioClip( "sound/ShockSmallest.wav", pp );
+//        AudioClip ouch = ResourceLoader.loadAudioClip( "travoltage/audio/OuchSmallest.wav", pp );
+//        AudioClip zzt = ResourceLoader.loadAudioClip( "travoltage/audio/ShockSmallest.wav", pp );
 //        AudioClip[] audioClips = new AudioClip[]{ouch, zzt};
 //
-//        johnBitmap = ResourceLoader.loadBufferedImage( "images/JT5-Bitmap_Colors2.GIF", pp, false );
+//        johnBitmap = ResourceLoader.loadBufferedImage( "travoltage/images/JT5-Bitmap_Colors2.GIF", pp, false );
 //
 //        PixelVelocityLookup2 pvl = new PixelVelocityLookup2();
 //        pvl.add( new int[]{255, 0, 0}, new DoublePoint( 0, -1 ) );
@@ -77,7 +77,7 @@
 //        sys.addLaw( new PropagatorToLawAdapter() );
 //        new Thread( sr ).start();
 //
-//        BufferedImage bi = edu.colorado.phet.common.utils.ResourceLoader.loadBufferedImage( "images/Electron3.GIF", pp, true );
+//        BufferedImage bi = edu.colorado.phet.common.utils.ResourceLoader.loadBufferedImage( "travoltage/images/Electron3.GIF", pp, true );
 //        bi = edu.colorado.phet.common.utils.AlphaFixer.patchAlpha( bi );
 //        ParticlePainter painter = new ImagePainter( bi );
 //
@@ -90,7 +90,7 @@
 //        validate();
 //
 //        ShockElectronFactory shoeElectrons = new ShockElectronFactory( 160, johnBitmap.getHeight() - 50, 20, 20, tp );
-//        BufferedImage arm = ResourceLoader.loadBufferedImage( "images/arm.GIF", pp, true );
+//        BufferedImage arm = ResourceLoader.loadBufferedImage( "travoltage/images/arm.GIF", pp, true );
 //        arm = edu.colorado.phet.common.utils.AlphaFixer.patchAlpha( arm );
 //
 //        double armAngle = 5.3;
@@ -113,10 +113,10 @@
 //
 //        getContentPane().add( southPanel, BorderLayout.SOUTH );
 //
-//        overlay = edu.colorado.phet.common.utils.ResourceLoader.loadBufferedImage( "images/JT5.jpg", pp, true );
+//        overlay = edu.colorado.phet.common.utils.ResourceLoader.loadBufferedImage( "travoltage/images/JT5.jpg", pp, true );
 //        pp.add( new BufferedImagePainter( overlay ) );
 //
-//        knob = ResourceLoader.loadBufferedImage( "images/knob.jpg", pp, true );
+//        knob = ResourceLoader.loadBufferedImage( "travoltage/images/knob.jpg", pp, true );
 //        knob = edu.colorado.phet.common.utils.AlphaFixer.patchAlpha( knob );
 //        pp.add( new BufferedImagePainter( knob, AffineTransform.getTranslateInstance( overlay.getWidth() - 15, overlay.getHeight() * .35 ) ) );
 //
@@ -128,7 +128,7 @@
 //
 //        //armRI.addAngleListener(new Arm(scuff,6.58,.557));
 //
-//        BufferedImage leg = ResourceLoader.loadBufferedImage( "images/leg.GIF", pp, true );
+//        BufferedImage leg = ResourceLoader.loadBufferedImage( "travoltage/images/leg.GIF", pp, true );
 //        leg = edu.colorado.phet.common.utils.AlphaFixer.patchAlpha( leg );
 //        final RotatingImage legRI = ( new RotatingImage( leg, -0.176614109401938, 130, 255, pp, 80, 20, 20, Math.PI / 2 + Math.PI / 8 ) );
 //        pp.add( legRI );
@@ -153,7 +153,7 @@
 //        };
 //        pp.addMouseMotionListener( mml );
 //
-//        carpet = ResourceLoader.loadBufferedImage( "images/carpet.GIF", pp, true );
+//        carpet = ResourceLoader.loadBufferedImage( "travoltage/images/carpet.GIF", pp, true );
 //
 //        carpet = edu.colorado.phet.common.utils.AlphaFixer.patchAlpha( carpet );
 //        pp.add( new BufferedImagePainter( carpet, AffineTransform.getTranslateInstance( 0, overlay.getHeight() - 25 ) ) );

@@ -13,6 +13,6 @@ import edu.umd.cs.piccolo.PNode;
 
 public class TravoltageBackgroundNode extends PNode {
     public TravoltageBackgroundNode() {
-        addChild( PImageFactory.create( "images/livingroom.gif" ) );
+        addChild( PImageFactory.create( "travoltage/images/livingroom.gif" ) );
     }
 }

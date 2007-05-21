@@ -26,7 +26,7 @@ public class ResourceLoader {
     }
 
     public static BufferedImage loadBufferedImage( String name, Component c, boolean argb ) {
-        //URL fileLoc=findResource("images/"+name,c);
+        //URL fileLoc=findResource("travoltage/images/"+name,c);
         URL fileLoc = findResource( name, c );
         try {
             Image img = c.getToolkit().createImage( fileLoc );
