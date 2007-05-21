@@ -105,7 +105,7 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
         }
         else {
             loader.setPhetLoader();
-            batteryImage = ImageLoader.loadBufferedImage( "images/AA-battery.gif" );
+            batteryImage = ImageLoader.loadBufferedImage( "semiconductor/images/AA-battery.gif" );
             return batteryImage;
         }
     }
@@ -116,7 +116,7 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
         }
         else {
             loader.setPhetLoader();
-            particleImage = loader.loadBufferedImage( "images/particle-blue-sml.gif" );
+            particleImage = loader.loadBufferedImage( "semiconductor/images/particle-blue-sml.gif" );
             return particleImage;
         }
     }
