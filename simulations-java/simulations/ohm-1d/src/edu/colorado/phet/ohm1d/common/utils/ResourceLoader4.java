@@ -21,7 +21,7 @@ public class ResourceLoader4 implements ImageLoader {
     }
 
     public BufferedImage loadBufferedImage( String name ) {
-        //URL fileLoc=findResource("images/"+name,c);
+        //URL fileLoc=findResource("ohm-1d/images/"+name,c);
         URL fileLoc = loader.getResource( name );
         try {
             Image img = observer.getToolkit().createImage( fileLoc );

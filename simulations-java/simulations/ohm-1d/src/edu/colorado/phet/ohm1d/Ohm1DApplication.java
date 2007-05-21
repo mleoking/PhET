@@ -1,10 +1,11 @@
-package edu.colorado.phet.ohm1d.volt;
+package edu.colorado.phet.ohm1d;
 
 import edu.colorado.phet.ohm1d.common.math.functions.Transform;
 import edu.colorado.phet.ohm1d.AngelPaint;
 import edu.colorado.phet.ohm1d.AverageCurrent2;
 import edu.colorado.phet.ohm1d.Electron;
 import edu.colorado.phet.ohm1d.Resistance;
+import edu.colorado.phet.ohm1d.volt.*;
 import edu.colorado.phet.ohm1d.collisions.Collider;
 import edu.colorado.phet.ohm1d.collisions.DefaultCollisionEvent;
 import edu.colorado.phet.ohm1d.gui.CoreCountSlider;
@@ -61,7 +62,7 @@ import java.util.Random;
 
 public class Ohm1DApplication extends JApplet {
     // Localization
-    public static final String localizedStringsPath = "localization/Ohm1dStrings";
+    public static final String localizedStringsPath = "ohm-1d/localization/ohm-1d-strings";
 
     public Ohm1DApplication() {
         //System.err.println("HI");
@@ -159,14 +160,14 @@ public class Ohm1DApplication extends JApplet {
         double vMax = 10;
         //double vMax = 30;
         int yOffsetForSpct = 400;
-        Spectrum cm = new Spectrum( loader.loadBufferedImage( "images/spectra/spect3.jpg" ), 100 );
+        Spectrum cm = new Spectrum( loader.loadBufferedImage( "ohm-1d/images/spectra/spect3.jpg" ), 100 );
         Filament filament = new Filament( goldStroke, scatterPatch, vMax * .6, 1, cm );
 
-        BufferedImage xar = loader.loadBufferedImage( "icons/Play24.GIF" );
+        BufferedImage xar = loader.loadBufferedImage( "ohm-1d/images/icons/Play24.GIF" );
         AlphaFixer2 alphaFixerForIcons = new AlphaFixer2( new int[]{192, 192, 192, 255} );
         xar = alphaFixerForIcons.patchAlpha( xar );
 
-        BlackbodyScale bs = new BlackbodyScale( loader.loadBufferedImage( "images/spectra/fullSpectrum.jpg" ), 350, 10 + yOffsetForSpct,
+        BlackbodyScale bs = new BlackbodyScale( loader.loadBufferedImage( "ohm-1d/images/spectra/fullSpectrum.jpg" ), 350, 10 + yOffsetForSpct,
                                                 xar );
         cm.addPowerListener( bs );
         cp.addPainter( bs );
@@ -205,7 +206,7 @@ public class Ohm1DApplication extends JApplet {
         ShowPainters showCores = new ShowPainters( cp, new int[]{CORE_LEVEL, CORE_LEVEL_BOTTOM} );
 
         //CenteredDotPainter dp = new CenteredDotPainter(Color.red, 12);
-        BufferedImage greeny = loader.loadBufferedImage( "images/ron/particle-green-med.gif" );
+        BufferedImage greeny = loader.loadBufferedImage( "ohm-1d/images/ron/particle-green-med.gif" );
         greeny = new MakeMETransp( new int[]{0} ).patchAlpha( greeny );
         ParticlePainter dp = new edu.colorado.phet.ohm1d.common.paint.particle.ImagePainter( greeny );
         Resistance resistance = new Resistance( CORE_START, CORE_END, numCores, wp, amplitude, freq, decay, dp, CORE_LEVEL, CORE_LEVEL_BOTTOM, cp, showCores, sys );
@@ -254,11 +255,11 @@ public class Ohm1DApplication extends JApplet {
         prop.addPropagator( new DualJunction( wp, wp2 ) );
         prop.addPropagator( new DualJunction( wp2, wp ) );
 
-        BufferedImage ronImage = loader.loadBufferedImage( "images/ron/particle-blue-sml.gif" );
+        BufferedImage ronImage = loader.loadBufferedImage( "ohm-1d/images/ron/particle-blue-sml.gif" );
         //ronImage=new AlphaFixer2(new int[]{252,254,252,255}).patchAlpha(ronImage);
         ParticlePainter painter = new edu.colorado.phet.ohm1d.common.paint.particle.ImagePainter( ronImage );
 
-        BufferedImage batteryImage = loader.loadBufferedImage( "images/ron/AA-battery-555-left.gif" );
+        BufferedImage batteryImage = loader.loadBufferedImage( "ohm-1d/images/ron/AA-battery-555-left.gif" );
         //batteryImage=new MakeTransparentImage(195).patchAlpha(batteryImage);
         int battImageX = (int)bottomLeftWirePoint.getX() + 59;
         int battImageY = (int)bottomLeftWirePoint.getY() - batteryImage.getHeight() / 2 + 3;
@@ -266,9 +267,9 @@ public class Ohm1DApplication extends JApplet {
         int BATT_LAYER = 10;
 
         //Need an image changer component
-        //BufferedImage batteryImage2 = loader.loadBufferedImage("images/components/batteries/AA256_H100-Hollow-Right-big-empty-hack2.GIF");
+        //BufferedImage batteryImage2 = loader.loadBufferedImage("ohm-1d/images/components/batteries/AA256_H100-Hollow-Right-big-empty-hack2.GIF");
         //batteryImage2 = new AlphaFixer2(new int[]{248, 248, 247, 255}).patchAlpha(batteryImage2);
-        BufferedImage batteryImage2 = loader.loadBufferedImage( "images/ron/AA-battery-555.gif" );
+        BufferedImage batteryImage2 = loader.loadBufferedImage( "ohm-1d/images/ron/AA-battery-555.gif" );
         //batteryImage2=new MakeTransparentImage(195).patchAlpha(batteryImage2);
         //batteryImage2=batteryImage;
         BufferedImagePainter battPainter2 = new BufferedImagePainter( batteryImage2, (int)bottomLeftWirePoint.getX() + 59, (int)bottomLeftWirePoint.getY() - batteryImage2.getHeight() / 2 + 3 );
@@ -286,9 +287,9 @@ public class Ohm1DApplication extends JApplet {
         int gaugeY = 390;
         int numParticles = 50;
         double maxCurrent = vmax * 4;//numParticles*1.2;
-        //BufferedImage gaugeImage = loader.loadBufferedImage("images/components/gauges/vdo_samp_srr.JPG");
+        //BufferedImage gaugeImage = loader.loadBufferedImage("ohm-1d/images/components/gauges/vdo_samp_srr.JPG");
         AlphaFixer2 alphaFixer = new AlphaFixer2( new int[]{252, 254, 252, 255} );
-        BufferedImage gaugeImage = loader.loadBufferedImage( "images/components/gauges/vdo_samp_srr_edit3.gif" );
+        BufferedImage gaugeImage = loader.loadBufferedImage( "ohm-1d/images/components/gauges/vdo_samp_srr_edit3.gif" );
         gaugeImage = alphaFixer.patchAlpha( gaugeImage );
 
         int needleX = gaugeImage.getWidth() / 2;
@@ -414,7 +415,7 @@ public class Ohm1DApplication extends JApplet {
         NumberFormat nf = new DecimalFormat();
         nf.setMaximumFractionDigits( 2 );
         nf.setMinimumFractionDigits( 2 );
-        Image tinyBatteryImage = loader.loadBufferedImage( "images/ron/AA-battery-100.gif" );
+        Image tinyBatteryImage = loader.loadBufferedImage( "ohm-1d/images/ron/AA-battery-100.gif" );
         VoltageSlider voltageSlider = new VoltageSlider( new Transform( 0, 100, minAcc, accWidth ),
                         SimStrings.get( "Ohm1dModule.VoltageSliderName" ), tinyBatteryImage, accDefault,
                         nf, SimStrings.get( "Ohm1dModule.VoltageSliderUnits" ) );
@@ -427,7 +428,7 @@ public class Ohm1DApplication extends JApplet {
         voltageSlider.addVoltageListener( fp );
         voltageSlider.addVoltageListener( rs );
 
-        Image coreThumbnail = loader.loadBufferedImage( "images/ron/CoreCountImage.gif" );
+        Image coreThumbnail = loader.loadBufferedImage( "ohm-1d/images/ron/CoreCountImage.gif" );
         CoreCountSlider is = new CoreCountSlider( 3, maxResistance, 6, SimStrings.get( "Ohm1dModule.CoreCountSliderName" ),
                             coreThumbnail, SimStrings.get( "Ohm1dModule.CoreCountSliderUnits" ) );
         is.addIntListener( resistance );
@@ -437,8 +438,8 @@ public class Ohm1DApplication extends JApplet {
         is.fireChange();
 
         JPanel mediaControlPanel = new JPanel();
-        BufferedImage playImage = loader.loadBufferedImage( "icons/Play16.gif" );
-        BufferedImage pauseImage = loader.loadBufferedImage( "icons/Pause16.gif" );
+        BufferedImage playImage = loader.loadBufferedImage( "ohm-1d/images/icons/Play16.gif" );
+        BufferedImage pauseImage = loader.loadBufferedImage( "ohm-1d/images/icons/Pause16.gif" );
         ImageIcon playIcon = new ImageIcon( playImage );
         ImageIcon pauseIcon = new ImageIcon( pauseImage );
         JButton playButton = new JButton( SimStrings.get( "Ohm1dModule.PlayButton" ), playIcon );
@@ -530,9 +531,9 @@ public class Ohm1DApplication extends JApplet {
         vp.addPainter( vpa2 );
 
 
-        BufferedImage leftAngel = loader.loadBufferedImage( "images/pushers/PushLeft.gif" );
+        BufferedImage leftAngel = loader.loadBufferedImage( "ohm-1d/images/pushers/PushLeft.gif" );
         leftAngel = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( leftAngel );
-        BufferedImage rightAngel = loader.loadBufferedImage( "images/pushers/PushRight.gif" );
+        BufferedImage rightAngel = loader.loadBufferedImage( "ohm-1d/images/pushers/PushRight.gif" );
         rightAngel = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( rightAngel );
 
         Point angeldx = new Point( -leftAngel.getWidth() / 2 - 20, -leftAngel.getHeight() / 2 + 4 );
@@ -541,9 +542,9 @@ public class Ohm1DApplication extends JApplet {
         AngelPaint angelPaint = new AngelPaint( angelRegion, leftAngel, rightAngel, ws, wp2, angeldx, angeldx2, showInsideBattery );
         cp.addPainter( angelPaint, 2 );
 
-        //BufferedImage turnstileImage = loader.loadBufferedImage("images/ron/turnstile-0-deg.gif");
+        //BufferedImage turnstileImage = loader.loadBufferedImage("ohm-1d/images/ron/turnstile-0-deg.gif");
         ///no region necessary for ron's image.
-        BufferedImage turnstileImage = loader.loadBufferedImage( "images/wheels/Pinwheel2.gif" );
+        BufferedImage turnstileImage = loader.loadBufferedImage( "ohm-1d/images/wheels/Pinwheel2.gif" );
         AlphaFixer2 alphaFixerPureWhite = new AlphaFixer2( new int[]{255, 255, 255, 255} );
 
         turnstileImage = alphaFixerPureWhite.patchAlpha( turnstileImage );
@@ -554,7 +555,7 @@ public class Ohm1DApplication extends JApplet {
         sys.addLaw( turnstile );
         current.addCurrentListener( turnstile );
 
-        BufferedImage ammeterWireImage = loader.loadBufferedImage( "images/components/cable-srr3.gif" );
+        BufferedImage ammeterWireImage = loader.loadBufferedImage( "ohm-1d/images/components/cable-srr3.gif" );
         ammeterWireImage = alphaFixer.patchAlpha( ammeterWireImage );
         BufferedImagePainter ammeterWirePainter = new BufferedImagePainter( ammeterWireImage, turnstileCenter.x + turnstileImage.getWidth() / 2 - ammeterWireImage.getWidth() / 2, turnstileCenter.y + turnstileImage.getHeight() / 2 );
         cp.addPainter( ammeterWirePainter, -1 );
@@ -562,10 +563,10 @@ public class Ohm1DApplication extends JApplet {
         //cp.addPainter(vp,VP_LEVEL);
         //o.O.bottomRightWirePoint(leftOval);
 
-        URL fontLocation = loader.getResource( "fonts/SYLFAEN.TTF" );
+//        URL fontLocation = loader.getResource( "fonts/SYLFAEN.TTF" );
         //URL fontLocation=loader.getResource("fonts/PAPYRUS.TTF");
 
-        Font sylfFont = Font.createFont( Font.TRUETYPE_FONT, fontLocation.openStream() );
+        Font sylfFont = new Font( "Lucida Sans",Font.PLAIN, 18);
         sylfFont = font.deriveFont( Font.PLAIN, 44.2f );
 
         //System.err.println("Battx="+battX+", batty="+battY);
