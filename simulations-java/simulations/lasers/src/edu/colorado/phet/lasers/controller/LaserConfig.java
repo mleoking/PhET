@@ -19,7 +19,7 @@ public class LaserConfig {
     public static final String VERSION = "4.02.01";
 
     // Localization
-    public static final String localizedStringsPath = "localization/LasersStrings";
+    public static final String localizedStringsPath = "lasers/localization/lasers-strings";
 
     // Clock parameters
     public static double DT = 12;
@@ -84,7 +84,7 @@ public class LaserConfig {
     // Graphics things
     public static final int CONTROL_FONT_SIZE = 12;
     public static final int CONTROL_FONT_STYLE = Font.BOLD;
-    public static final String IMAGE_DIRECTORY = "images/";
+    public static final String IMAGE_DIRECTORY = "lasers/images/";
     public static final String ATOM_IMAGE_FILE = IMAGE_DIRECTORY + "particle-gray-med.gif";
     public static final String RAY_GUN_IMAGE_FILE = IMAGE_DIRECTORY + "flashlight.png";
     public static final String SEED_BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "beam-control-lower.png";
