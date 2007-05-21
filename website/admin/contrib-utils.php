@@ -55,6 +55,14 @@
         return $simulations_html;
     }
     
+    function contribution_print_standards_checkbox($encoded_string, $count = 1) {
+        for ($i = 0; $i < $count; $i++) {
+            print '<td align="center">';
+            print_string_encoded_checkbox('standards', $encoded_string);
+            print '</td>';        
+        }
+    }
+    
     function contribution_print_full_edit_form($contribution_id, $script, $referrer, $optional_message = null) {
         $contribution = contribution_get_contribution_by_id($contribution_id);
         
@@ -253,72 +261,70 @@ EOT;
 
                             <tr>
                                 <td  align="right"><label>Science as Inquiry - A</label></td>
+EOT;
 
-                                <td  align="center"><input name="K4A" type="checkbox" id="K4A" value="1" /></td>
+                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
 
-                                <td  align="center"><input type="checkbox" name="58A" value="8" /></td>
-
-                                <td  align="center"><input type="checkbox" name="912A" value="15" /></td>
+                                print <<<EOT
                             </tr>
 
                             <tr>
                                 <td  align="right"><label>Physical Science - B</label></td>
+EOT;
 
-                                <td  align="center"><input name="K4B" type="checkbox" id="K4B" value="2" /></td>
+                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
 
-                                <td  align="center"><input type="checkbox" name="58B" value="9" /></td>
-
-                                <td  align="center"><input type="checkbox" name="912B" value="16" /></td>
+                                print <<<EOT
                             </tr>
 
                             <tr>
                                 <td  align="right"><label>Life Science - C</label></td>
 
-                                <td  align="center"><input type="checkbox" name="K4C" value="3" /></td>
+EOT;
 
-                                <td  align="center"><input type="checkbox" name="58C" value="10" /></td>
+                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
 
-                                <td  align="center"><input type="checkbox" name="912C" value="17" /></td>
+                                print <<<EOT
                             </tr>
 
                             <tr>
                                 <td  align="right">Earth &amp; Space Science - D</td>
 
-                                <td  align="center"><input type="checkbox" name="K4D" value="4" /></td>
+EOT;
 
-                                <td  align="center"><input type="checkbox" name="58D" value="11" /></td>
+                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
 
-                                <td  align="center"><input type="checkbox" name="912D" value="18" /></td>
+                                print <<<EOT
                             </tr>
 
                             <tr>
                                 <td  align="right"><label>Science &amp; Technology - E</label></td>
 
-                                <td  align="center"><input type="checkbox" name="K4E" value="5" /></td>
+EOT;
 
-                                <td  align="center"><input type="checkbox" name="58E" value="12" /></td>
+                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
 
-                                <td  align="center"><input type="checkbox" name="912E" value="19" /></td>
+                                print <<<EOT
                             </tr>
 
                             <tr>
                                 <td  align="right"><label>Science in Personal and Social Perspective - F</label></td>
 
-                                <td  align="center"><input type="checkbox" name="K4F" value="6" /></td>
+EOT;
 
-                                <td  align="center"><input type="checkbox" name="58F" value="13" /></td>
+                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
 
-                                <td  align="center"><input type="checkbox" name="912F" value="20" /></td>
+                                print <<<EOT
                             </tr>
 
                             <tr>
                                 <td  align="right">History and Nature of Science - G</td>
 
-                                <td  align="center"><input type="checkbox" name="K4G" value="7" /></td>
+EOT;
 
-                                <td  align="center"><input type="checkbox" name="58G" value="14" /></td>
+                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
 
-                                <td  align="center"><input type="checkbox" name="912G" value="21" /></td>
+                                print <<<EOT
                             </tr>
                         </tbody>
                     </table>
@@ -417,6 +423,48 @@ EOT;
         return true;
     }
     
+    function contribution_update_contribution($contribution) {
+        if (!update_table('contribution', $contribution, 'contribution_id', $contribution['contribution_id'])) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    function contribution_delete_all_multiselect_associations($assoc_name, $contribution_id) {
+        run_sql_statement("DELETE FROM `$assoc_name` WHERE `contribution_id`='$contribution_id' AND `${assoc_name}_is_template`='0' ");
+        
+        return true;
+    }
+    
+    function contribution_create_multiselect_association($contribution_id, $multiselect_control_name, $text) {
+        $matches = array();
+        
+        if (preg_match('/multiselect_([a-zA-Z0-9_]+)_id_[0-9]+$/i', $multiselect_control_name, $matches) !== 1) {
+            return false;
+        }
+        
+        $table_name = $matches[1];
+        
+        $result = run_sql_statement("SELECT * FROM `$table_name` WHERE `${table_name}_desc`='$text' AND `contribution_id`='$contribution_id' ORDER BY `${table_name}_is_template` DESC ");
+        
+        if ($first_row = mysql_fetch_assoc($result)) {            
+            return $first_row["${table_name}_id"];
+        }
+        else {
+            $id = insert_row_into_table(
+                $table_name,
+                array(
+                    "${table_name}_desc"        => $text,
+                    "${table_name}_is_template" => '0',
+                    'contribution_id'           => $contribution_id
+                )
+            );
+            
+            return $id;
+        }
+    }
+    
     function contribution_add_new_contribution($contribution_title, $contributor_id, $file_tmp_name, $file_user_name) {    
         if (preg_match('/.+\\.(doc|txt|rtf|pdf|odt)/i', $file_user_name) == 1) {
             $contribution_type = "Activity";
@@ -480,6 +528,12 @@ EOT;
         return FALSE;
     }
     
+    function contribution_unassociate_contribution_with_all_simulations($contribution_id) {
+        run_sql_statement("DELETE FROM `simulation_contribution` WHERE `contribution_id`='$contribution_id' ");
+        
+        return true;
+    }
+    
     function contribution_associate_contribution_with_simulation($contribution_id, $sim_id) {
         $simulation_contribution_id = insert_row_into_table(
             'simulation_contribution',
@@ -500,7 +554,9 @@ EOT;
         while ($contribution_level = mysql_fetch_assoc($contribution_level_rows)) {
             $id = $contribution_level['contribution_level_id'];
             
-            $levels["contribution_level_id_$id"] = $contribution_level;
+            $name = create_multiselect_control_name('contribution_level', $id);
+            
+            $levels[$name] = $contribution_level;
         }
         
         return $levels;
@@ -526,7 +582,9 @@ EOT;
         while ($contribution_level = mysql_fetch_assoc($contribution_level_rows)) {
             $id = $contribution_level['contribution_level_id'];
             
-            $levels["contribution_level_id_$id"] = $contribution_level;
+            $name = create_multiselect_control_name('contribution_level', $id);
+            
+            $levels[$name] = $contribution_level;
         }
         
         return $levels;
@@ -552,7 +610,9 @@ EOT;
         while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
             $id = $contribution_subject['contribution_subject_id'];
             
-            $subjects["contribution_subject_id_$id"] = format_array_values_for_html($contribution_subject);
+            $name = create_multiselect_control_name('contribution_subject', $id);
+            
+            $subjects[$name] = format_array_values_for_html($contribution_subject);
         }
         
         return $subjects;
@@ -566,7 +626,9 @@ EOT;
         while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
             $id = $contribution_subject['contribution_subject_id'];
             
-            $subjects["contribution_subject_id_$id"] = $contribution_subject['contribution_subject_desc'];
+            $name = create_multiselect_control_name('contribution_subject', $id);
+            
+            $subjects[$name] = $contribution_subject['contribution_subject_desc'];
         }
         
         return $subjects;
@@ -580,7 +642,9 @@ EOT;
         while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
             $id = $contribution_subject['contribution_subject_id'];
             
-            $subjects["contribution_subject_id_$id"] = $contribution_subject['contribution_subject_desc'];
+            $name = create_multiselect_control_name('contribution_subject', $id);
+            
+            $subjects[$name] = $contribution_subject['contribution_subject_desc'];
         }
         
         return $subjects;
@@ -594,7 +658,9 @@ EOT;
         while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
             $id = $contribution_subject['contribution_subject_id'];
             
-            $subjects["contribution_subject_id_$id"] = format_array_values_for_html($contribution_subject);
+            $name = create_multiselect_control_name('contribution_subject', $id);
+            
+            $subjects[$name] = format_array_values_for_html($contribution_subject);
         }
         
         return $subjects;
@@ -609,7 +675,9 @@ EOT;
             $id   = $contribution_type['contribution_type_id'];
             $type = $contribution_type['contribution_type_desc'];
         
-            $types["contribution_type_id_$id"] = "$type";
+            $name = create_multiselect_control_name('contribution_type', $id);
+        
+            $types[$name] = "$type";
         }
         
         return $types;
@@ -624,7 +692,9 @@ EOT;
             $id   = $contribution_type['contribution_type_id'];
             $type = $contribution_type['contribution_type_desc'];
         
-            $types["contribution_type_id_$id"] = "$type";
+            $name = create_multiselect_control_name('contribution_type', $id);
+        
+            $types[$name] = "$type";
         }
         
         return $types;
@@ -636,27 +706,28 @@ EOT;
         $simulations = array();
         
         while ($simulation = mysql_fetch_assoc($simulation_rows)) {
-            $sim_id   = $simulation['sim_id'];
-            $sim_name = $simulation['sim_name'];
+            $id         = $simulation['sim_id'];
+            $sim_name   = $simulation['sim_name'];
             
-            $simulations["$sim_id"] = "$sim_name";
+            $simulations["sim_id_$id"] = "$sim_name";
         }
         
         return $simulations;
     }
     
     function contribution_get_associated_simulation_listings($contribution_id) {
-        $simulation_rows = run_sql_statement("SELECT * FROM `simulation_contribution` WHERE `contribution_id`='$contribution_id' ");
+        $simulation_contribution_rows = 
+            run_sql_statement("SELECT * FROM `simulation_contribution` WHERE `contribution_id`='$contribution_id' ");
         
-        $simulations = array();
+        $simulation_contributions = array();
         
-        while ($simulation = mysql_fetch_assoc($simulation_rows)) {
-            $sim_id = $simulation['sim_id'];
+        while ($simulation_contribution = mysql_fetch_assoc($simulation_contribution_rows)) {
+            $id = $simulation_contribution['sim_id'];
             
-            $simulations["$sim_id"] = format_array_values_for_html($simulation);
+            $simulations["sim_id_$id"] = format_array_values_for_html($simulation_contribution);
         }
         
-        return $simulations;
+        return $simulation_contributions;
     }
     
     function contribution_set_approved($contribution_id, $status) {

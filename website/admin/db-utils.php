@@ -103,6 +103,10 @@
     }
     
     function update_table($table_name, $update_array, $id_field_name = null, $id_field_value = null) {
+        if (count($update_array) == 0 || count($update_array) == 1 && isset($update_array["$id_field_name"])) {
+            return true;
+        }
+        
         $heading_st = "UPDATE `$table_name` SET ";
         
         $content_st = '';
