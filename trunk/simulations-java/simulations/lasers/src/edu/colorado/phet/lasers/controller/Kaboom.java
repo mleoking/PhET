@@ -184,7 +184,7 @@ public class Kaboom implements ModelElement {
         protected Flames( final Component component, final IClock clock ) {
             super( component );
             try {
-                frames = new FrameSequence( "images/flames", 15 );
+                frames = new FrameSequence( "lasers/images/flames", 15 );
             }
             catch( IOException e ) {
                 e.printStackTrace();

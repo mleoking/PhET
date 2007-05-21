@@ -440,7 +440,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     private BufferedImage getAtomImage( Color color ) {
         if( baseSphereImg == null ) {
             try {
-                baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-lrg.gif" );
+                baseSphereImg = ImageLoader.loadBufferedImage( "lasers/images/particle-red-lrg.gif" );
             }
             catch( IOException e ) {
                 e.printStackTrace();
