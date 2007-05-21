@@ -384,6 +384,65 @@ EOT;
        
        return $code;
     }
+    
+    function print_string_encoded_checkbox($group_prefix, $encoded_string) {
+        static $checkbox_id;
+        static $last_group_prefix = null;
+        
+        if ($last_group_prefix !== $group_prefix) {
+            $checkbox_id = 1;
+        }
+        
+        $prefix = "checkbox_${group_prefix}_${checkbox_id}";
+        
+        $quoted_prefix = preg_quote($prefix);
+        
+        $pattern = '/.*\['.$quoted_prefix.'\].*$/i';
+        
+        $checked_status = '';
+        
+        if (preg_match($pattern, $encoded_string) == 1) {
+            $checked_status .= 'checked="checked"';
+        }
+        
+        print <<<EOT
+        <input name="${prefix}" type="checkbox" id="${prefix}" value="${prefix}" $checked_status />
+EOT;
+
+        $checkbox_id++;        
+        $last_group_prefix = $group_prefix;
+    }   
+    
+    function generate_encoded_checkbox_string($group_prefix) {
+        $encoded_string = '';
+        
+        $escaped_group_prefix = preg_quote($group_prefix);
+        
+        foreach($_REQUEST as $key => $value) {
+            $matches = array();
+            
+            if (preg_match("/(checkbox_${escaped_group_prefix}_[0-9]+)$/i", "$key", $matches) == 1) {
+                $prefix = $matches[1];
+                
+                $encoded_string .= "[$prefix]";
+            }
+        }
+        
+        return $encoded_string;
+    }  
+    
+    function create_multiselect_control_name($name, $id) {
+        return "multiselect_${name}_id_${id}";
+    }
+    
+    function is_multiple_selection_control($control_name) {
+        if (preg_match('/multiselect_([a-zA-Z0-9_]+)_id_[0-9]+$/i', $control_name) == 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     function print_multiple_selection($options_array, $selections_array = array(), $name_prefix = "ms") {
         static $has_printed_javascript = false;
@@ -416,7 +475,7 @@ EOT;
             
             $selections .= "<li id=\"$child_id\">";
             $selections .= "<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('$list_id', '$child_id')\">$text</a>";
-            $selections .= "<input type=\"hidden\" name=\"$identifier\" value=\"1\" />";
+            $selections .= "<input type=\"hidden\" name=\"$identifier\" value=\"$text\" />";
             $selections .= "</li>";
             
             ++$child_id_index;
@@ -460,7 +519,7 @@ EOT;
 
                     NewLI.id        = "child_" + basename + "_" + child_id_index;                    
                     NewLI.innerHTML = "<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('" + list_id + "','" + NewLI.id + "')\">" + text + "</a>" +
-                                      "<input type=\"hidden\" name=\"" + name + "\" value=\"1\" />";
+                                      "<input type=\"hidden\" name=\"" + name + "\" value=\"" + text + "\" />";
 
                     Parent.appendChild(NewLI);
 
