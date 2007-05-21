@@ -33,8 +33,8 @@ public class FloatingControl extends VerticalLayoutPanel {
 
     static {
         try {
-            play = ImageLoader.loadBufferedImage( "images/icons/java/media/Play16.gif" );
-            pause = ImageLoader.loadBufferedImage( "images/icons/java/media/Pause16.gif" );
+            play = ImageLoader.loadBufferedImage( "forces-1d/images/icons/java/media/Play16.gif" );
+            pause = ImageLoader.loadBufferedImage( "forces-1d/images/icons/java/media/Pause16.gif" );
         }
         catch( IOException e ) {
             e.printStackTrace();

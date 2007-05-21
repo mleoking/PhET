@@ -34,8 +34,8 @@ public class LeanerGraphic extends PhetImageGraphic {
         this.forcePanel = forcePanel;
         this.target = target;
         this.module = forcePanel.getModule();
-        standingStill = ImageLoader.loadBufferedImage( "images/standing-man.png" );
-        animation = new FrameSequence( "images/pusher-leaning/pusher-leaning", 15 );
+        standingStill = ImageLoader.loadBufferedImage( "forces-1d/images/standing-man.png" );
+        animation = new FrameSequence( "forces-1d/images/pusher-leaning/pusher-leaning", 15 );
         BufferedImage[] flipped = new BufferedImage[animation.getNumFrames()];
         for( int i = 0; i < flipped.length; i++ ) {
             flipped[i] = BufferedImageUtils.flipX( animation.getFrame( i ) );

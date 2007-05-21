@@ -32,7 +32,7 @@ import java.util.Arrays;
  *
  */
 public class Force1DApplication extends Module {
-    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/Force1DStrings";
+    public static final String LOCALIZATION_BUNDLE_BASENAME = "forces-1d/localization/forces-1d-strings";
 //    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/Force1d-test";
     private PhetLookAndFeel phetLookAndFeel;
     private Force1DModel forceModel;
@@ -61,11 +61,11 @@ public class Force1DApplication extends Module {
         forceModel = new Force1DModel( this );
         setModel( new BaseModel() );
         imageElements = new Force1dObject[]{
-            new Force1dObject( "images/cabinet.gif", SimStrings.get( "Force1DModule.fileCabinet" ), 0.8, 200, 0.3, 0.2 ),
-            new Force1dObject( "images/fridge.gif", SimStrings.get( "Force1DModule.refrigerator" ), 0.35, 400, 0.7, 0.5 ),
-            new Force1dObject( "images/phetbook.gif", SimStrings.get( "Force1DModule.textbook" ), 0.8, 10, 0.3, 0.25 ),
-            new Force1dObject( "images/crate.gif", SimStrings.get( "Force1DModule.crate" ), 0.8, 300, 0.2, 0.2 ),
-            new Force1dObject( "images/ollie.gif", SimStrings.get( "Force1DModule.sleepyDog" ), 0.5, 25, 0.1, 0.1 ),
+            new Force1dObject( "forces-1d/images/cabinet.gif", SimStrings.get( "Force1DModule.fileCabinet" ), 0.8, 200, 0.3, 0.2 ),
+            new Force1dObject( "forces-1d/images/fridge.gif", SimStrings.get( "Force1DModule.refrigerator" ), 0.35, 400, 0.7, 0.5 ),
+            new Force1dObject( "forces-1d/images/phetbook.gif", SimStrings.get( "Force1DModule.textbook" ), 0.8, 10, 0.3, 0.25 ),
+            new Force1dObject( "forces-1d/images/crate.gif", SimStrings.get( "Force1DModule.crate" ), 0.8, 300, 0.2, 0.2 ),
+            new Force1dObject( "forces-1d/images/ollie.gif", SimStrings.get( "Force1DModule.sleepyDog" ), 0.5, 25, 0.1, 0.1 ),
         };
         System.out.println( "Force1DModule.Force1DModule" );
         forcePanel = new Force1DPanel( this );

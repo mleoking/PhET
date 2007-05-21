@@ -24,7 +24,7 @@ public class DefaultPlaybackPanel extends JPanel {
     public DefaultPlaybackPanel( final PlotDeviceModel plotDeviceModel ) {
         ImageLoader cil = new ImageLoader();
 
-        String root = "images/icons/java/media/";
+        String root = "forces-1d/images/icons/java/media/";
         ImageIcon playIcon = null;
         ImageIcon pauseIcon = null;
         ImageIcon rewIcon = null;

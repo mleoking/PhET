@@ -753,8 +753,8 @@ public class PlotDevice extends GraphicLayerSet {
 //            panel.add( closeButton );
             panel.addGraphic( closeButtonGraphic, Double.POSITIVE_INFINITY );
 
-            BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
-            BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
+            BufferedImage imgPlus = ImageLoader.loadBufferedImage( "forces-1d/images/icons/glass-20-plus.gif" );
+            BufferedImage imgMinus = ImageLoader.loadBufferedImage( "forces-1d/images/icons/glass-20-minus.gif" );
             ActionListener smoothPos = new Increment( holdDownZoom );
             ActionListener smoothNeg = new Decrement( holdDownZoom, maxZoomRange );
             ActionListener incPos = new Increment( singleClickZoom );
@@ -1107,9 +1107,9 @@ public class PlotDevice extends GraphicLayerSet {
 
         public static Icon loadIcon() throws IOException {
             if( icon == null ) {
-//                BufferedImage image = ImageLoader.loadBufferedImage( "images/x-25.gif" );
-//                BufferedImage image = ImageLoader.loadBufferedImage( "images/x.png" );
-                BufferedImage image = ImageLoader.loadBufferedImage( "images/x-30.png" );
+//                BufferedImage image = ImageLoader.loadBufferedImage( "forces-1d/images/x-25.gif" );
+//                BufferedImage image = ImageLoader.loadBufferedImage( "forces-1d/images/x.png" );
+                BufferedImage image = ImageLoader.loadBufferedImage( "forces-1d/images/x-30.png" );
 //                image=BufferedImageUtils.rescaleYMaintainAspectRatio(null,image,30 );
                 icon = new ImageIcon( image );
             }
@@ -1167,7 +1167,7 @@ public class PlotDevice extends GraphicLayerSet {
         private static Font font = PlotDeviceFontManager.getFontSet().getChartButtonFont();//new Font( "Lucida Sans", Font.BOLD, 14 );
 
         public ChartButton( String label ) throws IOException {
-//            super( label, new ImageIcon( ImageLoader.loadBufferedImage( "images/arrow-right.gif" ) ) );
+//            super( label, new ImageIcon( ImageLoader.loadBufferedImage( "forces-1d/images/arrow-right.gif" ) ) );
             super( label );
             setFont( font );
             setVerticalTextPosition( AbstractButton.CENTER );

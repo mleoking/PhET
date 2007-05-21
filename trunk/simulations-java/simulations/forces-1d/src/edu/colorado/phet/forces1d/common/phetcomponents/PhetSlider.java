@@ -271,7 +271,7 @@ public class PhetSlider extends GraphicLayerSet {
         }
 
         public PhetGraphic createThumbIcon() {
-            return new PhetImageGraphic( getComponent(), "images/arrow-down.png" );
+            return new PhetImageGraphic( getComponent(), "forces-1d/images/arrow-down.png" );
         }
 
         public void setThumbValue( double modelValue ) {
@@ -324,8 +324,8 @@ public class PhetSlider extends GraphicLayerSet {
 
         public PhetGraphic createThumbIcon() {
             try {
-//                BufferedImage bufferedImage = ImageLoader.loadBufferedImage( "images/arrow-right.gif" );
-                BufferedImage bufferedImage = ImageLoader.loadBufferedImage( "images/arrow-right-png-50.png" );
+//                BufferedImage bufferedImage = ImageLoader.loadBufferedImage( "forces-1d/images/arrow-right.gif" );
+                BufferedImage bufferedImage = ImageLoader.loadBufferedImage( "forces-1d/images/arrow-right-png-50.png" );
                 return new PhetImageGraphic( getComponent(), bufferedImage );
             }
             catch( IOException e ) {
