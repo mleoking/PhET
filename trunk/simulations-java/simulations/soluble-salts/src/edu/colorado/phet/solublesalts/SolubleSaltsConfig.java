@@ -61,7 +61,7 @@ public class SolubleSaltsConfig {
     public static double MAX_SPIGOT_FLOW = 1000;
 
     // Images
-    public static final String IMAGE_PATH = "images/";
+    public static final String IMAGE_PATH = "soluble-salts/images/";
     public static final String SHAKER_IMAGE_NAME = IMAGE_PATH + "shaker.png";
     public static final String BLUE_ION_IMAGE_NAME = IMAGE_PATH + "molecule-big.gif";
     public static final String STOVE_IMAGE_FILE = IMAGE_PATH + "stove.png";
@@ -71,7 +71,7 @@ public class SolubleSaltsConfig {
     public static final Color WATER_COLOR = new Color( 150, 200, 255 );
 
     // Misc
-    public static final String STRINGS_BUNDLE_NAME = "localization/SolubleSaltsStrings";
+    public static final String STRINGS_BUNDLE_NAME = "soluble-salts/localization/soluble-salts-strings";
 
     // The time (real time in ms) after an ion is released from a lattice before it can
     // be bound to that lattice again
