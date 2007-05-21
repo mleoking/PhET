@@ -70,7 +70,7 @@ public class Ohm1DApplication extends JApplet {
     public void init() {
         super.init();
         //System.err.println("HI");
-        String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
+        String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.phet.locale", null );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
             SimStrings.setLocale( new Locale( applicationLocale ) );
         }

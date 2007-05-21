@@ -34,8 +34,8 @@ public class SimStrings {
      * @param bundleName the base name of the resource bundle containing localized strings
      */
     public static void init( String[] args, String bundleName ) {
-        // Get the default locale from property javaws.locale.
-        String applicationLocale = System.getProperty( "javaws.locale" );
+        // Get the default locale from property javaws.phet.locale.
+        String applicationLocale = System.getProperty( "javaws.phet.locale" );
         if ( applicationLocale != null && !applicationLocale.equals( "" ) ) {
             SimStrings.setLocale( new Locale( applicationLocale ) );
         }

@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14439 $
+ * Date modified : $Date:2007-04-12 23:06:54 -0600 (Thu, 12 Apr 2007) $
  */
 package edu.colorado.phet.common_cck.view.util;
 
@@ -19,7 +19,7 @@ import java.util.Vector;
  * SimStrings
  *
  * @author Ron LeMaster
- * @version $Revision$
+ * @version $Revision:14439 $
  */
 public class SimStrings {
 
@@ -38,8 +38,8 @@ public class SimStrings {
      * @param bundleName the base name of the resource bundle containing localized strings
      */
     public static void init( String[] args, String bundleName ) {
-        // Get the default locale from property javaws.locale.
-        String applicationLocale = System.getProperty( "javaws.locale" );
+        // Get the default locale from property javaws.phet.locale.
+        String applicationLocale = System.getProperty( "javaws.phet.locale" );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
             SimStrings.setLocale( new Locale( applicationLocale ) );
         }

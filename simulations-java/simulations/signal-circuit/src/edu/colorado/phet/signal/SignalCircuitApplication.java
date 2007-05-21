@@ -37,7 +37,7 @@ public class SignalCircuitApplication extends JApplet {
         int seed = 0;
         
         if ( applet ) {
-            String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
+            String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.phet.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
                 Locale.setDefault( new Locale( applicationLocale ) );
             }

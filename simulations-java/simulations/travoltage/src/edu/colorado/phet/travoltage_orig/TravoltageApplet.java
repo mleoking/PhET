@@ -38,7 +38,7 @@
 //
 //    public void init() {
 //        if( applicationLocale == null ) {
-//            applicationLocale = Toolkit.getProperty( "javaws.locale", null );
+//            applicationLocale = Toolkit.getProperty( "javaws.phet.locale", null );
 //            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
 //                SimStrings.setLocale( new Locale( applicationLocale ) );
 //            }
