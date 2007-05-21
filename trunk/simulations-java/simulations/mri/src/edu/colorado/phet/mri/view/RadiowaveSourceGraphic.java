@@ -82,7 +82,7 @@ public class RadiowaveSourceGraphic extends PNode {
 //        addChild( boxGraphic );
 
         // Background for the entire control
-        PImage background = PImageFactory.create( "images/radiowave-control-background.png", new Dimension( (int)length, (int)h ) );
+        PImage background = PImageFactory.create( "mri/images/radiowave-control-background.png", new Dimension( (int)length, (int)h ) );
         addChild( background );
 
         // Frequency control
@@ -108,7 +108,7 @@ public class RadiowaveSourceGraphic extends PNode {
             }
         } );
         radiowaveSource.setFrequency( freqCtrl.getValue() * MriConfig.FREQUENCY_UNIT );
-        final PNode freqPSwing = new GraphicPSwing( new PSwing(freqCtrl ), "images/control-background.png" );
+        final PNode freqPSwing = new GraphicPSwing( new PSwing(freqCtrl ), "mri/images/control-background.png" );
         freqPSwing.setOffset( length - controlInsets.right - freqPSwing.getBounds().getWidth(),
                               controlInsets.top );
         freqCtrl.getTextField().setOpaque( true );
@@ -143,14 +143,14 @@ public class RadiowaveSourceGraphic extends PNode {
             }
         } );
         powerCtrl.setValue( powerCtrl.getValue() );
-        PNode powerPSwing = new GraphicPSwing( new PSwing(powerCtrl ), "images/control-background.png" );
+        PNode powerPSwing = new GraphicPSwing( new PSwing(powerCtrl ), "mri/images/control-background.png" );
         powerCtrl.getTextField().setOpaque( true );
         powerPSwing.setOffset( controlInsets.left, controlInsets.top );
         addChild( powerPSwing );
 
         // Controls for the photon/wave view choice
         EmRepSelector emRepSelector = new EmRepSelector( module );
-        PNode emRepPSwing = new GraphicPSwing( new PSwing(emRepSelector ), "images/radio-button-background.png" );
+        PNode emRepPSwing = new GraphicPSwing( new PSwing(emRepSelector ), "mri/images/radio-button-background.png" );
         emRepPSwing.setOffset( ( length - emRepPSwing.getBounds().getWidth() ) / 2,
                                panelDepth - controlInsets.bottom - emRepPSwing.getBounds().getHeight() );
         addChild( emRepPSwing );

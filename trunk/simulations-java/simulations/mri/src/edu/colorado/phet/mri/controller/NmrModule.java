@@ -76,7 +76,7 @@ public class NmrModule extends AbstractMriModule {
 //
 //        final JSlider js = new JSlider( 0, 100, 50 );
 //        js.setOpaque( false );
-//        final PImage pi = PImageFactory.create( "images/background.png");
+//        final PImage pi = PImageFactory.create( "mri/images/background.png");
 //        PSwing pSwing = new PSwing( getPhetPCanvas(), js );
 //        final PNode pNode = new PNode();
 //        pNode.addChild( pi );
