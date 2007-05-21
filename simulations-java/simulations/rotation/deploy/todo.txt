@@ -3,8 +3,6 @@
 ################
 Charts:
 
-Cursor shouldn't be draggable beyond the end of available data.
-
 When paused, and simulation window resized, plots didn't redraw data.
 
 When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.

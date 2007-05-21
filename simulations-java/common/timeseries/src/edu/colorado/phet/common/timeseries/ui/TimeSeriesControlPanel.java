@@ -90,7 +90,7 @@ public class TimeSeriesControlPanel extends JPanel {
         add( rewindButton, gridBagConstraints );
         add( clearButton, gridBagConstraints );
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
-            public void dataAdded() {
+            public void dataSeriesChanged() {
                 updateButtons();
             }
 

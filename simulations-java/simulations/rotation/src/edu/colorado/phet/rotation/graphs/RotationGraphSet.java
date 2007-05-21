@@ -147,6 +147,11 @@ public class RotationGraphSet {
                 rotationModel.getTimeSeriesModel().setPlaybackTime( jFreeChartCursorNode.getTime() );
             }
         } );
+        rotationModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
+            public void dataSeriesChanged() {
+                jFreeChartCursorNode.setMaxDragTime( rotationModel.getTimeSeriesModel().getRecordTime() );
+            }
+        });
         return controlGraph;
     }
 

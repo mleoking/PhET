@@ -26,6 +26,11 @@ public class JFreeChartCursorNode extends PNode {
     private PhetPPath path;
     private double time;
     private double width = 9;
+    private double minDragTime = Double.NEGATIVE_INFINITY;
+    private double maxDragTime = Double.POSITIVE_INFINITY;
+
+    private ArrayList listeners = new ArrayList();
+
     final PropertyChangeListener updater = new PropertyChangeListener() {
         public void propertyChange( PropertyChangeEvent evt ) {
             update();
@@ -33,7 +38,7 @@ public class JFreeChartCursorNode extends PNode {
     };
 
     //todo: for certain circumstances, this will be a memory leak.
-    PropertyChangeListener updateParent = new PropertyChangeListener() {
+    private PropertyChangeListener updateParent = new PropertyChangeListener() {
         public void propertyChange( PropertyChangeEvent evt ) {
             PNode parent = jFreeChartNode.getParent();
             while( parent != null ) {
@@ -84,7 +89,7 @@ public class JFreeChartCursorNode extends PNode {
                 Point2D dx = new Point2D.Double( d.getX() - pressPoint.getX(), d.getY() - pressPoint.getY() );
                 Point2D diff = localToPlotDifferential( dx.getX(), dx.getY() );
                 time = pressTime + diff.getX();
-                time = MathUtil.clamp( jFreeChartNode.getChart().getXYPlot().getDomainAxis().getRange().getLowerBound(), time, jFreeChartNode.getChart().getXYPlot().getDomainAxis().getRange().getUpperBound() );
+                time = MathUtil.clamp( getUpperBound(), time, getLowBound() );
 
                 update();
                 notifySliderDragged();
@@ -93,7 +98,29 @@ public class JFreeChartCursorNode extends PNode {
         update();
     }
 
-    private ArrayList listeners = new ArrayList();
+    public double getMinDragTime() {
+        return minDragTime;
+    }
+
+    public void setMinDragTime( double minDragTime ) {
+        this.minDragTime = minDragTime;
+    }
+
+    public double getMaxDragTime() {
+        return maxDragTime;
+    }
+
+    public void setMaxDragTime( double maxDragTime ) {
+        this.maxDragTime = maxDragTime;
+    }
+
+    private double getLowBound() {
+        return Math.min( jFreeChartNode.getChart().getXYPlot().getDomainAxis().getRange().getUpperBound(), maxDragTime );
+    }
+
+    private double getUpperBound() {
+        return Math.max( jFreeChartNode.getChart().getXYPlot().getDomainAxis().getRange().getLowerBound(), minDragTime );
+    }
 
     public static interface Listener {
         void changed();
