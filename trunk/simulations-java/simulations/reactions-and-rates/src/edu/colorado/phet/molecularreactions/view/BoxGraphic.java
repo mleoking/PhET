@@ -35,7 +35,7 @@ public class BoxGraphic extends RegisterablePNode {
         if( glassBox ) {
             Dimension imageSize = new Dimension( (int)( box.getWidth() + 2 * wallThickness ),
                                                  (int)( box.getHeight() + 2 * wallThickness ) );
-            PImage imageNode = PImageFactory.create( "images/glass-box-B.png", imageSize );
+            PImage imageNode = PImageFactory.create( "reactions-and-rates/images/glass-box-B.png", imageSize );
             addChild( imageNode );
             setRegistrationPoint( wallThickness, wallThickness );
             setPickable( false );

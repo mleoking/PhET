@@ -91,7 +91,7 @@ public class MRConfig {
     //--------------------------------------------------------------------------------------------------
     // Images
     //--------------------------------------------------------------------------------------------------
-    public static final String IMAGE_DIRECTORY = "images/";
+    public static final String IMAGE_DIRECTORY = "reactions-and-rates/images/";
     public static final String STOVE_IMAGE_FILE = IMAGE_DIRECTORY + "stove.png";
     public static final String FLAMES_IMAGE_FILE = IMAGE_DIRECTORY + "flames.gif";
     public static final String ICE_IMAGE_FILE = IMAGE_DIRECTORY + "ice.gif";

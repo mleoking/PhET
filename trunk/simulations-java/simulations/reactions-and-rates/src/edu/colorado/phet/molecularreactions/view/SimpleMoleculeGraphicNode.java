@@ -28,9 +28,9 @@ public class SimpleMoleculeGraphicNode extends PNode {
 
     static {
         try {
-            A_IMAGE = ImageLoader.loadBufferedImage( "images/glass-molecule-A.png" );
-            B_IMAGE = ImageLoader.loadBufferedImage( "images/glass-molecule-B.png" );
-            C_IMAGE = ImageLoader.loadBufferedImage( "images/glass-molecule-C.png" );
+            A_IMAGE = ImageLoader.loadBufferedImage( "reactions-and-rates/images/glass-molecule-A.png" );
+            B_IMAGE = ImageLoader.loadBufferedImage( "reactions-and-rates/images/glass-molecule-B.png" );
+            C_IMAGE = ImageLoader.loadBufferedImage( "reactions-and-rates/images/glass-molecule-C.png" );
 
             double scaleA = new MoleculeA().getRadius() * 2 / A_IMAGE.getWidth();
             A_IMAGE = scaleImage( A_IMAGE, scaleA );
@@ -41,9 +41,9 @@ public class SimpleMoleculeGraphicNode extends PNode {
             double scaleC = new MoleculeC().getRadius() * 2 / C_IMAGE.getWidth();
             C_IMAGE = scaleImage( C_IMAGE, scaleC );
 
-            A_LABEL_IMAGE = ImageLoader.loadBufferedImage( "images/molecule-label-A.png" );
-            B_LABEL_IMAGE = ImageLoader.loadBufferedImage( "images/molecule-label-B.png" );
-            C_LABEL_IMAGE = ImageLoader.loadBufferedImage( "images/molecule-label-C.png" );
+            A_LABEL_IMAGE = ImageLoader.loadBufferedImage( "reactions-and-rates/images/molecule-label-A.png" );
+            B_LABEL_IMAGE = ImageLoader.loadBufferedImage( "reactions-and-rates/images/molecule-label-B.png" );
+            C_LABEL_IMAGE = ImageLoader.loadBufferedImage( "reactions-and-rates/images/molecule-label-C.png" );
 
         }
         catch( IOException e ) {
