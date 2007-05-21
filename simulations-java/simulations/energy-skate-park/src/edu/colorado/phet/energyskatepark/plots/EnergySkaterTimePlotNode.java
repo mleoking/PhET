@@ -100,7 +100,7 @@ public class EnergySkaterTimePlotNode extends PNode {
         } );
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
 
-            public void stateChanged() {
+            public void dataAdded() {
                 setCursorVisible( timeSeriesModel.isPlaybackMode() );
             }
         } );

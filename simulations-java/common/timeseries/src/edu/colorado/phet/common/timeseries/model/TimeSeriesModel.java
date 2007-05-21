@@ -71,7 +71,7 @@ public class TimeSeriesModel extends ClockAdapter {
     public void setPaused( boolean paused ) {
         if( paused != this.paused ) {
             this.paused = paused;
-            notifyStateChanged();
+            notifyDataAdded();
         }
     }
 
@@ -83,7 +83,7 @@ public class TimeSeriesModel extends ClockAdapter {
         series.clear();
         recordableModel.resetTime();
         setPaused( origPauseState );
-        notifyStateChanged();
+        notifyDataAdded();
     }
 
     public boolean isLiveMode() {
@@ -112,13 +112,21 @@ public class TimeSeriesModel extends ClockAdapter {
         boolean same = mode == this.mode;
         if( !same ) {
             this.mode = mode;
+            notifyModeChanged();
             System.out.println( "Changed mode to: " + mode.getClass().getName() );
+        }
+    }
+
+    private void notifyModeChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.modeChanged();
         }
     }
 
     public void rewind() {
         setPlaybackTime( getRecordStartTime() );
-        notifyStateChanged();
+        notifyDataAdded();
     }
 
     private double getRecordStartTime() {
@@ -130,10 +138,10 @@ public class TimeSeriesModel extends ClockAdapter {
         }
     }
 
-    private void notifyStateChanged() {
+    private void notifyDataAdded() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
-            listener.stateChanged();
+            listener.dataAdded();
         }
     }
 
@@ -141,7 +149,7 @@ public class TimeSeriesModel extends ClockAdapter {
         playbackMode.setPlaybackSpeed( playbackSpeed );
         setMode( playbackMode );
         setPaused( false );
-        notifyStateChanged();
+        notifyDataAdded();
     }
 
     public boolean isPlaybackMode() {
@@ -166,19 +174,19 @@ public class TimeSeriesModel extends ClockAdapter {
 
     public void addSeriesPoint( Object state, double recordTime ) {
         series.addPoint( state, recordTime );
-        notifyStateChanged();
+        notifyDataAdded();
     }
 
     public void startRecording() {
         setRecordMode();
         setPaused( false );
-        notifyStateChanged();
+        notifyDataAdded();
     }
 
     public void startLiveMode() {
         setLiveMode();
         setPaused( false );
-        notifyStateChanged();
+        notifyDataAdded();
     }
 
     public void setLiveMode() {
@@ -191,7 +199,7 @@ public class TimeSeriesModel extends ClockAdapter {
 
         if( isRecordMode() && recordMode.getTimeSeriesModel().getSeries().size() > MAX ) {
             setLiveMode();
-            notifyStateChanged();
+            notifyDataAdded();
         }
     }
 
@@ -221,7 +229,7 @@ public class TimeSeriesModel extends ClockAdapter {
 
     public void clear() {
         series.clear();
-        notifyStateChanged();
+        notifyDataAdded();
     }
 
     public int numPlaybackStates() {
@@ -256,11 +264,15 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public static interface Listener {
-        void stateChanged();
+        void dataAdded();
+        void modeChanged();
     }
 
     public static class Adapter implements Listener {
-        public void stateChanged() {
+        public void dataAdded() {
+        }
+
+        public void modeChanged() {
         }
     }
 }

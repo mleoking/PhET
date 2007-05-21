@@ -44,7 +44,7 @@ public class PauseIndicator extends PNode {
         text.setShadowColor( Color.black );
         module.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
 
-            public void stateChanged() {
+            public void dataAdded() {
                 if (module.getTimeSeriesModel().isPaused()){
                     showMe();
                 }else{
