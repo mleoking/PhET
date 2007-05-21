@@ -44,7 +44,7 @@ public class IntensityReaderDecorator extends PhetPNode {
         this.intensityReader = new IntensityReader( title, waveModel, latticeScreenCoordinates, clock );
         JButton close = null;
         try {
-            BufferedImage image = ImageLoader.loadBufferedImage( "images/x-20.png" );
+            BufferedImage image = ImageLoader.loadBufferedImage( "waveinterference/images/x-20.png" );
             image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, (int)( image.getHeight() * 0.6 ) );
             close = new JButton( new ImageIcon( image ) );
             close.setOpaque( false );

@@ -15,6 +15,6 @@ import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 public class LaserGraphic extends ImageOscillatorPNode {
 
     public LaserGraphic( Oscillator primaryOscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        super( primaryOscillator, latticeScreenCoordinates, "images/laser.gif" );
+        super( primaryOscillator, latticeScreenCoordinates, "waveinterference/images/laser.gif" );
     }
 }

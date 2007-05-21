@@ -24,7 +24,7 @@ public class VerticalConnector extends ConnectorGraphic {
         super( src, dst );
         BufferedImage txtr = null;
         try {
-            txtr = ImageLoader.loadBufferedImage( "images/wire.png" );
+            txtr = ImageLoader.loadBufferedImage( "waveinterference/images/wire.png" );
         }
         catch( IOException e ) {
             e.printStackTrace();

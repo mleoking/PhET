@@ -24,8 +24,8 @@ public class OscillatingSpeakerGraphic2Layers extends ImageOscillatorPNode {
     private double amp = 5 / 1.5;
 
     public OscillatingSpeakerGraphic2Layers( PSwingCanvas pSwingCanvas, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        super( oscillator, latticeScreenCoordinates, "images/speaker-frame.gif" );
-        cone = PImageFactory.create( "images/speaker-cone.gif" );
+        super( oscillator, latticeScreenCoordinates, "waveinterference/images/speaker-frame.gif" );
+        cone = PImageFactory.create( "waveinterference/images/speaker-cone.gif" );
         cone.setOffset( 30, 0 );
         addChild( cone );
         OscillatorOnOffControlPanel oscillatorOnOffControlPanel = new OscillatorOnOffControlPanel( oscillator );

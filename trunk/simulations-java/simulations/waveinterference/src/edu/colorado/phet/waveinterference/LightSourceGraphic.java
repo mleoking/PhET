@@ -21,7 +21,7 @@ import javax.swing.*;
 public class LightSourceGraphic extends ImageOscillatorPNode {
 
     public LightSourceGraphic( PhetPCanvas phetPCanvas, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        super( oscillator, latticeScreenCoordinates, "images/spotlight_3d.png" );
+        super( oscillator, latticeScreenCoordinates, "waveinterference/images/spotlight_3d.png" );
         JComponent control = ( new OscillatorOnOffControlPanel( oscillator ) );
         addChild( new PSwing(new ShinyPanel( control ) ) );
     }
