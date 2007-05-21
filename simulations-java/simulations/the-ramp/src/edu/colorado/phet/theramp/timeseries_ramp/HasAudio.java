@@ -1,4 +1,4 @@
-package edu.colorado.phet.timeseries_ramp;
+package edu.colorado.phet.theramp.timeseries_ramp;
 
 /**
  * User: Sam Reid

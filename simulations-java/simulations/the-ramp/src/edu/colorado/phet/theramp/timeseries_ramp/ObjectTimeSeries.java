@@ -1,5 +1,5 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.timeseries_ramp;
+package edu.colorado.phet.theramp.timeseries_ramp;
 
 import java.util.ArrayList;
 

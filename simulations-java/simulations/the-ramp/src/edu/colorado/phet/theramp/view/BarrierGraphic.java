@@ -27,7 +27,7 @@ public abstract class BarrierGraphic extends PNode {
         this.rampPanel = rampPanel;
         this.surfaceGraphic = surfaceGraphic;
         try {
-            imageGraphic = new PImage( ImageLoader.loadBufferedImage( "images/barrier2.jpg" ) );
+            imageGraphic = new PImage( ImageLoader.loadBufferedImage( "the-ramp/images/barrier2.jpg" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();

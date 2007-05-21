@@ -127,7 +127,7 @@ public class SurfaceGraphic extends PNode {
     }
 
     private BufferedImage loadRampImage() throws IOException {
-        return ImageLoader.loadBufferedImage( "images/wood5.png" );
+        return ImageLoader.loadBufferedImage( "the-ramp/images/wood5.png" );
     }
 
     public PText getHeightReadoutGraphic() {
@@ -167,8 +167,8 @@ public class SurfaceGraphic extends PNode {
 
     private Paint createBookFill() {
         try {
-//            texture = ImageLoader.loadBufferedImage( "images/bookstack3.png" );
-            texture = ImageLoader.loadBufferedImage( "images/bookstack3.gif" );
+//            texture = ImageLoader.loadBufferedImage( "the-ramp/images/bookstack3.png" );
+            texture = ImageLoader.loadBufferedImage( "the-ramp/images/bookstack3.gif" );
 //            Point rampEnd = getViewLocation( ramp.getLocation( ramp.getLength() * 0.8 ) );
             Point rampEnd = getEndLocation();
 //            System.out.println( "texture = " + texture );

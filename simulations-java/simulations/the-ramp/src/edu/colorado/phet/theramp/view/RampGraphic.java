@@ -49,7 +49,7 @@ public class RampGraphic extends SurfaceGraphic {
     }
 
     private PNode createArrowGraphic() {
-        String imageResourceName = "images/arrow-2.gif";
+        String imageResourceName = "the-ramp/images/arrow-2.gif";
         BufferedImage image = null;
         try {
             image = ImageLoader.loadBufferedImage( imageResourceName );

@@ -32,7 +32,7 @@ public class FireDog extends PNode {
     public FireDog( RampModule module ) {
         this.module = module;
         try {
-            BufferedImage newImage = ImageLoader.loadBufferedImage( "images/firedog.gif" );
+            BufferedImage newImage = ImageLoader.loadBufferedImage( "the-ramp/images/firedog.gif" );
             newImage = BufferedImageUtils.rescaleYMaintainAspectRatio( newImage, 100 );
             image = new PImage( newImage );
         }
@@ -171,8 +171,8 @@ public class FireDog extends PNode {
 
             if( dropImage == null ) {
                 try {
-//                    dropImage = ImageLoader.loadBufferedImage( "images/drop.gif" );
-                    dropImage = ImageLoader.loadBufferedImage( "images/drop3.gif" );
+//                    dropImage = ImageLoader.loadBufferedImage( "the-ramp/images/drop.gif" );
+                    dropImage = ImageLoader.loadBufferedImage( "the-ramp/images/drop3.gif" );
 //                    dropImage = BufferedImageUtils.rescaleYMaintainAspectRatio( null, dropImage, 14 );
                 }
                 catch( IOException e ) {
