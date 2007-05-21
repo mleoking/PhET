@@ -1,11 +1,11 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view;
 
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -19,7 +19,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Dec 22, 2005
  * Time: 7:23:02 PM
- *
  */
 
 public class PauseIndicator extends PNode {
@@ -44,39 +43,10 @@ public class PauseIndicator extends PNode {
         text.setShadowColor( Color.black );
         module.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
 
-            public void dataAdded() {
-                if (module.getTimeSeriesModel().isPaused()){
-                    showMe();
-                }else{
-                    hideMe();
-                }
+            public void pauseChanged() {
+                updateVisibility();
             }
-        });
-//        module.getTimeSeriesModel().addListener( new TimeSeriesModelListenerAdapter() {
-//            public void liveModeStarted() {
-//                hideMe();
-//            }
-//
-//            public void recordingStarted() {
-//                hideMe();
-//            }
-//
-//            public void recordingPaused() {
-//                showMe();
-//            }
-//
-//            public void playbackStarted() {
-//                hideMe();
-//            }
-//
-//            public void playbackPaused() {
-//                showMe();
-//            }
-//
-//            public void liveModePaused() {
-//                showMe();
-//            }
-//        } );
+        } );
 
         JButton record = new JButton( EnergySkateParkStrings.getString( "go" ) );
         record.addActionListener( new ActionListener() {
@@ -88,14 +58,17 @@ public class PauseIndicator extends PNode {
         pSwing.setOffset( text.getFullBounds().getMaxX() + 5, text.getFullBounds().getY() );
         addChild( pSwing );
 
+        updateVisibility();
+
+    }
+
+    private void updateVisibility() {
         if( module.getTimeSeriesModel().isPaused() ) {
             showMe();
         }
         else {
             hideMe();
         }
-
-//        hideMe();
     }
 
     private void hideMe() {

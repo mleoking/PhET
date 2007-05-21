@@ -103,40 +103,11 @@ public class EnergySkaterTimePlotNode extends PNode {
             public void dataAdded() {
                 setCursorVisible( timeSeriesModel.isPlaybackMode() );
             }
+
+            public void pauseChanged() {
+                setCursorVisible( timeSeriesModel.isPlaybackMode() );
+            }
         } );
-//        timeSeriesModel.addListener( new TimeSeriesModelListenerAdapter() {
-//            public void recordingStarted() {
-//                hideCursor();
-//            }
-//
-//            public void recordingPaused() {
-//                showCursor();
-//            }
-//
-//            public void recordingFinished() {
-//                showCursor();
-//            }
-//
-//            public void playbackStarted() {
-//                showCursor();
-//            }
-//
-//            public void playbackPaused() {
-//                showCursor();
-//            }
-//
-//            public void playbackFinished() {
-//                showCursor();
-//            }
-//
-//            public void reset() {
-//                hideCursor();
-//            }
-//
-//            public void rewind() {
-//                showCursor();
-//            }
-//        } );
         Rectangle2D d = getDataArea();
         int cursorWidth = 6;
         cursorPNode = new PPath( new Rectangle2D.Double( -cursorWidth / 2, -d.getHeight() / 2, cursorWidth, d.getHeight() ) );

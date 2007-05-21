@@ -132,13 +132,23 @@ public class RotationGraphSet {
             public void modeChanged() {
                 updateCursorVisible( jFreeChartCursorNode, rotationModel );
             }
+
+            public void pauseChanged() {
+                updateCursorVisible( jFreeChartCursorNode, rotationModel );
+            }
         } );
         updateCursorVisible( jFreeChartCursorNode, rotationModel );
+        jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
+            public void changed() {
+                rotationModel.getTimeSeriesModel().setPlaybackMode();
+                rotationModel.getTimeSeriesModel().setPlaybackTime( jFreeChartCursorNode.getTime());
+            }
+        } );
         return controlGraph;
     }
 
     private void updateCursorVisible( JFreeChartCursorNode jFreeChartCursorNode, RotationModel rotationModel ) {
-        jFreeChartCursorNode.setVisible( rotationModel.getTimeSeriesModel().isPlaybackMode() );
+        jFreeChartCursorNode.setVisible( rotationModel.getTimeSeriesModel().isPlaybackMode() || rotationModel.getTimeSeriesModel().isPaused() );
     }
 
     private void horizontalZoomChanged( double maxDataX ) {
