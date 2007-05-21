@@ -23,6 +23,9 @@ import java.text.MessageFormat;
 
 public class DGApplication extends PiccoloPhetApplication {
     public static String VERSION = "1.00";
+    static{
+        QWIStrings.init(new String[]{} );
+    }
     public static String TITLE = QWIStrings.getString( "davisson.germer.electron.diffraction" );
     public static String DESCRIPTION = MessageFormat.format( QWIStrings.getString( "simulate.the.original.experiment.that.proved.that.electrons.can.behave.as.waves.nwatch.electrons.diffract.off.a.crystal.of.atoms.interfering.with.themselves.nto.create.peaks.and.troughs.of.probability" ), new Object[0] );
 

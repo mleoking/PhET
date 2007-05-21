@@ -11,10 +11,11 @@ import edu.colorado.phet.common_1200.application.PhetApplication;
 import edu.colorado.phet.common_1200.model.clock.SwingTimerClock;
 import edu.colorado.phet.common_1200.view.PhetFrame;
 import edu.colorado.phet.common_1200.view.util.FrameSetup;
-import edu.colorado.phet.common_1200.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.emf.LecturePhetLookAndFeel;
 import edu.colorado.phet.coreadditions.emf.PhetLookAndFeel;
 import edu.colorado.phet.waves.view.WaveMediumGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.util.logging.Logger;
@@ -35,7 +36,7 @@ public class RadioWavesApplication {
         Logger logger = Logger.getLogger( "edu.colorado.phet.PhetLogger" );
 
         // Initialize simulation strings using resource bundle for the locale.
-        SimStrings.setStrings( EmfConfig.localizedStringsPath );//todo: add String[] args to this 
+        SimStrings.setStrings( EmfConfig.localizedStringsPath );//todo: add String[] args to this
 
         // Log a few message at different severity levels
         PhetLookAndFeel lookAndFeel = new edu.colorado.phet.coreadditions.emf.ClientPhetLookAndFeel();

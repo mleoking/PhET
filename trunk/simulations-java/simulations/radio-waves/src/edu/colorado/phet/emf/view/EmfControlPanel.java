@@ -8,12 +8,12 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
 import edu.colorado.phet.common_1200.view.util.ImageLoader;
-import edu.colorado.phet.common_1200.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.emf.MessageFormatter;
 import edu.colorado.phet.emf.EmfConfig;
 import edu.colorado.phet.emf.EmfModule;
 import edu.colorado.phet.emf.command.*;
 import edu.colorado.phet.emf.model.EmfModel;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;

@@ -6,7 +6,7 @@ import edu.colorado.phet.common_1200.view.ApparatusPanel;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
 import edu.colorado.phet.common_1200.view.help.HelpItem;
 import edu.colorado.phet.common_1200.view.help.HelpManager;
-import edu.colorado.phet.common_1200.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 

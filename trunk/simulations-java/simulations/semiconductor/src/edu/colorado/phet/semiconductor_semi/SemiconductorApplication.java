@@ -21,7 +21,7 @@ import edu.colorado.phet.common_semiconductor.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common_semiconductor.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_semiconductor.view.util.AspectRatioLayout;
-import edu.colorado.phet.common_semiconductor.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_semiconductor.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common_semiconductor.view.util.graphics.HashedImageLoader;
 import edu.colorado.phet.common_semiconductor.view.util.graphics.ImageLoader;
@@ -277,7 +277,7 @@ public class SemiconductorApplication extends Module implements Graphic {
     }
 
     public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
-        SimStrings.init( args, localizedStringsPath );
+        SimStrings.getInstance().init( args, localizedStringsPath );
 
 //        UIManager.setLookAndFeel(new SemiconductorLookAndFeel());
 //        FrameSetup fs = new MaxExtentFrameSetup( new FullScreen() );

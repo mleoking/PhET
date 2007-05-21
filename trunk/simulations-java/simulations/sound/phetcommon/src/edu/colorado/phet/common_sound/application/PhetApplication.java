@@ -28,7 +28,7 @@ import edu.colorado.phet.common_sound.view.PhetFrame;
 import edu.colorado.phet.common_sound.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_sound.view.util.FrameSetup;
 import edu.colorado.phet.common_sound.view.util.ImageLoader;
-import edu.colorado.phet.common_sound.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * The top-level class for all PhET applications.

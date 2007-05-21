@@ -10,7 +10,7 @@ package edu.colorado.phet.common_1200.view.components.clockgui;
 import edu.colorado.phet.common_1200.model.clock.AbstractClock;
 import edu.colorado.phet.common_1200.model.clock.ClockStateListener;
 import edu.colorado.phet.common_1200.model.clock.ThreadedClock;
-import edu.colorado.phet.common_1200.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

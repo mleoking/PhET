@@ -8,11 +8,11 @@ package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common_sound.math.MathUtil;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
-import edu.colorado.phet.common_sound.view.util.SimStrings;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.view.BufferedWaveMediumGraphic;
 import edu.colorado.phet.sound.view.ReflectingWallGraphic;
 import edu.colorado.phet.sound.view.SoundControlPanel;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.Border;

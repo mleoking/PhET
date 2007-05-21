@@ -4,7 +4,7 @@ package edu.colorado.phet.semiconductor_semi.macro.energy.bands;
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common_semiconductor.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor_semi.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor_semi.util.RectangleUtils;
 

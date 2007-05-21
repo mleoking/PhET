@@ -14,7 +14,8 @@ import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.model.clock.ClockStateEvent;
 import edu.colorado.phet.common_sound.model.clock.ClockStateListener;
 import edu.colorado.phet.common_sound.view.util.ImageLoader;
-import edu.colorado.phet.common_sound.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 
 import javax.swing.*;
 import java.awt.*;
