@@ -3,11 +3,15 @@
 ################
 Charts:
 
-Add a graph cursor.
+Graph cursor should appear when simulation is paused.
+
+Graph cursor should set playback time during dragging.
+
+When paused, and simulation window resized, plots didn't redraw data.
 
 When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.
 
-Move charts to jfreechart-phet directory?
+Move charts, cursor, etc to jfreechart-phet directory?
 
 When the time series is off-scale, dragging the slider doesn't immediately respond.
 Clicking on the slider thumb should set the current value, and allow immediate drags.
