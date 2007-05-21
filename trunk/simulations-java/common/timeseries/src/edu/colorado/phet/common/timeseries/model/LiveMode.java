@@ -9,11 +9,18 @@ package edu.colorado.phet.common.timeseries.model;
 
 public class LiveMode extends Mode {
 
+    private double time = 0;
+
     public LiveMode( TimeSeriesModel timeSeriesModel ) {
         super( timeSeriesModel );
     }
 
     public void step( double dt ) {
+        time += dt;
         getTimeSeriesModel().updateModel( dt );
+    }
+
+    public double getTime() {
+        return time;
     }
 }

@@ -41,6 +41,10 @@ public class TimeSeriesModel extends ClockAdapter {
         playbackMode.addListener( playbackTimeListener );
     }
 
+    private double getLiveTime() {
+        return liveMode.getTime(); 
+    }
+
     public double getPlaybackTime() {
         return playbackMode.getPlaybackTime();
     }
@@ -247,6 +251,25 @@ public class TimeSeriesModel extends ClockAdapter {
     public void setMaxRecordTime( double maxRecordTime ) {
         this.maxRecordTime = maxRecordTime;
     }
+
+    /**
+     * Returns the current time in the current mode.
+     * @return the current time in the current mode.
+     */
+    public double getTime() {
+        if (isPlaybackMode() ){
+            return getPlaybackTime();
+        }else if (isRecordMode()){
+            return getRecordTime();
+        }
+        else if (isLiveMode() ){
+            return getLiveTime();
+        }else{
+            System.out.println( "Time not available for mode: "+getMode() );
+            return Double.NaN;
+        }
+    }
+
 
     public interface PlaybackTimeListener {
         public void timeChanged();

@@ -105,6 +105,8 @@ public class RotationGraphSet {
                                  SimulationVariable simulationVariable, PNode thumb, boolean editable, final CursorModel cursorModel,
                                  final RotationModel rotationModel ) {
         final ControlGraph controlGraph = new ControlGraph( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb );
+
+        //todo: move this adapter code into ControlGraph (or a subclass)
         controlGraph.addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
                 horizontalZoomChanged( controlGraph.getMaxDataX() );
@@ -134,6 +136,7 @@ public class RotationGraphSet {
             }
 
             public void pauseChanged() {
+                updateCursorLocation( jFreeChartCursorNode, rotationModel );
                 updateCursorVisible( jFreeChartCursorNode, rotationModel );
             }
         } );
@@ -141,10 +144,14 @@ public class RotationGraphSet {
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
             public void changed() {
                 rotationModel.getTimeSeriesModel().setPlaybackMode();
-                rotationModel.getTimeSeriesModel().setPlaybackTime( jFreeChartCursorNode.getTime());
+                rotationModel.getTimeSeriesModel().setPlaybackTime( jFreeChartCursorNode.getTime() );
             }
         } );
         return controlGraph;
+    }
+
+    private void updateCursorLocation( JFreeChartCursorNode jFreeChartCursorNode, RotationModel rotationModel ) {
+        jFreeChartCursorNode.setTime( rotationModel.getTimeSeriesModel().getTime() );
     }
 
     private void updateCursorVisible( JFreeChartCursorNode jFreeChartCursorNode, RotationModel rotationModel ) {
