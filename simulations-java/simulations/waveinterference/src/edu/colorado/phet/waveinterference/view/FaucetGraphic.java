@@ -274,10 +274,10 @@ public class FaucetGraphic extends PhetPNode {
             this.clip = clip;
             this.speed = speed;
             this.amplitude = amplitude;
-//            image = PImageFactory.create( "images/raindrop1.png" );
+//            image = PImageFactory.create( "waveinterference/images/raindrop1.png" );
             double scale = amplitude;
             try {
-                BufferedImage origImage = ImageLoader.loadBufferedImage( "images/raindrop1.png" );
+                BufferedImage origImage = ImageLoader.loadBufferedImage( "waveinterference/images/raindrop1.png" );
                 image = new PImage( BufferedImageUtils.rescaleXMaintainAspectRatio( origImage, (int)Math.max( scale * origImage.getWidth(), 1 ) ) );
             }
             catch( IOException e ) {

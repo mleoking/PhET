@@ -63,8 +63,8 @@ public class PressureWaveGraphic extends PNode {
         background.setStrokePaint( Color.gray );
         addChild( background );
         try {
-            blueImageORIG = ImageLoader.loadBufferedImage( "images/particle-blue.gif" );
-            pinkImageORIG = ImageLoader.loadBufferedImage( "images/particle-pink.gif" );
+            blueImageORIG = ImageLoader.loadBufferedImage( "waveinterference/images/particle-blue.gif" );
+            pinkImageORIG = ImageLoader.loadBufferedImage( "waveinterference/images/particle-pink.gif" );
             blueImage = BufferedImageUtils.rescaleYMaintainAspectRatio( blueImageORIG, IMAGE_HEIGHT );
             pinkImage = BufferedImageUtils.rescaleYMaintainAspectRatio( pinkImageORIG, IMAGE_HEIGHT );
         }

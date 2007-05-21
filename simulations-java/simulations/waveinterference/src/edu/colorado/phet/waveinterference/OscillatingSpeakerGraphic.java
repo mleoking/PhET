@@ -25,13 +25,13 @@ public class OscillatingSpeakerGraphic extends ImageOscillatorPNode {
     private PImage foreground;
 
     public OscillatingSpeakerGraphic( PSwingCanvas pSwingCanvas, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        super( oscillator, latticeScreenCoordinates, "images/speaker-back.png" );
-        cone = PImageFactory.create( "images/speaker-cone.png" );
+        super( oscillator, latticeScreenCoordinates, "waveinterference/images/speaker-back.png" );
+        cone = PImageFactory.create( "waveinterference/images/speaker-cone.png" );
 //        cone.setOffset( 30, 0 );
         addChild( cone );
         OscillatorOnOffControlPanel oscillatorOnOffControlPanel = new OscillatorOnOffControlPanel( oscillator );
 
-        foreground = PImageFactory.create( "images/speaker-front.png" );
+        foreground = PImageFactory.create( "waveinterference/images/speaker-front.png" );
         addChild( foreground );
 
         PSwing pswing = new PSwing(new ShinyPanel( oscillatorOnOffControlPanel ) );
