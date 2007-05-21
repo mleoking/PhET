@@ -18,7 +18,7 @@ public class QWILookAndFeel {
     public static JButton createCloseButton() {
         JButton closeButton = null;
         try {
-            closeButton = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/x-14.jpg" ) ) );
+            closeButton = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "qwi/images/x-14.jpg" ) ) );
             closeButton.setMargin( new Insets( 1, 1, 1, 1 ) );
         }
         catch( IOException e ) {

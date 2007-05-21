@@ -118,7 +118,7 @@ public class SingleParticleGunNode extends AbstractGunNode implements FirePartic
     }
 
     protected ImagePComboBox initComboBox() {
-        Photon photon = new Photon( this, QWIStrings.getString( "photons" ), "images/photon-thumb.jpg" );
+        Photon photon = new Photon( this, QWIStrings.getString( "photons" ), "qwi/images/photon-thumb.jpg" );
         PhotonBeam photonBeam = new PhotonBeam( this, photon );
         photonBeamParticle = new PhotonBeamParticle( this, QWIStrings.getString( "photons" ), photonBeam );
 

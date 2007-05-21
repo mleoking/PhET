@@ -44,9 +44,9 @@ public class PlainFireButton extends PNode {
         text.setFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );
         text.setTextPaint( Color.red );
         try {
-            outIcon = ImageLoader.loadBufferedImage( "images/button-out-40.gif" );
-            inIcon = ImageLoader.loadBufferedImage( "images/button-in-40.gif" );
-            grayIcon = ImageLoader.loadBufferedImage( "images/button-out-40-gray.gif" );
+            outIcon = ImageLoader.loadBufferedImage( "qwi/images/button-out-40.gif" );
+            inIcon = ImageLoader.loadBufferedImage( "qwi/images/button-in-40.gif" );
+            grayIcon = ImageLoader.loadBufferedImage( "qwi/images/button-out-40-gray.gif" );
             icon = new PImage( outIcon );
         }
         catch( IOException e ) {

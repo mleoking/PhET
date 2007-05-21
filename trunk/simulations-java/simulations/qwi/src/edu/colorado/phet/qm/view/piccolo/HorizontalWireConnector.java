@@ -19,7 +19,7 @@ public class HorizontalWireConnector extends HorizontalConnector {
         super( source, dest );
         BufferedImage txtr = null;
         try {
-            txtr = ImageLoader.loadBufferedImage( "images/wire.png" );
+            txtr = ImageLoader.loadBufferedImage( "qwi/images/wire.png" );
         }
         catch( IOException e ) {
             e.printStackTrace();

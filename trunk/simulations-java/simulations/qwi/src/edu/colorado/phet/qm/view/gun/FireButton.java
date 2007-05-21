@@ -38,8 +38,8 @@ public class FireButton extends JButton {
         setVerticalTextPosition( AbstractButton.BOTTOM );
         setHorizontalTextPosition( AbstractButton.CENTER );
         try {
-            outIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/button-out-40.gif" ) );
-            inIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/button-in-40.gif" ) );
+            outIcon = new ImageIcon( ImageLoader.loadBufferedImage( "qwi/images/button-out-40.gif" ) );
+            inIcon = new ImageIcon( ImageLoader.loadBufferedImage( "qwi/images/button-in-40.gif" ) );
             setIcon( outIcon );
             setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
         }

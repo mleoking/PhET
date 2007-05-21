@@ -27,7 +27,7 @@ public class RulerPanel extends HorizontalLayoutPanel {
         final HorizontalLayoutPanel rulerPanel = this;
 
         final JCheckBox ruler = new JCheckBox( QWIStrings.getString( "ruler" ) );
-        ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ruler3.png" ) );
+        ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "qwi/images/ruler3.png" ) );
         rulerPanel.add( ruler );
         rulerPanel.add( new JLabel( icon ) );
         ruler.addActionListener( new ActionListener() {
