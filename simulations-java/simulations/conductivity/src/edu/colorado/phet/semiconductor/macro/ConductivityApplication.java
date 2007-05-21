@@ -51,6 +51,24 @@ import java.util.Hashtable;
 public class ConductivityApplication extends Module {
     // Localization
 
+    double minVolts;
+    double maxVolts;
+    private MacroSystem model;
+    MacroCircuit circuit;
+    private MacroCircuitGraphic circuitGraphic;
+    private ModelViewTransform2D transform;
+    private BatterySpinner batterySpinner;
+    private Hashtable bandSetGraphicTable;
+    private Flashlight light;
+    private boolean lightOn;
+    private AbstractClock clock;
+    private double timeBetweenFires;
+    private ArrayList photons;
+    private MacroControlPanel macroControlPanel;
+    private FlashlightGraphic flashlightGraphic;
+    double timeSinceFire;
+    Hashtable photonGraphicTable;
+
     public static final String localizedStringsPath = "conductivity/localization/conductivity-strings";
     private static String version = "1.00";
 
@@ -256,8 +274,7 @@ public class ConductivityApplication extends Module {
         final ConductivityApplication module = new ConductivityApplication( swingtimerclock );
         ApplicationDescriptor ad = new ApplicationDescriptor(
                 SimStrings.get( "ConductivityApplication.title" ) + " " + version,
-                SimStrings.get( "ConductivityApplication.description" ),
-                SimStrings.get( "ConductivityApplication.version" ),
+                SimStrings.get( "ConductivityApplication.description" ),version,
                 new FrameCenterer( 100, 100 ) );
         ad.setName( "conductivity" );
         PhetApplication phetapplication = new PhetApplication( ad, module, swingtimerclock );
@@ -374,24 +391,5 @@ public class ConductivityApplication extends Module {
         photons.add( photon );
         photonGraphicTable.put( photon, photonarrowgraphic );
     }
-
-    double minVolts;
-    double maxVolts;
-    private MacroSystem model;
-    MacroCircuit circuit;
-    private MacroCircuitGraphic circuitGraphic;
-    private ModelViewTransform2D transform;
-    private BatterySpinner batterySpinner;
-    private Hashtable bandSetGraphicTable;
-    private Flashlight light;
-    private boolean lightOn;
-    private AbstractClock clock;
-    private double timeBetweenFires;
-    private ArrayList photons;
-    private MacroControlPanel macroControlPanel;
-    private FlashlightGraphic flashlightGraphic;
-    double timeSinceFire;
-    Hashtable photonGraphicTable;
-
 
 }
