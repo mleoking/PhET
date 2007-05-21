@@ -18,11 +18,11 @@ import java.util.ArrayList;
 
 public class AbstractArrowSet extends PNode {
     public static final String APPLIED = TheRampStrings.getString( "applied1" );
-    public static final String TOTAL = TheRampStrings.getString( "total" );
+    public static final String TOTAL = TheRampStrings.getString( "forces.total" );
     public static final String FRICTION = TheRampStrings.getString( "friction1" );
-    public static final String WEIGHT = TheRampStrings.getString( "weight" );
-    public static final String NORMAL = TheRampStrings.getString( "normal" );
-    public static final String WALL = TheRampStrings.getString( "wall" );
+    public static final String WEIGHT = TheRampStrings.getString( "forces.weight" );
+    public static final String NORMAL = TheRampStrings.getString( "forces.normal" );
+    public static final String WALL = TheRampStrings.getString( "forces.wall" );
 
     private ArrayList graphics = new ArrayList();
 

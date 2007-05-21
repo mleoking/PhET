@@ -44,7 +44,7 @@ public class MeasuringTape extends PNode {
         bodyGraphic = new BodyGraphic();
         tapeGraphic = new TapeGraphic();
         endGraphic = new EndGraphic();
-        readoutGraphic = new ReadoutGraphic( TheRampStrings.getString( "m" ) );
+        readoutGraphic = new ReadoutGraphic( TheRampStrings.getString( "units.meters" ) );
 
         addChild( tapeGraphic );
         addChild( bodyGraphic );

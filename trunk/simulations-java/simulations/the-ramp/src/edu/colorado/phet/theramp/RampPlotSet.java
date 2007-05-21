@@ -51,7 +51,7 @@ public class RampPlotSet extends PNode {
         addTimeSeries( energyPlot, new ValueAccessor.KineticEnergy( getLookAndFeel() ), "10000.00" );
 
         workPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ),
-                                             TheRampStrings.getString( "work" ), TheRampStrings.getString( "joules" ), plotY + plotHeight + plotInset, plotHeight, false );
+                                             TheRampStrings.getString( "energy.work" ), TheRampStrings.getString( "joules" ), plotY + plotHeight + plotInset, plotHeight, false );
         addTimeSeries( workPlot, new ValueAccessor.AppliedWork( getLookAndFeel() ), "10000.00" ).setStroke( new BasicStroke( 4 ) );
         addTimeSeries( workPlot, new ValueAccessor.FrictiveWork( getLookAndFeel() ), "10000.00" );
         addTimeSeries( workPlot, new ValueAccessor.GravityWork( getLookAndFeel() ), "10000.00" );

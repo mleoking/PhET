@@ -38,7 +38,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         super( module );
         this.module = module;
 
-        final JCheckBox measureCheckBox = new JCheckBox( TheRampStrings.getString( "measuring.tape" ) );
+        final JCheckBox measureCheckBox = new JCheckBox( TheRampStrings.getString( "controls.measuring-tape" ) );
         addControl( measureCheckBox );
         measureCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -172,7 +172,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
             FreeBodyDiagram freeBodyDiagram = new FreeBodyDiagram( rampPanel, module, controlPanelFBD );
             controlPanelFBD.addWorldChild( freeBodyDiagram );
 
-            AdvancedPanel advancedFBDPanel = new AdvancedPanel( TheRampStrings.getString( "free.body.diagram1" ), TheRampStrings.getString( "free.body.diagram" ) );
+            AdvancedPanel advancedFBDPanel = new AdvancedPanel( TheRampStrings.getString( "controls.show-free-body-diagram" ), TheRampStrings.getString( "controls.hide-free-body-diagram" ) );
             advancedFBDPanel.addControlFullWidth( controlPanelFBD );
             addControlFullWidth( advancedFBDPanel );
         }
@@ -232,7 +232,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
     }
 
     private ModelSlider createMassSlider() {
-        final ModelSlider ms = new ModelSlider( TheRampStrings.getString( "mass" ), TheRampStrings.getString( "kg" ), 100, 500, 100, new DecimalFormat( "000" ) );
+        final ModelSlider ms = new ModelSlider( TheRampStrings.getString( "property.mass" ), TheRampStrings.getString( "units.kg" ), 100, 500, 100, new DecimalFormat( "000" ) );
         ms.setModelTicks( new double[]{100, 500} );
         ms.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -250,7 +250,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
 
 
     private ModelSlider createKineticSlider( double[] ticks, final RampModule module ) {
-        final ModelSlider kineticFriction = new ModelSlider( TheRampStrings.getString( "kinetic.friction" ), "", 0, 1.5, 0.5 );
+        final ModelSlider kineticFriction = new ModelSlider( TheRampStrings.getString( "forces.kinetic-friction" ), "", 0, 1.5, 0.5 );
         kineticFriction.setModelTicks( ticks );
         kineticFriction.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -266,7 +266,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
     }
 
     private ModelSlider createStaticSlider( double[] ticks, final RampModule module ) {
-        final ModelSlider staticFriction = new ModelSlider( TheRampStrings.getString( "static.friction" ), "", 0, 1.5, 0.5 );
+        final ModelSlider staticFriction = new ModelSlider( TheRampStrings.getString( "forces.static-friction" ), "", 0, 1.5, 0.5 );
         staticFriction.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 module.getRampPhysicalModel().getBlock().setStaticFriction( staticFriction.getValue() );

@@ -235,7 +235,7 @@ public class RampPanel extends PhetPCanvas {
         PBounds screenBounds = target.getGlobalFullBounds();
         getCamera().globalToLocal( screenBounds );
 
-        final TargetedWiggleMe wiggleMe = new TargetedWiggleMe( TheRampStrings.getString( "html.apply.a.force.br.to.the.filing.cabinet.html1" ),
+        final TargetedWiggleMe wiggleMe = new TargetedWiggleMe( TheRampStrings.getString( "invitation" ),
                                                                 200, 100,
                                                                 getBlockGraphic().getObjectGraphic() );
         addScreenChild( wiggleMe );

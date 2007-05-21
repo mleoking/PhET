@@ -23,7 +23,7 @@ public abstract class ValueAccessor {
     private String fullName;
 
     public static final String joules = TheRampStrings.getString( "joules" );
-    public static final String joulesAbbreviation = TheRampStrings.getString( "j" );
+    public static final String joulesAbbreviation = TheRampStrings.getString( "units.joules" );
 
     protected ValueAccessor( String name, String html, String units, String unitAbbreviation, Color color, String fullName ) {
         this.name = name;
@@ -62,7 +62,7 @@ public abstract class ValueAccessor {
 
     public static class TotalEnergy extends EnergyAccessor {
         public TotalEnergy( RampLookAndFeel rampLookAndFeel ) {
-            super( TheRampStrings.getString( "total" ), rampLookAndFeel.getTotalEnergyColor() );
+            super( TheRampStrings.getString( "forces.total" ), rampLookAndFeel.getTotalEnergyColor() );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -73,7 +73,7 @@ public abstract class ValueAccessor {
     public static class KineticEnergy extends EnergyAccessor {
 
         public KineticEnergy( RampLookAndFeel rampLookAndFeel ) {
-            super( TheRampStrings.getString( "kinetic" ), rampLookAndFeel.getKineticEnergyColor() );
+            super( TheRampStrings.getString( "energy.kinetic" ), rampLookAndFeel.getKineticEnergyColor() );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -83,7 +83,7 @@ public abstract class ValueAccessor {
 
     public static class PotentialEnergy extends EnergyAccessor {
         public PotentialEnergy( RampLookAndFeel rampLookAndFeel ) {
-            super( TheRampStrings.getString( "potential" ), rampLookAndFeel.getPotentialEnergyColor() );
+            super( TheRampStrings.getString( "energy.potential" ), rampLookAndFeel.getPotentialEnergyColor() );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -113,7 +113,7 @@ public abstract class ValueAccessor {
 
     public static class FrictiveWork extends WorkAccessor {
         public FrictiveWork( RampLookAndFeel rampLookAndFeel ) {
-            super( TheRampStrings.getString( "friction1" ), rampLookAndFeel.getFrictionWorkColor(), TheRampStrings.getString( "friction" ) );
+            super( TheRampStrings.getString( "friction1" ), rampLookAndFeel.getFrictionWorkColor(), TheRampStrings.getString( "forces.friction" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -156,14 +156,14 @@ public abstract class ValueAccessor {
     public static abstract class ParallelForceAccessor extends ValueAccessor {
 
         protected ParallelForceAccessor( String name, Color color, String subText ) {
-            super( name, MessageFormat.format( TheRampStrings.getString( "f.sub.0.sub" ), new Object[]{subText} ), TheRampStrings.getString( "newtons" ), TheRampStrings.getString( "n" ), color, name );
+            super( name, MessageFormat.format( TheRampStrings.getString( "f.sub.0.sub" ), new Object[]{subText} ), TheRampStrings.getString( "newtons" ), TheRampStrings.getString( "units.newtons" ), color, name );
         }
 
     }
 
     public static class ParallelFrictionAccessor extends ParallelForceAccessor {
         public ParallelFrictionAccessor( RampLookAndFeel rampLookAndFeel ) {
-            super( TheRampStrings.getString( "parallel.friction" ), rampLookAndFeel.getFrictionForceColor(), TheRampStrings.getString( "friction" ) );
+            super( TheRampStrings.getString( "parallel.friction" ), rampLookAndFeel.getFrictionForceColor(), TheRampStrings.getString( "forces.friction" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -173,7 +173,7 @@ public abstract class ValueAccessor {
 
     public static class ParallelAppliedAccessor extends ParallelForceAccessor {
         public ParallelAppliedAccessor( RampLookAndFeel lookAndFeel ) {
-            super( TheRampStrings.getString( "parallel.applied.force" ), lookAndFeel.getAppliedForceColor(), TheRampStrings.getString( "applied" ) );
+            super( TheRampStrings.getString( "forces.parallel-applied" ), lookAndFeel.getAppliedForceColor(), TheRampStrings.getString( "applied" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
