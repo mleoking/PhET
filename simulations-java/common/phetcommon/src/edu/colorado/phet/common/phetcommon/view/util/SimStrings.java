@@ -32,7 +32,7 @@ public class SimStrings {
         locale = Locale.getDefault();
         
         // javaws.locale overrides user.language
-        String javawsLocale = System.getProperty( "javaws.locale" );
+        String javawsLocale = System.getProperty( "javaws.phet.locale" );
         if( javawsLocale != null && !javawsLocale.equals( "" ) ) {
             locale = new Locale( javawsLocale );
         }
