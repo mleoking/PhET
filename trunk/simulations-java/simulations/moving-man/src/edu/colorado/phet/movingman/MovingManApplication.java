@@ -41,7 +41,7 @@ public class MovingManApplication {
         plaf.apply();
         PhetLookAndFeel.setLookAndFeel();
 
-        String applicationLocale = System.getProperty( "javaws.locale" );
+        String applicationLocale = System.getProperty( "javaws.phet.locale" );
 //        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
 //            Locale.setDefault( new Locale( applicationLocale ) );
 //        }

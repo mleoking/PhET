@@ -33,7 +33,7 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
         height = 600;
 
         if( isApplet ) {
-            String applicationLocale = Toolkit.getProperty( "javaws.locale", null );
+            String applicationLocale = Toolkit.getProperty( "javaws.phet.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
                 SimStrings.getInstance().setLocale( new Locale( applicationLocale ) );
             }
