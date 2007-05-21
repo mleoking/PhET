@@ -27,7 +27,7 @@ public class PhotonArrowGraphic
         transform = modelviewtransform2d;
 //        shapeGraphic = new ShapeGraphic( null, Color.red, Color.black, new BasicStroke( 1.0F, 2, 0 ) );
         try {
-            shapeGraphic = new ImageGraphic( ImageLoader.loadBufferedImage( "images/photon-comet-42.png" ) );
+            shapeGraphic = new ImageGraphic( ImageLoader.loadBufferedImage( "conductivity/images/photon-comet-42.png" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();

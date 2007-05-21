@@ -94,7 +94,7 @@ public class MacroCircuitGraphic {
         else {
             loader.setPhetLoader();
 //            batteryImage = loader.loadBufferedImage( "images/AA-battery.gif" );
-            batteryImage = loader.loadBufferedImage( "images/battery.png" );
+            batteryImage = loader.loadBufferedImage( "conductivity/images/battery.png" );
             return batteryImage;
         }
     }
@@ -107,7 +107,7 @@ public class MacroCircuitGraphic {
         else {
             loader.setPhetLoader();
             ImageLoader _tmp = loader;
-            particleImage = ImageLoader.loadBufferedImage( "images/particle-blue-sml.gif" );
+            particleImage = ImageLoader.loadBufferedImage( "conductivity/images/particle-blue-sml.gif" );
             return particleImage;
         }
     }

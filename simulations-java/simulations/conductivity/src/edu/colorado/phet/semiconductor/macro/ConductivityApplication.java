@@ -51,7 +51,7 @@ import java.util.Hashtable;
 public class ConductivityApplication extends Module {
     // Localization
 
-    public static final String localizedStringsPath = "localization/ConductivityStrings";
+    public static final String localizedStringsPath = "conductivity/localization/conductivity-strings";
     private static String version = "1.00";
 
     public AbstractClock getClock() {
@@ -141,7 +141,7 @@ public class ConductivityApplication extends Module {
         timeBetweenFires = clock.getDt() * 3D;
         light = new Flashlight( 0.80000000000000004D, 0.10000000000000001D, 0.0D );
         ImageLoader imageloader = new ImageLoader();
-        BufferedImage bufferedimage = imageloader.loadImage( "images/light.gif" );
+        BufferedImage bufferedimage = imageloader.loadImage( "conductivity/images/light.gif" );
         flashlightGraphic = new FlashlightGraphic( light, bufferedimage, transform );
         getApparatusPanel().addGraphic( flashlightGraphic, 100D );
         PhetVector phetvector = getResistorCenter();
