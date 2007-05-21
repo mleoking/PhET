@@ -9,19 +9,20 @@ When resizing a graph, the layout can change (due to difference in axis labels),
 
 Move charts, cursor, etc to jfreechart-phet directory?
 
-When the time series is off-scale, dragging the slider doesn't immediately respond.
-Clicking on the slider thumb should set the current value, and allow immediate drags.
-
 On rotational motion sim, lots of it worked well and looked good, but when showing acceleration a,
 the zero and the curve was below bottom of graph sometime. Angular acceleration  worked well though.
 
 Performance optimization.
+    -Should cursors nodes use paint-immediately instead of creating a large repaint rectangle?
 
 Time derivatives need a time-offset to match other series.
 
 Time series are offset incorrectly in graphs (their x-offset is before the beginning of the graph).
 
 Consolidate MovingMan, Forces1D, Ramp, Rotation, Torque into a single codebase.
+
+When the time series is off-scale, dragging the slider doesn't immediately respond.
+Clicking on the slider thumb should set the current value, and allow immediate drags.
 
 ################
 #           Postponed:
