@@ -19,18 +19,18 @@ public class TimeSeriesModel extends ClockAdapter {
     private boolean paused = false;
     private double maxRecordTime = Double.POSITIVE_INFINITY;
 
-    private RecordMode recordMode = new RecordMode( this );
-    private PlaybackMode playbackMode = new PlaybackMode( this );
-    private LiveMode liveMode = new LiveMode( this );
+    private Mode.Record record = new Mode.Record( this );
+    private Mode.Playback playback = new Mode.Playback( this );
+    private Mode.Live live = new Mode.Live( this );
 
-    private Mode mode = liveMode;//the current mode.
+    private Mode mode = live;//the current mode.
 
     private ArrayList listeners = new ArrayList();
 
     public TimeSeriesModel( RecordableModel recordableModel, double singleStepDT ) {
         this.recordableModel = recordableModel;
         this.singleStepDT = singleStepDT;
-        this.mode = liveMode;
+        this.mode = live;
     }
 
     public boolean isPaused() {
@@ -38,20 +38,20 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void addPlaybackTimeChangeListener( final PlaybackTimeListener playbackTimeListener ) {
-        playbackMode.addListener( playbackTimeListener );
+        playback.addListener( playbackTimeListener );
     }
 
     private double getLiveTime() {
-        return liveMode.getTime(); 
+        return live.getTime();
     }
 
     public double getPlaybackTime() {
-        return playbackMode.getPlaybackTime();
+        return playback.getPlaybackTime();
     }
 
     public void setPlaybackTime( double requestedTime ) {
         if( requestedTime >= 0 && requestedTime <= getRecordTime() && numPlaybackStates() > 0 ) {
-            playbackMode.setTime( requestedTime );
+            playback.setTime( requestedTime );
             recordableModel.setState( series.getTimeStateValue( requestedTime ) );
         }
     }
@@ -60,8 +60,8 @@ public class TimeSeriesModel extends ClockAdapter {
         return mode;
     }
 
-    public PlaybackMode getPlaybackMode() {
-        return playbackMode;
+    public Mode.Playback getPlaybackMode() {
+        return playback;
     }
 
     public void addListener( Listener listener ) {
@@ -69,7 +69,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public double getRecordTime() {
-        return recordMode.getRecordTime();
+        return record.getRecordTime();
     }
 
     public void setPaused( boolean paused ) {
@@ -90,7 +90,7 @@ public class TimeSeriesModel extends ClockAdapter {
     public void reset() {
         boolean origPauseState = isPaused();
         setPaused( true );
-        recordMode.reset();
+        record.reset();
         rewind();
         series.clear();
         recordableModel.resetTime();
@@ -99,15 +99,15 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public boolean isLiveMode() {
-        return mode == liveMode;
+        return mode == live;
     }
 
     public boolean isRecordMode() {
-        return mode == recordMode;
+        return mode == record;
     }
 
     public void setRecordMode() {
-        setMode( recordMode );
+        setMode( record );
     }
 
     public void confirmAndApplyReset() {
@@ -157,22 +157,22 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void startPlaybackMode( double playbackSpeed ) {
-        playbackMode.setPlaybackSpeed( playbackSpeed );
-        setMode( playbackMode );
+        playback.setPlaybackSpeed( playbackSpeed );
+        setMode( playback );
         setPaused( false );
         notifyDataSeriesChanged();
     }
 
     public boolean isPlaybackMode() {
-        return mode == playbackMode;
+        return mode == playback;
     }
 
     public boolean isPlaybackMode( double speed ) {
-        return isPlaybackMode() && playbackMode.getPlaybackSpeed() == speed;
+        return isPlaybackMode() && playback.getPlaybackSpeed() == speed;
     }
 
     public boolean isRecording() {
-        return mode == recordMode && !isPaused();
+        return mode == record && !isPaused();
     }
 
     public TimeStateSeries getSeries() {
@@ -201,14 +201,14 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void setLiveMode() {
-        setMode( liveMode );
+        setMode( live );
     }
 
     private void ifRecordTooMuchSwitchToLive() {
         int MAX = 1500;
         //todo magic number: this is the number of recorded points in the 40-second interval that shows up on the time series chart under a particular set of conditions.
 
-        if( isRecordMode() && recordMode.getTimeSeriesModel().getSeries().size() > MAX ) {
+        if( isRecordMode() && record.getTimeSeriesModel().getSeries().size() > MAX ) {
             setLiveMode();
             notifyDataSeriesChanged();
         }
@@ -219,7 +219,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public boolean isFirstPlaybackPoint() {
-        return getSeries().size() > 0 && isPlaybackMode() && playbackMode.getPlaybackTime() == 0;
+        return getSeries().size() > 0 && isPlaybackMode() && playback.getPlaybackTime() == 0;
     }
 
     public double getSingleStepDT() {
@@ -290,7 +290,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void setPlaybackMode() {
-        setMode( playbackMode );
+        setMode( playback );
     }
 
     public static interface Listener {
