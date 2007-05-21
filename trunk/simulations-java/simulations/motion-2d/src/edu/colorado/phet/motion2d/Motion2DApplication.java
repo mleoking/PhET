@@ -22,7 +22,7 @@ public class Motion2DApplication {
     // Localization
     public static final String version = "1.02";
 
-    public static final String localizedStringsPath = "localization/Motion2dStrings";
+    public static final String localizedStringsPath = "motion-2d/localization/motion-2d-strings";
 
     public static void main( final String[] args ) {
         try {

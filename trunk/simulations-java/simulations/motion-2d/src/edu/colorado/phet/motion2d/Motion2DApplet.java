@@ -28,8 +28,8 @@ public class Motion2DApplet extends JApplet {
         SimStrings.getInstance().addStrings( Motion2DApplication.localizedStringsPath );
 
         try {
-            ballImage = ImageLoaderSolo.loadBufferedImage( "ballsmall2.gif" );
-            emptyImage = ImageLoaderSolo.loadBufferedImage( "empty.gif" );
+            ballImage = ImageLoaderSolo.loadBufferedImage( "motion-2d/images/ballsmall2.gif" );
+            emptyImage = ImageLoaderSolo.loadBufferedImage( "motion-2d/images/empty.gif" );
         }
         catch( IOException e ) {
             e.printStackTrace();
