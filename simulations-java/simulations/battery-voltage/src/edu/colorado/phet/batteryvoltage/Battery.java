@@ -1,11 +1,5 @@
 package edu.colorado.phet.batteryvoltage;
 
-import edu.colorado.phet.batteryvoltage.man.Director;
-import edu.colorado.phet.batteryvoltage.man.VoltMan;
-import edu.colorado.phet.batteryvoltage.man.VoltManFactory;
-import edu.colorado.phet.batteryvoltage.man.voltListeners.CompositeVoltageListener;
-import edu.colorado.phet.batteryvoltage.man.voltListeners.VoltageListener;
-import edu.colorado.phet.batteryvoltage.common.view.util.SimStrings;
 import edu.colorado.phet.batteryvoltage.common.electron.components.Gauge;
 import edu.colorado.phet.batteryvoltage.common.electron.gui.mouse2.ParticleSelector;
 import edu.colorado.phet.batteryvoltage.common.electron.laws.CoulombsLaw;
@@ -24,10 +18,14 @@ import edu.colorado.phet.batteryvoltage.common.electron.paint.animate.ParticlePo
 import edu.colorado.phet.batteryvoltage.common.electron.paint.animate.RotatingTwinkle2;
 import edu.colorado.phet.batteryvoltage.common.electron.paint.particle.ImagePainter;
 import edu.colorado.phet.batteryvoltage.common.electron.paint.particle.ParticlePainterAdapter;
-import edu.colorado.phet.batteryvoltage.common.electron.utils.ImageLoader;
 import edu.colorado.phet.batteryvoltage.common.phys2d.*;
 import edu.colorado.phet.batteryvoltage.common.phys2d.laws.Repaint;
 import edu.colorado.phet.batteryvoltage.common.phys2d.propagators.*;
+import edu.colorado.phet.batteryvoltage.man.Director;
+import edu.colorado.phet.batteryvoltage.man.VoltMan;
+import edu.colorado.phet.batteryvoltage.man.VoltManFactory;
+import edu.colorado.phet.batteryvoltage.man.voltListeners.CompositeVoltageListener;
+import edu.colorado.phet.batteryvoltage.man.voltListeners.VoltageListener;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,5 @@
 package edu.colorado.phet.batteryvoltage.common.phys2d.gui;
 
-import edu.colorado.phet.batteryvoltage.common.view.util.SimStrings;
 import edu.colorado.phet.batteryvoltage.common.phys2d.SystemRunner;
 import edu.colorado.phet.batteryvoltage.BatteryVoltageResources;
 
