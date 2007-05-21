@@ -421,7 +421,7 @@ public class PhetProject {
         for( int i = 0; i < children.length; i++ ) {
             File child = children[i];
             String filename = child.getName();
-            String prefix = getName()+"-strings_";
+            String prefix = getName() + "-strings_";
             String suffix = ".properties";
 //            System.out.println( "filename = " + filename );
             if( child.isFile() && filename.startsWith( prefix ) && filename.endsWith( suffix ) ) {
@@ -435,5 +435,10 @@ public class PhetProject {
 
     private File getLocalizationDir() {
         return new File( getDir(), "data/" + getName() + "/localization" );
+    }
+
+    public File getLocalizationFile( String locale ) {
+        String suffix = locale.equals( "en" ) || locale.equals( "" ) ? "" : "_" + locale;
+        return new File( getLocalizationDir(), getName() + "-strings" + suffix + ".properties" );
     }
 }

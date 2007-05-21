@@ -14,8 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
@@ -91,9 +90,17 @@ public class PhetBuildGUI extends AbstractPhetTask {
                 run();
             }
         } );
+        JButton showLocalizationFile = new JButton( "Show Localization File" );
+        showLocalizationFile.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                showLocalizationFile();
+            }
+        } );
+
         GridBagConstraints commandConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         commandPanel.setLayout( new GridBagLayout() );
-        commandPanel.add( refresh, commandConstraints );
+//        commandPanel.add( refresh, commandConstraints );
+        commandPanel.add( showLocalizationFile, commandConstraints );
         commandPanel.add( run, commandConstraints );
         commandPanel.add( Box.createVerticalBox() );
 
@@ -103,6 +110,30 @@ public class PhetBuildGUI extends AbstractPhetTask {
         frame.setSize( 800, 600 );
         frame.pack();
         frame.setSize( frame.getWidth() + 100, frame.getHeight() + 100 );
+    }
+
+    private void showLocalizationFile() {
+        PhetProject project = getSelectedProject();
+        String locale = getSelectedLocale();
+        File localizationFile = project.getLocalizationFile( locale );
+        try {
+            BufferedReader bufferedReader = new BufferedReader( new FileReader( localizationFile ) );
+            String text = "";
+            for( String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine() ) {
+                text += line + System.getProperty( "line.separator" );
+            }
+            JTextArea jta = new JTextArea( text );
+            JFrame frame = new JFrame( "Localization file for: " + getSelectedProject() + " " + getSelectedLocale() + ". " + localizationFile.getAbsolutePath() );
+            frame.setContentPane( new JScrollPane( jta ) );
+            frame.setSize( 800, 600 );
+            frame.setVisible( true );
+        }
+        catch( FileNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     private void refresh() {
@@ -128,16 +159,16 @@ public class PhetBuildGUI extends AbstractPhetTask {
     private void doRun( final JDialog dialog ) {
         String sim = (String)simList.getSelectedValue();
         String flavor = (String)flavorList.getSelectedValue();
-        String locale = (String)localeList.getSelectedValue();
+        String locale = getSelectedLocale();
         System.out.println( "Building sim: " + sim );
         PhetBuildTask phetBuildTask = new PhetBuildTask();
         phetBuildTask.setProject( sim );
         runTask( phetBuildTask );
         System.out.println( "Build complete" );
         Java java = new Java();
-        File projectParentDir = PhetBuildUtils.resolveProject( getProject().getBaseDir(), sim );
-        try {
-            PhetProject phetProject = new PhetProject( projectParentDir, sim );
+
+        PhetProject phetProject = getSelectedProject();
+        if( phetProject != null ) {
             java.setClassname( phetProject.getFlavor( flavor, locale ).getMainclass() );
             java.setFork( true );
             Path classpath = new Path( getProject() );
@@ -155,8 +186,22 @@ public class PhetBuildGUI extends AbstractPhetTask {
             } );
             runTask( java );
         }
+    }
+
+    private String getSelectedLocale() {
+        return (String)localeList.getSelectedValue();
+    }
+
+    private PhetProject getSelectedProject() {
+        String sim = (String)simList.getSelectedValue();
+        File projectParentDir = PhetBuildUtils.resolveProject( getProject().getBaseDir(), sim );
+        try {
+            return new PhetProject( projectParentDir, sim );
+        }
         catch( IOException e ) {
             e.printStackTrace();
+            System.out.println( "no project selected" );
+            return null;
         }
     }
 
