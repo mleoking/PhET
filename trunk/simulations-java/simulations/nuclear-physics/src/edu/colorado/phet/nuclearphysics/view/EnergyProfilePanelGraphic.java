@@ -164,7 +164,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         backgroundGraphic.setLocation( -(int)(strokeWidth / 2), 0 );
         addGraphic( backgroundGraphic, 0 );
 
-//        PhetImageGraphic bezel = new PhetImageGraphic( component, "images/energy-panel-bezel.png" );
+//        PhetImageGraphic bezel = new PhetImageGraphic( component, "nuclear-physics/images/energy-panel-bezel.png" );
 //        addGraphic( bezel, 1E9 );
 
 //        setClip( bezel.getBounds() );

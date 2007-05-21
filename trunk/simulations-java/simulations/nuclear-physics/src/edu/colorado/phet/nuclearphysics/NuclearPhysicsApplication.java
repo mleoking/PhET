@@ -29,7 +29,7 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
 //public class NuclearPhysicsApplication extends PhetApplication {
 
     // Localization
-    public static final String localizedStringsPath = "localization/NuclearPhysicsStrings";
+    public static final String localizedStringsPath = "nuclear-physics/localization/nuclear-physics-strings";
     private static PhetLookAndFeel phetLookAndFeel;
     private PhetTabbedPane phetTabbedPane;
     private static Color backgroundColor;

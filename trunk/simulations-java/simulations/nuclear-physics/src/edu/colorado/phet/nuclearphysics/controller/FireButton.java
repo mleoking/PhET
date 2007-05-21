@@ -27,8 +27,8 @@ public class FireButton extends PhetGraphicsButton {
     private static BufferedImage buttonDownImg;
     static {
         try {
-            buttonDownImg = ImageLoader.loadBufferedImage( "images/fire-button-down.png");
-            buttonUpImg = ImageLoader.loadBufferedImage( "images/fire-button.png");
+            buttonDownImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/fire-button-down.png");
+            buttonUpImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/fire-button.png");
         }
         catch( IOException e ) {
             e.printStackTrace();

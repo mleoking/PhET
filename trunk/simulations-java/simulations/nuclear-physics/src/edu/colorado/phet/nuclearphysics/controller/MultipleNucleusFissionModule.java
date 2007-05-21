@@ -107,7 +107,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         }
 
         // Ray gun
-        PhetImageGraphic gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8A.png" );
+        PhetImageGraphic gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "nuclear-physics/images/gun-8A.png" );
         gunGraphic.setTransform( AffineTransform.getScaleInstance( 2, 2 ) );
         gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
         gunGraphic.setLocation( gunMuzzelLocation );
@@ -188,7 +188,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 fireButton.setVisible( false );
 
                 // Add a mushroom cloud
-                mushroomCloudGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/mc-10.jpg" );
+                mushroomCloudGraphic = new PhetImageGraphic( getPhysicalPanel(), "nuclear-physics/images/mc-10.jpg" );
                 getPhysicalPanel().addGraphic( mushroomCloudGraphic );
                 Dimension targetSize = new Dimension( (int)( getApparatusPanel().getSize().width / getPhysicalPanel().getScale() ),
                                                       (int)( getApparatusPanel().getSize().height / getPhysicalPanel().getScale() ) );

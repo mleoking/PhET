@@ -27,8 +27,8 @@ public class ResetButton extends PhetGraphicsButton {
     private static BufferedImage buttonDownImg;
     static {
         try {
-            ResetButton.buttonDownImg = ImageLoader.loadBufferedImage( "images/reset-button-down.png");
-            ResetButton.buttonUpImg = ImageLoader.loadBufferedImage( "images/reset-button-up.png");
+            ResetButton.buttonDownImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/reset-button-down.png");
+            ResetButton.buttonUpImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/reset-button-up.png");
         }
         catch( IOException e ) {
             e.printStackTrace();
