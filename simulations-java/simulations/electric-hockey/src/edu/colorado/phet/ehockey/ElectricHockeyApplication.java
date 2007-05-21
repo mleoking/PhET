@@ -69,7 +69,7 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
     }
 
     public Image getImage( ResourceLoader4 ralf, String name ) {
-        return ralf.loadBufferedImage( name );
+        return ralf.loadBufferedImage( "electric-hockey/images/"+name );
     }
 
     public void paintComponent( Graphics g ) {
