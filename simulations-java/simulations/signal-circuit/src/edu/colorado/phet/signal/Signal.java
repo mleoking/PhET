@@ -53,17 +53,17 @@ public class Signal extends JApplet {
     public Signal( int width, int height, boolean applet ) {
 
         ImageLoader loader = new ResourceLoader3( getClass().getClassLoader(), this );
-//        BufferedImage bi = loader.loadBufferedImage("images/Electron3V.GIF");
-        BufferedImage bi = loader.loadBufferedImage( "images/electron9.gif" );
+//        BufferedImage bi = loader.loadBufferedImage("signal-circuit/images/Electron3V.GIF");
+        BufferedImage bi = loader.loadBufferedImage( "signal-circuit/images/electron9.gif" );
 //        bi = new AlphaFixer2(new int[]{252, 254, 252, 255}).patchAlpha(bi);
 
-        BufferedImage phetBattery = loader.loadBufferedImage( "images/PhetBattery1.gif" );
+        BufferedImage phetBattery = loader.loadBufferedImage( "signal-circuit/images/PhetBattery1.gif" );
         phetBattery = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( phetBattery );
 
         //System.exit(0);
         bi = ImageUtils.scaleToSizeApproximate( bi, 20, 20 );
         ParticlePainter painter = new ImagePainter( bi );
-        BufferedImage b2 = loader.loadBufferedImage( "images/Electron3VX.GIF" );//PaintedElectron.gif");
+        BufferedImage b2 = loader.loadBufferedImage( "signal-circuit/images/Electron3VX.GIF" );//PaintedElectron.gif");
         b2 = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( b2 );
         b2 = ImageUtils.scaleToSizeApproximate( b2, 20, 20 );
         ParticlePainter tagged = new ImagePainter( b2 );
@@ -236,8 +236,8 @@ public class Signal extends JApplet {
         Point covered = new Point( 105, 110 );
         Point uncovered = new Point( 105, 220 );
 
-        BufferedImage up = loader.loadBufferedImage( "images/A.jpg" );
-        BufferedImage down = loader.loadBufferedImage( "images/B.jpg" );
+        BufferedImage up = loader.loadBufferedImage( "signal-circuit/images/A.jpg" );
+        BufferedImage down = loader.loadBufferedImage( "signal-circuit/images/B.jpg" );
         Switch top = new Switch( new BufferedImagePainter( down, covered.x, covered.y ),
                                  new BufferedImagePainter( up, covered.x, covered.y ),
                                  false, angleSlider );
@@ -249,8 +249,8 @@ public class Signal extends JApplet {
 
         sc.addSwitchListener( switchCover );
 
-        BufferedImage chandOn = loader.loadBufferedImage( "images/ChandelierOn2.jpg" );
-        BufferedImage chandOff = loader.loadBufferedImage( "images/ChandelierOff2.jpg" );
+        BufferedImage chandOn = loader.loadBufferedImage( "signal-circuit/images/ChandelierOn2.jpg" );
+        BufferedImage chandOff = loader.loadBufferedImage( "signal-circuit/images/ChandelierOff2.jpg" );
 
         int chandX = 250;
         int chandY = 62;
