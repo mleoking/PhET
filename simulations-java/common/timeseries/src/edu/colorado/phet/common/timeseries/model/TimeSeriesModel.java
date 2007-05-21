@@ -138,7 +138,6 @@ public class TimeSeriesModel extends ClockAdapter {
 
     public void rewind() {
         setPlaybackTime( getRecordStartTime() );
-        notifyDataSeriesChanged();
     }
 
     private double getRecordStartTime() {

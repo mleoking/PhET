@@ -40,6 +40,10 @@ public class PlaybackMode extends Mode {
         else {
             getTimeSeriesModel().setPaused( true );
         }
+        notifyPlaybackTimeChanged();
+    }
+
+    private void notifyPlaybackTimeChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             TimeSeriesModel.PlaybackTimeListener playbackTimeListener = (TimeSeriesModel.PlaybackTimeListener)listeners.get( i );
             playbackTimeListener.timeChanged();
@@ -47,7 +51,10 @@ public class PlaybackMode extends Mode {
     }
 
     public void setTime( double requestedTime ) {
-        this.playbackTime = requestedTime;
+        if( this.playbackTime != requestedTime ) {
+            this.playbackTime = requestedTime;
+            notifyPlaybackTimeChanged();
+        }
     }
 
     public void addListener( TimeSeriesModel.PlaybackTimeListener playbackTimeListener ) {
