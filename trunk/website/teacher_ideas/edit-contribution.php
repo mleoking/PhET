@@ -17,6 +17,8 @@
 
     function print_content() {
         global $referrer, $contribution_id;
+
+        print_r($GLOBALS['contribution']);
         
         ?>
         
@@ -38,6 +40,8 @@
     if (isset($_REQUEST['action'])) {
         handle_action($_REQUEST['action']);
     }
+    
+    $contribution = gather_script_params_into_array('contribution_');    
     
     print_site_page('print_content', 3);
 

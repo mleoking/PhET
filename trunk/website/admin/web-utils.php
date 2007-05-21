@@ -425,6 +425,64 @@ EOT;
         $select_id   = "${name}_uid";
         $select_name = "${name}_select";
         
+        if (!$has_printed_javascript) {
+            $has_printed_javascript = true;
+
+            print <<<EOT
+            <script type="text/javascript">
+                /* <![CDATA[ */
+
+                var child_id_index = $child_id_index;
+
+                function ms_remove_li(id, child_id) {
+                    var Parent = document.getElementById(id);
+                    var Child  = document.getElementById(child_id);
+
+                    Parent.removeChild(Child);
+
+                    return false;
+                }
+
+                function ms_add_li(basename, list_id, text, name) {
+                    var Parent = document.getElementById(list_id);
+
+                    var li_children = Parent.getElementsByTagName("li");
+
+                    for(var i = 0, li_child; li_child = li_children[i]; i++) {
+                        var input_child = li_child.getElementsByTagName("input")[0];
+
+                        if (input_child.name == name) {
+                            return false;
+                        }
+                    }
+
+                    var NewLI = document.createElement("li");
+
+                    NewLI.id        = "child_" + basename + "_" + child_id_index;                    
+                    NewLI.innerHTML = "<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('" + list_id + "','" + NewLI.id + "')\">" + text + "</a>" +
+                                      "<input type=\"hidden\" name=\"" + name + "\" value=\"1\" />";
+
+                    Parent.appendChild(NewLI);
+
+                    child_id_index++;
+                }
+
+                function ms_on_change(basename, list_id, dropdown) {
+                	var index  = dropdown.selectedIndex;
+
+                	var text   = dropdown.options[index].text;
+                	var value  = dropdown.options[index].value;
+
+                    ms_add_li(basename, list_id, text, value);
+
+                	return false;
+                }
+
+                /* ]]> */
+            </script>
+EOT;
+        }        
+        
         print <<<EOT
             <ul id="$list_id">
                 $selections
@@ -436,63 +494,6 @@ EOT;
                 $options
             </select>
 EOT;
-        if (!$has_printed_javascript) {
-            $has_printed_javascript = true;
-            
-            print <<<EOT
-            <script type="text/javascript">
-                <![CDATA[
-                
-                var child_id_index = $child_id_index;
-                
-                function ms_remove_li(id, child_id) {
-                    var Parent = document.getElementById(id);
-                    var Child  = document.getElementById(child_id);
-                    
-                    Parent.removeChild(Child);
-                    
-                    return false;
-                }
-                
-                function ms_add_li(basename, list_id, text, name) {
-                    var Parent = document.getElementById(list_id);
-                    
-                    var li_children = Parent.getElementsByTagName("li");
-                    
-                    for(var i = 0, li_child; li_child = li_children[i]; i++) {
-                        var input_child = li_child.getElementsByTagName("input")[0];
-                        
-                        if (input_child.name == name) {
-                            return false;
-                        }
-                    }
-                    
-                    var NewLI = document.createElement("li");
-
-                    NewLI.id        = "child_" + basename + "_" + child_id_index;                    
-                    NewLI.innerHTML = "<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('" + list_id + "','" + NewLI.id + "')\">" + text + "</a>" +
-                                      "<input type=\"hidden\" name=\"" + name + "\" value=\"1\" />";
-
-                    Parent.appendChild(NewLI);
-                    
-                    child_id_index++;
-                }
-                
-                function ms_on_change(basename, list_id, dropdown) {
-                	var index  = dropdown.selectedIndex;
-                	
-                	var text   = dropdown.options[index].text;
-                	var value  = dropdown.options[index].value;
-
-                    ms_add_li(basename, list_id, text, value);
-
-                	return false;
-                }
-                
-                ]]>
-            </script>
-EOT;
-        }
     }
     
     function print_single_selection($select_name, $value_to_text, $selected_text) {
