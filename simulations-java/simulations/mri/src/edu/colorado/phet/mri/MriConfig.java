@@ -29,7 +29,7 @@ import java.awt.geom.Rectangle2D;
 public class MriConfig {
 
     // Location of strings
-    public static final String STRINGS_BUNDLE_NAME = "localization/MriStrings";
+    public static final String STRINGS_BUNDLE_NAME = "mri/localization/mri-strings";
 
     // Descriptive information
     public static final String TITLE = SimStrings.getInstance().getString( "Application.Title" );
@@ -43,7 +43,7 @@ public class MriConfig {
     public static int FPS = 25;
 
     // Images
-    public static final String IMAGE_PATH = "images/";
+    public static final String IMAGE_PATH = "mri/images/";
     public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole-4.gif";
     public static final String DIPOLE_ARROW_IMAGE = IMAGE_PATH + "dipole-5-arrow.gif";
     public static final String DIPOLE_DONUT_IMAGE = IMAGE_PATH + "dipole-5-donut.gif";
