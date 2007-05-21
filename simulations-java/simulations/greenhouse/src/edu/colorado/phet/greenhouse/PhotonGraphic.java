@@ -34,7 +34,7 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
 
     private static ArrayList instances = new ArrayList();
     private static double scale = 1;
-    private static final String IMAGE_PATH = "images/photon-comet.png";
+    private static final String IMAGE_PATH = "greenhouse/images/photon-comet.png";
     private static BufferedImage baseImage;
     private static HashMap colorLUT = new HashMap();
     private DuotoneImageOp duotoneImageOp;

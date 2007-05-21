@@ -40,7 +40,7 @@ public class GlassPaneModule extends BaseGreenhouseModule {
         super( SimStrings.get( "ModuleTitle.GlassLayerModule" ) );
 
         // Make the background graphic first. It will be needed by teh glass pane graphics
-        backgroundGraphic = new ImageGraphic( "images/glass-pane-background.gif",
+        backgroundGraphic = new ImageGraphic( "greenhouse/images/glass-pane-background.gif",
                                               new Point2D.Double(
                                                       ( (GreenhouseModel)getModel() ).getBounds().getX(),
                                                       ( (GreenhouseModel)getModel() ).getBounds().getY() ) );
@@ -66,7 +66,7 @@ public class GlassPaneModule extends BaseGreenhouseModule {
 //                Component component = e.getComponent();
 //                Rectangle2D newBounds = component.getBounds();
 //                if( backgroundGraphic != null ) {
-//                    BufferedImage bi = new ImageLoader().loadBufferedImage( "images/glass-pane-background.gif" );
+//                    BufferedImage bi = new ImageLoader().loadBufferedImage( "greenhouse/images/glass-pane-background.gif" );
 //                    double scale = newBounds.getWidth() / bi.getWidth();
 //                    AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
 //                    AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );

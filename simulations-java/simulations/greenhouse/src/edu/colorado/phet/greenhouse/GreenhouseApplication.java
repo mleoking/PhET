@@ -32,7 +32,7 @@ import java.awt.*;
  */
 public class GreenhouseApplication extends PhetApplication {
     // Localization
-    public static final String localizedStringsPath = "localization/GreenhouseStrings";
+    public static final String localizedStringsPath = "greenhouse/localization/greenhouse-strings";
 
     private static PhetApplication s_application;
     private static SwingTimerClock clock;
@@ -96,13 +96,6 @@ public class GreenhouseApplication extends PhetApplication {
                         1024, 768 );
                 clock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
                 s_application = new PhetApplication( appDescriptor, modules, clock );
-
-//                clock.removeClockTickListener( greenhouseModule.getModel() );
-//                clock.removeClockTickListener( greenhouseModule2.getModel() );
-//                IClock clock1 = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
-//                greenhouseModule.addClock( clock1 );
-//                IClock clock2 = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
-//                greenhouseModule2.addClock( clock2 );
 
                 Color background = GreenhouseConfig.PANEL_BACKGROUND_COLOR;
                 Color foreground = Color.black;

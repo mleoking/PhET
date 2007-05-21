@@ -46,7 +46,7 @@ public class GreenhouseLegend extends JPanel {
 
         setLayout( new GridBagLayout() );
         this.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),SimStrings.get( "GreenhouseLegend.LegendTitle" ) ) );
-//            ImageIcon electronImg = new ImageIcon( ImageLoader.fetchImage( "images/small-yellow-electron.gif" ));
+//            ImageIcon electronImg = new ImageIcon( ImageLoader.fetchImage( "greenhouse/images/small-yellow-electron.gif" ));
         int rowIdx = 0;
         try {
             JLabel sunlightLegend = new JLabel( SimStrings.get( "GreenhouseLegend.SunlightPhotonLabel" ),
