@@ -49,9 +49,9 @@ public class SwingWiggleMe {
         shadow.setOpaque( false );
         shadow.setForeground( Color.white );
 
-//        label.setIcon( new ImageIcon( getClass().getClassLoader().getResource( "images/arrow-right.gif")));
+//        label.setIcon( new ImageIcon( getClass().getClassLoader().getResource( "travoltage/images/arrow-right.gif")));
 //        label.setHorizontalAlignment( SwingConstants.RIGHT );
-        icon = new ImageIcon( getClass().getClassLoader().getResource( "images/arrow-right.gif" ) );
+        icon = new ImageIcon( getClass().getClassLoader().getResource( "travoltage/images/arrow-right.gif" ) );
         iconLabel = new JLabel( icon );
     }
 

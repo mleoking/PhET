@@ -18,7 +18,7 @@ public class DoorknobNode extends PNode {
     private PImage image;
 
     public DoorknobNode() {
-        image = PImageFactory.create( "images/knob.jpg" );
+        image = PImageFactory.create( "travoltage/images/knob.jpg" );
         addChild( image );
     }
 

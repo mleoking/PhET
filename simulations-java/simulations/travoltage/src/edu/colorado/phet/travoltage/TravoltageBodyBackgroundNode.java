@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 public class TravoltageBodyBackgroundNode extends PNode {
     public TravoltageBodyBackgroundNode() {
-        PImage image = PImageFactory.create( "images/travolta-hinges.gif" );
+        PImage image = PImageFactory.create( "travoltage/images/travolta-hinges.gif" );
         addChild( image );
     }
 }

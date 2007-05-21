@@ -21,7 +21,7 @@ public class LegNode extends LimbNode {
     private double insetAngle = -1.2;//more negative means more left on his foot.
 
     public LegNode() {
-        super( "images/leg2.gif", new Point( 30, 27 ) );
+        super( "travoltage/images/leg2.gif", new Point( 30, 27 ) );
     }
 
     public void rotateAboutPivot( double dTheta ) {

@@ -18,7 +18,7 @@ public class ArmNode extends LimbNode {
     private double insetAngle = Math.PI / 16 + Math.PI / 32;
 
     public ArmNode() {
-        super( "images/arm2.gif", new Point( 8, 42 ) );
+        super( "travoltage/images/arm2.gif", new Point( 8, 42 ) );
     }
 
     public Point2D getGlobalFingertipPoint() {

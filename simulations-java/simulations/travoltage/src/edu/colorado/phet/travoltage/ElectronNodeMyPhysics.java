@@ -19,7 +19,7 @@ public class ElectronNodeMyPhysics extends PNode {
     private Vector2D.Double velocity = new Vector2D.Double();
 
     public ElectronNodeMyPhysics( Point2D location ) {
-        addChild( PImageFactory.create( "images/Electron3.GIF" ) );
+        addChild( PImageFactory.create( "travoltage/images/Electron3.GIF" ) );
         setPickable( false );
         setChildrenPickable( false );
     }

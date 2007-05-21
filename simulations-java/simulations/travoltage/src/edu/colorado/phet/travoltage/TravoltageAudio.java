@@ -36,8 +36,8 @@ public class TravoltageAudio implements Runnable {
                 }
             }
         } );
-        AudioClip ouch = Applet.newAudioClip( findResource( "sound/OuchSmallest.wav" ) );
-        AudioClip zzt = Applet.newAudioClip( findResource( "sound/ShockSmallest.wav" ) );
+        AudioClip ouch = Applet.newAudioClip( findResource( "travoltage/audio/OuchSmallest.wav" ) );
+        AudioClip zzt = Applet.newAudioClip( findResource( "travoltage/audio/ShockSmallest.wav" ) );
         this.clips = new AudioClip[]{ouch, zzt};
     }
 
