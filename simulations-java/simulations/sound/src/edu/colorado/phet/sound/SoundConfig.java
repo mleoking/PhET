@@ -29,7 +29,7 @@ public class SoundConfig {
     public static final String VERSION = "2.06";
 
     // Localization
-    public static final String localizedStringsPath = "localization/SoundStrings";
+    public static final String localizedStringsPath = "sound/localization/sound-strings";
 
     // Physical constants
     // The time step is set so that the waves look reasonable on the screen. It is NOT set so that
@@ -64,7 +64,7 @@ public class SoundConfig {
 
     // Image stuff
     public static final Color MIDDLE_GRAY = new Color( 128, 128, 128 );
-    public static final String IMAGE_DIRECTORY = "images/";
+    public static final String IMAGE_DIRECTORY = "sound/images/";
     public static final String SPEAKER_FRAME_IMAGE_FILE = IMAGE_DIRECTORY + "speaker-frame.gif";
     public static final String SPEAKER_CONE_IMAGE_FILE = IMAGE_DIRECTORY + "speaker-cone.gif";
     public static final String HEAD_IMAGE_FILE = IMAGE_DIRECTORY + "head-1-small.gif";
