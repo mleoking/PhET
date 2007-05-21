@@ -2,6 +2,7 @@
 Added a graph cursor to show during playback.
 Fixed: Graph cursor should appear at the correct time when simulation is paused.
 Fixed: Graph cursor should set playback time during dragging.
+Fixed: Graph Cursor shouldn't be draggable beyond the end of available data.
 
 0.00.10 (5-16-2007)
 Add clipping for Buffered strategies in DynamicJFreeChartNode

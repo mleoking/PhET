@@ -100,7 +100,7 @@ public class EnergyTimePlotCanvas extends PhetPCanvas {
 //            }
 //        } );
         ec3Module.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
-            public void dataAdded() {
+            public void dataSeriesChanged() {
                 if (ec3Module.getTimeSeriesModel().numPlaybackStates()==0){
                     reset();
                 }

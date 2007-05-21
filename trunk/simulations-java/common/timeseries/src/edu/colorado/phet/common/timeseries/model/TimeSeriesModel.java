@@ -75,7 +75,7 @@ public class TimeSeriesModel extends ClockAdapter {
     public void setPaused( boolean paused ) {
         if( paused != this.paused ) {
             this.paused = paused;
-            notifyDataAdded();
+            notifyDataSeriesChanged();
             notifyPauseChanged();
         }
     }
@@ -95,7 +95,7 @@ public class TimeSeriesModel extends ClockAdapter {
         series.clear();
         recordableModel.resetTime();
         setPaused( origPauseState );
-        notifyDataAdded();
+        notifyDataSeriesChanged();
     }
 
     public boolean isLiveMode() {
@@ -138,7 +138,7 @@ public class TimeSeriesModel extends ClockAdapter {
 
     public void rewind() {
         setPlaybackTime( getRecordStartTime() );
-        notifyDataAdded();
+        notifyDataSeriesChanged();
     }
 
     private double getRecordStartTime() {
@@ -150,10 +150,10 @@ public class TimeSeriesModel extends ClockAdapter {
         }
     }
 
-    private void notifyDataAdded() {
+    private void notifyDataSeriesChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
-            listener.dataAdded();
+            listener.dataSeriesChanged();
         }
     }
 
@@ -161,7 +161,7 @@ public class TimeSeriesModel extends ClockAdapter {
         playbackMode.setPlaybackSpeed( playbackSpeed );
         setMode( playbackMode );
         setPaused( false );
-        notifyDataAdded();
+        notifyDataSeriesChanged();
     }
 
     public boolean isPlaybackMode() {
@@ -186,19 +186,19 @@ public class TimeSeriesModel extends ClockAdapter {
 
     public void addSeriesPoint( Object state, double recordTime ) {
         series.addPoint( state, recordTime );
-        notifyDataAdded();
+        notifyDataSeriesChanged();
     }
 
     public void startRecording() {
         setRecordMode();
         setPaused( false );
-        notifyDataAdded();
+        notifyDataSeriesChanged();
     }
 
     public void startLiveMode() {
         setLiveMode();
         setPaused( false );
-        notifyDataAdded();
+        notifyDataSeriesChanged();
     }
 
     public void setLiveMode() {
@@ -211,7 +211,7 @@ public class TimeSeriesModel extends ClockAdapter {
 
         if( isRecordMode() && recordMode.getTimeSeriesModel().getSeries().size() > MAX ) {
             setLiveMode();
-            notifyDataAdded();
+            notifyDataSeriesChanged();
         }
     }
 
@@ -241,7 +241,7 @@ public class TimeSeriesModel extends ClockAdapter {
 
     public void clear() {
         series.clear();
-        notifyDataAdded();
+        notifyDataSeriesChanged();
     }
 
     public int numPlaybackStates() {
@@ -295,13 +295,13 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public static interface Listener {
-        void dataAdded();
+        void dataSeriesChanged();
         void modeChanged();
         void pauseChanged();
     }
 
     public static class Adapter implements Listener {
-        public void dataAdded() {
+        public void dataSeriesChanged() {
         }
 
         public void modeChanged() {
