@@ -64,23 +64,23 @@ public class DistanceLadderApplication {
 //        model.getStarShip().setPov( new PointOfView( 0, 0, 0 ) );
 
         noInfoMessages = Message.NEXT;
-        displayMessage( new HtmlMessage( frame, "messages/intro-1.html" ) );
-        displayMessage( new HtmlMessage( frame, "messages/intro-2.html" ) );
-        displayMessage( new HtmlMessage( frame, "messages/intro-3.html" ) );
+        displayMessage( new HtmlMessage( frame, "distance-ladder/messages/intro-1.html" ) );
+        displayMessage( new HtmlMessage( frame, "distance-ladder/messages/intro-2.html" ) );
+        displayMessage( new HtmlMessage( frame, "distance-ladder/messages/intro-3.html" ) );
 
         noInfoMessages = Message.NEXT;
-        displayMessage( new HtmlMessage( frame, "messages/level1-intro.html" ) );
+        displayMessage( new HtmlMessage( frame, "distance-ladder/messages/level1-intro.html" ) );
         doLevel( new Level1( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level1A( app.getApplicationView().getPhetFrame(), model ) );
 
         noInfoMessages = Message.NEXT;
-        displayMessage( new HtmlMessage( frame, "messages/level2-intro.html" ) );
+        displayMessage( new HtmlMessage( frame, "distance-ladder/messages/level2-intro.html" ) );
         doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
-        displayMessage( new HtmlMessage( frame, "messages/level2A-intro.html" ) );
+        displayMessage( new HtmlMessage( frame, "distance-ladder/messages/level2A-intro.html" ) );
         doLevel( new Level2A( app.getApplicationView().getPhetFrame(), model ) );
 
         noInfoMessages = Message.NEXT;
-        displayMessage( new HtmlMessage( frame, "messages/level3-intro.html" ) );
+        displayMessage( new HtmlMessage( frame, "distance-ladder/messages/level3-intro.html" ) );
         doLevel( new Level3( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level3A( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level3B( app.getApplicationView().getPhetFrame(), model,

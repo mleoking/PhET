@@ -48,9 +48,9 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
         this.module = module;
         ImageLoader imgLoader = new ImageLoader();
         try {
-            cockpitImage = imgLoader.loadImage( "images/cockpit-view.gif" );
-            joystickBaseImage = imgLoader.loadImage( "images/joystick-base.gif" );
-            joystickControlImage = imgLoader.loadImage( "images/joystick-control.gif" );
+            cockpitImage = imgLoader.loadImage( "distance-ladder/images/cockpit-view.gif" );
+            joystickBaseImage = imgLoader.loadImage( "distance-ladder/images/joystick-base.gif" );
+            joystickControlImage = imgLoader.loadImage( "distance-ladder/images/joystick-control.gif" );
         }
         catch( IOException e ) {
             e.printStackTrace();

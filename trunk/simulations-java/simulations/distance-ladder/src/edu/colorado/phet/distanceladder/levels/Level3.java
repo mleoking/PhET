@@ -30,7 +30,7 @@ public class Level3 extends Exercise {
     };
 
     public Level3( JFrame frame, final UniverseModel model ) {
-        super( frame, new XmlExercise( "exercises/level3.xml" ) {
+        super( frame, new XmlExercise( "distance-ladder/exercises/level3.xml" ) {
             public boolean evaluate( Answer choice ) {
                 double dist = model.getStarShip().getPov().distance( targetPt );
                 return Math.abs( dist ) <= 50;
