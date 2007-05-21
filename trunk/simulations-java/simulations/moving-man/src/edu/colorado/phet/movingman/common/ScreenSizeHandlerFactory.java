@@ -35,7 +35,7 @@ public class ScreenSizeHandlerFactory {
 
 //        public BufferedImage getCloseImage() {
 //            try {
-//                BufferedImage im = ImageLoader.loadBufferedImage( "images/x-25.gif" );
+//                BufferedImage im = ImageLoader.loadBufferedImage( "moving-man/images/x-25.gif" );
 //                BufferedImage scaled = BufferedImageUtils.rescaleYMaintainAspectRatio( null, im, closeImageWidth );
 //                return scaled;
 //            }
@@ -48,7 +48,7 @@ public class ScreenSizeHandlerFactory {
 
         public BufferedImage getZoomInButtonImage() {
             try {
-                BufferedImage im = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
+                BufferedImage im = ImageLoader.loadBufferedImage( "moving-man/images/icons/glass-20-plus.gif" );
                 BufferedImage scaled = BufferedImageUtils.rescaleYMaintainAspectRatio( null, im, zoomButtonHeight );
                 return scaled;
             }
@@ -60,7 +60,7 @@ public class ScreenSizeHandlerFactory {
 
         public BufferedImage getZoomOutButtonImage() {
             try {
-                BufferedImage im = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
+                BufferedImage im = ImageLoader.loadBufferedImage( "moving-man/images/icons/glass-20-minus.gif" );
                 BufferedImage scaled = BufferedImageUtils.rescaleYMaintainAspectRatio( null, im, zoomButtonHeight );
                 return scaled;
             }

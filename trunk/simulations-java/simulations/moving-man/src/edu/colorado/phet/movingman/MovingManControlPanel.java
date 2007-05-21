@@ -71,7 +71,7 @@ public class MovingManControlPanel extends JPanel {
                 module.getFrame().setExtendedState( JFrame.MAXIMIZED_BOTH );
             }
         } ).start();
-        ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.jpg" ) );
+        ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "moving-man/images/Phet-Flatirons-logo-3-small.jpg" ) );
         JLabel phetIconLabel = new JLabel( imageIcon );
         northPanel.add( phetIconLabel );
 

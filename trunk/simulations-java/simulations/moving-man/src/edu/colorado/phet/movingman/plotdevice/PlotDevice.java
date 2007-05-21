@@ -222,8 +222,8 @@ public class PlotDevice extends GraphicLayerSet {
 
     private PhetGraphic createMinimizeButton() {
         try {
-//            BufferedImage image = ImageLoader.loadBufferedImage( "images/x-25.gif" );
-            BufferedImage image = ImageLoader.loadBufferedImage( "images/min1.jpg" );
+//            BufferedImage image = ImageLoader.loadBufferedImage( "moving-man/images/x-25.gif" );
+            BufferedImage image = ImageLoader.loadBufferedImage( "moving-man/images/min1.jpg" );
             image = testResize( image, 0.75 );
             ImageIcon icon = new ImageIcon( image );
             JButton minimize = new JButton( icon );
@@ -286,17 +286,17 @@ public class PlotDevice extends GraphicLayerSet {
 
     public class ZoomPanel extends GraphicLayerSet {
         public ZoomPanel( final PlotDevice plotDevice ) throws IOException {
-//            BufferedImage imPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
+//            BufferedImage imPlus = ImageLoader.loadBufferedImage( "moving-man/images/icons/glass-20-plus.gif" );
 //            imPlus = testResize( imPlus, 0.8 );
-//            BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
+//            BufferedImage imgMinus = ImageLoader.loadBufferedImage( "moving-man/images/icons/glass-20-minus.gif" );
 //            imgMinus = testResize( imgMinus, 0.8 );
 
-            BufferedImage imPlus = ImageLoader.loadBufferedImage( "images/icons/plus-tiny.gif" );
-            BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/minus-tiny.gif" );
+            BufferedImage imPlus = ImageLoader.loadBufferedImage( "moving-man/images/icons/plus-tiny.gif" );
+            BufferedImage imgMinus = ImageLoader.loadBufferedImage( "moving-man/images/icons/minus-tiny.gif" );
 
             if( isHighResolution() ) {
-                imPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
-                imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
+                imPlus = ImageLoader.loadBufferedImage( "moving-man/images/icons/glass-20-plus.gif" );
+                imgMinus = ImageLoader.loadBufferedImage( "moving-man/images/icons/glass-20-minus.gif" );
             }
 //            imPlus = testResize( imPlus, 0.8 );
 

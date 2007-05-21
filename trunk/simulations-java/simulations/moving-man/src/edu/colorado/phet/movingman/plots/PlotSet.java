@@ -47,7 +47,7 @@ public class PlotSet {
 
         BasicStroke plotStroke2 = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
-        final MMPlot positionPlot = new MMPlot( module, movingManApparatusPanel, "Position", "x", "images/blue-arrow.png", Color.blue );
+        final MMPlot positionPlot = new MMPlot( module, movingManApparatusPanel, "Position", "x", "moving-man/images/blue-arrow.png", Color.blue );
         positionPlot.setChartRange( new Range2D( movingManModel.getMinTime(), -maxPositionView, movingManModel.getMaxTime(), maxPositionView ) );
         final PlotDeviceSeries positionSeries = new PlotDeviceSeries( positionPlot,
                                                                       module.getMovingManModel().getPositionDataSuite().getSmoothedDataSeries(), Color.blue, "Position", plotStroke2, readoutFont, SimStrings.get( "PlotSet.MetersAbbreviation" ), "-99.9" );
@@ -74,7 +74,7 @@ public class PlotSet {
             }
         } );
 
-        final MMPlot velocityPlot = new MMPlot( module, movingManApparatusPanel, "Velocity", "v", "images/red-arrow.png", Color.red );
+        final MMPlot velocityPlot = new MMPlot( module, movingManApparatusPanel, "Velocity", "v", "moving-man/images/red-arrow.png", Color.red );
 
         PlotDeviceSeries velSeries = new PlotDeviceSeries( velocityPlot, module.getMovingManModel().getVelocitySeries().getSmoothedDataSeries(),
                                                            Color.red, "Velocity", plotStroke2, readoutFont, SimStrings.get( "PlotSet.MetersPerSecondAbbreviation" ), "-99.9" );
@@ -88,7 +88,7 @@ public class PlotSet {
             }
         } );
 
-        final MMPlot accelerationPlot = new MMPlot( module, movingManApparatusPanel, "Acceleration", "a", "images/green-arrow.png", Color.green );
+        final MMPlot accelerationPlot = new MMPlot( module, movingManApparatusPanel, "Acceleration", "a", "moving-man/images/green-arrow.png", Color.green );
 
         Color green = new Color( 40, 165, 50 );
         accelerationPlot.addPlotDeviceData( new PlotDeviceSeries( accelerationPlot, module.getMovingManModel().getAccelerationDataSuite().getSmoothedDataSeries(),
