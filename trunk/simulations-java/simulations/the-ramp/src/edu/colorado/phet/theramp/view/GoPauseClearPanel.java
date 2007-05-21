@@ -39,7 +39,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
 //                module.requestEditInTextBox( GoPauseClearPanel.this );
             }
         };
-        goPauseButton = new ControlButton( TheRampStrings.getString( "pause" ) );//longer text
+        goPauseButton = new ControlButton( TheRampStrings.getString( "time.pause" ) );//longer text
         try {
             goIcon = new ImageIcon( ImageLoader.loadBufferedImage( "the-ramp/images/light3.png" ) );
             pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( "the-ramp/images/stop-20.png" ) );
@@ -106,14 +106,14 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
 
         }
         if( pause ) {
-            goPauseButton.setText( TheRampStrings.getString( "pause" ) );
+            goPauseButton.setText( TheRampStrings.getString( "time.pause" ) );
 //            goPauseButton.setText( "" );
             goPauseButton.setIcon( pauseIcon );
             paintAll();
             itsAGoButton = false;
         }
         else {
-            goPauseButton.setText( "     " + TheRampStrings.getString( "go" ) );
+            goPauseButton.setText( "     " + TheRampStrings.getString( "time.go" ) );
             goPauseButton.setIcon( goIcon );
             paintAll();
             itsAGoButton = true;

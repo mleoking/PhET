@@ -69,7 +69,7 @@ public class ObjectSelectionPanel extends JPanel {
             add( jRadioButton );
 
         }
-        setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "choose.object1" ) ) );
+        setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "controls.choose-object" ) ) );
     }
 
     private String getIconText( final RampObject imageElement ) {

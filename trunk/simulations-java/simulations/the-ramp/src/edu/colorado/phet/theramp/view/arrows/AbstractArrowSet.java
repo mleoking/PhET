@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 
 public class AbstractArrowSet extends PNode {
-    public static final String APPLIED = TheRampStrings.getString( "applied1" );
+    public static final String APPLIED = TheRampStrings.getString( "forces.applied1" );
     public static final String TOTAL = TheRampStrings.getString( "forces.total" );
     public static final String FRICTION = TheRampStrings.getString( "friction1" );
     public static final String WEIGHT = TheRampStrings.getString( "forces.weight" );

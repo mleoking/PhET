@@ -116,7 +116,7 @@ public class FreeBodyDiagram extends PNode {
             }
         } );
 
-        PText title = new PText( TheRampStrings.getString( "free.body.diagram2" ) );
+        PText title = new PText( TheRampStrings.getString( "display.free-body-diagram" ) );
         addChild( title );
     }
 

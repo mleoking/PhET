@@ -159,7 +159,7 @@ public class RampModule extends PiccoloModule {
     public boolean resetDialogOk() {
         JOptionPane pane = new JOptionPane( TheRampStrings.getString( "confirm-reset" ), JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
 
-        JDialog dialog = pane.createDialog( rampPanel, TheRampStrings.getString( "confirm.reset" ) );
+        JDialog dialog = pane.createDialog( rampPanel, TheRampStrings.getString( "confirm.reset.title" ) );
         pane.selectInitialValue();
         Point loc = getPhetPCanvas().getLocationOnScreen();
         Rectangle2D clearButton = getRampPanel().getClearButtonCanvasRect();

@@ -208,13 +208,13 @@ public class TimePlotSuitePNode extends PhetPNode {
         double dzHold = maxVisibleRange / 100;
         try {
             final ZoomButton zoomIn = new ZoomButton( new ImageIcon( loadZoomInImage() ),
-                                                      -dzPress, -dzHold, 100, maxVisibleRange * 4, maxVisibleRange, TheRampStrings.getString( "zoom.in" ) );
+                                                      -dzPress, -dzHold, 100, maxVisibleRange * 4, maxVisibleRange, TheRampStrings.getString( "camera.zoom-in" ) );
 
             zoomInGraphic = new PSwing(zoomIn );
             addChild( zoomInGraphic );
 
             final ZoomButton zoomOut = new ZoomButton( new ImageIcon( loadZoomOutImage() ),
-                                                       dzPress, dzHold, 100, maxVisibleRange * 4, maxVisibleRange, TheRampStrings.getString( "zoom.out" ) );
+                                                       dzPress, dzHold, 100, maxVisibleRange * 4, maxVisibleRange, TheRampStrings.getString( "camera.zoom-out" ) );
             zoomOut.addListener( new ZoomButton.Listener() {
                 public void zoomChanged() {
                     double rangeY = zoomOut.getValue();

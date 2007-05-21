@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
 public class InitialConditionPanel extends VerticalLayoutPanel {
     public InitialConditionPanel( final RampModule rampModule ) {
         double maxValue = 3000;
-        final ModelSlider modelSlider = new ModelSlider( TheRampStrings.getString( "forces.applied" ), TheRampStrings.getString( "newtons" ), -maxValue, maxValue, 0, new DecimalFormat( "0.00" ) );
+        final ModelSlider modelSlider = new ModelSlider( TheRampStrings.getString( "forces.applied" ), TheRampStrings.getString( "units.newtons" ), -maxValue, maxValue, 0, new DecimalFormat( "0.00" ) );
         modelSlider.setModelTicks( new double[]{-maxValue, 0, maxValue} );
 //        PSwing pSwing = new PSwing( rampPanel, modelSlider );
 //        addChild( pSwing );
@@ -40,7 +40,7 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         } );
         addFullWidth( modelSlider );
 
-        final ModelSlider rampAngleSlider = new ModelSlider( TheRampStrings.getString( "property.ramp-angle" ), TheRampStrings.getString( "degrees" ), 0, 90, rampModule.getRampAngle() * 180.0 / Math.PI );
+        final ModelSlider rampAngleSlider = new ModelSlider( TheRampStrings.getString( "property.ramp-angle" ), TheRampStrings.getString( "units.degrees" ), 0, 90, rampModule.getRampAngle() * 180.0 / Math.PI );
         rampAngleSlider.setModelTicks( new double[]{0, 45, 90} );
         rampAngleSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -75,7 +75,7 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         addFullWidth( blockPosition );
 
 //        final ModelSlider blockVelocity = new ModelSlider( "Velocity", "meters/second", -20, 20, rampModule.getBlock().getVelocity() );
-        final ModelSlider blockVelocity = new ModelSlider( TheRampStrings.getString( "velocity" ), TheRampStrings.getString( "meters.second" ), -20, 20, rampModule.getBlock().getVelocity() );
+        final ModelSlider blockVelocity = new ModelSlider( TheRampStrings.getString( "velocity" ), TheRampStrings.getString( "units.meters-per-second" ), -20, 20, rampModule.getBlock().getVelocity() );
         blockVelocity.setModelTicks( new double[]{-20, 0, 20} );
         blockVelocity.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
