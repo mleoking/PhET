@@ -1,4 +1,4 @@
-package edu.colorado.phet.semiconductor_semi.macro;
+package edu.colorado.phet.semiconductor_semi;
 
 import edu.colorado.phet.common_semiconductor.application.Module;
 import edu.colorado.phet.common_semiconductor.application.PhetApplication;
@@ -42,6 +42,7 @@ import edu.colorado.phet.semiconductor_semi.macro.energyprobe.Cable;
 import edu.colorado.phet.semiconductor_semi.macro.energyprobe.CableGraphic;
 import edu.colorado.phet.semiconductor_semi.macro.energyprobe.Lead;
 import edu.colorado.phet.semiconductor_semi.macro.energyprobe.LeadGraphic;
+import edu.colorado.phet.semiconductor_semi.macro.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,7 +63,7 @@ import java.util.ArrayList;
  */
 public class SemiconductorApplication extends Module implements Graphic {
     // Localization
-    public static final String localizedStringsPath = "localization/SemiconductorsStrings";
+    public static final String localizedStringsPath = "semiconductor/localization/semiconductor-strings";
     private static final String VERSION = "1.00";
 
     CircuitSection circuitSection;
@@ -122,8 +123,8 @@ public class SemiconductorApplication extends Module implements Graphic {
         energySection.addConductionListener( circuitSection );
         setupCables();
         dopantPanel = new DopantPanel( getApparatusPanel(),
-                                       transform, imageLoader.loadImage( "images/particle-green-med.gif" ),
-                                       imageLoader.loadImage( "images/particle-red-med.gif" ), new Rectangle2D.Double( 8.5, 1, 1, 3 ) );
+                                       transform, imageLoader.loadImage( "semiconductor/images/particle-green-med.gif" ),
+                                       imageLoader.loadImage( "semiconductor/images/particle-red-med.gif" ), new Rectangle2D.Double( 8.5, 1, 1, 3 ) );
         dopantPanel.addDopantDropListener( circuitSection );
         circuitSection.addDopantChangeListener( energySection );
 
@@ -141,8 +142,8 @@ public class SemiconductorApplication extends Module implements Graphic {
         ColumnDebugGraphic cdg = new ColumnDebugGraphic( energySection, transform );
         getApparatusPanel().addGraphic( cdg, 10000 );
 
-//        BufferedImage magnetImage = new ImageLoader().loadImage( "images/magnet.gif" );
-        BufferedImage magnetImage = new ImageLoader().loadImage( "images/gate2.gif" );
+//        BufferedImage magnetImage = new ImageLoader().loadImage( "semiconductor/images/magnet.gif" );
+        BufferedImage magnetImage = new ImageLoader().loadImage( "semiconductor/images/gate2.gif" );
 
         double magnetWidth = 1;
         double magScale = magnetWidth / magnetImage.getWidth(); //takes pixels to model.
@@ -247,7 +248,7 @@ public class SemiconductorApplication extends Module implements Graphic {
         BandSetGraphic bsg = energySection.bandSetGraphicAt( bandIndex );
         Cable c = new Cable( lead, bsg.getViewportBottomCenter() );
 
-        LeadGraphic lg = new LeadGraphic( transform, lead, imageLoader.loadImage( "images/probeRed.gif" ) );
+        LeadGraphic lg = new LeadGraphic( transform, lead, imageLoader.loadImage( "semiconductor/images/probeRed.gif" ) );
         CableGraphic cg = new CableGraphic( transform, c, lg );
         CompositeInteractiveGraphic compositeGraphic = new CompositeInteractiveGraphic();
         compositeGraphic.addGraphic( lg );

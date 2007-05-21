@@ -18,17 +18,17 @@ import java.awt.event.MouseListener;
  *
  */
 public class MySpinnerUI extends BasicSpinnerUI {
-//    static String path="images/animfactory/suites/alum/";
-    static String path = "images/animfactory/suites/graymarble/";
+//    static String path="semiconductor/images/animfactory/suites/alum/";
+    static String path = "semiconductor/images/animfactory/suites/graymarble/";
     static ImageIcon up = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( path + "up.gif" ) ) );
     static ImageIcon uppressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( path + "up2.gif" ) ) );
     static ImageIcon down = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( path + "down.gif" ) ) );
     static ImageIcon downpressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( path + "down2.gif" ) ) );
 
-//    static ImageIcon up = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/up1-unpressed.gif" ) ) );
-//    static ImageIcon uppressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/up1-pressed.gif" ) ) );
-//    static ImageIcon down = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/down1-unpressed.gif" ) ) );
-//    static ImageIcon downpressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/down1-pressed.gif" ) ) );
+//    static ImageIcon up = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "semiconductor/images/components/webt/up1-unpressed.gif" ) ) );
+//    static ImageIcon uppressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "semiconductor/images/components/webt/up1-pressed.gif" ) ) );
+//    static ImageIcon down = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "semiconductor/images/components/webt/down1-unpressed.gif" ) ) );
+//    static ImageIcon downpressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "semiconductor/images/components/webt/down1-pressed.gif" ) ) );
 
     static {
         SimStrings.setStrings( "localization/SemiConductorPCStrings" );

@@ -25,7 +25,7 @@ public class BasicPhetPanel extends JPanel {
 
     static {
         try {
-            SimStrings.setStrings( "localization/SemiConductorPCStrings" );
+//            SimStrings.setStrings( "localization/SemiConductorPCStrings" );
             phetLogo = new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" );
         }
         catch( IOException e ) {

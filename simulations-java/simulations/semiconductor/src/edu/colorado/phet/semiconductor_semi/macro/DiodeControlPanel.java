@@ -1,6 +1,7 @@
 package edu.colorado.phet.semiconductor_semi.macro;
 
 import edu.colorado.phet.common_semiconductor.view.util.SimStrings;
+import edu.colorado.phet.semiconductor_semi.SemiconductorApplication;
 
 import javax.swing.*;
 import javax.swing.border.Border;
