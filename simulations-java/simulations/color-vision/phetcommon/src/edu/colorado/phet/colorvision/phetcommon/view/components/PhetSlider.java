@@ -4,15 +4,15 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14443 $
+ * Date modified : $Date:2007-04-12 23:10:41 -0600 (Thu, 12 Apr 2007) $
  */
 package edu.colorado.phet.colorvision.phetcommon.view.components;
 
 import edu.colorado.phet.colorvision.phetcommon.math.ModelViewTx1D;
 import edu.colorado.phet.colorvision.phetcommon.view.util.GraphicsUtil;
-import edu.colorado.phet.colorvision.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.colorvision.phetcommon.view.util.SwingUtils;
 
 import javax.swing.*;
@@ -29,7 +29,7 @@ import java.util.Hashtable;
  * PhetSlider
  *
  * @author Ron LeMaster
- * @version $Revision$
+ * @version $Revision:14443 $
  */
 public class PhetSlider extends JPanel {
 

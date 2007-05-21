@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.efield.electron.particleFactory;
 
-import edu.colorado.phet.efield.electron.utils.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.efield.electron.utils.Debug;
 
 import java.awt.event.ActionEvent;

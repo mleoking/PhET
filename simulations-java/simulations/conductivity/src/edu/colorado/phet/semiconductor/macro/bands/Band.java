@@ -4,8 +4,8 @@
 
 package edu.colorado.phet.semiconductor.macro.bands;
 
-import edu.colorado.phet.common.conductivity.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.macro.bands.states.Speed;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.util.ArrayList;
 

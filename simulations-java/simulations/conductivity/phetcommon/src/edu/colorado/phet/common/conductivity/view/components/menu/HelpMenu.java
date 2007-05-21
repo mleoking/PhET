@@ -8,7 +8,7 @@ package edu.colorado.phet.common.conductivity.view.components.menu;
 
 import edu.colorado.phet.common.conductivity.application.PhetApplication;
 import edu.colorado.phet.common.conductivity.util.VersionUtils;
-import edu.colorado.phet.common.conductivity.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

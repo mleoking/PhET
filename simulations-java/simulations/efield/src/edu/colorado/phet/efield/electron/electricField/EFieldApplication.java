@@ -23,7 +23,7 @@ import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 import edu.colorado.phet.efield.electron.phys2d_efield.SystemRunner;
 import edu.colorado.phet.efield.electron.utils.ResourceLoader;
-import edu.colorado.phet.efield.electron.utils.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -41,7 +41,7 @@ public class EFieldApplication extends JApplet {
         if( applicationLocale == null ) {
             applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.phet.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-                SimStrings.setLocale( new Locale( applicationLocale ) );
+                SimStrings.getInstance().setLocale( new Locale( applicationLocale ) );
             }
         }
         SimStrings.setStrings( localizedStringsPath );
@@ -184,7 +184,7 @@ public class EFieldApplication extends JApplet {
     static String[] args = null;
 
     public static void main( String[] argx ) {
-        SimStrings.init( argx, localizedStringsPath );
+        SimStrings.getInstance().init( argx, localizedStringsPath );
 
         EFieldApplication j = new EFieldApplication();
         j.setSize( new Dimension( 600, 600 ) );

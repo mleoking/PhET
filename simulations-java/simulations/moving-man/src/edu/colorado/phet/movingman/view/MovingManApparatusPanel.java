@@ -11,7 +11,6 @@ import edu.colorado.phet.common_movingman.view.GraphicsSetup;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.RepaintDebugGraphic;
-import edu.colorado.phet.common_movingman.view.util.SimStrings;
 import edu.colorado.phet.movingman.MMKeySuite;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
@@ -19,6 +18,7 @@ import edu.colorado.phet.movingman.common.WiggleMe;
 import edu.colorado.phet.movingman.model.TimeListenerAdapter;
 import edu.colorado.phet.movingman.plots.MMPlotSuite;
 import edu.colorado.phet.movingman.plots.PlotSet;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;

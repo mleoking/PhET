@@ -11,7 +11,8 @@ import edu.colorado.phet.common_microwaves.view.ApparatusPanel;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
 import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
-import edu.colorado.phet.common_microwaves.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;

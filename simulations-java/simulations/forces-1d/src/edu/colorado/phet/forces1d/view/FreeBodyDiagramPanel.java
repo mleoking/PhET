@@ -5,7 +5,7 @@ import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common_force1d.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.forces1d.Force1DApplication;
 import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;

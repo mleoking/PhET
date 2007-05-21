@@ -11,7 +11,7 @@ import edu.colorado.phet.common_microwaves.model.ClockStateListener;
 import edu.colorado.phet.common_microwaves.model.FixedClock;
 import edu.colorado.phet.common_microwaves.model.ThreadPriority;
 import edu.colorado.phet.coreadditions_microwaves.clock.ThreadedClock;
-import edu.colorado.phet.common_microwaves.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

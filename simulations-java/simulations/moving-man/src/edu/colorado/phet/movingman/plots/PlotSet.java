@@ -3,7 +3,6 @@ package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.chart_movingman.Range2D;
 import edu.colorado.phet.chart_movingman.controllers.VerticalChartSlider;
-import edu.colorado.phet.common_movingman.view.util.SimStrings;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.Man;
@@ -12,6 +11,7 @@ import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceSeries;
 import edu.colorado.phet.movingman.view.GoPauseClearPanel;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

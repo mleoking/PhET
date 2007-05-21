@@ -13,7 +13,8 @@ import edu.colorado.phet.coreadditions_microwaves.ModelViewTx1D;
 import edu.colorado.phet.microwave.MicrowaveConfig;
 import edu.colorado.phet.microwave.MicrowaveModule;
 import edu.colorado.phet.microwave.model.MicrowaveModel;
-import edu.colorado.phet.common_microwaves.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

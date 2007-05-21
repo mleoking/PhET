@@ -9,7 +9,8 @@ package edu.colorado.phet.microwave.view;
 import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
 import edu.colorado.phet.microwave.model.WaterMolecule;
-import edu.colorado.phet.common_microwaves.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;

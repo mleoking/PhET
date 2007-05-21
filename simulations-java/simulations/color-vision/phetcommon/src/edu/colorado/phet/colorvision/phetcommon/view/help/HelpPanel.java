@@ -4,14 +4,14 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14443 $
+ * Date modified : $Date:2007-04-12 23:10:41 -0600 (Thu, 12 Apr 2007) $
  */
 package edu.colorado.phet.colorvision.phetcommon.view.help;
 
 import edu.colorado.phet.colorvision.phetcommon.application.Module;
-import edu.colorado.phet.colorvision.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,7 @@ import java.awt.event.ActionListener;
  * A panel that holds buttons for showing/hiding help and mega-help
  *
  * @author Ron LeMaster
- * @version $Revision$
+ * @version $Revision:14443 $
  */
 public class HelpPanel extends JPanel {
     private Module module;

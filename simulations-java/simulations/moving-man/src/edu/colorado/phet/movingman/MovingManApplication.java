@@ -9,7 +9,7 @@ import edu.colorado.phet.common_movingman.view.PhetFrame;
 import edu.colorado.phet.common_movingman.view.PhetLookAndFeel;
 import edu.colorado.phet.common_movingman.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common_movingman.view.util.FrameSetup;
-import edu.colorado.phet.common_movingman.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

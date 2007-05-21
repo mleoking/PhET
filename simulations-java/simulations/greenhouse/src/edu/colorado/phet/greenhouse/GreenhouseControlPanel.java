@@ -13,7 +13,7 @@
 package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common_greenhouse.view.util.GraphicsUtil;
-import edu.colorado.phet.common_greenhouse.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions_greenhouse.ModelViewTx1D;
 

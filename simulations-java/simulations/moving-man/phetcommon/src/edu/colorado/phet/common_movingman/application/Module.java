@@ -21,7 +21,7 @@ import edu.colorado.phet.common_movingman.view.ControlPanel;
 import edu.colorado.phet.common_movingman.view.help.HelpItem;
 import edu.colorado.phet.common_movingman.view.help.HelpManager;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common_movingman.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 

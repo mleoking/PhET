@@ -7,9 +7,10 @@ import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransf
 import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common_force1d.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.model.Force1DModel;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

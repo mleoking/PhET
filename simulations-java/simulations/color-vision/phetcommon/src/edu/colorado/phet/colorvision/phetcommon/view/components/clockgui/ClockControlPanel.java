@@ -4,16 +4,16 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14443 $
+ * Date modified : $Date:2007-04-12 23:10:41 -0600 (Thu, 12 Apr 2007) $
  */
 package edu.colorado.phet.colorvision.phetcommon.view.components.clockgui;
 
 import edu.colorado.phet.colorvision.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.colorvision.phetcommon.model.clock.ClockStateListener;
 import edu.colorado.phet.colorvision.phetcommon.model.clock.ThreadedClock;
-import edu.colorado.phet.colorvision.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -26,7 +26,7 @@ import java.awt.event.ActionListener;
  * ClockControlPanel
  *
  * @author Ron LeMaster
- * @version $Revision$
+ * @version $Revision:14443 $
  */
 public class ClockControlPanel extends JPanel implements ClockStateListener {
 

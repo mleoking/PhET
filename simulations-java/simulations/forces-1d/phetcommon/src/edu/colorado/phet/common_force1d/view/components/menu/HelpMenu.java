@@ -15,7 +15,7 @@ import edu.colorado.phet.common_force1d.application.ModuleManager;
 import edu.colorado.phet.common_force1d.application.ModuleObserver;
 import edu.colorado.phet.common_force1d.application.PhetApplication;
 import edu.colorado.phet.common_force1d.util.VersionUtils;
-import edu.colorado.phet.common_force1d.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

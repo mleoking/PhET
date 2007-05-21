@@ -15,7 +15,8 @@ import edu.colorado.phet.microwave.view.DipoleStripChartSubject;
 import edu.colorado.phet.microwave.view.MicrowaveStripCharSubject;
 import edu.colorado.phet.microwave.view.WaterMoleculeGraphic;
 import edu.colorado.phet.util_microwaves.StripChart;
-import edu.colorado.phet.common_microwaves.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 
 import javax.swing.*;
 import java.awt.*;

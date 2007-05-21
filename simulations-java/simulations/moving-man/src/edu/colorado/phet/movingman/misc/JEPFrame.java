@@ -2,10 +2,10 @@
 package edu.colorado.phet.movingman.misc;
 
 import edu.colorado.phet.common_movingman.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common_movingman.view.util.SimStrings;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.Mode;
 import edu.colorado.phet.movingman.plots.TimePoint;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import org.nfunk.jep.JEP;
 
 import javax.swing.*;

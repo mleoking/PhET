@@ -17,7 +17,7 @@ import java.util.Properties;
 import edu.colorado.phet.colorvision.phetcommon.application.PhetApplication;
 import edu.colorado.phet.colorvision.phetcommon.util.PropertiesLoader;
 import edu.colorado.phet.colorvision.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.colorvision.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.colorvision.view.BoundsOutliner;
 
 /**
@@ -55,7 +55,7 @@ public class ColorVisionApplication extends PhetApplication {
         BoundsOutliner.setEnabled( BOUNDS_OUTLINE_ENABLED ); // DEBUG
 
         // Initialize localization.
-        SimStrings.init( args, ColorVisionConstants.SIM_STRINGS_NAME );
+        SimStrings.getInstance().init( args, ColorVisionConstants.SIM_STRINGS_NAME );
 
         // Load simulation properties file
         Properties simulationProperties = PropertiesLoader.loadProperties( ColorVisionConstants.SIM_PROPERTIES_NAME );

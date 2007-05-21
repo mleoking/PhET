@@ -2,7 +2,8 @@
 package edu.colorado.phet.common_microwaves.view.plaf;
 
 //import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common_microwaves.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

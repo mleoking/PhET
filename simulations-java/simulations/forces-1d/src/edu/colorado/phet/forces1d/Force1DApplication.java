@@ -11,13 +11,13 @@ import edu.colorado.phet.common_force1d.util.QuickTimer;
 import edu.colorado.phet.common_force1d.view.PhetFrame;
 import edu.colorado.phet.common_force1d.view.PhetLookAndFeel;
 import edu.colorado.phet.common_force1d.view.util.FrameSetup;
-import edu.colorado.phet.common_force1d.view.util.SimStrings;
 import edu.colorado.phet.forces1d.common.ColorDialog;
 import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.view.Force1DLookAndFeel;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -130,7 +130,7 @@ public class Force1DApplication extends Module {
 
     public static void main( String[] args ) throws IOException {
         //        Locale.setDefault( Locale.ITALIAN );//for testing
-        SimStrings.init( args, LOCALIZATION_BUNDLE_BASENAME );
+        SimStrings.getInstance().init( args, LOCALIZATION_BUNDLE_BASENAME );
         PhetLookAndFeel.setLookAndFeel();
         PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
         lookAndFeel.apply();

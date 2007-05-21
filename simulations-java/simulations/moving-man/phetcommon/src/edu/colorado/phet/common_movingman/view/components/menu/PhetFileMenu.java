@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common_movingman.view.components.menu;
 
-import edu.colorado.phet.common_movingman.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
