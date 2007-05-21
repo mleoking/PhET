@@ -31,7 +31,7 @@ public class MicrowaveApplication {
     public static PhetApplication s_application;
 
     // Localization
-    public static final String localizedStringsPath = "localization/MicrowavesStrings";
+    public static final String localizedStringsPath = "microwaves/localization/microwaves-strings";
 
     public static void main( String[] args ) {
         SimStrings.init( args, localizedStringsPath );

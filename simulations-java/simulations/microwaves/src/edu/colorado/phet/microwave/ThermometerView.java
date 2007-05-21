@@ -33,9 +33,9 @@ public class ThermometerView implements Graphic, ImageObserver, Observer {
     public ThermometerView( Thermometer thermometer ) {
         super();
         thermometer.addObserver( this );
-        thermometerBody = ImageLoader.fetchBufferedImage( "images/thermometer.png" );
+        thermometerBody = ImageLoader.fetchBufferedImage( "microwaves/images/thermometer.png" );
         bodyGraphic = new ImageGraphic( thermometerBody, modelLocation );
-        thermometerBackground = ImageLoader.fetchBufferedImage( "images/thermometer-background.png" );
+        thermometerBackground = ImageLoader.fetchBufferedImage( "microwaves/images/thermometer-background.png" );
         backgroundGraphic = new ImageGraphic( thermometerBackground, modelLocation );
     }
 
