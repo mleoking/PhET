@@ -38,7 +38,7 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
     private PNode plunger2DFrameNode;
     private PNode plunger2DFrameStrutsNode;
 
-    private String baseImagePath = "images/";
+    private String baseImagePath = "reactions-and-rates/images/";
     private String plungerImageFile = baseImagePath + "plunger.png";
     private String frameImageFile = baseImagePath + "frame.png";
     private String frame2DImageFile = baseImagePath + "2D-frame.png";
