@@ -4,9 +4,7 @@
     A very simple, one-file password protection mechanism that uses cookies.
     If the user hasn't logged in, the script will prompt the user to login.
     
-    */
-    session_start(); 
-    
+    */    
     include_once("contrib-utils.php");
     include_once("web-utils.php");
     

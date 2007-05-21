@@ -152,11 +152,25 @@ EOT;
     function print_site_page($content_printer, $selected_page = null) {
         $prefix = "..";
         
+        
+        /*
+        
+            
+            
+            
+            //<![CDATA[
+                <script src="$prefix/js/jquery.pack.js"         type="text/javascript" />
+                <script src="$prefix/js/jquery.MultiFile.js"    type="text/javascript" />
+                <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript" />
+            //]]>
+        
+        */
+        
+        
         print <<<EOT
-            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-            <html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
             <head>
                 <title>PhET :: Physics Education Technology at CU Boulder</title>
                 
@@ -168,11 +182,11 @@ EOT;
                 /*<![CDATA[*/
                         @import url($prefix/css/main.css);
                 /*]]>*/
-                </style>
+                </style>    
                 
-                <script src="$prefix/js/jquery.pack.js"         type="text/javascript" />
-                <script src="$prefix/js/jquery.MultiFile.js"    type="text/javascript" />
-                <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript" />
+                <script src="$prefix/js/jquery.pack.js"         type="text/javascript"></script>
+                <script src="$prefix/js/jquery.MultiFile.js"    type="text/javascript"></script>
+                <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript"></script>              
             </head>
             
 
