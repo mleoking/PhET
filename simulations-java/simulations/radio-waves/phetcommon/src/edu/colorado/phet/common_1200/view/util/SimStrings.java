@@ -56,10 +56,13 @@ public class SimStrings {
                 value = rb.getString( key );
             }
             catch( Exception x ) {
-                value = null;
+
             }
         }
-
+//        System.out.println( "string not found: "+key );
+        if (value==null){
+            value=key;
+        }
         return value;
     }
 }

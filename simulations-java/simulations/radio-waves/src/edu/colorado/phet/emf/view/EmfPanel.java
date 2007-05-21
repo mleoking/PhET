@@ -73,7 +73,7 @@ public class EmfPanel extends ApparatusPanel implements TransformListener {
         // Add the background
         final BufferedImage im;
         try {
-            im = GraphicsUtil.toBufferedImage( ImageLoader.loadBufferedImage( "images/background.gif" ) );
+            im = GraphicsUtil.toBufferedImage( ImageLoader.loadBufferedImage( "radio-waves/images/background.gif" ) );
             this.setPreferredSize( new Dimension( im.getWidth(), im.getHeight() ) );
             backgroundImg = new FastPaintImageGraphic( im, this );
             addGraphic( backgroundImg, 0 );

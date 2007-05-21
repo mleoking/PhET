@@ -58,48 +58,50 @@ public class VersionUtils {
     */
 
     public static VersionInfo[] readVersionInfo( String name ) throws IOException {
-        if( name == null ) {
+//        retur
+//        if( name == null ) {
 //            new RuntimeException( "Cannot read version info for name=" + name ).printStackTrace( );
             return new VersionInfo[0];
-        }
-        VersionUtils vu = new VersionUtils();
-        ClassLoader cl = vu.getClass().getClassLoader();
-
-
-        ArrayList vall = new ArrayList();
-        VersionInfo rootInfo = readVersionInfo( name, cl );
-        if( rootInfo != null ) {
-            vall.add( rootInfo );
-        }
-        URL resourceList = cl.getResource( name + ".resources" );
-
-        BufferedReader br = new BufferedReader( new InputStreamReader( resourceList.openStream() ) );
-        String line = br.readLine();
-        if( line != null ) {
-            line = line.trim();
-        }
-        while( line != null ) {
-            if( line.trim().startsWith( "#" ) ) {
-                //ignore.
-            }
-            else {
-                VersionInfo vi = readVersionInfo( line, cl );
-                vall.add( vi );
-            }
-            line = br.readLine();
-            if( line != null ) {
-                line = line.trim();
-            }
-        }
-
-        return (VersionInfo[])vall.toArray( new VersionInfo[0] );
+//        }
+//        VersionUtils vu = new VersionUtils();
+//        ClassLoader cl = vu.getClass().getClassLoader();
+//
+//
+//        ArrayList vall = new ArrayList();
+//        VersionInfo rootInfo = readVersionInfo( name, cl );
+//        if( rootInfo != null ) {
+//            vall.add( rootInfo );
+//        }
+//        URL resourceList = cl.getResource( name + ".resources" );
+//
+//        BufferedReader br = new BufferedReader( new InputStreamReader( resourceList.openStream() ) );
+//        String line = br.readLine();
+//        if( line != null ) {
+//            line = line.trim();
+//        }
+//        while( line != null ) {
+//            if( line.trim().startsWith( "#" ) ) {
+//                //ignore.
+//            }
+//            else {
+//                VersionInfo vi = readVersionInfo( line, cl );
+//                vall.add( vi );
+//            }
+//            line = br.readLine();
+//            if( line != null ) {
+//                line = line.trim();
+//            }
+//        }
+//
+//        return (VersionInfo[])vall.toArray( new VersionInfo[0] );
     }
 
     public static VersionInfo readVersionInfo( String name, ClassLoader cl ) throws IOException {
         String buildnumberName = name + ".build.number";
         URL buildNumberURL = cl.getResource( buildnumberName );
         if( buildNumberURL == null ) {
-            throw new IOException( "No resource found: " + buildnumberName );
+            return new VersionInfo( name,-1,"");
+//            throw new IOException( "No resource found: " + buildnumberName );
         }
         System.out.println( "loading resource info=" + name + ", BuildURL = " + buildNumberURL );
         int buildNum = -1;

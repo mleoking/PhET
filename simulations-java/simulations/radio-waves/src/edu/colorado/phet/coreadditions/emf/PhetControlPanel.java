@@ -43,7 +43,7 @@ public class PhetControlPanel extends JPanel {
         this.controlPane = controlPane;
         layout = new SpringLayout();
         this.setLayout( layout );
-        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
+        URL resource = getClass().getClassLoader().getResource( "radio-waves/images/Phet-Flatirons-logo-3-small.gif" );
         imageIcon = new ImageIcon( resource );
         titleLabel = ( new JLabel( imageIcon ) );
         helpPanel = new HelpPanel( module );
