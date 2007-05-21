@@ -104,7 +104,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
         // Ray gun
         PhetImageGraphic gunGraphic;
-        gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8A.png");
+        gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "nuclear-physics/images/gun-8A.png");
         gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
         gunGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ALPHA_INTERPOLATION,
                                                           RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY) );

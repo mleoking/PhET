@@ -47,7 +47,7 @@ public class VesselGraphic extends CompositePhetGraphic {
 
 //        BufferedImage vesselImage = null;
 //        try {
-//            vesselImage = ImageLoader.loadBufferedImage( "images/vesselGraphic.png ");
+//            vesselImage = ImageLoader.loadBufferedImage( "nuclear-physics/images/vesselGraphic.png ");
 //        }
 //        catch( IOException e ) {
 //            e.printStackTrace();

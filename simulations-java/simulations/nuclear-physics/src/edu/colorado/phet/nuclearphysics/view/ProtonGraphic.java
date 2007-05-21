@@ -28,7 +28,7 @@ public class ProtonGraphic extends ParticleGraphic implements ImageObserver {
     static {
         ImageLoader imgLoader = new ImageLoader();
         try {
-            protonImage = imgLoader.loadImage( "images/red-xsml.gif" );
+            protonImage = imgLoader.loadImage( "nuclear-physics/images/red-xsml.gif" );
             circle = new Ellipse2D.Double( 0,
                                            0,
                                            protonImage.getWidth(),

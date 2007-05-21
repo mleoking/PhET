@@ -31,7 +31,7 @@ public class RayGunGraphic extends GraphicLayerSet {
         super( component );
 
         PhetImageGraphic gunGraphic;
-        gunGraphic = new PhetImageGraphic( component, "images/gun-8A.png" );
+        gunGraphic = new PhetImageGraphic( component, "nuclear-physics/images/gun-8A.png" );
         gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
         gunGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ALPHA_INTERPOLATION,
                                                           RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY ) );

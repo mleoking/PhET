@@ -31,7 +31,7 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
     static {
         ImageLoader imgLoader = new ImageLoader();
         try {
-            neutronImage = imgLoader.loadImage( "images/gray-xsml.gif" );
+            neutronImage = imgLoader.loadImage( "nuclear-physics/images/gray-xsml.gif" );
 //            circle = new Ellipse2D.Double( 0,
 //                                           0,
 //                                           neutronImage.getWidth(),

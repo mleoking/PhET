@@ -27,8 +27,8 @@ public class ContainmentButton extends PhetGraphicsButton {
     private static BufferedImage buttonDownImg;
     static {
         try {
-            ContainmentButton.buttonDownImg = ImageLoader.loadBufferedImage( "images/containment-button-down.png");
-            ContainmentButton.buttonUpImg = ImageLoader.loadBufferedImage( "images/containment-button-up.png");
+            ContainmentButton.buttonDownImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/containment-button-down.png");
+            ContainmentButton.buttonUpImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/containment-button-up.png");
         }
         catch( IOException e ) {
             e.printStackTrace();
