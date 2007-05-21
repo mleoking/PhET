@@ -26,13 +26,13 @@ public class Level2A extends Exercise {
     };
 
     public Level2A( JFrame frame, final UniverseModel model ) {
-        super( frame, new XmlExercise( "exercises/level2A.xml" ) {
+        super( frame, new XmlExercise( "distance-ladder/exercises/level2A.xml" ) {
             public boolean evaluate( Answer choice ) {
                 double dist = model.getStarShip().getPov().distance( starLocation );
                 return Math.abs( dist ) <= 50;
             }
         } );
-//        super( frame, new XmlExercise( "exercises/level2A.xml" ) );
+//        super( frame, new XmlExercise( "distance-ladder/exercises/level2A.xml" ) );
         model.getStarField().reset();
         for( int i = 0; i < starField.length; i++ ) {
             Star star = starField[i];

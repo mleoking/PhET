@@ -28,7 +28,7 @@ public class Level2 extends Exercise {
     };
 
     public Level2( JFrame frame, UniverseModel model ) {
-        super( frame, new XmlExercise( "exercises/level2.xml" ) );
+        super( frame, new XmlExercise( "distance-ladder/exercises/level2.xml" ) );
         model.getStarField().reset();
         for( int i = 0; i < starField.length; i++ ) {
             Star star = starField[i];

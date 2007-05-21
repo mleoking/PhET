@@ -232,7 +232,7 @@ public class CockpitControlPanel extends JPanel {
 
             // Load messages
             StringResourceReader srr = new StringResourceReader();
-            parallaxHelp = srr.read( "messages/parallax-help.html" );
+            parallaxHelp = srr.read( "distance-ladder/messages/parallax-help.html" );
 
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Parallax Instrument" );
@@ -533,7 +533,7 @@ public class CockpitControlPanel extends JPanel {
 
             // Load messages
             StringResourceReader srr = new StringResourceReader();
-            hyperjumpHelp = srr.read( "messages/hyperjump-help.html" );
+            hyperjumpHelp = srr.read( "distance-ladder/messages/hyperjump-help.html" );
 
 
             // Create controls

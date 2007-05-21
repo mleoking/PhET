@@ -27,7 +27,7 @@ public class Level5B extends Exercise {
     };
 
     public Level5B( JFrame frame, final UniverseModel model ) {
-        super( frame, new XmlExercise( "exercises/level5B.xml" ) );
+        super( frame, new XmlExercise( "distance-ladder/exercises/level5B.xml" ) );
         model.getStarShip().setPov( 0, 0, 0 );
         model.getStarField().reset();
         for( int i = 0; i < starField.length; i++ ) {

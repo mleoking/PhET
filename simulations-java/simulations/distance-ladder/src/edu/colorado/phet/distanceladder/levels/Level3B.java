@@ -37,7 +37,7 @@ public class Level3B extends Exercise {
 
     public Level3B( JFrame frame, final UniverseModel model,
                     CockpitModule cockpitModule, StarMapModule starMapModule ) {
-        super( frame, new XmlExercise( "exercises/level3B.xml" ) {
+        super( frame, new XmlExercise( "distance-ladder/exercises/level3B.xml" ) {
             public boolean evaluate( Answer choice ) {
                 double dist = model.getStarShip().getPov().distance( targetPt );
                 return Math.abs( dist ) <= 50;
