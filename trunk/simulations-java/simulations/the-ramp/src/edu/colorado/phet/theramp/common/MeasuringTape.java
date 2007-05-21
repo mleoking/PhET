@@ -59,7 +59,7 @@ public class MeasuringTape extends PNode {
 
         public BodyGraphic() {
             try {
-                imageGraphic = new PImage( ImageLoader.loadBufferedImage( "images/tape.gif" ) );
+                imageGraphic = new PImage( ImageLoader.loadBufferedImage( "the-ramp/images/tape.gif" ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();

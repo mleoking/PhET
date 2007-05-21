@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.timeseries_ramp;
+package edu.colorado.phet.theramp.timeseries_ramp;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.theramp.TheRampStrings;
@@ -37,7 +37,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
 
         ImageIcon pauseIcon = null;
         try {
-            pauseIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Pause24.gif" ) );
+            pauseIcon = new ImageIcon( new ImageLoader().loadImage( "the-ramp/images/icons/java/media/Pause24.gif" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         } );
         ImageIcon playIcon = null;
         try {
-            playIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Play24.gif" ) );
+            playIcon = new ImageIcon( new ImageLoader().loadImage( "the-ramp/images/icons/java/media/Play24.gif" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -66,7 +66,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
 
         ImageIcon rewindIcon = null;
         try {
-            rewindIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Rewind24.gif" ) );
+            rewindIcon = new ImageIcon( new ImageLoader().loadImage( "the-ramp/images/icons/java/media/Rewind24.gif" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -81,7 +81,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
 
         ImageIcon slowIcon = null;
         try {
-            slowIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/StepForward24.gif" ) );
+            slowIcon = new ImageIcon( new ImageLoader().loadImage( "the-ramp/images/icons/java/media/StepForward24.gif" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();

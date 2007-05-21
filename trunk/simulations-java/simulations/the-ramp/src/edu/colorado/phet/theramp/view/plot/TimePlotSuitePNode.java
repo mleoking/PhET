@@ -17,8 +17,8 @@ import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.EarthGraphic;
 import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
-import edu.colorado.phet.timeseries_ramp.TimeSeriesModel;
-import edu.colorado.phet.timeseries_ramp.TimeSeriesModelListenerAdapter;
+import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
+import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModelListenerAdapter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -174,7 +174,7 @@ public class TimePlotSuitePNode extends PhetPNode {
         addChild( cursorPNode );
         JButton minBut = null;
         try {
-            minBut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/min15.jpg" ) ) );
+            minBut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "the-ramp/images/min15.jpg" ) ) );
             minBut.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setMinimized( true );
@@ -387,11 +387,11 @@ public class TimePlotSuitePNode extends PhetPNode {
     }
 
     private BufferedImage loadZoomInImage() throws IOException {
-        return BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" ), zoomButtonHeight );
+        return BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "the-ramp/images/icons/glass-20-plus.gif" ), zoomButtonHeight );
     }
 
     private BufferedImage loadZoomOutImage() throws IOException {
-        return BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" ), zoomButtonHeight );
+        return BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "the-ramp/images/icons/glass-20-minus.gif" ), zoomButtonHeight );
     }
 
 

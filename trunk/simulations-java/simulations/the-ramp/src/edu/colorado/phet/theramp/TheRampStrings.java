@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  */
 
 public class TheRampStrings {     
-    private static String bundleName = "localization/TheRampStrings";
+    private static String bundleName = "the-ramp/localization/the-ramp-strings";
 
     public static void init( String[]args ) {
         SimStrings.getInstance().init( args, bundleName );

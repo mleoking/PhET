@@ -5,8 +5,8 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampTimeSeriesModel;
-import edu.colorado.phet.timeseries_ramp.TimeSeriesModel;
-import edu.colorado.phet.timeseries_ramp.TimeSeriesModelListenerAdapter;
+import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
+import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModelListenerAdapter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,8 +41,8 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
         };
         goPauseButton = new ControlButton( TheRampStrings.getString( "pause" ) );//longer text
         try {
-            goIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/light3.png" ) );
-            pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/stop-20.png" ) );
+            goIcon = new ImageIcon( ImageLoader.loadBufferedImage( "the-ramp/images/light3.png" ) );
+            pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( "the-ramp/images/stop-20.png" ) );
             goPauseButton.setIcon( goIcon );
         }
         catch( IOException e ) {

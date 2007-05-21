@@ -14,8 +14,8 @@ import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.FireDog;
 import edu.colorado.phet.theramp.view.RampPanel;
-import edu.colorado.phet.timeseries_ramp.TimeSeriesModel;
-import edu.colorado.phet.timeseries_ramp.TimeSeriesPlaybackPanel;
+import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
+import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesPlaybackPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,11 +59,11 @@ public class RampModule extends PiccoloModule {
         setModel( new BaseModel() );
         rampModel = new RampModel( this, clock );
         rampObjects = new RampObject[]{
-                new RampObject( "images/cabinet.gif", TheRampStrings.getString( "file.cabinet" ), 0.8, 100, 0.3, 0.3, 0.4 ),
-                new RampObject( "images/fridge.gif", TheRampStrings.getString( "refrigerator" ), 0.35, 175, 0.5, 0.5, 0.4 ),
-                new RampObject( "images/piano.png", TheRampStrings.getString( "piano" ), 0.8, 225, 0.4, 0.4, 0.6, 20 ),
-                new RampObject( "images/crate.gif", TheRampStrings.getString( "crate" ), 0.8, 300, 0.7, 0.7, 0.3 ),
-                new RampObject( "images/ollie.gif", TheRampStrings.getString( "sleepy.dog" ), 0.8, 15, 0.1, 0.1, 0.30, 5 ),
+                new RampObject( "the-ramp/images/cabinet.gif", TheRampStrings.getString( "file.cabinet" ), 0.8, 100, 0.3, 0.3, 0.4 ),
+                new RampObject( "the-ramp/images/fridge.gif", TheRampStrings.getString( "refrigerator" ), 0.35, 175, 0.5, 0.5, 0.4 ),
+                new RampObject( "the-ramp/images/piano.png", TheRampStrings.getString( "piano" ), 0.8, 225, 0.4, 0.4, 0.6, 20 ),
+                new RampObject( "the-ramp/images/crate.gif", TheRampStrings.getString( "crate" ), 0.8, 300, 0.7, 0.7, 0.3 ),
+                new RampObject( "the-ramp/images/ollie.gif", TheRampStrings.getString( "sleepy.dog" ), 0.8, 15, 0.1, 0.1, 0.30, 5 ),
         };
 //        sort( rampObjects );
 

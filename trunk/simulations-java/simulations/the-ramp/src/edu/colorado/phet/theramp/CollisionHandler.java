@@ -23,12 +23,12 @@ public class CollisionHandler extends Block.Adapter {
 
     public CollisionHandler( RampModule rampModule ) {
         this.rampModule = rampModule;
-        smash0 = new PhetAudioClip( "audio/smash0.wav" );
-        smash1 = new PhetAudioClip( "audio/smash1.wav" );
-        smash2 = new PhetAudioClip( "audio/smash2.wav" );
-//        url0 = RampModule.class.getClassLoader().getResource( "audio/smash0.wav" );
-//        url1 = RampModule.class.getClassLoader().getResource( "audio/smash1.wav" );
-//        url2 = RampModule.class.getClassLoader().getResource( "audio/smash2.wav" );
+        smash0 = new PhetAudioClip( "the-ramp/audio/smash0.wav" );
+        smash1 = new PhetAudioClip( "the-ramp/audio/smash1.wav" );
+        smash2 = new PhetAudioClip( "the-ramp/audio/smash2.wav" );
+//        url0 = RampModule.class.getClassLoader().getResource( "the-ramp/audio/smash0.wav" );
+//        url1 = RampModule.class.getClassLoader().getResource( "the-ramp/audio/smash1.wav" );
+//        url2 = RampModule.class.getClassLoader().getResource( "the-ramp/audio/smash2.wav" );
     }
 
     public void collisionOccurred( Collision collision ) {

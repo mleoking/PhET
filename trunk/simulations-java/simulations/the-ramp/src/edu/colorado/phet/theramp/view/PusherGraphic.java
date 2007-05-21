@@ -51,8 +51,8 @@ public class PusherGraphic extends PImage {
         this.rampWorld = rampWorld;
         this.module = rampPanel.getRampModule();
         this.rampPanel = rampPanel;
-        standingStill = ImageLoader.loadBufferedImage( "images/standing-man.png" );
-        animation = new FrameSequence( "images/pusher-leaner-png/pusher-leaning-2", "png", 15 );
+        standingStill = ImageLoader.loadBufferedImage( "the-ramp/images/standing-man.png" );
+        animation = new FrameSequence( "the-ramp/images/pusher-leaner-png/pusher-leaning-2", "png", 15 );
         BufferedImage[] flipped = new BufferedImage[animation.getNumFrames()];
         for( int i = 0; i < flipped.length; i++ ) {
             flipped[i] = BufferedImageUtils.flipX( animation.getFrame( i ) );
@@ -91,7 +91,7 @@ public class PusherGraphic extends PImage {
         lastDX = getBlockDx();
 
         modelLocation = getSurfaceGraphic().getSurface().getLength() / 2.0;
-        slapSound = new PhetAudioClip( "audio/slapooh.wav" );
+        slapSound = new PhetAudioClip( "the-ramp/audio/slapooh.wav" );
     }
 
 
@@ -109,7 +109,7 @@ public class PusherGraphic extends PImage {
     private Image getCrushedManImage() {
         if( crushedManImage == null ) {
             try {
-                crushedManImage = ImageLoader.loadBufferedImage( "images/crushedman.png" );
+                crushedManImage = ImageLoader.loadBufferedImage( "the-ramp/images/crushedman.png" );
             }
             catch( IOException e ) {
                 e.printStackTrace();

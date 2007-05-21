@@ -53,7 +53,7 @@ public class BlockGraphic extends PNode {
         final RampPhysicalModel physicalModel = module.getRampPhysicalModel();
 
         try {
-            wheelGraphic = new PImage( ImageLoader.loadBufferedImage( "images/skateboard.png" ) );
+            wheelGraphic = new PImage( ImageLoader.loadBufferedImage( "the-ramp/images/skateboard.png" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
