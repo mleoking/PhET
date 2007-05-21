@@ -45,7 +45,7 @@ public class FirefighterModule extends BernoulliApplication {
     private double flameHeight;
 
     public FirefighterModule( DefaultClock dc ) {
-        super( "Firefighter", dc );
+        super( BernoulliResources.getString( "firefighter.module" ), dc );
 
         // Make nozzle
         DropAdder da = new DropAdder() {

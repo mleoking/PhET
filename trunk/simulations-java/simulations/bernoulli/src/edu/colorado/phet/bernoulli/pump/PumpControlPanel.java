@@ -1,6 +1,7 @@
 package edu.colorado.phet.bernoulli.pump;
 
 import edu.colorado.phet.bernoulli.BernoulliApplication;
+import edu.colorado.phet.bernoulli.BernoulliResources;
 import edu.colorado.phet.bernoulli.pipe.VolumeGraphic;
 import edu.colorado.phet.common.bernoulli.model.ModelElement;
 
@@ -31,7 +32,7 @@ public class PumpControlPanel extends JPanel {
 //        });
 //        add(antialias);
 
-        JButton zoomIn = new JButton( "Zoom to Pump" );
+        JButton zoomIn = new JButton( BernoulliResources.getString( "zoom.to.pump" ) );
         zoomIn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 application.zoomToPump();
@@ -47,7 +48,7 @@ public class PumpControlPanel extends JPanel {
 //        });
 //        add(zoomToPipe);
 
-        JButton zoomToWaterTower = new JButton( "Full Zoom" );
+        JButton zoomToWaterTower = new JButton( BernoulliResources.getString( "full.zoom" ) );
         zoomToWaterTower.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 application.zoomToFull();
@@ -55,14 +56,14 @@ public class PumpControlPanel extends JPanel {
         } );
         add( zoomToWaterTower );
 
-        JButton refillWaterTower = new JButton( "Refill Water Tower" );
+        JButton refillWaterTower = new JButton( BernoulliResources.getString( "refill.water.tower" ) );
         refillWaterTower.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 application.getWaterTower().setFractionalWaterVolume( .80 );
                 application.getRepaintManager().update();
             }
         } );
-        JButton zoomOutButton = new JButton( "zoom out" );
+        JButton zoomOutButton = new JButton( BernoulliResources.getString( "zoom.out" ) );
         final ModelElement zoomOutElement = new ModelElement() {
             public void stepInTime( double v ) {
                 Rectangle2D.Double rect = application.getTransform().getModelBounds();
@@ -101,7 +102,7 @@ public class PumpControlPanel extends JPanel {
             }
         } );
 
-        JButton zoomInButton = new JButton( "zoom in" );
+        JButton zoomInButton = new JButton( BernoulliResources.getString( "zoom.in" ) );
         zoomInButton.addMouseListener( new MouseAdapter() {
             public void mouseReleased( MouseEvent e ) {
                 application.getModel().removeModelElement( zoomInElement );
@@ -163,7 +164,7 @@ public class PumpControlPanel extends JPanel {
                 application.getTransform().setModelBounds( new Rectangle2D.Double( x, y, width, height ) );
             }
         };
-        JButton panLeft = new JButton( "Pan Right" );
+        JButton panLeft = new JButton( BernoulliResources.getString( "pan.right" ) );
         panLeft.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 application.getModel().addModelElement( panLeftElement );
@@ -173,7 +174,7 @@ public class PumpControlPanel extends JPanel {
                 application.getModel().removeModelElement( panLeftElement );
             }
         } );
-        JButton panRight = new JButton( "Pan Left" );
+        JButton panRight = new JButton( BernoulliResources.getString( "pan.left" ) );
         panRight.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 application.getModel().addModelElement( panRightElement );
@@ -183,7 +184,7 @@ public class PumpControlPanel extends JPanel {
                 application.getModel().removeModelElement( panRightElement );
             }
         } );
-        JButton panDown = new JButton( "Pan Down" );
+        JButton panDown = new JButton( BernoulliResources.getString( "pan.down" ) );
         panDown.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 application.getModel().addModelElement( panDownElement );
@@ -194,7 +195,7 @@ public class PumpControlPanel extends JPanel {
             }
         } );
 
-        JButton panUp = new JButton( "Pan Up" );
+        JButton panUp = new JButton( BernoulliResources.getString( "pan.up" ) );
         panUp.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 application.getModel().addModelElement( panUpElement );
@@ -232,7 +233,7 @@ public class PumpControlPanel extends JPanel {
 //            }
 //        });
 //        add(showDebugData);
-        final JCheckBox showVolumeWidth = new JCheckBox( "Show Volume Dimensions", VolumeGraphic.showWidthAndHeight );
+        final JCheckBox showVolumeWidth = new JCheckBox( BernoulliResources.getString( "show.volume.dimensions" ), VolumeGraphic.showWidthAndHeight );
         showVolumeWidth.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 VolumeGraphic.showWidthAndHeight = showVolumeWidth.isSelected();

@@ -1,6 +1,7 @@
 package edu.colorado.phet.bernoulli.pipe;
 
 import edu.colorado.phet.bernoulli.BernoulliApplication;
+import edu.colorado.phet.bernoulli.BernoulliResources;
 import edu.colorado.phet.bernoulli.common.CircleGraphic;
 import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.DifferentialDragHandler;
@@ -40,7 +41,7 @@ public class PipeControlPointGraphic implements InteractiveGraphic, TransformLis
         pipeGraphic.getPipe().addObserver( this );
 
         menu = new JPopupMenu();
-        JMenuItem item = new JMenuItem( "Punch a hole in the pipe." );
+        JMenuItem item = new JMenuItem( BernoulliResources.getString( "punch.a.hole.in.the.pipe" ) );
         item.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ControlSection cs = pipeGraphic.getPipe().controlSectionAt( index );

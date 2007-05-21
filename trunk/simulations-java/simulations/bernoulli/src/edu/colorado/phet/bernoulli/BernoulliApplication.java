@@ -87,7 +87,7 @@ public class BernoulliApplication extends Module {
 
 
     public BernoulliApplication( DefaultClock dc ) {
-        this( "Water Distribution System", dc );
+        this( BernoulliResources.getString( "water.distribution.system.module" ), dc );
     }
 
     protected BernoulliApplication( String name, DefaultClock dc ) {
@@ -192,7 +192,7 @@ public class BernoulliApplication extends Module {
         }
         else {
             JMenuItem[] jmi = PlafUtil.getLookAndFeelItems();
-            JMenu menu = new JMenu( "View" );
+            JMenu menu = new JMenu( BernoulliResources.getString( "view" ) );
             for( int i = 0; i < jmi.length; i++ ) {
                 JMenuItem jMenuItem = jmi[i];
                 menu.add( jMenuItem );
@@ -297,16 +297,16 @@ public class BernoulliApplication extends Module {
         } );
 
         // Make the button that turns the pump on and off
-        final JButton jb = new JButton( "On" );
+        final JButton jb = new JButton( BernoulliResources.getString( "on" ) );
         jb.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         jb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( jb.getText().equals( "On" ) ) {
-                    jb.setText( "Off" );
+                if( jb.getText().equals( BernoulliResources.getString( "on" ) ) ) {
+                    jb.setText( BernoulliResources.getString( "off" ) );
                     AutoPump.active = true;
                 }
                 else {
-                    jb.setText( "On" );
+                    jb.setText( BernoulliResources.getString( "on" ) );
                     AutoPump.active = false;
                 }
             }
@@ -411,8 +411,8 @@ public class BernoulliApplication extends Module {
         final BernoulliApplication application = new BernoulliApplication( defaultClock );
         final PipeModule pipeModule = new PipeModule( defaultClock );
         final FirefighterModule firefighterModule = new FirefighterModule( defaultClock );
-        String title = "Bernoulli's Fountain (" + VERSION + ")";
-        String desc = "The user tries to pump water in their computer.";
+        String title = BernoulliResources.getString( "bernoulli.s.fountain" ) + VERSION + ")";
+        String desc = BernoulliResources.getString( "simulation.description" );
         final PhetApplication app = new PhetApplication( new ApplicationDescriptor( title, desc, VERSION, new FrameSetup() {
             public void initialize( JFrame frame ) {
                 Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

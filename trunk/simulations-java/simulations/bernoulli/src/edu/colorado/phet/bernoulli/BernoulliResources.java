@@ -14,4 +14,8 @@ public class BernoulliResources {
     public static BufferedImage getImage( String s ) {
         return INSTANCE.getImage( s );
     }
+
+    public static String getString( String s ) {
+        return INSTANCE.getLocalizedString( s );
+    }
 }
