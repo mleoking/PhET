@@ -52,26 +52,9 @@ public class ParticleArena extends JPanel
         loweredBevel = BorderFactory.createLoweredBevelBorder();
         compound2 = BorderFactory.createTitledBorder( raisedBevel, SimStrings.getInstance().getString( "ParticleArena.ArenaBorder" ), TitledBorder.CENTER, TitledBorder.ABOVE_BOTTOM );
         setBorder( compound2 );
-        //setBorder(BorderFactory.createLineBorder(Color.red));
-        /*
-        try{
-            URL tadaURL = new File("C:\\Java\\Wieman\\Maze\\tada.WAV").toURL();
-            tada = java.applet.Applet.newAudioClip(tadaURL);
-            URL bangouchURL = new File("C:\\Java\\Wieman\\Maze\\bangouch.WAV").toURL();
-            bangouch = java.applet.Applet.newAudioClip(bangouchURL);
-            URL corkURL = new File("C:\\Java\\Wieman\\Maze\\cork.au").toURL();
-            //cork = java.applet.Applet.newAudioClip(corkURL);
-            cork = mazeGUI1.getAudioClip(mazeGUI1.getDocumentBase(),"cork.au");
-            URL figaroURL = new File("C:\\Java\\Wieman\\Maze\\figaro.au").toURL();
-            figaro = java.applet.Applet.newAudioClip(figaroURL);
-        }catch(MalformedURLException e){;
-        }catch(java.security.AccessControlException ace){;}
-        */
 
         collisionDetected = false;
         goalDetected = false;
-//        badGoal = false;
-//        disqualified = false;
         nbrCollisions = 0;
         cbPanel = new ControlBoxPanel( this );
         scrPanel = new ScorePanel( this, cbPanel );
@@ -79,26 +62,20 @@ public class ParticleArena extends JPanel
 
         myParticle = new Particle( pUpdater.getX(), pUpdater.getY() );
         radius = myParticle.getRadius();
-
-
-//        addMouseMotionListener(this);
-        //start();		//Perhaps should have Thread started by Score Panel start button
-        //new Thread(this).start();
     }
 
     public void start() {
-        //new Exception().printStackTrace();
         if( myThread == null ) {
             myThread = new Thread( this );
             myThread.start();
         }
-    }//end of start method
+    }
 
     public void stop() {
         if( myThread != null ) {
             myThread = null;
         }
-    }//end of stop method
+    }
 
     public void run() {
         Thread thisThread = Thread.currentThread();

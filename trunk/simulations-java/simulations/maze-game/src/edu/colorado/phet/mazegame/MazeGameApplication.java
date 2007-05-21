@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class MazeGameApplication {
     public static final String version = "1.01";
-    public static final String localizedStringsPath = "localization/MazeGameStrings";
+    public static final String localizedStringsPath = "maze-game/localization/maze-game-strings";
 
     private static void centerFrameOnScreen( JFrame f ) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
