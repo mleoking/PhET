@@ -341,10 +341,6 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         getBlock().setKineticFriction( rampObject.getKineticFriction() );
     }
 
-    public void setStepStrategyEmergent() {
-        setStepStrategy( new OriginalStepCode() );
-    }
-
     public void setStepStrategyConstrained() {
         setStepStrategy( new NewStepCode() );
     }
@@ -557,18 +553,8 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         return getGravityWork() + getFrictiveWork() + getAppliedWork();
     }
 
-    public OriginalStepCode getOriginalStepCode() {
-        return new OriginalStepCode();
-    }
-
     public NewStepCode getNewStepCode() {
         return new NewStepCode();
-    }
-
-    public class OriginalStepCode implements ModelElement {
-        public void stepInTime( double dt ) {
-//            originalStepCode( dt );
-        }
     }
 
     public class NewStepCode implements ModelElement {
