@@ -58,9 +58,9 @@ public class MazeGameApplet extends JApplet {
         //splat = getImage(getDocumentBase(), "sunburst.gif");
         try {
 
-            splat = ImageLoader.loadBufferedImage( "RedBang.gif" );
+            splat = ImageLoader.loadBufferedImage( "maze-game/images/RedBang.gif" );
 //            ballImage = ImageLoader.loadBufferedImage( "ballsmall2-orig.gif" );
-            ballImage = ImageLoader.loadBufferedImage( "ballsmall2.gif" );
+            ballImage = ImageLoader.loadBufferedImage( "maze-game/images/ballsmall2.gif" );
 //            splat = ImageLoader.loadBufferedImage( "RedBang.gif" );//getImage(getDocumentBase(), "RedBang.gif");
 //            ballImage = ImageLoader.loadBufferedImage( "ballsmall2.gif" );//getImage(getDocumentBase(), "ballsmall2.gif");
         }
@@ -70,8 +70,8 @@ public class MazeGameApplet extends JApplet {
 
 //new JFrame("Starting audio load").setVisible(true);
         MyClipLoader audioLoader = new MyClipLoader( getClass().getClassLoader(), this );//AudioLoaderFactory().getAudioLoader(this);//.new AudioLoader(getClass().getClassLoader());
-        cork = audioLoader.loadAudioClip( "cork.au" );//getAudioClip(getDocumentBase(), "cork.au");
-        figaro = audioLoader.loadAudioClip( "figaro.au" );//getAudioClip(getDocumentBase(), "figaro.au");
+        cork = audioLoader.loadAudioClip( "maze-game/audio/cork.au" );//getAudioClip(getDocumentBase(), "cork.au");
+        figaro = audioLoader.loadAudioClip( "maze-game/audio/figaro.au" );//getAudioClip(getDocumentBase(), "figaro.au");
 //        figaro.play() ;
 //new JFrame("Playing tada").setVisible(true);
 //tada.play();
