@@ -94,7 +94,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         coordinatePanel.add( y );
 
         JPanel forcePanel = new VerticalLayoutPanel();
-        forcePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "forces.to.show" ) ) );
+        forcePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "controls.forces-to-show" ) ) );
 
         final JCheckBox showFriction = new JCheckBox( AbstractArrowSet.FRICTION, true );
         showFriction.addActionListener( new ActionListener() {
@@ -146,7 +146,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         addControlFullWidth( advancedPanel );
 
         ObjectComboBox ocb = new ObjectComboBox( module.getRampObjects(), this );
-        JLabel label = new JLabel( TheRampStrings.getString( "choose.object" ) );
+        JLabel label = new JLabel( TheRampStrings.getString( "controls.choose-object" ) );
         addControlFullWidth( label );
         addControl( ocb );
 
@@ -232,7 +232,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
     }
 
     private ModelSlider createMassSlider() {
-        final ModelSlider ms = new ModelSlider( TheRampStrings.getString( "property.mass" ), TheRampStrings.getString( "units.kg" ), 100, 500, 100, new DecimalFormat( "000" ) );
+        final ModelSlider ms = new ModelSlider( TheRampStrings.getString( "property.mass" ), TheRampStrings.getString( "units.abbr.kg" ), 100, 500, 100, new DecimalFormat( "000" ) );
         ms.setModelTicks( new double[]{100, 500} );
         ms.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

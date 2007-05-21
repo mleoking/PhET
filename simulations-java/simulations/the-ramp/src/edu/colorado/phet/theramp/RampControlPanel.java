@@ -112,7 +112,7 @@ public class RampControlPanel extends ControlPanel {
     }
 
     private JCheckBox createFrictionlessCheckbox() {
-        final JCheckBox frictionless = new JCheckBox( TheRampStrings.getString( "frictionless" ), false );
+        final JCheckBox frictionless = new JCheckBox( TheRampStrings.getString( "controls.frictionless" ), false );
         frictionless.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setFrictionEnabled( !frictionless.isSelected() );
@@ -155,7 +155,7 @@ public class RampControlPanel extends ControlPanel {
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         verticalLayoutPanel.add( workBars );
         verticalLayoutPanel.add( energyBars );
-        verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( TheRampStrings.getString( "bar.graphs" ) ) );
+        verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( TheRampStrings.getString( "display.bar-graph" ) ) );
         addControlFullWidth( verticalLayoutPanel );
     }
 

@@ -32,7 +32,7 @@ public class AppliedForceSimpleControl extends PNode {
 //        horizontalLayoutPanel.add( new JLabel( "Applied Force (N)" ) );
 
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
-        verticalLayoutPanel.add( new JLabel( TheRampStrings.getString( "applied.force.n" ) ) );
+        verticalLayoutPanel.add( new JLabel( TheRampStrings.getString( "forces.applied.n" ) ) );
 
         SpinnerNumberModel model = new SpinnerNumberModel( module.getRampPhysicalModel().getAppliedForceScalar(), -maxValue, maxValue, 100 );
 

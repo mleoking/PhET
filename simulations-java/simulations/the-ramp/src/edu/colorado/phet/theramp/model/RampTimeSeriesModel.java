@@ -87,7 +87,7 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
 
     protected boolean confirmReset() {
 //        return rampModule.resetDialogOk();
-        int answer = JOptionPane.showConfirmDialog( getSimulationPanel(), TheRampStrings.getString( "are.you.sure.you.d.like.to.clear.the.graphs" ), TheRampStrings.getString( "confirm.clear" ), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE );
+        int answer = JOptionPane.showConfirmDialog( getSimulationPanel(), TheRampStrings.getString( "confirm-clear-graphs" ), TheRampStrings.getString( "confirm.clear" ), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE );
         return answer == JOptionPane.OK_OPTION;
     }
 

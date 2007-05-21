@@ -43,7 +43,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             e.printStackTrace();
         }
 
-        pause = new JButton( TheRampStrings.getString( "pause" ), pauseIcon );
+        pause = new JButton( TheRampStrings.getString( "time.pause" ), pauseIcon );
         pause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 //pausing from playback leaves it alone
@@ -57,7 +57,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        play = new JButton( TheRampStrings.getString( "playback" ), playIcon );
+        play = new JButton( TheRampStrings.getString( "time.playback" ), playIcon );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startPlaybackMode( 1.0 );
@@ -71,7 +71,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        rewind = new JButton( TheRampStrings.getString( "rewind" ), rewindIcon );
+        rewind = new JButton( TheRampStrings.getString( "time.rewind" ), rewindIcon );
         rewind.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.rewind();
@@ -86,7 +86,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        slowMotion = new JButton( TheRampStrings.getString( "slow.motion" ), slowIcon );
+        slowMotion = new JButton( TheRampStrings.getString( "time.slow-motion" ), slowIcon );
         slowMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startPlaybackMode( .4 );
@@ -107,7 +107,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         add( clear );
 
         if( timeSeriesModel instanceof HasAudio ) {
-            final JCheckBox audio = new JCheckBox( TheRampStrings.getString( "sound" ), true );
+            final JCheckBox audio = new JCheckBox( TheRampStrings.getString( "controls.sound" ), true );
             audio.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     ( (HasAudio)timeSeriesModel ).setAudioEnabled( audio.isSelected() );

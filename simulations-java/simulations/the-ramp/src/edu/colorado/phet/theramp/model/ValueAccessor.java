@@ -22,8 +22,8 @@ public abstract class ValueAccessor {
     private Color color;
     private String fullName;
 
-    public static final String joules = TheRampStrings.getString( "joules" );
-    public static final String joulesAbbreviation = TheRampStrings.getString( "units.joules" );
+    public static final String joules = TheRampStrings.getString( "units.joules" );
+    public static final String joulesAbbreviation = TheRampStrings.getString( "units.abbr.joules" );
 
     protected ValueAccessor( String name, String html, String units, String unitAbbreviation, Color color, String fullName ) {
         this.name = name;
@@ -103,7 +103,7 @@ public abstract class ValueAccessor {
 
     public static class AppliedWork extends WorkAccessor {
         public AppliedWork( RampLookAndFeel rampLookAndFeel ) {
-            super( TheRampStrings.getString( "applied1" ), rampLookAndFeel.getAppliedWorkColor(), TheRampStrings.getString( "applied" ) );
+            super( TheRampStrings.getString( "forces.applied1" ), rampLookAndFeel.getAppliedWorkColor(), TheRampStrings.getString( "applied" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -123,7 +123,7 @@ public abstract class ValueAccessor {
 
     public static class GravityWork extends WorkAccessor {
         public GravityWork( RampLookAndFeel rampLookAndFeel ) {
-            super( TheRampStrings.getString( "gravity" ), rampLookAndFeel.getGravityWorkColor(), TheRampStrings.getString( "gravity1" ) );
+            super( TheRampStrings.getString( "forces.gravity" ), rampLookAndFeel.getGravityWorkColor(), TheRampStrings.getString( "gravity1" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -156,14 +156,14 @@ public abstract class ValueAccessor {
     public static abstract class ParallelForceAccessor extends ValueAccessor {
 
         protected ParallelForceAccessor( String name, Color color, String subText ) {
-            super( name, MessageFormat.format( TheRampStrings.getString( "f.sub.0.sub" ), new Object[]{subText} ), TheRampStrings.getString( "newtons" ), TheRampStrings.getString( "units.newtons" ), color, name );
+            super( name, MessageFormat.format( TheRampStrings.getString( "f.sub.0.sub" ), new Object[]{subText} ), TheRampStrings.getString( "units.newtons" ), TheRampStrings.getString( "units.abbr.newtons" ), color, name );
         }
 
     }
 
     public static class ParallelFrictionAccessor extends ParallelForceAccessor {
         public ParallelFrictionAccessor( RampLookAndFeel rampLookAndFeel ) {
-            super( TheRampStrings.getString( "parallel.friction" ), rampLookAndFeel.getFrictionForceColor(), TheRampStrings.getString( "forces.friction" ) );
+            super( TheRampStrings.getString( "forces.parallel-friction" ), rampLookAndFeel.getFrictionForceColor(), TheRampStrings.getString( "forces.friction" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -183,7 +183,7 @@ public abstract class ValueAccessor {
 
     public static class ParallelGravityAccessor extends ParallelForceAccessor {
         public ParallelGravityAccessor( RampLookAndFeel lookAndFeel ) {
-            super( TheRampStrings.getString( "parallel.gravity.force" ), lookAndFeel.getWeightColor(), TheRampStrings.getString( "gravity1" ) );
+            super( TheRampStrings.getString( "forces.parallel-gravity" ), lookAndFeel.getWeightColor(), TheRampStrings.getString( "gravity1" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -193,7 +193,7 @@ public abstract class ValueAccessor {
 
     public static class ParallelWallForceAccessor extends ParallelForceAccessor {
         public ParallelWallForceAccessor( RampLookAndFeel rampLookAndFeel ) {
-            super( TheRampStrings.getString( "parallel.wall.force" ), rampLookAndFeel.getWallForceColor(), TheRampStrings.getString( "wall1" ) );
+            super( TheRampStrings.getString( "forces.parallel-wall" ), rampLookAndFeel.getWallForceColor(), TheRampStrings.getString( "wall1" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
