@@ -5,6 +5,7 @@ import edu.colorado.phet.common.bernoulli.bernoulli.graphics.DifferentialDragHan
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
+import edu.colorado.phet.bernoulli.BernoulliResources;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -82,7 +83,7 @@ public class BarometerView implements InteractiveGraphic, SimpleObserver {
 
     public void update() {
         this.pt = transform.modelToView( barometer.getLocation() );
-        this.messageString = "Pressure = " + barometer.getPressure();
+        this.messageString = BernoulliResources.getString( "pressure" ) + barometer.getPressure();
         init = true;
     }
 
@@ -90,8 +91,8 @@ public class BarometerView implements InteractiveGraphic, SimpleObserver {
         if( init ) {
             data.clear();
 //            data.add(new MeasuringGraphicNew.Datum("pressure", decimalFormat.format(barometer.getX())));
-            data.add( new MeasuringGraphicNew.Datum( "water pressure", decimalFormat.format( barometer.getPressure() ) + " Pa" ) );
-            data.add( new MeasuringGraphicNew.Datum( "height", decimalFormat.format( barometer.getY() ) + " m" ) );
+            data.add( new MeasuringGraphicNew.Datum( BernoulliResources.getString( "water.pressure" ), decimalFormat.format( barometer.getPressure() ) + BernoulliResources.getString( "pa" ) ) );
+            data.add( new MeasuringGraphicNew.Datum( "height", decimalFormat.format( barometer.getY() ) + BernoulliResources.getString( "meters" ) ) );
             measuringGraphic.paint( g, pt, data );
         }
     }

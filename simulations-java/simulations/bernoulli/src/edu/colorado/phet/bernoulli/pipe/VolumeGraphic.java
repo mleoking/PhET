@@ -112,18 +112,18 @@ public class VolumeGraphic implements Graphic, SimpleObserver, TransformListener
         new ArrowGraphicTransform( a, toBase.getX(), toBase.getY(),
                                    endpoint.getX(), endpoint.getY(), transform ).paint( g );
         Point middle = transform.modelToView( topSeg.getStartPoint().getX(), topSeg.getStartPoint().getY() );
-        Font font = ( new Font( "dialog", Font.BOLD, 38 ) );
+        Font font = ( new Font( BernoulliResources.getString( "dialog" ), Font.BOLD, 38 ) );
         g.setFont( font );
 
         g.setColor( Color.yellow );
         DecimalFormat df = new DecimalFormat( "#0.00" );
         String val = df.format( volume.getWidth() );
-        String text = "Height= " + val + " m";
+        String text = BernoulliResources.getString( "height" ) + val + " m";
         new OutlinedText().paint( g, text, middle.x, middle.y, Color.black, Color.yellow, new BasicStroke( 4 ), font );
 
         double width = volume.getVolumeWidth();
         String widthStr = df.format( width );
-        String widthText = "Width= " + widthStr + " m";
+        String widthText = BernoulliResources.getString( "width" ) + widthStr + BernoulliResources.getString( "m" );
 
         Point bottomView = transform.modelToView( toBase.getX(), toBase.getY() );
         new OutlinedText().paint( g, widthText, bottomView.x, bottomView.y, Color.black, Color.yellow, new BasicStroke( 4 ), font );

@@ -35,7 +35,7 @@ public class PipeModule extends BernoulliApplication {
     static boolean pipeOn = true;
 
     public PipeModule( DefaultClock dc ) {
-        super( "Pipe Module", dc );
+        super( BernoulliResources.getString( "pipe.module" ), dc );
 
         // Make the pipe
         createPipe();
