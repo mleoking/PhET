@@ -1,7 +1,7 @@
 
 package edu.colorado.phet.common_semiconductor.view.plaf;
 
-import edu.colorado.phet.common_semiconductor.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSpinnerUI;

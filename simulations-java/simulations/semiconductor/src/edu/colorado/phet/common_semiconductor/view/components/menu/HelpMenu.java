@@ -8,7 +8,7 @@ package edu.colorado.phet.common_semiconductor.view.components.menu;
 
 import edu.colorado.phet.common_semiconductor.application.PhetApplication;
 import edu.colorado.phet.common_semiconductor.util.VersionUtils;
-import edu.colorado.phet.common_semiconductor.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

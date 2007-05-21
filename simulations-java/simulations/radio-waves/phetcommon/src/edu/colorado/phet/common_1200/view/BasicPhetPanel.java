@@ -2,7 +2,7 @@
 package edu.colorado.phet.common_1200.view;
 
 import edu.colorado.phet.common_1200.view.util.ImageLoader;
-import edu.colorado.phet.common_1200.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

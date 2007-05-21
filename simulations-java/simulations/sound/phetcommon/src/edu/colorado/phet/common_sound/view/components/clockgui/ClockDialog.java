@@ -12,7 +12,8 @@ package edu.colorado.phet.common_sound.view.components.clockgui;
 
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.model.clock.ThreadedClock;
-import edu.colorado.phet.common_sound.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 
 import javax.swing.*;
 import java.awt.*;

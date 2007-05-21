@@ -16,7 +16,6 @@ import edu.colorado.phet.common_1200.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_1200.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
 import edu.colorado.phet.common_1200.view.util.ImageLoader;
-import edu.colorado.phet.common_1200.view.util.SimStrings;
 import edu.colorado.phet.common_1200.view.help.HelpItem;
 import edu.colorado.phet.coreadditions.emf.PhetControlPanel;
 import edu.colorado.phet.emf.command.DynamicFieldIsEnabledCmd;
@@ -31,6 +30,7 @@ import edu.colorado.phet.emf.model.movement.SinusoidalMovement;
 import edu.colorado.phet.emf.view.*;
 import edu.colorado.phet.util.StripChart;
 import edu.colorado.phet.waves.view.WaveMediumGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

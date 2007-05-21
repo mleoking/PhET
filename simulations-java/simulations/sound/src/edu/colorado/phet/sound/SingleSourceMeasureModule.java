@@ -12,10 +12,10 @@ import edu.colorado.phet.common_sound.view.help.HelpItem;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common_sound.view.util.ImageLoader;
 import edu.colorado.phet.sound.view.ClockPanelLarge;
-import edu.colorado.phet.common_sound.view.util.SimStrings;
 import edu.colorado.phet.sound.view.MeasureControlPanel;
 import edu.colorado.phet.sound.view.MeterStickGraphic;
 import edu.colorado.phet.sound.view.VerticalGuideline;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

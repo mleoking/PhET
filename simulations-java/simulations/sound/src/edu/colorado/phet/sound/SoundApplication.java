@@ -6,14 +6,13 @@
  */
 package edu.colorado.phet.sound;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.application.Module;
 import edu.colorado.phet.common_sound.application.PhetApplication;
 import edu.colorado.phet.common_sound.view.util.FrameSetup;
-import edu.colorado.phet.common_sound.view.util.SimStrings;
 import edu.colorado.phet.sound.model.SoundClock;
 
 import javax.swing.*;
-import java.util.Locale;
 
 
 public class SoundApplication extends PhetApplication {
@@ -67,7 +66,7 @@ public class SoundApplication extends PhetApplication {
 //        Locale.setDefault( new Locale( "ie", "ga" ));
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                SimStrings.init( args, SoundConfig.localizedStringsPath );
+                SimStrings.getInstance().addStrings(SoundConfig.localizedStringsPath );
 
                 PhetApplication app = new SoundApplication( args );
                 app.getPhetFrame().setResizable( false );

@@ -21,7 +21,7 @@ import edu.colorado.phet.common_sound.view.ControlPanel;
 import edu.colorado.phet.common_sound.view.help.HelpManager;
 import edu.colorado.phet.common_sound.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common_sound.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 
@@ -53,7 +53,7 @@ public class Module implements ClockTickListener {
     protected Module( String name, AbstractClock clock ) {
         this.name = name;
         this.clock = clock;
-        SimStrings.setStrings( "localization/CommonStrings" );
+        SimStrings.getInstance().addStrings( "localization/CommonStrings" );
         helpManager = new HelpManager();
         helpEnabled = false;
         

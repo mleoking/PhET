@@ -1,6 +1,6 @@
 package edu.colorado.phet.semiconductor_semi.macro.circuit.battery;
 
-import edu.colorado.phet.common_semiconductor.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
