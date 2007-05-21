@@ -34,12 +34,12 @@ import java.util.Vector;
 
 public class EFieldApplication extends JApplet {
     // Localization
-    public static final String localizedStringsPath = "localization/ElectricFieldStrings";
+    public static final String localizedStringsPath = "efield/localization/efield-strings";
     private String applicationLocale = null;
 
     public void init() {
         if( applicationLocale == null ) {
-            applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
+            applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.phet.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
                 SimStrings.setLocale( new Locale( applicationLocale ) );
             }
@@ -81,7 +81,7 @@ public class EFieldApplication extends JApplet {
         BufferedImage bi = null;
         try {
 //            bi = ResourceLoader.loadBufferedImage("images/Electron3.GIF", pp, true);
-            bi = ResourceLoader.loadBufferedImage( "images/electron9.gif", pp, true );
+            bi = ResourceLoader.loadBufferedImage( "efield/images/electron9.gif", pp, true );
         }
         catch( InterruptedException e ) {
             e.printStackTrace();
@@ -102,9 +102,9 @@ public class EFieldApplication extends JApplet {
         MediaControl mc = null;
         try {
             mc = new MediaControl( sr, randFact, pp, dt, wait, painter,
-                                   ResourceLoader.loadBufferedImage( "icons/media/Play24.gif", pp, false ),
-                                   ResourceLoader.loadBufferedImage( "icons/media/Pause24.gif", pp, false ),
-                                   ResourceLoader.loadBufferedImage( "icons/media/Stop24.gif", pp, false ) );
+                                   ResourceLoader.loadBufferedImage( "efield/icons/media/Play24.gif", pp, false ),
+                                   ResourceLoader.loadBufferedImage( "efield/icons/media/Pause24.gif", pp, false ),
+                                   ResourceLoader.loadBufferedImage( "efield/icons/media/Stop24.gif", pp, false ) );
         }
         catch( InterruptedException e ) {
             e.printStackTrace();
