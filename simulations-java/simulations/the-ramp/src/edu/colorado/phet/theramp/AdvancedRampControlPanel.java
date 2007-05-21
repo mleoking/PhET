@@ -207,30 +207,6 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         }
     }
 
-    private Component createModelSelector() {
-        VerticalLayoutPanel panel = new VerticalLayoutPanel();
-        JRadioButton emergent = new JRadioButton( TheRampStrings.getString( "emergent" ) );
-        JRadioButton constrained = new JRadioButton( TheRampStrings.getString( "constrained" ) );
-        panel.add( emergent );
-        panel.add( constrained );
-        panel.setBorder( BorderFactory.createTitledBorder( TheRampStrings.getString( "model" ) ) );
-        constrained.setSelected( true );
-        emergent.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.getRampPhysicalModel().setStepStrategyEmergent();
-            }
-        } );
-        constrained.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.getRampPhysicalModel().setStepStrategyConstrained();
-            }
-        } );
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( emergent );
-        buttonGroup.add( constrained );
-        return panel;
-    }
-
     private ModelSlider createMassSlider() {
         final ModelSlider ms = new ModelSlider( TheRampStrings.getString( "property.mass" ), TheRampStrings.getString( "units.abbr.kg" ), 100, 500, 100, new DecimalFormat( "000" ) );
         ms.setModelTicks( new double[]{100, 500} );
