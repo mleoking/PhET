@@ -73,8 +73,8 @@ public class Switch implements Painter, MouseListener {
     }
 //     public static Switch createSwitch(ImageLoader i,boolean on,int x,int y,JSlider js)
 //     {
-// 	BufferedImage a=i.loadBufferedImage("images/switches/A.jpg");
-// 	BufferedImage b=i.loadBufferedImage("images/switches/B.jpg");
+// 	BufferedImage a=i.loadBufferedImage("signal-circuit/images/switches/A.jpg");
+// 	BufferedImage b=i.loadBufferedImage("signal-circuit/images/switches/B.jpg");
 // 	return new Switch(new BufferedImagePainter(a,x,y),new BufferedImagePainter(b,x,y),on,js);
 //     }
 }

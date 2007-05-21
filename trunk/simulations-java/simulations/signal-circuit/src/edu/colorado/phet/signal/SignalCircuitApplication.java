@@ -21,7 +21,7 @@ public class SignalCircuitApplication extends JApplet {
     public static boolean applet = true;
 
     // Localization
-    public static final String localizedStringsPath = "localization/SignalCircuitStrings";
+    public static final String localizedStringsPath = "signal-circuit/localization/signal-circuit-strings";
 
     public SignalCircuitApplication() {
         int width = 600;

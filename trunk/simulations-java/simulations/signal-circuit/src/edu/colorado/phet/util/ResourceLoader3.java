@@ -20,7 +20,7 @@ public class ResourceLoader3 implements ImageLoader {
     }
 
     public BufferedImage loadBufferedImage( String name ) {
-        //URL fileLoc=findResource("images/"+name,c);
+        //URL fileLoc=findResource("signal-circuit/images/"+name,c);
         URL fileLoc = loader.getResource( name );
         try {
             Image img = observer.getToolkit().createImage( fileLoc );
