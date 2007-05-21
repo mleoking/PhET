@@ -19,7 +19,7 @@ public class LecturePhetLookAndFeel implements PhetLookAndFeel {
     Color buttonBackground = new Color( 60,60, 100 );
     Color controlTextColor = new Color( 230, 230, 230 );
     Font controlFont = new Font( "SansSerif", Font.BOLD, 16 );
-    String smallIconPath = "images/Phet-logo-16x16.gif";
+    String smallIconPath = "radio-waves/images/Phet-logo-16x16.gif";
     Icon smallIcon;
     Image smallIconImage;
 

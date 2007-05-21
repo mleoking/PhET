@@ -16,11 +16,11 @@ public class EmfConfig {
     public static double SINGLE_VECTOR_ROW_OFFSET = 0.5;
 
     // Images
-    public final static String bigElectronImg = "images/blue-sml.gif";
-    public final static String smallElectronImg = "images/blue-sml.gif";
+    public final static String bigElectronImg = "radio-waves/images/blue-sml.gif";
+    public final static String smallElectronImg = "radio-waves/images/blue-sml.gif";
 
     // Localization
-    public static final String localizedStringsPath = "localization/RadioWavesStrings";
+    public static final String localizedStringsPath = "radio-waves/localization/radio-waves-strings";
 
     public static final double WAVEFRONT_HEIGHT = 15;
 

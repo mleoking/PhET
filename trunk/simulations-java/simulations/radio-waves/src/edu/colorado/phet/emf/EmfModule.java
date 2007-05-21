@@ -387,7 +387,7 @@ public class EmfModule extends Module {
         final JDialog imageFrame = new JDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
                                                 false );
         try {
-            final BufferedImage image = ImageLoader.loadBufferedImage( "images/emf.gif" );
+            final BufferedImage image = ImageLoader.loadBufferedImage( "radio-waves/images/emf.gif" );
             final JPanel panel = new JPanel() {
                 public void paint( Graphics g ) {
                     g.setColor( Color.white );
