@@ -3,7 +3,7 @@ package edu.colorado.phet.ohm1d.volt;
 import edu.colorado.phet.ohm1d.common.paint.TextPainter;
 import edu.colorado.phet.ohm1d.common.phys2d.Law;
 import edu.colorado.phet.ohm1d.common.phys2d.System2D;
-import edu.colorado.phet.ohm1d.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 public class VoltCount implements Law {
     Batt batt;
