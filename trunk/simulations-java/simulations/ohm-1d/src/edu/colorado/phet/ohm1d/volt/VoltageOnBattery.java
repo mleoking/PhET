@@ -3,7 +3,7 @@ package edu.colorado.phet.ohm1d.volt;
 import edu.colorado.phet.ohm1d.gui.VoltageListener;
 import edu.colorado.phet.ohm1d.common.paint.Painter;
 import edu.colorado.phet.ohm1d.common.paint.TextPainter;
-import edu.colorado.phet.ohm1d.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.awt.*;
 import java.text.DecimalFormat;

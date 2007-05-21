@@ -1,23 +1,9 @@
 package edu.colorado.phet.ohm1d;
 
-import edu.colorado.phet.ohm1d.common.math.functions.Transform;
-import edu.colorado.phet.ohm1d.AngelPaint;
-import edu.colorado.phet.ohm1d.AverageCurrent2;
-import edu.colorado.phet.ohm1d.Electron;
-import edu.colorado.phet.ohm1d.Resistance;
-import edu.colorado.phet.ohm1d.volt.*;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.ohm1d.collisions.Collider;
 import edu.colorado.phet.ohm1d.collisions.DefaultCollisionEvent;
-import edu.colorado.phet.ohm1d.gui.CoreCountSlider;
-import edu.colorado.phet.ohm1d.gui.ShowPainterListener;
-import edu.colorado.phet.ohm1d.gui.ShowPainters;
-import edu.colorado.phet.ohm1d.gui.VoltageSlider;
-import edu.colorado.phet.ohm1d.oscillator2d.DefaultOscillateFactory;
-import edu.colorado.phet.ohm1d.oscillator2d.OscillateFactory;
-import edu.colorado.phet.ohm1d.regions.AndRegion;
-import edu.colorado.phet.ohm1d.regions.PatchRegion;
-import edu.colorado.phet.ohm1d.regions.SimplePatch;
-import edu.colorado.phet.ohm1d.util.MakeMETransp;
+import edu.colorado.phet.ohm1d.common.math.functions.Transform;
 import edu.colorado.phet.ohm1d.common.paint.*;
 import edu.colorado.phet.ohm1d.common.paint.gauges.GaugeScaling;
 import edu.colorado.phet.ohm1d.common.paint.gauges.IGauge;
@@ -35,7 +21,6 @@ import edu.colorado.phet.ohm1d.common.phys2d.laws.Repaint;
 import edu.colorado.phet.ohm1d.common.utils.AlphaFixer2;
 import edu.colorado.phet.ohm1d.common.utils.MakeTransparentImage;
 import edu.colorado.phet.ohm1d.common.utils.ResourceLoader4;
-import edu.colorado.phet.ohm1d.common.view.util.SimStrings;
 import edu.colorado.phet.ohm1d.common.wire1d.Circuit;
 import edu.colorado.phet.ohm1d.common.wire1d.WirePatch;
 import edu.colorado.phet.ohm1d.common.wire1d.WireSystem;
@@ -44,6 +29,17 @@ import edu.colorado.phet.ohm1d.common.wire1d.paint.WireParticlePainter;
 import edu.colorado.phet.ohm1d.common.wire1d.paint.WirePatchPainter;
 import edu.colorado.phet.ohm1d.common.wire1d.propagators.CompositePropagator1d;
 import edu.colorado.phet.ohm1d.common.wire1d.propagators.DualJunction;
+import edu.colorado.phet.ohm1d.gui.CoreCountSlider;
+import edu.colorado.phet.ohm1d.gui.ShowPainterListener;
+import edu.colorado.phet.ohm1d.gui.ShowPainters;
+import edu.colorado.phet.ohm1d.gui.VoltageSlider;
+import edu.colorado.phet.ohm1d.oscillator2d.DefaultOscillateFactory;
+import edu.colorado.phet.ohm1d.oscillator2d.OscillateFactory;
+import edu.colorado.phet.ohm1d.regions.AndRegion;
+import edu.colorado.phet.ohm1d.regions.PatchRegion;
+import edu.colorado.phet.ohm1d.regions.SimplePatch;
+import edu.colorado.phet.ohm1d.util.MakeMETransp;
+import edu.colorado.phet.ohm1d.volt.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,7 +50,6 @@ import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -73,9 +68,9 @@ public class Ohm1DApplication extends JApplet {
         //System.err.println("HI");
         String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.phet.locale", null );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            SimStrings.setLocale( new Locale( applicationLocale ) );
+            SimStrings.getInstance().setLocale( new Locale( applicationLocale ) );
         }
-        SimStrings.setStrings( localizedStringsPath );
+        SimStrings.getInstance().addStrings( localizedStringsPath );
         JButton jb = new JButton( SimStrings.get( "Ohm1dModule.StartButton" ) );
         getContentPane().add( jb );
         jb.addActionListener( new ActionListener() {
@@ -401,7 +396,7 @@ public class Ohm1DApplication extends JApplet {
         showVoltPaint.setShowPainters( showVoltDesc.isSelected() );
         showVoltDesc.addActionListener( new ShowPainterListener( showVoltDesc, showVoltPaint ) );
         //conPan.add(showVoltDesc);
-        butPan.add(showVoltDesc);
+        butPan.add( showVoltDesc );
         JCheckBox showInsideBattery = new JCheckBox( SimStrings.get( "Ohm1dModule.ShowInsideBatteryCheckbox" ), false );
         ShowInsideBattery sib = new ShowInsideBattery( showInsideBattery, bp );
         showInsideBattery.addActionListener( sib );
@@ -417,8 +412,8 @@ public class Ohm1DApplication extends JApplet {
         nf.setMinimumFractionDigits( 2 );
         Image tinyBatteryImage = loader.loadBufferedImage( "ohm-1d/images/ron/AA-battery-100.gif" );
         VoltageSlider voltageSlider = new VoltageSlider( new Transform( 0, 100, minAcc, accWidth ),
-                        SimStrings.get( "Ohm1dModule.VoltageSliderName" ), tinyBatteryImage, accDefault,
-                        nf, SimStrings.get( "Ohm1dModule.VoltageSliderUnits" ) );
+                                                         SimStrings.get( "Ohm1dModule.VoltageSliderName" ), tinyBatteryImage, accDefault,
+                                                         nf, SimStrings.get( "Ohm1dModule.VoltageSliderUnits" ) );
         voltageSlider.addVoltageListener( battery );
         voltageSlider.addVoltageListener( bdc );
         voltageSlider.addVoltageListener( current );
@@ -430,7 +425,7 @@ public class Ohm1DApplication extends JApplet {
 
         Image coreThumbnail = loader.loadBufferedImage( "ohm-1d/images/ron/CoreCountImage.gif" );
         CoreCountSlider is = new CoreCountSlider( 3, maxResistance, 6, SimStrings.get( "Ohm1dModule.CoreCountSliderName" ),
-                            coreThumbnail, SimStrings.get( "Ohm1dModule.CoreCountSliderUnits" ) );
+                                                  coreThumbnail, SimStrings.get( "Ohm1dModule.CoreCountSliderUnits" ) );
         is.addIntListener( resistance );
         is.addIntListener( current );
         is.addIntListener( filament );
@@ -566,7 +561,7 @@ public class Ohm1DApplication extends JApplet {
 //        URL fontLocation = loader.getResource( "fonts/SYLFAEN.TTF" );
         //URL fontLocation=loader.getResource("fonts/PAPYRUS.TTF");
 
-        Font sylfFont = new Font( "Lucida Sans",Font.PLAIN, 18);
+        Font sylfFont = new Font( "Lucida Sans", Font.PLAIN, 18 );
         sylfFont = font.deriveFont( Font.PLAIN, 44.2f );
 
         //System.err.println("Battx="+battX+", batty="+battY);
@@ -620,7 +615,7 @@ public class Ohm1DApplication extends JApplet {
     }
 
     public static void main( String[] args ) throws Throwable {
-        SimStrings.init( args, localizedStringsPath );
+        SimStrings.getInstance().init( args, localizedStringsPath );
         new Ohm1DApplication().mainBAK();
     }
 
