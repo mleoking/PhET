@@ -28,7 +28,7 @@ public class Toolbox extends JToolBar {
         pressureButton.setText( SimStrings.get( "Toolbox.PressureButton" ) );
 
         DragButton btn = new DragButton( SimStrings.get( "Toolbox.DragButton" ) );
-        btn.setIcon(new ImageIcon( "images/thermometer.gif"));
+        btn.setIcon(new ImageIcon( "microwaves/images/thermometer.gif"));
         this.add( btn );
     }
 

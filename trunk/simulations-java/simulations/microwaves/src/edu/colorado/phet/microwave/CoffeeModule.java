@@ -37,7 +37,7 @@ public class CoffeeModule extends MicrowaveModule {
         super.init();
 
         // Put the coffee mug on the screen
-        BufferedImage mugBI = ImageLoader.fetchBufferedImage( "images/coffee-cup-2.gif" );
+        BufferedImage mugBI = ImageLoader.fetchBufferedImage( "microwaves/images/coffee-cup-2.gif" );
         Graphic mugGraphic = new ImageGraphic( mugBI, new Point2D.Double( 150, 120 ) );
         getApparatusPanel().addGraphic( mugGraphic, 10 );
 
