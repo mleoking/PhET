@@ -31,7 +31,7 @@ public class OverheatButton extends PNode {
         this.module = module;
         this.rampPhysicalModel = rampPhysicalModel;
         this.rampPanel = rampPanel;
-        ShadowHTMLGraphic shadowHTMLGraphic = new ShadowHTMLGraphic( TheRampStrings.getString( "overheated" ) );
+        ShadowHTMLGraphic shadowHTMLGraphic = new ShadowHTMLGraphic( TheRampStrings.getString( "message.overheated" ) );
         shadowHTMLGraphic.setColor( Color.red );
         shadowHTMLGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         addChild( shadowHTMLGraphic );

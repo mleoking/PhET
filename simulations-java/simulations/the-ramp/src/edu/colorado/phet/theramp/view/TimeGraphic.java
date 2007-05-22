@@ -34,7 +34,7 @@ public class TimeGraphic extends PNode implements ModelElement {
 
     public void stepInTime( double dt ) {
         double time = timeModel.getTime();
-        String text = MessageFormat.format( TheRampStrings.getString( "0.seconds" ), new Object[]{format.format( time )} );
+        String text = MessageFormat.format( TheRampStrings.getString( "readout.seconds" ), new Object[]{format.format( time )} );
         phetTextGraphic.setText( text );
     }
 }

@@ -94,7 +94,7 @@ public class SurfaceGraphic extends PNode {
         addChild( heightExtentGraphic );
 
 //        heightReadoutGraphic = new PText( rampPanel, new Font( "Lucida Sans", 0, 14 ), "h=0.0 m", Color.black, 1, 1, Color.gray );
-        heightReadoutGraphic = new PText( TheRampStrings.getString( "h.0.0.m" ) );
+        heightReadoutGraphic = new PText( TheRampStrings.getString( "indicator.height-zero" ) );
         heightReadoutGraphic.setFont( new LucidaSansFont( 18, true ) );
         heightReadoutGraphic.setPaint( SkyGraphic.lightBlue );
         addChild( heightReadoutGraphic );
@@ -269,7 +269,7 @@ public class SurfaceGraphic extends PNode {
         heightExtentGraphic.setVisible( ramp.getHeight() > 0.4 );
         double height = ramp.getHeight();
         String heightStr = new DecimalFormat( "0.0" ).format( height );
-        heightReadoutGraphic.setText( MessageFormat.format( TheRampStrings.getString( "h.0.m" ), new Object[]{heightStr} ) );
+        heightReadoutGraphic.setText( MessageFormat.format( TheRampStrings.getString( "indicator.height-meters" ), new Object[]{heightStr} ) );
 
         rampTickSetGraphic.update();
         angleGraphic.update();

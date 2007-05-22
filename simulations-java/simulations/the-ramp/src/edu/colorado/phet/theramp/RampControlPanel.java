@@ -32,7 +32,7 @@ public class RampControlPanel extends ControlPanel {
     public RampControlPanel( RampModule rampModule ) {
         super( rampModule );
         this.rampModule = rampModule;
-        JButton jb = new JButton( TheRampStrings.getString( "reset" ) );
+        JButton jb = new JButton( TheRampStrings.getString( "controls.reset" ) );
         jb.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
 
         jb.addActionListener( new ActionListener() {
@@ -139,7 +139,7 @@ public class RampControlPanel extends ControlPanel {
 
 
     protected void addWorkEnergyBarGraphControls() {
-        final JCheckBox energyBars = new JCheckBox( TheRampStrings.getString( "energy" ), true );
+        final JCheckBox energyBars = new JCheckBox( TheRampStrings.getString( "energy.energy" ), true );
         energyBars.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getModule().getRampPanel().setEnergyBarsVisible( energyBars.isSelected() );

@@ -44,7 +44,7 @@ public class RampPlotSet extends PNode {
         int plotInset = 2;
         int range = 30000;
         energyPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ),
-                                               TheRampStrings.getString( "energy" ), TheRampStrings.getString( "units.joules" ), plotY, plotHeight, false );
+                                               TheRampStrings.getString( "energy.energy" ), TheRampStrings.getString( "units.joules" ), plotY, plotHeight, false );
         addTimeSeries( energyPlot, new ValueAccessor.TotalEnergy( getLookAndFeel() ), "10000.00" ).setStroke( new BasicStroke( 4 ) );
         addTimeSeries( energyPlot, new ValueAccessor.ThermalEnergy( getLookAndFeel() ), "10000.00" );
         addTimeSeries( energyPlot, new ValueAccessor.PotentialEnergy( getLookAndFeel() ), "10000.00" );

@@ -24,7 +24,7 @@ public class YArrowSet extends AbstractArrowSet {
     public YArrowSet( final RampPanel component, BlockGraphic blockGraphic ) {
         super( component, blockGraphic );
         RampLookAndFeel ralf = new RampLookAndFeel();
-        String sub = TheRampStrings.getString( "y" );
+        String sub = TheRampStrings.getString( "coordinates.y" );
         final RampPhysicalModel rampPhysicalModel = component.getRampModule().getRampPhysicalModel();
         ForceArrowGraphic forceArrowGraphic = new ForceArrowGraphic( component, APPLIED, ralf.getAppliedForceColor(), 0, new ForceComponent() {
             public Vector2D getForce() {

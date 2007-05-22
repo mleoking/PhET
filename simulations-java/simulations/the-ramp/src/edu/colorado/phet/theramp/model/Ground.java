@@ -52,7 +52,7 @@ public class Ground extends Surface {
     }
 
     public String getName() {
-        return TheRampStrings.getString( "ground" );
+        return getClass().getName();
     }
 
 }

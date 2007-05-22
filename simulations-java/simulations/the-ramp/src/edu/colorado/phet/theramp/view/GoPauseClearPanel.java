@@ -64,7 +64,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
                 }
             }
         } );
-        clearButton = new ControlButton( ( TheRampStrings.getString( "clear" ) ) );
+        clearButton = new ControlButton( ( TheRampStrings.getString( "controls.clear" ) ) );
         clearButton.setBackground( EarthGraphic.earthGreen );
         setBackground( EarthGraphic.earthGreen );
         clearButton.addActionListener( new ActionListener() {

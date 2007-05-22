@@ -55,7 +55,7 @@ public class PotentialEnergyZeroGraphic extends PNode {
         rampPhysicalModel.addListener( listener );
 
         //setCursorHand();
-        label = new PText( TheRampStrings.getString( "h" ) );
+        label = new PText( TheRampStrings.getString( "indicator.height-unknown" ) );
         addChild( label );
         label.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
 //        label.setLocation( 10, -label.getHeight() - 4 );
@@ -70,7 +70,7 @@ public class PotentialEnergyZeroGraphic extends PNode {
 
     private void updateLabel() {
         String str = new DecimalFormat( "0.0" ).format( rampPhysicalModel.getZeroPointY() );
-        label.setText( MessageFormat.format( TheRampStrings.getString( "h.0.0.y.0" ), new Object[]{str} ) );
+        label.setText( MessageFormat.format( TheRampStrings.getString( "indicator.height" ), new Object[]{str} ) );
 //        label.setText( "y=0.0" );
     }
 
