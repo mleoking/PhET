@@ -383,6 +383,11 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
         public BufferedSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
             super( dynamicJFreeChartNode, seriesData );
+            dynamicJFreeChartNode.addBufferedImagePropertyChangeListener( new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    paintAll();
+                }
+            } );
         }
 
         public void dataAdded() {
@@ -437,14 +442,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
         private Point2D.Double getPoint( int index ) {
             return new Point2D.Double( getSeries().getX( index ).doubleValue(), getSeries().getY( index ).doubleValue() );
-        }
-
-        public void uninstall() {
-            super.uninstall();
-            //todo: this was causing an infinite loop in updateSeriesViews
-//            if( dynamicJFreeChartNode.isBuffered() != origStateBuffered ) {
-//                dynamicJFreeChartNode.setBuffered( origStateBuffered );
-//            }
         }
 
         public void install() {
