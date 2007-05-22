@@ -7,6 +7,16 @@
     include_once("sys-utils.php"); 
     include_once("sim-utils.php");  
     
+    function contribution_extract_original_file_name($contribution_file_url) {
+        $basename = basename($contribution_file_url);
+        
+        $matches = array();
+        
+        preg_match('/php.*_(.+)/i', $basename, $matches);
+        
+        return $matches[1];
+    }
+    
     function contribution_get_files_listing_html($contribution_id) {
         $files_html = '<ul>';
         
@@ -157,6 +167,50 @@ EOT;
 EOT;
     }
     
+    function contribution_add_all_form_files_to_contribution($contribution_id) {
+        if (isset($_FILES['contribution_file_url'])) {
+            $file = $_FILES['contribution_file_url'];
+        }
+        else if (isset($_FILES['MF__F_0_0'])) {
+            $file = $_FILES['MF__F_0_0'];
+        }
+        else {
+            return false;
+        }
+
+        $name     = $file['name'];
+        $type     = $file['type'];
+        $tmp_name = $file['tmp_name'];
+        $error    = $file['error'] !== 0;
+        
+        if (!$error) {
+            contribution_add_new_file_to_contribution($contribution_id, $tmp_name, $name);
+        }
+        
+        for ($i = 1; true; $i++) {
+            $file_key = "MF__F_0_$i";
+
+            if (!isset($_FILES[$file_key])) {            
+                break;
+            }
+            else {
+                $file = $_FILES[$file_key];
+
+                $name     = $file['name'];
+                $type     = $file['type'];
+                $tmp_name = $file['tmp_name'];
+                $error    = $file['error'] !== 0;
+
+                if (!$error){                
+                    contribution_add_new_file_to_contribution($contribution_id, $tmp_name, $name);
+                }
+                else {
+                    // Some error occurred; maybe user cancelled file
+                }
+            }
+        }
+    }
+    
     function contribution_print_full_edit_form($contribution_id, $script, $referrer, $optional_message = null) {
         $contribution = contribution_get_contribution_by_id($contribution_id);
         
@@ -178,8 +232,6 @@ EOT;
             $contribution_keywords = $simulation['sim_keywords'];
         }
         
-        $files_html = contribution_get_files_listing_html($contribution_id);
-        
         //$simulations_html = contribution_get_simulations_listing_html($contribution_id);
             
         
@@ -188,7 +240,7 @@ EOT;
         
 
         print <<<EOT
-            <form id="contributioneditform" method="post" action="$script">
+            <form id="contributioneditform" method="post" action="$script" enctype="multipart/form-data">
                 <fieldset>
                     <legend>Required</legend>
 EOT;
@@ -198,46 +250,44 @@ EOT;
         }
         
         print <<<EOT
-                    <h3>Submitter</h3>
-                    
-                    <label for="contribution_authors">
+                    <label for="contribution_authors" class="required">
                         authors:
                         
                         <input type="text" name="contribution_authors"
                             value="$contribution_authors" tabindex="1" id="contribution_authors" size="50" />
                     </label>
 
-                    <label for="contribution_authors_organization">
+                    <label for="contribution_authors_organization" class="required">
                         organization:
                         
                         <input type="text" name="contribution_authors_organization" 
                             value="$contribution_authors_organization" tabindex="1" id="contribution_authors_organization" size="50"/>
                     </label>
                     
-                    <label for="contribution_contact_email">
+                    <label for="contribution_contact_email" class="required">
                         contact email:
                         
                         <input type="text" name="contribution_contact_email" 
                             value="$contribution_contact_email" tabindex="1" id="contribution_contact_email" size="50"/>
                     </label>
 
-                    <h3>Submission</h3>                    
+                    <hr/>              
                     
-                    <label for="contribution_title">
+                    <label for="contribution_title" class="required">
                         title:
                         
                         <input type="text" name="contribution_title" 
                             value="$contribution_title" tabindex="1" id="contribution_title" size="50"/>
                     </label>
                     
-                    <label for="contribution_keywords">
+                    <label for="contribution_keywords" class="required">
                         keywords:
                         
                         <input type="text" name="contribution_keywords"
                             value="$contribution_keywords" tabindex="3" id="contribution_keywords" size="50" />
                     </label>
                     
-                    <h3>Simulations</h3>
+                    <hr/>
 
                     <p>Choose the simulations that the contribution was designed for:</p>
 EOT;
@@ -248,7 +298,7 @@ EOT;
         );
                     
         print <<<EOT
-                    <h3>Classification</h3>
+                    <hr/>
                     
                     <p>Choose the type of contribution:</p>
                     
@@ -266,12 +316,16 @@ EOT;
         );
 
         print <<<EOT
-                    <h3>Files</h3>
+                    <hr/>
                     
                     <p>Remove existing files from the contribution:</p>
-                    
-                    $files_html
-                    
+EOT;
+    
+        print_deletable_list(
+            contribution_get_contribution_file_names($contribution_id)
+        );
+    
+        print <<<EOT
                     <p>Add any number of files to the contribution:</p>
                     
                     <input type="file" name="contribution_file_url" class="multi" />
@@ -385,6 +439,48 @@ EOT;
         }
         
         print "<li><a href=\"$contribution_link\">$contribution_title</a> - ($view$edit$delete$approve)</li>";        
+    }
+
+    function contribution_get_contribution_file_names($contribution_id) {
+        $contribution_file_names = array();
+        
+        $contribution_files = contribution_get_contribution_files($contribution_id);
+        
+        foreach($contribution_files as $contribution_file) {
+            $name = create_deletable_item_control_name('contribution_file_url', $contribution_file['contribution_file_id']);
+            
+            $original_file_name = contribution_extract_original_file_name($contribution_file['contribution_file_url']);
+            
+            $contribution_file_names[$name] = $original_file_name;
+        }
+        
+        return $contribution_file_names;
+    }
+    
+    function contribution_delete_contribution_file($contribution_file_id) {
+        $condition = array( 'contribution_file_id' => $contribution_file_id );
+        
+        delete_row_from_table('contribution_file', $condition);
+        
+        return true;
+    }
+    
+    function contribution_delete_all_files_not_in_list($contribution_id, $files_to_keep) {
+        $all_files = array();
+
+        $contribution_files = contribution_get_contribution_files($contribution_id);
+        
+        foreach($contribution_files as $contribution_file) {
+            $all_files[] = $contribution_file['contribution_file_id'];
+        }
+        
+        $files_to_delete = array_diff($all_files, $files_to_keep);
+        
+        foreach($files_to_delete as $file_to_delete) {
+            contribution_delete_contribution_file($file_to_delete);
+        }
+        
+        return true;
     }
     
     function contribution_get_contribution_files($contribution_id) {

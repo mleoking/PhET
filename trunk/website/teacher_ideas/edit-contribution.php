@@ -20,12 +20,20 @@
 
         contribution_unassociate_contribution_with_all_simulations($contribution_id);
         
+        $files_to_keep = array();
+        
         // Now have to process multiselect controls:
         foreach($_REQUEST as $key => $value) {
             $matches = array();
             
             if (is_multiple_selection_control("$key")) {
                 contribution_create_multiselect_association($contribution_id, $key, $value);
+            }
+            else if (is_deletable_item_control("$key")) {
+                // We have to keep a file; extract the ID from the name:
+                $contribution_file_id = get_deletable_item_control_id("$key");
+                
+                $files_to_keep[] = "$contribution_file_id";
             }
             else if (preg_match('/sim_id_([0-9]+)/i', "$key", $matches) == 1) {
                 $sim_id = $matches[1];
@@ -42,6 +50,25 @@
                 'contribution_standards_compliance' => $standards_compliance
             )
         );
+        
+        // Automatically approve 'edited' submission:
+        contribution_set_approved($contribution_id, true);
+        
+        // Handle files:
+        
+        // First, delete all files we aren't supposed to keep:
+        contribution_delete_all_files_not_in_list($contribution_id, $files_to_keep);
+        
+        // Second, add all new files:
+        contribution_add_all_form_files_to_contribution($contribution_id);
+    }
+    
+    function print_content_no_contribution_specified() {
+        print <<<EOT
+            <h1>No Contribution Specified</h1>
+            
+            No contribution has been specified.
+EOT;
     }
     
     function print_content_no_permission() {
@@ -90,21 +117,25 @@ EOT;
         $sim_id = $_REQUEST['sim_id'];
     }
     
-    $contribution_id = $_REQUEST['contribution_id'];
-    
-    if (isset($_REQUEST['action'])) {
-        handle_action($_REQUEST['action']);
+    if (!isset($_REQUEST['contribution_id'])) {
+        print_site_page('print_content_no_contribution_specified', 3);
     }
+    else {    
+        $contribution_id = $_REQUEST['contribution_id'];
     
-    $contribution = gather_script_params_into_array('contribution_');   
+        if (isset($_REQUEST['action'])) {
+            handle_action($_REQUEST['action']);
+        }
     
-    if (contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {    
-        update_contribution($contribution);
+        $contribution = gather_script_params_into_array('contribution_');   
+    
+        if (contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {    
+            update_contribution($contribution);
         
-        print_site_page('print_content', 3);
+            print_site_page('print_content', 3);
+        }
+        else {
+            print_site_page('print_content_no_permission', 3);
+        }
     }
-    else {
-        print_site_page('print_content_no_permission', 3);
-    }
-
 ?>

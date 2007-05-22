@@ -443,15 +443,43 @@ EOT;
     }
     
     function is_multiple_selection_control($control_name) {
-        if (preg_match('/multiselect_([a-zA-Z0-9_]+)_id_[0-9]+$/i', $control_name) == 1) {
+        if (preg_match('/multiselect_([a-zA-Z0-9_]+)_id_([0-9]+)$/i', $control_name) == 1) {
             return true;
         }
         else {
             return false;
         }
     }
+    
+    function create_deletable_item_control_name($name, $id) {
+        return "keep_${name}_id_${id}";
+    }
 
-    function print_multiple_selection($options_array, $selections_array = array(), $name_prefix = "ms") {
+    function get_deletable_item_control_id($control_name) {
+        $matches = array();
+        
+        if (preg_match('/keep_([a-zA-Z0-9_]+)_id_([0-9]+)$/i', $control_name, $matches) == 1) {
+            return $matches[2];
+        }
+        else {
+            return false;
+        }
+    }
+    
+    function is_deletable_item_control($control_name) {
+        if (preg_match('/keep_([a-zA-Z0-9_]+)_id_([0-9])+$/i', $control_name) == 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }    
+
+    function print_deletable_list($selections_array) {
+        print_multiple_selection($selections_array, $selections_array, false, $name_prefix = "dl");
+    }
+
+    function print_multiple_selection($options_array, $selections_array = array(), $print_select = true, $name_prefix = "ms") {
         static $has_printed_javascript = false;
         static $ms_id_num = 1;
         
@@ -553,13 +581,18 @@ EOT;
             <ul id="$list_id">
                 $selections
             </ul>
-                        
-            <select name="$select_name" id="$select_id" 
-                        onclick="ms_on_change('$name',  '$list_id', this.form.$select_name);" 
-                        onchange="ms_on_change('$name', '$list_id', this.form.$select_name);">
-                $options
-            </select>
 EOT;
+        
+        if ($print_select) {
+            print <<<EOT
+                        
+                <select name="$select_name" id="$select_id" 
+                            onclick="ms_on_change('$name',  '$list_id', this.form.$select_name);" 
+                            onchange="ms_on_change('$name', '$list_id', this.form.$select_name);">
+                    $options
+                </select>
+EOT;
+        }
     }
     
     function print_single_selection($select_name, $value_to_text, $selected) {

@@ -154,26 +154,35 @@ table td.smartClient,table th.smartClient {
 }
 #contributioneditform legend {
     font-weight:bold;
-    font-size:9pt;
+    font-size: 14pt;
 }
 #contributioneditform label, p {
     display:		block;
 	clear:			right;
-    padding-top:    5px;
+    padding-top:    0px;
 	padding-bottom: 0px;
 }
 #contributioneditform input, textarea {
-    margin-right:20px;
-    border:1px solid #999999;
-    float:right;
-    clear:right;
-    background:#CCCCCC;
+    margin-right:	20px;
+    border:			1px solid #999999;
+    float:			right;
+    clear:			right;
+    background:		#CCCCCC;
+}
+#contributioneditform hr {
+	height: 1px;
+    background:#E6E6FA;
+    margin: 20px 150px 10px 150px;    
 }
 #contributioneditform input:focus,#loginform input:hover {
 	border:1px solid #333333;
 }
-#contributioneditform .error{
+#contributioneditform .error {
     color:red;
+    font-weight:bold;
+}
+#contributioneditform .required {
+    color:     #B22222;
     font-weight:bold;
 }
 
