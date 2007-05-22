@@ -108,10 +108,6 @@ public class MovingManModule extends Module {
 
     }
 
-//    public int getNumSmoothingPoints() {
-//        return movingManModel.getNumSmoothingPoints();
-//    }
-
     public void showMegaHelp() {
         showHelpImage( "moving-man/images/mm-mh.gif" );
     }
@@ -237,55 +233,12 @@ public class MovingManModule extends Module {
         final JComponent playbackPanel = movingManControlPanel.getPlaybackPanel();
         appPanel.add( playbackPanel, BorderLayout.CENTER );
         ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "moving-man/images/Phet-Flatirons-logo-3-small.jpg" ) );
-        final JLabel phetIconLabel = new JLabel( imageIcon );
-//        appPanel.add( phetIconLabel, BorderLayout.WEST );
         HelpPanel hp = new HelpPanel( this );
 
         appPanel.add( hp, BorderLayout.EAST );
-//        contentPanel.setsetAppControlPanel( appPanel );//todo fix
         contentPanel.setAppControlPanel( appPanel );
-//
-//        Component gp = parent.getGlassPane();
-//        if( gp instanceof JComponent ) {
-//            final JComponent glass = (JComponent)gp;
-//            glass.setLayout( null );
-//
-//            glass.add( phetIconLabel );
-//            glass.addComponentListener( new ComponentAdapter() {
-//                public void componentResized( ComponentEvent e ) {
-////                appPanel.setPreferredSize( new Dimension( jp.getWidth() - 2, appPanel.getPreferredSize().height ) );
-//                    phetIconLabel.reshape( 2, glass.getHeight() - 2, phetIconLabel.getPreferredSize().width, phetIconLabel.getPreferredSize().height );
-//                }
-//            } );
-//        }
-
         initMediaPanel = true;
     }
-
-//    private void initMediaPanel() {
-//        if( initMediaPanel ) {
-//            return;
-//        }
-//        final JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( getApparatusPanel() );
-//        JPanel jp = (JPanel)parent.getContentPane();
-//        ContentPanel contentPanel = (ContentPanel)jp;
-//        final JPanel appPanel = new JPanel( new GridBagLayout() );
-//        GridBagConstraints centerConstraints=new GridBagConstraints( 1,0,1,1,10,10,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 2,2,2,2),1,1 );
-//        final JComponent playbackPanel = movingManControlPanel.getPlaybackPanel();
-//        appPanel.add( playbackPanel, centerConstraints);
-//        ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "moving-man/images/Phet-Flatirons-logo-3-small.jpg" ) );
-//        final JLabel phetIconLabel = new JLabel( imageIcon );
-//        GridBagConstraints logoConstraints=new GridBagConstraints( 0,0,1,1,0,0,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 2,2,2,2),1,1 );
-//        GridBagConstraints helpConstraints=new GridBagConstraints( 1,0,1,1,0,0,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets( 2,2,2,2),1,1 );
-//
-//        appPanel.add( phetIconLabel, logoConstraints);
-//        HelpPanel hp = new HelpPanel( this );
-//
-//        appPanel.add( hp, helpConstraints);
-////        contentPanel.setsetAppControlPanel( appPanel );//todo fix
-//        contentPanel.setAppControlPanel( appPanel );
-//        initMediaPanel = true;
-//    }
 
     public ManGraphic getManGraphic() {
         return getMovingManApparatusPanel().getManGraphic();
@@ -351,26 +304,13 @@ public class MovingManModule extends Module {
 
 
     public void setReplayTime( double requestedTime ) {
-
 //        /**Find the position for the time.*/
-//        int timeIndex = getTimeIndex( requestedTime );
-//        movingManModel.setReplayTimeIndex( timeIndex );
         if( requestedTime < 0 || requestedTime > getTimeModel().getRecordTimer().getTime() ) {
             return;
         }
         else {
             getTimeModel().getPlaybackTimer().setTime( requestedTime );
-//            int timeIndex = getTimeIndex( requestedTime );
-//            if( timeIndex < movingManModel.getPositionDataSuite().numSmoothedPoints() && timeIndex >= 0 ) {
-//                double x = movingManModel.getPositionDataSuite().smoothedPointAt( timeIndex );
-//                getMan().setPosition( x );
-
             movingManModel.setReplayTime( requestedTime );
-
-//            }
-//            getPlotSet().cursorMovedToTime( requestedTime, timeIndex );
-//            getPlotSet().cursorMovedToTime( requestedTime, timeIndex );
-//            getPlotSet().cursorMovedToTime( requestedTime, timeIndex );
         }
     }
 
@@ -396,25 +336,6 @@ public class MovingManModule extends Module {
     public boolean isRecording() {
         return getTimeModel().isRecording();
     }
-
-//    public void cursorMovedToTime( double requestedTime ) {
-//        if( requestedTime < 0 || requestedTime > getTimeModel().getRecordTimer().getTime() ) {
-//            return;
-//        }
-//        else {
-//            getTimeModel().getPlaybackTimer().setTime( requestedTime );
-//            int timeIndex = getTimeIndex( requestedTime );
-//            if( timeIndex < movingManModel.getPositionDataSuite().numSmoothedPoints() && timeIndex >= 0 ) {
-//                double x = movingManModel.getPositionDataSuite().smoothedPointAt( timeIndex );
-//                getMan().setPosition( x );
-//            }
-//            getPlotSet().cursorMovedToTime( requestedTime, timeIndex );
-//        }
-//    }
-
-//    private int getTimeIndex( double requestedTime ) {
-//        return getTimeModel().getTimeIndex( requestedTime );
-//    }
 
     public void setManTransform( LinearTransform1d transform ) {
         getMovingManApparatusPanel().setManTransform( transform );
@@ -541,32 +462,9 @@ public class MovingManModule extends Module {
                 if( ok ) {
                     module.setRightDirPositive( !jcbmi.isSelected() );
                 }
-//                module.setRightDirPositive( !jcbmi.isSelected() );
             }
         } );
         miscMenu.add( jcbmi );
-
-//        miscMenu.addSeparator();
-//        final JCheckBoxMenuItem showVelocityVector = new JCheckBoxMenuItem( "Show Velocity", false );
-//        ActionListener velListener = new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                module.setShowVelocityVector( showVelocityVector.isSelected() );
-//            }
-//        };
-//        showVelocityVector.addActionListener( velListener );
-//        velListener.actionPerformed( null );
-//        miscMenu.add( showVelocityVector );
-
-//        final JCheckBoxMenuItem showAccVector = new JCheckBoxMenuItem( "Show Acceleration", false );
-//        ActionListener accListetner = new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                module.setShowAccelerationVector( showAccVector.isSelected() );
-//            }
-//        };
-//        showAccVector.addActionListener( accListetner );
-//        accListetner.actionPerformed( null );
-//        miscMenu.add( showAccVector );
-
         miscMenu.addSeparator();
         module.addBoundaryConditionButtons( miscMenu );
 
@@ -692,17 +590,6 @@ public class MovingManModule extends Module {
         else {
             module.setPaused( paused );
         }
-//
-//        int option = JOptionPane.showConfirmDialog( module.getApparatusPanel(),
-//                                                    SimStrings.get( "MMPlot.ClearConfirmText" ),
-//                                                    SimStrings.get( "MMPlot.ClearConfirmButton" ),
-//                                                    JOptionPane.YES_NO_CANCEL_OPTION );
-//        if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
-//            module.reset();
-//        }
-//        else if( option == JOptionPane.CANCEL_OPTION || option == JOptionPane.NO_OPTION ) {
-//            module.setPaused( paused );
-//        }
     }
 }
 
