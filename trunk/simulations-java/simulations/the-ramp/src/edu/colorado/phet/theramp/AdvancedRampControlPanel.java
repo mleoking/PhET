@@ -53,40 +53,40 @@ public class AdvancedRampControlPanel extends RampControlPanel {
 
         JPanel coordinatePanel = new VerticalLayoutPanel();
         final RampPanel rampPanel = module.getRampPanel();
-        final JCheckBox descartes = new JCheckBox( TheRampStrings.getString( "entire.vectors" ), rampPanel.isCartesianVisible() );
+        final JCheckBox descartes = new JCheckBox( TheRampStrings.getString( "coordinates.entire-vectors" ), rampPanel.isCartesianVisible() );
         descartes.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setCartesianArrowsVisible( descartes.isSelected() );
             }
         } );
-        final JCheckBox parallel = new JCheckBox( TheRampStrings.getString( "parallel.components" ), rampPanel.isParallelVisible() );
+        final JCheckBox parallel = new JCheckBox( TheRampStrings.getString( "coordinates.parallel-components" ), rampPanel.isParallelVisible() );
         parallel.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setParallelArrowsVisible( parallel.isSelected() );
             }
         } );
-        final JCheckBox perpendicular = new JCheckBox( TheRampStrings.getString( "perpendicular.components" ), rampPanel.isPerpendicularVisible() );
+        final JCheckBox perpendicular = new JCheckBox( TheRampStrings.getString( "coordinates.perpendicular-components" ), rampPanel.isPerpendicularVisible() );
         perpendicular.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setPerpendicularArrowsVisible( perpendicular.isSelected() );
             }
         } );
 
-        final JCheckBox x = new JCheckBox( TheRampStrings.getString( "x.components" ), rampPanel.isXVisible() );
+        final JCheckBox x = new JCheckBox( TheRampStrings.getString( "coordinates.x-components" ), rampPanel.isXVisible() );
         x.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setXArrowsVisible( x.isSelected() );
             }
         } );
 
-        final JCheckBox y = new JCheckBox( TheRampStrings.getString( "y.components" ), rampPanel.isYVisible() );
+        final JCheckBox y = new JCheckBox( TheRampStrings.getString( "coordinates.y-components" ), rampPanel.isYVisible() );
         y.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setYArrowsVisible( y.isSelected() );
             }
         } );
 
-        coordinatePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "coordinate.frames" ) ) );
+        coordinatePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "coordinates.frames" ) ) );
         coordinatePanel.add( descartes );
         coordinatePanel.add( parallel );
         coordinatePanel.add( perpendicular );
@@ -160,10 +160,10 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         super.addPositionAngleControls();
 
         GraphButtonSet graphButtonSet = new GraphButtonSet();
-        addAdvancedControl( graphButtonSet, TheRampStrings.getString( "graphs" ) );
+        addAdvancedControl( graphButtonSet, TheRampStrings.getString( "display.graphs" ) );
 
         JPanel controls = new InitialConditionPanel( module );
-        addAdvancedControl( controls, TheRampStrings.getString( "controls" ) );
+        addAdvancedControl( controls, TheRampStrings.getString( "controls.controls" ) );
 
 
         {
@@ -189,7 +189,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
 
     class GraphButtonSet extends VerticalLayoutPanel {
         public GraphButtonSet() {
-            setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "graphs" ) ) );
+            setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "display.graphs" ) ) );
             for( int i = 0; i < module.getRampPlotSet().numDataUnits(); i++ ) {
                 final RampPlotSet.DataUnit unit = module.getRampPlotSet().dataUnitAt( i );
                 final JCheckBox checkBox = new JCheckBox( unit.getFullName(), true );

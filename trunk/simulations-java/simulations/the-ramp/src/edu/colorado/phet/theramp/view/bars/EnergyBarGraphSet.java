@@ -16,7 +16,7 @@ import edu.colorado.phet.theramp.view.RampPanel;
 
 public class EnergyBarGraphSet extends BarGraphSet {
     public EnergyBarGraphSet( RampPanel rampPanel, RampPhysicalModel rampPhysicalModel, ModelViewTransform1D transform1D ) {
-        super( rampPanel, rampPhysicalModel, TheRampStrings.getString( "energy" ), transform1D );
+        super( rampPanel, rampPhysicalModel, TheRampStrings.getString( "energy.energy" ), transform1D );
         ValueAccessor[] energyAccess = new ValueAccessor[]{
                 new ValueAccessor.KineticEnergy( super.getLookAndFeel() ), new ValueAccessor.PotentialEnergy( getLookAndFeel() ),
                 new ValueAccessor.ThermalEnergy( getLookAndFeel() ), new ValueAccessor.TotalEnergy( getLookAndFeel() )

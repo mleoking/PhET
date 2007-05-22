@@ -93,7 +93,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             }
         } );
 
-        clear = new JButton( TheRampStrings.getString( "clear" ) );
+        clear = new JButton( TheRampStrings.getString( "controls.clear" ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.confirmAndApplyReset();

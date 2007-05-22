@@ -51,6 +51,6 @@ public class Ramp extends Surface {
     }
 
     public String getName() {
-        return TheRampStrings.getString( "ramp" );
+        return getClass().getName();
     }
 }

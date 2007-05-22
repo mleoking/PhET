@@ -32,7 +32,7 @@ public class SpeedReadoutGraphic extends PNode implements ModelElement {
 
     public void stepInTime( double dt ) {
         double value = rampPhysicalModel.getBlock().getVelocity();
-        String text = MessageFormat.format( TheRampStrings.getString( "0.m.s" ), new Object[]{format.format( value )} );
+        String text = MessageFormat.format( TheRampStrings.getString( "readout.velocity" ), new Object[]{format.format( value )} );
         phetTextGraphic.setText( text );
     }
 }

@@ -67,23 +67,23 @@ public class FreeBodyDiagram extends PNode {
         addChild( axes );
 //        axes.setVisible( false );
 
-        mg = new ForceArrow( this, laf.getWeightColor(), ( TheRampStrings.getString( "html.f.sub.g.html" ) ), new Vector2D.Double( 0, 80 ) );
+        mg = new ForceArrow( this, laf.getWeightColor(), ( TheRampStrings.getString( "force.subscript.gravity" ) ), new Vector2D.Double( 0, 80 ) );
         addForceArrow( mg );
 
-        normal = new ForceArrow( this, laf.getNormalColor(), ( TheRampStrings.getString( "html.f.sub.n.html" ) ), new Vector2D.Double( 0, 80 ) );
+        normal = new ForceArrow( this, laf.getNormalColor(), ( TheRampStrings.getString( "force.subscript.normal" ) ), new Vector2D.Double( 0, 80 ) );
         addForceArrow( normal );
 
-        appliedForce = new ForceArrow( this, laf.getAppliedForceColor(), ( TheRampStrings.getString( "html.f.sub.a.html" ) ), new Vector2D.Double() );
+        appliedForce = new ForceArrow( this, laf.getAppliedForceColor(), ( TheRampStrings.getString( "force.subscript.applied" ) ), new Vector2D.Double() );
         addForceArrow( appliedForce );
 
-        frictionForce = new ForceArrow( this, laf.getFrictionForceColor(), ( TheRampStrings.getString( "html.f.sub.f.html" ) ), new Vector2D.Double() );
+        frictionForce = new ForceArrow( this, laf.getFrictionForceColor(), ( TheRampStrings.getString( "force.subscript.friction" ) ), new Vector2D.Double() );
         addForceArrow( frictionForce );
 
-        netForce = new ForceArrow( this, laf.getNetForceColor(), ( TheRampStrings.getString( "html.f.sub.net.html" ) ), new Vector2D.Double() );
+        netForce = new ForceArrow( this, laf.getNetForceColor(), ( TheRampStrings.getString( "force.subscript.net" ) ), new Vector2D.Double() );
         addForceArrow( netForce );
         netForce.setVerticalOffset( -30 );
 
-        wallForce = new ForceArrow( this, laf.getWallForceColor(), ( TheRampStrings.getString( "html.f.sub.wall.html" ) ), new Vector2D.Double() );
+        wallForce = new ForceArrow( this, laf.getWallForceColor(), ( TheRampStrings.getString( "force.subscript.wall" ) ), new Vector2D.Double() );
         addForceArrow( wallForce );
         wallForce.setVerticalOffset( -30 );
 
