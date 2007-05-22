@@ -29,14 +29,13 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     private double PLAYBACK_FULL = 1.0;
 
     private JButton createButton( String name, String iconName ) {
+        return createButton( name, getIcon( iconName ) );
+    }
+
+    private JButton createButton( String name, ImageIcon icon ) {
         JButton button = null;
-        if( iconName != null ) {
-            String suffix = "24";
-//            if( lowRes() ) {
-//                suffix = "16";
-//            }
-            String iconLoc = "phetcommon/images/clock/" + iconName + suffix + ".gif";
-            button = new JButton( name, new ImageIcon( loadImage( iconLoc ) ) );
+        if( icon != null ) {
+            button = new JButton( name, icon );
 
             if( lowRes() ) {
                 button.setVerticalTextPosition( AbstractButton.BOTTOM );
@@ -54,21 +53,35 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         return button;
     }
 
+    private ImageIcon getIcon( String iconName ) {
+        String suffix = "24";
+//            if( lowRes() ) {
+//                suffix = "16";
+//            }
+        String iconLoc = "phetcommon/images/clock/" + iconName + suffix + ".gif";
+        ImageIcon imageIcon = new ImageIcon( loadImage( iconLoc ) );
+        return imageIcon;
+    }
+
     private boolean lowRes() {
         return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024;
     }
 
-
     public TimeSeriesPlaybackPanel( final TimeSeriesModel timeSeriesModel ) {
         this.timeSeriesModel = timeSeriesModel;
 
-        live = createButton( TimeseriesResources.getString( "go" ), "Play" );
+        live = createButton( TimeseriesResources.getString( "live-mode" ), "Play" );
         live.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startLiveMode();
             }
         } );
-        record = createButton( TimeseriesResources.getString( "record" ), "Play" );
+        try {
+            record = createButton( TimeseriesResources.getString( "record" ), new ImageIcon( ImageLoader.loadBufferedImage( "timeseries/images/icons/record24.gif" ) ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         record.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startRecording();
@@ -144,6 +157,10 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             }
         } );
         updateButtons();
+    }
+
+    public void removeLiveButton() {
+        remove( live );
     }
 
     private BufferedImage loadImage( String s ) {

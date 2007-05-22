@@ -106,6 +106,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
         init();
         timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( timeSeriesModel );
+        timeSeriesPlaybackPanel.removeLiveButton();
         energyPositionPlotFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "plots.energy-vs-position" ), false );
         energyPositionCanvas = new EnergyPositionPlotCanvas( this );
         energyPositionPlotFrame.setContentPane( energyPositionCanvas );
