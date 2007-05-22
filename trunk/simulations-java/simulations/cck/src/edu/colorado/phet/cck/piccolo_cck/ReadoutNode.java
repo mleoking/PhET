@@ -4,7 +4,7 @@ import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -22,7 +22,7 @@ import java.util.StringTokenizer;
  * Time: 3:17:14 PM
  */
 public class ReadoutNode extends PhetPNode {
-    private ShadowHTMLGraphic htmlNode;
+    private ShadowHTMLNode htmlNode;
     protected ICCKModule module;
     protected Branch branch;
     private JComponent panel;
@@ -37,7 +37,7 @@ public class ReadoutNode extends PhetPNode {
         this.panel = panel;
         this.formatter = formatter;
 
-        htmlNode = new ShadowHTMLGraphic( "" );
+        htmlNode = new ShadowHTMLNode( "" );
         htmlNode.setFont( font );
         Color foregroundColor = Color.black;
         Color backgroundColor = Color.yellow;

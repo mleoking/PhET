@@ -6,7 +6,7 @@ import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.theramp.timeseries_ramp.TimePoint;
 import edu.colorado.phet.theramp.timeseries_ramp.TimeSeries;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -98,27 +98,27 @@ public class TimeSeriesPNode {
     }
 
     private class HTMLLabel extends PNode {
-        private ShadowHTMLGraphic htmlGraphic;
+        private ShadowHTMLNode htmlNode;
         private ShadowPText valueGraphic;
         private PImage labelAsImage;
 
         public HTMLLabel( String html, Color color, Font defaultFont, int textInsetDY ) {
-            htmlGraphic = new ShadowHTMLGraphic( html );
+            htmlNode = new ShadowHTMLNode( html );
             valueGraphic = new ShadowPText();
             setPickable( false );
             setChildrenPickable( false );
-            htmlGraphic.setShadowOffset( 1, 1 );
-            htmlGraphic.setShadowColor( Color.darkGray );
-            htmlGraphic.setColor( color );
+            htmlNode.setShadowOffset( 1, 1 );
+            htmlNode.setShadowColor( Color.darkGray );
+            htmlNode.setColor( color );
             valueGraphic.setTextPaint( color );
-            htmlGraphic.setFont( defaultFont );
+            htmlNode.setFont( defaultFont );
             valueGraphic.setFont( defaultFont );
 
 //            addChild( htmlGraphic );
             addChild( valueGraphic );
-            valueGraphic.setOffset( htmlGraphic.getFullBounds().getWidth(), textInsetDY );
+            valueGraphic.setOffset( htmlNode.getFullBounds().getWidth(), textInsetDY );
 
-            Image im = htmlGraphic.toImage();
+            Image im = htmlNode.toImage();
             labelAsImage = new PImage( im );
             addChild( labelAsImage );
         }
@@ -128,14 +128,14 @@ public class TimeSeriesPNode {
         }
 
         public void setFont( Font font ) {
-            htmlGraphic.setFont( font );
+            htmlNode.setFont( font );
             valueGraphic.setFont( font );
             System.out.println( "TimeSeriesPNode$HTMLLabel.setFont" );
             System.err.println( "Not supported" );
         }
 
         public void setShadowOffset( int dx, int dy ) {
-            htmlGraphic.setShadowOffset( dx, dy );
+            htmlNode.setShadowOffset( dx, dy );
         }
     }
 

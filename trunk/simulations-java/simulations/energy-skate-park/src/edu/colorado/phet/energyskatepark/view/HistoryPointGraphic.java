@@ -2,7 +2,7 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.energyskatepark.model.HistoryPoint;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -26,7 +26,7 @@ public class HistoryPointGraphic extends PNode {
     private HistoryPoint historyPoint;
     private EnergySkateParkRootNode rootNode;
     private DecimalFormat formatter = new DecimalFormat( "0.00" );
-    private ShadowHTMLGraphic htmlGraphic;
+    private ShadowHTMLNode htmlNode;
     private String html = "";
     private boolean readoutVisible = false;
     private Paint paint = new Color( 220, 175, 250 );
@@ -40,12 +40,12 @@ public class HistoryPointGraphic extends PNode {
         path.setStroke( new BasicStroke( (float)( 1.0f * scale ) ) );
         path.setPaint( paint );
 
-        htmlGraphic = new ShadowHTMLGraphic( "" );
-        htmlGraphic.setShadowOffset( 1, 1 );
-        htmlGraphic.setShadowColor( Color.white );
-        htmlGraphic.setColor( Color.black );
+        htmlNode = new ShadowHTMLNode( "" );
+        htmlNode.setShadowOffset( 1, 1 );
+        htmlNode.setShadowColor( Color.white );
+        htmlNode.setColor( Color.black );
 
-        htmlGraphic.scale( scale );
+        htmlNode.scale( scale );
         PBasicInputEventHandler eventHandler = new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 toggleVisible();
@@ -57,7 +57,7 @@ public class HistoryPointGraphic extends PNode {
             }
         } );
         addInputEventListener( eventHandler );
-        htmlGraphic.addInputEventListener( eventHandler );
+        htmlNode.addInputEventListener( eventHandler );
         update();
     }
 
@@ -83,7 +83,7 @@ public class HistoryPointGraphic extends PNode {
                  "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
                  "</html>" );
         if( readoutVisible ) {
-            htmlGraphic.setHtml( html );
+            htmlNode.setHtml( html );
         }
         getReadoutGraphic().setVisible( readoutVisible );
         getReadoutGraphic().setPickable( readoutVisible );
@@ -97,6 +97,6 @@ public class HistoryPointGraphic extends PNode {
     }
 
     public PNode getReadoutGraphic() {
-        return htmlGraphic;
+        return htmlNode;
     }
 }

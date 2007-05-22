@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.bargraphs;
 
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
@@ -20,17 +20,17 @@ public class VerticalTextGraphic extends PNode {
     public VerticalTextGraphic( Font font, String text, Color color, Color outline ) {
         this.font = font;
         this.text = text;
-        ShadowHTMLGraphic phetTextGraphic = new ShadowHTMLGraphic( text );//, font, color, 1, 1, outline );
-        phetTextGraphic.setColor( color );
-        phetTextGraphic.setShadowColor( outline );
-        phetTextGraphic.setFont( font );
+        ShadowHTMLNode phetTextNode = new ShadowHTMLNode( text );//, font, color, 1, 1, outline );
+        phetTextNode.setColor( color );
+        phetTextNode.setShadowColor( outline );
+        phetTextNode.setFont( font );
 
-        double h = phetTextGraphic.getFullBounds().getHeight();
+        double h = phetTextNode.getFullBounds().getHeight();
 //        System.out.println( "h = " + h );
-        phetTextGraphic.translate( -3, -10 );
-        phetTextGraphic.rotate( -Math.PI / 2 );
+        phetTextNode.translate( -3, -10 );
+        phetTextNode.rotate( -Math.PI / 2 );
 
-        addChild( phetTextGraphic );
+        addChild( phetTextNode );
     }
 
     public String getText() {

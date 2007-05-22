@@ -18,11 +18,11 @@ import java.awt.*;
  * Draws html text with a drop shadow.
  */
 
-public class ShadowHTMLGraphic extends PNode {
+public class ShadowHTMLNode extends PNode {
     private HTMLNode htmlGraphic;
     private HTMLNode shadow;
 
-    public ShadowHTMLGraphic( String html ) {
+    public ShadowHTMLNode( String html ) {
         htmlGraphic = new HTMLNode( html );
         shadow = new HTMLNode( html );
         shadow.setHTMLColor( Color.black );
