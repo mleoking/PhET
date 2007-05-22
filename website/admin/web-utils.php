@@ -385,9 +385,16 @@ EOT;
        return $code;
     }
     
-    function print_string_encoded_checkbox($group_prefix, $encoded_string) {
+    function print_string_encoded_checkbox($group_prefix, $encoded_string, $read_only = false) {
         static $checkbox_id;
         static $last_group_prefix = null;
+        
+        if ($read_only) {
+            $read_only_status = 'onclick="javascript:return false;"';
+        }
+        else {
+            $read_only_status = '';
+        }
         
         if ($last_group_prefix !== $group_prefix) {
             $checkbox_id = 1;
@@ -406,7 +413,7 @@ EOT;
         }
         
         print <<<EOT
-        <input name="${prefix}" type="checkbox" id="${prefix}" value="${prefix}" $checked_status />
+        <input name="${prefix}" type="checkbox" id="${prefix}" value="${prefix}" $checked_status $read_only_status />
 EOT;
 
         $checkbox_id++;        
@@ -555,13 +562,18 @@ EOT;
 EOT;
     }
     
-    function print_single_selection($select_name, $value_to_text, $selected_text) {
+    function print_single_selection($select_name, $value_to_text, $selected) {
         print <<<EOT
             <select name="$select_name" id="${select_name}_uid">
 EOT;
 
         foreach($value_to_text as $value => $text) {
-            $is_selected = ($text == $selected_text) ? "selected=\"selected\"" : "";
+            if ($text == $selected || $value == $selected) {
+                $is_selected = 'selected="selected"';
+            }
+            else {
+                $is_selected = '';
+            }
             
             print <<<EOT
                 <option value="$value" $is_selected>$text</option>
@@ -578,7 +590,7 @@ EOT;
         
         print <<<EOT
             <input type="hidden"   name="$checkbox_name" value="0" />
-            <input type="checkbox" id="${checkbox_name}_uid" name="$checkbox_name" $is_checked>$checkbox_text</input>
+            <input type="checkbox" name="$checkbox_name" value="1" id="${checkbox_name}_uid" $is_checked>$checkbox_text</input>
 EOT;
     }
 
