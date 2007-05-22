@@ -198,17 +198,19 @@ public class GraphControlNode extends PNode {
 
     static class TextBox extends JPanel {
         private JTextField textField;
+        private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+        private SimulationVariable simulationVariable;
 
         public TextBox( String valueAbbreviation, final SimulationVariable simulationVariable ) {
+            this.simulationVariable = simulationVariable;
             add( new JLabel( valueAbbreviation + " =" ) );
             textField = new JTextField( "0.0", 6 );
             textField.setHorizontalAlignment( JTextField.RIGHT );
             add( textField );
             setBorder( BorderFactory.createLineBorder( Color.black ) );
-            final DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
             simulationVariable.addListener( new SimulationVariable.Listener() {
                 public void valueChanged() {
-                    textField.setText( decimalFormat.format( simulationVariable.getValue() ) );
+                    update();
                 }
             } );
             textField.addActionListener( new ActionListener() {
@@ -216,6 +218,11 @@ public class GraphControlNode extends PNode {
                     simulationVariable.setValue( Double.parseDouble( textField.getText() ) );
                 }
             } );
+            update();
+        }
+
+        private void update() {
+            textField.setText( decimalFormat.format( simulationVariable.getValue() ) );
         }
 
         public void setEditable( boolean editable ) {

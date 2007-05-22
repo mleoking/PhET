@@ -8,9 +8,9 @@ package edu.colorado.phet.rotation.tests;
  */
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.rotation.graphs.ControlGraph;
 import edu.colorado.phet.rotation.model.SimulationVariable;
-import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
