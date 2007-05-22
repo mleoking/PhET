@@ -17,6 +17,9 @@ Fixed: Bar Graph doesn't show negative values well.
 Fixed: Slow response time for zoom in/out on Bar Graph.
 Fixed: When zooming out the Bar Graph, Thermal energy doesn't scale properly.
 Fixed: Measuring tape doesn't scale during zoom in/out.
+Fixed: Floor still exists in space.
+Moved "Clear Heat" button from pie chart panel to above Friction Slider.
+Removed "Clear Heat" button from Friction advanced panel.
 
 2.01.01 (5-10-2007)
 Test build process.

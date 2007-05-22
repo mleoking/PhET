@@ -3,8 +3,8 @@ package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
@@ -39,7 +39,7 @@ public class Body implements Serializable {
 
     public static final List particles = new ArrayList();
 
-//    public static double DEFAULT_STICKINESS = 0.75;
+    //    public static double DEFAULT_STICKINESS = 0.75;
     public static double DEFAULT_STICKINESS = 0.9;
     public static double staticSticky = DEFAULT_STICKINESS;
 
@@ -77,7 +77,7 @@ public class Body implements Serializable {
         if( !isRestorePointSet() ) {
             setAngularVelocity( 0.0 );
             setVelocity( 0, 0 );
-            setPosition( 3+1.5, 6 );
+            setPosition( 3 + 1.5, 6 );
             particle.resetAngle();
         }
         else {
@@ -111,7 +111,7 @@ public class Body implements Serializable {
         particle.stepInTime( dt );
 
         updateStateFromParticle();
-        if( getY() < -0.1 && isFreeFallMode() ) {
+        if( getY() < -0.1 && isFreeFallMode() && Math.abs( getGravity() ) > 0 ) {
             setPosition( getX(), 0.1 );
         }
         for( int i = 0; i < listeners.size(); i++ ) {
