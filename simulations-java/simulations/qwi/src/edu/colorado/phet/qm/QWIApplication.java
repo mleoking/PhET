@@ -33,7 +33,7 @@ public class QWIApplication extends PiccoloPhetApplication {
     private IntensityModule intensityModule;
 
     public QWIApplication( String[] args ) {
-        super( args, QWIStrings.getString( "quantum.wave.interference" ), QWIStrings.getString( "quantum.wave.interference" ),
+        super( args, QWIStrings.getString( "qwi.name" ), QWIStrings.getString( "qwi.description" ),
                VERSION, new QWIFrameSetup() );
 //        super.setPhetLookAndFeel( new QWILookAndFeel());
 
@@ -41,7 +41,7 @@ public class QWIApplication extends PiccoloPhetApplication {
         addModule( intensityModule );
         addModule( new SingleParticleModule( QWIApplication.this, createClock() ) );
         addModule( new MandelModule( QWIApplication.this, createClock() ) );
-        JMenuItem save = new JMenuItem( QWIStrings.getString( "save.detectors.barriers" ) );
+        JMenuItem save = new JMenuItem( QWIStrings.getString( "menus.save" ) );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 QWIModule qwiModule = getActiveSchrodingerModule();
@@ -50,7 +50,7 @@ public class QWIApplication extends PiccoloPhetApplication {
         } );
         getPhetFrame().addFileMenuItem( save );
 
-        JMenuItem load = new JMenuItem( QWIStrings.getString( "load.detectors.barriers" ) );
+        JMenuItem load = new JMenuItem( QWIStrings.getString( "menus.load" ) );
         load.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {

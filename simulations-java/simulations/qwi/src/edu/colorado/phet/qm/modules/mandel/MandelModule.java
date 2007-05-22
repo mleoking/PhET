@@ -27,7 +27,7 @@ public class MandelModule extends QWIModule {
     private ArrayList listeners = new ArrayList();
 
     public MandelModule( QWIApplication app, IClock clock ) {
-        super( QWIStrings.getString( "2.lasers" ), app, clock );
+        super( QWIStrings.getString( "module.lasers" ), app, clock );
         splitModel = new MandelModel();
         setQWIModel( splitModel );
         mandelSchrodingerPanel = new MandelSchrodingerPanel( this );

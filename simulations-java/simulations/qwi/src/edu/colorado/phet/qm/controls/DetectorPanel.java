@@ -23,7 +23,7 @@ public class DetectorPanel extends VerticalLayoutPanel {
     public DetectorPanel( final QWIModule module ) {
         this.module = module;
         setFillNone();
-        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "detection" ) ) );
+        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "controls.detectors.title" ) ) );
         JButton removeAll = new JButton( QWIStrings.getString( "controls.barriers.remove-all" ) );
         removeAll.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

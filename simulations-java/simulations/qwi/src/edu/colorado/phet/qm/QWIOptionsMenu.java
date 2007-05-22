@@ -31,12 +31,12 @@ public class QWIOptionsMenu extends JMenu {
     private JCheckBoxMenuItem expectationValueYItem;
 
     public QWIOptionsMenu( final QWIModule qwiModule ) {
-        super( QWIStrings.getString( "options" ) );
+        super( QWIStrings.getString( "menus.options" ) );
         setMnemonic( 'o' );
         this.qwiModule = qwiModule;
 //        JCheckBoxMenuItem jCheckBoxMenuItem = new JCheckBoxMenuItem();
 
-        expectationValueXItem = new JCheckBoxMenuItem( QWIStrings.getString( "show.expectation.value.x" ) );
+        expectationValueXItem = new JCheckBoxMenuItem( QWIStrings.getString( "menus.show-expectation-x" ) );
         expectationValueXItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getSchrodingerPanel().getWavefunctionGraphic().setDisplayXExpectation( expectationValueXItem.isSelected() );
@@ -44,7 +44,7 @@ public class QWIOptionsMenu extends JMenu {
         } );
         add( expectationValueXItem );
 
-        expectationValueYItem = new JCheckBoxMenuItem( QWIStrings.getString( "show.expectation.value.y" ) );
+        expectationValueYItem = new JCheckBoxMenuItem( QWIStrings.getString( "menus.show-expectation-y" ) );
         expectationValueYItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getSchrodingerPanel().getWavefunctionGraphic().setDisplayYExpectation( expectationValueYItem.isSelected() );
@@ -52,7 +52,7 @@ public class QWIOptionsMenu extends JMenu {
         } );
         add( expectationValueYItem );
 
-        JMenuItem item = new JMenuItem( QWIStrings.getString( "resolution" ) );
+        JMenuItem item = new JMenuItem( QWIStrings.getString( "menus.resolution" ) );
         final ResolutionControl resolutionControl = new ResolutionControl( qwiModule );
         item.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

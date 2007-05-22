@@ -34,7 +34,7 @@ public class IntensityModule extends QWIModule {
     private boolean leftDetectorShouldBeEnabled = false;
 
     public IntensityModule( QWIApplication app, IClock clock ) {
-        this( QWIStrings.getString( "high.intensity" ), app, clock );
+        this( QWIStrings.getString( "module.high-intensity" ), app, clock );
     }
 
     protected IntensityModule( String name, PhetApplication app, IClock clock ) {

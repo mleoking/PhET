@@ -38,7 +38,7 @@ public class PlainFireButton extends PNode {
         this.gun = gun;
         this.fireParticle = fireParticle;
         icon = new PImage();
-        text = new ShadowPText( QWIStrings.getString( "fire1" ) );
+        text = new ShadowPText( QWIStrings.getString( "gun.FIRE" ) );
         text.setShadowOffset( 1, 1 );
         text.setShadowColor( Color.black );
         text.setFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );

@@ -128,7 +128,7 @@ public class QWIControlPanel extends ControlPanel {
         simulationPanel.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "simulation1" ) ) );
 
         final JSpinner gridWidth = new JSpinner( new SpinnerNumberModel( getDiscreteModel().getGridWidth(), 1, 1000, 10 ) );
-        gridWidth.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "resolution" ) ) );
+        gridWidth.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "menus.resolution" ) ) );
         gridWidth.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int val = ( (Integer)gridWidth.getValue() ).intValue();

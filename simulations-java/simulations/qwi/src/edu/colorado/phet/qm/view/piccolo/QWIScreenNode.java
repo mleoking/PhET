@@ -75,13 +75,13 @@ public class QWIScreenNode extends PNode {
     private PNode gunControlPanelPSwing;
     //    private String slowdownText = "Slowing down the simulation to observe faster phenomenon...";
     //    private String speedupText = "Speeding up the simulation to observe slower phenomenon...";
-    private String slowdownText = QWIStrings.getString( "slowing.down.time" );
-    private String speedupText = QWIStrings.getString( "speeding.up.time" );
+    private String slowdownText = QWIStrings.getString( "scale.slowing-down-time" );
+    private String speedupText = QWIStrings.getString( "scale.speeding-up-time" );
     private boolean rescaleWaveGraphic = false;
     private int cellSize = 8;
     private static final boolean FIXED_SIZE_WAVE = false;
-    private String zoomoutText = QWIStrings.getString( "zooming.out" );
-    private String zoominText = QWIStrings.getString( "zooming.in" );
+    private String zoomoutText = QWIStrings.getString( "scale.zooming-out" );
+    private String zoominText = QWIStrings.getString( "scale.zooming-in" );
     private PNode detectorScreenGraphics;
     private PNode potentialNode = new PNode();
 

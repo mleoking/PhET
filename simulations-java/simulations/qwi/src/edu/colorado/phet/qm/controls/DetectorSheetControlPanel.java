@@ -70,7 +70,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         } );
         setBrightness();
 
-        fadeCheckbox = new JCheckBox( QWIStrings.getString( "fade" ), getSchrodingerPanel().isFadeEnabled() );
+        fadeCheckbox = new JCheckBox( QWIStrings.getString( "screen.fade" ), getSchrodingerPanel().isFadeEnabled() );
         fadeCheckbox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 getSchrodingerPanel().setFadeEnabled( fadeCheckbox.isSelected() );
