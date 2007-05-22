@@ -20,10 +20,10 @@ public class DGParticleUnits extends ParticleUnits {
         setDt( new Value( 0.05, 0.10, QWIStrings.getString( "fs" ) ) );
 
         double s = 100.0;
-        setMinVelocity( new Value( 700 / s, s, QWIStrings.getString( "km.s" ) ) );
+        setMinVelocity( new Value( 700 / s, s, QWIStrings.getString( "gun.km-s" ) ) );
 //        setMaxVelocity( new Value( 1500 / s, s, "km/s" ) );
 //        setMaxVelocity( new Value( 1500 / s * 4.0 * 7360.0 / 6000.0, s, "km/s" ) );
-        setMaxVelocity( new Value( 1500 / s * 4.0 * 1840.0 / 6000.0, s, QWIStrings.getString( "km.s" ) ) );
+        setMaxVelocity( new Value( 1500 / s * 4.0 * 1840.0 / 6000.0, s, QWIStrings.getString( "gun.km-s" ) ) );
 
         DecimalFormat defaultFormat = new DecimalFormat( "0" );
         setVelocityFormat( defaultFormat );
