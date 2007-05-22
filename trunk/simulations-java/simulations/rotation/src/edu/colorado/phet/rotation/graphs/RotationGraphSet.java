@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation.graphs;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.SimulationVariable;
@@ -126,7 +127,7 @@ public class RotationGraphSet {
             }
         } );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
-            public void changed() {
+            public void cursorTimeChanged() {
                 cursorModel.setTime( jFreeChartCursorNode.getTime() );
             }
         } );
@@ -143,7 +144,7 @@ public class RotationGraphSet {
 //        rotationModel.getTimeSeriesModel().addPlaybackTimeChangeListener( );
         updateCursorVisible( jFreeChartCursorNode, rotationModel );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
-            public void changed() {
+            public void cursorTimeChanged() {
                 rotationModel.getTimeSeriesModel().setPlaybackMode();
                 rotationModel.getTimeSeriesModel().setPlaybackTime( jFreeChartCursorNode.getTime() );
             }

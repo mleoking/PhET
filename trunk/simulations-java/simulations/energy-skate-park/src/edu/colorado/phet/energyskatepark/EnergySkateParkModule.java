@@ -50,8 +50,6 @@ public class EnergySkateParkModule extends PiccoloModule {
     private double floorY = 0.0;
     private TimeSeriesPlaybackPanel timeSeriesPlaybackPanel;
     private EC3RecordableModel energyTimeSeriesModel;
-//    private JDialog chartFrame;
-//    private EnergyTimePlotCanvas energyTimePlotCanvas;
 
     private JDialog energyPositionPlotFrame;
     private EnergyPositionPlotCanvas energyPositionCanvas;
@@ -103,12 +101,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         barChartFrame.setSize( energyFrameWidth, 625 );
         barChartFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - energyFrameWidth, 0 );
 
-        energyVsTimePlot = new EnergyVsTimePlot( phetFrame, clock, energyModel );
-//        chartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
-//        energyTimePlotCanvas = new EnergyTimePlotCanvas( this );
-//        chartFrame.setContentPane( energyTimePlotCanvas );
-//        chartFrame.setSize( 800, chartFrameHeight );
-//        chartFrame.setLocation( 0, Toolkit.getDefaultToolkit().getScreenSize().height - chartFrame.getHeight() - 100 );
+        energyVsTimePlot = new EnergyVsTimePlot( phetFrame, clock, energyModel, timeSeriesModel );
 
         init();
         timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( timeSeriesModel );
@@ -375,7 +368,6 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void showNewEnergyVsTimePlot() {
         energyVsTimePlot.setVisible( true );
-
     }
 
     public static interface Listener {
