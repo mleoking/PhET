@@ -3,11 +3,8 @@ package edu.colorado.phet.energyskatepark.view;
 import java.awt.geom.Point2D;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Mar 16, 2007
- * Time: 12:44:54 PM
- * To change this template use File | Settings | File Templates.
+ * Author: Sam Reid
+ * Mar 16, 2007, 12:44:54 PM
  */
 public interface EnergySkateParkSplineEnvironment {
     void removeSpline( SplineNode splineNode );

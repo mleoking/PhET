@@ -3,14 +3,13 @@ package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
+import edu.colorado.phet.common.piccolophet.event.PanZoomWorldKeyHandler;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.model.*;
 import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
-import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
-import edu.colorado.phet.common.piccolophet.event.PanZoomWorldKeyHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -27,7 +26,6 @@ import java.util.Comparator;
  * User: Sam Reid
  * Date: Sep 21, 2005
  * Time: 3:06:51 AM
- *
  */
 
 public class EnergySkateParkSimulationPanel extends PhetPCanvas implements EnergySkateParkSplineEnvironment {
@@ -35,7 +33,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     private EnergySkateParkModel energySkateParkModel;
     private MultiKeyHandler multiKeyHandler = new MultiKeyHandler();
     private EnergySkateParkRootNode rootNode;
-    private double matchThresholdWorldCoordinates = 1.5*0.33;
+    private double matchThresholdWorldCoordinates = 1.5 * 0.33;
     private ArrayList listeners = new ArrayList();
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 25;
 
@@ -262,7 +260,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     public void attach( SplineNode splineNode, int index, SplineMatch match ) {
         TraversalState origState = getEnergySkateParkModel().getBody( 0 ).getTraversalState();
         boolean change = false;
-        boolean top = getEnergySkateParkModel().getBody( 0 ).isTop();
+        boolean rollerCoaster = getRollerCoaster( splineNode.getSpline(), match.getEnergySkateParkSpline() );
         if( getEnergySkateParkModel().getBody( 0 ).getSpline() == splineNode.getParametricFunction2D() || getEnergySkateParkModel().getBody( 0 ).getSpline() == match.getSplineGraphic().getParametricFunction2D() ) {
             change = true;
         }
@@ -293,7 +291,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
                 spline.addControlPoint( b.controlPointAt( i ) );
             }
         }
-        EnergySkateParkSpline energySkateParkSpline = new EnergySkateParkSpline( spline.getControlPoints()  );
+        EnergySkateParkSpline energySkateParkSpline = new EnergySkateParkSpline( spline.getControlPoints() );
+        energySkateParkSpline.setRollerCoasterMode( rollerCoaster );
         energySkateParkModel.addSplineSurface( energySkateParkSpline );
         addSplineGraphic( new SplineNode( this, energySkateParkSpline, this ) );
         System.out.println( "change = " + change );
@@ -301,6 +300,10 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
             TraversalState traversalState = energySkateParkModel.getBody( 0 ).getBestTraversalState( origState );
             energySkateParkModel.getBody( 0 ).setSpline( energySkateParkModel.getEnergySkateParkSpline( traversalState.getParametricFunction2D() ), traversalState.isTop(), traversalState.getAlpha() );
         }
+    }
+
+    private boolean getRollerCoaster( EnergySkateParkSpline s1, EnergySkateParkSpline s2 ) {
+        return s1.numControlPoints() > s2.numControlPoints() ? s1.isRollerCoasterMode() : s2.isRollerCoasterMode();
     }
 
     private void removeSplineGraphic( SplineNode splineNode ) {
@@ -420,7 +423,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         SplineNode splineNode = getSplineGraphic( createdSurface );
         PDimension delta = event.getCanvasDelta();
         rootNode.screenToWorld( delta );
-        splineNode.processExternalDragEvent( event,delta.width, delta.height );
+        splineNode.processExternalDragEvent( event, delta.width, delta.height );
     }
 
     public SplineNode getSplineGraphic( EnergySkateParkSpline createdSurface ) {
@@ -437,7 +440,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     public void setEnergyErrorVisible( boolean selected ) {
-        rootNode.setEnergyErrorVisible(selected);
+        rootNode.setEnergyErrorVisible( selected );
     }
 
     public boolean isEnergyErrorVisible() {
