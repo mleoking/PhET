@@ -120,7 +120,8 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         final JButton showChart = new JButton( EnergySkateParkStrings.getString( "plots.energy-vs-time" ) );
         showChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.setEnergyTimePlotVisible( true );
+//                module.setEnergyTimePlotVisible( true );
+                module.showNewEnergyVsTimePlot( );
             }
         } );
         chartPanel.add( showChart );
