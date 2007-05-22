@@ -179,8 +179,8 @@ public class ParticleUnits {
             setDt( new Value( 0.05, 0.10, QWIStrings.getString( "fs" ) ) );
 
             double s = 100.0;
-            setMinVelocity( new Value( 700 / s, s, QWIStrings.getString( "km.s" ) ) );
-            setMaxVelocity( new Value( 1500 / s, s, QWIStrings.getString( "km.s" ) ) );
+            setMinVelocity( new Value( 700 / s, s, QWIStrings.getString( "gun.km-s" ) ) );
+            setMaxVelocity( new Value( 1500 / s, s, QWIStrings.getString( "gun.km-s" ) ) );
 
             DecimalFormat defaultFormat = new DecimalFormat( "0" );
             setVelocityFormat( defaultFormat );
@@ -198,8 +198,8 @@ public class ParticleUnits {
             setMass( new Value( 0.000104539, 1.0 / 10000.0, QWIStrings.getString( "ev.fs.2.nm.2" ) ) );
 
             double s = 0.1;
-            setMinVelocity( new Value( 0.4 / s, s, QWIStrings.getString( "km.s" ) ) );
-            setMaxVelocity( new Value( 0.8 / s, s, QWIStrings.getString( "km.s" ) ) );
+            setMinVelocity( new Value( 0.4 / s, s, QWIStrings.getString( "gun.km-s" ) ) );
+            setMaxVelocity( new Value( 0.8 / s, s, QWIStrings.getString( "gun.km-s" ) ) );
 
             DecimalFormat defaultFormat = new DecimalFormat( "0.0" );
             setVelocityFormat( defaultFormat );
@@ -217,8 +217,8 @@ public class ParticleUnits {
             setMass( new Value( 0.000414741, 1.0 / 10000.0, QWIStrings.getString( "ev.fs.2.nm.2" ) ) );
 
             double s = 0.1;
-            setMinVelocity( new Value( 0.1 / s, s, QWIStrings.getString( "km.s" ) ) );
-            setMaxVelocity( new Value( 0.2 / s, s, QWIStrings.getString( "km.s" ) ) );
+            setMinVelocity( new Value( 0.1 / s, s, QWIStrings.getString( "gun.km-s" ) ) );
+            setMaxVelocity( new Value( 0.2 / s, s, QWIStrings.getString( "gun.km-s" ) ) );
 
             DecimalFormat defaultFormat = new DecimalFormat( "0.0" );
             setVelocityFormat( defaultFormat );

@@ -38,7 +38,7 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
     private static final double MAX_INTENSITY_READOUT = 40;
     private GunControlPanel gunControlPanel;
     private PSwing onPswing;
-    private PText onOffTextNode = new PText( QWIStrings.getString( "off" ) );
+    private PText onOffTextNode = new PText( QWIStrings.getString( "gun.off" ) );
 
     protected IntensitySlider getIntensitySlider() {
         return intensitySlider;
@@ -199,7 +199,7 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
         if( currentBeam != null ) {
             currentBeam.setHighIntensityModeOn( on );
         }
-        onOffTextNode.setText( on ? QWIStrings.getString( "on" ) : QWIStrings.getString( "off" ) );
+        onOffTextNode.setText( on ? QWIStrings.getString( "gun.on" ) : QWIStrings.getString( "gun.off" ) );
         onOffTextNode.setTextPaint( on ? Color.red : Color.black );
     }
 
