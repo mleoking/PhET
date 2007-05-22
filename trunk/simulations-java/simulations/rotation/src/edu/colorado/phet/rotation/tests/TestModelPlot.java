@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.rotation.graphs.ControlGraph;
 import edu.colorado.phet.rotation.model.RotationModel;
-import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 
 import javax.swing.*;
 import java.awt.*;

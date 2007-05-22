@@ -7,7 +7,7 @@ import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSetNode;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
-import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 
 import javax.swing.*;
 import java.awt.*;
