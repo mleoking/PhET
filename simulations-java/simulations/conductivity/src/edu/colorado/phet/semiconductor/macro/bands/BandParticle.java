@@ -4,9 +4,9 @@
 
 package edu.colorado.phet.semiconductor.macro.bands;
 
-import edu.colorado.phet.common.conductivity.math.PhetVector;
 import edu.colorado.phet.common.conductivity.model.ModelElement;
 import edu.colorado.phet.common.conductivity.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.semiconductor.macro.bands.states.MoveTo;
 import edu.colorado.phet.semiconductor.macro.bands.states.Speed;
 import edu.colorado.phet.semiconductor.macro.bands.states.Waiting;
@@ -31,8 +31,8 @@ public class BandParticle extends SimpleObservable
         }
     }
 
-    public PhetVector getPosition() {
-        return new PhetVector( x, y );
+    public Vector2D.Double getPosition() {
+        return new Vector2D.Double( x, y );
     }
 
     public double getX() {
@@ -69,14 +69,14 @@ public class BandParticle extends SimpleObservable
         state = state.stepInTime( this, d );
     }
 
-    public void setPosition( PhetVector phetvector ) {
+    public void setPosition( Vector2D.Double phetvector ) {
         x = phetvector.getX();
         y = phetvector.getY();
         updateObservers();
     }
 
     public double getDistanceFromOwnedSite() {
-        PhetVector phetvector = cell.getPosition();
+        Vector2D.Double phetvector = cell.getPosition();
         return getPosition().getSubtractedInstance( phetvector ).getMagnitude();
     }
 
@@ -88,7 +88,7 @@ public class BandParticle extends SimpleObservable
     }
 
     public void setX( double d ) {
-        setPosition( new PhetVector( d, getPosition().getY() ) );
+        setPosition( new Vector2D.Double( d, getPosition().getY() ) );
     }
 
     public void pairPropagate( BandParticle bandparticle, Speed speed ) {

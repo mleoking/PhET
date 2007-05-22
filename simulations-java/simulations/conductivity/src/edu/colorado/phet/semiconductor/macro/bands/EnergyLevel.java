@@ -101,7 +101,7 @@ public class EnergyLevel {
         bandparticle.setPosition( cellAt( 0 ).getPosition() );
         bandparticle1.setPosition( cellAt( 1 ).getPosition() );
         return ( new BandParticle[]{
-            bandparticle, bandparticle1
+                bandparticle, bandparticle1
         } );
     }
 

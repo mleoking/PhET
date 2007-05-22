@@ -12,7 +12,7 @@ import java.util.Random;
 //            DefaultBandSet, Band, EnergyLevel
 
 public class PhotoconductorBandSet extends DefaultBandSet {
-//    ConductorBandSet conductorBandSet;
+    //    ConductorBandSet conductorBandSet;
     boolean lightOn;
     int excitedCount;
     private MacroSystem macrosystem;

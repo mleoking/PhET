@@ -4,13 +4,14 @@
 
 package edu.colorado.phet.semiconductor;
 
-import edu.colorado.phet.common.conductivity.math.PhetVector;
 import edu.colorado.phet.common.conductivity.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
 import edu.colorado.phet.common.conductivity.view.graphics.ImageGraphic;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.conductivity.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -50,12 +51,12 @@ public class PhotonArrowGraphic
     }
 
     private void doUpdate() {
-        PhetVector position = new PhetVector( photon.getPosition() );
-        PhetVector velocity = photon.getVelocity();
+        Vector2D.Double position = new Vector2D.Double( photon.getPosition() );
+        AbstractVector2D velocity = photon.getVelocity();
         Point viewVelocity = transform.modelToViewDifferential( velocity.getX(), velocity.getY() );
-        PhetVector viewVelocityVector = new PhetVector( viewVelocity );
-        PhetVector positionViewVector = new PhetVector( transform.modelToView( position ) );
-//        PhetVector src = positionViewVector.getSubtractedInstance( viewVelocityVector.getInstanceForMagnitude( 25D ) );
+        Vector2D.Double viewVelocityVector = new Vector2D.Double( viewVelocity );
+        Vector2D.Double positionViewVector = new Vector2D.Double( transform.modelToView( position ) );
+//        Vector2D.Double src = positionViewVector.getSubtractedInstance( viewVelocityVector.getInstanceForMagnitude( 25D ) );
 //        ArrowShape arrowShape = new ArrowShape( src, positionViewVector, 10D, 10D, 3D );
         AffineTransform at = new AffineTransform();
         at.translate( positionViewVector.getX(), positionViewVector.getY() );

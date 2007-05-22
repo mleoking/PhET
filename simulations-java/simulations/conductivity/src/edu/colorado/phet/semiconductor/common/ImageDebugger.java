@@ -8,7 +8,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 17, 2006
  * Time: 9:43:01 AM
- *
  */
 
 public class ImageDebugger {

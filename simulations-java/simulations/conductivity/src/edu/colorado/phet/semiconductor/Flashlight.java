@@ -4,8 +4,8 @@
 
 package edu.colorado.phet.semiconductor;
 
-import edu.colorado.phet.common.conductivity.math.PhetVector;
 import edu.colorado.phet.common.conductivity.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class Flashlight extends SimpleObservable {
 
@@ -19,8 +19,8 @@ public class Flashlight extends SimpleObservable {
         return angle;
     }
 
-    public PhetVector getPosition() {
-        return new PhetVector( x, y );
+    public Vector2D.Double getPosition() {
+        return new Vector2D.Double( x, y );
     }
 
     public void setAngle( double d ) {

@@ -4,7 +4,8 @@
 
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.common.conductivity.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.semiconductor.macro.battery.Battery;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.circuit:
@@ -14,7 +15,7 @@ public class Circuit {
 
     public Circuit( double d, double d1 ) {
         circuit = new CompositeLinearBranch();
-        at = new PhetVector( d, d1 );
+        at = new Vector2D.Double( d, d1 );
     }
 
     public LinearBranch wireAt( int i ) {
@@ -22,7 +23,7 @@ public class Circuit {
     }
 
     public Wire wireTo( double d, double d1 ) {
-        PhetVector phetvector = new PhetVector( d, d1 );
+        Vector2D.Double phetvector = new Vector2D.Double( d, d1 );
         Wire wire = new Wire( at, phetvector );
         circuit.addBranch( wire );
         at = phetvector;
@@ -30,7 +31,7 @@ public class Circuit {
     }
 
     public Resistor resistorTo( double d, double d1 ) {
-        PhetVector phetvector = new PhetVector( d, d1 );
+        Vector2D.Double phetvector = new Vector2D.Double( d, d1 );
         Resistor resistor = new Resistor( at, phetvector );
         circuit.addBranch( resistor );
         at = phetvector;
@@ -38,7 +39,7 @@ public class Circuit {
     }
 
     public Battery batteryTo( double d, double d1 ) {
-        PhetVector phetvector = new PhetVector( d, d1 );
+        Vector2D.Double phetvector = new Vector2D.Double( d, d1 );
         Battery battery = new Battery( at, phetvector );
         circuit.addBranch( battery );
         at = phetvector;
@@ -53,7 +54,7 @@ public class Circuit {
         return circuit.numBranches();
     }
 
-    public PhetVector getPosition( double d ) {
+    public AbstractVector2D getPosition( double d ) {
         return circuit.getPosition( d );
     }
 
@@ -62,5 +63,5 @@ public class Circuit {
     }
 
     CompositeLinearBranch circuit;
-    PhetVector at;
+    Vector2D.Double at;
 }

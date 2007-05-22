@@ -4,13 +4,14 @@
 
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.common.conductivity.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 import java.awt.geom.GeneralPath;
 
 public class DoubleGeneralPath {
 
-    public DoubleGeneralPath( PhetVector phetvector ) {
+    public DoubleGeneralPath( Vector2D.Double phetvector ) {
         this( phetvector.getX(), phetvector.getY() );
     }
 
@@ -27,9 +28,13 @@ public class DoubleGeneralPath {
         return path;
     }
 
-    public void lineTo( PhetVector phetvector ) {
+    public void lineTo( Vector2D.Double phetvector ) {
         lineTo( phetvector.getX(), phetvector.getY() );
     }
 
     GeneralPath path;
+
+    public void lineTo( AbstractVector2D phetvector2 ) {
+        lineTo( phetvector2.getX(),phetvector2.getY() );
+    }
 }
