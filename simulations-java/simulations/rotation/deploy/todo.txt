@@ -3,10 +3,6 @@
 ################
 Charts:
 
-When paused, and simulation window resized, plots didn't redraw data.
-
-When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.
-
 Move charts, cursor, etc to jfreechart-phet directory?
 
 On rotational motion sim, lots of it worked well and looked good, but when showing acceleration a,
@@ -23,6 +19,8 @@ Consolidate MovingMan, Forces1D, Ramp, Rotation, Torque into a single codebase.
 
 When the time series is off-scale, dragging the slider doesn't immediately respond.
 Clicking on the slider thumb should set the current value, and allow immediate drags.
+
+When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.
 
 ################
 #           Postponed:

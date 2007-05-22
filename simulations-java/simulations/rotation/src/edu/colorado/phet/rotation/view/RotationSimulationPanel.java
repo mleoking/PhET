@@ -43,6 +43,7 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
         graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
         rotationPlayAreaNode = new RotationPlayAreaNode( rotationModule.getRotationModel() );
+        MovingManNode movingManNode=new MovingManNode(rotationModule.getRotationModel());
 
 //        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( rotationModule.getRotationModel().getTimeSeries(), 1000.0 );
         final TimeSeriesModel timeSeriesModel = rotationModule.getRotationModel().getTimeSeriesModel();
@@ -128,6 +129,7 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
         } );
         setAlignedLayout();
 
+//        addScreenChild( movingManNode);
 //        setZoomEventHandler( new PZoomEventHandler() );
     }
 

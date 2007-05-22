@@ -13,6 +13,7 @@ import edu.colorado.phet.common_movingman.view.graphics.mousecontrols.Translatio
 import edu.colorado.phet.common_movingman.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.movingman.plotdevice.PlotDevice;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 
@@ -25,6 +26,7 @@ import javax.swing.*;
 
 public class TestPlotDevice {
     public static void main( String[] args ) {
+        SimStrings.setStrings( "moving-man/localization/moving-man-strings");
         PhetLookAndFeel.setLookAndFeel();
         JFrame frame = new JFrame();
         frame.setSize( 800, 800 );
