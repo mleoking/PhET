@@ -27,7 +27,7 @@ public class RateExperimentsModule extends ComplexModule {
      *
      */
     public RateExperimentsModule() {
-        super( MRConfig.RESOURCES.getLocalizedString( "Module.RateExperimentsModuleTitle" ) );
+        super( MRConfig.RESOURCES.getLocalizedString( "module.rate-experiments" ) );
     }
 
     protected MRControlPanel createControlPanel() {

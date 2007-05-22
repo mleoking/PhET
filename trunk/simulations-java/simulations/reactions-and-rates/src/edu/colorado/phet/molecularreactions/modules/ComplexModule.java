@@ -52,7 +52,7 @@ public class ComplexModule extends MRModule {
      *
      */
     public ComplexModule() {
-        this( MRConfig.RESOURCES.getLocalizedString( "Module.complexModuleTitle" ) );
+        this( MRConfig.RESOURCES.getLocalizedString( "module.many-collisions" ) );
     }
 
     /**

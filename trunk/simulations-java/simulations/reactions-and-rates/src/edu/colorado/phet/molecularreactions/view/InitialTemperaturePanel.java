@@ -20,7 +20,7 @@ public class InitialTemperaturePanel extends JPanel {
         JLabel sliderLabel;
 
         slider      = new InitialTemperatureSlider();
-        sliderLabel = new JLabel( MRConfig.RESOURCES.getLocalizedString( "InitialTemperaturePanel.sliderLabel" ));
+        sliderLabel = new JLabel( MRConfig.RESOURCES.getLocalizedString( "temperature.initial" ));
 
         GridBagConstraints c = new GridBagConstraints();
 
