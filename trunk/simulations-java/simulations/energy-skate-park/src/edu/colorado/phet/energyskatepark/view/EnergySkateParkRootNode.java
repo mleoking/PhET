@@ -77,7 +77,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         screenBackground = new BackgroundScreenNode( simulationPanel, null, floorGraphic, this );
         zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( simulationPanel );
         offscreenManIndicator = new OffscreenManIndicator( simulationPanel, module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
-        gridNode = new GridNode();
+        gridNode = new GridNode( -50, 0, 100, 150, 1, 1 );
 
         final SurfaceObjectNode houseNode = new SurfaceObjectNode( SurfaceObjectNode.HOUSE_URL, 1.5, 10 );
         final SurfaceObjectNode mountainNode = new SurfaceObjectNode( SurfaceObjectNode.MOUNTAIN_URL, 1.5, 0.0 );
