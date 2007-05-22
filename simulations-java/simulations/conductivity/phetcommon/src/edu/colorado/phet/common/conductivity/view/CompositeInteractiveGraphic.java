@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.common.conductivity.view;
 
-import edu.colorado.phet.common.conductivity.util.MultiMap;
 import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
 import edu.colorado.phet.common.conductivity.view.graphics.bounds.Boundary;
+import edu.colorado.phet.common.phetcommon.util.MultiMap;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -81,7 +81,7 @@ public class CompositeInteractiveGraphic implements edu.colorado.phet.common.con
     }
 
     public void addGraphic( Graphic graphic, double layer ) {
-        this.graphicMap.add( new Double( layer ), graphic );
+        this.graphicMap.put( new Double( layer ), graphic );
     }
 
 }

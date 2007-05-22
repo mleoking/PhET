@@ -8,7 +8,6 @@ package edu.colorado.phet.common.conductivity.model;
 
 import edu.colorado.phet.common.conductivity.model.clock.AbstractClock;
 import edu.colorado.phet.common.conductivity.model.clock.ClockTickListener;
-import edu.colorado.phet.common.conductivity.model.command.CommandQueue;
 
 /**
  * This class is encompasses all the model elements in a physical system. It provides
@@ -20,16 +19,7 @@ import edu.colorado.phet.common.conductivity.model.command.CommandQueue;
  */
 public class BaseModel extends CompositeModelElement implements ClockTickListener {
 
-    // FixedClock owns the ModelElement it ticks to
-    private CommandQueue commandList = new CommandQueue();
-
     public BaseModel( AbstractClock clock ) {
-    }
-
-    //Not allowed to mess with the way we call our abstract method.
-    public final void stepInTime( double dt ) {
-        commandList.doIt();
-        super.stepInTime( dt );
     }
 
     public void clockTicked( AbstractClock c, double dt ) {
