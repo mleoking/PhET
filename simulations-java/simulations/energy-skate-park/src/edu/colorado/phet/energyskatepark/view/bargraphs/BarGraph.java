@@ -1,11 +1,16 @@
 package edu.colorado.phet.energyskatepark.view.bargraphs;
 
-import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearSlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
@@ -22,7 +27,6 @@ public class BarGraph extends PNode {
     private ShadowHTMLNode titleNode;
     private PNode backLayer = new PNode();
     private PNode barLayer = new PNode();
-    private ModelViewTransform1D transform1D;
     private double barChartHeight;
     private double barWidth;
     private double dw;
@@ -35,18 +39,16 @@ public class BarGraph extends PNode {
     private PPath background;
     private YAxis yAxis;
     private Variable[] variables;
+    private double scale = 1.0;
 
 
-    public BarGraph( String title, ModelViewTransform1D transform1D ) {
-        this.transform1D = transform1D;
-
+    public BarGraph( String title, double scale ) {
+        this.scale = scale;
         topY = 0;
         barChartHeight = 400;
         barWidth = 20;
         dw = 7;
-
         sep = barWidth + dw;
-
         titleNode = new ShadowHTMLNode( title );
         titleNode.setColor( Color.black );
         titleNode.setShadowColor( Color.blue );
@@ -91,25 +93,26 @@ public class BarGraph extends PNode {
         public Color getColor() {
             return color;
         }
+
+        public void setValue( double modelValue ) {
+            this.value = modelValue;
+        }
     }
 
-    public ModelViewTransform1D getTransform1D() {
-        return new ModelViewTransform1D( transform1D );
-    }
-
-    public void setTransform1D( ModelViewTransform1D modelViewTransform1D ) {
-        transform1D.setTransform( modelViewTransform1D );
-    }
-
-    public double getMaxDisplayableEnergy() {//todo: trace dependencies on this (nondynamic ones)
-        return Math.abs( transform1D.viewToModelDifferential( (int)( barChartHeight - topY ) ) );
+    public void setScale( double scale ) {
+        this.scale = scale;
+        for( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
+            BarGraphic2D barGraphic2D = (BarGraphic2D)barLayer.getChild( i );
+            barGraphic2D.setScale( scale );
+        }
+        update();
     }
 
     private void addBarGraphic( BarGraphic2D barGraphic ) {
         barLayer.addChild( barGraphic );
     }
 
-    protected void finishInit( Variable[] variables ) {
+    public void setVariables( Variable[] variables ) {
         this.variables = variables;
         double w = variables.length * ( sep + dw ) - sep;
         background = new PPath( new Rectangle2D.Double( 0, topY, 2 + w, 1000 ) );
@@ -125,10 +128,9 @@ public class BarGraph extends PNode {
         for( int i = 0; i < variables.length; i++ ) {
             final Variable variable = variables[i];
             int x = (int)( i * sep + dw );
-            System.out.println( "i=" + i + ", x = " + x );
-            final BarGraphic2D barGraphic = new BarGraphic2D( variable.getName(), transform1D,
+            final BarGraphic2D barGraphic = new BarGraphic2D( variable.getName(), scale,
                                                               variable.getValue(), x, (int)barWidth,
-                                                              (int)barChartHeight, dx, dy, variable.getColor(), new Font( "Lucida Sans", Font.BOLD, 14 ) );
+                                                              (int)barChartHeight, variable.getColor(), new Font( "Lucida Sans", Font.BOLD, 14 ) );
             addBarGraphic( barGraphic );
         }
         backLayer.addChild( titleNode );
@@ -137,6 +139,7 @@ public class BarGraph extends PNode {
                 update();
             }
         } );
+        update();
     }
 
     public void update() {
@@ -192,5 +195,47 @@ public class BarGraph extends PNode {
         public void setBarChartHeight( double baselineY ) {
             path.setPathTo( createShape() );
         }
+    }
+
+    public static void main( String[] args ) {
+        JFrame frame = new JFrame( "Test bar graph" );
+        JPanel contentPanel = new JPanel( new BorderLayout() );
+        JPanel controlPanel = new VerticalLayoutPanel();
+        PhetPCanvas phetPCanvas = new PhetPCanvas();
+        final BarGraph barGraph = new BarGraph( "bar graph", 400 );
+        final Variable variable = new Variable( "var 2", 0.5, Color.green );
+        barGraph.setVariables( new Variable[]{
+                new Variable( "var 1", 0, Color.blue ),
+                variable,
+                new Variable( "var 3", 0.9, Color.red )
+        } );
+        phetPCanvas.addScreenChild( barGraph );
+        frame.setContentPane( contentPanel );
+        contentPanel.add( phetPCanvas, BorderLayout.CENTER );
+
+        final LinearSlider linearSlider = new LinearSlider( -1, 1 );
+        linearSlider.setModelValue( 0.0 );
+        linearSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                variable.setValue( linearSlider.getModelValue() );
+                barGraph.update();
+            }
+        } );
+        contentPanel.add( controlPanel, BorderLayout.SOUTH );
+
+
+        final LinearSlider scale = new LinearSlider( 0, 2 );
+        scale.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                barGraph.setScale( scale.getModelValue() );
+            }
+        } );
+
+        controlPanel.add( linearSlider );
+        controlPanel.add( scale );
+
+        frame.setSize( 400, 600 );
+        frame.setVisible( true );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
 }

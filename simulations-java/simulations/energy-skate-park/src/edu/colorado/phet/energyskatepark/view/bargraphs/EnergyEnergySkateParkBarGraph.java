@@ -22,7 +22,7 @@ public class EnergyEnergySkateParkBarGraph extends EnergySkateParkBarGraph {
                 new ValueAccessor.TotalEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() )
         };
         Variable[] v = toVariableArray( energyAccess, energySkateParkModel );
-        finishInit( v );
+        setVariables( v );
     }
 
 

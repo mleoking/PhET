@@ -22,6 +22,6 @@ public class WorkEnergySkateParkBarGraph extends EnergySkateParkBarGraph {
 //            new ValueAccessor.AppliedWork( getLookAndFeel() )
         };
 
-        super.finishInit( toVariableArray( workAccess, energySkateParkModel ) );
+        super.setVariables( toVariableArray( workAccess, energySkateParkModel ) );
     }
 }
