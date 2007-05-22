@@ -53,10 +53,6 @@ public class BarGraphSuite extends PNode {
         return new TexturePaint( texture, new Rectangle2D.Double( 0, 0, 10, 10 ) );
     }
 
-    public double getMaxDisplayableEnergy() {
-        return energyBarGraph.getMaxDisplayableEnergy();
-    }
-
     public void setBarChartHeight( double barChartHeight ) {
         workBarGraph.setBarChartHeight( barChartHeight );
         energyBarGraph.setBarChartHeight( barChartHeight );
