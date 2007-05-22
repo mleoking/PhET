@@ -1,7 +1,7 @@
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
 
@@ -18,6 +18,7 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
     private boolean rollerCoaster;
     private boolean userControlled;
     private boolean interactive = true;
+    private transient ArrayList listeners = new ArrayList();
 
     public EnergySkateParkSpline( SerializablePoint2D[] controlPoints ) {
 //        this( new CubicSpline2D( controlPoints ) );
@@ -71,8 +72,11 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
     }
 
     public void setRollerCoasterMode( boolean selected ) {
-        this.rollerCoaster = selected;
-        parametricFunction2D.rollerCoasterMode = rollerCoaster;
+        if( selected != rollerCoaster ) {
+            this.rollerCoaster = selected;
+            parametricFunction2D.rollerCoasterMode = rollerCoaster;
+            notifyRollerCoasterModeChanged();
+        }
     }
 
     public boolean isRollerCoasterMode() {
@@ -156,6 +160,25 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
             }
         }
         return minY;
+    }
+
+
+    public static interface Listener {
+        void rollerCoasterModeChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    public void notifyRollerCoasterModeChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener)listeners.get( i ) ).rollerCoasterModeChanged();
+        }
     }
 
     public static class DefaultTrackSpline extends CubicSpline2D {
