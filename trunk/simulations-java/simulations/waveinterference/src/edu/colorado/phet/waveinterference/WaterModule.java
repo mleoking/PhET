@@ -33,7 +33,7 @@ public class WaterModule extends WaveInterferenceModule {
     }
 
     public WaterModule() {
-        super( WIStrings.getString( "water" ) );
+        super( WIStrings.getString( "module.water" ) );
         waveInterferenceModel = new WaterModel();
         waterSimulationPanel = new WaterSimulationPanel( this );
         waterControlPanel = new WaterControlPanel( this );

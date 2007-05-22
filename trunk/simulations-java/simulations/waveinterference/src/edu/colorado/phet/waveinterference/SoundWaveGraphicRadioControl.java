@@ -23,7 +23,7 @@ public class SoundWaveGraphicRadioControl extends VerticalLayoutPanelWithDisable
     public SoundWaveGraphicRadioControl( final SoundWaveGraphic soundWaveGraphic ) {
         this.soundWaveGraphic = soundWaveGraphic;
         ButtonGroup buttonGroup = new ButtonGroup();
-        grayscale = new JRadioButton( WIStrings.getString( "grayscale" ), soundWaveGraphic.isGrayscaleVisible() );
+        grayscale = new JRadioButton( WIStrings.getString( "sound.grayscale" ), soundWaveGraphic.isGrayscaleVisible() );
         grayscale.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 update();

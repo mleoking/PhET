@@ -35,7 +35,7 @@ public class DetectorSetControlPanel extends VerticalLayoutPanel {
         this.waveModel = waveModel;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         this.clock = clock;
-        JButton addDetector = new JButton( WIStrings.getString( "add.detector" ) );
+        JButton addDetector = new JButton( WIStrings.getString( "controls.add-detector" ) );
         addDetector.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 addIntensityReader( title );

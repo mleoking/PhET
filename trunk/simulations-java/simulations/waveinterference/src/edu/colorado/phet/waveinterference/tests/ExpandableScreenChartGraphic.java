@@ -32,7 +32,7 @@ public class ExpandableScreenChartGraphic extends PNode {
 
     public ExpandableScreenChartGraphic( PSwingCanvas pSwingCanvas, ScreenChartGraphic screenChart ) {
         this.screenChart = screenChart;
-        JButton showChart = new JButton( WIStrings.getString( "intensity.graph" ) );
+        JButton showChart = new JButton( WIStrings.getString( "chart.intensity-graph" ) );
         showChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setExpanded( true );

@@ -25,13 +25,13 @@ public class LaserWaveChartControl extends PNode {
 
     public LaserWaveChartControl( PSwingCanvas pSwingCanvas, final LaserWaveChartGraphic laserWaveChartGraphic ) {
         this.laserWaveChartGraphic = laserWaveChartGraphic;
-        curve = new JCheckBox( WIStrings.getString( "curve" ), laserWaveChartGraphic.isCurveVisible() );
+        curve = new JCheckBox( WIStrings.getString( "light.curve" ), laserWaveChartGraphic.isCurveVisible() );
         curve.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 laserWaveChartGraphic.setCurveVisible( curve.isSelected() );
             }
         } );
-        vectors = new JCheckBox( WIStrings.getString( "vectors" ), laserWaveChartGraphic.isVectorsVisible() );
+        vectors = new JCheckBox( WIStrings.getString( "light.vectors" ), laserWaveChartGraphic.isVectorsVisible() );
         vectors.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 laserWaveChartGraphic.setVectorsVisible( vectors.isSelected() );

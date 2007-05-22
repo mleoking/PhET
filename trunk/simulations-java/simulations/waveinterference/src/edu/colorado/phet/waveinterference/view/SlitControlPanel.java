@@ -34,7 +34,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         setBorder( BorderFactory.createEtchedBorder() );
         this.slitPotential = slitPotential;
         HorizontalLayoutPanel topPanel = new HorizontalLayoutPanel();
-        enableCheckBox = new JCheckBox( WIStrings.getString( "enabled" ), slitPotential.isEnabled() );
+        enableCheckBox = new JCheckBox( WIStrings.getString( "slit.enabled" ), slitPotential.isEnabled() );
         enableCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 slitPotential.setEnabled( enableCheckBox.isSelected() );
@@ -42,9 +42,9 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         } );
 
         ButtonGroup buttonGroup = new ButtonGroup();
-        final JRadioButton noBarrier = new JRadioButton( WIStrings.getString( "no.barrier" ), !slitPotential.isEnabled() );
-        final JRadioButton oneSlit = new JRadioButton( WIStrings.getString( "one.slit" ), slitPotential.isOneSlit() && slitPotential.isEnabled() );
-        final JRadioButton twoSlits = new JRadioButton( WIStrings.getString( "two.slits" ), slitPotential.isTwoSlits() && slitPotential.isEnabled() );
+        final JRadioButton noBarrier = new JRadioButton( WIStrings.getString( "controls.no-barrier" ), !slitPotential.isEnabled() );
+        final JRadioButton oneSlit = new JRadioButton( WIStrings.getString( "slit.one" ), slitPotential.isOneSlit() && slitPotential.isEnabled() );
+        final JRadioButton twoSlits = new JRadioButton( WIStrings.getString( "slit.two" ), slitPotential.isTwoSlits() && slitPotential.isEnabled() );
         buttonGroup.add( noBarrier );
         buttonGroup.add( oneSlit );
         buttonGroup.add( twoSlits );

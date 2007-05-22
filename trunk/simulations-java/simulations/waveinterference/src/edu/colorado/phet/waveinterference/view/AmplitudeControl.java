@@ -19,7 +19,7 @@ import javax.swing.event.ChangeListener;
 public class AmplitudeControl extends VerticalLayoutPanel {
     public AmplitudeControl( final Oscillator oscillator ) {
 
-        final ModelSlider amplitudeSlider = new ModelSlider( WIStrings.getString( "amplitude" ), "cm", 0, 2, oscillator.getAmplitude() );
+        final ModelSlider amplitudeSlider = new ModelSlider( WIStrings.getString( "readout.amplitude" ), "cm", 0, 2, oscillator.getAmplitude() );
         amplitudeSlider.setBorder( null );
         amplitudeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

@@ -52,7 +52,7 @@ public class SoundModule extends WaveInterferenceModule {
     }
 
     public SoundModule() {
-        super( WIStrings.getString( "sound" ) );
+        super( WIStrings.getString( "module.sound" ) );
         waveInterferenceModel = new SoundModel();
         soundModuleAudio = new SoundModuleAudio( waveInterferenceModel );
         soundSimulationPanel = new SoundSimulationPanel( this );

@@ -32,7 +32,7 @@ public class PlayAreaReducedScreenControlPanel extends PhetPNode {
     public PlayAreaReducedScreenControlPanel( LightSimulationPanel lightSimulationPanel, final ScreenNode screenNode ) {
         this.lightSimulationPanel = lightSimulationPanel;
         this.screenNode = screenNode;
-        JButton button = new JButton( WIStrings.getString( "show.screen" ) );
+        JButton button = new JButton( WIStrings.getString( "light.show-screen" ) );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 screenNode.setScreenEnabled( true );

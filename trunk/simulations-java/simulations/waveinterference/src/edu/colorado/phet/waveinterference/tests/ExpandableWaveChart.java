@@ -41,7 +41,7 @@ public class ExpandableWaveChart extends PNode {
 
     public ExpandableWaveChart( PSwingCanvas pSwingCanvas, WaveChartGraphic waveChartGraphic, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this.latticeScreenCoordinates = latticeScreenCoordinates;
-        JButton expand = new JButton( WIStrings.getString( "show.graph" ) );
+        JButton expand = new JButton( WIStrings.getString( "chart.show-graph" ) );
         expand.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setExpanded( true );

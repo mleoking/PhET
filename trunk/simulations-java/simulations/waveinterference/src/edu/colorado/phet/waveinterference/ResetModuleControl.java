@@ -18,7 +18,7 @@ public class ResetModuleControl extends JPanel {
 
     public ResetModuleControl( final WaveInterferenceModule module ) {
         this.module = module;
-        JButton resetAll = new JButton( WIStrings.getString( "reset.all" ) );
+        JButton resetAll = new JButton( WIStrings.getString( "controls.reset-all" ) );
         resetAll.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clearWave();

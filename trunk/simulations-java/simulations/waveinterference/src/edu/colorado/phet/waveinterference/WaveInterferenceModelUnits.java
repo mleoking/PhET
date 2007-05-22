@@ -10,7 +10,7 @@ package edu.colorado.phet.waveinterference;
 
 public class WaveInterferenceModelUnits {
 
-    private String distanceUnits = "m";
+    private String distanceUnits = "units.meters";
     private double physicalWidth = 1;
     private double physicalHeight = 1;
 

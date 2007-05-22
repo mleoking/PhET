@@ -20,7 +20,7 @@ public class ShowMarkersControl extends JPanel {
 
     public ShowMarkersControl( final SoundWaveGraphic soundWaveGraphic, final PressureWaveGraphic pressureWaveGraphic ) {
         this.soundWaveGraphic = soundWaveGraphic;
-        jCheckBox = new JCheckBox( WIStrings.getString( "show.markers" ), pressureWaveGraphic.getMarkersVisible() );
+        jCheckBox = new JCheckBox( WIStrings.getString( "controls.show-markers" ), pressureWaveGraphic.getMarkersVisible() );
         jCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 pressureWaveGraphic.setMarkersVisible( jCheckBox.isSelected() );
