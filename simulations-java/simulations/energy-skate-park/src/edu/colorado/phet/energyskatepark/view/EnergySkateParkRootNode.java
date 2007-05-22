@@ -20,6 +20,7 @@ import java.awt.event.ComponentListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -78,6 +79,17 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( simulationPanel );
         offscreenManIndicator = new OffscreenManIndicator( simulationPanel, module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
         gridNode = new GridNode( -50, 0, 100, 150, 1, 1 );
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void gravityChanged() {
+                HashMap map = new HashMap();
+                map.put( new Double( EnergySkateParkModel.G_SPACE ), Color.lightGray );
+                map.put( new Double( EnergySkateParkModel.G_JUPITER ), Color.white );
+                map.put( new Double( EnergySkateParkModel.G_MOON ), Color.lightGray );
+                Double key = new Double( module.getEnergySkateParkModel().getGravity() );
+                Paint paint = (Paint)( map.containsKey( key ) ? map.get( key ) : Color.black );
+                gridNode.setGridPaint( paint );
+            }
+        } );
 
         final SurfaceObjectNode houseNode = new SurfaceObjectNode( SurfaceObjectNode.HOUSE_URL, 1.5, 10 );
         final SurfaceObjectNode mountainNode = new SurfaceObjectNode( SurfaceObjectNode.MOUNTAIN_URL, 1.5, 0.0 );

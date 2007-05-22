@@ -16,10 +16,15 @@ import java.awt.geom.Line2D;
 
 public class GridNode extends PhetPNode {
     private static final String METERS = "0 meters";
+    private PNode lines = new PNode();
+    private PNode textLayer = new PNode();
+    private Paint gridPaint = null;
 
     public GridNode( double minX, double minY, double maxX, double maxY, double dx, double dy ) {
+        addChild( lines );
+        addChild( textLayer );
         for( double x = minX; x <= maxX; x += dx ) {
-            addChild( createXLineNode( minY, maxY, x ) );
+            lines.addChild( createXLineNode( minY, maxY, x ) );
             if( x % 2 == 0 ) {
                 String aText = "" + (int)x;
                 if( aText.equals( "0" ) ) {
@@ -31,11 +36,11 @@ public class GridNode extends PhetPNode {
                 text.setScale( 0.03f );
                 text.getTransformReference( true ).scale( 1, -1 );
 
-                addChild( text );
+                textLayer.addChild( text );
             }
         }
         for( double y = minY; y <= maxY; y += dy ) {
-            addChild( createYLineNode( minX, maxX, y ) );
+            lines.addChild( createYLineNode( minX, maxX, y ) );
             if( y % 2 == 0 ) {
                 String aText = "" + (int)y;
                 if( aText.equals( "0" ) ) {
@@ -45,11 +50,33 @@ public class GridNode extends PhetPNode {
                 text.setOffset( 0 + dx, y + dy );
                 text.setScale( 0.03f );
                 text.getTransformReference( true ).scale( 1, -1 );
-                addChild( text );
+                textLayer.addChild( text );
             }
         }
         setPickable( false );
         setChildrenPickable( false );
+    }
+
+    public void setGridPaint( Paint paint ) {
+        if( this.gridPaint == null || !this.gridPaint.equals( paint ) ) {
+            this.gridPaint = paint;
+            setLinePaint( paint );
+            setFontPaint( paint );
+        }
+    }
+
+    private void setFontPaint( Paint paint ) {
+        for( int i = 0; i < textLayer.getChildrenCount(); i++ ) {
+            PText t = (PText)textLayer.getChild( i );
+            t.setTextPaint( paint );
+        }
+    }
+
+    public void setLinePaint( Paint linePaint ) {
+        for( int i = 0; i < lines.getChildrenCount(); i++ ) {
+            PPath line = (PPath)lines.getChild( i );
+            line.setStrokePaint( linePaint );
+        }
     }
 
     public void setVisible( boolean isVisible ) {
