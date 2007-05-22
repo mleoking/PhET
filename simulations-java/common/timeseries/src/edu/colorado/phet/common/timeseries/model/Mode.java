@@ -64,13 +64,9 @@ public abstract class Mode {
 
         public void step( double dt ) {
             playbackTime += dt * playbackSpeed;
-            if( playbackTime > getTimeSeriesModel().getRecordTime() ) {
-                playbackTime = getTimeSeriesModel().getRecordTime();
-            }
-            if( playbackTime < getTimeSeriesModel().getRecordTime() ) {
-                getTimeSeriesModel().setPlaybackTime( playbackTime );
-            }
-            else {
+            playbackTime = Math.min( getTimeSeriesModel().getRecordTime(), playbackTime );
+            getTimeSeriesModel().setPlaybackTime( playbackTime );
+            if( playbackTime >= getTimeSeriesModel().getRecordTime() ) {
                 getTimeSeriesModel().setPaused( true );
             }
             notifyPlaybackTimeChanged();

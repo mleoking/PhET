@@ -45,7 +45,7 @@ public class TimeStateSeries {
         return pts.size();
     }
 
-    public java.lang.Object getTimeStateValue( double time ) {
+    public Object getTimeStateValue( double time ) {
         TimeState timeState = getTimeState( time );
         return timeState != null ? timeState.getValue() : null;
     }
@@ -54,9 +54,13 @@ public class TimeStateSeries {
         if( numPoints() == 0 ) {
             return new TimeState( null, 0 );
         }
-        TimeState[] timeStates = getNeighborsForTime( time, 0, numPoints() - 1, 0 );
+        TimeState[] timeStates = getNeighborsForTime( time, 0, numPoints() - 1 );
         TimeState lowerBound = timeStates[0];
         TimeState upperSample = timeStates[1];
+        boolean valid = lowerBound.getTime() <= time && upperSample.getTime() >= time;
+        if( !valid ) {
+            System.out.println( "requested time=" + time + ", lower bound=" + lowerBound.getTime() + ", upper bound=" + upperSample.getTime() + ", valid=" + valid );
+        }
 
         double lowerDist = Math.abs( lowerBound.getTime() - time );
         double upperDist = Math.abs( upperSample.getTime() - time );
@@ -68,7 +72,7 @@ public class TimeStateSeries {
         }
     }
 
-    private TimeState[] getNeighborsForTime( double time, int minIndex, int maxIndex, int debugDepth ) {
+    private TimeState[] getNeighborsForTime( double time, int minIndex, int maxIndex ) {
         return new TimeState[]{getLowerSample( time, minIndex, maxIndex, 0 ), getUpperSample( time, minIndex, maxIndex, 0 )};
     }
 

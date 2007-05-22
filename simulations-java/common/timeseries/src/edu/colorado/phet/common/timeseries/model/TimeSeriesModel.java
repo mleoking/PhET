@@ -50,6 +50,9 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void setPlaybackTime( double requestedTime ) {
+        if (requestedTime>getRecordTime()){
+            requestedTime=getRecordTime();
+        }
         if( requestedTime >= 0 && requestedTime <= getRecordTime() && numPlaybackStates() > 0 ) {
             playback.setTime( requestedTime );
             recordableModel.setState( series.getTimeStateValue( requestedTime ) );
