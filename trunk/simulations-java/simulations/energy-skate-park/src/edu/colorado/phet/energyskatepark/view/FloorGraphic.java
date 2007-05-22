@@ -30,6 +30,7 @@ public class FloorGraphic extends PNode {
         this.module = module;
         this.energySkateParkModel = energySkateParkModel;
         energySkateParkModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+
             public void gravityChanged() {
                 update();
             }
