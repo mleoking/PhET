@@ -23,7 +23,7 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         this.soundModule = soundModule;
 //        addControl( new ParticleSizeSliderControl( soundModule.getSoundWaveGraphic() ) );
         addControl( new MeasurementControlPanel( soundModule.getMeasurementToolSet() ) );
-        addControl( new DetectorSetControlPanel( WIStrings.getString( "pressure" ), soundModule.getIntensityReaderSet(), soundModule.getSoundSimulationPanel(), soundModule.getWaveModel(), soundModule.getLatticeScreenCoordinates(), soundModule.getClock() ) );
+        addControl( new DetectorSetControlPanel( WIStrings.getString( "readout.pressure" ), soundModule.getIntensityReaderSet(), soundModule.getSoundSimulationPanel(), soundModule.getWaveModel(), soundModule.getLatticeScreenCoordinates(), soundModule.getClock() ) );
 
         addControlFullWidth( new VerticalSeparator( PAD_FOR_RESET_BUTTON ) );
         addControl( new ResetModuleControl( soundModule ) );
@@ -38,7 +38,7 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         addControl( new ShowMarkersControl( soundModule.getSoundWaveGraphic(), soundModule.getSoundWaveGraphic().getPressureWaveGraphic() ) );
         addControlFullWidth( new VerticalSeparator( PAD_FOR_RESET_BUTTON ) );
 
-        multiOscillatorControlPanel = new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), WIStrings.getString( "speaker" ), soundModule.getScreenUnits() );
+        multiOscillatorControlPanel = new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), WIStrings.getString( "sound.speaker" ), soundModule.getScreenUnits() );
         addControl( multiOscillatorControlPanel );
         addControl( new SoundAudioControlPanel( soundModule.getAudioSubsystem() ) );
         addVerticalSpace();

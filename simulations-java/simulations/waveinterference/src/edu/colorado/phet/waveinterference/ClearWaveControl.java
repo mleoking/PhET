@@ -20,7 +20,7 @@ public class ClearWaveControl extends JPanel {
 
     public ClearWaveControl( WaveModel waveModel ) {
         this.waveModel = waveModel;
-        JButton clearWave = new JButton( WIStrings.getString( "clear.wave" ) );
+        JButton clearWave = new JButton( WIStrings.getString( "controls.clear-wave" ) );
         clearWave.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clearWave();

@@ -31,10 +31,10 @@ public class AudioControlPanel extends JPanel {
     private ArrayList listeners = new ArrayList();
 
     public AudioControlPanel() {
-        setBorder( BorderFactory.createTitledBorder( WIStrings.getString( "audio" ) ) );
+        setBorder( BorderFactory.createTitledBorder( WIStrings.getString( "sound.audio" ) ) );
 
         // Sound on/off
-        _soundCheckBox = new JCheckBox( WIStrings.getString( "sound" ) );
+        _soundCheckBox = new JCheckBox( WIStrings.getString( "module.sound" ) );
 
         // Min & max icon labels
         JLabel soundMinLabel, soundMaxLabel;

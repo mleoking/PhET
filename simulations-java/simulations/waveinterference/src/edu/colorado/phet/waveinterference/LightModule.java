@@ -45,7 +45,7 @@ public class LightModule extends WaveInterferenceModule {
     }
 
     public LightModule() {
-        super( WIStrings.getString( "light" ) );
+        super( WIStrings.getString( "module.light" ) );
         waveInterferenceModel = new LightModel();
         lightSimulationPanel = new LightSimulationPanel( this );
         lightControlPanel = new LightControlPanel( this );

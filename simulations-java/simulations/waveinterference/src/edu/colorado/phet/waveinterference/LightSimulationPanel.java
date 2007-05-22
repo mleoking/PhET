@@ -111,7 +111,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( 0, verticalConnector );
         verticalConnector.setConnectorWidth( 10 );
 
-        waveChartGraphic = new LaserWaveChartGraphic( this, WIStrings.getString( "electric.field" ), getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( waveModelGraphic.getColorMap().getRootColor() ),
+        waveChartGraphic = new LaserWaveChartGraphic( this, WIStrings.getString( "light.electric-field" ), getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( waveModelGraphic.getColorMap().getRootColor() ),
                                                       getWaveInterferenceModel().getDistanceUnits(), 0, getWaveInterferenceModel().getPhysicalWidth() );
 
         expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
@@ -128,7 +128,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() );
 
 //        screenChart = new ScreenChartGraphic( "Screen Chart", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ), screenNode.getBrightnessScreenGraphic() );
-        screenChart = new ScreenChartGraphic( WIStrings.getString( "screen.chart" ), getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ), screenNode.getBrightnessScreenGraphic() );
+        screenChart = new ScreenChartGraphic( WIStrings.getString( "light.screen-chart" ), getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ), screenNode.getBrightnessScreenGraphic() );
 
         expandableScreenChartGraphic = new ExpandableScreenChartGraphic( this, screenChart );
         expandableScreenChartGraphicContainer = new PhetPNode( expandableScreenChartGraphic );

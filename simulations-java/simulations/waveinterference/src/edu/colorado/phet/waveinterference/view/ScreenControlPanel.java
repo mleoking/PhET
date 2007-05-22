@@ -20,8 +20,8 @@ public class ScreenControlPanel extends VerticalLayoutPanel {
 
     public ScreenControlPanel( final ScreenNode screenNode ) {
         this.screenNode = screenNode;
-        setBorder( BorderFactory.createTitledBorder( WIStrings.getString( "screen" ) ) );
-        final JCheckBox enabled = new JCheckBox( WIStrings.getString( "show.screen" ), screenNode.isScreenEnabled() );
+        setBorder( BorderFactory.createTitledBorder( WIStrings.getString( "light.screen" ) ) );
+        final JCheckBox enabled = new JCheckBox( WIStrings.getString( "light.show-screen" ), screenNode.isScreenEnabled() );
         enabled.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 screenNode.setScreenEnabled( enabled.isSelected() );
@@ -30,13 +30,13 @@ public class ScreenControlPanel extends VerticalLayoutPanel {
         add( enabled );
 
         ButtonGroup buttonGroup = new ButtonGroup();
-        JRadioButton curveMode = new JRadioButton( WIStrings.getString( "curve" ), screenNode.isCurveMode() );
+        JRadioButton curveMode = new JRadioButton( WIStrings.getString( "light.curve" ), screenNode.isCurveMode() );
         curveMode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 screenNode.setCurveMode();
             }
         } );
-        JRadioButton intensityMode = new JRadioButton( WIStrings.getString( "intensity" ), screenNode.isIntensityMode() );
+        JRadioButton intensityMode = new JRadioButton( WIStrings.getString( "readout.intensity" ), screenNode.isIntensityMode() );
         intensityMode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 screenNode.setIntensityMode();

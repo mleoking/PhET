@@ -20,7 +20,7 @@ public class ReducedScreenControlPanel extends VerticalLayoutPanelWithDisable {
     //todo this isn't synchronized with other controllers (doesn't listen to changes in the model).
     public ReducedScreenControlPanel( final ScreenNode screenNode ) {
         this.screenNode = screenNode;
-        final JCheckBox enabled = new JCheckBox( WIStrings.getString( "show.screen" ), screenNode.isScreenEnabled() );
+        final JCheckBox enabled = new JCheckBox( WIStrings.getString( "light.show-screen" ), screenNode.isScreenEnabled() );
         enabled.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 screenNode.setScreenEnabled( enabled.isSelected() );

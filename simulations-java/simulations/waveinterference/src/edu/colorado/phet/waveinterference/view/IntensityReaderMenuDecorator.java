@@ -37,7 +37,7 @@ public class IntensityReaderMenuDecorator extends PNode {
         } );
         jPopupMenu.add( menuItem );
         jPopupMenu.addSeparator();
-        JMenuItem deleteItem = new JMenuItem( WIStrings.getString( "delete" ) );
+        JMenuItem deleteItem = new JMenuItem( WIStrings.getString( "controls.delete" ) );
         deleteItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 doDelete();

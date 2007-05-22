@@ -20,7 +20,7 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
     public LightControlPanel( LightModule lightModule ) {
         this.lightModule = lightModule;
         addControl( new MeasurementControlPanel( lightModule.getMeasurementToolSet() ) );
-        addControl( new DetectorSetControlPanel( WIStrings.getString( "e.field" ), lightModule.getIntensityReaderSet(), lightModule.getLightSimulationPanel(), lightModule.getWaveModel(), lightModule.getLatticeScreenCoordinates(), lightModule.getClock() ) );
+        addControl( new DetectorSetControlPanel( WIStrings.getString( "light.e-field" ), lightModule.getIntensityReaderSet(), lightModule.getLightSimulationPanel(), lightModule.getWaveModel(), lightModule.getLatticeScreenCoordinates(), lightModule.getClock() ) );
 
         addControlFullWidth( new VerticalSeparator( PAD_FOR_RESET_BUTTON ) );
         addControl( new ResetModuleControl( lightModule ) );
@@ -29,7 +29,7 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
         addControl( new WaveRotateControl3D( lightModule.getWaveInterferenceModel(), lightModule.getRotationWaveGraphic() ) );
         addVerticalSpace();
 
-        multiOscillatorControlPanel = new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), WIStrings.getString( "light" ), lightModule.getScreenUnits() );
+        multiOscillatorControlPanel = new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), WIStrings.getString( "module.light" ), lightModule.getScreenUnits() );
         addControl( multiOscillatorControlPanel );
         addVerticalSpace();
 

@@ -21,7 +21,7 @@ public class WaveInterferenceApplication extends PiccoloPhetApplication {
     private static final String LOCALIZATION_BUNDLE_BASENAME = "waveinterference/localization/waveinterference-strings";
 
     public WaveInterferenceApplication( String[] args ) {
-        super( args, WIStrings.getString( "wave.interference" ), WIStrings.getString( "wave.interference.simulation" ), VERSION, new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 50, 50 ) ) );
+        super( args, WIStrings.getString( "waveinterference.name" ), WIStrings.getString( "waveinterference.description" ), VERSION, new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 50, 50 ) ) );
         try {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
