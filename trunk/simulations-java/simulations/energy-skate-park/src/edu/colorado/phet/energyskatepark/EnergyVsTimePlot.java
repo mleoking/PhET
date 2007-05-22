@@ -25,23 +25,27 @@ import java.text.DecimalFormat;
 public class EnergyVsTimePlot {
     private EnergySkateParkModel model;
     private JDialog dialog;
+    private IClock clock;
+    private double initialTime;
+    private DynamicJFreeChartNode dynamicJFreeChartNode;
 
     public EnergyVsTimePlot( JFrame phetFrame, IClock clock, EnergySkateParkModel model ) {
         this.model = model;
+        this.clock = clock;
         PhetPCanvas graphCanvas = new BufferedPhetPCanvas();
 
         JFreeChart chart = ChartFactory.createXYLineChart(
                 EnergySkateParkStrings.getString( "plots.energy-vs-time" ),
                 "time (sec)", "Energy (Joules)", new XYSeriesCollection( new XYSeries( "series" ) ),
                 PlotOrientation.VERTICAL, false, false, false );
-        final DynamicJFreeChartNode graph = new DynamicJFreeChartNode( graphCanvas, chart );
-        graph.addSeries( "Thermal", Color.red );
-        graph.addSeries( "KE", Color.green );
-        graph.addSeries( "PE", Color.blue );
+        dynamicJFreeChartNode = new DynamicJFreeChartNode( graphCanvas, chart );
+        dynamicJFreeChartNode.addSeries( "Thermal", Color.red );
+        dynamicJFreeChartNode.addSeries( "KE", Color.green );
+        dynamicJFreeChartNode.addSeries( "PE", Color.blue );
 
         chart.getXYPlot().getRangeAxis().setRange( 0, 7000 );
         chart.getXYPlot().getDomainAxis().setRange( 0, 50 );
-        graph.setBufferedImmediateSeries();
+        dynamicJFreeChartNode.setBufferedImmediateSeries();
 
         final ShadowPText thermalPText = new ShadowPText( " " );
         thermalPText.setTextPaint( Color.red );
@@ -63,24 +67,26 @@ public class EnergyVsTimePlot {
                 keText.setText( "KE = " + formatter.format( ke ) + " J" );
                 peText.setText( "PE = " + formatter.format( pe ) + " J" );
 
-                graph.addValue( 0, clockEvent.getSimulationTime(), thermal );
-                graph.addValue( 1, clockEvent.getSimulationTime(), ke );
-                graph.addValue( 2, clockEvent.getSimulationTime(), pe );
+//                double simulationTime = clockEvent.getSimulationTime() - initialTime;
+                double simulationTime=getEnergySkateParkModel().getTime()-initialTime;
+                dynamicJFreeChartNode.addValue( 0, simulationTime, thermal );
+                dynamicJFreeChartNode.addValue( 1, simulationTime, ke );
+                dynamicJFreeChartNode.addValue( 2, simulationTime, pe );
             }
         } );
 
         dialog = new JDialog( phetFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
         dialog.setContentPane( graphCanvas );
         dialog.setSize( 800, 270 );
-        graphCanvas.addScreenChild( graph );
+        graphCanvas.addScreenChild( dynamicJFreeChartNode );
         graphCanvas.addScreenChild( thermalPText );
         graphCanvas.addScreenChild( keText );
         graphCanvas.addScreenChild( peText );
-        graph.setBounds( 0, 0, dialog.getWidth() - 50, dialog.getHeight() - 40 );
+        dynamicJFreeChartNode.setBounds( 0, 0, dialog.getWidth() - 50, dialog.getHeight() - 40 );
 
-        thermalPText.setOffset( graph.getDataArea().getX(), graph.getDataArea().getY() );
-        keText.setOffset( graph.getDataArea().getCenterX(), graph.getDataArea().getY() );
-        peText.setOffset( graph.getDataArea().getCenterX(), keText.getFullBounds().getMaxY() + 5 );
+        thermalPText.setOffset( dynamicJFreeChartNode.getDataArea().getX(), dynamicJFreeChartNode.getDataArea().getY() );
+        keText.setOffset( dynamicJFreeChartNode.getDataArea().getCenterX(), dynamicJFreeChartNode.getDataArea().getY() );
+        peText.setOffset( dynamicJFreeChartNode.getDataArea().getCenterX(), keText.getFullBounds().getMaxY() + 5 );
 
         dialog.setVisible( true );
         dialog.setLocation( 0, Toolkit.getDefaultToolkit().getScreenSize().height - dialog.getHeight() - 100 );
@@ -91,10 +97,14 @@ public class EnergyVsTimePlot {
     }
 
     public void setVisible( boolean visible ) {
+        if( visible && !dialog.isVisible() ) {
+            reset();
+        }
         dialog.setVisible( visible );
     }
 
     public void reset() {
-
+        initialTime = getEnergySkateParkModel().getTime();
+        dynamicJFreeChartNode.clear();
     }
 }
