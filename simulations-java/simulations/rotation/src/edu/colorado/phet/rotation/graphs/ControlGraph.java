@@ -44,15 +44,15 @@ public class ControlGraph extends PNode {
     private double ZOOM_FRACTION = 1.1;
     private Layout layout = new FlowLayout();
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double min, double max ) {
-        this( pSwingCanvas, simulationVariable, abbr, title, min, max, Color.black, new PText( "THUMB" ) );
+    public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double minY, double maxY ) {
+        this( pSwingCanvas, simulationVariable, abbr, title, minY, maxY, Color.black, new PText( "THUMB" ) );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double min, final double max, Color color, PNode thumb ) {
+    public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double minY, final double maxY, Color color, PNode thumb ) {
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
         jFreeChart = ChartFactory.createXYLineChart( title + ", " + abbr, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String)null );
-        jFreeChart.getXYPlot().getRangeAxis().setRange( min, max );
+        jFreeChart.getXYPlot().getRangeAxis().setRange( minY, maxY );
         jFreeChart.getXYPlot().getDomainAxis().setRange( 0, minDomainValue );
         jFreeChart.setBackgroundPaint( null );
 
