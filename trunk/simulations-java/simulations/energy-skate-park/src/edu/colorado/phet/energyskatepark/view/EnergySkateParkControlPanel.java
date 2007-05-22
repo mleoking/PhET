@@ -50,6 +50,19 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         } );
         addControl( resetSkater );
 
+        try {
+            JButton chooseCharacter = new JButton( "Choose Character" );
+            chooseCharacter.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    new ChooseCharacterDialog( module ).setVisible( true );
+                }
+            } );
+            addControl( new IconComponent( chooseCharacter, BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "energy-skate-park/images/skater3.png" ), chooseCharacter.getPreferredSize().height ) ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
         BufferedImage measuringTapeIcon = null;
         try {
             measuringTapeIcon = ImageLoader.loadBufferedImage( "energy-skate-park/images/ruler-thumb.png" );
@@ -93,19 +106,6 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         addControlFullWidth( new IconComponent( zeroPointPotential, potentialIcon ) );
 
 
-        try {
-            JButton chooseCharacter = new JButton( "Choose Character" );
-            chooseCharacter.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    new ChooseCharacterDialog( module ).setVisible( true );
-                }
-            } );
-            addControl( new IconComponent( chooseCharacter, BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "energy-skate-park/images/skater3.png" ), chooseCharacter.getPreferredSize().height ) ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-
         addControlFullWidth( new GridLinesCheckBox( module ) );
         addControlFullWidth( new PathRecordContol( module ) );
 
@@ -121,7 +121,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         showChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 //                module.setEnergyTimePlotVisible( true );
-                module.showNewEnergyVsTimePlot( );
+                module.showNewEnergyVsTimePlot();
             }
         } );
         chartPanel.add( showChart );
