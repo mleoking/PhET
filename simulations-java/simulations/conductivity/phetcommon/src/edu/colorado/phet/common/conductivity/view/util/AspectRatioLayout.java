@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 5, 2004
  * Time: 12:14:40 PM
- *
  */
 public class AspectRatioLayout implements LayoutManager {
     Component target;

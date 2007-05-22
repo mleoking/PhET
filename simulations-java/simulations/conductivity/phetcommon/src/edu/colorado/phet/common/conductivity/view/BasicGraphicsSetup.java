@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 2, 2004
  * Time: 2:27:30 PM
- *
  */
 public class BasicGraphicsSetup implements GraphicsSetup {
     RenderingHints renderingHints;

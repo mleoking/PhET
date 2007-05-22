@@ -4,8 +4,9 @@
 
 package edu.colorado.phet.semiconductor;
 
-import edu.colorado.phet.common.conductivity.model.simpleobservable.SimpleObservable;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 public class Flashlight extends SimpleObservable {
 
@@ -25,7 +26,7 @@ public class Flashlight extends SimpleObservable {
 
     public void setAngle( double d ) {
         angle = d;
-        updateObservers();
+        notifyObservers();
     }
 
     double x;

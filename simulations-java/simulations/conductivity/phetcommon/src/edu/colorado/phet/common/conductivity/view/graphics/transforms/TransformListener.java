@@ -7,7 +7,6 @@
 package edu.colorado.phet.common.conductivity.view.graphics.transforms;
 
 
-
 /**
  * Listens for changes in the model or view viewport.
  */

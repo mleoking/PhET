@@ -5,9 +5,8 @@
 package edu.colorado.phet.semiconductor.macro.particles;
 
 import edu.colorado.phet.common.conductivity.model.ModelElement;
-import edu.colorado.phet.common.conductivity.model.simpleobservable.SimpleObservable;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.semiconductor.macro.circuit.Circuit;
 
 public class WireParticle extends SimpleObservable
@@ -21,7 +20,7 @@ public class WireParticle extends SimpleObservable
 
     public void setPosition( double d ) {
         dist = d;
-        updateObservers();
+        notifyObservers();
     }
 
     public AbstractVector2D getPosition() {

@@ -13,7 +13,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 7:27:29 AM
- *
  */
 public class ApplicationView {
     private PhetFrame phetFrame;
@@ -29,7 +28,7 @@ public class ApplicationView {
             throw new RuntimeException( "Clock is null" );
         }
 //        controlPanel = new ApplicationModelControlPanel( application.getClock() );
-        basicPhetPanel = new BasicPhetPanel( null, null, null, null);
+        basicPhetPanel = new BasicPhetPanel( null, null, null, null );
         basicPhetPanel.setApparatusPanelContainer( appPnlContainer.getComponent() );
         new ControlAndMonitorSwapper( basicPhetPanel, application.getModuleManager() );
         phetFrame = new PhetFrame( application );

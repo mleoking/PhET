@@ -33,7 +33,7 @@ public class ShapeGraphic implements Graphic {
     }
 
     public void paint( Graphics2D g ) {
-        Stroke origStroke=g.getStroke();
+        Stroke origStroke = g.getStroke();
         if( fillPaint != null ) {
             g.setPaint( fillPaint );
             g.fill( shape );

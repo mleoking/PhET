@@ -5,8 +5,8 @@
 package edu.colorado.phet.semiconductor.macro.bands;
 
 import edu.colorado.phet.common.conductivity.model.ModelElement;
-import edu.colorado.phet.common.conductivity.model.simpleobservable.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.semiconductor.macro.bands.states.MoveTo;
 import edu.colorado.phet.semiconductor.macro.bands.states.Speed;
 import edu.colorado.phet.semiconductor.macro.bands.states.Waiting;
@@ -72,7 +72,7 @@ public class BandParticle extends SimpleObservable
     public void setPosition( Vector2D.Double phetvector ) {
         x = phetvector.getX();
         y = phetvector.getY();
-        updateObservers();
+        notifyObservers();
     }
 
     public double getDistanceFromOwnedSite() {

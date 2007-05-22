@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Mar 21, 2006
  * Time: 4:30:25 PM
- *
  */
 
 public class ImageGraphic implements Graphic {

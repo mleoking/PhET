@@ -4,8 +4,8 @@
 
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.GeneralPath;
 
@@ -35,6 +35,6 @@ public class DoubleGeneralPath {
     GeneralPath path;
 
     public void lineTo( AbstractVector2D phetvector2 ) {
-        lineTo( phetvector2.getX(),phetvector2.getY() );
+        lineTo( phetvector2.getX(), phetvector2.getY() );
     }
 }
