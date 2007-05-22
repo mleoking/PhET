@@ -11,11 +11,11 @@
 package edu.colorado.phet.solublesalts.view;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.util.ScientificNotation;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLGraphic;
+import edu.colorado.phet.solublesalts.util.ScientificNotation;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -115,7 +115,7 @@ public class VesselGraphic extends PNode implements SolubleSaltsModule.ResetList
 
             double volume = ( vessel.getDepth() - y ) * calibration.volumeCalibrationFactor;
             String volumeStr = ScientificNotation.toHtml( volume, 1, "", "L" );
-            HTMLGraphic text = new HTMLGraphic( volumeStr );
+            HTMLNode text = new HTMLNode( volumeStr );
             Font orgFont = text.getFont();
             Font newFont = new Font( orgFont.getName(), Font.PLAIN, orgFont.getSize() + 12 );
             text.setFont( newFont );
