@@ -4,9 +4,10 @@
 
 package edu.colorado.phet.semiconductor;
 
-import edu.colorado.phet.common.conductivity.math.PhetVector;
 import edu.colorado.phet.common.conductivity.model.ModelElement;
 import edu.colorado.phet.common.conductivity.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.semiconductor.common.Particle;
 
 public class Photon extends SimpleObservable
@@ -21,12 +22,12 @@ public class Photon extends SimpleObservable
         updateObservers();
     }
 
-    public void setVelocity( PhetVector phetvector ) {
+    public void setVelocity( AbstractVector2D phetvector ) {
         particle.setVelocity( phetvector.getX(), phetvector.getY() );
         updateObservers();
     }
 
-    public PhetVector getPosition() {
+    public AbstractVector2D getPosition() {
         return particle.getPosition();
     }
 
@@ -36,11 +37,11 @@ public class Photon extends SimpleObservable
         updateObservers();
     }
 
-    public void setPosition( PhetVector phetvector ) {
+    public void setPosition( Vector2D.Double phetvector ) {
         setPosition( phetvector.getX(), phetvector.getY() );
     }
 
-    public PhetVector getVelocity() {
+    public AbstractVector2D getVelocity() {
         return particle.getVelocity();
     }
 

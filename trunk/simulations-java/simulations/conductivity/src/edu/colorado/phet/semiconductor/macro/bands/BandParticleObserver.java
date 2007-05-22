@@ -4,7 +4,6 @@
 
 package edu.colorado.phet.semiconductor.macro.bands;
 
-
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands:
 //            BandParticle
 

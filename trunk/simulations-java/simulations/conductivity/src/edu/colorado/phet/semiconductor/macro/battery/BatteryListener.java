@@ -4,7 +4,6 @@
 
 package edu.colorado.phet.semiconductor.macro.battery;
 
-
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.battery:
 //            Battery
 

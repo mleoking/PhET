@@ -6,7 +6,6 @@ package edu.colorado.phet.semiconductor.macro;
 
 import edu.colorado.phet.common.conductivity.application.Module;
 import edu.colorado.phet.common.conductivity.application.PhetApplication;
-import edu.colorado.phet.common.conductivity.math.PhetVector;
 import edu.colorado.phet.common.conductivity.model.BaseModel;
 import edu.colorado.phet.common.conductivity.model.ModelElement;
 import edu.colorado.phet.common.conductivity.model.clock.AbstractClock;
@@ -23,6 +22,8 @@ import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformL
 import edu.colorado.phet.common.conductivity.view.util.AspectRatioLayout;
 import edu.colorado.phet.common.conductivity.view.util.framesetup.FrameCenterer;
 import edu.colorado.phet.common.conductivity.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.Flashlight;
 import edu.colorado.phet.semiconductor.FlashlightGraphic;
@@ -149,7 +150,7 @@ public class ConductivityApplication extends Module {
         addCableGraphic();
         setConductor();
         java.awt.geom.Rectangle2D.Double double2 = model.getBandSet().getBounds();
-        PhetVector phetvector = new PhetVector( double2.x, double2.y );
+        Vector2D.Double phetvector = new Vector2D.Double( double2.x, double2.y );
         EnergyTextGraphic energytextgraphic = new EnergyTextGraphic( transform, phetvector );
         getApparatusPanel().addGraphic( energytextgraphic, 1000D );
     }
@@ -162,7 +163,7 @@ public class ConductivityApplication extends Module {
         BufferedImage bufferedimage = imageloader.loadImage( "conductivity/images/light.gif" );
         flashlightGraphic = new FlashlightGraphic( light, bufferedimage, transform );
         getApparatusPanel().addGraphic( flashlightGraphic, 100D );
-        PhetVector phetvector = getResistorCenter();
+        AbstractVector2D phetvector = getResistorCenter();
         pointAt( phetvector );
         ModelElement modelelement = new ModelElement() {
 
@@ -181,7 +182,7 @@ public class ConductivityApplication extends Module {
         getModel().addModelElement( new ModelElement() {
 
             public void stepInTime( double d ) {
-                PhetVector resistorCenter = getResistorCenter();
+                AbstractVector2D resistorCenter = getResistorCenter();
                 for( int i = 0; i < photons.size(); i++ ) {
                     Photon photon = (Photon)photons.get( i );
                     photon.stepInTime( d );
@@ -200,17 +201,17 @@ public class ConductivityApplication extends Module {
         } );
     }
 
-    private PhetVector getResistorCenter() {
-        PhetVector phetvector = circuit.getResistor().getStartPosition();
-        PhetVector phetvector1 = circuit.getResistor().getEndPosition();
-        PhetVector phetvector2 = phetvector1.getSubtractedInstance( phetvector ).getScaledInstance( 0.5D );
-        PhetVector phetvector3 = phetvector.getAddedInstance( phetvector2 );
+    private AbstractVector2D getResistorCenter() {
+        Vector2D.Double phetvector = circuit.getResistor().getStartPosition();
+        Vector2D.Double phetvector1 = circuit.getResistor().getEndPosition();
+        AbstractVector2D phetvector2 = phetvector1.getSubtractedInstance( phetvector ).getScaledInstance( 0.5D );
+        AbstractVector2D phetvector3 = phetvector.getAddedInstance( phetvector2 );
         return phetvector3;
     }
 
-    public void pointAt( PhetVector phetvector ) {
-        PhetVector phetvector1 = light.getPosition();
-        PhetVector phetvector2 = phetvector.getSubtractedInstance( phetvector1 ).getNormalizedInstance();
+    public void pointAt( AbstractVector2D phetvector ) {
+        Vector2D.Double phetvector1 = light.getPosition();
+        AbstractVector2D phetvector2 = phetvector.getSubtractedInstance( phetvector1 ).getNormalizedInstance();
         double d = phetvector2.getAngle();
         double d1 = Math.toRadians( 126D );
         double d2 = -d + d1;
@@ -222,9 +223,9 @@ public class ConductivityApplication extends Module {
         final GeneralPath cablePath = new GeneralPath();
         cablePath.moveTo( (float)double1.getX() + (float)double1.getWidth() / 2.0F, (float)double1.getY() );
         MacroCircuit macrocircuit = model.getCircuit();
-        PhetVector phetvector = macrocircuit.getResistor().getLocation( macrocircuit.getResistor().getLength() / 2D );
-        PhetVector phetvector1 = new PhetVector( double1.getX() + 0.29999999999999999D, double1.getY() - 0.20000000000000001D );
-        PhetVector phetvector2 = phetvector.getSubtractedInstance( 0.0D, 0.10000000000000001D );
+        AbstractVector2D phetvector = macrocircuit.getResistor().getLocation( macrocircuit.getResistor().getLength() / 2D );
+        Vector2D.Double phetvector1 = new Vector2D.Double( double1.getX() + 0.29999999999999999D, double1.getY() - 0.20000000000000001D );
+        AbstractVector2D phetvector2 = phetvector.getSubtractedInstance( 0.0D, 0.10000000000000001D );
         cablePath.curveTo( (float)phetvector1.getX(), (float)phetvector1.getY(), (float)phetvector2.getX(), (float)phetvector2.getY(), (float)phetvector.getX(), (float)phetvector.getY() );
         final ShapeGraphic curveShape = new ShapeGraphic( cablePath, Color.black, new BasicStroke( 2.0F ) );
         transform.addTransformListener( new TransformListener() {
@@ -268,13 +269,13 @@ public class ConductivityApplication extends Module {
     }
 
     public static void main( String args[] ) throws IOException {
-        SimStrings.getInstance().init( args,localizedStringsPath );
+        SimStrings.getInstance().init( args, localizedStringsPath );
 
         SwingTimerClock swingtimerclock = new SwingTimerClock( 1.0D, 30, true );
         final ConductivityApplication module = new ConductivityApplication( swingtimerclock );
         ApplicationDescriptor ad = new ApplicationDescriptor(
                 SimStrings.get( "ConductivityApplication.title" ) + " " + version,
-                SimStrings.get( "ConductivityApplication.description" ),version,
+                SimStrings.get( "ConductivityApplication.description" ), version,
                 new FrameCenterer( 100, 100 ) );
         ad.setName( "conductivity" );
         PhetApplication phetapplication = new PhetApplication( ad, module, swingtimerclock );
@@ -380,11 +381,11 @@ public class ConductivityApplication extends Module {
     }
 
     public void firePhoton() {
-        PhetVector phetvector = getResistorCenter();
+        AbstractVector2D phetvector = getResistorCenter();
         Photon photon = new Photon();
         photon.setPosition( light.getPosition() );
         double d = 0.01D;
-        PhetVector phetvector1 = phetvector.getSubtractedInstance( photon.getPosition() ).getInstanceForMagnitude( d );
+        AbstractVector2D phetvector1 = phetvector.getSubtractedInstance( photon.getPosition() ).getInstanceOfMagnitude( d );
         photon.setVelocity( phetvector1 );
         PhotonArrowGraphic photonarrowgraphic = new PhotonArrowGraphic( photon, transform );
         getApparatusPanel().addGraphic( photonarrowgraphic, 3D );

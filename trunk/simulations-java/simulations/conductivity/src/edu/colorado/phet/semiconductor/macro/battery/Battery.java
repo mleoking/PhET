@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.semiconductor.macro.battery;
 
-import edu.colorado.phet.common.conductivity.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.semiconductor.macro.circuit.LinearBranch;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Battery extends LinearBranch {
 
-    public Battery( PhetVector phetvector, PhetVector phetvector1 ) {
+    public Battery( Vector2D.Double phetvector, Vector2D.Double phetvector1 ) {
         super( phetvector, phetvector1 );
         volts = 0.0D;
         obs = new ArrayList();

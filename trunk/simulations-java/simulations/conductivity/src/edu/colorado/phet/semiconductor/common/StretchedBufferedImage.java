@@ -29,6 +29,6 @@ public class StretchedBufferedImage
     private Rectangle rectangle;
 
     public void setOutputRect( Rectangle rectangle ) {
-        this.rectangle=rectangle;
+        this.rectangle = rectangle;
     }
 }

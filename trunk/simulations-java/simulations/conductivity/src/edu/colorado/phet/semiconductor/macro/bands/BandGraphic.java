@@ -34,7 +34,7 @@ public class BandGraphic
     }
 
     public void paint( Graphics2D graphics2d ) {
-        Stroke origStroke=graphics2d.getStroke();
+        Stroke origStroke = graphics2d.getStroke();
         AffineTransform affinetransform = transform.toAffineTransform();
         java.awt.geom.Rectangle2D.Double double1 = band.getBounds();
         graphics2d.setColor( Color.yellow );

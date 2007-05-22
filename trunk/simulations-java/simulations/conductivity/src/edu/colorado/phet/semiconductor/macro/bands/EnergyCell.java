@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.semiconductor.macro.bands;
 
-import edu.colorado.phet.common.conductivity.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands:
 //            EnergyLevel, BandParticle
@@ -47,8 +47,8 @@ public class EnergyCell {
         }
     }
 
-    public PhetVector getPosition() {
-        return new PhetVector( x, y );
+    public Vector2D.Double getPosition() {
+        return new Vector2D.Double( x, y );
     }
 
     public EnergyLevel getEnergyLevel() {

@@ -4,11 +4,12 @@
 
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.common.conductivity.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 public class LinearBranch {
 
-    public LinearBranch( PhetVector phetvector, PhetVector phetvector1 ) {
+    public LinearBranch( Vector2D.Double phetvector, Vector2D.Double phetvector1 ) {
         start = phetvector;
         end = phetvector1;
         dv = phetvector1.getSubtractedInstance( phetvector );
@@ -18,19 +19,19 @@ public class LinearBranch {
         return dv.getMagnitude();
     }
 
-    public PhetVector getLocation( double d ) {
-        return start.getAddedInstance( dv.getInstanceForMagnitude( d ) );
+    public AbstractVector2D getLocation( double d ) {
+        return start.getAddedInstance( dv.getInstanceOfMagnitude( d ) );
     }
 
-    public PhetVector getStartPosition() {
+    public Vector2D.Double getStartPosition() {
         return start;
     }
 
-    public PhetVector getEndPosition() {
+    public Vector2D.Double getEndPosition() {
         return end;
     }
 
-    PhetVector start;
-    PhetVector end;
-    private PhetVector dv;
+    Vector2D.Double start;
+    Vector2D.Double end;
+    private AbstractVector2D dv;
 }

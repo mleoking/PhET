@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.common.conductivity.view.graphics.transforms;
 
-import edu.colorado.phet.common.conductivity.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -58,8 +58,8 @@ public class ModelViewTransform2D {
         return modelToView( pt.x, pt.y );
     }
 
-    public Point modelToView( PhetVector pt ) {
-        return modelToView( pt.toPoint2D() );
+    public Point modelToView( Vector2D.Double pt ) {
+        return modelToView( new Point2D.Double( pt.getX(), pt.getY( )) );
     }
 
     public int modelToViewX( double x ) {

@@ -4,14 +4,14 @@
 
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.common.conductivity.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.circuit:
 //            LinearBranch
 
 public class Wire extends LinearBranch {
 
-    public Wire( PhetVector phetvector, PhetVector phetvector1 ) {
+    public Wire( Vector2D.Double phetvector, Vector2D.Double phetvector1 ) {
         super( phetvector, phetvector1 );
     }
 }
