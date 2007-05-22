@@ -10,11 +10,10 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
  * User: Sam Reid
  * Date: Jun 6, 2005
  * Time: 8:17:06 PM
- *
  */
 
-public class WorkBarGraphSet extends BarGraphSet {
-    public WorkBarGraphSet( EnergySkateParkSimulationPanel energySkaterSimulationPanel, EnergySkateParkModel energySkateParkModel, ModelViewTransform1D transform1D ) {
+public class WorkEnergySkateParkBarGraph extends EnergySkateParkBarGraph {
+    public WorkEnergySkateParkBarGraph( EnergySkateParkSimulationPanel energySkaterSimulationPanel, EnergySkateParkModel energySkateParkModel, ModelViewTransform1D transform1D ) {
         super( energySkaterSimulationPanel, energySkateParkModel, EnergySkateParkStrings.getString( "properties.work" ), transform1D );
         ValueAccessor[] workAccess = new ValueAccessor[]{
 //            new ValueAccessor.TotalWork( getLookAndFeel() ),
@@ -22,6 +21,7 @@ public class WorkBarGraphSet extends BarGraphSet {
 //            new ValueAccessor.FrictiveWork( getLookAndFeel() ),
 //            new ValueAccessor.AppliedWork( getLookAndFeel() )
         };
-        super.finishInit( workAccess );
+
+        super.finishInit( toVariableArray( workAccess, energySkateParkModel ) );
     }
 }
