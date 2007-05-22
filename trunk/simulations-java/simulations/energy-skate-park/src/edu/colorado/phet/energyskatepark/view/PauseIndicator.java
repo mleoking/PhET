@@ -48,7 +48,7 @@ public class PauseIndicator extends PNode {
             }
         } );
 
-        JButton record = new JButton( EnergySkateParkStrings.getString( "time.go" ) );
+        JButton record = new JButton( EnergySkateParkStrings.getString( "time.resume" ) );
         record.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getTimeSeriesModel().startLiveMode();

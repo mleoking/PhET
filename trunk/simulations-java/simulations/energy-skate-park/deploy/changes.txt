@@ -23,6 +23,9 @@ Removed "Clear Heat" button from Friction advanced panel.
 Moved "Choose Character" button higher in the control panel.
 Fixed: Pressing "Playback" no longer requires pressing "Rewind" in advance.
 Fixed: Sometimes the last point in a recording is omitted on playback.
+Added a red record button.
+Changed record button text to REC
+Removed extraneous "Go" button in the playback panel area.
 
 2.01.01 (5-10-2007)
 Test build process.
