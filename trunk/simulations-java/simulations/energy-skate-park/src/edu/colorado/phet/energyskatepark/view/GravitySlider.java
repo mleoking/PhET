@@ -23,11 +23,11 @@ import java.util.Hashtable;
 public class GravitySlider extends LinearValueControl {
 
     public GravitySlider( final EnergySkateParkModule module ) {
-        super( 0, 30, EnergySkateParkStrings.getString( "gravity" ), "0.00", EnergySkateParkStrings.getString( "n.kg" ) );
+        super( 0, 30, EnergySkateParkStrings.getString( "controls.gravity" ), "0.00", EnergySkateParkStrings.getString( "units.accel" ) );
         Hashtable modelTicks = new Hashtable();
-        modelTicks.put( new Double( 0 ), new JLabel( EnergySkateParkStrings.getString( "space" ) ) );
-        modelTicks.put( new Double( -EnergySkateParkModel.G_EARTH ), new JLabel( EnergySkateParkStrings.getString( "earth" ) ) );
-        modelTicks.put( new Double( -EnergySkateParkModel.G_JUPITER ), new JLabel( EnergySkateParkStrings.getString( "jupiter" ) ) );
+        modelTicks.put( new Double( 0 ), new JLabel( EnergySkateParkStrings.getString( "location.space" ) ) );
+        modelTicks.put( new Double( -EnergySkateParkModel.G_EARTH ), new JLabel( EnergySkateParkStrings.getString( "location.earth" ) ) );
+        modelTicks.put( new Double( -EnergySkateParkModel.G_JUPITER ), new JLabel( EnergySkateParkStrings.getString( "location.jupiter" ) ) );
         setMajorTickSpacing( 10 );
         setMinorTickSpacing( 10 / 2.0 );
         setTickLabels( modelTicks );

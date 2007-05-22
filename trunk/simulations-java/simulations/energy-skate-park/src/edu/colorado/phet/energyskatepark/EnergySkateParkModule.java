@@ -96,14 +96,14 @@ public class EnergySkateParkModule extends PiccoloModule {
             }
         } );
 
-        barChartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "bar.charts" ), false );
+        barChartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "plots.bar-graph" ), false );
         barGraphCanvas = new BarGraphCanvas( this );
         barChartFrame.setContentPane( barGraphCanvas );
 
         barChartFrame.setSize( energyFrameWidth, 625 );
         barChartFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - energyFrameWidth, 0 );
 
-        chartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "energy.vs.time" ), false );
+        chartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
         energyTimePlotCanvas = new EnergyTimePlotCanvas( this );
         chartFrame.setContentPane( energyTimePlotCanvas );
         chartFrame.setSize( 800, chartFrameHeight );
@@ -111,7 +111,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
         init();
         timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( timeSeriesModel );
-        energyPositionPlotFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "energy.vs.position" ), false );
+        energyPositionPlotFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "plots.energy-vs-position" ), false );
         energyPositionCanvas = new EnergyPositionPlotCanvas( this );
         energyPositionPlotFrame.setContentPane( energyPositionCanvas );
         energyPositionPlotFrame.setSize( 400, 400 );
@@ -280,7 +280,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void confirmAndReset() {
-        int response = JOptionPane.showConfirmDialog( getSimulationPanel(), EnergySkateParkStrings.getString( "are.you.sure.you.want.to.reset" ) );
+        int response = JOptionPane.showConfirmDialog( getSimulationPanel(), EnergySkateParkStrings.getString( "message.confirm-reset" ) );
         if( response == JOptionPane.OK_OPTION ) {
             reset();
         }

@@ -34,7 +34,7 @@ public class ZeroPointPotentialGraphic extends PhetPNode {
         PhetPPath path = new PhetPPath( new Line2D.Double( 0, 0, 5000, 0 ), new BasicStroke( 3, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 3, new float[]{16, 8}, 0 ), Color.blue );
         addChild( path );
 
-        ShadowPText text = new ShadowPText( EnergySkateParkStrings.getString( "pe.0.at.this.dotted.line" ) );
+        ShadowPText text = new ShadowPText( EnergySkateParkStrings.getString( "label.zero-potential-energy" ) );
         text.setFont( new LucidaSansFont( 16, true ) );
         text.setTextPaint( Color.black );
         text.setShadowColor( new Color( 128, 128, 255 ) );

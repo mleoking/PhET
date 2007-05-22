@@ -243,7 +243,7 @@ public class SplineNode extends PNode {
                 }
             } );
 
-            JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "delete.track" ) );
+            JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "controls.delete-track" ) );
             delete.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     ec3Canvas.removeSpline( SplineNode.this );
@@ -436,8 +436,8 @@ public class SplineNode extends PNode {
 
     class ControlCirclePopupMenu extends JPopupMenu {
         public ControlCirclePopupMenu( final int index ) {
-            super( EnergySkateParkStrings.getString( "circle.popup.menu" ) );
-            JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "delete.control.point" ) );
+            super( EnergySkateParkStrings.getString( "controls.circle-popup-menu" ) );
+            JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "controls.delete-point" ) );
             delete.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( spline.numControlPoints() == 1 ) {

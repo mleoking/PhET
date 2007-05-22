@@ -35,7 +35,7 @@ public class PauseIndicator extends PNode {
         this.ec3RootNode = ec3RootNode;
         PImage im = PImageFactory.create( "energy-skate-park/images/icons/java/media/Pause24.gif" );
         addChild( im );
-        ShadowPText text = new ShadowPText( EnergySkateParkStrings.getString( "the.simulation.is.paused" ) );
+        ShadowPText text = new ShadowPText( EnergySkateParkStrings.getString( "message.paused" ) );
         addChild( text );
         text.setOffset( im.getFullBounds().getMaxX() + 5, 0 );
         text.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
@@ -48,7 +48,7 @@ public class PauseIndicator extends PNode {
             }
         } );
 
-        JButton record = new JButton( EnergySkateParkStrings.getString( "go" ) );
+        JButton record = new JButton( EnergySkateParkStrings.getString( "time.go" ) );
         record.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getTimeSeriesModel().startLiveMode();

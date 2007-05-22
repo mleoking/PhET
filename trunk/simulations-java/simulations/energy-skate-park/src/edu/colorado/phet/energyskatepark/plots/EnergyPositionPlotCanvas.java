@@ -62,22 +62,22 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
     public EnergyPositionPlotCanvas( EnergySkateParkModule module ) {
         super( new Dimension( 100, 100 ) );
         this.module = module;
-        ke = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "kinetic" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getKEColor(), this ) {
+        ke = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "energy.kinetic" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getKEColor(), this ) {
             public double getValue() {
                 return getBody().getKineticEnergy();
             }
         };
-        pe = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "potential" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getPEColor(), this ) {
+        pe = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "energy.potential" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getPEColor(), this ) {
             public double getValue() {
                 return getBody().getPotentialEnergy();
             }
         };
-        thermal = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "thermal" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getThermalEnergyColor(), this ) {
+        thermal = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "energy.thermal" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getThermalEnergyColor(), this ) {
             public double getValue() {
                 return getBody().getThermalEnergy();
             }
         };
-        total = new EnergyType( module, EnergySkateParkStrings.getString( "total" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getTotalEnergyColor(), this ) {
+        total = new EnergyType( module, EnergySkateParkStrings.getString( "energy.total" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getTotalEnergyColor(), this ) {
             public double getValue() {
                 return getBody().getTotalEnergy();
             }
@@ -89,19 +89,19 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
             }
         } );
         dataset = createDataset();
-        chart = createChart( new Range2D( -2, -7000 / 10.0, 17, 7000 ), dataset, EnergySkateParkStrings.getString( "energy.vs.position" ) );
+        chart = createChart( new Range2D( -2, -7000 / 10.0, 17, 7000 ), dataset, EnergySkateParkStrings.getString( "plots.energy-vs-position" ) );
         setLayout( new BorderLayout() );
 
         southPanel = new JPanel();
 
-        JButton clear = new JButton( EnergySkateParkStrings.getString( "clear" ) );
+        JButton clear = new JButton( EnergySkateParkStrings.getString( "time.clear" ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
             }
         } );
 
-        JButton copy = new JButton( EnergySkateParkStrings.getString( "copy" ) );
+        JButton copy = new JButton( EnergySkateParkStrings.getString( "plots.copy" ) );
         copy.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 copyChart();
@@ -158,7 +158,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         paintComponent( copy.createGraphics() );
         BufferedImage c2 = new BufferedImage( copy.getWidth( null ), copy.getHeight( null ) - southPanel.getHeight(), BufferedImage.TYPE_INT_RGB );//trim the south part.
         c2.createGraphics().drawImage( copy, new AffineTransform(), null );
-        String energyVsPosition = EnergySkateParkStrings.getString( "energy.vs.position.save" );
+        String energyVsPosition = EnergySkateParkStrings.getString( "plots.energy-vs-position-save" );
         SavedGraph savedGraph = new SavedGraph( module.getPhetFrame(), energyVsPosition + saveCount + ")", c2 );
         savedGraph.setVisible( true );
         saveCount++;
