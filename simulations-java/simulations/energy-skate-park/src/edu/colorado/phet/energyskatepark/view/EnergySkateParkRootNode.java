@@ -79,17 +79,19 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         offscreenManIndicator = new OffscreenManIndicator( simulationPanel, module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
         gridNode = new GridNode();
 
-        final HouseNode houseNode = new HouseNode();
+        final SurfaceObjectNode houseNode = new SurfaceObjectNode( SurfaceObjectNode.HOUSE_URL, 1.5, 10 );
+        final SurfaceObjectNode mountainNode = new SurfaceObjectNode( SurfaceObjectNode.MOUNTAIN_URL, 1.5, 0.0 );
 
         addScreenChild( screenBackground );
         addScreenChild( splineToolbox );
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-
             public void gravityChanged() {
                 houseNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH );
+                mountainNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH );
             }
         } );
         addWorldChild( houseNode );
+        addWorldChild( mountainNode );
         addWorldChild( floorGraphic );
         addWorldChild( splineGraphics );
 
@@ -185,7 +187,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         return screenBackground;
     }
 
-    public void setBackground( Image image ) {
+    public void setBackground( BufferedImage image ) {
         screenBackground.setBackground( image );
     }
 
@@ -453,6 +455,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public boolean isEnergyErrorVisible() {
-        return energyErrorIndicatorContainer.getVisible(); 
+        return energyErrorIndicatorContainer.getVisible();
     }
 }

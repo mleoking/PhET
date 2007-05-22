@@ -17,15 +17,14 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Jun 1, 2006
  * Time: 12:25:26 PM
- *
  */
 
 public class BackgroundScreenNode extends PhetPNode {
     private EnergySkateParkSimulationPanel canvas;
-    private Image backgroundImage;
+    private BufferedImage backgroundImage;
     private PNode floorGraphic;
 
-    public BackgroundScreenNode( EnergySkateParkSimulationPanel simulationPanel, Image backgroundImage, PNode floorGraphic, PhetRootPNode rootNode ) {
+    public BackgroundScreenNode( EnergySkateParkSimulationPanel simulationPanel, BufferedImage backgroundImage, PNode floorGraphic, PhetRootPNode rootNode ) {
         this.canvas = simulationPanel;
         this.backgroundImage = backgroundImage;
         this.floorGraphic = floorGraphic;
@@ -40,21 +39,18 @@ public class BackgroundScreenNode extends PhetPNode {
                 update();
             }
         } );
-        rootNode.addWorldTransformListener( new PropertyChangeListener() {
-
-            public void propertyChange( PropertyChangeEvent evt ) {
-//                System.out.println( "evt = " + evt );
-                update();
-            }
-        } );
+//        rootNode.addWorldTransformListener( new PropertyChangeListener() {
+//            public void propertyChange( PropertyChangeEvent evt ) {
+//                update();
+//            }
+//        } );
     }
 
     public void update() {
-        if( backgroundImage == null ) {
-            removeAllChildren();
-        }
-        else {
-            BufferedImage image = BufferedImageUtils.toBufferedImage( backgroundImage );
+        removeAllChildren();
+        if( backgroundImage != null ) {
+//            BufferedImage image = BufferedImageUtils.toBufferedImage( backgroundImage );
+            BufferedImage image=backgroundImage;
             double yRatio = ( (double)canvas.getHeight() ) / image.getHeight();
             double xRatio = ( (double)canvas.getWidth() ) / image.getWidth();
             if( canvas.getHeight() > 0 && canvas.getWidth() > 0 ) {
@@ -66,7 +62,7 @@ public class BackgroundScreenNode extends PhetPNode {
                     image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, canvas.getHeight() );
                 }
             }
-            removeAllChildren();
+
             PImage child = new PImage( image );
             double maxY = floorGraphic.getGlobalFullBounds().getMinY();
             if( floorGraphic.getVisible() ) {
@@ -79,7 +75,7 @@ public class BackgroundScreenNode extends PhetPNode {
         }
     }
 
-    public void setBackground( Image image ) {
+    public void setBackground( BufferedImage image ) {
         if( image != null ) {
             BufferedImage im = BufferedImageUtils.toBufferedImage( image );//todo this is a bit of a hack for background color.
             canvas.setBackground( new Color( im.getRGB( im.getWidth() / 2, 30 ) ) );
