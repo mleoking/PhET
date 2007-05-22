@@ -2,8 +2,8 @@
 package edu.colorado.phet.common.conductivity.view;
 
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,7 @@ public class BasicPhetPanel extends JPanel {
 
     static {
         SimStrings.setStrings( "localization/ConductivityPCStrings" );
-    
+
         try {
             phetLogo = new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" );
         }

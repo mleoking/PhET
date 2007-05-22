@@ -43,7 +43,7 @@ public class ApparatusPanel extends JPanel implements Observer {
 
         Graphic borderGraphic = new Graphic() {
             public void paint( Graphics2D g ) {
-                Stroke origStroke=g.getStroke();
+                Stroke origStroke = g.getStroke();
                 Rectangle boundingRect = getBounds();
                 g.setStroke( borderStroke );
                 g.setColor( Color.black );

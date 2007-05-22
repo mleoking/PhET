@@ -7,7 +7,6 @@
 package edu.colorado.phet.common.conductivity.model.clock;
 
 
-
 public interface ClockTickListener {
     public void clockTicked( AbstractClock c, double dt );
 }

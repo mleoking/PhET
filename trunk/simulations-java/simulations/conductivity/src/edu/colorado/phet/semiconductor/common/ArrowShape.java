@@ -4,7 +4,6 @@
 
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 import java.awt.geom.GeneralPath;
@@ -29,14 +28,14 @@ public class ArrowShape {
             AbstractVector2D phetvector5 = getPoint( -1D * d, d2 / 2D );
             AbstractVector2D phetvector6 = getPoint( -1D * d3, -d2 / 2D );
             AbstractVector2D phetvector7 = getPoint( -1D * d3, d2 / 2D );
-            DoubleGeneralPath doublegeneralpath = new DoubleGeneralPath( phetvector1.getX(), phetvector1.getY( ));
+            DoubleGeneralPath doublegeneralpath = new DoubleGeneralPath( phetvector1.getX(), phetvector1.getY() );
             doublegeneralpath.lineTo( phetvector2 );
             doublegeneralpath.lineTo( phetvector4 );
             doublegeneralpath.lineTo( phetvector6 );
             doublegeneralpath.lineTo( phetvector7 );
             doublegeneralpath.lineTo( phetvector5 );
             doublegeneralpath.lineTo( phetvector3 );
-            doublegeneralpath.lineTo( phetvector1.getX(),phetvector1.getY() );
+            doublegeneralpath.lineTo( phetvector1.getX(), phetvector1.getY() );
             arrowPath = doublegeneralpath.getGeneralPath();
             return;
         }

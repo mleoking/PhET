@@ -59,7 +59,7 @@ public class ModelViewTransform2D {
     }
 
     public Point modelToView( Vector2D.Double pt ) {
-        return modelToView( new Point2D.Double( pt.getX(), pt.getY( )) );
+        return modelToView( new Point2D.Double( pt.getX(), pt.getY() ) );
     }
 
     public int modelToViewX( double x ) {

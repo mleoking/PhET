@@ -4,19 +4,15 @@
 
 package edu.colorado.phet.semiconductor.macro.particles;
 
-import edu.colorado.phet.common.conductivity.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-
-// Referenced classes of package edu.colorado.phet.semiconductor.macro.particles:
-//            WireParticle
 
 public class WireParticleGraphic extends TransformGraphic {
 
@@ -38,7 +34,7 @@ public class WireParticleGraphic extends TransformGraphic {
 
     public void paint( Graphics2D graphics2d ) {
         AbstractVector2D phetvector = particle.getPosition();
-        java.awt.Point point = getTransform().modelToView( new Point2D.Double( phetvector.getX(), phetvector.getY( )) );
+        java.awt.Point point = getTransform().modelToView( new Point2D.Double( phetvector.getX(), phetvector.getY() ) );
         imageGraphic.setPosition( point );
         imageGraphic.paint( graphics2d );
     }

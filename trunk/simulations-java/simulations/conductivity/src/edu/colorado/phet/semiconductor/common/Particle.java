@@ -5,9 +5,9 @@
 package edu.colorado.phet.semiconductor.common;
 
 import edu.colorado.phet.common.conductivity.model.ModelElement;
-import edu.colorado.phet.common.conductivity.model.simpleobservable.SimpleObservable;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 public class Particle extends SimpleObservable
         implements ModelElement {
@@ -31,7 +31,7 @@ public class Particle extends SimpleObservable
         velocity = velocity.getAddedInstance( phetvector );
         AbstractVector2D phetvector1 = velocity.getScaledInstance( d );
         position = position.getAddedInstance( phetvector1 );
-        updateObservers();
+        notifyObservers();
     }
 
     public void setAcceleration( double d, double d1 ) {

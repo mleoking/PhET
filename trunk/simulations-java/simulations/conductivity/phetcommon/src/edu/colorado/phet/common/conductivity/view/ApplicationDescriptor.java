@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 7:38:22 AM
- *
  */
 public class ApplicationDescriptor {
     String windowTitle;
