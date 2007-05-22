@@ -93,6 +93,9 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         play = createButton( TimeseriesResources.getString( "playback" ), "Play" );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                if( timeSeriesModel.isPaused() ) {
+                    timeSeriesModel.rewind();
+                }
                 timeSeriesModel.startPlaybackMode( PLAYBACK_FULL );
             }
         } );
@@ -109,6 +112,9 @@ public class TimeSeriesPlaybackPanel extends JPanel {
 //        slowMotion = createButton( "<html>Slow<br>Motion</html>", "StepForward" );
         slowMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                if( timeSeriesModel.isPaused() ) {
+                    timeSeriesModel.rewind();
+                }
                 timeSeriesModel.startPlaybackMode( PLAYBACK_SLOW );
             }
         } );

@@ -21,6 +21,8 @@ Fixed: Floor still exists in space.
 Moved "Clear Heat" button from pie chart panel to above Friction Slider.
 Removed "Clear Heat" button from Friction advanced panel.
 Moved "Choose Character" button higher in the control panel.
+Fixed: Pressing "Playback" no longer requires pressing "Rewind" in advance.
+Fixed: Sometimes the last point in a recording is omitted on playback.
 
 2.01.01 (5-10-2007)
 Test build process.
