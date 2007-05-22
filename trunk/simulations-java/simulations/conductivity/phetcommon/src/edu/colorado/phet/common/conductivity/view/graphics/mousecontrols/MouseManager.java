@@ -1,8 +1,8 @@
 /*, 2003.*/
 package edu.colorado.phet.common.conductivity.view.graphics.mousecontrols;
 
-import edu.colorado.phet.common.conductivity.util.MultiMap;
 import edu.colorado.phet.common.conductivity.view.graphics.bounds.Boundary;
+import edu.colorado.phet.common.phetcommon.util.MultiMap;
 
 import javax.swing.event.MouseInputListener;
 import java.awt.event.MouseEvent;
