@@ -10,9 +10,9 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -37,7 +37,7 @@ public class EnergyVsTimePlot {
     private double initialTime;
     private DynamicJFreeChartNode dynamicJFreeChartNode;
     private TimeSeriesModel timeSeriesModel;
-    private int zoom = 0;
+
     private ZoomControlNode zoomControlNode;
     private JFreeChart chart;
     private PSwing clearPSwing;
@@ -146,20 +146,8 @@ public class EnergyVsTimePlot {
             }
         } );
 
-        zoomControlNode = new ZoomControlNode( ZoomControlNode.VERTICAL );
+        zoomControlNode = new VerticalZoomControl( chart.getXYPlot().getRangeAxis() );
         graphCanvas.addScreenChild( zoomControlNode );
-        zoomControlNode.addZoomListener( new ZoomControlNode.ZoomListener() {
-            public void zoomedOut() {
-                zoom++;
-                updateZoom();
-            }
-
-            public void zoomedIn() {
-                zoom--;
-                updateZoom();
-            }
-        } );
-        updateZoom();
         zoomControlNode.setOffset( dynamicJFreeChartNode.getDataArea().getMaxX(), dynamicJFreeChartNode.getDataArea().getCenterY() );
 
         JButton clear = new JButton( "Clear" );
@@ -171,15 +159,6 @@ public class EnergyVsTimePlot {
         clearPSwing = new PSwing( clear );
         graphCanvas.addScreenChild( clearPSwing );
         relayout();
-    }
-
-    private void updateZoom() {
-        zoomControlNode.setZoomInEnabled( zoom > -5 );
-        zoomControlNode.setZoomOutEnabled( zoom < 7 );
-        double range = 7000 + zoom * 1000;
-        range = Math.max( range, 0 );
-        double minY = zoom < 0 ? -500 : -500 - zoom * 500;
-        chart.getXYPlot().getRangeAxis().setRange( minY, minY + range );
     }
 
     private void updateCursor( JFreeChartCursorNode jFreeChartCursorNode, TimeSeriesModel timeSeriesModel ) {
