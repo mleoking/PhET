@@ -1,9 +1,9 @@
 /*, 2003.*/
 package edu.colorado.phet.common.conductivity.view;
 
-import edu.colorado.phet.common.conductivity.view.util.graphics.ImageLoader;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,8 @@
 /*, 2003.*/
 package edu.colorado.phet.common.conductivity.view;
 
-import edu.colorado.phet.common.conductivity.view.util.framesetup.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+
 
 /**
  * User: Sam Reid
@@ -29,10 +30,6 @@ public class ApplicationDescriptor {
 
     public String getDescription() {
         return description;
-    }
-
-    public String getVersion() {
-        return version;
     }
 
     public FrameSetup getFrameSetup() {

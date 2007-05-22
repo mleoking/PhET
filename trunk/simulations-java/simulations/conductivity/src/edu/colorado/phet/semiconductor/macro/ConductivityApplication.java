@@ -20,11 +20,11 @@ import edu.colorado.phet.common.conductivity.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.conductivity.view.util.AspectRatioLayout;
-import edu.colorado.phet.common.conductivity.view.util.framesetup.FrameCenterer;
-import edu.colorado.phet.common.conductivity.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.semiconductor.Flashlight;
 import edu.colorado.phet.semiconductor.FlashlightGraphic;
 import edu.colorado.phet.semiconductor.Photon;
@@ -276,7 +276,7 @@ public class ConductivityApplication extends Module {
         ApplicationDescriptor ad = new ApplicationDescriptor(
                 SimStrings.get( "ConductivityApplication.title" ) + " " + version,
                 SimStrings.get( "ConductivityApplication.description" ), version,
-                new FrameCenterer( 100, 100 ) );
+                new FrameSetup.CenteredWithInsets( 100, 100 ) );
         ad.setName( "conductivity" );
         PhetApplication phetapplication = new PhetApplication( ad, module, swingtimerclock );
         phetapplication.startApplication( module );

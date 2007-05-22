@@ -8,8 +8,8 @@ import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
 import edu.colorado.phet.common.conductivity.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.conductivity.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.semiconductor.common.StretchedBufferedImage;
 import edu.colorado.phet.semiconductor.macro.battery.Battery;
 
