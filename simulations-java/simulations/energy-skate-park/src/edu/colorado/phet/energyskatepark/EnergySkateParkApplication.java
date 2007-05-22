@@ -144,7 +144,6 @@ new EnergySkateParkFrameSetup() );
     }
 
     public static class EnergySkateParkDebugFrameSetup implements FrameSetup {
-
         public void initialize( JFrame frame ) {
             frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - EnergySkateParkModule.energyFrameWidth,
                            Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EnergySkateParkModule.chartFrameHeight //for debug
