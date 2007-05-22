@@ -3,6 +3,8 @@ Mountains rescale on zoom-out.
 Zoom in/out has improved performance.
 Increased extent of grid.
 Grid axes are now in bold to differentiate from grid lines.
+Added tests for fallthrough.
+When joining tracks, whether the resultant track is in "roller-coaster" mode depends on the mode of the larger track.
 
 2.01.01 (5-10-2007)
 Test build process.
