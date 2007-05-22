@@ -22,7 +22,7 @@ public class PieChartControlPanel extends VerticalLayoutPanel {
     private EnergySkateParkControlPanel energySkateParkControlPanel;
     private JCheckBox showThermal;
     private JCheckBox showPieChartCheckBox;
-    private ClearHeatButton clearHeat;
+
 
     public PieChartControlPanel( final EnergySkateParkModule module, EnergySkateParkControlPanel energySkateParkControlPanel ) {
         this.module = module;
@@ -45,10 +45,10 @@ public class PieChartControlPanel extends VerticalLayoutPanel {
         } );
         add( showThermal );
 
-        clearHeat = new ClearHeatButton( module );
+//        clearHeat = new ClearHeatButton( module );
         setFillNone();
         setAnchor( GridBagConstraints.WEST );
-        add( clearHeat );
+//        add( clearHeat );
         showThermal.setEnabled( showPieChartCheckBox.isSelected() );
     }
 
