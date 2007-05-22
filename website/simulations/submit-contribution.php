@@ -63,9 +63,6 @@
     // Redirect to contribution editing page:
     force_redirect("$edit_contrib", 7);
     
-    // Automatically approve submission:
-    contribution_set_approved($contribution_id, true);
-    
     function print_content() {
         global $edit_contrib;
         
