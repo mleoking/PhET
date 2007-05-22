@@ -28,7 +28,7 @@ public class BarGraphCanvas extends PSwingCanvas {
     public BarGraphCanvas( final EnergySkateParkModule module ) {
         this.module = module;
         final EnergyEnergySkateParkBarGraph energyBarGraphSet = new EnergyEnergySkateParkBarGraph( module.getEnergyConservationCanvas(), module.getEnergySkateParkModel(),
-                                                                                                   new ModelViewTransform1D( 0, 7000, 0, 500 ) );
+                                                                                                   400 / 5000.0 );
         getLayer().addChild( energyBarGraphSet );
         energyBarGraphSet.translate( 45, 45 );
 
@@ -59,7 +59,7 @@ public class BarGraphCanvas extends PSwingCanvas {
 
     private void updateZoom( EnergyEnergySkateParkBarGraph energyBarGraphSet, NumberAxis axis ) {
         double range = Math.abs( axis.getLowerBound() - axis.getUpperBound() );
-        energyBarGraphSet.setScale( 5000 / range );
+        energyBarGraphSet.setBarScale( 5000 / range );
     }
 
     private void updateLayout() {

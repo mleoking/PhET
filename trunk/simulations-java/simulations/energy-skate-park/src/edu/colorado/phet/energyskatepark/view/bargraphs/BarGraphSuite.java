@@ -30,8 +30,7 @@ public class BarGraphSuite extends PNode {
         this.energySkateParkModel = energySkateParkModel;
 
         transform1D = new ModelViewTransform1D( 0, 600, 0, 3 );
-        workBarGraph = new WorkEnergySkateParkBarGraph( energySkaterSimulationPanel, energySkateParkModel, transform1D );
-        energyBarGraph = new EnergyEnergySkateParkBarGraph( energySkaterSimulationPanel, energySkateParkModel, transform1D );
+        energyBarGraph = new EnergyEnergySkateParkBarGraph( energySkaterSimulationPanel, energySkateParkModel, 400 / 5000.0 );
         addChild( workBarGraph );
         addChild( energyBarGraph );
 

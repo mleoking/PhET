@@ -13,8 +13,8 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
  */
 
 public class EnergyEnergySkateParkBarGraph extends EnergySkateParkBarGraph {
-    public EnergyEnergySkateParkBarGraph( EnergySkateParkSimulationPanel canvas, final EnergySkateParkModel energySkateParkModel, ModelViewTransform1D transform1D ) {
-        super( canvas, energySkateParkModel, EnergySkateParkStrings.getString( "properties.energy" ), transform1D );
+    public EnergyEnergySkateParkBarGraph( EnergySkateParkSimulationPanel canvas, final EnergySkateParkModel energySkateParkModel, double scale) {
+        super( canvas, energySkateParkModel, EnergySkateParkStrings.getString( "properties.energy" ), scale);
         final ValueAccessor[] energyAccess = new ValueAccessor[]{
                 new ValueAccessor.KineticEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() ),
                 new ValueAccessor.PotentialEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() ),

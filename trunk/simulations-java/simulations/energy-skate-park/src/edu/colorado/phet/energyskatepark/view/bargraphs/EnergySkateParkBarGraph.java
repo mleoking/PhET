@@ -1,7 +1,6 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.bargraphs;
 
-import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 
@@ -15,8 +14,8 @@ public class EnergySkateParkBarGraph extends BarGraph {
     private EnergySkateParkModel model;
 
     public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel energySkateParkSimulationPanel, EnergySkateParkModel energySkateParkModel,
-                                    String title, ModelViewTransform1D transform1D ) {
-        super( title,transform1D );
+                                    String title ,double scale) {
+        super( title, scale );
         this.model = energySkateParkModel;
 
         energySkateParkSimulationPanel.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
