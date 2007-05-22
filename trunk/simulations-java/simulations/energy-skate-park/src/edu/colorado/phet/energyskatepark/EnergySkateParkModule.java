@@ -15,6 +15,7 @@ import edu.colorado.phet.common.timeseries.ui.TimeSeriesPlaybackPanel;
 import edu.colorado.phet.energyskatepark.model.*;
 import edu.colorado.phet.energyskatepark.plots.BarGraphCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlotCanvas;
+import edu.colorado.phet.energyskatepark.plots.EnergyVsTimePlot;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkModuleBean;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
