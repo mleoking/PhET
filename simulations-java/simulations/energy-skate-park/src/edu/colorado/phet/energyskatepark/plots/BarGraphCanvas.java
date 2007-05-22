@@ -1,7 +1,6 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.plots;
 
-import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.view.ClearHeatButton;
 import edu.colorado.phet.energyskatepark.view.bargraphs.EnergyEnergySkateParkBarGraph;
@@ -59,7 +58,7 @@ public class BarGraphCanvas extends PSwingCanvas {
 
     private void updateZoom( EnergyEnergySkateParkBarGraph energyBarGraphSet, NumberAxis axis ) {
         double range = Math.abs( axis.getLowerBound() - axis.getUpperBound() );
-        energyBarGraphSet.setBarScale( 5000 / range );
+        energyBarGraphSet.setBarScale( 500 / range );
     }
 
     private void updateLayout() {

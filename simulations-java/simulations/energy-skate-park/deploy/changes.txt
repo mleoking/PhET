@@ -13,6 +13,10 @@ Fixed: Zoom buttons are reversed on Energy vs. Position chart.
 Added a horizontal zoom for Energy vs. Position chart.
 Standardized zoom buttons for Energy vs. Position chart.
 Fixed: "Copy chart" copies images of zoom buttons.
+Fixed: Bar Graph doesn't show negative values well.
+Fixed: Slow response time for zoom in/out on Bar Graph.
+Fixed: When zooming out the Bar Graph, Thermal energy doesn't scale properly.
+Fixed: Measuring tape doesn't scale during zoom in/out.
 
 2.01.01 (5-10-2007)
 Test build process.
