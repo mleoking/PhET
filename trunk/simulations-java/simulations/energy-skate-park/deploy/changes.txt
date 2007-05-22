@@ -7,6 +7,7 @@ Added tests for fallthrough.
 When joining tracks, whether the resultant track is in "roller-coaster" mode depends on the mode of the larger constituent track.
 Grid changes color based on location, to make it more visible against dark background.
 Fixed: Track popup menu sometimes has the wrong initial value for "roller-coaster mode"
+Bugfixes for Energy vs. Time chart.
 
 2.01.01 (5-10-2007)
 Test build process.

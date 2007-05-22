@@ -12,6 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -20,6 +21,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 /**
@@ -36,12 +39,14 @@ public class EnergyVsTimePlot {
     private int zoom = 0;
     private ZoomControlNode zoomControlNode;
     private JFreeChart chart;
+    private PSwing clearPSwing;
+    private PhetPCanvas graphCanvas;
 
     public EnergyVsTimePlot( JFrame phetFrame, IClock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
         this.clock = clock;
         this.timeSeriesModel = timeSeriesModel;
-        PhetPCanvas graphCanvas = new BufferedPhetPCanvas();
+        graphCanvas = new BufferedPhetPCanvas();
 
         chart = ChartFactory.createXYLineChart(
                 EnergySkateParkStrings.getString( "plots.energy-vs-time" ),
@@ -155,6 +160,16 @@ public class EnergyVsTimePlot {
         } );
         updateZoom();
         zoomControlNode.setOffset( dynamicJFreeChartNode.getDataArea().getMaxX(), dynamicJFreeChartNode.getDataArea().getCenterY() );
+
+        JButton clear = new JButton( "Clear" );
+        clear.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                reset();
+            }
+        } );
+        clearPSwing = new PSwing( clear );
+        graphCanvas.addScreenChild( clearPSwing );
+        relayout();
     }
 
     private void updateZoom() {
@@ -182,6 +197,13 @@ public class EnergyVsTimePlot {
         }
 
         dialog.setVisible( visible );
+        if( visible ) {
+            relayout();
+        }
+    }
+
+    private void relayout() {
+        clearPSwing.setOffset( graphCanvas.getWidth() - clearPSwing.getFullBounds().getWidth() - 2, 2 );
     }
 
     public void reset() {
