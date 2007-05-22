@@ -19,7 +19,7 @@ import java.util.Hashtable;
 
 public class WaveRotateControl extends HorizontalLayoutPanel {
     public WaveRotateControl( final RotationWaveGraphic rotationWaveGraphic ) {
-        final ModelSlider rotate = new ModelSlider( WIStrings.getString( "rotate.view" ), WIStrings.getString( "units.radians" ), 0, Math.PI / 2, rotationWaveGraphic.getRotation() );
+        final ModelSlider rotate = new ModelSlider( WIStrings.getString( "controls.rotate-view" ), WIStrings.getString( "units.radians" ), 0, Math.PI / 2, rotationWaveGraphic.getRotation() );
         rotate.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rotationWaveGraphic.setViewAngle( rotate.getValue() );
@@ -28,7 +28,7 @@ public class WaveRotateControl extends HorizontalLayoutPanel {
         rotate.setPaintLabels( true );
         Hashtable modelLabels = new Hashtable();
         modelLabels.put( new Double( rotate.getMaximumModelValue() ), new JLabel( WIStrings.getString( "controls.side" ) ) );
-        modelLabels.put( new Double( rotate.getMinimumModelValue() ), new JLabel( WIStrings.getString( "top" ) ) );
+        modelLabels.put( new Double( rotate.getMinimumModelValue() ), new JLabel( WIStrings.getString( "controls.top" ) ) );
         rotate.setPaintTicks( false );
         rotate.setTextFieldVisible( false );
         rotate.setModelLabels( modelLabels );

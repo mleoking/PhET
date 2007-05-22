@@ -24,7 +24,7 @@ public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {
     public FaucetOnOffControlPanel( final FaucetGraphic faucetGraphic ) {
         this.faucetGraphic = faucetGraphic;
         ButtonGroup buttonGroup = new ButtonGroup();
-        onRadioButton = new JRadioButton( WIStrings.getString( "on" ), faucetGraphic.isEnabled() );
+        onRadioButton = new JRadioButton( WIStrings.getString( "controls.on" ), faucetGraphic.isEnabled() );
         onRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 faucetGraphic.setEnabled( onRadioButton.isSelected() );
@@ -33,7 +33,7 @@ public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {
         buttonGroup.add( onRadioButton );
         add( onRadioButton );
 
-        offRadioButton = new JRadioButton( WIStrings.getString( "off" ), !faucetGraphic.isEnabled() );
+        offRadioButton = new JRadioButton( WIStrings.getString( "controls.off" ), !faucetGraphic.isEnabled() );
         offRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 faucetGraphic.setEnabled( !offRadioButton.isSelected() );

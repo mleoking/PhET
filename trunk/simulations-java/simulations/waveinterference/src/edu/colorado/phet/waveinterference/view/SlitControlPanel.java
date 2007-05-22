@@ -88,7 +88,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         } );
         add( slitWidthSlider );
 
-        slitLocationSlider = new ModelSlider( WIStrings.getString( "barrier.location" ), "", 0, 75, slitPotential.getLocation() );
+        slitLocationSlider = new ModelSlider( WIStrings.getString( "controls.barrier-location" ), "", 0, 75, slitPotential.getLocation() );
         slitLocationSlider.setModelLabels( toHashtable( new int[]{0, 75 / 2, 75} ) );
         slitLocationSlider.setTextFieldVisible( false );
         slitLocationSlider.setBorder( null );

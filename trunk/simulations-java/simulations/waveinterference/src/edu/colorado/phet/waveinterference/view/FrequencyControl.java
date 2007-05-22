@@ -18,7 +18,7 @@ import javax.swing.event.ChangeListener;
 
 public class FrequencyControl extends VerticalLayoutPanel {
     public FrequencyControl( final Oscillator oscillator ) {
-        final ModelSlider frequencySlider = new ModelSlider( WIStrings.getString( "frequency" ), WIStrings.getString( "units.frequency" ), 0, 3, oscillator.getFrequency() );
+        final ModelSlider frequencySlider = new ModelSlider( WIStrings.getString( "controls.frequency" ), WIStrings.getString( "units.frequency" ), 0, 3, oscillator.getFrequency() );
         frequencySlider.setBorder( null );
         frequencySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

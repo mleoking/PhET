@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PAffineTransform;
@@ -14,14 +15,13 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Aug 23, 2006
  * Time: 8:35:43 PM
- *
  */
 
 public class ThisSideUpGraphic extends PhetPNode {
     private double origHeight;
 
     public ThisSideUpGraphic() {
-        PText textNode = new PText( "Top" );
+        PText textNode = new PText( WIStrings.getString( "top" ) );
         addChild( textNode );
         PPath arrowNode = new PPath( new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, -100 ), 30, 30, 15 ).getShape() );
         arrowNode.setPaint( Color.yellow );

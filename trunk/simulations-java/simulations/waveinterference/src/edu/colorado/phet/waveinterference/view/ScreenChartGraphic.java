@@ -41,7 +41,7 @@ public class ScreenChartGraphic extends PhetPNode {
         this.brightnessScreenGraphic = brightnessScreenGraphic;//todo factor out a common model piece
         XYSeries series = new XYSeries( "0" );
         XYDataset dataset = new XYSeriesCollection( series );
-        jFreeChart = ChartFactory.createXYLineChart( title, WIStrings.getString( "intensity1" ), WIStrings.getString( "position" ), dataset, PlotOrientation.VERTICAL, false, false, false );
+        jFreeChart = ChartFactory.createXYLineChart( title, WIStrings.getString( "readout.intensity" ).toLowerCase( ), WIStrings.getString( "readout.position" ), dataset, PlotOrientation.VERTICAL, false, false, false );
 //        jFreeChart.getTitle().setFont( new Font("Lucida Sans",Font.PLAIN, 14));
         jFreeChart.getXYPlot().getDomainAxis().setRange( 0, 1.0 );
         jFreeChartNode = new JFreeChartNode( jFreeChart, true );

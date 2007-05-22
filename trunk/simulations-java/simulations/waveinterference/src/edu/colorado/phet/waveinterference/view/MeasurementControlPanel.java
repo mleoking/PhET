@@ -26,7 +26,7 @@ public class MeasurementControlPanel extends VerticalLayoutPanel {
         this.measurementToolSet = measurementToolSet;
 //        setBorder( BorderFactory.createTitledBorder( "Tools" ) );
 
-        final JCheckBox measuringTape = new JCheckBox( WIStrings.getString( "measuring.tape" ), measurementToolSet.isMeasuringTapeVisible() );
+        final JCheckBox measuringTape = new JCheckBox( WIStrings.getString( "controls.measuring-tape" ), measurementToolSet.isMeasuringTapeVisible() );
         measuringTape.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 measurementToolSet.setMeasuringTapeVisible( measuringTape.isSelected() );
@@ -35,7 +35,7 @@ public class MeasurementControlPanel extends VerticalLayoutPanel {
         add( new IconComponent( measuringTape, getTapeIcon() ) );
 
 
-        final JCheckBox stopwatch = new JCheckBox( WIStrings.getString( "stopwatch" ), measurementToolSet.isStopwatchVisible() );
+        final JCheckBox stopwatch = new JCheckBox( WIStrings.getString( "controls.stopwatch" ), measurementToolSet.isStopwatchVisible() );
         stopwatch.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 measurementToolSet.setStopwatchVisible( stopwatch.isSelected() );

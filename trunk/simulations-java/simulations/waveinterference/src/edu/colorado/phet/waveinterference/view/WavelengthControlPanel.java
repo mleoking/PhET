@@ -25,7 +25,7 @@ public class WavelengthControlPanel extends VerticalLayoutPanel {
     private double speedOfLight = 1000.0;
 
     public WavelengthControlPanel( WaveModelGraphic waveModelGraphic, final Oscillator oscillator ) {
-        addFullWidth( new JLabel( WIStrings.getString( "wavelength" ) ) );
+        addFullWidth( new JLabel( WIStrings.getString( "controls.wavelength" ) ) );
         this.waveModelGraphic = waveModelGraphic;
         this.oscillator = oscillator;
         slider = new SRRWavelengthSliderComponent();

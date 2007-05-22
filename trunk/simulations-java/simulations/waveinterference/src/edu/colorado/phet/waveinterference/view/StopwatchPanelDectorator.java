@@ -22,7 +22,7 @@ public class StopwatchPanelDectorator extends VerticalLayoutPanel {
 
     public StopwatchPanelDectorator( IClock clock, double timeScale, String timeUnits ) {
         setBorder( new LineBorder( Color.black, 2, true ) );
-        JLabel label = new JLabel( WIStrings.getString( "stopwatch" ) );
+        JLabel label = new JLabel( WIStrings.getString( "controls.stopwatch" ) );
         add( label );
         stopwatchPanel = new StopwatchPanel( clock );
         stopwatchPanel.setScaleFactor( timeScale );

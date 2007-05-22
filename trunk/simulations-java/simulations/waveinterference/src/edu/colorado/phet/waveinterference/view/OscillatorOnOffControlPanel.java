@@ -24,7 +24,7 @@ public class OscillatorOnOffControlPanel extends VerticalLayoutPanel {
     public OscillatorOnOffControlPanel( final Oscillator oscillator ) {
         this.oscillator = oscillator;
         ButtonGroup buttonGroup = new ButtonGroup();
-        onRadioButton = new JRadioButton( WIStrings.getString( "on" ), oscillator.isEnabled() );
+        onRadioButton = new JRadioButton( WIStrings.getString( "controls.on" ), oscillator.isEnabled() );
         onRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 oscillator.setEnabled( onRadioButton.isSelected() );
@@ -33,7 +33,7 @@ public class OscillatorOnOffControlPanel extends VerticalLayoutPanel {
         buttonGroup.add( onRadioButton );
         add( onRadioButton );
 
-        offRadioButton = new JRadioButton( WIStrings.getString( "off" ), !oscillator.isEnabled() );
+        offRadioButton = new JRadioButton( WIStrings.getString( "controls.off" ), !oscillator.isEnabled() );
         offRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 oscillator.setEnabled( !offRadioButton.isSelected() );

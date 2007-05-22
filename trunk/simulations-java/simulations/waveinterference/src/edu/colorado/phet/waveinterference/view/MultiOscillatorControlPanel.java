@@ -31,14 +31,14 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable 
         setBorder( BorderFactory.createEtchedBorder() );
 //        String hello = MessageFormat.format( SimStrings.get( "hello.0" ), new Object[]{units} );
 //        oneDrip = new JRadioButton( WIStrings.getString( "one.0" ) + name, multiOscillator.isOneSource() );
-        oneDrip = new JRadioButton( MessageFormat.format( WIStrings.getString( "one.0" ), new Object[]{name} ), multiOscillator.isOneSource() );
+        oneDrip = new JRadioButton( MessageFormat.format( WIStrings.getString( "controls.one" ), new Object[]{name} ), multiOscillator.isOneSource() );
         oneDrip.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 multiOscillator.setOneDrip();
                 updateSpacingSlider();
             }
         } );
-        twoDrips = new JRadioButton( MessageFormat.format( WIStrings.getString( "two.0.s" ), new Object[]{name} ), multiOscillator.isTwoSource() );
+        twoDrips = new JRadioButton( MessageFormat.format( WIStrings.getString( "controls.two" ), new Object[]{name} ), multiOscillator.isTwoSource() );
         twoDrips.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 multiOscillator.setTwoDrips();
