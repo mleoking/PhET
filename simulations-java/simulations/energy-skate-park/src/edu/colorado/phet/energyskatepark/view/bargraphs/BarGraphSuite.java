@@ -21,8 +21,8 @@ public class BarGraphSuite extends PNode {
     private EnergySkateParkSimulationPanel energySkaterSimulationPanel;
     private EnergySkateParkModel energySkateParkModel;
 
-    private BarGraphSet workBarGraphSet;
-    private BarGraphSet energyBarGraphSet;
+    private BarGraph workBarGraph;
+    private BarGraph energyBarGraph;
     private ModelViewTransform1D transform1D;
 
     public BarGraphSuite( EnergySkateParkSimulationPanel energySkaterSimulationPanel, final EnergySkateParkModel energySkateParkModel ) {
@@ -30,12 +30,12 @@ public class BarGraphSuite extends PNode {
         this.energySkateParkModel = energySkateParkModel;
 
         transform1D = new ModelViewTransform1D( 0, 600, 0, 3 );
-        workBarGraphSet = new WorkBarGraphSet( energySkaterSimulationPanel, energySkateParkModel, transform1D );
-        energyBarGraphSet = new EnergyBarGraphSet( energySkaterSimulationPanel, energySkateParkModel, transform1D );
-        addChild( workBarGraphSet );
-        addChild( energyBarGraphSet );
+        workBarGraph = new WorkEnergySkateParkBarGraph( energySkaterSimulationPanel, energySkateParkModel, transform1D );
+        energyBarGraph = new EnergyEnergySkateParkBarGraph( energySkaterSimulationPanel, energySkateParkModel, transform1D );
+        addChild( workBarGraph );
+        addChild( energyBarGraph );
 
-        energyBarGraphSet.translate( workBarGraphSet.getFullBounds().getWidth() + 0, 0 );
+        energyBarGraph.translate( workBarGraph.getFullBounds().getWidth() + 0, 0 );
     }
 
     private Paint toEnergyPaint( Color color ) {
@@ -50,36 +50,15 @@ public class BarGraphSuite extends PNode {
         int ovalDiameter = ovalRadius * 2;
         int ovalX = imageSize - ovalDiameter;
         g.fillOval( ovalX, ovalX, ovalDiameter, ovalDiameter );
-        Paint p = new TexturePaint( texture, new Rectangle2D.Double( 0, 0, 10, 10 ) );
-        return p;
-    }
-
-    public void setEnergyBarsMaximized( boolean selected ) {
-        energyBarGraphSet.setMinimized( !selected );
-    }
-
-    public void setWorkBarsMaximized( boolean selected ) {
-        workBarGraphSet.setMinimized( !selected );
-    }
-
-    public boolean getEnergyBarsMaximized() {
-        return !energyBarGraphSet.isMinimized();
-    }
-
-    public boolean getWorkBarsMaximized() {
-        return !workBarGraphSet.isMinimized();
+        return new TexturePaint( texture, new Rectangle2D.Double( 0, 0, 10, 10 ) );
     }
 
     public double getMaxDisplayableEnergy() {
-        return energyBarGraphSet.getMaxDisplayableEnergy();
-    }
-
-    public boolean areBothMinimized() {
-        return ( !getWorkBarsMaximized() ) && ( !getEnergyBarsMaximized() );
+        return energyBarGraph.getMaxDisplayableEnergy();
     }
 
     public void setBarChartHeight( double barChartHeight ) {
-        workBarGraphSet.setBarChartHeight( barChartHeight );
-        energyBarGraphSet.setBarChartHeight( barChartHeight );
+        workBarGraph.setBarChartHeight( barChartHeight );
+        energyBarGraph.setBarChartHeight( barChartHeight );
     }
 }

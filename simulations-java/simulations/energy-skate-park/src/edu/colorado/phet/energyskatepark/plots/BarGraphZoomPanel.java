@@ -4,7 +4,7 @@ package edu.colorado.phet.energyskatepark.plots;
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.energyskatepark.view.bargraphs.BarGraphSet;
+import edu.colorado.phet.energyskatepark.view.bargraphs.BarGraph;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -20,12 +20,12 @@ import java.io.IOException;
 
 public class BarGraphZoomPanel extends VerticalLayoutPanel {
     private double dy = 1.2;
-    private BarGraphSet barGraphSet;
+    private BarGraph barGraph;
     private ModelViewTransform1D origTx;
 
-    public BarGraphZoomPanel( BarGraphSet barGraphSet ) {
-        this.barGraphSet = barGraphSet;
-        origTx = barGraphSet.getTransform1D();
+    public BarGraphZoomPanel( BarGraph barGraph ) {
+        this.barGraph = barGraph;
+        origTx = barGraph.getTransform1D();
         try {
             JButton comp = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "energy-skate-park/images/icons/glass-20-plus.gif" ) ) );
             comp.addActionListener( new ActionListener() {
@@ -48,12 +48,12 @@ public class BarGraphZoomPanel extends VerticalLayoutPanel {
     }
 
     private void zoom( double value ) {
-        ModelViewTransform1D transform1D = barGraphSet.getTransform1D();
-        barGraphSet.setTransform1D( new ModelViewTransform1D( transform1D.getMinModel(), transform1D.getMaxModel() / value,
+        ModelViewTransform1D transform1D = barGraph.getTransform1D();
+        barGraph.setTransform1D( new ModelViewTransform1D( transform1D.getMinModel(), transform1D.getMaxModel() / value,
                                                               transform1D.getMinView(), transform1D.getMaxView() ) );
     }
 
     public void reset() {
-        barGraphSet.setTransform1D( origTx );
+        barGraph.setTransform1D( origTx );
     }
 }

@@ -5,8 +5,8 @@ import org.jfree.chart.axis.ValueAxis;
 
 /**
  * Author: Sam Reid
-* May 22, 2007, 3:52:05 AM
-*/
+ * May 22, 2007, 3:52:05 AM
+ */
 public class VerticalZoomControl extends DefaultZoomControl {
 
     public VerticalZoomControl( ValueAxis axis ) {
@@ -20,5 +20,10 @@ public class VerticalZoomControl extends DefaultZoomControl {
         range = Math.max( range, 0 );
         double minY = zoom < 0 ? -500 : -500 - zoom * 500;
         axis.setRange( minY, minY + range );
+    }
+
+    public void setZoom( int zoom ) {
+        this.zoom = zoom;
+        updateZoom();
     }
 }

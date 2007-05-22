@@ -12,15 +12,18 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
  * Time: 8:17:25 PM
  */
 
-public class EnergyBarGraphSet extends BarGraphSet {
-    public EnergyBarGraphSet( EnergySkateParkSimulationPanel canvas, EnergySkateParkModel energySkateParkModel, ModelViewTransform1D transform1D ) {
+public class EnergyEnergySkateParkBarGraph extends EnergySkateParkBarGraph {
+    public EnergyEnergySkateParkBarGraph( EnergySkateParkSimulationPanel canvas, final EnergySkateParkModel energySkateParkModel, ModelViewTransform1D transform1D ) {
         super( canvas, energySkateParkModel, EnergySkateParkStrings.getString( "properties.energy" ), transform1D );
-        ValueAccessor[] energyAccess = new ValueAccessor[]{
+        final ValueAccessor[] energyAccess = new ValueAccessor[]{
                 new ValueAccessor.KineticEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() ),
                 new ValueAccessor.PotentialEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() ),
                 new ValueAccessor.ThermalEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() ),
                 new ValueAccessor.TotalEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() )
         };
-        finishInit( energyAccess );
+        Variable[] v = toVariableArray( energyAccess, energySkateParkModel );
+        finishInit( v );
     }
+
+
 }

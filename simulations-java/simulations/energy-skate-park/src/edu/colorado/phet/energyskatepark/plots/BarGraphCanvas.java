@@ -4,9 +4,12 @@ package edu.colorado.phet.energyskatepark.plots;
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.view.ClearHeatButton;
-import edu.colorado.phet.energyskatepark.view.bargraphs.EnergyBarGraphSet;
+import edu.colorado.phet.energyskatepark.view.bargraphs.EnergyEnergySkateParkBarGraph;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.event.AxisChangeEvent;
+import org.jfree.chart.event.AxisChangeListener;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -20,13 +23,12 @@ import java.awt.event.ComponentEvent;
 public class BarGraphCanvas extends PSwingCanvas {
     private EnergySkateParkModule module;
     private PSwing clearHeatButton;
-    private BarGraphZoomPanel barGraphZoomPanel;
-    private PSwing barGraphPSwing;
+    private VerticalZoomControl barGraphPSwing;
 
     public BarGraphCanvas( final EnergySkateParkModule module ) {
         this.module = module;
-        EnergyBarGraphSet energyBarGraphSet = new EnergyBarGraphSet( module.getEnergyConservationCanvas(), module.getEnergySkateParkModel(),
-                                                                     new ModelViewTransform1D( 0, 7000, 0, 500 ) );
+        final EnergyEnergySkateParkBarGraph energyBarGraphSet = new EnergyEnergySkateParkBarGraph( module.getEnergyConservationCanvas(), module.getEnergySkateParkModel(),
+                                                                           new ModelViewTransform1D( 0, 7000, 0, 500 ) );
         getLayer().addChild( energyBarGraphSet );
         energyBarGraphSet.translate( 45, 45 );
 
@@ -43,8 +45,16 @@ public class BarGraphCanvas extends PSwingCanvas {
             }
         } );
 
-        barGraphZoomPanel = new BarGraphZoomPanel( energyBarGraphSet );
-        barGraphPSwing = new PSwing( barGraphZoomPanel );
+        final NumberAxis axis = new NumberAxis();
+        axis.addChangeListener( new AxisChangeListener() {
+            public void axisChanged( AxisChangeEvent event ) {
+                ModelViewTransform1D transform1D = energyBarGraphSet.getTransform1D();
+                energyBarGraphSet.setTransform1D( new ModelViewTransform1D(
+                        axis.getLowerBound(), axis.getUpperBound(),
+                        transform1D.getMinView(), transform1D.getMaxView() ) );
+            }
+        } );
+        barGraphPSwing = new VerticalZoomControl( axis );
         getLayer().addChild( barGraphPSwing );
         updateLayout();
     }
@@ -57,6 +67,6 @@ public class BarGraphCanvas extends PSwingCanvas {
     }
 
     public void reset() {
-        barGraphZoomPanel.reset();
+        barGraphPSwing.setZoom( 0 );
     }
 }
