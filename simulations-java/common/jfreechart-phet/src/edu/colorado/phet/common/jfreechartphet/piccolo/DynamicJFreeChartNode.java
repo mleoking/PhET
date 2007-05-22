@@ -53,7 +53,8 @@ import java.util.ArrayList;
 /**
  * This class extends the functionality of JFreeChartNode by providing different strategies for rendering the data.
  * It is assumed that the chart's plot is XYPlot, and some functionality is lost in rendering, since we
- * have our own rendering strategies here.
+ * have our own rendering strategies here.  Also, the supplied chart's data is not rendered; only the data
+ * specific to this DynamicJFreeChartNode.
  * <p/>
  * Data is added to the chart through addValue() methods, not through the underlying XYSeriesCollection dataset.
  * <p/>
