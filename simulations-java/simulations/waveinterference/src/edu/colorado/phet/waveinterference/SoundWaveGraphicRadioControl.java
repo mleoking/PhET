@@ -29,7 +29,7 @@ public class SoundWaveGraphicRadioControl extends VerticalLayoutPanelWithDisable
                 update();
             }
         } );
-        particles = new JRadioButton( WIStrings.getString( "particles" ), soundWaveGraphic.isParticleVisible() );
+        particles = new JRadioButton( WIStrings.getString( "sound.particles" ), soundWaveGraphic.isParticleVisible() );
         particles.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 update();

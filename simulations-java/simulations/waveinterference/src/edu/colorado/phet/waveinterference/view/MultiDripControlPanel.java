@@ -33,14 +33,14 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
         this.screenUnits = screenUnits;
         setBorder( BorderFactory.createEtchedBorder() );
 
-        oneDrip = new JRadioButton( WIStrings.getString( "one.drip" ), multiFaucetDrip.isOneDrip() );
+        oneDrip = new JRadioButton( WIStrings.getString( "controls.one-drip" ), multiFaucetDrip.isOneDrip() );
         oneDrip.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 multiFaucetDrip.setOneDrip();
                 updateSpacingSliderEnable();
             }
         } );
-        twoDrips = new JRadioButton( WIStrings.getString( "two.drips" ), multiFaucetDrip.isTwoDrip() );
+        twoDrips = new JRadioButton( WIStrings.getString( "controls.two-drips" ), multiFaucetDrip.isTwoDrip() );
         twoDrips.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 multiFaucetDrip.setTwoDrips();

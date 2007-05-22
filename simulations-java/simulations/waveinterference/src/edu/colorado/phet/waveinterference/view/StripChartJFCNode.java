@@ -32,7 +32,7 @@ public class StripChartJFCNode extends PNode {
 
     public StripChartJFCNode( int width, int height, String xAxis, String yAxis ) {
         XYSeriesCollection xyDataset = new XYSeriesCollection();
-        series = new XYSeries( WIStrings.getString( "time.series" ) );
+        series = new XYSeries( WIStrings.getString( "controls.time-series" ) );
         xyDataset.addSeries( series );
 
         jFreeChart = createChart( xyDataset, xAxis, yAxis );

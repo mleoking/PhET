@@ -44,7 +44,7 @@ public class IntensityReader extends PhetPNode {
         this.clock = clock;
         textReadout = new TextReadout();
         crosshairGraphic = new CrosshairGraphic( this, 10, 15 );
-        stripChartJFCNode = new StripChartJFCNode( 175, 120, WIStrings.getString( "time.s" ), title );
+        stripChartJFCNode = new StripChartJFCNode( 175, 120, WIStrings.getString( "readout.time" ), title );
         CrosshairConnection crosshairConnection = new CrosshairConnection( this );
         addChild( textReadout );
         addChild( crosshairConnection );
@@ -105,7 +105,7 @@ public class IntensityReader extends PhetPNode {
         Point cellLocation = latticeScreenCoordinates.toLatticeCoordinates( location.getX(), location.getY() );
         if( waveModel.containsLocation( cellLocation.x, cellLocation.y ) ) {
             double value = waveModel.getAverageValue( cellLocation.x, cellLocation.y, 1 );
-            textReadout.setText( WIStrings.getString( "magnitude.0" ) + new DefaultDecimalFormat( "0.00" ).format( value ) );
+            textReadout.setText( WIStrings.getString( "controls.magnitude" ) + new DefaultDecimalFormat( "0.00" ).format( value ) );
             stripChartJFCNode.addValue( clock.getSimulationTime(), value );
         }
         else {
@@ -135,7 +135,7 @@ public class IntensityReader extends PhetPNode {
             textBackground = new PPath();
             textBackground.setPaint( new Color( 255, 255, 255, 235 ) );
             addChild( textBackground );
-            readout = new PText( WIStrings.getString( "value" ) );
+            readout = new PText( WIStrings.getString( "readout.value-unknown" ) );
             readout.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
             readout.setTextPaint( Color.blue );
             addChild( readout );

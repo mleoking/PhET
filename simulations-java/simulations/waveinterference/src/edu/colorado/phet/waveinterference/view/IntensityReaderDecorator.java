@@ -57,8 +57,8 @@ public class IntensityReaderDecorator extends PhetPNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        final JPopupMenu jPopupMenu = new JPopupMenu( WIStrings.getString( "popup.menu" ) );
-        final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( WIStrings.getString( "display.readout" ), intensityReader.isReadoutVisible() );
+        final JPopupMenu jPopupMenu = new JPopupMenu(  );
+        final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( WIStrings.getString( "readout.display" ), intensityReader.isReadoutVisible() );
         menuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 intensityReader.setReadoutVisible( menuItem.isSelected() );

@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 
 public class WaveInterferenceMenu extends JMenu {
     public WaveInterferenceMenu() {
-        super( WIStrings.getString( "options" ) );
+        super( WIStrings.getString( "controls.options" ) );
         JMenuItem jMenuItem = new JMenuItem( WIStrings.getString( "testing.run-tests" ) );
         jMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

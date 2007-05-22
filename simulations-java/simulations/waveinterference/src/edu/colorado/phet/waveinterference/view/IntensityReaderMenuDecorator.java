@@ -26,10 +26,10 @@ public class IntensityReaderMenuDecorator extends PNode {
 
     public IntensityReaderMenuDecorator( String title, final PSwingCanvas pSwingCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
         this.intensityReader = new IntensityReader( title, waveModel, latticeScreenCoordinates, clock );
-        JButton options = new JButton( WIStrings.getString( "options" ) );
+        JButton options = new JButton( WIStrings.getString( "controls.options" ) );
         options.setFont( new Font( "Lucida Sans", Font.PLAIN, 10 ) );
-        final JPopupMenu jPopupMenu = new JPopupMenu( WIStrings.getString( "popup.menu" ) );
-        final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( WIStrings.getString( "display.readout" ), intensityReader.isReadoutVisible() );
+        final JPopupMenu jPopupMenu = new JPopupMenu(  );
+        final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( WIStrings.getString( "readout.display" ), intensityReader.isReadoutVisible() );
         menuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 intensityReader.setReadoutVisible( menuItem.isSelected() );

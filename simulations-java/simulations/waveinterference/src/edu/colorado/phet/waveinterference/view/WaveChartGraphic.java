@@ -41,7 +41,7 @@ public class WaveChartGraphic extends PNode {
         this.strokeColor = strokeColor;
         XYSeries series = new XYSeries( "0" );
         XYDataset dataset = new XYSeriesCollection( series );
-        jFreeChart = ChartFactory.createXYLineChart( title, WIStrings.getString( "position" ), title, dataset, PlotOrientation.VERTICAL, false, false, false );
+        jFreeChart = ChartFactory.createXYLineChart( title, WIStrings.getString( "readout.position" ), title, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );
         jFreeChart.getXYPlot().getRangeAxis().setRange( -1.0, 1.0 );
         jFreeChartNode = new JFreeChartNode( jFreeChart, true );
@@ -49,7 +49,7 @@ public class WaveChartGraphic extends PNode {
 
 //        String hello = MessageFormat.format( SimStrings.get( "hello.0" ), new Object[]{units} );
 //        setHorizontalLabel( WIStrings.getString( "position.0" ) + distanceUnits );
-        setHorizontalLabel( MessageFormat.format( WIStrings.getString( "position.0" ), new Object[]{distanceUnits} ) );
+        setHorizontalLabel( MessageFormat.format( WIStrings.getString( "controls.position" ), new Object[]{distanceUnits} ) );
         setHorizontalRange( minX, maxX );
 
         jFreeChartNode.updateChartRenderingInfo();
