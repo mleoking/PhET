@@ -9,10 +9,12 @@ import edu.colorado.phet.energyskatepark.common.LucidaSansFont;
 import edu.colorado.phet.energyskatepark.common.SavedGraph;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.view.EC3LookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLegend;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
@@ -60,9 +62,12 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     private JPanel southPanel;
     private ZoomControlNode verticalZoom;
     private ZoomControlNode horizontalZoom;
+    private PSwing southPSwing;
+    private int verticalZoomLevel = 0;
 
     public EnergyPositionPlotCanvas( EnergySkateParkModule module ) {
 //        super( new Dimension( 100, 100 ) );
+        setBackground( EC3LookAndFeel.backgroundColor );
         this.module = module;
         ke = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "energy.kinetic" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getKEColor(), this ) {
             public double getValue() {
@@ -120,7 +125,10 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         southPanel.add( clear );
         southPanel.add( showPanel );
 
-        add( southPanel, BorderLayout.SOUTH );
+//        add( southPanel, BorderLayout.SOUTH );
+        southPSwing = new PSwing( southPanel );
+        addScreenChild( southPSwing );
+
         chart.setAntiAlias( true );
 
         image = new PImage( new BufferedImage( 10, 10, BufferedImage.TYPE_INT_RGB ) );
@@ -143,31 +151,23 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         legend.setFont( new LucidaSansFont( 12 ) );
         addScreenChild( legend );
 
-        verticalZoom = new ZoomControlNode( ZoomControlNode.VERTICAL );
-        final double dy = 1000;
-
-        verticalZoom.addZoomListener( new ZoomControlNode.ZoomListener() {
-            public void zoomedOut() {
-                verticalZoom( +dy );
+        verticalZoom = new VerticalZoomControl( chart.getXYPlot().getRangeAxis() ) {
+            protected void updateZoom() {
+                super.updateZoom();
+                chartRangeChanged();
             }
+        };
 
-            public void zoomedIn() {
-                verticalZoom( -dy );
+        horizontalZoom = new DefaultZoomControl( ZoomControlNode.HORIZONTAL, chart.getXYPlot().getDomainAxis() ) {
+            protected void updateZoom() {
+                double min = Math.min( 0, -getZoom() * 10 );
+                double max = Math.max( 15, getZoom() * 10 + 15 );
+                setZoomInEnabled( max - min > 15 );
+                setZoomOutEnabled( max - min < 500 );
+                getAxis().setRange( min, max );
+                chartRangeChanged();
             }
-        } );
-
-        horizontalZoom = new ZoomControlNode( ZoomControlNode.HORIZONTAL );
-        final double dx = 10;
-        horizontalZoom.addZoomListener( new ZoomControlNode.ZoomListener() {
-            public void zoomedOut() {
-                horizontalZoom( +dx );
-            }
-
-            public void zoomedIn() {
-                horizontalZoom( -dx );
-            }
-        } );
-
+        };
         addScreenChild( verticalZoom );
         addScreenChild( horizontalZoom );
         relayout();
@@ -184,28 +184,9 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     }
 
     private void relayout() {
-        horizontalZoom.setOffset( 0, southPanel.getY() - horizontalZoom.getFullBounds().getHeight() );
+        horizontalZoom.setOffset( 0, getHeight() - horizontalZoom.getFullBounds().getHeight() );
         verticalZoom.setOffset( horizontalZoom.getFullBounds().getX(), horizontalZoom.getFullBounds().getY() - verticalZoom.getFullBounds().getHeight() );
-    }
-
-    private void horizontalZoom( double value ) {
-        double lowerBound = chart.getXYPlot().getDomainAxis().getLowerBound() - value;
-        double upperBound = chart.getXYPlot().getDomainAxis().getUpperBound() + value;
-        if( lowerBound < upperBound ) {
-            chart.getXYPlot().getDomainAxis().setRange( lowerBound, upperBound );
-            chartRangeChanged();
-        }
-    }
-
-    private void verticalZoom( double value ) {
-        double MIN_SEP = 500;
-        double lowerBound = chart.getXYPlot().getRangeAxis().getLowerBound();
-        double upperBound = chart.getXYPlot().getRangeAxis().getUpperBound() + value;
-        if( upperBound <= lowerBound + MIN_SEP ) {
-            upperBound = lowerBound + MIN_SEP;
-        }
-        chart.getXYPlot().getRangeAxis().setRange( lowerBound, upperBound );
-        chartRangeChanged();
+        southPSwing.setOffset( getWidth() - southPSwing.getFullBounds().getWidth(), getHeight() - southPSwing.getFullBounds().getHeight() );
     }
 
     public JPanel getSouthPanel() {
@@ -215,6 +196,8 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     private void copyChart() {
         getPhetRootNode().invalidateFullBounds();
         BufferedImage copy = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+        horizontalZoom.setVisible( false );
+        verticalZoom.setVisible( false );
         paintComponent( copy.createGraphics() );
         BufferedImage c2 = new BufferedImage( copy.getWidth( null ), copy.getHeight( null ) - southPanel.getHeight(), BufferedImage.TYPE_INT_RGB );//trim the south part.
         c2.createGraphics().drawImage( copy, new AffineTransform(), null );
@@ -222,6 +205,9 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         SavedGraph savedGraph = new SavedGraph( module.getPhetFrame(), energyVsPosition + saveCount + ")", c2 );
         savedGraph.setVisible( true );
         saveCount++;
+
+        horizontalZoom.setVisible( true );
+        verticalZoom.setVisible( true );
     }
 
     private void removeOutOfBoundsPoints() {
@@ -257,7 +243,7 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
                                                            "Position", // x-axis label
                                                            "Energy", // y-axis label
                                                            dataset, PlotOrientation.VERTICAL, false, true, false );
-        chart.setBackgroundPaint( new Color( 240, 220, 210 ) );
+        chart.setBackgroundPaint( EC3LookAndFeel.backgroundColor );
 
         XYPlot plot = chart.getXYPlot();
         plot.setBackgroundPaint( Color.white );
