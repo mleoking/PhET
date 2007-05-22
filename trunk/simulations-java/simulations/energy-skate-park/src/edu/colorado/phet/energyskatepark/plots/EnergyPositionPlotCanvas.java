@@ -1,6 +1,8 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.plots;
 
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.LucidaSansFont;
@@ -8,8 +10,6 @@ import edu.colorado.phet.energyskatepark.common.SavedGraph;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLegend;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -36,7 +36,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Nov 6, 2005
  * Time: 8:05:15 PM
- *
  */
 
 public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
@@ -59,6 +58,8 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     private EnergyType thermal;
     private EnergyType total;
     private JPanel southPanel;
+    private ZoomControlNode verticalZoom;
+    private ZoomControlNode horizontalZoom;
 
     public EnergyPositionPlotCanvas( EnergySkateParkModule module ) {
 //        super( new Dimension( 100, 100 ) );
@@ -142,11 +143,69 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         legend.setFont( new LucidaSansFont( 12 ) );
         addScreenChild( legend );
 
-        ZoomPanel zoomPanel = new ZoomPanel( chart, this );
-        ZoomPanelPSwing pSwing = new ZoomPanelPSwing( this, zoomPanel );
-        addScreenChild( pSwing );
+        verticalZoom = new ZoomControlNode( ZoomControlNode.VERTICAL );
+        final double dy = 1000;
 
+        verticalZoom.addZoomListener( new ZoomControlNode.ZoomListener() {
+            public void zoomedOut() {
+                verticalZoom( +dy );
+            }
+
+            public void zoomedIn() {
+                verticalZoom( -dy );
+            }
+        } );
+
+        horizontalZoom = new ZoomControlNode( ZoomControlNode.HORIZONTAL );
+        final double dx = 10;
+        horizontalZoom.addZoomListener( new ZoomControlNode.ZoomListener() {
+            public void zoomedOut() {
+                horizontalZoom( +dx );
+            }
+
+            public void zoomedIn() {
+                horizontalZoom( -dx );
+            }
+        } );
+
+        addScreenChild( verticalZoom );
+        addScreenChild( horizontalZoom );
+        relayout();
         updateGraphics();
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                relayout();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                relayout();
+            }
+        } );
+    }
+
+    private void relayout() {
+        horizontalZoom.setOffset( 0, southPanel.getY() - horizontalZoom.getFullBounds().getHeight() );
+        verticalZoom.setOffset( horizontalZoom.getFullBounds().getX(), horizontalZoom.getFullBounds().getY() - verticalZoom.getFullBounds().getHeight() );
+    }
+
+    private void horizontalZoom( double value ) {
+        double lowerBound = chart.getXYPlot().getDomainAxis().getLowerBound() - value;
+        double upperBound = chart.getXYPlot().getDomainAxis().getUpperBound() + value;
+        if( lowerBound < upperBound ) {
+            chart.getXYPlot().getDomainAxis().setRange( lowerBound, upperBound );
+            chartRangeChanged();
+        }
+    }
+
+    private void verticalZoom( double value ) {
+        double MIN_SEP = 500;
+        double lowerBound = chart.getXYPlot().getRangeAxis().getLowerBound();
+        double upperBound = chart.getXYPlot().getRangeAxis().getUpperBound() + value;
+        if( upperBound <= lowerBound + MIN_SEP ) {
+            upperBound = lowerBound + MIN_SEP;
+        }
+        chart.getXYPlot().getRangeAxis().setRange( lowerBound, upperBound );
+        chartRangeChanged();
     }
 
     public JPanel getSouthPanel() {
