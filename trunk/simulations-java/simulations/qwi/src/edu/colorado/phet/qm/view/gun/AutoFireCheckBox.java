@@ -17,7 +17,7 @@ import java.awt.*;
 
 public class AutoFireCheckBox extends JCheckBox {
     public AutoFireCheckBox( final AutoFire autoFire ) {
-        super( QWIStrings.getString( "auto.repeat" ) );
+        super( QWIStrings.getString( "gun.auto-repeat" ) );
         setFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );
         setForeground( Color.white );
         addChangeListener( new ChangeListener() {

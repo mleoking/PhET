@@ -24,14 +24,14 @@ public class DetectorPanel extends VerticalLayoutPanel {
         this.module = module;
         setFillNone();
         setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "detection" ) ) );
-        JButton removeAll = new JButton( QWIStrings.getString( "remove.all" ) );
+        JButton removeAll = new JButton( QWIStrings.getString( "controls.barriers.remove-all" ) );
         removeAll.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.removeAllDetectors();
             }
         } );
 
-        JButton newDetector = new JButton( QWIStrings.getString( "add.detector" ) );
+        JButton newDetector = new JButton( QWIStrings.getString( "controls.detector.add" ) );
         newDetector.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.addDetector();
@@ -51,14 +51,14 @@ public class DetectorPanel extends VerticalLayoutPanel {
 //                getDiscreteModel().getDetectorSet().setOneShot( oneshot.isSelected() );
 //            }
 //        } );
-        final JCheckBox repeatDetect = new JCheckBox( QWIStrings.getString( "repeat.detect" ), !getDiscreteModel().getDetectorSet().isOneShot() );
+        final JCheckBox repeatDetect = new JCheckBox( QWIStrings.getString( "controls.detectors.repeat" ), !getDiscreteModel().getDetectorSet().isOneShot() );
         repeatDetect.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().getDetectorSet().setOneShot( !repeatDetect.isSelected() );
             }
         } );
 
-        final JCheckBox autodetect = new JCheckBox( QWIStrings.getString( "autodetect" ), getDiscreteModel().isAutoDetect() );
+        final JCheckBox autodetect = new JCheckBox( QWIStrings.getString( "controls.detectors.auto-detect" ), getDiscreteModel().isAutoDetect() );
         autodetect.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().setAutoDetect( autodetect.isSelected() );
@@ -71,7 +71,7 @@ public class DetectorPanel extends VerticalLayoutPanel {
 //        add( repeats );
         add( repeatDetect );
 
-        final JButton detect = new JButton( QWIStrings.getString( "detect" ) );
+        final JButton detect = new JButton( QWIStrings.getString( "controls.detectors.detect" ) );
         detect.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().detect();

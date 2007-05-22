@@ -30,7 +30,7 @@ public class FireButton extends JButton {
 
     public FireButton( FireParticle fireParticle ) {
 
-        super( QWIStrings.getString( "fire" ) );
+        super( QWIStrings.getString( "gun.fire" ) );
         this.fireParticle = fireParticle;
         setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
         setForeground( Color.red );

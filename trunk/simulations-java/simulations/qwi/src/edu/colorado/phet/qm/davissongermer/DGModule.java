@@ -36,7 +36,7 @@ public class DGModule extends IntensityModule {
      * @param schrodingerApplication
      */
     public DGModule( PhetApplication schrodingerApplication, IClock clock ) {
-        super( QWIStrings.getString( "davisson.germer.experiment" ), schrodingerApplication, clock );
+        super( QWIStrings.getString( "qwi-dg.name" ), schrodingerApplication, clock );
         dgPlotFrame = new DGPlotFrame( getPhetFrame(), this );
         dgModel.addListener( new DGModel.Listener() {
             public void potentialChanged() {

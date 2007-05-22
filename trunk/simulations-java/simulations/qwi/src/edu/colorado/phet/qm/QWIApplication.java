@@ -95,7 +95,7 @@ public class QWIApplication extends PiccoloPhetApplication {
     }
 
     private static void addWiggleMe( final QWIApplication QWIApplication ) {
-        final MotionHelpBalloon helpBalloon = new MotionHelpBalloon( QWIApplication.intensityModule.getSchrodingerPanel(), QWIStrings.getString( "turn.on.the.laser" ) );
+        final MotionHelpBalloon helpBalloon = new MotionHelpBalloon( QWIApplication.intensityModule.getSchrodingerPanel(), QWIStrings.getString( "qwi.invitation" ) );
         helpBalloon.setTextColor( Color.white );
         helpBalloon.setShadowTextColor( Color.gray );
         helpBalloon.setShadowTextOffset( 1 );

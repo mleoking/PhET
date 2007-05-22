@@ -26,7 +26,7 @@ public class SlitDetectorPanel extends VerticalLayoutPanel {
 
     public SlitDetectorPanel( final IntensityModule intensityModule ) {
         this.intensityModule = intensityModule;
-        leftSlit = new JCheckBox( QWIStrings.getString( "detector.on.left.slit" ) );
+        leftSlit = new JCheckBox( QWIStrings.getString( "controls.slits.left-detector" ) );
         leftSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 intensityModule.setLeftDetectorEnabled( leftSlit.isSelected() );
@@ -34,7 +34,7 @@ public class SlitDetectorPanel extends VerticalLayoutPanel {
         } );
         add( leftSlit );
 
-        rightSlit = new JCheckBox( QWIStrings.getString( "detector.on.right.slit" ) );
+        rightSlit = new JCheckBox( QWIStrings.getString( "controls.slits.right-detector" ) );
         rightSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 intensityModule.setRightDetectorEnabled( rightSlit.isSelected() );

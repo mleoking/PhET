@@ -103,7 +103,7 @@ public class MandelGunSet extends IntensityGunNode {
     }
 
     protected ImagePComboBox initComboBox() {
-        photon = new Photon( this, QWIStrings.getString( "photons" ), "qwi/images/photon-thumb.jpg" );
+        photon = new Photon( this, QWIStrings.getString( "particles.photons" ), "qwi/images/photon-thumb.jpg" );
         photonMandelBeam = new PhotonMandelBeam( this, photon );
 
         final IntensityBeam[] beams = new IntensityBeam[]{photonMandelBeam};

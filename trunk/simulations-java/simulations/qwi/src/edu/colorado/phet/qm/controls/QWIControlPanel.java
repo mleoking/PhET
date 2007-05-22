@@ -172,7 +172,7 @@ public class QWIControlPanel extends ControlPanel {
     }
 
     public JCheckBox getSlitAbsorptionCheckbox() {
-        final JCheckBox absorbtiveSlit = new JCheckBox( QWIStrings.getString( "absorbing.barriers" ), getDiscreteModel().isBarrierAbsorptive() );
+        final JCheckBox absorbtiveSlit = new JCheckBox( QWIStrings.getString( "controls.slits.absorbing-barriers" ), getDiscreteModel().isBarrierAbsorptive() );
         absorbtiveSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().setBarrierAbsorptive( absorbtiveSlit.isSelected() );
