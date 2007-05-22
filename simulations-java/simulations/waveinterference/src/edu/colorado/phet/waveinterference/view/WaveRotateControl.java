@@ -35,12 +35,9 @@ public class WaveRotateControl extends HorizontalLayoutPanel {
 
         rotate.getSlider().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-//                System.out.println( "rotate.getSlider().getValue() = " + rotate.getSlider().getValue() );
-//                System.out.println( "WaveRotateControl.stateChanged" );
                 if( !rotate.getSlider().getValueIsAdjusting() ) {
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-//                            System.out.println( "WaveRotateControl.stateChangedVAJ" );
                             double halfway = ( rotate.getMaximumModelValue() + rotate.getMinimumModelValue() ) / 2;
                             if( rotate.getValue() < halfway ) {
                                 rotate.setValue( rotate.getMinimumModelValue() );
@@ -58,15 +55,6 @@ public class WaveRotateControl extends HorizontalLayoutPanel {
                 rotate.setValue( rotationWaveGraphic.getRotation() );
             }
         } );
-//        rotate.addMouseListener( new MouseAdapter() {
-//            public void mouseReleased( MouseEvent e ) {
-//                System.out.println( "WaveRotateControl.mouseReleased" );
-//            }
-//        } );
-//        add(Box.createRigidArea( new Dimension( 30,0)));
         add( rotate );
-//        add(Box.createRigidArea( new Dimension( 10,10 )));
-//        setMaximumSize( new Dimension( 50,500) );
-//        rotate.setPreferredSize( new Dimension( 75,getPreferredSize().height+3) );
     }
 }
