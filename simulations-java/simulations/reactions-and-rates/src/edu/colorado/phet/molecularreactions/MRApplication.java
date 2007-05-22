@@ -28,7 +28,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  * @author Ron LeMaster
  * @version $Revision$
  */
-//public class MRApplication extends PhetApplication {
 public class MRApplication extends PiccoloPhetApplication {
 
     public MRApplication( PhetApplicationConfig config ) {

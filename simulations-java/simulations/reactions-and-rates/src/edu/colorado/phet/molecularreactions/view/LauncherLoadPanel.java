@@ -50,7 +50,7 @@ public class LauncherLoadPanel extends JPanel {
         } );
         updateIcons();
 
-        setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "Control.launcherType" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "Control.launch-type" ) ) );
         setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
         ButtonGroup bg = new ButtonGroup();
