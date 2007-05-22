@@ -23,7 +23,7 @@ public class StopwatchCheckBox extends HorizontalLayoutPanel {
 
     public StopwatchCheckBox( QWIPanel QWIPanel ) {
         super();
-        final JCheckBox checkBox = new JCheckBox( QWIStrings.getString( "stopwatch" ) );
+        final JCheckBox checkBox = new JCheckBox( QWIStrings.getString( "controls.stopwatch" ) );
         this.QWIPanel = QWIPanel;
 
 //        final JCheckBox stopwatchCheckBox = new JCheckBox( "Stopwatch" );

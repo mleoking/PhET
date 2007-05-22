@@ -19,7 +19,7 @@ public class InverseSlitsCheckbox extends JCheckBox {
     private QWIPanel QWIPanel;
 
     public InverseSlitsCheckbox( final QWIPanel QWIPanel ) {
-        super( QWIStrings.getString( "anti.slits" ) );
+        super( QWIStrings.getString( "controls.slits.anti-slits" ) );
         this.QWIPanel = QWIPanel;
         setSelected( QWIPanel.isInverseSlits() );
         addActionListener( new ActionListener() {

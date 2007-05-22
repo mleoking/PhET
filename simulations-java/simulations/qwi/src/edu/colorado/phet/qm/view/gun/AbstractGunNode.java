@@ -50,7 +50,7 @@ public abstract class AbstractGunNode extends PNode {
         }
 
         addChild( gunImageGraphic );
-        onGunGraphic = new PSwing(new JButton( QWIStrings.getString( "fire" ) ) );
+        onGunGraphic = new PSwing(new JButton( QWIStrings.getString( "gun.fire" ) ) );
         addChild( onGunGraphic );
         this.comboBox = initComboBox();
         updateGunLocation();

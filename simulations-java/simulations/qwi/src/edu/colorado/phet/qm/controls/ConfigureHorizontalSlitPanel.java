@@ -34,7 +34,7 @@ public class ConfigureHorizontalSlitPanel extends VerticalLayoutPanel {
     private void addControls( final HorizontalDoubleSlit slit ) {
         double pow = slit.getPotential();
         if( showPotentialValue ) {
-            SlitSpinner potentialSpinner = new SlitSpinner( QWIStrings.getString( "potential" ),
+            SlitSpinner potentialSpinner = new SlitSpinner( QWIStrings.getString( "controls.barriers.title" ),
                                                             new SpinnerNumberModel( pow, 0, Double.POSITIVE_INFINITY, pow / 10 ),
                                                             new ChangeHandler() {
                                                                 public void valueChanged( Number value ) {

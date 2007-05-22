@@ -20,16 +20,16 @@ public class PotentialPanel extends VerticalLayoutPanel {
     public PotentialPanel( final QWIModule module ) {
 
         setFillNone();
-        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "potential" ) ) );
+        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "controls.barriers.title" ) ) );
 
-        JButton clear = new JButton( QWIStrings.getString( "remove.all" ) );
+        JButton clear = new JButton( QWIStrings.getString( "controls.barriers.remove-all" ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.clearPotential();
             }
         } );
 
-        JButton newBarrier = new JButton( QWIStrings.getString( "add.barrier" ) );
+        JButton newBarrier = new JButton( QWIStrings.getString( "controls.barriers.add-barrier" ) );
         newBarrier.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.addPotential();

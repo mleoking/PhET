@@ -40,7 +40,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
         this.module = qwiModule;
         this.horizontalDoubleSlit = QWIModel.getDoubleSlitPotential();
         this.fractionalSlit = QWIModel.getFractionalDoubleSlit();
-        verticalPosition = createComponent( QWIStrings.getString( "vertical.position" ), new Setter() {
+        verticalPosition = createComponent( QWIStrings.getString( "controls.slits.vertical-position" ), new Setter() {
             double insetY = 10 / 60.0;
 
             public void valueChanged( double val ) {
@@ -65,7 +65,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
         } );
 
 
-        slitSize = createComponent( QWIStrings.getString( "slit.width" ), new Setter() {
+        slitSize = createComponent( QWIStrings.getString( "controls.slits.width" ), new Setter() {
             public void valueChanged( double val ) {
                 fractionalSlit.setSlitSize( val );
             }
@@ -87,7 +87,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        slitSeparation = createComponent( QWIStrings.getString( "slit.separation" ), new Setter() {
+        slitSeparation = createComponent( QWIStrings.getString( "controls.slits.separation" ), new Setter() {
             public void valueChanged( double val ) {
                 fractionalSlit.setSlitSeparation( val );
             }
@@ -109,7 +109,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        final JCheckBox absorbtiveSlit = new JCheckBox( QWIStrings.getString( "absorbing.barriers" ), getDiscreteModel().isBarrierAbsorptive() );
+        final JCheckBox absorbtiveSlit = new JCheckBox( QWIStrings.getString( "controls.slits.absorbing-barriers" ), getDiscreteModel().isBarrierAbsorptive() );
         absorbtiveSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().setBarrierAbsorptive( absorbtiveSlit.isSelected() );

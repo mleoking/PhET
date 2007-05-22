@@ -31,13 +31,13 @@ public class PhotonVisualizationPanel extends VerticalLayoutPanel implements IVi
     public PhotonVisualizationPanel( QWIPanel QWIPanel ) {
         this.QWIPanel = QWIPanel;
 
-        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "em.wave.display" ) ) );
+        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "controls.em-wave-display" ) ) );
         ButtonGroup buttonGroup = new ButtonGroup();
 
-        grayMag = createVisualizationButton( QWIStrings.getString( "time.averaged.intensity" ), new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
+        grayMag = createVisualizationButton( QWIStrings.getString( "controls.em-wave-display.intensity" ), new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
         addFullWidth( grayMag );
 
-        realGray = createVisualizationButton( QWIStrings.getString( "e.field" ), new GrayscaleColorMap.Real(), new WaveValueAccessor.Real(), false, buttonGroup );
+        realGray = createVisualizationButton( QWIStrings.getString( "controls.em-wave-display.e-field" ), new GrayscaleColorMap.Real(), new WaveValueAccessor.Real(), false, buttonGroup );
         addFullWidth( realGray );
 
 //        JRadioButton complexGray = createVisualizationButton( "Imaginary Part        ", new GrayscaleColorMap.Imaginary(), new WaveValueAccessor.Imag(), false, buttonGroup );

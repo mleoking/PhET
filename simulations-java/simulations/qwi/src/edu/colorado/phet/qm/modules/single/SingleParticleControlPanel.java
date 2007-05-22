@@ -32,9 +32,9 @@ public class SingleParticleControlPanel extends QWIControlPanel {
     public SingleParticleControlPanel( final SingleParticleModule singleParticleModule ) {
         super( singleParticleModule );
         this.singleParticleModule = singleParticleModule;
-        AdvancedPanel potentialPanel = new AdvancedPanel( QWIStrings.getString( "potential.barriers" ), QWIStrings.getString( "hide.potential.barriers" ) );
+        AdvancedPanel potentialPanel = new AdvancedPanel( QWIStrings.getString( "controls.barriers.show" ), QWIStrings.getString( "controls.barriers.hide" ) );
         potentialPanel.addControlFullWidth( new PotentialPanel( singleParticleModule ) );
-        AdvancedPanel detectorPanel = new AdvancedPanel( QWIStrings.getString( "detectors1" ), QWIStrings.getString( "detectors" ) );
+        AdvancedPanel detectorPanel = new AdvancedPanel( QWIStrings.getString( "controls.detectors.show" ), QWIStrings.getString( "controls.detectors.hide" ) );
         detectorPanel.addControlFullWidth( new DetectorPanel( singleParticleModule ) );
 
         JButton createDetectorArray = new JButton( QWIStrings.getString( "create.detector.array" ) );

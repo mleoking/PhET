@@ -70,7 +70,7 @@ public class IntensityControlPanel extends QWIControlPanel {
         setPreferredWidth( expandableDoubleSlitPanel.getControls().getPreferredSize().width + 10 );
 
         addControl( expandableDoubleSlitPanel );
-        AdvancedPanel advancedPanel = new AdvancedPanel( QWIStrings.getString( "potential.barriers" ), QWIStrings.getString( "hide.potential.barriers" ) );
+        AdvancedPanel advancedPanel = new AdvancedPanel( QWIStrings.getString( "controls.barriers.show" ), QWIStrings.getString( "controls.barriers.hide" ) );
         advancedPanel.addControlFullWidth( new PotentialPanel( getModule() ) );
         addControl( advancedPanel );
 

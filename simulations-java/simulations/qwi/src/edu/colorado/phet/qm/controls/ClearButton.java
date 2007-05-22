@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 
 public class ClearButton extends JButton {
     public ClearButton( final QWIPanel qwiPanel ) {
-        super( QWIStrings.getString( "clear.wave" ) );
+        super( QWIStrings.getString( "controls.clear-wave" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 qwiPanel.clearWavefunction();

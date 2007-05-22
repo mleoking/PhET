@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 
 public class ResetButton extends JButton {
     public ResetButton( final QWIModule module ) {
-        super( QWIStrings.getString( "reset" ) );
+        super( QWIStrings.getString( "controls.reset" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean confirm = module.confirmReset();

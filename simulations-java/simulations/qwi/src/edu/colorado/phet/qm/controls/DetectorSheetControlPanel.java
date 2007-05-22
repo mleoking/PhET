@@ -37,14 +37,14 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
 //        setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
 //        setBorder( BorderFactory.createCompoundBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ), BorderFactory.createBevelBorder( BevelBorder.RAISED ) ) );
         this.detectorSheetPNode = detectorSheetPNode;
-        clearButton = new JButton( QWIStrings.getString( "clear" ) );
+        clearButton = new JButton( QWIStrings.getString( "screen.clear" ) );
         clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 detectorSheetPNode.reset();
             }
         } );
 
-        saveScreenJButton = new JButton( QWIStrings.getString( "copy.screen" ) );
+        saveScreenJButton = new JButton( QWIStrings.getString( "screen.copy" ) );
         saveScreenJButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 BufferedImage image = detectorSheetPNode.copyScreen();
@@ -83,11 +83,11 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         } );
 
         displayPanel = new HorizontalLayoutPanel();
-        displayPanel.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "display" ) ) );
+        displayPanel.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "screen.display" ) ) );
 
         ButtonGroup buttonGroup = new ButtonGroup();
-        JRadioButton showHits = new JRadioButton( QWIStrings.getString( "hits" ), !IntensityBeamPanel.CONTINUOUS_MODE_DEFAULT );
-        JRadioButton showAverage = new JRadioButton( QWIStrings.getString( "average.intensity" ), IntensityBeamPanel.CONTINUOUS_MODE_DEFAULT );
+        JRadioButton showHits = new JRadioButton( QWIStrings.getString( "screen.hits" ), !IntensityBeamPanel.CONTINUOUS_MODE_DEFAULT );
+        JRadioButton showAverage = new JRadioButton( QWIStrings.getString( "screen.intensity" ), IntensityBeamPanel.CONTINUOUS_MODE_DEFAULT );
 
         buttonGroup.add( showAverage );
         buttonGroup.add( showHits );
@@ -107,7 +107,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         displayPanel.add( showHits );
 
         HorizontalLayoutPanel screenPanel = new HorizontalLayoutPanel();
-        screenPanel.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "screen" ) ) );
+        screenPanel.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "screen.title" ) ) );
         screenPanel.add( fadeCheckbox );
         screenPanel.add( clearButton );
         screenPanel.add( saveScreenJButton );
