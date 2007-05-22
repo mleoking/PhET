@@ -1,3 +1,5 @@
+Better mountain graphics?
+
 ellipsis for menu items or buttons that pop up a dialog
 
 "Bar Graph" button and "Bar Chart" window have different text.
