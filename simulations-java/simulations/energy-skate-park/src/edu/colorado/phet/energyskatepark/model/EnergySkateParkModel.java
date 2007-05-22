@@ -3,9 +3,9 @@ package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
-import edu.colorado.phet.energyskatepark.util.OptionalItemSerializableList;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
+import edu.colorado.phet.energyskatepark.util.OptionalItemSerializableList;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ import java.util.List;
  * User: Sam Reid
  * Date: Sep 21, 2005
  * Time: 3:03:16 AM
- *
  */
 
 public class EnergySkateParkModel implements Serializable {
@@ -90,15 +89,19 @@ public class EnergySkateParkModel implements Serializable {
     public void setGravity( double value ) {
         if( this.gravity != value ) {
             this.gravity = value;
-            for( int i = 0; i < listeners.size(); i++ ) {
-                EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
-                energyModelListener.gravityChanged();
-            }
+            notifyGravityChanged();
             for( int i = 0; i < bodies.size(); i++ ) {
                 Body body = (Body)bodies.get( i );
                 body.setGravityState( getGravity(), getZeroPointPotentialY() );
             }
             updateFloorState();
+        }
+    }
+
+    private void notifyGravityChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.gravityChanged();
         }
     }
 
@@ -172,9 +175,13 @@ public class EnergySkateParkModel implements Serializable {
         this.history = model.history;
         this.time = model.time;
         this.maxNumHistoryPoints = model.maxNumHistoryPoints;
-        this.gravity = model.gravity;
-        this.zeroPointPotentialY=model.zeroPointPotentialY;
+        if( this.gravity != model.gravity ) {
+            this.gravity = model.gravity;
+            notifyGravityChanged();
+        }
+        this.zeroPointPotentialY = model.zeroPointPotentialY;
         notifyBodyEnergyChanged();
+
     }
 
     public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D spline ) {

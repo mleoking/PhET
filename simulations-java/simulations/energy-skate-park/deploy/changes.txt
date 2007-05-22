@@ -27,6 +27,7 @@ Added a red record button.
 Changed record button text to REC
 Removed extraneous "Go" button in the playback panel area.
 Fixed: Zero-point potential's location is not recorded and/or played back
+Fixed: Floor graphic doesn't update correctly during playback.
 
 2.01.01 (5-10-2007)
 Test build process.
