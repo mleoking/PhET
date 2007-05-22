@@ -25,7 +25,7 @@ public class SingleParticleModule extends QWIModule {
     int count;
 
     public SingleParticleModule( QWIApplication application, IClock clock ) {
-        super( QWIStrings.getString( "single.particles" ), application, clock );
+        super( QWIStrings.getString( "module.single-particles" ), application, clock );
         setQWIModel( new QWIModel() );
         schrodingerSchrodingerPanel = new SingleParticleSchrodingerPanel( this );
         setSchrodingerPanel( schrodingerSchrodingerPanel );

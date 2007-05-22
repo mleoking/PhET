@@ -17,7 +17,7 @@ public class MandelSchrodingerScreenNode extends QWIScreenNode {
 
     public MandelSchrodingerScreenNode( MandelModule module, QWIPanel QWIPanel ) {
         super( module, QWIPanel );
-        getDetectorSheetPNode().setTitle( QWIStrings.getString( "black.white.screen" ) );
+        getDetectorSheetPNode().setTitle( QWIStrings.getString( "module.lasers.black-and-white-screen" ) );
         this.mandelModule = module;
     }
 
