@@ -23,9 +23,9 @@ public class EditSkaterPanel extends AdvancedPanel {
     private EnergySkateParkModule module;
 
     public EditSkaterPanel( final EnergySkateParkModule module ) {
-        super( EnergySkateParkStrings.getString( "edit.skater" ), EnergySkateParkStrings.getString( "hide.skater.properties" ) );
+        super( EnergySkateParkStrings.getString( "controls.edit-skater" ), EnergySkateParkStrings.getString( "controls.hide-skater-properties" ) );
         this.module = module;
-        final EnergySkateParkSlider restitution = new EnergySkateParkSlider( EnergySkateParkStrings.getString( "bounciness" ), "", 0, 1.0, 1.0 );
+        final EnergySkateParkSlider restitution = new EnergySkateParkSlider( EnergySkateParkStrings.getString( "controls.bounciness" ), "", 0, 1.0, 1.0 );
         restitution.setModelTicks( new double[]{0, 0.5, 1} );
         restitution.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -42,7 +42,7 @@ public class EditSkaterPanel extends AdvancedPanel {
 
 
         final EnergySkateParkSlider mass = new EnergySkateParkSlider(
-                EnergySkateParkStrings.getString( "mass" ), EnergySkateParkStrings.getString( "kg" ), 0.2, 200, 75 );
+                EnergySkateParkStrings.getString( "controls.mass" ), EnergySkateParkStrings.getString( "units.kg" ), 0.2, 200, 75 );
         mass.setModelTicks( new double[]{0.2, 75, 200} );
         mass.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

@@ -66,7 +66,7 @@ public abstract class Planet {
 
     public static class Space extends Planet {
         public Space() {
-            super( EnergySkateParkStrings.getString( "space" ), EnergySkateParkModel.G_SPACE, Color.black, Color.black, false );
+            super( EnergySkateParkStrings.getString( "location.space" ), EnergySkateParkModel.G_SPACE, Color.black, Color.black, false );
         }
 
         protected void setupImage( EnergySkateParkModule module ) {
@@ -84,7 +84,7 @@ public abstract class Planet {
 
     public static class Earth extends Planet {
         public Earth() {
-            super( EnergySkateParkStrings.getString( "earth" ), EnergySkateParkModel.G_EARTH, new Color( 100, 170, 100 ), new Color( 0, 130, 0 ), true );
+            super( EnergySkateParkStrings.getString( "location.earth" ), EnergySkateParkModel.G_EARTH, new Color( 100, 170, 100 ), new Color( 0, 130, 0 ), true );
         }
 
         protected void setupImage( EnergySkateParkModule module ) {
@@ -107,7 +107,7 @@ public abstract class Planet {
 
     public static class Moon extends Planet {
         public Moon() {
-            super( EnergySkateParkStrings.getString( "moon" ), EnergySkateParkModel.G_MOON, Color.gray, Color.darkGray, true );
+            super( EnergySkateParkStrings.getString( "location.moon" ), EnergySkateParkModel.G_MOON, Color.gray, Color.darkGray, true );
         }
 
         protected void setupImage( EnergySkateParkModule module ) {
@@ -124,7 +124,7 @@ public abstract class Planet {
 
     public static class Jupiter extends Planet {
         public Jupiter() {
-            super( EnergySkateParkStrings.getString( "jupiter" ), EnergySkateParkModel.G_JUPITER, new Color( 173, 114, 98 ), new Color( 62, 44, 58 ), true );
+            super( EnergySkateParkStrings.getString( "location.jupiter" ), EnergySkateParkModel.G_JUPITER, new Color( 173, 114, 98 ), new Color( 62, 44, 58 ), true );
         }
 
         protected void setupImage( EnergySkateParkModule module ) {

@@ -19,16 +19,16 @@ public class EnergySkateParkLegend extends Legend {
 
     public EnergySkateParkLegend( EnergySkateParkModule ec3Module ) {
         this.ec3Module = ec3Module;
-        addEntry( EnergySkateParkStrings.getString( "kinetic.energy" ), ec3Module.getEnergyLookAndFeel().getKEColor() );
-        addEntry( EnergySkateParkStrings.getString( "potential.energy" ), ec3Module.getEnergyLookAndFeel().getPEColor() );
-        addEntry( EnergySkateParkStrings.getString( "thermal.energy" ), ec3Module.getEnergyLookAndFeel().getThermalEnergyColor() );
+        addEntry( EnergySkateParkStrings.getEnergyString( "energy.kinetic" ), ec3Module.getEnergyLookAndFeel().getKEColor() );
+        addEntry( EnergySkateParkStrings.getEnergyString( "energy.potential" ), ec3Module.getEnergyLookAndFeel().getPEColor() );
+        addEntry( EnergySkateParkStrings.getEnergyString( "energy.thermal" ), ec3Module.getEnergyLookAndFeel().getThermalEnergyColor() );
     }
 
     public void addNegPEEntry() {
-        addEntry( EnergySkateParkStrings.getString( "negative.potential.energy" ), Color.black );
+        addEntry( EnergySkateParkStrings.getString( "energy.potential-negative" ), Color.black );
     }
 
     public void addTotalEnergyEntry() {
-        addEntry( EnergySkateParkStrings.getString( "total.energy" ), ec3Module.getEnergyLookAndFeel().getTotalEnergyColor() );
+        addEntry( EnergySkateParkStrings.getEnergyString( "energy.total" ), ec3Module.getEnergyLookAndFeel().getTotalEnergyColor() );
     }
 }

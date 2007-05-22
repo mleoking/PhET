@@ -50,7 +50,7 @@ public class OffscreenManIndicator extends PhetPNode {
     }
 
     private void updateText() {
-        bringBackSkater.setText( EnergySkateParkStrings.getString( "bring.back.the" ) + " " + module.getSkaterCharacter().getName() );
+        bringBackSkater.setText( EnergySkateParkStrings.getString( "controls.bring-back" ) + " " + module.getSkaterCharacter().getName() );
 
     }
 

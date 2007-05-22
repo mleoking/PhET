@@ -20,7 +20,7 @@ public abstract class ValueAccessor {
     private Color color;
     private String fullName;
 
-    public static final String joules = EnergySkateParkStrings.getString( "joules" );
+    public static final String joules = EnergySkateParkStrings.getString( "units.joules" );
     public static final String joulesAbbreviation = "J";
 
     protected ValueAccessor( String name, String html, String units, String unitAbbreviation, Color color, String fullName ) {

@@ -15,7 +15,7 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 
 public class WorkBarGraphSet extends BarGraphSet {
     public WorkBarGraphSet( EnergySkateParkSimulationPanel energySkaterSimulationPanel, EnergySkateParkModel energySkateParkModel, ModelViewTransform1D transform1D ) {
-        super( energySkaterSimulationPanel, energySkateParkModel, EnergySkateParkStrings.getString( "work" ), transform1D );
+        super( energySkaterSimulationPanel, energySkateParkModel, EnergySkateParkStrings.getString( "properties.work" ), transform1D );
         ValueAccessor[] workAccess = new ValueAccessor[]{
 //            new ValueAccessor.TotalWork( getLookAndFeel() ),
 //            new ValueAccessor.GravityWork( getLookAndFeel() ),

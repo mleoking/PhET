@@ -25,7 +25,7 @@ public class FrictionControl extends VerticalLayoutPanel {
 
     public FrictionControl( final EnergySkateParkModule module ) {
 
-        modelSlider = new ModelSlider( EnergySkateParkStrings.getString( "coefficient.of.friction" ), "", 0, 0.01, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
+        modelSlider = new ModelSlider( EnergySkateParkStrings.getString( "controls.friction" ), "", 0, 0.01, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
 //        final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 1.0, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
         modelSlider.setModelTicks( new double[]{0, 0.005, 0.01} );
         modelSlider.addChangeListener( new ChangeListener() {
@@ -42,7 +42,7 @@ public class FrictionControl extends VerticalLayoutPanel {
         } );
         modelSlider.setTextFieldVisible( false );
         setIgnoreKeyEvents( true );
-        modelSlider.setExtremumLabels( new JLabel( EnergySkateParkStrings.getString( "none" ) ), new JLabel( EnergySkateParkStrings.getString( "lots" ) ) );
+        modelSlider.setExtremumLabels( new JLabel( EnergySkateParkStrings.getString( "controls.gravity.none" ) ), new JLabel( EnergySkateParkStrings.getString( "controls.gravity.lots" ) ) );
         addFullWidth( modelSlider );
 
     }

@@ -41,7 +41,7 @@ public class LocationControlPanel extends VerticalLayoutPanel {
         VerticalLayoutPanel verticalLayoutPanel = this;
         verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "location" ) ) );
         verticalLayoutPanel.setFillHorizontal();
-        showBackgroundCheckbox = new JCheckBox( EnergySkateParkStrings.getString( "show.background" ), true );
+        showBackgroundCheckbox = new JCheckBox( EnergySkateParkStrings.getString( "controls.show-background" ), true );
         verticalLayoutPanel.add( showBackgroundCheckbox );
         for( int i = 0; i < planets.length; i++ ) {
 //            Planet planet = planets[i];

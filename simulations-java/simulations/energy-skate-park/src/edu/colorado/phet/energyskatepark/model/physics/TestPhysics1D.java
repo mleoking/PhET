@@ -144,7 +144,7 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( comp );
 
-        final ModelSlider modelSlider = new ModelSlider( "Mass", "kg", 0.1, 200, particle.getMass() );
+        final ModelSlider modelSlider = new ModelSlider( "Mass", "units.kg", 0.1, 200, particle.getMass() );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 particle.setMass( modelSlider.getValue() );

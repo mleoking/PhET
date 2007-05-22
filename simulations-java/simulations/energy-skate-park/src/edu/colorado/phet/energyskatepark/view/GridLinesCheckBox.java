@@ -21,7 +21,7 @@ public class GridLinesCheckBox extends VerticalLayoutPanel {
 
     public GridLinesCheckBox( final EnergySkateParkModule module ) {
         this.module = module;
-        final JCheckBox gridlines = new JCheckBox( EnergySkateParkStrings.getString( "show.grid" ), getRoot().isGridVisible() );
+        final JCheckBox gridlines = new JCheckBox( EnergySkateParkStrings.getString( "controls.show-grid" ), getRoot().isGridVisible() );
         gridlines.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getRoot().setGridVisible( gridlines.isSelected() );

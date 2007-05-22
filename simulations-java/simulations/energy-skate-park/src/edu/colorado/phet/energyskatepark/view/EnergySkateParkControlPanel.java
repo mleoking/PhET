@@ -34,7 +34,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 
     public EnergySkateParkControlPanel( final EnergySkateParkModule module ) {
         this.module = module;
-        JButton reset = new JButton( EnergySkateParkStrings.getString( "reset" ) );
+        JButton reset = new JButton( EnergySkateParkStrings.getString( "controls.reset" ) );
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
@@ -42,7 +42,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         } );
         addControl( reset );
 
-        JButton resetSkater = new JButton( EnergySkateParkStrings.getString( "return.skater" ) );
+        JButton resetSkater = new JButton( EnergySkateParkStrings.getString( "controls.return-character" ) );
         resetSkater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 resetSkater();
@@ -58,7 +58,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             e.printStackTrace();
         }
 
-        final JCheckBox measuringTape = new JCheckBox( EnergySkateParkStrings.getString( "measuring.tape" ), module.isMeasuringTapeVisible() );
+        final JCheckBox measuringTape = new JCheckBox( EnergySkateParkStrings.getString( "controls.measuring-tape" ), module.isMeasuringTapeVisible() );
         measuringTape.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setMeasuringTapeVisible( measuringTape.isSelected() );
@@ -71,7 +71,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         } );
         addControlFullWidth( new IconComponent( measuringTape, measuringTapeIcon ) );
 
-        final JCheckBox zeroPointPotential = new JCheckBox( EnergySkateParkStrings.getString( "potential.energy.reference" ) );
+        final JCheckBox zeroPointPotential = new JCheckBox( EnergySkateParkStrings.getString( "label.potential-energy-reference" ) );
         zeroPointPotential.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getEnergyConservationCanvas().setZeroPointVisible( zeroPointPotential.isSelected() );
@@ -115,9 +115,9 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         final VerticalLayoutPanel chartPanel = new VerticalLayoutPanel();
         chartPanel.setFillNone();
         chartPanel.setAnchor( GridBagConstraints.WEST );
-        chartPanel.setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "plot" ) ) );
+        chartPanel.setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "plots.plot" ) ) );
 
-        final JButton showChart = new JButton( EnergySkateParkStrings.getString( "energy.vs.time" ) );
+        final JButton showChart = new JButton( EnergySkateParkStrings.getString( "plots.energy-vs-time" ) );
         showChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setEnergyTimePlotVisible( true );
@@ -125,7 +125,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         } );
         chartPanel.add( showChart );
 
-        final JButton showEnergyPositionPlot = new JButton( EnergySkateParkStrings.getString( "energy.vs.position" ) );
+        final JButton showEnergyPositionPlot = new JButton( EnergySkateParkStrings.getString( "plots.energy-vs-position" ) );
         showEnergyPositionPlot.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setEnergyPositionPlotVisible( true );
@@ -134,7 +134,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         chartPanel.add( showEnergyPositionPlot );
 
 
-        final JButton showBarChart = new JButton( EnergySkateParkStrings.getString( "bar.graph" ) );
+        final JButton showBarChart = new JButton( EnergySkateParkStrings.getString( "plots.bar-graph" ) );
         showBarChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setBarChartVisible( true );
@@ -147,7 +147,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 
         final FrictionControl frictionControl = new FrictionControl( module );
 
-        AdvancedPanel frictionPanel = new AdvancedPanel( EnergySkateParkStrings.getString( "friction" ), EnergySkateParkStrings.getString( "hide.friction" ) );
+        AdvancedPanel frictionPanel = new AdvancedPanel( EnergySkateParkStrings.getString( "controls.show-friction" ), EnergySkateParkStrings.getString( "controls.hide-friction" ) );
         frictionPanel.addControl( frictionControl );
         frictionControl.getModelSlider().setBorder( null );
         frictionPanel.addControl( new ClearHeatButton( module ) );

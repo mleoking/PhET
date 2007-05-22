@@ -34,7 +34,7 @@ public abstract class ValueAccessor {
 
     public static class KineticEnergy extends ValueAccessor {
         public KineticEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( EnergySkateParkStrings.getString( "kinetic" ), lookAndFeel.getKEColor() );
+            super( EnergySkateParkStrings.getString( "energy.kinetic" ), lookAndFeel.getKEColor() );
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
@@ -47,7 +47,7 @@ public abstract class ValueAccessor {
 
     public static class PotentialEnergy extends ValueAccessor {
         public PotentialEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( EnergySkateParkStrings.getString( "potential" ), lookAndFeel.getPEColor() );
+            super( EnergySkateParkStrings.getString( "energy.potential" ), lookAndFeel.getPEColor() );
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
@@ -61,7 +61,7 @@ public abstract class ValueAccessor {
 
     public static class TotalEnergy extends ValueAccessor {
         public TotalEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( EnergySkateParkStrings.getString( "total" ), lookAndFeel.getTotalEnergyColor() );
+            super( EnergySkateParkStrings.getString( "energy.total" ), lookAndFeel.getTotalEnergyColor() );
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
@@ -75,7 +75,7 @@ public abstract class ValueAccessor {
 
     public static class ThermalEnergy extends ValueAccessor {
         public ThermalEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( EnergySkateParkStrings.getString( "thermal" ), lookAndFeel.getThermalEnergyColor() );
+            super( EnergySkateParkStrings.getString( "energy.thermal" ), lookAndFeel.getThermalEnergyColor() );
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
