@@ -81,7 +81,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
         energyTimeSeriesModel = new EC3RecordableModel( this );
         timeSeriesModel = new TimeSeriesModel( energyTimeSeriesModel, EnergySkateParkApplication.SIMULATION_TIME_DT );
-        timeSeriesModel.setMaxRecordTime(200.0);
+        timeSeriesModel.setMaxRecordTime( 200.0 );
         clock.addClockListener( timeSeriesModel );
 
         energyCanvas = new EnergySkateParkSimulationPanel( this );
@@ -280,7 +280,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void confirmAndReset() {
-        int response = JOptionPane.showConfirmDialog( getSimulationPanel(), EnergySkateParkStrings.getString( "message.confirm-reset" ) );
+        int response = JOptionPane.showConfirmDialog( getSimulationPanel(), EnergySkateParkStrings.getString( "message.confirm-reset" ), EnergySkateParkStrings.getString( "message.confirm-reset-title" ), JOptionPane.YES_NO_OPTION );
         if( response == JOptionPane.OK_OPTION ) {
             reset();
         }
