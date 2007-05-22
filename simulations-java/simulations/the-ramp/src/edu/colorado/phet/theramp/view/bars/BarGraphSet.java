@@ -14,7 +14,7 @@ import edu.colorado.phet.theramp.view.EarthGraphic;
 import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.RampPanel;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -48,7 +48,7 @@ public class BarGraphSet extends PNode {
     private int dx = 10;
     private int dy = -10;
     private double topY;
-    private ShadowHTMLGraphic titleGraphic;
+    private ShadowHTMLNode titleNode;
     private XAxis xAxis;
     private PPath background;
     private YAxis yAxis;
@@ -66,10 +66,10 @@ public class BarGraphSet extends PNode {
         barWidth = 13;
         dw = 7;
         sep = barWidth + dw;
-        titleGraphic = new ShadowHTMLGraphic( title );
-        titleGraphic.setColor( Color.black );
-        titleGraphic.setShadowColor( Color.blue );
-        titleGraphic.setFont( RampFontSet.getFontSet().getBarGraphTitleFont() );
+        titleNode = new ShadowHTMLNode( title );
+        titleNode.setColor( Color.black );
+        titleNode.setShadowColor( Color.blue );
+        titleNode.setFont( RampFontSet.getFontSet().getBarGraphTitleFont() );
 
         JButton max = new JButton( "" + title );
         max.addActionListener( new ActionListener() {
@@ -118,7 +118,7 @@ public class BarGraphSet extends PNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        titleGraphic.setOffset( minButNode.getFullBounds().getMaxX() + 2, topY + 10 );
+        titleNode.setOffset( minButNode.getFullBounds().getMaxX() + 2, topY + 10 );
 
         maximizeButton.setOffset( minButNode.getOffset() );
     }
@@ -133,7 +133,7 @@ public class BarGraphSet extends PNode {
             setHasChild( !minimized, barGraphic2D );
         }
         setHasChild( !minimized, this.minButNode );
-        setHasChild( !minimized, titleGraphic );
+        setHasChild( !minimized, titleNode );
 
         setHasChild( minimized, maximizeButton );
 
@@ -233,7 +233,7 @@ public class BarGraphSet extends PNode {
             addBarGraphic( barGraphic );
         }
 
-        addChild( titleGraphic );
+        addChild( titleNode );
         addMinimizeButton();
     }
 

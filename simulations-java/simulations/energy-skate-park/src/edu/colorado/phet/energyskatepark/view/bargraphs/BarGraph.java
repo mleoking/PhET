@@ -2,7 +2,7 @@ package edu.colorado.phet.energyskatepark.view.bargraphs;
 
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -19,7 +19,7 @@ import java.beans.PropertyChangeListener;
  * May 22, 2007, 4:23:59 AM
  */
 public class BarGraph extends PNode {
-    private ShadowHTMLGraphic titleGraphic;
+    private ShadowHTMLNode titleNode;
     private PNode backLayer = new PNode();
     private PNode barLayer = new PNode();
     private ModelViewTransform1D transform1D;
@@ -47,10 +47,10 @@ public class BarGraph extends PNode {
 
         sep = barWidth + dw;
 
-        titleGraphic = new ShadowHTMLGraphic( title );
-        titleGraphic.setColor( Color.black );
-        titleGraphic.setShadowColor( Color.blue );
-        titleGraphic.setFont( getTitleFont() );
+        titleNode = new ShadowHTMLNode( title );
+        titleNode.setColor( Color.black );
+        titleNode.setShadowColor( Color.blue );
+        titleNode.setFont( getTitleFont() );
         addChild( backLayer );
         addChild( barLayer );
     }
@@ -131,7 +131,7 @@ public class BarGraph extends PNode {
                                                               (int)barChartHeight, dx, dy, variable.getColor(), new Font( "Lucida Sans", Font.BOLD, 14 ) );
             addBarGraphic( barGraphic );
         }
-        backLayer.addChild( titleGraphic );
+        backLayer.addChild( titleNode );
         addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 update();

@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 import java.awt.*;
@@ -28,7 +28,7 @@ public class TargetReadoutToolNode extends PComposite {
     private PhetPPath portHole;
     private PhetPPath upCrossHairGraphic;
     private PhetPPath readoutShapeGraphic;
-    private ShadowHTMLGraphic textGraphic;
+    private ShadowHTMLNode textNode;
     private String[] text = new String[0];
     private PhetPPath rightCrossHairGraphic;
 
@@ -41,9 +41,9 @@ public class TargetReadoutToolNode extends PComposite {
         rightCrossHairGraphic = new PhetPPath( crossHairStroke, Color.black );
         upCrossHairGraphic = new PhetPPath( crossHairStroke, Color.black );
         readoutShapeGraphic = new PhetPPath( Color.white, crossHairStroke, Color.black );
-        textGraphic = new ShadowHTMLGraphic( "HELLO" );
-        textGraphic.setShadowColor( Color.lightGray );
-        textGraphic.setShadowOffset( 0.5, 0.5 );
+        textNode = new ShadowHTMLNode( "HELLO" );
+        textNode.setShadowColor( Color.lightGray );
+        textNode.setShadowOffset( 0.5, 0.5 );
 
         addChild( background );
         addChild( roundRect );
@@ -51,7 +51,7 @@ public class TargetReadoutToolNode extends PComposite {
         addChild( rightCrossHairGraphic );
         addChild( upCrossHairGraphic );
         addChild( readoutShapeGraphic );
-        addChild( textGraphic );
+        addChild( textNode );
 
         update();
     }
@@ -85,8 +85,8 @@ public class TargetReadoutToolNode extends PComposite {
         rightCrossHairGraphic.setPathTo( line2 );
 
         readoutShapeGraphic.setPathTo( new Rectangle2D.Double( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight ) );
-        textGraphic.setHtml( text );
-        textGraphic.setOffset( readoutLocation.x + 5, readoutLocation.y + readoutHeight / 2 - textGraphic.getFullBounds().getHeight() / 2 );
+        textNode.setHtml( text );
+        textNode.setOffset( readoutLocation.x + 5, readoutLocation.y + readoutHeight / 2 - textNode.getFullBounds().getHeight() / 2 );
     }
 
     public void setText( String[] text ) {

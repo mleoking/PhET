@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.theramp.common;
 
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
@@ -25,22 +25,22 @@ public class VerticalTextGraphic extends PNode {
 //        this.color = color;
 //        PhetShadowTextGraphic phetTextGraphic = new PhetShadowTextGraphic( component, font, text, color, 1, 1, outline );
 //        ShadowHTMLGraphic phetTextGraphic = new ShadowHTMLGraphic( component, text, font, color, 1, 1, outline );
-        ShadowHTMLGraphic phetTextGraphic = new ShadowHTMLGraphic( text );//, font, color, 1, 1, outline );
-        phetTextGraphic.setColor( color );
-        phetTextGraphic.setShadowColor( outline );
-        phetTextGraphic.setFont( font );
+        ShadowHTMLNode phetTextNode = new ShadowHTMLNode( text );//, font, color, 1, 1, outline );
+        phetTextNode.setColor( color );
+        phetTextNode.setShadowColor( outline );
+        phetTextNode.setFont( font );
 //        PhetOutlineTextGraphic phetTextGraphic = new PhetOutlineTextGraphic( component, font, text, color, new BasicStroke( 1 ), outline );
 
-        double h = phetTextGraphic.getFullBounds().getHeight();
+        double h = phetTextNode.getFullBounds().getHeight();
 //        System.out.println( "h = " + h );
 //        phetTextGraphic.translate( -h / 2 + 4, -10 );
 //        phetTextGraphic.translate( -h/2+8, -10 );
-        phetTextGraphic.translate( -3, -10 );
+        phetTextNode.translate( -3, -10 );
 //        phetTextGraphic.translate( -h / 2 + 4, -50);
 //        phetTextGraphic.translate( -h / 2 + 4, -13 );
-        phetTextGraphic.rotate( -Math.PI / 2 );
+        phetTextNode.rotate( -Math.PI / 2 );
 
-        addChild( phetTextGraphic );
+        addChild( phetTextNode );
     }
 
     public String getText() {

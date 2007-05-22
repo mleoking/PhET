@@ -2,11 +2,8 @@
 package edu.colorado.phet.energyskatepark.view.bargraphs;
 
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid

@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -31,10 +31,10 @@ public class OverheatButton extends PNode {
         this.module = module;
         this.rampPhysicalModel = rampPhysicalModel;
         this.rampPanel = rampPanel;
-        ShadowHTMLGraphic shadowHTMLGraphic = new ShadowHTMLGraphic( TheRampStrings.getString( "message.overheated" ) );
-        shadowHTMLGraphic.setColor( Color.red );
-        shadowHTMLGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
-        addChild( shadowHTMLGraphic );
+        ShadowHTMLNode shadowHTMLNode = new ShadowHTMLNode( TheRampStrings.getString( "message.overheated" ) );
+        shadowHTMLNode.setColor( Color.red );
+        shadowHTMLNode.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        addChild( shadowHTMLNode );
         JButton overheat = new JButton( TheRampStrings.getString( "controls.cool-ramp" ) );
         overheat.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         overheat.addActionListener( new ActionListener() {
@@ -43,7 +43,7 @@ public class OverheatButton extends PNode {
             }
         } );
         PSwing buttonGraphic = new PSwing(overheat );
-        buttonGraphic.setOffset( 0, shadowHTMLGraphic.getHeight() );
+        buttonGraphic.setOffset( 0, shadowHTMLNode.getHeight() );
         addChild( buttonGraphic );
         module.getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -51,7 +51,7 @@ public class OverheatButton extends PNode {
             }
         } );
         update();
-        buttonGraphic.setOffset( 0, shadowHTMLGraphic.getFullBounds().getHeight() + 5 );
+        buttonGraphic.setOffset( 0, shadowHTMLNode.getFullBounds().getHeight() + 5 );
     }
 
     private void update() {
