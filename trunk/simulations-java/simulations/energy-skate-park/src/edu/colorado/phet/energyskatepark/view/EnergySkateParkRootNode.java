@@ -1,12 +1,13 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view;
 
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
+import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
-import edu.colorado.phet.energyskatepark.common.MeasuringTape;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
 import edu.umd.cs.piccolo.PNode;
@@ -18,7 +19,10 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Random;
@@ -64,13 +68,15 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         Floor floor = ec3Model.getFloor();
 
         simulationPanel.setBackground( SKY_COLOR );
-//        toolboxPlaceholder = new PNode();
-
-//        screenBackground.addChild( new PPath( new Ellipse2D.Double( 50, 50, 300, 300 ) ) );
         splineToolbox = new SplineToolbox( simulationPanel, this );
 
-        double coordScale = 1.0 / 1.0;
-        measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), bodyGraphics );//any world node should do here, no?
+        measuringTape = new MeasuringTape( new ModelViewTransform2D(
+                new Rectangle( 50, 50 ), new Rectangle2D.Double( 0, 0, 50, 50 ) ),
+                                           new Point2D.Double( 25, 25 ) );
+        updateMapping();
+        measuringTape.setModelSrc( new Point2D.Double( 5, 5 ) );
+        measuringTape.setModelDst( new Point2D.Double( 7, 5 ) );
+
         pauseIndicator = new PauseIndicator( module, simulationPanel, this );
         legend = new EnergySkateParkLegend( module );
 //        legend.addNegPEEntry();
@@ -166,6 +172,19 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
                 updateEnergyIndicator();
             }
         } );
+        updateMapping();
+        addWorldTransformListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                updateMapping();
+            }
+        } );
+    }
+
+    private void updateMapping() {
+        Rectangle2D rect = new Rectangle2D.Double( 0, 0, 1, 1 );
+        worldToScreen( rect );
+        measuringTape.setModelViewTransform2D( new ModelViewTransform2D( new Rectangle( 1, 1 ), rect ) );
+
     }
 
     private void updateEnergyIndicator() {
@@ -310,8 +329,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     private void updateHistory() {
-//        System.out.println( "numHistoryGraphics() = " + numHistoryGraphics() );
-//        System.out.println( "getModel().getNumHistoryPoints() = " + getModel().getNumHistoryPoints() );
         while( numHistoryGraphics() < getModel().getNumHistoryPoints() ) {
             addHistoryGraphic( new HistoryPointGraphic( getModel().historyPointAt( 0 ), this ) );
         }
