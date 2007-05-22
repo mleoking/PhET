@@ -173,6 +173,7 @@ public class EnergySkateParkModel implements Serializable {
         this.time = model.time;
         this.maxNumHistoryPoints = model.maxNumHistoryPoints;
         this.gravity = model.gravity;
+        this.zeroPointPotentialY=model.zeroPointPotentialY;
         notifyBodyEnergyChanged();
     }
 

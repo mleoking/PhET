@@ -10,10 +10,10 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
  * Time: 6:08:19 PM
  */
 
-public class EC3RecordableModel implements RecordableModel {
+public class EnergySkateParkRecordableModel implements RecordableModel {
     private EnergySkateParkModule module;
 
-    public EC3RecordableModel( EnergySkateParkModule module ) {
+    public EnergySkateParkRecordableModel( EnergySkateParkModule module ) {
         this.module = module;
     }
 
