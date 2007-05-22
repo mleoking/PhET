@@ -452,7 +452,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         listeners.add( listener );
     }
 
-    public void fireZoomEvent() {
+    void fireZoomEvent() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.zoomChanged();

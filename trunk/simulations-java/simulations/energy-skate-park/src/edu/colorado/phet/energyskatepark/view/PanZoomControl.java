@@ -46,21 +46,7 @@ public class PanZoomControl extends JPanel {
         }
         zoomIn.setEnabled( false );
         setOpaque( false );
-//        phetPCanvas.addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                updateZoom();
-//            }
-//        } );
     }
-
-//    private void updateZoom() {
-//        Point2D point = simulationPanel.getCamera().getBounds().getCenter2D();
-//        simulationPanel.getCamera().localToGlobal( point );
-//        simulationPanel.getPhetRootNode().globalToWorld( point );
-//        simulationPanel.getPhetRootNode().scaleWorldAboutPoint( zoomScale, point );
-//        simulationPanel.fireZoomEvent();
-//        zoomIn.setEnabled( zoomOutCount > 0 );
-//    }
 
     private void zoomInOnce() {
         zoomOutCount--;
@@ -73,9 +59,9 @@ public class PanZoomControl extends JPanel {
     }
 
     private void zoom( double zoomScale ) {
-
         //preserve fraction of screen ground takes up
         double fractionToGround = getScreenFractionToGround();
+//        double fraction = 0.1;//or use fixed fraction
 
         Point2D point = simulationPanel.getCamera().getBounds().getCenter2D();
         simulationPanel.getCamera().localToGlobal( point );
@@ -85,9 +71,7 @@ public class PanZoomControl extends JPanel {
         //translate vertically so the ground is a fixed fraction of the way up the screen
         Point2D origin = new Point2D.Double( 0, 0 );
         simulationPanel.getPhetRootNode().worldToScreen( origin );
-
-        //or use fixed fraction
-//        double fraction = 0.1;
+        
         //desired screen y value
         double desiredScreenY = simulationPanel.getHeight() * ( 1.0 - fractionToGround );
         double screenDY = origin.getY() - desiredScreenY;
@@ -107,7 +91,6 @@ public class PanZoomControl extends JPanel {
         Point2D origin = new Point2D.Double( 0, 0 );
         simulationPanel.getPhetRootNode().worldToScreen( origin );
         return 1.0 - origin.getY() / simulationPanel.getHeight();
-//        return 0;
     }
 
     public void reset() {

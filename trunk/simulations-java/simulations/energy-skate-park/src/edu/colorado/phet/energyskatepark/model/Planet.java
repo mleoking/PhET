@@ -92,7 +92,7 @@ public abstract class Planet {
             try {
 //                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/background-gif.gif" );
 //                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/earth3.gif" );
-                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/earth3.jpg" );
+                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/earth-background.jpg" );
             }
             catch( IOException e ) {
                 e.printStackTrace();
