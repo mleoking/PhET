@@ -55,12 +55,106 @@
         return $simulations_html;
     }
     
-    function contribution_print_standards_checkbox($encoded_string, $count = 1) {
+    function contribution_print_standards_checkbox($encoded_string, $count = 1, $read_only = false) {
         for ($i = 0; $i < $count; $i++) {
             print '<td align="center">';
-            print_string_encoded_checkbox('standards', $encoded_string);
+            print_string_encoded_checkbox('standards', $encoded_string, $read_only);
             print '</td>';        
         }
+    }
+    
+    function contribution_print_standards_compliance($contribution_standards_compliance, $read_only = false) {
+        print <<<EOT
+        <table>
+            <thead>
+                <tr>
+                    <td  align="right">&nbsp;</td>
+
+                    <td colspan="3" align="center"><span class="style9">Content Level</span></td>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td  align="right"><span class="style9">Content Standard</span></td>
+
+                    <td  align="center">K-4</td>
+
+                    <td  align="center">5-8</td>
+
+                    <td  align="center">9-12</td>
+                </tr>
+
+                <tr>
+                    <td  align="right"><label>Science as Inquiry - A</label></td>
+EOT;
+
+                    contribution_print_standards_checkbox($contribution_standards_compliance, 3, $read_only);
+
+                    print <<<EOT
+                </tr>
+
+                <tr>
+                    <td  align="right"><label>Physical Science - B</label></td>
+EOT;
+
+                    contribution_print_standards_checkbox($contribution_standards_compliance, 3, $read_only);
+
+                    print <<<EOT
+                </tr>
+
+                <tr>
+                    <td  align="right"><label>Life Science - C</label></td>
+
+EOT;
+
+                    contribution_print_standards_checkbox($contribution_standards_compliance, 3, $read_only);
+
+                    print <<<EOT
+                </tr>
+
+                <tr>
+                    <td  align="right">Earth &amp; Space Science - D</td>
+
+EOT;
+
+                    contribution_print_standards_checkbox($contribution_standards_compliance, 3, $read_only);
+
+                    print <<<EOT
+                </tr>
+
+                <tr>
+                    <td  align="right"><label>Science &amp; Technology - E</label></td>
+
+EOT;
+
+                    contribution_print_standards_checkbox($contribution_standards_compliance, 3, $read_only);
+
+                    print <<<EOT
+                </tr>
+
+                <tr>
+                    <td  align="right"><label>Science in Personal and Social Perspective - F</label></td>
+
+EOT;
+
+                    contribution_print_standards_checkbox($contribution_standards_compliance, 3, $read_only);
+
+                    print <<<EOT
+                </tr>
+
+                <tr>
+                    <td  align="right">History and Nature of Science - G</td>
+
+EOT;
+
+                    contribution_print_standards_checkbox($contribution_standards_compliance, 3, $read_only);
+
+                    print <<<EOT
+                </tr>
+            </tbody>
+        </table>
+EOT;
     }
     
     function contribution_print_full_edit_form($contribution_id, $script, $referrer, $optional_message = null) {
@@ -214,6 +308,7 @@ EOT;
         print_single_selection(
             "contribution_duration",
             array(
+                "0"     => "NA",
                 "30"    => "30 minutes",
                 "60"    => "60 minutes",
                 "120"   => "120 minutes"
@@ -239,95 +334,11 @@ EOT;
                     
                     <p>Please describe how the contribution complies with the K-12 National Science Standards:</p>
                     
-                    <table>
-                        <thead>
-                            <tr>
-                                <td  align="right">&nbsp;</td>
-
-                                <td colspan="3" align="center"><span class="style9">Content Level</span></td>
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-                            <tr>
-                                <td  align="right"><span class="style9">Content Standard</span></td>
-
-                                <td  align="center">K-4</td>
-
-                                <td  align="center">5-8</td>
-
-                                <td  align="center">9-12</td>
-                            </tr>
-
-                            <tr>
-                                <td  align="right"><label>Science as Inquiry - A</label></td>
 EOT;
 
-                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
+        contribution_print_standards_compliance($contribution_standards_compliance);
 
-                                print <<<EOT
-                            </tr>
-
-                            <tr>
-                                <td  align="right"><label>Physical Science - B</label></td>
-EOT;
-
-                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
-
-                                print <<<EOT
-                            </tr>
-
-                            <tr>
-                                <td  align="right"><label>Life Science - C</label></td>
-
-EOT;
-
-                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
-
-                                print <<<EOT
-                            </tr>
-
-                            <tr>
-                                <td  align="right">Earth &amp; Space Science - D</td>
-
-EOT;
-
-                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
-
-                                print <<<EOT
-                            </tr>
-
-                            <tr>
-                                <td  align="right"><label>Science &amp; Technology - E</label></td>
-
-EOT;
-
-                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
-
-                                print <<<EOT
-                            </tr>
-
-                            <tr>
-                                <td  align="right"><label>Science in Personal and Social Perspective - F</label></td>
-
-EOT;
-
-                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
-
-                                print <<<EOT
-                            </tr>
-
-                            <tr>
-                                <td  align="right">History and Nature of Science - G</td>
-
-EOT;
-
-                                contribution_print_standards_checkbox($contribution_standards_compliance, 3);
-
-                                print <<<EOT
-                            </tr>
-                        </tbody>
-                    </table>
+        print <<<EOT
 
                     <input type="hidden" name="referrer"        value="$referrer" />
                     <input type="hidden" name="contribution_id" value="$contribution_id" />
