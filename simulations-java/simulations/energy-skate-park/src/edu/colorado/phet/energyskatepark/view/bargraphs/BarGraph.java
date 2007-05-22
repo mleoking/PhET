@@ -99,11 +99,11 @@ public class BarGraph extends PNode {
         }
     }
 
-    public void setScale( double scale ) {
+    public void setBarScale( double scale ) {
         this.scale = scale;
         for( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
             BarGraphic2D barGraphic2D = (BarGraphic2D)barLayer.getChild( i );
-            barGraphic2D.setScale( scale );
+            barGraphic2D.setBarScale( scale );
         }
         update();
     }
@@ -223,11 +223,10 @@ public class BarGraph extends PNode {
         } );
         contentPanel.add( controlPanel, BorderLayout.SOUTH );
 
-
-        final LinearSlider scale = new LinearSlider( 0, 2 );
+        final LinearSlider scale = new LinearSlider( 0, 200 );
         scale.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                barGraph.setScale( scale.getModelValue() );
+                barGraph.setBarScale( scale.getModelValue() );
             }
         } );
 

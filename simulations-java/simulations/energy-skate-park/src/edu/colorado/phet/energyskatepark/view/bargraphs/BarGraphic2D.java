@@ -5,6 +5,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -44,8 +45,8 @@ public class BarGraphic2D extends PNode {
     }
 
     private void updateBar() {
-        int height = computeHeight();
-        Rectangle rect = new Rectangle( x, y - height, width, height );
+        double height = computeHeight();
+        Rectangle2D.Double rect = new Rectangle2D.Double( x, y - height, width, height );
         label.setOffset( rect.x + 2 - labelWidth, (int)( y + label.getFullBounds().getHeight() + 14 ) );
         rectanglePath.setPathTo( rect );
     }
@@ -77,7 +78,7 @@ public class BarGraphic2D extends PNode {
         updateBar();
     }
 
-    public void setScale( double scale ) {
+    public void setBarScale( double scale ) {
         if( this.scale != scale ) {
             this.scale = scale;
             update();
