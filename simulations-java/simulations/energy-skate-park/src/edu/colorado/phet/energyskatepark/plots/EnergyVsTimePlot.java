@@ -1,4 +1,4 @@
-package edu.colorado.phet.energyskatepark;
+package edu.colorado.phet.energyskatepark.plots;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.DynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
@@ -12,6 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;

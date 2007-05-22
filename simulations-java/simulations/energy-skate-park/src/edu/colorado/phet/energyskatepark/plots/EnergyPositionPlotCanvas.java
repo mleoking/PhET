@@ -9,6 +9,7 @@ import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLegend;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -38,7 +39,7 @@ import java.util.ArrayList;
  *
  */
 
-public class EnergyPositionPlotCanvas extends PhetPCanvas {
+public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     private JFreeChart chart;
     private ArrayList fadeDots = new ArrayList();
     private XYSeriesCollection dataset;
@@ -60,7 +61,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
     private JPanel southPanel;
 
     public EnergyPositionPlotCanvas( EnergySkateParkModule module ) {
-        super( new Dimension( 100, 100 ) );
+//        super( new Dimension( 100, 100 ) );
         this.module = module;
         ke = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "energy.kinetic" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getKEColor(), this ) {
             public double getValue() {
