@@ -32,6 +32,7 @@ package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
@@ -49,13 +50,12 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 public class EnergySkateParkApplication extends PhetApplication {
-    private static final String VERSION = "2.01.01";
     private EnergySkateParkModule module;
     public static double SIMULATION_TIME_DT = 0.03;
 
     public EnergySkateParkApplication( String[] args ) {
         super( args, EnergySkateParkStrings.getString( "energy-skate-park.name" ), EnergySkateParkStrings.getString( "energy-skate-park.description" ),
-               VERSION,
+               PhetApplicationConfig.getVersion( "energy-skate-park" ).formatForTitleBar(),
 //               new EnergySkateParkDebugFrameSetup() );
 new EnergySkateParkFrameSetup() );
         module = new EnergySkateParkModule( "Module", new SwingClock( 30, SIMULATION_TIME_DT ), getPhetFrame() );
