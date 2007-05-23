@@ -24,7 +24,7 @@ import java.awt.event.ComponentEvent;
 public class TestCombinedModelPlot2 {
     private JFrame frame;
     private Timer timer;
-    private RotationModel rotationModel;
+    private MotionModel rotationModel;
 
     private SimulationVariable xVariable;
     private SimulationVariable vVariable;
@@ -48,7 +48,7 @@ public class TestCombinedModelPlot2 {
         frame.setSize( 800, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        rotationModel = new RotationModel();
+        rotationModel = new MotionModel();
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
         xVariable = new SimulationVariable( rotationModel.getLastState().getAngle() );

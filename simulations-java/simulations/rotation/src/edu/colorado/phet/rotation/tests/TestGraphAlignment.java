@@ -8,7 +8,7 @@ import edu.colorado.phet.rotation.controls.GraphSelectionControl;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSetNode;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
-import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.MotionModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +20,7 @@ public class TestGraphAlignment {
     private GraphSetNode graphSetNode;
     private PhetPCanvas phetPCanvas;
 
-    private RotationModel rotationModel;
+    private MotionModel rotationModel;
     private Timer timer;
 
     public TestGraphAlignment() {
@@ -32,7 +32,7 @@ public class TestGraphAlignment {
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
 
-        rotationModel = new RotationModel();
+        rotationModel = new MotionModel();
 
         RotationGraphSet rotationGraphSet = new RotationGraphSet( phetPCanvas, rotationModel );
         GraphSetModel graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );

@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.rotation.graphs.ControlGraph;
-import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.MotionModel;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 
 import javax.swing.*;
@@ -26,7 +26,7 @@ public class TestModelPlot {
     private Timer timer;
     private PhetPCanvas phetPCanvas;
 
-    private RotationModel rotationModel;
+    private MotionModel rotationModel;
 
     private ControlGraph xGraph;
     private ControlGraph vGraph;
@@ -38,7 +38,7 @@ public class TestModelPlot {
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        rotationModel = new RotationModel();
+        rotationModel = new MotionModel();
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
 

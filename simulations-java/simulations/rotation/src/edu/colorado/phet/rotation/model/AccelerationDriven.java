@@ -8,7 +8,7 @@ package edu.colorado.phet.rotation.model;
 
 public class AccelerationDriven implements UpdateStrategy {
 
-    public void update( RotationModel model, double dt ) {
+    public void update( MotionModel model, double dt ) {
         //assume a constant acceleration model with the given acceleration.
         double origAngVel = model.getAngularVelocity();
         model.setAngularVelocity( model.getAngularVelocity() + model.getAngularAcceleration() * dt );

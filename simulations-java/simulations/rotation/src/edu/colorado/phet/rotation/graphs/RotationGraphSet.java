@@ -5,7 +5,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.rotation.RotationResources;
-import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.MotionModel;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolo.PNode;
@@ -33,11 +33,11 @@ public class RotationGraphSet {
     private GraphSuite[] suites;
     private CursorModel cursorModel;
 
-    public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel rotationModel ) {
+    public RotationGraphSet( PhetPCanvas pSwingCanvas, final MotionModel rotationModel ) {
         this( pSwingCanvas, rotationModel, new CursorModel( rotationModel.getTimeSeriesModel() ) );
     }
 
-    public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel rotationModel, CursorModel cursorModel ) {
+    public RotationGraphSet( PhetPCanvas pSwingCanvas, final MotionModel rotationModel, CursorModel cursorModel ) {
         this.cursorModel = cursorModel;
         angleGraph = new GraphComponent( UnicodeUtil.THETA, toControlGraph( pSwingCanvas, UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, rotationModel.getXVariable(), new PImage( loadImage( "blue-arrow.png" ) ), true, cursorModel, rotationModel ) );
         angularVelocityGraph = new GraphComponent( UnicodeUtil.OMEGA, toControlGraph( pSwingCanvas, UnicodeUtil.OMEGA, "Angular Velocity", -0.1, 0.1, Color.red, rotationModel.getVVariable(), new PImage( loadImage( "red-arrow.png" ) ), true, cursorModel, rotationModel ) );
@@ -62,7 +62,7 @@ public class RotationGraphSet {
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getAngularAccelerationGraph(), positionGraph, speedGraph, accelerationGraph} )
         };
 
-        rotationModel.addListener( new RotationModel.Listener() {
+        rotationModel.addListener( new MotionModel.Listener() {
             public void steppedInTime() {
                 angleGraph.addValue( rotationModel.getTime(), rotationModel.getAngle() );
                 angularVelocityGraph.addValue( rotationModel.getTime(), rotationModel.getAngularVelocity() );
@@ -104,7 +104,7 @@ public class RotationGraphSet {
     ControlGraph toControlGraph( PhetPCanvas pSwingCanvas, String label, String title,
                                  double min, double max, Color color,
                                  SimulationVariable simulationVariable, PNode thumb, boolean editable, final CursorModel cursorModel,
-                                 final RotationModel rotationModel ) {
+                                 final MotionModel rotationModel ) {
         final ControlGraph controlGraph = new ControlGraph( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb );
 
         //todo: move this adapter code into ControlGraph (or a subclass)
@@ -157,11 +157,11 @@ public class RotationGraphSet {
         return controlGraph;
     }
 
-    private void updateCursorLocation( JFreeChartCursorNode jFreeChartCursorNode, RotationModel rotationModel ) {
+    private void updateCursorLocation( JFreeChartCursorNode jFreeChartCursorNode, MotionModel rotationModel ) {
         jFreeChartCursorNode.setTime( rotationModel.getTimeSeriesModel().getTime() );
     }
 
-    private void updateCursorVisible( JFreeChartCursorNode jFreeChartCursorNode, RotationModel rotationModel ) {
+    private void updateCursorVisible( JFreeChartCursorNode jFreeChartCursorNode, MotionModel rotationModel ) {
         jFreeChartCursorNode.setVisible( rotationModel.getTimeSeriesModel().isPlaybackMode() || rotationModel.getTimeSeriesModel().isPaused() );
     }
 

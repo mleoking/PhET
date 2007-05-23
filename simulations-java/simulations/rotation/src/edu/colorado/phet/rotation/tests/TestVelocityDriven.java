@@ -8,7 +8,7 @@ package edu.colorado.phet.rotation.tests;
  */
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.MotionModel;
 import edu.colorado.phet.rotation.model.VelocityDriven;
 
 import javax.swing.*;
@@ -21,14 +21,14 @@ import java.text.DecimalFormat;
 public class TestVelocityDriven {
     private JFrame frame;
     private Timer timer;
-    private RotationModel rotationModel;
+    private MotionModel rotationModel;
 
     public TestVelocityDriven() {
         frame = new JFrame();
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        rotationModel = new RotationModel();
+        rotationModel = new MotionModel();
         final VelocityDriven updateStrategy = new VelocityDriven( );
         rotationModel.setUpdateStrategy( updateStrategy );
         final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, rotationModel.getAngularVelocity() );

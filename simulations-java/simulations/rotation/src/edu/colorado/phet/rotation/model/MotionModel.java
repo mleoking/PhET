@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Time: 11:39:00 PM
  */
 
-public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, PlatformNode.RotationPlatformEnvironment {
+public class MotionModel implements RotationBodyNode.RotationBodyEnvironment, PlatformNode.RotationPlatformEnvironment {
     private RotationModelState currentState;
 
     private ArrayList stateHistory = new ArrayList();
@@ -40,7 +40,7 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
     private ArrayList listeners = new ArrayList();
     private RecordableModel recordableModel = new RecordableModel() {
         public void stepInTime( double simulationTimeChange ) {
-            RotationModel.this.stepInTime( simulationTimeChange );
+            MotionModel.this.stepInTime( simulationTimeChange );
         }
 
         public Object getState() {
@@ -60,7 +60,7 @@ public class RotationModel implements RotationBodyNode.RotationBodyEnvironment, 
     };
     private TimeSeriesModel timeSeriesModel;
 
-    public RotationModel() {
+    public MotionModel() {
         timeSeriesModel = new TimeSeriesModel( recordableModel, 1.0 );
         timeSeriesModel.setRecordMode();
         currentState = new RotationModelState();

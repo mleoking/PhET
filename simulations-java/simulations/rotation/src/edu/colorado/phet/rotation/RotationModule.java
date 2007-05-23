@@ -1,7 +1,6 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -9,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
-import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.MotionModel;
 import edu.colorado.phet.rotation.view.RotationSimulationPanel;
 
 /**
@@ -22,7 +21,7 @@ public class RotationModule extends PiccoloModule {
     private RotationSimulationPanel rotationSimulationPanel;
 
     /*The Physical Model*/
-    private RotationModel rotationModel;
+    private MotionModel rotationModel;
 
     /*Other MVC model data structures*/
     private VectorViewModel vectorViewModel;
@@ -30,7 +29,7 @@ public class RotationModule extends PiccoloModule {
     public RotationModule() {
         super( "Rotation", createClock() );
         setModel( new BaseModel() );
-        rotationModel = new RotationModel();
+        rotationModel = new MotionModel();
         vectorViewModel = new VectorViewModel();
 
         rotationSimulationPanel = new RotationSimulationPanel( this );
@@ -63,7 +62,7 @@ public class RotationModule extends PiccoloModule {
         return vectorViewModel;
     }
 
-    public RotationModel getRotationModel() {
+    public MotionModel getRotationModel() {
         return rotationModel;
     }
 

@@ -13,7 +13,7 @@ import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSuite;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
-import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.MotionModel;
 
 import javax.swing.*;
 
@@ -26,7 +26,7 @@ public class TestRotationControlPanel {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetPCanvas phetPCanvas = new PhetPCanvas();
-        RotationModel rotationModel = new RotationModel();
+        MotionModel rotationModel = new MotionModel();
         RotationGraphSet rotationGraphSet = new RotationGraphSet( phetPCanvas, rotationModel );
         GraphSuite graphSuite = new RotationGraphSet( phetPCanvas, rotationModel ).getGraphSuite( 0 );
         GraphSetModel graphSetModel = new GraphSetModel( graphSuite );

@@ -7,7 +7,7 @@ package edu.colorado.phet.rotation.model;
  */
 
 public class VelocityDriven implements UpdateStrategy {
-    public void update( RotationModel model, double dt ) {
+    public void update( MotionModel model, double dt ) {
         double newAngle = model.getAngle() + model.getAngularVelocity()* dt;
         double angularAcceleration = RotationMath.estimateDerivative( model.getAvailableVelocityTimeSeries( 10 ) );
         model.setAngle( newAngle );
