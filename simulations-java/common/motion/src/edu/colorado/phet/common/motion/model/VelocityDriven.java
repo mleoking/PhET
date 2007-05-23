@@ -12,7 +12,7 @@ public class VelocityDriven implements UpdateStrategy {
     public void update( MotionModel model, double dt ) {
         double newAngle = model.getPosition() + model.getVelocity() * dt;
         double angularAcceleration = MotionMath.estimateDerivative( model.getAvailableVelocityTimeSeries( 10 ) );
-        model.setAngle( newAngle );
+        model.setPosition( newAngle );
         model.setAcceleration( angularAcceleration );
     }
 }

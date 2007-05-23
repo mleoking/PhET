@@ -48,7 +48,7 @@ public class TestVelocityDriven {
     private void step() {
         rotationModel.stepInTime( 1.0 );
         DecimalFormat decimalFormat = new DecimalFormat( "0.000" );
-        System.out.println( decimalFormat.format( rotationModel.getLastState().getAngle() ) + "\t" + decimalFormat.format( rotationModel.getLastState().getVelocity() ) + "\t" + decimalFormat.format( rotationModel.getLastState().getAcceleration() ) );
+        System.out.println( decimalFormat.format( rotationModel.getLastState().getPosition() ) + "\t" + decimalFormat.format( rotationModel.getLastState().getVelocity() ) + "\t" + decimalFormat.format( rotationModel.getLastState().getAcceleration() ) );
     }
 
     public static void main( String[] args ) {

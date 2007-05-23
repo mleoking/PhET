@@ -93,7 +93,7 @@ public class TestModelPlot {
     private void step() {
         rotationModel.stepInTime( 1.0 );
 
-        xGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngle() );
+        xGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getPosition() );
         vGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getVelocity() );
         aGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAcceleration() );
     }
