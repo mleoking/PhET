@@ -4,7 +4,9 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearSlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
+import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -25,7 +27,7 @@ import java.beans.PropertyChangeListener;
  */
 public class BarGraph extends PNode {
     private ShadowHTMLNode titleNode;
-    private PNode backLayer = new PNode();
+    private PNode frontLayer = new PNode();
     private PNode barLayer = new PNode();
     private double barChartHeight;
     private double barWidth;
@@ -40,7 +42,7 @@ public class BarGraph extends PNode {
     private YAxis yAxis;
     private Variable[] variables;
     private double scale = 1.0;
-
+    private PNode backLayer = new PNode();
 
     public BarGraph( String title, double scale ) {
         this.scale = scale;
@@ -53,8 +55,12 @@ public class BarGraph extends PNode {
         titleNode.setColor( Color.black );
         titleNode.setShadowColor( Color.blue );
         titleNode.setFont( getTitleFont() );
+        PhetPPath titleBackground = new PhetPPath( titleNode.getFullBounds(), EnergyLookAndFeel.getLegendBackground() );
+        frontLayer.addChild( titleBackground );
+
         addChild( backLayer );
         addChild( barLayer );
+        addChild( frontLayer );
     }
 
     protected Font getTitleFont() {
@@ -119,12 +125,12 @@ public class BarGraph extends PNode {
         background.setPaint( null );
         background.setStroke( new BasicStroke() );
         background.setStrokePaint( null );
-        backLayer.addChild( background );
+        frontLayer.addChild( background );
         xAxis = new XAxis();
         backLayer.addChild( xAxis );
 
         yAxis = new YAxis();
-        backLayer.addChild( yAxis );
+        frontLayer.addChild( yAxis );
         for( int i = 0; i < variables.length; i++ ) {
             final Variable variable = variables[i];
             int x = (int)( i * sep + dw );
@@ -133,7 +139,7 @@ public class BarGraph extends PNode {
                                                               (int)barChartHeight, variable.getColor(), new Font( "Lucida Sans", Font.BOLD, 14 ) );
             addBarGraphic( barGraphic );
         }
-        backLayer.addChild( titleNode );
+        frontLayer.addChild( titleNode );
         addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 update();

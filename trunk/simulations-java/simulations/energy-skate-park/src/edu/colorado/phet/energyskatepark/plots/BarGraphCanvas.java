@@ -3,7 +3,7 @@ package edu.colorado.phet.energyskatepark.plots;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.view.ClearHeatButton;
-import edu.colorado.phet.energyskatepark.view.bargraphs.EnergyEnergySkateParkBarGraph;
+import edu.colorado.phet.energyskatepark.view.bargraphs.EnergySkateParkBarGraph;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.axis.NumberAxis;
@@ -26,8 +26,8 @@ public class BarGraphCanvas extends PSwingCanvas {
 
     public BarGraphCanvas( final EnergySkateParkModule module ) {
         this.module = module;
-        final EnergyEnergySkateParkBarGraph energyBarGraphSet = new EnergyEnergySkateParkBarGraph( module.getEnergyConservationCanvas(), module.getEnergySkateParkModel(),
-                                                                                                   400 / 5000.0 );
+        final EnergySkateParkBarGraph energyBarGraphSet = new EnergySkateParkBarGraph( module.getEnergyConservationCanvas(), module.getEnergySkateParkModel(),
+                                                                                       400 / 5000.0 );
         getLayer().addChild( energyBarGraphSet );
         energyBarGraphSet.translate( 45, 45 );
 
@@ -56,7 +56,7 @@ public class BarGraphCanvas extends PSwingCanvas {
         updateLayout();
     }
 
-    private void updateZoom( EnergyEnergySkateParkBarGraph energyBarGraphSet, NumberAxis axis ) {
+    private void updateZoom( EnergySkateParkBarGraph energyBarGraphSet, NumberAxis axis ) {
         double range = Math.abs( axis.getLowerBound() - axis.getUpperBound() );
         energyBarGraphSet.setBarScale( 500 / range );
     }
