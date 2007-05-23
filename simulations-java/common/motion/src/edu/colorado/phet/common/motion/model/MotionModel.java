@@ -93,6 +93,22 @@ public class MotionModel implements IPositionDriven {
         setUpdateStrategy( positionDriven );
     }
 
+    /**These getters are provided for convenience in setting up listeners; i.e. to set up a different
+     * mode, the client has to pass a different object, not call a different method.
+     * @return the strategy 
+     */
+    public PositionDriven getPositionDriven() {
+        return positionDriven;
+    }
+
+    public VelocityDriven getVelocityDriven() {
+        return velocityDriven;
+    }
+
+    public AccelerationDriven getAccelDriven() {
+        return accelDriven;
+    }
+
     public void setVelocityDriven() {
         setUpdateStrategy( velocityDriven );
     }
