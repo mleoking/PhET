@@ -20,6 +20,14 @@
             
             if (isset($contribution["$sort_by"])) {
                 $key = $contribution["$sort_by"];
+                
+                if ($sort_by == 'contributor_authors') {
+                    $names = explode(',', $key);
+                    
+                    $parsed_name = parse_name($names[0]);
+                    
+                    $key = $parsed_name['last_name'];
+                }
             }
             
             $keyed_contributions[serialize($contribution)] = "$key";
@@ -133,7 +141,7 @@ EOT;
         $order = $_REQUEST['order'];
     }
     else {
-        $order = 'asc';
+        $order = 'desc';
     }
     
     $next_order = 'desc';
