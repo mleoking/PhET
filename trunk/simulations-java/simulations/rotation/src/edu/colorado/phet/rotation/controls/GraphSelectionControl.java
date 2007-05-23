@@ -1,7 +1,7 @@
 package edu.colorado.phet.rotation.controls;
 
-import edu.colorado.phet.rotation.graphs.GraphSetModel;
-import edu.colorado.phet.rotation.graphs.GraphSuite;
+import edu.colorado.phet.common.motion.graphs.GraphSetModel;
+import edu.colorado.phet.common.motion.graphs.GraphSuite;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.util.GraphicsUtil;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;

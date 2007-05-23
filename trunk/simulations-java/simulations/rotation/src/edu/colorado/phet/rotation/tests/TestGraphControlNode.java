@@ -8,9 +8,9 @@ package edu.colorado.phet.rotation.tests;
  */
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.rotation.graphs.DefaultGraphTimeSeries;
-import edu.colorado.phet.rotation.graphs.GraphControlNode;
-import edu.colorado.phet.rotation.motion.SimulationVariable;
+import edu.colorado.phet.common.motion.graphs.DefaultGraphTimeSeries;
+import edu.colorado.phet.common.motion.graphs.GraphControlsNode;
+import edu.colorado.phet.common.motion.model.SimulationVariable;
 
 import javax.swing.*;
 
@@ -23,7 +23,7 @@ public class TestGraphControlNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetPCanvas phetPCanvas = new PhetPCanvas();
-        phetPCanvas.addScreenChild( new GraphControlNode( "title", new SimulationVariable(), new DefaultGraphTimeSeries() ) );
+        phetPCanvas.addScreenChild( new GraphControlsNode( "title", new SimulationVariable(), new DefaultGraphTimeSeries() ) );
         frame.setContentPane( phetPCanvas );
     }
 

@@ -2,7 +2,7 @@ package edu.colorado.phet.rotation.model;
 
 import JSci.maths.LinearMath;
 import JSci.maths.vectors.AbstractDoubleVector;
-import edu.colorado.phet.rotation.motion.TimeData;
+import edu.colorado.phet.common.motion.model.TimeData;
 
 /**
  * User: Sam Reid

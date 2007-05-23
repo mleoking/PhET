@@ -3,7 +3,6 @@ package edu.colorado.phet.rotation;
 import edu.colorado.phet.common.jfreechartphet.test.TestDynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.test.TestDynamicJFreeChartNodeTree;
 import edu.colorado.phet.rotation.tests.*;
-import edu.colorado.phet.rotation.tests.combined.TestCombinedModelPlot2;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -38,11 +37,7 @@ public class RotationTestMenu extends JMenu {
                 TestGraphs.main( new String[0] );
             }
         } );
-        addTest( "Combined Model Plot", new Runnable() {
-            public void run() {
-                TestCombinedModelPlot2.main( new String[0] );
-            }
-        } );
+        
         addTest( "Graph Control", new Runnable() {
             public void run() {
                 TestControlGraph.main( new String[0] );

@@ -1,9 +1,9 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.rotation.motion.ModelState;
-import edu.colorado.phet.rotation.motion.MotionModel;
-import edu.colorado.phet.rotation.motion.SimulationVariable;
+import edu.colorado.phet.common.motion.model.ModelState;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
+import edu.colorado.phet.common.motion.model.SimulationVariable;
+import edu.colorado.phet.common.motion.model.MotionModel;
 
 import java.awt.geom.Point2D;
 
