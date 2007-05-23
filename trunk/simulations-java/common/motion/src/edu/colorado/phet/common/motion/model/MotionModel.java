@@ -58,9 +58,9 @@ public class MotionModel implements IPositionDriven {
 
         stateHistory.add( copyState() );
 
-        xVariable = new SimulationVariable( getAngle() );
-        vVariable = new SimulationVariable( getAngularVelocity() );
-        aVariable = new SimulationVariable( getAngularAcceleration() );
+        xVariable = new SimulationVariable( getPosition() );
+        vVariable = new SimulationVariable( getVelocity() );
+        aVariable = new SimulationVariable( getAcceleration() );
 
 
         xVariable.addListener( new SimulationVariable.Listener() {
@@ -115,9 +115,9 @@ public class MotionModel implements IPositionDriven {
         updateStrategy.update( this, dt );
         currentState.stepInTime( dt );
 
-        xVariable.setValue( getAngle() );
-        vVariable.setValue( getAngularVelocity() );
-        aVariable.setValue( getAngularAcceleration() );
+        xVariable.setValue( getPosition() );
+        vVariable.setValue( getVelocity() );
+        aVariable.setValue( getAcceleration() );
 
         doStepInTime( dt );
         notifySteppedInTime();
@@ -148,7 +148,7 @@ public class MotionModel implements IPositionDriven {
         TimeData[] td = new TimeData[numPts];
         for( int i = 0; i < td.length; i++ ) {
             ModelState state = getState( getStateCount() - numPts + i );
-            td[i] = new TimeData( state.getAngularAcceleration(), state.getTime() );
+            td[i] = new TimeData( state.getAcceleration(), state.getTime() );
         }
         return td;
     }
@@ -157,7 +157,7 @@ public class MotionModel implements IPositionDriven {
         TimeData[] td = new TimeData[numPts];
         for( int i = 0; i < td.length; i++ ) {
             ModelState state = getState( getStateCount() - numPts + i );
-            td[i] = new TimeData( state.getAngularVelocity(), state.getTime() );
+            td[i] = new TimeData( state.getVelocity(), state.getTime() );
         }
         return td;
     }
@@ -211,24 +211,24 @@ public class MotionModel implements IPositionDriven {
         return currentState.getMotionBody();
     }
 
-    public double getAngularVelocity() {
-        return currentState.getAngularVelocity();
+    public double getVelocity() {
+        return currentState.getVelocity();
     }
 
-    public double getAngle() {
+    public double getPosition() {
         return currentState.getAngle();
     }
 
-    public void setAngularVelocity( double newAngVel ) {
-        currentState.setAngularVelocity( newAngVel );
+    public void setVelocity( double velocity ) {
+        currentState.setVelocity( velocity );
     }
 
-    public double getAngularAcceleration() {
-        return currentState.getAngularAcceleration();
+    public double getAcceleration() {
+        return currentState.getAcceleration();
     }
 
-    public void setAngularAcceleration( double angularAcceleration ) {
-        currentState.setAngularAcceleration( angularAcceleration );
+    public void setAcceleration( double acceleration ) {
+        currentState.setAcceleration( acceleration );
     }
 
     public RecordableModel getTimeSeries() {

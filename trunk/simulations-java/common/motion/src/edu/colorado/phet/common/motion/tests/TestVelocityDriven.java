@@ -31,10 +31,10 @@ public class TestVelocityDriven {
         rotationModel = new MotionModel();
         final VelocityDriven updateStrategy = new VelocityDriven();
         rotationModel.setUpdateStrategy( updateStrategy );
-        final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, rotationModel.getAngularVelocity() );
+        final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, rotationModel.getVelocity() );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                rotationModel.setAngularVelocity( modelSlider.getValue() );
+                rotationModel.setVelocity( modelSlider.getValue() );
             }
         } );
         timer = new Timer( 30, new ActionListener() {
@@ -48,7 +48,7 @@ public class TestVelocityDriven {
     private void step() {
         rotationModel.stepInTime( 1.0 );
         DecimalFormat decimalFormat = new DecimalFormat( "0.000" );
-        System.out.println( decimalFormat.format( rotationModel.getLastState().getAngle() ) + "\t" + decimalFormat.format( rotationModel.getLastState().getAngularVelocity() ) + "\t" + decimalFormat.format( rotationModel.getLastState().getAngularAcceleration() ) );
+        System.out.println( decimalFormat.format( rotationModel.getLastState().getAngle() ) + "\t" + decimalFormat.format( rotationModel.getLastState().getVelocity() ) + "\t" + decimalFormat.format( rotationModel.getLastState().getAcceleration() ) );
     }
 
     public static void main( String[] args ) {

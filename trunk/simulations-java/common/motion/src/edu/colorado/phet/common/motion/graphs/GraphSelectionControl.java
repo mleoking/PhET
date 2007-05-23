@@ -1,10 +1,6 @@
-package edu.colorado.phet.rotation.controls;
+package edu.colorado.phet.common.motion.graphs;
 
-import edu.colorado.phet.common.motion.graphs.GraphSetModel;
-import edu.colorado.phet.common.motion.graphs.GraphSuite;
-import edu.colorado.phet.rotation.graphs.RotationGraphSet;
-import edu.colorado.phet.rotation.util.GraphicsUtil;
-import edu.colorado.phet.rotation.view.RotationLookAndFeel;
+import edu.colorado.phet.common.motion.util.GraphicsUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,26 +15,26 @@ import java.awt.event.ActionListener;
 
 public class GraphSelectionControl extends JPanel {
 
-    public GraphSelectionControl( RotationGraphSet rotationGraphSet, final GraphSetModel graphSetModel ) {
+    public GraphSelectionControl( GraphSuiteSet rotationGraphSet, final GraphSetModel graphSetModel ) {
         setLayout( new GridBagLayout() );
-        GridBagConstraints gridBagConstraints = GraphicsUtil.createVerticalGridBagConstraints();
+        GridBagConstraints gridBagConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         JLabel label = new JLabel( "Show graphs for:" );
-        label.setFont( RotationLookAndFeel.getControlPanelTitleFont() );
+        label.setFont( new Font( "Lucida Sans", Font.PLAIN, 20 ) );
         add( label, gridBagConstraints );
-        for( int i = 0; i < rotationGraphSet.getGraphSuites().length; i++ ) {
-            add( new GraphSuiteRadioButton( graphSetModel, rotationGraphSet.getGraphSuites()[i] ), gridBagConstraints );
+        for( int i = 0; i < rotationGraphSet.getNumGraphSuites(); i++ ) {
+            add( new GraphSuiteRadioButton( graphSetModel, rotationGraphSet.getGraphSuite( i ) ), gridBagConstraints );
         }
     }
 
-    static class GraphSuiteRadioButton extends JRadioButton {
-        GraphSetModel graphSetPanel;
-        GraphSuite graphSuite;
+    public static class GraphSuiteRadioButton extends JRadioButton {
+        private GraphSetModel graphSetPanel;
+        private GraphSuite graphSuite;
 
         public GraphSuiteRadioButton( final GraphSetModel graphSetModel, final GraphSuite graphSuite ) {
             super( graphSuite.getLabel(), graphSetModel.getGraphSuite() == graphSuite );
             this.graphSetPanel = graphSetModel;
             this.graphSuite = graphSuite;
-            setFont( RotationLookAndFeel.getGraphSelectionItemFont() );
+            setFont( new Font( "Lucida Sans", Font.PLAIN, 16 ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     graphSetModel.setGraphSuite( graphSuite );

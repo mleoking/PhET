@@ -14,7 +14,7 @@ public class TestConstantAcceleration {
     public static void main( String[] args ) {
         AccelerationDriven accelerationDriven = new AccelerationDriven();
         MotionModel model = new MotionModel();
-        model.setAngularAcceleration( 1.0 );
+        model.setAcceleration( 1.0 );
         model.setUpdateStrategy( accelerationDriven );
         System.out.println( "init state=" + model.getLastState() );
         for( int i = 0; i <= 100; i++ ) {

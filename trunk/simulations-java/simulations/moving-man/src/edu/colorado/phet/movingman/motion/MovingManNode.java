@@ -99,7 +99,7 @@ public class MovingManNode extends PNode {
     }
 
     private void updateObject( PPath object, MotionModel rotationModel ) {
-        object.setOffset( rotationModel.getAngle(), 1.5 );
+        object.setOffset( rotationModel.getPosition(), 1.5 );
     }
 
     public static void main( String[] args ) {
@@ -126,6 +126,6 @@ public class MovingManNode extends PNode {
         } );
         swingClock.start();
         rotationModel.setVelocityDriven();
-        rotationModel.setAngularVelocity( 0.1 );
+        rotationModel.setVelocity( 0.1 );
     }
 }
