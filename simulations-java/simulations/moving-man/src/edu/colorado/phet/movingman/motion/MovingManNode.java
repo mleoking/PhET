@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.view;
+package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;

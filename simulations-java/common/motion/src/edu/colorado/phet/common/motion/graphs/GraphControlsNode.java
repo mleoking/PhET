@@ -1,8 +1,8 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.motion.model.SimulationVariable;
-import edu.colorado.phet.rotation.RotationResources;
+import edu.colorado.phet.common.motion.MotionResources;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -184,7 +184,7 @@ public class GraphControlsNode extends PNode {
             this.goButton = b;
             setText( goButton ? "Go!" : "Stop" );
             try {
-                setIcon( new ImageIcon( RotationResources.loadBufferedImage( goButton ? "go.png" : "stop.png" ) ) );
+                setIcon( new ImageIcon( MotionResources.loadBufferedImage( goButton ? "go.png" : "stop.png" ) ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();

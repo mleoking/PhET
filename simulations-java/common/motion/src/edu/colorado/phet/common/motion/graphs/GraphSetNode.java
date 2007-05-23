@@ -59,7 +59,7 @@ public class GraphSetNode extends PNode {
         while( graphComponents.size() > 0 ) {
             removeGraphComponent( 0 );
         }
-        GraphSuite graphSuite = graphSetModel.getRotationGraphSuite();
+        GraphSuite graphSuite = graphSetModel.getGraphSuite();
         for( int i = 0; i < graphSuite.getGraphComponentCount(); i++ ) {
             addGraphComponent( graphSuite.getGraphComponent( i ) );
         }

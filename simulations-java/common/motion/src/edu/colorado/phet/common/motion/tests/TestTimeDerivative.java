@@ -1,8 +1,7 @@
-package edu.colorado.phet.rotation.tests;
+package edu.colorado.phet.common.motion.tests;
 
-import JSci.maths.LinearMath;
-import JSci.maths.polynomials.RealPolynomial;
-import JSci.maths.vectors.AbstractDoubleVector;
+import edu.colorado.phet.common.motion.MotionMath;
+import edu.colorado.phet.common.motion.model.TimeData;
 
 /**
  * User: Sam Reid
@@ -10,7 +9,7 @@ import JSci.maths.vectors.AbstractDoubleVector;
  * Time: 12:30:09 AM
  */
 
-public class TestLinearRegression {
+public class TestTimeDerivative {
 
     /**
      * public static AbstractDoubleVector linearRegression(double[][] data)
@@ -26,15 +25,13 @@ public class TestLinearRegression {
      */
     public static void main( String[] args ) {
         double[] x = new double[]{0, 1, 2, 3, 4};
-        double[] y = new double[]{1, 3, 5, 7, 9.01};
-        int n = 2;
-        double[][] data = new double[n][x.length];
-        data[0] = x;
-        data[1] = y;
-        AbstractDoubleVector out = LinearMath.linearRegression( data );
-        System.out.println( "out = " + out );
+        double[] y = new double[]{1, 3, 5, 7, 9};
 
-        RealPolynomial lsf = LinearMath.leastSquaresFit( 2, data );
-        System.out.println( "lsf = " + lsf );
+        TimeData[] timeData = new TimeData[x.length];
+        for( int i = 0; i < timeData.length; i++ ) {
+            timeData[i] = new TimeData( y[i], x[i] );
+        }
+        double slope = MotionMath.estimateDerivative( timeData );
+        System.out.println( "slope = " + slope );
     }
 }

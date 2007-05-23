@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation.view;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.motion.model.IPositionDriven;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.util.MathUtil;
 import edu.umd.cs.piccolo.PNode;
@@ -27,11 +28,7 @@ public class PlatformNode extends PNode {
     private double angle = 0.0;
     private RotationPlatform rotationPlatform;
 
-    public interface RotationPlatformEnvironment {
-        void setPositionDriven();
-    }
-
-    public PlatformNode( final RotationPlatformEnvironment environment, final RotationPlatform rotationPlatform ) {
+    public PlatformNode( final IPositionDriven environment, final RotationPlatform rotationPlatform ) {
         this.rotationPlatform = rotationPlatform;
         ringRadius = rotationPlatform.getRadius();
         contentNode = new PNode();

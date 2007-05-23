@@ -16,12 +16,12 @@ public class MotionBody implements Serializable {
     public MotionBody() {
     }
 
-    public void setState( MotionBody rotationPlatform ) {
+    public void setState( MotionBody motionBody ) {
         double origPosition = position;
 
-        position = rotationPlatform.position;
-        velocity = rotationPlatform.velocity;
-        acceleration = rotationPlatform.acceleration;
+        position = motionBody.position;
+        velocity = motionBody.velocity;
+        acceleration = motionBody.acceleration;
         notifyAngleChanged( position - origPosition );
     }
 

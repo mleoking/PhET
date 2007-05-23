@@ -3,8 +3,6 @@ package edu.colorado.phet.common.motion.model;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.rotation.model.RotationPlatform;
-import edu.colorado.phet.rotation.view.PlatformNode;
 
 import java.util.ArrayList;
 
@@ -14,7 +12,7 @@ import java.util.ArrayList;
  * Time: 11:39:00 PM
  */
 
-public class MotionModel implements PlatformNode.RotationPlatformEnvironment {
+public class MotionModel implements IPositionDriven {
     private ModelState currentState;
 
     private ArrayList stateHistory = new ArrayList();
@@ -56,11 +54,7 @@ public class MotionModel implements PlatformNode.RotationPlatformEnvironment {
         timeSeriesModel = new TimeSeriesModel( recordableModel, 1.0 );
         timeSeriesModel.setRecordMode();
         currentState = createModelState();
-        currentState.getMotionBody().addListener( new RotationPlatform.Listener() {
-            public void angleChanged( double dtheta ) {
-                xVariable.setValue( currentState.getMotionBody().getPosition() );
-            }
-        } );
+
 
         stateHistory.add( copyState() );
 

@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.model;
+package edu.colorado.phet.common.motion;
 
 import JSci.maths.LinearMath;
 import JSci.maths.vectors.AbstractDoubleVector;
@@ -10,7 +10,7 @@ import edu.colorado.phet.common.motion.model.TimeData;
  * Time: 12:04:24 AM
  */
 
-public class RotationMath {
+public class MotionMath {
     public static double estimateDerivative( TimeData[] timeSeries ) {
         double[] x = new double[timeSeries.length];
         double[] y = new double[timeSeries.length];

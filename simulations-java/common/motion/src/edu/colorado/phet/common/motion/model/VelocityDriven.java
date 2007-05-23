@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.motion.model;
 
-import edu.colorado.phet.rotation.model.RotationMath;
+import edu.colorado.phet.common.motion.MotionMath;
 
 /**
  * User: Sam Reid
@@ -11,7 +11,7 @@ import edu.colorado.phet.rotation.model.RotationMath;
 public class VelocityDriven implements UpdateStrategy {
     public void update( MotionModel model, double dt ) {
         double newAngle = model.getAngle() + model.getAngularVelocity() * dt;
-        double angularAcceleration = RotationMath.estimateDerivative( model.getAvailableVelocityTimeSeries( 10 ) );
+        double angularAcceleration = MotionMath.estimateDerivative( model.getAvailableVelocityTimeSeries( 10 ) );
         model.setAngle( newAngle );
         model.setAngularAcceleration( angularAcceleration );
     }
