@@ -167,7 +167,7 @@ public class EnergyVsTimePlot {
             text.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
             text.setTextPaint( color );
             text.setShadowColor( Color.black );
-            background = new PhetPPath( text.getFullBounds(), new Color( 255, 255, 255, 175 ) );//todo: is this partial transparency a performance problem?
+            background = new PhetPPath( text.getFullBounds(), EnergyLookAndFeel.getLegendBackground() );//todo: is this partial transparency a performance problem?
             addChild( background );
             addChild( text );
         }

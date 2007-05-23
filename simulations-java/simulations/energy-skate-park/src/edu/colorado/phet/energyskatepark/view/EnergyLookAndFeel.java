@@ -74,4 +74,8 @@ public class EnergyLookAndFeel {
     public Color getBackground() {
         return myGreen;
     }
+
+    public static Paint getLegendBackground() {
+        return new Color( 255, 255, 255, 175 );
+    }
 }

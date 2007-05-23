@@ -1,6 +1,9 @@
 2.01.03 (5-23-2007)
 Fixed: Simulation crashes when E vs. T graph is open and Reset is pressed.
 Fixed: Numerical readouts are difficult to read on E vs T graph when data overlaps text.
+Increased maximum zoom out range.
+Fixed: E vs. X graph, data obscures the legend
+Fixed: E vs. X graph, data falls outside the chart boundary.
 
 2.01.02 (5-21-2007)
 Mountains rescale on zoom-out.

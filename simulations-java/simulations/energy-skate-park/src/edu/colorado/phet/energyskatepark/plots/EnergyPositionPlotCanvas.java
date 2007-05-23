@@ -33,7 +33,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -43,7 +42,7 @@ import java.util.ArrayList;
 
 public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     private JFreeChart chart;
-//    private ArrayList fadeDots = new ArrayList();
+    //    private ArrayList fadeDots = new ArrayList();
     private XYSeriesCollection dataset;
     private EnergySkateParkModule module;
 
@@ -263,21 +262,18 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
 
     public void reset() {
         while( dataLayer.getChildrenCount() > 0 ) {
-            FadeDot fadeDot = (FadeDot)dataLayer.getChild( 0);
+            FadeDot fadeDot = (FadeDot)dataLayer.getChild( 0 );
             removeFadeDot( fadeDot );
         }
     }
 
     private void removeFadeDot( FadeDot fadeDot ) {
         dataLayer.removeChild( fadeDot );
-//        getPhetRootNode().removeChild( fadeDot );
-//        getPhetRootNode().removeScreenChild( fadeDot );
     }
 
     int count = 0;
 
     private void update() {
-//        updateGraphics();
         count++;
         if( !isActive() ) {
             return;
@@ -295,12 +291,11 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         if( count % COUNT_MOD == 0 ) {
             fadeDots();
         }
-//        removeOutOfBoundsPoints();
     }
 
     private void fadeDots() {
         for( int i = 0; i < dataLayer.getChildrenCount(); i++ ) {
-            FadeDot fadeDot = (FadeDot)dataLayer.getChild( i);
+            FadeDot fadeDot = (FadeDot)dataLayer.getChild( i );
             fadeDot.fade();
             if( fadeDot.isFullyFaded() ) {
                 dataLayer.removeChild( fadeDot );
@@ -314,11 +309,14 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     }
 
     private void addFadeDot( double x, EnergyType energyType ) {
-        if( energyType.isVisible() ) {
+        if( energyType.isVisible() && inBounds( x, energyType.getValue() ) ) {
             FadeDot path = new FadeDot( energyType, toImageLocation( x, energyType.getValue() ) );
             dataLayer.addChild( path );
-//            fadeDots.add( path );
         }
+    }
+
+    private boolean inBounds( double x, double y ) {
+        return chart.getXYPlot().getDomainAxis().getRange().contains( offsetData( x,y).getX() ) && chart.getXYPlot().getRangeAxis().getRange().contains( offsetData( x,y).getY() );
     }
 
     static class FadeDot extends PPath {
@@ -361,8 +359,14 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         }
     }
 
+    //todo: this accounts for an offset in the main chart
+    private Point2D offsetData( double x, double y ) {
+        return new Point2D.Double( x - 1, y );
+    }
+
     public Point2D toImageLocation( double x, double y ) {
-        x--;//todo: this accounts for an offset in the main chart
+        x = offsetData( x, y ).getX();
+        y = offsetData( x, y ).getY();
         Rectangle2D dataArea = info.getPlotInfo().getDataArea();
         if( dataArea == null ) {
             throw new RuntimeException( "Null data area" );

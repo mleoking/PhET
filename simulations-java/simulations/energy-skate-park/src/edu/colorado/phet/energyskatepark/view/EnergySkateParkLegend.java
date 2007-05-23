@@ -22,6 +22,7 @@ public class EnergySkateParkLegend extends Legend {
         addEntry( EnergySkateParkStrings.getEnergyString( "energy.kinetic" ), ec3Module.getEnergyLookAndFeel().getKEColor() );
         addEntry( EnergySkateParkStrings.getEnergyString( "energy.potential" ), ec3Module.getEnergyLookAndFeel().getPEColor() );
         addEntry( EnergySkateParkStrings.getEnergyString( "energy.thermal" ), ec3Module.getEnergyLookAndFeel().getThermalEnergyColor() );
+        setBackgroundPaint( EnergyLookAndFeel.getLegendBackground() );
     }
 
     public void addNegPEEntry() {
