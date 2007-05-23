@@ -170,6 +170,7 @@ public class EnergySkateParkModel implements Serializable {
         model = model.copyState();
 
         this.bodies = model.bodies;
+//        System.out.println( "EnergySkateParkModel.setState: numBodies="+getNumBodies() );
         this.splines = model.splines;
         this.floor = model.floor;
         this.history = model.history;
@@ -249,8 +250,10 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void addBody( Body body ) {
+
         body.addListener( energyListener );
         bodies.add( body );
+//        System.out.println( "EnergySkateParkModel.addBody, bodies="+bodies.size() );
         if( bodies.size() == 1 ) {//The zero point potential now occurs at the center of mass of the skater.
             zeroPointPotentialY = 0;
             initZeroPointPotentialY = zeroPointPotentialY;
@@ -314,6 +317,7 @@ public class EnergySkateParkModel implements Serializable {
 
     public void reset() {
         bodies.clear();
+//        System.out.println( "EnergySkateParkModel.reset, bodies.size="+bodies.size() );
         splines.clear();
         history.clear();
         setGravity( G_EARTH );

@@ -33,7 +33,6 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
         return userControlled;
     }
 
-
     public String toString() {
         return "fn=" + parametricFunction2D;
     }
@@ -162,20 +161,28 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
         return minY;
     }
 
-
     public static interface Listener {
         void rollerCoasterModeChanged();
     }
 
     public void addListener( Listener listener ) {
+        createListenerArray();
         listeners.add( listener );
     }
 
+    private void createListenerArray() {
+        if (listeners==null){
+            listeners=new ArrayList( );
+        }
+    }
+
     public void removeListener( Listener listener ) {
+        createListenerArray();
         listeners.remove( listener );
     }
 
     public void notifyRollerCoasterModeChanged() {
+        createListenerArray();
         for( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener)listeners.get( i ) ).rollerCoasterModeChanged();
         }
