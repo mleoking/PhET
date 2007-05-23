@@ -57,6 +57,46 @@
         return $clean;
     }
     
+    function parse_name($name) {
+        $parsed = array();
+        
+        $parsed['full_name'] = $name;
+        
+        $matches = array();
+        
+        if (preg_match('/([a-zA-Z][a-zA-Z]+) +(([a-zA-Z ])+\.+ +)?([^.]+)$/i', $name, $matches) == 1) {    
+            $parsed['first_name']   = trim($matches[1]);
+            $parsed['last_name']    = trim($matches[4]);
+            
+            $exploded = preg_split('/ +/', $parsed['last_name']);
+            
+            if ($matches[3] !== '') {
+                $parsed['middle_initial'] = $matches[3][0];
+            }
+            else {
+                if (count($exploded) == 2) {
+                    if (strlen($exploded[0]) >= 4) {
+                        $parsed['middle_name']      = $exploded[0];
+                        $parsed['middle_initial']   = strtoupper($parsed['middle_name'][0]);
+                        $parsed['last_name']        = $exploded[1];
+                    }
+                }
+                else if (count($exploded) > 2) {
+                    $parsed['last_name'] = $exploded[count($exploded) - 1];
+                }
+            }
+        }
+        else {
+            $parsed['first_name'] = 'John';
+            $parsed['last_name']  = 'Doe';
+        }
+        
+        $parsed['first_initial'] = strtoupper($parsed['first_name'][0]);
+        $parsed['last_initial']  = strtoupper($parsed['last_name'][0]);        
+        
+        return $parsed;
+    }     
+    
     function get_script_param($param_name, $default_value = "") {
         if (isset($_REQUEST['sim_id'])) {
             return $_REQUEST['sim_id'];
@@ -474,9 +514,9 @@ EOT;
                             $w = ucfirst($second_word);
 
                             $first_letter_vowel = preg_match('/^[AEIOU].*$/i', $w) == 1;
-
-                            $matches = array();
-
+                            
+                            $matches = array();
+                            
                             if ($first_letter_vowel) {
                                 preg_match('/^([AEIOU]+[^AEIOU]+).*$/i', $w, $matches);
                             }

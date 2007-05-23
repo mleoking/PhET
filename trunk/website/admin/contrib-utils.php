@@ -332,6 +332,8 @@ EOT;
                     
                     <input type="file" name="contribution_file_url" class="multi" />
 
+                    <input name="submit" type="submit" id="submit" tabindex="13" value="Update" />
+
                     <br/>
                     <br/>
                     <p/>
@@ -515,19 +517,13 @@ EOT;
         
         $contribution_author = $contribution_authors[0];
         
+        $parsed_name = parse_name($name);
+        
+        $author_first_initial = $parsed_name['first_initial'];
+        $author_last_name     = $parsed_name['last_name'];
+
         $level_list = contribution_generate_association_list('contribution_level', $contribution_levels);
         $type_list  = contribution_generate_association_list('contribution_type',  $contribution_types);
-        
-        $matches = array();
-        
-        if (preg_match('/([a-zA-Z])[a-zA-Z]+ ([a-zA-Z ]+\. +)?+([^.]+)$/i', $contribution_author, $matches) == 1) {    
-            $author_first_initial = $matches[1];
-            $author_last_name     = $matches[3];
-        }
-        else {
-            $author_first_initial = 'J';
-            $author_last_name     = 'Doe';
-        }
         
         $time = strtotime($contribution_date_updated);
         
