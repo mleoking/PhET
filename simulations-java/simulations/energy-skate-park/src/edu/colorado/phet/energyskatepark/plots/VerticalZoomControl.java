@@ -8,6 +8,7 @@ import org.jfree.chart.axis.ValueAxis;
  * May 22, 2007, 3:52:05 AM
  */
 public class VerticalZoomControl extends DefaultZoomControl {
+    private static final int MAX_ZOOM_OUT = Integer.MAX_VALUE;
 
     public VerticalZoomControl( ValueAxis axis ) {
         super( ZoomControlNode.VERTICAL, axis );
@@ -15,7 +16,7 @@ public class VerticalZoomControl extends DefaultZoomControl {
 
     protected void updateZoom() {
         setZoomInEnabled( zoom > -5 );
-        setZoomOutEnabled( zoom < 7 );
+        setZoomOutEnabled( zoom < MAX_ZOOM_OUT );
         double range = 7000 + zoom * 1000;
         range = Math.max( range, 0 );
         double minY = zoom < 0 ? -500 : -500 - zoom * 500;
