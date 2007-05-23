@@ -3,6 +3,9 @@
     include_once("web-utils.php");
     include_once("sim-utils.php");
     include_once("db-utils.php");    
+    include_once("sys-utils.php");
+    
+    expire_page_immediately();
     
     function print_header_navigation_element($prefix, $selected_page, $link, $desc, $access_key) {
         $this_element_is_selected = "$access_key" == "$selected_page";
@@ -79,7 +82,7 @@ EOT;
         
         print_navigation_element($prefix, $selected_page, "teacher_ideas/index.php",   "Teacher Ideas &amp; Activities",
             <<<EOT
-            <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/search.php">→ Search</a></span></li>
+            <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/browse.php">→ Browse</a></span></li>
 
             <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/contribute.php">→ New Contribution</a></span></li>
 

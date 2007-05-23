@@ -420,6 +420,89 @@ EOT;
         $last_group_prefix = $group_prefix;
     }   
     
+    /**
+     * This function creates an abbreviation of a phrase. It can be useful 
+     * when summarizing information that is too large to fit in a cell.
+     * 
+     * @param string    The phrase to abbreviate.
+     */
+    function abbreviate($string) {
+        include_once("spell.php");
+        
+        $words = preg_split('/([\s\-])/', $string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        
+        // print "Words: ";
+        // print_r($words);
+        // print("</br>");
+        
+        if (count($words) > 1 || strlen($string) >= 8) {
+            $abbrev = '';
+        
+            $last_word_dash = false;
+            
+            foreach($words as $word) {
+                if ($word == '-') {
+                    $abbrev .= '-';
+                    
+                    $last_word_dash = true;
+                }
+                else {
+                    if (preg_match('/^\s+$/', $word) == 0) {
+                        $first_word  = $word;
+                        $second_word = '';
+
+                        for ($i = strlen($word) - 2; $i > 1; $i--) {
+                            $check_first_word  = substr($word, 0, $i);
+                            $check_second_word = substr($word, $i);
+
+                            if (spell_is_valid_word($check_first_word) && spell_is_valid_word($check_second_word)) {
+                                $first_word  = $check_first_word;
+                                $second_word = $check_second_word;                    
+
+                                break;
+                            }
+                        }
+
+                        if ($first_word !== '' || !$last_word_dash) {
+                            if ($first_word !== '') {
+                                $abbrev .= strtoupper($first_word[0]);
+                            }
+                            
+                            $abbrev .= strtoupper($second_word[0]);
+                        }
+                        else {
+                            $w = ucfirst($second_word);
+
+                            $first_letter_vowel = preg_match('/^[AEIOU].*$/i', $w) == 1;
+
+                            $matches = array();
+
+                            if ($first_letter_vowel) {
+                                preg_match('/^([AEIOU]+[^AEIOU]+).*$/i', $w, $matches);
+                            }
+                            else {
+                                preg_match('/^([^AEIOU]+[AEIOU]+[^AEIOU]+).*$/i', $w, $matches);
+                            }
+
+                            $abbrev .= $matches[1];
+                        }
+                    }
+                    
+                    if ($word[strlen($word) - 1] == 's' && spell_is_valid_word(substr($word, 0, strlen($word) - 1))) {
+                        $abbrev .= 's';
+                    }
+                    
+                    $last_word_dash = false;
+                }
+            }
+            
+            return trim($abbrev);
+        }
+        else {
+            return $string;
+        }
+    }
+    
     function generate_encoded_checkbox_string($group_prefix) {
         $encoded_string = '';
         

@@ -73,6 +73,8 @@
         }
     }
     
+
+    
     function contribution_print_standards_compliance($contribution_standards_compliance, $read_only = false) {
         print <<<EOT
         <table>
@@ -235,8 +237,8 @@ EOT;
         //$simulations_html = contribution_get_simulations_listing_html($contribution_id);
             
         
-        $all_contribution_types = contribution_get_all_template_contribution_types();
-        $contribution_types     = contribution_get_contribution_types_for_contribution($contribution_id);
+        $all_contribution_types = contribution_get_all_template_contribution_type_names();
+        $contribution_types     = contribution_get_type_names_for_contribution($contribution_id);
         
 
         print <<<EOT
@@ -441,6 +443,207 @@ EOT;
         print "<li><a href=\"$contribution_link\">$contribution_title</a> - ($view$edit$delete$approve)</li>";        
     }
 
+    function contribution_generate_association_abbr($contribution, $table_name) {
+        $desc = "Not Applicable";
+        $abbr = "N/A";
+        
+        if (isset($contribution["${table_name}_desc"])) {
+            $desc = $contribution["${table_name}_desc"];
+        }
+        if (isset($contribution["${table_name}_desc_abbrev"])) {
+            $abbr = $contribution["${table_name}_desc_abbrev"];
+        }
+        
+        return "<abbr title=\"$desc\">$abbr</abbr>";
+    }
+    
+    function contribution_generate_association_list($table_name, $associations) {
+        $is_first = true;
+        
+        $list = '';
+        
+        foreach($associations as $association) {
+            if ($is_first) {
+                $is_first = false;
+            }
+            else {
+                $list .= '<br/>';
+            }
+            
+            $desc = $association["${table_name}_desc"];
+            $abbr = $association["${table_name}_desc_abbrev"];
+            
+            $list .= "<abbr title=\"$desc\">$abbr</abbr>";
+        }
+        
+        return $list;
+    }
+    
+    function contribution_print_summary2($contribution_id, $print_sims = true) {
+        $contribution = contribution_get_contribution_by_id($contribution_id);
+        
+        eval(get_code_to_create_variables_from_array($contribution));
+            
+        $contribution_files = contribution_get_contribution_files($contribution_id);
+
+        $contribution_levels = contribution_get_levels_for_contribution($contribution_id);
+        $contribution_types  = contribution_get_types_for_contribution($contribution_id);
+        $contribution_sims   = contribution_get_associated_simulation_listings($contribution_id);
+        
+        $sim_list = '';
+        
+        $is_first = true;
+        
+        foreach($contribution_sims as $listing) {
+            eval(get_code_to_create_variables_from_array($listing));
+            
+            $sim = sim_get_simulation_by_id($sim_id);
+            
+            eval(get_code_to_create_variables_from_array($sim));
+            
+            if ($is_first) {
+                $is_first = false;
+            }
+            else {
+                $sim_list .= '<br/>';
+            }
+            
+            $sim_list .= '<a href="'.SITE_ROOT.'simulations/sims.php?sim_id='.$sim_id.'">'.$sim_name.'</a>';
+        }
+        
+        $contribution_authors = explode(',', $contribution_authors);
+        
+        $contribution_author = $contribution_authors[0];
+        
+        $level_list = contribution_generate_association_list('contribution_level', $contribution_levels);
+        $type_list  = contribution_generate_association_list('contribution_type',  $contribution_types);
+        
+        $matches = array();
+        
+        if (preg_match('/([a-zA-Z])[a-zA-Z]+ ([a-zA-Z ]+\. +)?+([^.]+)$/i', $contribution_author, $matches) == 1) {    
+            $author_first_initial = $matches[1];
+            $author_last_name     = $matches[3];
+        }
+        else {
+            $author_first_initial = 'J';
+            $author_last_name     = 'Doe';
+        }
+        
+        $time = strtotime($contribution_date_updated);
+        
+        $contribution_date_updated = date('n/y', $time);
+        
+        print <<<EOT
+            <tr>
+                <td>
+                    $contribution_title
+                </td>
+            
+                <td>
+                    $author_first_initial. $author_last_name
+                </td>
+            
+                <td>
+                    $level_list            
+                </td>
+            
+                <td>
+                    $type_list
+                </td>
+EOT;
+
+        if ($print_sims) {
+            print <<<EOT
+                <td>
+                    $sim_list
+                </td>
+EOT;
+        }
+    
+        print <<<EOT
+                <td>
+                    $contribution_date_updated
+                </td>
+            </tr>
+EOT;
+    }
+
+    function contribution_print_summary3($contribution, $print_sims = true) {
+        eval(get_code_to_create_variables_from_array($contribution));
+            
+        $contribution_files = contribution_get_contribution_files($contribution_id);
+        
+        $sim_list = "None";
+        
+        if (isset($sim_name)) {
+            $sim_list = '<a href="'.SITE_ROOT.'simulations/sims.php?sim_id='.$sim_id.'">'.$sim_name.'</a>';
+        }
+        
+        $level_list = contribution_generate_association_abbr(
+            $contribution, 'contribution_level'
+        );
+        
+        $type_list = contribution_generate_association_abbr(
+            $contribution, 'contribution_type'
+        );
+
+        $contribution_authors = explode(',', $contribution_authors);
+    
+        $contribution_author = $contribution_authors[0];
+        
+        $matches = array();
+        
+        if (preg_match('/([a-zA-Z])[a-zA-Z]+ ([a-zA-Z ]+\. +)?+([^.]+)$/i', $contribution_author, $matches) == 1) {    
+            $author_first_initial = $matches[1];
+            $author_last_name     = $matches[3];
+        }
+        else {
+            $contribution_author  = 'John Doe';
+            $author_first_initial = 'J';
+            $author_last_name     = 'Doe';
+        }
+        
+        $time = strtotime($contribution_date_updated);
+        
+        $contribution_date_updated = date('n/y', $time);
+        
+        $author_html = "<abbr title=\"$contribution_author\">$author_first_initial. $author_last_name</abbr>";
+        
+        print <<<EOT
+            <tr>
+                <td>
+                    $contribution_title
+                </td>
+            
+                <td>
+                    $author_html
+                </td>
+            
+                <td>
+                    $level_list            
+                </td>
+            
+                <td>
+                    $type_list
+                </td>
+EOT;
+
+        if ($print_sims) {
+            print <<<EOT
+                <td>
+                    $sim_list
+                </td>
+EOT;
+        }
+    
+        print <<<EOT
+                <td>
+                    $contribution_date_updated
+                </td>
+            </tr>
+EOT;
+    }
+
     function contribution_get_contribution_file_names($contribution_id) {
         $contribution_file_names = array();
         
@@ -544,25 +747,50 @@ EOT;
         return true;
     }
     
+    function contribution_get_association_abbreviation_desc($table_name, $text) {
+        $result = run_sql_statement("SELECT * FROM `$table_name` WHERE `${table_name}_desc`='$text' AND `${table_name}_is_template`='1' ");
+        
+        if (!$result) {
+            return abbreviate($text);
+        }
+        
+        $first_row = mysql_fetch_assoc($result);
+        
+        if (!$first_row) {
+            return abbreviate($text);
+        }
+        
+        $abbrev = $first_row["${table_name}_desc_abbrev"];
+        
+        if ($abbrev == '') {
+            $abbrev = abbreviate($text);
+        }
+        
+        return $abbrev;
+    }
+    
     function contribution_create_multiselect_association($contribution_id, $multiselect_control_name, $text) {
         $matches = array();
         
-        if (preg_match('/multiselect_([a-zA-Z0-9_]+)_id_[0-9]+$/i', $multiselect_control_name, $matches) !== 1) {
+        if (preg_match('/multiselect_([a-zA-Z0-9_]+)_id_([0-9]+)$/i', $multiselect_control_name, $matches) !== 1) {
             return false;
         }
         
         $table_name = $matches[1];
         
-        $result = run_sql_statement("SELECT * FROM `$table_name` WHERE `${table_name}_desc`='$text' AND `contribution_id`='$contribution_id' ORDER BY `${table_name}_is_template` DESC ");
+        $result = run_sql_statement("SELECT * FROM `$table_name` WHERE `${table_name}_desc`='$text' AND `contribution_id`='$contribution_id' ");
         
-        if ($first_row = mysql_fetch_assoc($result)) {            
-            return $first_row["${table_name}_id"];
+        if ($first_row = mysql_fetch_assoc($result)) {   
+            $id = $first_row["${table_name}_id"];
+            
+            return $id;
         }
-        else {
+        else {                        
             $id = insert_row_into_table(
                 $table_name,
                 array(
                     "${table_name}_desc"        => $text,
+                    "${table_name}_desc_abbrev" => contribution_get_association_abbreviation_desc($table_name, $text),
                     "${table_name}_is_template" => '0',
                     'contribution_id'           => $contribution_id
                 )
@@ -773,7 +1001,7 @@ EOT;
         return $subjects;
     }    
     
-    function contribution_get_all_template_contribution_types() {
+    function contribution_get_all_template_contribution_type_names() {
         $types = array();
         
         $contribution_type_rows = run_sql_statement("SELECT * FROM `contribution_type` WHERE `contribution_type_is_template` = '1' ORDER BY `contribution_type_desc` ASC ");
@@ -789,11 +1017,27 @@ EOT;
         
         return $types;
     }
-    
-    function contribution_get_contribution_types_for_contribution($contribution_id) {
+
+    function contribution_get_types_for_contribution($contribution_id) {
         $types = array();
         
-        $contribution_type_rows = run_sql_statement("SELECT * FROM `contribution_type` WHERE `contribution_id` = '$contribution_id'  ORDER BY `contribution_type_desc` ASC ");
+        $contribution_type_rows = run_sql_statement("SELECT * FROM `contribution_type` WHERE `contribution_id`='$contribution_id' ");
+        
+        while ($contribution_type = mysql_fetch_assoc($contribution_type_rows)) {
+            $id   = $contribution_type['contribution_type_id'];
+        
+            $name = create_multiselect_control_name('contribution_type', $id);
+        
+            $types[$name] = $contribution_type;
+        }
+        
+        return $types;
+    }
+    
+    function contribution_get_type_names_for_contribution($contribution_id) {
+        $types = array();
+        
+        $contribution_type_rows = run_sql_statement("SELECT * FROM `contribution_type` WHERE `contribution_id`='$contribution_id' ");
         
         while ($contribution_type = mysql_fetch_assoc($contribution_type_rows)) {
             $id   = $contribution_type['contribution_type_id'];
@@ -831,7 +1075,7 @@ EOT;
         while ($simulation_contribution = mysql_fetch_assoc($simulation_contribution_rows)) {
             $id = $simulation_contribution['sim_id'];
             
-            $simulations["sim_id_$id"] = format_array_values_for_html($simulation_contribution);
+            $simulation_contributions["sim_id_$id"] = format_array_values_for_html($simulation_contribution);
         }
         
         return $simulation_contributions;
@@ -847,6 +1091,75 @@ EOT;
         
         return update_table('contribution', array( 'contribution_approved' => $status ), 'contribution_id', $contribution_id);
     }
+    
+    function contribution_explode_contribution_by_array($contribution, $array) {
+        $new_contribs = array();
+        
+        if (count($array) == 0) {
+            return array( $contribution );
+        }
+        
+        // Execute join:
+        foreach($array as $element) {
+            $new_contrib = $contribution;
+            
+            foreach($element as $key => $value) {
+                $new_contrib["$key"] = format_for_html("$value");
+            }
+            
+            $new_contribs[] = $new_contrib;
+        }
+        
+        return $new_contribs;
+    }
+    
+    function contribution_explode_contributions($contributions) {
+        // Index by number:
+        $contributions = array_values($contributions);
+        
+        $exploded = array();
+        
+        $explosion_functions = array(
+            'contribution_get_levels_for_contribution',
+            'contribution_get_types_for_contribution',
+            'contribution_get_associated_simulation_listings',
+        );
+        
+        foreach($explosion_functions as $explosion_function) {
+            $exploded = array();
+            
+            foreach($contributions as $contribution) {
+                $contribution_id = $contribution['contribution_id'];
+                
+                $array = call_user_func($explosion_function, $contribution_id);
+            
+                $new_contribs = contribution_explode_contribution_by_array($contribution, $array);
+                
+                $exploded = array_merge($exploded, $new_contribs);
+            }
+            
+            $contributions = $exploded;
+        }
+        
+        // Join simulation data:
+        $final = array();
+        
+        foreach($exploded as $contribution) {
+            if (isset($contribution['sim_id'])) {
+                $simulation = sim_get_simulation_by_id($contribution['sim_id']);
+        
+                if (is_array($simulation)) {
+                    foreach($simulation as $key => $value) {
+                        $contribution["$key"] = format_for_html("$value");
+                    }
+                }
+            }
+        
+            $final[] = $contribution;
+        }
+        
+        return $final;
+    }
 
     function contribution_get_all_contributions() {
         $contributions = array();
@@ -854,7 +1167,9 @@ EOT;
         $contribution_rows = run_sql_statement("SELECT * FROM `contribution` ORDER BY `contribution_title` ASC");
         
         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
-            $contributions[] = format_array_values_for_html($contribution);
+            $contribution_id = $contribution['contribution_id'];
+            
+            $contributions["$contribution_id"] = format_array_values_for_html($contribution);
         }
         
         return $contributions;

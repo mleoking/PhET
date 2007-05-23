@@ -174,7 +174,7 @@ table td.smartClient,table th.smartClient {
     background:#E6E6FA;
     margin: 20px 150px 10px 150px;    
 }
-#contributioneditform input:focus,#loginform input:hover {
+#contributioneditform input:focus,#contributioneditform input:hover {
 	border:1px solid #333333;
 }
 #contributioneditform .error {
@@ -183,6 +183,10 @@ table td.smartClient,table th.smartClient {
 }
 #contributioneditform .required {
     color:     #B22222;
+    font-weight:bold;
+}
+#contributioneditform .required:hover {
+    color:      red;
     font-weight:bold;
 }
 
