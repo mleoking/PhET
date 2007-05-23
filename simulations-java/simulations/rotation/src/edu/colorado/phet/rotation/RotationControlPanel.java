@@ -4,7 +4,7 @@ import edu.colorado.phet.rotation.controls.GraphSelectionControl;
 import edu.colorado.phet.rotation.controls.ShowVectorsControl;
 import edu.colorado.phet.rotation.controls.SymbolKey;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
-import edu.colorado.phet.rotation.graphs.GraphSetModel;
+import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 
 import javax.swing.*;

@@ -1,6 +1,6 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.rotation.motion.ModelState;
+import edu.colorado.phet.common.motion.model.ModelState;
 
 import java.util.ArrayList;
 

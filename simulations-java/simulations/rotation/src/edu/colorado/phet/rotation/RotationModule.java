@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
-import edu.colorado.phet.rotation.graphs.GraphSetModel;
+import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.view.RotationSimulationPanel;
 

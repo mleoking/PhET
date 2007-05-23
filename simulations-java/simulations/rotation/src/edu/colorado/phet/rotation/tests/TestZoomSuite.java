@@ -8,7 +8,7 @@ package edu.colorado.phet.rotation.tests;
  */
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.rotation.graphs.ZoomSuiteNode;
+import edu.colorado.phet.common.motion.graphs.ZoomSuiteNode;
 
 import javax.swing.*;
 
