@@ -111,7 +111,7 @@ public class MotionModel implements IPositionDriven {
 
     public void stepInTime( double dt ) {
         stateHistory.add( copyState() );
-        currentState.setAngle( currentState.getMotionBody().getPosition() );
+        currentState.setPosition( currentState.getMotionBody().getPosition() );
         updateStrategy.update( this, dt );
         currentState.stepInTime( dt );
 
@@ -166,7 +166,7 @@ public class MotionModel implements IPositionDriven {
         TimeData[] td = new TimeData[numPts];
         for( int i = 0; i < td.length; i++ ) {
             ModelState state = getState( getStateCount() - numPts + i );
-            td[i] = new TimeData( state.getAngle(), state.getTime() );
+            td[i] = new TimeData( state.getPosition(), state.getTime() );
         }
         return td;
     }
@@ -203,8 +203,8 @@ public class MotionModel implements IPositionDriven {
         notifySteppedInTime();//todo: this looks like a hack
     }
 
-    public void setAngle( double angle ) {
-        currentState.setAngle( angle );
+    public void setPosition( double position ) {
+        currentState.setPosition( position );
     }
 
     public MotionBody getMotionBody() {
@@ -216,7 +216,7 @@ public class MotionModel implements IPositionDriven {
     }
 
     public double getPosition() {
-        return currentState.getAngle();
+        return currentState.getPosition();
     }
 
     public void setVelocity( double velocity ) {

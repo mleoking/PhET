@@ -47,7 +47,7 @@ public class ModelState implements Serializable {
         return time;
     }
 
-    public double getAngle() {
+    public double getPosition() {
         return motionBody.getPosition();
     }
 
@@ -59,7 +59,7 @@ public class ModelState implements Serializable {
         this.time = time;
     }
 
-    public void setAngle( double angle ) {
+    public void setPosition( double angle ) {
         motionBody.setPosition( angle );
     }
 
