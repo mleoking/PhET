@@ -2,12 +2,12 @@ package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.RotationResources;
+import edu.colorado.phet.rotation.model.RotationBody;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.geom.Point2D;
@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 public class RotationBodyNode extends PhetPNode {
     private RotationBody rotationBody;
-    
+
     public interface RotationBodyEnvironment {
         void dropBody( RotationBody rotationBody );
     }
@@ -29,7 +29,7 @@ public class RotationBodyNode extends PhetPNode {
 //        PText pText = new PText( "body" );
         PNode node = null;
         try {
-            node = new PImage( RotationResources.loadBufferedImage( "ladybug.gif"));
+            node = new PImage( RotationResources.loadBufferedImage( "ladybug.gif" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -37,7 +37,7 @@ public class RotationBodyNode extends PhetPNode {
 //        PNode pText = new PhetPPath( new Rectangle( -5, -5, 10, 10 ), Color.blue );
         node.translate( -node.getFullBounds().getWidth() / 2, -node.getFullBounds().getHeight() / 2 );
         addChild( node );
-        addInputEventListener( new CursorHandler( ));
+        addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 rotationBody.setOffPlatform();

@@ -1,13 +1,13 @@
 package edu.colorado.phet.rotation.graphs;
 
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.rotation.RotationResources;
+import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.motion.MotionModel;
 import edu.colorado.phet.rotation.motion.SimulationVariable;
-import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -154,7 +154,7 @@ public class RotationGraphSet {
             public void dataSeriesChanged() {
                 jFreeChartCursorNode.setMaxDragTime( rotationModel.getTimeSeriesModel().getRecordTime() );
             }
-        });
+        } );
         return controlGraph;
     }
 

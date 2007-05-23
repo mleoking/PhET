@@ -48,9 +48,9 @@ public class TestCombinedModelPlot {
         vVariable = new SimulationVariable( rotationModel.getLastState().getAngularVelocity() );
         aVariable = new SimulationVariable( rotationModel.getLastState().getAngularAcceleration() );
 
-        positionDriven = new PositionDriven( );
-        velocityDriven = new VelocityDriven( );
-        accelDriven = new AccelerationDriven( );
+        positionDriven = new PositionDriven();
+        velocityDriven = new VelocityDriven();
+        accelDriven = new AccelerationDriven();
 
         XYPlotFactory factory = new XYPlotFactory();
         xGraph = factory.createXYPlot( "position", "meters" );

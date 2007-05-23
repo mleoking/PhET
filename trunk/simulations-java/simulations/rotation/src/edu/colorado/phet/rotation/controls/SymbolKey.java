@@ -1,8 +1,8 @@
 package edu.colorado.phet.rotation.controls;
 
-import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.colorado.phet.rotation.util.GraphicsUtil;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
+import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 
 import javax.swing.*;
 import java.awt.*;

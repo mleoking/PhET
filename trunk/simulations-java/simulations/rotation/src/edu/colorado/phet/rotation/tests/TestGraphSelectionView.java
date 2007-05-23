@@ -1,8 +1,8 @@
 package edu.colorado.phet.rotation.tests;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.controls.GraphSelectionControl;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSetNode;
@@ -28,7 +28,7 @@ public class TestGraphSelectionView {
 
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
-        RotationGraphSet rotationGraphSet = new RotationGraphSet( phetPCanvas, new RotationModel());
+        RotationGraphSet rotationGraphSet = new RotationGraphSet( phetPCanvas, new RotationModel() );
         GraphSetModel graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );

@@ -10,6 +10,7 @@ import java.awt.*;
 
 /**
  * PhET's Rotation simulation.
+ *
  * @author Sam Reid
  */
 

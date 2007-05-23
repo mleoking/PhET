@@ -34,7 +34,8 @@ public class TestPlatformNodeWithBody extends TestPlatformNode implements Rotati
     public void dropBody( RotationBody rotationBody ) {
         if( super.getRotationPlatform().containsPosition( rotationBody.getPosition() ) ) {
             rotationBody.setOnPlatform( super.getRotationPlatform() );
-        }else{
+        }
+        else {
             rotationBody.setOffPlatform();
         }
     }

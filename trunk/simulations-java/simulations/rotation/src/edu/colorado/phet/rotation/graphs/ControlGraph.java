@@ -113,7 +113,7 @@ public class ControlGraph extends PNode {
                 notifyControlGrabbed();
             }
         } );
-        
+
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 notifyListeners();
@@ -383,7 +383,8 @@ public class ControlGraph extends PNode {
         //that this component should be "in control" of the simulation
         void controlFocusGrabbed();
     }
-    public static class Adapter implements Listener{
+
+    public static class Adapter implements Listener {
 
         public void mousePressed() {
         }
@@ -394,6 +395,7 @@ public class ControlGraph extends PNode {
         public void controlFocusGrabbed() {
         }
     }
+
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }

@@ -3,7 +3,6 @@ package edu.colorado.phet.rotation.motion;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.PlatformNode;
 
