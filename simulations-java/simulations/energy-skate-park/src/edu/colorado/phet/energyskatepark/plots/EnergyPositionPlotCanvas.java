@@ -11,6 +11,7 @@ import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EC3LookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLegend;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -42,7 +43,7 @@ import java.util.ArrayList;
 
 public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     private JFreeChart chart;
-    private ArrayList fadeDots = new ArrayList();
+//    private ArrayList fadeDots = new ArrayList();
     private XYSeriesCollection dataset;
     private EnergySkateParkModule module;
 
@@ -64,6 +65,7 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     private ZoomControlNode horizontalZoom;
     private PSwing southPSwing;
     private int verticalZoomLevel = 0;
+    private PNode dataLayer = new PNode();
 
     public EnergyPositionPlotCanvas( EnergySkateParkModule module ) {
 //        super( new Dimension( 100, 100 ) );
@@ -149,6 +151,7 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         legend = new EnergySkateParkLegend( module );
         legend.addTotalEnergyEntry();
         legend.setFont( new LucidaSansFont( 12 ) );
+        addScreenChild( dataLayer );
         addScreenChild( legend );
 
         verticalZoom = new VerticalZoomControl( chart.getXYPlot().getRangeAxis() ) {
@@ -210,15 +213,15 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         verticalZoom.setVisible( true );
     }
 
-    private void removeOutOfBoundsPoints() {
-        for( int i = 0; i < fadeDots.size(); i++ ) {
-            FadeDot fadeDot = (FadeDot)fadeDots.get( i );
-            if( !inBounds( fadeDot ) ) {
-                removeFadeDot( fadeDot );
-                i--;
-            }
-        }
-    }
+//    private void removeOutOfBoundsPoints() {
+//        for( int i = 0; i < fadeDots.size(); i++ ) {
+//            FadeDot fadeDot = (FadeDot)fadeDots.get( i );
+//            if( !inBounds( fadeDot ) ) {
+//                removeFadeDot( fadeDot );
+//                i--;
+//            }
+//        }
+//    }
 
     private boolean inBounds( FadeDot fadeDot ) {
         PBounds dotBounds = fadeDot.getFullBounds();
@@ -259,16 +262,16 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     }
 
     public void reset() {
-        while( fadeDots.size() > 0 ) {
-            FadeDot fadeDot = (FadeDot)fadeDots.get( 0 );
+        while( dataLayer.getChildrenCount() > 0 ) {
+            FadeDot fadeDot = (FadeDot)dataLayer.getChild( 0);
             removeFadeDot( fadeDot );
         }
     }
 
     private void removeFadeDot( FadeDot fadeDot ) {
-        fadeDots.remove( fadeDot );
+        dataLayer.removeChild( fadeDot );
 //        getPhetRootNode().removeChild( fadeDot );
-        getPhetRootNode().removeScreenChild( fadeDot );
+//        getPhetRootNode().removeScreenChild( fadeDot );
     }
 
     int count = 0;
@@ -292,16 +295,15 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         if( count % COUNT_MOD == 0 ) {
             fadeDots();
         }
-
+//        removeOutOfBoundsPoints();
     }
 
     private void fadeDots() {
-        for( int i = 0; i < fadeDots.size(); i++ ) {
-            FadeDot fadeDot = (FadeDot)fadeDots.get( i );
+        for( int i = 0; i < dataLayer.getChildrenCount(); i++ ) {
+            FadeDot fadeDot = (FadeDot)dataLayer.getChild( i);
             fadeDot.fade();
             if( fadeDot.isFullyFaded() ) {
-                fadeDots.remove( i );
-                getPhetRootNode().removeChild( fadeDot );
+                dataLayer.removeChild( fadeDot );
                 i--;
             }
         }
@@ -314,8 +316,8 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     private void addFadeDot( double x, EnergyType energyType ) {
         if( energyType.isVisible() ) {
             FadeDot path = new FadeDot( energyType, toImageLocation( x, energyType.getValue() ) );
-            addScreenChild( path );
-            fadeDots.add( path );
+            dataLayer.addChild( path );
+//            fadeDots.add( path );
         }
     }
 
