@@ -106,7 +106,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         play = createButton( TimeseriesResources.getString( "playback" ), "Play" );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( timeSeriesModel.isPaused() ) {
+                if( shouldRewindBeforePlayback() ) {
                     timeSeriesModel.rewind();
                 }
                 timeSeriesModel.startPlaybackMode( PLAYBACK_FULL );
@@ -125,7 +125,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
 //        slowMotion = createButton( "<html>Slow<br>Motion</html>", "StepForward" );
         slowMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( timeSeriesModel.isPaused() ) {
+                if( shouldRewindBeforePlayback() ) {
                     timeSeriesModel.rewind();
                 }
                 timeSeriesModel.startPlaybackMode( PLAYBACK_SLOW );
@@ -157,6 +157,11 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             }
         } );
         updateButtons();
+    }
+
+    private boolean shouldRewindBeforePlayback() {
+//        System.out.println( "timeSeriesModel.getPlaybackTime() = " + timeSeriesModel.getPlaybackTime() + ", timeSeriesModel.getRecordTime()=" + timeSeriesModel.getRecordTime() );
+        return timeSeriesModel.isRecording() || ( timeSeriesModel.isPlaybackMode() && timeSeriesModel.getPlaybackTime() == timeSeriesModel.getRecordTime());
     }
 
     public void removeLiveButton() {
