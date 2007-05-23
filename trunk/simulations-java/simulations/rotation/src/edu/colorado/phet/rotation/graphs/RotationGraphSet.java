@@ -1,7 +1,9 @@
 package edu.colorado.phet.rotation.graphs;
 
-import edu.colorado.phet.common.motion.graphs.*;
-import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.graphs.CursorModel;
+import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
+import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
+import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
@@ -17,12 +19,6 @@ import java.util.Arrays;
  */
 
 public class RotationGraphSet extends GraphSuiteSet {
-    private MinimizableControlGraph angleMinimizableControlGraph;
-    private MinimizableControlGraph angularVelocityMinimizableControlGraph;
-    private MinimizableControlGraph angularAccelerationMinimizableControlGraph;
-    private MinimizableControlGraph positionMinimizableControlGraph;
-    private MinimizableControlGraph speedMinimizableControlGraph;
-    private MinimizableControlGraph accelerationMinimizableControlGraph;
 
     public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel rotationModel ) {
         this( pSwingCanvas, rotationModel, new CursorModel( rotationModel.getTimeSeriesModel() ) );
@@ -30,78 +26,20 @@ public class RotationGraphSet extends GraphSuiteSet {
 
     public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel rotationModel, CursorModel cursorModel ) {
         super( cursorModel );
-        angleMinimizableControlGraph = new MinimizableControlGraph( UnicodeUtil.THETA, toControlGraph( pSwingCanvas, UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, rotationModel.getXVariable(), new PImage( loadArrow( "blue-arrow.png" ) ), true, cursorModel, rotationModel ) );
-        angularVelocityMinimizableControlGraph = new MinimizableControlGraph( UnicodeUtil.OMEGA, toControlGraph( pSwingCanvas, UnicodeUtil.OMEGA, "Angular Velocity", -0.1, 0.1, Color.red, rotationModel.getVVariable(), new PImage( loadArrow( "red-arrow.png" ) ), true, cursorModel, rotationModel ) );
-        angularAccelerationMinimizableControlGraph = new MinimizableControlGraph( UnicodeUtil.ALPHA, toControlGraph( pSwingCanvas, UnicodeUtil.ALPHA, "Angular Acceleration", -0.001, 0.001, Color.green, rotationModel.getAVariable(), new PImage( loadArrow( "green-arrow.png" ) ), true, cursorModel, rotationModel ) );
-
-        ControlGraph positionControlGraph = toControlGraph( pSwingCanvas, "x", "Position", 0, 500, Color.blue, rotationModel.getXPositionVariable(), new PImage( loadArrow( "blue-arrow.png" ) ), false, cursorModel, rotationModel );
-        positionControlGraph.addSeries( "Position", Color.red, "y", rotationModel.getYPositionVariable() );
-
-        positionMinimizableControlGraph = new MinimizableControlGraph( "x,y", positionControlGraph );
-        ControlGraph speedControlGraph = toControlGraph( pSwingCanvas, "|v|", "Linear Speed", 0, 0.1, Color.red, rotationModel.getSpeedVariable(), new PImage( loadArrow( "red-arrow.png" ) ), false, cursorModel, rotationModel );
-        speedMinimizableControlGraph = new MinimizableControlGraph( "vx, vy", speedControlGraph );
-
-        accelerationMinimizableControlGraph = new MinimizableControlGraph( "a", toControlGraph( pSwingCanvas, "a", "Centripetal Acceleration", 0, 0.001, Color.green, rotationModel.getCentripetalAcceleration(), new PImage( loadArrow( "green-arrow.png" ) ), false, cursorModel, rotationModel ) );
+        MinimizableControlGraph angleGraph = new MinimizableControlGraph( UnicodeUtil.THETA, new MotionControlGraph( pSwingCanvas, rotationModel.getXVariable(), UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), rotationModel, true, cursorModel, rotationModel.getPositionDriven() ) );
+        MinimizableControlGraph velocityGraph = new MinimizableControlGraph( UnicodeUtil.OMEGA, new MotionControlGraph( pSwingCanvas, rotationModel.getVVariable(), UnicodeUtil.OMEGA, "Angular Velocity", -0.1, 0.1, Color.red, new PImage( loadArrow( "red-arrow.png" ) ), rotationModel, true, cursorModel, rotationModel.getVelocityDriven() ) );
+        MinimizableControlGraph accelGraph = new MinimizableControlGraph( UnicodeUtil.ALPHA, new MotionControlGraph( pSwingCanvas, rotationModel.getAVariable(), UnicodeUtil.ALPHA, "Angular Acceleration", -0.001, 0.001, Color.green, new PImage( loadArrow( "green-arrow.png" ) ), rotationModel, true, cursorModel, rotationModel.getAccelDriven() ) );
+        MinimizableControlGraph linearPositionGraph = new MinimizableControlGraph( "x,y", new MotionControlGraph( pSwingCanvas, rotationModel.getXPositionVariable(), "x", "Position", 0, 500, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), rotationModel, false, cursorModel, null ) );
+        linearPositionGraph.getControlGraph().addSeries( "Position", Color.red, "y", rotationModel.getYPositionVariable() );
+        MinimizableControlGraph speedGraph = new MinimizableControlGraph( "vx, vy", new MotionControlGraph( pSwingCanvas, rotationModel.getSpeedVariable(), "|v|", "Linear Speed", 0, 0.1, Color.red, new PImage( loadArrow( "red-arrow.png" ) ), rotationModel, false, cursorModel, null ) );
+        MinimizableControlGraph centripetalAccelGraph = new MinimizableControlGraph( "a", new MotionControlGraph( pSwingCanvas, rotationModel.getCentripetalAcceleration(), "a", "Centripetal Acceleration", 0, 0.001, Color.green, new PImage( loadArrow( "green-arrow.png" ) ), rotationModel, false, cursorModel, null ) );
 
         //new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),//todo: remove after testing
-        addGraphSuite( new GraphSuite( new MinimizableControlGraph[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph(), getAngularAccelerationGraph()} ) );
-        addGraphSuite( new GraphSuite( new MinimizableControlGraph[]{getAngleGraph(), getAngularVelocityGraph(), getAngularAccelerationGraph()} ) );
-        addGraphSuite( new GraphSuite( new MinimizableControlGraph[]{getAngleGraph(), getAngularVelocityGraph(), getSpeedGraph()} ) );
-        addGraphSuite( new GraphSuite( new MinimizableControlGraph[]{getAngleGraph(), getAngularVelocityGraph(), getAccelerationGraph()} ) );
-        addGraphSuite( new GraphSuite( new MinimizableControlGraph[]{getAngleGraph(), getAngularVelocityGraph(), getAngularAccelerationGraph(), positionMinimizableControlGraph, speedMinimizableControlGraph, accelerationMinimizableControlGraph} ) );
-
-        //todo: generalize this adapter code
-        rotationModel.addListener( new MotionModel.Listener() {
-            public void steppedInTime() {
-                angleMinimizableControlGraph.addValue( rotationModel.getTime(), rotationModel.getPosition() );
-                angularVelocityMinimizableControlGraph.addValue( rotationModel.getTime(), rotationModel.getVelocity() );
-                angularAccelerationMinimizableControlGraph.addValue( rotationModel.getTime(), rotationModel.getAcceleration() );
-
-                positionMinimizableControlGraph.addValue( 0, rotationModel.getTime(), rotationModel.getRotationBody( 0 ).getX() );
-                positionMinimizableControlGraph.addValue( 1, rotationModel.getTime(), rotationModel.getRotationBody( 0 ).getY() );
-                speedMinimizableControlGraph.addValue( rotationModel.getTime(), rotationModel.getRotationBody( 0 ).getVelocity().getMagnitude() );
-                accelerationMinimizableControlGraph.addValue( rotationModel.getTime(), rotationModel.getRotationBody( 0 ).getAcceleration().getMagnitude() );
-            }
-        } );
-        angleMinimizableControlGraph.addControlGraphListener( new ControlGraph.Adapter() {
-            public void controlFocusGrabbed() {
-                rotationModel.setPositionDriven();
-            }
-        } );
-        angularVelocityMinimizableControlGraph.addControlGraphListener( new ControlGraph.Adapter() {
-            public void controlFocusGrabbed() {
-                rotationModel.setVelocityDriven();
-            }
-        } );
-        angularAccelerationMinimizableControlGraph.addControlGraphListener( new ControlGraph.Adapter() {
-            public void controlFocusGrabbed() {
-                rotationModel.setAccelerationDriven();
-            }
-        } );
-    }
-
-    public MinimizableControlGraph getAngleGraph() {
-        return angleMinimizableControlGraph;
-    }
-
-    public MinimizableControlGraph getAngularVelocityGraph() {
-        return angularVelocityMinimizableControlGraph;
-    }
-
-    public MinimizableControlGraph getAngularAccelerationGraph() {
-        return angularAccelerationMinimizableControlGraph;
-    }
-
-    public MinimizableControlGraph getPositionGraph() {
-        return positionMinimizableControlGraph;
-    }
-
-    public MinimizableControlGraph getSpeedGraph() {
-        return speedMinimizableControlGraph;
-    }
-
-    public MinimizableControlGraph getAccelerationGraph() {
-        return accelerationMinimizableControlGraph;
+        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, linearPositionGraph, accelGraph} );
+        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, accelGraph} );
+        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, speedGraph} );
+        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, centripetalAccelGraph} );
+        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, accelGraph, linearPositionGraph, speedGraph, centripetalAccelGraph} );
     }
 
     public static void main( String[] args ) {

@@ -1,12 +1,8 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.motion.MotionResources;
-import edu.colorado.phet.common.motion.model.MotionModel;
-import edu.colorado.phet.common.motion.model.SimulationVariable;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.PNode;
 
-import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -17,12 +13,29 @@ import java.util.ArrayList;
 public class GraphSuiteSet {
     protected ArrayList suites = new ArrayList();
     protected CursorModel cursorModel;
+    private MotionControlGraph.Listener zoomListener = new MotionControlGraph.Listener() {
+        public void horizontalZoomChanged( MotionControlGraph source ) {
+            setDomainUpperBound( source.getMaxDataX() );
+        }
+    };
 
     public GraphSuiteSet( CursorModel cursorModel ) {
         this.cursorModel = cursorModel;
     }
 
-    protected Image loadArrow( String s ) {
+    public static BufferedImage loadRedArrow() {
+        return loadArrow( "red-arrow.png" );
+    }
+
+    public static BufferedImage loadGreenArrow() {
+        return loadArrow( "green-arrow.png" );
+    }
+
+    public static BufferedImage loadBlueArrow() {
+        return loadArrow( "blue-arrow.png" );
+    }
+
+    public static BufferedImage loadArrow( String s ) {
         try {
             return MotionResources.loadBufferedImage( s );
         }
@@ -32,20 +45,11 @@ public class GraphSuiteSet {
         }
     }
 
-    protected ControlGraph toControlGraph( PhetPCanvas pSwingCanvas, String label, String title,
-                                           double min, double max, Color color,
-                                           SimulationVariable simulationVariable, PNode thumb, boolean editable, final CursorModel cursorModel,
-                                           final MotionModel rotationModel ) {
-        final MotionControlGraph motionControlGraph = new MotionControlGraph( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb, rotationModel, editable, cursorModel );
-        motionControlGraph.addListener( new MotionControlGraph.Listener() {
-            public void horizontalZoomChanged() {
-                MinimizableControlGraph[] graphs = getAllGraphs();
-                for( int i = 0; i < graphs.length; i++ ) {
-                    graphs[i].getControlGraph().setDomainUpperBound( motionControlGraph.getMaxDataX() );
-                }
-            }
-        } );
-        return motionControlGraph;
+    public void setDomainUpperBound( double bound ) {
+        MinimizableControlGraph[] graphs = getAllGraphs();
+        for( int i = 0; i < graphs.length; i++ ) {
+            graphs[i].getControlGraph().setDomainUpperBound( bound );
+        }
     }
 
     public MinimizableControlGraph[] getAllGraphs() {
@@ -65,9 +69,26 @@ public class GraphSuiteSet {
         return (GraphSuite)suites.get( i );
     }
 
+    public void addGraphSuite(MinimizableControlGraph[] graphs){
+        addGraphSuite( new GraphSuite( graphs ) );
+    }
 
     public void addGraphSuite( GraphSuite graphSuite ) {
         suites.add( graphSuite );
+        updateListeners();
+    }
+
+    private void updateListeners() {
+        MinimizableControlGraph[] graphs = getAllGraphs();
+        for( int i = 0; i < graphs.length; i++ ) {
+            MinimizableControlGraph graph = graphs[i];
+            if( graph.getControlGraph() instanceof MotionControlGraph ) {
+                MotionControlGraph motionControlGraph = (MotionControlGraph)graph.getControlGraph();
+                if( !motionControlGraph.hasListener( zoomListener ) ) {
+                    motionControlGraph.addListener( zoomListener );
+                }
+            }
+        }
     }
 
     public void clear() {

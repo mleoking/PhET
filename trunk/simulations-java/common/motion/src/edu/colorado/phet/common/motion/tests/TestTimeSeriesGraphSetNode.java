@@ -51,7 +51,7 @@ public class TestTimeSeriesGraphSetNode {
 
         public TestGraphSet( PhetPCanvas pSwingCanvas, final TestMotionModel motionModel ) {
             super( new CursorModel( motionModel.getTimeSeriesModel() ) );
-            positionGraph = new MinimizableControlGraph( UnicodeUtil.THETA, toControlGraph( pSwingCanvas, "X", "Position", -Math.PI * 3, Math.PI * 3, Color.blue, motionModel.getXVariable(), new PImage( loadArrow( "blue-arrow.png" ) ), true, cursorModel, motionModel ) );
+            positionGraph = new MinimizableControlGraph( UnicodeUtil.THETA, new MotionControlGraph( pSwingCanvas, motionModel.getXVariable(), "X", "Position", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), motionModel, true, cursorModel, null) );
             addGraphSuite( new GraphSuite( new MinimizableControlGraph[]{positionGraph} ) );
 
             motionModel.addListener( new MotionModel.Listener() {

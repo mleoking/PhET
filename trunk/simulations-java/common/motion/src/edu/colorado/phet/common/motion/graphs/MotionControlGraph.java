@@ -3,6 +3,7 @@ package edu.colorado.phet.common.motion.graphs;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.motion.model.SimulationVariable;
+import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
@@ -18,10 +19,19 @@ import java.util.ArrayList;
  */
 public class MotionControlGraph extends ControlGraph {
     private ArrayList listeners = new ArrayList();
+    private MotionModel motionModel;
 
-    public MotionControlGraph( PhetPCanvas pSwingCanvas, SimulationVariable simulationVariable, String label, String title,
-                               double min, double max, Color color, PNode thumb, final MotionModel motionModel, boolean editable, final CursorModel cursorModel ) {
+    public MotionControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String label, String title,
+                               double min, double max, Color color, PNode thumb, final MotionModel motionModel,
+                               boolean editable, final CursorModel cursorModel ) {
+        this( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb, motionModel, editable, cursorModel, null );
+    }
+
+    public MotionControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String label, String title,
+                               double min, double max, Color color, PNode thumb, final MotionModel motionModel,
+                               boolean editable, final CursorModel cursorModel, final UpdateStrategy updateStrategy ) {
         super( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb );
+        this.motionModel = motionModel;
         addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
                 notifyZoomChanged();
@@ -55,7 +65,6 @@ public class MotionControlGraph extends ControlGraph {
                 updateCursorVisible( jFreeChartCursorNode, motionModel );
             }
         } );
-        updateCursorVisible( jFreeChartCursorNode, motionModel );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
             public void cursorTimeChanged() {
                 motionModel.getTimeSeriesModel().setPlaybackMode();
@@ -67,6 +76,31 @@ public class MotionControlGraph extends ControlGraph {
                 jFreeChartCursorNode.setMaxDragTime( motionModel.getTimeSeriesModel().getRecordTime() );
             }
         } );
+        updateCursorVisible( jFreeChartCursorNode, motionModel );
+
+        motionModel.addListener( new MotionModel.Listener() {
+            public void steppedInTime() {
+                addValue( motionModel.getTime(), simulationVariable.getValue() );
+            }
+        } );
+        if( updateStrategy != null ) {
+            addListener( new Adapter() {
+                public void controlFocusGrabbed() {
+                    motionModel.setUpdateStrategy( updateStrategy );
+                }
+            } );
+        }
+    }
+
+    public void addSeries( final String title, Color color, String abbr, final SimulationVariable simulationVariable ) {
+        super.addSeries( title, color, abbr, simulationVariable );
+        if( motionModel != null ) {//main series handled in our constructor, this is for additional series.
+            motionModel.addListener( new MotionModel.Listener() {
+                public void steppedInTime() {
+                    addValue( getSeriesIndex( simulationVariable ), motionModel.getTime(), simulationVariable.getValue() );
+                }
+            } );
+        }
     }
 
     private void updateCursorLocation( JFreeChartCursorNode jFreeChartCursorNode, MotionModel motionModel ) {
@@ -77,9 +111,12 @@ public class MotionControlGraph extends ControlGraph {
         jFreeChartCursorNode.setVisible( motionModel.getTimeSeriesModel().isPlaybackMode() || motionModel.getTimeSeriesModel().isPaused() );
     }
 
+    public boolean hasListener( Listener listener ) {
+        return listeners.contains( listener );
+    }
 
     public static interface Listener {
-        void horizontalZoomChanged();
+        void horizontalZoomChanged( MotionControlGraph source );
     }
 
     public void addListener( Listener listener ) {
@@ -92,7 +129,7 @@ public class MotionControlGraph extends ControlGraph {
 
     public void notifyZoomChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).horizontalZoomChanged();
+            ( (Listener)listeners.get( i ) ).horizontalZoomChanged( this );
         }
     }
 

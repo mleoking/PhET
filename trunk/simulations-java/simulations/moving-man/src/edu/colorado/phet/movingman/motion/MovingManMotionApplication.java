@@ -2,6 +2,7 @@ package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -9,6 +10,7 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,22 +46,12 @@ public class MovingManMotionApplication {
         motionModel.setVelocityDriven();
         motionModel.setVelocity( 0.1 );
 
-        final ControlGraph controlGraph = new ControlGraph( phetPCanvas, motionModel.getXVariable(), "x", "Position", -10, 10 );
-        controlGraph.addListener( new ControlGraph.Adapter() {
-            //This method is called when the user makes an input event that indicates
-            //that this component should be "in control" of the simulation
-            public void controlFocusGrabbed() {
-                motionModel.setPositionDriven();
-            }
-        } );
-        motionModel.addListener( new MotionModel.Listener() {
-            public void steppedInTime() {
-                controlGraph.addValue( motionModel.getTime(), motionModel.getXVariable().getValue() );
-            }
-        } );
+        CursorModel cursorModel = new CursorModel( motionModel.getTimeSeriesModel() );
 
-        MinimizableControlGraph positionGraph = new MinimizableControlGraph( "X", controlGraph );
-        GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{positionGraph, createVelocityGraph( phetPCanvas, motionModel ), createAccelGraph( phetPCanvas, motionModel )} ) ) );
+        GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
+                createPositionGraph( phetPCanvas, motionModel, cursorModel, motionModel.getPositionDriven() ),
+                createVelocityGraph( phetPCanvas, motionModel, cursorModel, motionModel.getVelocityDriven() ),
+                createAccelGraph( phetPCanvas, motionModel, cursorModel, motionModel.getAccelDriven() )} ) ) );
         graphSetNode.setAlignedLayout();
         graphSetNode.setBounds( 0, 0, 800, 600 );
         graphSetNode.setOffset( 0, 200 );
@@ -68,13 +60,33 @@ public class MovingManMotionApplication {
         phetPCanvas.addKeyListener( new PDebugKeyHandler() );
     }
 
-    private static MinimizableControlGraph createAccelGraph( PhetPCanvas phetPCanvas, final MotionModel motionModel ) {
-        final ControlGraph controlGraph = new ControlGraph( phetPCanvas, motionModel.getAVariable(), "a", "Acceleration", -0.01, 0.01 );
+    private static MinimizableControlGraph createPositionGraph( PhetPCanvas phetPCanvas, final MotionModel motionModel, CursorModel cursorModel, final UpdateStrategy updateStrategy ) {
+        final MotionControlGraph controlGraph = new MotionControlGraph( phetPCanvas, motionModel.getXVariable(), "x", "Position", -10, 10,
+                                                                        Color.blue, new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, cursorModel );
         controlGraph.addListener( new ControlGraph.Adapter() {
             //This method is called when the user makes an input event that indicates
             //that this component should be "in control" of the simulation
             public void controlFocusGrabbed() {
-                motionModel.setAccelerationDriven();
+                motionModel.setUpdateStrategy( updateStrategy );
+            }
+        } );
+        motionModel.addListener( new MotionModel.Listener() {
+            public void steppedInTime() {
+                controlGraph.addValue( motionModel.getTime(), motionModel.getXVariable().getValue() );
+            }
+        } );
+
+        return new MinimizableControlGraph( "X", controlGraph );
+    }
+
+    private static MinimizableControlGraph createAccelGraph( PhetPCanvas phetPCanvas, final MotionModel motionModel, CursorModel cursorModel, final UpdateStrategy updateStrategy ) {
+        final ControlGraph controlGraph = new MotionControlGraph( phetPCanvas, motionModel.getAVariable(), "a", "Acceleration", -0.01, 0.01,
+                                                                  Color.green, new PImage( GraphSuiteSet.loadGreenArrow() ), motionModel, true, cursorModel );
+        controlGraph.addListener( new ControlGraph.Adapter() {
+            //This method is called when the user makes an input event that indicates
+            //that this component should be "in control" of the simulation
+            public void controlFocusGrabbed() {
+                motionModel.setUpdateStrategy( updateStrategy );
             }
         } );
         motionModel.addListener( new MotionModel.Listener() {
@@ -85,13 +97,14 @@ public class MovingManMotionApplication {
         return new MinimizableControlGraph( "A", controlGraph );
     }
 
-    private static MinimizableControlGraph createVelocityGraph( PhetPCanvas phetPCanvas, final MotionModel motionModel ) {
-        final ControlGraph controlGraph = new ControlGraph( phetPCanvas, motionModel.getVVariable(), "v", "Velocity", -2, 2 );
+    private static MinimizableControlGraph createVelocityGraph( PhetPCanvas phetPCanvas, final MotionModel motionModel, CursorModel cursorModel, final UpdateStrategy updateStrategy ) {
+        final MotionControlGraph controlGraph = new MotionControlGraph( phetPCanvas, motionModel.getVVariable(), "v", "Velocity", -2, 2,
+                                                                        Color.red, new PImage( GraphSuiteSet.loadRedArrow() ), motionModel, true, cursorModel );
         controlGraph.addListener( new ControlGraph.Adapter() {
             //This method is called when the user makes an input event that indicates
             //that this component should be "in control" of the simulation
             public void controlFocusGrabbed() {
-                motionModel.setVelocityDriven();
+                motionModel.setUpdateStrategy( updateStrategy );
             }
         } );
         motionModel.addListener( new MotionModel.Listener() {

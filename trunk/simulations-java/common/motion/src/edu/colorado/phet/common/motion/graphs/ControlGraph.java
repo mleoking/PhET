@@ -43,6 +43,7 @@ public class ControlGraph extends PNode {
     private int minDomainValue = 1000;
     private double ZOOM_FRACTION = 1.1;
     private Layout layout = new FlowLayout();
+    private ArrayList series = new ArrayList();
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double minY, double maxY ) {
         this( pSwingCanvas, simulationVariable, abbr, title, minY, maxY, Color.black, new PText( "THUMB" ) );
@@ -192,6 +193,7 @@ public class ControlGraph extends PNode {
     }
 
     public void addSeries( String title, Color color, String abbr, SimulationVariable simulationVariable ) {
+        series.add( simulationVariable );
         jFreeChartNode.addSeries( title, color );
 
         TitleNode titleNode = new TitleNode( title, abbr, color );
@@ -199,6 +201,10 @@ public class ControlGraph extends PNode {
         titleLayer.addChild( titleNode );
 
         graphControlNode.addVariable( abbr, color, simulationVariable );
+    }
+
+    public int getSeriesIndex( SimulationVariable title ) {
+        return series.indexOf( title );
     }
 
     public double getMaxDataX() {
