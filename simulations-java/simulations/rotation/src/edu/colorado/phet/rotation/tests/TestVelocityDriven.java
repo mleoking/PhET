@@ -29,7 +29,7 @@ public class TestVelocityDriven {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         rotationModel = new MotionModel();
-        final VelocityDriven updateStrategy = new VelocityDriven( );
+        final VelocityDriven updateStrategy = new VelocityDriven();
         rotationModel.setUpdateStrategy( updateStrategy );
         final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, rotationModel.getAngularVelocity() );
         modelSlider.addChangeListener( new ChangeListener() {

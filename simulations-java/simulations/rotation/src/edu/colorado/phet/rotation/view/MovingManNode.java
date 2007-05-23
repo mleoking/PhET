@@ -93,7 +93,7 @@ public class MovingManNode extends PNode {
         manImage.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 super.mouseDragged( event );
-                manImage.setOffset( event.getPositionRelativeTo( manImage.getParent( ) ));
+                manImage.setOffset( event.getPositionRelativeTo( manImage.getParent() ) );
             }
         } );
     }

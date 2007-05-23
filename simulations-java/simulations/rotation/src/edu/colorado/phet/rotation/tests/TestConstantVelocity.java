@@ -1,7 +1,7 @@
 package edu.colorado.phet.rotation.tests;
 
-import edu.colorado.phet.rotation.motion.PositionDriven;
 import edu.colorado.phet.rotation.motion.MotionModel;
+import edu.colorado.phet.rotation.motion.PositionDriven;
 import edu.colorado.phet.rotation.motion.TimeData;
 
 /**
@@ -12,7 +12,7 @@ import edu.colorado.phet.rotation.motion.TimeData;
 
 public class TestConstantVelocity {
     public static void main( String[] args ) {
-        PositionDriven updateRule = new PositionDriven( );
+        PositionDriven updateRule = new PositionDriven();
         MotionModel model = new MotionModel();
         model.setUpdateStrategy( updateRule );
         System.out.println( "init state=" + model.getLastState() );

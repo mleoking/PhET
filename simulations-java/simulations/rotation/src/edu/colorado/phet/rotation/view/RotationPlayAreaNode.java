@@ -2,8 +2,6 @@ package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
-import edu.colorado.phet.rotation.view.PlatformNode;
-import edu.colorado.phet.rotation.view.RotationBodyNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**

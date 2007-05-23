@@ -1,12 +1,12 @@
 package edu.colorado.phet.rotation.tests.combined;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.*;
 import edu.colorado.phet.rotation.graphs.combined.CombinedChartSlider;
 import edu.colorado.phet.rotation.graphs.combined.CombinedControlGraph;
 import edu.colorado.phet.rotation.motion.*;
-import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -55,9 +55,9 @@ public class TestCombinedModelPlot2 {
         vVariable = new SimulationVariable( rotationModel.getLastState().getAngularVelocity() );
         aVariable = new SimulationVariable( rotationModel.getLastState().getAngularAcceleration() );
 
-        positionDriven = new PositionDriven( );
-        velocityDriven = new VelocityDriven( );
-        accelDriven = new AccelerationDriven( );
+        positionDriven = new PositionDriven();
+        velocityDriven = new VelocityDriven();
+        accelDriven = new AccelerationDriven();
 
         XYPlotFactory factory = new XYPlotFactory();
         xGraph = factory.createXYPlot( "position", "meters", 10 );

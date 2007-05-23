@@ -1,7 +1,7 @@
 package edu.colorado.phet.rotation;
 
-import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSetNode;
 import edu.umd.cs.piccolo.PNode;

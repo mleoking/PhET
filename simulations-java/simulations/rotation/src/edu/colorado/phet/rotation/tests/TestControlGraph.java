@@ -7,8 +7,8 @@ package edu.colorado.phet.rotation.tests;
  *
  */
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.ControlGraph;
 import edu.colorado.phet.rotation.motion.SimulationVariable;
 
