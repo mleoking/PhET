@@ -1,0 +1,3 @@
+To obtain two example dictionaries and two example BSTs, visit this link:
+
+http://www.jwelch.org/jwelch.org/uploads/dictionary_resources.zip
