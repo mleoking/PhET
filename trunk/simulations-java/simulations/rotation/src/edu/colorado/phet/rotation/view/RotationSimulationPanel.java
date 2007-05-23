@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.RotationControlPanel;
@@ -22,8 +23,6 @@ import java.awt.geom.Rectangle2D;
  */
 
 public class RotationSimulationPanel extends BufferedPhetPCanvas {
-    //public class RotationSimulationPanel extends PhetPCanvas {
-    /*MVC Model components*/
     private RotationModule rotationModule;
 
     /*JComponents*/
@@ -44,8 +43,6 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
         graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
         rotationPlayAreaNode = new RotationPlayAreaNode( rotationModule.getRotationModel() );
-//        MovingManNode movingManNode=new MovingManNode(rotationModule.getRotationModel());
-//        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( rotationModule.getRotationModel().getTimeSeries(), 1000.0 );
         final TimeSeriesModel timeSeriesModel = rotationModule.getRotationModel().getTimeSeriesModel();
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void dataSeriesChanged() {
@@ -79,28 +76,7 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
             public void componentShown( ComponentEvent e ) {
             }
         } );
-        addKeyListener( new KeyAdapter() {
-            public void keyReleased( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_F1 && e.isAltDown() ) {
-                    PDebug.debugRegionManagement = !PDebug.debugRegionManagement;
-                }
-            }
-        } );
-
-        addKeyListener( new KeyAdapter() {
-            public void keyReleased( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_F2 && e.isAltDown() ) {
-                    PDebug.debugBounds = !PDebug.debugBounds;
-                }
-            }
-        } );
-        addKeyListener( new KeyAdapter() {
-            public void keyReleased( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_F3 && e.isAltDown() ) {
-                    PDebug.debugFullBounds = !PDebug.debugFullBounds;
-                }
-            }
-        } );
+        addKeyListener( new PDebugKeyHandler());
         addKeyListener( new KeyAdapter() {
             public void keyReleased( KeyEvent e ) {
                 if( e.getKeyCode() == KeyEvent.VK_F5 && e.isAltDown() ) {
@@ -128,9 +104,6 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
             }
         } );
         setAlignedLayout();
-
-//        addScreenChild( movingManNode);
-//        setZoomEventHandler( new PZoomEventHandler() );
     }
 
     private void setAlignedLayout() {
