@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark.view.bargraphs;
 
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 /**
  * User: Sam Reid
@@ -13,8 +14,19 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 public class EnergySkateParkBarGraph extends BarGraph {
     private EnergySkateParkModel model;
 
-    public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel energySkateParkSimulationPanel, EnergySkateParkModel energySkateParkModel,
-                                    String title ,double scale) {
+        public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel canvas, final EnergySkateParkModel energySkateParkModel, double scale) {
+        this( canvas, energySkateParkModel, EnergySkateParkStrings.getString( "properties.energy" ), scale);
+        final ValueAccessor[] energyAccess = new ValueAccessor[]{
+                new ValueAccessor.KineticEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() ),
+                new ValueAccessor.PotentialEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() ),
+                new ValueAccessor.ThermalEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() ),
+                new ValueAccessor.TotalEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() )
+        };
+        Variable[] v = toVariableArray( energyAccess, energySkateParkModel );
+        setVariables( v );
+    }
+    public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel energySkateParkSimulationPanel,
+                                    EnergySkateParkModel energySkateParkModel,String title ,double scale) {
         super( title, scale );
         this.model = energySkateParkModel;
 
