@@ -16,7 +16,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 22, 2005
  * Time: 8:02:03 PM
- *
  */
 
 public class Legend extends PhetPNode {
@@ -28,6 +27,10 @@ public class Legend extends PhetPNode {
         background = new PPath();
         background.setPaint( Color.white );
         addChild( background );
+    }
+
+    public void setBackgroundPaint( Paint paint ) {
+        background.setPaint( paint );
     }
 
     private static class Entry extends PNode {
