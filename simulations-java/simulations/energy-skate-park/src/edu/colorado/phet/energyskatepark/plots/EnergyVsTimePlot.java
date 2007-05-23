@@ -7,12 +7,16 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -64,17 +68,10 @@ public class EnergyVsTimePlot {
         chart.getXYPlot().getDomainAxis().setRange( 0, 50 );
         dynamicJFreeChartNode.setBufferedImmediateSeries();
 
-        final ShadowPText thermalPText = new ShadowPText( " " );
-        thermalPText.setTextPaint( Color.red );
-
-        final ShadowPText keText = new ShadowPText( " " );
-        keText.setTextPaint( Color.green );
-
-        final ShadowPText peText = new ShadowPText( " " );
-        peText.setTextPaint( Color.blue );
-
-        final ShadowPText totalText = new ShadowPText( " " );
-        totalText.setTextPaint( new EnergyLookAndFeel().getTotalEnergyColor() );
+        final ReadoutTextNode thermalPText = new ReadoutTextNode( Color.red );
+        final ReadoutTextNode keText = new ReadoutTextNode( Color.green );
+        final ReadoutTextNode peText = new ReadoutTextNode( Color.blue );
+        final ReadoutTextNode totalText = new ReadoutTextNode( new EnergyLookAndFeel().getTotalEnergyColor() );
 
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
@@ -107,8 +104,8 @@ public class EnergyVsTimePlot {
         graphCanvas.addScreenChild( totalText );
         dynamicJFreeChartNode.setBounds( 0, 0, dialog.getWidth() - 75, dialog.getHeight() - 40 );
 
-        thermalPText.setOffset( dynamicJFreeChartNode.getDataArea().getX(), dynamicJFreeChartNode.getDataArea().getY() );
-        totalText.setOffset( dynamicJFreeChartNode.getDataArea().getX(), thermalPText.getFullBounds().getMaxY() + 5 );
+        thermalPText.setOffset( dynamicJFreeChartNode.getDataArea().getX()+2, dynamicJFreeChartNode.getDataArea().getY() );
+        totalText.setOffset( dynamicJFreeChartNode.getDataArea().getX()+2, thermalPText.getFullBounds().getMaxY() + 5 );
         keText.setOffset( dynamicJFreeChartNode.getDataArea().getCenterX(), dynamicJFreeChartNode.getDataArea().getY() );
         peText.setOffset( dynamicJFreeChartNode.getDataArea().getCenterX(), keText.getFullBounds().getMaxY() + 5 );
 
@@ -159,6 +156,26 @@ public class EnergyVsTimePlot {
         clearPSwing = new PSwing( clear );
         graphCanvas.addScreenChild( clearPSwing );
         relayout();
+    }
+
+    public class ReadoutTextNode extends PhetPNode {
+        private ShadowPText text;
+        private PPath background;
+
+        public ReadoutTextNode( Color color ) {
+            text = new ShadowPText( " " );
+            text.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+            text.setTextPaint( color );
+            text.setShadowColor( Color.black );
+            background = new PhetPPath( text.getFullBounds(), new Color( 255, 255, 255, 175 ) );//todo: is this partial transparency a performance problem?
+            addChild( background );
+            addChild( text );
+        }
+
+        public void setText( String s ) {
+            text.setText( s );
+            background.setPathTo( text.getFullBounds() );
+        }
     }
 
     private void updateCursor( JFreeChartCursorNode jFreeChartCursorNode, TimeSeriesModel timeSeriesModel ) {

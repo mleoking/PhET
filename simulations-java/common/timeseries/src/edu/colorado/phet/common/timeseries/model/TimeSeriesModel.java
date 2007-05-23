@@ -94,8 +94,8 @@ public class TimeSeriesModel extends ClockAdapter {
         boolean origPauseState = isPaused();
         setPaused( true );
         record.reset();
-        rewind();
         series.clear();
+//        rewind();
         recordableModel.resetTime();
         setPaused( origPauseState );
         notifyDataSeriesChanged();
