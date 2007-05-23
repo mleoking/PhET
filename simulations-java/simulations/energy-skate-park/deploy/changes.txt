@@ -7,6 +7,7 @@ Fixed: E vs. X graph, data falls outside the chart boundary.
 Fixed: Bar Graph, data obscures the title
 Fixed: Playback, then pause, then "Slow Motion" shouldn't reset the playback sequence.
 Fixed: Record button is grayed out during playback.
+Fixed: Energy vs. X graph doesn't update during playback.
 
 2.01.02 (5-21-2007)
 Mountains rescale on zoom-out.
