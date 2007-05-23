@@ -28,7 +28,6 @@ public class PlatformNode extends PNode {
     private RotationPlatform rotationPlatform;
 
     public interface RotationPlatformEnvironment {
-
         void setPositionDriven();
     }
 
@@ -79,7 +78,7 @@ public class PlatformNode extends PNode {
 
                 double angle = initAngle + angleDiff;
 //                System.out.println( "angleDiff=" + angleDiff + ", angle=" + angle );
-                rotationPlatform.setAngle( angle );
+                rotationPlatform.setPosition( angle );
                 resetDrag( angle, event );//have to reset drag in order to keep track of the winding number
             }
 
@@ -91,10 +90,10 @@ public class PlatformNode extends PNode {
         addInputEventListener( new CursorHandler() );
         rotationPlatform.addListener( new RotationPlatform.Listener() {
             public void angleChanged( double dtheta ) {
-                setAngle( rotationPlatform.getAngle() );
+                setAngle( rotationPlatform.getPosition() );
             }
         } );
-        setAngle( rotationPlatform.getAngle() );
+        setAngle( rotationPlatform.getPosition() );
     }
 
     private void addRingNode( double radius, Color color ) {

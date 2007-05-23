@@ -6,7 +6,7 @@ import edu.colorado.phet.rotation.controls.GraphSelectionControl;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSetNode;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
-import edu.colorado.phet.rotation.model.MotionModel;
+import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 
 import javax.swing.*;
@@ -22,7 +22,7 @@ public class TestGraphs {
     private GraphSetNode graphSetNode;
     private PhetPCanvas phetPCanvas;
 
-    private MotionModel rotationModel;
+    private RotationModel rotationModel;
     private Timer timer;
 
     public TestGraphs() {
@@ -34,7 +34,7 @@ public class TestGraphs {
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
 
-        rotationModel = new MotionModel();
+        rotationModel = new RotationModel();
 
         RotationGraphSet rotationGraphSet = new RotationGraphSet( phetPCanvas, rotationModel );
         GraphSetModel graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );

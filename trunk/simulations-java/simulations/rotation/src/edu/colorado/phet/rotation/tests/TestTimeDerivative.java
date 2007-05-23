@@ -1,7 +1,7 @@
 package edu.colorado.phet.rotation.tests;
 
 import edu.colorado.phet.rotation.model.RotationMath;
-import edu.colorado.phet.rotation.model.TimeData;
+import edu.colorado.phet.rotation.motion.TimeData;
 
 /**
  * User: Sam Reid

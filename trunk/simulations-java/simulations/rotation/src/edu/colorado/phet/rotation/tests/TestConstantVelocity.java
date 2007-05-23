@@ -1,8 +1,8 @@
 package edu.colorado.phet.rotation.tests;
 
-import edu.colorado.phet.rotation.model.PositionDriven;
-import edu.colorado.phet.rotation.model.MotionModel;
-import edu.colorado.phet.rotation.model.TimeData;
+import edu.colorado.phet.rotation.motion.PositionDriven;
+import edu.colorado.phet.rotation.motion.MotionModel;
+import edu.colorado.phet.rotation.motion.TimeData;
 
 /**
  * User: Sam Reid

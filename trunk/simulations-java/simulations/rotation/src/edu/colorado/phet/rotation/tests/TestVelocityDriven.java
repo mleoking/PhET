@@ -8,8 +8,8 @@ package edu.colorado.phet.rotation.tests;
  */
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.rotation.model.MotionModel;
-import edu.colorado.phet.rotation.model.VelocityDriven;
+import edu.colorado.phet.rotation.motion.MotionModel;
+import edu.colorado.phet.rotation.motion.VelocityDriven;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

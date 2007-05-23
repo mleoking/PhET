@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
-import edu.colorado.phet.rotation.model.MotionModel;
+import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.view.RotationSimulationPanel;
 
 /**
@@ -21,7 +21,7 @@ public class RotationModule extends PiccoloModule {
     private RotationSimulationPanel rotationSimulationPanel;
 
     /*The Physical Model*/
-    private MotionModel rotationModel;
+    private RotationModel rotationModel;
 
     /*Other MVC model data structures*/
     private VectorViewModel vectorViewModel;
@@ -29,7 +29,7 @@ public class RotationModule extends PiccoloModule {
     public RotationModule() {
         super( "Rotation", createClock() );
         setModel( new BaseModel() );
-        rotationModel = new MotionModel();
+        rotationModel = new RotationModel();
         vectorViewModel = new VectorViewModel();
 
         rotationSimulationPanel = new RotationSimulationPanel( this );
@@ -62,7 +62,7 @@ public class RotationModule extends PiccoloModule {
         return vectorViewModel;
     }
 
-    public MotionModel getRotationModel() {
+    public RotationModel getRotationModel() {
         return rotationModel;
     }
 

@@ -1,4 +1,6 @@
-package edu.colorado.phet.rotation.model;
+package edu.colorado.phet.rotation.motion;
+
+import edu.colorado.phet.rotation.model.RotationMath;
 
 /**
  * User: Sam Reid

@@ -5,7 +5,7 @@ import edu.colorado.phet.rotation.graphs.XYPlotFactory;
 import edu.colorado.phet.rotation.graphs.combined.AbstractChartSlider;
 import edu.colorado.phet.rotation.graphs.combined.CombinedChartSlider;
 import edu.colorado.phet.rotation.graphs.combined.CombinedControlGraph;
-import edu.colorado.phet.rotation.model.*;
+import edu.colorado.phet.rotation.motion.*;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;

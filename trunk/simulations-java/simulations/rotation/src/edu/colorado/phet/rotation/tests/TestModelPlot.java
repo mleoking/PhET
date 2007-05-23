@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.rotation.graphs.ControlGraph;
-import edu.colorado.phet.rotation.model.MotionModel;
+import edu.colorado.phet.rotation.motion.MotionModel;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 
 import javax.swing.*;

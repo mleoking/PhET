@@ -5,8 +5,9 @@ import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.rotation.RotationResources;
-import edu.colorado.phet.rotation.model.MotionModel;
-import edu.colorado.phet.rotation.model.SimulationVariable;
+import edu.colorado.phet.rotation.motion.MotionModel;
+import edu.colorado.phet.rotation.motion.SimulationVariable;
+import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -33,11 +34,11 @@ public class RotationGraphSet {
     private GraphSuite[] suites;
     private CursorModel cursorModel;
 
-    public RotationGraphSet( PhetPCanvas pSwingCanvas, final MotionModel rotationModel ) {
+    public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel rotationModel ) {
         this( pSwingCanvas, rotationModel, new CursorModel( rotationModel.getTimeSeriesModel() ) );
     }
 
-    public RotationGraphSet( PhetPCanvas pSwingCanvas, final MotionModel rotationModel, CursorModel cursorModel ) {
+    public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel rotationModel, CursorModel cursorModel ) {
         this.cursorModel = cursorModel;
         angleGraph = new GraphComponent( UnicodeUtil.THETA, toControlGraph( pSwingCanvas, UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, rotationModel.getXVariable(), new PImage( loadImage( "blue-arrow.png" ) ), true, cursorModel, rotationModel ) );
         angularVelocityGraph = new GraphComponent( UnicodeUtil.OMEGA, toControlGraph( pSwingCanvas, UnicodeUtil.OMEGA, "Angular Velocity", -0.1, 0.1, Color.red, rotationModel.getVVariable(), new PImage( loadImage( "red-arrow.png" ) ), true, cursorModel, rotationModel ) );

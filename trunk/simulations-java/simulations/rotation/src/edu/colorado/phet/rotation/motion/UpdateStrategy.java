@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.model;
+package edu.colorado.phet.rotation.motion;
 
 /**
  * User: Sam Reid
