@@ -35,7 +35,7 @@ public class ModelState implements Serializable {
         }
     }
 
-    public double getAngularAcceleration() {
+    public double getAcceleration() {
         return motionBody.getAcceleration();
     }
 
@@ -51,7 +51,7 @@ public class ModelState implements Serializable {
         return motionBody.getPosition();
     }
 
-    public double getAngularVelocity() {
+    public double getVelocity() {
         return motionBody.getVelocity();
     }
 
@@ -63,11 +63,11 @@ public class ModelState implements Serializable {
         motionBody.setPosition( angle );
     }
 
-    public void setAngularVelocity( double angularVelocity ) {
+    public void setVelocity( double angularVelocity ) {
         motionBody.setVelocity( angularVelocity );
     }
 
-    public void setAngularAcceleration( double angularAcceleration ) {
+    public void setAcceleration( double angularAcceleration ) {
         motionBody.setAcceleration( angularAcceleration );
     }
 

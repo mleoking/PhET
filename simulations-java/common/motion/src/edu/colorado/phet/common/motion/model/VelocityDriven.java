@@ -10,9 +10,9 @@ import edu.colorado.phet.common.motion.MotionMath;
 
 public class VelocityDriven implements UpdateStrategy {
     public void update( MotionModel model, double dt ) {
-        double newAngle = model.getAngle() + model.getAngularVelocity() * dt;
+        double newAngle = model.getPosition() + model.getVelocity() * dt;
         double angularAcceleration = MotionMath.estimateDerivative( model.getAvailableVelocityTimeSeries( 10 ) );
         model.setAngle( newAngle );
-        model.setAngularAcceleration( angularAcceleration );
+        model.setAcceleration( angularAcceleration );
     }
 }

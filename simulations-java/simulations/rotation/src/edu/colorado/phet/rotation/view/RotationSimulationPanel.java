@@ -5,8 +5,9 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.RotationControlPanel;
 import edu.colorado.phet.rotation.RotationModule;
-import edu.colorado.phet.rotation.TimeSeriesGraphSetNode;
+import edu.colorado.phet.common.motion.graphs.TimeSeriesGraphSetNode;
 import edu.colorado.phet.common.motion.graphs.GraphSuite;
+import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -32,7 +33,7 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
     private RotationPlayAreaNode rotationPlayAreaNode;
     private TimeSeriesGraphSetNode timeSeriesGraphSetNode;
     private PSwing rotationControlPanelNode;
-    private RotationGraphSet rotationGraphSet;
+    private GraphSuiteSet rotationGraphSet;
 
     private GraphSetModel graphSetModel;
 

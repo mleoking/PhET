@@ -14,7 +14,7 @@ public class PositionDriven implements UpdateStrategy {
     public void update( MotionModel model, double dt ) {
         double vel = MotionMath.estimateDerivative( model.getAvailablePositionTimeSeries( 10 ) );
         double acc = MotionMath.estimateDerivative( model.getAvailableVelocityTimeSeries( 10 ) );
-        model.setAngularVelocity( vel );
-        model.setAngularAcceleration( acc );
+        model.setVelocity( vel );
+        model.setAcceleration( acc );
     }
 }
