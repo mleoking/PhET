@@ -161,7 +161,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
 
     private boolean shouldRewindBeforePlayback() {
 //        System.out.println( "timeSeriesModel.getPlaybackTime() = " + timeSeriesModel.getPlaybackTime() + ", timeSeriesModel.getRecordTime()=" + timeSeriesModel.getRecordTime() );
-        return timeSeriesModel.isRecording() || ( timeSeriesModel.isPlaybackMode() && timeSeriesModel.getPlaybackTime() == timeSeriesModel.getRecordTime());
+        return timeSeriesModel.isRecording() || ( timeSeriesModel.isPlaybackMode() && timeSeriesModel.getPlaybackTime() == timeSeriesModel.getRecordTime() );
     }
 
     public void removeLiveButton() {
@@ -181,12 +181,14 @@ public class TimeSeriesPlaybackPanel extends JPanel {
 
     private void updateButtons() {
         live.setEnabled( !timeSeriesModel.isLiveMode() || timeSeriesModel.isPaused() );
-        record.setEnabled( !timeSeriesModel.isRecording() );
+        record.setEnabled( timeSeriesModel.isPaused() || timeSeriesModel.isLiveMode());//hidden during playback
         play.setEnabled( ( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isPlaybackMode( PLAYBACK_FULL ) ) || ( timeSeriesModel.isPlaybackMode() && timeSeriesModel.isPaused() ) );
         slowMotion.setEnabled( ( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isPlaybackMode( PLAYBACK_SLOW ) ) || ( timeSeriesModel.isPlaybackMode() && timeSeriesModel.isPaused() ) );
         pause.setEnabled( !timeSeriesModel.isPaused() );
         rewind.setEnabled( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isFirstPlaybackPoint() );
-        step.setEnabled( timeSeriesModel.isPaused() );
+//        System.out.println( "timeSeriesModel.getPlaybackTime() ="+timeSeriesModel.getPlaybackTime()+", timeSeriesModel.getRecordTime() = " +timeSeriesModel.getRecordTime() );
+//        step.setEnabled( timeSeriesModel.isPaused() && timeSeriesModel.getPlaybackTime() != timeSeriesModel.getRecordTime() );
+        step.setEnabled( timeSeriesModel.isPaused() );// && timeSeriesModel.getPlaybackTime() != timeSeriesModel.getRecordTime() );
         clear.setEnabled( timeSeriesModel.isThereRecordedData() );
     }
 
