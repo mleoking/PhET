@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark.plots;
 
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.LucidaSansFont;
@@ -96,7 +97,12 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
                 update();
             }
         } );
-        dataset = createDataset();
+        module.getTimeSeriesModel().addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
+            public void timeChanged() {
+                update();
+            }
+        } );
+        dataset = new XYSeriesCollection( new XYSeries( new Integer( 0 ) ));
         chart = createChart( new Range2D( -2, -7000 / 10.0, 17, 7000 ), dataset, EnergySkateParkStrings.getString( "plots.energy-vs-position" ) );
         setLayout( new BorderLayout() );
 
@@ -212,22 +218,6 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         verticalZoom.setVisible( true );
     }
 
-//    private void removeOutOfBoundsPoints() {
-//        for( int i = 0; i < fadeDots.size(); i++ ) {
-//            FadeDot fadeDot = (FadeDot)fadeDots.get( i );
-//            if( !inBounds( fadeDot ) ) {
-//                removeFadeDot( fadeDot );
-//                i--;
-//            }
-//        }
-//    }
-
-    private boolean inBounds( FadeDot fadeDot ) {
-        PBounds dotBounds = fadeDot.getFullBounds();
-        Rectangle screenBounds = new Rectangle( getWidth(), getHeight() );
-        return screenBounds.contains( dotBounds );
-    }
-
     private void updateGraphics() {
         if( getWidth() > 0 && getHeight() > 0 ) {
             image.setImage( chart.createBufferedImage( getWidth(), getChartHeight(), info ) );
@@ -253,11 +243,6 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         plot.getRangeAxis().setRange( range.getMinY(), range.getMaxY() );
         plot.setRangeCrosshairVisible( true );
         return chart;
-    }
-
-    private static XYSeriesCollection createDataset() {
-        XYSeries xySeries = new XYSeries( new Integer( 0 ) );
-        return new XYSeriesCollection( xySeries );
     }
 
     public void reset() {
