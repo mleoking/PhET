@@ -16,13 +16,13 @@ public class GraphSetModel {
         this.graphSuite = graphSuite;
     }
 
-    public void setRotationGraphSuite( GraphSuite graphSuite ) {
+    public void setGraphSuite( GraphSuite graphSuite ) {
         //todo can't check for same state because of radio button listeners.
         this.graphSuite = graphSuite;
         notifyListeners();
     }
 
-    public GraphSuite getRotationGraphSuite() {
+    public GraphSuite getGraphSuite() {
         return graphSuite;
     }
 

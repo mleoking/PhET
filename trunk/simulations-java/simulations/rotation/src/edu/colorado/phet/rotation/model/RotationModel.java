@@ -1,9 +1,9 @@
 package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.common.motion.model.ModelState;
-import edu.colorado.phet.rotation.view.RotationBodyNode;
-import edu.colorado.phet.common.motion.model.SimulationVariable;
 import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.SimulationVariable;
+import edu.colorado.phet.rotation.view.RotationBodyNode;
 
 import java.awt.geom.Point2D;
 
@@ -51,7 +51,13 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     }
 
     protected ModelState createModelState() {
-        return new RotationModelState();
+        RotationModelState modelState = new RotationModelState();
+        modelState.getMotionBody().addListener( new RotationPlatform.Listener() {
+            public void angleChanged( double dtheta ) {
+                getXPositionVariable().setValue( getCurrentState().getMotionBody().getPosition() );
+            }
+        } );
+        return modelState;
     }
 
     public SimulationVariable getXPositionVariable() {

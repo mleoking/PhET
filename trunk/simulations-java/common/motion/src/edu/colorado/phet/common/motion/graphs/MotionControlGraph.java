@@ -1,11 +1,11 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
+import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.SimulationVariable;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.motion.model.MotionModel;
-import edu.colorado.phet.common.motion.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
@@ -55,7 +55,6 @@ public class MotionControlGraph extends ControlGraph {
                 updateCursorVisible( jFreeChartCursorNode, motionModel );
             }
         } );
-//        rotationModel.getTimeSeriesModel().addPlaybackTimeChangeListener( );
         updateCursorVisible( jFreeChartCursorNode, motionModel );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
             public void cursorTimeChanged() {
@@ -70,12 +69,12 @@ public class MotionControlGraph extends ControlGraph {
         } );
     }
 
-    private void updateCursorLocation( JFreeChartCursorNode jFreeChartCursorNode, MotionModel rotationModel ) {
-        jFreeChartCursorNode.setTime( rotationModel.getTimeSeriesModel().getTime() );
+    private void updateCursorLocation( JFreeChartCursorNode jFreeChartCursorNode, MotionModel motionModel ) {
+        jFreeChartCursorNode.setTime( motionModel.getTimeSeriesModel().getTime() );
     }
 
-    private void updateCursorVisible( JFreeChartCursorNode jFreeChartCursorNode, MotionModel rotationModel ) {
-        jFreeChartCursorNode.setVisible( rotationModel.getTimeSeriesModel().isPlaybackMode() || rotationModel.getTimeSeriesModel().isPaused() );
+    private void updateCursorVisible( JFreeChartCursorNode jFreeChartCursorNode, MotionModel motionModel ) {
+        jFreeChartCursorNode.setVisible( motionModel.getTimeSeriesModel().isPlaybackMode() || motionModel.getTimeSeriesModel().isPaused() );
     }
 
 

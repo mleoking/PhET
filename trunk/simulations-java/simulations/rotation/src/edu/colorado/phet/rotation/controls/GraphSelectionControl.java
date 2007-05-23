@@ -35,18 +35,18 @@ public class GraphSelectionControl extends JPanel {
         GraphSuite graphSuite;
 
         public GraphSuiteRadioButton( final GraphSetModel graphSetModel, final GraphSuite graphSuite ) {
-            super( graphSuite.getLabel(), graphSetModel.getRotationGraphSuite() == graphSuite );
+            super( graphSuite.getLabel(), graphSetModel.getGraphSuite() == graphSuite );
             this.graphSetPanel = graphSetModel;
             this.graphSuite = graphSuite;
             setFont( RotationLookAndFeel.getGraphSelectionItemFont() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    graphSetModel.setRotationGraphSuite( graphSuite );
+                    graphSetModel.setGraphSuite( graphSuite );
                 }
             } );
             graphSetModel.addListener( new GraphSetModel.Listener() {
                 public void graphSuiteChanged() {
-                    setSelected( graphSetModel.getRotationGraphSuite() == graphSuite );
+                    setSelected( graphSetModel.getGraphSuite() == graphSuite );
                 }
             } );
         }

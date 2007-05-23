@@ -2,6 +2,7 @@ package edu.colorado.phet.common.motion.graphs;
 
 /**
  * The GraphSuite represents a collection of MinimizableControlGraphs, so that the set of visible graphs can be easily selected and changed.
+ *
  * @author Sam Reid
  */
 public class GraphSuite {

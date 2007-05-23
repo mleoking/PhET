@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.motion.graphs;
 
+import edu.colorado.phet.common.motion.MotionResources;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.rotation.RotationResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -39,7 +39,7 @@ public class MinimizableControlGraph extends PNode {
 
         JButton minimizeButton = new JButton();
         try {
-            minimizeButton.setIcon( new ImageIcon( RotationResources.loadBufferedImage( "minimizeButton.png" ) ) );
+            minimizeButton.setIcon( new ImageIcon( MotionResources.loadBufferedImage( "minimizeButton.png" ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -65,7 +65,7 @@ public class MinimizableControlGraph extends PNode {
             }
         } );
         try {
-            maximizeButton.setIcon( new ImageIcon( RotationResources.loadBufferedImage( "maximizeButton.png" ) ) );
+            maximizeButton.setIcon( new ImageIcon( MotionResources.loadBufferedImage( "maximizeButton.png" ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
