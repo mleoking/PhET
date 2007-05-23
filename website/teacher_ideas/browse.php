@@ -41,7 +41,7 @@
         return $sorted_contributions;
     }
     
-    function print_content() {    
+    function get_contributions() {
         global $sort_by, $order, $next_order;
         
         $contributions = contribution_get_all_contributions();
@@ -50,28 +50,56 @@
         
         $contributions = sort_contributions($contributions, $sort_by, $order);
         
-        $script_prefix = SITE_ROOT."teacher_ideas/browse.php?order=${next_order}&amp;sort_by=";
+        return $contributions;        
+    }
+    
+    function get_sorting_link($link_sort_by, $desc) {
+        global $sort_by, $order, $next_order;
         
-        $link_prefix  = "<a href=\"${script_prefix}";
-        $link_postfix = "\">";
-        $link_close   = "</a>";
+        $link_order = null;
+        
+        if ($sort_by == $link_sort_by) {
+            $link_order = $next_order;
+        }
+        else {
+            $link_order = $order;
+        }
+                
+        $script = SITE_ROOT."teacher_ideas/browse.php?order=${link_order}&amp;sort_by=${link_sort_by}";
+        
+        $link = "<a href=\"${script}\">${desc}</a>";
+        
+        return <<<EOT
+            <td>${link}</td>  
+EOT;
+    }
+    
+    function print_content() {    
+        $contributions = get_contributions();
+        
+        $title  = get_sorting_link('contribution_title',        'Title');
+        $author = get_sorting_link('contribution_authors',      'Author');
+        $level  = get_sorting_link('contribution_level_desc',   'Level');
+        $type   = get_sorting_link('contribution_type_desc',    'Type');
+        $sims   = get_sorting_link('sim_name',                  'Simulations');
+        $date   = get_sorting_link('contribution_date_updated', 'Updated');
                 
         print <<<EOT
             <table>
                 <thead>
                     <tr>
             
-                        <td>${link_prefix}contribution_title${link_postfix}Title${link_close}</td>  
+                        $title
                         
-                        <td>${link_prefix}contribution_authors${link_postfix}Author${link_close}</td>  
+                        $author
                         
-                        <td>${link_prefix}contribution_level_desc${link_postfix}Level${link_close}</td>  
+                        $level
                         
-                        <td>${link_prefix}contribution_type_desc${link_postfix}Type${link_close}</td>  
+                        $type
                         
-                        <td>${link_prefix}sim_name${link_postfix}Simulations${link_close}</td>  
+                        $sims
                         
-                        <td>${link_prefix}contribution_date_updated${link_postfix}Updated${link_close}</td>  
+                        $date
             
                     </tr>
                 </thead>
