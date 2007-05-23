@@ -13,7 +13,7 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.rotation.TimeSeriesGraphSetNode;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
-import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.MotionModel;
 
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
@@ -31,7 +31,7 @@ public class TestTimeSeriesGraphSetNode {
 
         pSwingCanvas = new PhetPCanvas();
         frame.setContentPane( pSwingCanvas );
-        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( new GraphSetModel( new RotationGraphSet( pSwingCanvas, new RotationModel() ).getGraphSuite( 0 ) ), new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), 1.0) );
+        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( new GraphSetModel( new RotationGraphSet( pSwingCanvas, new MotionModel() ).getGraphSuite( 0 ) ), new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), 1.0) );
         pSwingCanvas.getLayer().addChild( timeSeriesGraphSetNode );
         pSwingCanvas.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {

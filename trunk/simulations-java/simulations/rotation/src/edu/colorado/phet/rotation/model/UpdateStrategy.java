@@ -6,5 +6,5 @@ package edu.colorado.phet.rotation.model;
  * Time: 11:36:26 PM
  */
 public interface UpdateStrategy {
-    void update( RotationModel model, double dt );
+    void update( MotionModel model, double dt );
 }

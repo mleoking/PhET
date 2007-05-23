@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 public class TestCombinedModelPlot {
     private JFrame frame;
     private Timer timer;
-    private RotationModel rotationModel;
+    private MotionModel rotationModel;
 
     private SimulationVariable xVariable;
     private SimulationVariable vVariable;
@@ -42,7 +42,7 @@ public class TestCombinedModelPlot {
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        rotationModel = new RotationModel();
+        rotationModel = new MotionModel();
         phetPCanvas = new PhetPCanvas();
         xVariable = new SimulationVariable( rotationModel.getLastState().getAngle() );
         vVariable = new SimulationVariable( rotationModel.getLastState().getAngularVelocity() );

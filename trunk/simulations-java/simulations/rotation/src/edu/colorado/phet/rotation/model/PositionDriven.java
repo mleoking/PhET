@@ -9,7 +9,7 @@ package edu.colorado.phet.rotation.model;
 public class PositionDriven implements UpdateStrategy {
 
     //todo: try 2nd order derivative directly from position data
-    public void update( RotationModel model, double dt ) {
+    public void update( MotionModel model, double dt ) {
         double vel = RotationMath.estimateDerivative( model.getAvailablePositionTimeSeries( 10 ) );
         double acc = RotationMath.estimateDerivative( model.getAvailableVelocityTimeSeries( 10 ) );
         model.setAngularVelocity( vel );
