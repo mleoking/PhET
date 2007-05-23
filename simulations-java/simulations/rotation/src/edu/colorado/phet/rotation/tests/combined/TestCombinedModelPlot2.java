@@ -5,7 +5,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.*;
 import edu.colorado.phet.rotation.graphs.combined.CombinedChartSlider;
 import edu.colorado.phet.rotation.graphs.combined.CombinedControlGraph;
-import edu.colorado.phet.rotation.model.*;
+import edu.colorado.phet.rotation.motion.*;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
