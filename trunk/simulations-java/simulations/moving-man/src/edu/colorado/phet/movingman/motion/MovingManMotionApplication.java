@@ -21,6 +21,14 @@ import java.awt.*;
  */
 public class MovingManMotionApplication {
     public static void main( String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                runApp();
+            }
+        } );
+    }
+
+    private static void runApp() {
         JFrame frame = new JFrame( "Test Moving Man Node" );
         frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height - 400 );
         PhetPCanvas phetPCanvas = new BufferedPhetPCanvas();
@@ -49,9 +57,12 @@ public class MovingManMotionApplication {
         CursorModel cursorModel = new CursorModel( motionModel.getTimeSeriesModel() );
 
         GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
-                createPositionGraph( phetPCanvas, motionModel, cursorModel, motionModel.getPositionDriven() ),
-                createVelocityGraph( phetPCanvas, motionModel, cursorModel, motionModel.getVelocityDriven() ),
-                createAccelGraph( phetPCanvas, motionModel, cursorModel, motionModel.getAccelDriven() )} ) ) );
+                new MinimizableControlGraph( "x", new MotionControlGraph( phetPCanvas, motionModel.getXVariable(), "x", "Position", -10, 10, Color.blue,
+                                                                          new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, cursorModel, motionModel.getPositionDriven() ) ),
+                new MinimizableControlGraph( "v", new MotionControlGraph( phetPCanvas, motionModel.getVVariable(), "v", "Velocity", -1, 1, Color.red,
+                                                                          new PImage( GraphSuiteSet.loadRedArrow() ), motionModel, true, cursorModel, motionModel.getVelocityDriven() ) ),
+                new MinimizableControlGraph( "a", new MotionControlGraph( phetPCanvas, motionModel.getAVariable(), "a", "Acceleration", -0.01, 0.01, Color.green,
+                                                                          new PImage( GraphSuiteSet.loadGreenArrow() ), motionModel, true, cursorModel, motionModel.getAccelDriven() ) )} ) ) );
         graphSetNode.setAlignedLayout();
         graphSetNode.setBounds( 0, 0, 800, 600 );
         graphSetNode.setOffset( 0, 200 );
@@ -60,58 +71,4 @@ public class MovingManMotionApplication {
         phetPCanvas.addKeyListener( new PDebugKeyHandler() );
     }
 
-    private static MinimizableControlGraph createPositionGraph( PhetPCanvas phetPCanvas, final MotionModel motionModel, CursorModel cursorModel, final UpdateStrategy updateStrategy ) {
-        final MotionControlGraph controlGraph = new MotionControlGraph( phetPCanvas, motionModel.getXVariable(), "x", "Position", -10, 10,
-                                                                        Color.blue, new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, cursorModel );
-        controlGraph.addListener( new ControlGraph.Adapter() {
-            //This method is called when the user makes an input event that indicates
-            //that this component should be "in control" of the simulation
-            public void controlFocusGrabbed() {
-                motionModel.setUpdateStrategy( updateStrategy );
-            }
-        } );
-        motionModel.addListener( new MotionModel.Listener() {
-            public void steppedInTime() {
-                controlGraph.addValue( motionModel.getTime(), motionModel.getXVariable().getValue() );
-            }
-        } );
-
-        return new MinimizableControlGraph( "X", controlGraph );
-    }
-
-    private static MinimizableControlGraph createAccelGraph( PhetPCanvas phetPCanvas, final MotionModel motionModel, CursorModel cursorModel, final UpdateStrategy updateStrategy ) {
-        final ControlGraph controlGraph = new MotionControlGraph( phetPCanvas, motionModel.getAVariable(), "a", "Acceleration", -0.01, 0.01,
-                                                                  Color.green, new PImage( GraphSuiteSet.loadGreenArrow() ), motionModel, true, cursorModel );
-        controlGraph.addListener( new ControlGraph.Adapter() {
-            //This method is called when the user makes an input event that indicates
-            //that this component should be "in control" of the simulation
-            public void controlFocusGrabbed() {
-                motionModel.setUpdateStrategy( updateStrategy );
-            }
-        } );
-        motionModel.addListener( new MotionModel.Listener() {
-            public void steppedInTime() {
-                controlGraph.addValue( motionModel.getTime(), motionModel.getAVariable().getValue() );
-            }
-        } );
-        return new MinimizableControlGraph( "A", controlGraph );
-    }
-
-    private static MinimizableControlGraph createVelocityGraph( PhetPCanvas phetPCanvas, final MotionModel motionModel, CursorModel cursorModel, final UpdateStrategy updateStrategy ) {
-        final MotionControlGraph controlGraph = new MotionControlGraph( phetPCanvas, motionModel.getVVariable(), "v", "Velocity", -2, 2,
-                                                                        Color.red, new PImage( GraphSuiteSet.loadRedArrow() ), motionModel, true, cursorModel );
-        controlGraph.addListener( new ControlGraph.Adapter() {
-            //This method is called when the user makes an input event that indicates
-            //that this component should be "in control" of the simulation
-            public void controlFocusGrabbed() {
-                motionModel.setUpdateStrategy( updateStrategy );
-            }
-        } );
-        motionModel.addListener( new MotionModel.Listener() {
-            public void steppedInTime() {
-                controlGraph.addValue( motionModel.getTime(), motionModel.getVVariable().getValue() );
-            }
-        } );
-        return new MinimizableControlGraph( "V", controlGraph );
-    }
 }
