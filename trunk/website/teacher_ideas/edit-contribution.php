@@ -129,8 +129,10 @@ EOT;
     
         $contribution = gather_script_params_into_array('contribution_');   
     
-        if (contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {    
-            update_contribution($contribution);
+        if (contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {   
+            if (count($contribution) > 7) { 
+                update_contribution($contribution);
+            }
         
             print_site_page('print_content', 3);
         }
