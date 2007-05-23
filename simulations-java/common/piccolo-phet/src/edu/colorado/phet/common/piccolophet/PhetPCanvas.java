@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14676 $
+ * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.piccolophet;
 
@@ -65,7 +65,10 @@ public class PhetPCanvas extends PSwingCanvas {
                 requestFocus();
             }
         } );
-
+        /*By default, a PhETPCanvas is opaque, that is, no components should be visible underneath this panel.
+        This allows for usage of performance improving facilities, such as immediate painting.
+         */
+        setOpaque( true );
         setBorder( BorderFactory.createLineBorder( Color.black ) );
         requestFocus();
     }

@@ -417,6 +417,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                     }
                     dynamicJFreeChartNode.localToGlobal( bounds );
                     dynamicJFreeChartNode.phetPCanvas.getPhetRootNode().globalToScreen( bounds );
+//                    System.out.println( "bounds = " + bounds );
                     repaintPanel( bounds );
                 }
             }
@@ -491,6 +492,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
 
         protected void repaintPanel( Rectangle2D bounds ) {
+            /*Paint immediately requires a parent component to be opaque.  Perhaps this code should be replaced with a subclass of RepaintManager?*/
             dynamicJFreeChartNode.phetPCanvas.paintImmediately( new Rectangle( (int)bounds.getX(), (int)bounds.getY(), (int)( bounds.getWidth() + 1 ), (int)( bounds.getHeight() + 1 ) ) );
             dynamicJFreeChartNode.debugBufferRegion.setPathTo( bounds );
         }
