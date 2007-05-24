@@ -131,6 +131,7 @@ public class Force1DApplication extends Module {
     public static void main( String[] args ) throws IOException {
         //        Locale.setDefault( Locale.ITALIAN );//for testing
         SimStrings.getInstance().init( args, LOCALIZATION_BUNDLE_BASENAME );
+        SimStrings.getInstance().addStrings("forces-1d/localization/phetcommon-strings" );
         PhetLookAndFeel.setLookAndFeel();
         PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
         lookAndFeel.apply();
