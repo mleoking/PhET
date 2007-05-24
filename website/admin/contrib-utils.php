@@ -237,7 +237,7 @@ EOT;
         //$simulations_html = contribution_get_simulations_listing_html($contribution_id);
             
         
-        $all_contribution_types = contribution_get_all_template_contribution_type_names();
+        $all_contribution_types = contribution_get_all_template_type_names();
         $contribution_types     = contribution_get_type_names_for_contribution($contribution_id);
         
 
@@ -565,6 +565,8 @@ EOT;
     }
 
     function contribution_print_summary3($contribution, $print_sims = true) {
+        global $referrer;
+        
         eval(get_code_to_create_variables_from_array($contribution));
             
         $contribution_files = contribution_get_contribution_files($contribution_id);
@@ -608,7 +610,7 @@ EOT;
         print <<<EOT
             <tr>
                 <td>
-                    $contribution_title
+                    <a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
                 </td>
             
                 <td>
@@ -688,7 +690,7 @@ EOT;
         $contribution_file_rows = run_sql_statement("SELECT * FROM `contribution_file` WHERE `contribution_id`='$contribution_id' ");
         
         while ($contribution = mysql_fetch_assoc($contribution_file_rows)) {
-            $contribution_files[] = format_array_values_for_html($contribution);
+            $contribution_files[] = format_for_html($contribution);
         }
         
         return $contribution_files;
@@ -877,6 +879,22 @@ EOT;
         return $simulation_contribution_id;
     }
 
+    function contribution_get_all_level_names() {
+        $levels = array();
+        
+        $contribution_level_rows = run_sql_statement("SELECT * FROM `contribution_level` ORDER BY `contribution_level_desc` ASC ");
+        
+        while ($contribution_level = mysql_fetch_assoc($contribution_level_rows)) {
+            $id = $contribution_level['contribution_level_id'];
+            
+            $name = create_multiselect_control_name('contribution_level', $id);
+            
+            $levels[$name] = format_for_html($contribution_level['contribution_level_desc']);
+        }
+        
+        return array_unique($levels);
+    }
+
     function contribution_get_all_template_levels() {
         $levels = array();
         
@@ -890,7 +908,7 @@ EOT;
             $levels[$name] = $contribution_level;
         }
         
-        return $levels;
+        return array_unique($levels);
     }
     
     function contribution_get_all_template_level_names() {
@@ -902,7 +920,7 @@ EOT;
             $level_names[$key] = $level['contribution_level_desc'];
         }
         
-        return $level_names;
+        return array_unique($level_names);
     }
     
     function contribution_get_levels_for_contribution($contribution_id) {
@@ -932,6 +950,22 @@ EOT;
         
         return $level_names;
     }
+
+    function contribution_get_all_subject_names() {
+        $subjects = array();
+        
+        $contribution_subject_rows = run_sql_statement("SELECT * FROM `contribution_subject` ORDER BY `contribution_subject_desc` ASC ");
+        
+        while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
+            $id = $contribution_subject['contribution_subject_id'];
+            
+            $name = create_multiselect_control_name('contribution_subject', $id);
+            
+            $subjects[$name] = format_for_html($contribution_subject['contribution_subject_desc']);
+        }
+        
+        return array_unique($subjects);
+    }
     
     function contribution_get_all_template_subjects() {
         $subjects = array();
@@ -943,10 +977,10 @@ EOT;
             
             $name = create_multiselect_control_name('contribution_subject', $id);
             
-            $subjects[$name] = format_array_values_for_html($contribution_subject);
+            $subjects[$name] = format_for_html($contribution_subject);
         }
         
-        return $subjects;
+        return array_unique($subjects);
     }
     
     function contribution_get_all_template_subject_names() {
@@ -962,7 +996,7 @@ EOT;
             $subjects[$name] = $contribution_subject['contribution_subject_desc'];
         }
         
-        return $subjects;
+        return array_unique($subjects);
     }
     
     function contribution_get_subject_names_for_contribution($contribution_id) {
@@ -991,13 +1025,30 @@ EOT;
             
             $name = create_multiselect_control_name('contribution_subject', $id);
             
-            $subjects[$name] = format_array_values_for_html($contribution_subject);
+            $subjects[$name] = format_for_html($contribution_subject);
         }
         
         return $subjects;
     }    
+
+    function contribution_get_all_type_names() {
+        $types = array();
+        
+        $contribution_type_rows = run_sql_statement("SELECT * FROM `contribution_type` ORDER BY `contribution_type_desc` ASC ");
+        
+        while ($contribution_type = mysql_fetch_assoc($contribution_type_rows)) {
+            $id   = $contribution_type['contribution_type_id'];
+            $type = $contribution_type['contribution_type_desc'];
+        
+            $name = create_multiselect_control_name('contribution_type', $id);
+        
+            $types[$name] = "$type";
+        }
+        
+        return array_unique($types);
+    }
     
-    function contribution_get_all_template_contribution_type_names() {
+    function contribution_get_all_template_type_names() {
         $types = array();
         
         $contribution_type_rows = run_sql_statement("SELECT * FROM `contribution_type` WHERE `contribution_type_is_template` = '1' ORDER BY `contribution_type_desc` ASC ");
@@ -1011,7 +1062,7 @@ EOT;
             $types[$name] = "$type";
         }
         
-        return $types;
+        return array_unique($types);
     }
 
     function contribution_get_types_for_contribution($contribution_id) {
@@ -1071,7 +1122,7 @@ EOT;
         while ($simulation_contribution = mysql_fetch_assoc($simulation_contribution_rows)) {
             $id = $simulation_contribution['sim_id'];
             
-            $simulation_contributions["sim_id_$id"] = format_array_values_for_html($simulation_contribution);
+            $simulation_contributions["sim_id_$id"] = format_for_html($simulation_contribution);
         }
         
         return $simulation_contributions;
@@ -1165,7 +1216,7 @@ EOT;
         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
             $contribution_id = $contribution['contribution_id'];
             
-            $contributions["$contribution_id"] = format_array_values_for_html($contribution);
+            $contributions["$contribution_id"] = format_for_html($contribution);
         }
         
         return $contributions;
@@ -1177,7 +1228,7 @@ EOT;
         $contribution_rows = run_sql_statement("SELECT * FROM `contribution` , `simulation_contribution` WHERE `contribution` . `contribution_id` = `simulation_contribution` . `contribution_id` AND `simulation_contribution` . `sim_id` = '$sim_id' ORDER BY `contribution_title` ASC");
         
         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
-            $contributions[] = format_array_values_for_html($contribution);
+            $contributions[] = format_for_html($contribution);
         }
         
         return $contributions;
@@ -1198,7 +1249,7 @@ EOT;
     function contribution_get_contribution_by_id($contribution_id) {
         $contribution_rows = run_sql_statement("SELECT * FROM `contribution` WHERE `contribution_id`='$contribution_id' ");
         
-        return format_array_values_for_html(mysql_fetch_assoc($contribution_rows));
+        return format_for_html(mysql_fetch_assoc($contribution_rows));
     }
     
     function contributor_get_all_contributors() {
@@ -1208,7 +1259,7 @@ EOT;
         run_sql_statement("SELECT * from `contributor` ORDER BY `contributor_name` ASC ");
         
         while ($contributor = mysql_fetch_assoc($contributor_rows)) {
-            $contributors[] = format_array_values_for_html($contributor);
+            $contributors[] = format_for_html($contributor);
         }
         
         return $contributors;
@@ -1256,7 +1307,7 @@ EOT;
         $contributor_rows = run_sql_statement("SELECT * from `contributor` WHERE `contributor_is_team_member`='1' ORDER BY `contributor_name` ASC ");
         
         while ($contributor = mysql_fetch_assoc($contributor_rows)) {
-            $admins[] = format_array_values_for_html($contributor);
+            $admins[] = format_for_html($contributor);
         }
         
         return $admins;
@@ -1343,7 +1394,7 @@ EOT;
     function contributor_get_contributor_by_id($contributor_id) {
         $result = run_sql_statement("SELECT * FROM `contributor` WHERE `contributor_id`='$contributor_id' ");
         
-        return format_array_values_for_html(mysql_fetch_assoc($result));
+        return format_for_html(mysql_fetch_assoc($result));
     }
     
     function contributor_print_full_edit_form($contributor_id, $script, $optional_message = null, 

@@ -5,6 +5,7 @@
     include_once("db-utils.php");    
     include_once("sys-utils.php");
     
+    // Don't want browsers caching the javascript code:
     expire_page_immediately();
     
     function print_header_navigation_element($prefix, $selected_page, $link, $desc, $access_key) {

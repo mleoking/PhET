@@ -102,6 +102,12 @@
         return mysql_insert_id();
     }
     
+    function simplify_sql_timestamp($timestamp) {
+        $time = strtotime($timestamp);
+    
+        return date('n/y', $time);
+    }
+    
     function update_table($table_name, $update_array, $id_field_name = null, $id_field_value = null) {
         if (count($update_array) == 0 || count($update_array) == 1 && isset($update_array["$id_field_name"])) {
             return true;
