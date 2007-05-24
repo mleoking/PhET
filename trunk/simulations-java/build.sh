@@ -1,37 +1,47 @@
-#!/bin/bash
-
-OLD_DIR=`pwd`
+#!/bin/sh
+#----------------------------------------------------------------------------------------------
+#
+# build.sh -
+#
+# A shell script for building PhET simulations.
+# See build.xml for a complete list of build targets and properties.
+#
+# Usage:
+#
+#    build : builds the default ant target
+#    build target : builds the specified ant target
+#    build target sim.name : builds the specified ant target with sim.name properties set
+#       
+#----------------------------------------------------------------------------------------------
 
 ROOT_DIR=`dirname $0`
+export ANT_HOME=${ROOT_DIR}/build-tools/apache-ant-1.7.0
+export ANT_OPTS=-Xmx640m
+PATH=${ANT_HOME}/bin:${PATH}
 
-ANT_HOME=$ROOT_DIR/build-tools/apache-ant-1.7.0
-ANT_OPTS=-Xmx640m
+cd ${ROOT_DIR}
 
-PATH=$ANT_HOME/bin:$PATH
-
-export ANT_HOME PATH ANT_OPTS
-
-cd $ROOT_DIR
-
-if [ `uname` = "Darwin" ]; then
-	JAVA_HOME=/Library/Java/Home
-	export JAVA_HOME
-	
-	echo "Mac detected; assuming Java home is $JAVA_HOME"
-fi
-
-if [ "$JAVA_HOME" = "" ]; then
-    echo "The environment variable JAVA_HOME must be set to the location of a valid JDK."
-else
-    if [ $# = 1 ]; then
-        ant $1
+# If this is a Macintosh, set JAVA_HOME automatically
+if [ "${JAVA_HOME}" = "" ]; then
+    if [ `uname` = "Darwin" ]; then
+        export JAVA_HOME=/Library/Java/Home
+        echo "Mac detected; assuming Java home is $JAVA_HOME"
     else
-        if [ $# = 2 ]; then
-            ant $1 -Dsim.name=$2
-        else
-            echo "Unknown command line arguments."
-        fi
-    fi
+        echo "The environment variable JAVA_HOME must be set to the location of a valid JDK."
+        exit 1
+    fi      
 fi
 
-cd $OLD_DIR
+# Invoke ant
+if [ $# = 0 ]; then
+    ant
+elif [ $# = 1 ]; then
+    ant $1
+elif [ $# = 2 ]; then
+    ant $1 -Dsim.name=$2
+else
+    echo "Unknown command line arguments."
+    exit 1
+fi
+
+#----------------------------------------------------------------------------------------------
