@@ -45,8 +45,8 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
         //----------------------------------------------------------------------
         // "Help" menu item
-        onscreenHelp = new JCheckBoxMenuItem( SimStrings.get( "Common.HelpMenu.Help" ) );
-        onscreenHelp.setMnemonic( SimStrings.get( "Common.HelpMenu.HelpMnemonic" ).charAt( 0 ) );
+        onscreenHelp = new JCheckBoxMenuItem( SimStrings.get( "Common.HelpMenu.Title" ) );
+        onscreenHelp.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         onscreenHelp.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 moduleManager.getActiveModule().setHelpEnabled( onscreenHelp.isSelected() );
@@ -57,32 +57,32 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         
         //----------------------------------------------------------------------
         // "MegaHelp" menu item
-        final JMenuItem megaHelpItem = new JMenuItem( SimStrings.get( "Common.HelpMenu.MegaHelp" ) );
-        megaHelpItem.setMnemonic( SimStrings.get( "Common.HelpMenu.MegaHelpMnemonic" ).charAt( 0 ) );
-        megaHelpItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( moduleManager.getActiveModule().hasMegaHelp() ) {
-                    moduleManager.getActiveModule().showMegaHelp();
-                }
-                else {
-                    JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(),
-                                                   "No MegaHelp available for this module." );
-                }
-            }
-        } );
-        moduleManager.addModuleObserver( new ModuleObserver() {
-            public void moduleAdded( ModuleEvent event ) {
-            }
-
-            public void activeModuleChanged( ModuleEvent event ) {
-                megaHelpItem.setEnabled( event.getModule().hasMegaHelp() );
-            }
-
-            public void moduleRemoved( ModuleEvent event ) {
-            }
-        } );
-        megaHelpItem.setEnabled( moduleManager.getActiveModule() != null && moduleManager.getActiveModule().hasMegaHelp() );
-        add( megaHelpItem );
+//        final JMenuItem megaHelpItem = new JMenuItem( SimStrings.get( "Common.HelpMenu.MegaHelp" ) );
+//        megaHelpItem.setMnemonic( SimStrings.get( "Common.HelpMenu.MegaHelpMnemonic" ).charAt( 0 ) );
+//        megaHelpItem.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                if( moduleManager.getActiveModule().hasMegaHelp() ) {
+//                    moduleManager.getActiveModule().showMegaHelp();
+//                }
+//                else {
+//                    JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(),
+//                                                   "No MegaHelp available for this module." );
+//                }
+//            }
+//        } );
+//        moduleManager.addModuleObserver( new ModuleObserver() {
+//            public void moduleAdded( ModuleEvent event ) {
+//            }
+//
+//            public void activeModuleChanged( ModuleEvent event ) {
+//                megaHelpItem.setEnabled( event.getModule().hasMegaHelp() );
+//            }
+//
+//            public void moduleRemoved( ModuleEvent event ) {
+//            }
+//        } );
+//        megaHelpItem.setEnabled( moduleManager.getActiveModule() != null && moduleManager.getActiveModule().hasMegaHelp() );
+//        add( megaHelpItem );
 
         //----------------------------------------------------------------------
         // Separator
