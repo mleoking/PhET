@@ -54,7 +54,7 @@ public class ControlPanel extends JPanel {
     public ControlPanel( Module module ) {
         setLayout( new ControlPanel.Layout() );
         // The panel with the logo
-        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
+        URL resource = getClass().getClassLoader().getResource( "sound/images/Phet-Flatirons-logo-3-small.gif" );
         imageIcon = new ImageIcon( resource );
         titleLabel = ( new JLabel( imageIcon ) );
         northPanel = new JPanel();

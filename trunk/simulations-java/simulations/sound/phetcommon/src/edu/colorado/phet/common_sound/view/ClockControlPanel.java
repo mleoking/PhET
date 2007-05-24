@@ -44,7 +44,7 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         }
         ImageLoader cil = new ImageLoader();
 
-        String root = "images/icons/java/media/";
+        String root = "sound/images/icons/java/media/";
         BufferedImage playU = cil.loadImage( root + "Play24.gif" );
         BufferedImage pauseU = cil.loadImage( root + "Pause24.gif" );
         BufferedImage stepU = cil.loadImage( root + "StepForward24.gif" );

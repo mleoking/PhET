@@ -35,7 +35,7 @@ public class ContentPanel extends JPanel {
 
     static {
         try {
-            phetLogo = new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" );
+            phetLogo = new ImageLoader().loadImage( "sound/images/Phet-logo-48x48.gif" );
         }
         catch( IOException e ) {
             e.printStackTrace();

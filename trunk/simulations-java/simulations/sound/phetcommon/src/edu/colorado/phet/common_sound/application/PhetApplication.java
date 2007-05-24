@@ -346,7 +346,7 @@ public class PhetApplication {
             progressBar.setIndeterminate( true );
             BufferedImage image = null;
             try {
-                image = ImageLoader.loadBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" );
+                image = ImageLoader.loadBufferedImage( "sound/images//Phet-Flatirons-logo-3-small.gif" );
             }
             catch( IOException e ) {
                 e.printStackTrace();

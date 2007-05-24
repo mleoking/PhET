@@ -37,6 +37,7 @@ public class RadioWavesApplication {
 
         // Initialize simulation strings using resource bundle for the locale.
         SimStrings.setStrings( EmfConfig.localizedStringsPath );//todo: add String[] args to this
+        SimStrings.getInstance().addStrings( "emf-localization/phetcommon-strings");//todo: add String[] args to this
 
         // Log a few message at different severity levels
         PhetLookAndFeel lookAndFeel = new edu.colorado.phet.coreadditions.emf.ClientPhetLookAndFeel();
