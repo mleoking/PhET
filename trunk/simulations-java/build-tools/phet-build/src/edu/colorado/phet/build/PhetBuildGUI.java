@@ -26,7 +26,6 @@ import java.util.StringTokenizer;
 public class PhetBuildGUI extends AbstractPhetTask {
     private JFrame frame;
     private final Object blocker = new Object();
-    private JList flavorList;
     private JList localeList;
     private JList simList;
 
@@ -57,10 +56,9 @@ public class PhetBuildGUI extends AbstractPhetTask {
             }
         } );
 
-        String[] objects = toArray( getProperty( new PhetListSimTask() ) );
+        Simulation[] sims = listSimulations();
 
-        simList = new JList( objects );
-//        simList.setPreferredSize( new Dimension( simList.getPreferredSize().width, 400 ) );
+        simList = new JList( sims );
         simList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         simList.addListSelectionListener( new ListSelectionListener() {
             public void valueChanged( ListSelectionEvent e ) {
@@ -69,13 +67,18 @@ public class PhetBuildGUI extends AbstractPhetTask {
         } );
         JPanel contentPane = new JPanel();
 
-        flavorList = new JList( new Object[]{} );
+//        flavorList = new JList( new Object[]{} );
         localeList = new JList( new Object[]{} );
         contentPane.setLayout( new GridBagLayout() );
-        GridBagConstraints gridBagConstraints = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets( 2, 2, 2, 2 ), 0, 0 );
-        contentPane.add( new JScrollPane( simList ), gridBagConstraints );
-        contentPane.add( new JScrollPane( flavorList ), gridBagConstraints );
-        contentPane.add( new JScrollPane( localeList ), gridBagConstraints );
+        GridBagConstraints gridBagConstraints = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.VERTICAL, new Insets( 2, 2, 2, 2 ), 0, 0 );
+        JScrollPane simListPane = new JScrollPane( simList );
+        simListPane.setBorder( BorderFactory.createTitledBorder( "Simulation" ) );
+        contentPane.add( simListPane, gridBagConstraints );
+//        contentPane.add( new JScrollPane( flavorList ), gridBagConstraints );
+        JScrollPane localeScrollPane = new JScrollPane( localeList );
+        localeScrollPane.setBorder( BorderFactory.createTitledBorder( "Country Code") );
+        gridBagConstraints.fill=GridBagConstraints.NONE;
+        contentPane.add( localeScrollPane, gridBagConstraints );
 
         JPanel commandPanel = new JPanel();
         JButton refresh = new JButton( "Refresh" );
@@ -106,10 +109,47 @@ public class PhetBuildGUI extends AbstractPhetTask {
 
         contentPane.add( commandPanel );
 
-        frame.setContentPane( contentPane );
+
         frame.setSize( 800, 600 );
-        frame.pack();
-        frame.setSize( frame.getWidth() + 100, frame.getHeight() + 100 );
+        frame.setContentPane( contentPane );
+//        frame.pack();
+//        frame.setSize( frame.getWidth() + 100, frame.getHeight() + 100 );
+    }
+
+    private Simulation[] listSimulations() {
+        String[] simNames = toArray( getProperty( new PhetListSimTask() ) );
+        ArrayList simulations = new ArrayList();
+        for( int i = 0; i < simNames.length; i++ ) {
+            String simName = simNames[i];
+            String[] flavors = getFlavors( simName );
+            for( int j = 0; j < flavors.length; j++ ) {
+                String flavor = flavors[j];
+                simulations.add( new Simulation( simName, flavor ) );
+            }
+        }
+        return (Simulation[])simulations.toArray( new Simulation[0] );
+    }
+
+    private static class Simulation {
+        private String simName;
+        private String flavorName;
+
+        public Simulation( String simName, String flavorName ) {
+            this.flavorName = flavorName;
+            this.simName = simName;
+        }
+
+        public String getSimName() {
+            return simName;
+        }
+
+        public String getFlavorName() {
+            return flavorName;
+        }
+
+        public String toString() {
+            return flavorName;//+" flavor!";
+        }
     }
 
     private void showLocalizationFile() {
@@ -142,7 +182,7 @@ public class PhetBuildGUI extends AbstractPhetTask {
 
     private void run() {
         final JDialog dialog = new JDialog( frame, "Building Sim" );
-        JLabel pane = new JLabel( "Building " + simList.getSelectedValue() + ". Please wait..." );
+        JLabel pane = new JLabel( "Building " + getSelectedSimulation() + ". Please wait..." );
         pane.setOpaque( true );
         dialog.setContentPane( pane );
         dialog.pack();
@@ -157,8 +197,8 @@ public class PhetBuildGUI extends AbstractPhetTask {
     }
 
     private void doRun( final JDialog dialog ) {
-        String sim = (String)simList.getSelectedValue();
-        String flavor = (String)flavorList.getSelectedValue();
+        String sim = getSelectedSimulation().getSimName();
+//        String flavor = (String)flavorList.getSelectedValue();
         String locale = getSelectedLocale();
         System.out.println( "Building sim: " + sim );
         PhetBuildTask phetBuildTask = new PhetBuildTask();
@@ -169,7 +209,7 @@ public class PhetBuildGUI extends AbstractPhetTask {
 
         PhetProject phetProject = getSelectedProject();
         if( phetProject != null ) {
-            java.setClassname( phetProject.getFlavor( flavor, locale ).getMainclass() );
+            java.setClassname( phetProject.getFlavor( getSelectedSimulation().getFlavorName(), locale ).getMainclass() );
             java.setFork( true );
             Path classpath = new Path( getProject() );
             FileSet set = new FileSet();
@@ -188,12 +228,16 @@ public class PhetBuildGUI extends AbstractPhetTask {
         }
     }
 
+    private Simulation getSelectedSimulation() {
+        return (Simulation)simList.getSelectedValue();
+    }
+
     private String getSelectedLocale() {
         return (String)localeList.getSelectedValue();
     }
 
     private PhetProject getSelectedProject() {
-        String sim = (String)simList.getSelectedValue();
+        String sim = getSelectedSimulation().getSimName();
         File projectParentDir = PhetBuildUtils.resolveProject( getProject().getBaseDir(), sim );
         try {
             return new PhetProject( projectParentDir, sim );
@@ -220,18 +264,18 @@ public class PhetBuildGUI extends AbstractPhetTask {
         return getProject().getProperty( "phet.sim.list" );
     }
 
-    private String getSelectedSim() {
-        return (String)simList.getSelectedValue();
+    public java.lang.String[] getFlavors( String sim ) {
+        PhetListFlavorsTask flavorsTask = new PhetListFlavorsTask();
+        flavorsTask.setProject( sim );
+        return toArray( getProperty( flavorsTask ) );
     }
 
     private void updateLists() {
-        PhetListFlavorsTask flavorsTask = new PhetListFlavorsTask();
-        flavorsTask.setProject( getSelectedSim() );
-        flavorList.setListData( toArray( getProperty( flavorsTask ) ) );
-        flavorList.setSelectedIndex( 0 );
+//        flavorList.setListData( getFlavors( getSelectedSim() ) );
+//        flavorList.setSelectedIndex( 0 );
 
         PhetListLocalesTask localesTask = new PhetListLocalesTask();
-        localesTask.setProject( getSelectedSim() );
+        localesTask.setProject( getSelectedSimulation().getSimName() );
         localeList.setListData( setDefaultValueEnglish( toArray( getProperty( localesTask ) ) ) );
         localeList.setSelectedIndex( 0 );
     }
