@@ -43,18 +43,23 @@
         return true;
     }
     
-    function format_for_html($string) {
+    function format_string_for_html($string) {
         return preg_replace('/&(?!amp;)/', '&amp;', $string);
     }
     
-    function format_array_values_for_html($array) {
-        $clean = array();
+    function format_for_html($array) {
+        if (is_array($array)) {
+            $clean = array();
         
-        foreach($array as $key => $value) {
-            $clean["$key"] = format_for_html("$value");
+            foreach($array as $key => $value) {
+                $clean["$key"] = format_for_html("$value");
+            }
+        
+            return $clean;
         }
-        
-        return $clean;
+        else {
+            return format_string_for_html($array);
+        }
     }
     
     function parse_name($name) {
