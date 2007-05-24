@@ -60,6 +60,7 @@ public class GreenhouseApplication extends PhetApplication {
 
     public static void main( String[] args ) {
         SimStrings.getInstance().init( args, localizedStringsPath );
+        SimStrings.getInstance().addStrings("greenhouse/localization/phetcommon-strings" );
 
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
