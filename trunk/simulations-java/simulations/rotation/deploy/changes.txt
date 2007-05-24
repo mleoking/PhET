@@ -1,4 +1,4 @@
-0.00.11
+0.00.11 (5-23-2007)
 Added a graph cursor to show during playback.
 Fixed: Graph cursor should appear at the correct time when simulation is paused.
 Fixed: Graph cursor should set playback time during dragging.
