@@ -67,6 +67,7 @@ public class SoundApplication extends PhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 SimStrings.getInstance().addStrings(SoundConfig.localizedStringsPath );
+                SimStrings.getInstance().addStrings("sound/localization/phetcommon-strings");
 
                 PhetApplication app = new SoundApplication( args );
                 app.getPhetFrame().setResizable( false );
