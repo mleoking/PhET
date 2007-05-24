@@ -69,7 +69,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
     static {
         try {
-            baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-lrg.gif" );
+            baseSphereImg = ImageLoader.loadBufferedImage( "lasers/images/particle-red-lrg.gif" );
         }
         catch( IOException e ) {
             e.printStackTrace();
