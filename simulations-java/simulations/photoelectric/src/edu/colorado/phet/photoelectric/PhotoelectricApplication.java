@@ -48,8 +48,8 @@ public class PhotoelectricApplication extends PhetApplication {
 
     public PhotoelectricApplication( String[] args ) {
         super( args,
-               SimStrings.getInstance().getString( "PhotoelectricApplication.title" ),
-               SimStrings.getInstance().getString( "PhotoelectricApplication.description" ),
+               SimStrings.getInstance().getString( "photoelectric.name" ),
+               SimStrings.getInstance().getString( "photoelectric.description" ),
                PhotoelectricConfig.VERSION,
                FRAME_SETUP );
 
