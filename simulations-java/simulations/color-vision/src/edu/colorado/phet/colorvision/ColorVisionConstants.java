@@ -30,6 +30,7 @@ public class ColorVisionConstants {
     // Properties files
     public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
     public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
+    public static final String COMMON_STRINGS_NAME = PROJECT + "/localization/phetcommon-strings";
 
     // Clock constants
     public static final double TIME_STEP = 1;

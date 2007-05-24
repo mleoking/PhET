@@ -19,7 +19,8 @@ LOW:
 
 
 DONE:
-
+5/24/07 - add phetcommon strings to SimStrings
+5/?/07 - Sam Reid removed copy of SimStrings and used SimStrings from phetcommon trunk
 5/14/07 - fix name and description properties to conform to build standards
 4/13/07 - change phetcommon snapshot to get strings and images from phetcommon/data/color-vision
 4/13/07 - rename common localizations files to have basename phetcommon-strings
