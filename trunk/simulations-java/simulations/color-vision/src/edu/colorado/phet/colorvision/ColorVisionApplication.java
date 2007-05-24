@@ -56,6 +56,7 @@ public class ColorVisionApplication extends PhetApplication {
 
         // Initialize localization.
         SimStrings.getInstance().init( args, ColorVisionConstants.SIM_STRINGS_NAME );
+        SimStrings.getInstance().addStrings( "color-vision/localization/phetcommon-strings" );
 
         // Load simulation properties file
         Properties simulationProperties = PropertiesLoader.loadProperties( ColorVisionConstants.SIM_PROPERTIES_NAME );
