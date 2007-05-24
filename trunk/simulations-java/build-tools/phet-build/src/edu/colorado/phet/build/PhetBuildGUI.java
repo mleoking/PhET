@@ -28,6 +28,7 @@ public class PhetBuildGUI extends AbstractPhetTask {
     private final Object blocker = new Object();
     private JList localeList;
     private JList simList;
+    private JButton runButton;
 
     // The method executing the task
     public final void execute() throws BuildException {
@@ -75,9 +76,11 @@ public class PhetBuildGUI extends AbstractPhetTask {
         simListPane.setBorder( BorderFactory.createTitledBorder( "Simulation" ) );
         contentPane.add( simListPane, gridBagConstraints );
 //        contentPane.add( new JScrollPane( flavorList ), gridBagConstraints );
+
         JScrollPane localeScrollPane = new JScrollPane( localeList );
+        localeScrollPane.setPreferredSize( new Dimension( 100,50) );
         localeScrollPane.setBorder( BorderFactory.createTitledBorder( "Country Code") );
-        gridBagConstraints.fill=GridBagConstraints.NONE;
+//        gridBagConstraints.fill=GridBagConstraints.NONE;
         contentPane.add( localeScrollPane, gridBagConstraints );
 
         JPanel commandPanel = new JPanel();
@@ -87,12 +90,13 @@ public class PhetBuildGUI extends AbstractPhetTask {
                 refresh();
             }
         } );
-        JButton run = new JButton( "Run" );
-        run.addActionListener( new ActionListener() {
+        runButton = new JButton( "Build & Run" );
+        runButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 run();
             }
         } );
+        updateRunButtonEnabled();
         JButton showLocalizationFile = new JButton( "Show Localization File" );
         showLocalizationFile.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -103,14 +107,15 @@ public class PhetBuildGUI extends AbstractPhetTask {
         GridBagConstraints commandConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         commandPanel.setLayout( new GridBagLayout() );
 //        commandPanel.add( refresh, commandConstraints );
-        commandPanel.add( showLocalizationFile, commandConstraints );
-        commandPanel.add( run, commandConstraints );
+//        commandPanel.add( showLocalizationFile, commandConstraints );
+        
+        commandPanel.add( runButton, commandConstraints );
         commandPanel.add( Box.createVerticalBox() );
 
         contentPane.add( commandPanel );
 
 
-        frame.setSize( 800, 600 );
+        frame.setSize( 500, 300);
         frame.setContentPane( contentPane );
 //        frame.pack();
 //        frame.setSize( frame.getWidth() + 100, frame.getHeight() + 100 );
@@ -278,6 +283,11 @@ public class PhetBuildGUI extends AbstractPhetTask {
         localesTask.setProject( getSelectedSimulation().getSimName() );
         localeList.setListData( setDefaultValueEnglish( toArray( getProperty( localesTask ) ) ) );
         localeList.setSelectedIndex( 0 );
+        updateRunButtonEnabled();
+    }
+
+    private void updateRunButtonEnabled() {
+        runButton.setEnabled( getSelectedSimulation()!=null );
     }
 
     private String[] setDefaultValueEnglish( String[] strings ) {
@@ -288,6 +298,8 @@ public class PhetBuildGUI extends AbstractPhetTask {
     }
 
     private void start() {
+        frame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width/2-frame.getWidth()/2,
+                           Toolkit.getDefaultToolkit().getScreenSize().height/2-frame.getHeight()/2);
         frame.setVisible( true );
     }
 }
