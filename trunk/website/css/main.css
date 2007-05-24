@@ -143,6 +143,43 @@ table td.smartClient,table th.smartClient {
     font-weight:bold;
 }
 
+#browsefilter {
+	width: 100%;
+	margin: auto;
+    padding:	0px 0px 25px 0px;	
+	border: 0 0 0 0;
+}
+#browsefilter table, thead, tbody {
+	border-style: none;
+}
+#browsefilter td, tr {
+	border-style: none;
+	margin: 0 0 0 0;
+	border: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+#browsefilter .Simulations {
+	width: 50%;
+}
+#browsefilter .Types {
+	width: 20%;
+}
+#browsefilter .Levels {
+	width: 30%;
+}
+#Simulations_uid, #Types_uid, #Levels_uid {
+	width: 100%;
+}
+#browsefilter input {
+	float: right;
+}
+
+div .separator {
+	width: 100%;
+	clear: right;
+	height: 5px;
+}
+
 /******** Contribution edit form *********/
 #contributioneditform {
     width:		100%;

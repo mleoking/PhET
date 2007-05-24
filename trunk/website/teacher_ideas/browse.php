@@ -194,7 +194,7 @@ EOT;
         $level_list = build_level_list($Levels);
                 
         print <<<EOT
-            <form id="simbrowseform" method="post" action="browse.php">
+            <form id="browsefilter" id="simbrowseform" method="post" action="browse.php">
                 <input type="hidden" name="order"    value="$order"     />
                 <input type="hidden" name="sort_by"  value="$sort_by"   />
                 <input type="hidden" name="referrer" value="$referrer"  />
@@ -202,15 +202,15 @@ EOT;
                 <table>
                     <thead>
                         <tr>
-                            <td>
+                            <td class="Simulations">
                                 Simulations
                             </td>
                         
-                            <td>
+                            <td class="Types">
                                 Type
                             </td>
                         
-                            <td>
+                            <td class="Levels">
                                 Level
                             </td>
                         </tr>
@@ -218,15 +218,15 @@ EOT;
                 
                     <tbody>
                         <tr>
-                            <td>
+                            <td class="Simulations">
                                 $sim_list
                             </td>
                         
-                            <td>
+                            <td class="Types">
                                 $type_list                        
                             </td>
                         
-                            <td>
+                            <td class="Levels">
                                 $level_list                        
                             </td>
                         </tr>
@@ -234,10 +234,10 @@ EOT;
                 </table>
                 
                 <input type="submit" name="Filter" value="Filter" />
+                
+                <div class="separator">
+                </div>
             </form>
-            
-            <br/>
-            <br/>
         
             <table>
                 <thead>
