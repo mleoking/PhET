@@ -14,6 +14,7 @@ public class RotationPlayAreaNode extends PNode {
     private PlatformNode platformNode;
     private PNode rotationBodyLayer = new PNode();
     private RotationModel rotationModel;
+    private PNode vectorLayer = new PNode();
 
     public RotationPlayAreaNode( final RotationModel rotationModel ) {
         this.rotationModel = rotationModel;
@@ -21,11 +22,20 @@ public class RotationPlayAreaNode extends PNode {
 
         addChild( platformNode );
         addChild( rotationBodyLayer );
+        addChild( vectorLayer );
 
         for( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
-            RotationBody rotationBody = rotationModel.getRotationBody( i );
-            addRotationBodyNode( rotationBody );
+            addRotationBodyNode( rotationModel.getRotationBody( i ) );
         }
+        for( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
+            addVectorNode( rotationModel.getRotationBody( i ) );
+        }
+
+
+    }
+
+    private void addVectorNode( RotationBody rotationBody ) {
+        vectorLayer.addChild( new VectorNode(rotationModel,rotationBody));
     }
 
     public PlatformNode getPlatformNode() {
@@ -33,8 +43,7 @@ public class RotationPlayAreaNode extends PNode {
     }
 
     private void addRotationBodyNode( RotationBody rotationBody ) {
-        RotationBodyNode rotationBodyNode = new RotationBodyNode( (RotationBodyNode.RotationBodyEnvironment)rotationModel, rotationBody );
-        rotationBodyLayer.addChild( rotationBodyNode );
+        rotationBodyLayer.addChild( new RotationBodyNode( rotationModel, rotationBody ) );
     }
 
 }
