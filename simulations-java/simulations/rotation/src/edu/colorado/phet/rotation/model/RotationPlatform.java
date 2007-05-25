@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.motion.model.MotionBody;
 
 import java.awt.geom.Point2D;
