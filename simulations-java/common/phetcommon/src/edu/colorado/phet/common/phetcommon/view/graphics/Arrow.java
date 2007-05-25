@@ -47,6 +47,23 @@ public class Arrow {
     }
 
     /**
+     * Constructs an Arrow specified by a source Point2D and a direction and magnitude Vector2D.
+     *
+     * @param src
+     * @param vector
+     * @param headHeight
+     * @param headWidth
+     * @param tailWidth
+     * @param fractionalHeadHeight
+     * @param scaleTailToo
+     */
+    public Arrow( Point2D src, AbstractVector2D vector,
+                  double headHeight, double headWidth, double tailWidth,
+                  double fractionalHeadHeight, boolean scaleTailToo ) {
+        this( src, vector.getDestination( src ), headHeight, headWidth, tailWidth, fractionalHeadHeight, scaleTailToo );
+    }
+
+    /**
      * @param tailLocation
      * @param tipLocation
      * @param headHeight
