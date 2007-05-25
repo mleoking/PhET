@@ -6,8 +6,8 @@ import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Resistor;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.ResistorColors;
 import edu.colorado.phet.cck.piccolo_cck.ComponentImageNode;
-import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 
 import javax.swing.*;
