@@ -9,26 +9,18 @@ HIGH PRIORITY:
 - E-field feature
 
 MEDIUM PRIORITY:
-- why is fluid.getDragForce not used directly in Bead.move ?
 - position histogram should make an observation every N seconds, not every clock tick (?)
-- better algorithm for trap force y component Fy
-- add checkbox to Fluid Controls to turn off viscosity, off means turn miscroscope slide black to indicate vacuum (?)
-- clock speed: fast=[realtime* 10^-2, realtime], slow=[realtime*140*10^-16, realtime*7*10^-16], dead in between
-- get spec for "Simulation speed" control
-- get spec for "Show change in momentum model" feature
-- get spec for "Show charge on bead" feature
 - adjust clock time display and units as dt is changed
 
 LOW PRIORITY:
 - when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
 - dialogs don't repaint or close immediately when clock is running, thread priority?
+- why is fluid.getDragForce not used directly in Bead.move ?
 - improve positioning of value in Vector2DNode
 - try to make entire laser control panel draggable
 - use TrigCache to improve performance?
 - replace OTRuler alignment hack with permanent solution
 - add close button to ruler?
-- get requirements for "Fun With DNA" panel
-- get requirements for "Molecular Motors" panel
 - save/load
 - javadoc
 - package level javadoc
@@ -41,12 +33,14 @@ CLEANUP:
 - disable all debug output
 - optimize memory management by reusing mutable objects
 
-DEFER UNTIL AFTER INTERVIEWS:
-
-MODEL INFO NEEDED:
-- E-field
-- charge on the bead
-- stuff related to “Show change in momentum model” (shape of 2 rays of light, vectors, etc.)
+MISSING INFO:
+- better model for trap force y component Fy
+- spec for "bead in a vacuum" feature
+- spec for "Simulation speed" control
+- spec for "Show change in momentum model" feature
+- spec for "Show charge on bead" feature
+- spec for "Fun With DNA" panel
+- spec for "Molecular Motors" panel
 
  
 DONE:
