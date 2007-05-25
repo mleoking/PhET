@@ -35,7 +35,7 @@ public class RotationPlayAreaNode extends PNode {
     }
 
     private void addVectorNode( RotationBody rotationBody ) {
-        vectorLayer.addChild( new VectorNode(rotationModel,rotationBody));
+        vectorLayer.addChild( new BodyVectorLayer(rotationModel,rotationBody));
     }
 
     public PlatformNode getPlatformNode() {
