@@ -5,14 +5,29 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
-- E-field feature
+- implement Dubson's DNA strand model
+- get DNA force model from Kathy
 
 MEDIUM PRIORITY:
-- position histogram should make an observation every N seconds, not every clock tick (?)
+- get rid of "Advanced" panel, there's only 1 control left in it ?
+- when fluid viscosity=0, use Verlet motion model, disable fluid speed & temperature controls, make glass slide black
+- make minimum y=10 for position histogram (using an off-screen point?)
+- add light grey draggable frame around laster controls, or make entire panel draggable
+- combine all chart controls into "Graphs" panel with radio buttons "none", "Position histogram", "Potential energy"
+- replace "Fields and charges" control panel with "Laser display" and "Bead's charges" panels
+- add "Laser display" panel with radio buttons "beam", "electric field vectors", "beam with vectors",
+  "beam" is only option in fast mode
+- add "Bead's charges" panel with radio buttons "hidden", "charge distribution", "excess charge only"
+- change lens view, make it an on-edge view
+- make the lens supports look 3D, as if they are holding the lens
+- rail slider for lens ?
+- implement custom simulation speed control
+- vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
+- E-field feature
 - adjust clock time display and units as dt is changed
 
 LOW PRIORITY:
+- position histogram should make an observation every N seconds, not every clock tick (?)
 - when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
 - dialogs don't repaint or close immediately when clock is running, thread priority?
 - why is fluid.getDragForce not used directly in Bead.move ?
@@ -26,6 +41,7 @@ LOW PRIORITY:
 - package level javadoc
 - make laser danger sign look better
 - Spanish translations
+- remove code for "Show change in momentum model" if we don't implement it 
 
 CLEANUP:
 - setPickable(false) on non-interactive nodes
@@ -35,8 +51,6 @@ CLEANUP:
 
 MISSING INFO:
 - better model for trap force y component Fy
-- spec for "bead in a vacuum" feature
-- spec for "Simulation speed" control
 - spec for "Show change in momentum model" feature
 - spec for "Show charge on bead" feature
 - spec for "Fun With DNA" panel
@@ -44,6 +58,7 @@ MISSING INFO:
 
  
 DONE:
+5/26/07 - hide "Show change in momentum model" control for now
 5/18/07 - use Vector2DNode in FluidNode, scale arrow heads/tails
 5/18/07 - scale arrow heads/tails on vectors for trap/drag/Brownian forces
 ********* version 0.00.07 (15214)
