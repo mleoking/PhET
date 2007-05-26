@@ -2,6 +2,7 @@ package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -16,7 +17,7 @@ public class RotationPlayAreaNode extends PNode {
     private RotationModel rotationModel;
     private PNode vectorLayer = new PNode();
 
-    public RotationPlayAreaNode( final RotationModel rotationModel ) {
+    public RotationPlayAreaNode( final RotationModel rotationModel, VectorViewModel vectiorViewModel ) {
         this.rotationModel = rotationModel;
         platformNode = new PlatformNode( rotationModel, rotationModel.getRotationPlatform() );
 
@@ -28,14 +29,14 @@ public class RotationPlayAreaNode extends PNode {
             addRotationBodyNode( rotationModel.getRotationBody( i ) );
         }
         for( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
-            addVectorNode( rotationModel.getRotationBody( i ) );
+            addVectorNode( rotationModel.getRotationBody( i ),vectiorViewModel);
         }
 
 
     }
 
-    private void addVectorNode( RotationBody rotationBody ) {
-        vectorLayer.addChild( new BodyVectorLayer(rotationModel,rotationBody));
+    private void addVectorNode( RotationBody rotationBody, VectorViewModel vectorViewModel ) {
+        vectorLayer.addChild( new BodyVectorLayer(rotationModel,rotationBody,vectorViewModel));
     }
 
     public PlatformNode getPlatformNode() {

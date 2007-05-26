@@ -7,6 +7,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
@@ -24,7 +25,7 @@ public class BodyVectorLayer extends PNode {
     private double velScale = 1000;
 
     //todo: factor out required interface to rotationmodel
-    public BodyVectorLayer( final RotationModel rotationModel, final RotationBody rotationBody ) {
+    public BodyVectorLayer( final RotationModel rotationModel, final RotationBody rotationBody, final VectorViewModel vectorViewModel ) {
         this.rotationModel = rotationModel;
         this.rotationBody = rotationBody;
         accelArrow = new VectorNode( "a", Color.blue, new VectorFunction() {
@@ -46,13 +47,25 @@ public class BodyVectorLayer extends PNode {
                 update();
             }
         } );
+        vectorViewModel.addListener( new VectorViewModel.Listener() {
+            public void visibilityChanged() {
+                updateVisibility( vectorViewModel );
+            }
+        } );
         update();
+        updateVisibility( vectorViewModel );
+    }
+
+    private void updateVisibility( VectorViewModel vectorViewModel ) {
+        accelArrow.setVisible( vectorViewModel.isAccelerationVisible() );
+        velocityArrow.setVisible( vectorViewModel.isVelocityVisible() );
     }
 
     class VectorNode extends PNode {
         private PhetPPath arrowNode;
         private VectorFunction vectorFunction;
         private ShadowPText labelNode;
+        private double VISIBLE_THRESHOLD = 0.1;
 
         public VectorNode( String label, Color color, VectorFunction vectorFunction ) {
             this.vectorFunction = vectorFunction;
@@ -68,16 +81,12 @@ public class BodyVectorLayer extends PNode {
             arrowNode.setPathTo( new Arrow( rotationBody.getPosition(), vectorFunction.getVector(), 20, 20, 3, 0.75, true ).getShape() );
             labelNode.setOffset( increase( vectorFunction.getVector(), 20 ).getDestination( rotationBody.getPosition() ) );
             labelNode.translate( -labelNode.getFullBounds().getWidth() / 2, -labelNode.getFullBounds().getHeight() / 2 );
+            labelNode.setVisible( vectorFunction.getVector().getMagnitude() > VISIBLE_THRESHOLD );
         }
 
         private AbstractVector2D increase( AbstractVector2D orig, double dx ) {
             double mag = orig.getMagnitude();
-            if( Math.abs( mag ) < 0.1 || Double.isNaN( mag ) || Double.isInfinite( mag ) ) {
-                return orig;
-            }
-            else {
-                return orig.getInstanceOfMagnitude( mag + dx );
-            }
+            return Math.abs( mag ) < VISIBLE_THRESHOLD ? orig : orig.getInstanceOfMagnitude( mag + dx );
         }
     }
 

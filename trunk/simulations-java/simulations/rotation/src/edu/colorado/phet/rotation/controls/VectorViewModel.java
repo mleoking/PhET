@@ -35,7 +35,6 @@ public class VectorViewModel {
         }
     }
 
-
     public static interface Listener {
         void visibilityChanged();
     }
