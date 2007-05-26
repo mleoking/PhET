@@ -6,6 +6,7 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.RotationControlPanel;
 import edu.colorado.phet.rotation.RotationModule;
+import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.common.motion.graphs.TimeSeriesGraphSetNode;
 import edu.colorado.phet.common.motion.graphs.GraphSuite;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
@@ -42,7 +43,7 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
         rotationGraphSet = new RotationGraphSet( this, rotationModule.getRotationModel() );
         graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
-        rotationPlayAreaNode = new RotationPlayAreaNode( rotationModule.getRotationModel() );
+        rotationPlayAreaNode = new RotationPlayAreaNode( rotationModule.getRotationModel() ,rotationModule.getVectorViewModel( ));
         final TimeSeriesModel timeSeriesModel = rotationModule.getRotationModel().getTimeSeriesModel();
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void dataSeriesChanged() {
@@ -55,6 +56,8 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
         timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( graphSetModel, timeSeriesModel );
 
         rotationControlPanel = new RotationControlPanel( rotationGraphSet, graphSetModel, rotationModule.getVectorViewModel() );
+        
+
         rotationControlPanelNode = new PSwing( rotationControlPanel );
 
         addScreenChild( rotationPlayAreaNode );
