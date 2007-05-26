@@ -50,14 +50,14 @@ public class BodyVectorLayer extends PNode {
     }
 
     class VectorNode extends PNode {
-        private PhetPPath arrow;
+        private PhetPPath arrowNode;
         private VectorFunction vectorFunction;
         private ShadowPText labelNode;
 
         public VectorNode( String label, Color color, VectorFunction vectorFunction ) {
             this.vectorFunction = vectorFunction;
-            arrow = new PhetPPath( color, getStroke(), getStrokePaint() );
-            addChild( arrow );
+            arrowNode = new PhetPPath( color, getStroke(), getStrokePaint() );
+            addChild( arrowNode );
             labelNode = new ShadowPText( label );
             labelNode.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
             labelNode.setTextPaint( color );
@@ -65,21 +65,19 @@ public class BodyVectorLayer extends PNode {
         }
 
         public void update() {
-            Arrow a = new Arrow( rotationBody.getPosition(), vectorFunction.getVector(), 20, 20, 3, 0.75, true );
-            arrow.setPathTo( a.getShape() );
+            arrowNode.setPathTo( new Arrow( rotationBody.getPosition(), vectorFunction.getVector(), 20, 20, 3, 0.75, true ).getShape() );
             labelNode.setOffset( increase( vectorFunction.getVector(), 20 ).getDestination( rotationBody.getPosition() ) );
             labelNode.translate( -labelNode.getFullBounds().getWidth() / 2, -labelNode.getFullBounds().getHeight() / 2 );
         }
 
-    }
-
-    private AbstractVector2D increase( AbstractVector2D orig, double dx ) {
-        double mag = orig.getMagnitude();
-        if( Math.abs( mag)<0.1 || Double.isNaN( mag ) || Double.isInfinite( mag ) ) {
-            return orig;
-        }
-        else {
-            return orig.getInstanceOfMagnitude( mag + dx );
+        private AbstractVector2D increase( AbstractVector2D orig, double dx ) {
+            double mag = orig.getMagnitude();
+            if( Math.abs( mag ) < 0.1 || Double.isNaN( mag ) || Double.isInfinite( mag ) ) {
+                return orig;
+            }
+            else {
+                return orig.getInstanceOfMagnitude( mag + dx );
+            }
         }
     }
 
