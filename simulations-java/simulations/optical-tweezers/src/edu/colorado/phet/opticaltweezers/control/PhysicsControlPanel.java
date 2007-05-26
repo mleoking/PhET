@@ -218,7 +218,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             
             _advancedPanel = new Box( BoxLayout.Y_AXIS );
             _advancedPanel.add( _fluidControlsCheckBox );
-            _advancedPanel.add( _momemtumChangeCheckBox );
+//            _advancedPanel.add( _momemtumChangeCheckBox );
             _advancedPanel.add( _potentialEnergyChartCheckBox );
             
             JPanel innerPanel = new JPanel();
