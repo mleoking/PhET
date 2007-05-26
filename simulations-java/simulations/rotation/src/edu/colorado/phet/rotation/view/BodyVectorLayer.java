@@ -73,13 +73,14 @@ public class BodyVectorLayer extends PNode {
 
     }
 
-    private AbstractVector2D increase( AbstractVector2D vector, double dx ) {
-        double mag = vector.getMagnitude();
-        AbstractVector2D vec=vector.getInstanceOfMagnitude( mag  + dx );
-//        return vec;
-        return vector;
-
-//        return
+    private AbstractVector2D increase( AbstractVector2D orig, double dx ) {
+        double mag = orig.getMagnitude();
+        if( Math.abs( mag)<0.1 || Double.isNaN( mag ) || Double.isInfinite( mag ) ) {
+            return orig;
+        }
+        else {
+            return orig.getInstanceOfMagnitude( mag + dx );
+        }
     }
 
     static interface VectorFunction {
