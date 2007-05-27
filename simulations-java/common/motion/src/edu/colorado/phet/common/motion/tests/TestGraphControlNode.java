@@ -29,7 +29,7 @@ public class TestGraphControlNode {
         TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), 1.0 );
         swingClock = new SwingClock( 30,1.0);
         swingClock.addClockListener( timeSeriesModel );
-        phetPCanvas.addScreenChild( new GraphControlsNode( "title", new SimulationVariable(), timeSeriesModel ) );
+        phetPCanvas.addScreenChild( new GraphControlsNode( "title", "abbr",new SimulationVariable(), timeSeriesModel ) );
         frame.setContentPane( phetPCanvas );
     }
 

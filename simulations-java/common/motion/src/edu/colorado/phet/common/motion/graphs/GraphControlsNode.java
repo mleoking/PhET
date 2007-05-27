@@ -42,18 +42,18 @@ public class GraphControlsNode extends PNode {
         relayout();
     }
 
-    public GraphControlsNode( String title, SimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries ) {
-        this( title, simulationVariable, graphTimeSeries, Color.black );
+    public GraphControlsNode( String title, String abbr,SimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries ) {
+        this( title, abbr, simulationVariable, graphTimeSeries, Color.black );
     }
 
-    public GraphControlsNode( String title, SimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries, Color color ) {
+    public GraphControlsNode( String title, String abbr,SimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries, Color color ) {
         this( graphTimeSeries );
-        addVariable( title, color, simulationVariable );
+        addVariable( title, abbr,color, simulationVariable );
         relayout();
     }
 
-    public void addVariable( String title, Color color, SimulationVariable simulationVariable ) {
-        SeriesNode seriesNode = new SeriesNode( title, color, simulationVariable );
+    public void addVariable( String title, String abbr,Color color, SimulationVariable simulationVariable ) {
+        SeriesNode seriesNode = new SeriesNode( title, abbr,color, simulationVariable );
         seriesNode.setEditable( editable );
         seriesNode.setOffset( 0, seriesLayer.getFullBounds().getHeight() + 5 );
         seriesLayer.addChild( seriesNode );
@@ -65,14 +65,14 @@ public class GraphControlsNode extends PNode {
         private PSwing textBox;
         private TextBox box;
 
-        public SeriesNode( String title, Color color, SimulationVariable simulationVariable ) {
+        public SeriesNode( String title, String abbr,Color color, SimulationVariable simulationVariable ) {
             shadowPText = new ShadowPText( title );
             shadowPText.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
             shadowPText.setTextPaint( color );
             shadowPText.setShadowColor( Color.black );
             addChild( shadowPText );
 
-            box = new TextBox( title, simulationVariable );
+            box = new TextBox( abbr, simulationVariable );
             textBox = new PSwing( box );
             addChild( textBox );
         }
