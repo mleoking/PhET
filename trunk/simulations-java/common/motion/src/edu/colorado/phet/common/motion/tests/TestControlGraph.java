@@ -7,10 +7,12 @@ package edu.colorado.phet.common.motion.tests;
  *
  */
 
+import edu.colorado.phet.common.motion.graphs.ControlGraph;
+import edu.colorado.phet.common.motion.model.SimulationVariable;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.motion.model.SimulationVariable;
-import edu.colorado.phet.common.motion.graphs.ControlGraph;
+import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
@@ -27,7 +29,7 @@ public class TestControlGraph {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         phetPCanvas = new BufferedPhetPCanvas();
-        controlGraph = new ControlGraph( phetPCanvas, new SimulationVariable(), "abbrev", "title", -10, 10 );
+        controlGraph = new ControlGraph( phetPCanvas, new SimulationVariable(), "abbrev", "title", -10, 10, new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), 1.0 ) );
 //        controlGraph.setLayout( new ControlGraph.AlignedLayout( ) );
         controlGraph.addValue( 0, 0 );
         controlGraph.addValue( 600, 10 );

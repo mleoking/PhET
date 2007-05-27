@@ -1,8 +1,9 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import edu.colorado.phet.common.motion.model.SimulationVariable;
 import edu.colorado.phet.common.motion.MotionResources;
+import edu.colorado.phet.common.motion.model.SimulationVariable;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -25,8 +26,10 @@ public class GraphControlsNode extends PNode {
     private PNode seriesLayer = new PNode();
     private boolean editable = true;
     private boolean constructed = false;
+    private TimeSeriesModel graphTimeSeries;
 
-    public GraphControlsNode( GraphTimeSeries graphTimeSeries ) {
+    public GraphControlsNode( TimeSeriesModel graphTimeSeries ) {
+        this.graphTimeSeries = graphTimeSeries;
         addChild( seriesLayer );
 
         goStopButton = new PSwing( new GoStopButton( graphTimeSeries ) );
@@ -39,11 +42,11 @@ public class GraphControlsNode extends PNode {
         relayout();
     }
 
-    public GraphControlsNode( String title, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries ) {
+    public GraphControlsNode( String title, SimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries ) {
         this( title, simulationVariable, graphTimeSeries, Color.black );
     }
 
-    public GraphControlsNode( String title, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries, Color color ) {
+    public GraphControlsNode( String title, SimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries, Color color ) {
         this( graphTimeSeries );
         addVariable( title, color, simulationVariable );
         relayout();
@@ -92,9 +95,6 @@ public class GraphControlsNode extends PNode {
                 SeriesNode child = (SeriesNode)seriesLayer.getChild( i );
                 child.relayout( dy );
             }
-//        seriesNode.setOffset( 0, 0 );
-//        seriesNode.relayout( dy );
-
             goStopButton.setOffset( 0, seriesLayer.getFullBounds().getMaxY() + dy );
             clearButton.setOffset( 0, goStopButton.getFullBounds().getMaxY() + dy );
         }
@@ -108,10 +108,10 @@ public class GraphControlsNode extends PNode {
         }
     }
 
-    static class ClearButton extends JButton {
-        private GraphTimeSeries graphTimeSeries;
+    public static class ClearButton extends JButton {
+        private TimeSeriesModel graphTimeSeries;
 
-        public ClearButton( final GraphTimeSeries graphTimeSeries ) {
+        public ClearButton( final TimeSeriesModel graphTimeSeries ) {
             super( "Clear" );
             this.graphTimeSeries = graphTimeSeries;
             addActionListener( new ActionListener() {
@@ -119,69 +119,56 @@ public class GraphControlsNode extends PNode {
                     graphTimeSeries.clear();
                 }
             } );
-            graphTimeSeries.addListener( new GraphTimeSeries.Listener() {
-                public void started() {
-                }
-
-                public void stopped() {
-                }
-
-                public void cleared() {
-                }
-
-                public void emptyStateChanged() {
+            graphTimeSeries.addListener( new TimeSeriesModel.Adapter() {
+                public void dataSeriesChanged() {
                     updateEnabledState();
                 }
             } );
+
             updateEnabledState();
         }
 
         private void updateEnabledState() {
-            setEnabled( !graphTimeSeries.isEmpty() );
+            setEnabled( graphTimeSeries.isThereRecordedData() );
         }
     }
 
-    static class GoStopButton extends JButton {
+    public static class GoStopButton extends JButton {
         private boolean goButton = true;
-        private GraphTimeSeries graphTimeSeries;
+        private TimeSeriesModel graphTimeSeries;
 
-        public GoStopButton( final GraphTimeSeries graphTimeSeries ) {
+        public GoStopButton( final TimeSeriesModel graphTimeSeries ) {
             super( "Go" );
             this.graphTimeSeries = graphTimeSeries;
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( isGoButton() ) {
-                        graphTimeSeries.go();
+                        graphTimeSeries.startRecording();
                     }
                     else {
-                        graphTimeSeries.stop();
+                        graphTimeSeries.setPaused( true );
                     }
                 }
             } );
-            graphTimeSeries.addListener( new GraphTimeSeries.Listener() {
-                public void started() {
+            graphTimeSeries.addListener( new TimeSeriesModel.Adapter() {
+
+                public void modeChanged() {
                     updateGoState();
                 }
 
-                public void stopped() {
+                public void pauseChanged() {
                     updateGoState();
-                }
-
-                public void cleared() {
-                }
-
-                public void emptyStateChanged() {
                 }
             } );
             updateGoState();
         }
 
         private void updateGoState() {
-            setGoButton( !graphTimeSeries.isRunning() );
+            setGoButton( !graphTimeSeries.isRecording() );
         }
 
-        private void setGoButton( boolean b ) {
-            this.goButton = b;
+        private void setGoButton( boolean go ) {
+            this.goButton = go;
             setText( goButton ? "Go!" : "Stop" );
             try {
                 setIcon( new ImageIcon( MotionResources.loadBufferedImage( goButton ? "go.png" : "stop.png" ) ) );

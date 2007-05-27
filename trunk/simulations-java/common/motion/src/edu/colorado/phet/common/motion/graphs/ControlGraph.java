@@ -8,6 +8,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
+import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -45,11 +47,11 @@ public class ControlGraph extends PNode {
     private Layout layout = new FlowLayout();
     private ArrayList series = new ArrayList();
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double minY, double maxY ) {
-        this( pSwingCanvas, simulationVariable, abbr, title, minY, maxY, Color.black, new PText( "THUMB" ) );
+    public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double minY, double maxY,TimeSeriesModel timeSeriesModel ) {
+        this( pSwingCanvas, simulationVariable, abbr, title, minY, maxY, Color.black, new PText( "THUMB" ),timeSeriesModel );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double minY, final double maxY, Color color, PNode thumb ) {
+    public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double minY, final double maxY, Color color, PNode thumb,TimeSeriesModel timeSeriesModel ) {
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
         jFreeChart = ChartFactory.createXYLineChart( title + ", " + abbr, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String)null );
@@ -71,7 +73,9 @@ public class ControlGraph extends PNode {
 //        jFreeChartNode.setBufferedSeries();
         jFreeChartNode.setBufferedImmediateSeries();
 
-        graphControlNode = new GraphControlsNode( new DefaultGraphTimeSeries() );
+//        graphControlNode = new GraphControlsNode( new DefaultGraphTimeSeries() );
+//        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), 1.0 );
+        graphControlNode = new GraphControlsNode( title, simulationVariable, timeSeriesModel, color );
         addSeries( title, color, abbr, simulationVariable );
         chartSlider = new ChartSlider( jFreeChartNode, thumb );
         zoomControl = new ZoomSuiteNode();
