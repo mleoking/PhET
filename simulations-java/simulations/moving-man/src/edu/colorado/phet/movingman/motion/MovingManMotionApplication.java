@@ -58,11 +58,11 @@ public class MovingManMotionApplication {
 
         GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
                 new MinimizableControlGraph( "x", new MotionControlGraph( phetPCanvas, motionModel.getXVariable(), "x", "Position", -10, 10, Color.blue,
-                                                                          new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, cursorModel, motionModel.getPositionDriven() ) ),
+                                                                          new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, cursorModel, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven() ) ),
                 new MinimizableControlGraph( "v", new MotionControlGraph( phetPCanvas, motionModel.getVVariable(), "v", "Velocity", -1, 1, Color.red,
-                                                                          new PImage( GraphSuiteSet.loadRedArrow() ), motionModel, true, cursorModel, motionModel.getVelocityDriven() ) ),
+                                                                          new PImage( GraphSuiteSet.loadRedArrow() ), motionModel, true, cursorModel, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven() ) ),
                 new MinimizableControlGraph( "a", new MotionControlGraph( phetPCanvas, motionModel.getAVariable(), "a", "Acceleration", -0.01, 0.01, Color.green,
-                                                                          new PImage( GraphSuiteSet.loadGreenArrow() ), motionModel, true, cursorModel, motionModel.getAccelDriven() ) )
+                                                                          new PImage( GraphSuiteSet.loadGreenArrow() ), motionModel, true, cursorModel, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven() ) )
         } ) ) );
         graphSetNode.setAlignedLayout();
         graphSetNode.setBounds( 0, 0, 800, 600 );

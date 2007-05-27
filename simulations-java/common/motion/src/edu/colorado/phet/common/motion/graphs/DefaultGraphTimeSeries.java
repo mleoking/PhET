@@ -9,9 +9,9 @@ import java.util.ArrayList;
  */
 
 public class DefaultGraphTimeSeries implements GraphTimeSeries {
-    boolean running = false;
-    ArrayList listeners = new ArrayList();
-    ArrayList data = new ArrayList();
+    private boolean running = false;
+    private ArrayList listeners = new ArrayList();
+    private ArrayList data = new ArrayList();
 
     public void clear() {
         if( data.size() > 0 ) {

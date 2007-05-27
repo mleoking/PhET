@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
+import edu.colorado.phet.common.timeseries.ui.TimeSeriesPlaybackPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -23,7 +23,8 @@ public class TimeSeriesGraphSetNode extends PNode {
     public TimeSeriesGraphSetNode( GraphSetModel graphSetModel, TimeSeriesModel timeSeriesModel ) {
         setBounds( 0, 0, 800, 600 );
         graphSetNode = new GraphSetNode( graphSetModel );
-        TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel );
+//        TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel );
+        TimeSeriesPlaybackPanel timeSeriesControlPanel = new TimeSeriesPlaybackPanel( timeSeriesModel );
         timeSeriesControlPanelNode = new PSwing( timeSeriesControlPanel );
 
         addChild( graphSetNode );

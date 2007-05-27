@@ -23,14 +23,14 @@ public class MotionControlGraph extends ControlGraph {
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
-                               boolean editable, final CursorModel cursorModel ) {
-        this( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb, motionModel, editable, cursorModel, null );
+                               boolean editable, final CursorModel cursorModel,TimeSeriesModel timeSeriesModel ) {
+        this( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb, motionModel, editable, cursorModel, timeSeriesModel, null );
     }
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
-                               boolean editable, final CursorModel cursorModel, final UpdateStrategy updateStrategy ) {
-        super( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb );
+                               boolean editable, final CursorModel cursorModel, TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy ) {
+        super( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb ,timeSeriesModel);
         this.motionModel = motionModel;
         addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
