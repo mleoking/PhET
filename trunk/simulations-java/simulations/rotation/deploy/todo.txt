@@ -3,6 +3,10 @@
 ################
 Charts:
 
+Perhaps time series implementation should be an observer of "recordable model" not driving it.
+
+Maybe Views of recorded data should observe a Recorded Data Model from time series.
+
 Timers for model & recording structures got out of sync.
 
 Graphs for Angular Velocity and Angular Position should be attached to the object (not the rotational platform)?
