@@ -3,6 +3,10 @@
 ################
 Charts:
 
+Timers for model & recording structures got out of sync.
+
+Graphs for Angular Velocity and Angular Position should be attached to the object (not the rotational platform)?
+
 Move charts, cursor, etc to jfreechart-phet directory?
 
 On rotational motion sim, lots of it worked well and looked good, but when showing acceleration a,
