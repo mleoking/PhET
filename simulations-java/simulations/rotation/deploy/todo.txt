@@ -2,31 +2,35 @@
 #           To Do:
 ################
 
-Should be able to "spin" the wheel (i.e. drag, let go, and have it continue to spin, at least in friction mode) 
+#For Motion/TimeSeries libraries
 
 Chart arrows not updating during playback.
 
-Perhaps time series implementation should be an observer of "recordable model" not driving it.
+Perhaps time series implementation should be an observer of "recordable model," not its driver.
 
-Maybe Views of recorded data should observe a Recorded Data Model from time series.
+Maybe Views of recorded data should observe a Recorded Data Model from time series package.
 
 Bug: Timers for model & recording structures got out of sync.
-
-Graphs for Angular Velocity and Angular Position should be attached to the object (not the rotational platform)?
 
 Move charts, cursor, etc to jfreechart-phet directory?
 
 Performance optimization.
-    -Should cursors nodes use paint-immediately instead of creating a large repaint rectangle?
+    -Should cursors nodes use paint-immediately instead of creating a large repaint rectangle?  Or a different implementation for RepaintManager?
 
 Time derivatives need a time-offset to match other series.
 
 When the time series is off-scale, dragging the slider doesn't immediately respond.
-Clicking on the slider thumb should set the current value, and allow immediate drags.
+    -Clicking on the slider thumb should set the current value, and allow immediate drags.
+
+Graphs for Angular Velocity and Angular Position should be attached to the object (not the rotational platform)?
 
 When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.
 
+#For Rotation
+
 Consolidate MovingMan, Forces1D, Ramp, Rotation, Torque into a single codebase.
+
+Should be able to "spin" the wheel (i.e. drag, let go, and have it continue to spin, at least in friction mode)
 
 ################
 #           Postponed:
