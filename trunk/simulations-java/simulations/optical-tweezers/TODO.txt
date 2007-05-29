@@ -57,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+5/29/07 - move clock step control into ClockStepControlPanel
 5/29/07 - move advanced controls into AdvancedControlPanel
 5/29/07 - move force vector controls into ForcesControlPanel
 5/29/07 - move chart controls into ChartsControlPanel
