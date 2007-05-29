@@ -33,7 +33,7 @@ public class TestValueControls extends JFrame {
             protonsControl.setTextFieldEditable( true );
             protonsControl.setTextFieldColumns( columns );
             protonsControl.setMinorTickSpacing( 10 );
-            protonsControl.setMinorTickLabelsVisible( false );
+            protonsControl.setMinorTicksVisible( false );
             protonsControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
                     System.out.println( "protonsControl.stateChanged " + protonsControl.getValue() );
@@ -57,7 +57,7 @@ public class TestValueControls extends JFrame {
             speedControl.addTickLabel( min, "min" );
             speedControl.addTickLabel( 500, "half" );
             speedControl.addTickLabel( max, "max" );
-            speedControl.setMinorTickLabelsVisible( false );
+            speedControl.setMinorTicksVisible( false );
             speedControl.setUpDownArrowDelta( 1 );
             speedControl.setTextFieldEditable( true );
             speedControl.addChangeListener( new ChangeListener() {
@@ -187,8 +187,8 @@ public class TestValueControls extends JFrame {
         final LinearValueControl controlNoTicks;
         {
             controlNoTicks = new LinearValueControl( 0, 10, "label", "0.00", "units" );
-            controlNoTicks.setMinorTickLabelsVisible( false );
-            controlNoTicks.setMajorTickLabelsVisible( false );
+            controlNoTicks.setMinorTicksVisible( false );
+            controlNoTicks.setMajorTicksVisible( false );
         }
         
         JPanel panel = new JPanel();

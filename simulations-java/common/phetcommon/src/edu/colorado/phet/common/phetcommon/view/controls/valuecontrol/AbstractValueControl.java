@@ -62,8 +62,8 @@ public abstract class AbstractValueControl extends JPanel {
     private Font _font; // font used for all components
     private DecimalFormat _textFieldFormat; // format for the text field
     private DecimalFormat _tickFormat; // format for the tick mark labels
-    private boolean _majorTickLabelsVisible; // are major tick labels visible?
-    private boolean _minorTickLabelsVisible; // are minor tick labels visible?
+    private boolean _majorTicksVisible; // are major ticks & labels visible?
+    private boolean _minorTicksVisible; // are minor ticks & labels visible?
     private Hashtable _labelTable; // label table, to hold labels added via addTickLabel
     
     // misc.
@@ -100,8 +100,8 @@ public abstract class AbstractValueControl extends JPanel {
 
         _textFieldFormat = new DecimalFormat( textFieldPattern );
         _tickFormat = new DecimalFormat( textFieldPattern ); // use same format for ticks and textfield
-        _majorTickLabelsVisible = true; // major tick labels visible
-        _minorTickLabelsVisible = false; // minor tick labels are typically not visible
+        _majorTicksVisible = true; // major tick labels visible
+        _minorTicksVisible = false; // minor tick labels are typically not visible
         _labelTable = null; // instantiated when addTickLabel is called
         
         _notifyWhileAdjusting = true; // provide change notification while slider is dragging
@@ -439,25 +439,25 @@ public abstract class AbstractValueControl extends JPanel {
     }
    
     /**
-     * Controls the visibility of major tick labels.
+     * Controls the visibility of major ticks and their associated labels.
      * 
      * @param visible true or false
      */
-    public void setMajorTickLabelsVisible( boolean visible ) {
-        if ( visible != _majorTickLabelsVisible ) {
-            _majorTickLabelsVisible = visible;
+    public void setMajorTicksVisible( boolean visible ) {
+        if ( visible != _majorTicksVisible ) {
+            _majorTicksVisible = visible;
             updateTickLabels();
         }
     }
     
     /**
-     * Controls the visibility of minor tick labels.
+     * Controls the visibility of minor ticks and their associated labels.
      * 
      * @param visible true or false
      */
-    public void setMinorTickLabelsVisible( boolean visible ) {
-        if ( visible != _minorTickLabelsVisible ) {
-            _minorTickLabelsVisible = visible;
+    public void setMinorTicksVisible( boolean visible ) {
+        if ( visible != _minorTicksVisible ) {
+            _minorTicksVisible = visible;
             updateTickLabels();
         }
     }
@@ -566,8 +566,8 @@ public abstract class AbstractValueControl extends JPanel {
         if ( _minorTickSpacing > 0 ) {
             _slider.setMinorTickSpacing( _slider.modelToSlider( min + _minorTickSpacing ) );
         }
-        _slider.setPaintTicks( _minorTickLabelsVisible || _majorTickLabelsVisible );
-        _slider.setPaintLabels( _minorTickLabelsVisible || _majorTickLabelsVisible );
+        _slider.setPaintTicks( _minorTicksVisible || _majorTicksVisible );
+        _slider.setPaintLabels( _minorTicksVisible || _majorTicksVisible );
         
         if ( _labelTable != null ) {
             // Use the labels provided via addTickLabel.
@@ -578,7 +578,7 @@ public abstract class AbstractValueControl extends JPanel {
             Hashtable labelTable = new Hashtable();
 
             // Major ticks
-            if ( _majorTickLabelsVisible ) {
+            if ( _majorTicksVisible ) {
                 double value = min;
                 while ( value <= max ) {
                     JLabel label = new JLabel( _tickFormat.format( value ) );
@@ -589,7 +589,7 @@ public abstract class AbstractValueControl extends JPanel {
             }
 
             // Minor ticks
-            if ( _minorTickLabelsVisible && _minorTickSpacing > 0 ) {
+            if ( _minorTicksVisible && _minorTickSpacing > 0 ) {
                 double value = min + _minorTickSpacing;
                 while ( value < max ) {
                     JLabel label = new JLabel( _tickFormat.format( value ) );

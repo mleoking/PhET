@@ -49,8 +49,8 @@ public class TorqueControlPanel extends JPanel {
 
         public TorqueSlider( double min, double max, String label, String textFieldPattern, String units ) {
             super( min, max, label, textFieldPattern, units, new TorqueSliderLayout() );
-            setMinorTickLabelsVisible( false );
-            setMajorTickLabelsVisible( false );
+            setMinorTicksVisible( false );
+            setMajorTicksVisible( false );
         }
     }
 
