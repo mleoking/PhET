@@ -85,7 +85,7 @@ public abstract class AbstractValueControl extends JPanel {
      * @param label label that appears to the left of the value
      * @param textFieldPattern pattern used to format the text field (see DecimalFormat)
      * @param units units that appear to the right of the value
-     * @param layoutStrategy GridBagConstraints.WEST, CENTER or EAST
+     * @param layoutStrategy
      * @throws IllegalArgumentException
      */
     public AbstractValueControl( AbstractSlider slider, String label, String textFieldPattern, String units, ILayoutStrategy layoutStrategy ) {
