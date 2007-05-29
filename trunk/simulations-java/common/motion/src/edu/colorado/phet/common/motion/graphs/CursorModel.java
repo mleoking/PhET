@@ -32,7 +32,7 @@ public class CursorModel {
     }
 
     public static interface Listener {
-        void changed();
+        void notifyCursorChanged();
     }
 
     public void addListener( Listener listener ) {
@@ -45,7 +45,7 @@ public class CursorModel {
 
     public void notifyListeners() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).changed();
+            ( (Listener)listeners.get( i ) ).notifyCursorChanged();
         }
     }
 }
