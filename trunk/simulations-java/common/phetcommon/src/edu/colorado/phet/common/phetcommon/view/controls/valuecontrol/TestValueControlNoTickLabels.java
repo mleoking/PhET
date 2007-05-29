@@ -18,8 +18,9 @@ public class TestValueControlNoTickLabels extends JFrame {
         protonsControl.setMinorTickLabelsVisible( false );
         protonsControl.setMajorTickLabelsVisible( false );
 
-        //but this line works
-        //protonsControl.getSlider().setPaintTicks( false );
+        //but these lines work
+//        protonsControl.getSlider().setPaintTicks( false );
+//        protonsControl.getSlider().setPaintLabels( false );
 
         //and slider works properly
         JSlider slider = new JSlider( 0, 100 );
