@@ -97,11 +97,15 @@
         global $Simulations, $Types, $Levels;
         
         $filter_options = 
-            url_encode_list('Simulations[]', $Simulations).'&amp;'.
-            url_encode_list('Types[]',       $Types).'&amp;'.
+            url_encode_list('Simulations[]', $Simulations).
+            url_encode_list('Types[]',       $Types).
             url_encode_list('Levels[]',      $Levels);
+            
+        $current_url = $_SERVER['PHP_SELF']; 
+        
+        $script_name = basename($current_url);
                 
-        $script = SITE_ROOT."teacher_ideas/browse.php?order=${link_order}&amp;sort_by=${link_sort_by}&amp;${filter_options}";
+        $script = SITE_ROOT."teacher_ideas/${script_name}?order=${link_order}&amp;sort_by=${link_sort_by}${filter_options}";
         
         $link = "<a href=\"${script}\">${desc}</a>";
         
@@ -159,30 +163,38 @@ EOT;
     function url_encode_list($name, $list) {
         // [name1]=[value1]&[name2]=[value2]&[name3]=[value3]&
         
-        $encoded = urlencode($name).'=';
-
-        $is_first = true;
-
-        foreach($list as $item) {
-            $encoded .= '&amp;';
+        $encoded = '';
+        
+        if (count($list) > 0) {
+            foreach($list as $item) {
+                $encoded .= '&'.$name.'=';
             
-            $encoded .= urlencode($item);
+                $encoded .= urlencode($item);
+            }
+        }
+        else {
+            $encoded .= '&'.$name.'=all';
         }
         
         return $encoded;
     }    
     
-    function print_content_only() {
+    function print_content_only($print_simulations = true) {
         $contributions = get_contributions();
         
         $title  = get_sorting_link('contribution_title',        'Title');
         $author = get_sorting_link('contribution_authors',      'Author');
         $level  = get_sorting_link('contribution_level_desc',   'Level');
         $type   = get_sorting_link('contribution_type_desc',    'Type');
-        $sims   = get_sorting_link('sim_name',                  'Simulations');
-        $date   = get_sorting_link('contribution_date_updated', 'Updated');
         
-        global $Simulations;
+        if ($print_simulations) {
+            $sims = get_sorting_link('sim_name', 'Simulations');
+        }
+        else {
+            $sims = '';
+        }
+        
+        $date   = get_sorting_link('contribution_date_updated', 'Updated');
         
         print <<<EOT
 
@@ -244,7 +256,7 @@ EOT;
                         
                         var option_nodes = select_element.getElementsByTagName('option');
                         
-                        var selected_options = '', is_first = true;
+                        var selected_options = '';
                         
                         for (var i = 0; i < option_nodes.length; i++) {
                             var option_node = option_nodes[i];
@@ -352,7 +364,7 @@ EOT;
         $Levels = $_REQUEST['Levels'];
     }
     
-    if (isset($_REQUEST['content_only'])) {
+    if (isset($_REQUEST['content_only']) || isset($content_only)) {
         print_content_only();
     }
     else {
