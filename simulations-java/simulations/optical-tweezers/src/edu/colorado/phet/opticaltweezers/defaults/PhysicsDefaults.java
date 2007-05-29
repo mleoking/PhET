@@ -69,10 +69,10 @@ public class PhysicsDefaults {
     public static final int BEAD_NUMBER_OF_DT_SUBDIVISIONS = 10;
     
     // Control panel settings
-    public static final Object LASER_DISPLAY_CHOICE = LaserDisplayControlPanel.CHOICE_BEAM;
-    public static final Object BEAD_CHARGE_CHOICE = BeadChargeControlPanel.CHOICE_HIDDEN;
+    public static final String LASER_DISPLAY_CHOICE = LaserDisplayControlPanel.CHOICE_BEAM;
+    public static final String BEAD_CHARGE_CHOICE = BeadChargeControlPanel.CHOICE_HIDDEN;
     public static final boolean TRAP_FORCE_SELECTED = false;
-    public static final Object HORIZONTAL_TRAP_FORCE_CHOICE = ForcesControlPanel.CHOICE_WHOLE_BEAD;
+    public static final String HORIZONTAL_TRAP_FORCE_CHOICE = ForcesControlPanel.CHOICE_WHOLE_BEAD;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
     public static final boolean BROWNIAN_FORCE_SELECTED = false;
     public static final boolean POSITION_HISTOGRAM_SELECTED = false;
@@ -82,7 +82,6 @@ public class PhysicsDefaults {
     public static final boolean FLUID_CONTROLS_SELECTED = false;
     public static final boolean MOMENTUM_CHANGE_MODEL_SELECTED = false;
 
-    
     // Position Histogram
     public static final double POSITION_HISTOGRAM_BIN_WIDTH = 20; // nm
     

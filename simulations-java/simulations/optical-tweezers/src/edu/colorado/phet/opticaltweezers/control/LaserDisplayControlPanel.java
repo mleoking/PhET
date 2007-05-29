@@ -15,16 +15,20 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.view.node.LaserNode;
 
-
+/**
+ * LaserDisplayControlPanel controls the display of the laser's beam.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class LaserDisplayControlPanel extends JPanel {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    public static final Object CHOICE_BEAM = "beam";
-    public static final Object CHOICE_ELECTRIC_FIELD = "electricField";
-    public static final Object CHOICE_BEAM_AND_ELECTRIC_FIELD = "beamAndElectricField";
+    public static final String CHOICE_BEAM = "beam";
+    public static final String CHOICE_ELECTRIC_FIELD = "electricField";
+    public static final String CHOICE_BEAM_AND_ELECTRIC_FIELD = "beamAndElectricField";
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -34,7 +38,7 @@ public class LaserDisplayControlPanel extends JPanel {
     
     private JRadioButton _beamRadioButton;
     private JRadioButton _electricFieldRadioButton;
-    private JRadioButton _beadAndElectricFieldRadioButton;
+    private JRadioButton _beamAndElectricFieldRadioButton;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -71,14 +75,14 @@ public class LaserDisplayControlPanel extends JPanel {
         _electricFieldRadioButton.addActionListener( actionListener );
 
         // Potential Energy chart
-        _beadAndElectricFieldRadioButton = new JRadioButton( OTResources.getString( "choice.beamAndElectricField" ) );
-        _beadAndElectricFieldRadioButton.setFont( controlFont );
-        _beadAndElectricFieldRadioButton.addActionListener( actionListener );
+        _beamAndElectricFieldRadioButton = new JRadioButton( OTResources.getString( "choice.beamAndElectricField" ) );
+        _beamAndElectricFieldRadioButton.setFont( controlFont );
+        _beamAndElectricFieldRadioButton.addActionListener( actionListener );
 
         ButtonGroup bg = new ButtonGroup();
         bg.add( _beamRadioButton );
         bg.add( _electricFieldRadioButton );
-        bg.add( _beadAndElectricFieldRadioButton );
+        bg.add( _beamAndElectricFieldRadioButton );
 
         // Layout
         JPanel innerPanel = new JPanel();
@@ -91,7 +95,7 @@ public class LaserDisplayControlPanel extends JPanel {
         layout.addComponent( titleLabel, row++, 0 );
         layout.addComponent( _beamRadioButton, row++, 0 );
         layout.addComponent( _electricFieldRadioButton, row++, 0 );
-        layout.addComponent( _beadAndElectricFieldRadioButton, row++, 0 );
+        layout.addComponent( _beamAndElectricFieldRadioButton, row++, 0 );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
 
@@ -100,26 +104,42 @@ public class LaserDisplayControlPanel extends JPanel {
 
         //XXX not implemented
         _electricFieldRadioButton.setForeground( Color.RED );
-        _beadAndElectricFieldRadioButton.setForeground( Color.RED );
+        _beamAndElectricFieldRadioButton.setForeground( Color.RED );
     }
 
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setChoice( Object choice ) {
-        if ( choice == CHOICE_BEAM ) {
+    public void setChoice( String choice ) {
+        if ( choice.equals( CHOICE_BEAM ) ) {
             _beamRadioButton.setSelected( true );
         }
-        else if ( choice == CHOICE_ELECTRIC_FIELD ) {
+        else if ( choice.equals( CHOICE_ELECTRIC_FIELD ) ) {
             _electricFieldRadioButton.setSelected( true );
         }
-        else if ( choice == CHOICE_BEAM_AND_ELECTRIC_FIELD ) {
-            _beadAndElectricFieldRadioButton.setSelected( true );
+        else if ( choice.equals( CHOICE_BEAM_AND_ELECTRIC_FIELD ) ) {
+            _beamAndElectricFieldRadioButton.setSelected( true );
         }
         else {
             throw new IllegalArgumentException( "unsupported choice: " + choice );
         }
+        handleDisplayChoice();
+    }
+    
+    public String getChoice() {
+        String choice = null;
+        if ( _beamRadioButton.isSelected() ) {
+            choice = CHOICE_BEAM;
+        }
+        else if ( _electricFieldRadioButton.isSelected() ) {
+            choice = CHOICE_ELECTRIC_FIELD;
+        }
+        else if ( _beamAndElectricFieldRadioButton.isSelected() ) {
+            choice = CHOICE_BEAM_AND_ELECTRIC_FIELD;
+        }
+        assert( choice != null );
+        return choice;
     }
     
     public boolean isBeamSelected() {
@@ -131,7 +151,7 @@ public class LaserDisplayControlPanel extends JPanel {
     }
 
     public boolean isBeamAndElectricFieldSelected() {
-        return _beadAndElectricFieldRadioButton.isSelected();
+        return _beamAndElectricFieldRadioButton.isSelected();
     }
 
     //----------------------------------------------------------------------------

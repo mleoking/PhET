@@ -15,15 +15,19 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * ForcesControlPanel controls the view of forces.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ForcesControlPanel extends JPanel {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    public static final Object CHOICE_WHOLE_BEAD = "wholeBead";
-    public static final Object CHOICE_HALF_BEAD = "halfBead";
+    public static final String CHOICE_WHOLE_BEAD = "wholeBead";
+    public static final String CHOICE_HALF_BEAD = "halfBead";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -78,7 +82,7 @@ public class ForcesControlPanel extends JPanel {
         _wholeBeadRadioButton.setFont( controlFont );
         _wholeBeadRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                handleWholeBeadRadioButton();
+                handleHorizontalTrapForceChoice();
             }
          });
         
@@ -86,7 +90,7 @@ public class ForcesControlPanel extends JPanel {
         _halfBeadRadioButton.setFont( controlFont );
         _halfBeadRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                handleHalfBeadRadioButton();
+                handleHorizontalTrapForceChoice();
             }
          });
         
@@ -157,16 +161,29 @@ public class ForcesControlPanel extends JPanel {
         return _trapForceCheckBox.isSelected();
     }
     
-    public void setHorizontalTrapForceChoice( Object choice ) {
-        if ( choice == CHOICE_WHOLE_BEAD ) {
+    public void setHorizontalTrapForceChoice( String choice ) {
+        if ( choice.equals( CHOICE_WHOLE_BEAD ) ) {
             _wholeBeadRadioButton.setSelected( true );
         }
-        else if ( choice == CHOICE_HALF_BEAD ) {
+        else if ( choice.equals( CHOICE_HALF_BEAD ) ) {
             _halfBeadRadioButton.setSelected( true );
         }
         else {
             throw new IllegalArgumentException( "unsupported choice: " + choice );
         }
+        handleHorizontalTrapForceChoice();
+    }
+    
+    public String getHorizontalTrapForceChoice() {
+        String choice = null;
+        if ( _wholeBeadRadioButton.isSelected() ) {
+            choice = CHOICE_WHOLE_BEAD;
+        }
+        else if ( _halfBeadRadioButton.isSelected() ) {
+            choice = CHOICE_HALF_BEAD;
+        }
+        assert( choice != null );
+        return choice;
     }
     
     public boolean isWholeBeadSelected() {
@@ -219,12 +236,13 @@ public class ForcesControlPanel extends JPanel {
         _trapForceNode.setVisible( selected );
     }
     
-    private void handleWholeBeadRadioButton() {
-        //XXX
-    }
-    
-    private void handleHalfBeadRadioButton() {
-        //XXX
+    private void handleHorizontalTrapForceChoice() {
+        if ( _wholeBeadRadioButton.isSelected() ) {
+            //XXX
+        }
+        else if ( _halfBeadRadioButton.isSelected() ) {
+            //XXX
+        }
     }
     
     private void handleFluidDragCheckBox() {

@@ -25,9 +25,9 @@ public class BeadChargeControlPanel extends JPanel {
     // Class data
     //----------------------------------------------------------------------------
     
-    public static final Object CHOICE_HIDDEN = "hidden";
-    public static final Object CHOICE_DISTRIBUTION = "distribution";
-    public static final Object CHOICE_EXCESS = "excess";
+    public static final String CHOICE_HIDDEN = "hidden";
+    public static final String CHOICE_DISTRIBUTION = "distribution";
+    public static final String CHOICE_EXCESS = "excess";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -106,19 +106,35 @@ public class BeadChargeControlPanel extends JPanel {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setChoice( Object choice ) {
-        if ( choice == CHOICE_HIDDEN ) {
+    public void setChoice( String choice ) {
+        if ( choice.equals( CHOICE_HIDDEN ) ) {
             _hiddenRadioButton.setSelected( true );
         }
-        else if ( choice == CHOICE_DISTRIBUTION ) {
+        else if ( choice.equals( CHOICE_DISTRIBUTION ) ) {
             _distributionRadioButton.setSelected( true );
         }
-        else if ( choice == CHOICE_EXCESS ) {
+        else if ( choice.equals( CHOICE_EXCESS ) ) {
             _excessRadioButton.setSelected( true );
         }
         else {
             throw new IllegalArgumentException( "unsupported choice: " + choice );
         }
+        handleChargeChoice();
+    }
+    
+    public Object getChoice() {
+        String choice = null;
+        if ( _hiddenRadioButton.isSelected() ) {
+            choice = CHOICE_HIDDEN;
+        }
+        else if ( _distributionRadioButton.isSelected() ) {
+            choice = CHOICE_DISTRIBUTION;
+        }
+        else if ( _excessRadioButton.isSelected() ) {
+            choice = CHOICE_EXCESS;
+        }
+        assert( choice != null );
+        return choice;
     }
     
     public boolean isHiddenSelected() {
