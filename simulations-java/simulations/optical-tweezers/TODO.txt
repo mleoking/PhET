@@ -13,7 +13,6 @@ MEDIUM PRIORITY:
 - when fluid viscosity=0, use Verlet motion model, disable fluid speed & temperature controls, make glass slide black
 - make minimum y=10 for position histogram (using an off-screen point?)
 - add light grey draggable frame around laster controls, or make entire panel draggable
-- combine all chart controls into "Graphs" panel with radio buttons "none", "Position histogram", "Potential energy"
 - replace "Fields and charges" control panel with "Laser display" and "Bead's charges" panels
 - add "Laser display" panel with radio buttons "beam", "electric field vectors", "beam with vectors",
   "beam" is only option in fast mode
@@ -58,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+5/29/07 - move chart controls into ChartsControlPanel
 5/29/07 - combine all chart controls into "Graphs" panel with radio buttons "none", "position histogram", "potential energy curve"
 5/26/07 - hide "Show change in momentum model" control for now
 5/18/07 - use Vector2DNode in FluidNode, scale arrow heads/tails
