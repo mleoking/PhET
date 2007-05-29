@@ -123,11 +123,10 @@ public class PhysicsModule extends AbstractModule {
         // Control panel settings that are view-related
         {
             _controlPanel.getClockStepControlPanel().setClockStep( PhysicsDefaults.CLOCK_DT_RANGE.getDefault() );
-            _controlPanel.setElectricFieldSelected( PhysicsDefaults.ELECTRIC_FIELD_SELECTED );
-            _controlPanel.getBeadChargeControlPanel().setDistributionSelected( PhysicsDefaults.BEAD_CHARGE_DISTRUBUTION_SELECTED );
-            _controlPanel.getBeadChargeControlPanel().setExcessSelected( PhysicsDefaults.BEAD_CHARGE_EXCESS_SELECTED );
+            _controlPanel.getLaserDisplayControlPanel().setChoice( PhysicsDefaults.LASER_DISPLAY_CHOICE );
+            _controlPanel.getBeadChargeControlPanel().setChoice( PhysicsDefaults.BEAD_CHARGE_CHOICE );
             _controlPanel.getForcesControlPanel().setTrapForceSelected( PhysicsDefaults.TRAP_FORCE_SELECTED );
-            _controlPanel.getForcesControlPanel().setWholeBeadSelected( PhysicsDefaults.WHOLE_BEAD_SELECTED );
+            _controlPanel.getForcesControlPanel().setHorizontalTrapForceChoice( PhysicsDefaults.HORIZONTAL_TRAP_FORCE_CHOICE );
             _controlPanel.getForcesControlPanel().setDragForceSelected( PhysicsDefaults.FLUID_DRAG_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setBrownianForceSelected( PhysicsDefaults.BROWNIAN_FORCE_SELECTED );
             _controlPanel.getChartsControlPanel().setPositionHistogramSelected( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );

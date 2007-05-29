@@ -13,9 +13,6 @@ MEDIUM PRIORITY:
 - when fluid viscosity=0, use Verlet motion model, disable fluid speed & temperature controls, make glass slide black
 - make minimum y=10 for position histogram (using an off-screen point?)
 - add light grey draggable frame around laster controls, or make entire panel draggable
-- replace "Fields and charges" control panel with "Laser display" and "Bead's charges" panels
-- add "Laser display" panel with radio buttons "beam", "electric field vectors", "beam with vectors",
-  "beam" is only option in fast mode
 - change lens view, make it an on-edge view
 - make the lens supports look 3D, as if they are holding the lens
 - rail slider for lens ?
@@ -23,6 +20,8 @@ MEDIUM PRIORITY:
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - E-field feature
 - adjust clock time display and units as dt is changed
+- enable/disable controls based on clock speed
+- make "beam" the only laser display option in fast mode
 
 LOW PRIORITY:
 - position histogram should make an observation every N seconds, not every clock tick (?)
@@ -56,7 +55,9 @@ MISSING INFO:
 
  
 DONE:
+5/29/07 - add "Laser display" panel with radio buttons "beam", "electric field vectors", "beam with vectors",
 5/29/07 - add "Bead's charges" panel with radio buttons "hidden", "charge distribution", "excess charge only"
+5/29/07 - replace "Fields and charges" control panel with "Laser display" and "Bead's charges" panels
 5/29/07 - move clock step control into ClockStepControlPanel
 5/29/07 - move advanced controls into AdvancedControlPanel
 5/29/07 - move force vector controls into ForcesControlPanel
