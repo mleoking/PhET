@@ -183,6 +183,14 @@ public class TestValueControls extends JFrame {
             } );
         }
         
+        // No ticks or labels
+        final LinearValueControl controlNoTicks;
+        {
+            controlNoTicks = new LinearValueControl( 0, 10, "label", "0.00", "units" );
+            controlNoTicks.setMinorTickLabelsVisible( false );
+            controlNoTicks.setMajorTickLabelsVisible( false );
+        }
+        
         JPanel panel = new JPanel();
         panel.setBorder( BorderFactory.createEmptyBorder( 20, 20, 20, 20 ) );
         BoxLayout layout = new BoxLayout( panel, BoxLayout.Y_AXIS );
@@ -199,6 +207,8 @@ public class TestValueControls extends JFrame {
         panel.add( customLabelsControl );
         panel.add( new JSeparator() );
         panel.add( numberOfWellsControl );
+        panel.add( new JSeparator() );
+        panel.add( controlNoTicks );
         
         setContentPane( panel );
         pack();
