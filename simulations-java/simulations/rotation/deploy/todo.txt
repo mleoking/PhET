@@ -2,6 +2,8 @@
 #           To Do:
 ################
 
+Should be able to "spin" the wheel (i.e. drag, let go, and have it continue to spin, at least in friction mode) 
+
 Chart arrows not updating during playback.
 
 Perhaps time series implementation should be an observer of "recordable model" not driving it.
