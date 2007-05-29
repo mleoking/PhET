@@ -6,8 +6,7 @@ import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.DNAControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
-import edu.colorado.phet.opticaltweezers.model.DNAModel;
-import edu.colorado.phet.opticaltweezers.model.OTClock;
+import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.DNACanvas;
 
@@ -34,20 +33,39 @@ public class DNAModule extends AbstractModule {
     public DNAModule() {
         super( OTResources.getString( "title.funWithDNA" ), DNADefaults.CLOCK, DNADefaults.CLOCK_PAUSED );
 
-        _model = new DNAModel();
+        // Model
+        OTClock clock = (OTClock) getClock();
+        _model = new DNAModel( clock );
         
+        // Canvas
         _canvas = new DNACanvas( _model );
         setSimulationPanel( _canvas );
-        
+
         // Control Panel
         _controlPanel = new DNAControlPanel( this );
         setControlPanel( _controlPanel );
         
         // Clock controls
         _clockControlPanel = new ClockControlPanelWithTimeDisplay( (OTClock) getClock() );
+        _clockControlPanel.setTimeFormat( DNADefaults.CLOCK_TIME_PATTERN );
+        _clockControlPanel.setTimeColumns( DNADefaults.CLOCK_TIME_COLUMNS );
+        _clockControlPanel.setUnits( OTResources.getString( "units.time" ) );
         setClockControlPanel( _clockControlPanel );
-
+        
+        // Set initial state
         resetAll();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Mutators and accessors
+    //----------------------------------------------------------------------------
+    
+    public DNAModel getPhysicsModel() {
+        return _model;
+    }
+    
+    public DNACanvas getPhysicsCanvas() {
+        return _canvas;
     }
     
     //----------------------------------------------------------------------------
@@ -55,17 +73,20 @@ public class DNAModule extends AbstractModule {
     //----------------------------------------------------------------------------
     
     /**
-     * Indicates that this module has help.
+     * Indicates whether this module has help.
      * 
-     * @return true
+     * @return true or false
      */
     public boolean hasHelp() {
         return false;
     }
-    
-    public void deactive() {
+
+    /**
+     * Close all dialogs when switching to another module.
+     */
+    public void deactivate() {
+        _controlPanel.closeAllDialogs();
         super.deactivate();
-        //XXX close dialogs
     }
     
     //----------------------------------------------------------------------------
@@ -73,7 +94,44 @@ public class DNAModule extends AbstractModule {
     //----------------------------------------------------------------------------
     
     public void resetAll() {
-        // TODO Auto-generated method stub
+        
+        // Model
+        {
+            // Clock
+            OTClock clock = _model.getClock();
+            clock.setPaused( DNADefaults.CLOCK_PAUSED );
+            clock.setDt( DNADefaults.CLOCK_DT_RANGE.getDefault() );
+            
+            // Bead
+            Bead bead = _model.getBead();
+            bead.setPosition( DNADefaults.BEAD_POSITION );
+            bead.setOrientation( DNADefaults.BEAD_ORIENTATION );
+            
+            // Laser
+            Laser laser = _model.getLaser();
+            laser.setPosition( DNADefaults.LASER_POSITION );
+            laser.setPower( DNADefaults.LASER_POWER_RANGE.getDefault() );
+            laser.setRunning( DNADefaults.LASER_RUNNING );
+            
+            // Fluid
+            Fluid fluid = _model.getFluid();
+            fluid.setSpeed( DNADefaults.FLUID_SPEED_RANGE.getDefault() );
+            fluid.setViscosity( DNADefaults.FLUID_VISCOSITY_RANGE.getDefault() );
+            fluid.setTemperature( DNADefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
+        }
+        
+        // Control panel settings that are view-related
+        {
+            _controlPanel.getClockStepControlPanel().setClockStep( DNADefaults.CLOCK_DT_RANGE.getDefault() );
+            _controlPanel.getForcesControlPanel().setTrapForceSelected( DNADefaults.TRAP_FORCE_SELECTED );
+            _controlPanel.getForcesControlPanel().setHorizontalTrapForceChoice( DNADefaults.HORIZONTAL_TRAP_FORCE_CHOICE );
+            _controlPanel.getForcesControlPanel().setDragForceSelected( DNADefaults.FLUID_DRAG_FORCE_SELECTED );
+            _controlPanel.getForcesControlPanel().setBrownianForceSelected( DNADefaults.BROWNIAN_FORCE_SELECTED );
+            _controlPanel.setRulerSelected( DNADefaults.RULER_SELECTED );
+            _controlPanel.getAdvancedControlPanel().setAdvancedVisible( DNADefaults.ADVANCED_VISIBLE );
+            _controlPanel.getAdvancedControlPanel().setFluidControlSelected( DNADefaults.FLUID_CONTROLS_SELECTED );
+            _controlPanel.getAdvancedControlPanel().setMomentumChangeSelected( DNADefaults.MOMENTUM_CHANGE_MODEL_SELECTED );
+        }
     }
 
     public void save( OTConfig appConfig ) {

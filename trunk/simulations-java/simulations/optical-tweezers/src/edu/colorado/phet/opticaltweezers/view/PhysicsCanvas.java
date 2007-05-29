@@ -139,7 +139,8 @@ public class PhysicsCanvas extends PhetPCanvas {
         // Ruler
         _rulerDragBoundsNode = new PPath();
         _rulerDragBoundsNode.setStroke( null );
-        _rulerNode = new OTRulerNode( laser, model.getModelViewTransform(), _rulerDragBoundsNode );
+        _rulerNode = new OTRulerNode( PhysicsDefaults.RULER_MAJOR_TICK_INTERVAL, PhysicsDefaults.RULER_MINOR_TICKS_BETWEEN_MAJORS,
+                laser, model.getModelViewTransform(), _rulerDragBoundsNode );
         
         // Position Histogram chart
         _positionHistogramChartNode = new PositionHistogramChartNode( clock, bead, modelViewTransform, PhysicsDefaults.POSITION_HISTOGRAM_BIN_WIDTH );
