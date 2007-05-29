@@ -274,6 +274,22 @@ EOT;
                 <script src="$prefix/js/jquery.MultiFile.js"    type="text/javascript"></script>
                 <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript"></script>
                 <script src="$prefix/js/http.js"                type="text/javascript"></script>
+                
+                <script type="text/javascript">
+                    /* <![CDATA[ */
+                    
+                        $('.showhide').click(
+                            function() {
+                                alert("This is an alert.");
+                                
+                                $(this).parent().next().toggle('slow');
+                            
+                                return false;
+                            }
+                        );
+                    
+                    /* ]]> */
+                </script>
             </head>
 
             <body>
