@@ -32,7 +32,7 @@ public class TestLayoutStrategies extends JFrame {
             protonsControl.setTextFieldEditable( true );
             protonsControl.setTextFieldColumns( columns );
             protonsControl.setMinorTickSpacing( 10 );
-            protonsControl.setMinorTickLabelsVisible( false );
+            protonsControl.setMinorTicksVisible( false );
             protonsControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
                     System.out.println( "protonsControl.stateChanged " + protonsControl.getValue() );
@@ -53,7 +53,7 @@ public class TestLayoutStrategies extends JFrame {
             speedControl.setValue( value );
             speedControl.setMajorTickSpacing( 500 );
             speedControl.setMinorTickSpacing( 100 );
-            speedControl.setMinorTickLabelsVisible( false );
+            speedControl.setMinorTicksVisible( false );
             speedControl.setUpDownArrowDelta( 1 );
             speedControl.setTextFieldEditable( true );
             speedControl.addChangeListener( new ChangeListener() {
@@ -75,7 +75,7 @@ public class TestLayoutStrategies extends JFrame {
             directionControl = new LinearValueControl( min, max, label, valuePattern, units, new ModelSliderLayoutStrategy() );
             directionControl.setValue( value );
             directionControl.setMajorTickSpacing( 90 );
-            directionControl.setMinorTickLabelsVisible( false );
+            directionControl.setMinorTicksVisible( false );
             directionControl.setUpDownArrowDelta( 1 );
             directionControl.setTextFieldEditable( true );
             directionControl.addChangeListener( new ChangeListener() {
