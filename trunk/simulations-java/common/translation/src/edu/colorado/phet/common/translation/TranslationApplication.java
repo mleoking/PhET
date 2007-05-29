@@ -10,7 +10,7 @@ public class TranslationApplication {
 
     public TranslationApplication() {
         JFrame frame = new JFrame( "PhET Translation" );
-        frame.setContentPane();
+//        frame.setContentPane();
     }
 
     public static void main( String[] args ) {
