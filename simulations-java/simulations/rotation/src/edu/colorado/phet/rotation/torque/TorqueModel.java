@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.torque;
 
 import edu.colorado.phet.rotation.model.RotationModel;
 
