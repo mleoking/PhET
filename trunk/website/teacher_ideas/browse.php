@@ -123,7 +123,9 @@ EOT;
     function build_association_filter_list($names, $all_filter_name, $selected_values, $size = '8') {
         $list = '';
         
-        $list .= '<select name="'.$all_filter_name.'[]" multiple="multiple" size="'.$size.'" id="'.$all_filter_name.'_uid">';
+        $on_change = 'onchange="javascript:update_browser_for_select_element(\''.$all_filter_name.'\');"';
+        
+        $list .= '<select name="'.$all_filter_name.'[]" '.$on_change.' multiple="multiple" size="'.$size.'" id="'.$all_filter_name.'_uid">';
         
         $list .= build_option_string('all', "All $all_filter_name", $selected_values);
         
@@ -175,9 +177,7 @@ EOT;
         return $encoded;
     }    
     
-    function print_content() {    
-        global $order, $sort_by, $referrer;
-        
+    function print_content_only() {
         $contributions = get_contributions();
         
         $title  = get_sorting_link('contribution_title',        'Title');
@@ -187,6 +187,50 @@ EOT;
         $sims   = get_sorting_link('sim_name',                  'Simulations');
         $date   = get_sorting_link('contribution_date_updated', 'Updated');
         
+        print <<<EOT
+
+            <div id="browseresults">
+                <table>
+                    <thead>
+                        <tr>
+
+                            $title
+
+                            $author
+
+                            $level
+
+                            $type
+
+                            $sims
+
+                            $date
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+EOT;
+
+        foreach($contributions as $contribution) {
+            contribution_print_summary3($contribution);
+        }
+
+        print <<<EOT
+
+                    </tbody>
+
+                </table>
+            </div>
+
+            <br/>
+            <br/>
+EOT;
+    }
+    
+    function print_content_with_header() {    
+        global $order, $sort_by, $referrer;
+        
         global $Simulations, $Types, $Levels;
         
         $sim_list   = build_sim_list($Simulations);
@@ -194,7 +238,43 @@ EOT;
         $level_list = build_level_list($Levels);
                 
         print <<<EOT
-            <form id="browsefilter" id="simbrowseform" method="post" action="browse.php">
+            <script type="text/javascript">
+                /* <![CDATA[ */
+                    function update_browser_for_select_element(select_prefix) {                        
+                        var select_id = select_prefix + '_uid';
+
+                        var select_element = document.getElementById(select_id);
+                        
+                        var option_nodes = select_element.getElementsByTagName('option');
+                        
+                        var selected_options = '', is_first = true;
+                        
+                        for (var i = 0; i < option_nodes.length; i++) {
+                            var option_node = option_nodes[i];
+                            
+                            if (option_node.selected) {
+                                selected_options += '&';
+                                
+                                if (is_first) {
+                                    is_first = false;
+                                    
+                                    selected_options += select_prefix + '[]=';
+                                }
+                                
+                                selected_options += encodeURI(option_node.value);
+                            }
+                        }
+                        
+                        var url = 'browse.php?content_only=true' + selected_options;
+                        
+                        HTTP.updateElementWithGet(url, null, 'browseresults');                        
+
+                        return false;
+                    }
+                /* ]]> */
+            </script>
+            
+            <form id="browsefilter" name="browseform" method="post" action="browse.php">
                 <input type="hidden" name="order"    value="$order"     />
                 <input type="hidden" name="sort_by"  value="$sort_by"   />
                 <input type="hidden" name="referrer" value="$referrer"  />
@@ -233,47 +313,12 @@ EOT;
                     </tbody>
                 </table>
                 
-                <input type="submit" name="Filter" value="Filter" />
-                
                 <div class="separator">
                 </div>
             </form>
-        
-            <table>
-                <thead>
-                    <tr>
-            
-                        $title
-                        
-                        $author
-                        
-                        $level
-                        
-                        $type
-                        
-                        $sims
-                        
-                        $date
-            
-                    </tr>
-                </thead>
-                
-                <tbody>
 EOT;
-        
-        foreach($contributions as $contribution) {
-            contribution_print_summary3($contribution);
-        }
-        
-        print <<<EOT
 
-                </tbody>
-                
-            </table>
-            
-            <br/>
-            <br/>
-EOT;
+        print_content_only();
     }
     
     if (isset($_REQUEST['sort_by'])) {
@@ -314,6 +359,11 @@ EOT;
         $Levels = $_REQUEST['Levels'];
     }
     
-    print_site_page('print_content', 3);
+    if (isset($_REQUEST['content_only'])) {
+        print_content_only();
+    }
+    else {
+        print_site_page('print_content_with_header', 3);
+    }
 
 ?>
