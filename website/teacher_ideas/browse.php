@@ -101,11 +101,9 @@
             url_encode_list('Types[]',       $Types).
             url_encode_list('Levels[]',      $Levels);
             
-        $current_url = $_SERVER['PHP_SELF']; 
-        
-        $script_name = basename($current_url);
+        $php_self = $_SERVER['PHP_SELF']; 
                 
-        $script = SITE_ROOT."teacher_ideas/${script_name}?order=${link_order}&amp;sort_by=${link_sort_by}${filter_options}";
+        $script = "${php_self}?order=${link_order}&amp;sort_by=${link_sort_by}${filter_options}";
         
         $link = "<a href=\"${script}\">${desc}</a>";
         
@@ -356,6 +354,20 @@ EOT;
     
     if (isset($_REQUEST['Simulations'])) {
         $Simulations = $_REQUEST['Simulations'];
+    }
+    else {
+        if (isset($GLOBALS['sim_id'])) {
+            $sim_id = $GLOBALS['sim_id'];
+        }
+        else if (isset($_REQUEST['sim_id'])) {
+            $sim_id = $_REQUEST['sim_id'];
+        }
+        
+        if (isset($sim_id)) {
+            $sim = sim_get_simulation_by_id($sim_id);
+            
+            $Simulations[] = $sim['sim_name'];
+        }
     }
     
     $Levels = array( 'all' );

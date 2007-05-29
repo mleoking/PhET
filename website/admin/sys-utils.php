@@ -230,11 +230,11 @@
     }
     
     function remove_file_extension($thefile) {
-        if (strpos($thefile,”.”) === false) {
+        if (strpos($thefile, '.') === false) {
             return $thefile;
         }
         else {
-            return substr($thefile, 0, strrpos($thefile,”.”));
+            return substr($thefile, 0, strrpos($thefile, '.'));
         }
     }
 

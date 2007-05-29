@@ -18,27 +18,25 @@
     }
     
     function contribution_get_files_listing_html($contribution_id) {
-        $files_html = '<ul>';
+        $files_html = '<p>No files</p>';
         
         $files = contribution_get_contribution_files($contribution_id);
         
-        foreach($files as $file) {
-            eval(get_code_to_create_variables_from_array($file));
-            
-            $basename = basename($contribution_file_url);
-            
-            $matches = array();
-            
-            preg_match('/php.*_(.+)/i', $basename, $matches);
-            
-            $name = $matches[1];
-            
-            $delete = "<input name=\"delete_contribution_file_id_${contribution_file_id}\" type=\"submit\" value=\"Delete\" />";
-            
-            $files_html .= "<li>$delete <a href=\"".SITE_ROOT."$contribution_file_url\">$name</a></li>";
-        }
+        if (count($files) > 0) {
+            $files_html = '<ul>';
         
-        $files_html .= "</ul>";
+            foreach($files as $file) {
+                eval(get_code_to_create_variables_from_array($file));
+            
+                $name = contribution_extract_original_file_name($contribution_file_url);
+            
+                $kb = $contribution_file_size / 1024;
+            
+                $files_html .= "<li><a href=\"".SITE_ROOT."$contribution_file_url\">$name</a> - $kb KB</li>";
+            }
+        
+            $files_html .= "</ul>";
+        }
         
         return $files_html;
     }
@@ -850,8 +848,9 @@ EOT;
             $contribution_file_id = insert_row_into_table(
                 'contribution_file',
                 array(
-                    'contribution_id'       => $contribution_id,
-                    'contribution_file_url' => $new_file_path_rel
+                    'contribution_id'        => $contribution_id,
+                    'contribution_file_url'  => $new_file_path_rel,
+                    'contribution_file_size' => filesize($file_tmp_name)
                 )
             );
             

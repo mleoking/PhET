@@ -146,6 +146,25 @@
         return get_code_to_create_variables_from_array($_REQUEST);
     }
     
+    function convert_array_to_comma_list($array) {
+        $list = '';
+        
+        $is_first = true;
+        
+        foreach($array as $element) {
+            if ($is_first) {
+                $is_first = false;
+            }
+            else {
+                $list .= ', ';
+            }
+            
+            $list .= "$element";
+        }
+        
+        return $list;
+    }
+    
     function print_comma_list_as_bulleted_list($comma_list) {
         print "<ul>";
         
