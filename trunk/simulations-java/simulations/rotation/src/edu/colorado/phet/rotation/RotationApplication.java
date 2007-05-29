@@ -15,7 +15,7 @@ import java.awt.*;
  */
 
 public class RotationApplication extends PhetApplication {
-    private RotationModule rotationModule;
+    private AbstractRotationModule rotationModule;
 
     public RotationApplication( String[] args ) {
         super( new PhetApplicationConfig( args, createFrameSetup(), RotationResources.getInstance() ) );
