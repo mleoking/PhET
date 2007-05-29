@@ -164,12 +164,7 @@ EOT;
         $is_first = true;
 
         foreach($list as $item) {
-            if ($is_first) {
-                $is_first = false;
-            }
-            else {
-                $encoded .= '&amp;';
-            }
+            $encoded .= '&amp;';
             
             $encoded .= urlencode($item);
         }
@@ -186,6 +181,8 @@ EOT;
         $type   = get_sorting_link('contribution_type_desc',    'Type');
         $sims   = get_sorting_link('sim_name',                  'Simulations');
         $date   = get_sorting_link('contribution_date_updated', 'Updated');
+        
+        global $Simulations;
         
         print <<<EOT
 
@@ -253,19 +250,13 @@ EOT;
                             var option_node = option_nodes[i];
                             
                             if (option_node.selected) {
-                                selected_options += '&';
-                                
-                                if (is_first) {
-                                    is_first = false;
-                                    
-                                    selected_options += select_prefix + '[]=';
-                                }
+                                selected_options += '&' + select_prefix + '[]=';
                                 
                                 selected_options += encodeURI(option_node.value);
                             }
                         }
                         
-                        var url = 'browse.php?content_only=true' + selected_options;
+                        var url = 'browse.php?content_only=true&order=$order&sort_by=$sort_by' + selected_options;
                         
                         HTTP.updateElementWithGet(url, null, 'browseresults');                        
 
@@ -312,6 +303,8 @@ EOT;
                         </tr>
                     </tbody>
                 </table>
+                
+                <input type="submit" name="Filter" value="Filter" />
                 
                 <div class="separator">
                 </div>
