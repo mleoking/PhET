@@ -133,9 +133,9 @@ public class PhysicsModule extends AbstractModule {
             _controlPanel.getChartsControlPanel().setPositionHistogramSelected( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );
             _controlPanel.getChartsControlPanel().setPotentialEnergySelected( PhysicsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
             _controlPanel.setRulerSelected( PhysicsDefaults.RULER_SELECTED );
-            _controlPanel.setAdvancedVisible( PhysicsDefaults.ADVANCED_VISIBLE );
-            _controlPanel.setFluidControlSelected( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
-            _controlPanel.setMomentumChangeSelected( PhysicsDefaults.MOMENTUM_CHANGE_MODEL_SELECTED );
+            _controlPanel.getAdvancedControlPanel().setAdvancedVisible( PhysicsDefaults.ADVANCED_VISIBLE );
+            _controlPanel.getAdvancedControlPanel().setFluidControlSelected( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
+            _controlPanel.getAdvancedControlPanel().setMomentumChangeSelected( PhysicsDefaults.MOMENTUM_CHANGE_MODEL_SELECTED );
         }
     }
 

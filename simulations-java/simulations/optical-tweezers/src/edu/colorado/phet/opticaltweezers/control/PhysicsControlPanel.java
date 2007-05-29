@@ -50,7 +50,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     private PhysicsModule _module;
     private PhysicsModel _model;
     private PhysicsCanvas _canvas;
-    private FluidControlDialog _fluidControlDialog;
     private PhysicsDeveloperDialog _developerControlsDialog;
     
     private JCheckBox _developerControlsCheckBox;
@@ -64,13 +63,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
    
     private ForcesControlPanel _forcesControlPanel;
     private ChartsControlPanel _chartsControlPanel;
+    private AdvancedControlPanel _advancedControlPanel;
 
     private JCheckBox _rulerCheckBox;
-
-    private JButton _advancedButton;
-    private Box _advancedPanel;
-    private JCheckBox _fluidControlsCheckBox;
-    private JCheckBox _momemtumChangeCheckBox;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -87,7 +82,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _module = module;
         _model = module.getPhysicsModel();
         _canvas = module.getPhysicsCanvas();
-        _fluidControlDialog = null;
 
         // Set the control panel's minimum width.
         int minimumWidth = OTResources.getInt( "int.minControlPanelWidth", 215 );
@@ -158,29 +152,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
         
         // Advanced features
-        JPanel advancedPanel = new JPanel();
-        {
-            _advancedButton = new JButton( OTResources.getString( "label.showAdvanced" ) );
-            _fluidControlsCheckBox = new JCheckBox( OTResources.getString( "label.controlFluidFlow" ) );
-            _momemtumChangeCheckBox = new JCheckBox( OTResources.getString( "label.showMomentumChange" ) );
-            
-            _advancedPanel = new Box( BoxLayout.Y_AXIS );
-            _advancedPanel.add( _fluidControlsCheckBox );
-//            _advancedPanel.add( _momemtumChangeCheckBox );
-            
-            JPanel innerPanel = new JPanel();
-            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-            innerPanel.setLayout( layout );
-            layout.setAnchor( GridBagConstraints.WEST );
-            layout.setFill( GridBagConstraints.HORIZONTAL );
-            layout.setMinimumWidth( 0, 0 );
-            int row = 0;
-            layout.addComponent( _advancedButton, row++, 1 );
-            layout.addComponent( _advancedPanel, row++, 1 );
-            
-            advancedPanel.setLayout( new BorderLayout() );
-            advancedPanel.add( innerPanel, BorderLayout.WEST );
-        }
+        _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, _model.getFluid(), _module.getFrame() );
         
         // Fonts
         {
@@ -194,10 +166,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _excessChargesRadioButton.setFont( CONTROL_FONT );
             
             _rulerCheckBox.setFont( CONTROL_FONT );
-            
-            _advancedButton.setFont( CONTROL_FONT );
-            _fluidControlsCheckBox.setFont( CONTROL_FONT );
-            _momemtumChangeCheckBox.setFont( CONTROL_FONT );
         }
         
         // Layout
@@ -216,7 +184,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             addSeparator();
             addControlFullWidth( _rulerCheckBox );
             addSeparator();
-            addControlFullWidth( advancedPanel );
+            addControlFullWidth( _advancedControlPanel );
             addSeparator();
             addResetButton();
         }
@@ -235,10 +203,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _excessChargesRadioButton.addActionListener( listener );
             
             _rulerCheckBox.addActionListener( listener );
-            
-            _advancedButton.addActionListener( listener );
-            _fluidControlsCheckBox.addActionListener( listener );
-            _momemtumChangeCheckBox.addActionListener( listener );
         }
         
         // Default state
@@ -254,10 +218,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             
             _rulerCheckBox.setSelected( false  );
             
-            _advancedPanel.setVisible( false );
-            _fluidControlsCheckBox.setSelected( false );
-            _momemtumChangeCheckBox.setSelected( false );
-            
             handleClockSpeedControl(); // enable & disable controls based on clock speed
         }
         
@@ -268,7 +228,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _beadChargesCheckBox.setForeground( fg );
             _allChargesRadioButton.setForeground( fg );
             _excessChargesRadioButton.setForeground( fg );
-            _momemtumChangeCheckBox.setForeground( fg );
         }
     }
     
@@ -284,8 +243,12 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         return _chartsControlPanel;
     }
     
+    public AdvancedControlPanel getAdvancedControlPanel() {
+        return _advancedControlPanel;
+    }
+    
     public void closeAllDialogs() {
-        setFluidControlSelected( false );
+        _advancedControlPanel.setFluidControlSelected( false );
         setDeveloperControlsSelected( false );
     }
     
@@ -348,34 +311,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         return _rulerCheckBox.isSelected();
     }
     
-    public void setAdvancedVisible( boolean b ) {
-        if ( b ^ _advancedPanel.isVisible() ) {
-            handleAdvancedButton();
-        }
-    }
-    
-    public boolean isAdvancedVisible() {
-        return _advancedButton.isVisible();
-    }
-    
-    public void setFluidControlSelected( boolean b ) {
-        _fluidControlsCheckBox.setSelected( b );
-        handleFluidControlsCheckBox();
-    }
-    
-    public boolean isFluidControlsSelected() {
-        return _fluidControlsCheckBox.isSelected();
-    }
-    
-    public void setMomentumChangeSelected( boolean b ) {
-        _momemtumChangeCheckBox.setSelected( b );
-        handleMomentumChangeCheckBox();
-    }
-    
-    public boolean isMomentumChangeSelected() {
-        return _momemtumChangeCheckBox.isSelected();
-    }
-    
     //----------------------------------------------------------------------------
     // Event dispatching
     //----------------------------------------------------------------------------
@@ -398,15 +333,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             }
             else if ( source == _rulerCheckBox ) {
                 handleRulerCheckBox();
-            }
-            else if ( source == _advancedButton ) {
-                handleAdvancedButton();
-            }
-            else if ( source == _fluidControlsCheckBox ) {
-                handleFluidControlsCheckBox();
-            }
-            else if ( source == _momemtumChangeCheckBox ) {
-                handleMomentumChangeCheckBox();
             }
             else if ( source == _developerControlsCheckBox ) {
                 handleDeveloperControlsCheckBox();
@@ -486,66 +412,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     private void handleRulerCheckBox() {
         final boolean selected = _rulerCheckBox.isSelected();
         _canvas.getRulerNode().setVisible( selected );
-    }
-    
-    private void handleAdvancedButton() {
-        
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleAdvancedButton" );
-        }
-        
-        _advancedPanel.setVisible( !_advancedPanel.isVisible() );
-        if ( _advancedPanel.isVisible() ) {
-            _advancedButton.setText( OTResources.getString( "label.hideAdvanced" ) );
-        }
-        else {
-            _advancedButton.setText( OTResources.getString( "label.showAdvanced" ) );
-        }
-    }
-    
-    private void handleFluidControlsCheckBox() {
-        
-        final boolean selected = _fluidControlsCheckBox.isSelected();
-        
-        if ( !selected ) {
-            if ( _fluidControlDialog != null ) {
-                _fluidControlDialog.dispose();
-                _fluidControlDialog = null;
-            }
-        }
-        else {
-            JFrame parentFrame = _module.getFrame();
-            Fluid fluid = _model.getFluid();
-            _fluidControlDialog = new FluidControlDialog( parentFrame, OTConstants.CONTROL_PANEL_CONTROL_FONT, fluid );
-            _fluidControlDialog.addWindowListener( new WindowAdapter() {
-
-                // called when the close button in the dialog's window dressing is clicked
-                public void windowClosing( WindowEvent e ) {
-                    _fluidControlDialog.dispose();
-                }
-
-                // called by JDialog.dispose
-                public void windowClosed( WindowEvent e ) {
-                    _fluidControlDialog = null;
-                    _fluidControlsCheckBox.setSelected( false );
-                }
-            } );
-            // Position at the left-center of the main frame
-            Point p = parentFrame.getLocationOnScreen();
-            _fluidControlDialog.setLocation( (int) p.getX() + 10, (int) p.getY() + ( ( parentFrame.getHeight() - _fluidControlDialog.getHeight() ) / 2 ) );
-            _fluidControlDialog.show();
-        }
-    }
-    
-    private void handleMomentumChangeCheckBox() {
-        
-        final boolean selected = _momemtumChangeCheckBox.isSelected();
-        
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleMomentumChangeCheckBox " + selected );
-        }
-        
-        //XXX
     }
     
     private void handleDeveloperControlsCheckBox() {
