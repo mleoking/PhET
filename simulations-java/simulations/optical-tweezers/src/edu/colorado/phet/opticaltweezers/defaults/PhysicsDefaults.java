@@ -82,6 +82,10 @@ public class PhysicsDefaults {
     public static final boolean FLUID_CONTROLS_SELECTED = false;
     public static final boolean MOMENTUM_CHANGE_MODEL_SELECTED = false;
 
+    // Ruler
+    public static final int RULER_MAJOR_TICK_INTERVAL = 100; // nm
+    public static final int RULER_MINOR_TICKS_BETWEEN_MAJORS = 9;
+    
     // Position Histogram
     public static final double POSITION_HISTOGRAM_BIN_WIDTH = 20; // nm
     

@@ -33,14 +33,13 @@ public class OTRulerNode extends RulerNode implements Observer {
     
     private static final Dimension2D DEFAULT_WORLD_SIZE = new PDimension( 600, 600 );
     private static final double HEIGHT = 40;
-    private static final int MAJOR_TICK_INTERVAL = 100; // nm, model coordinates
-    private static final int MINOR_TICKS_BETWEEN_MAJORS = 9;
     private static final int FONT_SIZE = 12;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
+    private int _majorTickInterval;
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
     private PPath _dragBoundsNode;
@@ -53,14 +52,18 @@ public class OTRulerNode extends RulerNode implements Observer {
     /**
      * Constructors.
      * 
+     * @param majorTickInterval nm
+     * @param minorTicksBetweenMajors
      * @param laser
      * @param modelWorldTransform
      * @param dragBoundsNode
      */
-    public OTRulerNode( Laser laser, ModelViewTransform modelWorldTransform, PPath dragBoundsNode ) {
-        super( DEFAULT_WORLD_SIZE.getWidth(), HEIGHT, null, OTResources.getString( "units.position" ), MINOR_TICKS_BETWEEN_MAJORS, FONT_SIZE );
+    public OTRulerNode( int majorTickInterval, int minorTicksBetweenMajors, Laser laser, ModelViewTransform modelWorldTransform, PPath dragBoundsNode ) {
+        super( DEFAULT_WORLD_SIZE.getWidth(), HEIGHT, null, OTResources.getString( "units.position" ), minorTicksBetweenMajors, FONT_SIZE );
         
         setUnitsAssociatedMajorTickLabel( "0" ); // attach units to the tick mark labeled "0"
+        
+        _majorTickInterval = majorTickInterval;
         
         _laser = laser;
         _laser.addObserver( this );
@@ -133,21 +136,21 @@ public class OTRulerNode extends RulerNode implements Observer {
         final double modelRulerWidth = 3 * modelCanvasWidth;
         
         // Calculate the number of ticks on the ruler
-        int numMajorTicks = (int)( modelRulerWidth / MAJOR_TICK_INTERVAL );
+        int numMajorTicks = (int)( modelRulerWidth / _majorTickInterval );
         if ( numMajorTicks % 2 == 0 ) {
             numMajorTicks++; // must be an odd number, with 0 at middle
         }
         
         // Distance between first and last tick
-        final double viewDistance = ( numMajorTicks - 1 ) * _modelViewTransform.modelToView( MAJOR_TICK_INTERVAL );
+        final double viewDistance = ( numMajorTicks - 1 ) * _modelViewTransform.modelToView( _majorTickInterval );
         setDistanceBetweenFirstAndLastTick( viewDistance );
         
         // Create the tick labels
         String[] majorTickLabels = new String[ numMajorTicks ];
-        int majorTick = -MAJOR_TICK_INTERVAL * ( numMajorTicks - 1 ) / 2;
+        int majorTick = -_majorTickInterval * ( numMajorTicks - 1 ) / 2;
         for ( int i = 0; i < majorTickLabels.length; i++ ) {
             majorTickLabels[i] = String.valueOf( majorTick );
-            majorTick += MAJOR_TICK_INTERVAL;
+            majorTick += _majorTickInterval;
         }
         setMajorTickLabels( majorTickLabels );
         
