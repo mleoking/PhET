@@ -55,6 +55,7 @@ MISSING INFO:
 
  
 DONE:
+5/29/07 - set up control subpanels to support persistence
 5/29/07 - add "Laser display" panel with radio buttons "beam", "electric field vectors", "beam with vectors",
 5/29/07 - add "Bead's charges" panel with radio buttons "hidden", "charge distribution", "excess charge only"
 5/29/07 - replace "Fields and charges" control panel with "Laser display" and "Bead's charges" panels
