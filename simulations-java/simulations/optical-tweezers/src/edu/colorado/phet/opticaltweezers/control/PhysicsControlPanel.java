@@ -69,15 +69,17 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     private JCheckBox _fluidDragCheckBox;
     private JCheckBox _brownianForceCheckBox;
     
-    private JCheckBox _rulerCheckBox;
-    private JCheckBox _positionHistogramCheckBox;
+    private JRadioButton _noChartsRadioButton;
+    private JRadioButton _positionHistogramRadioButton;
+    private JRadioButton _potentialEnergyChartRadioButton;
     
+    private JCheckBox _rulerCheckBox;
+
     private JButton _advancedButton;
     private Box _advancedPanel;
     private JCheckBox _fluidControlsCheckBox;
     private JCheckBox _momemtumChangeCheckBox;
-    private JCheckBox _potentialEnergyChartCheckBox;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -123,7 +125,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             layout.addComponent( _timestepControl, row++, column );
         }
         
-        // Fields and charged 
+        // Fields and charges
         JPanel fieldAndChargesPanel = new JPanel();
         {
             JLabel titleLabel = new JLabel( OTResources.getString( "label.fieldsAndCharges" ) );
@@ -191,16 +193,62 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             forcesPanel.add( innerPanel, BorderLayout.WEST );
         }
         
+        // Charts
+        JPanel chartsPanel = new JPanel();
+        {
+            JLabel titleLabel = new JLabel( OTResources.getString( "label.charts" ) );
+            titleLabel.setFont( TITLE_FONT );
+            
+            // "no charts" choice
+            _noChartsRadioButton = new JRadioButton( OTResources.getString( "choice.noCharts" ) );
+            
+            // Position Histogram
+            _positionHistogramRadioButton = new JRadioButton( OTResources.getString( "choice.positionHistogram" ) );
+            _canvas.getPositionHistogramChartNode().addPropertyChangeListener( new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    if ( !_canvas.getPositionHistogramChartNode().isVisible() ) {
+                        if ( _positionHistogramRadioButton.isSelected() ) {
+                            _noChartsRadioButton.setSelected( true );
+                        }
+                    }
+                }
+            });
+            
+            // Potential Energy chart
+            _potentialEnergyChartRadioButton = new JRadioButton( OTResources.getString( "choice.potentialEnergyChart" ) );
+            _canvas.getPotentialEnergyChartNode().addPropertyChangeListener( new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    if ( !_canvas.getPotentialEnergyChartNode().isVisible() ) {
+                        if ( _potentialEnergyChartRadioButton.isSelected() ) {
+                            _noChartsRadioButton.setSelected( true );
+                        }
+                    }
+                }
+            });
+            
+            ButtonGroup bg = new ButtonGroup();
+            bg.add( _noChartsRadioButton );
+            bg.add( _positionHistogramRadioButton );
+            bg.add( _potentialEnergyChartRadioButton );
+            
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            layout.setFill( GridBagConstraints.HORIZONTAL );
+            layout.setMinimumWidth( 0, 20 );
+            int row = 0;
+            layout.addComponent( titleLabel, row++, 0 );
+            layout.addComponent( _noChartsRadioButton, row++, 0 );
+            layout.addComponent( _positionHistogramRadioButton, row++, 0 );
+            layout.addComponent( _potentialEnergyChartRadioButton, row++, 0 );
+            
+            chartsPanel.setLayout( new BorderLayout() );
+            chartsPanel.add( innerPanel, BorderLayout.WEST );
+        }
+        
         // Ruler
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
-        
-        // Histogram
-        _positionHistogramCheckBox = new JCheckBox( OTResources.getString( "label.showPositionHistogram" ) );
-        _canvas.getPositionHistogramChartNode().addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                _positionHistogramCheckBox.setSelected( _canvas.getPositionHistogramChartNode().isVisible() );
-            }
-        });
         
         // Advanced features
         JPanel advancedPanel = new JPanel();
@@ -208,18 +256,10 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _advancedButton = new JButton( OTResources.getString( "label.showAdvanced" ) );
             _fluidControlsCheckBox = new JCheckBox( OTResources.getString( "label.controlFluidFlow" ) );
             _momemtumChangeCheckBox = new JCheckBox( OTResources.getString( "label.showMomentumChange" ) );
-            _potentialEnergyChartCheckBox = new JCheckBox( OTResources.getString( "label.showPotentialEnergyChart" ) );
-            
-            _canvas.getPotentialEnergyChartNode().addPropertyChangeListener( new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent evt ) {
-                    _potentialEnergyChartCheckBox.setSelected( _canvas.getPotentialEnergyChartNode().isVisible() );
-                }
-            });
             
             _advancedPanel = new Box( BoxLayout.Y_AXIS );
             _advancedPanel.add( _fluidControlsCheckBox );
 //            _advancedPanel.add( _momemtumChangeCheckBox );
-            _advancedPanel.add( _potentialEnergyChartCheckBox );
             
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -252,13 +292,15 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _fluidDragCheckBox.setFont( CONTROL_FONT );
             _brownianForceCheckBox.setFont( CONTROL_FONT );
             
+            _noChartsRadioButton.setFont( CONTROL_FONT );
+            _positionHistogramRadioButton.setFont( CONTROL_FONT );
+            _potentialEnergyChartRadioButton.setFont( CONTROL_FONT );
+            
             _rulerCheckBox.setFont( CONTROL_FONT );
-            _positionHistogramCheckBox.setFont( CONTROL_FONT );
             
             _advancedButton.setFont( CONTROL_FONT );
             _fluidControlsCheckBox.setFont( CONTROL_FONT );
             _momemtumChangeCheckBox.setFont( CONTROL_FONT );
-            _potentialEnergyChartCheckBox.setFont( CONTROL_FONT );
         }
         
         // Layout
@@ -273,8 +315,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             addSeparator();
             addControlFullWidth( forcesPanel );
             addSeparator();
+            addControlFullWidth( chartsPanel );
+            addSeparator();
             addControlFullWidth( _rulerCheckBox );
-            addControlFullWidth( _positionHistogramCheckBox );
             addSeparator();
             addControlFullWidth( advancedPanel );
             addSeparator();
@@ -284,23 +327,31 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Listeners
         {
             EventListener listener = new EventListener();
+            
             _developerControlsCheckBox.addActionListener( listener );
+            
             _timestepControl.addChangeListener( listener );
+            
             _electricFieldCheckBox.addActionListener( listener );
             _beadChargesCheckBox.addActionListener( listener );
             _allChargesRadioButton.addActionListener( listener );
             _excessChargesRadioButton.addActionListener( listener );
+            
             _trapForceCheckBox.addActionListener( listener );
             _wholeBeadRadioButton.addActionListener( listener );
             _halfBeadRadioButton.addActionListener( listener );
             _fluidDragCheckBox.addActionListener( listener );
             _brownianForceCheckBox.addActionListener( listener );
+            
+            _noChartsRadioButton.addActionListener( listener );
+            _positionHistogramRadioButton.addActionListener( listener );
+            _potentialEnergyChartRadioButton.addActionListener( listener );
+            
             _rulerCheckBox.addActionListener( listener );
-            _positionHistogramCheckBox.addActionListener( listener );
+            
             _advancedButton.addActionListener( listener );
             _fluidControlsCheckBox.addActionListener( listener );
             _momemtumChangeCheckBox.addActionListener( listener );
-            _potentialEnergyChartCheckBox.addActionListener( listener );
         }
         
         // Default state
@@ -323,13 +374,15 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _fluidDragCheckBox.setSelected( false );
             _brownianForceCheckBox.setSelected( false );
 
+            _noChartsRadioButton.setSelected( true );
+            _positionHistogramRadioButton.setSelected( false );
+            _potentialEnergyChartRadioButton.setSelected( false );
+            
             _rulerCheckBox.setSelected( false  );
-            _positionHistogramCheckBox.setSelected( false );
             
             _advancedPanel.setVisible( false );
             _fluidControlsCheckBox.setSelected( false );
             _momemtumChangeCheckBox.setSelected( false );
-            _potentialEnergyChartCheckBox.setSelected( false );
             
             handleClockSpeedControl(); // enable & disable controls based on clock speed
         }
@@ -462,12 +515,23 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     }
     
     public void setPositionHistogramSelected( boolean b ) {
-        _positionHistogramCheckBox.setSelected( b );
-        handlePositionHistogramCheckBox();
+        _noChartsRadioButton.setSelected( !b );
+        _positionHistogramRadioButton.setSelected( b );
+        handleChartChoice();
     }
     
     public boolean isPositionHistogramSelected() {
-        return _positionHistogramCheckBox.isSelected();
+        return _positionHistogramRadioButton.isSelected();
+    }
+    
+    public void setPotentialChartSelected( boolean b ) {
+        _noChartsRadioButton.setSelected( !b );
+        _potentialEnergyChartRadioButton.setSelected( b );
+        handleChartChoice();
+    }
+    
+    public boolean isPotentialChartSelected() {
+        return _potentialEnergyChartRadioButton.isSelected();
     }
     
     public void setAdvancedVisible( boolean b ) {
@@ -496,15 +560,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public boolean isMomentumChangeSelected() {
         return _momemtumChangeCheckBox.isSelected();
-    }
-    
-    public void setPotentialChartSelected( boolean b ) {
-        _potentialEnergyChartCheckBox.setSelected( b );
-        handlePotentialEnergyChartCheckBox();
-    }
-    
-    public boolean isPotentialChartSelected() {
-        return _potentialEnergyChartCheckBox.isSelected();
     }
     
     //----------------------------------------------------------------------------
@@ -542,11 +597,17 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             else if ( source == _brownianForceCheckBox ) {
                 handleBrownianForceCheckBox();
             }
+            else if ( source == _noChartsRadioButton ) {
+                handleChartChoice();
+            }
+            else if ( source == _positionHistogramRadioButton ) {
+                handleChartChoice();
+            }
+            else if ( source == _potentialEnergyChartRadioButton ) {
+                handleChartChoice();
+            }
             else if ( source == _rulerCheckBox ) {
                 handleRulerCheckBox();
-            }
-            else if ( source == _positionHistogramCheckBox ) {
-                handlePositionHistogramCheckBox();
             }
             else if ( source == _advancedButton ) {
                 handleAdvancedButton();
@@ -556,9 +617,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             }
             else if ( source == _momemtumChangeCheckBox ) {
                 handleMomentumChangeCheckBox();
-            }
-            else if ( source == _potentialEnergyChartCheckBox ) {
-                handlePotentialEnergyChartCheckBox();
             }
             else if ( source == _developerControlsCheckBox ) {
                 handleDeveloperControlsCheckBox();
@@ -680,14 +738,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _canvas.getRulerNode().setVisible( selected );
     }
     
-    private void handlePositionHistogramCheckBox() {
-        boolean selected = _positionHistogramCheckBox.isSelected();
-        if ( selected ) {
-            //HACK: hide the other chart
-            _potentialEnergyChartCheckBox.setSelected( false );
-            _canvas.getPotentialEnergyChartNode().setVisible( false );
-        }
-        _canvas.getPositionHistogramChartNode().setVisible( selected );
+    private void handleChartChoice() {
+        _canvas.getPositionHistogramChartNode().setVisible( _positionHistogramRadioButton.isSelected() );
+        _canvas.getPotentialEnergyChartNode().setVisible( _potentialEnergyChartRadioButton.isSelected() );
     }
     
     private void handleAdvancedButton() {
@@ -748,16 +801,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         }
         
         //XXX
-    }
-    
-    private void handlePotentialEnergyChartCheckBox() {
-        boolean selected = _potentialEnergyChartCheckBox.isSelected();
-        if ( selected ) {
-            //HACK: hide the other chart
-            _positionHistogramCheckBox.setSelected( false );
-            _canvas.getPositionHistogramChartNode().setVisible( false );
-        }
-        _canvas.getPotentialEnergyChartNode().setVisible( selected );
     }
     
     private void handleDeveloperControlsCheckBox() {
