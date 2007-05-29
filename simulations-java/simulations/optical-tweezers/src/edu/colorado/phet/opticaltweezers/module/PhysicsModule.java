@@ -126,10 +126,10 @@ public class PhysicsModule extends AbstractModule {
             _controlPanel.setElectricFieldSelected( PhysicsDefaults.ELECTRIC_FIELD_SELECTED );
             _controlPanel.setBeadChargesSelected( PhysicsDefaults.BEAD_CHARGES_SELECTED );
             _controlPanel.setAllChargesSelected( PhysicsDefaults.ALL_BEAD_CHARGES_SELECTED );
-            _controlPanel.setTrapForceSelected( PhysicsDefaults.TRAP_FORCE_SELECTED );
-            _controlPanel.setWholeBeadSelected( PhysicsDefaults.WHOLE_BEAD_SELECTED );
-            _controlPanel.setFluidDragSelected( PhysicsDefaults.FLUID_DRAG_FORCE_SELECTED );
-            _controlPanel.setBrownianForceSelected( PhysicsDefaults.BROWNIAN_FORCE_SELECTED );
+            _controlPanel.getForcesControlPanel().setTrapForceSelected( PhysicsDefaults.TRAP_FORCE_SELECTED );
+            _controlPanel.getForcesControlPanel().setWholeBeadSelected( PhysicsDefaults.WHOLE_BEAD_SELECTED );
+            _controlPanel.getForcesControlPanel().setDragForceSelected( PhysicsDefaults.FLUID_DRAG_FORCE_SELECTED );
+            _controlPanel.getForcesControlPanel().setBrownianForceSelected( PhysicsDefaults.BROWNIAN_FORCE_SELECTED );
             _controlPanel.getChartsControlPanel().setPositionHistogramSelected( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );
             _controlPanel.getChartsControlPanel().setPotentialEnergySelected( PhysicsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
             _controlPanel.setRulerSelected( PhysicsDefaults.RULER_SELECTED );
