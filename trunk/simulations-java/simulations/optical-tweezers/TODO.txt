@@ -57,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+5/29/07 - move force vector controls into ForcesControlPanel
 5/29/07 - move chart controls into ChartsControlPanel
 5/29/07 - combine all chart controls into "Graphs" panel with radio buttons "none", "position histogram", "potential energy curve"
 5/26/07 - hide "Show change in momentum model" control for now

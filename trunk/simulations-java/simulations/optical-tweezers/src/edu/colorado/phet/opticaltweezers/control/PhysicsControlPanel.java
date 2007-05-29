@@ -62,15 +62,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     private JRadioButton _allChargesRadioButton;
     private JRadioButton _excessChargesRadioButton;
    
-    private JCheckBox _trapForceCheckBox;
-    private JLabel _horizontalTrapForceLabel;
-    private JRadioButton _wholeBeadRadioButton;
-    private JRadioButton _halfBeadRadioButton;
-    private JCheckBox _fluidDragCheckBox;
-    private JCheckBox _brownianForceCheckBox;
-    
+    private ForcesControlPanel _forcesControlPanel;
     private ChartsControlPanel _chartsControlPanel;
-    
+
     private JCheckBox _rulerCheckBox;
 
     private JButton _advancedButton;
@@ -155,41 +149,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         }
         
         // Forces on bead 
-        JPanel forcesPanel = new JPanel();
-        {
-            JLabel titleLabel = new JLabel( OTResources.getString( "label.forcesOnBead" ) );
-            titleLabel.setFont( TITLE_FONT );
-            
-            _trapForceCheckBox = new JCheckBox( OTResources.getString( "label.showTrapForce" ) );
-            _fluidDragCheckBox = new JCheckBox( OTResources.getString( "label.showFluidDrag" ) );
-            _brownianForceCheckBox = new JCheckBox( OTResources.getString( "label.showBrownianForce" ) );
-
-            _horizontalTrapForceLabel = new JLabel( OTResources.getString( "label.horizontalTrapForce" ) );
-            _horizontalTrapForceLabel.setFont( CONTROL_FONT );
-            _wholeBeadRadioButton = new JRadioButton( OTResources.getString( "label.wholeBead" ) );
-            _halfBeadRadioButton = new JRadioButton( OTResources.getString( "label.halfBead" ) );
-            ButtonGroup bg = new ButtonGroup();
-            bg.add( _wholeBeadRadioButton );
-            bg.add( _halfBeadRadioButton );
-            
-            JPanel innerPanel = new JPanel();
-            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-            innerPanel.setLayout( layout );
-            layout.setAnchor( GridBagConstraints.WEST );
-            layout.setFill( GridBagConstraints.HORIZONTAL );
-            layout.setMinimumWidth( 0, 20 );
-            int row = 0;
-            layout.addComponent( titleLabel, row++, 0, 2, 1 );
-            layout.addComponent( _trapForceCheckBox, row++, 0, 2, 1 );
-            layout.addComponent( _horizontalTrapForceLabel, row++, 1 );
-            layout.addComponent( _wholeBeadRadioButton, row++, 1 );
-            layout.addComponent( _halfBeadRadioButton, row++, 1 );
-            layout.addComponent( _fluidDragCheckBox, row++, 0, 2, 1 );
-            layout.addComponent( _brownianForceCheckBox, row++, 0, 2, 1 );
-            
-            forcesPanel.setLayout( new BorderLayout() );
-            forcesPanel.add( innerPanel, BorderLayout.WEST );
-        }
+        _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getBrownianForceNode() );
         
         // Charts
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getPositionHistogramChartNode(), _canvas.getPotentialEnergyChartNode() );
@@ -232,12 +192,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _beadChargesCheckBox.setFont( CONTROL_FONT );
             _allChargesRadioButton.setFont( CONTROL_FONT );
             _excessChargesRadioButton.setFont( CONTROL_FONT );
-           
-            _trapForceCheckBox.setFont( CONTROL_FONT );
-            _wholeBeadRadioButton.setFont( CONTROL_FONT );
-            _halfBeadRadioButton.setFont( CONTROL_FONT );
-            _fluidDragCheckBox.setFont( CONTROL_FONT );
-            _brownianForceCheckBox.setFont( CONTROL_FONT );
             
             _rulerCheckBox.setFont( CONTROL_FONT );
             
@@ -256,7 +210,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             addSeparator();
             addControlFullWidth( fieldAndChargesPanel );
             addSeparator();
-            addControlFullWidth( forcesPanel );
+            addControlFullWidth( _forcesControlPanel );
             addSeparator();
             addControlFullWidth( _chartsControlPanel );
             addSeparator();
@@ -280,12 +234,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _allChargesRadioButton.addActionListener( listener );
             _excessChargesRadioButton.addActionListener( listener );
             
-            _trapForceCheckBox.addActionListener( listener );
-            _wholeBeadRadioButton.addActionListener( listener );
-            _halfBeadRadioButton.addActionListener( listener );
-            _fluidDragCheckBox.addActionListener( listener );
-            _brownianForceCheckBox.addActionListener( listener );
-            
             _rulerCheckBox.addActionListener( listener );
             
             _advancedButton.addActionListener( listener );
@@ -304,15 +252,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _excessChargesRadioButton.setEnabled( false );
             _excessChargesRadioButton.setEnabled( _beadChargesCheckBox.isSelected() );
             
-            _trapForceCheckBox.setSelected( false );
-            _horizontalTrapForceLabel.setEnabled( _trapForceCheckBox.isSelected() );
-            _wholeBeadRadioButton.setSelected( true );
-            _wholeBeadRadioButton.setEnabled( _trapForceCheckBox.isSelected() );
-            _halfBeadRadioButton.setSelected( false );
-            _halfBeadRadioButton.setEnabled( _trapForceCheckBox.isSelected() );
-            _fluidDragCheckBox.setSelected( false );
-            _brownianForceCheckBox.setSelected( false );
-
             _rulerCheckBox.setSelected( false  );
             
             _advancedPanel.setVisible( false );
@@ -329,9 +268,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _beadChargesCheckBox.setForeground( fg );
             _allChargesRadioButton.setForeground( fg );
             _excessChargesRadioButton.setForeground( fg );
-            _horizontalTrapForceLabel.setForeground( fg );
-            _wholeBeadRadioButton.setForeground( fg );
-            _halfBeadRadioButton.setForeground( fg );
             _momemtumChangeCheckBox.setForeground( fg );
         }
     }
@@ -339,6 +275,10 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
+    
+    public ForcesControlPanel getForcesControlPanel() {
+        return _forcesControlPanel;
+    }
     
     public ChartsControlPanel getChartsControlPanel() {
         return _chartsControlPanel;
@@ -399,51 +339,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         return _excessChargesRadioButton.isSelected();
     }
     
-    public void setTrapForceSelected( boolean b ) {
-        _trapForceCheckBox.setSelected( b );
-        handleTrapForceCheckBox();
-    }
-    
-    public boolean isTrapForceSelected() {
-        return _trapForceCheckBox.isSelected();
-    }
-    
-    public void setWholeBeadSelected( boolean b ) {
-        _wholeBeadRadioButton.setSelected( b );
-        handleWholeBeadRadioButton();
-    }
-    
-    public boolean isWholeBeadSelected() {
-        return _wholeBeadRadioButton.isSelected();
-    }
-    
-    public void setHalfBeadSelected( boolean b ) {
-        _halfBeadRadioButton.setSelected( b );
-        handleHalfBeadRadioButton();
-    }
-    
-    public boolean isHalfBeadSelected() {
-        return _halfBeadRadioButton.isSelected();
-    }
-   
-    public void setFluidDragSelected( boolean b ) {
-        _fluidDragCheckBox.setSelected( b );
-        handleFluidDragCheckBox();
-    }
-    
-    public boolean isFluidDragSelected() {
-        return _fluidDragCheckBox.isSelected();
-    }
-   
-    public void setBrownianForceSelected( boolean b ) {
-        _brownianForceCheckBox.setSelected( b );
-        handleBrownianForceCheckBox();
-    }
-    
-    public boolean isBrownianForceSelected() {
-        return _brownianForceCheckBox.isSelected();
-    }
-    
     public void setRulerSelected( boolean b ) {
         _rulerCheckBox.setSelected( b );
         handleRulerCheckBox();
@@ -501,21 +396,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             else if ( source == _excessChargesRadioButton ) {
                 handleExcessChargesRadioButton();
             }
-            else if ( source == _trapForceCheckBox ) {
-                handleTrapForceCheckBox();
-            }
-            else if ( source == _wholeBeadRadioButton ) {
-                handleWholeBeadRadioButton();
-            }
-            else if ( source == _halfBeadRadioButton ) {
-                handleHalfBeadRadioButton();
-            }
-            else if ( source == _fluidDragCheckBox ) {
-                handleFluidDragCheckBox();
-            }
-            else if ( source == _brownianForceCheckBox ) {
-                handleBrownianForceCheckBox();
-            }
             else if ( source == _rulerCheckBox ) {
                 handleRulerCheckBox();
             }
@@ -555,9 +435,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _allChargesRadioButton.setEnabled( isSlow && _beadChargesCheckBox.isSelected() );
         _excessChargesRadioButton.setEnabled( isSlow && _beadChargesCheckBox.isSelected() );
         
-        _horizontalTrapForceLabel.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
-        _wholeBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
-        _halfBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
+        _forcesControlPanel.setHorizontalTrapForceControlsEnabled( isSlow && _forcesControlPanel.isTrapForceSelected() );
         
         _model.getClock().setDt( _timestepControl.getValue() );
     }
@@ -603,44 +481,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         }
         
         //XXX
-    }
-    
-    private void handleTrapForceCheckBox() {
-        final boolean selected = _trapForceCheckBox.isSelected();
-        // related controls
-        _horizontalTrapForceLabel.setEnabled( selected );
-        _wholeBeadRadioButton.setEnabled( selected );
-        _halfBeadRadioButton.setEnabled( selected );
-        // update view
-        _canvas.getTrapForceNode().setVisible( selected );
-    }
-    
-    private void handleWholeBeadRadioButton() {
-        
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleWholeBeadRadioButton" );
-        }
-        
-        //XXX
-    }
-    
-    private void handleHalfBeadRadioButton() {
-        
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleHalfBeadRadioButton" );
-        }
-        
-        //XXX
-    }
-    
-    private void handleFluidDragCheckBox() {
-        final boolean selected = _fluidDragCheckBox.isSelected();
-        _canvas.getDragForceNode().setVisible( selected );
-    }
-    
-    private void handleBrownianForceCheckBox() {
-        final boolean selected = _brownianForceCheckBox.isSelected();
-        _canvas.getBrownianForceNode().setVisible( selected );
     }
     
     private void handleRulerCheckBox() {
