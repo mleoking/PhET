@@ -9,12 +9,11 @@ HIGH PRIORITY:
 - get DNA force model from Kathy
 
 MEDIUM PRIORITY:
-- get rid of "Advanced" panel, there's only 1 control left in it ?
+- change lens view, make it an on-edge view
+- make the lens supports look 3D, as if they are holding the lens
 - when fluid viscosity=0, use Verlet motion model, disable fluid speed & temperature controls, make glass slide black
 - make minimum y=10 for position histogram (using an off-screen point?)
 - add light grey draggable frame around laster controls, or make entire panel draggable
-- change lens view, make it an on-edge view
-- make the lens supports look 3D, as if they are holding the lens
 - rail slider for lens ?
 - implement custom simulation speed control
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
@@ -24,6 +23,7 @@ MEDIUM PRIORITY:
 - make "beam" the only laser display option in fast mode
 
 LOW PRIORITY:
+- get rid of "Advanced" panel, there's only 1 control left in it ?
 - position histogram should make an observation every N seconds, not every clock tick (?)
 - when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
 - dialogs don't repaint or close immediately when clock is running, thread priority?
