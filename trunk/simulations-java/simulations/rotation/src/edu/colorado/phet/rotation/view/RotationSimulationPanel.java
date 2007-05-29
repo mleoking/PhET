@@ -1,9 +1,11 @@
 package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.rotation.AbstractRotationModule;
+import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
 import edu.colorado.phet.rotation.RotationControlPanel;
 import edu.colorado.phet.rotation.RotationModule;
-import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
+
+import javax.swing.*;
 
 /**
  * Author: Sam Reid
@@ -14,7 +16,7 @@ public class RotationSimulationPanel extends AbstractRotationSimulationPanel {
         super( rotationModule );
     }
 
-    protected RotationControlPanel createControlPanel() {
+    protected JComponent createControlPanel() {
         return new RotationControlPanel( getRotationGraphSet(), getGraphSetModel(), ( (RotationModule)getAbstractRotationModule() ).getVectorViewModel() );
     }
 

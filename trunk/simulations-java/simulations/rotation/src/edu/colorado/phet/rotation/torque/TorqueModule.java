@@ -1,7 +1,8 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.torque;
 
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
+import edu.colorado.phet.rotation.AbstractRotationModule;
 
 /**
  * Author: Sam Reid
