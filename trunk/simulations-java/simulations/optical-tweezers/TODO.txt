@@ -58,6 +58,7 @@ MISSING INFO:
 
  
 DONE:
+5/29/07 - combine all chart controls into "Graphs" panel with radio buttons "none", "position histogram", "potential energy curve"
 5/26/07 - hide "Show change in momentum model" control for now
 5/18/07 - use Vector2DNode in FluidNode, scale arrow heads/tails
 5/18/07 - scale arrow heads/tails on vectors for trap/drag/Brownian forces
