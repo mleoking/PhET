@@ -55,6 +55,7 @@ MISSING INFO:
 
  
 DONE:
+5/29/07 - first pass at DNA strand model, implemented force model
 5/29/07 - set up basic DNA module, control panel, canvas, default values
 5/29/07 - specify ruler major/minor ticks in constructor, to accommodate different scales
 5/29/07 - set up control subpanels to support persistence
