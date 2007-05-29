@@ -122,7 +122,7 @@ public class PhysicsModule extends AbstractModule {
         
         // Control panel settings that are view-related
         {
-            _controlPanel.setClockSpeed( PhysicsDefaults.CLOCK_DT_RANGE.getDefault() );
+            _controlPanel.getClockStepControlPanel().setClockStep( PhysicsDefaults.CLOCK_DT_RANGE.getDefault() );
             _controlPanel.setElectricFieldSelected( PhysicsDefaults.ELECTRIC_FIELD_SELECTED );
             _controlPanel.setBeadChargesSelected( PhysicsDefaults.BEAD_CHARGES_SELECTED );
             _controlPanel.setAllChargesSelected( PhysicsDefaults.ALL_BEAD_CHARGES_SELECTED );

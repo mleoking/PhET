@@ -5,13 +5,10 @@ package edu.colorado.phet.opticaltweezers.control;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -22,9 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
-import edu.colorado.phet.opticaltweezers.dialog.FluidControlDialog;
 import edu.colorado.phet.opticaltweezers.dialog.PhysicsDeveloperDialog;
-import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.model.PhysicsModel;
 import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 import edu.colorado.phet.opticaltweezers.view.PhysicsCanvas;
@@ -37,13 +32,6 @@ import edu.colorado.phet.opticaltweezers.view.PhysicsCanvas;
 public class PhysicsControlPanel extends AbstractControlPanel {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // Prints debugging output for event handler entries
-    private static final boolean PRINT_DEBUG_EVENT_HANDLERS = false;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -54,7 +42,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     private JCheckBox _developerControlsCheckBox;
     
-    private LogarithmicValueControl _timestepControl;
+    private ClockStepControlPanel _clockStepControlPanel;
     
     private JCheckBox _electricFieldCheckBox;
     private JCheckBox _beadChargesCheckBox;
@@ -91,25 +79,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _developerControlsCheckBox = new JCheckBox( "Show Developer Controls" );
         
         // Clock speed
-        JPanel speedPanel = new JPanel();
-        {
-            double min = PhysicsDefaults.CLOCK_DT_RANGE.getMin();
-            double max = PhysicsDefaults.CLOCK_DT_RANGE.getMax();
-            String label = OTResources.getString( "label.timestep" );
-            String valuePattern = PhysicsDefaults.CLOCK_CONTROL_PATTERN;
-            String units = OTResources.getString( "units.time" );
-            _timestepControl = new LogarithmicValueControl( min, max, label, valuePattern, units );
-            _timestepControl.setTextFieldColumns( 6 );
-            _timestepControl.setFont( CONTROL_FONT );
-            
-            EasyGridBagLayout layout = new EasyGridBagLayout( speedPanel );
-            speedPanel.setLayout( layout );
-            layout.setAnchor( GridBagConstraints.WEST );
-            layout.setFill( GridBagConstraints.HORIZONTAL );
-            int row = 0;
-            int column = 0;
-            layout.addComponent( _timestepControl, row++, column );
-        }
+        _clockStepControlPanel = new ClockStepControlPanel( TITLE_FONT, CONTROL_FONT, _model.getClock() );
         
         // Fields and charges
         JPanel fieldAndChargesPanel = new JPanel();
@@ -158,8 +128,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         {
             _developerControlsCheckBox.setFont( CONTROL_FONT );
             
-            _timestepControl.setFont( CONTROL_FONT );
-            
             _electricFieldCheckBox.setFont( CONTROL_FONT );
             _beadChargesCheckBox.setFont( CONTROL_FONT );
             _allChargesRadioButton.setFont( CONTROL_FONT );
@@ -174,7 +142,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
                 addControlFullWidth( _developerControlsCheckBox );
                 addSeparator();
             }
-            addControlFullWidth( speedPanel );
+            addControlFullWidth( _clockStepControlPanel );
             addSeparator();
             addControlFullWidth( fieldAndChargesPanel );
             addSeparator();
@@ -195,8 +163,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             
             _developerControlsCheckBox.addActionListener( listener );
             
-            _timestepControl.addChangeListener( listener );
-            
             _electricFieldCheckBox.addActionListener( listener );
             _beadChargesCheckBox.addActionListener( listener );
             _allChargesRadioButton.addActionListener( listener );
@@ -207,8 +173,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Default state
         {
-            _timestepControl.setValue( _model.getClock().getDt() );
-            
             _electricFieldCheckBox.setSelected( false );
             _beadChargesCheckBox.setSelected( false );
             _allChargesRadioButton.setSelected( true );
@@ -218,7 +182,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             
             _rulerCheckBox.setSelected( false  );
             
-            handleClockSpeedControl(); // enable & disable controls based on clock speed
+            //XXX enable & disable controls based on clock speed
         }
         
         //XXX use red foreground for controls that aren't implemented
@@ -234,6 +198,10 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
+    
+    public ClockStepControlPanel getClockStepControlPanel() {
+        return _clockStepControlPanel;
+    }
     
     public ForcesControlPanel getForcesControlPanel() {
         return _forcesControlPanel;
@@ -255,15 +223,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     public void setDeveloperControlsSelected( boolean b ) {
         _developerControlsCheckBox.setSelected( b );
         handleDeveloperControlsCheckBox();
-    }
-    
-    public void setClockSpeed( double dt ) {
-        _timestepControl.setValue( dt );
-        handleClockSpeedControl();
-    }
-    
-    public double getClockSpeed() {
-        return _timestepControl.getValue();
     }
     
     public void setElectricFieldSelected( boolean b ) {
@@ -315,7 +274,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     // Event dispatching
     //----------------------------------------------------------------------------
     
-    private class EventListener implements ActionListener, ChangeListener {
+    private class EventListener implements ActionListener {
 
         public void actionPerformed( ActionEvent e ) {
             Object source = e.getSource();
@@ -338,74 +297,30 @@ public class PhysicsControlPanel extends AbstractControlPanel {
                 handleDeveloperControlsCheckBox();
             }
         }
-
-        public void stateChanged( ChangeEvent e ) {
-            Object source = e.getSource();
-            if ( source == _timestepControl ) {
-                handleClockSpeedControl();
-            }
-        }
-        
     }
     
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
     
-    private void handleClockSpeedControl() {
-        
-        boolean isSlow = _timestepControl.getValue() < ( ( _timestepControl.getMaximum() - _timestepControl.getMinimum() ) / 3 );//XXX
-        
-        _electricFieldCheckBox.setEnabled( isSlow );
-        _beadChargesCheckBox.setEnabled( isSlow );
-        _allChargesRadioButton.setEnabled( isSlow && _beadChargesCheckBox.isSelected() );
-        _excessChargesRadioButton.setEnabled( isSlow && _beadChargesCheckBox.isSelected() );
-        
-        _forcesControlPanel.setHorizontalTrapForceControlsEnabled( isSlow && _forcesControlPanel.isTrapForceSelected() );
-        
-        _model.getClock().setDt( _timestepControl.getValue() );
-    }
-
     private void handleElectricFieldCheckBox() {
-        
         final boolean selected = _electricFieldCheckBox.isSelected();
-        
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleElectricFieldCheckBox " + selected );
-        }
-        
         //XXX
     }
     
     private void handleBeadChargesCheckBox() {
-        
         final boolean selected = _beadChargesCheckBox.isSelected();
-        
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleBeadChargesCheckBox " + selected );
-        }
-        
         _allChargesRadioButton.setEnabled( selected );
         _excessChargesRadioButton.setEnabled( selected );
-        
-        //XXX
     }
     
     private void handleAllChargesRadioButton() {
-        
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleAllChargesRadioButton" );
-        }
-        
+        final boolean selected = _allChargesRadioButton.isSelected();
         //XXX
     }
     
     private void handleExcessChargesRadioButton() {
-        
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleExcessChargesRadioButton" );
-        }
-        
+        final boolean selected = _excessChargesRadioButton.isSelected();
         //XXX
     }
     
