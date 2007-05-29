@@ -46,7 +46,7 @@ public class MotionControlGraph extends ControlGraph {
         final JFreeChartCursorNode jFreeChartCursorNode = new JFreeChartCursorNode( getJFreeChartNode() );
         addChild( jFreeChartCursorNode );
         cursorModel.addListener( new CursorModel.Listener() {
-            public void changed() {
+            public void notifyCursorChanged() {
                 jFreeChartCursorNode.setTime( cursorModel.getTime() );
             }
         } );
