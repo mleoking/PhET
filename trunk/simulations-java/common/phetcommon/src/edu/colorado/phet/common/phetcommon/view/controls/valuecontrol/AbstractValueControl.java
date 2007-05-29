@@ -39,7 +39,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * (and therefore has an explosion of arguments),
  * I've provided a single constructor that provides the most common behavior
  * for this control, hopefully setting a standard for PhET.  If you need to 
- * customize the behavior, there are many setter's provided. 
+ * customize the behavior, there are many setters provided. 
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -85,7 +85,7 @@ public abstract class AbstractValueControl extends JPanel {
      * @param label label that appears to the left of the value
      * @param textFieldPattern pattern used to format the text field (see DecimalFormat)
      * @param units units that appear to the right of the value
-     * @param horizontalAlignment GridBagConstraints.WEST, CENTER or EAST
+     * @param layoutStrategy GridBagConstraints.WEST, CENTER or EAST
      * @throws IllegalArgumentException
      */
     public AbstractValueControl( AbstractSlider slider, String label, String textFieldPattern, String units, ILayoutStrategy layoutStrategy ) {
