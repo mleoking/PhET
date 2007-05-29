@@ -45,10 +45,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     private ClockStepControlPanel _clockStepControlPanel;
     
     private JCheckBox _electricFieldCheckBox;
-    private JCheckBox _beadChargesCheckBox;
-    private JRadioButton _allChargesRadioButton;
-    private JRadioButton _excessChargesRadioButton;
    
+    private BeadChargeControlPanel _beadChargeControlPanel;
     private ForcesControlPanel _forcesControlPanel;
     private ChartsControlPanel _chartsControlPanel;
     private AdvancedControlPanel _advancedControlPanel;
@@ -88,12 +86,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             titleLabel.setFont( TITLE_FONT );
             
             _electricFieldCheckBox = new JCheckBox( OTResources.getString( "label.showElectricField" ) );
-            _beadChargesCheckBox = new JCheckBox( OTResources.getString( "label.showBeadCharges" ) );
-            _allChargesRadioButton = new JRadioButton( OTResources.getString("label.allCharges" ) );
-            _excessChargesRadioButton = new JRadioButton( OTResources.getString( "label.excessCharges" ) );
-            ButtonGroup bg = new ButtonGroup();
-            bg.add( _allChargesRadioButton );
-            bg.add( _excessChargesRadioButton );
             
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -104,37 +96,23 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             int row = 0;
             layout.addComponent( titleLabel, row++, 0, 2, 1 );
             layout.addComponent( _electricFieldCheckBox, row++, 0, 2, 1 );
-            layout.addComponent( _beadChargesCheckBox, row++, 0, 2, 1 );
-            layout.addComponent( _allChargesRadioButton, row++, 1 );
-            layout.addComponent( _excessChargesRadioButton, row++, 1 );
             
             fieldAndChargesPanel.setLayout( new BorderLayout() );
             fieldAndChargesPanel.add( innerPanel, BorderLayout.WEST );
         }
         
-        // Forces on bead 
+        _beadChargeControlPanel = new BeadChargeControlPanel( TITLE_FONT, CONTROL_FONT );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getBrownianForceNode() );
-        
-        // Charts
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getPositionHistogramChartNode(), _canvas.getPotentialEnergyChartNode() );
         
         // Ruler
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
         
-        // Advanced features
         _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, _model.getFluid(), _module.getFrame() );
         
         // Fonts
-        {
-            _developerControlsCheckBox.setFont( CONTROL_FONT );
-            
-            _electricFieldCheckBox.setFont( CONTROL_FONT );
-            _beadChargesCheckBox.setFont( CONTROL_FONT );
-            _allChargesRadioButton.setFont( CONTROL_FONT );
-            _excessChargesRadioButton.setFont( CONTROL_FONT );
-            
-            _rulerCheckBox.setFont( CONTROL_FONT );
-        }
+        _developerControlsCheckBox.setFont( CONTROL_FONT );
+        _rulerCheckBox.setFont( CONTROL_FONT );
         
         // Layout
         {
@@ -143,6 +121,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
                 addSeparator();
             }
             addControlFullWidth( _clockStepControlPanel );
+            addSeparator();
+            addControlFullWidth( _beadChargeControlPanel );
             addSeparator();
             addControlFullWidth( fieldAndChargesPanel );
             addSeparator();
@@ -158,41 +138,18 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         }
         
         // Listeners
-        {
-            EventListener listener = new EventListener();
-            
-            _developerControlsCheckBox.addActionListener( listener );
-            
-            _electricFieldCheckBox.addActionListener( listener );
-            _beadChargesCheckBox.addActionListener( listener );
-            _allChargesRadioButton.addActionListener( listener );
-            _excessChargesRadioButton.addActionListener( listener );
-            
-            _rulerCheckBox.addActionListener( listener );
-        }
+        EventListener listener = new EventListener();
+        _developerControlsCheckBox.addActionListener( listener );
+        _electricFieldCheckBox.addActionListener( listener );
+        _rulerCheckBox.addActionListener( listener );
         
         // Default state
-        {
-            _electricFieldCheckBox.setSelected( false );
-            _beadChargesCheckBox.setSelected( false );
-            _allChargesRadioButton.setSelected( true );
-            _allChargesRadioButton.setEnabled( _beadChargesCheckBox.isSelected() );
-            _excessChargesRadioButton.setEnabled( false );
-            _excessChargesRadioButton.setEnabled( _beadChargesCheckBox.isSelected() );
-            
-            _rulerCheckBox.setSelected( false  );
-            
-            //XXX enable & disable controls based on clock speed
-        }
+        _electricFieldCheckBox.setSelected( false );
+        _rulerCheckBox.setSelected( false );
+        //XXX enable & disable controls based on clock speed
         
-        //XXX use red foreground for controls that aren't implemented
-        {
-            Color fg = Color.RED;
-            _electricFieldCheckBox.setForeground( fg );
-            _beadChargesCheckBox.setForeground( fg );
-            _allChargesRadioButton.setForeground( fg );
-            _excessChargesRadioButton.setForeground( fg );
-        }
+        //XXX not implemented
+        _electricFieldCheckBox.setForeground( Color.RED );
     }
     
     //----------------------------------------------------------------------------
@@ -201,6 +158,10 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public ClockStepControlPanel getClockStepControlPanel() {
         return _clockStepControlPanel;
+    }
+    
+    public BeadChargeControlPanel getBeadChargeControlPanel() {
+        return _beadChargeControlPanel;
     }
     
     public ForcesControlPanel getForcesControlPanel() {
@@ -225,6 +186,10 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         handleDeveloperControlsCheckBox();
     }
     
+    public boolean isDeveloperControlsSelected() {
+        return _developerControlsCheckBox.isSelected();
+    }
+    
     public void setElectricFieldSelected( boolean b ) {
         _electricFieldCheckBox.setSelected( b );
         handleElectricFieldCheckBox();
@@ -234,33 +199,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         return _electricFieldCheckBox.isSelected();
     }
    
-    public void setBeadChargesSelected( boolean b ) {
-        _beadChargesCheckBox.setSelected( b );
-        handleBeadChargesCheckBox();
-    }
-    
-    public boolean isBeadChargesSelected() {
-        return _beadChargesCheckBox.isSelected();
-    }
-    
-    public void setAllChargesSelected( boolean b ) {
-        _allChargesRadioButton.setSelected( b );
-        handleAllChargesRadioButton();
-    }
-    
-    public boolean isAllChargesSelected() {
-        return _allChargesRadioButton.isSelected();
-    }
-    
-    public void setExcessChargesSelected( boolean b ) {
-        _excessChargesRadioButton.setSelected( b );
-        handleExcessChargesRadioButton();
-    }
-    
-    public boolean isExcessChargesSelected() {
-        return _excessChargesRadioButton.isSelected();
-    }
-    
     public void setRulerSelected( boolean b ) {
         _rulerCheckBox.setSelected( b );
         handleRulerCheckBox();
@@ -281,15 +219,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             if ( source == _electricFieldCheckBox ) {
                 handleElectricFieldCheckBox();
             }
-            else if ( source == _beadChargesCheckBox ) {
-                handleBeadChargesCheckBox();
-            }
-            else if ( source == _allChargesRadioButton ) {
-                handleAllChargesRadioButton();
-            }
-            else if ( source == _excessChargesRadioButton ) {
-                handleExcessChargesRadioButton();
-            }
             else if ( source == _rulerCheckBox ) {
                 handleRulerCheckBox();
             }
@@ -305,22 +234,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     private void handleElectricFieldCheckBox() {
         final boolean selected = _electricFieldCheckBox.isSelected();
-        //XXX
-    }
-    
-    private void handleBeadChargesCheckBox() {
-        final boolean selected = _beadChargesCheckBox.isSelected();
-        _allChargesRadioButton.setEnabled( selected );
-        _excessChargesRadioButton.setEnabled( selected );
-    }
-    
-    private void handleAllChargesRadioButton() {
-        final boolean selected = _allChargesRadioButton.isSelected();
-        //XXX
-    }
-    
-    private void handleExcessChargesRadioButton() {
-        final boolean selected = _excessChargesRadioButton.isSelected();
         //XXX
     }
     
