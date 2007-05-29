@@ -69,9 +69,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     private JCheckBox _fluidDragCheckBox;
     private JCheckBox _brownianForceCheckBox;
     
-    private JRadioButton _noChartsRadioButton;
-    private JRadioButton _positionHistogramRadioButton;
-    private JRadioButton _potentialEnergyChartRadioButton;
+    private ChartsControlPanel _chartsControlPanel;
     
     private JCheckBox _rulerCheckBox;
 
@@ -194,58 +192,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         }
         
         // Charts
-        JPanel chartsPanel = new JPanel();
-        {
-            JLabel titleLabel = new JLabel( OTResources.getString( "label.charts" ) );
-            titleLabel.setFont( TITLE_FONT );
-            
-            // "no charts" choice
-            _noChartsRadioButton = new JRadioButton( OTResources.getString( "choice.noCharts" ) );
-            
-            // Position Histogram
-            _positionHistogramRadioButton = new JRadioButton( OTResources.getString( "choice.positionHistogram" ) );
-            _canvas.getPositionHistogramChartNode().addPropertyChangeListener( new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent evt ) {
-                    if ( !_canvas.getPositionHistogramChartNode().isVisible() ) {
-                        if ( _positionHistogramRadioButton.isSelected() ) {
-                            _noChartsRadioButton.setSelected( true );
-                        }
-                    }
-                }
-            });
-            
-            // Potential Energy chart
-            _potentialEnergyChartRadioButton = new JRadioButton( OTResources.getString( "choice.potentialEnergyChart" ) );
-            _canvas.getPotentialEnergyChartNode().addPropertyChangeListener( new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent evt ) {
-                    if ( !_canvas.getPotentialEnergyChartNode().isVisible() ) {
-                        if ( _potentialEnergyChartRadioButton.isSelected() ) {
-                            _noChartsRadioButton.setSelected( true );
-                        }
-                    }
-                }
-            });
-            
-            ButtonGroup bg = new ButtonGroup();
-            bg.add( _noChartsRadioButton );
-            bg.add( _positionHistogramRadioButton );
-            bg.add( _potentialEnergyChartRadioButton );
-            
-            JPanel innerPanel = new JPanel();
-            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-            innerPanel.setLayout( layout );
-            layout.setAnchor( GridBagConstraints.WEST );
-            layout.setFill( GridBagConstraints.HORIZONTAL );
-            layout.setMinimumWidth( 0, 20 );
-            int row = 0;
-            layout.addComponent( titleLabel, row++, 0 );
-            layout.addComponent( _noChartsRadioButton, row++, 0 );
-            layout.addComponent( _positionHistogramRadioButton, row++, 0 );
-            layout.addComponent( _potentialEnergyChartRadioButton, row++, 0 );
-            
-            chartsPanel.setLayout( new BorderLayout() );
-            chartsPanel.add( innerPanel, BorderLayout.WEST );
-        }
+        _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getPositionHistogramChartNode(), _canvas.getPotentialEnergyChartNode() );
         
         // Ruler
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
@@ -292,10 +239,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _fluidDragCheckBox.setFont( CONTROL_FONT );
             _brownianForceCheckBox.setFont( CONTROL_FONT );
             
-            _noChartsRadioButton.setFont( CONTROL_FONT );
-            _positionHistogramRadioButton.setFont( CONTROL_FONT );
-            _potentialEnergyChartRadioButton.setFont( CONTROL_FONT );
-            
             _rulerCheckBox.setFont( CONTROL_FONT );
             
             _advancedButton.setFont( CONTROL_FONT );
@@ -315,7 +258,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             addSeparator();
             addControlFullWidth( forcesPanel );
             addSeparator();
-            addControlFullWidth( chartsPanel );
+            addControlFullWidth( _chartsControlPanel );
             addSeparator();
             addControlFullWidth( _rulerCheckBox );
             addSeparator();
@@ -342,10 +285,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _halfBeadRadioButton.addActionListener( listener );
             _fluidDragCheckBox.addActionListener( listener );
             _brownianForceCheckBox.addActionListener( listener );
-            
-            _noChartsRadioButton.addActionListener( listener );
-            _positionHistogramRadioButton.addActionListener( listener );
-            _potentialEnergyChartRadioButton.addActionListener( listener );
             
             _rulerCheckBox.addActionListener( listener );
             
@@ -374,10 +313,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _fluidDragCheckBox.setSelected( false );
             _brownianForceCheckBox.setSelected( false );
 
-            _noChartsRadioButton.setSelected( true );
-            _positionHistogramRadioButton.setSelected( false );
-            _potentialEnergyChartRadioButton.setSelected( false );
-            
             _rulerCheckBox.setSelected( false  );
             
             _advancedPanel.setVisible( false );
@@ -404,6 +339,10 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
+    
+    public ChartsControlPanel getChartsControlPanel() {
+        return _chartsControlPanel;
+    }
     
     public void closeAllDialogs() {
         setFluidControlSelected( false );
@@ -514,26 +453,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         return _rulerCheckBox.isSelected();
     }
     
-    public void setPositionHistogramSelected( boolean b ) {
-        _noChartsRadioButton.setSelected( !b );
-        _positionHistogramRadioButton.setSelected( b );
-        handleChartChoice();
-    }
-    
-    public boolean isPositionHistogramSelected() {
-        return _positionHistogramRadioButton.isSelected();
-    }
-    
-    public void setPotentialChartSelected( boolean b ) {
-        _noChartsRadioButton.setSelected( !b );
-        _potentialEnergyChartRadioButton.setSelected( b );
-        handleChartChoice();
-    }
-    
-    public boolean isPotentialChartSelected() {
-        return _potentialEnergyChartRadioButton.isSelected();
-    }
-    
     public void setAdvancedVisible( boolean b ) {
         if ( b ^ _advancedPanel.isVisible() ) {
             handleAdvancedButton();
@@ -596,15 +515,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             }
             else if ( source == _brownianForceCheckBox ) {
                 handleBrownianForceCheckBox();
-            }
-            else if ( source == _noChartsRadioButton ) {
-                handleChartChoice();
-            }
-            else if ( source == _positionHistogramRadioButton ) {
-                handleChartChoice();
-            }
-            else if ( source == _potentialEnergyChartRadioButton ) {
-                handleChartChoice();
             }
             else if ( source == _rulerCheckBox ) {
                 handleRulerCheckBox();
@@ -736,11 +646,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     private void handleRulerCheckBox() {
         final boolean selected = _rulerCheckBox.isSelected();
         _canvas.getRulerNode().setVisible( selected );
-    }
-    
-    private void handleChartChoice() {
-        _canvas.getPositionHistogramChartNode().setVisible( _positionHistogramRadioButton.isSelected() );
-        _canvas.getPotentialEnergyChartNode().setVisible( _potentialEnergyChartRadioButton.isSelected() );
     }
     
     private void handleAdvancedButton() {
