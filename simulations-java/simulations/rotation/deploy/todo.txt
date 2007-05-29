@@ -1,7 +1,8 @@
 ################
 #           To Do:
 ################
-Charts:
+
+Chart arrows not updating during playback.
 
 Perhaps time series implementation should be an observer of "recordable model" not driving it.
 

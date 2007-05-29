@@ -34,8 +34,6 @@ public class RotationPlayAreaNode extends PNode {
         for( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
             addVectorNode( rotationModel.getRotationBody( i ), vectiorViewModel );
         }
-
-
     }
 
     private void addVectorNode( RotationBody rotationBody, VectorViewModel vectorViewModel ) {
