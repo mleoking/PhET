@@ -81,7 +81,7 @@ public class AdvancedControlPanel extends JPanel {
         
         _panel = new Box( BoxLayout.Y_AXIS );
         _panel.add( _fluidControlsCheckBox );
-//XXX        _panel.add( _momemtumChangeCheckBox );
+        _panel.add( _momemtumChangeCheckBox );
         
         // Layout
         JPanel innerPanel = new JPanel();

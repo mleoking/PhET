@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.opticaltweezers.control.BeadChargeControlPanel;
+import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
+import edu.colorado.phet.opticaltweezers.control.LaserDisplayControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 
@@ -66,11 +69,10 @@ public class PhysicsDefaults {
     public static final int BEAD_NUMBER_OF_DT_SUBDIVISIONS = 10;
     
     // Control panel settings
-    public static final boolean ELECTRIC_FIELD_SELECTED = false;
-    public static final boolean BEAD_CHARGE_DISTRUBUTION_SELECTED = false;
-    public static final boolean BEAD_CHARGE_EXCESS_SELECTED = true;
+    public static final Object LASER_DISPLAY_CHOICE = LaserDisplayControlPanel.CHOICE_BEAM;
+    public static final Object BEAD_CHARGE_CHOICE = BeadChargeControlPanel.CHOICE_HIDDEN;
     public static final boolean TRAP_FORCE_SELECTED = false;
-    public static final boolean WHOLE_BEAD_SELECTED = true;
+    public static final Object HORIZONTAL_TRAP_FORCE_CHOICE = ForcesControlPanel.CHOICE_WHOLE_BEAD;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
     public static final boolean BROWNIAN_FORCE_SELECTED = false;
     public static final boolean POSITION_HISTOGRAM_SELECTED = false;

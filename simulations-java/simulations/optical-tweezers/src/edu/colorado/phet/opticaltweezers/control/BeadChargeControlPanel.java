@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.control;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,6 +21,14 @@ import edu.colorado.phet.opticaltweezers.OTResources;
  */
 public class BeadChargeControlPanel extends JPanel {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    public static final Object CHOICE_HIDDEN = "hidden";
+    public static final Object CHOICE_DISTRIBUTION = "distribution";
+    public static final Object CHOICE_EXCESS = "excess";
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -101,24 +106,27 @@ public class BeadChargeControlPanel extends JPanel {
     // Setters and getters
     //----------------------------------------------------------------------------
     
+    public void setChoice( Object choice ) {
+        if ( choice == CHOICE_HIDDEN ) {
+            _hiddenRadioButton.setSelected( true );
+        }
+        else if ( choice == CHOICE_DISTRIBUTION ) {
+            _distributionRadioButton.setSelected( true );
+        }
+        else if ( choice == CHOICE_EXCESS ) {
+            _excessRadioButton.setSelected( true );
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported choice: " + choice );
+        }
+    }
+    
     public boolean isHiddenSelected() {
         return _hiddenRadioButton.isSelected();
     }
     
-    public void setDistributionSelected( boolean b ) {
-        _hiddenRadioButton.setSelected( !b );
-        _distributionRadioButton.setSelected( b );
-        handleChargeChoice();
-    }
-    
     public boolean isDistributionSelected() {
         return _distributionRadioButton.isSelected();
-    }
-    
-    public void setExcessSelected( boolean b ) {
-        _hiddenRadioButton.setSelected( !b );
-        _excessRadioButton.setSelected( b );
-        handleChargeChoice();
     }
     
     public boolean isExcessSelected() {

@@ -19,6 +19,13 @@ import edu.umd.cs.piccolo.PNode;
 public class ForcesControlPanel extends JPanel {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    public static final Object CHOICE_WHOLE_BEAD = "wholeBead";
+    public static final Object CHOICE_HALF_BEAD = "halfBead";
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -150,18 +157,20 @@ public class ForcesControlPanel extends JPanel {
         return _trapForceCheckBox.isSelected();
     }
     
-    public void setWholeBeadSelected( boolean b ) {
-        _wholeBeadRadioButton.setSelected( b );
-        handleWholeBeadRadioButton();
+    public void setHorizontalTrapForceChoice( Object choice ) {
+        if ( choice == CHOICE_WHOLE_BEAD ) {
+            _wholeBeadRadioButton.setSelected( true );
+        }
+        else if ( choice == CHOICE_HALF_BEAD ) {
+            _halfBeadRadioButton.setSelected( true );
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported choice: " + choice );
+        }
     }
     
     public boolean isWholeBeadSelected() {
         return _wholeBeadRadioButton.isSelected();
-    }
-    
-    public void setHalfBeadSelected( boolean b ) {
-        _halfBeadRadioButton.setSelected( b );
-        handleHalfBeadRadioButton();
     }
     
     public boolean isHalfBeadSelected() {
