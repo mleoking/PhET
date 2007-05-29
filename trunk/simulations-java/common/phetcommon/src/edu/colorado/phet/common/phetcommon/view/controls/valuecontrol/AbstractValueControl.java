@@ -560,14 +560,14 @@ public abstract class AbstractValueControl extends JPanel {
         
         final double min = getMinimum();
         final double max = getMaximum();
-
+        
         // Slider properties related to ticks
         _slider.setMajorTickSpacing( _slider.modelToSlider( min + _majorTickSpacing ) );
         if ( _minorTickSpacing > 0 ) {
             _slider.setMinorTickSpacing( _slider.modelToSlider( min + _minorTickSpacing ) );
         }
-        _slider.setPaintTicks( true );
-        _slider.setPaintLabels( true );
+        _slider.setPaintTicks( _minorTickLabelsVisible || _majorTickLabelsVisible );
+        _slider.setPaintLabels( _minorTickLabelsVisible || _majorTickLabelsVisible );
         
         if ( _labelTable != null ) {
             // Use the labels provided via addTickLabel.
@@ -599,7 +599,9 @@ public abstract class AbstractValueControl extends JPanel {
                 }
             }
 
-            _slider.setLabelTable( labelTable );
+            if ( labelTable.size() != 0 ) {
+                _slider.setLabelTable( labelTable );
+            }
         }
     }
 
