@@ -363,6 +363,8 @@ public class EnergySkateParkModel implements Serializable {
         public void bodiesChanged() {
         }
 
+        public void stateSet() {
+        }
     }
 
     public static interface EnergyModelListener {
@@ -379,6 +381,8 @@ public class EnergySkateParkModel implements Serializable {
         void bodyEnergyChanged();
 
         void bodiesChanged();
+
+        void stateSet();
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {

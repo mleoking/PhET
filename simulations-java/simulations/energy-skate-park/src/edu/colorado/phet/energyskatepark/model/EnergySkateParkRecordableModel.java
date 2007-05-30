@@ -2,7 +2,6 @@
 package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.timeseries.model.RecordableModel;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 
 /**
  * User: Sam Reid
@@ -11,22 +10,22 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
  */
 
 public class EnergySkateParkRecordableModel implements RecordableModel {
-    private EnergySkateParkModule module;
+    private EnergySkateParkModel model;
 
-    public EnergySkateParkRecordableModel( EnergySkateParkModule module ) {
-        this.module = module;
+    public EnergySkateParkRecordableModel( EnergySkateParkModel model ) {
+        this.model = model;
     }
 
     public void stepInTime( double simulationTimeChange ) {
-        module.stepModel( simulationTimeChange );
+        model.stepInTime( simulationTimeChange );
     }
 
     public Object getState() {
-        return module.getModelState();
+        return model.copyState();
     }
 
     public void setState( Object o ) {
-        module.setState( (EnergySkateParkModel)o );
+        model.setState( (EnergySkateParkModel)o );
     }
 
     public void resetTime() {
