@@ -1,7 +1,6 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.phetcommon.math.*;
-import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 
 import java.awt.geom.Line2D;
@@ -40,9 +39,8 @@ public class Particle implements Serializable {
     private boolean verboseDebug = true;
 
     private static final double DEFAULT_ANGLE = 0;
-    //    public static final double DEFAULT_ELASTICITY = 0.9;
     public static final double DEFAULT_ELASTICITY = 0.6;
-//    private boolean keepEnergyOnLanding = false;
+    public static boolean reorientOnBounce=true;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );
@@ -213,10 +211,6 @@ public class Particle implements Serializable {
     public boolean isSplineUserControlled() {
         return particleStage.isSplineUserControlled();
     }
-
-//    public boolean isKeepEnergyOnLanding() {
-//        return keepEnergyOnLanding;
-//    }
 
     interface UpdateStrategy extends Serializable {
         void stepInTime( double dt );
@@ -495,7 +489,7 @@ public class Particle implements Serializable {
             double GRAB_THRESHOLD = 3.0;
             if( p < GRAB_THRESHOLD ) {
                 System.out.println( "p = " + p );
-                System.out.println( "Grabbing due to small speed (for this g and dt), threshold="+GRAB_THRESHOLD+", v/(g*dt)="+p);
+                System.out.println( "Grabbing due to small speed (for this g and dt), threshold=" + GRAB_THRESHOLD + ", v/(g*dt)=" + p );
                 bounce = false;
             }
 //            if( getVelocity().getMagnitude() < 1.0 ) {
@@ -519,6 +513,9 @@ public class Particle implements Serializable {
                     correctEnergyReduceVelocity( energyBeforeBounce );
                 }
                 thermalEnergy += ( energyBeforeBounce - getTotalEnergy() );
+                if (reorientOnBounce){
+                orientAngleOnTrack( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
+                }
 //                    System.out.println( "bounced" );
             }
             else {
@@ -558,6 +555,10 @@ public class Particle implements Serializable {
                 }
             }
         }
+    }
+
+    private void orientAngleOnTrack( ParametricFunction2D cubicSpline, double newAlpha, boolean b ) {
+        setAngle( cubicSpline.getAngle( newAlpha ) + ( b ? Math.PI : 0.0 ) );
     }
 
     private SearchState getBestCrossPoint( SerializablePoint2D pt, boolean[] origAbove, SerializablePoint2D origLoc ) {
