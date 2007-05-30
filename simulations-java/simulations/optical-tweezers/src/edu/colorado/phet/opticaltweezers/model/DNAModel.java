@@ -3,6 +3,7 @@
 package edu.colorado.phet.opticaltweezers.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -21,12 +22,13 @@ public class DNAModel extends ClockAdapter {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ArrayList _modelElements; // array of ModelElement
+    private final ArrayList _modelElements; // array of ModelElement
     
-    private OTClock _clock;
-    private Bead _bead;
-    private Laser _laser;
-    private Fluid _fluid;
+    private final OTClock _clock;
+    private final Bead _bead;
+    private final Laser _laser;
+    private final Fluid _fluid;
+    private final DNAStrand _dnaStrand;
     
     private ModelViewTransform _modelViewTransform;
 
@@ -70,6 +72,9 @@ public class DNAModel extends ClockAdapter {
          _bead.setDtSubdivisionThreshold( DNADefaults.BEAD_DT_SUBDIVISION_THRESHOLD );
          _bead.setNumberOfDtSubdivisions( DNADefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS );
          _modelElements.add( _bead );
+         
+         _dnaStrand = new DNAStrand( _bead, _fluid );
+         _modelElements.add( _dnaStrand );
 
          _modelViewTransform = new ModelViewTransform( DNADefaults.MODEL_TO_VIEW_SCALE );
     }
@@ -94,6 +99,10 @@ public class DNAModel extends ClockAdapter {
         return _bead;
     }
     
+    public DNAStrand getDNAStrand() {
+        return _dnaStrand;
+    }
+    
     public ModelViewTransform getModelViewTransform() {
         return _modelViewTransform;
     }
@@ -109,13 +118,10 @@ public class DNAModel extends ClockAdapter {
      */
     public void clockTicked( ClockEvent event ) {
         double dt = event.getSimulationTimeChange();
-       
-        if ( _modelElements.size() > 0 ) {
-            Object[] modelElements = _modelElements.toArray(); // copy, this operation may change the list
-            for ( int i = 0; i < modelElements.length; i++ ) {
-                ModelElement modelElement = (ModelElement) modelElements[i];
-                modelElement.stepInTime( dt );
-            }
+        Iterator i = _modelElements.iterator();
+        while ( i.hasNext() ) {
+            ModelElement modelElement = (ModelElement) i.next();
+            modelElement.stepInTime( dt );
         }
     }
 }
