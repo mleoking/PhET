@@ -27,7 +27,7 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.CloseButtonNode;
 import edu.colorado.phet.opticaltweezers.model.Bead;
-import edu.colorado.phet.opticaltweezers.view.node.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;

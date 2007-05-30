@@ -22,8 +22,8 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.CloseButtonNode;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
+import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.view.node.BeadNode;
-import edu.colorado.phet.opticaltweezers.view.node.ModelViewTransform;
 
 /**
  * PotentialEnergyChartNode is the Piccolo node that draws the potential energy chart.
