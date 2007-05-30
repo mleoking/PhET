@@ -7,6 +7,35 @@
     include_once("sys-utils.php"); 
     include_once("sim-utils.php");  
     
+    function contribution_get_comments($contribution_id) {
+        $comments = array();
+        
+        $result = run_sql_statement("SELECT * FROM `contribution_comment`, `contributor` WHERE `contribution_comment`.`contributor_id` = `contributor`.`contributor_id` AND `contribution_comment`.`contribution_id`='$contribution_id'  ");
+        
+        while ($comment = mysql_fetch_assoc($result)) {
+            $comments[] = $comment;
+        }
+        
+        return $comments;
+    }
+    
+    function contribution_add_comment($contribution_id, $contributor_id, $contribution_comment_text) {
+        $id = insert_row_into_table(
+            $table_name,
+            array(
+                'contribution_comment_text' => $contribution_comment_text,
+                'contribution_id'           => $contribution_id,
+                'contributor_id'            => $contributor_id
+            )
+        );
+        
+        return $id;
+    }
+    
+    function contribution_delete_comment($contribution_comment_id) {
+        return delete_row_from_table('contribution_comment_id', array( 'contribution_comment_id' => $contribution_comment_id ) );
+    }
+    
     function contribution_extract_original_file_name($contribution_file_url) {
         $basename = basename($contribution_file_url);
         
