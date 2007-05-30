@@ -76,9 +76,14 @@ public class EnergySkateParkModule extends PiccoloModule {
         super( name, clock );
         this.phetFrame = phetFrame;
         energyModel = new EnergySkateParkModel( floorY );
+        energyModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void stateSet() {
+                redrawAllGraphics();
+            }
+        } );
         setModel( new BaseModel() );
 
-        energyTimeSeriesModel = new EnergySkateParkRecordableModel( this );
+        energyTimeSeriesModel = new EnergySkateParkRecordableModel( getEnergySkateParkModel() );
         timeSeriesModel = new TimeSeriesModel( energyTimeSeriesModel, EnergySkateParkApplication.SIMULATION_TIME_DT );
         timeSeriesModel.setMaxRecordTime( 200.0 );
         clock.addClockListener( timeSeriesModel );
@@ -197,15 +202,6 @@ public class EnergySkateParkModule extends PiccoloModule {
             }
         }
         return false;
-    }
-
-    public Object getModelState() {
-        return energyModel.copyState();
-    }
-
-    public void setState( EnergySkateParkModel model ) {
-        energyModel.setState( model );
-        redrawAllGraphics();
     }
 
     private void redrawAllGraphics() {
