@@ -87,6 +87,9 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void setGravity( double value ) {
+        if (value==-0.0){
+            value=0;//workaround since -0 and +0 are getting hashcoded differently
+        }
         if( this.gravity != value ) {
             this.gravity = value;
             notifyGravityChanged();
