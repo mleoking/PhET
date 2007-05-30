@@ -10,7 +10,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Oct 17, 2006
  * Time: 1:09:08 AM
- *
  */
 
 public class TestNormalVectors extends TestCase {

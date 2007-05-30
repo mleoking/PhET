@@ -1,13 +1,13 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+
 import java.util.ArrayList;
 
 /**
  * User: Sam Reid
  * Date: Mar 2, 2007
  * Time: 1:28:03 PM
- *
  */
 
 public class TestState {

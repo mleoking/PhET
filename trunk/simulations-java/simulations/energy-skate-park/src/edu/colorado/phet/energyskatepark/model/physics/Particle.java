@@ -40,7 +40,7 @@ public class Particle implements Serializable {
 
     private static final double DEFAULT_ANGLE = 0;
     public static final double DEFAULT_ELASTICITY = 0.6;
-    public static boolean reorientOnBounce=true;
+    public static boolean reorientOnBounce = true;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );
@@ -513,8 +513,8 @@ public class Particle implements Serializable {
                     correctEnergyReduceVelocity( energyBeforeBounce );
                 }
                 thermalEnergy += ( energyBeforeBounce - getTotalEnergy() );
-                if (reorientOnBounce){
-                orientAngleOnTrack( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
+                if( reorientOnBounce ) {
+                    orientAngleOnTrack( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
                 }
 //                    System.out.println( "bounced" );
             }

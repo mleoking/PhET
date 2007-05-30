@@ -11,7 +11,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 22, 2005
  * Time: 8:14:42 PM
- *
  */
 
 public class EnergySkateParkLegend extends Legend {

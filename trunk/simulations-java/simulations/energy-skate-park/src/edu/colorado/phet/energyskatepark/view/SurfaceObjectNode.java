@@ -18,10 +18,10 @@ public class SurfaceObjectNode extends PhetPNode {
     public static final String MOUNTAIN_URL = "energy-skate-park/images/mountains.gif";
 
     public SurfaceObjectNode( String imageURL, double sy, double x ) {
-        this( loadBufferedImage( imageURL ), sy,x );
+        this( loadBufferedImage( imageURL ), sy, x );
     }
 
-    public SurfaceObjectNode( BufferedImage houseImage, double sy,double x ) {
+    public SurfaceObjectNode( BufferedImage houseImage, double sy, double x ) {
         PNode houseImageNode = new PImage( houseImage );
         double scale = sy / houseImage.getHeight();
         houseImageNode.transformBy( AffineTransform.getScaleInstance( scale, -scale ) );

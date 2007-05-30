@@ -2,7 +2,6 @@
 package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
@@ -168,10 +167,6 @@ public class Body implements Serializable {
         particle.translate( dx, dy );
     }
 
-    public double getEnergyDifferenceAbs( Body body ) {
-        return Math.abs( body.getTotalEnergy() - this.getTotalEnergy() );
-    }
-
     public void setVelocity( AbstractVector2D vector2D ) {
         setVelocity( vector2D.getX(), vector2D.getY() );
     }
@@ -220,20 +215,12 @@ public class Body implements Serializable {
         return particle.getMass();
     }
 
-    public void setFreeFallRotationalVelocity( double dA ) {
-        setAngularVelocity( dA );
-    }
-
     public double getSpeed() {
         return getVelocity().getMagnitude();
     }
 
     public void setPosition( SerializablePoint2D point2D ) {
         setPosition( point2D.getX(), point2D.getY() );
-    }
-
-    public AbstractVector2D getPositionVector() {
-        return new ImmutableVector2D.Double( getPosition() );
     }
 
     public double getKineticEnergy() {
@@ -246,10 +233,6 @@ public class Body implements Serializable {
 
     public boolean isFreeFallMode() {
         return particle.isFreeFall();
-    }
-
-    public boolean isSplineMode() {
-        return false;
     }
 
     public boolean isFacingRight() {
@@ -344,11 +327,6 @@ public class Body implements Serializable {
 
     public ParametricFunction2D getSpline() {
         return particle.getSpline();
-    }
-
-    /*If particle is not on spline, results are indeterminate.*/
-    public boolean isTop() {
-        return particle.getParticle1D().isSplineTop();
     }
 
     public TraversalState getBestTraversalState( TraversalState origState ) {

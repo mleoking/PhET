@@ -71,7 +71,7 @@ public class PanZoomControl extends JPanel {
         //translate vertically so the ground is a fixed fraction of the way up the screen
         Point2D origin = new Point2D.Double( 0, 0 );
         simulationPanel.getPhetRootNode().worldToScreen( origin );
-        
+
         //desired screen y value
         double desiredScreenY = simulationPanel.getHeight() * ( 1.0 - fractionToGround );
         double screenDY = origin.getY() - desiredScreenY;

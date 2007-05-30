@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 30, 2005
  * Time: 1:53:51 PM
- *
  */
 
 public class EnergyLookAndFeel {

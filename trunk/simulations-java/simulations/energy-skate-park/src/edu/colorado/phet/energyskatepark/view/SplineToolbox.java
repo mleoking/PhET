@@ -1,10 +1,10 @@
 package edu.colorado.phet.energyskatepark.view;
 
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.PreFabSplines;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -21,7 +21,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Sep 30, 2005
  * Time: 12:03:00 AM
- *
  */
 
 public class SplineToolbox extends PNode {
@@ -61,14 +60,14 @@ public class SplineToolbox extends PNode {
                 spline.addControlPoint( pt.getX(), pt.getY() );
                 spline.addControlPoint( pt.getX() + 1, pt.getY() );
 
-                createdSurface = new EnergySkateParkSpline( spline.getControlPoints()  );
+                createdSurface = new EnergySkateParkSpline( spline.getControlPoints() );
                 energySkateParkSimulationPanel.getEnergySkateParkModel().addSplineSurface( createdSurface );
                 energySkateParkSimulationPanel.redrawAllGraphics();
                 energySkateParkSimulationPanel.getSplineGraphic( createdSurface ).processExternalStartDragEvent();
             }
 
             public void mouseReleased( PInputEvent event ) {
-                energySkateParkSimulationPanel.getSplineGraphic( createdSurface ).processExternalDropEvent(event);
+                energySkateParkSimulationPanel.getSplineGraphic( createdSurface ).processExternalDropEvent( event );
                 created = false;
             }
         } );

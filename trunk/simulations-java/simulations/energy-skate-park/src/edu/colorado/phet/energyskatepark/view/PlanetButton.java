@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Nov 16, 2005
  * Time: 11:46:24 PM
- *
  */
 
 public class PlanetButton extends JRadioButton {

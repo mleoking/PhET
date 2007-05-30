@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 2, 2007
  * Time: 2:06:41 PM
- *
  */
 
 public class DefaultTestSet {

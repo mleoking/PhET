@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  * User: Sam Reid
  * Date: Aug 20, 2006
  * Time: 7:00:50 PM
- *
  */
 
 public class EnergySkateParkStrings {
@@ -18,6 +17,6 @@ public class EnergySkateParkStrings {
     }
 
     public static String getEnergyString( String s ) {
-        return RESOURCE_LOADER.getLocalizedString( s )+" "+RESOURCE_LOADER.getLocalizedString( "energy.energy");
+        return RESOURCE_LOADER.getLocalizedString( s ) + " " + RESOURCE_LOADER.getLocalizedString( "energy.energy" );
     }
 }

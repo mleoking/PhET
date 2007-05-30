@@ -46,7 +46,7 @@ public class EditSkaterPanel extends AdvancedPanel {
         mass.setModelTicks( new double[]{0.2, 75, 200} );
         mass.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                setMass( mass.getValue());
+                setMass( mass.getValue() );
             }
         } );
         module.getClock().addClockListener( new ClockAdapter() {

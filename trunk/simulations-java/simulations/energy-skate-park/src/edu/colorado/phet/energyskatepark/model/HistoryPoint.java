@@ -7,7 +7,6 @@ import java.io.Serializable;
  * User: Sam Reid
  * Date: Oct 23, 2005
  * Time: 4:51:38 PM
- *
  */
 
 public class HistoryPoint implements Serializable {
@@ -33,10 +32,6 @@ public class HistoryPoint implements Serializable {
 
     public double getX() {
         return x;
-    }
-
-    public Body getBody() {
-        return body;
     }
 
     public double getY() {

@@ -1,15 +1,15 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -331,7 +331,7 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.getLayer().addChild( closestPoint );
         phetPPath.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                SerializablePoint2D coords = new SerializablePoint2D( event.getPositionRelativeTo( phetPPath ));
+                SerializablePoint2D coords = new SerializablePoint2D( event.getPositionRelativeTo( phetPPath ) );
                 System.out.println( "coords = " + coords );
 //                TraversalState traversalState=new TraversalState( cubicSpline, true,);
                 TraversalState traversalState = particle.getBestTraversalState( coords, new Vector2D.Double( 1, 0 ) );

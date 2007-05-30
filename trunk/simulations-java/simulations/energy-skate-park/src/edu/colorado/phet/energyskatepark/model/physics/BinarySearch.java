@@ -4,7 +4,6 @@ package edu.colorado.phet.energyskatepark.model.physics;
  * User: Sam Reid
  * Date: Feb 17, 2007
  * Time: 8:51:44 PM
- *
  */
 
 public class BinarySearch {

@@ -8,7 +8,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 23, 2005
  * Time: 8:22:05 AM
- *
  */
 
 public class SavedGraph {

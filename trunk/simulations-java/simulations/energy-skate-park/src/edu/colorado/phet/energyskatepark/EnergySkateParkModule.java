@@ -128,10 +128,6 @@ public class EnergySkateParkModule extends PiccoloModule {
         setEnergyTimePlotVisible( DEFAULT_PLOT_VISIBLE );
     }
 
-    public void stepModel( double dt ) {
-        energyModel.stepInTime( dt );
-    }
-
     public EnergySkateParkModel getEnergySkateParkModel() {
         return energyModel;
     }

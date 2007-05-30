@@ -1,8 +1,8 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view;
 
-import edu.colorado.phet.energyskatepark.model.HistoryPoint;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
+import edu.colorado.phet.energyskatepark.model.HistoryPoint;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -19,7 +19,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Oct 23, 2005
  * Time: 4:53:12 PM
- *
  */
 
 public class HistoryPointGraphic extends PNode {

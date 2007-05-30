@@ -16,7 +16,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Sep 26, 2005
  * Time: 12:59:47 PM
- *
  */
 
 public class FloorGraphic extends PNode {

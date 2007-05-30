@@ -1,8 +1,8 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
-import edu.colorado.phet.energyskatepark.test.SearchForFallthrough;
 import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
+import edu.colorado.phet.energyskatepark.test.SearchForFallthrough;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -29,21 +29,21 @@ public class EnergySkateParkTestMenu extends EnergySkateParkTrackMenu {
             }
         } );
         add( jMenuItem );
-        JMenuItem testFallThrough=new JMenuItem( "Test Fallthrough (1)");
+        JMenuItem testFallThrough = new JMenuItem( "Test Fallthrough (1)" );
         testFallThrough.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 SearchForFallthrough.searchFallThrough1();
             }
         } );
-        add(testFallThrough);
+        add( testFallThrough );
 
-        JMenuItem testFall2=new JMenuItem( "Test Fallthrough (2)");
+        JMenuItem testFall2 = new JMenuItem( "Test Fallthrough (2)" );
         testFall2.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 SearchForFallthrough.searchFallThrough2();
             }
         } );
-        add( testFall2);
+        add( testFall2 );
     }
 
     private static TestItem[] createTestItems() {

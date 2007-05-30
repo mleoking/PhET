@@ -15,7 +15,6 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkLegend;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartRenderingInfo;
@@ -102,7 +101,7 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
                 update();
             }
         } );
-        dataset = new XYSeriesCollection( new XYSeries( new Integer( 0 ) ));
+        dataset = new XYSeriesCollection( new XYSeries( new Integer( 0 ) ) );
         chart = createChart( new Range2D( -2, -7000 / 10.0, 17, 7000 ), dataset, EnergySkateParkStrings.getString( "plots.energy-vs-position" ) );
         setLayout( new BorderLayout() );
 
@@ -301,7 +300,7 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     }
 
     private boolean inBounds( double x, double y ) {
-        return chart.getXYPlot().getDomainAxis().getRange().contains( offsetData( x,y).getX() ) && chart.getXYPlot().getRangeAxis().getRange().contains( offsetData( x,y).getY() );
+        return chart.getXYPlot().getDomainAxis().getRange().contains( offsetData( x, y ).getX() ) && chart.getXYPlot().getRangeAxis().getRange().contains( offsetData( x, y ).getY() );
     }
 
     static class FadeDot extends PPath {

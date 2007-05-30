@@ -8,7 +8,6 @@ import edu.umd.cs.piccolo.PNode;
  * User: Sam Reid
  * Date: Sep 29, 2005
  * Time: 10:26:39 PM
- *
  */
 
 public class SplineMatch {
