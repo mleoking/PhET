@@ -1,3 +1,9 @@
+2.01.05 (5-30-2007)
+Moved "with thermal" to same line as pie chart
+Renamed "Plots" panel to "Energy Graphs"
+Moved pie chart to Energy Graph section
+Reordered graphs to pie, bar, position, time
+
 2.01.04 (5-30-2007)
 Skater reorients angle on a bounce (this item appears in the Options menu)
 Fixed: Something preventing characters from being grabbed near the left side of the screen
