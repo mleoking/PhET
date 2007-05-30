@@ -2,13 +2,14 @@ package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.TrackWithFriction;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.util.OptionalItemSerializableList;
 
-import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,7 +17,6 @@ import java.util.List;
  * User: Sam Reid
  * Date: Feb 18, 2007
  * Time: 11:16:29 AM
- *
  */
 public class Particle1D implements Serializable {
     private double alpha = 0.25;
@@ -37,6 +37,8 @@ public class Particle1D implements Serializable {
     private double yThrust = 0;
     private double frictionCoefficient = 0;
     private double thermalEnergy = 0;
+
+    private boolean debug = false;
 
     public Particle1D( ParametricFunction2D cubicSpline, boolean splineTop ) {
         this( cubicSpline, splineTop, 9.8 );
@@ -372,7 +374,7 @@ public class Particle1D implements Serializable {
         return bestAlpha;
     }
 
-    double getRadiusOfCurvature() {
+    private static double getRadiusOfCurvatureStatic( double alpha, ParametricFunction2D track ) {
         double epsilon = 0.001;
         double a0 = alpha + track.getFractionalDistance( alpha, -epsilon / 2.0 );
         double a1 = alpha + track.getFractionalDistance( alpha, epsilon / 2.0 );
@@ -380,6 +382,35 @@ public class Particle1D implements Serializable {
         double curvature = ( track.getAngle( a0 ) - track.getAngle( a1 ) ) / d;
         return 1.0 / curvature;
     }
+
+    double cachedRCAlpha;
+    ParametricFunction2D cachedRCTrack = new CubicSpline2D( new SerializablePoint2D[]{new SerializablePoint2D( ),new SerializablePoint2D( )} );
+    double cachedRC = 0;
+
+    double getRadiusOfCurvature() {
+        if( cachedRCAlpha != alpha || !cachedRCTrack.equals( track ) ) {
+//            System.out.println( "cache miss" );
+            cachedRC = getRadiusOfCurvatureStatic( alpha, track );
+            cachedRCAlpha = alpha;
+            try {
+                cachedRCTrack = (ParametricFunction2D)PersistenceUtil.copy( track );
+            }
+            catch( PersistenceUtil.CopyFailedException e ) {
+                e.printStackTrace();
+            }
+        }else{
+//            System.out.println( "cache hit" );
+        }
+        return cachedRC;
+    }
+//    double getRadiusOfCurvature() {
+//        double epsilon = 0.001;
+//        double a0 = alpha + track.getFractionalDistance( alpha, -epsilon / 2.0 );
+//        double a1 = alpha + track.getFractionalDistance( alpha, epsilon / 2.0 );
+//        double d = track.evaluate( a0 ).distance( track.evaluate( a1 ) );
+//        double curvature = ( track.getAngle( a0 ) - track.getAngle( a1 ) ) / d;
+//        return 1.0 / curvature;
+//    }
 
     public AbstractVector2D getUnitParallelVector() {
         return track.getUnitParallelVector( alpha );
@@ -442,10 +473,11 @@ public class Particle1D implements Serializable {
 
     public AbstractVector2D getNormalForce() {//todo some code duplication in Particle.Particle1DUpdate
 //        System.out.println( "getRadiusOfCurvature() = " + getRadiusOfCurvature() );
-        if( Double.isInfinite( getRadiusOfCurvature() ) ) {
+        double radiusOfCurvature = getRadiusOfCurvature();
+        if( Double.isInfinite( radiusOfCurvature ) ) {
 //            System.out.println( "infinite" );
 
-            double radiusOfCurvature = 100000;
+            radiusOfCurvature = 100000;
 //            System.out.println( "radiusOfCurvature = " + radiusOfCurvature );
 //            System.out.println( " getCurvatureDirection()  = " + getCurvatureDirection() );
             Vector2D.Double netForceRadial = new Vector2D.Double();
@@ -459,7 +491,7 @@ public class Particle1D implements Serializable {
             Vector2D.Double netForceRadial = new Vector2D.Double();
             netForceRadial.add( new Vector2D.Double( 0, mass * g ) );//gravity
             netForceRadial.add( new Vector2D.Double( xThrust * mass, yThrust * mass ) );//thrust
-            double normalForce = mass * velocity * velocity / Math.abs( getRadiusOfCurvature() ) - netForceRadial.dot( getCurvatureDirection() );
+            double normalForce = mass * velocity * velocity / Math.abs( radiusOfCurvature ) - netForceRadial.dot( getCurvatureDirection() );
             return Vector2D.Double.parseAngleAndMagnitude( normalForce, getCurvatureDirection().getAngle() );
         }
     }
@@ -488,6 +520,7 @@ public class Particle1D implements Serializable {
             if( ( Double.isNaN( f.getMagnitude() ) ) ) { throw new IllegalArgumentException();}
             return f;//todo factor out heuristic
         }
+
     }
 
     private double getTotalFriction() {
@@ -504,8 +537,9 @@ public class Particle1D implements Serializable {
             velocity += a * dt;
             alpha += track.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
             if( getTotalFriction() > 0 ) {
-                if( ( Double.isNaN( getFrictionForce().getMagnitude() ) ) ) { throw new IllegalArgumentException();}
-                double therm = getFrictionForce().getMagnitude() * getLocation().distance( origLoc );
+                AbstractVector2D frictionForce = getFrictionForce();
+                if( ( Double.isNaN( frictionForce.getMagnitude() ) ) ) { throw new IllegalArgumentException();}
+                double therm = frictionForce.getMagnitude() * getLocation().distance( origLoc );
                 thermalEnergy += therm;
                 if( getThrust().getMagnitude() == 0 ) {//only conserve energy if the user is not adding energy
                     if( getEnergy() < origEnergy ) {
@@ -516,7 +550,7 @@ public class Particle1D implements Serializable {
                     }
                     if( getEnergy() > origEnergy ) {
                         if( Math.abs( getEnergy() - origEnergy ) < therm ) {
-                            System.out.println( "gained energy, removing thermal (Would have to remove more than we gained)" );
+                            debug( "gained energy, removing thermal (Would have to remove more than we gained)" );
                         }
                         else {
                             double editThermal = Math.abs( getEnergy() - origEnergy );
@@ -532,6 +566,12 @@ public class Particle1D implements Serializable {
             if( ( Double.isInfinite( getKineticEnergy() ) ) ) { throw new IllegalArgumentException();}
             if( ( Double.isNaN( getVelocity2D().getMagnitude() ) ) ) { throw new IllegalArgumentException();}
             handleBoundary();
+        }
+    }
+
+    private void debug( String s ) {
+        if( debug ) {
+            System.out.println( s );
         }
     }
 
