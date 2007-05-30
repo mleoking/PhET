@@ -82,7 +82,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         screenBackground = new BackgroundScreenNode( simulationPanel, null, floorGraphic, this );
         zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( simulationPanel );
         offscreenManIndicator = new OffscreenManIndicator( simulationPanel, module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
-        gridNode = new GridNode( -50, 0, 100, 150, 1, 1 );
+        gridNode = new GridNode( -50, -150, 100, 150, 1, 1 );
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void gravityChanged() {
                 HashMap map = new HashMap();

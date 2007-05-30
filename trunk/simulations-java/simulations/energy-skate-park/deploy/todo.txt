@@ -1,10 +1,10 @@
 New recommendations from 5-29-2007 meeting with Kathy, Wendy, Trish, Keller:
 
-2.	Scale should zoom in more, for example, it is difficult to see any of the energies for the bug character without being able to zoom in more.
-3.	Grid should continue in the –y direction in space, instead of stopping at y=0.
 4.	In space, splines are still being bumped up above y=0
 5.	Performance issue when friction > 0
 6.	Part of grid is disappearing when pie chart disappears (low priority)
+
+Grid doesn't turn white when slider is used to select g=0.
 _________________________
 Postponed:
 
