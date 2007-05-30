@@ -5,9 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- DNA force magnitude gets really huge to the right of trap center
 - implement Dubson's DNA strand model
 - make DNA tail draggable
-- move ModelViewTransform to model package, since it's part of the model
 
 MEDIUM PRIORITY:
 - change lens view, make it an on-edge view
@@ -56,6 +56,7 @@ MISSING INFO:
 
  
 DONE:
+5/30/07 - move ModelViewTransform to model package, since encapsualted in the model
 5/30/07 - make force values use black paint
 5/30/07 - fix direction of DNA force vector
 5/30/07 - add optional "Show DNA force" to forces control panel
