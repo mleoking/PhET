@@ -23,7 +23,7 @@ public abstract class AbstractForceNode extends PComposite {
     //----------------------------------------------------------------------------
     
     private static final boolean SHOW_VALUES = true;
-    private static final boolean SHOW_XY_COMPONENTS = true;
+    private static final boolean SHOW_XY_COMPONENTS = false;
 
     // properties of the vectors
     private static final double VECTOR_HEAD_HEIGHT = 20;
