@@ -38,7 +38,6 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     //----------------------------------------------------------------------------
     
     private static final boolean DEBUG_SHOW_ORIGIN = true;
-
     
     private static final Stroke LINE_STROKE = new BasicStroke();
     private static final Color LINE_COLOR = Color.BLACK;
