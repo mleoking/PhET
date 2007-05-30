@@ -75,6 +75,7 @@ public class DNAModel extends ClockAdapter {
          
          _dnaStrand = new DNAStrand( DNADefaults.DNA_STRAND_TAIL_POSITION, _bead, _fluid );
          _modelElements.add( _dnaStrand );
+         _bead.attachTo( _dnaStrand ); // attach bead to DNA strand
 
          _modelViewTransform = new ModelViewTransform( DNADefaults.MODEL_TO_VIEW_SCALE );
     }

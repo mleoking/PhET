@@ -6,7 +6,8 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - implement Dubson's DNA strand model
-- get DNA force model from Kathy
+- make DNA tail draggable
+- move ModelViewTransform to model package, since it's part of the model
 
 MEDIUM PRIORITY:
 - change lens view, make it an on-edge view
@@ -55,6 +56,12 @@ MISSING INFO:
 
  
 DONE:
+5/30/07 - make force values use black paint
+5/30/07 - fix direction of DNA force vector
+5/30/07 - add optional "Show DNA force" to forces control panel
+5/30/07 - add DNA force node to canvas
+5/30/07 - add DNA force to bead motion model
+5/30/07 - add optional DNA attachement to bead model
 5/30/07 - increase width of objective in DNA panel so that beam shape is similar to Physics panel
 5/30/07  - first pass at view of DNA strand
 5/30/07 - add stubs for DNA strand evolution model

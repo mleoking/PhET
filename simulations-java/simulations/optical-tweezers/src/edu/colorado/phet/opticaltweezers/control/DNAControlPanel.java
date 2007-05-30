@@ -60,7 +60,8 @@ public class DNAControlPanel extends AbstractControlPanel {
         
         // Sub-panels
         _clockStepControlPanel = new ClockStepControlPanel( TITLE_FONT, CONTROL_FONT, _model.getClock() );
-        _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getBrownianForceNode() );
+        _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
+                _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getBrownianForceNode(), _canvas.getDNAForceNode() );
         _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, _model.getFluid(), _module.getFrame() );
         
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );

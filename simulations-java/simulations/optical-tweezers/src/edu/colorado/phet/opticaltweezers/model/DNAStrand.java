@@ -171,7 +171,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     /**
      * Gets the force acting on the DNA head.
      * 
-     * @return force vector
+     * @return force (pN)
      */
     public Vector2D getForce() {
         double magnitude = getForceMagnitude();
@@ -180,16 +180,16 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     }
     
     /*
-     * Gets the direction of the force acting on the DNA head.
+     * Gets the direction of the force acting on the DNA head (radians).
      */
     private double getForceDirection() {
-        final double xOffset = _headPosition.getX() - _tailPosition.getX();
-        final double yOffset = _headPosition.getY() - _tailPosition.getY();
+        final double xOffset = _tailPosition.getX() - _headPosition.getX();
+        final double yOffset = _tailPosition.getY() - _headPosition.getY();
         return Math.atan2( yOffset, xOffset );
     }
     
     /*
-     * Gets the magnitude of the force acting on the DNA head.
+     * Gets the magnitude of the force acting on the DNA head (pN).
      */
     private double getForceMagnitude() {
         final double extension = _tailPosition.distance( _headPosition );

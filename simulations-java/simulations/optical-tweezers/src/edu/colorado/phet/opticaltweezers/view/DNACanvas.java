@@ -62,6 +62,7 @@ public class DNACanvas extends PhetPCanvas {
     private TrapForceNode _trapForceNode;
     private DragForceNode _dragForceNode;
     private BrownianForceNode _brownianForceNode;
+    private DNAForceNode _dnaForceNode;
     
     // Control
     private PSwing _returnBeadButtonWrapper;
@@ -124,16 +125,15 @@ public class DNACanvas extends PhetPCanvas {
             }
         });
         
-        // Trap Force
-        final double modelReferenceMagnitude = laser.getMaxTrapForce().getMagnitude();
-        final double viewReferenceLength = DNADefaults.FORCE_VECTOR_REFERENCE_LENGTH;
-        _trapForceNode = new TrapForceNode( laser, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
-        
-        // Drag Force -- use same reference values as trap force so that scale is the same!
-        _dragForceNode = new DragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
-        
-        // Brownian Force -- use same reference values as trap force so that scale is the same!
-        _brownianForceNode = new BrownianForceNode( bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
+        // Force vectors, use same reference values so that scale is the same!
+        {
+            final double modelReferenceMagnitude = laser.getMaxTrapForce().getMagnitude();
+            final double viewReferenceLength = DNADefaults.FORCE_VECTOR_REFERENCE_LENGTH;
+            _trapForceNode = new TrapForceNode( laser, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
+            _dragForceNode = new DragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
+            _brownianForceNode = new BrownianForceNode( bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
+            _dnaForceNode = new DNAForceNode( bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
+        }
         
         // Ruler
         _rulerDragBoundsNode = new PPath();
@@ -163,6 +163,7 @@ public class DNACanvas extends PhetPCanvas {
         _rootNode.addChild( _trapForceNode );
         _rootNode.addChild( _dragForceNode );
         _rootNode.addChild( _brownianForceNode );
+        _rootNode.addChild( _dnaForceNode );
         _rootNode.addChild( _rulerNode );
         _rootNode.addChild( _rulerDragBoundsNode );
         _rootNode.addChild( _returnBeadButtonWrapper );
@@ -206,6 +207,10 @@ public class DNACanvas extends PhetPCanvas {
     
     public BrownianForceNode getBrownianForceNode() {
         return _brownianForceNode;
+    }
+    
+    public DNAForceNode getDNAForceNode() {
+        return _dnaForceNode;
     }
 
     //----------------------------------------------------------------------------

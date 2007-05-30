@@ -118,6 +118,10 @@ public class DNAModule extends AbstractModule {
             fluid.setSpeed( DNADefaults.FLUID_SPEED_RANGE.getDefault() );
             fluid.setViscosity( DNADefaults.FLUID_VISCOSITY_RANGE.getDefault() );
             fluid.setTemperature( DNADefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
+            
+            // DNA Strand
+            DNAStrand dnaStrand = _model.getDNAStrand();
+            dnaStrand.setTailPosition( DNADefaults.DNA_STRAND_TAIL_POSITION );
         }
         
         // Control panel settings that are view-related
@@ -127,6 +131,7 @@ public class DNAModule extends AbstractModule {
             _controlPanel.getForcesControlPanel().setHorizontalTrapForceChoice( DNADefaults.HORIZONTAL_TRAP_FORCE_CHOICE );
             _controlPanel.getForcesControlPanel().setDragForceSelected( DNADefaults.FLUID_DRAG_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setBrownianForceSelected( DNADefaults.BROWNIAN_FORCE_SELECTED );
+            _controlPanel.getForcesControlPanel().setDNAForceSelected( DNADefaults.DNA_FORCE_SELECTED );
             _controlPanel.setRulerSelected( DNADefaults.RULER_SELECTED );
             _controlPanel.getAdvancedControlPanel().setAdvancedVisible( DNADefaults.ADVANCED_VISIBLE );
             _controlPanel.getAdvancedControlPanel().setFluidControlSelected( DNADefaults.FLUID_CONTROLS_SELECTED );
