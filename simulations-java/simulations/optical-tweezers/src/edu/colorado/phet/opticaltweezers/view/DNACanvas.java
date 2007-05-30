@@ -53,6 +53,7 @@ public class DNACanvas extends PhetPCanvas {
     private PNode _rootNode;
     private FluidNode _fluidNode;
     private LaserNode _laserNode;
+    private DNAStrandNode _dnaStrandNode;
     private BeadNode _beadNode;
     private PPath _beadDragBoundsNode;
     private PPath _laserDragBoundsNode;
@@ -78,9 +79,9 @@ public class DNACanvas extends PhetPCanvas {
         
         _model = model;
         
-        OTClock clock = model.getClock();
         Fluid fluid = model.getFluid();
         Laser laser = model.getLaser();
+        DNAStrand dnaStrand = model.getDNAStrand();
         Bead bead = model.getBead();
         ModelViewTransform modelViewTransform = model.getModelViewTransform();
         
@@ -107,6 +108,9 @@ public class DNACanvas extends PhetPCanvas {
         _laserDragBoundsNode = new PPath();
         _laserDragBoundsNode.setStroke( null );
         _laserNode = new LaserNode( laser, modelViewTransform, _laserDragBoundsNode );
+        
+        // DNA Strand
+        _dnaStrandNode = new DNAStrandNode( dnaStrand, modelViewTransform );
         
         // Bead
         _beadDragBoundsNode = new PPath();
@@ -153,6 +157,7 @@ public class DNACanvas extends PhetPCanvas {
         _rootNode.addChild( _fluidNode );
         _rootNode.addChild( _laserNode );
         _rootNode.addChild( _laserDragBoundsNode );
+        _rootNode.addChild( _dnaStrandNode );
         _rootNode.addChild( _beadNode );
         _rootNode.addChild( _beadDragBoundsNode );
         _rootNode.addChild( _trapForceNode );
