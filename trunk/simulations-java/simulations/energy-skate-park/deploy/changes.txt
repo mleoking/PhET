@@ -1,4 +1,4 @@
-2.01.04 (5-29-2007)
+2.01.04 (5-30-2007)
 Skater reorients angle on a bounce (this item appears in the Options menu)
 Fixed: Something preventing characters from being grabbed near the left side of the screen
 Removed "Frictionless Landing" option
