@@ -29,7 +29,7 @@ public class VerticalZoomControl extends DefaultZoomControl {
 //        System.out.println( "zoom=" + zoom + ", range = " + range );
         range = Math.max( range, 0 );
         double minY = zoom < 0 ? -500 : -500 - zoom * 500;
-        if( zoom <= 7 ) {
+        if( zoom <= -7 ) {
             minY = -range / 2;
         }
 //        System.out.println( "minY = " + minY );
