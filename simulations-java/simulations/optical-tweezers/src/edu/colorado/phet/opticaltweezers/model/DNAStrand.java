@@ -30,13 +30,16 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     public static final String PROPERTY_SHAPE = "shape"; // shape of the strand
     public static final String PROPERTY_TAIL_POSITION = "tailPosition"; // position of the pinned tail
     
+    // persistence length is a measure of the strand's bending stiffness
+    public static final double DOUBLE_STRANDED_PERSISTENCE_LENGTH = 50; // nm
+    public static final double SINGLE_STRANDED_PERSISTENCE_LENGTH = 1; // nm
+    
     //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
     
     private static final double DEFAULT_CONTOUR_LENGTH = 2413; // nm
-    private static final double DOUBLE_STRANDED_PERSISTENCE_LENGTH = 50; // nm, measure of bending stiffness
-    private static final double SINGLE_STRANDED_PERSISTENCE_LENGTH = 1; // nm, measure of bending stiffness
+    private static final double DEFAULT_PERSISTENCE_LENGTH = DOUBLE_STRANDED_PERSISTENCE_LENGTH; // nm 
     private static final int DEFAULT_NUMBER_OF_SEGMENTS = 40; // nm
     
     //----------------------------------------------------------------------------
@@ -58,12 +61,14 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     
     /**
      * Constructors a DNA strand with default contour length and persistence length.
+     * The head is at the bead's position, the tail position is specified.
      * 
+     * @param tailPosition
      * @param bead
      * @param fluid
      */
-    public DNAStrand( Bead bead, Fluid fluid ) {
-        this( DEFAULT_CONTOUR_LENGTH, DOUBLE_STRANDED_PERSISTENCE_LENGTH, DEFAULT_NUMBER_OF_SEGMENTS, bead, fluid );
+    public DNAStrand( Point2D tailPosition, Bead bead, Fluid fluid ) {
+        this( DEFAULT_CONTOUR_LENGTH, DEFAULT_PERSISTENCE_LENGTH, DEFAULT_NUMBER_OF_SEGMENTS, tailPosition, bead, fluid );
     }
     
     /*
@@ -71,10 +76,12 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * 
      * @param contourLength
      * @param persistenceLength
+     * @param numberOfSegments
+     * @param tailPosition
      * @param bead
      * @param fluid
      */
-    protected DNAStrand( double contourLength, double persistenceLength, int numberOfSegments, Bead bead, Fluid fluid ) {
+    protected DNAStrand( double contourLength, double persistenceLength, int numberOfSegments, Point2D tailPosition, Bead bead, Fluid fluid ) {
         
         _contourLength = contourLength;
         _persistenceLength = persistenceLength;
@@ -86,8 +93,10 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _fluid = fluid;
         _fluid.addObserver( this );
         
-        _headPosition = new Point2D.Double();
-        _tailPosition = new Point2D.Double();
+        _headPosition = new Point2D.Double( _bead.getPositionRef().getX(), _bead.getPositionRef().getY() );
+        _tailPosition = new Point2D.Double( tailPosition.getX(), tailPosition.getY() );
+        
+        initializeStrand();
     }
     
     /**
@@ -191,6 +200,22 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     }
     
     //----------------------------------------------------------------------------
+    // Strand shape model
+    //----------------------------------------------------------------------------
+    
+    private void initializeStrand() {
+        //XXX allocate a list of Point2D for _numberOfSegments+1 "pivot" points
+        //XXX pivots[first] is the tail, pivots[last] is the head
+        //XXX initialize the pivot points
+    }
+    
+    private void evolveStrand() {
+        //XXX evolve the list of pivot points using Mike Dubson's "Hollywood" algorithm
+        //XXX the tail is pinned, so pivots[first] does not evolve
+        //XXX the head is attached to the bead, so pivot[last] does not evolve
+    }
+    
+    //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
     
@@ -219,7 +244,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     //----------------------------------------------------------------------------
     
     public void stepInTime( double dt ) {
-        //XXX
+        evolveStrand();
         notifyObservers( PROPERTY_SHAPE );
     }
 }

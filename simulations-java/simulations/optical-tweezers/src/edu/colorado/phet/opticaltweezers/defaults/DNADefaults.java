@@ -68,6 +68,9 @@ public class DNADefaults {
     public static final double BEAD_DT_SUBDIVISION_THRESHOLD = 1E-6;
     public static final int BEAD_NUMBER_OF_DT_SUBDIVISIONS = 10;
     
+    // DNA Strand model
+    public static final Point2D DNA_STRAND_TAIL_POSITION = new Point2D.Double( 200, FLUID_POSITION.getY() );
+    
     // Control panel settings
     public static final String LASER_DISPLAY_CHOICE = LaserDisplayControlPanel.CHOICE_BEAM;
     public static final boolean TRAP_FORCE_SELECTED = false;
