@@ -1,6 +1,5 @@
 New recommendations from 5-29-2007 meeting with Kathy, Wendy, Trish, Keller:
 
-4.	In space, splines are still being bumped up above y=0
 5.	Performance issue when friction > 0
 6.	Part of grid is disappearing when pie chart disappears (low priority)
 
