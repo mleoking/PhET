@@ -57,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+5/30/07 - first (incorrect) stab at DNA strand path initialization
 5/30/07 - show extension as a dashed line in DNAStrandNode for debugging
 5/30/07 - move ModelViewTransform to model package, since encapsualted in the model
 5/30/07 - make force values use black paint

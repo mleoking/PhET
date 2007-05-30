@@ -3,6 +3,8 @@
 package edu.colorado.phet.opticaltweezers.model;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,7 +18,8 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
  * This model is unlikely to be useful in any other simulations.
  * The force model is based on physics. But the model of strand motion
  * is pure "Hollywood"; that is, it is intended to give the correct appearance 
- * but has no basis in reality.
+ * but has no basis in reality. The strand is modeled as a set of pivot points,
+ * connected by line segements.  Each line segment behaves like a spring.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -54,6 +57,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private final int _numberOfSegments; // number of discrete segments used to model the strand
     private Point2D _headPosition; // nm
     private Point2D _tailPosition; // nm
+    private List _pivots;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -192,21 +196,43 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * Gets the magnitude of the force acting on the DNA head (pN).
      */
     private double getForceMagnitude() {
-        final double extension = _tailPosition.distance( _headPosition );
+        final double extension = getExtension();
         final double kbT = 4.1 * _fluid.getTemperature() / 293; // kbT is 4.1 pN-nm at temperature=293K
         final double Lp = _persistenceLength;
         final double x = extension / _contourLength;
         return ( kbT / Lp ) * ( ( 1 / ( 4 * ( 1 - x ) * ( 1 - x ) ) ) - ( 0.24 ) + x );
     }
     
+    /*
+     * Gets the extension, the straight-line distance between the head and tail.
+     */
+    private double getExtension() {
+        return _tailPosition.distance( _headPosition );
+    }
+    
     //----------------------------------------------------------------------------
     // Strand shape model
     //----------------------------------------------------------------------------
     
+    /*
+     * Initializes each of the pivot points that make up the DNA strand.
+     */
     private void initializeStrand() {
-        //XXX allocate a list of Point2D for _numberOfSegments+1 "pivot" points
-        //XXX pivots[first] is the tail, pivots[last] is the head
-        //XXX initialize the pivot points
+        final double initialSegmentLength = getExtension() / _numberOfSegments;
+        _pivots = new ArrayList();
+        Pivot tailPivot = new Pivot( 0, 0 );
+        _pivots.add( tailPivot );
+        Pivot previousPivot = tailPivot;
+        for ( int i = 1; i < _numberOfSegments; i++ ) {
+            //XXX this is wrong, these points need to be arranged between tail and head
+            double xOffset = previousPivot.xOffset + initialSegmentLength + ( 0.2 * Math.random() - 0.1 );
+            double yOffset = previousPivot.yOffset + ( 2 * ( 0.2 * Math.random() - 0.1 ) );
+            Pivot pivot = new Pivot( xOffset, yOffset );
+            _pivots.add( pivot );
+            previousPivot = pivot;
+        }
+        Pivot headPivot = new Pivot( _headPosition.getX() - _tailPosition.getX(), _headPosition.getY() - _headPosition.getY() );
+        _pivots.add( headPivot );
     }
     
     private void evolveStrand() {
@@ -246,5 +272,27 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     public void stepInTime( double dt ) {
         evolveStrand();
         notifyObservers( PROPERTY_SHAPE );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Pivot is a data structure that describes one of points 
+     * that exists between line segments of the strand.
+     */
+    private static class Pivot {
+        
+        private double xOffset, yOffset; // position, relative to strand tail
+        private double vx, vy; // velocity
+        private double ax, ay; // acceleration
+        
+        public Pivot( double xOffset, double yOffset ) {
+            this.xOffset = xOffset;
+            this.yOffset = yOffset;
+            vx = vy = 0;
+            ax = ay = 0;
+        }
     }
 }
