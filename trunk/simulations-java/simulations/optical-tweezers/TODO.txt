@@ -5,11 +5,12 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- DNA force magnitude gets really huge to the right of trap center
+- when DNA extension==contourLength, force algorithm has divide-by-zero issue
 - implement Dubson's DNA strand model
-- make DNA tail draggable
 
 MEDIUM PRIORITY:
+- make DNA tail draggable?
+- ruler is slightly off-center in all panels
 - change lens view, make it an on-edge view
 - make the lens supports look 3D, as if they are holding the lens
 - when fluid viscosity=0, use Verlet motion model, disable fluid speed & temperature controls, make glass slide black
@@ -56,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+5/30/07 - show extension as a dashed line in DNAStrandNode for debugging
 5/30/07 - move ModelViewTransform to model package, since encapsualted in the model
 5/30/07 - make force values use black paint
 5/30/07 - fix direction of DNA force vector
