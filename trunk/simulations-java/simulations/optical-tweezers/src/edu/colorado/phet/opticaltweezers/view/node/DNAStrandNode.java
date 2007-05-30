@@ -23,6 +23,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class DNAStrandNode extends PNode implements Observer {
 
     //----------------------------------------------------------------------------
+    // Debugging
+    //----------------------------------------------------------------------------
+    
+    // shows the extension distance, a straight line between head and tail
+    private static final boolean SHOW_EXTENSION = true;
+    
+    //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
@@ -30,6 +37,10 @@ public class DNAStrandNode extends PNode implements Observer {
     private static final Color TAIL_FILL_COLOR = Color.GRAY;
     private static final Color TAIL_STROKE_COLOR = Color.BLACK;
     private static final Stroke TAIL_STROKE = new BasicStroke( 1f );
+    
+    private static final Color EXTENSION_STROKE_COLOR = Color.BLACK;
+    private static final Stroke EXTENSION_STROKE = 
+        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
     
     private static final Color STRAND_STROKE_COLOR = Color.BLACK;
     private static final Stroke STRAND_STROKE = new BasicStroke( 1f );
@@ -43,6 +54,8 @@ public class DNAStrandNode extends PNode implements Observer {
     
     private GeneralPath _strandPath;
     private PPath _strandNode;
+    private GeneralPath _extensionPath;
+    private PPath _extensionNode; // straight line between head and tail
     private PNode _tailNode;
     
     //----------------------------------------------------------------------------
@@ -62,6 +75,14 @@ public class DNAStrandNode extends PNode implements Observer {
         _strandNode.setStroke( STRAND_STROKE );
         _strandNode.setStrokePaint( STRAND_STROKE_COLOR );
         addChild( _strandNode );
+        
+        if ( SHOW_EXTENSION ) {
+            _extensionPath = new GeneralPath();
+            _extensionNode = new PPath();
+            _extensionNode.setStroke( EXTENSION_STROKE );
+            _extensionNode.setStrokePaint( EXTENSION_STROKE_COLOR );
+            addChild( _extensionNode );
+        }
         
         double viewTailDiameter = _modelViewTransform.modelToView( TAIL_DIAMETER );
         _tailNode = new SphericalNode( viewTailDiameter, TAIL_FILL_COLOR, TAIL_STROKE, TAIL_STROKE_COLOR, false /* convertToImage */ );
@@ -100,10 +121,17 @@ public class DNAStrandNode extends PNode implements Observer {
         Point2D modelHeadPosition = _dnaStrand.getHeadPositionRef();
         Point2D viewHeadPosition = _modelViewTransform.modelToView( modelHeadPosition );
         
+        // Draw the extension
+        if ( _extensionPath != null ) {
+            _extensionPath.reset();
+            _extensionPath.moveTo( (float) viewTailPosition.getX(), (float) viewTailPosition.getY() );
+            _extensionPath.lineTo( (float) viewHeadPosition.getX(), (float) viewHeadPosition.getY() );
+            _extensionNode.setPathTo( _extensionPath );
+        }
+        
         // Draw the strand, from the tail to the head
         _strandPath.reset();
-        _strandPath.moveTo( (float)viewTailPosition.getX(), (float)viewTailPosition.getY() );
-        _strandPath.lineTo( (float)viewHeadPosition.getX(), (float )viewHeadPosition.getY() );
+        //XXX
         _strandNode.setPathTo( _strandPath );
     }
 
