@@ -49,10 +49,10 @@ public class DNADefaults {
     public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 200, 0 ); // Kelvin
 
     // Laser model, local origin at center of objective
-    public static final double LASER_DIAMETER_AT_OBJECTIVE = 1000; // nm
+    public static final double LASER_DIAMETER_AT_OBJECTIVE = 1800; // nm, chosen so that beam shape is similar to PhysicsDefaults
     public static final double LASER_DIAMETER_AT_WAIST = 500; // nm
-    public static final double LASER_DISTANCE_FROM_OBJECTIVE_TO_WAIST = 1200; // nm
-    public static final double LASER_DISTANCE_FROM_OBJECTIVE_TO_CONTROL_PANEL = FLUID_Y_OFFSET; // nm
+    public static final double LASER_DISTANCE_FROM_OBJECTIVE_TO_WAIST = ( FLUID_HEIGHT / 2 ) + FLUID_Y_OFFSET; // nm
+    public static final double LASER_DISTANCE_FROM_OBJECTIVE_TO_CONTROL_PANEL = 200; // nm
     public static final double LASER_WAVELENGTH = 1064; // nm, invisible IR
     public static final double LASER_VISIBLE_WAVELENGTH = 632; // nm, to be used by view components
     public static final Point2D LASER_POSITION = new Point2D.Double( 2400, FLUID_POSITION.getY() ); // nm
