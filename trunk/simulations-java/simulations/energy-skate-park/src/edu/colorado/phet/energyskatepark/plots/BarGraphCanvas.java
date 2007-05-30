@@ -22,7 +22,7 @@ import java.awt.event.ComponentEvent;
 public class BarGraphCanvas extends PSwingCanvas {
     private EnergySkateParkModule module;
     private PSwing clearHeatButton;
-    private VerticalZoomControl barGraphPSwing;
+    private VerticalZoomControl verticalZoomControl;
 
     public BarGraphCanvas( final EnergySkateParkModule module ) {
         this.module = module;
@@ -51,8 +51,8 @@ public class BarGraphCanvas extends PSwingCanvas {
             }
         } );
         updateZoom( energyBarGraphSet, axis );
-        barGraphPSwing = new VerticalZoomControl( axis );
-        getLayer().addChild( barGraphPSwing );
+        verticalZoomControl = new VerticalZoomControl( axis );
+        getLayer().addChild( verticalZoomControl );
         updateLayout();
     }
 
@@ -65,10 +65,10 @@ public class BarGraphCanvas extends PSwingCanvas {
         int insetY = 2;
         int insetX = 2;
         clearHeatButton.setOffset( insetX, getHeight() - clearHeatButton.getFullBounds().getHeight() - insetY );
-        barGraphPSwing.setOffset( getWidth() - barGraphPSwing.getFullBounds().getWidth() - insetX, getHeight() - barGraphPSwing.getFullBounds().getHeight() - insetY );
+        verticalZoomControl.setOffset( getWidth() - verticalZoomControl.getFullBounds().getWidth() - insetX, getHeight() - verticalZoomControl.getFullBounds().getHeight() - insetY );
     }
 
     public void reset() {
-        barGraphPSwing.setZoom( 0 );
+        verticalZoomControl.setZoom( 0 );
     }
 }

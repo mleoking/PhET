@@ -1,6 +1,5 @@
 New recommendations from 5-29-2007 meeting with Kathy, Wendy, Trish, Keller:
 
-1.	Implement separate layers for time series graph (currently different series are interleaved).  How long would this take?
 2.	Scale should zoom in more, for example, it is difficult to see any of the energies for the bug character without being able to zoom in more.
 3.	Grid should continue in the –y direction in space, instead of stopping at y=0.
 4.	In space, splines are still being bumped up above y=0
@@ -8,6 +7,14 @@ New recommendations from 5-29-2007 meeting with Kathy, Wendy, Trish, Keller:
 6.	Part of grid is disappearing when pie chart disappears (low priority)
 _________________________
 Postponed:
+
+1.	Implement separate layers for time series graph (currently different series are interleaved).  How long would this take?
+    To implement this without substantial loss of performance, path segments should be drawn that are longer than 1/2 the stroke width.
+    This means instead of painting just the most recent data point, the last N data points should be drawn, where N is a function of the stroke width.
+    Also, to maintain high performance, the last N data points should be drawn using optimized code (not the same code that draws single points).
+    There will be slight (a few percent) performance degradation for this layered representation.
+    I expect it will take around 2 hours to implement and test this.
+
 5. Performance problem when all charts open with complicated track.
             I have trouble reproducing this problem (perhaps you could email me a track that exhibits this problem?)  Also not sure how much time should be spent solving the situation with 3 charts and a complicated track.
 7. Skater goes underneath the track in double-well
