@@ -4,6 +4,7 @@ import edu.colorado.phet.energyskatepark.common.LucidaSansFont;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -17,7 +18,7 @@ import java.text.DecimalFormat;
  * Author: Sam Reid
  * Apr 6, 2007, 10:04:58 AM
  */
-public class EnergyErrorIndicator extends PNode {
+public class EnergyErrorIndicator extends PhetPNode {
     private Body body;
     private EnergySkateParkModel model;
     private Body.Listener listener = new Body.ListenerAdapter() {

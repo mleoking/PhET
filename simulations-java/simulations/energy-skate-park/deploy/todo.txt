@@ -1,8 +1,5 @@
 New recommendations from 5-29-2007 meeting with Kathy, Wendy, Trish, Keller:
 
-41. Something preventing characters from being grabbed near the left side of the screen
-    There seems to be an object occluding the mouse interaction.
-
 43. Frictionless Landing
     Get rid of this option
 

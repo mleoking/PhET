@@ -15,9 +15,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -178,6 +176,22 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
                 updateMapping();
             }
         } );
+
+        simulationPanel.addKeyListener( new KeyAdapter() {
+
+            public void keyReleased( KeyEvent event ) {
+                if( event.getKeyCode() == KeyEvent.VK_V && event.isControlDown() && event.isShiftDown() ) {
+                    showAll( EnergySkateParkRootNode.this );
+                }
+            }
+        } );
+    }
+
+    private void showAll( PNode node ) {
+        node.setVisible( true );
+        for( int i = 0; i < node.getChildrenCount(); i++ ) {
+            showAll( node.getChild( i ) );
+        }
     }
 
     private void updateMapping() {
