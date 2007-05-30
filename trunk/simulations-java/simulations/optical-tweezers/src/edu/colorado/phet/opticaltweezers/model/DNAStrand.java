@@ -6,21 +6,29 @@ import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
  * DNAStrand is the model of a double-stranded DNA immersed in a viscous fluid.
  * The head is connected to a bead, while the tail is pinned to a position.
+ * <p>
+ * This model is unlikely to be useful in any other simulation.
+ * The force model is based on physics. But the model of strand motion
+ * is "Hollywood"; that is, intended to give the correct appearance but with no 
+ * basis in reality.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DNAStrand extends OTObservable implements Observer {
+public class DNAStrand extends OTObservable implements ModelElement, Observer {
     
     //----------------------------------------------------------------------------
     // Public class data
     //----------------------------------------------------------------------------
     
-    public static final String PROPERTY_FORCE = "force";
+    public static final String PROPERTY_FORCE = "force"; // force applied to the bead that is attached to the head
+    public static final String PROPERTY_SHAPE = "shape"; // shape of the strand
+    public static final String PROPERTY_TAIL_POSITION = "tailPosition"; // position of the pinned tail
     
     //----------------------------------------------------------------------------
     // Private class data
@@ -29,6 +37,7 @@ public class DNAStrand extends OTObservable implements Observer {
     private static final double DEFAULT_CONTOUR_LENGTH = 2413; // nm
     private static final double DOUBLE_STRANDED_PERSISTENCE_LENGTH = 50; // nm, measure of bending stiffness
     private static final double SINGLE_STRANDED_PERSISTENCE_LENGTH = 1; // nm, measure of bending stiffness
+    private static final int DEFAULT_NUMBER_OF_SEGMENTS = 40; // nm
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -39,6 +48,7 @@ public class DNAStrand extends OTObservable implements Observer {
     
     private final double _contourLength; // length of the DNA strand, nm
     private final double _persistenceLength; // nm
+    private final int _numberOfSegments; // number of discrete segments used to model the strand
     private Point2D _headPosition; // nm
     private Point2D _tailPosition; // nm
 
@@ -53,7 +63,7 @@ public class DNAStrand extends OTObservable implements Observer {
      * @param fluid
      */
     public DNAStrand( Bead bead, Fluid fluid ) {
-        this( DEFAULT_CONTOUR_LENGTH, DOUBLE_STRANDED_PERSISTENCE_LENGTH, bead, fluid );
+        this( DEFAULT_CONTOUR_LENGTH, DOUBLE_STRANDED_PERSISTENCE_LENGTH, DEFAULT_NUMBER_OF_SEGMENTS, bead, fluid );
     }
     
     /*
@@ -64,10 +74,11 @@ public class DNAStrand extends OTObservable implements Observer {
      * @param bead
      * @param fluid
      */
-    protected DNAStrand( double contourLength, double persistenceLength, Bead bead, Fluid fluid ) {
+    protected DNAStrand( double contourLength, double persistenceLength, int numberOfSegments, Bead bead, Fluid fluid ) {
         
         _contourLength = contourLength;
         _persistenceLength = persistenceLength;
+        _numberOfSegments = numberOfSegments;
         
         _bead = bead;
         _bead.addObserver( this );
@@ -99,6 +110,10 @@ public class DNAStrand extends OTObservable implements Observer {
         return _persistenceLength;
     }
     
+    public int getNumberOfSegments() {
+        return _numberOfSegments;
+    }
+    
     public Point2D getHeadPosition() {
         return new Point2D.Double( _headPosition.getX(), _headPosition.getY() );
     }
@@ -121,6 +136,7 @@ public class DNAStrand extends OTObservable implements Observer {
     
     public void setTailPosition( double x, double y ) {
         _tailPosition.setLocation( x, y );
+        notifyObservers( PROPERTY_TAIL_POSITION );
     }
     
     public Point2D getTailPosition() {
@@ -196,5 +212,14 @@ public class DNAStrand extends OTObservable implements Observer {
                 notifyObservers( PROPERTY_FORCE );
             }
         }
+    }
+
+    //----------------------------------------------------------------------------
+    // ModelElement implementation
+    //----------------------------------------------------------------------------
+    
+    public void stepInTime( double dt ) {
+        //XXX
+        notifyObservers( PROPERTY_SHAPE );
     }
 }
