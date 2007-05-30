@@ -81,7 +81,9 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         } );
         addMouseListener( new MouseAdapter() {
             public void mouseReleased( MouseEvent e ) {
-                new BumpUpSplines( energySkateParkModel ).bumpUpSplines();
+                if( energySkateParkModel.getGravity() != EnergySkateParkModel.G_SPACE ) {
+                    new BumpUpSplines( energySkateParkModel ).bumpUpSplines();
+                }
             }
         } );
 

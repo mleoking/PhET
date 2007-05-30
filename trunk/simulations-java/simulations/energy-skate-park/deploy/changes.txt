@@ -4,6 +4,7 @@ Fixed: Something preventing characters from being grabbed near the left side of 
 Removed "Frictionless Landing" option
 Increased available zoom-in range
 Fixed: Grid should continue in the –y direction in space, instead of stopping at y=0.
+Fixed: In space, splines are still being bumped up above y=0
 
 2.01.03 (5-23-2007)
 Fixed: Simulation crashes when E vs. T graph is open and Reset is pressed.
