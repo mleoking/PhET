@@ -1,11 +1,13 @@
-New recommendations from 5-29-2007 meeting with Kathy, Wendy, Trish, Keller:
-
 Is performance good enough during friction=on case?
   Removing this duplicated work resulted in substantial improvement (non-friction case = 10% processor, old friction case=30% processor, new fixed case=18% processor), but a difference in visible performance is still visible under a profiler.  Should I continue to investigate this issue?
 The best performance optimization we can do for this simulation is to cache values for points on the spline after user has stopped manipuliating it (tradeoff processor usage for memory usage).  However, this would be nontrivial work.
 
-6.	Part of grid is disappearing when pie chart disappears (low priority)
 _________________________
+
+Low Priority:
+6.	Part of grid is disappearing when pie chart disappears (low priority)
+    Couldn't reproduce this problem.
+    
 Postponed:
 
 1.	Implement separate layers for time series graph (currently different series are interleaved).  How long would this take?
@@ -26,8 +28,10 @@ Interview:
 34. PE=0 line is visible in space
 37. Pie chart disappears when going underneath PE=0
 
-
 ________________________
+#################################################################
+Older information (may not be up to date)
+#######################################
 
 Better mountain graphics?
 
@@ -47,8 +51,6 @@ Would it take much time to have a right click on the character bring up the char
 
 4. When I open the Energy vs Position graph, the performance rapidly decreases.
     On my machine, it is approx 25% processor usage without this E vs X graph, 40% with.
-
-post on main site
 
 Under discussion:
 Reorient on bounce?
