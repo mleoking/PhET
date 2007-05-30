@@ -36,6 +36,7 @@ public class ForcesControlPanel extends JPanel {
     private PNode _trapForceNode;
     private PNode _dragForceNode;
     private PNode _brownianForceNode;
+    private PNode _dnaForceNode;
     
     private JCheckBox _trapForceCheckBox;
     private JLabel _horizontalTrapForceLabel;
@@ -43,6 +44,7 @@ public class ForcesControlPanel extends JPanel {
     private JRadioButton _halfBeadRadioButton;
     private JCheckBox _dragForceCheckBox;
     private JCheckBox _brownianForceCheckBox;
+    private JCheckBox _dnaForceCheckBox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -56,13 +58,15 @@ public class ForcesControlPanel extends JPanel {
      * @param trapForceNode
      * @param dragForceNode
      * @param brownianForceNode
+     * @param dnaForceNode optional
      */
-    public ForcesControlPanel( Font titleFont, Font controlFont, PNode trapForceNode, PNode dragForceNode, PNode brownianForceNode ) {
+    public ForcesControlPanel( Font titleFont, Font controlFont, PNode trapForceNode, PNode dragForceNode, PNode brownianForceNode, PNode dnaForceNode ) {
         super();
         
         _trapForceNode = trapForceNode;
         _dragForceNode = dragForceNode;
         _brownianForceNode = brownianForceNode;
+        _dnaForceNode = dnaForceNode;
         
         JLabel titleLabel = new JLabel( OTResources.getString( "label.forcesOnBead" ) );
         titleLabel.setFont( titleFont );
@@ -114,6 +118,16 @@ public class ForcesControlPanel extends JPanel {
             }
          });
         
+        if ( _dnaForceNode != null ) {
+            _dnaForceCheckBox = new JCheckBox( OTResources.getString( "label.showDNAForce" ) );
+            _dnaForceCheckBox.setFont( controlFont );
+            _dnaForceCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    handleDNAForceCheckBox();
+                }
+            } );
+        }
+        
         // Layout
         JPanel innerPanel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -129,6 +143,9 @@ public class ForcesControlPanel extends JPanel {
         layout.addComponent( _halfBeadRadioButton, row++, 1 );
         layout.addComponent( _dragForceCheckBox, row++, 0, 2, 1 );
         layout.addComponent( _brownianForceCheckBox, row++, 0, 2, 1 );
+        if ( _dnaForceCheckBox != null ) {
+            layout.addComponent( _dnaForceCheckBox, row++, 0, 2, 1 );
+        }
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
         
@@ -141,6 +158,9 @@ public class ForcesControlPanel extends JPanel {
         _halfBeadRadioButton.setEnabled( _trapForceCheckBox.isSelected() );
         _dragForceCheckBox.setSelected( false );
         _brownianForceCheckBox.setSelected( false );
+        if ( _dnaForceCheckBox != null ) {
+            _dnaForceCheckBox.setSelected( false );
+        }
         
         //XXX not implemented
         _horizontalTrapForceLabel.setForeground( Color.RED );
@@ -222,6 +242,21 @@ public class ForcesControlPanel extends JPanel {
         return _horizontalTrapForceLabel.isEnabled();
     }
     
+    public void setDNAForceSelected( boolean b ) {
+        if ( _dnaForceCheckBox != null ) {
+            _dnaForceCheckBox.setSelected( b );
+            handleDNAForceCheckBox();
+        }
+    }
+    
+    public boolean isDNAForceSelecte() { 
+        boolean selected = false;
+        if ( _dnaForceCheckBox != null ) {
+            selected = _dnaForceCheckBox.isSelected();
+        }
+        return selected;
+    }
+    
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
@@ -253,5 +288,10 @@ public class ForcesControlPanel extends JPanel {
     private void handleBrownianForceCheckBox() {
         final boolean selected = _brownianForceCheckBox.isSelected();
         _brownianForceNode.setVisible( selected );
+    }
+    
+    private void handleDNAForceCheckBox() {
+        final boolean selected = _dnaForceCheckBox.isSelected();
+        _dnaForceNode.setVisible( selected );
     }
 }

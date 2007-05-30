@@ -77,6 +77,7 @@ public class DNADefaults {
     public static final String HORIZONTAL_TRAP_FORCE_CHOICE = ForcesControlPanel.CHOICE_WHOLE_BEAD;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
     public static final boolean BROWNIAN_FORCE_SELECTED = false;
+    public static final boolean DNA_FORCE_SELECTED = false;
     public static final boolean RULER_SELECTED = false;
     public static final boolean ADVANCED_VISIBLE = true;
     public static final boolean FLUID_CONTROLS_SELECTED = false;

@@ -48,6 +48,7 @@ public class Bead extends MovableObject implements ModelElement {
     private Random _stepAngleRandom;
     private boolean _motionEnabled;
     private Vector2D _velocity; // nm/sec
+    private DNAStrand _dnaStrand;
     
     private double _brownianMotionScale;
     private double _dtSubdivisionThreshold;
@@ -93,7 +94,7 @@ public class Bead extends MovableObject implements ModelElement {
     }
     
     //----------------------------------------------------------------------------
-    // Mutators and accessors
+    // Setters and getters
     //----------------------------------------------------------------------------
     
     /**
@@ -175,6 +176,31 @@ public class Bead extends MovableObject implements ModelElement {
      */
     public double getPotentialEnergy() {
         return _laser.getPotentialEnergy( getX(), getY() );
+    }
+    
+    /**
+     * Attaches the bead to the head of a DNA strand.
+     * 
+     * @param dnaStrand
+     */
+    public void attachTo( DNAStrand dnaStrand ) {
+        _dnaStrand = dnaStrand;
+    }
+    
+    /**
+     * Gets the DNA force, if the bead is attached to a DNA strand.
+     * 
+     * @return Vector2D, zero if the bead is not attached to a DNA strand
+     */
+    public Vector2D getDNAForce() {
+        Vector2D dnaForce = null;
+        if ( _dnaStrand != null ) {
+            dnaForce = _dnaStrand.getForce();
+        }
+        else {
+            dnaForce = new Vector2D.Cartesian( 0, 0 );
+        }
+        return dnaForce;
     }
     
     //----------------------------------------------------------------------------
@@ -275,9 +301,6 @@ public class Bead extends MovableObject implements ModelElement {
      */
     private void move( double clockDt ) {
         
-        // algorithm works only for horizontal fluid flow
-        assert( _fluid.getOrientation() == 0 || _fluid.getOrientation() == Math.PI );
-        
         // Top and bottom edges of microscope slide, bead treated as a point
         final double yTopOfSlide = _fluid.getMinY() + ( getDiameter() / 2 ); // nm
         final double yBottomOfSlide = _fluid.getMaxY() - ( getDiameter() / 2 ); // nm
@@ -316,6 +339,15 @@ public class Bead extends MovableObject implements ModelElement {
             // Trap force
             Vector2D trapForce = _laser.getTrapForce( xOld, yOld ); // pN
 
+            // DNA force
+            Vector2D dnaForce = null;
+            if ( _dnaStrand != null ) {
+                dnaForce = _dnaStrand.getForce();
+            }
+            else {
+                dnaForce = new Vector2D.Cartesian( 0, 0 );
+            }
+                
             // Brownian force (pN)
             Vector2D brownianForce = null;
             if ( i == loops - 1 ) {
@@ -343,10 +375,10 @@ public class Bead extends MovableObject implements ModelElement {
                 // collide with bottom edge of microscope slide
                 yNew = yBottomOfSlide;
             }
-
+            
             // New velocity
-            vxNew = ( mobility * trapForce.getX() ) + fluidVelocity.getX(); // nm/sec
-            vyNew = ( mobility * trapForce.getY() ) + fluidVelocity.getY(); // nm/sec
+            vxNew = ( mobility * trapForce.getX() ) + ( mobility * dnaForce.getX() ) + fluidVelocity.getX(); // nm/sec
+            vyNew = ( mobility * trapForce.getY() ) + ( mobility * dnaForce.getY() ) + fluidVelocity.getY(); // nm/sec
 
             if ( MOTION_DEBUG_OUTPUT ) {
                 System.out.println( "old position = " + new Point2D.Double( xOld, yOld ) + " nm" );
@@ -357,8 +389,9 @@ public class Bead extends MovableObject implements ModelElement {
                 System.out.println( "normalized viscosity = " + normalizedViscosity );
                 System.out.println( "mobility = " + mobility + " (nm/sec)/pN" );
                 System.out.println( "fluid velocity = " + fluidVelocity + " nm/sec" );
-                System.out.println( "Brownian force = " + brownianForce + " pN" );
                 System.out.println( "trap force = " + trapForce + " pN" );
+                System.out.println( "DNA force = " + dnaForce + " pN" );
+                System.out.println( "Brownian force = " + brownianForce + " pN" );
                 System.out.println();
             }
             

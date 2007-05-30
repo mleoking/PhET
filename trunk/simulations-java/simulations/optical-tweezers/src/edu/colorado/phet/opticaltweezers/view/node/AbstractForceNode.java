@@ -32,6 +32,7 @@ public abstract class AbstractForceNode extends PComposite {
     private static final Stroke VECTOR_STROKE = new BasicStroke( 1f );
     private static final Paint VECTOR_STROKE_PAINT = Color.BLACK;
     private static final double VALUE_SPACING = 0; // space between value and arrow head
+    private static final Paint VALUE_PAINT = Color.BLACK;
     
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0.##E0" );
     
@@ -51,17 +52,17 @@ public abstract class AbstractForceNode extends PComposite {
         setChildrenPickable( false );
         
         _sumNode = createVectorNode( color, modelReferenceMagnitude, viewReferenceMagnitude, units );
-        _sumNode.setValuePaint( color );
+        _sumNode.setValuePaint( VALUE_PAINT );
         _sumNode.setValueVisible( SHOW_VALUES );
         
         Color componentColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), 100 );
         
         _xComponentNode = createVectorNode( componentColor, modelReferenceMagnitude, viewReferenceMagnitude, units  );
-        _xComponentNode.setValuePaint( componentColor );
+        _xComponentNode.setValuePaint( VALUE_PAINT );
         _xComponentNode.setValueVisible( SHOW_VALUES );
         
         _yComponentNode = createVectorNode( componentColor, modelReferenceMagnitude, viewReferenceMagnitude, units );
-        _yComponentNode.setValuePaint( componentColor );
+        _yComponentNode.setValuePaint( VALUE_PAINT );
         _yComponentNode.setValueVisible( SHOW_VALUES );
 
         if ( SHOW_XY_COMPONENTS ) {
