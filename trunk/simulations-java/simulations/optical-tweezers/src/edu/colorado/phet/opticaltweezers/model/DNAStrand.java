@@ -11,12 +11,12 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
  * DNAStrand is the model of a double-stranded DNA immersed in a viscous fluid.
- * The head is connected to a bead, while the tail is pinned to a position.
+ * The head is attached to a bead, while the tail is pinned in place.
  * <p>
- * This model is unlikely to be useful in any other simulation.
+ * This model is unlikely to be useful in any other simulations.
  * The force model is based on physics. But the model of strand motion
- * is "Hollywood"; that is, intended to give the correct appearance but with no 
- * basis in reality.
+ * is pure "Hollywood"; that is, it is intended to give the correct appearance 
+ * but has no basis in reality.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
