@@ -1,6 +1,6 @@
-Is performance good enough during track friction > 0 case?  I removed duplicated computation in radius of curvature approximation.
-  Removing this duplicated work resulted in substantial improvement (non-friction case = 10% processor, old friction case=30% processor, new fixed case=18% processor), but a difference in visible performance is still visible under a profiler.  Should I continue to investigate this issue?
-The best performance optimization we can do for this simulation would be to cache values for points on the spline after user has stopped manipuliating it (tradeoff processor usage for memory usage).  However, this would be nontrivial work, and I'm not sure it would pay off.  I would do a feasibility test to make sure enough track data can be cached at high enough resolution to make this effective.
+2.	Is performance good enough during track friction > 0 case?  I removed duplicated computation in radius of curvature approximation.
+	Removing this duplicated work resulted in substantial improvement (non-friction case = 10% processor, old friction case=30% processor, new fixed case=18% processor), but a difference in visible performance is still visible under a profiler.  Should I continue to investigate this issue?
+	One performance optimization we can do for this simulation would be to cache values for points on the spline after user has stopped manipulating it (tradeoff processor usage for memory usage).  However, this would be nontrivial work, and I'm not sure it would pay off.  I would do a feasibility test to make sure enough track data can be cached at high enough resolution to make this effective.
 _________________________
 
 Low Priority:
