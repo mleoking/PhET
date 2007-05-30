@@ -143,6 +143,37 @@ table td.smartClient,table th.smartClient {
     font-weight:bold;
 }
 
+#contributionview div.field {
+	clear:  right;
+	width:  100%;	
+	margin: 0 0 0 0;
+	border: 0 0 0 0;
+	padding: 5px 0 5px 0;
+}
+#contributionview div.field .label {
+	float: 			left;
+	width: 			25%;
+    font-weight:	bold;	
+}
+#contributionview div.field .label_content, #contributionview div.field .right_label_content {
+	float: right;
+	width: 75%;
+}
+#contributionview div.field .left_label_content {
+	float: none;
+	width: 37%;
+}
+#contributionview div.field .right_label {
+	float: 			none;
+    font-weight:	bold;	
+	margin-left:	5em;
+}
+#contributionview div.field .right_label_content {
+	float: none;
+	width: 38%;
+	margin-left: 3em;
+}
+
 #browsefilter {
 	width: 100%;
 	margin: auto;
