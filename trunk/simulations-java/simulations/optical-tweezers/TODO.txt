@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- double width of objective in DNA panel
 - implement Dubson's DNA strand model
 - get DNA force model from Kathy
 
@@ -56,6 +55,7 @@ MISSING INFO:
 
  
 DONE:
+5/30/07 - increase width of objective in DNA panel so that beam shape is similar to Physics panel
 5/30/07  - first pass at view of DNA strand
 5/30/07 - add stubs for DNA strand evolution model
 5/30/07 - add DNAStrand to model for DNA panel
