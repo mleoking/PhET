@@ -31,6 +31,9 @@ import java.io.IOException;
 public class EnergySkateParkControlPanel extends ControlPanel {
     private EnergySkateParkModule module;
     private PieChartControlPanel piePanel;
+    
+//    public static boolean PLANET_CENTERED = false;
+//    public static LocationControlPanel.PlanetButtonLayout PLANET_LAYOUT = new LocationControlPanel.TwoColumnLayout();
 
     public EnergySkateParkControlPanel( final EnergySkateParkModule module ) {
         this.module = module;
@@ -104,29 +107,24 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             e.printStackTrace();
         }
         addControlFullWidth( new IconComponent( zeroPointPotential, potentialIcon ) );
-
-
         addControlFullWidth( new GridLinesCheckBox( module ) );
         addControlFullWidth( new PathRecordContol( module ) );
 
         piePanel = new PieChartControlPanel( module, this );
-//        addControlFullWidth( piePanel );
 
         final VerticalLayoutPanel chartPanel = new VerticalLayoutPanel();
         chartPanel.setFillNone();
         chartPanel.setAnchor( GridBagConstraints.WEST );
         chartPanel.setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "plots.plot" ) ) );
 
-        chartPanel.add(piePanel);
+        chartPanel.add( piePanel );
 
         final JButton timeChart = new JButton( EnergySkateParkStrings.getString( "plots.energy-vs-time" ) );
         timeChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-//                module.setEnergyTimePlotVisible( true );
                 module.showNewEnergyVsTimePlot();
             }
         } );
-
 
         final JButton showEnergyPositionPlot = new JButton( EnergySkateParkStrings.getString( "plots.energy-vs-position" ) );
         showEnergyPositionPlot.addActionListener( new ActionListener() {
@@ -134,8 +132,6 @@ public class EnergySkateParkControlPanel extends ControlPanel {
                 module.setEnergyPositionPlotVisible( true );
             }
         } );
-
-
 
         final JButton showBarChart = new JButton( EnergySkateParkStrings.getString( "plots.bar-graph" ) );
         showBarChart.addActionListener( new ActionListener() {
@@ -149,16 +145,17 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         chartPanel.add( timeChart );
 
         addControlFullWidth( chartPanel );
+//        addControl( new LocationControlPanel( module, new LocationControlPanel.VerticalPlanetButtonLayout() ) );
+//        addControl( new LocationControlPanel( module, new LocationControlPanel.TwoColumnLayout(),true ) );
+        addControl( new LocationControlPanel( module,module.getOptions().getPlanetButtonLayout(),module.getOptions().getPlanetButtonsCentered()) );
 
-        addControlFullWidth( getLocationPanel( module ) );
         final FrictionControl frictionControl = new FrictionControl( module );
         addControl( new ClearHeatButton( module ) );
-//        addControl( frictionControl );
 
         AdvancedPanel frictionPanel = new AdvancedPanel( EnergySkateParkStrings.getString( "controls.show-friction" ), EnergySkateParkStrings.getString( "controls.hide-friction" ) );
         frictionPanel.addControl( frictionControl );
         frictionControl.getModelSlider().setBorder( null );
-//
+
         addControl( frictionPanel );
 
         EditSkaterPanel editSkaterPanel = new EditSkaterPanel( module );
@@ -167,10 +164,6 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 
     private PNode getMeasuringTapeNode( EnergySkateParkModule module ) {
         return module.getEnergyConservationCanvas().getRootNode().getMeasuringTapeNode();
-    }
-
-    private VerticalLayoutPanel getLocationPanel( EnergySkateParkModule module ) {
-        return new LocationControlPanel( module );
     }
 
     private void resetSkater() {
