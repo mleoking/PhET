@@ -1,6 +1,9 @@
 New recommendations from 5-29-2007 meeting with Kathy, Wendy, Trish, Keller:
 
-5.	Performance issue when friction > 0
+Is performance good enough during friction=on case?
+  Removing this duplicated work resulted in substantial improvement (non-friction case = 10% processor, old friction case=30% processor, new fixed case=16% processor), but a difference in visible performance is still visible under a profiler.  Should I continue to investigate this issue?
+The best performance optimization we can do for this simulation is to cache values for points on the spline after user has stopped manipuliating it.  However, this would be nontrivial work.
+
 6.	Part of grid is disappearing when pie chart disappears (low priority)
 
 Grid doesn't turn white when slider is used to select g=0.

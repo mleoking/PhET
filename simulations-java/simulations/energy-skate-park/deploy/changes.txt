@@ -5,6 +5,8 @@ Removed "Frictionless Landing" option
 Increased available zoom-in range
 Fixed: Grid should continue in the –y direction in space, instead of stopping at y=0.
 Fixed: In space, splines are still being bumped up above y=0
+Fixed: Performance issue when friction > 0
+    Removed duplicated computation in radius of curvature approximation.
 
 2.01.03 (5-23-2007)
 Fixed: Simulation crashes when E vs. T graph is open and Reset is pressed.
