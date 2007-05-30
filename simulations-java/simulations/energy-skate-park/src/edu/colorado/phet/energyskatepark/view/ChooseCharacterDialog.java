@@ -45,14 +45,14 @@ public class ChooseCharacterDialog extends JDialog {
         for( int i = 0; i < sk.length; i++ ) {
             cp[i] = new CharacterPanel( module, sk[i] );
         }
-        Dimension max=new Dimension( 0,0);
+        Dimension max = new Dimension( 0, 0 );
         for( int i = 0; i < cp.length; i++ ) {
-            max.width=Math.max( max.width,cp[i].getPreferredSize().width );
-            max.height=Math.max( max.height,cp[i].getPreferredSize().height );
+            max.width = Math.max( max.width, cp[i].getPreferredSize().width );
+            max.height = Math.max( max.height, cp[i].getPreferredSize().height );
 
         }
         for( int i = 0; i < sk.length; i++ ) {
-            cp[i].setPreferredSize( max);
+            cp[i].setPreferredSize( max );
             addCharacterPanel( cp[i] );
         }
 

@@ -13,7 +13,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 18, 2007
  * Time: 11:16:04 AM
- *
  */
 public class ParametricFunction2DNode extends PNode {
     private ParametricFunction2D parametricFunction2D;

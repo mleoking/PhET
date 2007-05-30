@@ -12,7 +12,6 @@ import java.awt.geom.Ellipse2D;
  * User: Sam Reid
  * Date: Mar 4, 2007
  * Time: 12:27:25 AM
- *
  */
 
 public class CubicSpline2DNode extends ParametricFunction2DNode {

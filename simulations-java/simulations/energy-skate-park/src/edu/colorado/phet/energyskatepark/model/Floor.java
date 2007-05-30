@@ -1,9 +1,8 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
-
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 
 import java.io.Serializable;
 
@@ -11,7 +10,6 @@ import java.io.Serializable;
  * User: Sam Reid
  * Date: Sep 21, 2005
  * Time: 3:05:30 AM
- *
  */
 
 public class Floor implements Serializable {
@@ -25,10 +23,6 @@ public class Floor implements Serializable {
     public Floor( EnergySkateParkModel model, double y ) {
         this.model = model;
         this.y = y;
-    }
-
-    public Floor copyState() {
-        return new Floor( model, y );
     }
 
     public double getY() {

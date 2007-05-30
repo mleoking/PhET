@@ -1,11 +1,11 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import junit.framework.TestCase;
 
 import java.awt.geom.Line2D;
-import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 
 /**
  * Author: Sam Reid

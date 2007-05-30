@@ -1,14 +1,12 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import junit.framework.TestCase;
-
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import junit.framework.TestCase;
 
 /**
  * User: Sam Reid
  * Date: Feb 17, 2007
  * Time: 6:34:17 PM
- *
  */
 
 public class TestCubicSpline2D extends TestCase {

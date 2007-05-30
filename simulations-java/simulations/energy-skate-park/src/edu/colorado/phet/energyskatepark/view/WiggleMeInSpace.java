@@ -1,11 +1,11 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view;
 
+import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
-import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -15,7 +15,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 1, 2006
  * Time: 11:34:47 PM
- *
  */
 
 public class WiggleMeInSpace {

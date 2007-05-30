@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 3, 2007
  * Time: 11:55:22 PM
- *
  */
 
 public class CubicSpline2D extends ControlPointParametricFunction2D {

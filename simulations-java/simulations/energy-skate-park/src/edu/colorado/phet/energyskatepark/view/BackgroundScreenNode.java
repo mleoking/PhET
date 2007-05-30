@@ -50,7 +50,7 @@ public class BackgroundScreenNode extends PhetPNode {
         removeAllChildren();
         if( backgroundImage != null ) {
 //            BufferedImage image = BufferedImageUtils.toBufferedImage( backgroundImage );
-            BufferedImage image=backgroundImage;
+            BufferedImage image = backgroundImage;
             double yRatio = ( (double)canvas.getHeight() ) / image.getHeight();
             double xRatio = ( (double)canvas.getWidth() ) / image.getWidth();
             if( canvas.getHeight() > 0 && canvas.getWidth() > 0 ) {

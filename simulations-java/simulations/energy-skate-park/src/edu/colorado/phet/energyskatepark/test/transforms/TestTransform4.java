@@ -22,7 +22,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: May 27, 2006
  * Time: 11:29:08 AM
- *
  */
 
 public class TestTransform4 {

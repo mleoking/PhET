@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 30, 2005
  * Time: 11:45:18 AM
- *
  */
 
 public class PreFabSplines {
@@ -56,10 +55,10 @@ public class PreFabSplines {
     public CubicSpline getParabolic() {
         CubicSpline spline = new CubicSpline();
 
-        double dx=1.5;
+        double dx = 1.5;
 //        double dx=0;
-        double min = 2+dx;
-        double max = 11+dx;
+        double min = 2 + dx;
+        double max = 11 + dx;
         double h = 7;
         spline.addControlPoint( min, h );
         spline.addControlPoint( ( max + min ) / 2.0, 1.5 );

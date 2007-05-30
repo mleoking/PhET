@@ -171,8 +171,8 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
     }
 
     private void createListenerArray() {
-        if (listeners==null){
-            listeners=new ArrayList( );
+        if( listeners == null ) {
+            listeners = new ArrayList();
         }
     }
 

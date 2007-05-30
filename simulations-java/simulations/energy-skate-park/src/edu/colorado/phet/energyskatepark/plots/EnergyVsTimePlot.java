@@ -9,14 +9,13 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
+import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -104,8 +103,8 @@ public class EnergyVsTimePlot {
         graphCanvas.addScreenChild( totalText );
         dynamicJFreeChartNode.setBounds( 0, 0, dialog.getWidth() - 75, dialog.getHeight() - 40 );
 
-        thermalPText.setOffset( dynamicJFreeChartNode.getDataArea().getX()+2, dynamicJFreeChartNode.getDataArea().getY() );
-        totalText.setOffset( dynamicJFreeChartNode.getDataArea().getX()+2, thermalPText.getFullBounds().getMaxY() + 5 );
+        thermalPText.setOffset( dynamicJFreeChartNode.getDataArea().getX() + 2, dynamicJFreeChartNode.getDataArea().getY() );
+        totalText.setOffset( dynamicJFreeChartNode.getDataArea().getX() + 2, thermalPText.getFullBounds().getMaxY() + 5 );
         keText.setOffset( dynamicJFreeChartNode.getDataArea().getCenterX(), dynamicJFreeChartNode.getDataArea().getY() );
         peText.setOffset( dynamicJFreeChartNode.getDataArea().getCenterX(), keText.getFullBounds().getMaxY() + 5 );
 

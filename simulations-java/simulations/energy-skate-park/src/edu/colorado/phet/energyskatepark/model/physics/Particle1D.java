@@ -384,7 +384,7 @@ public class Particle1D implements Serializable {
     }
 
     double cachedRCAlpha;
-    ParametricFunction2D cachedRCTrack = new CubicSpline2D( new SerializablePoint2D[]{new SerializablePoint2D( ),new SerializablePoint2D( )} );
+    ParametricFunction2D cachedRCTrack = new CubicSpline2D( new SerializablePoint2D[]{new SerializablePoint2D(), new SerializablePoint2D()} );
     double cachedRC = 0;
 
     double getRadiusOfCurvature() {
@@ -398,7 +398,8 @@ public class Particle1D implements Serializable {
             catch( PersistenceUtil.CopyFailedException e ) {
                 e.printStackTrace();
             }
-        }else{
+        }
+        else {
 //            System.out.println( "cache hit" );
         }
         return cachedRC;

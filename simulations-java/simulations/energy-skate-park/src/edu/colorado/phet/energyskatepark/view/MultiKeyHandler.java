@@ -8,7 +8,6 @@ import java.util.HashMap;
  * User: Sam Reid
  * Date: May 26, 2006
  * Time: 12:47:23 PM
- *
  */
 
 public class MultiKeyHandler {

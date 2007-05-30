@@ -1,8 +1,8 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Line2D;
 import java.io.Serializable;
@@ -12,7 +12,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Feb 14, 2007
  * Time: 3:09:47 AM
- *
  */
 
 public abstract class ParametricFunction2D implements Cloneable, Serializable {
@@ -252,7 +251,7 @@ public abstract class ParametricFunction2D implements Cloneable, Serializable {
 
 
     public SerializablePoint2D getOffsetPoint( double alpha, double dist, boolean top ) {
-        return new SerializablePoint2D( getUnitNormalVector( alpha ).getInstanceOfMagnitude( dist * ( top ? 1 : -1 ) ).getDestination( evaluate( alpha ) ));
+        return new SerializablePoint2D( getUnitNormalVector( alpha ).getInstanceOfMagnitude( dist * ( top ? 1 : -1 ) ).getDestination( evaluate( alpha ) ) );
     }
 
     public SerializablePoint2D[] getOffsetSpline( double dist, boolean top, int numPts ) {

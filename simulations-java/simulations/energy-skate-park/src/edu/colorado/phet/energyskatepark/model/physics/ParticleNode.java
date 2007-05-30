@@ -1,7 +1,7 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -13,7 +13,6 @@ import java.awt.geom.Ellipse2D;
  * User: Sam Reid
  * Date: Feb 18, 2007
  * Time: 11:15:44 AM
- *
  */
 public class ParticleNode extends PNode {
     private Particle particle;
@@ -33,7 +32,7 @@ public class ParticleNode extends PNode {
         } );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                particle.setPosition( new SerializablePoint2D( event.getPositionRelativeTo( ParticleNode.this ) ));
+                particle.setPosition( new SerializablePoint2D( event.getPositionRelativeTo( ParticleNode.this ) ) );
                 particle.setUserControlled( true );
                 particle.setVelocity( 0, 0 );
             }

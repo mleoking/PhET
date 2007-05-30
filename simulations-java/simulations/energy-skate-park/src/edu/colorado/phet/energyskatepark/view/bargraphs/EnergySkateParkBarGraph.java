@@ -1,9 +1,9 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.bargraphs;
 
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 /**
  * User: Sam Reid
@@ -14,8 +14,8 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 public class EnergySkateParkBarGraph extends BarGraph {
     private EnergySkateParkModel model;
 
-        public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel canvas, final EnergySkateParkModel energySkateParkModel, double scale) {
-        this( canvas, energySkateParkModel, EnergySkateParkStrings.getString( "properties.energy" ), scale);
+    public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel canvas, final EnergySkateParkModel energySkateParkModel, double scale ) {
+        this( canvas, energySkateParkModel, EnergySkateParkStrings.getString( "properties.energy" ), scale );
         final ValueAccessor[] energyAccess = new ValueAccessor[]{
                 new ValueAccessor.KineticEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() ),
                 new ValueAccessor.PotentialEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() ),
@@ -25,8 +25,9 @@ public class EnergySkateParkBarGraph extends BarGraph {
         Variable[] v = toVariableArray( energyAccess, energySkateParkModel );
         setVariables( v );
     }
+
     public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel energySkateParkSimulationPanel,
-                                    EnergySkateParkModel energySkateParkModel,String title ,double scale) {
+                                    EnergySkateParkModel energySkateParkModel, String title, double scale ) {
         super( title, scale );
         this.model = energySkateParkModel;
 

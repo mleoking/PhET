@@ -13,7 +13,6 @@ import java.awt.geom.Arc2D;
  * User: Sam Reid
  * Date: Oct 25, 2005
  * Time: 9:49:41 AM
- *
  */
 
 public class PieChartNode extends PNode {

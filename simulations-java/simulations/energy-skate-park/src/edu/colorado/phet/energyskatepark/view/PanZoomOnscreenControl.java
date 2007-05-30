@@ -7,7 +7,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * User: Sam Reid
  * Date: Dec 1, 2006
  * Time: 12:32:22 PM
- *
  */
 
 public class PanZoomOnscreenControl extends PhetPNode {

@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 26, 2006
  * Time: 8:50:55 PM
- *
  */
 class FixedWidthStroke implements Stroke {
     private Stroke prototype;

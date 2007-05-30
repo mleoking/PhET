@@ -87,8 +87,8 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void setGravity( double value ) {
-        if (value==-0.0){
-            value=0;//workaround since -0 and +0 are getting hashcoded differently
+        if( value == -0.0 ) {
+            value = 0;//workaround since -0 and +0 are getting hashcoded differently
         }
         if( this.gravity != value ) {
             this.gravity = value;
@@ -173,7 +173,6 @@ public class EnergySkateParkModel implements Serializable {
         model = model.copyState();
 
         this.bodies = model.bodies;
-//        System.out.println( "EnergySkateParkModel.setState: numBodies="+getNumBodies() );
         this.splines = model.splines;
         this.floor = model.floor;
         this.history = model.history;
@@ -185,7 +184,6 @@ public class EnergySkateParkModel implements Serializable {
         }
         this.zeroPointPotentialY = model.zeroPointPotentialY;
         notifyBodyEnergyChanged();
-
     }
 
     public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D spline ) {
@@ -225,15 +223,6 @@ public class EnergySkateParkModel implements Serializable {
             EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
             energyModelListener.stepFinished();
         }
-    }
-
-    public ArrayList getAllSplines() {
-        ArrayList list = new ArrayList();
-        for( int i = 0; i < splines.size(); i++ ) {
-            EnergySkateParkSpline splineSurface = (EnergySkateParkSpline)splines.get( i );
-            list.add( splineSurface );
-        }
-        return list;
     }
 
     public EnergySkateParkSpline getSpline( int i ) {

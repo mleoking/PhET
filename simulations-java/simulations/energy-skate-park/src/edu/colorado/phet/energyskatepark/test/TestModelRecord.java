@@ -1,8 +1,8 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.test;
 
-import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 
 public class TestModelRecord {
     public static void main( String[] args ) {
