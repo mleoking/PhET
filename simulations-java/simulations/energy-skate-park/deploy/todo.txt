@@ -1,8 +1,5 @@
 New recommendations from 5-29-2007 meeting with Kathy, Wendy, Trish, Keller:
 
-43. Frictionless Landing
-    Get rid of this option
-
 1.	Implement separate layers for time series graph (currently different series are interleaved).  How long would this take?
 2.	Scale should zoom in more, for example, it is difficult to see any of the energies for the bug character without being able to zoom in more.
 3.	Grid should continue in the –y direction in space, instead of stopping at y=0.

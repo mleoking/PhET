@@ -92,7 +92,7 @@ public class EditSkaterPanel extends AdvancedPanel {
         addControl( restitution );
         addControl( mass );
         addControl( stickiness );
-        addControl( keepEnergyOnLanding );
+//        addControl( keepEnergyOnLanding );
         addControl( revertToDefaults );
     }
 
