@@ -9,6 +9,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.Planet;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -20,38 +21,36 @@ public class LocationControlPanel extends VerticalLayoutPanel {
     private JCheckBox showBackgroundCheckbox;
     private PlanetButton[] planetButtons;
     private EnergySkateParkModule module;
+    private PlanetButtonLayout layout;
 
     public LocationControlPanel( EnergySkateParkModule module ) {
+        this( module, new VerticalPlanetButtonLayout() );
+    }
+
+    public LocationControlPanel( EnergySkateParkModule module, PlanetButtonLayout layout ) {
+        this( module, layout, false );
+    }
+
+    public LocationControlPanel( EnergySkateParkModule module, PlanetButtonLayout layout, boolean centered ) {
+        this.layout = layout;
         this.module = module;
         Planet[] planets = module.getPlanets();
         planetButtons = new PlanetButton[planets.length];
         for( int i = 0; i < planets.length; i++ ) {
             planetButtons[i] = new PlanetButton( module, planets[i], planets[i].isDefault() );
         }
-//        PlanetButton space = new PlanetButton( module, new Planet.Space(), false );
-//        PlanetButton moon = new PlanetButton( module, new Planet.Moon(), false );
-//        PlanetButton earth = new PlanetButton( module, new Planet.Earth(), true );
-//        PlanetButton jupiter = new PlanetButton( module, new Planet.Jupiter(), false );
-//        planetButtons = new PlanetButton[]{space, moon, earth, jupiter};
-//        location.add( space );
-//        location.add( moon );
-//        location.add( earth );
-//        location.add( jupiter );
-        VerticalLayoutPanel verticalLayoutPanel = this;
-        verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "location" ) ) );
-        verticalLayoutPanel.setFillHorizontal();
+        setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "location" ) ) );
+        setFillHorizontal();
         showBackgroundCheckbox = new JCheckBox( EnergySkateParkStrings.getString( "controls.show-background" ), true );
-        verticalLayoutPanel.add( showBackgroundCheckbox );
-        for( int i = 0; i < planets.length; i++ ) {
-//            Planet planet = planets[i];
-            verticalLayoutPanel.add( planetButtons[i] );
+        add( showBackgroundCheckbox );
+        JPanel planetPanel = layout.getPlanetPanel( planetButtons );
+        setAnchor( GridBagConstraints.WEST );
+        if( !centered ) {
+            setFillNone();
         }
-//        verticalLayoutPanel.add( space );
-//        verticalLayoutPanel.add( moon );
-//        verticalLayoutPanel.add( earth );
-//        verticalLayoutPanel.add( jupiter );
+        add( planetPanel );
         final JComponent gravitySlider = new GravitySlider( module );
-        verticalLayoutPanel.addFullWidth( gravitySlider );
+        addFullWidth( gravitySlider );
 
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
@@ -63,6 +62,41 @@ public class LocationControlPanel extends VerticalLayoutPanel {
         new Planet.Earth().apply( module );
     }
 
+    public static interface PlanetButtonLayout {
+        JPanel getPlanetPanel( PlanetButton[] planets );
+    }
+
+    public static class VerticalPlanetButtonLayout implements PlanetButtonLayout {
+        public JPanel getPlanetPanel( PlanetButton[] planetButtons ) {
+            VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
+            for( int i = 0; i < planetButtons.length; i++ ) {
+                verticalLayoutPanel.add( planetButtons[i] );
+            }
+            return verticalLayoutPanel;
+        }
+    }
+
+    public static class TwoColumnLayout implements PlanetButtonLayout {
+
+        public JPanel getPlanetPanel( PlanetButton[] planets ) {
+            JPanel jp = new JPanel( new GridBagLayout() );
+            GridBagConstraints gridBagConstraints = new GridBagConstraints();
+            //todo: number of planets is hard-coded here, will fail if planets are added or removed
+            add( jp, planets[0], gridBagConstraints, 0, 0 );
+            add( jp, planets[1], gridBagConstraints, 1, 0 );
+            add( jp, planets[2], gridBagConstraints, 0, 1 );
+            add( jp, planets[3], gridBagConstraints, 1, 1 );
+            return jp;
+        }
+
+        private void add( JPanel jp, PlanetButton planet, GridBagConstraints gridBagConstraints, int x, int y ) {
+            gridBagConstraints.gridx = x;
+            gridBagConstraints.gridy = y;
+            jp.add( planet, gridBagConstraints );
+        }
+    }
+
+
     private void synchronizePlanet() {
         module.getEnergyConservationCanvas().getRootNode().getBackground().setVisible( showBackgroundCheckbox.isSelected() );
         boolean matched = false;
@@ -72,7 +106,6 @@ public class LocationControlPanel extends VerticalLayoutPanel {
                 planet.apply( module );
                 matched = true;
             }
-//            planetButtons[i].setSelected( module.getEnergySkateParkModel().getGravity() == planet.getGravity() );
             boolean match = module.getEnergySkateParkModel().getGravity() == planet.getGravity();
             planetButtons[i].setSelected( match );
         }

@@ -53,12 +53,12 @@ public class EnergySkateParkApplication extends PhetApplication {
     private EnergySkateParkModule module;
     public static double SIMULATION_TIME_DT = 0.03;
 
-    public EnergySkateParkApplication( String[] args ) {
+    public EnergySkateParkApplication( String[] args, EnergySkateParkOptions options ) {
         super( args, EnergySkateParkStrings.getString( "energy-skate-park.name" ), EnergySkateParkStrings.getString( "energy-skate-park.description" ),
                PhetApplicationConfig.getVersion( "energy-skate-park" ).formatForTitleBar(),
 //               new EnergySkateParkDebugFrameSetup() );
 new EnergySkateParkFrameSetup() );
-        module = new EnergySkateParkModule( "Module", new SwingClock( 30, SIMULATION_TIME_DT ), getPhetFrame() );
+        module = new EnergySkateParkModule( "Module", new SwingClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
         setModules( new Module[]{module} );
         getPhetFrame().addMenu( new EnergySkateParkOptionsMenu( module ) );
         getPhetFrame().addMenu( new EnergySkateParkTestMenu( this ) );
@@ -100,6 +100,10 @@ new EnergySkateParkFrameSetup() );
         getPhetFrame().addFileMenuItem( saveItem );
 
         getPhetFrame().addFileMenuSeparator();
+    }
+
+    public EnergySkateParkApplication( String[] args ) {
+        this(args,new EnergySkateParkOptions( ) );
     }
 
     public EnergySkateParkModule getModule() {
@@ -169,10 +173,20 @@ new EnergySkateParkFrameSetup() );
     }
 
     public static void main( final String[] args ) {
+        main( args, parseOptions( args ) );
+    }
+
+    private static EnergySkateParkOptions parseOptions( String[] args ) {
+        //todo: not yet implemented
+//        EnergySkateParkOptions options=new EnergySkateParkOptions();
+        return new EnergySkateParkOptions();
+    }
+
+    public static void main( final String[] args, final EnergySkateParkOptions options ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new EC3LookAndFeel().initLookAndFeel();
-                new EnergySkateParkApplication( args ).start();
+                new EnergySkateParkApplication( args, options ).start();
             }
         } );
     }

@@ -71,9 +71,11 @@ public class EnergySkateParkModule extends PiccoloModule {
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
     private TimeSeriesModel timeSeriesModel;
     private EnergyVsTimePlot energyVsTimePlot;
+    private EnergySkateParkOptions options;
 
-    public EnergySkateParkModule( String name, IClock clock, PhetFrame phetFrame ) {
+    public EnergySkateParkModule( String name, IClock clock, PhetFrame phetFrame, EnergySkateParkOptions options ) {
         super( name, clock );
+        this.options = options;
         this.phetFrame = phetFrame;
         energyModel = new EnergySkateParkModel( floorY );
         energyModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
@@ -362,6 +364,10 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void showNewEnergyVsTimePlot() {
         energyVsTimePlot.setVisible( true );
+    }
+
+    public EnergySkateParkOptions getOptions() {
+        return options;
     }
 
     public static interface Listener {
