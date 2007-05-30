@@ -31,7 +31,7 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     private static final String UNITS = OTResources.getString( "units.force" );
-    private static final Color COLOR = Color.BLACK;
+    private static final Color COLOR = Color.RED;
     
     //----------------------------------------------------------------------------
     // Instance data

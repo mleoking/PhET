@@ -31,7 +31,7 @@ public class BrownianForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     private static final String UNITS = OTResources.getString( "units.force" );
-    private static final Color COLOR = Color.GREEN;
+    private static final Color COLOR = new Color( 105, 70, 35 ); // brown
     
     //----------------------------------------------------------------------------
     // Instance data

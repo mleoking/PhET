@@ -25,7 +25,7 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     private static final String UNITS = OTResources.getString( "units.force" );
-    private static final Color COLOR = Color.ORANGE;
+    private static final Color COLOR = Color.GREEN;
     
     //----------------------------------------------------------------------------
     // Instance data

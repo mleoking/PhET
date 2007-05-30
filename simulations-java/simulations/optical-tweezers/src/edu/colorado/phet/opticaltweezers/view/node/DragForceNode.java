@@ -31,7 +31,7 @@ public class DragForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     private static final String UNITS = OTResources.getString( "units.force" );
-    private static final Color COLOR = Color.BLUE;
+    private static final Color COLOR = new Color( 76, 255, 252 ); // blue
     
     //----------------------------------------------------------------------------
     // Instance data
