@@ -1,3 +1,35 @@
+New recommendations from 5-29-2007 meeting with Kathy, Wendy, Trish, Keller:
+
+Reorient on bounce. Test and evaluate before posting.
+
+41. Something preventing characters from being grabbed near the left side of the screen
+    There seems to be an object occluding the mouse interaction.
+
+43. Frictionless Landing
+    Get rid of this option
+
+1.	Implement separate layers for time series graph (currently different series are interleaved).  How long would this take?
+2.	Scale should zoom in more, for example, it is difficult to see any of the energies for the bug character without being able to zoom in more.
+3.	Grid should continue in the –y direction in space, instead of stopping at y=0.
+4.	In space, splines are still being bumped up above y=0
+5.	Performance issue when friction > 0
+6.	Part of grid is disappearing when pie chart disappears (low priority)
+_________________________
+Postponed:
+5. Performance problem when all charts open with complicated track.
+            I have trouble reproducing this problem (perhaps you could email me a track that exhibits this problem?)  Also not sure how much time should be spent solving the situation with 3 charts and a complicated track.
+7. Skater goes underneath the track in double-well
+            See Tests->Test Fallthrough for some experiments in which I tried to reproduce this bug.  I did see one fall through, but this was in many (50+) trials.  The screenshot in Keller’s document that indicates falling through actually looks like the red dot is above the track, and the falling-through is just a graphics anomaly.
+25. Energy bar chart has no units.
+            I added a Joules label, but were you asking for quantitative markings?  Should we provide these?
+
+Interview:
+34. PE=0 line is visible in space
+37. Pie chart disappears when going underneath PE=0
+
+
+________________________
+
 Better mountain graphics?
 
 ellipsis for menu items or buttons that pop up a dialog
