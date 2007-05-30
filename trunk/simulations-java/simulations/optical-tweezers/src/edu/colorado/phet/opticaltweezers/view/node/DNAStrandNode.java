@@ -62,6 +62,12 @@ public class DNAStrandNode extends PNode implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param dnaStrand
+     * @param modelViewTransform
+     */
     public DNAStrandNode( DNAStrand dnaStrand, ModelViewTransform modelViewTransform ) {
         super();
         
