@@ -55,6 +55,7 @@ MISSING INFO:
 
  
 DONE:
+5/30/07 - add stubs for DNA strand evolution model
 5/30/07 - add DNAStrand to model for DNA panel
 5/30/07 - remove unnecessary copying of ModelElement list in models
 5/29/07 - first pass at DNA strand model, implemented force model

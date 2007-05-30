@@ -73,7 +73,7 @@ public class DNAModel extends ClockAdapter {
          _bead.setNumberOfDtSubdivisions( DNADefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS );
          _modelElements.add( _bead );
          
-         _dnaStrand = new DNAStrand( _bead, _fluid );
+         _dnaStrand = new DNAStrand( DNADefaults.DNA_STRAND_TAIL_POSITION, _bead, _fluid );
          _modelElements.add( _dnaStrand );
 
          _modelViewTransform = new ModelViewTransform( DNADefaults.MODEL_TO_VIEW_SCALE );
