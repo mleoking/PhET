@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -17,17 +18,16 @@ import java.awt.event.ActionListener;
  * Time: 12:56:48 AM
  */
 
-public class PieChartControlPanel extends VerticalLayoutPanel {
+public class PieChartControlPanel extends HorizontalLayoutPanel {
     private EnergySkateParkModule module;
     private EnergySkateParkControlPanel energySkateParkControlPanel;
     private JCheckBox showThermal;
     private JCheckBox showPieChartCheckBox;
 
-
     public PieChartControlPanel( final EnergySkateParkModule module, EnergySkateParkControlPanel energySkateParkControlPanel ) {
         this.module = module;
         this.energySkateParkControlPanel = energySkateParkControlPanel;
-        setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "piechart.title" ) ) );
+//        setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "piechart.title" ) ) );
         showPieChartCheckBox = new JCheckBox( EnergySkateParkStrings.getString( "piechart.show" ), module.isPieChartVisible() );
         showPieChartCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -45,10 +45,8 @@ public class PieChartControlPanel extends VerticalLayoutPanel {
         } );
         add( showThermal );
 
-//        clearHeat = new ClearHeatButton( module );
-        setFillNone();
+//        setFillNone();
         setAnchor( GridBagConstraints.WEST );
-//        add( clearHeat );
         showThermal.setEnabled( showPieChartCheckBox.isSelected() );
     }
 

@@ -110,21 +110,23 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         addControlFullWidth( new PathRecordContol( module ) );
 
         piePanel = new PieChartControlPanel( module, this );
-        addControlFullWidth( piePanel );
+//        addControlFullWidth( piePanel );
 
         final VerticalLayoutPanel chartPanel = new VerticalLayoutPanel();
         chartPanel.setFillNone();
         chartPanel.setAnchor( GridBagConstraints.WEST );
         chartPanel.setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "plots.plot" ) ) );
 
-        final JButton showChart = new JButton( EnergySkateParkStrings.getString( "plots.energy-vs-time" ) );
-        showChart.addActionListener( new ActionListener() {
+        chartPanel.add(piePanel);
+
+        final JButton timeChart = new JButton( EnergySkateParkStrings.getString( "plots.energy-vs-time" ) );
+        timeChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 //                module.setEnergyTimePlotVisible( true );
                 module.showNewEnergyVsTimePlot();
             }
         } );
-        chartPanel.add( showChart );
+
 
         final JButton showEnergyPositionPlot = new JButton( EnergySkateParkStrings.getString( "plots.energy-vs-position" ) );
         showEnergyPositionPlot.addActionListener( new ActionListener() {
@@ -132,7 +134,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
                 module.setEnergyPositionPlotVisible( true );
             }
         } );
-        chartPanel.add( showEnergyPositionPlot );
+
 
 
         final JButton showBarChart = new JButton( EnergySkateParkStrings.getString( "plots.bar-graph" ) );
@@ -141,7 +143,11 @@ public class EnergySkateParkControlPanel extends ControlPanel {
                 module.setBarChartVisible( true );
             }
         } );
+
         chartPanel.add( showBarChart );
+        chartPanel.add( showEnergyPositionPlot );
+        chartPanel.add( timeChart );
+
         addControlFullWidth( chartPanel );
 
         addControlFullWidth( getLocationPanel( module ) );
