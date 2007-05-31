@@ -15,11 +15,10 @@ import edu.colorado.phet.common_sound.application.Module;
 import edu.colorado.phet.common_sound.application.ModuleManager;
 import edu.colorado.phet.common_sound.application.PhetApplication;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
-import edu.colorado.phet.common_sound.util.DebugMenu;
 import edu.colorado.phet.common_sound.view.components.menu.HelpMenu;
 import edu.colorado.phet.common_sound.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.common_sound.view.util.FrameSetup;
-import edu.colorado.phet.common_sound.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,7 +40,6 @@ public class PhetFrame extends JFrame {
     private ClockControlPanel clockControlPanel;
     private ContentPanel basicPhetPanel;
     private FrameSetup frameSetup;
-    private DebugMenu debugMenu;
 
     /**
      * todo: make clock control panel useage module-specific
@@ -303,26 +301,6 @@ public class PhetFrame extends JFrame {
 
     public HelpMenu getHelpMenu() {
         return helpMenu;
-    }
-
-    /**
-     * Adds the "Debug" menu to the menu bar.
-     */
-    public void addDebugMenu() {
-        if( debugMenu == null ) {
-            debugMenu = new DebugMenu( application );
-            addMenu( debugMenu );
-        }
-    }
-
-    /**
-     * Gets the debug menu.
-     * Clients can use this to add new items to the menu.
-     *
-     * @return DebugMenu
-     */
-    public DebugMenu getDebugMenu() {
-        return debugMenu;
     }
 
     public void removeMenu( JMenu menu ) {

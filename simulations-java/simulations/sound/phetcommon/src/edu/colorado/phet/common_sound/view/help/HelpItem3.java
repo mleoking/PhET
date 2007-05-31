@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.common_sound.view.help;
 
-import edu.colorado.phet.common_sound.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_sound.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.common_sound.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

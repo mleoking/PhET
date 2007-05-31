@@ -28,8 +28,8 @@ import edu.colorado.phet.common_sound.view.graphics.mousecontrols.CompositeMouse
 import edu.colorado.phet.common_sound.view.graphics.mousecontrols.CursorControl;
 import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationHandler;
 import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common_sound.view.util.GraphicsState;
 import edu.colorado.phet.common_sound.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 
 /**
  * PhetGraphic is the base class for all PhET graphics.

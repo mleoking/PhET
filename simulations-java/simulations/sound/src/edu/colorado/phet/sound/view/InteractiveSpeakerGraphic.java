@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common_sound.math.MathUtil;
 import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_sound.util.EventChannel;
 import edu.colorado.phet.sound.SoundConfig;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;

@@ -14,7 +14,7 @@ import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_sound.view.phetgraphics.RepaintDebugGraphic;
-import edu.colorado.phet.common_sound.view.util.GraphicsState;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;

@@ -25,7 +25,6 @@ import edu.colorado.phet.common_sound.model.clock.ClockTickListener;
 import edu.colorado.phet.common_sound.view.ApparatusPanel;
 import edu.colorado.phet.common_sound.view.ApparatusPanel2;
 import edu.colorado.phet.common_sound.view.PhetFrame;
-import edu.colorado.phet.common_sound.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_sound.view.util.FrameSetup;
 import edu.colorado.phet.common_sound.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
@@ -159,7 +158,7 @@ public class PhetApplication {
 
         s_instance = this;
 
-        PhetJComponent.init( phetFrame );
+//        PhetJComponent.init( phetFrame );
         
         // Handle command line arguments
         parseArgs( args );
@@ -174,7 +173,7 @@ public class PhetApplication {
         for( int i = 0; args != null && i < args.length; i++ ) {
             String arg = args[i];
             if( arg.equals( DEBUG_MENU_ARG ) ) {
-                phetFrame.addDebugMenu();
+//                phetFrame.addDebugMenu();
             }
         }
     }
@@ -235,7 +234,7 @@ public class PhetApplication {
             frameSetup = new FrameSetup.CenteredWithSize( screenSize.width, screenSize.height - 50 );
         }
         phetFrame = new PhetFrame( this, title, clock, frameSetup, useClockControlPanel, moduleManager, description, version );
-        PhetJComponent.init( phetFrame );
+//        PhetJComponent.init( phetFrame );
     }
 
     public PhetFrame getPhetFrame() {
@@ -346,7 +345,7 @@ public class PhetApplication {
             progressBar.setIndeterminate( true );
             BufferedImage image = null;
             try {
-                image = ImageLoader.loadBufferedImage( "sound/images//Phet-Flatirons-logo-3-small.gif" );
+                image = ImageLoader.loadBufferedImage( "sound/images/Phet-Flatirons-logo-3-small.gif" );
             }
             catch( IOException e ) {
                 e.printStackTrace();
