@@ -263,6 +263,12 @@ EO_PRINT_HIDDEN_INPUT;
         return $value;
     }
     
+    function remove_script_param_from_url($param_name, $url) {
+        $param_name = preg_quote($param_name);
+        
+        return preg_replace("/(&$param_name=[^&]+)|((?<=\\?)$param_name=[^?&]+&?)/i", '', $url);
+    }  
+    
     function resolve_url_upload($url) {
         if (preg_match('/http.*/i', $url) == 1) {
             // URL is absolute:
@@ -704,7 +710,7 @@ EOT;
                     var NewLI = document.createElement("li");
 
                     NewLI.id        = "child_" + basename + "_" + child_id_index;                    
-                    NewLI.innerHTML = "[]<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('" + list_id + "','" + NewLI.id + "')\">remove</a>] " + text +
+                    NewLI.innerHTML = "[<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('" + list_id + "','" + NewLI.id + "')\">remove</a>] " + text +
                                       "<input type=\"hidden\" name=\"" + name + "\" value=\"" + text + "\" />";
 
                     Parent.appendChild(NewLI);

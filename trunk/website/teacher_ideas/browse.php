@@ -83,7 +83,7 @@
     }
     
     function get_sorting_link($link_sort_by, $desc) {
-        global $sort_by, $order, $next_order;
+        global $sort_by, $order, $next_order, $referrer;
         
         $link_order = null;
         
@@ -100,15 +100,30 @@
             url_encode_list('Simulations[]', $Simulations).
             url_encode_list('Types[]',       $Types).
             url_encode_list('Levels[]',      $Levels);
-            
-        $php_self = $_SERVER['REQUEST_URI']; 
+
+        // Remove all the parameters we insert ourselves:
+        $php_self = remove_script_param_from_url("content_only",    $_SERVER['REQUEST_URI']); 
+        $php_self = remove_script_param_from_url("Simulations[]",   $php_self);
+        $php_self = remove_script_param_from_url("Types[]",         $php_self);
+        $php_self = remove_script_param_from_url("Levels[]",        $php_self);
+        $php_self = remove_script_param_from_url("order",           $php_self);
+        $php_self = remove_script_param_from_url("sort_by",         $php_self);
+        $php_self = remove_script_param_from_url("referrer",        $php_self);    
+
+        // Decide whether to postfix URI with a question mark or an ampersand, depending
+        // on whether or parameters are already being passed to the script.
+        $prefix = '?';
+        
+        if (preg_match('/.+\\?.+=.+/i', $php_self) == 1) {
+            $prefix = '&amp;';
+        }
                 
-        $script = "${php_self}?order=${link_order}&amp;sort_by=${link_sort_by}${filter_options}";
+        $script = "${php_self}${prefix}order=${link_order}&amp;sort_by=${link_sort_by}${filter_options}&amp;referrer=${referrer}";
         
         $link = "<a href=\"${script}\">${desc}</a>";
         
         return <<<EOT
-            <td>${link}</td>  
+            <td>${link}</td>
 EOT;
     }
     
@@ -229,9 +244,6 @@ EOT;
 
                 </table>
             </div>
-
-            <br/>
-            <br/>
 EOT;
     }
     
