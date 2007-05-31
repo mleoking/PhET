@@ -57,7 +57,7 @@ MISSING INFO:
 
  
 DONE:
-********* version 0.00.08 (?)
+********* version 0.00.08 (15481)
 5/30/07 - choose better colors for vector nodes, disable display of xy component vectors
 5/30/07 - first (incorrect) stab at DNA strand path initialization
 5/30/07 - show extension as a dashed line in DNAStrandNode for debugging
