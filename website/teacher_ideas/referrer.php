@@ -2,11 +2,13 @@
 
     include_once("../admin/global.php");
 
-    if (isset($_REQUEST['referrer'])) {
-        $referrer = $_REQUEST['referrer'];
-    }
-    else {
-        $referrer = SITE_ROOT.'teacher_ideas/manage-contributions.php';
+    if (!isset($GLOBALS['referrer'])) {
+        if (isset($_REQUEST['referrer'])) {
+            $GLOBALS['referrer'] = $_REQUEST['referrer'];
+        }
+        else {
+            $GLOBALS['referrer'] = $_SERVER['REQUEST_URI'];
+        }
     }
 
 ?>

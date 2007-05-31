@@ -11,6 +11,8 @@
     $g_login_required = false;    
     include_once("../teacher_ideas/user-login.php");
     
+    include_once("../teacher_ideas/referrer.php");    
+    
     function print_content() {
         global $SIM_RATING_TO_IMAGE, $SIM_TYPE_TO_IMAGE;
         
@@ -109,7 +111,6 @@
 
         <h2 class="sub-title">Ideas and Activities for this Sim</h2>   
         
-        <ul>
         <?php
             global $contributor_id, $contributor_is_team_member;
             
@@ -118,7 +119,6 @@
             include_once(SITE_ROOT."teacher_ideas/browse.php");
         
         ?>
-        </ul> 
     
         <h2 class="sub-title">Submit Ideas &amp; Activities</h2>
 

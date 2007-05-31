@@ -102,6 +102,7 @@
     
     function contribution_print_standards_compliance($contribution_standards_compliance, $read_only = false) {
         print <<<EOT
+        <div  id="nationalstandards">
         <table>
             <thead>
                 <tr>
@@ -191,6 +192,7 @@ EOT;
                 </tr>
             </tbody>
         </table>
+        </div>
 EOT;
     }
     

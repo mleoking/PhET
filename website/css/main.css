@@ -50,16 +50,43 @@ hr {
 	padding: 0;
 }
 /******** table ********/
-table {
-/*	border-left:solid 1px #ccc;
-	border-top:solid 1px #ccc;
-	border-bottom:solid 1px #ccc;
-	border-right:solid 1px #ccc;*/
+#browseresults, #browseresults table {
+	border:  0 0 0 0;
+	margin:  0 0 0 0;
+	padding: 0 0 0 0;
+	width:	 100%;
+}
+#browseresults table tbody td {
+	border:  0 0 0 0;
+	margin:  0 0 0 0;
+	padding: 0 0 0 0;
+		
+	background-color: 	transparent;
+	text-align:			left;
+	vertical-align:		top;
+}
+#browseresults table thead td {
+	border:  0 0 0 0;
+	margin:  0 0 0 0;
+	padding: 0 0 0 0;
+		
+	background-color: 	transparent;
+	border-style: 		solid;
+	border-left: 		none;
+	border-top: 		none;
+	border-bottom: 		1px solid #C1DAD7;
+	border-right: 		none;
+	text-align:			left;
+	vertical-align:		top;	
+}
+
+#nationalstandards table {
 	border: 0 0 0 0;
 	border-collapse:collapse;
 	width:100%;
 }
-table thead td, table tbody td {
+#nationalstandards table thead td, 
+#nationalstandards table tbody td {
 	background-color: transparent;
 	border-left: none;
 	border-top: none;
@@ -68,14 +95,18 @@ table thead td, table tbody td {
 	text-align:center;
 	vertical-align:top;
 }
-table thead {
+#nationalstandards table thead {
 	font-weight: bold;
 }
-table thead tr td + td,  table thead tr td + td + td, table thead tr td + td + td + td, table thead tr td + td + td + td + td, table thead tr td + td + td + td + td + td {
+#nationalstandards table thead tr td + td,  
+#nationalstandards table thead tr td + td + td, 
+#nationalstandards table thead tr td + td + td + td, 
+#nationalstandards table thead tr td + td + td + td + td,
+#nationalstandards table thead tr td + td + td + td + td + td {
 	font-weight: bold;
 	border-bottom: solid 1px #ccc;	
 }
-table tbody tr td:first-child {
+#nationalstandards table tbody tr td:first-child {
 	font-weight: bold;
 	text-align: right;
 	border-right: solid 1px #ccc;	
