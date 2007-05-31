@@ -1,4 +1,4 @@
-implement a 2-column version of planet selection (interviewable)
+Implement improved time series controls (see notes from 5-31-2007 Energy Skate Park Meeting)
 
 2.	Is performance good enough during track friction > 0 case?  I removed duplicated computation in radius of curvature approximation.
 	Removing this duplicated work resulted in substantial improvement (non-friction case = 10% processor, old friction case=30% processor, new fixed case=18% processor), but a difference in visible performance is still visible under a profiler.  Should I continue to investigate this issue?
