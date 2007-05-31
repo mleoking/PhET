@@ -51,19 +51,48 @@ hr {
 }
 /******** table ********/
 table {
-	border-left:solid 1px #ccc;
+/*	border-left:solid 1px #ccc;
 	border-top:solid 1px #ccc;
+	border-bottom:solid 1px #ccc;
+	border-right:solid 1px #ccc;*/
+	border: 0 0 0 0;
 	border-collapse:collapse;
 	width:100%;
 }
-table thead th,table tbody td {
-	border-bottom:solid 1px #ccc;
-	border-right:solid 1px #ccc;
+table thead td, table tbody td {
+	background-color: transparent;
+	border-left: none;
+	border-top: none;
+	border-bottom: none;
+	border-right: none;
 	text-align:center;
 	vertical-align:top;
 }
+table thead {
+	font-weight: bold;
+}
+table thead tr td + td,  table thead tr td + td + td, table thead tr td + td + td + td, table thead tr td + td + td + td + td, table thead tr td + td + td + td + td + td {
+	font-weight: bold;
+	border-bottom: solid 1px #ccc;	
+}
+table tbody tr td:first-child {
+	font-weight: bold;
+	text-align: right;
+	border-right: solid 1px #ccc;	
+}
 table td.smartClient,table th.smartClient {
 	background-color: #ddedf6;
+}
+
+span.validation-success {
+	font-size:  9pt;
+	font-style: italic;
+	color: gray;
+}
+span.validation-failure {
+	font-size:  9pt;
+	font-style: italic;
+	color: red;
 }
 /******** =skipNav ********/
 #skipNav {
@@ -173,6 +202,9 @@ table td.smartClient,table th.smartClient {
 	width: 38%;
 	margin-left: 3em;
 }
+#contributionview div.comments {
+	margin-top: 10px;
+}
 
 #browsefilter {
 	width: 100%;
@@ -183,7 +215,7 @@ table td.smartClient,table th.smartClient {
 #browsefilter table, thead, tbody {
 	border-style: none;
 }
-#browsefilter td, tr {
+#browsefilter td, #browsefilter tr {
 	border-style: none;
 	margin: 0 0 0 0;
 	border: 0 0 0 0;
@@ -230,12 +262,23 @@ div .separator {
     padding-top:    0px;
 	padding-bottom: 0px;
 }
-#contributioneditform input, textarea {
-    margin-right:	20px;
+#contributioneditform input, #contributioneditform textarea {
     border:			1px solid #999999;
-    float:			right;
-    clear:			right;
     background:		#CCCCCC;
+}
+#contributioneditform .multiselector {
+	width:          500px;
+    float:			right;
+	margin-bottom:  10px;
+}
+#contributioneditform .selector, #contributioneditform .inputcontainer {
+	width:          400px;
+    float:			right;
+}
+#contributioneditform .button {
+	width: 100%;
+	clear: right;
+	float: none;
 }
 #contributioneditform hr {
 	height: 1px;
@@ -1311,7 +1354,6 @@ th.nobg {
 td {
 	border-right:1px solid #C1DAD7;
 	border-bottom:1px solid #C1DAD7;
-	background:#fff;
 	padding:6px 6px 6px 12px;
 	color:#4f6b72;
 }

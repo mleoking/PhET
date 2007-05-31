@@ -27,8 +27,7 @@
         $subject_list = convert_array_to_comma_list($subject_names);
         $level_list   = convert_array_to_comma_list($level_names);
         
-        $comment_count = 0;
-        
+
         $files_html = contribution_get_files_listing_html($contribution_id);
         
         $download_script = SITE_ROOT."admin/download-archive.php?contribution_id=$contribution_id";
@@ -39,16 +38,16 @@
         
         $comments = contribution_get_comments($contribution_id);
         
+        $comment_count = count($comments);
+        
         $comments_html = '';
         
         foreach($comments as $comment) {
-            $comments_html .= '<p class="comment">"';
+            $comments_html .= '<p class="comment">&quot;<em>';
             $comments_html .= $comment['contribution_comment_text'];
-            $comments_html .= '" - '.$contributor_name;
+            $comments_html .= '</em>&quot; - '.$comment['contributor_name'];
             $comments_html .= '</p>';
         }
-        
-        $contribution_desc = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis tincidunt enim et urna pretium porta. Quisque ligula. Praesent accumsan venenatis justo. Sed aliquam arcu eu eros. Ut justo tortor, nonummy nec, dignissim et, aliquet lacinia, libero. Suspendisse at lectus in tellus porta consectetuer. Ut sagittis. Nullam quam. Integer elit nulla, rhoncus nec, rhoncus varius, sagittis eget, pede. Pellentesque malesuada, nisi sit amet tincidunt molestie, ipsum libero suscipit turpis, eu dapibus sem libero sit amet tortor. Donec adipiscing, tortor ut ultrices placerat, orci urna varius diam, sit amet ultricies leo metus ut nisl. Vestibulum nunc massa, auctor ac, mattis non, ultrices eget, lorem.";
         
         print <<<EOT
         <div id="contributionview">
@@ -127,6 +126,21 @@
             </div>
             
             <div class="field">
+                <span class="label">Standards Compliance</span>
+                <span class="label_content"> &nbsp;</span>
+            </div>
+            
+            <div class="field">
+EOT;
+
+        contribution_print_standards_compliance($contribution_standards_compliance, true);
+        
+        $php_self = $_SERVER['PHP_SELF'];
+
+        print <<<EOT
+            </div>
+            
+            <div class="field">
                 <span class="label">
                     Comments
                 </span>
@@ -137,24 +151,89 @@
                 </span>
             </div>
             
-            <div class="label_content" style="display: none">
+            <div class="comments" style="display: none">
                 $comments_html
             </div>
             
             <div style="display: none">
-                <div class="field">
-                    <span class="label">Name</span>
-                    <span class="label_content">
-                        <input type="text" size="20" name="contributor_name" />
-                    </span>
-                </div>
+                <form method="post" action="add-comment.php" onsubmit="javascript:return false;">
+                    <input type="hidden" name="contribution_id" value="$contribution_id" />
+                    <input type="hidden" name="referrer"        value="$php_self?contribution_id=$contribution_id&referrer=$referrer" />
+                    
+                    <div class="field">
+                        <span class="label">Name</span>
+                        <span class="label_content">
+                            <script type="text/javascript">
+                                /*<![CDATA[*/
+                                
+                                function on_email_entered() {
+                                    var name_element = document.getElementById('contributor_name_uid');
+                                    
+                                    var name = name_element.value;
+                                    
+                                    HTTP.updateElementWithGet('../admin/do-ajax-login.php?contributor_name=' + 
+                                        encodeURI(name), null, 'required_login_info_uid');
+                                }
+
+                                function on_remind_me() {
+                                    var email_element = document.getElementById('contributor_email_uid');
+
+                                    var email = email_element.value;
+                                    
+                                    var password_element = document.getElementById('ajax_password_comment_uid');
+
+                                    HTTP.updateElementWithGet('../admin/remind-password.php?contributor_email=' + 
+                                        encodeURI(email), null, 'ajax_password_comment_uid');
+                                }
+                                    
+                                function on_email_change() {
+                                    var email_element = document.getElementById('contributor_email_uid');
+
+                                    var email = email_element.value;
+
+                                    HTTP.updateElementWithGet('../admin/check-email.php?contributor_email=' + 
+                                        encodeURI(email), null, 'ajax_email_comment_uid');
+                                }
+                                
+                                function on_password_change() {
+                                    var email_element    = document.getElementById('contributor_email_uid');
+                                    var password_element = document.getElementById('contributor_password_uid');
+                                    
+                                    var email    = email_element.value;
+                                    var password = password_element.value;
+
+                                    HTTP.updateElementWithGet('../admin/check-password.php?contributor_email=' + 
+                                        encodeURI(email) + '&contributor_password=' + password, null, 'ajax_password_comment_uid');
+                                }
+                                
+                                $('#contributor_name_uid').autocomplete('../admin/get-contributor-names.php');
+                                
+                                /*]]>*/
+                            </script>
+                            
+                            <input type="text" size="25" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_email_entered();"/>
+                        </span>
+                    </div>
                 
-                <div id="required_login_info_uid">
-                </div>
+                    <div id="required_login_info_uid">
+                    
+                    </div>                
                 
-                <div>
-                    <textarea name="contribution_comment_text" cols="20" rows="5"></textarea>
-                </div>
+                    <div class="field">
+                        <span class="label">Comment</span>
+                        <span class="label_content">
+                            <textarea name="contribution_comment_text" cols="40" rows="5" ></textarea>
+                        </span>
+                    </div>
+                    
+                    <div class="field">
+                        <span class="label">&nbsp;</span>
+                        <span class="label_content">
+                            <input type="button" onclick="javascript:this.form.submit();" value="Add Comment" name="add" />
+                        </span>
+                    </div>
+                    
+                </form>
             </div>
             
         </div>

@@ -389,6 +389,10 @@ EOT;
         return $_COOKIE["$name"];
     }
     
+    function string_starts_with($string, $prefix) {
+        return strstr($string, $prefix) == $string;
+    }
+    
     function get_self_url() {
         $url = basename($_SERVER['SCRIPT_NAME']);
         
@@ -454,7 +458,7 @@ EOT;
         static $last_group_prefix = null;
         
         if ($read_only) {
-            $read_only_status = 'onclick="javascript:return false;"';
+            $read_only_status = 'onclick="javascript:return false;" disabled="disabled" ';
         }
         else {
             $read_only_status = '';
@@ -732,18 +736,21 @@ EOT;
         
         if ($print_select) {
             print <<<EOT
-                        
-                <select name="$select_name" id="$select_id" 
-                            onclick="ms_on_change('$name',  '$list_id', this.form.$select_name);" 
-                            onchange="ms_on_change('$name', '$list_id', this.form.$select_name);">
-                    $options
-                </select>
+                
+                <span class="multiselector">
+                    <select name="$select_name" id="$select_id" 
+                                onclick="ms_on_change('$name',  '$list_id', this.form.$select_name);" 
+                                onchange="ms_on_change('$name', '$list_id', this.form.$select_name);">
+                        $options
+                    </select>
+                </span>
 EOT;
         }
     }
     
     function print_single_selection($select_name, $value_to_text, $selected) {
         print <<<EOT
+            <span class="selector">
             <select name="$select_name" id="${select_name}_uid">
 EOT;
 
@@ -762,6 +769,7 @@ EOT;
 
         print <<<EOT
             </select>
+            </span>
 EOT;
     }
     

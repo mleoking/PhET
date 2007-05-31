@@ -56,7 +56,7 @@
         $new_contribs = array();
         
         foreach($contributions as $contrib) {
-            if (in_array($contrib[$field_name], $selected_values)) {
+            if (isset($contrib[$field_name]) && in_array($contrib[$field_name], $selected_values)) {
                 $new_contribs[] = $contrib;
             }
         }
@@ -101,7 +101,7 @@
             url_encode_list('Types[]',       $Types).
             url_encode_list('Levels[]',      $Levels);
             
-        $php_self = $_SERVER['PHP_SELF']; 
+        $php_self = $_SERVER['REQUEST_URI']; 
                 
         $script = "${php_self}?order=${link_order}&amp;sort_by=${link_sort_by}${filter_options}";
         
@@ -165,13 +165,13 @@ EOT;
         
         if (count($list) > 0) {
             foreach($list as $item) {
-                $encoded .= '&'.$name.'=';
+                $encoded .= '&amp;'.$name.'=';
             
                 $encoded .= urlencode($item);
             }
         }
         else {
-            $encoded .= '&'.$name.'=all';
+            $encoded .= '&amp;'.$name.'=all';
         }
         
         return $encoded;
@@ -220,7 +220,7 @@ EOT;
 EOT;
 
         foreach($contributions as $contribution) {
-            contribution_print_summary3($contribution);
+            contribution_print_summary3($contribution, $print_simulations);
         }
 
         print <<<EOT
@@ -324,6 +324,8 @@ EOT;
         print_content_only();
     }
     
+    global $sort_by, $order, $next_order, $Types, $Simulations, $Levels;
+    
     if (isset($_REQUEST['sort_by'])) {
         $sort_by = $_REQUEST['sort_by'];
     }
@@ -363,10 +365,10 @@ EOT;
             $sim_id = $_REQUEST['sim_id'];
         }
         
-        if (isset($sim_id)) {
+        if (isset($sim_id)) {            
             $sim = sim_get_simulation_by_id($sim_id);
             
-            $Simulations[] = $sim['sim_name'];
+            $Simulations = array( $sim['sim_name'] );
         }
     }
     
@@ -377,7 +379,7 @@ EOT;
     }
     
     if (isset($_REQUEST['content_only']) || isset($content_only)) {
-        print_content_only();
+        print_content_only(!isset($sim_id));
     }
     else {
         print_site_page('print_content_with_header', 3);

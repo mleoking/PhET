@@ -21,7 +21,7 @@
     
     function contribution_add_comment($contribution_id, $contributor_id, $contribution_comment_text) {
         $id = insert_row_into_table(
-            $table_name,
+            'contribution_comment',
             array(
                 'contribution_comment_text' => $contribution_comment_text,
                 'contribution_id'           => $contribution_id,
@@ -100,32 +100,30 @@
         }
     }
     
-
-    
     function contribution_print_standards_compliance($contribution_standards_compliance, $read_only = false) {
         print <<<EOT
         <table>
             <thead>
                 <tr>
-                    <td  align="right">&nbsp;</td>
+                    <td>&nbsp;</td>
 
-                    <td colspan="3" align="center"><span class="style9">Content Level</span></td>
+                    <td colspan="3">Content Level</td>
                 </tr>
             </thead>
 
             <tbody>
                 <tr>
-                    <td  align="right"><span class="style9">Content Standard</span></td>
+                    <td>Content Standard</td>
 
-                    <td  align="center">K-4</td>
+                    <td>K-4</td>
 
-                    <td  align="center">5-8</td>
+                    <td>5-8</td>
 
-                    <td  align="center">9-12</td>
+                    <td>9-12</td>
                 </tr>
 
                 <tr>
-                    <td  align="right"><label>Science as Inquiry - A</label></td>
+                    <td>Science as Inquiry - A</td>
 EOT;
 
                     contribution_print_standards_checkbox($contribution_standards_compliance, 3, $read_only);
@@ -134,7 +132,7 @@ EOT;
                 </tr>
 
                 <tr>
-                    <td  align="right"><label>Physical Science - B</label></td>
+                    <td>Physical Science - B</td>
 EOT;
 
                     contribution_print_standards_checkbox($contribution_standards_compliance, 3, $read_only);
@@ -143,17 +141,7 @@ EOT;
                 </tr>
 
                 <tr>
-                    <td  align="right"><label>Life Science - C</label></td>
-
-EOT;
-
-                    contribution_print_standards_checkbox($contribution_standards_compliance, 3, $read_only);
-
-                    print <<<EOT
-                </tr>
-
-                <tr>
-                    <td  align="right">Earth &amp; Space Science - D</td>
+                    <td>Life Science - C</td>
 
 EOT;
 
@@ -163,7 +151,7 @@ EOT;
                 </tr>
 
                 <tr>
-                    <td  align="right"><label>Science &amp; Technology - E</label></td>
+                    <td>Earth &amp; Space Science - D</td>
 
 EOT;
 
@@ -173,7 +161,7 @@ EOT;
                 </tr>
 
                 <tr>
-                    <td  align="right"><label>Science in Personal and Social Perspective - F</label></td>
+                    <td>Science &amp; Technology - E</td>
 
 EOT;
 
@@ -183,7 +171,17 @@ EOT;
                 </tr>
 
                 <tr>
-                    <td  align="right">History and Nature of Science - G</td>
+                    <td>Science in Personal and Social Perspective - F</td>
+
+EOT;
+
+                    contribution_print_standards_checkbox($contribution_standards_compliance, 3, $read_only);
+
+                    print <<<EOT
+                </tr>
+
+                <tr>
+                    <td>History and Nature of Science - G</td>
 
 EOT;
 
@@ -282,22 +280,28 @@ EOT;
                     <label for="contribution_authors" class="required">
                         authors:
                         
-                        <input type="text" name="contribution_authors"
-                            value="$contribution_authors" tabindex="1" id="contribution_authors" size="50" />
+                        <span class="inputcontainer">
+                            <input type="text" name="contribution_authors"
+                                value="$contribution_authors" tabindex="1" id="contribution_authors" size="50" />
+                        </span>
                     </label>
 
                     <label for="contribution_authors_organization" class="required">
                         organization:
                         
-                        <input type="text" name="contribution_authors_organization" 
-                            value="$contribution_authors_organization" tabindex="1" id="contribution_authors_organization" size="50"/>
+                        <span class="inputcontainer">
+                            <input type="text" name="contribution_authors_organization" 
+                                value="$contribution_authors_organization" tabindex="1" id="contribution_authors_organization" size="50"/>
+                        </span>
                     </label>
                     
                     <label for="contribution_contact_email" class="required">
                         contact email:
                         
-                        <input type="text" name="contribution_contact_email" 
-                            value="$contribution_contact_email" tabindex="1" id="contribution_contact_email" size="50"/>
+                        <span class="inputcontainer">
+                            <input type="text" name="contribution_contact_email" 
+                                value="$contribution_contact_email" tabindex="1" id="contribution_contact_email" size="50"/>
+                        </span>
                     </label>
 
                     <hr/>              
@@ -305,15 +309,19 @@ EOT;
                     <label for="contribution_title" class="required">
                         title:
                         
-                        <input type="text" name="contribution_title" 
-                            value="$contribution_title" tabindex="1" id="contribution_title" size="50"/>
+                        <span class="inputcontainer">
+                            <input type="text" name="contribution_title" 
+                                value="$contribution_title" tabindex="1" id="contribution_title" size="50"/>
+                        </span>
                     </label>
                     
                     <label for="contribution_keywords" class="required">
                         keywords:
                         
-                        <input type="text" name="contribution_keywords"
-                            value="$contribution_keywords" tabindex="3" id="contribution_keywords" size="50" />
+                        <span class="inputcontainer">
+                            <input type="text" name="contribution_keywords"
+                                value="$contribution_keywords" tabindex="3" id="contribution_keywords" size="50" />
+                        </span>
                     </label>
                     
                     <hr/>
@@ -357,13 +365,15 @@ EOT;
         print <<<EOT
                     <p>Add any number of files to the contribution:</p>
                     
-                    <input type="file" name="contribution_file_url" class="multi" />
-
-                    <input name="submit" type="submit" id="submit" tabindex="13" value="Update" />
+                    <span class="inputcontainer">
+                        <input type="file" name="contribution_file_url" class="multi" />
+                    </span>
 
                     <br/>
-                    <br/>
-                    <p/>
+
+                    <div class="button">
+                        <input name="submit" type="submit" id="submit" tabindex="13" value="Update" />
+                    </div>
 
 
                 </fieldset>
@@ -428,7 +438,9 @@ EOT;
                     <input type="hidden" name="referrer"        value="$referrer" />
                     <input type="hidden" name="contribution_id" value="$contribution_id" />
 
-                    <input name="submit" type="submit" id="submit" tabindex="13" value="Update" />
+                    <div class="button">
+                        <input name="submit" type="submit" id="submit" tabindex="13" value="Update" />
+                    </div>
                  </fieldset>
             </form>
 EOT;
@@ -441,13 +453,12 @@ EOT;
         
         $query_string = "?contribution_id=$contribution_id&amp;referrer=$referrer";
         
-        $view    = "<a href=\"${path_prefix}view-contribution.php$query_string\">details</a>";
         $edit    = '';
         $delete  = '';
         $approve = '';
         
         if ($contributor_id !== null && contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {
-            $edit   .= ", <a href=\"${path_prefix}edit-contribution.php$query_string\">edit</a>";
+            $edit   .= "<a href=\"${path_prefix}edit-contribution.php$query_string\">edit</a>";
             $delete .= ", <a href=\"${path_prefix}delete-contribution.php$query_string\">delete</a>";
         
             if ($contributor_is_team_member) {
@@ -460,16 +471,9 @@ EOT;
             }
         }
         
-        $contribution_files = contribution_get_contribution_files($contribution_id);
+        $contribution_link = "${path_prefix}view-contribution.php$query_string";
         
-        if (count($contribution_files) == 1) {
-            $contribution_link = SITE_ROOT.$contribution_files[0]['contribution_file_url'];
-        }
-        else {
-            $contribution_link = "${path_prefix}view-contribution.php$query_string";
-        }
-        
-        print "<li><a href=\"$contribution_link\">$contribution_title</a> - ($view$edit$delete$approve)</li>";        
+        print "<li><a href=\"$contribution_link\">$contribution_title</a> - ($edit$delete$approve)</li>";        
     }
 
     function contribution_generate_association_abbr($contribution, $table_name) {
@@ -1421,6 +1425,30 @@ EOT;
     
     function contributor_get_contributor_by_id($contributor_id) {
         $result = run_sql_statement("SELECT * FROM `contributor` WHERE `contributor_id`='$contributor_id' ");
+
+        if (!$result) {
+            return false;
+        }
+        
+        return format_for_html(mysql_fetch_assoc($result));
+    }
+    
+    function contributor_get_contributor_by_name($contributor_name) {
+        $result = run_sql_statement("SELECT * FROM `contributor` WHERE `contributor_name`='$contributor_name' ");
+        
+        if (!$result) {
+            return false;
+        }
+        
+        return format_for_html(mysql_fetch_assoc($result));
+    }
+    
+    function contributor_get_contributor_by_email($contributor_email) {
+        $result = run_sql_statement("SELECT * FROM `contributor` WHERE `contributor_email`='$contributor_email' ");
+        
+        if (!$result) {
+            return false;
+        }
         
         return format_for_html(mysql_fetch_assoc($result));
     }
