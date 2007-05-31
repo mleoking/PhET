@@ -113,36 +113,16 @@
         <?php
             global $contributor_id, $contributor_is_team_member;
             
-            if (!isset($contributor_id)) {                
-                $contributor_id             = null;
-                $contributor_is_team_member = false;
-            }
+            $content_only = true;
             
-            function print_contributors($sim_id, $contributor_id, $contributor_is_team_member) {
-                $contributions = contribution_get_approved_contributions_for_sim($sim_id);
-                    
-                foreach($contributions as $contribution) {
-                    contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member,
-                        SITE_ROOT."simulations/sims.php?sim_id=$sim_id"
-                    );
-                }
-            }
-            
-            print_contributors($sim_id, $contributor_id, $contributor_is_team_member);
+            include_once(SITE_ROOT."teacher_ideas/browse.php");
         
         ?>
         </ul> 
     
         <h2 class="sub-title">Submit Ideas &amp; Activities</h2>
 
-        <form id="upload-form" enctype="multipart/form-data" action="submit-contribution.php" method="post">
-            
-            <p class="indi-sim">
-                If you have ideas or activities you would like to contribute, you can use this form to submit them to PhET.
-                You may submit up to 10 files per contribution.
-            </p>
-            <br />
-            
+        <form id="upload-form" enctype="multipart/form-data" action="submit-contribution.php" method="post">    
             <?php
                 print "<input type=\"hidden\" name=\"sim_id\"   value=\"$sim_id\" />";
             ?>
@@ -160,7 +140,7 @@
 
             <br/>
             
-            <input type="submit" value="Submit" class="buttonSubmit" />
+            <input type="submit" value="Contribute" class="buttonSubmit" />
         </form>
 
         <p><a href="#top"><img src="../images/top.gif" /></a></p>
