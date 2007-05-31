@@ -98,7 +98,8 @@ public class LocationControlPanel extends VerticalLayoutPanel {
 
 
     private void synchronizePlanet() {
-        module.getEnergyConservationCanvas().getRootNode().getBackground().setVisible( showBackgroundCheckbox.isSelected() );
+//        module.getEnergyConservationCanvas().getRootNode().getBackground().setVisible( showBackgroundCheckbox.isSelected() );
+        module.getEnergyConservationCanvas().getRootNode().setBackgroundVisible( showBackgroundCheckbox.isSelected() );
         boolean matched = false;
         for( int i = 0; i < planetButtons.length; i++ ) {
             Planet planet = planetButtons[i].getPlanet();
