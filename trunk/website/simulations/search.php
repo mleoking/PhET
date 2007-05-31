@@ -1,12 +1,11 @@
 <?php
-    ini_set('display_errors', '1');
-
     include_once("../admin/global.php");
-    include_once("../admin/db.inc");
-    include_once("../admin/web-utils.php");
-    include_once("../admin/sim-utils.php");
-    include_once("../admin/site-utils.php");
-    include_once("../admin/contrib-utils.php");
+    
+    include_once(SITE_ROOT."admin/db.inc");
+    include_once(SITE_ROOT."admin/web-utils.php");
+    include_once(SITE_ROOT."admin/sim-utils.php");
+    include_once(SITE_ROOT."admin/site-utils.php");
+    include_once(SITE_ROOT."admin/contrib-utils.php");
     
     include_once("../teacher_ideas/referrer.php"); 
     
@@ -17,7 +16,7 @@
         print "<h1>Simulations</h1>";
 
         if (count($sims) == 0) {
-            print "<p>No simulations found meeting the specified criteria.</p>";
+            print "<p>No simulations were found meeting the specified criteria.</p>";
         }
         else {
             print "<ul>";
@@ -36,7 +35,7 @@ EOT;
         print "<h1>Contributions</h1>";
         
         if (count($contribs) == 0) {
-            print "<p>No contributions found meeting the specified criteria.</p>";
+            print "<p>No contributions were found meeting the specified criteria.</p>";
         }
         else {
             print "<ul>";
@@ -61,7 +60,7 @@ EOT;
         $sims     = sim_search_for_sims($search_for);
         $contribs = contribution_search_for_contributions($search_for);
 
-        print_site_page('print_content', 2);        
+        print_site_page('print_content', -1);        
     }
     else {
         force_redirect($referrer, 0);
