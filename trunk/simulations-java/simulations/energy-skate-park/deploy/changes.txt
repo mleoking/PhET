@@ -1,5 +1,6 @@
 2.01.06
 Consolidated "Record Path" and "Pause" buttons in the control panel.
+Mountains and house now disappear when "show background" is deselected
 
 2.01.05 (5-30-2007)
 Moved "with thermal" to same line as pie chart

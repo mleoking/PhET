@@ -58,6 +58,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private SkaterCharacter skaterCharacter;
     private PNode energyErrorIndicatorContainer = new PNode();
     private EnergyErrorIndicator energyErrorIndicator;
+    private SurfaceObjectNode houseNode;
+    private SurfaceObjectNode mountainNode;
 
     public EnergySkateParkRootNode( final EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
         this.module = module;
@@ -96,15 +98,14 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             }
         } );
 
-        final SurfaceObjectNode houseNode = new SurfaceObjectNode( SurfaceObjectNode.HOUSE_URL, 1.5, 10 );
-        final SurfaceObjectNode mountainNode = new SurfaceObjectNode( SurfaceObjectNode.MOUNTAIN_URL, 1.5, 0.0 );
+        houseNode = new SurfaceObjectNode( SurfaceObjectNode.HOUSE_URL, 1.5, 10 );
+        mountainNode = new SurfaceObjectNode( SurfaceObjectNode.MOUNTAIN_URL, 1.5, 0.0 );
 
         addScreenChild( screenBackground );
         addScreenChild( splineToolbox );
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void gravityChanged() {
-                houseNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH );
-                mountainNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH );
+                updateHouseAndMountainVisible();
             }
         } );
         addWorldChild( houseNode );
@@ -186,6 +187,12 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
                 }
             }
         } );
+    }
+
+    private void updateHouseAndMountainVisible() {
+
+        houseNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH &&getBackground().getVisible());
+        mountainNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH &&getBackground().getVisible());
     }
 
     private void showAll( PNode node ) {
@@ -504,5 +511,10 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     public static void main( String[] args ) {
         System.out.println( "new Double(0).equals( new Double(-0)) = " + new Double( 0 ).equals( new Double( -0 ) ) );
+    }
+
+    public void setBackgroundVisible( boolean selected ) {
+        getBackground().setVisible( selected );
+        updateHouseAndMountainVisible();
     }
 }
