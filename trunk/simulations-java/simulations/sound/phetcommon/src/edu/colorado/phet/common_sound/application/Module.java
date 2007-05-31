@@ -19,7 +19,6 @@ import edu.colorado.phet.common_sound.model.clock.ClockTickListener;
 import edu.colorado.phet.common_sound.view.ApparatusPanel;
 import edu.colorado.phet.common_sound.view.ControlPanel;
 import edu.colorado.phet.common_sound.view.help.HelpManager;
-import edu.colorado.phet.common_sound.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
@@ -274,7 +273,7 @@ public class Module implements ClockTickListener {
      */
     public void updateGraphics( ClockTickEvent event ) {
         // noop
-        PhetJComponent.getRepaintManager().updateGraphics();
+//        PhetJComponent.getRepaintManager().updateGraphics();
     }
 
     /**
@@ -284,7 +283,7 @@ public class Module implements ClockTickListener {
      */
     public void refresh() {
         // Repaint all dirty PhetJComponents
-        PhetJComponent.getRepaintManager().updateGraphics();
+//        PhetJComponent.getRepaintManager().updateGraphics();
         // Paint the apparatus panel
         apparatusPanel.paint();
     }

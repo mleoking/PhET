@@ -26,21 +26,10 @@ import edu.colorado.phet.common_sound.model.clock.ClockTickEvent;
  */
 public class BaseModel extends CompositeModelElement implements ClockTickListener {
 
-    private CommandQueue commandList = new CommandQueue();
 
     //Not allowed to mess with the way we call our abstract method.
     public void stepInTime( double dt ) {
-        commandList.doIt();
         super.stepInTime( dt );
-    }
-
-    /**
-     * Executes a command on the model. If the model's clock is running, the command
-     * is placed on its command queue so that it will be executed the next time
-     * the model thread ticks.
-     */
-    public synchronized void execute( Command cmd ) {
-        commandList.addCommand( cmd );
     }
 
     public void clockTicked( ClockTickEvent event ) {

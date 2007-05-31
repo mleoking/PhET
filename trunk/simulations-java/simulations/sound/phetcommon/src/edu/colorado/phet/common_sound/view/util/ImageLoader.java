@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.common_sound.view.util;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+
 import java.awt.Container;
 import java.awt.Image;
 import java.awt.MediaTracker;
@@ -42,7 +44,7 @@ public class ImageLoader {
     /**
      * A convenience instance, public for customization.
      */
-    public static final ImageLoader instance = new CachingImageLoader();
+    public static final ImageLoader instance = new ImageLoader();
 
     /**
      * Convenience method, uses the static instance to load a buffered image.

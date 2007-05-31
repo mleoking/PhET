@@ -10,7 +10,8 @@
  */
 package edu.colorado.phet.common_sound.view.graphics.transforms;
 
-import edu.colorado.phet.common_sound.math.AbstractVector2D;
+
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

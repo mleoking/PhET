@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common_sound.model;
 
-import edu.colorado.phet.common_sound.math.Vector2D;
 import edu.colorado.phet.common_sound.util.SimpleObservable;
 import edu.colorado.phet.common_sound.util.Translatable;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Point2D;
 
