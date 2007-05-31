@@ -20,7 +20,7 @@ ACCOMPLISHMENTS:
 WHAT'S NEXT:
 
   - continue work on Optical Tweezers, see:
-    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/optical-tweezers/TODO.txt?view=markup
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/optical-tweezers/TODO.txt?view=markup
   
 ISSUES:
 
