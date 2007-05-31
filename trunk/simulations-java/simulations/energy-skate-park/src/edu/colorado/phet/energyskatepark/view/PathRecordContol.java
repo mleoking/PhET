@@ -7,6 +7,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -17,8 +18,8 @@ import java.awt.event.ActionListener;
 public class PathRecordContol extends HorizontalLayoutPanel {
     private JButton recordPath;
     private JButton clearHistory;
-    private JButton pausePath;
     private EnergySkateParkModule module;
+    private boolean recording = false;
 
     public PathRecordContol( final EnergySkateParkModule module ) {
         this.module = module;
@@ -27,33 +28,31 @@ public class PathRecordContol extends HorizontalLayoutPanel {
 
         recordPath.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.setRecordPath( true );
+                recording = !recording;
+                module.setRecordPath( recording );
                 updateButtons();
                 clearHistory.setEnabled( true );
-            }
-        } );
-        pausePath = new JButton( EnergySkateParkStrings.getString( "controls.stop-recording-path" ) );
-        pausePath.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setRecordPath( false );
-                updateButtons();
             }
         } );
         clearHistory = new JButton( EnergySkateParkStrings.getString( "time.clear" ) );
         clearHistory.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.clearPaths();
+                if( !recording ) {
+                    clearHistory.setEnabled( false );
+                }
             }
         } );
         clearHistory.setEnabled( false );
+        setFill( GridBagConstraints.NONE );
+        setAnchor( GridBagConstraints.WEST );
         add( recordPath );
-        add( pausePath );
+        setAnchor( GridBagConstraints.EAST );
         add( clearHistory );
         updateButtons();
     }
 
     private void updateButtons() {
-        recordPath.setEnabled( !module.getEnergySkateParkModel().isRecordPath() );
-        pausePath.setEnabled( module.getEnergySkateParkModel().isRecordPath() );
+        recordPath.setText( recording ? EnergySkateParkStrings.getString( "controls.stop-recording-path" ) : EnergySkateParkStrings.getString( "controls.record-path" ) );
     }
 }
