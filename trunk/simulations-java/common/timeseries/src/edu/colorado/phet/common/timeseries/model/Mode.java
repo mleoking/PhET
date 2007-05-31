@@ -25,23 +25,28 @@ public abstract class Mode {
     public static class Live extends Mode {
 
         private double time = 0;
+        private double speed = 1.0;
 
         public Live( TimeSeriesModel timeSeriesModel ) {
             super( timeSeriesModel );
         }
 
         public void step( double dt ) {
-            time += dt;
-            getTimeSeriesModel().updateModel( dt );
+            time += dt * speed;
+            getTimeSeriesModel().updateModel( dt*speed );
         }
 
         public double getTime() {
             return time;
         }
+
+        public void setSpeed( double speed ) {
+            this.speed = speed;
+        }
     }
 
     public static class Playback extends Mode {
-        private double playbackSpeed;
+        private double playbackSpeed = 1.0;
         private double playbackTime;
         private ArrayList listeners = new ArrayList();
 
@@ -93,6 +98,7 @@ public abstract class Mode {
 
     public static class Record extends Mode {
         private double recordTime = 0;
+        private double speed = 1.0;
 
         public Record( final TimeSeriesModel timeSeriesModel ) {
             super( timeSeriesModel );
@@ -104,17 +110,21 @@ public abstract class Mode {
 
         public void step( double dt ) {
             double maxTime = getTimeSeriesModel().getMaxRecordTime();
-            double newTime = recordTime + dt;
+            double newTime = recordTime + dt * speed;
             if( newTime > maxTime ) {
-                dt = ( maxTime - recordTime );
+                dt = ( maxTime - recordTime )*speed;
             }
             recordTime += dt;
-            getTimeSeriesModel().updateModel( dt );
+            getTimeSeriesModel().updateModel( dt*speed );
             getTimeSeriesModel().addSeriesPoint( getTimeSeriesModel().getModelState(), recordTime );
         }
 
         public double getRecordTime() {
             return recordTime;
+        }
+
+        public void setSpeed( double speed ) {
+            this.speed = speed;
         }
     }
 
