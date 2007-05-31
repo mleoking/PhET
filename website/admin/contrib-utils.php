@@ -7,6 +7,33 @@
     include_once("sys-utils.php"); 
     include_once("sim-utils.php");  
     
+    function contribution_search_for_contributions($search_for) {
+        $contributions = array();
+        
+        $st  = "SELECT * FROM `contribution` WHERE ";          
+        
+        $is_first = true;
+        
+        foreach(preg_split('/( +)|( *, *)/i', $search_for) as $word) {
+            if ($is_first) {
+                $is_first = false;
+            }
+            else {
+                $st .= " AND ";
+            }
+            
+            $st .= "(`contribution_title` LIKE '%$word%' OR `contribution_desc` LIKE '%$word%' OR `contribution_keywords` )";
+        }
+        
+        $result = run_sql_statement($st);
+        
+        while ($contribution = mysql_fetch_assoc($result)) {
+            $contributions[] = $contribution;
+        }
+        
+        return $contributions;
+    }
+    
     function contribution_get_comments($contribution_id) {
         $comments = array();
         
@@ -110,9 +137,8 @@
 
                     <td colspan="3">Content Level</td>
                 </tr>
-            </thead>
-
-            <tbody>
+                
+                
                 <tr>
                     <td>Content Standard</td>
 
@@ -122,6 +148,9 @@
 
                     <td>9-12</td>
                 </tr>
+            </thead>
+
+            <tbody>
 
                 <tr>
                     <td>Science as Inquiry - A</td>

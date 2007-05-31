@@ -80,6 +80,13 @@ hr {
 	vertical-align:		top;	
 }
 
+
+#quicksearch {
+	float:		right;
+	font-size:  10px;
+	color: 		gray;
+}
+
 #nationalstandards table {
 	border: 0 0 0 0;
 	border-collapse:collapse;
@@ -103,13 +110,17 @@ hr {
 #nationalstandards table thead tr td + td + td + td, 
 #nationalstandards table thead tr td + td + td + td + td,
 #nationalstandards table thead tr td + td + td + td + td + td {
-	font-weight: bold;
-	border-bottom: solid 1px #ccc;	
+	font-weight: 	bold;
+	border-bottom: 	solid 1px #ccc;	
 }
-#nationalstandards table tbody tr td:first-child {
-	font-weight: bold;
-	text-align: right;
-	border-right: solid 1px #ccc;	
+#nationalstandards table tbody tr td:first-child, 
+#nationalstandards table thead tr td:first-child {
+	font-weight: 	bold;
+	text-align: 	right;
+	border-right: 	solid 1px #ccc;	
+}
+#nationalstandards table thead tr:first-child td:first-child {
+	border-right: 	none;	
 }
 table td.smartClient,table th.smartClient {
 	background-color: #ddedf6;
