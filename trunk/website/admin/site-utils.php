@@ -5,6 +5,8 @@
     include_once("db-utils.php");    
     include_once("sys-utils.php");
     
+    include_once("../teacher_ideas/referrer.php");
+    
     // Don't want browsers caching the javascript code:
     expire_page_immediately();
     
@@ -154,22 +156,9 @@ EOT;
     }
     
     function print_site_page($content_printer, $selected_page = null) {
+        global $referrer;
+        
         $prefix = "..";
-        
-        
-        /*
-        
-            
-            
-            
-            //<![CDATA[
-                <script src="$prefix/js/jquery.pack.js"         type="text/javascript" />
-                <script src="$prefix/js/jquery.MultiFile.js"    type="text/javascript" />
-                <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript" />
-            //]]>
-        
-        */
-        
         
         print <<<EOT
 <?xml version="1.0" encoding="UTF-8"?>
@@ -227,6 +216,15 @@ EOT;
                             </ul>
                         </div>
                     </div>
+                </div>
+                
+                <div id="quicksearch">
+                    <form method="post" action="../simulations/search.php">
+                        Search
+                        <input type="text" size="15" name="search_for" />
+                        <input type="submit" value="Go" />
+                        <input type="hidden" name="referrer" value="$referrer" />
+                    </form>
                 </div>
 
                 <div id="container">

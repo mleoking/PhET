@@ -65,6 +65,33 @@
         return $simulation;
     }
     
+    function sim_search_for_sims($search_for) {
+        $simulations = array();
+        
+        $st = "SELECT * FROM `simulation` WHERE ";
+        
+        $is_first = true;
+        
+        foreach(preg_split('/( +)|( *, *)/i', $search_for) as $word) {
+            if ($is_first) {
+                $is_first = false;
+            }
+            else {
+                $st .= " AND ";
+            }
+            
+            $st .= "(`sim_name` LIKE '%$word%' OR `sim_desc` LIKE '%$word%' OR `sim_keywords` LIKE '%$word%' )";
+        }
+        
+        $result = run_sql_statement($st);
+        
+        while ($simulation = mysql_fetch_assoc($result)) {
+            $simulations[] = $simulation;
+        }
+        
+        return $simulations;
+    }
+    
     function gather_sim_fields_into_globals($sim_id) {
         $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
         $simulation    = mysql_fetch_assoc(mysql_query($select_sim_st));
@@ -72,6 +99,22 @@
         gather_array_into_globals($simulation);
         
         $GLOBALS["sim_id"] = "$sim_id"; 
+    }
+
+    function sim_get_all_sims() {
+        $simulations = array();
+        
+        $simulation_rows = run_sql_statement("SELECT * FROM `simulation` ");
+        
+        while($simulation = mysql_fetch_assoc($simulation_rows)) {
+            $sim_id = $simulation['sim_id'];
+            
+            if (is_numeric($sim_id)) {                
+                $simulations["sim_id_$sim_id"] = $simulation;
+            }
+        }
+        
+        return $simulations;        
     }
     
     function sim_get_all_sim_names() {
