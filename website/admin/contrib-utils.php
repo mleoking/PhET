@@ -383,7 +383,9 @@ EOT;
                     <label for="contribution_desc">
                         description:
                         
-                        <textarea name="contribution_desc" tabindex="4" id="contribution_desc" rows="5" cols="50">$contribution_desc</textarea>
+                        <span class="inputcontainer">
+                            <textarea name="contribution_desc" tabindex="4" id="contribution_desc" rows="5" cols="50">$contribution_desc</textarea>
+                        </span>
                     </label>
                     
                     <p>Please choose the subject areas covered by the contribution:</p>
