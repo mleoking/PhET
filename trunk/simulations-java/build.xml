@@ -1,7 +1,7 @@
 <!--
 
 This build file is specific to building phet simulation files, in particular building jars and jnlp files.
-PhET -specific tasks are moved to an auxiliary build file.  
+PhET-team specific tasks are located in an auxiliary build file.  
 -->
 
 <project name="PhET Master Build Script" default="gui" basedir=".">
@@ -254,6 +254,7 @@ PhET -specific tasks are moved to an auxiliary build file.
         <foreach list="${sim.flavors}" target="_build-jnlp" param="sim.flavor" inheritall="true" inheritrefs="true"/>
     </target>
 
+    <!-- To Do: make local files (local.properties, open_cmd.bat, etc) start with '.' for filtering in this task.-->
     <target name="build-source-distribution" depends="_init,clean-all" >
         <zip destfile="${basedir}/deploy/phet-src-${phet.version}.zip" basedir="${basedir}"
                 excludes="local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output/, **/classes/, deploy/,
