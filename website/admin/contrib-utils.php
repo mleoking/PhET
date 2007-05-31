@@ -22,7 +22,7 @@
                 $st .= " AND ";
             }
             
-            $st .= "(`contribution_title` LIKE '%$word%' OR `contribution_desc` LIKE '%$word%' OR `contribution_keywords` )";
+            $st .= "(`contribution_title` LIKE '%$word%' OR `contribution_desc` LIKE '%$word%' OR `contribution_keywords` LIKE '%$word%' )";
         }
         
         $result = run_sql_statement($st);
