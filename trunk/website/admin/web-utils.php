@@ -660,7 +660,7 @@ EOT;
             $child_id = "child_${name}_${child_id_index}";
             
             $selections .= "<li id=\"$child_id\">";
-            $selections .= "<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('$list_id', '$child_id')\">$text</a>";
+            $selections .= "[<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('$list_id', '$child_id')\">remove</a>] $text";
             $selections .= "<input type=\"hidden\" name=\"$identifier\" value=\"$text\" />";
             $selections .= "</li>";
             
@@ -704,7 +704,7 @@ EOT;
                     var NewLI = document.createElement("li");
 
                     NewLI.id        = "child_" + basename + "_" + child_id_index;                    
-                    NewLI.innerHTML = "<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('" + list_id + "','" + NewLI.id + "')\">" + text + "</a>" +
+                    NewLI.innerHTML = "[]<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('" + list_id + "','" + NewLI.id + "')\">remove</a>] " + text +
                                       "<input type=\"hidden\" name=\"" + name + "\" value=\"" + text + "\" />";
 
                     Parent.appendChild(NewLI);
@@ -777,8 +777,10 @@ EOT;
         $is_checked = $checkbox_value == "1" ? "checked=\"checked\"" : "";
         
         print <<<EOT
-            <input type="hidden"   name="$checkbox_name" value="0" />
-            <input type="checkbox" name="$checkbox_name" value="1" id="${checkbox_name}_uid" $is_checked>$checkbox_text</input>
+            <span class="inputcontainer">
+                <input type="hidden"   name="$checkbox_name" value="0" />
+                <input type="checkbox" name="$checkbox_name" value="1" id="${checkbox_name}_uid" $is_checked>$checkbox_text</input>
+            </span>
 EOT;
     }
 
