@@ -50,8 +50,8 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void setPlaybackTime( double requestedTime ) {
-        if (requestedTime>getRecordTime()){
-            requestedTime=getRecordTime();
+        if( requestedTime > getRecordTime() ) {
+            requestedTime = getRecordTime();
         }
         if( requestedTime >= 0 && requestedTime <= getRecordTime() && numPlaybackStates() > 0 ) {
             playback.setTime( requestedTime );
@@ -256,22 +256,31 @@ public class TimeSeriesModel extends ClockAdapter {
 
     /**
      * Returns the current time in the current mode.
+     *
      * @return the current time in the current mode.
      */
     public double getTime() {
-        if (isPlaybackMode() ){
+        if( isPlaybackMode() ) {
             return getPlaybackTime();
-        }else if (isRecordMode()){
+        }
+        else if( isRecordMode() ) {
             return getRecordTime();
         }
-        else if (isLiveMode() ){
+        else if( isLiveMode() ) {
             return getLiveTime();
-        }else{
-            System.out.println( "Time not available for mode: "+getMode() );
+        }
+        else {
+            System.out.println( "Time not available for mode: " + getMode() );
             return Double.NaN;
         }
     }
 
+    public void setSpeed( double speed ) {
+//        this.speed = speed;
+        live.setSpeed(speed);
+        record.setSpeed(speed);
+        playback.setPlaybackSpeed( speed );
+    }
 
     public interface PlaybackTimeListener {
         public void timeChanged();
@@ -298,7 +307,9 @@ public class TimeSeriesModel extends ClockAdapter {
 
     public static interface Listener {
         void dataSeriesChanged();
+
         void modeChanged();
+
         void pauseChanged();
     }
 
