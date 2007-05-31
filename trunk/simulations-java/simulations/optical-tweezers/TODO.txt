@@ -7,6 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - when DNA extension==contourLength, force algorithm has divide-by-zero issue
 - implement Dubson's DNA strand evolution model
+- Dubson's DNA strand evolution model does not accommodate variable fluid velocity, viscosity, temperature
 
 MEDIUM PRIORITY:
 - make DNA tail draggable?
