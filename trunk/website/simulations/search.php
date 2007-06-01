@@ -51,7 +51,11 @@ EOT;
             print "</ul>";        
         }
         
-        print "</div>";
+        print <<<EOT
+            </div>
+            
+            <p><a href="$referrer">back</a></p>
+EOT;
     } 
 
     if (isset($_REQUEST['search_for'])) {

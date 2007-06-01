@@ -7,7 +7,13 @@
         website.
         
         If this script is successfully included, it will define a global
-        variable 'contributor_id', corresponding to the id of the contributor.
+        variable 'contributor_id', corresponding to the id of the contributor,
+        along with all other fields of the contributor, such as: 'contributor_name',
+        'contributor_organization', 'contributor_email', etc.
+        
+        If $g_login_required is false, the user isn't required to login, but 
+        contributor information will be available if cookies have already been 
+        stored by a prior login.
     
     */
     
@@ -55,11 +61,15 @@
     $contributor_authenticated = false;
  
     if (!isset($username) || !isset($password)) {   
+        // Either a username or password was not specified.
+        // Look for cookie variables:
         if (cookie_var_is_stored("username")) {
             $username      = cookie_var_get("username");
             $password_hash = cookie_var_get("password_hash");
 
+            // Don't trust the cookie; validate it:
             if (!contributor_is_valid_login($username, $password_hash)) {
+                // Cookie is invalid. Clear it:
                 cookie_var_clear("username");
                 cookie_var_clear("password_hash");
 
@@ -69,10 +79,13 @@
                     exit;
                 }
             }
-            
-            $contributor_authenticated = true;
+            else {
+                $contributor_authenticated = true;
+            }
         }
-        else {            
+        else {      
+            // No username/password specified, and no cookie variables.
+            // Print the first-time login form:      
             if ($g_login_required) {
                 print_site_page('print_first_time_login_form', 3);
         
@@ -81,7 +94,11 @@
         }
     }
     else {
+        // Both username and password were specified.
         if (contributor_is_contributor($username)) {
+            // The username already exists and denotes a contributor. Check 
+            // the password to make sure it is correct.
+            
             $password_hash = md5($password);
             
             if (!contributor_is_valid_login($username, $password_hash)) {
@@ -101,6 +118,7 @@
             }
         }
         else if (is_email($username)) {
+            // The username does not exist, and is a valid e-mail address.
             if ($password == '') {
                 if ($g_login_required) {
                     print_site_page('print_empty_password_login_form', 3);
@@ -110,9 +128,28 @@
             }
             else {
                 // Create new user account:
-                contributor_add_new_contributor($username, $password);
+                $contributor_id = contributor_add_new_contributor($username, $password);
                 
-                // Store the information in a cookie:
+                // Check for optional fields that may have been passed along:
+                if (isset($_REQUEST['contributor_name'])) {
+                    contributor_update_contributor(
+                        $contributor_id,
+                        array(
+                            'contributor_name' => $_REQUEST['contributor_name']
+                        )
+                    );
+                }
+                
+                if (isset($_REQUEST['contributor_organization'])) {
+                    contributor_update_contributor(
+                        $contributor_id,
+                        array(
+                            'contributor_organization' => $_REQUEST['contributor_organization']
+                        )
+                    );
+                }
+                
+                // Store the information in a cookie so user won't have to re-login:
                 cookie_var_store("username",      $username);
                 cookie_var_store("password_hash", md5($password));
                 
@@ -120,6 +157,7 @@
             }
         }
         else {
+            // The username does not exist, nor is it a valid email address.
             if ($g_login_required) {
                 print_site_page('print_not_an_email_login_form', 3);
 

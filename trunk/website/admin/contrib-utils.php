@@ -1440,6 +1440,21 @@ EOT;
         return contributor_is_valid_login($username, $password_hash);
     }
     
+    function contributor_print_quick_login() {
+        print <<<EOT
+            <div class="field">
+                <span class="label">Name</span>
+                <span class="label_content">                
+                    <input type="text" size="25" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_email_entered();"/>
+                </span>
+            </div>
+        
+            <div id="required_login_info_uid">
+            
+            </div>
+EOT;
+    }
+    
     function contributor_add_new_blank_contributor($is_team_member = false) {
         $team_member_field = $is_team_member ? '1' : '0';
         

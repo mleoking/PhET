@@ -180,7 +180,57 @@ EOT;
                 <script src="$prefix/js/jquery.pack.js"         type="text/javascript"></script>
                 <script src="$prefix/js/jquery.MultiFile.js"    type="text/javascript"></script>
                 <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript"></script>
-                <script src="$prefix/js/http.js"                type="text/javascript"></script>                
+                <script src="$prefix/js/http.js"                type="text/javascript"></script>   
+                
+                <script type="text/javascript">
+                    // AJAX login stuff:
+                    /*<![CDATA[*/
+                    
+                    function on_email_entered() {
+                        var name_element = document.getElementById('contributor_name_uid');
+                        
+                        var name = name_element.value;
+                        
+                        HTTP.updateElementWithGet('$prefix/admin/do-ajax-login.php?contributor_name=' + 
+                            encodeURI(name), null, 'required_login_info_uid');
+                    }
+
+                    function on_remind_me() {
+                        var email_element = document.getElementById('contributor_email_uid');
+
+                        var email = email_element.value;
+                        
+                        var password_element = document.getElementById('ajax_password_comment_uid');
+
+                        HTTP.updateElementWithGet('$prefix/admin/remind-password.php?contributor_email=' + 
+                            encodeURI(email), null, 'ajax_password_comment_uid');
+                    }
+                        
+                    function on_email_change() {
+                        var email_element = document.getElementById('contributor_email_uid');
+
+                        var email = email_element.value;
+
+                        HTTP.updateElementWithGet('$prefix/admin/check-email.php?contributor_email=' + 
+                            encodeURI(email), null, 'ajax_email_comment_uid');
+                    }
+                    
+                    function on_password_change() {
+                        var email_element    = document.getElementById('contributor_email_uid');
+                        var password_element = document.getElementById('contributor_password_uid');
+                        
+                        var email    = email_element.value;
+                        var password = password_element.value;
+
+                        HTTP.updateElementWithGet('$prefix/admin/check-password.php?contributor_email=' + 
+                            encodeURI(email) + '&contributor_password=' + 
+                            encodeURI(password), null, 'ajax_password_comment_uid');
+                    }
+                    
+                    $('#contributor_name_uid').autocomplete('$prefix/admin/get-contributor-names.php');
+                    
+                    /*]]>*/
+                </script>             
             </head>
             
 

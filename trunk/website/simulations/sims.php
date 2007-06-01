@@ -20,55 +20,61 @@
             
         eval(get_code_to_create_variables_from_array($simulation));
         
+        $sim_keywords_xml = convert_comma_list_into_linked_keyword_list($sim_keywords);
+        
         ?>
 
-        <div class="productListHeader">
+        <div>
             <?php
-                print "<h1>$sim_name</h1>"
+                print "$sim_keywords_xml";    
+                print "<h1 class=\"page-title\">$sim_name</h1>";
             ?>
         </div>
 
-        <p>
-            <?php
-                print "<a href=\"../admin/get-upload.php?url=$sim_launch_url\">";
-                print "<img class=\"sim-large\" src=\"../admin/get-upload.php?url=$sim_image_url\"/>";
-                print "</a>";
-                print "$sim_desc";                    
-            ?>
-        </p>
+        <div class="container">
+            <p>
+                <?php
+                    print "<a href=\"../admin/get-upload.php?url=$sim_launch_url\">";
+                    print "<img class=\"sim-large\" src=\"../admin/get-upload.php?url=$sim_image_url\"/>";
+                    print "</a>";
+                    print "$sim_desc";  
+                ?>
+            </p>
 
-        <table id="indi-sim" cellspacing="0" summary="">
-            <tr>
-                <th scope="row" abbr="" class="spec-sim">
-                    <?php
-                        $simrating_image = $SIM_RATING_TO_IMAGE["$sim_rating"];
-                        $simtype_image   = $SIM_TYPE_TO_IMAGE["$sim_type"];
+            <table id="indi-sim" cellspacing="0" summary="">
+                <tr>
+                    <th scope="row" abbr="" class="spec-sim">
+                        <?php
+                            $simrating_image = $SIM_RATING_TO_IMAGE["$sim_rating"];
+                            $simtype_image   = $SIM_TYPE_TO_IMAGE["$sim_type"];
                         
-                        $simrating = "<img src=\"../images/sims/ratings/$simrating_image\" width=\"16\" height=\"16\" />";
-                        $simtype   = "<img src=\"../images/sims/ratings/$simtype_image\"   width=\"32\" height=\"16\" />";
+                            $simrating = "<img src=\"../images/sims/ratings/$simrating_image\" width=\"16\" height=\"16\" />";
+                            $simtype   = "<img src=\"../images/sims/ratings/$simtype_image\"   width=\"32\" height=\"16\" />";
                         
-                        print "$simrating $simtype";
-                    ?>
-                </th>
-            </tr>
-        </table><br />
-        <span class="size">
-            <?php
-                print "???kb";
-            ?>
-        </span><br />
+                            print "$simrating $simtype";
+                        ?>
+                    </th>
+                </tr>
+            </table>
+        
+            <span class="size">
+                <?php
+                    print "???kb";
+                ?>
+            </span>       
+        </div>
 
-        <p class="indisim">
-            <a class="d-arrow" href="#topics"><span class="burg">Topics</span></a> 
+        <div class="shortcuts">
+            <span class="burg"><a href="#topics">Topics</a></span>
             
-            <a class="d-arrow" href="#ideas"><span class="burg">Teaching Ideas</span></a> 
+            <span class="burg"><a href="#ideas">Teaching Ideas</a></span>
             
-            <a class="d-arrow" href="#software"><span class="burg">Software Requirements</span></a> 
+            <span class="burg"><a href="#software">Software Requirements</a></span>
             
-            <a class="d-arrow" href="#versions"><span class="burg">Translated Versions</span></a> 
+            <span class="burg"><a href="#versions">Translated Versions</a></span>
             
-            <a class="d-arrow" href="#credits"><span class="burg">Credits</span></a></p><br />
-        <br />
+            <span class="burg"><a href="#credits">Credits</a></span>
+        </div>
 
         <h1 class="indi-sim" id="topics">Topics</h1>
 
