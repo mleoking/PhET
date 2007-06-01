@@ -77,9 +77,7 @@ public class BeadMotionControlPanel extends JPanel {
         int row = 0;
         int column = 0;
         layout.addComponent( _dtSubdivisionThresholdControl, row++, column );
-        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _numberOfDtSubdivisions, row++, column );
-        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _brownianMotionScaleControl, row++, column );
         
         // Default state

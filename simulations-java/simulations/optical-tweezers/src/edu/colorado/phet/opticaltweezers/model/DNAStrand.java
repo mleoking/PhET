@@ -37,6 +37,10 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     public static final double DOUBLE_STRANDED_PERSISTENCE_LENGTH = 50; // nm
     public static final double SINGLE_STRANDED_PERSISTENCE_LENGTH = 1; // nm
     
+    private static final double DEFAULT_SPRING_CONSTANT = 6;
+    private static final double DEFAULT_DAMPING_CONSTANT = 0.2;
+    private static final double DEFAULT_KICK_CONSTANT = 0.5;
+    
     //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
@@ -57,7 +61,11 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private final int _numberOfSegments; // number of discrete segments used to model the strand
     private Point2D _headPosition; // nm
     private Point2D _tailPosition; // nm
+    
     private List _pivots;
+    private double _springConstant;
+    private double _dampingConstant;
+    private double _kickConstant;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -99,6 +107,10 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         
         _headPosition = new Point2D.Double( _bead.getPositionRef().getX(), _bead.getPositionRef().getY() );
         _tailPosition = new Point2D.Double( tailPosition.getX(), tailPosition.getY() );
+        
+        _springConstant = DEFAULT_SPRING_CONSTANT;
+        _dampingConstant = DEFAULT_DAMPING_CONSTANT;
+        _kickConstant = DEFAULT_KICK_CONSTANT;
         
         initializeStrand();
     }
@@ -166,6 +178,30 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     
     public double getTailY() {
         return _tailPosition.getY();
+    }
+    
+    public void setSpringConstant( double springConstant ) {
+        _springConstant = springConstant;
+    }
+    
+    public double getSpringConstant() {
+        return _springConstant;
+    }
+    
+    public void setDampingConstant( double dampingConstant ) {
+        _dampingConstant = dampingConstant;
+    }
+    
+    public double getDampingConstant() {
+        return _dampingConstant;
+    }
+    
+    public void setKickConstant( double kickConstant ) {
+        _kickConstant = kickConstant;
+    }
+    
+    public double getKickConstant() {
+        return _kickConstant;
     }
     
     //----------------------------------------------------------------------------

@@ -26,13 +26,13 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     private PhysicsCanvas _canvas;
     
-    private DeveloperControlPanel _developerControlPanel;
     private ClockStepControlPanel _clockStepControlPanel;
     private LaserDisplayControlPanel _laserDisplayControlPanel;
     private BeadChargeControlPanel _beadChargeControlPanel;
     private ForcesControlPanel _forcesControlPanel;
     private ChartsControlPanel _chartsControlPanel;
     private AdvancedControlPanel _advancedControlPanel;
+    private DeveloperControlPanel _developerControlPanel;
     
     private JCheckBox _rulerCheckBox;
 
@@ -56,7 +56,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Sub-panels
         PhysicsModel model = module.getPhysicsModel();
-        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getBead(), null /* dnaStrand */ );
         _clockStepControlPanel = new ClockStepControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
         _laserDisplayControlPanel = new LaserDisplayControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getLaserNode() );
         _beadChargeControlPanel = new BeadChargeControlPanel( TITLE_FONT, CONTROL_FONT );
@@ -64,6 +63,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
                 _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getBrownianForceNode(), null /* dnaForceNode */ );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getPositionHistogramChartNode(), _canvas.getPotentialEnergyChartNode() );
         _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getFluid() );
+        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getBead(), null /* dnaStrand */ );
         
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
         _rulerCheckBox.setFont( CONTROL_FONT );
@@ -75,10 +75,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Layout
         {
-            if ( System.getProperty( OTConstants.PROPERTY_PHET_DEVELOPER ) != null ) {
-                addControlFullWidth( _developerControlPanel );
-                addSeparator();
-            }
             addControlFullWidth( _clockStepControlPanel );
             addSeparator();
             addControlFullWidth( _laserDisplayControlPanel );
@@ -93,6 +89,10 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             addSeparator();
             addControlFullWidth( _advancedControlPanel );
             addSeparator();
+            if ( System.getProperty( OTConstants.PROPERTY_PHET_DEVELOPER ) != null ) {
+                addControlFullWidth( _developerControlPanel );
+                addSeparator();
+            }
             addResetButton();
         }
         
