@@ -53,11 +53,11 @@ public class ClockControlPanel extends JPanel implements ClockListener {
     private IClock clock;
     private JPanel buttonPanel;
     
-    ImageIcon playIcon;
-    ImageIcon pauseIcon;
+    private ImageIcon playIcon;
+    private ImageIcon pauseIcon;
     
-    String playString;
-    String pauseString;
+    private String playString;
+    private String pauseString;
 
     public ClockControlPanel( final IClock clock ) {
         
