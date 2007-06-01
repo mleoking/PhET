@@ -6,11 +6,11 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - limit DNA extension to N% of contour length (start with 95%)
-- implement Dubson's DNA strand evolution model
-- modify strand evolution model to accommodate variable fluid velocity, viscosity, temperature?
-- draw DNA strand after N evolutions
+- implement DNA strand initialization and evolution
+- modify strand evolution to accommodate variable fluid properties?
 
 MEDIUM PRIORITY:
+- position histogram requires more precision (1 or 2nm) for x-axis and ruler
 - get model for Brownian force, or delete "Show Brownian force" feature
 - ruler is slightly off-center in all panels
 - change lens view, make it an on-edge view
