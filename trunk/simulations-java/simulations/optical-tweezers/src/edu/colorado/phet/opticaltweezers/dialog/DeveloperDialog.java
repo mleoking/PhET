@@ -26,12 +26,12 @@ import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 
 /**
- * Developer controls for PhysicsModule.
+ * Developer controls.
  * These controls will not be available to the user, and are not localized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PhysicsDeveloperDialog extends JDialog {
+public class DeveloperDialog extends JDialog {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -43,7 +43,7 @@ public class PhysicsDeveloperDialog extends JDialog {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PhysicsModule _module;
+    private Bead _bead;
 
     private LogarithmicValueControl _dtSubdivisionThresholdControl;
     private LinearValueControl _numberOfDtSubdivisions;
@@ -53,11 +53,11 @@ public class PhysicsDeveloperDialog extends JDialog {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PhysicsDeveloperDialog( Frame owner, PhysicsModule module ) {
+    public DeveloperDialog( Frame owner, Bead bead ) {
         super( owner );
         setTitle( "Developer Controls");
         
-        _module = module;
+        _bead = bead;
         
         JPanel inputPanel = createInputPanel();
         
@@ -75,8 +75,6 @@ public class PhysicsDeveloperDialog extends JDialog {
         
         JPanel beadMotionPanel = new JPanel();
         {
-            Bead bead = _module.getPhysicsModel().getBead();
-            
             TitledBorder titledBorder = new TitledBorder( "Bead motion algorithm" );
             titledBorder.setTitleFont( TITLE_FONT );
             beadMotionPanel.setBorder( titledBorder );
@@ -84,15 +82,15 @@ public class PhysicsDeveloperDialog extends JDialog {
             double dtMin = PhysicsDefaults.CLOCK_DT_RANGE.getMax() * 1E-2;
             double dtMax = PhysicsDefaults.CLOCK_DT_RANGE.getMax();
             _dtSubdivisionThresholdControl = new LogarithmicValueControl( dtMin, dtMax, "dt subdivision threshold:", "0.0E0", "" );
-            _dtSubdivisionThresholdControl.setValue( bead.getDtSubdivisionThreshold() );
+            _dtSubdivisionThresholdControl.setValue( _bead.getDtSubdivisionThreshold() );
             _dtSubdivisionThresholdControl.setTextFieldColumns( 4 );
             
             _numberOfDtSubdivisions = new LinearValueControl( 1, 1000, "number of dt subdivisions:", "###0", "" );
-            _numberOfDtSubdivisions.setValue( bead.getNumberOfDtSubdivisions() );
+            _numberOfDtSubdivisions.setValue( _bead.getNumberOfDtSubdivisions() );
             _numberOfDtSubdivisions.setUpDownArrowDelta( 1 );
             
             _brownianMotionScaleControl = new LinearValueControl( 0, 5, "Brownian motion scale:", "0.00", "" );
-            _brownianMotionScaleControl.setValue( bead.getBrownianMotionScale() );
+            _brownianMotionScaleControl.setValue( _bead.getBrownianMotionScale() );
             _brownianMotionScaleControl.setUpDownArrowDelta( 0.01 );
             
             EasyGridBagLayout layout = new EasyGridBagLayout( beadMotionPanel );
@@ -155,19 +153,16 @@ public class PhysicsDeveloperDialog extends JDialog {
     
     private void handleBrownianMotionScaleControl() {
         double value = _brownianMotionScaleControl.getValue();
-        Bead bead = _module.getPhysicsModel().getBead();
-        bead.setBrownianMotionScale( value );
+        _bead.setBrownianMotionScale( value );
     }
     
     private void handleDtDubdivisionThresholdControl() {
         double value = _dtSubdivisionThresholdControl.getValue();
-        Bead bead = _module.getPhysicsModel().getBead();
-        bead.setDtSubdivisionThreshold( value );
+        _bead.setDtSubdivisionThreshold( value );
     }
     
     private void handleNumberOfDtDubdivisionsControl() {
         int value = (int)_numberOfDtSubdivisions.getValue();
-        Bead bead = _module.getPhysicsModel().getBead();
-        bead.setNumberOfDtSubdivisions( value );
+        _bead.setNumberOfDtSubdivisions( value );
     }
 }
