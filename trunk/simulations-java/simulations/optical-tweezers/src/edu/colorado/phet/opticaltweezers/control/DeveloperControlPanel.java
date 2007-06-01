@@ -19,7 +19,12 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.dialog.DeveloperDialog;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 
-
+/**
+ * DeveloperControlPanel contains developer controls.
+ * This panel is for developers only, and it not localized.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class DeveloperControlPanel extends JPanel {
 
     private Frame _parentFrame;
