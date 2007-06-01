@@ -2,25 +2,21 @@
 package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.persistence.Point2DPersistenceDelegate;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.timeseries.ui.TimeSeriesPlaybackPanel;
 import edu.colorado.phet.energyskatepark.model.*;
 import edu.colorado.phet.energyskatepark.plots.BarGraphCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlotCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyVsTimePlot;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkModuleBean;
-import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
-import edu.colorado.phet.energyskatepark.view.WiggleMeInSpace;
+import edu.colorado.phet.energyskatepark.view.*;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.FileOpenService;
@@ -49,7 +45,6 @@ public class EnergySkateParkModule extends PiccoloModule {
     private EnergyLookAndFeel energyLookAndFeel = new EnergyLookAndFeel();
     private JDialog barChartFrame;
     private double floorY = 0.0;
-    private TimeSeriesPlaybackPanel timeSeriesPlaybackPanel;
     private EnergySkateParkRecordableModel energyTimeSeriesModel;
 
     private JDialog energyPositionPlotFrame;
@@ -73,7 +68,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     private EnergyVsTimePlot energyVsTimePlot;
     private EnergySkateParkOptions options;
 
-    public EnergySkateParkModule( String name, IClock clock, PhetFrame phetFrame, EnergySkateParkOptions options ) {
+    public EnergySkateParkModule( String name, Clock clock, PhetFrame phetFrame, EnergySkateParkOptions options ) {
         super( name, clock );
         this.options = options;
         this.phetFrame = phetFrame;
@@ -112,14 +107,14 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyVsTimePlot = new EnergyVsTimePlot( phetFrame, clock, energyModel, timeSeriesModel );
 
         init();
-        timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( timeSeriesModel );
-        timeSeriesPlaybackPanel.removeLiveButton();
         energyPositionPlotFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "plots.energy-vs-position" ), false );
         energyPositionCanvas = new EnergyPositionPlotCanvas( this );
         energyPositionPlotFrame.setContentPane( energyPositionCanvas );
         energyPositionPlotFrame.setSize( 400, 400 );
 
-        getModulePanel().setClockControlPanel( timeSeriesPlaybackPanel );
+        EnergySkateParkClockControlPanel energySkateParkClockControlPanel = new EnergySkateParkClockControlPanel( clock );
+        getModulePanel().setClockControlPanel( energySkateParkClockControlPanel );
+
         setDefaults();
         setLogoPanelVisible( Toolkit.getDefaultToolkit().getScreenSize().height > 768 );
         new WiggleMeInSpace( this ).start();
