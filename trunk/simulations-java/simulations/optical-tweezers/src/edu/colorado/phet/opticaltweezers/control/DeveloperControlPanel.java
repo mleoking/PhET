@@ -49,7 +49,7 @@ public class DeveloperControlPanel extends JPanel {
         _panel.add( beadMotionPanel );
         
         if ( dnaStrand != null ) {
-            JPanel dnaStrandPanel = new DNAStrandPanel( titleFont, controlFont, dnaStrand );
+            JPanel dnaStrandPanel = new DNAStrandControlPanel( titleFont, controlFont, dnaStrand );
             _panel.add( dnaStrandPanel );
         }
         
