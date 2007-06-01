@@ -10,7 +10,7 @@ HIGH PRIORITY:
 - modify strand evolution to accommodate variable fluid properties?
 
 MEDIUM PRIORITY:
-- position histogram requires more precision (1 or 2nm) for x-axis and ruler
+- position histogram requires more precision on x-axis and ruler
 - get model for Brownian force, or delete "Show Brownian force" feature
 - ruler is slightly off-center in all panels
 - change lens view, make it an on-edge view
