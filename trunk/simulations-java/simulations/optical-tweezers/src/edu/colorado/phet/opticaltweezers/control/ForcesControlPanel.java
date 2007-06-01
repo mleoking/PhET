@@ -166,6 +166,7 @@ public class ForcesControlPanel extends JPanel {
         _horizontalTrapForceLabel.setForeground( Color.RED );
         _wholeBeadRadioButton.setForeground( Color.RED );
         _halfBeadRadioButton.setForeground( Color.RED );
+        _brownianForceCheckBox.setForeground( Color.RED );
     }
     
     //----------------------------------------------------------------------------
