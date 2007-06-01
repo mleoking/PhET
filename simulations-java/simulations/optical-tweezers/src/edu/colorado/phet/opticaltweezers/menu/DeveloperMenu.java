@@ -14,7 +14,7 @@ import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.dialog.PhysicsDeveloperDialog;
+import edu.colorado.phet.opticaltweezers.dialog.DeveloperDialog;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.

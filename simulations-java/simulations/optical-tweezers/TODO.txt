@@ -60,6 +60,8 @@ MISSING INFO:
 
  
 DONE:
+6/1/07 - add developer controls to DNA panel
+6/1/07 - refactor developer control panel into its own class
 6/1/07 - disable "Show Brownian force" feature, don't have a model for this yet
 6/1/07 - fix terminology in bead model, we are computing Brownian displacement, not force
 ********* version 0.00.08 (15481)

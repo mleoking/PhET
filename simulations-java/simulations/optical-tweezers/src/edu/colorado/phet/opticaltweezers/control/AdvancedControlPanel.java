@@ -48,11 +48,11 @@ public class AdvancedControlPanel extends JPanel {
      * @param fluid
      * @param parentFrame
      */
-    public AdvancedControlPanel( Font titleFont, Font controlFont, Fluid fluid, Frame parentFrame ) {
+    public AdvancedControlPanel( Font titleFont, Font controlFont, Frame parentFrame, Fluid fluid ) {
         super();
         
-        _fluid = fluid;
         _parentFrame = parentFrame;
+        _fluid = fluid;
         _fluidControlDialog = null;
         
         _advancedButton = new JButton( OTResources.getString( "label.showAdvanced" ) );

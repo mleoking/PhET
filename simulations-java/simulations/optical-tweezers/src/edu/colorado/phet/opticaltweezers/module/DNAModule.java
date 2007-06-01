@@ -57,14 +57,14 @@ public class DNAModule extends AbstractModule {
     }
     
     //----------------------------------------------------------------------------
-    // Mutators and accessors
+    // Setters and getters
     //----------------------------------------------------------------------------
     
-    public DNAModel getPhysicsModel() {
+    public DNAModel getDNAModel() {
         return _model;
     }
     
-    public DNACanvas getPhysicsCanvas() {
+    public DNACanvas getDNACanvas() {
         return _canvas;
     }
     
