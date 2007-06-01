@@ -13,7 +13,7 @@ public class TestClockControlPanel {
     private JFrame frame = new JFrame( getClass().getName().substring( getClass().getName().lastIndexOf( '.' ) + 1 ) );
 
     public TestClockControlPanel() {
-        JPanel contentPane = new EnergySkateParkClockControlPanel( new SwingClock( 30, 1.0 ) );
+        JPanel contentPane = new EnergySkateParkTimePanel( new SwingClock( 30, 1.0 ) );
 
         frame.setContentPane( contentPane );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
