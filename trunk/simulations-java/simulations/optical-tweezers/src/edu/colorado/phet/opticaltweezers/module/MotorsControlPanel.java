@@ -1,9 +1,8 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.control;
+package edu.colorado.phet.opticaltweezers.module;
 
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 
 /**
  * MotorsControlPanel is the control panel for MotorsModule.

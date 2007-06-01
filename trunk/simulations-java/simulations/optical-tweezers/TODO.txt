@@ -61,6 +61,7 @@ MISSING INFO:
 
  
 DONE:
+6/1/07 - reorganize package structure
 6/1/07 - add DNAStrand.numberOfEvolutionsPerClockTick
 6/1/07 - add dev controls for DNA strand model
 6/1/07 - move developer controls into module's control panel, so it's clear they are module specific

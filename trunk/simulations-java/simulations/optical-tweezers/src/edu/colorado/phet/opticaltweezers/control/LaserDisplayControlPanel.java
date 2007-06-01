@@ -13,7 +13,7 @@ import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.view.node.LaserNode;
+import edu.colorado.phet.opticaltweezers.view.LaserNode;
 
 /**
  * LaserDisplayControlPanel controls the display of the laser's beam.
