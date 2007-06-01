@@ -53,7 +53,7 @@ public class DNAControlPanel extends AbstractControlPanel {
         
         // Sub-panels
         DNAModel model = module.getDNAModel();
-        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getBead() );
+        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getBead(), model.getDNAStrand() );
         _clockStepControlPanel = new ClockStepControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
                 _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getBrownianForceNode(), _canvas.getDNAForceNode() );

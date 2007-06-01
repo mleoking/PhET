@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.model.Bead;
+import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 
 /**
  * DeveloperControlPanel contains developer controls.
@@ -31,7 +32,7 @@ public class DeveloperControlPanel extends JPanel {
     private JButton _showHideButton;
     private Box _panel;
     
-    public DeveloperControlPanel( Font titleFont, Font controlFont, Frame parentFrame, Bead bead ) {
+    public DeveloperControlPanel( Font titleFont, Font controlFont, Frame parentFrame, Bead bead, DNAStrand dnaStrand ) {
         super();
         
         _showHideButton = new JButton();
@@ -42,10 +43,15 @@ public class DeveloperControlPanel extends JPanel {
             }
         } );
         
-        JPanel beadMotionPanel = new BeadMotionControlPanel( titleFont, controlFont, bead );
-        
         _panel = new Box( BoxLayout.Y_AXIS );
+        
+        JPanel beadMotionPanel = new BeadMotionControlPanel( titleFont, controlFont, bead );
         _panel.add( beadMotionPanel );
+        
+        if ( dnaStrand != null ) {
+            JPanel dnaStrandPanel = new DNAStrandPanel( titleFont, controlFont, dnaStrand );
+            _panel.add( dnaStrandPanel );
+        }
         
         // Layout
         JPanel innerPanel = new JPanel();
