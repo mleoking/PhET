@@ -4,26 +4,19 @@ package edu.colorado.phet.opticaltweezers.dialog;
 
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
+import edu.colorado.phet.opticaltweezers.control.BeadMotionControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Bead;
-import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 
 /**
  * Developer controls.
@@ -38,17 +31,8 @@ public class DeveloperDialog extends JDialog {
     //----------------------------------------------------------------------------
     
     private static final Font TITLE_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
+    private static final Font CONTROL_FONT = new JLabel().getFont();
     
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private Bead _bead;
-
-    private LogarithmicValueControl _dtSubdivisionThresholdControl;
-    private LinearValueControl _numberOfDtSubdivisions;
-    private LinearValueControl _brownianMotionScaleControl;
-   
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -57,9 +41,7 @@ public class DeveloperDialog extends JDialog {
         super( owner );
         setTitle( "Developer Controls");
         
-        _bead = bead;
-        
-        JPanel inputPanel = createInputPanel();
+        JPanel inputPanel = createInputPanel( bead );
         
         VerticalLayoutPanel panel = new VerticalLayoutPanel();
         panel.setFillHorizontal();
@@ -71,39 +53,9 @@ public class DeveloperDialog extends JDialog {
         SwingUtils.centerDialogInParent( this );
     }
     
-    private JPanel createInputPanel() {
+    private JPanel createInputPanel( Bead bead ) {
         
-        JPanel beadMotionPanel = new JPanel();
-        {
-            TitledBorder titledBorder = new TitledBorder( "Bead motion algorithm" );
-            titledBorder.setTitleFont( TITLE_FONT );
-            beadMotionPanel.setBorder( titledBorder );
-            
-            double dtMin = PhysicsDefaults.CLOCK_DT_RANGE.getMax() * 1E-2;
-            double dtMax = PhysicsDefaults.CLOCK_DT_RANGE.getMax();
-            _dtSubdivisionThresholdControl = new LogarithmicValueControl( dtMin, dtMax, "dt subdivision threshold:", "0.0E0", "" );
-            _dtSubdivisionThresholdControl.setValue( _bead.getDtSubdivisionThreshold() );
-            _dtSubdivisionThresholdControl.setTextFieldColumns( 4 );
-            
-            _numberOfDtSubdivisions = new LinearValueControl( 1, 1000, "number of dt subdivisions:", "###0", "" );
-            _numberOfDtSubdivisions.setValue( _bead.getNumberOfDtSubdivisions() );
-            _numberOfDtSubdivisions.setUpDownArrowDelta( 1 );
-            
-            _brownianMotionScaleControl = new LinearValueControl( 0, 5, "Brownian motion scale:", "0.00", "" );
-            _brownianMotionScaleControl.setValue( _bead.getBrownianMotionScale() );
-            _brownianMotionScaleControl.setUpDownArrowDelta( 0.01 );
-            
-            EasyGridBagLayout layout = new EasyGridBagLayout( beadMotionPanel );
-            layout.setInsets( new Insets( 0, 0, 0, 0 ) );
-            beadMotionPanel.setLayout( layout );
-            int row = 0;
-            int column = 0;
-            layout.addComponent( _dtSubdivisionThresholdControl, row++, column );
-            layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
-            layout.addComponent( _numberOfDtSubdivisions, row++, column );
-            layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
-            layout.addComponent( _brownianMotionScaleControl, row++, column );
-        }
+        JPanel beadMotionPanel = new BeadMotionControlPanel( TITLE_FONT, CONTROL_FONT, bead );
         
         // Layout
         JPanel panel = new JPanel();
@@ -113,56 +65,8 @@ public class DeveloperDialog extends JDialog {
         panel.setLayout( layout );
         int row = 0;
         int column = 0;
-        {
-           layout.addComponent( beadMotionPanel, row++, column );
-        }
-        
-        // Event handling
-        EventListener listener = new EventListener();
-        _brownianMotionScaleControl.addChangeListener( listener );
-        _dtSubdivisionThresholdControl.addChangeListener( listener );
-        _numberOfDtSubdivisions.addChangeListener( listener );
+        layout.addComponent( beadMotionPanel, row++, column );
         
         return panel;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Event handling
-    //----------------------------------------------------------------------------
-    
-    private class EventListener implements ChangeListener {
-        
-        public EventListener() {}
-
-        public void stateChanged( ChangeEvent event ) {
-            Object source = event.getSource();
-            if ( source == _brownianMotionScaleControl ) {
-                handleBrownianMotionScaleControl();
-            }
-            else if ( source == _dtSubdivisionThresholdControl ) {
-                handleDtDubdivisionThresholdControl();
-            }
-            else if ( source == _numberOfDtSubdivisions ) {
-                handleNumberOfDtDubdivisionsControl();
-            }
-            else {
-                throw new UnsupportedOperationException( "unsupported ChangeEvent source: " + source );
-            }
-        }
-    }
-    
-    private void handleBrownianMotionScaleControl() {
-        double value = _brownianMotionScaleControl.getValue();
-        _bead.setBrownianMotionScale( value );
-    }
-    
-    private void handleDtDubdivisionThresholdControl() {
-        double value = _dtSubdivisionThresholdControl.getValue();
-        _bead.setDtSubdivisionThreshold( value );
-    }
-    
-    private void handleNumberOfDtDubdivisionsControl() {
-        int value = (int)_numberOfDtSubdivisions.getValue();
-        _bead.setNumberOfDtSubdivisions( value );
     }
 }

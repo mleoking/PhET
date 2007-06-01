@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add dev controls to DNA panel
 - limit DNA extension to N% of contour length (start with 95%)
 - implement Dubson's DNA strand evolution model
 - modify strand evolution model to accommodate variable fluid velocity, viscosity, temperature?
@@ -60,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+6/1/07 - refactor developer control for bead motion model into BeadMotionControlPanel
 6/1/07 - add developer controls to DNA panel
 6/1/07 - refactor developer control panel into its own class
 6/1/07 - disable "Show Brownian force" feature, don't have a model for this yet
