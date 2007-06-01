@@ -1,43 +1,36 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.view.node;
+package edu.colorado.phet.opticaltweezers.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Stroke;
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
-import edu.colorado.phet.opticaltweezers.model.Fluid;
-import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * TrapForceNode displays the optical trap force acting on a bead.
+ * DNAForceNode displays the force exerted on the bead by a DNA strand.
+ * The bead is attached to the head of the DNA strand.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TrapForceNode extends AbstractForceNode implements Observer {
+public class DNAForceNode extends AbstractForceNode implements Observer {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
     private static final String UNITS = OTResources.getString( "units.force" );
-    private static final Color COLOR = Color.RED;
+    private static final Color COLOR = Color.GREEN;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Laser _laser;
     private Bead _bead;
     private ModelViewTransform _modelViewTransform;
     
@@ -45,11 +38,8 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public TrapForceNode( Laser laser, Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
+    public DNAForceNode( Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
         super( modelReferenceMagnitude, viewReferenceLength, UNITS, COLOR );
-        
-        _laser = laser;
-        _laser.addObserver( this );
         
         _bead = bead;
         _bead.addObserver( this );
@@ -61,7 +51,6 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     }
     
     public void cleanup() {
-        _laser.deleteObserver( this );
         _bead.deleteObserver( this );
     }
     
@@ -70,10 +59,7 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _laser ) {
-            updateVectors();
-        }
-        else if ( o == _bead ) {
+        if ( o == _bead ) {
             updatePosition();
             updateVectors();
         }
@@ -90,8 +76,8 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     
     private void updateVectors() {
         // calcuate the trap force at the bead's position
-        Vector2D trapForce = _bead.getTrapForce();
+        Vector2D dnaForce = _bead.getDNAForce();
         // update the vector
-        setForce( trapForce );
+        setForce( dnaForce );
     }
 }

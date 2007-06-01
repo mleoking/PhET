@@ -4,11 +4,9 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.control.DNAControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
-import edu.colorado.phet.opticaltweezers.view.DNACanvas;
 
 /**
  * DNAModule is the "Fun with DNA" module.

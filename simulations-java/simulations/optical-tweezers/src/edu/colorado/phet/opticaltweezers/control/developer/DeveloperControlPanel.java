@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.control;
+package edu.colorado.phet.opticaltweezers.control.developer;
 
 import java.awt.BorderLayout;
 import java.awt.Font;

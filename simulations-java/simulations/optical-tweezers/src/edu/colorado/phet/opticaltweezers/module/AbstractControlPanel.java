@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.control;
+package edu.colorado.phet.opticaltweezers.module;
 
 import java.awt.Font;
 import java.awt.Frame;
@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 import edu.colorado.phet.opticaltweezers.util.CursorUtils;
 
 

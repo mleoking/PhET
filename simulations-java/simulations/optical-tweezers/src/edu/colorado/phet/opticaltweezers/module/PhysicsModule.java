@@ -4,11 +4,9 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.control.PhysicsControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
-import edu.colorado.phet.opticaltweezers.view.PhysicsCanvas;
 
 /**
  * PhysicsModule is the "Physics of Tweezers" module.

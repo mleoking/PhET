@@ -1,7 +1,8 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.view;
+package edu.colorado.phet.opticaltweezers.module;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,23 +19,26 @@ import javax.swing.JButton;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.charts.PositionHistogramChartNode;
+import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.*;
-import edu.colorado.phet.opticaltweezers.view.node.*;
+import edu.colorado.phet.opticaltweezers.view.*;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * DNACanvas is the canvas for DNAModule.
+ * PhysicsCanvas is the canvas for PhysicsModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DNACanvas extends PhetPCanvas {
+public class PhysicsCanvas extends PhetPCanvas {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -47,22 +51,22 @@ public class DNACanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    private DNAModel _model;
+    private PhysicsModel _model;
     
     // View
     private PNode _rootNode;
     private FluidNode _fluidNode;
     private LaserNode _laserNode;
-    private DNAStrandNode _dnaStrandNode;
     private BeadNode _beadNode;
     private PPath _beadDragBoundsNode;
     private PPath _laserDragBoundsNode;
     private OTRulerNode _rulerNode;
     private PPath _rulerDragBoundsNode;
+    private PositionHistogramChartNode _positionHistogramChartNode;
+    private PotentialEnergyChartNode _potentialEnergyChartNode;
     private TrapForceNode _trapForceNode;
     private DragForceNode _dragForceNode;
     private BrownianForceNode _brownianForceNode;
-    private DNAForceNode _dnaForceNode;
     
     // Control
     private PSwing _returnBeadButtonWrapper;
@@ -75,14 +79,14 @@ public class DNACanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DNACanvas( DNAModel model ) {
-        super( DNADefaults.VIEW_SIZE );
+    public PhysicsCanvas( PhysicsModel model ) {
+        super( PhysicsDefaults.VIEW_SIZE );
         
         _model = model;
         
+        OTClock clock = model.getClock();
         Fluid fluid = model.getFluid();
         Laser laser = model.getLaser();
-        DNAStrand dnaStrand = model.getDNAStrand();
         Bead bead = model.getBead();
         ModelViewTransform modelViewTransform = model.getModelViewTransform();
         
@@ -92,7 +96,7 @@ public class DNACanvas extends PhetPCanvas {
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 // update the layout
-                updateCanvasLayout();
+                updateLayout();
                 // make the "Return Bead" button visible if the bead is not visible
                 updateReturnBeadButtonVisibility();
             }
@@ -109,9 +113,6 @@ public class DNACanvas extends PhetPCanvas {
         _laserDragBoundsNode = new PPath();
         _laserDragBoundsNode.setStroke( null );
         _laserNode = new LaserNode( laser, modelViewTransform, _laserDragBoundsNode );
-        
-        // DNA Strand
-        _dnaStrandNode = new DNAStrandNode( dnaStrand, modelViewTransform );
         
         // Bead
         _beadDragBoundsNode = new PPath();
@@ -132,14 +133,19 @@ public class DNACanvas extends PhetPCanvas {
             _trapForceNode = new TrapForceNode( laser, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
             _dragForceNode = new DragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
             _brownianForceNode = new BrownianForceNode( bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
-            _dnaForceNode = new DNAForceNode( bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
         }
         
         // Ruler
         _rulerDragBoundsNode = new PPath();
         _rulerDragBoundsNode.setStroke( null );
-        _rulerNode = new OTRulerNode( DNADefaults.RULER_MAJOR_TICK_INTERVAL, DNADefaults.RULER_MINOR_TICKS_BETWEEN_MAJORS,
+        _rulerNode = new OTRulerNode( PhysicsDefaults.RULER_MAJOR_TICK_INTERVAL, PhysicsDefaults.RULER_MINOR_TICKS_BETWEEN_MAJORS,
                 laser, model.getModelViewTransform(), _rulerDragBoundsNode );
+        
+        // Position Histogram chart
+        _positionHistogramChartNode = new PositionHistogramChartNode( clock, bead, modelViewTransform, PhysicsDefaults.POSITION_HISTOGRAM_BIN_WIDTH );
+        
+        // Potential Energy chart
+        _potentialEnergyChartNode = new PotentialEnergyChartNode( bead, laser, modelViewTransform, PhysicsDefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH );
         
         // "Return Bead" button
         JButton returnBeadButton = new JButton( OTResources.getString( "button.returnBead" ) );
@@ -157,13 +163,13 @@ public class DNACanvas extends PhetPCanvas {
         _rootNode.addChild( _fluidNode );
         _rootNode.addChild( _laserNode );
         _rootNode.addChild( _laserDragBoundsNode );
-        _rootNode.addChild( _dnaStrandNode );
         _rootNode.addChild( _beadNode );
         _rootNode.addChild( _beadDragBoundsNode );
         _rootNode.addChild( _trapForceNode );
         _rootNode.addChild( _dragForceNode );
         _rootNode.addChild( _brownianForceNode );
-        _rootNode.addChild( _dnaForceNode );
+        _rootNode.addChild( _positionHistogramChartNode );
+        _rootNode.addChild( _potentialEnergyChartNode );
         _rootNode.addChild( _rulerNode );
         _rootNode.addChild( _rulerDragBoundsNode );
         _rootNode.addChild( _returnBeadButtonWrapper );
@@ -189,6 +195,14 @@ public class DNACanvas extends PhetPCanvas {
         return _laserNode;
     }
     
+    public PositionHistogramChartNode getPositionHistogramChartNode() {
+        return _positionHistogramChartNode;
+    }
+    
+    public PotentialEnergyChartNode getPotentialEnergyChartNode() {
+        return _potentialEnergyChartNode;
+    }
+    
     public PSwing getReturnBeadButtonWrapper() {
         return _returnBeadButtonWrapper;
     }
@@ -208,10 +222,6 @@ public class DNACanvas extends PhetPCanvas {
     public BrownianForceNode getBrownianForceNode() {
         return _brownianForceNode;
     }
-    
-    public DNAForceNode getDNAForceNode() {
-        return _dnaForceNode;
-    }
 
     //----------------------------------------------------------------------------
     // Canvas layout
@@ -220,7 +230,7 @@ public class DNACanvas extends PhetPCanvas {
     /*
      * Updates the layout of stuff on the canvas.
      */
-    public void updateCanvasLayout() {
+    public void updateLayout() {
 
         double x = 0;
         double y = 0;
@@ -238,6 +248,8 @@ public class DNACanvas extends PhetPCanvas {
         {
             _fluidNode.setWorldSize( worldSize );
             _rulerNode.setWorldSize( worldSize );
+            _positionHistogramChartNode.setChartSize( worldSize.getWidth(), PositionHistogramChartNode.DEFAULT_HEIGHT );
+            _potentialEnergyChartNode.setChartSize( worldSize.getWidth(), PotentialEnergyChartNode.DEFAULT_HEIGHT );
         }
 
         // Adjust drag bounds of bead, so it stays in the fluid

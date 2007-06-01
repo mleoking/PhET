@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.view.node;
+package edu.colorado.phet.opticaltweezers.view;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
