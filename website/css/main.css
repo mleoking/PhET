@@ -1,32 +1,27 @@
 body {
 	background-color:#fff;
 	font-family:"arial",Verdana,Arial,Helvetica,sans-serif;
-	;
 	font-size:12px;
 	margin:0;
 	padding: 0;
 }
 /******** defaults ********/
 h1,h2,h3,h4,h5,h6, {
-	font-size:14px;
-	margin:0;
-	padding:0;
+	font-size:	14px;
+	margin:		0;
+	padding:	0;
 }
 h1 {
-	color:#c60;
-	font-size:18px;
-	text-indent:-20px;
-	padding-bottom:16px;
-}
-h1.page-title {
-	color:#333;
-	font-size:16px;
-	text-indent:30px;
-	padding-bottom:20px;
+	color:			#c60;
+	font-size:		18px;	
+	position: 		relative;
+	left:			-20px;
 }
 h2 {
-	color:#15337f;
-	font-size:16px;
+	color:		#15337f;
+	font-size:	16px;
+	position: 	relative;
+	left:		-10px;
 }
 p {
 	line-height:19px;
@@ -53,7 +48,7 @@ hr {
 #browseresults, #browseresults table {
 	border:  0 0 0 0;
 	margin:  0 0 0 0;
-	padding: 0 0 0 0;
+	padding: 0 10px 0 10px;
 	width:	 100%;
 }
 #browseresults table tbody td {
@@ -122,9 +117,7 @@ hr {
 #nationalstandards table thead tr:first-child td:first-child {
 	border-right: 	none;	
 }
-table td.smartClient,table th.smartClient {
-	background-color: #ddedf6;
-}
+
 
 span.validation-success {
 	font-size:  9pt;
@@ -214,45 +207,45 @@ span.validation-failure {
     font-weight:bold;
 }
 
-#contributionview div.field {
+div.field {
 	clear:  right;
-	width:  100%;	
+	width:  100%;
 	margin: 0 0 0 0;
 	border: 0 0 0 0;
 	padding: 5px 0 5px 0;
 }
-#contributionview div.field .label {
+div.field .label {
 	float: 			left;
 	width: 			25%;
     font-weight:	bold;	
 }
-#contributionview div.field .label_content, #contributionview div.field .right_label_content {
+div.field .label_content, div.field .right_label_content {
 	float: right;
 	width: 75%;
 }
-#contributionview div.field .left_label_content {
+div.field .left_label_content {
 	float: none;
 	width: 37%;
 }
-#contributionview div.field .right_label {
+div.field .right_label {
 	float: 			none;
     font-weight:	bold;	
 	margin-left:	5em;
 }
-#contributionview div.field .right_label_content {
+div.field .right_label_content {
 	float: none;
 	width: 38%;
 	margin-left: 3em;
 }
-#contributionview div.comments {
+div.comments {
 	margin-top: 10px;
 }
 
 #browsefilter {
-	width: 100%;
-	margin: auto;
+	width: 		100%;
+	margin: 	auto;
     padding:	0px 0px 25px 0px;	
-	border: 0 0 0 0;
+	border: 	0 0 0 0;
 }
 #browsefilter table, thead, tbody {
 	border-style: none;
@@ -385,8 +378,8 @@ div .separator {
 }
 #headerContainer div.globalNav ul {
 	background:url(../images/globalNavRight_BG.gif) right bottom no-repeat;
-	margin:0;
-	padding:3px 18px 5px 0;
+	margin:		0;
+	padding:	3px 18px 5px 0;
 }
 #headerContainer div.globalNav ul li {
 	display:inline;
@@ -430,22 +423,6 @@ p.footer a:hover {
 	text-decoration:underline;
 	font-weight:bold;
 }
-body#newsOverview div#content,body#ux div#content,body#smartClients div#content {
-	width: 488px;
-}
-/******** =icons ********/
-.application {
-	background:url(../images/application_Icon.gif) left top no-repeat;
-	padding-left:22px;
-}
-.enterprise {
-	background:url(../images/enterprise_Icon.gif) left top no-repeat;
-	padding-left:25px;
-}
-.technical {
-	background:url(../images/technical_Icon.gif) left top no-repeat;
-	padding-left: 25px;
-}
 /*-------- color of openingParagraph changes based on page --------*/
 /******** =openingParagraph ********/
 p.openingParagraph {
@@ -456,538 +433,7 @@ p.openingParagraph {
 	margin:0;
 	padding: 0 0 16px 0;
 }
-/******** =callout ********/
-.callout {
-	background:url(../images/callout_BG.gif) left top repeat-x;
-	background-color:#fffdb6;
-	border:solid 1px #fecb80;
-	font-size:.9em;
-	margin:0;
-	padding:8px;
-}
-.callout p {
-	margin:0 0 10px 0;
-	padding:0;
-}
-.callout h2 {
-	color:#c30;
-	font-size:1.1em;
-}
-.callout h2.desired {
-	color:#df6400;
-}
-.callout h2.nonTech {
-	color: #336205;
-}
-/* ------------------------- Page Specific Styles ----------------------------- */
-/*-------- services overview page --------*/
-body#servicesOverview #content {
-	background:url(../images/content_BG.gif) right bottom no-repeat;
-	margin-left:178px;
-	padding:37px 29px 39px;
-}
-body#servicesOverview #content h1,body#applicationInfrastructure h1 {
-	color:#6c0000;
-	font-size:1.5em;
-	text-indent:0;
-	padding-bottom:16px;
-}
-body#servicesOverview p.openingParagraph {
-	color:#183786;
-	font-size:1.2em;
-	font-weight:bold;
-	line-height:1.3em;
-	margin:0;
-	padding:0 0 16px 0;
-}
-body#servicesOverview #content p {
-	padding:0 20px;
-}
-body#servicesOverview h2.services {
-	color:#6c0000;
-	margin-bottom:15px;
-}
-body#servicesOverview div#content dl,body#enterpriseGateway div#content dl,body#applicationInfrastructure div#content dl,body#technicalInfrastructure div#content dl {
-	margin:0;
-	padding:0 29px;
-}
-body#servicesOverview div#content dl dt,body#enterpriseGateway div#content dl dt,body#applicationInfrastructure div#content dl dt,body#technicalInfrastructure div#content dl dt {
-	color:#122e75;
-	font-size:1.2em;
-	font-weight:bold;
-	margin-top:30px;
-	padding-bottom:5px;
-}
-body#servicesOverview div#content dl dt a,body#enterpriseGateway div#content dl dt a,body#applicationInfrastructure div#content dl dt a,body#technicalInfrastructure div#content dl dt a {
-	color:#122e75;
-	font-weight:bold;
-}
-body#servicesOverview div#content dl dd {
-	margin:0;
-	padding: 0 0 0 29px;
-}
-/*-------- enterpriseGateway page --------*/
-body#enterpriseGateway #content {
-	background:url(../images/content_BG.gif) right bottom no-repeat;
-	margin-left:178px;
-	padding:37px 29px 39px;
-}
-body#enterpriseGateway #content h1 {
-	background:url(../images/enterprise_Icon.gif) left top no-repeat;
-	color:#6c0000;
-	font-size:1.5em;
-	text-indent:0;
-	padding-bottom:16px;
-}
-body#enterpriseGateway p.openingParagraph {
-	color:#458407;
-	font-size:1.2em;
-	font-weight:bold;
-	line-height:1.3em;
-	margin:0;
-	padding:0 0 16px 0;
-}
-body#enterpriseGateway #content p {
-	padding:0 20px;
-}
-body#enterpriseGateway h2.services {
-	color:#6c0000;
-	margin-bottom:15px;
-}
-body#enterpriseGateway div#content dl dd {
-	margin:0;
-	padding:0 0 15px 0;
-}
-body#enterpriseGateway h1 {
-	background:url(../images/enterprise_Icon.gif) left top no-repeat;
-	padding-left:25px;
-	text-indent:0;
-}
-body#enterpriseGateway img.diagram,body#applicationInfrastructure img.diagram,body#technicalInfrastructure img.diagram {
-	margin-left: -8px;
-}
-/* -------- ux page -------- */
-body#ux p.description {
-	margin-top: 0;
-}
-/* -------- applicationInfrastructure page -------- */
-body#applicationInfrastructure #content {
-	background:url(../images/content_BG.gif) right bottom no-repeat;
-	margin-left:178px;
-	padding:37px 29px 39px;
-}
-body#applicationInfrastructure #content h1 {
-	background:url(../images/application_Icon.gif) left top no-repeat;
-	color:#6c0000;
-	font-size:1.5em;
-	text-indent:0;
-	padding-bottom:16px;
-}
-body#applicationInfrastructure p.openingParagraph {
-	color:#458407;
-	font-size:1.2em;
-	font-weight:bold;
-	line-height:1.3em;
-	margin:0;
-	padding:0 0 16px 0;
-}
-body#applicationInfrastructure #content p {
-	padding:0 20px;
-}
-body#applicationInfrastructure h2.services {
-	color:#6c0000;
-	margin-bottom:15px;
-}
-body#applicationInfrastructure div#content dl dd {
-	margin:0;
-	padding:0 0 15px 0;
-}
-body#applicationInfrastructure h1 {
-	background:url(../images/application_Icon.gif) left top no-repeat;
-	padding-left:25px;
-	text-indent: 0;
-}
-/* -------- technicalInfrastructure page -------- */
-body#technicalInfrastructure #content {
-	background:url(../images/content_BG.gif) right bottom no-repeat;
-	margin-left:178px;
-	padding:37px 29px 39px;
-}
-body#technicalInfrastructure #content h1 {
-	background:url(../images/technical_Icon.gif) left top no-repeat;
-	color:#6c0000;
-	font-size:1.5em;
-	text-indent:0;
-	padding-bottom:16px;
-}
-body#technicalInfrastructure p.openingParagraph {
-	color:#458407;
-	font-size:1.2em;
-	font-weight:bold;
-	line-height:1.3em;
-	margin:0;
-	padding:0 0 16px 0;
-}
-body#technicalInfrastructure #content p {
-	padding:0 20px;
-}
-body#technicalInfrastructure h2.services {
-	color:#6c0000;
-	margin-bottom:15px;
-}
-body#technicalInfrastructure div#content dl dd {
-	margin:0;
-	padding:0 0 15px 0;
-}
-body#technicalInfrastructure h1 {
-	background:url(../images/technical_Icon.gif) left top no-repeat;
-	padding-left:25px;
-	text-indent: 0;
-}
-/* -------- about overview page -------- */
-body#aboutOverview h1 {
-	text-indent:0;
-	line-height:1.3em;
-}
-body#aboutOverview p {
-	font-size: 1.08em;
-}
-/* -------- board pages and words -------- */
-body#board dl,body#advisory dl,body#management dl,body#words dl {
-	margin:12px 0 0 0;
-	padding:0
-}
-body#board dd,body#board dt,body#advisory dd,body#advisory dt,body#management dd,body#management dt,body#words dd,body#words dt {
-	font-weight:bold;
-	margin:0;
-	padding:0;
-}
-body#board dt,body#advisory dt,body#management dt,body#words dt {
-	color:#15337f;
-}
-body#board dd,body#advisory dd,body#management dd,body#words dd {
-	color:#313131;
-}
-body#board div.callout,body#advisory div.callout,body#management div.callout,body#words div.callout {
-	margin-left:85px;
-}
-body#board .inlineImageTop,body#advisory .inlineImageTop,body#management .inlineImageTop,body#words .inlineImageTop,body#letter .inlineImageTop {
-	border:solid 2px #5476d2;
-	float:left;
-	margin:15px 12px 0 0;
-	padding: 0;
-}
-/* -------- careers section -------- */
-/******** =careersOverview ********/
-body#careersOverview p.openingParagraph {
-	color:#6c0000;
-	font-size:1.1em;
-	font-weight:normal;
-	line-height:1.5em;
-}
-body#careersOverview em {
-	color:#d36a04;
-	font-size:1.2em;
-	font-weight:bold;
-	font-style:normal;
-}
-body#careersOverview a.hiring {
-	color:#d36a04;
-	font-size:1.2em;
-	font-weight:bold;
-	font-style:normal;
-	text-decoration:underline;
-}
-body#careersOverview p {
-	font-size: 1.08em;
-}
-/******** words page =questions ********/
-body#words div#content dl.questions {
-	color:#000;
-	font-weight:normal;
-	margin:20px 0 0 0;
-	padding:0;
-}
-body#words div#content dl.questions dt {
-	background-color:#fff99f;
-	color:#000;
-	display:inline;
-	font-weight:bold;
-	line-height:1.7em;
-	margin:0;
-	padding:2px;
-}
-body#words div#content dl.questions dd {
-	font-weight:normal;
-	margin:0;
-	padding: 0 0 15px 0;
-}
-/* -------- opportunities page -------- */
-body#opportunities div.callout {
-	margin-bottom: 35px;
-}
-/* -------- benefits page -------- */
-body#benefits div#content dl dt {
-	background:url(../images/check_Icon.gif) left top no-repeat;
-	color:#15337f;
-	font-size:1.2em;
-	font-weight:bold;
-	margin:0;
-	padding:0 0 10px 28px;
-}
-body#benefits div#content dl dd,body#benefits dl dt {
-	margin:0;
-	padding: 0 0 25px 28px;
-}
-/******** =jobDescription ********/
-dl.jobDescription {
-	margin-left:-20px;
-	padding:0;
-}
-dl.jobDescription dt,dl.jobDescription dd {
-	font-weight:bold;
-	margin:0;
-	padding:0;
-}
-dl.jobDescription dt {
-	color:#15337f;
-	font-size: 1.2em;
-}
-/******** =contactGeniant ********/
-body#contactGeniant div#content {
-	background:url(../images/content_BG.gif) left bottom no-repeat;
-	margin:0 178px 0 0;
-	padding:37px 29px 39px;
-	width:520px;
-}
-body#contactGeniant dl.corporate {
-	float:none;
-	margin:0 0 45px 0;
-	padding:0;
-}
-body#contactGeniant dl {
-	float:left;
-	margin:15px 0 45px 0;
-	padding:0;
-	width:33%;
-}
-body#contactGeniant dl dt,dl dd {
-	margin:0;
-	padding:0;
-}
-body#contactGeniant dl dt {
-	color:#15337f;
-	font-size:1.2em;
-	font-weight:bold;
-}
-body#contactGeniant .inlineImage {
-	border:solid 2px #5476d2;
-	float:right;
-	margin:0;
-	padding:0;
-}
-body#contactGeniant div.generalInfo {
-	background-color:#fffec5;
-	border:solid 1px #ffe87e;
-	float:right;
-	margin:75px 0 0 0;
-	padding:0 12px 25px;
-	width:140px;
-}
-div.generalInfo h4 {
-	font-size:1.05em;
-	margin-top:18px;
-}
-div.generalInfo a {
-	color: #d36a04;
-}
-/* -------- client section -------- */
-body#featuredClients dl {
-	float:left;
-	margin:12px 8px;
-	width:45%;
-}
-body#featuredClients dl dt {
-	padding-bottom:8px;
-}
-body#featuredClients dl dd a {
-	color:#d36a04;
-	font-size:1.2em;
-	margin-left:5px;
-}
-body#featuredClients div.callout {
-	background:none;
-	background-color:#fffec5;
-	border:solid 1px #ffe87e;
-}
-body#featuredClients dl.allClients {
-	margin:0 5px;
-	padding:0;
-	width:45%;
-}
-body#featuredClients dl.allClients dt {
-	color:#15337f;
-	font-size:1.2em;
-	font-weight:bold;
-	border-bottom:solid 1px #15337f;
-	margin:8px 0;
-	padding:0;
-}
-body#featuredClients .caseStudy {
-	background:url(../images/newsArrow_Icon.gif) left top no-repeat;
-	padding-left:25px;
-}
-body#featuredClients h2 {
-	color:#6c0000;
-	font-size:1.5em;
-	padding:0 0 3px;
-}
-body#featuredClients p.additionalStudies {
-	font-size:1.25em;
-	line-height:1.3em;
-	padding-top: 8px;
-}
-/******** =body#caseStudies ********/
-body#caseStudies h2 {
-	border-bottom:solid 1px #15337f;
-}
-body#caseStudies h3 {
-	background:url(../images/pdf_Icon.gif) left top no-repeat;
-	margin:30px 0 0 0;
-	padding-left:22px;
-}
-body#caseStudies h3.staticTitle {
-	background:none;
-	margin:30px 0 0 0;
-	padding-left:22px;
-}
-body#caseStudies p.description {
-	margin:0 0 30px;
-	padding-left: 22px;
-}
-/******** =newsDetail ********/
-h1 {
-	text-indent:0;
-	margin-left: -20px;
-}
-/******* =newsOverview ********/
-body#newsOverview table {
-	border-collapse:collapse;
-	border:none;
-	margin:0 0 45px 0;
-	padding:0;
-	width:100%;
-}
-body#newsOverview table tr td {
-	border:none;
-	margin:0;
-	padding:4px 8px 4px 0;
-	text-align:left;
-	vertical-align:top;
-}
-body#newsOverview table tr td a {
-	color:#1e3a84;
-}
-ul.breadCrumbs {
-	margin:0;
-	padding:0;
-}
-ul.breadCrumbs li {
-	display:inline;
-	list-style:none;
-	margin:0;
-	padding:0 5px;
-}
-a.inactiveCrumb {
-	color:#000;
-	text-decoration: none;
-}
-/******** =siteMap ********/
-body#siteMap div#content {
-	background:url(../images/contentFullWidth_BG.gif) left bottom no-repeat;
-	margin:0;
-	padding:37px 48px 39px;
-}
-body#siteMap dl {
-	margin:0;
-	padding:0;
-	float:left;
-	width:48%;
-}
-body#siteMap dl dt {
-	font-size:1.2em;
-	font-weight:bold;
-	margin:20px 0 0 0;
-	padding:0 0 5px 0;
-}
-body#siteMap dl dd {
-	margin:0 0 0 10px;
-	padding:2px 0;
-}
-body#siteMap dl dd a {
-	color: #15337f;
-}
-/******** =admin ********/
-body#admin div#content {
-	background:url(../images/contentFullWidth_BG.gif) left bottom no-repeat;
-	margin:0;
-	padding:37px 48px 39px;
-}
-body#admin table.login {
-	border-collapse:collapse;
-	border:none;
-	width:100%;
-}
-body#admin table.login tr td,body#admin table.login tr th {
-	border:none;
-	margin:0;
-	padding:3px;
-	text-align:left;
-	vertical-align:top;
-}
-body#admin table.login tr th {
-	padding-top:5px;
-	text-align:right;
-	white-space:nowrap;
-	width: 1%;
-}
-/* -------- image replacement -------- */
-.replace {
-	position:relative;
-	margin:0px;
-	padding:0px;
-	/* hide overflow:hidden from IE5/Mac */ /* \*/ overflow:hidden;
-	/* */
-}
-.replace span {
-	background-repeat:no-repeat;
-	display:block;
-	position:absolute;
-	top:0px;
-	left:0px;
-	z-index:1;
-	/*for Opera 5 and 6*/
-}
-#aboutGeniant,#aboutGeniant span {
-	background-image:url(../images/titles/aboutGeniant.gif);
-	background-repeat:no-repeat;
-	height:66px;
-	width: 532px;
-}
-/******** errorMessage ********/
-p.errorMessage,.errorMessage {
-	background:url(../images/icons/error_Icon.gif) 5px 3px no-repeat;
-	border:solid 1px #ccc;
-	background-color:#fbe0de;
-	line-height:1.2em;
-	margin-top:0;
-	padding:3px 3px 3px 23px;
-}
-body#survey div#content {
-	background:url(../images/contentFullWidth_BG.gif) left bottom no-repeat;
-	margin:0;
-	padding: 37px 48px 39px;
-}
+
 /* PRODUCT LISTING CONTENT */
 .productListContent {
 	width:504px;
@@ -1003,44 +449,7 @@ body#survey div#content {
 .productListContent #filterBreadcrumb span {
 	font-size:.71em;
 }
-.productListContent .productListHeader {
-	width:503px;
-	padding-top:27px;
-	clear:both;
-}
-.productListContent .productListHeader h1 {
-	padding:11px 0 7px 0;
-	border-top:1px solid #dfdeda;
-	color:#363531;
-}
-#productListPaging {
-	padding-top:21px;
-}
-#searchCriteria {
-	float:left;
-}
-#availablePages {
-	float:right;
-	font-size:.81em;
-}
-#availablePages a {
-	padding-left:6px;
-	color:#363531;
-}
-#availablePages a#selectedPaging {
-	color:#D20002;
-	font-weight:bold;
-}
-#availablePages a#viewAllPaging {
-	padding-left:15px;
-	background:#fff url(../../images/content-design/bg-view-all.gif) 5px 2px no-repeat;
-}
-html>body #availablePages a#viewAllPaging {
-	background:#fff;
-}
-html>body #availablePages a#viewAllPaging {
-	background: #fff url(../../images/content-design/bg-view-all.gif) 5px 2px no-repeat;
-}
+
 /* Product Listings */
 .productList {
 	position:	relative;
@@ -1067,10 +476,7 @@ html>body #availablePages a#viewAllPaging {
 	color:#363531;
 }
 
-#searchResultsLeftColumn {
-	float:left;
-	width: 143px;
-}
+
 /* Faux Selects */
 .selectContainer {
 	margin:0 0 18px 1px;
@@ -1112,66 +518,7 @@ ul.selectBox li.defaultOption a,.standardContent ul.selectBox li.defaultOption a
 ul.selectBox li.defaultOption a:hover,.standardContent ul.selectBox li.defaultOption a:hover {
 	background:transparent;
 }
-#photoContestSemis .selectContainer {
-	clear:both;
-	margin-top:22px;
-}
-#photoContestSemis ul.selectBox {
-	width:133px;
-}
-#photoContestSemis ul.selectBox li a {
-	width:133px;
-	w\idth:122px;
-}
-#filter {
-	margin-top:36px;
-	width:145px;
-}
-#filter ul.selectBox {
-	width:140px;
-}
-#filter ul.selectBox li a {
-	width:140px;
-	w\idth:129px;
-}
-#filter #title {
-	width:140px;
-	w\idth:136px;
-	font-weight:bold;
-	color:#363531;
-	margin-bottom:24px;
-	padding-left:3px;
-}
-#filter #title img {
-	float:right;
-}
-#productsLocated {
-	font-size:.8em;
-	color:#363531;
-	padding:1px 0 14px 2px;
-	margin-bottom:17px;
-	border-bottom:1px solid #dfdeda;
-}
-#categoryFilter_productsLocated {
-	font-size:.8em;
-	color:#363531;
-	padding:1px 0 14px 2px;
-	margin-bottom:17px;
-	border-bottom:1px solid #dfdeda;
-}
-#searchFilter_productsLocated {
-	font-size:.8em;
-	color:#363531;
-	padding:1px 0 14px 2px;
-	margin-bottom:17px;
-	border-bottom:1px solid #dfdeda;
-}
-#resetButton {
-	margin-left:1px;
-}
-#submitButton {
-	margin-left: 8px;
-}
+
 /* END PRODUCT LISTING CONTENT */
 li.sub {
 	margin:0px 0px 0px 8px;
@@ -1190,6 +537,12 @@ img.sponsors {
 dl a:hover {
 	color:#c60;
 }
+div.container {
+	display:  block;
+	overflow: hidden;
+	width:    100%;
+	margin:	  0px -20px 0px -20px;	
+}
 span.logo-title {
 	margin:0px 0px 0px 250px;
 }
@@ -1197,9 +550,9 @@ span.sub {
 	margin-left:14px;
 }
 img.sim-large {
-	float:left;
-	margin:0px 15px 0px -20px;
-	border:none;
+	float:	left;
+	border:	none;
+	margin:	0px 15px 0px 0px;	
 }
 img.rating {
 	margin:0px 20px 0px 0px;
@@ -1483,22 +836,48 @@ a.main-topic {
 }
 p.indi-sim {
 	font-family:"arial",Verdana,Arial,Helvetica,sans-serif;
-	;
 	font-size:12px;
 	padding:0;
 	margin:0;
 }
+#content div.shortcuts {
+	width:			564px;
+	display:		block;
+	float: 			none;
+	font-family:	"arial",Verdana,Arial,Helvetica,sans-serif;
+	font-size:		10pt;
+	padding:		0;
+	margin: 		1ex 0 1ex 0;
+	text-align: 	left;
+	text-transform: lowercase;
+	font-variant: 	small-caps;
+	position:       relative;
+	left:			-20px;
+}
+#content div.shortcuts span.burg {
+	background-image: 		url(../images/double-arrow.png);
+	clear:  				right;
+	width:  				100%;
+	margin: 				10px 5px 0 5px;
+	background-repeat: 		no-repeat;
+	background-position: 	0 0.5ex;
+	padding-left: 			15px;
+}
+h1.page-title {
+	width: 264px;
+}
 h1.indi-sim {
-	font-weight:bold;
-	text-transform:uppercase;
-	letter-spacing:1px;
-	color:#000;
-	font-family:"arial",Verdana,Arial,Helvetica,sans-serif;
-	font-size:15px;
-	color:#c60;
-	margin:0px 0px 0px 0px;
-	padding-top:20px;
-	border-top:1px solid #c60;
+	width:			564px;
+	font-weight:	bold;
+	text-transform:	uppercase;
+	letter-spacing:	1px;
+	color:			#000;
+	font-family:	"arial",Verdana,Arial,Helvetica,sans-serif;
+	font-size:		15px;
+	color:			#c60;
+	margin:			5px 0px 0px 0px;
+	padding-top: 	5px;
+	border-top:		1px solid #c60;
 }
 #localNav a.current {
 	color:#d36a04;
@@ -1628,4 +1007,41 @@ img.sponsors {
 .ac_over {
 	background-color: black;
 	color: 			  white;
+}
+
+
+#content .keywordlist {
+	width:          300px;
+	margin: 		0;
+	margin-top: 	5px;	
+	font-size:  	9pt;
+	float:          right;
+	text-align:   	right;
+}
+#content .keywordlist span {
+	margin-left:  5px;
+	margin-right: 5px;
+}
+#content .keywordlist span a:link{
+	font-style: 		normal;
+	color: 				rgb(120, 120, 120);
+	text-decoration: 	none;	
+	font-weight: 		normal;
+}
+#content .keywordlist span a:visited {
+	font-style: 		normal;
+	color: 				rgb(120, 120, 120);
+	text-decoration: 	none;	
+	font-weight: 		normal;
+}
+#content .keywordlist span a:hover {
+	font-style: 		normal;	
+	color: 				rgb(25, 25, 25);
+	text-decoration: 	underline;	
+	font-weight: 		normal;
+}
+#content .keywordlist span a:active {
+	color: 				black;
+	text-decoration: 	underline;	
+	font-weight: 		normal;
 }

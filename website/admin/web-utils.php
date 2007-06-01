@@ -400,15 +400,7 @@ EOT;
     }
     
     function get_self_url() {
-        $url = basename($_SERVER['SCRIPT_NAME']);
-        
-        if (isset($_SERVER['QUERY_STRING'])) {
-            $query_string = str_replace(array('&amp;', '&'), array('&', '&amp;'), $_SERVER['QUERY_STRING']);
-            
-            $url .= "?$query_string";
-        }
-        
-        return $url;
+        return $_SERVER['REQUEST_URI'];
     }
     
     function is_email($email) {
@@ -417,6 +409,20 @@ EOT;
         $p .= '|info|arpa|aero|coop|name|museum)$/ix';
         
         return preg_match($p, $email) == 1;
+    }
+    
+    function convert_comma_list_into_linked_keyword_list($list) {  
+        global $referrer;
+          
+        $xml = '<div class="keywordlist">';
+        
+        foreach(preg_split('/( +)|( *, *)/i', $list) as $keyword) {
+            $xml .= '<span><a href="'.SITE_ROOT.'simulations/search.php?search_for='.urlencode($keyword).'&amp;referrer='.$referrer.'">'.$keyword.'</a></span>';
+        }
+        
+        $xml .= '</div>';
+        
+        return $xml;
     }
     
     function php_array_to_javascript_array($array, $baseName) {

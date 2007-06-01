@@ -80,7 +80,7 @@
                 $st .= " AND ";
             }
             
-            $st .= "(`sim_name` LIKE '%$word%' OR `sim_desc` LIKE '%$word%' OR `sim_keywords` LIKE '%$word%' )";
+            $st .= "(`sim_name` LIKE '%$word%' OR `sim_desc` LIKE '%$word%' OR `sim_keywords` LIKE '%$word%' OR  `sim_main_topics` LIKE '%$word%' OR `sim_subtopics` LIKE '%$word%' OR `sim_sample_goals` LIKE '%$word%' )";
         }
         
         $result = run_sql_statement($st);

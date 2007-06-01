@@ -17,6 +17,9 @@
         $contribution = contribution_get_contribution_by_id($contribution_id);
         
         eval(get_code_to_create_variables_from_array($contribution));
+            
+        // Perform cleanup for some fields:
+        $contribution_keywords = convert_comma_list_into_linked_keyword_list($contribution_keywords);
         
         $contribution_date_created = simplify_sql_timestamp($contribution_date_created);
         $contribution_date_updated = simplify_sql_timestamp($contribution_date_updated);        
@@ -162,55 +165,7 @@ EOT;
                     
                     <div class="field">
                         <span class="label">Name</span>
-                        <span class="label_content">
-                            <script type="text/javascript">
-                                /*<![CDATA[*/
-                                
-                                function on_email_entered() {
-                                    var name_element = document.getElementById('contributor_name_uid');
-                                    
-                                    var name = name_element.value;
-                                    
-                                    HTTP.updateElementWithGet('../admin/do-ajax-login.php?contributor_name=' + 
-                                        encodeURI(name), null, 'required_login_info_uid');
-                                }
-
-                                function on_remind_me() {
-                                    var email_element = document.getElementById('contributor_email_uid');
-
-                                    var email = email_element.value;
-                                    
-                                    var password_element = document.getElementById('ajax_password_comment_uid');
-
-                                    HTTP.updateElementWithGet('../admin/remind-password.php?contributor_email=' + 
-                                        encodeURI(email), null, 'ajax_password_comment_uid');
-                                }
-                                    
-                                function on_email_change() {
-                                    var email_element = document.getElementById('contributor_email_uid');
-
-                                    var email = email_element.value;
-
-                                    HTTP.updateElementWithGet('../admin/check-email.php?contributor_email=' + 
-                                        encodeURI(email), null, 'ajax_email_comment_uid');
-                                }
-                                
-                                function on_password_change() {
-                                    var email_element    = document.getElementById('contributor_email_uid');
-                                    var password_element = document.getElementById('contributor_password_uid');
-                                    
-                                    var email    = email_element.value;
-                                    var password = password_element.value;
-
-                                    HTTP.updateElementWithGet('../admin/check-password.php?contributor_email=' + 
-                                        encodeURI(email) + '&contributor_password=' + password, null, 'ajax_password_comment_uid');
-                                }
-                                
-                                $('#contributor_name_uid').autocomplete('../admin/get-contributor-names.php');
-                                
-                                /*]]>*/
-                            </script>
-                            
+                        <span class="label_content">                
                             <input type="text" size="25" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_email_entered();"/>
                         </span>
                     </div>
