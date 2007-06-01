@@ -112,8 +112,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyPositionPlotFrame.setContentPane( energyPositionCanvas );
         energyPositionPlotFrame.setSize( 400, 400 );
 
-        EnergySkateParkClockControlPanel energySkateParkClockControlPanel = new EnergySkateParkClockControlPanel( clock );
-        getModulePanel().setClockControlPanel( energySkateParkClockControlPanel );
+        getModulePanel().setClockControlPanel( new EnergySkateParkTimePanel( clock ) );
 
         setDefaults();
         setLogoPanelVisible( Toolkit.getDefaultToolkit().getScreenSize().height > 768 );
