@@ -29,6 +29,7 @@ public class DNAStrandControlPanel extends JPanel {
     private LinearValueControl _springConstantControl;
     private LinearValueControl _dampingConstantControl;
     private LinearValueControl _kickConstant;
+    private LinearValueControl _numberOfEvolutionsPerClockTickControl;
     
     public DNAStrandControlPanel( Font titleFont, Font controlFont, DNAStrand dnaStrand ) {
         super();
@@ -66,6 +67,15 @@ public class DNAStrandControlPanel extends JPanel {
             }
         });
         
+        _numberOfEvolutionsPerClockTickControl = new LinearValueControl( 1, 20, "evolutions/tick:", "#0", "" );
+        _numberOfEvolutionsPerClockTickControl.setUpDownArrowDelta( 1 );
+        _numberOfEvolutionsPerClockTickControl.setFont( controlFont );
+        _numberOfEvolutionsPerClockTickControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleNumberOfEvolutionsPerClockTickControl();
+            }
+        });
+        
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         layout.setInsets( new Insets( 0, 0, 0, 0 ) );
@@ -75,11 +85,13 @@ public class DNAStrandControlPanel extends JPanel {
         layout.addComponent( _springConstantControl, row++, column );
         layout.addComponent( _dampingConstantControl, row++, column );
         layout.addComponent( _kickConstant, row++, column );
+        layout.addComponent( _numberOfEvolutionsPerClockTickControl, row++, column );
         
         // Default state
         _springConstantControl.setValue( _dnaStrand.getSpringConstant() );
         _dampingConstantControl.setValue( _dnaStrand.getDampingConstant() );
         _kickConstant.setValue( _dnaStrand.getKickConstant() );
+        _numberOfEvolutionsPerClockTickControl.setValue( _dnaStrand.getNumberOfEvolutionsPerClockTick() );
     }
     
     private void handleSpringConstantControl() {
@@ -95,5 +107,10 @@ public class DNAStrandControlPanel extends JPanel {
     private void handleKickControl() {
         double value = _kickConstant.getValue();
         _dnaStrand.setKickConstant( value );
+    }
+    
+    private void handleNumberOfEvolutionsPerClockTickControl() {
+        int value = (int) Math.round( _numberOfEvolutionsPerClockTickControl.getValue() );
+        _dnaStrand.setNumberOfEvolutionsPerClockTick( value );
     }
 }

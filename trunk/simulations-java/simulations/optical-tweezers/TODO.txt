@@ -11,7 +11,7 @@ HIGH PRIORITY:
 - draw DNA strand after N evolutions
 
 MEDIUM PRIORITY:
-- get model for Brownian force or delete "Show Brownian force" feature
+- get model for Brownian force, or delete "Show Brownian force" feature
 - ruler is slightly off-center in all panels
 - change lens view, make it an on-edge view
 - make the lens supports look 3D, as if they are holding the lens
@@ -27,6 +27,8 @@ MEDIUM PRIORITY:
 - make "beam" the only laser display option in fast mode
 
 LOW PRIORITY:
+- make developer controls resettable?
+- make developer controls savable/loadable?
 - get rid of "Advanced" panel, there's only 1 control left in it ?
 - position histogram should make an observation every N seconds, not every clock tick (?)
 - when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
@@ -59,6 +61,7 @@ MISSING INFO:
 
  
 DONE:
+6/1/07 - add DNAStrand.numberOfEvolutionsPerClockTick
 6/1/07 - add dev controls for DNA strand model
 6/1/07 - move developer controls into module's control panel, so it's clear they are module specific
 6/1/07 - refactor developer control for bead motion model into BeadMotionControlPanel

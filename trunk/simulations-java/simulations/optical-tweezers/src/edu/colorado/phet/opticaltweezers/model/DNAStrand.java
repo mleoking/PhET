@@ -37,10 +37,6 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     public static final double DOUBLE_STRANDED_PERSISTENCE_LENGTH = 50; // nm
     public static final double SINGLE_STRANDED_PERSISTENCE_LENGTH = 1; // nm
     
-    private static final double DEFAULT_SPRING_CONSTANT = 6;
-    private static final double DEFAULT_DAMPING_CONSTANT = 0.2;
-    private static final double DEFAULT_KICK_CONSTANT = 0.5;
-    
     //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
@@ -48,6 +44,10 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private static final double DEFAULT_CONTOUR_LENGTH = 2413; // nm
     private static final double DEFAULT_PERSISTENCE_LENGTH = DOUBLE_STRANDED_PERSISTENCE_LENGTH; // nm 
     private static final int DEFAULT_NUMBER_OF_SEGMENTS = 40; // nm
+    private static final double DEFAULT_SPRING_CONSTANT = 6;
+    private static final double DEFAULT_DAMPING_CONSTANT = 0.2;
+    private static final double DEFAULT_KICK_CONSTANT = 0.5;
+    private static final int DEFAULT_EVOLUTIONS_PER_CLOCK_TICK = 10;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -66,6 +66,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private double _springConstant;
     private double _dampingConstant;
     private double _kickConstant;
+    private int _numberOfEvolutionsPerClockTick;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -111,6 +112,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _springConstant = DEFAULT_SPRING_CONSTANT;
         _dampingConstant = DEFAULT_DAMPING_CONSTANT;
         _kickConstant = DEFAULT_KICK_CONSTANT;
+        _numberOfEvolutionsPerClockTick = DEFAULT_EVOLUTIONS_PER_CLOCK_TICK;
         
         initializeStrand();
     }
@@ -204,6 +206,14 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         return _kickConstant;
     }
     
+    public void setNumberOfEvolutionsPerClockTick( int numberOfEvolutions ) {
+        _numberOfEvolutionsPerClockTick = numberOfEvolutions;
+    }
+    
+    public int getNumberOfEvolutionsPerClockTick() {
+        return _numberOfEvolutionsPerClockTick;
+    }
+    
     //----------------------------------------------------------------------------
     // Force model
     //----------------------------------------------------------------------------
@@ -271,10 +281,13 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _pivots.add( headPivot );
     }
     
-    private void evolveStrand() {
-        //XXX evolve the list of pivot points using Mike Dubson's "Hollywood" algorithm
-        //XXX the tail is pinned, so pivots[first] does not evolve
-        //XXX the head is attached to the bead, so pivot[last] does not evolve
+    private void evolveStrand( double clockStep ) {
+        final double dt = clockStep / _numberOfEvolutionsPerClockTick;
+        for ( int i = 0; i < _numberOfEvolutionsPerClockTick; i++ ) {
+            //XXX evolve the list of pivot points using Mike Dubson's "Hollywood" algorithm
+            //XXX the tail is pinned, so pivots[first] does not evolve
+            //XXX the head is attached to the bead, so pivot[last] does not evolve
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -306,7 +319,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     //----------------------------------------------------------------------------
     
     public void stepInTime( double dt ) {
-        evolveStrand();
+        evolveStrand( dt );
         notifyObservers( PROPERTY_SHAPE );
     }
     
