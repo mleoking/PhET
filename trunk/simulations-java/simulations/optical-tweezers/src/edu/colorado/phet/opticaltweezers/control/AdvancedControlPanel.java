@@ -31,7 +31,7 @@ public class AdvancedControlPanel extends JPanel {
     private Frame _parentFrame;
     private FluidControlDialog _fluidControlDialog;
     
-    private JButton _advancedButton;
+    private JButton _showHideButton;
     private Box _panel;
     private JCheckBox _fluidControlsCheckBox;
     private JCheckBox _momemtumChangeCheckBox;
@@ -55,11 +55,11 @@ public class AdvancedControlPanel extends JPanel {
         _fluid = fluid;
         _fluidControlDialog = null;
         
-        _advancedButton = new JButton( OTResources.getString( "label.showAdvanced" ) );
-        _advancedButton.setFont( titleFont );
-        _advancedButton.addActionListener( new ActionListener() {
+        _showHideButton = new JButton( OTResources.getString( "label.showAdvanced" ) );
+        _showHideButton.setFont( titleFont );
+        _showHideButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                handleAdvancedButton();
+                handleShowHideButton();
             }
         } );
 
@@ -91,7 +91,7 @@ public class AdvancedControlPanel extends JPanel {
         layout.setFill( GridBagConstraints.HORIZONTAL );
         layout.setMinimumWidth( 0, 0 );
         int row = 0;
-        layout.addComponent( _advancedButton, row++, 1 );
+        layout.addComponent( _showHideButton, row++, 1 );
         layout.addComponent( _panel, row++, 1 );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
@@ -111,12 +111,12 @@ public class AdvancedControlPanel extends JPanel {
     
     public void setAdvancedVisible( boolean b ) {
         if ( b ^ _panel.isVisible() ) {
-            handleAdvancedButton();
+            handleShowHideButton();
         }
     }
     
     public boolean isAdvancedVisible() {
-        return _advancedButton.isVisible();
+        return _showHideButton.isVisible();
     }
     
     public void setFluidControlSelected( boolean b ) {
@@ -141,13 +141,13 @@ public class AdvancedControlPanel extends JPanel {
     // Event handlers
     //----------------------------------------------------------------------------
     
-    private void handleAdvancedButton() {
+    private void handleShowHideButton() {
         _panel.setVisible( !_panel.isVisible() );
         if ( _panel.isVisible() ) {
-            _advancedButton.setText( OTResources.getString( "label.hideAdvanced" ) );
+            _showHideButton.setText( OTResources.getString( "label.hideAdvanced" ) );
         }
         else {
-            _advancedButton.setText( OTResources.getString( "label.showAdvanced" ) );
+            _showHideButton.setText( OTResources.getString( "label.showAdvanced" ) );
         }
     }
 

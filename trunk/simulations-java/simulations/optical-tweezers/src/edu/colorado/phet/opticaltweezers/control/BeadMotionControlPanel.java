@@ -52,7 +52,7 @@ public class BeadMotionControlPanel extends JPanel {
             }
         });
         
-        _numberOfDtSubdivisions = new LinearValueControl( 1, 1000, "number of dt subdivisions:", "###0", "" );
+        _numberOfDtSubdivisions = new LinearValueControl( 1, 1000, "# of dt subdivisions:", "###0", "" );
         _numberOfDtSubdivisions.setUpDownArrowDelta( 1 );
         _numberOfDtSubdivisions.setFont( controlFont );
         _numberOfDtSubdivisions.addChangeListener( new ChangeListener() {
