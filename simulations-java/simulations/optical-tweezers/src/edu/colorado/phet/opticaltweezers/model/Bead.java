@@ -54,8 +54,6 @@ public class Bead extends MovableObject implements ModelElement {
     private double _dtSubdivisionThreshold;
     private int _numberOfDtSubdivisions;
     
-    private Vector2D _brownianForcePrecomputed;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -89,8 +87,6 @@ public class Bead extends MovableObject implements ModelElement {
         _brownianMotionScale = DEFAULT_BROWNIAN_MOTION_SCALE;
         _dtSubdivisionThreshold = DEFAULT_DT_SUBDIVISION_THRESHOLD;
         _numberOfDtSubdivisions = DEFAULT_NUMBER_OF_DT_SUBDIVISIONS;
-        
-        _brownianForcePrecomputed = new Vector2D();
     }
     
     //----------------------------------------------------------------------------
@@ -148,7 +144,8 @@ public class Bead extends MovableObject implements ModelElement {
      * @return Vector2D
      */
     public Vector2D getBrownianForce() {
-        return _brownianForcePrecomputed;
+        //XXX not implemented
+        return new Vector2D.Cartesian( 0, 0 );
     }
     
     /**
@@ -348,19 +345,12 @@ public class Bead extends MovableObject implements ModelElement {
                 dnaForce = new Vector2D.Cartesian( 0, 0 );
             }
                 
-            // Brownian force (pN)
-            Vector2D brownianForce = null;
-            if ( i == loops - 1 ) {
-                // use precomputed Brownian force on last loop of this algorithm
-                brownianForce = _brownianForcePrecomputed;
-            }
-            else {
-                brownianForce = computeBrownianForce( dt ); // pN;
-            }
+            // Brownian displacement (nm)
+            Vector2D brownianDisplacement = computeBrownianDisplacement( dt ); // nm
 
             // New position
-            xNew = xOld + ( vxOld * dt ) + brownianForce.getX(); // nm
-            yNew = yOld + ( vyOld * dt ) + brownianForce.getY(); // nm
+            xNew = xOld + ( vxOld * dt ) + brownianDisplacement.getX(); // nm
+            yNew = yOld + ( vyOld * dt ) + brownianDisplacement.getY(); // nm
 
             /*
              * Collision detection.
@@ -391,7 +381,7 @@ public class Bead extends MovableObject implements ModelElement {
                 System.out.println( "fluid velocity = " + fluidVelocity + " nm/sec" );
                 System.out.println( "trap force = " + trapForce + " pN" );
                 System.out.println( "DNA force = " + dnaForce + " pN" );
-                System.out.println( "Brownian force = " + brownianForce + " pN" );
+                System.out.println( "Brownian displacement = " + brownianDisplacement + " nm" );
                 System.out.println();
             }
             
@@ -400,15 +390,6 @@ public class Bead extends MovableObject implements ModelElement {
             vxOld = vxNew;
             vyOld = vyNew;
         }
-
-        /*  
-         * Precompute the Brownian force that will be applied on the next motion cycle.
-         * This ensures that getBrownianForce provides a vector that accurately shows where the
-         * bead will move in the situation where the laser is off, fluid flow is 0, and 
-         * dt subdivision is not applied (ie, loops=1). If the clock dt is changed before
-         * the next motion cycle, this force will be inaccurate (but insignificant).
-         */ 
-        _brownianForcePrecomputed = computeBrownianForce( dt ); // pN;
         
         // Set new values
         _velocity.setXY( vxNew, vyNew ); // nm/sec
@@ -417,11 +398,11 @@ public class Bead extends MovableObject implements ModelElement {
     
 
     /*
-     * Computes a random Brownian force.
+     * Computes a random Brownian displacement.
      * 
-     * @return Brownian force (pN)
+     * @return displacement vector (nm)
      */
-    private Vector2D computeBrownianForce( double dt ) {
+    private Vector2D computeBrownianDisplacement( double dt ) {
         
         final double normalizedViscosity = _fluid.getDimensionlessNormalizedViscosity(); // unitless
         final double fluidTemperature = _fluid.getTemperature(); // Kelvin

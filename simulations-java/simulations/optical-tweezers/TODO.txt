@@ -5,12 +5,14 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- when DNA extension==contourLength, force algorithm has divide-by-zero issue
+- add dev controls to DNA panel
+- limit DNA extension to N% of contour length (start with 95%)
 - implement Dubson's DNA strand evolution model
-- Dubson's DNA strand evolution model does not accommodate variable fluid velocity, viscosity, temperature
+- modify strand evolution model to accommodate variable fluid velocity, viscosity, temperature?
+- draw DNA strand after N evolutions
 
 MEDIUM PRIORITY:
-- make DNA tail draggable?
+- get model for Brownian force or delete "Show Brownian force" feature
 - ruler is slightly off-center in all panels
 - change lens view, make it an on-edge view
 - make the lens supports look 3D, as if they are holding the lens
@@ -58,6 +60,8 @@ MISSING INFO:
 
  
 DONE:
+6/1/07 - disable "Show Brownian force" feature, don't have a model for this yet
+6/1/07 - fix terminology in bead model, we are computing Brownian displacement, not force
 ********* version 0.00.08 (15481)
 5/30/07 - choose better colors for vector nodes, disable display of xy component vectors
 5/30/07 - first (incorrect) stab at DNA strand path initialization
@@ -369,6 +373,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+5/31/07 - make DNA tail draggable (feature not needed)
 5/17/07 - improve collision detection in Bead.move (not necessary, only Brownian force causes collisions)
 4/24/07 - add AbstractValueControl.setInverted (makes things unnecessarily complex)
 3/26/07 - change diameter to radius for bead and laser properties (using diameter makes layout clearer)
