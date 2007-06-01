@@ -7,9 +7,11 @@ body {
 }
 /******** defaults ********/
 h1,h2,h3,h4,h5,h6, {
-	font-size:	14px;
-	margin:		0;
-	padding:	0;
+	font-size:		14px;
+	margin:			0;
+	padding:		0;
+	margin-top: 	1ex;
+	margin-bottom: 	1ex;
 }
 h1 {
 	color:			#c60;
@@ -376,7 +378,7 @@ div .separator {
 	margin:0 0 10px 0;
 	padding:0 0 0 18px;
 }
-#headerContainer div.globalNav ul {
+/*#headerContainer div.globalNav ul {
 	background:url(../images/globalNavRight_BG.gif) right bottom no-repeat;
 	margin:		0;
 	padding:	3px 18px 5px 0;
@@ -393,7 +395,7 @@ div .separator {
 #headerContainer div.globalNav ul li a:hover {
 	text-decoration: underline;
 }
-/******** =footer ********/
+*//******** =footer ********/
 #footer {
 }
 p.footer {
@@ -436,7 +438,7 @@ p.openingParagraph {
 
 /* PRODUCT LISTING CONTENT */
 .productListContent {
-	width:504px;
+	width:578px;
 	float:right;
 	margin:31px 0 0 0;
 }
@@ -552,10 +554,10 @@ span.sub {
 img.sim-large {
 	float:	left;
 	border:	none;
-	margin:	0px 15px 0px 0px;	
+	margin:	0 1em 0 1em;
 }
 img.rating {
-	margin:0px 20px 0px 0px;
+	margin: 0;
 }
 #content a.breadcrumbs {
 	margin:0px 20px 0px 0px;
@@ -717,11 +719,11 @@ ul.content-points li a:hover {
 	color:#900;
 }
 #get_phet {
-	width:520px;
-	float:left;
-	margin:0px 0px 10px 0px;
-	padding:0px 0px 0px 0px;
-	background:none;
+	width:		520px;
+	float:		left;
+	margin:		0px 0px 10px 0px;
+	padding:	0px 0px 0px 0px;
+	background:	none;
 }
 caption {
 	padding:0 0 5px 0;
@@ -841,7 +843,7 @@ p.indi-sim {
 	margin:0;
 }
 #content div.shortcuts {
-	width:			564px;
+	width:			578px;
 	display:		block;
 	float: 			none;
 	font-family:	"arial",Verdana,Arial,Helvetica,sans-serif;
@@ -858,24 +860,24 @@ p.indi-sim {
 	background-image: 		url(../images/double-arrow.png);
 	clear:  				right;
 	width:  				100%;
-	margin: 				10px 5px 0 5px;
+	margin: 				10px 0px 0 5px;
 	background-repeat: 		no-repeat;
 	background-position: 	0 0.5ex;
 	padding-left: 			15px;
 }
 h1.page-title {
-	width: 264px;
+	width: 			278px;
 }
 h1.indi-sim {
-	width:			564px;
+	width:			578px;
 	font-weight:	bold;
 	text-transform:	uppercase;
+	font-variant: 	small-caps;
 	letter-spacing:	1px;
 	color:			#000;
 	font-family:	"arial",Verdana,Arial,Helvetica,sans-serif;
 	font-size:		15px;
 	color:			#c60;
-	margin:			5px 0px 0px 0px;
 	padding-top: 	5px;
 	border-top:		1px solid #c60;
 }
@@ -1010,7 +1012,7 @@ img.sponsors {
 }
 
 
-#content .keywordlist {
+#content #floatingkeywords .keywordlist {
 	width:          300px;
 	margin: 		0;
 	margin-top: 	5px;	
@@ -1018,30 +1020,56 @@ img.sponsors {
 	float:          right;
 	text-align:   	right;
 }
-#content .keywordlist span {
+#content #floatingkeywords .keywordlist span {
 	margin-left:  5px;
 	margin-right: 5px;
 }
-#content .keywordlist span a:link{
+#content #floatingkeywords .keywordlist span a:link{
 	font-style: 		normal;
 	color: 				rgb(120, 120, 120);
 	text-decoration: 	none;	
 	font-weight: 		normal;
 }
-#content .keywordlist span a:visited {
+#content #floatingkeywords .keywordlist span a:visited {
 	font-style: 		normal;
 	color: 				rgb(120, 120, 120);
 	text-decoration: 	none;	
 	font-weight: 		normal;
 }
-#content .keywordlist span a:hover {
+#content #floatingkeywords .keywordlist span a:hover {
 	font-style: 		normal;	
 	color: 				rgb(25, 25, 25);
 	text-decoration: 	underline;	
 	font-weight: 		normal;
 }
-#content .keywordlist span a:active {
+#content #floatingkeywords .keywordlist span a:active {
 	color: 				black;
 	text-decoration: 	underline;	
 	font-weight: 		normal;
+}
+
+
+#content .compact table {
+	width:				558px;
+	background-color: 	transparent;
+	padding: 		  	0 10px 0 10px;
+	border:				none;
+}
+#content .compact table td {
+	background-color: 	transparent;
+	padding: 		  	0;
+	border:				none;
+	vertical-align: 	top;
+	border-collapse:    separate;
+}
+#content .compact table thead td {
+	font-weight: 	bold;
+	padding: 		0 1em 0 0;	
+}
+#content .compact table tbody td {
+	padding: 		0 0 0 2em;
+}
+#content .compact table ul {
+	margin:  		0 1em 0 1em;
+	padding: 		0;
 }

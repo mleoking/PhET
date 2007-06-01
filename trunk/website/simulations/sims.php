@@ -26,7 +26,7 @@
 
         <div>
             <?php
-                print "$sim_keywords_xml";    
+                print "<span id=\"floatingkeywords\">$sim_keywords_xml</span>";    
                 print "<h1 class=\"page-title\">$sim_name</h1>";
             ?>
         </div>
@@ -78,29 +78,47 @@
 
         <h1 class="indi-sim" id="topics">Topics</h1>
 
-        <h2 class="sub-title">Main Topics</h2>
-
-        <p class="indi-sim">
-            <?php
-                print_comma_list_as_bulleted_list($sim_main_topics);
-            ?>
-        </p>
-
-        <h2 class="sub-title">Subtopics</h2>
-
-        <p class="indi-sim">
-            <?php
-                print_comma_list_as_bulleted_list($sim_subtopics);
-            ?>
-        </p>
-
-        <h2 class="sub-title">Sample Learning Goals</h2>
-
-        <p class="indi-sim">
-            <?php
-                print_comma_list_as_bulleted_list($sim_sample_goals);
-            ?>
-        </p>
+        <div class="compact">
+            <table>
+                <thead>
+                    <tr>
+                        <td>
+                            Main Topics
+                        </td>
+                    
+                        <td>
+                            Subtopics
+                        </td>
+                    
+                        <td>
+                            Sample Learning Goals
+                        </td>
+                    </tr>
+                </thead>
+            
+                <tbody>
+                    <tr>
+                        <td>
+                            <?php
+                                print_comma_list_as_bulleted_list($sim_main_topics);
+                            ?>
+                        </td>
+                    
+                        <td>
+                            <?php
+                                print_comma_list_as_bulleted_list($sim_subtopics);
+                            ?>
+                        </td>
+                    
+                        <td>
+                            <?php
+                                print_comma_list_as_bulleted_list($sim_sample_goals);
+                            ?>
+                        </td>                    
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <p><a href="#top"><img src="../images/top.gif" /></a></p>
 
@@ -110,7 +128,7 @@
         
         <p class="indi-sim">
             <?php
-                print "<a href=\"../admin/get-upload.php?url=$sim_teachers_guide_url\">Click here to see the teacher's guide, which contains tips for teachers created by the PhET team (PDF).</a>";
+                print "The <a href=\"../admin/get-upload.php?url=$sim_teachers_guide_url\">teacher's guide</a> contains tips for teachers created by the PhET team (PDF).";
             ?>
         </p>
 
@@ -153,85 +171,122 @@
 
         <h1 class="indi-sim" id="software">Software Requirements</h1>
 
-        <h2 class="sub-title">Software Requirements</h2>
+        <div class="compact">
+            <table>
+                <thead>
+                    <tr>
+                        <td>
+                            Windows Systems
+                        </td>
 
-        <p class="indi-sim">
-            <b>Windows Systems</b><br/>
-            Microsoft Windows 98SE/2000/XP<br/>
+                        <td>
+                            Macintosh Systems
+                        </td>
             
-            <?php
-                if ($sim_type == '0') { 
-                    print "Sun Java 1.4.2_10 or later<br/>";
-                }
-                else if ($sim_type == '1') {
-                    print "Macromedia Flash 7 or later<br/>";
-                }
-            ?>
+                        <td>
+                            Linux Systems
+                        </td>
+                    </tr>
+                </thead>
             
-            <br/><b>Macintosh Systems</b><br/>
-            OS 10.3.9 or later<br/>
+                <tbody>
+                    <tr>
+                        <td>
+                            Microsoft Windows 98SE/2000/XP
             
+                            <?php
+                                if ($sim_type == '0') { 
+                                    print "Sun Java 1.4.2_10 or later<br/>";
+                                }
+                                else if ($sim_type == '1') {
+                                    print "Macromedia Flash 7 or later<br/>";
+                                }
+                            ?>
+                        </td>
             
-            <?php
-                if ($sim_type == '0') {
-                    print "Apple Java 1.4.2_09 or later<br/>";
-                }
-                else if ($sim_type == '1') {
-                    print "Macromedia Flash 7 or later<br/>";
-                }
-            ?>
+
+                        <td>
+                            OS 10.3.9 or later
+        
             
-            <br/><b>Linux Systems</b><br/>
-            
-            <?php
-                if ($sim_type == '0') {
-                    print "Sun Java 1.4.2_10 or later<br/>";
-                }
-                else if ($sim_type == '1') {
-                    print "Macromedia Flash 7 or later<br/>";
-                }
-            ?>
-        </p>
+                            <?php
+                                if ($sim_type == '0') {
+                                    print "Apple Java 1.4.2_09 or later<br/>";
+                                }
+                                else if ($sim_type == '1') {
+                                    print "Macromedia Flash 7 or later<br/>";
+                                }
+                            ?>
+                        </td>
+                    
+                        <td>            
+                        <?php
+                            if ($sim_type == '0') {
+                                print "Sun Java 1.4.2_10 or later<br/>";
+                            }
+                            else if ($sim_type == '1') {
+                                print "Macromedia Flash 7 or later<br/>";
+                            }
+                        ?>
+                    
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <p><a href="#top"><img src="../images/top.gif" /></a></p>
 
         <h1 class="indi-sim" id="versions">Translated Versions</h1>
 
-        <h2 class="sub-title">Translated versions</h2>
-
         <p class="indi-sim">
-            Coming soon.
         </p>
 
         <p><a href="#top"><img src="../images/top.gif" /></a></p>
 
         <h1 class="indi-sim" id="credits">Credits</h1>
 
-        <h2 class="sub-title">Design Team</h2>
+        <div class="compact">
+            <table>
+                <thead>
+                    <tr>
+                        <td>
+                            Design Team
+                        </td>
+                    
+                        <td>
+                            Libraries
+                        </td>
 
-        <p class="indi-sim">
-            <?php
-                print_comma_list_as_bulleted_list($sim_design_team);
-            ?>
-        </p>
-        
-        <h2 class="sub-title">Libraries</h2>
-
-        <p class="indi-sim">
-            <?php
-                print_comma_list_as_bulleted_list($sim_libraries);
-            ?>
-        </p>
-        
-        <h2 class="sub-title">Thanks To</h2>
-
-        <p class="indi-sim">
-            <?php
-                print_comma_list_as_bulleted_list($sim_thanks_to);
-            ?>
-        </p>
-
-        <p><a href="#top"><img src="../images/top.gif" /></a></p>
+                        <td>
+                            Thanks To
+                        </td>                    
+                    </tr>
+                </thead>
+            
+                <tbody>
+                    <tr>
+                        <td>
+                            <?php
+                                print_comma_list_as_bulleted_list($sim_design_team);
+                            ?>
+                        </td>
+                
+                        <td>
+                            <?php
+                                print_comma_list_as_bulleted_list($sim_libraries);
+                            ?>
+                        </td>
+                
+                        <td>
+                            <?php
+                                print_comma_list_as_bulleted_list($sim_thanks_to);
+                            ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         
         <?php
     }
