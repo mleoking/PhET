@@ -73,7 +73,7 @@ public class TimeSeriesControlPanel extends JPanel {
         stepButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.setPlaybackMode();
-                timeSeriesModel.stepMode();
+                timeSeriesModel.stepClockWhilePaused();
             }
         } );
         clearButton = new TimeSeriesButton( TimeseriesResources.getString( "clear" ), "Stop24.gif" );

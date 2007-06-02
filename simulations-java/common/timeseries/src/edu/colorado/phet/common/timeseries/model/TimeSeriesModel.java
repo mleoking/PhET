@@ -3,6 +3,7 @@ package edu.colorado.phet.common.timeseries.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 import java.util.ArrayList;
 
@@ -14,9 +15,8 @@ import java.util.ArrayList;
 
 public class TimeSeriesModel extends ClockAdapter {
     private RecordableModel recordableModel;
+    private IClock clock;
     private TimeStateSeries series = new TimeStateSeries();
-    private double singleStepDT;
-    private boolean paused = false;
     private double maxRecordTime = Double.POSITIVE_INFINITY;
 
     private Mode.Record record = new Mode.Record( this );
@@ -27,14 +27,14 @@ public class TimeSeriesModel extends ClockAdapter {
 
     private ArrayList listeners = new ArrayList();
 
-    public TimeSeriesModel( RecordableModel recordableModel, double singleStepDT ) {
+    public TimeSeriesModel( RecordableModel recordableModel, IClock clock ) {
         this.recordableModel = recordableModel;
-        this.singleStepDT = singleStepDT;
+        this.clock = clock;
         this.mode = live;
     }
 
     public boolean isPaused() {
-        return paused;
+        return clock.isPaused();
     }
 
     public void addPlaybackTimeChangeListener( final PlaybackTimeListener playbackTimeListener ) {
@@ -76,9 +76,12 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void setPaused( boolean paused ) {
-        if( paused != this.paused ) {
-            this.paused = paused;
-            notifyDataSeriesChanged();
+        if (paused!=clock.isPaused()){
+            if (paused){
+                clock.pause();
+            }else{
+                clock.start();
+            }
             notifyPauseChanged();
         }
     }
@@ -225,14 +228,6 @@ public class TimeSeriesModel extends ClockAdapter {
         return getSeries().size() > 0 && isPlaybackMode() && playback.getPlaybackTime() == 0;
     }
 
-    public double getSingleStepDT() {
-        return singleStepDT;
-    }
-
-    public void setSingleStepDT( double singleStepDT ) {
-        this.singleStepDT = singleStepDT;
-    }
-
     public void updateModel( double dt ) {
         recordableModel.stepInTime( dt );
     }
@@ -282,19 +277,25 @@ public class TimeSeriesModel extends ClockAdapter {
         playback.setPlaybackSpeed( speed );
     }
 
+    public void stepClockWhilePaused() {
+        clock.stepClockWhilePaused();
+    }
+
     public interface PlaybackTimeListener {
         public void timeChanged();
     }
 
     public void clockTicked( ClockEvent event ) {
         ifRecordTooMuchSwitchToLive();
-        if( !isPaused() ) {
-            stepMode( event.getSimulationTimeChange() );
-        }
+        stepMode( event.getSimulationTimeChange() );
     }
 
-    public void stepMode() {
-        stepMode( getSingleStepDT() );
+    public void clockStarted( ClockEvent clockEvent ) {
+        notifyPauseChanged();
+    }
+
+    public void clockPaused( ClockEvent clockEvent ) {
+        notifyPauseChanged();
     }
 
     public void stepMode( double simulationTimeChange ) {

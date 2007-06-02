@@ -7,11 +7,12 @@ package edu.colorado.phet.rotation.tests;
  *
  */
 
+import edu.colorado.phet.common.motion.graphs.GraphSetModel;
+import edu.colorado.phet.common.motion.graphs.TimeSeriesGraphSetNode;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.motion.graphs.GraphSetModel;
-import edu.colorado.phet.common.motion.graphs.TimeSeriesGraphSetNode;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
 
@@ -31,7 +32,8 @@ public class TestTimeSeriesGraphSetNode {
 
         pSwingCanvas = new PhetPCanvas();
         frame.setContentPane( pSwingCanvas );
-        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( new GraphSetModel( new RotationGraphSet( pSwingCanvas, new RotationModel() ).getGraphSuite( 0 ) ), new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), 1.0 ) );
+        SwingClock swingClock = new SwingClock( 30, 1 );
+        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( new GraphSetModel( new RotationGraphSet( pSwingCanvas, new RotationModel(swingClock ) ).getGraphSuite( 0 ) ), new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), swingClock ) );
         pSwingCanvas.getLayer().addChild( timeSeriesGraphSetNode );
         pSwingCanvas.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {

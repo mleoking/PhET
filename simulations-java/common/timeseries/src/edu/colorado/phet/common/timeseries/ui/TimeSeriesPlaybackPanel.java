@@ -99,7 +99,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         step = createButton( TimeseriesResources.getString( "step" ), "StepForward" );
         step.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.stepMode();
+                timeSeriesModel.stepClockWhilePaused();
             }
         } );
 

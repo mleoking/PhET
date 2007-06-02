@@ -10,6 +10,7 @@ package edu.colorado.phet.common.motion.tests;
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
@@ -38,7 +39,7 @@ public class TestModelPlot {
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        rotationModel = new MotionModel();
+        rotationModel = new MotionModel(new SwingClock( 30,1) );
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
 

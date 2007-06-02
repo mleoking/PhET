@@ -26,8 +26,9 @@ public class TestGraphControlNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetPCanvas phetPCanvas = new PhetPCanvas();
-        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), 1.0 );
         swingClock = new SwingClock( 30,1.0);
+        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), swingClock );
+
         swingClock.addClockListener( timeSeriesModel );
         phetPCanvas.addScreenChild( new GraphControlsNode( "title", "abbr",new SimulationVariable(), timeSeriesModel ) );
         frame.setContentPane( phetPCanvas );

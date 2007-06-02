@@ -75,4 +75,7 @@ public class ModelState implements Serializable {
         time += dt;
     }
 
+    public String toString() {
+        return super.toString()+" motionBody="+motionBody.toString();
+    }
 }

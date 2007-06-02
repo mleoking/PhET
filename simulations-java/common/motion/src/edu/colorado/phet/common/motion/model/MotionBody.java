@@ -71,4 +71,8 @@ public class MotionBody implements Serializable {
             listener.angleChanged( dtheta );
         }
     }
+
+    public String toString() {
+        return "motion body: x="+position+", v="+velocity+", a="+acceleration;
+    }
 }
