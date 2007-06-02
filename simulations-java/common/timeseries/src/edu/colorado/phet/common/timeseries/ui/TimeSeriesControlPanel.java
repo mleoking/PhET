@@ -119,7 +119,7 @@ public class TimeSeriesControlPanel extends JPanel {
         else {
             playbackButton.setGoMode();
         }
-        if( timeSeriesModel.isPlaybackMode() && timeSeriesModel.getPlaybackMode().getPlaybackSpeed() == 0.5 && !timeSeriesModel.isPaused() ) {
+        if( timeSeriesModel.isPlaybackMode() && timeSeriesModel.getSpeed() == 0.5 && !timeSeriesModel.isPaused() ) {
             slowMotionButton.setPauseMode();
         }
         else {

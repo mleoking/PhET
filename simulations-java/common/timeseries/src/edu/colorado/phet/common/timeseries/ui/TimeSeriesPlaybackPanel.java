@@ -28,45 +28,6 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     private double PLAYBACK_SLOW = 0.4;
     private double PLAYBACK_FULL = 1.0;
 
-    private JButton createButton( String name, String iconName ) {
-        return createButton( name, getIcon( iconName ) );
-    }
-
-    private JButton createButton( String name, ImageIcon icon ) {
-        JButton button = null;
-        if( icon != null ) {
-            button = new JButton( name, icon );
-
-            if( lowRes() ) {
-                button.setVerticalTextPosition( AbstractButton.BOTTOM );
-                button.setHorizontalTextPosition( AbstractButton.CENTER );
-            }
-        }
-        else {
-            button = new JButton( name );
-        }
-        if( lowRes() ) {
-//            System.out.println( "button.getFont().getSize() = " + button.getFont().getSize() );
-            button.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
-
-        }
-        return button;
-    }
-
-    private ImageIcon getIcon( String iconName ) {
-        String suffix = "24";
-//            if( lowRes() ) {
-//                suffix = "16";
-//            }
-        String iconLoc = "phetcommon/images/clock/" + iconName + suffix + ".gif";
-        ImageIcon imageIcon = new ImageIcon( loadImage( iconLoc ) );
-        return imageIcon;
-    }
-
-    private boolean lowRes() {
-        return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024;
-    }
-
     public TimeSeriesPlaybackPanel( final TimeSeriesModel timeSeriesModel ) {
         this.timeSeriesModel = timeSeriesModel;
 
@@ -179,6 +140,45 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         return image;
     }
 
+    private JButton createButton( String name, String iconName ) {
+        return createButton( name, getIcon( iconName ) );
+    }
+
+    private JButton createButton( String name, ImageIcon icon ) {
+        JButton button = null;
+        if( icon != null ) {
+            button = new JButton( name, icon );
+
+            if( lowRes() ) {
+                button.setVerticalTextPosition( AbstractButton.BOTTOM );
+                button.setHorizontalTextPosition( AbstractButton.CENTER );
+            }
+        }
+        else {
+            button = new JButton( name );
+        }
+        if( lowRes() ) {
+//            System.out.println( "button.getFont().getSize() = " + button.getFont().getSize() );
+            button.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
+
+        }
+        return button;
+    }
+
+    private ImageIcon getIcon( String iconName ) {
+        String suffix = "24";
+//            if( lowRes() ) {
+//                suffix = "16";
+//            }
+        String iconLoc = "phetcommon/images/clock/" + iconName + suffix + ".gif";
+        ImageIcon imageIcon = new ImageIcon( loadImage( iconLoc ) );
+        return imageIcon;
+    }
+
+    private boolean lowRes() {
+        return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024;
+    }
+    
     private void updateButtons() {
         live.setEnabled( !timeSeriesModel.isLiveMode() || timeSeriesModel.isPaused() );
         record.setEnabled( timeSeriesModel.isPaused() || timeSeriesModel.isLiveMode());//hidden during playback
