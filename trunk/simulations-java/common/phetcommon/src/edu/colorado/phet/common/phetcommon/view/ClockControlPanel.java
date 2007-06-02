@@ -127,6 +127,14 @@ public class ClockControlPanel extends JPanel implements ClockListener {
     }
 
     /**
+     * Sets whether the play/pause button is enabled
+     * @param enabled true if the play/pause button is enabled
+     */
+    protected void setPlayPauseButtonEnabled(boolean enabled){
+        playPause.setEnabled( enabled );
+    }
+
+    /**
      * Sets the text of the Play mode on the Play/Pause button. 
      * @param playString the new text for the Play mode
      */
@@ -142,20 +150,7 @@ public class ClockControlPanel extends JPanel implements ClockListener {
      * the control panel don't horizontally shift as the button state changes.
      */
     private void updatePlayPauseButtonDimension() {
-        // Get dimensions for "Play" state
-        playPause.setText( playString );
-        playPause.setIcon( playIcon );
-        Dimension playSize = playPause.getUI().getPreferredSize( playPause );
-
-        // Get dimensions for "Pause" state
-        playPause.setText( pauseString );
-        playPause.setIcon( pauseIcon );
-        Dimension pauseSize = playPause.getUI().getPreferredSize( playPause );
-
-        // Set max dimensions
-        int maxWidth = (int)Math.max( playSize.getWidth(), pauseSize.getWidth() );
-        int maxHeight = (int)Math.max( playSize.getHeight(), pauseSize.getHeight() );
-        playPause.setPreferredSize( new Dimension( maxWidth, maxHeight ) );
+        playPause.setPreferredSize( SwingUtils.getMaxDimension(playPause, playString, playIcon, pauseString, pauseIcon) );
     }
 
     /**

@@ -4,6 +4,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
@@ -24,6 +25,8 @@ import java.io.IOException;
 public class EnergySkateParkPlaybackPanel extends JPanel {
     private JButton recordButton;
     private Clock clock;
+    private EnergySkateParkCCP energySkateParkCCP;
+    private TimeSeriesModel timeSeriesModel;
 
     public static class EnergySkateParkCCP extends ClockControlPanel {
         public EnergySkateParkCCP( IClock clock ) {
@@ -34,9 +37,14 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
         public void addPlayPauseActionListener( ActionListener actionListener ) {
             super.addPlayPauseActionListener( actionListener );
         }
+
+        public void setPlayButtonEnabled( boolean b ) {
+            super.setPlayPauseButtonEnabled( b );
+        }
     }
 
     public EnergySkateParkPlaybackPanel( final TimeSeriesModel timeSeriesModel, final Clock clock ) {
+        this.timeSeriesModel = timeSeriesModel;
         this.clock = clock;
         final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, "0.00", (EnergySkateParkClock)clock );
         timeSpeedSlider.addChangeListener( new ChangeListener() {
@@ -52,7 +60,8 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
                 public void actionPerformed( ActionEvent e ) {
                     if( recordButton.getText().equals( "Pause" ) ) {
                         clock.pause();
-                    }else{
+                    }
+                    else {
                         timeSeriesModel.setRecordMode();
                         clock.start();
                     }
@@ -72,15 +81,36 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
         catch( IOException e ) {
             e.printStackTrace();
         }
+        try {
+            recordButton.setPreferredSize( ( SwingUtils.getMaxDimension(recordButton, "REC", new ImageIcon( ImageLoader.loadBufferedImage( "timeseries/images/icons/record24.gif" ) ), "Pause", new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_PAUSE ) ))));
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
+            public void modeChanged() {
+                updateModeButtons();
+            }
+        } );
+        clock.addClockListener( new ClockAdapter() {
 
-        EnergySkateParkCCP clockControlPanel = new EnergySkateParkCCP( clock );
-        clockControlPanel.addPlayPauseActionListener( new ActionListener() {
+            public void clockStarted( ClockEvent clockEvent ) {
+                updateModeButtons();
+            }
+
+            public void clockPaused( ClockEvent clockEvent ) {
+                updateModeButtons();
+            }
+        } );
+
+        energySkateParkCCP = new EnergySkateParkCCP( clock );
+        energySkateParkCCP.addPlayPauseActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.setPlaybackMode();
             }
         } );
 
-        add( clockControlPanel );
+        add( energySkateParkCCP );
         JButton rewindButton = new JButton( "Rewind", new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_REWIND ) ) );
         rewindButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -96,6 +126,23 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
         } );
         add( clearButton );
         updateRecordButton();
+        updateModeButtons();
+    }
+
+    private void updateModeButtons() {
+        SwingUtilities.invokeLater( new Runnable() {//hack to make sure this happens last (after other state update events)
+            //todo: listening to different objects for state changes should allow us to avoid this hack.
+            public void run() {
+                if( clock.isPaused() ) {
+                    recordButton.setEnabled( true );
+                    energySkateParkCCP.setPlayButtonEnabled( true );
+                }
+                else {
+                    recordButton.setEnabled( timeSeriesModel.isRecording() );
+                    energySkateParkCCP.setPlayButtonEnabled( timeSeriesModel.isPlaybackMode() );
+                }
+            }
+        } );
     }
 
     private void updateRecordButton() {

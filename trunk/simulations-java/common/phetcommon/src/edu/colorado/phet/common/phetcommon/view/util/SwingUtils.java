@@ -190,4 +190,33 @@ public class SwingUtils {
             }
         }
     }
+
+
+    /**
+     * Determine the maximum size for a 2-state button with the specified text and icons.
+     * This can be used to make sure that a button doesn't resize during state change.
+     *
+     * @param button  the UI of this JButton is used for size determination
+     * @param string1 text for 1st mode
+     * @param icon1   icon for 1st mode
+     * @param string2 text for 2nd mode
+     * @param icon2   icon for 2nd mode
+     * @return the smallest Dimension that contains both modes for the button.
+     */
+    public static Dimension getMaxDimension( JButton button, String string1, ImageIcon icon1, String string2, ImageIcon icon2 ) {
+        // Get dimensions for "Play" state
+        button.setText( string1 );
+        button.setIcon( icon1 );
+        Dimension playSize = button.getUI().getPreferredSize( button );
+
+        // Get dimensions for "Pause" state
+        button.setText( string2 );
+        button.setIcon( icon2 );
+        Dimension pauseSize = button.getUI().getPreferredSize( button );
+
+        // Set max dimensions
+        int maxWidth = (int)Math.max( playSize.getWidth(), pauseSize.getWidth() );
+        int maxHeight = (int)Math.max( playSize.getHeight(), pauseSize.getHeight() );
+        return new Dimension( maxWidth, maxHeight );
+    }
 }
