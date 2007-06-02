@@ -12,10 +12,10 @@ import java.awt.*;
  * Time: 12:01:24 PM
  */
 
-public class EC3LookAndFeel extends PhetLookAndFeel {
+public class EnergySkateParkLookAndFeel extends PhetLookAndFeel {
     public static final Color backgroundColor = new Color( 200, 240, 200 );
 
-    public EC3LookAndFeel() {
+    public EnergySkateParkLookAndFeel() {
         setBackgroundColor( backgroundColor );
         setTextFieldBackgroundColor( Color.white );
         setTabFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
