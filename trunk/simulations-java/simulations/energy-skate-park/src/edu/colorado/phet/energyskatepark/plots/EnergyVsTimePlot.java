@@ -49,6 +49,7 @@ public class EnergyVsTimePlot {
     private ReadoutTextNode keText;
     private ReadoutTextNode peText;
     private ReadoutTextNode totalText;
+    private double recordTime = 0.0;
 
     public EnergyVsTimePlot( JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
@@ -90,11 +91,13 @@ public class EnergyVsTimePlot {
                 peText.setText( "PE = " + formatter.format( pe ) + " J" );
                 totalText.setText( "Total = " + formatter.format( total ) + " J" );
 
-                double simulationTime = getEnergySkateParkModel().getTime() - initialTime;
-                dynamicJFreeChartNode.addValue( 0, simulationTime, thermal );
-                dynamicJFreeChartNode.addValue( 1, simulationTime, ke );
-                dynamicJFreeChartNode.addValue( 2, simulationTime, pe );
-                dynamicJFreeChartNode.addValue( 3, simulationTime, total );
+                recordTime = getEnergySkateParkModel().getTime() - initialTime;
+                System.out.println( "simulationTime = " + recordTime );
+                dynamicJFreeChartNode.addValue( 0, recordTime, thermal );
+                dynamicJFreeChartNode.addValue( 1, recordTime, ke );
+                dynamicJFreeChartNode.addValue( 2, recordTime, pe );
+                dynamicJFreeChartNode.addValue( 3, recordTime, total );
+
             }
         } );
         dialog = new JDialog( parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
@@ -103,6 +106,11 @@ public class EnergyVsTimePlot {
         contentPane.add( new EnergySkateParkPlaybackPanel( timeSeriesModel, clock ), BorderLayout.SOUTH );
         dialog.setContentPane( contentPane );
         dialog.setSize( 800, 400 );
+        dialog.addComponentListener( new ComponentAdapter() {
+            public void componentHidden( ComponentEvent e ) {
+                timeSeriesModel.setLiveMode();
+            }
+        } );
         phetPCanvas.addScreenChild( dynamicJFreeChartNode );
         phetPCanvas.addScreenChild( thermalPText );
         phetPCanvas.addScreenChild( keText );
@@ -184,20 +192,15 @@ public class EnergyVsTimePlot {
 
     public void setVisible( boolean visible ) {
         if( visible && !dialog.isVisible() ) {
-            if( Double.isInfinite( initialTime ) ) {
-                resetInitialTime();
-            }
+            resetInternalClock();
             timeSeriesModel.setRecordMode();
+        }
+        else if( !visible && dialog.isVisible() ) {
+            timeSeriesModel.setLiveMode();
         }
 
         dialog.setVisible( visible );
-        if( visible ) {
-            relayout();
-        }
-    }
-
-    private void resetInitialTime() {
-        initialTime = getEnergySkateParkModel().getTime();
+        relayout();
     }
 
     private void relayout() {
@@ -211,6 +214,11 @@ public class EnergyVsTimePlot {
 
     public void reset() {
         dynamicJFreeChartNode.clear();
-        resetInitialTime();
+        recordTime = 0;
+        resetInternalClock();
+    }
+
+    private void resetInternalClock() {
+        initialTime = getEnergySkateParkModel().getTime() - recordTime;
     }
 }
