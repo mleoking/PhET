@@ -1,9 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.timeseries.model;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.*;
 
 import java.util.ArrayList;
 
@@ -76,10 +74,11 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void setPaused( boolean paused ) {
-        if (paused!=clock.isPaused()){
-            if (paused){
+        if( paused != clock.isPaused() ) {
+            if( paused ) {
                 clock.pause();
-            }else{
+            }
+            else {
                 clock.start();
             }
             notifyPauseChanged();
@@ -163,7 +162,11 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void startPlaybackMode( double playbackSpeed ) {
-        playback.setPlaybackSpeed( playbackSpeed );
+        //todo: set playback speed on clock, or maybe this functionality should be elsewhere.
+        if( clock instanceof Clock ) {
+            Clock clock1 = (Clock)clock;
+            clock1.setTimingStrategy( new TimingStrategy.Constant( playbackSpeed ) );
+        }
         setMode( playback );
         setPaused( false );
         notifyDataSeriesChanged();
@@ -174,7 +177,11 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public boolean isPlaybackMode( double speed ) {
-        return isPlaybackMode() && playback.getPlaybackSpeed() == speed;
+        return isPlaybackMode() && getSpeed()==speed;
+    }
+
+    public double getSpeed() {
+        return clock instanceof Clock ? ( (Clock)clock ).getTimingStrategy().getSimulationTimeChangeForPausedClock() : clock.getSimulationTimeChange();
     }
 
     public boolean isRecording() {
@@ -268,13 +275,6 @@ public class TimeSeriesModel extends ClockAdapter {
             System.out.println( "Time not available for mode: " + getMode() );
             return Double.NaN;
         }
-    }
-
-    public void setSpeed( double speed ) {
-//        this.speed = speed;
-        live.setSpeed(speed);
-        record.setSpeed(speed);
-        playback.setPlaybackSpeed( speed );
     }
 
     public void stepClockWhilePaused() {

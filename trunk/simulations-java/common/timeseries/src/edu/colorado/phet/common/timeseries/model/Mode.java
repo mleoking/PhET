@@ -23,30 +23,24 @@ public abstract class Mode {
     public abstract void step( double dt );
 
     public static class Live extends Mode {
-
         private double time = 0;
-        private double speed = 1.0;
 
         public Live( TimeSeriesModel timeSeriesModel ) {
             super( timeSeriesModel );
         }
 
         public void step( double dt ) {
-            time += dt * speed;
-            getTimeSeriesModel().updateModel( dt*speed );
+            time += dt;
+            getTimeSeriesModel().updateModel( dt);
         }
 
         public double getTime() {
             return time;
         }
 
-        public void setSpeed( double speed ) {
-            this.speed = speed;
-        }
     }
 
     public static class Playback extends Mode {
-        private double playbackSpeed = 1.0;
         private double playbackTime;
         private ArrayList listeners = new ArrayList();
 
@@ -55,20 +49,12 @@ public abstract class Mode {
             playbackTime = 0.0;
         }
 
-        public double getPlaybackSpeed() {
-            return playbackSpeed;
-        }
-
-        public void setPlaybackSpeed( double playbackSpeed ) {
-            this.playbackSpeed = playbackSpeed;
-        }
-
         public double getPlaybackTime() {
             return playbackTime;
         }
 
         public void step( double dt ) {
-            playbackTime += dt * playbackSpeed;
+            playbackTime += dt;
             playbackTime = Math.min( getTimeSeriesModel().getRecordTime(), playbackTime );
             getTimeSeriesModel().setPlaybackTime( playbackTime );
             if( playbackTime >= getTimeSeriesModel().getRecordTime() ) {
@@ -98,7 +84,6 @@ public abstract class Mode {
 
     public static class Record extends Mode {
         private double recordTime = 0;
-        private double speed = 1.0;
 
         public Record( final TimeSeriesModel timeSeriesModel ) {
             super( timeSeriesModel );
@@ -110,12 +95,12 @@ public abstract class Mode {
 
         public void step( double dt ) {
             double maxTime = getTimeSeriesModel().getMaxRecordTime();
-            double newTime = recordTime + dt * speed;
+            double newTime = recordTime + dt;
             if( newTime > maxTime ) {
-                dt = ( maxTime - recordTime )*speed;
+                dt = ( maxTime - recordTime );
             }
             recordTime += dt;
-            getTimeSeriesModel().updateModel( dt*speed );
+            getTimeSeriesModel().updateModel( dt);
             getTimeSeriesModel().addSeriesPoint( getTimeSeriesModel().getModelState(), recordTime );
         }
 
@@ -123,9 +108,6 @@ public abstract class Mode {
             return recordTime;
         }
 
-        public void setSpeed( double speed ) {
-            this.speed = speed;
-        }
     }
 
 
