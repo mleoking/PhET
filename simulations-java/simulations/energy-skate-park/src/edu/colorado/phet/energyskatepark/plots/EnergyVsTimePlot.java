@@ -2,8 +2,7 @@ package edu.colorado.phet.energyskatepark.plots;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.DynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -18,7 +17,6 @@ import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkPlaybackPanel;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -27,8 +25,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
@@ -41,7 +37,7 @@ public class EnergyVsTimePlot {
     private EnergySkateParkModel model;
     private TimeSeriesModel timeSeriesModel;
     private IClock clock;
-    private double initialTime;
+    private double initialTime = Double.NEGATIVE_INFINITY;
 
     private JDialog dialog;
     private PhetPCanvas phetPCanvas;
@@ -49,13 +45,12 @@ public class EnergyVsTimePlot {
     private JFreeChart chart;
 
     private ZoomControlNode zoomControlNode;
-    private PSwing clearPSwing;
     private ReadoutTextNode thermalPText;
     private ReadoutTextNode keText;
     private ReadoutTextNode peText;
     private ReadoutTextNode totalText;
 
-    public EnergyVsTimePlot( JFrame parentFrame, IClock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
+    public EnergyVsTimePlot( JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
         this.clock = clock;
         this.timeSeriesModel = timeSeriesModel;
@@ -82,8 +77,8 @@ public class EnergyVsTimePlot {
         peText = new ReadoutTextNode( Color.blue );
         totalText = new ReadoutTextNode( new EnergyLookAndFeel().getTotalEnergyColor() );
 
-        clock.addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent clockEvent ) {
+        timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
+            public void dataSeriesChanged() {
                 double thermal = getEnergySkateParkModel().getBody( 0 ).getThermalEnergy();
                 double ke = getEnergySkateParkModel().getBody( 0 ).getKineticEnergy();
                 double pe = getEnergySkateParkModel().getBody( 0 ).getPotentialEnergy();
@@ -102,11 +97,10 @@ public class EnergyVsTimePlot {
                 dynamicJFreeChartNode.addValue( 3, simulationTime, total );
             }
         } );
-
         dialog = new JDialog( parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
         JPanel contentPane = new JPanel( new BorderLayout() );
         contentPane.add( phetPCanvas, BorderLayout.CENTER );
-        contentPane.add( new EnergySkateParkPlaybackPanel(), BorderLayout.SOUTH );
+        contentPane.add( new EnergySkateParkPlaybackPanel( timeSeriesModel, clock ), BorderLayout.SOUTH );
         dialog.setContentPane( contentPane );
         dialog.setSize( 800, 400 );
         phetPCanvas.addScreenChild( dynamicJFreeChartNode );
@@ -133,7 +127,6 @@ public class EnergyVsTimePlot {
         } );
 
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
-
             public void dataSeriesChanged() {
                 if( timeSeriesModel.numPlaybackStates() == 0 ) {
                     reset();
@@ -152,15 +145,6 @@ public class EnergyVsTimePlot {
         zoomControlNode = new VerticalZoomControl( chart.getXYPlot().getRangeAxis() );
         phetPCanvas.addScreenChild( zoomControlNode );
 
-
-        JButton clear = new JButton( "Clear" );
-        clear.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                reset();
-            }
-        } );
-        clearPSwing = new PSwing( clear );
-        phetPCanvas.addScreenChild( clearPSwing );
         dialog.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 relayout();
@@ -200,7 +184,9 @@ public class EnergyVsTimePlot {
 
     public void setVisible( boolean visible ) {
         if( visible && !dialog.isVisible() ) {
-            reset();
+            if( Double.isInfinite( initialTime ) ) {
+                resetInitialTime();
+            }
             timeSeriesModel.setRecordMode();
         }
 
@@ -210,10 +196,13 @@ public class EnergyVsTimePlot {
         }
     }
 
+    private void resetInitialTime() {
+        initialTime = getEnergySkateParkModel().getTime();
+    }
+
     private void relayout() {
         dynamicJFreeChartNode.setBounds( 0, 0, phetPCanvas.getWidth() - zoomControlNode.getFullBounds().getWidth(), phetPCanvas.getHeight() );
         zoomControlNode.setOffset( dynamicJFreeChartNode.getDataArea().getMaxX(), dynamicJFreeChartNode.getDataArea().getCenterY() );
-        clearPSwing.setOffset( phetPCanvas.getWidth() - clearPSwing.getFullBounds().getWidth() - 2, 2 );
         thermalPText.setOffset( dynamicJFreeChartNode.getDataArea().getX() + 2, dynamicJFreeChartNode.getDataArea().getY() );
         totalText.setOffset( dynamicJFreeChartNode.getDataArea().getX() + 2, thermalPText.getFullBounds().getMaxY() + 5 );
         keText.setOffset( dynamicJFreeChartNode.getDataArea().getCenterX(), dynamicJFreeChartNode.getDataArea().getY() );
@@ -221,7 +210,7 @@ public class EnergyVsTimePlot {
     }
 
     public void reset() {
-        initialTime = getEnergySkateParkModel().getTime();
         dynamicJFreeChartNode.clear();
+        resetInitialTime();
     }
 }

@@ -35,8 +35,8 @@ public class MovingManMotionApplication {
         phetPCanvas.setZoomEventHandler( new PZoomEventHandler() );
         frame.setContentPane( phetPCanvas );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-
-        final MotionModel motionModel = new MotionModel();
+        SwingClock swingClock = new SwingClock( 30, 1.0 );
+        final MotionModel motionModel = new MotionModel(swingClock );
 
         MovingManNode movingManNode = new MovingManNode( motionModel );
         movingManNode.scale( 50 );
@@ -44,7 +44,7 @@ public class MovingManMotionApplication {
         phetPCanvas.addScreenChild( movingManNode );
 
         frame.setVisible( true );
-        SwingClock swingClock = new SwingClock( 30, 1.0 );
+
         swingClock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 motionModel.stepInTime( clockEvent.getSimulationTimeChange() );

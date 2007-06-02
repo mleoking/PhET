@@ -230,9 +230,6 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void setEnergyTimePlotVisible( boolean b ) {
         energyVsTimePlot.setVisible( b );
-        if( b ) {
-            getTimeSeriesModel().startRecording();
-        }
     }
 
     public void setBarChartVisible( boolean b ) {

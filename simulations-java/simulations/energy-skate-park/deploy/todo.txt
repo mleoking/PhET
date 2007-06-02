@@ -1,4 +1,12 @@
 Implement improved time series controls (see notes from 5-31-2007 Energy Skate Park Meeting)
+-Should there be separate controls for playback mode? For example, should the user be able to set the "live" speed and "playback" speed independently?  Currently the "time speed" indicators on record, live and playback panels all refer to the same master clock.
+-Should there be a "record" button on the time series graph?  Otherwise, the user will have to use the "play" button on the main panel, which may be confusing.
+-Now the semantics are something like:
+1. When simulation is running without chart up, mode is "live"
+2. When user brings up E vs. T graph, mode switches to "record"
+3. When user presses playback on E vs. T graph, mode switches to "playback"
+How does user switch mode from "playback" to "record" or "live" again?
+-How much of ClockControlPanel should be generalized for reuse?
 
 Charts are correctly overlaid in Rotation, but not in Energy Skate Park.
 
