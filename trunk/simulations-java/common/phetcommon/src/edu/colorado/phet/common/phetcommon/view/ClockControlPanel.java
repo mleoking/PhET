@@ -79,29 +79,10 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         playIcon = new ImageIcon( playImage );
         pauseIcon = new ImageIcon( pauseImage );
         ImageIcon stepIcon = new ImageIcon( stepImage );
-        
-        // Play/Pause button
-        // Set this button to its maximum size so that the contents of
-        // the control panel don't horizontally shift as the button state changes.
-        {
-            playPause = new JButton();
-            
-            // Get dimensions for "Play" state
-            playPause.setText( playString );
-            playPause.setIcon( playIcon );
-            Dimension playSize = playPause.getPreferredSize();
-            
-            // Get dimensions for "Pause" state
-            playPause.setText( pauseString );
-            playPause.setIcon( pauseIcon );
-            Dimension pauseSize = playPause.getPreferredSize();
-            
-            // Set max dimensions
-            int maxWidth = (int) Math.max( playSize.getWidth(), pauseSize.getWidth() );
-            int maxHeight = (int) Math.max( playSize.getHeight(), pauseSize.getHeight() );
-            playPause.setPreferredSize( new Dimension( maxWidth, maxHeight ) );
-        }
-        
+
+        playPause = new JButton();
+        updatePlayPauseButtonDimension();
+
         // Step button
         step = new JButton( stepString, stepIcon );
 
@@ -135,6 +116,38 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         this.add( buttonPanel, BorderLayout.CENTER );
 
         updateButtons();
+    }
+
+    /**
+     * Sets the text of the Play mode on the Play/Pause button. 
+     * @param playString the new text for the Play mode
+     */
+    protected void setPlayString(String playString){
+        this.playString=playString;
+        updatePlayPauseButtonDimension();
+        updateButtons();
+    }
+
+    /**
+     * Play/Pause button
+     * Set this button to its maximum size so that the contents of
+     * the control panel don't horizontally shift as the button state changes.
+     */
+    private void updatePlayPauseButtonDimension() {
+        // Get dimensions for "Play" state
+        playPause.setText( playString );
+        playPause.setIcon( playIcon );
+        Dimension playSize = playPause.getUI().getPreferredSize( playPause );
+
+        // Get dimensions for "Pause" state
+        playPause.setText( pauseString );
+        playPause.setIcon( pauseIcon );
+        Dimension pauseSize = playPause.getUI().getPreferredSize( playPause );
+
+        // Set max dimensions
+        int maxWidth = (int)Math.max( playSize.getWidth(), pauseSize.getWidth() );
+        int maxHeight = (int)Math.max( playSize.getHeight(), pauseSize.getHeight() );
+        playPause.setPreferredSize( new Dimension( maxWidth, maxHeight ) );
     }
 
     /**

@@ -23,7 +23,12 @@ import java.awt.event.ActionEvent;
  * Jun 1, 2007, 2:27:34 PM
  */
 public class EnergySkateParkPlaybackPanel extends JPanel {
-
+    public static class EnergySkateParkCCP extends ClockControlPanel{
+        public EnergySkateParkCCP( IClock clock ) {
+            super( clock );
+            setPlayString( "Playback");
+        }
+    }
     public EnergySkateParkPlaybackPanel( final TimeSeriesModel timeSeriesModel, final Clock clock ) {
         final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, "0.00",(EnergySkateParkClock)clock );
         timeSpeedSlider.addChangeListener( new ChangeListener() {
@@ -32,7 +37,9 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
             }
         } );
         add( timeSpeedSlider );
-        add( new ClockControlPanel( clock ) );
+        ClockControlPanel clockControlPanel = new EnergySkateParkCCP( clock );
+        
+        add( clockControlPanel );
         JButton rewindButton = new JButton( "Rewind", new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_REWIND ) ) );
         rewindButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
