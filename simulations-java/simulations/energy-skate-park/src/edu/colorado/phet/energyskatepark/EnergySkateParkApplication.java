@@ -58,7 +58,7 @@ public class EnergySkateParkApplication extends PhetApplication {
                PhetApplicationConfig.getVersion( "energy-skate-park" ).formatForTitleBar(),
 //               new EnergySkateParkDebugFrameSetup() );
 new EnergySkateParkFrameSetup() );
-        module = new EnergySkateParkModule( "Module", new SwingClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
+        module = new EnergySkateParkModule( "Module", new EnergySkateParkClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
         setModules( new Module[]{module} );
         getPhetFrame().addMenu( new EnergySkateParkOptionsMenu( module ) );
         getPhetFrame().addMenu( new EnergySkateParkTestMenu( this ) );

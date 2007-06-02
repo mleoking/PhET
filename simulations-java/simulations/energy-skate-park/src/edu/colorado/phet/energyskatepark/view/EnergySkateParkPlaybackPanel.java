@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
+import edu.colorado.phet.energyskatepark.EnergySkateParkClock;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -24,7 +25,7 @@ import java.awt.event.ActionEvent;
 public class EnergySkateParkPlaybackPanel extends JPanel {
 
     public EnergySkateParkPlaybackPanel( final TimeSeriesModel timeSeriesModel, final Clock clock ) {
-        final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, "0.00" );
+        final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, "0.00",(EnergySkateParkClock)clock );
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 clock.setTimingStrategy( new TimingStrategy.Constant( timeSpeedSlider.getValue()) );
