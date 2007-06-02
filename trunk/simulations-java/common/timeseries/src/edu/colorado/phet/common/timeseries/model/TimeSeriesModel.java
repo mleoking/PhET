@@ -245,6 +245,7 @@ public class TimeSeriesModel extends ClockAdapter {
 
     public void clear() {
         series.clear();
+        record.reset();
         notifyDataSeriesChanged();
     }
 

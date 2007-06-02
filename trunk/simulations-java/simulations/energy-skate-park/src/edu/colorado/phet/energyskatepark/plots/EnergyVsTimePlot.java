@@ -37,7 +37,7 @@ public class EnergyVsTimePlot {
     private EnergySkateParkModel model;
     private TimeSeriesModel timeSeriesModel;
     private IClock clock;
-    private double initialTime = Double.NEGATIVE_INFINITY;
+//    private double initialTime = Double.NEGATIVE_INFINITY;
 
     private JDialog dialog;
     private PhetPCanvas phetPCanvas;
@@ -49,7 +49,7 @@ public class EnergyVsTimePlot {
     private ReadoutTextNode keText;
     private ReadoutTextNode peText;
     private ReadoutTextNode totalText;
-    private double recordTime = 0.0;
+//    private double recordTime = 0.0;
 
     public EnergyVsTimePlot( JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
@@ -91,12 +91,13 @@ public class EnergyVsTimePlot {
                 peText.setText( "PE = " + formatter.format( pe ) + " J" );
                 totalText.setText( "Total = " + formatter.format( total ) + " J" );
 
-                recordTime = getEnergySkateParkModel().getTime() - initialTime;
-                System.out.println( "simulationTime = " + recordTime );
-                dynamicJFreeChartNode.addValue( 0, recordTime, thermal );
-                dynamicJFreeChartNode.addValue( 1, recordTime, ke );
-                dynamicJFreeChartNode.addValue( 2, recordTime, pe );
-                dynamicJFreeChartNode.addValue( 3, recordTime, total );
+//                recordTime = getEnergySkateParkModel().getTime() - initialTime;
+//                System.out.println( "simulationTime = " + recordTime );
+                double time=timeSeriesModel.getRecordTime();
+                dynamicJFreeChartNode.addValue( 0, time, thermal );
+                dynamicJFreeChartNode.addValue( 1, time, ke );
+                dynamicJFreeChartNode.addValue( 2, time, pe );
+                dynamicJFreeChartNode.addValue( 3, time, total );
 
             }
         } );
@@ -192,7 +193,6 @@ public class EnergyVsTimePlot {
 
     public void setVisible( boolean visible ) {
         if( visible && !dialog.isVisible() ) {
-            resetInternalClock();
             timeSeriesModel.setRecordMode();
         }
         else if( !visible && dialog.isVisible() ) {
@@ -214,11 +214,5 @@ public class EnergyVsTimePlot {
 
     public void reset() {
         dynamicJFreeChartNode.clear();
-        recordTime = 0;
-        resetInternalClock();
-    }
-
-    private void resetInternalClock() {
-        initialTime = getEnergySkateParkModel().getTime() - recordTime;
     }
 }
