@@ -15,6 +15,8 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkPlaybackPanel;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
@@ -27,6 +29,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
 
 /**
@@ -35,42 +39,48 @@ import java.text.DecimalFormat;
  */
 public class EnergyVsTimePlot {
     private EnergySkateParkModel model;
-    private JDialog dialog;
+    private TimeSeriesModel timeSeriesModel;
     private IClock clock;
     private double initialTime;
+
+    private JDialog dialog;
+    private PhetPCanvas phetPCanvas;
     private DynamicJFreeChartNode dynamicJFreeChartNode;
-    private TimeSeriesModel timeSeriesModel;
+    private JFreeChart chart;
 
     private ZoomControlNode zoomControlNode;
-    private JFreeChart chart;
     private PSwing clearPSwing;
-    private PhetPCanvas graphCanvas;
+    private ReadoutTextNode thermalPText;
+    private ReadoutTextNode keText;
+    private ReadoutTextNode peText;
+    private ReadoutTextNode totalText;
 
-    public EnergyVsTimePlot( JFrame phetFrame, IClock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
+    public EnergyVsTimePlot( JFrame parentFrame, IClock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
         this.clock = clock;
         this.timeSeriesModel = timeSeriesModel;
-        graphCanvas = new BufferedPhetPCanvas();
+        phetPCanvas = new BufferedPhetPCanvas();
+        phetPCanvas.setBackground( EnergySkateParkLookAndFeel.backgroundColor );
 
         chart = ChartFactory.createXYLineChart(
                 EnergySkateParkStrings.getString( "plots.energy-vs-time" ),
                 "time (sec)", "Energy (Joules)", new XYSeriesCollection( new XYSeries( "series" ) ),
                 PlotOrientation.VERTICAL, false, false, false );
-        dynamicJFreeChartNode = new DynamicJFreeChartNode( graphCanvas, chart );
+        dynamicJFreeChartNode = new DynamicJFreeChartNode( phetPCanvas, chart );
+
         dynamicJFreeChartNode.addSeries( "Thermal", Color.red );
         dynamicJFreeChartNode.addSeries( "KE", Color.green );
         dynamicJFreeChartNode.addSeries( "PE", Color.blue );
-
         dynamicJFreeChartNode.addSeries( "Total", new EnergyLookAndFeel().getTotalEnergyColor() );
 
         chart.getXYPlot().getRangeAxis().setRange( 0, 7000 );
         chart.getXYPlot().getDomainAxis().setRange( 0, 50 );
         dynamicJFreeChartNode.setBufferedImmediateSeries();
 
-        final ReadoutTextNode thermalPText = new ReadoutTextNode( Color.red );
-        final ReadoutTextNode keText = new ReadoutTextNode( Color.green );
-        final ReadoutTextNode peText = new ReadoutTextNode( Color.blue );
-        final ReadoutTextNode totalText = new ReadoutTextNode( new EnergyLookAndFeel().getTotalEnergyColor() );
+        thermalPText = new ReadoutTextNode( Color.red );
+        keText = new ReadoutTextNode( Color.green );
+        peText = new ReadoutTextNode( Color.blue );
+        totalText = new ReadoutTextNode( new EnergyLookAndFeel().getTotalEnergyColor() );
 
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
@@ -93,25 +103,22 @@ public class EnergyVsTimePlot {
             }
         } );
 
-        dialog = new JDialog( phetFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
-        dialog.setContentPane( graphCanvas );
-        dialog.setSize( 800, 270 );
-        graphCanvas.addScreenChild( dynamicJFreeChartNode );
-        graphCanvas.addScreenChild( thermalPText );
-        graphCanvas.addScreenChild( keText );
-        graphCanvas.addScreenChild( peText );
-        graphCanvas.addScreenChild( totalText );
-        dynamicJFreeChartNode.setBounds( 0, 0, dialog.getWidth() - 75, dialog.getHeight() - 40 );
-
-        thermalPText.setOffset( dynamicJFreeChartNode.getDataArea().getX() + 2, dynamicJFreeChartNode.getDataArea().getY() );
-        totalText.setOffset( dynamicJFreeChartNode.getDataArea().getX() + 2, thermalPText.getFullBounds().getMaxY() + 5 );
-        keText.setOffset( dynamicJFreeChartNode.getDataArea().getCenterX(), dynamicJFreeChartNode.getDataArea().getY() );
-        peText.setOffset( dynamicJFreeChartNode.getDataArea().getCenterX(), keText.getFullBounds().getMaxY() + 5 );
+        dialog = new JDialog( parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
+        JPanel contentPane = new JPanel( new BorderLayout() );
+        contentPane.add( phetPCanvas, BorderLayout.CENTER );
+        contentPane.add( new EnergySkateParkPlaybackPanel(), BorderLayout.SOUTH );
+        dialog.setContentPane( contentPane );
+        dialog.setSize( 800, 400 );
+        phetPCanvas.addScreenChild( dynamicJFreeChartNode );
+        phetPCanvas.addScreenChild( thermalPText );
+        phetPCanvas.addScreenChild( keText );
+        phetPCanvas.addScreenChild( peText );
+        phetPCanvas.addScreenChild( totalText );
 
         dialog.setLocation( 0, Toolkit.getDefaultToolkit().getScreenSize().height - dialog.getHeight() - 100 );
 
         final JFreeChartCursorNode jFreeChartCursorNode = new JFreeChartCursorNode( dynamicJFreeChartNode );
-        graphCanvas.addScreenChild( jFreeChartCursorNode );
+        phetPCanvas.addScreenChild( jFreeChartCursorNode );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
             public void cursorTimeChanged() {
                 System.out.println( "jFreeChartCursorNode.getTime() = " + jFreeChartCursorNode.getTime() );
@@ -143,8 +150,8 @@ public class EnergyVsTimePlot {
         } );
 
         zoomControlNode = new VerticalZoomControl( chart.getXYPlot().getRangeAxis() );
-        graphCanvas.addScreenChild( zoomControlNode );
-        zoomControlNode.setOffset( dynamicJFreeChartNode.getDataArea().getMaxX(), dynamicJFreeChartNode.getDataArea().getCenterY() );
+        phetPCanvas.addScreenChild( zoomControlNode );
+
 
         JButton clear = new JButton( "Clear" );
         clear.addActionListener( new ActionListener() {
@@ -153,7 +160,12 @@ public class EnergyVsTimePlot {
             }
         } );
         clearPSwing = new PSwing( clear );
-        graphCanvas.addScreenChild( clearPSwing );
+        phetPCanvas.addScreenChild( clearPSwing );
+        dialog.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                relayout();
+            }
+        } );
         relayout();
     }
 
@@ -199,7 +211,13 @@ public class EnergyVsTimePlot {
     }
 
     private void relayout() {
-        clearPSwing.setOffset( graphCanvas.getWidth() - clearPSwing.getFullBounds().getWidth() - 2, 2 );
+        dynamicJFreeChartNode.setBounds( 0, 0, phetPCanvas.getWidth() - zoomControlNode.getFullBounds().getWidth(), phetPCanvas.getHeight() );
+        zoomControlNode.setOffset( dynamicJFreeChartNode.getDataArea().getMaxX(), dynamicJFreeChartNode.getDataArea().getCenterY() );
+        clearPSwing.setOffset( phetPCanvas.getWidth() - clearPSwing.getFullBounds().getWidth() - 2, 2 );
+        thermalPText.setOffset( dynamicJFreeChartNode.getDataArea().getX() + 2, dynamicJFreeChartNode.getDataArea().getY() );
+        totalText.setOffset( dynamicJFreeChartNode.getDataArea().getX() + 2, thermalPText.getFullBounds().getMaxY() + 5 );
+        keText.setOffset( dynamicJFreeChartNode.getDataArea().getCenterX(), dynamicJFreeChartNode.getDataArea().getY() );
+        peText.setOffset( dynamicJFreeChartNode.getDataArea().getCenterX(), keText.getFullBounds().getMaxY() + 5 );
     }
 
     public void reset() {

@@ -36,7 +36,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
-import edu.colorado.phet.energyskatepark.view.EC3LookAndFeel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkTestMenu;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkTrackMenu;
@@ -141,7 +141,7 @@ new EnergySkateParkFrameSetup() );
     public static void mainTestPhysics1D( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                new EC3LookAndFeel().initLookAndFeel();
+                new EnergySkateParkLookAndFeel().initLookAndFeel();
                 TestPhysics1D.main( args );
             }
         } );
@@ -185,7 +185,7 @@ new EnergySkateParkFrameSetup() );
     public static void main( final String[] args, final EnergySkateParkOptions options ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                new EC3LookAndFeel().initLookAndFeel();
+                new EnergySkateParkLookAndFeel().initLookAndFeel();
                 new EnergySkateParkApplication( args, options ).start();
             }
         } );

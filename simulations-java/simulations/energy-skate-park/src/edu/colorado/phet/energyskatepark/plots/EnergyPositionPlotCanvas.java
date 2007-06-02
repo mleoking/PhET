@@ -10,7 +10,7 @@ import edu.colorado.phet.energyskatepark.common.LucidaSansFont;
 import edu.colorado.phet.energyskatepark.common.SavedGraph;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
-import edu.colorado.phet.energyskatepark.view.EC3LookAndFeel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLegend;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -68,7 +68,7 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
 
     public EnergyPositionPlotCanvas( EnergySkateParkModule module ) {
 //        super( new Dimension( 100, 100 ) );
-        setBackground( EC3LookAndFeel.backgroundColor );
+        setBackground( EnergySkateParkLookAndFeel.backgroundColor );
         this.module = module;
         ke = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "energy.kinetic" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getKEColor(), this ) {
             public double getValue() {
@@ -234,7 +234,7 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
                                                            "Position", // x-axis label
                                                            "Energy", // y-axis label
                                                            dataset, PlotOrientation.VERTICAL, false, true, false );
-        chart.setBackgroundPaint( EC3LookAndFeel.backgroundColor );
+        chart.setBackgroundPaint( EnergySkateParkLookAndFeel.backgroundColor );
 
         XYPlot plot = chart.getXYPlot();
         plot.setBackgroundPaint( Color.white );

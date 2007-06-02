@@ -16,11 +16,6 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
 
     public EnergySkateParkPlaybackPanel() {
         final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, "0.00" );
-//        timeSpeedSlider.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                clock.setTimingStrategy( new TimingStrategy.Constant( timeSpeedSlider.getValue() ) );
-//            }
-//        } );
         add( timeSpeedSlider );
         add( new ClockControlPanel( new SwingClock( 30, 1 ) ) );
         add( new JButton( "Rewind", new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_REWIND ) ) ) );
