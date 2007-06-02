@@ -81,7 +81,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         setModel( new BaseModel() );
 
         energyTimeSeriesModel = new EnergySkateParkRecordableModel( getEnergySkateParkModel() );
-        timeSeriesModel = new TimeSeriesModel( energyTimeSeriesModel, EnergySkateParkApplication.SIMULATION_TIME_DT );
+        timeSeriesModel = new TimeSeriesModel( energyTimeSeriesModel, clock );
         timeSeriesModel.setMaxRecordTime( 200.0 );
         clock.addClockListener( timeSeriesModel );
 

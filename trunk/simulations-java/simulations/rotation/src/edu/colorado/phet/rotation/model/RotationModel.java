@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation.model;
 import edu.colorado.phet.common.motion.model.ModelState;
 import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.motion.model.SimulationVariable;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 
 import java.awt.geom.Point2D;
@@ -19,7 +20,8 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     private SimulationVariable yVelocityVariable;
     private SimulationVariable centripetalAcceleration;
 
-    public RotationModel() {
+    public RotationModel( IClock clock) {
+        super(clock );
         addRotationBody( new RotationBody() );
         xPositionVariable = new SimulationVariable( getRotationBody( 0 ).getX() );
         yPositionVariable = new SimulationVariable( getRotationBody( 0 ).getY() );

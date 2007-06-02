@@ -111,7 +111,8 @@ public class MovingManNode extends PNode {
         frame.setContentPane( phetPCanvas );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        final MotionModel rotationModel = new MotionModel();
+        SwingClock swingClock = new SwingClock( 30, 1.0 );
+        final MotionModel rotationModel = new MotionModel(swingClock );
 
         MovingManNode movingManNode = new MovingManNode( rotationModel );
         movingManNode.scale( 50 );
@@ -119,7 +120,7 @@ public class MovingManNode extends PNode {
         phetPCanvas.addScreenChild( movingManNode );
 
         frame.setVisible( true );
-        SwingClock swingClock = new SwingClock( 30, 1.0 );
+
         swingClock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 rotationModel.stepInTime( clockEvent.getSimulationTimeChange() );

@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.motion.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
@@ -50,8 +51,8 @@ public class MotionModel implements IPositionDriven {
     };
     private TimeSeriesModel timeSeriesModel;
 
-    public MotionModel() {
-        timeSeriesModel = new TimeSeriesModel( recordableModel, 1.0 );
+    public MotionModel( IClock clock) {
+        timeSeriesModel = new TimeSeriesModel( recordableModel, clock );
         timeSeriesModel.setRecordMode();
         currentState = createModelState();
 

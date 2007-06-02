@@ -29,15 +29,16 @@ public class TestTimeSeriesGraphSetNode {
 
         pSwingCanvas = new PhetPCanvas();
         frame.setContentPane( pSwingCanvas );
-        final TestMotionModel testMotionModel = new TestMotionModel();
-        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( new GraphSetModel( new TestGraphSet( pSwingCanvas, testMotionModel ).getGraphSuite( 0 ) ), new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), 1.0 ) );
+        clock = new SwingClock( 30, 1 );
+        final TestMotionModel testMotionModel = new TestMotionModel(clock );
+        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( new GraphSetModel( new TestGraphSet( pSwingCanvas, testMotionModel ).getGraphSuite( 0 ) ), new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), clock ) );
         pSwingCanvas.getLayer().addChild( timeSeriesGraphSetNode );
         pSwingCanvas.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 relayout();
             }
         } );
-        clock = new SwingClock( 30, 1 );
+
         clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 testMotionModel.stepInTime( clockEvent.getSimulationTimeChange() );
@@ -67,6 +68,9 @@ public class TestTimeSeriesGraphSetNode {
     }
 
     class TestMotionModel extends MotionModel {
+        public TestMotionModel( IClock clock ) {
+            super( clock );
+        }
     }
 
     private void relayout() {

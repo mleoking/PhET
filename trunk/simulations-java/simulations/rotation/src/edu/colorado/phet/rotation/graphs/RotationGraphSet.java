@@ -5,6 +5,7 @@ import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -43,7 +44,7 @@ public class RotationGraphSet extends GraphSuiteSet {
     }
 
     public static void main( String[] args ) {
-        RotationGraphSet rotationGraphSet = new RotationGraphSet( new PhetPCanvas(), new RotationModel() );
+        RotationGraphSet rotationGraphSet = new RotationGraphSet( new PhetPCanvas(), new RotationModel(new SwingClock( 30,1) ) );
         MinimizableControlGraph[] graphs = rotationGraphSet.getAllGraphs();
         System.out.println( "graphs.length = " + graphs.length );
         System.out.println( "Arrays.asList( graphs ) = " + Arrays.asList( graphs ) );

@@ -3,6 +3,7 @@ package edu.colorado.phet.common.motion.tests;
 import edu.colorado.phet.common.motion.model.AccelerationDriven;
 import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.motion.model.TimeData;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
 /**
  * User: Sam Reid
@@ -13,7 +14,7 @@ import edu.colorado.phet.common.motion.model.TimeData;
 public class TestConstantAcceleration {
     public static void main( String[] args ) {
         AccelerationDriven accelerationDriven = new AccelerationDriven();
-        MotionModel model = new MotionModel();
+        MotionModel model = new MotionModel( new SwingClock( 30, 1 ) );
         model.setAcceleration( 1.0 );
         model.setUpdateStrategy( accelerationDriven );
         System.out.println( "init state=" + model.getLastState() );

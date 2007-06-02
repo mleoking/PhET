@@ -19,9 +19,10 @@ public class TestTimeSeries {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         RecordableModel recordableModel = new MyRecordableModel();
-        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( recordableModel, 1.0 );
-        frame.setContentPane( new TimeSeriesPlaybackPanel( timeSeriesModel ) );
         Clock clock = new SwingClock( 30, 1.0 );
+        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( recordableModel, clock );
+        frame.setContentPane( new TimeSeriesPlaybackPanel( timeSeriesModel ) );
+
         clock.addClockListener( timeSeriesModel );
         clock.start();
     }
