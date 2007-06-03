@@ -202,6 +202,10 @@ public class EnergySkateParkModel implements Serializable {
             notifyZeroPointPotentialYChanged();
         }
 
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.stateSet();
+        }
     }
 
     private void notifyBodiesSynced() {
@@ -427,6 +431,9 @@ public class EnergySkateParkModel implements Serializable {
 
         public void bodiesSynced() {
         }
+
+        public void stateSet() {
+        }
     }
 
     public static interface EnergyModelListener {
@@ -451,6 +458,8 @@ public class EnergySkateParkModel implements Serializable {
         void splinesSynced();
 
         void bodiesSynced();
+
+        void stateSet();
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {
