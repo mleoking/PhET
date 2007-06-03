@@ -56,7 +56,6 @@ public class PreFabSplines {
         CubicSpline spline = new CubicSpline();
 
         double dx = 1.5;
-//        double dx=0;
         double min = 2 + dx;
         double max = 11 + dx;
         double h = 7;
@@ -65,52 +64,6 @@ public class PreFabSplines {
         spline.addControlPoint( max, h );
         return spline;
     }
-
-    public static void init( CubicSpline spline ) {
-
-//        spline.addControlPoint( 150, 300 );
-//        spline.addControlPoint( 200, 320 );
-//        spline.addControlPoint( 350, 300 );
-//        spline.addControlPoint( 400, 375 );
-
-//        spline.addControlPoint( 125, 198 );
-//        spline.addControlPoint( 250, 512 );
-//        spline.addControlPoint( 591, 447 );
-//        spline.addControlPoint( 419, 130 );
-
-//        spline.addControlPoint( 125, 198 );
-//        spline.addControlPoint( 250, 512 );
-//        spline.addControlPoint( 591, 447 );
-//        spline.addControlPoint( 747, 189 );
-//
-//        spline.addControlPoint( 125, 198 );
-//        spline.addControlPoint( 250, 512 );
-//        spline.addControlPoint( 591, 447 );
-//        spline.addControlPoint( 620, 198 );
-//        spline.addControlPoint( 700, 198 );
-//        spline.addControlPoint( 750, 198 );
-//        spline.addControlPoint( 800, 198 );
-
-//        spline.addControlPoint( 125, 198 );
-//        spline.addControlPoint( 250, 512 );
-//        spline.addControlPoint( 591, 447 );
-//        spline.addControlPoint( 543, 147 );
-//        spline.addControlPoint( 422, 333 );
-//        spline.addControlPoint( 810, 351 );
-//        spline.addControlPoint( 800, 198 );
-    }
-
-//    private void addSpline() {
-//        CubicSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
-//        spline.addControlPoint( 50, 50 );
-//        spline.addControlPoint( 150, 50 );
-//        spline.addControlPoint( 300, 50 );
-//        AbstractSpline rev = spline.createReverseSpline();
-//
-//        ec3Model.addSpline( spline, rev );
-//        SplineNode splineGraphic = new SplineNode( this, spline, rev );
-//        addSplineGraphic( splineGraphic );
-//    }
 
     public CubicSpline getLoop() {
         CubicSpline spline = new CubicSpline();

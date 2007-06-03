@@ -84,7 +84,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     private void toggleFullScreen() {
-        getEnergyConservationModule().getModulePanel().setFullScreen( !getEnergyConservationModule().getModulePanel().isFullScreen() );
+        getEnergySkateParkModule().getModulePanel().setFullScreen( !getEnergySkateParkModule().getModulePanel().isFullScreen() );
     }
 
     private void addFocusRequest() {
@@ -261,7 +261,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         energySkateParkModel.removeSplineSurface( splineNode.getSpline() );
     }
 
-    public EnergySkateParkModule getEnergyConservationModule() {
+    public EnergySkateParkModule getEnergySkateParkModule() {
         return module;
     }
 

@@ -1,18 +1,16 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.swing;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-import edu.colorado.phet.energyskatepark.model.Planet;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.model.Planet;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -55,7 +53,7 @@ public class LocationControlPanel extends VerticalLayoutPanel {
         final JComponent gravitySlider = new GravitySlider( module );
         addFullWidth( gravitySlider );
 
-        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter(){
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
 
             public void gravityChanged() {
                 synchronizePlanet();
@@ -112,8 +110,7 @@ public class LocationControlPanel extends VerticalLayoutPanel {
 
 
     private void synchronizePlanet() {
-//        module.getEnergyConservationCanvas().getRootNode().getBackground().setVisible( showBackgroundCheckbox.isSelected() );
-        module.getEnergyConservationCanvas().getRootNode().setBackgroundVisible( showBackgroundCheckbox.isSelected() );
+        module.getEnergySkateParkSimulationPanel().getRootNode().setBackgroundVisible( showBackgroundCheckbox.isSelected() );
         boolean matched = false;
         for( int i = 0; i < planetButtons.length; i++ ) {
             Planet planet = planetButtons[i].getPlanet();
@@ -125,7 +122,7 @@ public class LocationControlPanel extends VerticalLayoutPanel {
             planetButtons[i].setSelected( match );
         }
         if( !matched ) {
-            module.getEnergyConservationCanvas().getRootNode().clearBackground();
+            module.getEnergySkateParkSimulationPanel().getRootNode().clearBackground();
         }
     }
 }

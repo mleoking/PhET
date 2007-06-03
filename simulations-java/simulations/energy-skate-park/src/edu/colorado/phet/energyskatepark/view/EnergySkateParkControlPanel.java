@@ -89,12 +89,12 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         final JCheckBox zeroPointPotential = new JCheckBox( EnergySkateParkStrings.getString( "label.potential-energy-reference" ) );
         zeroPointPotential.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.getEnergyConservationCanvas().setZeroPointVisible( zeroPointPotential.isSelected() );
+                module.getEnergySkateParkSimulationPanel().setZeroPointVisible( zeroPointPotential.isSelected() );
             }
         } );
-        module.getEnergyConservationCanvas().addListener( new EnergySkateParkSimulationPanel.Adapter() {
+        module.getEnergySkateParkSimulationPanel().addListener( new EnergySkateParkSimulationPanel.Adapter() {
             public void zeroPointEnergyVisibilityChanged() {
-                zeroPointPotential.setSelected( module.getEnergyConservationCanvas().isZeroPointVisible() );
+                zeroPointPotential.setSelected( module.getEnergySkateParkSimulationPanel().isZeroPointVisible() );
             }
         } );
 
@@ -162,7 +162,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
     }
 
     private PNode getMeasuringTapeNode( EnergySkateParkModule module ) {
-        return module.getEnergyConservationCanvas().getRootNode().getMeasuringTapeNode();
+        return module.getEnergySkateParkSimulationPanel().getRootNode().getMeasuringTapeNode();
     }
 
     private void resetSkater() {

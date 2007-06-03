@@ -447,7 +447,7 @@ public class SplineNode extends PNode {
             }
         };
 
-        public TrackPopupMenu( final EnergySkateParkSplineEnvironment ec3Canvas ) {
+        public TrackPopupMenu( final EnergySkateParkSplineEnvironment splineEnvironment ) {
             rollerCoasterMode = new JCheckBoxMenuItem( "Roller-Coaster Mode", spline.isRollerCoasterMode() );
             attachListeners( spline );
             rollerCoasterMode.addActionListener( new ActionListener() {
@@ -461,7 +461,7 @@ public class SplineNode extends PNode {
             JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "controls.delete-track" ) );
             delete.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    ec3Canvas.removeSpline( SplineNode.this );
+                    splineEnvironment.removeSpline( SplineNode.this );
                 }
             } );
 

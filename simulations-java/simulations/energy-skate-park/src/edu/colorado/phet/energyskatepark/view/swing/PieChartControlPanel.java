@@ -36,10 +36,10 @@ public class PieChartControlPanel extends HorizontalLayoutPanel {
         } );
         add( showPieChartCheckBox );
 
-        showThermal = new JCheckBox( EnergySkateParkStrings.getString( "piechart.show-thermal" ), !module.getEnergyConservationCanvas().getRootNode().getIgnoreThermal() );
+        showThermal = new JCheckBox( EnergySkateParkStrings.getString( "piechart.show-thermal" ), !module.getEnergySkateParkSimulationPanel().getRootNode().getIgnoreThermal() );
         showThermal.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.getEnergyConservationCanvas().getRootNode().setIgnoreThermal( !showThermal.isSelected() );
+                module.getEnergySkateParkSimulationPanel().getRootNode().setIgnoreThermal( !showThermal.isSelected() );
             }
         } );
         add( showThermal );

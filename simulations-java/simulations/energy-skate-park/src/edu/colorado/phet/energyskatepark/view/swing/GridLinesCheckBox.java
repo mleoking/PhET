@@ -31,6 +31,6 @@ public class GridLinesCheckBox extends VerticalLayoutPanel {
     }
 
     public EnergySkateParkRootNode getRoot() {
-        return module.getEnergyConservationCanvas().getRootNode();
+        return module.getEnergySkateParkSimulationPanel().getRootNode();
     }
 }

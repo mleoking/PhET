@@ -17,10 +17,10 @@ public class EnergySkateParkBarGraph extends BarGraph {
     public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel canvas, final EnergySkateParkModel energySkateParkModel, double scale ) {
         this( canvas, energySkateParkModel, EnergySkateParkStrings.getString( "properties.energy" ), scale );
         final ValueAccessor[] energyAccess = new ValueAccessor[]{
-                new ValueAccessor.KineticEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() ),
-                new ValueAccessor.PotentialEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() ),
-                new ValueAccessor.ThermalEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() ),
-                new ValueAccessor.TotalEnergy( canvas.getEnergyConservationModule().getEnergyLookAndFeel() )
+                new ValueAccessor.KineticEnergy( canvas.getEnergySkateParkModule().getEnergyLookAndFeel() ),
+                new ValueAccessor.PotentialEnergy( canvas.getEnergySkateParkModule().getEnergyLookAndFeel() ),
+                new ValueAccessor.ThermalEnergy( canvas.getEnergySkateParkModule().getEnergyLookAndFeel() ),
+                new ValueAccessor.TotalEnergy( canvas.getEnergySkateParkModule().getEnergyLookAndFeel() )
         };
         Variable[] v = toVariableArray( energyAccess, energySkateParkModel );
         setVariables( v );
