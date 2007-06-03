@@ -115,16 +115,6 @@ public class EnergySkateParkModel implements Serializable {
         listeners.remove( energyModelListener );
     }
 
-    public boolean isSplineUserControlled() {
-        for( int i = 0; i < splines.size(); i++ ) {
-            EnergySkateParkSpline splineSurface = (EnergySkateParkSpline)splines.get( i );
-            if( splineSurface.isUserControlled() ) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void removeAllSplineSurfaces() {
         while( splines.size() > 0 ) {
             removeSplineSurface( getSpline( 0 ) );
