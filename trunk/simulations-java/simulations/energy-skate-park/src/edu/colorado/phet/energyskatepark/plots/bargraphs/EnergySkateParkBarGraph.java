@@ -39,6 +39,10 @@ public class EnergySkateParkBarGraph extends BarGraph {
             public void bodyEnergyChanged() {//todo: this will be called too many times if there are many bodies changing energy during one time step
                 update();
             }
+
+            public void stateSet() {
+                update();
+            }
         } );
     }
 

@@ -33,8 +33,6 @@ public class BarGraph extends PNode {
     private double barWidth;
     private double dw;
     private double sep;
-    private int dx = 10;
-    private int dy = -10;
     private double topY;
 
     private XAxis xAxis;
