@@ -72,7 +72,7 @@ public class OffscreenManIndicatorNode extends PhetPNode {
     }
 
     private Rectangle getVisibleBounds() {
-        return new Rectangle( module.getEnergyConservationCanvas().getSize() );
+        return new Rectangle( module.getEnergySkateParkSimulationPanel().getSize() );
     }
 
     public void setSkaterNode( SkaterNode skaterNode ) {

@@ -130,7 +130,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         return energyLookAndFeel;
     }
 
-    public EnergySkateParkSimulationPanel getEnergyConservationCanvas() {
+    public EnergySkateParkSimulationPanel getEnergySkateParkSimulationPanel() {
         return energyCanvas;
     }
 

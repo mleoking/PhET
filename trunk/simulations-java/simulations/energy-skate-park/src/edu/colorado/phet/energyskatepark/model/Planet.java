@@ -77,7 +77,7 @@ public abstract class Planet {
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            module.getEnergyConservationCanvas().getRootNode().setBackground( image );
+            module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );
         }
     }
 
@@ -96,7 +96,7 @@ public abstract class Planet {
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            module.getEnergyConservationCanvas().getRootNode().setBackground( image );
+            module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );
         }
 
         public boolean isDefault() {
@@ -117,7 +117,7 @@ public abstract class Planet {
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            module.getEnergyConservationCanvas().getRootNode().setBackground( image );
+            module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );
         }
     }
 
@@ -129,7 +129,7 @@ public abstract class Planet {
         protected void setupImage( EnergySkateParkModule module ) {
             try {
                 BufferedImage image = ImageLoader.loadBufferedImage( "energy-skate-park/images/jupiter4.jpg" );
-                module.getEnergyConservationCanvas().getRootNode().setBackground( image );
+                module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );
             }
             catch( IOException e1 ) {
                 e1.printStackTrace();

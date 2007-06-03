@@ -27,14 +27,14 @@ public class PauseIndicatorNode extends PNode {
 
     private EnergySkateParkModule module;
     private EnergySkateParkSimulationPanel canvas;
-    private EnergySkateParkRootNode ec3RootNode;
+    private EnergySkateParkRootNode rootNode;
     private int insetX = 5;
     private int insetY = 5;
 
-    public PauseIndicatorNode( final EnergySkateParkModule module, EnergySkateParkSimulationPanel canvas, EnergySkateParkRootNode ec3RootNode ) {
+    public PauseIndicatorNode( final EnergySkateParkModule module, EnergySkateParkSimulationPanel canvas, EnergySkateParkRootNode rootNode ) {
         this.module = module;
         this.canvas = canvas;
-        this.ec3RootNode = ec3RootNode;
+        this.rootNode = rootNode;
         PImage im = PImageFactory.create( "energy-skate-park/images/icons/java/media/Pause24.gif" );
         addChild( im );
         ShadowPText text = new ShadowPText( EnergySkateParkStrings.getString( "message.paused" ) );

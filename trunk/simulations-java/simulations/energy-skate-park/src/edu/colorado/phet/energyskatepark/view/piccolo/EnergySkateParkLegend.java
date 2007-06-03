@@ -3,10 +3,8 @@ package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.common.Legend;
-
-import java.awt.*;
+import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 
 /**
  * User: Sam Reid
@@ -15,17 +13,17 @@ import java.awt.*;
  */
 
 public class EnergySkateParkLegend extends Legend {
-    private EnergySkateParkModule ec3Module;
+    private EnergySkateParkModule module;
 
-    public EnergySkateParkLegend( EnergySkateParkModule ec3Module ) {
-        this.ec3Module = ec3Module;
-        addEntry( EnergySkateParkStrings.getEnergyString( "energy.kinetic" ), ec3Module.getEnergyLookAndFeel().getKEColor() );
-        addEntry( EnergySkateParkStrings.getEnergyString( "energy.potential" ), ec3Module.getEnergyLookAndFeel().getPEColor() );
-        addEntry( EnergySkateParkStrings.getEnergyString( "energy.thermal" ), ec3Module.getEnergyLookAndFeel().getThermalEnergyColor() );
+    public EnergySkateParkLegend( EnergySkateParkModule module ) {
+        this.module = module;
+        addEntry( EnergySkateParkStrings.getEnergyString( "energy.kinetic" ), module.getEnergyLookAndFeel().getKEColor() );
+        addEntry( EnergySkateParkStrings.getEnergyString( "energy.potential" ), module.getEnergyLookAndFeel().getPEColor() );
+        addEntry( EnergySkateParkStrings.getEnergyString( "energy.thermal" ), module.getEnergyLookAndFeel().getThermalEnergyColor() );
         setBackgroundPaint( EnergyLookAndFeel.getLegendBackground() );
     }
 
     public void addTotalEnergyEntry() {
-        addEntry( EnergySkateParkStrings.getEnergyString( "energy.total" ), ec3Module.getEnergyLookAndFeel().getTotalEnergyColor() );
+        addEntry( EnergySkateParkStrings.getEnergyString( "energy.total" ), module.getEnergyLookAndFeel().getTotalEnergyColor() );
     }
 }

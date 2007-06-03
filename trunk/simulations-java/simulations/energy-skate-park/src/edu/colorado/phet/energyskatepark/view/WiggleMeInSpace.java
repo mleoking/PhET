@@ -53,10 +53,10 @@ public class WiggleMeInSpace {
     }
 
     private void startHint() {
-        module.getEnergyConservationCanvas().requestFocus();
+        module.getEnergySkateParkSimulationPanel().requestFocus();
         getRootNode().addScreenChild( hintNode );
-        hintNode.setOffset( module.getEnergyConservationCanvas().getWidth() / 2, hintNode.getFullBounds().getHeight() / 2 );
-        hintNode.animateTo( module.getEnergyConservationCanvas().getWidth() / 2, (int)( module.getEnergyConservationCanvas().getHeight() * 1.0 / 4.0 ) );
+        hintNode.setOffset( module.getEnergySkateParkSimulationPanel().getWidth() / 2, hintNode.getFullBounds().getHeight() / 2 );
+        hintNode.animateTo( module.getEnergySkateParkSimulationPanel().getWidth() / 2, (int)( module.getEnergySkateParkSimulationPanel().getHeight() * 1.0 / 4.0 ) );
         module.getEnergySkateParkModel().getBody( 0 ).addListener( new Body.ListenerAdapter() {
             public void thrustChanged() {
                 if( module.getEnergySkateParkModel().getBody( 0 ).getThrust().getMagnitude() > 0 ) {
@@ -69,7 +69,7 @@ public class WiggleMeInSpace {
     }
 
     private EnergySkateParkRootNode getRootNode() {
-        return module.getEnergyConservationCanvas().getRootNode();
+        return module.getEnergySkateParkSimulationPanel().getRootNode();
     }
 
     public void start() {
