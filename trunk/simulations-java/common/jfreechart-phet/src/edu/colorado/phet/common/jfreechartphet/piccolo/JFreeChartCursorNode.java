@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 /**
  * This class shows a draggable cursor overlaid on a JFreeChartNode
+ *
  * @author Sam Reid
  */
 public class JFreeChartCursorNode extends PNode {
@@ -51,7 +52,8 @@ public class JFreeChartCursorNode extends PNode {
     };
 
     /**
-     * Constructs a JFreeChartCursorNode to target the specified jfreechartnode. 
+     * Constructs a JFreeChartCursorNode to target the specified jfreechartnode.
+     *
      * @param jFreeChartNode the node to overlay
      */
     public JFreeChartCursorNode( final JFreeChartNode jFreeChartNode ) {
@@ -106,6 +108,9 @@ public class JFreeChartCursorNode extends PNode {
 
     public void setMinDragTime( double minDragTime ) {
         this.minDragTime = minDragTime;
+        if( getTime() < minDragTime ) {
+            setTime( minDragTime );
+        }
     }
 
     public double getMaxDragTime() {
@@ -114,6 +119,9 @@ public class JFreeChartCursorNode extends PNode {
 
     public void setMaxDragTime( double maxDragTime ) {
         this.maxDragTime = maxDragTime;
+        if( getTime() > maxDragTime ) {
+            setTime( maxDragTime );
+        }
     }
 
     private double getLowBound() {
