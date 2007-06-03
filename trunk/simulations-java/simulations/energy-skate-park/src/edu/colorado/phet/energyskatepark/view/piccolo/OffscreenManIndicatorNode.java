@@ -5,6 +5,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ConnectorGraphic;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.view.piccolo.SkaterNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -46,17 +47,17 @@ public class OffscreenManIndicatorNode extends PhetPNode {
             }
 
         } );
+        body.getBody().addListener( new Body.ListenerAdapter(){
+            public void positionAngleChanged() {
+                update();
+            }
+        } );
         updateText();
     }
 
     private void updateText() {
         bringBackSkater.setText( EnergySkateParkStrings.getString( "controls.bring-back" ) + " " + module.getSkaterCharacter().getName() );
 
-    }
-
-    public void setBodyGraphic( SkaterNode body ) {
-        this.bodyNode = body;
-        update();
     }
 
     public void update() {

@@ -64,7 +64,6 @@ public class SplineToolboxNode extends PNode {
 
                 createdSurface = new EnergySkateParkSpline( spline.getControlPoints() );
                 energySkateParkSimulationPanel.getEnergySkateParkModel().addSplineSurface( createdSurface );
-                energySkateParkSimulationPanel.redrawAllGraphics();
                 energySkateParkSimulationPanel.getSplineGraphic( createdSurface ).processExternalStartDragEvent();
             }
 

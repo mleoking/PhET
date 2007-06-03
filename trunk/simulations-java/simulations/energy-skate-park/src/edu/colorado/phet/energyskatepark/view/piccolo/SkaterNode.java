@@ -68,11 +68,6 @@ public class SkaterNode extends PNode {
             addChild( centerDebugger );
         }
 
-        body.addListener( new Body.ListenerAdapter() {
-            public void doRepaint() {
-                update();
-            }
-        } );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( SkaterNode.this );
@@ -111,6 +106,13 @@ public class SkaterNode extends PNode {
             public void dimensionChanged() {
                 update();
             }
+        } );
+        getBody().addListener( new Body.ListenerAdapter() {
+
+            public void positionAngleChanged() {
+                update();
+            }
+
         } );
         update();
     }

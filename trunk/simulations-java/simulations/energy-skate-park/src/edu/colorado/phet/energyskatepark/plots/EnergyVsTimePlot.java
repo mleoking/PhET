@@ -85,24 +85,26 @@ public class EnergyVsTimePlot {
 
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void dataSeriesChanged() {
-                double thermal = getEnergySkateParkModel().getBody( 0 ).getThermalEnergy();
-                double ke = getEnergySkateParkModel().getBody( 0 ).getKineticEnergy();
-                double pe = getEnergySkateParkModel().getBody( 0 ).getPotentialEnergy();
-                double total = getEnergySkateParkModel().getBody( 0 ).getTotalEnergy();
+                if( getEnergySkateParkModel().getNumBodies() > 0 ) {
+                    double thermal = getEnergySkateParkModel().getBody( 0 ).getThermalEnergy();
+                    double ke = getEnergySkateParkModel().getBody( 0 ).getKineticEnergy();
+                    double pe = getEnergySkateParkModel().getBody( 0 ).getPotentialEnergy();
+                    double total = getEnergySkateParkModel().getBody( 0 ).getTotalEnergy();
 
-                DecimalFormat formatter = new DecimalFormat( "0.00" );
-                thermalPText.setText( "Thermal = " + formatter.format( thermal ) + " J" );
-                keText.setText( "KE = " + formatter.format( ke ) + " J" );
-                peText.setText( "PE = " + formatter.format( pe ) + " J" );
-                totalText.setText( "Total = " + formatter.format( total ) + " J" );
+                    DecimalFormat formatter = new DecimalFormat( "0.00" );
+                    thermalPText.setText( "Thermal = " + formatter.format( thermal ) + " J" );
+                    keText.setText( "KE = " + formatter.format( ke ) + " J" );
+                    peText.setText( "PE = " + formatter.format( pe ) + " J" );
+                    totalText.setText( "Total = " + formatter.format( total ) + " J" );
 
-                double time = timeSeriesModel.getRecordTime();
-                dynamicJFreeChartNode.addValue( 0, time, thermal );
-                dynamicJFreeChartNode.addValue( 1, time, ke );
-                dynamicJFreeChartNode.addValue( 2, time, pe );
-                dynamicJFreeChartNode.addValue( 3, time, total );
+                    double time = timeSeriesModel.getRecordTime();
+                    dynamicJFreeChartNode.addValue( 0, time, thermal );
+                    dynamicJFreeChartNode.addValue( 1, time, ke );
+                    dynamicJFreeChartNode.addValue( 2, time, pe );
+                    dynamicJFreeChartNode.addValue( 3, time, total );
 
-                jFreeChartCursorNode.setMaxDragTime( time );
+                    jFreeChartCursorNode.setMaxDragTime( time );
+                }
             }
         } );
         dialog = new JDialog( parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );

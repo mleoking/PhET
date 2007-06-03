@@ -1,19 +1,16 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.event.PanZoomWorldKeyHandler;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
-import edu.colorado.phet.energyskatepark.view.piccolo.AttachmentPointNode;
-import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
-import edu.colorado.phet.energyskatepark.view.piccolo.SplineNode;
-import edu.colorado.phet.energyskatepark.view.piccolo.SkaterNode;
 import edu.colorado.phet.energyskatepark.model.*;
 import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
+import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
+import edu.colorado.phet.energyskatepark.view.piccolo.SkaterNode;
+import edu.colorado.phet.energyskatepark.view.piccolo.SplineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -50,8 +47,11 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         addFocusRequest();
         addKeyHandling();
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
-        addThrust();
-        addGraphicsUpdate( module );
+        energySkateParkModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void preStep( double dt ) {
+                updateThrust();
+            }
+        } );
         addKeyListener( new PDebugKeyHandler() );
         addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
@@ -90,7 +90,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
                 }
             }
         } );
-
     }
 
     protected void updateScale() {
@@ -104,16 +103,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
         super.paintComponent( g );
-    }
-
-    private void addGraphicsUpdate( EnergySkateParkModule ec3Module ) {
-        ec3Module.getClock().addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent event ) {
-                // This is invoked both when the simulation is paused,
-                // and also when it is running.//todo this looks awkward
-                updateWorldGraphics();
-            }
-        } );
     }
 
     private void toggleFullScreen() {
@@ -144,28 +133,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         } );
     }
 
-    private void addThrust() {
-        energySkateParkModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-            public void preStep( double dt ) {
-                updateThrust();
-            }
-        } );
-    }
-
-    private void updateWorldGraphics() {
-        redrawAllGraphics();
-    }
-
     private void debugScreenSize() {
         System.out.println( "getSize( ) = " + getSize() );
-    }
-
-    public void clearBuses() {
-        rootNode.clearBuses();
-    }
-
-    private void addBuses() {
-        rootNode.addBuses();
     }
 
     private void updateThrust() {
@@ -202,13 +171,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     private void addSkater() {
         Body body = module.createBody();
-        module.resetSkater( body );
+        module.returnSkater( body );
         energySkateParkModel.addBody( body );
-        updateGraphics();
-    }
-
-    private void updateGraphics() {
-        rootNode.updateGraphics();
     }
 
     public void addSkaterNode( SkaterNode skaterNode ) {
@@ -344,9 +308,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
             else if( e.getKeyCode() == KeyEvent.VK_A ) {
                 addSkater();
             }
-            else if( e.getKeyCode() == KeyEvent.VK_J ) {
-                addBuses();
-            }
             else if( e.getKeyCode() == KeyEvent.VK_R ) {
                 removeSkater();
             }
@@ -355,11 +316,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
                 debugScreenSize();
             }
         }
-        else {
-
-        }
     }
-
 
     public void keyReleased( KeyEvent e ) {
         multiKeyHandler.keyReleased( e );
@@ -369,20 +326,12 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         multiKeyHandler.keyTyped( e );
     }
 
-    public void redrawAllGraphics() {
-        updateGraphics();
-    }
-
     public boolean isMeasuringTapeVisible() {
         return rootNode.isMeasuringTapeVisible();
     }
 
     public void setMeasuringTapeVisible( boolean selected ) {
         rootNode.setMeasuringTapeVisible( selected );
-    }
-
-    public void initPieGraphic() {
-        rootNode.initPieChart();
     }
 
     public boolean isPieChartVisible() {
@@ -403,26 +352,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     public boolean isZeroPointVisible() {
         return rootNode.isZeroPointVisible();
-    }
-
-    ArrayList attachmentPointGraphics = new ArrayList();
-
-    public void addAttachmentPointGraphic( Body body ) {
-        AttachmentPointNode pointNode = new AttachmentPointNode( this, energySkateParkModel.getBody( 0 ) );
-        attachmentPointGraphics.add( pointNode );
-        addScreenChild( pointNode );
-    }
-
-    public void removeAllAttachmentPointGraphics() {
-        while( attachmentPointGraphics.size() > 0 ) {
-            removeAttachmentPointGraphic( (AttachmentPointNode)attachmentPointGraphics.get( 0 ) );
-        }
-    }
-
-    private void removeAttachmentPointGraphic( AttachmentPointNode o ) {
-        removeScreenChild( o );
-        o.delete();
-        attachmentPointGraphics.remove( o );
     }
 
     public void dragSplineSurface( PInputEvent event, EnergySkateParkSpline createdSurface ) {

@@ -102,7 +102,7 @@ new EnergySkateParkFrameSetup() );
     }
 
     public EnergySkateParkApplication( String[] args ) {
-        this(args,new EnergySkateParkOptions( ) );
+        this( args, new EnergySkateParkOptions() );
     }
 
     public EnergySkateParkModule getModule() {
@@ -153,7 +153,6 @@ new EnergySkateParkFrameSetup() );
             );
             frame.setLocation( 0, 0 );
         }
-
     }
 
     public static class EnergySkateParkFrameSetup implements FrameSetup {
@@ -177,7 +176,6 @@ new EnergySkateParkFrameSetup() );
 
     private static EnergySkateParkOptions parseOptions( String[] args ) {
         //todo: not yet implemented
-//        EnergySkateParkOptions options=new EnergySkateParkOptions();
         return new EnergySkateParkOptions();
     }
 

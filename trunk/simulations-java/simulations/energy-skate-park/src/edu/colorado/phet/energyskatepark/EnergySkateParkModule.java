@@ -77,19 +77,9 @@ public class EnergySkateParkModule extends PiccoloModule {
         this.options = options;
         this.phetFrame = phetFrame;
         energyModel = new EnergySkateParkModel( floorY );
-        energyModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-            public void stateSet() {
-                redrawAllGraphics();
-            }
-        } );
         setModel( new BaseModel() );
 
         energyTimeSeriesModel = new EnergySkateParkRecordableModel( getEnergySkateParkModel() );
-        getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-            public void stateSet() {
-                redrawAllGraphics();
-            }
-        } );
         timeSeriesModel = new TimeSeriesModel( energyTimeSeriesModel, clock );
         timeSeriesModel.setMaxRecordTime( EnergyVsTimePlot.MAX_TIME );
         clock.addClockListener( timeSeriesModel );
@@ -166,11 +156,11 @@ public class EnergySkateParkModule extends PiccoloModule {
     public void resetSkater() {
         if( getEnergySkateParkModel().getNumBodies() > 0 ) {
             Body body = getEnergySkateParkModel().getBody( 0 );
-            resetSkater( body );
+            returnSkater( body );
         }
     }
 
-    public void resetSkater( Body body ) {
+    public void returnSkater( Body body ) {
         body.reset();
         if( !body.isRestorePointSet() ) {
             initBodyOnTrack( body );
@@ -181,12 +171,9 @@ public class EnergySkateParkModule extends PiccoloModule {
         final Body body = createBody();
         body.reset();
         energyModel.addBody( body );
-        energyCanvas.getRootNode().updateGraphics();
 
         EnergySkateParkSpline espspline = createDefaultTrack();
         energyModel.addSplineSurface( espspline );
-        energyCanvas.initPieGraphic();
-        energyCanvas.removeAllAttachmentPointGraphics();
         initBodyOnTrack( body );
     }
 
@@ -209,10 +196,6 @@ public class EnergySkateParkModule extends PiccoloModule {
             }
         }
         return false;
-    }
-
-    public void redrawAllGraphics() {
-        energyCanvas.redrawAllGraphics();
     }
 
     public TimeSeriesModel getTimeSeriesModel() {

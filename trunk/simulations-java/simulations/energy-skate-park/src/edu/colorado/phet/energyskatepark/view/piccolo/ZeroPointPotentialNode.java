@@ -1,18 +1,21 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
+import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
-import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
@@ -24,9 +27,11 @@ import java.awt.geom.Point2D;
 
 public class ZeroPointPotentialNode extends PhetPNode {
     private EnergySkateParkSimulationPanel canvas;
+    private EnergySkateParkModel model;
 
-    public ZeroPointPotentialNode( final EnergySkateParkSimulationPanel canvas ) {
+    public ZeroPointPotentialNode( final EnergySkateParkSimulationPanel canvas, final EnergySkateParkModel model ) {
         this.canvas = canvas;
+        this.model = model;
 
         PhetPPath background = new PhetPPath( new Line2D.Double( 0, 0, 5000, 0 ), new BasicStroke( 30, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 3 ), new Color( 0, 0, 0, 0 ) );
         addChild( background );
@@ -50,9 +55,25 @@ public class ZeroPointPotentialNode extends PhetPNode {
             }
         } );
         addInputEventListener( new CursorHandler() );
+        model.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void zeroPointPotentialYChanged() {
+                update();
+            }
+        } );
+        canvas.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                update();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                update();
+            }
+        } );
+        update();
     }
 
-    public void setZeroPointPotential( double y ) {
+    private void update() {
+        double y = model.getZeroPointPotentialY();
         Point2D.Double pt = new Point2D.Double( 0, y );
         canvas.getPhetRootNode().worldToScreen( pt );
         double viewY = pt.getY();

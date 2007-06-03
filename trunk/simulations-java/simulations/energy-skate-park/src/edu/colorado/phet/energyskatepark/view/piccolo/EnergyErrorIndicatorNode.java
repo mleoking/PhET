@@ -30,7 +30,7 @@ public class EnergyErrorIndicatorNode extends PhetPNode {
     public EnergyErrorIndicatorNode( EnergySkateParkModel model ) {
         this.model = model;
         model.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-            public void bodiesChanged() {
+            public void bodyCountChanged() {
                 updateBody();
             }
         } );
