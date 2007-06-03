@@ -1,4 +1,3 @@
-Implement improved time series controls (see notes from 5-31-2007 Energy Skate Park Meeting)
 -Should there be separate controls for playback mode?
     For example, should the user be able to set the "live" speed and "playback" speed independently?
     Currently the "time speed" indicators on record, live and playback panels all refer to the same master clock.
@@ -10,14 +9,10 @@ Implement improved time series controls (see notes from 5-31-2007 Energy Skate P
 3. When user presses playback on E vs. T graph, mode switches to "playback"
 How does user switch mode from "playback" to "record" or "live" again?  Perhaps there should be a "record" button on the E vs. T controls.
 
-If the user grabs the skater during playback mode (whether or not it is paused), it should probably change to record (or live) mode.
-
 -How much of ClockControlPanel should be generalized for reuse?
 
 Charts are correctly overlaid in Rotation, but not in Energy Skate Park.
 -I don't think this is true; full repaint is in layered mode, but not incremental repaint 
-
-“Record Path” should be “Show Path”
 
 2.	Is performance good enough during track friction > 0 case?  I removed duplicated computation in radius of curvature approximation.
 	Removing this duplicated work resulted in substantial improvement (non-friction case = 10% processor, old friction case=30% processor, new fixed case=18% processor), but a difference in visible performance is still visible under a profiler.  Should I continue to investigate this issue?

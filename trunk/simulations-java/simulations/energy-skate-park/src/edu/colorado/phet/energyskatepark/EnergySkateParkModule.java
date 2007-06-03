@@ -372,6 +372,10 @@ public class EnergySkateParkModule extends PiccoloModule {
         }
     }
 
+    public void removeListener( Listener moduleListener ) {
+        listeners.remove(moduleListener );
+    }
+
     public static interface Listener {
         void skaterCharacterChanged();
     }

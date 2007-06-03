@@ -2,11 +2,9 @@
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.ConnectorGraphic;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.Body;
-import edu.colorado.phet.energyskatepark.view.piccolo.SkaterNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -24,40 +22,47 @@ import java.awt.event.ActionListener;
 
 public class OffscreenManIndicatorNode extends PhetPNode {
     private PSwingCanvas canvas;
-    private SkaterNode bodyNode;
+    private SkaterNode skaterNode;
     private EnergySkateParkModule module;
     private PNode buttonNode;
-    private ConnectorGraphic connectorGraphic;
     private JButton bringBackSkater = new JButton( "" );
+    private EnergySkateParkModule.Listener moduleListener;
+    private Body.ListenerAdapter bodyListener;
 
-    public OffscreenManIndicatorNode( PSwingCanvas canvas, final EnergySkateParkModule ec3Module, SkaterNode body ) {
+    public OffscreenManIndicatorNode( PSwingCanvas canvas, final EnergySkateParkModule module, SkaterNode skaterNode ) {
         this.canvas = canvas;
-        this.bodyNode = body;
-        this.module = ec3Module;
+        this.skaterNode = skaterNode;
+        this.module = module;
         bringBackSkater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                ec3Module.resetSkater();
+                module.resetSkater();
             }
         } );
         buttonNode = new PhetPNode( new PSwing( bringBackSkater ) );
         addChild( buttonNode );
-        ec3Module.addListener( new EnergySkateParkModule.Listener() {
+        moduleListener = new EnergySkateParkModule.Listener() {
             public void skaterCharacterChanged() {
                 updateText();
             }
-
-        } );
-        body.getBody().addListener( new Body.ListenerAdapter(){
+        };
+        bodyListener = new Body.ListenerAdapter() {
             public void positionAngleChanged() {
                 update();
             }
-        } );
-        updateText();
+        };
+        module.addListener( moduleListener );
+        skaterNode.getBody().addListener( bodyListener );
+        
+        update();
+    }
+
+    public void delete() {
+        module.removeListener( moduleListener );
+        skaterNode.getBody().removeListener( bodyListener );
     }
 
     private void updateText() {
         bringBackSkater.setText( EnergySkateParkStrings.getString( "controls.bring-back" ) + " " + module.getSkaterCharacter().getName() );
-
     }
 
     public void update() {
@@ -66,11 +71,11 @@ public class OffscreenManIndicatorNode extends PhetPNode {
     }
 
     private void updateVisible() {
-        if( bodyNode == null ) {
+        if( skaterNode == null ) {
             setVisible( false );
         }
         else {
-            setVisible( !getVisibleBounds().contains( bodyNode.getGlobalFullBounds() ) );
+            setVisible( !getVisibleBounds().contains( skaterNode.getGlobalFullBounds() ) );
         }
     }
 
