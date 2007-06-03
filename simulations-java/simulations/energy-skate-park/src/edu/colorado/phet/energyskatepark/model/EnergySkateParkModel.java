@@ -138,7 +138,7 @@ public class EnergySkateParkModel implements Serializable {
         Body body = getBody( i );
         body.removeListener( energyListener );
         bodies.remove( i );
-        notifyBodiesChanged();
+        notifyBodyCountChanged();
     }
 
     public void updateFloorState() {
@@ -239,13 +239,13 @@ public class EnergySkateParkModel implements Serializable {
 
     public void addSplineSurface( EnergySkateParkSpline energySkateParkSpline ) {
         splines.add( energySkateParkSpline );
-        notifySplinesChanged();
+        notifySplineCountChanged();
     }
 
-    private void notifySplinesChanged() {
+    private void notifySplineCountChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
-            energyModelListener.splinesChanged();
+            energyModelListener.splineCountChanged();
         }
     }
 
@@ -258,13 +258,13 @@ public class EnergySkateParkModel implements Serializable {
             zeroPointPotentialY = 0;
             initZeroPointPotentialY = zeroPointPotentialY;
         }
-        notifyBodiesChanged();
+        notifyBodyCountChanged();
     }
 
-    private void notifyBodiesChanged() {
+    private void notifyBodyCountChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
-            energyModelListener.bodiesChanged();
+            energyModelListener.bodyCountChanged();
         }
     }
 
@@ -289,7 +289,7 @@ public class EnergySkateParkModel implements Serializable {
         }
         notifyBodiesSplineRemoved( splineSurface );
         splines.remove( splineSurface );
-        notifySplinesChanged();
+        notifySplineCountChanged();
     }
 
     private void notifyBodiesSplineRemoved( EnergySkateParkSpline spline ) {
@@ -308,6 +308,14 @@ public class EnergySkateParkModel implements Serializable {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             body.setGravityState( getGravity(), zeroPointPotentialY );
+        }
+        notifyZeroPointPotentialYChanged();
+    }
+
+    private void notifyZeroPointPotentialYChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.zeroPointPotentialYChanged();
         }
     }
 
@@ -345,7 +353,7 @@ public class EnergySkateParkModel implements Serializable {
         public void gravityChanged() {
         }
 
-        public void splinesChanged() {
+        public void splineCountChanged() {
         }
 
         public void floorChanged() {
@@ -357,10 +365,13 @@ public class EnergySkateParkModel implements Serializable {
         public void bodyEnergyChanged() {
         }
 
-        public void bodiesChanged() {
+        public void bodyCountChanged() {
         }
 
         public void stateSet() {
+        }
+
+        public void zeroPointPotentialYChanged() {
         }
     }
 
@@ -369,7 +380,7 @@ public class EnergySkateParkModel implements Serializable {
 
         void gravityChanged();
 
-        void splinesChanged();
+        void splineCountChanged();
 
         void floorChanged();
 
@@ -377,9 +388,11 @@ public class EnergySkateParkModel implements Serializable {
 
         void bodyEnergyChanged();
 
-        void bodiesChanged();
+        void bodyCountChanged();
 
         void stateSet();
+
+        void zeroPointPotentialYChanged();
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {

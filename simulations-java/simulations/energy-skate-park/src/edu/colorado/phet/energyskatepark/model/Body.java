@@ -12,6 +12,7 @@ import edu.colorado.phet.energyskatepark.util.OptionalItemSerializableList;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,7 +63,11 @@ public class Body implements Serializable {
     }
 
     public void setPosition( double x, double y ) {
+        Point2D origPosition = getPosition();
         particle.setPosition( x, y );
+        if( !origPosition.equals( getPosition() ) ) {
+            notifyPositionAngleChanged();
+        }
     }
 
     public boolean isRestorePointSet() {
@@ -77,14 +82,13 @@ public class Body implements Serializable {
             setAngularVelocity( 0.0 );
             setVelocity( 0, 0 );
             setPosition( 3 + 1.5, 6 );
-            particle.resetAngle();
+            setAngle( Particle.DEFAULT_ANGLE );
         }
         else {
             setPosition( restorePoint.getPosition() );
             setAngularVelocity( restorePoint.getAngularVelocity() );
             setVelocity( restorePoint.getVelocity() );
-            setPosition( restorePoint.getPosition() );
-            particle.setAngle( restorePoint.particle.getAngle() );
+            setAngle( restorePoint.particle.getAngle() );
         }
     }
 
@@ -106,6 +110,8 @@ public class Body implements Serializable {
     }
 
     public void stepInTime( double dt ) {
+        double origAngle = getAngle();
+        Point2D origLocation = getPosition();
         double origEnergy = getTotalEnergy();
         particle.stepInTime( dt );
 
@@ -113,9 +119,8 @@ public class Body implements Serializable {
         if( getY() < -0.1 && isFreeFallMode() && Math.abs( getGravity() ) > 0 ) {
             setPosition( getX(), 0.1 );
         }
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.stepFinished();
+        if( origAngle != getAngle() || !origLocation.equals( getPosition() ) ) {
+            notifyPositionAngleChanged();
         }
         double err = Math.abs( origEnergy - getTotalEnergy() );
         if( err > 1E-5 && getThrust().getMagnitude() == 0 && !isUserControlled() && !isSplineUserControlled() ) {
@@ -165,6 +170,9 @@ public class Body implements Serializable {
 
     public void translate( double dx, double dy ) {
         particle.translate( dx, dy );
+        if( dx != 0 || dy != 0 ) {
+            notifyPositionAngleChanged();
+        }
     }
 
     public void setVelocity( AbstractVector2D vector2D ) {
@@ -344,7 +352,18 @@ public class Body implements Serializable {
     }
 
     public void setAngle( double angle ) {
+        double origAngle = getAngle();
         particle.setAngle( angle );
+        if( origAngle != angle ) {
+            notifyPositionAngleChanged();
+        }
+    }
+
+    private void notifyPositionAngleChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.positionAngleChanged();
+        }
     }
 
     public void removeListener( Listener listener ) {
@@ -400,29 +419,24 @@ public class Body implements Serializable {
     public static interface Listener {
         void thrustChanged();
 
-        void doRepaint();
-
-        void stepFinished();
-
         void energyChanged();
 
         void dimensionChanged();
+
+        void positionAngleChanged();
     }
 
     public static class ListenerAdapter implements Listener {
         public void thrustChanged() {
         }
 
-        public void doRepaint() {
-        }
-
-        public void stepFinished() {
-        }
-
         public void energyChanged() {
         }
 
         public void dimensionChanged() {
+        }
+
+        public void positionAngleChanged() {
         }
     }
 

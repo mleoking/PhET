@@ -38,7 +38,7 @@ public class Particle implements Serializable {
     private double frictionCoefficient = 0;
     private boolean verboseDebug = true;
 
-    private static final double DEFAULT_ANGLE = 0;
+    public static final double DEFAULT_ANGLE = 0;
     public static final double DEFAULT_ELASTICITY = 0.6;
     public static boolean reorientOnBounce = true;
 

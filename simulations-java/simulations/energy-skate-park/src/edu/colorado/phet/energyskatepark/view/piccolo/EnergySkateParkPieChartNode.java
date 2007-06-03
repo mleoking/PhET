@@ -2,11 +2,9 @@
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.view.piccolo.PieChartNode;
-import edu.colorado.phet.energyskatepark.view.piccolo.SkaterNode;
-import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -25,24 +23,34 @@ public class EnergySkateParkPieChartNode extends PNode {
     private SkaterNode skaterNode;
     private double dy = 25;
     private boolean ignoreThermal;
+    private Body body;
 
     public EnergySkateParkPieChartNode( EnergySkateParkModule module, SkaterNode skaterNode ) {
         this.module = module;
         this.skaterNode = skaterNode;
-        pieChartNode = new PieChartNode( createPieValues(), createPieRect() );
+        this.pieChartNode = new PieChartNode( createPieValues(), createPieRect() );
+        this.body = skaterNode.getBody();
         addChild( pieChartNode );
         setPickable( false );
         setChildrenPickable( false );
+        body.addListener( new Body.ListenerAdapter() {
+            public void positionAngleChanged() {
+                update();
+            }
+
+            public void energyChanged() {
+                update();
+            }
+        });
     }
 
     private Rectangle createPieRect() {
-        if( getModel().containsBody( skaterNode.getBody() ) ) {
-            Body body = skaterNode.getBody();
+        if( getModel().containsBody( body ) ) {
             PBounds gfb = skaterNode.getGlobalFullBounds();
             Point2D pt = new Point2D.Double( gfb.getCenterX(), gfb.getY() - dy );
             globalToLocal( pt );
 
-            double totalEnergy = getTotalEnergy( body );
+            double totalEnergy = getTotalEnergy();
             double area = totalEnergy / 10 * 3.5;
 
             double radius = Math.sqrt( area / Math.PI );
@@ -55,7 +63,7 @@ public class EnergySkateParkPieChartNode extends PNode {
         }
     }
 
-    private double getTotalEnergy( Body body ) {
+    private double getTotalEnergy() {
         if( ignoreThermal ) {
             return body.getKineticEnergy() + Math.abs( body.getPotentialEnergy() );
         }

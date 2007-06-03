@@ -2,22 +2,16 @@
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
-import edu.colorado.phet.energyskatepark.view.piccolo.BackgroundScreenNode;
-import edu.colorado.phet.energyskatepark.view.piccolo.EnergyErrorIndicatorNode;
-import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkLegend;
-import edu.colorado.phet.energyskatepark.view.*;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
@@ -27,9 +21,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -41,7 +33,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private PNode bodyGraphics = new PNode();
     private PNode jetPackGraphics = new PNode();
     private PNode splineGraphics = new PNode();
-    private PNode buses;
     private EnergySkateParkModule module;
     private EnergySkateParkSimulationPanel simulationPanel;
     private PNode historyGraphics = new PNode();
@@ -66,12 +57,13 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private EnergyErrorIndicatorNode energyErrorIndicatorNode;
     private SurfaceObjectNode houseNode;
     private SurfaceObjectNode mountainNode;
+    private PNode offscreenIndicatorLayer = new PNode();
 
     public EnergySkateParkRootNode( final EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
         this.module = module;
         this.simulationPanel = simulationPanel;
-        EnergySkateParkModel ec3Model = getModel();
-        Floor floor = ec3Model.getFloor();
+        EnergySkateParkModel energySkateParkModel = getModel();
+        Floor floor = energySkateParkModel.getFloor();
 
         simulationPanel.setBackground( SKY_COLOR );
         splineToolbox = new SplineToolboxNode( simulationPanel, this );
@@ -85,11 +77,10 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
         pauseIndicator = new PauseIndicatorNode( module, simulationPanel, this );
         legend = new EnergySkateParkLegend( module );
-//        legend.addNegPEEntry();
         floorNode = new FloorNode( module, getModel(), floor );
         screenBackground = new BackgroundScreenNode( simulationPanel, null, floorNode, this );
-        zeroPointPotentialNode = new ZeroPointPotentialNode( simulationPanel );
-        offscreenManIndicatorNode = new OffscreenManIndicatorNode( simulationPanel, module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
+        zeroPointPotentialNode = new ZeroPointPotentialNode( simulationPanel, energySkateParkModel );
+
         gridNode = new GridNode( -50, -150, 100, 150, 1, 1 );
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void gravityChanged() {
@@ -130,7 +121,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addScreenChild( pauseIndicator );
         addScreenChild( legend );
         addScreenChild( zeroPointPotentialNode );
-        addScreenChild( offscreenManIndicatorNode );
+        addScreenChild( offscreenIndicatorLayer );
 
 
         addWorldChild( gridNode );
@@ -152,18 +143,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             }
         } );
         setZeroPointVisible( false );
-        getModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-            public void gravityChanged() {
-                updateGraphics();
-            }
-        } );
-//        addClouds();
         panZoomControls = new PanZoomOnscreenControlNode( simulationPanel );
         addScreenChild( panZoomControls );
-
-//        PDebug.debugRegionManagement=true;
-//        PDebug.debugBounds=true;
-//        PDebug.debugPaintCalls=true;
 
         energyErrorIndicatorNode = new EnergyErrorIndicatorNode( module.getEnergySkateParkModel() );
         energyErrorIndicatorContainer.setVisible( false );
@@ -193,12 +174,25 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
                 }
             }
         } );
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void bodyCountChanged() {
+                updateBodies();
+            }
+
+            public void splineCountChanged() {
+                updateSplines();
+            }
+        } );
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void stepFinished() {
+                updateHistory();
+            }
+        } );
     }
 
     private void updateHouseAndMountainVisible() {
-
-        houseNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH &&getBackground().getVisible());
-        mountainNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH &&getBackground().getVisible());
+        houseNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH && getBackground().getVisible() );
+        mountainNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH && getBackground().getVisible() );
     }
 
     private void showAll( PNode node ) {
@@ -221,27 +215,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         energyErrorIndicatorNode.setOffset( insetX, simulationPanel.getHeight() - insetY - energyErrorIndicatorNode.getFullBounds().getHeight() );
     }
 
-    private void addClouds() {
-        Random random = new Random();
-        BufferedImage newImage = null;
-        try {
-            newImage = ImageLoader.loadBufferedImage( "energy-skate-park/images/cloud2.gif" );
-            newImage = BufferedImageUtils.flipY( newImage );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-
-        for( int i = 0; i < 10; i++ ) {
-
-            PImage image = new PImage( newImage );
-            image.setOffset( ( random.nextDouble() - 0.5 ) * 30, random.nextDouble() * 20 + 5 );
-            image.setScale( 0.01 );
-
-            addWorldChild( image );
-        }
-    }
-
     public BackgroundScreenNode getBackground() {
         return screenBackground;
     }
@@ -255,50 +228,12 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         setMeasuringTapeVisible( DEFAULT_TAPE_VISIBLE );
     }
 
-    public void initPieChart() {
-        EnergySkateParkPieChartNode energySkateParkPieChartNode = new EnergySkateParkPieChartNode( module, bodyGraphicAt( 0 ) );
-        energySkateParkPieChartNode.setIgnoreThermal( ignoreThermal );
-        pieCharts.addChild( energySkateParkPieChartNode );
-    }
-
     private EnergySkateParkModel getModel() {
         return module.getEnergySkateParkModel();
     }
 
     protected void paint( PPaintContext paintContext ) {
         super.paint( paintContext );
-    }
-
-    public void clearBuses() {
-        if( buses != null ) {
-            buses.removeAllChildren();
-            removeChild( buses );
-            buses = null;
-        }
-    }
-
-    public void addBuses() {
-        if( buses == null ) {
-            try {
-                buses = new PNode();
-                Floor floor = getModel().getFloor();
-                BufferedImage newImage = ImageLoader.loadBufferedImage( "energy-skate-park/images/schoolbus200.gif" );
-                PImage schoolBus = new PImage( newImage );
-                double y = floor.getY() - schoolBus.getFullBounds().getHeight() + 10;
-                schoolBus.setOffset( 0, y );
-                double busStart = 500;
-                for( int i = 0; i < 10; i++ ) {
-                    PImage bus = new PImage( newImage );
-                    double dbus = 2;
-                    bus.setOffset( busStart + i * ( bus.getFullBounds().getWidth() + dbus ), y );
-                    buses.addChild( bus );
-                }
-                addWorldChild( buses );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public void addSplineGraphic( SplineNode splineNode ) {
@@ -309,27 +244,25 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         bodyGraphics.removeAllChildren();
         splineGraphics.removeAllChildren();
         jetPackGraphics.removeAllChildren();
-        clearBuses();
         pieCharts.removeAllChildren();
         setZeroPointVisible( false );
         setMeasuringTapeVisible( false );
         panZoomControls.reset();
-//        resetDefaults();//needs MVC update before this will work.
     }
 
     public void addSkaterNode( SkaterNode skaterNode ) {
-        skaterNode.addInputEventListener( new PBasicInputEventHandler(){
+        skaterNode.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 module.setRecordOrLiveMode();
-            }
-
-            public void mouseDragged( PInputEvent event ) {
-                module.redrawAllGraphics();
             }
         } );
         bodyGraphics.addChild( skaterNode );
         if( bodyGraphics.getChildrenCount() == 1 ) {
-            offscreenManIndicatorNode.setBodyGraphic( skaterNode );
+            if( offscreenManIndicatorNode != null ) {
+                offscreenIndicatorLayer.removeAllChildren();
+            }
+            offscreenManIndicatorNode = new OffscreenManIndicatorNode( simulationPanel, module, skaterNode );
+            offscreenIndicatorLayer.addChild( offscreenManIndicatorNode );
         }
     }
 
@@ -343,26 +276,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     public void removeSplineGraphic( SplineNode splineNode ) {
         splineGraphics.removeChild( splineNode );
-    }
-
-    public void updateGraphics() {
-        updateSplines();
-        updateBodies();
-        updateHistory();
-        updatePieChart();
-        updateZeroPotential();
-        offscreenManIndicatorNode.update();
-    }
-
-    private void updateZeroPotential() {
-        zeroPointPotentialNode.setZeroPointPotential( getModel().getZeroPointPotentialY() );
-    }
-
-    private void updatePieChart() {
-        for( int i = 0; i < pieCharts.getChildrenCount(); i++ ) {
-            EnergySkateParkPieChartNode energySkateParkPieChartNode = (EnergySkateParkPieChartNode)pieCharts.getChild( i );
-            energySkateParkPieChartNode.update();
-        }
     }
 
     private void updateHistory() {
@@ -405,6 +318,17 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         for( int i = 0; i < getModel().getNumBodies(); i++ ) {
             bodyGraphicAt( i ).setBody( getModel().getBody( i ) );
         }
+        if( bodyGraphics.getChildrenCount() == 1 ) {
+            initPieChart();
+        }
+    }
+
+    public void initPieChart() {
+        pieCharts.removeAllChildren();
+
+        EnergySkateParkPieChartNode energySkateParkPieChartNode = new EnergySkateParkPieChartNode( module, bodyGraphicAt( 0 ) );
+        energySkateParkPieChartNode.setIgnoreThermal( ignoreThermal );
+        pieCharts.addChild( energySkateParkPieChartNode );
     }
 
     private void updateSplines() {
