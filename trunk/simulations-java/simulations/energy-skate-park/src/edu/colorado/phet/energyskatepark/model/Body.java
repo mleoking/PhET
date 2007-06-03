@@ -468,6 +468,7 @@ public class Body implements Serializable {
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
+//        System.out.println( "Body: listeners.size() = " + listeners.size() );
     }
 
     protected void notifyThrustChanged() {
