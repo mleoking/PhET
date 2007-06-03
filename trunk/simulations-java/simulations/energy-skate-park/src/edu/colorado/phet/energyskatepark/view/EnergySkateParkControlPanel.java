@@ -149,7 +149,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         addControl( new LocationControlPanel( module, module.getOptions().getPlanetButtonLayout(), module.getOptions().getPlanetButtonsCentered() ) );
 
         final FrictionControl frictionControl = new FrictionControl( module );
-        addControl( new ClearHeatButton( module ) );
+        addControl( new ClearHeatButton( module.getEnergySkateParkModel() ) );
 
         AdvancedPanel frictionPanel = new AdvancedPanel( EnergySkateParkStrings.getString( "controls.show-friction" ), EnergySkateParkStrings.getString( "controls.hide-friction" ) );
         frictionPanel.addControl( frictionControl );
