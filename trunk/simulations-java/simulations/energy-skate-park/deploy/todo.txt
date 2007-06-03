@@ -11,6 +11,9 @@ How does user switch mode from "playback" to "record" or "live" again?  Perhaps 
 
 -How much of ClockControlPanel should be generalized for reuse?
 
+Is simulation supposed to pause when end of recording time is reached?
+-if not, are E vs. T readouts supposed to continue to update?
+
 Charts are correctly overlaid in Rotation, but not in Energy Skate Park.
 -I don't think this is true; full repaint is in layered mode, but not incremental repaint
 
