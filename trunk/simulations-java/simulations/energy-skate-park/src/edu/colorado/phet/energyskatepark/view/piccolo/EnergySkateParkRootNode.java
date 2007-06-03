@@ -57,7 +57,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private EnergyErrorIndicatorNode energyErrorIndicatorNode;
     private SurfaceObjectNode houseNode;
     private SurfaceObjectNode mountainNode;
-    private PNode offscreenIndicatorLayer = new PNode();
+//    private PNode offscreenIndicatorLayer = new PNode();
 
     public EnergySkateParkRootNode( final EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
         this.module = module;
@@ -121,7 +121,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addScreenChild( pauseIndicator );
         addScreenChild( legend );
         addScreenChild( zeroPointPotentialNode );
-        addScreenChild( offscreenIndicatorLayer );
+        offscreenManIndicatorNode = new OffscreenManIndicatorNode( simulationPanel, module, null );
+        addScreenChild( offscreenManIndicatorNode );
 
         addWorldChild( gridNode );
         setGridVisible( false );
@@ -313,14 +314,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         }
         if( bodyGraphics.getChildrenCount() == 1 ) {
             initPieChart();
-            if( offscreenManIndicatorNode != null ) {
-                while( offscreenIndicatorLayer.getChildrenCount() > 0 ) {
-                    OffscreenManIndicatorNode node = (OffscreenManIndicatorNode)offscreenIndicatorLayer.removeChild( 0 );
-                    node.delete();
-                }
-            }//todo: fix memory leaks (like this one used to be) in other listeners
-            offscreenManIndicatorNode = new OffscreenManIndicatorNode( simulationPanel, module, bodyGraphicAt( 0 ) );
-            offscreenIndicatorLayer.addChild( offscreenManIndicatorNode );
+            offscreenManIndicatorNode.setSkaterNode( bodyGraphicAt( 0 ) );
         }
     }
 
