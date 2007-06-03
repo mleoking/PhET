@@ -3,6 +3,8 @@ package edu.colorado.phet.energyskatepark.plots;
 import edu.colorado.phet.common.jfreechartphet.piccolo.DynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -53,8 +55,8 @@ public class EnergyVsTimePlot {
     private ArrayList listeners = new ArrayList();
     private JFreeChartCursorNode jFreeChartCursorNode;
 
-    public static final double MAX_TIME = 50.0;
-//    public static final double MAX_TIME = 5.0;
+//    public static final double MAX_TIME = 50.0;
+    public static final double MAX_TIME = 5.0;
 
     public EnergyVsTimePlot( JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
@@ -91,11 +93,7 @@ public class EnergyVsTimePlot {
                     double pe = getEnergySkateParkModel().getBody( 0 ).getPotentialEnergy();
                     double total = getEnergySkateParkModel().getBody( 0 ).getTotalEnergy();
 
-                    DecimalFormat formatter = new DecimalFormat( "0.00" );
-                    thermalPText.setText( "Thermal = " + formatter.format( thermal ) + " J" );
-                    keText.setText( "KE = " + formatter.format( ke ) + " J" );
-                    peText.setText( "PE = " + formatter.format( pe ) + " J" );
-                    totalText.setText( "Total = " + formatter.format( total ) + " J" );
+                    updateReadouts();
 
                     double time = timeSeriesModel.getRecordTime();
                     dynamicJFreeChartNode.addValue( 0, time, thermal );
@@ -106,7 +104,16 @@ public class EnergyVsTimePlot {
                     jFreeChartCursorNode.setMaxDragTime( time );
                 }
             }
+
         } );
+        timeSeriesModel.addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
+            public void timeChanged() {
+                if( getEnergySkateParkModel().getNumBodies() > 0 ) {
+                    updateReadouts();
+                }
+            }
+        } );
+
         dialog = new JDialog( parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
         JPanel contentPane = new JPanel( new BorderLayout() );
         contentPane.add( phetPCanvas, BorderLayout.CENTER );
@@ -166,6 +173,19 @@ public class EnergyVsTimePlot {
             }
         } );
         relayout();
+    }
+
+    private void updateReadouts() {
+        double thermal = getEnergySkateParkModel().getBody( 0 ).getThermalEnergy();
+        double ke = getEnergySkateParkModel().getBody( 0 ).getKineticEnergy();
+        double pe = getEnergySkateParkModel().getBody( 0 ).getPotentialEnergy();
+        double total = getEnergySkateParkModel().getBody( 0 ).getTotalEnergy();
+
+        DecimalFormat formatter = new DecimalFormat( "0.00" );
+        thermalPText.setText( "Thermal = " + formatter.format( thermal ) + " J" );
+        keText.setText( "KE = " + formatter.format( ke ) + " J" );
+        peText.setText( "PE = " + formatter.format( pe ) + " J" );
+        totalText.setText( "Total = " + formatter.format( total ) + " J" );
     }
 
     public class ReadoutTextNode extends PhetPNode {

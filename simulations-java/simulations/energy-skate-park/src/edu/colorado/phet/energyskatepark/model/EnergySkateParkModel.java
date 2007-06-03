@@ -178,8 +178,14 @@ public class EnergySkateParkModel implements Serializable {
         this.splines = model.splines;
         notifySplinesSynced();
 
-        if( this.floor.getY() != model.floor.getY() ) {
-            this.floor.setY( model.floor.getY() );
+        if( this.floor != null && model.floor != null ) {
+            if( this.floor.getY() != model.floor.getY() ) {
+                this.floor.setY( model.floor.getY() );
+                notifyFloorChanged();
+            }
+        }
+        else {
+            this.floor = model.floor;
             notifyFloorChanged();
         }
 
@@ -476,7 +482,7 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {
-//        System.out.println( "listeners.size() = " + listeners.size() );
+//        System.out.println( "ESPM: listeners.size() = " + listeners.size() );
         listeners.add( listener );
     }
 
