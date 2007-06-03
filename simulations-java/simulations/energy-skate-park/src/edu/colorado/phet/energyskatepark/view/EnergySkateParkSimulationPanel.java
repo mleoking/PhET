@@ -68,6 +68,30 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
                 }
             }
         } );
+
+        //Some Events should be captured even if the simulation panel doesn't have focus, e.g. for thrust 
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher() {
+            public boolean dispatchKeyEvent( KeyEvent e ) {
+                if( !hasFocus() ) {
+                    int id = e.getID();
+                    switch( id ) {
+                        case KeyEvent.KEY_PRESSED:
+                            keyPressed( e );
+                            break;
+                        case KeyEvent.KEY_RELEASED:
+                            keyReleased( e );
+                            break;
+                        case KeyEvent.KEY_TYPED:
+                            keyTyped( e );
+                            break;
+                        default:
+                            System.out.println( "unknown key event type" );
+                            break;
+                    }
+                }
+                return false;
+            }
+        } );
     }
 
     protected void updateScale() {

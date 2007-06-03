@@ -33,24 +33,22 @@ package edu.colorado.phet.energyskatepark;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkFrameSetup;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTestMenu;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTrackMenu;
 
-import javax.jnlp.UnavailableServiceException;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.io.IOException;
 
 public class EnergySkateParkApplication extends PhetApplication {
     private EnergySkateParkModule module;
     public static double SIMULATION_TIME_DT = 0.03;
+
+    public EnergySkateParkApplication( String[] args ) {
+        this( args, new EnergySkateParkOptions() );
+    }
 
     public EnergySkateParkApplication( String[] args, EnergySkateParkOptions options ) {
         super( args, EnergySkateParkStrings.getString( "energy-skate-park.name" ), EnergySkateParkStrings.getString( "energy-skate-park.description" ),
@@ -69,10 +67,7 @@ new EnergySkateParkFrameSetup() );
                 try {
                     module.save();
                 }
-                catch( UnavailableServiceException e1 ) {
-                    e1.printStackTrace();
-                }
-                catch( IOException e1 ) {
+                catch( Exception e1 ) {
                     e1.printStackTrace();
                 }
             }
@@ -84,13 +79,7 @@ new EnergySkateParkFrameSetup() );
                 try {
                     module.open();
                 }
-                catch( UnavailableServiceException e1 ) {
-                    e1.printStackTrace();
-                }
-                catch( IOException e1 ) {
-                    e1.printStackTrace();
-                }
-                catch( ClassNotFoundException e1 ) {
+                catch( Exception e1 ) {
                     e1.printStackTrace();
                 }
             }
@@ -101,10 +90,6 @@ new EnergySkateParkFrameSetup() );
         getPhetFrame().addFileMenuSeparator();
     }
 
-    public EnergySkateParkApplication( String[] args ) {
-        this( args, new EnergySkateParkOptions() );
-    }
-
     public EnergySkateParkModule getModule() {
         return module;
     }
@@ -112,62 +97,6 @@ new EnergySkateParkFrameSetup() );
     private void start() {
         super.startApplication();
         module.getPhetPCanvas().requestFocus();
-        final EnergySkateParkSimulationPanel c = module.getEnergySkateParkSimulationPanel();
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher() {
-            public boolean dispatchKeyEvent( KeyEvent e ) {
-                if( !c.hasFocus() ) {
-                    int id = e.getID();
-                    switch( id ) {
-                        case KeyEvent.KEY_PRESSED:
-                            c.keyPressed( e );
-                            break;
-                        case KeyEvent.KEY_RELEASED:
-                            c.keyReleased( e );
-                            break;
-                        case KeyEvent.KEY_TYPED:
-                            c.keyTyped( e );
-                            break;
-                        default:
-                            System.out.println( "unknown key event type" );
-                            break;
-                    }
-                }
-                return false;
-            }
-        } );
-    }
-
-    public static void mainTestPhysics1D( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                new EnergySkateParkLookAndFeel().initLookAndFeel();
-                TestPhysics1D.main( args );
-            }
-        } );
-    }
-
-    public static class EnergySkateParkDebugFrameSetup implements FrameSetup {
-        public void initialize( JFrame frame ) {
-            frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - EnergySkateParkModule.energyFrameWidth,
-                           Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EnergySkateParkModule.chartFrameHeight //for debug
-            );
-            frame.setLocation( 0, 0 );
-        }
-    }
-
-    public static class EnergySkateParkFrameSetup implements FrameSetup {
-        public void initialize( JFrame frame ) {
-            if( Toolkit.getDefaultToolkit().getScreenSize().height <= 768 ) {
-                new MaxExtent( new TopCenter( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height - 100 ) ).initialize( frame );
-            }
-            else {
-                Toolkit tk = Toolkit.getDefaultToolkit();
-                int x = 0;
-                int y = 0;
-                frame.setLocation( x, y );
-                frame.setSize( tk.getScreenSize().width - 200, tk.getScreenSize().height - 200 );
-            }
-        }
     }
 
     public static void main( final String[] args ) {
