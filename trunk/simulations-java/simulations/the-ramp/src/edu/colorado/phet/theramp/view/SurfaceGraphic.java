@@ -8,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
 import edu.colorado.phet.theramp.TheRampStrings;
-import edu.colorado.phet.theramp.common.LucidaSansFont;
 import edu.colorado.phet.theramp.model.Surface;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;

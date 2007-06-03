@@ -1,11 +1,11 @@
-package edu.colorado.phet.theramp.common;
+/* Copyright 2007, University of Colorado */
+package edu.colorado.phet.common.phetcommon.view.util;
 
 import java.awt.*;
 
 /**
- * We provide explicit support for the Lucida Sans font because it is guaranteed to be supported on all JREs.
+ * Simplified interface for using a platform-independent (JRE bundled) font.
  */
-
 public class LucidaSansFont extends Font {
     /**
      * Constructs a LucidaSansFont with a specified point size

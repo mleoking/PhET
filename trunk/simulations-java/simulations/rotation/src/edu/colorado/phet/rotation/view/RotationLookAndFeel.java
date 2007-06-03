@@ -1,7 +1,7 @@
 package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.rotation.util.LucidaSansFont;
+import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
 
 import java.awt.*;
 
