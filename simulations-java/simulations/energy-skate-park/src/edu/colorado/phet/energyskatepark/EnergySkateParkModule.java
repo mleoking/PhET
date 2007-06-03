@@ -16,7 +16,10 @@ import edu.colorado.phet.energyskatepark.plots.BarGraphCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlotCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyVsTimePlot;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkModuleBean;
-import edu.colorado.phet.energyskatepark.view.*;
+import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
+import edu.colorado.phet.energyskatepark.view.WiggleMeInSpace;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTimePanel;
 
 import javax.jnlp.FileContents;
@@ -86,11 +89,9 @@ public class EnergySkateParkModule extends PiccoloModule {
             public void stateSet() {
                 redrawAllGraphics();
             }
-        });
+        } );
         timeSeriesModel = new TimeSeriesModel( energyTimeSeriesModel, clock );
-//        timeSeriesModel.setMaxRecordTime( 200.0 );
-        timeSeriesModel.setMaxRecordTime( 50.0);//todo isolate this magic number
-//        timeSeriesModel.setMaxRecordTime( 5.0 );//just for testing
+        timeSeriesModel.setMaxRecordTime( EnergyVsTimePlot.MAX_TIME );
         clock.addClockListener( timeSeriesModel );
 
         energyCanvas = new EnergySkateParkSimulationPanel( this );

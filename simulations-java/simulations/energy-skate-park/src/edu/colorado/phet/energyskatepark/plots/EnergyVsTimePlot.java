@@ -53,6 +53,9 @@ public class EnergyVsTimePlot {
     private ArrayList listeners = new ArrayList();
     private JFreeChartCursorNode jFreeChartCursorNode;
 
+    public static final double MAX_TIME = 50.0;
+//    public static final double MAX_TIME = 5.0;
+
     public EnergyVsTimePlot( JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
         this.clock = clock;
@@ -72,7 +75,7 @@ public class EnergyVsTimePlot {
         dynamicJFreeChartNode.addSeries( "Total", new EnergyLookAndFeel().getTotalEnergyColor() );
 
         chart.getXYPlot().getRangeAxis().setRange( 0, 7000 );
-        chart.getXYPlot().getDomainAxis().setRange( 0, 50 );
+        chart.getXYPlot().getDomainAxis().setRange( 0, MAX_TIME );
         dynamicJFreeChartNode.setBufferedImmediateSeries();
 
         thermalPText = new ReadoutTextNode( Color.red );
@@ -98,7 +101,7 @@ public class EnergyVsTimePlot {
                 dynamicJFreeChartNode.addValue( 1, time, ke );
                 dynamicJFreeChartNode.addValue( 2, time, pe );
                 dynamicJFreeChartNode.addValue( 3, time, total );
-                
+
                 jFreeChartCursorNode.setMaxDragTime( time );
             }
         } );

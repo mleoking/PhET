@@ -6,12 +6,12 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.LinearTransf
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.common.BorderPNode;
-import edu.colorado.phet.theramp.common.LucidaSansFont;
 import edu.colorado.phet.theramp.common.Range2D;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.EarthGraphic;

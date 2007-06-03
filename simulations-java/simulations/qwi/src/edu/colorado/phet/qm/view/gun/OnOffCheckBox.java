@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.qm.phetcommon.LucidaSansFont;
+import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
 
 import javax.swing.*;
 import java.awt.*;

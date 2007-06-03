@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.theramp.common.LucidaSansFont;
+import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
 
 import java.awt.*;
 
