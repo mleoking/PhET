@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.TrackWithFriction;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
-import edu.colorado.phet.energyskatepark.util.OptionalItemSerializableList;
+import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
 
 import java.io.Serializable;
 import java.util.List;

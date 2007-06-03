@@ -10,6 +10,8 @@ import java.util.ArrayList;
  * Jun 2, 2007, 4:06:24 AM
  */
 public class EnergySkateParkClock extends SwingClock {
+    private ArrayList listeners = new ArrayList();
+
     public EnergySkateParkClock( int delay, double dt ) {
         super( delay, dt );
     }
@@ -18,8 +20,6 @@ public class EnergySkateParkClock extends SwingClock {
         super.setTimingStrategy( timingStrategy );
         notifyTimingStrategyChanged();
     }
-
-    private ArrayList listeners = new ArrayList();
 
     public static interface Listener {
         void changed();

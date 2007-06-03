@@ -5,7 +5,6 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
-import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -36,16 +35,11 @@ public class BackgroundScreenNode extends PhetPNode {
                 update();
             }
         } );
-        simulationPanel.addListener( new EnergySkateParkSimulationPanel.Listener() {
+        simulationPanel.addListener( new EnergySkateParkSimulationPanel.Adapter() {
             public void zoomChanged() {
                 update();
             }
         } );
-//        rootNode.addWorldTransformListener( new PropertyChangeListener() {
-//            public void propertyChange( PropertyChangeEvent evt ) {
-//                update();
-//            }
-//        } );
     }
 
     public void update() {

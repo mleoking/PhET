@@ -1,8 +1,8 @@
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
+import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
-import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -20,15 +20,16 @@ import java.text.DecimalFormat;
 public class EnergyErrorIndicatorNode extends PhetPNode {
     private Body body;
     private EnergySkateParkModel model;
-    private Body.Listener listener = new Body.ListenerAdapter() {
-        public void energyChanged() {
-            update();
-        }
-    };
     private ShadowPText textNode;
+    private Body.Listener listener;
 
     public EnergyErrorIndicatorNode( EnergySkateParkModel model ) {
         this.model = model;
+        listener = new Body.ListenerAdapter() {
+            public void energyChanged() {
+                update();
+            }
+        };
         model.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void bodyCountChanged() {
                 updateBody();

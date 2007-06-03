@@ -320,6 +320,14 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     public void setZeroPointVisible( boolean selected ) {
         rootNode.setZeroPointVisible( selected );
+        notifyZeroPointVisibleChanged();
+    }
+
+    private void notifyZeroPointVisibleChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.zeroPointEnergyVisibilityChanged();
+        }
     }
 
     public boolean isZeroPointVisible() {
@@ -352,6 +360,17 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     public static interface Listener {
         void zoomChanged();
+
+        void zeroPointEnergyVisibilityChanged();
+    }
+
+    public static class Adapter implements Listener{
+
+        public void zoomChanged() {
+        }
+
+        public void zeroPointEnergyVisibilityChanged() {
+        }
     }
 
     public void addListener( Listener listener ) {

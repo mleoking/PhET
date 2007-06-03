@@ -1,12 +1,11 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.swing;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -30,13 +29,14 @@ public class FrictionControl extends VerticalLayoutPanel {
                 module.setCoefficientOfFriction( modelSlider.getValue() );
             }
         } );
-        module.getClock().addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent event ) {
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void primaryBodyChanged() {
                 if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
                     modelSlider.setValue( module.getEnergySkateParkModel().getBody( 0 ).getFrictionCoefficient() );
                 }
             }
         } );
+
         modelSlider.setTextFieldVisible( false );
         setIgnoreKeyEvents( true );
         modelSlider.setExtremumLabels( new JLabel( EnergySkateParkStrings.getString( "controls.gravity.none" ) ), new JLabel( EnergySkateParkStrings.getString( "controls.gravity.lots" ) ) );
