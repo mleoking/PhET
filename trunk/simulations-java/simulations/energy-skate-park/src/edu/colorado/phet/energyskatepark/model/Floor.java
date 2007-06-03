@@ -14,19 +14,21 @@ import java.io.Serializable;
 
 public class Floor implements Serializable {
     private double y;
-    private EnergySkateParkModel model;
 
-    public Floor( EnergySkateParkModel model ) {
-        this( model, 0 );
+    public Floor() {
+        this( 0.0 );
     }
 
-    public Floor( EnergySkateParkModel model, double y ) {
-        this.model = model;
+    public Floor( double y ) {
         this.y = y;
     }
 
     public double getY() {
         return y;
+    }
+
+    public void setY( double y ) {
+        this.y = y;
     }
 
     public ParametricFunction2D getParametricFunction2D() {
