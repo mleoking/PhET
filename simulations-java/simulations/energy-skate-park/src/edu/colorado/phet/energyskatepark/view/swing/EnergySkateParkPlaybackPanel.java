@@ -9,7 +9,6 @@ import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkClock;
-import edu.colorado.phet.energyskatepark.view.swing.TimeSpeedSlider;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -92,6 +91,11 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
         energySkateParkCCP = new EnergySkateParkCCP( clock );
         energySkateParkCCP.addPlayPauseActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+//                System.out.println( "timeSeriesModel.getPlaybackTime() = " + timeSeriesModel.getPlaybackTime() +", recTime="+timeSeriesModel.getRecordTime());
+                //todo: this depends on correct sequence of dispatches to listeners in superclass
+                if( timeSeriesModel.getPlaybackTime() == timeSeriesModel.getRecordTime() ) {
+                    timeSeriesModel.setPlaybackTime( 0.0 );
+                }
                 timeSeriesModel.setPlaybackMode();
             }
         } );
@@ -116,9 +120,9 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
     }
 
     private void updateModeButtons() {
-        SwingUtilities.invokeLater( new Runnable() {//hack to make sure this happens last (after other state update events)
+        SwingUtilities.invokeLater( new Runnable() {
+            //hack to make sure this happens last (after other state update events)
             //todo: listening to different objects for state changes should allow us to avoid this hack.
-
             public void run() {
                 if( clock.isPaused() ) {
                     recordButton.setEnabled( true );
