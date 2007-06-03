@@ -51,13 +51,13 @@ public class SplineNode extends PNode {
     private PBasicInputEventHandler dragHandler;
 
     private JComponent parent;
-    private EnergySkateParkSplineEnvironment ec3Canvas;
+    private EnergySkateParkSplineEnvironment splineEnvironment;
     private TrackNode centerPath;
     private SplineNode.TrackPopupMenu popupMenu;
 
-    public SplineNode( JComponent parent, EnergySkateParkSpline splineSurface, EnergySkateParkSplineEnvironment ec3Canvas ) {
+    public SplineNode( JComponent parent, EnergySkateParkSpline splineSurface, EnergySkateParkSplineEnvironment splineEnvironment ) {
         this.parent = parent;
-        this.ec3Canvas = ec3Canvas;
+        this.splineEnvironment = splineEnvironment;
         this.spline = splineSurface;
         splinePath = new TrackNode( 0.75f, Color.gray );
         centerPath = new TrackNode( 0.15f, new Color( 235, 193, 56 ) );
@@ -91,10 +91,10 @@ public class SplineNode extends PNode {
         };
         splinePath.addInputEventListener( this.dragHandler );
         splinePath.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        popupMenu = new TrackPopupMenu( ec3Canvas );
+        popupMenu = new TrackPopupMenu( splineEnvironment );
         splinePath.addInputEventListener( new PopupMenuHandler( parent, popupMenu ) );
 
-        updateAll();
+        update();
     }
 
     public void detachListeners() {
@@ -148,7 +148,7 @@ public class SplineNode extends PNode {
         if( isAttachAllowed( event ) ) {
             proposeMatchesTrunk();
         }
-        updateAll();
+        update();
     }
 
     public EnergySkateParkSpline getSpline() {
@@ -159,7 +159,7 @@ public class SplineNode extends PNode {
         detachListeners();
         this.spline = spline;
         popupMenu.attachListeners( spline );
-        updateAll();
+        update();
     }
 
     public void forceUpdate() {
@@ -217,7 +217,7 @@ public class SplineNode extends PNode {
         SplineMatch match = getTrunkMatch( index );
         if( match != null ) {
             spline.setControlPointLocation( index, new SerializablePoint2D( match.getTarget().getFullBounds().getCenter2D() ) );
-            updateAll();
+            update();
             return true;
         }
         else {
@@ -237,7 +237,7 @@ public class SplineNode extends PNode {
         }
         else {
             Point2D toMatch = new Point2D.Double( initDragSpline[index].getX(), initDragSpline[index].getY() );
-            return ec3Canvas.proposeMatch( this, toMatch );
+            return splineEnvironment.proposeMatch( this, toMatch );
         }
     }
 
@@ -253,7 +253,7 @@ public class SplineNode extends PNode {
         }
     }
 
-    public void updateAll() {
+    public void update() {
         setPickable( spline.isInteractive() );
         setChildrenPickable( spline.isInteractive() );
         if( changed() ) {
@@ -331,7 +331,7 @@ public class SplineNode extends PNode {
                     if( isAttachAllowed( event ) ) {
                         proposeMatchesEndpoint( index );
                     }
-                    updateAll();
+                    update();
                     event.setHandled( true );
                 }
             } );
@@ -355,11 +355,11 @@ public class SplineNode extends PNode {
             delete.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( spline.numControlPoints() == 1 ) {
-                        ec3Canvas.removeSpline( SplineNode.this );
+                        splineEnvironment.removeSpline( SplineNode.this );
                     }
                     else {
                         spline.removeControlPoint( index );
-                        updateAll();
+                        SplineNode.this.update();
                     }
                 }
             } );
@@ -373,7 +373,7 @@ public class SplineNode extends PNode {
             System.out.println( "match=" + match );
             if( match != null ) {
                 spline.setControlPointLocation( index, new SerializablePoint2D( match.getTarget().getFullBounds().getCenter2D() ) );
-                updateAll();
+                update();
             }
             else {
                 spline.controlPointAt( index ).setLocation( controlPointLoc );
@@ -383,7 +383,7 @@ public class SplineNode extends PNode {
 
     private SplineMatch getEndpointMatch() {
         Point2D toMatch = new Point2D.Double( controlPointLoc.getX(), controlPointLoc.getY() );
-        return ec3Canvas.proposeMatch( this, toMatch );
+        return splineEnvironment.proposeMatch( this, toMatch );
     }
 
     private void finishDragControlPoint( int index ) {
@@ -397,7 +397,7 @@ public class SplineNode extends PNode {
     }
 
     private void attach( int index, SplineMatch match ) {
-        ec3Canvas.attach( this, index, match );
+        splineEnvironment.attach( this, index, match );
     }
 
     private void initDragControlPoint( int index ) {

@@ -64,6 +64,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
             public void mouseReleased( MouseEvent e ) {
                 if( energySkateParkModel.getGravity() != EnergySkateParkModel.G_SPACE ) {
                     new BumpUpSplines( energySkateParkModel ).bumpUpSplines();
+                    getRootNode().updateSplineNodes();//todo this hack is in place for now because spline nodes don't follow good mvc pattern yet
                 }
             }
         } );
