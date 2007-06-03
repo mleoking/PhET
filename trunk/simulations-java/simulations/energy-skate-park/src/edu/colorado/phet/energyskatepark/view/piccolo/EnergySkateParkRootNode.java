@@ -12,7 +12,6 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -240,14 +239,11 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         return module.getEnergySkateParkModel();
     }
 
-    protected void paint( PPaintContext paintContext ) {
-        super.paint( paintContext );
-    }
-
-    public void addSplineGraphic( SplineNode splineNode ) {
+    public void addSplineNode( SplineNode splineNode ) {
         splineLayer.addChild( splineNode );
     }
 
+    //todo: this should be model-based
     public void reset() {
         bodyGraphics.removeAllChildren();
         splineLayer.removeAllChildren();
@@ -336,7 +332,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void updateSplines() {
         while( numSplineGraphics() < getModel().getNumSplines() ) {
-            addSplineGraphic( new SplineNode( simulationPanel, getModel().getSpline( 0 ), simulationPanel ) );
+            addSplineNode( new SplineNode( simulationPanel, getModel().getSpline( 0 ), simulationPanel ) );
         }
         while( numSplineGraphics() > getModel().getNumSplines() ) {
             removeSplineNode( splineGraphicAt( numSplineGraphics() - 1 ) );

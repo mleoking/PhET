@@ -45,9 +45,10 @@ public class Body implements Serializable {
     public static double staticSticky = DEFAULT_STICKINESS;
     private SkaterCharacter skaterCharacter;
 
-    public Body( double width, double height, ParticleStage particleStage, double gravity, double zeroPointPotentialY ) {
+    public Body( double width, double height, ParticleStage particleStage, double gravity, double zeroPointPotentialY,SkaterCharacter skaterCharacter ) {
         this.width = width;
         this.height = height;
+        this.skaterCharacter = skaterCharacter;
         particle = new Particle( particleStage );
         particle.setMass( 75.0 );
         particle.getParticle1D().setReflect( false );

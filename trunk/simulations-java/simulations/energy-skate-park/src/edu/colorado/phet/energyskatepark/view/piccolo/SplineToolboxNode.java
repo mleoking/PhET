@@ -64,11 +64,11 @@ public class SplineToolboxNode extends PNode {
 
                 createdSurface = new EnergySkateParkSpline( spline.getControlPoints() );
                 energySkateParkSimulationPanel.getEnergySkateParkModel().addSplineSurface( createdSurface );
-                energySkateParkSimulationPanel.getSplineGraphic( createdSurface ).processExternalStartDragEvent();
+                energySkateParkSimulationPanel.getSplineNode( createdSurface ).processExternalStartDragEvent();
             }
 
             public void mouseReleased( PInputEvent event ) {
-                energySkateParkSimulationPanel.getSplineGraphic( createdSurface ).processExternalDropEvent( event );
+                energySkateParkSimulationPanel.getSplineNode( createdSurface ).processExternalDropEvent( event );
                 created = false;
             }
         } );

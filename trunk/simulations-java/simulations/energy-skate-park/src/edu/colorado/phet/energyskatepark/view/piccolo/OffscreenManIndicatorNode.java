@@ -27,7 +27,6 @@ public class OffscreenManIndicatorNode extends PhetPNode {
     private EnergySkateParkModule module;
     private PNode buttonNode;
     private JButton bringBackSkater = new JButton( "" );
-    private EnergySkateParkModule.Listener moduleListener;
     private Body.ListenerAdapter bodyListener;
 
     public OffscreenManIndicatorNode( PSwingCanvas canvas, final EnergySkateParkModule module, SkaterNode skaterNode ) {
@@ -41,22 +40,20 @@ public class OffscreenManIndicatorNode extends PhetPNode {
         } );
         buttonNode = new PhetPNode( new PSwing( bringBackSkater ) );
         addChild( buttonNode );
-        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-            public void skaterCharacterChanged() {
-                updateText();
-            }
-        });
-        moduleListener = new EnergySkateParkModule.Listener() {
-            public void skaterCharacterChanged() {
-                updateText();
-            }
-        };
         bodyListener = new Body.ListenerAdapter() {
             public void positionAngleChanged() {
                 update();
             }
+
+            public void skaterCharacterChanged() {
+                update();
+            }
         };
-        module.addListener( moduleListener );
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void skaterCharacterChanged() {
+
+            }
+        } );
         if( skaterNode != null ) {
             skaterNode.getBody().addListener( bodyListener );
         }
@@ -65,12 +62,13 @@ public class OffscreenManIndicatorNode extends PhetPNode {
     }
 
     public void delete() {
-        module.removeListener( moduleListener );
         skaterNode.getBody().removeListener( bodyListener );
     }
 
     private void updateText() {
-        bringBackSkater.setText( EnergySkateParkStrings.getString( "controls.bring-back" ) + " " + module.getSkaterCharacter().getName() );
+        if( skaterNode != null ) {
+            bringBackSkater.setText( EnergySkateParkStrings.getString( "controls.bring-back" ) + " " + skaterNode.getBody().getSkaterCharacter().getName() );
+        }
     }
 
     public void update() {
@@ -86,7 +84,6 @@ public class OffscreenManIndicatorNode extends PhetPNode {
         else {
             setVisible( !getVisibleBounds().contains( skaterNode.getGlobalFullBounds() ) );
         }
-//        System.out.println( "OffscreenManIndicatorNode.updateVisible = "+getVisible() );
     }
 
     private void updateLocation() {
