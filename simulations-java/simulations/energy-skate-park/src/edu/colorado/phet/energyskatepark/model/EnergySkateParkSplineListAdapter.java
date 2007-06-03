@@ -11,8 +11,7 @@ public class EnergySkateParkSplineListAdapter extends ParticleStage {
 
     public EnergySkateParkSplineListAdapter( EnergySkateParkModel energySkateParkModel ) {
         this.energySkateParkModel = energySkateParkModel;
-        energySkateParkModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {//todo: memory leak
-
+        energySkateParkModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void splineCountChanged() {
                 update();
             }
