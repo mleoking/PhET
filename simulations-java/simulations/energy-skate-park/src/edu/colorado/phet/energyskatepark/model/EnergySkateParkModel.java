@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
+import edu.colorado.phet.energyskatepark.SkaterCharacterSet;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
 import edu.colorado.phet.energyskatepark.util.OptionalItemSerializableList;
@@ -40,6 +41,7 @@ public class EnergySkateParkModel implements Serializable {
     public static final double G_JUPITER = -25.95;
     public static final double SPLINE_THICKNESS = 0.25f;//meters
     private Body.Listener energyListener = new EnergyChangeNotifyingListener();
+    private SkaterCharacter skaterCharacter = SkaterCharacterSet.getDefaultCharacter();
 
     public EnergySkateParkModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
@@ -143,7 +145,7 @@ public class EnergySkateParkModel implements Serializable {
     public void updateFloorState() {
         int desiredNumFloors = Math.abs( getGravity() ) > 0 ? 1 : 0;
         if( desiredNumFloors == 1 ) {
-            floor = new Floor( );
+            floor = new Floor();
         }
         else {
             floor = null;
@@ -177,6 +179,7 @@ public class EnergySkateParkModel implements Serializable {
 
         this.time = model.time;
         this.maxNumHistoryPoints = model.maxNumHistoryPoints;
+        setSkaterCharacter( model.getSkaterCharacter() );
 
         this.bodies = model.bodies;
         notifyBodiesSynced();
@@ -188,7 +191,7 @@ public class EnergySkateParkModel implements Serializable {
             this.floor.setY( model.floor.getY() );
             notifyFloorChanged();
         }
-        
+
         this.history = model.history;
         notifyHistoryChanged();
 
@@ -390,11 +393,25 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
-            body.setDimension( skaterCharacter.getModelWidth(), skaterCharacter.getModelHeight() );
-            body.setMass( skaterCharacter.getMass() );
+        if( !this.skaterCharacter.equals( skaterCharacter ) ) {
+            this.skaterCharacter = skaterCharacter;
+            for( int i = 0; i < bodies.size(); i++ ) {
+                Body body = (Body)bodies.get( i );
+                body.setSkaterCharacter( skaterCharacter );
+            }
+            notifySkaterCharacterChanged();
         }
+    }
+
+    private void notifySkaterCharacterChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.skaterCharacterChanged();
+        }
+    }
+
+    public SkaterCharacter getSkaterCharacter() {
+        return skaterCharacter;
     }
 
     public static class EnergyModelListenerAdapter implements EnergyModelListener {
@@ -434,6 +451,9 @@ public class EnergySkateParkModel implements Serializable {
 
         public void stateSet() {
         }
+
+        public void skaterCharacterChanged() {
+        }
     }
 
     public static interface EnergyModelListener {
@@ -460,6 +480,8 @@ public class EnergySkateParkModel implements Serializable {
         void bodiesSynced();
 
         void stateSet();
+
+        void skaterCharacterChanged();
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {

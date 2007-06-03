@@ -437,13 +437,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         panZoomControls.updateScale();
     }
 
-    public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
-        this.skaterCharacter = skaterCharacter;
-        for( int i = 0; i < bodyGraphics.getChildrenCount(); i++ ) {
-            getSkaterNode( i ).setSkaterCharacter( skaterCharacter );
-        }
-    }
-
     public void setEnergyErrorVisible( boolean selected ) {
         energyErrorIndicatorContainer.setVisible( selected );
     }

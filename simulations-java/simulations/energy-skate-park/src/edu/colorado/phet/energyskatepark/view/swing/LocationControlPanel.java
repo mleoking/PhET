@@ -7,9 +7,12 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.Planet;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * User: Sam Reid
@@ -52,12 +55,23 @@ public class LocationControlPanel extends VerticalLayoutPanel {
         final JComponent gravitySlider = new GravitySlider( module );
         addFullWidth( gravitySlider );
 
-        module.getClock().addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent event ) {
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter(){
+
+            public void gravityChanged() {
                 synchronizePlanet();
             }
 
+            public void stateSet() {
+                synchronizePlanet();
+            }
         } );
+
+        showBackgroundCheckbox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                synchronizePlanet();
+            }
+        } );
+
         synchronizePlanet();
         new Planet.Earth().apply( module );
     }

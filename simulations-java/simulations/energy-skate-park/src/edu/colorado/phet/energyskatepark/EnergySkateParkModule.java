@@ -59,7 +59,6 @@ public class EnergySkateParkModule extends PiccoloModule {
     private EnergySkateParkControlPanel energySkateParkControlPanel;
 
     private SkaterCharacterSet skaterCharacterSet = new SkaterCharacterSet();
-    private SkaterCharacter skaterCharacter = skaterCharacterSet.getSkaterCharacters()[0];
 
     private ArrayList listeners = new ArrayList();
 
@@ -321,14 +320,13 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
-        this.skaterCharacter = skaterCharacter;
         energyModel.setSkaterCharacter( skaterCharacter );
-        energyCanvas.setSkaterCharacter( skaterCharacter );
+//        energyCanvas.setSkaterCharacter( skaterCharacter );
         notifySkaterCharacterChanged();
     }
 
     public SkaterCharacter getSkaterCharacter() {
-        return skaterCharacter;
+        return energyModel.getSkaterCharacter();
     }
 
     public SkaterCharacter[] getSkaterCharacters() {
@@ -373,7 +371,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void removeListener( Listener moduleListener ) {
-        listeners.remove(moduleListener );
+        listeners.remove( moduleListener );
     }
 
     public static interface Listener {
