@@ -184,6 +184,14 @@ public class EnergySkateParkModel implements Serializable {
         }
         this.zeroPointPotentialY = model.zeroPointPotentialY;
         notifyBodyEnergyChanged();
+        notifyStateSet();
+    }
+
+    private void notifyStateSet() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.stateSet();
+        }
     }
 
     public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D spline ) {

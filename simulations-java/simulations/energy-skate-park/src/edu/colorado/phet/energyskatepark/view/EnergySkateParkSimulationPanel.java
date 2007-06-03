@@ -207,8 +207,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         rootNode.updateGraphics();
     }
 
-    public void addBodyGraphic( SkaterNode skaterNode ) {
-        rootNode.addBodyGraphic( skaterNode );
+    public void addSkaterNode( SkaterNode skaterNode ) {
+        rootNode.addSkaterNode( skaterNode );
     }
 
     private void printControlPoints() {

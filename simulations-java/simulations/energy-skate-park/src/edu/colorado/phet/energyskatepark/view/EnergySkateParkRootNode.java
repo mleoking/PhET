@@ -11,6 +11,8 @@ import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
@@ -311,7 +313,16 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 //        resetDefaults();//needs MVC update before this will work.
     }
 
-    public void addBodyGraphic( SkaterNode skaterNode ) {
+    public void addSkaterNode( SkaterNode skaterNode ) {
+        skaterNode.addInputEventListener( new PBasicInputEventHandler(){
+            public void mousePressed( PInputEvent event ) {
+                module.setRecordOrLiveMode();
+            }
+
+            public void mouseDragged( PInputEvent event ) {
+                module.redrawAllGraphics();
+            }
+        } );
         bodyGraphics.addChild( skaterNode );
         if( bodyGraphics.getChildrenCount() == 1 ) {
             offscreenManIndicator.setBodyGraphic( skaterNode );
@@ -382,7 +393,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void updateBodies() {
         while( numBodyGraphics() < getModel().getNumBodies() ) {
-            addBodyGraphic( new SkaterNode( getModel().getBody( 0 ) ) );
+            addSkaterNode( new SkaterNode( getModel().getBody( 0 ) ) );
         }
         while( numBodyGraphics() > getModel().getNumBodies() ) {
             removeBodyGraphic( bodyGraphicAt( numBodyGraphics() - 1 ) );
