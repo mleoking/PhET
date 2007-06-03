@@ -32,7 +32,7 @@ import java.util.HashMap;
 public class EnergySkateParkRootNode extends PhetRootPNode {
     private PNode bodyGraphics = new PNode();
     private PNode jetPackGraphics = new PNode();
-    private PNode splineGraphics = new PNode();
+    private PNode splineLayer = new PNode();
     private EnergySkateParkModule module;
     private EnergySkateParkSimulationPanel simulationPanel;
     private PNode historyGraphics = new PNode();
@@ -108,7 +108,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addWorldChild( houseNode );
         addWorldChild( mountainNode );
         addWorldChild( floorNode );
-        addWorldChild( splineGraphics );
+        addWorldChild( splineLayer );
 
         addWorldChild( jetPackGraphics );
         addWorldChild( bodyGraphics );
@@ -122,7 +122,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addScreenChild( legend );
         addScreenChild( zeroPointPotentialNode );
         addScreenChild( offscreenIndicatorLayer );
-
 
         addWorldChild( gridNode );
         setGridVisible( false );
@@ -184,7 +183,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             }
         } );
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-            public void stepFinished() {
+            public void historyChanged() {
                 updateHistory();
             }
         } );
@@ -237,12 +236,12 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public void addSplineGraphic( SplineNode splineNode ) {
-        splineGraphics.addChild( splineNode );
+        splineLayer.addChild( splineNode );
     }
 
     public void reset() {
         bodyGraphics.removeAllChildren();
-        splineGraphics.removeAllChildren();
+        splineLayer.removeAllChildren();
         jetPackGraphics.removeAllChildren();
         pieCharts.removeAllChildren();
         setZeroPointVisible( false );
@@ -257,25 +256,19 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             }
         } );
         bodyGraphics.addChild( skaterNode );
-        if( bodyGraphics.getChildrenCount() == 1 ) {
-            if( offscreenManIndicatorNode != null ) {
-                offscreenIndicatorLayer.removeAllChildren();
-            }
-            offscreenManIndicatorNode = new OffscreenManIndicatorNode( simulationPanel, module, skaterNode );
-            offscreenIndicatorLayer.addChild( offscreenManIndicatorNode );
-        }
     }
 
     public SplineNode splineGraphicAt( int i ) {
-        return (SplineNode)splineGraphics.getChildrenReference().get( i );
+        return (SplineNode)splineLayer.getChildrenReference().get( i );
     }
 
     public int numSplineGraphics() {
-        return splineGraphics.getChildrenReference().size();
+        return splineLayer.getChildrenReference().size();
     }
 
-    public void removeSplineGraphic( SplineNode splineNode ) {
-        splineGraphics.removeChild( splineNode );
+    public void removeSplineNode( SplineNode splineNode ) {
+        splineLayer.removeChild( splineNode );
+        splineNode.delete();
     }
 
     private void updateHistory() {
@@ -320,6 +313,14 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         }
         if( bodyGraphics.getChildrenCount() == 1 ) {
             initPieChart();
+            if( offscreenManIndicatorNode != null ) {
+                while( offscreenIndicatorLayer.getChildrenCount() > 0 ) {
+                    OffscreenManIndicatorNode node = (OffscreenManIndicatorNode)offscreenIndicatorLayer.removeChild( 0 );
+                    node.delete();
+                }
+            }//todo: fix memory leaks (like this one used to be) in other listeners
+            offscreenManIndicatorNode = new OffscreenManIndicatorNode( simulationPanel, module, bodyGraphicAt( 0 ) );
+            offscreenIndicatorLayer.addChild( offscreenManIndicatorNode );
         }
     }
 
@@ -336,7 +337,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             addSplineGraphic( new SplineNode( simulationPanel, getModel().getSpline( 0 ), simulationPanel ) );
         }
         while( numSplineGraphics() > getModel().getNumSplines() ) {
-            removeSplineGraphic( splineGraphicAt( numSplineGraphics() - 1 ) );
+            removeSplineNode( splineGraphicAt( numSplineGraphics() - 1 ) );
         }
         for( int i = 0; i < getModel().getNumSplines(); i++ ) {
             splineGraphicAt( i ).setSpline( getModel().getSpline( i ) );
@@ -345,6 +346,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void removeBodyGraphic( SkaterNode skaterNode ) {
         bodyGraphics.removeChild( skaterNode );
+        skaterNode.delete();
     }
 
     public int numBodyGraphics() {

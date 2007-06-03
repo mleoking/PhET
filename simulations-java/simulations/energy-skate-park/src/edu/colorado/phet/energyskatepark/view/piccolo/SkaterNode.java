@@ -41,6 +41,15 @@ public class SkaterNode extends PNode {
     private PNode jetPackNode;
     private BufferedImage jetPackImage;
     private BufferedImage skaterImage;
+    private Body.ListenerAdapter bodyListener = new Body.ListenerAdapter() {
+        public void dimensionChanged() {
+            update();
+        }
+
+        public void positionAngleChanged() {
+            update();
+        }
+    };
 
     public SkaterNode( final Body body ) {
         this.body = body;
@@ -102,18 +111,7 @@ public class SkaterNode extends PNode {
             }
         } );
 
-        getBody().addListener( new Body.ListenerAdapter() {
-            public void dimensionChanged() {
-                update();
-            }
-        } );
-        getBody().addListener( new Body.ListenerAdapter() {
-
-            public void positionAngleChanged() {
-                update();
-            }
-
-        } );
+        getBody().addListener( bodyListener );
         update();
     }
 
@@ -181,5 +179,9 @@ public class SkaterNode extends PNode {
         skaterImageNode.setImage( skaterImage );
         heightDivisor = skaterCharacter.getHeightDivisor();
         update();
+    }
+
+    public void delete() {
+        body.removeListener( bodyListener );
     }
 }

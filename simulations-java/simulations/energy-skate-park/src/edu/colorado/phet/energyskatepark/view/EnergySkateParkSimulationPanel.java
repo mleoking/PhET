@@ -277,7 +277,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     private void removeSplineGraphic( SplineNode splineNode ) {
-        rootNode.removeSplineGraphic( splineNode );
+        rootNode.removeSplineNode( splineNode );
     }
 
     public EnergySkateParkModel getEnergySkateParkModel() {

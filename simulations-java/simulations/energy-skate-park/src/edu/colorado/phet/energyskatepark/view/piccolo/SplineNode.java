@@ -8,12 +8,12 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkSplineEnvironment;
-import edu.colorado.phet.energyskatepark.view.SplineMatch;
 import edu.colorado.phet.energyskatepark.model.BumpUpSplines;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkSplineEnvironment;
+import edu.colorado.phet.energyskatepark.view.SplineMatch;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -55,45 +55,10 @@ public class SplineNode extends PNode {
     private TrackNode centerPath;
     private SplineNode.TrackPopupMenu popupMenu;
 
-    class TrackNode extends PhetPPath {
-        private float thickness;
-        private Color color;
-
-        public TrackNode( float thickness, Color strokePaint ) {
-            super( getTrackStroke( thickness ), strokePaint );
-            this.thickness = thickness;
-            this.color = strokePaint;
-        }
-
-        public float getThickness() {
-            return thickness;
-        }
-
-        public void setThickness( float thickness ) {
-            this.thickness = thickness;
-            setStroke( getTrackStroke( thickness ) );
-        }
-
-        public Color getColor() {
-            return color;
-        }
-
-        public void setColor( Color color ) {
-            this.color = color;
-            setStrokePaint( color );
-        }
-    }
-
     public SplineNode( JComponent parent, EnergySkateParkSpline splineSurface, EnergySkateParkSplineEnvironment ec3Canvas ) {
         this.parent = parent;
         this.ec3Canvas = ec3Canvas;
-//        this.spline = spline;
         this.spline = splineSurface;
-        //Original recommendation
-//        splinePath = new TrackNode( 1.0f, Color.gray );
-//        centerPath = new TrackNode( 0.2f, Color.black );
-
-        //Kathy's recommendation:
         splinePath = new TrackNode( 0.75f, Color.gray );
         centerPath = new TrackNode( 0.15f, new Color( 235, 193, 56 ) );
 
@@ -110,7 +75,6 @@ public class SplineNode extends PNode {
         addChild( centerPath );
         addChild( rollerCoasterPath );
         addChild( controlPointLayer );
-
 
         dragHandler = new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
@@ -133,30 +97,8 @@ public class SplineNode extends PNode {
         updateAll();
     }
 
-    class TrackEditPanel extends JPanel {
-
-        public TrackEditPanel( final TrackNode splinePath, String name ) {
-            final ModelSlider modelSlider = new ModelSlider( name, "", 0, 10, splinePath.getThickness() );
-            modelSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    splinePath.setThickness( (float)modelSlider.getValue() );
-                }
-            } );
-            setLayout( new GridBagLayout() );
-            GridBagConstraints gridBagConstraints = new GridBagConstraints();
-            gridBagConstraints.gridx = GridBagConstraints.RELATIVE;
-            gridBagConstraints.gridy = 0;
-
-            final JColorChooser colorChooser = new JColorChooser( splinePath.getColor() );
-            colorChooser.getSelectionModel().addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    splinePath.setColor( colorChooser.getColor() );
-                }
-            } );
-
-            add( modelSlider, gridBagConstraints );
-            add( colorChooser, gridBagConstraints );
-        }
+    public void delete() {
+        popupMenu.delete();
     }
 
     private void showColorControls() {
@@ -182,8 +124,6 @@ public class SplineNode extends PNode {
 
     private BasicStroke getTrackStroke( float thickness ) {
         return new BasicStroke( (float)( EnergySkateParkModel.SPLINE_THICKNESS * thickness ) );
-//        return new BasicStroke( (float)( EnergySkateParkModel.SPLINE_THICKNESS * thickness ) ,BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
-//        return new BasicStroke( (float)( EnergySkateParkModel.SPLINE_THICKNESS * thickness ) ,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
     }
 
     private BasicStroke getRailroadStroke( float thickness ) {
@@ -235,50 +175,6 @@ public class SplineNode extends PNode {
 
     public void processExternalDropEvent( PInputEvent event ) {
         finishDragSpline( event );
-    }
-
-    class TrackPopupMenu extends JPopupMenu {
-        private JCheckBoxMenuItem rollerCoasterMode;
-
-        public TrackPopupMenu( final EnergySkateParkSplineEnvironment ec3Canvas ) {
-            rollerCoasterMode = new JCheckBoxMenuItem( "Roller-Coaster Mode", spline.isRollerCoasterMode() );
-            spline.addListener( new EnergySkateParkSpline.Listener() {
-                public void rollerCoasterModeChanged() {
-                    TrackPopupMenu.this.updateAll();
-                }
-            } );
-            rollerCoasterMode.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    spline.setRollerCoasterMode( rollerCoasterMode.isSelected() );
-                    lastState = null;
-                    updateAll();//todo should be notification mechanism
-                }
-            } );
-
-            JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "controls.delete-track" ) );
-            delete.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    ec3Canvas.removeSpline( SplineNode.this );
-                }
-            } );
-
-            JMenuItem colors = new JMenuItem( "Edit look" );
-            colors.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    showColorControls();
-                }
-            } );
-
-            add( rollerCoasterMode );
-            addSeparator();
-            add( delete );
-            addSeparator();
-            add( colors );
-        }
-
-        public void updateAll() {
-            rollerCoasterMode.setSelected( spline.isRollerCoasterMode() );
-        }
     }
 
     private void finishDragSpline( PInputEvent event ) {
@@ -526,4 +422,111 @@ public class SplineNode extends PNode {
         }
 
     }
+
+
+    class TrackEditPanel extends JPanel {
+
+        public TrackEditPanel( final TrackNode splinePath, String name ) {
+            final ModelSlider modelSlider = new ModelSlider( name, "", 0, 10, splinePath.getThickness() );
+            modelSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    splinePath.setThickness( (float)modelSlider.getValue() );
+                }
+            } );
+            setLayout( new GridBagLayout() );
+            GridBagConstraints gridBagConstraints = new GridBagConstraints();
+            gridBagConstraints.gridx = GridBagConstraints.RELATIVE;
+            gridBagConstraints.gridy = 0;
+
+            final JColorChooser colorChooser = new JColorChooser( splinePath.getColor() );
+            colorChooser.getSelectionModel().addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    splinePath.setColor( colorChooser.getColor() );
+                }
+            } );
+
+            add( modelSlider, gridBagConstraints );
+            add( colorChooser, gridBagConstraints );
+        }
+    }
+
+    class TrackPopupMenu extends JPopupMenu {
+        private JCheckBoxMenuItem rollerCoasterMode;
+        private EnergySkateParkSpline.Listener splineListener = new EnergySkateParkSpline.Listener() {
+            public void rollerCoasterModeChanged() {
+                TrackPopupMenu.this.updateAll();
+            }
+        };
+
+        public TrackPopupMenu( final EnergySkateParkSplineEnvironment ec3Canvas ) {
+            rollerCoasterMode = new JCheckBoxMenuItem( "Roller-Coaster Mode", spline.isRollerCoasterMode() );
+            spline.addListener( splineListener );
+            rollerCoasterMode.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    spline.setRollerCoasterMode( rollerCoasterMode.isSelected() );
+                    lastState = null;
+                    updateAll();//todo should be notification mechanism
+                }
+            } );
+
+            JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "controls.delete-track" ) );
+            delete.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    ec3Canvas.removeSpline( SplineNode.this );
+                }
+            } );
+
+            JMenuItem colors = new JMenuItem( "Edit look" );
+            colors.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    showColorControls();
+                }
+            } );
+
+            add( rollerCoasterMode );
+            addSeparator();
+            add( delete );
+            addSeparator();
+            add( colors );
+        }
+
+        public void delete() {
+            spline.removeListener( splineListener );
+        }
+
+        public void updateAll() {
+            rollerCoasterMode.setSelected( spline.isRollerCoasterMode() );
+        }
+    }
+
+    class TrackNode extends PhetPPath {
+        private float thickness;
+        private Color color;
+
+        public TrackNode( float thickness, Color strokePaint ) {
+            super( getTrackStroke( thickness ), strokePaint );
+            this.thickness = thickness;
+            this.color = strokePaint;
+        }
+
+        public float getThickness() {
+            return thickness;
+        }
+
+        public void setThickness( float thickness ) {
+            this.thickness = thickness;
+            setStroke( getTrackStroke( thickness ) );
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public void setColor( Color color ) {
+            this.color = color;
+            setStrokePaint( color );
+        }
+    }
+
+
 }

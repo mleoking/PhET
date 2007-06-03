@@ -135,8 +135,7 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void removeBody( int i ) {
-        Body body = getBody( i );
-        body.removeListener( energyListener );
+        getBody( i ).removeListener( energyListener );
         bodies.remove( i );
         notifyBodyCountChanged();
     }
@@ -149,6 +148,10 @@ public class EnergySkateParkModel implements Serializable {
         else {
             floor = null;
         }
+        notifyFloorChanged();
+    }
+
+    private void notifyFloorChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
             energyModelListener.floorChanged();
@@ -172,25 +175,39 @@ public class EnergySkateParkModel implements Serializable {
     public void setState( EnergySkateParkModel model ) {
         model = model.copyState();
 
-        this.bodies = model.bodies;
-        this.splines = model.splines;
-        this.floor = model.floor;
-        this.history = model.history;
         this.time = model.time;
         this.maxNumHistoryPoints = model.maxNumHistoryPoints;
+
+        removeAllBodies();
+        removeAllSplineSurfaces();
+        for( int i = 0; i < model.bodies.size(); i++ ) {
+            addBody( (Body)model.bodies.get( i ) );
+        }
+        for( int i = 0; i < model.splines.size(); i++ ) {
+            addSplineSurface( (EnergySkateParkSpline)model.splines.get( i ) );
+        }
+
+        this.floor = model.floor;
+        notifyFloorChanged();
+        
+        this.history = model.history;
+        notifyHistoryChanged();
+
         if( this.gravity != model.gravity ) {
             this.gravity = model.gravity;
             notifyGravityChanged();
         }
-        this.zeroPointPotentialY = model.zeroPointPotentialY;
-        notifyBodyEnergyChanged();
-        notifyStateSet();
+
+        if( this.zeroPointPotentialY != model.zeroPointPotentialY ) {
+            this.zeroPointPotentialY = model.zeroPointPotentialY;
+            notifyZeroPointPotentialYChanged();
+        }
+
     }
 
-    private void notifyStateSet() {
+    private void notifyHistoryChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
-            energyModelListener.stateSet();
+            ( (EnergyModelListener)listeners.get( i ) ).historyChanged();
         }
     }
 
@@ -213,23 +230,41 @@ public class EnergySkateParkModel implements Serializable {
 
     public void stepInTime( double dt ) {
         time += dt;
-        if( recordPath && getNumBodies() > 0 && timeSinceLastHistory() > 0.1 ) {
-            history.add( new HistoryPoint( getTime(), getBody( 0 ) ) );
-        }
-        if( history.size() > maxNumHistoryPoints ) {
-            history.remove( 0 );
-        }
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
-            energyModelListener.preStep( dt );
-        }
+        updateHistory();
+        notifyPreStep( dt );
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             body.stepInTime( dt );
         }
+        notifyPostStep();
+    }
+
+    private void notifyPostStep() {
         for( int i = 0; i < listeners.size(); i++ ) {
             EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
             energyModelListener.stepFinished();
+        }
+    }
+
+    private void notifyPreStep( double dt ) {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.preStep( dt );
+        }
+    }
+
+    private void updateHistory() {
+        boolean historyChanged = false;
+        if( recordPath && getNumBodies() > 0 && timeSinceLastHistory() > 0.1 ) {
+            history.add( new HistoryPoint( getTime(), getBody( 0 ) ) );
+            historyChanged = true;
+        }
+        if( history.size() > maxNumHistoryPoints ) {
+            history.remove( 0 );
+            historyChanged = true;
+        }
+        if( historyChanged ) {
+            notifyHistoryChanged();
         }
     }
 
@@ -287,7 +322,7 @@ public class EnergySkateParkModel implements Serializable {
                 body.setFreeFallMode();
             }
         }
-        notifyBodiesSplineRemoved( splineSurface );
+        notifyBodiesSplineRemoved( splineSurface );//todo: this looks like it is duplicating the above work
         splines.remove( splineSurface );
         notifySplineCountChanged();
     }
@@ -368,7 +403,7 @@ public class EnergySkateParkModel implements Serializable {
         public void bodyCountChanged() {
         }
 
-        public void stateSet() {
+        public void historyChanged() {
         }
 
         public void zeroPointPotentialYChanged() {
@@ -390,7 +425,7 @@ public class EnergySkateParkModel implements Serializable {
 
         void bodyCountChanged();
 
-        void stateSet();
+        void historyChanged();
 
         void zeroPointPotentialYChanged();
     }
