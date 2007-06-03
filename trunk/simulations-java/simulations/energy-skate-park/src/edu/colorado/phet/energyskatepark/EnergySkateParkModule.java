@@ -44,7 +44,6 @@ public class EnergySkateParkModule extends PiccoloModule {
     private TimeSeriesModel timeSeriesModel;
     private EnergyVsTimePlot energyVsTimePlot;
     private EnergySkateParkOptions options;
-    private ArrayList listeners = new ArrayList();
 
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
@@ -81,7 +80,7 @@ public class EnergySkateParkModule extends PiccoloModule {
             }
         } );
 
-        init();
+        addDefaultBody();
         energyPositionPlotFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "plots.energy-vs-position" ), false );
         energyPositionCanvas = new EnergyPositionPlotCanvas( this );
         energyPositionPlotFrame.setContentPane( energyPositionCanvas );
@@ -118,9 +117,9 @@ public class EnergySkateParkModule extends PiccoloModule {
         timeSeriesModel.reset();
         timeSeriesModel.setLiveMode();
         energyVsTimePlot.reset();
-        init();
         timeSeriesModel.startLiveMode();
         barGraphCanvas.reset();
+        addDefaultBody();
     }
 
     public void resetSkater() {
@@ -137,7 +136,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         }
     }
 
-    private void init() {
+    private void addDefaultBody() {
         final Body body = energyModel.createBody();
         energyModel.addBody( body );
         energyModel.addSplineSurface( createDefaultTrack() );
@@ -203,8 +202,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void setCoefficientOfFriction( double value ) {
         for( int i = 0; i < getEnergySkateParkModel().getNumBodies(); i++ ) {
-            Body body = getEnergySkateParkModel().getBody( i );
-            body.setFrictionCoefficient( value );
+            getEnergySkateParkModel().getBody( i ).setFrictionCoefficient( value );
         }
     }
 
@@ -220,8 +218,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     public void setBounciness( double bounciness ) {
         EnergySkateParkModel model = getEnergySkateParkModel();
         for( int i = 0; i < model.getNumBodies(); i++ ) {
-            Body b = model.getBody( i );
-            b.setBounciness( bounciness );
+            model.getBody( i ).setBounciness( bounciness );
         }
     }
 
@@ -242,7 +239,6 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
         energyModel.setSkaterCharacter( skaterCharacter );
-        notifySkaterCharacterChanged();
     }
 
     public SkaterCharacter getSkaterCharacter() {
@@ -282,26 +278,8 @@ public class EnergySkateParkModule extends PiccoloModule {
         }
     }
 
-    public void removeListener( Listener moduleListener ) {
-        listeners.remove( moduleListener );
-    }
-
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
-
-    private void notifySkaterCharacterChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.skaterCharacterChanged();
-        }
-    }
-
     public Body createBody() {
         return energyModel.createBody();
     }
 
-    public static interface Listener {
-        void skaterCharacterChanged();
-    }
 }

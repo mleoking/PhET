@@ -255,12 +255,12 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         }
         if( match.matchesBeginning() ) {
             for( int i = 1; i < b.numControlPoints(); i++ ) {
-                spline.addControlPoint( b.controlPointAt( i ) );
+                spline.addControlPoint( b.getControlPoint( i ) );
             }
         }
         else if( match.matchesEnd() ) {
             for( int i = b.numControlPoints() - 2; i >= 0; i-- ) {
-                spline.addControlPoint( b.controlPointAt( i ) );
+                spline.addControlPoint( b.getControlPoint( i ) );
             }
         }
         EnergySkateParkSpline energySkateParkSpline = new EnergySkateParkSpline( spline.getControlPoints() );

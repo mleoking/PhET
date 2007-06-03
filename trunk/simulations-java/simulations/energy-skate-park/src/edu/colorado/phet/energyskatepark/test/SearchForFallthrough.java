@@ -48,7 +48,7 @@ public class SearchForFallthrough {
         int numParticles = 40;
         for( int i = 0; i < numParticles; i++ ) {
             Body body = app.getModule().createBody();
-            body.setPosition( skateParkSpline.controlPointAt( 1 ).getX(), skateParkSpline.controlPointAt( 1 ).getY() + 0.0001 );
+            body.setPosition( skateParkSpline.getControlPoint( 1 ).getX(), skateParkSpline.getControlPoint( 1 ).getY() + 0.0001 );
             double dE = ( h1 - h0 ) * body.getMass() * Math.abs( EnergySkateParkModel.G_EARTH );
             double velocity = Math.sqrt( 2 * dE / body.getMass() );
             double spread = velocity * 0.05;//5% spread

@@ -117,12 +117,22 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
         return (SerializablePoint2D[])pts.toArray( new SerializablePoint2D[0] );
     }
 
-    public SerializablePoint2D controlPointAt( int index ) {
+    public SerializablePoint2D getControlPoint( int index ) {
         return getControlPoints()[index];
     }
 
     public void translate( double dx, double dy ) {
-        parametricFunction2D.translateControlPoints( dx, dy );       
+        if (dx!=0||dy!=0){
+        parametricFunction2D.translateControlPoints( dx, dy );
+            notifyControlPointsChanged();
+        }
+    }
+
+    private void notifyControlPointsChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.controlPointsChanged();
+        }
     }
 
     public int numControlPoints() {
@@ -135,6 +145,7 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
 
     public void removeControlPoint( int index ) {
         parametricFunction2D.removeControlPoint( index );
+        notifyControlPointsChanged();
     }
 
     public void printControlPointCode() {
@@ -143,6 +154,7 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
 
     public void setControlPointLocation( int index, SerializablePoint2D pt ) {
         parametricFunction2D.setControlPoint( index, pt );
+        notifyControlPointsChanged();
     }
 
     public double getMinY() {
@@ -154,8 +166,8 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
             }
         }
         for( int i = 0; i < numControlPoints(); i++ ) {
-            if( controlPointAt( i ).getY() < minY ) {
-                minY = controlPointAt( i ).getY();
+            if( getControlPoint( i ).getY() < minY ) {
+                minY = getControlPoint( i ).getY();
             }
         }
         return minY;
@@ -163,6 +175,8 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
 
     public static interface Listener {
         void rollerCoasterModeChanged();
+
+        void controlPointsChanged();
     }
 
     public void addListener( Listener listener ) {

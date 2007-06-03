@@ -261,12 +261,6 @@ public class Body implements Serializable {
         return particle.getThrust();
     }
 
-    public void splineRemoved( EnergySkateParkSpline spline ) {
-        if( particle.getSpline() == spline.getParametricFunction2D() ) {
-            particle.setFreeFall();
-        }
-    }
-
     public double getFrictionCoefficient() {
         return particle.getFrictionCoefficient();
     }

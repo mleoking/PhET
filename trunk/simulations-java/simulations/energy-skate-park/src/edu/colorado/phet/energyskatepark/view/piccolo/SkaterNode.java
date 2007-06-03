@@ -143,10 +143,8 @@ public class SkaterNode extends PNode {
     }
 
     protected void setBodyNoUpdate( Body body ) {
-        if( this.body != null ) {
-            this.body.removeListener( bodyListener );
-        }
-        this.body = body;//todo memory leak for listeners
+        this.body.removeListener( bodyListener );
+        this.body = body;
         this.body.addListener( bodyListener );
     }
 

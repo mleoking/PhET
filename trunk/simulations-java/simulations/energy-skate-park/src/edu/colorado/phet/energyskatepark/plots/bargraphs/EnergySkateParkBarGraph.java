@@ -32,18 +32,11 @@ public class EnergySkateParkBarGraph extends BarGraph {
         this.model = energySkateParkModel;
 
         energySkateParkSimulationPanel.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-            public void stepFinished() {
+            public void primaryBodyChanged() {
                 update();
             }
-
-            public void bodyEnergyChanged() {//todo: this will be called too many times if there are many bodies changing energy during one time step
-                update();
-            }
-
-            public void stateSet() {
-                update();
-            }
-        } );
+        });
+        
     }
 
     public static Variable[] toVariableArray( final ValueAccessor[] energyAccess, final EnergySkateParkModel energySkateParkModel ) {
