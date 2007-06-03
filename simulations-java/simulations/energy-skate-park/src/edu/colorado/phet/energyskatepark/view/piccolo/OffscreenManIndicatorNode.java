@@ -4,7 +4,6 @@ package edu.colorado.phet.energyskatepark.view.piccolo;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -27,7 +26,6 @@ public class OffscreenManIndicatorNode extends PhetPNode {
     private EnergySkateParkModule module;
     private PNode buttonNode;
     private JButton bringBackSkater = new JButton( "" );
-    private Body.ListenerAdapter bodyListener;
 
     public OffscreenManIndicatorNode( PSwingCanvas canvas, final EnergySkateParkModule module, SkaterNode skaterNode ) {
         this.canvas = canvas;
@@ -40,29 +38,12 @@ public class OffscreenManIndicatorNode extends PhetPNode {
         } );
         buttonNode = new PhetPNode( new PSwing( bringBackSkater ) );
         addChild( buttonNode );
-        bodyListener = new Body.ListenerAdapter() {
-            public void positionAngleChanged() {
-                update();
-            }
-
-            public void skaterCharacterChanged() {
-                update();
-            }
-        };
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-            public void skaterCharacterChanged() {
-
+            public void primaryBodyChanged() {
+                update();
             }
         } );
-        if( skaterNode != null ) {
-            skaterNode.getBody().addListener( bodyListener );
-        }
-
         update();
-    }
-
-    public void delete() {
-        skaterNode.getBody().removeListener( bodyListener );
     }
 
     private void updateText() {
@@ -95,11 +76,7 @@ public class OffscreenManIndicatorNode extends PhetPNode {
     }
 
     public void setSkaterNode( SkaterNode skaterNode ) {
-        if( this.skaterNode != null ) {
-            this.skaterNode.getBody().removeListener( bodyListener );
-        }
         this.skaterNode = skaterNode;
-        this.skaterNode.getBody().addListener( bodyListener );
         update();
     }
 }

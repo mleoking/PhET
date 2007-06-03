@@ -1,12 +1,11 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.swing;
 
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +27,6 @@ public class PieChartControlPanel extends HorizontalLayoutPanel {
     public PieChartControlPanel( final EnergySkateParkModule module, EnergySkateParkControlPanel energySkateParkControlPanel ) {
         this.module = module;
         this.energySkateParkControlPanel = energySkateParkControlPanel;
-//        setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "piechart.title" ) ) );
         showPieChartCheckBox = new JCheckBox( EnergySkateParkStrings.getString( "piechart.show" ), module.isPieChartVisible() );
         showPieChartCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -45,13 +43,16 @@ public class PieChartControlPanel extends HorizontalLayoutPanel {
             }
         } );
         add( showThermal );
-
-//        setFillNone();
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void primaryBodyChanged() {
+                update();
+            }
+        } );
         setAnchor( GridBagConstraints.WEST );
         showThermal.setEnabled( showPieChartCheckBox.isSelected() );
     }
 
-    public void update() {
+    private void update() {
         EnergySkateParkModel energySkateParkModel = module.getEnergySkateParkModel();
         boolean enabled = energySkateParkModel.getNumBodies() > 0 && energySkateParkModel.getBody( 0 ).getPotentialEnergy() >= 0.0;
         showPieChartCheckBox.setEnabled( enabled );

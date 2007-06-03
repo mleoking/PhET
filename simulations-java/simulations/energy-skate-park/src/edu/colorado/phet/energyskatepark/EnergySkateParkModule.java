@@ -89,12 +89,6 @@ public class EnergySkateParkModule extends PiccoloModule {
         energySkateParkControlPanel = new EnergySkateParkControlPanel( this );
         setControlPanel( energySkateParkControlPanel );
 
-        clock.addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent clockEvent ) {
-                energySkateParkControlPanel.update();
-            }
-        } );
-
         barChartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "plots.bar-graph" ), false );
         barGraphCanvas = new BarGraphCanvas( this );
         barChartFrame.setContentPane( barGraphCanvas );

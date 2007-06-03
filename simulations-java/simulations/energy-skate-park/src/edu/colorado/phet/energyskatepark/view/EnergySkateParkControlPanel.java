@@ -1,8 +1,6 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -10,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-import edu.colorado.phet.energyskatepark.view.swing.*;
 import edu.colorado.phet.energyskatepark.common.IconComponent;
+import edu.colorado.phet.energyskatepark.view.swing.*;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
@@ -32,7 +30,7 @@ import java.io.IOException;
 public class EnergySkateParkControlPanel extends ControlPanel {
     private EnergySkateParkModule module;
     private PieChartControlPanel piePanel;
-    
+
 //    public static boolean PLANET_CENTERED = false;
 //    public static LocationControlPanel.PlanetButtonLayout PLANET_LAYOUT = new LocationControlPanel.TwoColumnLayout();
 
@@ -94,8 +92,8 @@ public class EnergySkateParkControlPanel extends ControlPanel {
                 module.getEnergyConservationCanvas().setZeroPointVisible( zeroPointPotential.isSelected() );
             }
         } );
-        module.getClock().addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent event ) {
+        module.getEnergyConservationCanvas().addListener( new EnergySkateParkSimulationPanel.Adapter() {
+            public void zeroPointEnergyVisibilityChanged() {
                 zeroPointPotential.setSelected( module.getEnergyConservationCanvas().isZeroPointVisible() );
             }
         } );
@@ -148,7 +146,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         addControlFullWidth( chartPanel );
 //        addControl( new LocationControlPanel( module, new LocationControlPanel.VerticalPlanetButtonLayout() ) );
 //        addControl( new LocationControlPanel( module, new LocationControlPanel.TwoColumnLayout(),true ) );
-        addControl( new LocationControlPanel( module,module.getOptions().getPlanetButtonLayout(),module.getOptions().getPlanetButtonsCentered()) );
+        addControl( new LocationControlPanel( module, module.getOptions().getPlanetButtonLayout(), module.getOptions().getPlanetButtonsCentered() ) );
 
         final FrictionControl frictionControl = new FrictionControl( module );
         addControl( new ClearHeatButton( module ) );
@@ -175,7 +173,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         module.confirmAndReset();
     }
 
-    public void update() {
-        piePanel.update();
-    }
+//    public void update() {
+//        piePanel.update();
+//    }
 }

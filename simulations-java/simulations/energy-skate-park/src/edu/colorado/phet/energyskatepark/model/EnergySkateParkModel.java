@@ -6,7 +6,7 @@ import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.SkaterCharacterSet;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
-import edu.colorado.phet.energyskatepark.util.OptionalItemSerializableList;
+import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -42,6 +42,29 @@ public class EnergySkateParkModel implements Serializable {
     public static final double SPLINE_THICKNESS = 0.25f;//meters
     private Body.Listener energyListener = new EnergyChangeNotifyingListener();
     private SkaterCharacter skaterCharacter = SkaterCharacterSet.getDefaultCharacter();
+    private Body.ListenerAdapter primaryBodyAdapter = new PrimaryBodyListenerAdapter();
+
+    class PrimaryBodyListenerAdapter extends Body.ListenerAdapter implements Serializable {
+        public void thrustChanged() {
+            notifyPrimaryBodyChanged();
+        }
+
+        public void energyChanged() {
+            notifyPrimaryBodyChanged();
+        }
+
+        public void positionAngleChanged() {
+            notifyPrimaryBodyChanged();
+        }
+
+        public void skaterCharacterChanged() {
+            notifyPrimaryBodyChanged();
+        }
+
+        public void dimensionChanged() {
+            notifyPrimaryBodyChanged();
+        }
+    }
 
     public EnergySkateParkModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
@@ -129,6 +152,7 @@ public class EnergySkateParkModel implements Serializable {
 
     public void removeBody( int i ) {
         getBody( i ).removeListener( energyListener );
+        getBody( i ).removeListener( primaryBodyAdapter );
         bodies.remove( i );
         notifyBodyCountChanged();
     }
@@ -172,8 +196,10 @@ public class EnergySkateParkModel implements Serializable {
         this.maxNumHistoryPoints = model.maxNumHistoryPoints;
         setSkaterCharacter( model.getSkaterCharacter() );
 
+        //todo: detach listeners from existing bodies and splines, see removeBody
         this.bodies = model.bodies;
         notifyBodiesSynced();
+        notifyPrimaryBodyChanged();//todo: this could send notifications even when unnecessary (if no changes were made)
 
         this.splines = model.splines;
         notifySplinesSynced();
@@ -302,15 +328,24 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void addBody( Body body ) {
-
         body.addListener( energyListener );
         bodies.add( body );
 //        System.out.println( "EnergySkateParkModel.addBody, bodies="+bodies.size() );
         if( bodies.size() == 1 ) {//The zero point potential now occurs at the center of mass of the skater.
             zeroPointPotentialY = 0;
             initZeroPointPotentialY = zeroPointPotentialY;
+            body.addListener( primaryBodyAdapter );
+            notifyPrimaryBodyChanged();
         }
+
         notifyBodyCountChanged();
+    }
+
+    private void notifyPrimaryBodyChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.primaryBodyChanged();
+        }
     }
 
     private void notifyBodyCountChanged() {
@@ -451,6 +486,10 @@ public class EnergySkateParkModel implements Serializable {
 
         public void skaterCharacterChanged() {
         }
+
+        public void primaryBodyChanged() {
+
+        }
     }
 
     public static interface EnergyModelListener {
@@ -479,6 +518,11 @@ public class EnergySkateParkModel implements Serializable {
         void stateSet();
 
         void skaterCharacterChanged();
+
+        /**
+         * This method is called if there is a state change within the the primary body, or if the instance of the primary body changes.
+         */
+        void primaryBodyChanged();
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {

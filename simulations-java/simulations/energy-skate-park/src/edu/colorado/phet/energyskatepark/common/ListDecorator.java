@@ -1,5 +1,5 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.energyskatepark.util;
+package edu.colorado.phet.energyskatepark.common;
 
 import java.util.*;
 
