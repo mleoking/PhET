@@ -2,6 +2,7 @@
 Added improved time series controls for main window and Energy vs. Time graph
 If the user grabs the skater during playback mode (whether or not it is paused), it changes to record (or live) mode.
 Reworded “Record Path” to “Show Path”
+"Playback" auto-restarts playback timer if already at the end of the sequence.
 
 2.01.06
 Consolidated "Record Path" and "Pause" buttons in the control panel.

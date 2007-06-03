@@ -14,7 +14,7 @@ How does user switch mode from "playback" to "record" or "live" again?  Perhaps 
 Charts are correctly overlaid in Rotation, but not in Energy Skate Park.
 -I don't think this is true; full repaint is in layered mode, but not incremental repaint
 
- Fix listener leaks
+Fix listener leaks
 
 2.	Is performance good enough during track friction > 0 case?  I removed duplicated computation in radius of curvature approximation.
 	Removing this duplicated work resulted in substantial improvement (non-friction case = 10% processor, old friction case=30% processor, new fixed case=18% processor), but a difference in visible performance is still visible under a profiler.  Should I continue to investigate this issue?
