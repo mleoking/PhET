@@ -2,7 +2,7 @@ package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.energyskatepark.view.LocationControlPanel;
+import edu.colorado.phet.energyskatepark.view.swing.LocationControlPanel;
 
 import javax.swing.*;
 import java.awt.*;

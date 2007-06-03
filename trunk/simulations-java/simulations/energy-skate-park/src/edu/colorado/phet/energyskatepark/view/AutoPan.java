@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
+import edu.colorado.phet.energyskatepark.view.piccolo.SkaterNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**

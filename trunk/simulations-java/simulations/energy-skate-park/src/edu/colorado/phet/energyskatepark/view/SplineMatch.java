@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
+import edu.colorado.phet.energyskatepark.view.piccolo.SplineNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
