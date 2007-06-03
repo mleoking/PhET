@@ -5,7 +5,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
@@ -14,7 +13,10 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -51,12 +53,10 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     public static final Color SKY_COLOR = new Color( 170, 200, 220 );
     private GridNode gridNode;
     private PanZoomOnscreenControlNode panZoomControls;
-    private SkaterCharacter skaterCharacter;
     private PNode energyErrorIndicatorContainer = new PNode();
     private EnergyErrorIndicatorNode energyErrorIndicatorNode;
     private SurfaceObjectNode houseNode;
     private SurfaceObjectNode mountainNode;
-//    private PNode offscreenIndicatorLayer = new PNode();
 
     public EnergySkateParkRootNode( final EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
         this.module = module;
@@ -127,18 +127,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         setGridVisible( false );
 
         resetDefaults();
-        simulationPanel.addComponentListener( new ComponentListener() {
-            public void componentHidden( ComponentEvent e ) {
-            }
-
-            public void componentMoved( ComponentEvent e ) {
-            }
-
+        simulationPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 screenBackground.update();
-            }
-
-            public void componentShown( ComponentEvent e ) {
             }
         } );
         setZeroPointVisible( false );
@@ -213,7 +204,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         Rectangle2D rect = new Rectangle2D.Double( 0, 0, 1, 1 );
         worldToScreen( rect );
         measuringTape.setModelViewTransform2D( new ModelViewTransform2D( new Rectangle( 1, 1 ), rect ) );
-
     }
 
     private void updateEnergyIndicator() {

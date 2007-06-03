@@ -77,8 +77,9 @@ public class EnergySkateParkModel implements Serializable {
         return bodies.contains( body );
     }
 
-    public void clearPaths() {
+    public void clearHistory() {
         history.clear();
+        notifyHistoryChanged();
     }
 
     public void clearHeat() {
@@ -380,12 +381,12 @@ public class EnergySkateParkModel implements Serializable {
 
     public void reset() {
         bodies.clear();
-//        System.out.println( "EnergySkateParkModel.reset, bodies.size="+bodies.size() );
         splines.clear();
         history.clear();
         setGravity( G_EARTH );
         zeroPointPotentialY = initZeroPointPotentialY;
         updateFloorState();
+        setSkaterCharacter( SkaterCharacterSet.getDefaultCharacter() );
     }
 
     public ParticleStage getParticleStage() {

@@ -149,7 +149,6 @@ public class EnergySkateParkModule extends PiccoloModule {
         init();
         timeSeriesModel.startLiveMode();
         barGraphCanvas.reset();
-        setSkaterCharacter( SkaterCharacterSet.getDefaultCharacter() );
     }
 
     public void resetSkater() {
@@ -171,8 +170,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         body.reset();
         energyModel.addBody( body );
 
-        EnergySkateParkSpline espspline = createDefaultTrack();
-        energyModel.addSplineSurface( espspline );
+        energyModel.addSplineSurface( createDefaultTrack() );
         initBodyOnTrack( body );
     }
 
@@ -222,7 +220,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void clearPaths() {
-        this.getEnergySkateParkModel().clearPaths();
+        this.getEnergySkateParkModel().clearHistory();
     }
 
     public void setEnergyTimePlotVisible( boolean b ) {
@@ -333,7 +331,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public Body createBody() {
-        return new Body( getSkaterCharacter().getModelWidth(), getSkaterCharacter().getModelHeight(), getEnergySkateParkModel().getParticleStage(), getEnergySkateParkModel().getGravity(), getEnergySkateParkModel().getZeroPointPotentialY(),getEnergySkateParkModel().getSkaterCharacter() );
+        return new Body( getSkaterCharacter().getModelWidth(), getSkaterCharacter().getModelHeight(), getEnergySkateParkModel().getParticleStage(), getEnergySkateParkModel().getGravity(), getEnergySkateParkModel().getZeroPointPotentialY(), getEnergySkateParkModel().getSkaterCharacter() );
     }
 
     public void setEnergyErrorVisible( boolean selected ) {
