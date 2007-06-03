@@ -40,11 +40,6 @@ public class RecordMode extends Mode {
         double recorderTime = timer.getTime();
         double maxTime = timeSeriesModel.getMaxAllowedTime();
         if( !timeSeriesModel.isPaused() ) {
-//            System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
-//            if( recorderTime >= maxTime ) {
-//                timeSeriesModel.recordingFinished();
-//                return;
-//            }
 
             double newTime = recorderTime + dt;// * timer.getTimerScale();
             if( newTime > maxTime ) {
@@ -54,34 +49,7 @@ public class RecordMode extends Mode {
 
             timeSeriesModel.updateModel( event );
 
-//            if( newTime >= maxTime ) {
-//                timeSeriesModel.recordingFinished();
-//                return;
-//            }
         }
     }
 
-    public void clockTickedORIG( ClockEvent event ) {
-        double dt = event.getSimulationTimeChange();
-        double recorderTime = timer.getTime();
-        double maxTime = timeSeriesModel.getMaxAllowedTime();
-        if( !timeSeriesModel.isPaused() ) {
-            if( recorderTime >= maxTime ) {
-                timeSeriesModel.recordingFinished();
-                return;
-            }
-
-            double newTime = recorderTime + dt;// * timer.getTimerScale();
-            if( newTime > maxTime ) {
-                dt = ( maxTime - recorderTime );// / timer.getTimerScale();
-            }
-            timer.stepInTime( dt, maxTime );//this could go over the max.
-            timeSeriesModel.updateModel( event );
-
-            if( newTime >= maxTime ) {
-                timeSeriesModel.recordingFinished();
-                return;
-            }
-        }
-    }
 }

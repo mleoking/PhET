@@ -98,13 +98,16 @@ public abstract class Mode {
             double newTime = recordTime + dt;
             if( newTime > maxTime ) {
                 dt = ( maxTime - recordTime );
-                newTime=getTimeSeriesModel().getMaxRecordTime();
+                newTime = getTimeSeriesModel().getMaxRecordTime();
             }
             recordTime += dt;
             getTimeSeriesModel().updateModel( dt );
             getTimeSeriesModel().addSeriesPoint( getTimeSeriesModel().getModelState(), recordTime );
             if( newTime == getTimeSeriesModel().getMaxRecordTime() ) {
                 getTimeSeriesModel().setPaused( true );
+            }
+            if( getTimeSeriesModel().numPlaybackStates() % 100 == 0 ) {
+                System.out.println( "getTimeSeriesModel().numPlaybackStates() = " + getTimeSeriesModel().numPlaybackStates() );
             }
         }
 

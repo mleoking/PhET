@@ -226,11 +226,6 @@ public abstract class TimeSeriesModel extends ClockTickListener {
         }
     }
 
-    public void recordingFinished() {
-//        setPaused( true );
-//        fireFinishedRecording();
-    }
-
     public abstract void updateModel( ClockEvent clockEvent );
 
     public double getMaxAllowedTime() {

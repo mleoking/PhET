@@ -217,16 +217,6 @@ public class TimeSeriesModel extends ClockAdapter {
         setMode( live );
     }
 
-    private void ifRecordTooMuchSwitchToLive() {
-        int MAX = 1500;
-        //todo magic number: this is the number of recorded points in the 40-second interval that shows up on the time series chart under a particular set of conditions.
-
-        if( isRecordMode() && record.getTimeSeriesModel().getSeries().size() > MAX ) {
-            setLiveMode();
-            notifyDataSeriesChanged();
-        }
-    }
-
     public boolean isThereRecordedData() {
         return getSeries().size() > 0;
     }
@@ -287,7 +277,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void clockTicked( ClockEvent event ) {
-        ifRecordTooMuchSwitchToLive();
+//        ifRecordTooMuchSwitchToLive();
         stepMode( event.getSimulationTimeChange() );
     }
 

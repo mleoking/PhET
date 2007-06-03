@@ -87,7 +87,8 @@ public class EnergySkateParkModule extends PiccoloModule {
             }
         });
         timeSeriesModel = new TimeSeriesModel( energyTimeSeriesModel, clock );
-        timeSeriesModel.setMaxRecordTime( 200.0 );
+//        timeSeriesModel.setMaxRecordTime( 200.0 );
+        timeSeriesModel.setMaxRecordTime( 50.0);//todo isolate this magic number
 //        timeSeriesModel.setMaxRecordTime( 5.0 );//just for testing
         clock.addClockListener( timeSeriesModel );
 
