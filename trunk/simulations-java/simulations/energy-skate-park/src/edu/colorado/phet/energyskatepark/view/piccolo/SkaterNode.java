@@ -49,6 +49,11 @@ public class SkaterNode extends PNode {
         public void positionAngleChanged() {
             update();
         }
+
+        public void skaterCharacterChanged() {
+            setSkaterCharacter( body.getSkaterCharacter() );
+            update();
+        }
     };
 
     public SkaterNode( final Body body ) {

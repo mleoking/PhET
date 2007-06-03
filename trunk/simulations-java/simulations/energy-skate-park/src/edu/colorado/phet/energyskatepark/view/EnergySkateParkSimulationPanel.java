@@ -370,9 +370,9 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         return null;
     }
 
-    public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
-        rootNode.setSkaterCharacter( skaterCharacter );
-    }
+//    public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
+//        rootNode.setSkaterCharacter( skaterCharacter );
+//    }
 
     public void setEnergyErrorVisible( boolean selected ) {
         rootNode.setEnergyErrorVisible( selected );

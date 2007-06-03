@@ -5,6 +5,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.Body;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -40,6 +41,11 @@ public class OffscreenManIndicatorNode extends PhetPNode {
         } );
         buttonNode = new PhetPNode( new PSwing( bringBackSkater ) );
         addChild( buttonNode );
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void skaterCharacterChanged() {
+                updateText();
+            }
+        });
         moduleListener = new EnergySkateParkModule.Listener() {
             public void skaterCharacterChanged() {
                 updateText();

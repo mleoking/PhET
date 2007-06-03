@@ -4,12 +4,13 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * Author: Sam Reid
  * Mar 30, 2007, 1:38:23 PM
  */
-public class SkaterCharacter {
+public class SkaterCharacter implements Serializable {
     private String imageURL;
     private String name;
     private double mass;
@@ -26,6 +27,19 @@ public class SkaterCharacter {
         this.mass = mass;
         this.modelHeight = modelHeight;
         this.heightDivisor = heightDivisor;
+    }
+
+    public boolean equals( Object obj ) {
+        if( obj instanceof SkaterCharacter ) {
+            SkaterCharacter sc = (SkaterCharacter)obj;
+            return sc.imageURL.equals( imageURL ) &&
+                   sc.name.equals( name ) &&
+                   sc.mass == mass &&
+                   sc.modelHeight == modelHeight &&
+                   sc.heightDivisor == heightDivisor;
+        }else{
+            return false;
+        }
     }
 
     public double getModelWidth() {

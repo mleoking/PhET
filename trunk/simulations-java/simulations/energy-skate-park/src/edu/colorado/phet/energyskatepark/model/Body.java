@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
+import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
@@ -42,6 +43,7 @@ public class Body implements Serializable {
     //    public static double DEFAULT_STICKINESS = 0.75;
     public static double DEFAULT_STICKINESS = 0.9;
     public static double staticSticky = DEFAULT_STICKINESS;
+    private SkaterCharacter skaterCharacter;
 
     public Body( double width, double height, ParticleStage particleStage, double gravity, double zeroPointPotentialY ) {
         this.width = width;
@@ -416,6 +418,24 @@ public class Body implements Serializable {
         particle.setConvertNormalVelocityToThermalOnLanding( !selected );
     }
 
+    public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
+        setDimension( skaterCharacter.getModelWidth(), skaterCharacter.getModelHeight() );
+        setMass( skaterCharacter.getMass() );
+        this.skaterCharacter = skaterCharacter;
+        notifySkaterCharacterChanged();
+    }
+
+    private void notifySkaterCharacterChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.skaterCharacterChanged();
+        }
+    }
+
+    public SkaterCharacter getSkaterCharacter() {
+        return skaterCharacter;
+    }
+
     public static interface Listener {
         void thrustChanged();
 
@@ -424,6 +444,8 @@ public class Body implements Serializable {
         void dimensionChanged();
 
         void positionAngleChanged();
+
+        void skaterCharacterChanged();
     }
 
     public static class ListenerAdapter implements Listener {
@@ -437,6 +459,9 @@ public class Body implements Serializable {
         }
 
         public void positionAngleChanged() {
+        }
+
+        public void skaterCharacterChanged() {
         }
     }
 
