@@ -31,7 +31,7 @@ public abstract class Mode {
 
         public void step( double dt ) {
             time += dt;
-            getTimeSeriesModel().updateModel( dt);
+            getTimeSeriesModel().updateModel( dt );
         }
 
         public double getTime() {
@@ -98,17 +98,19 @@ public abstract class Mode {
             double newTime = recordTime + dt;
             if( newTime > maxTime ) {
                 dt = ( maxTime - recordTime );
+                newTime=getTimeSeriesModel().getMaxRecordTime();
             }
             recordTime += dt;
-            getTimeSeriesModel().updateModel( dt);
+            getTimeSeriesModel().updateModel( dt );
             getTimeSeriesModel().addSeriesPoint( getTimeSeriesModel().getModelState(), recordTime );
+            if( newTime == getTimeSeriesModel().getMaxRecordTime() ) {
+                getTimeSeriesModel().setPaused( true );
+            }
         }
 
         public double getRecordTime() {
             return recordTime;
         }
-
     }
-
 
 }
