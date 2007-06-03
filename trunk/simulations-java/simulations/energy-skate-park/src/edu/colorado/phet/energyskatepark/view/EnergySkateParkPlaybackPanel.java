@@ -28,21 +28,6 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
     private EnergySkateParkCCP energySkateParkCCP;
     private TimeSeriesModel timeSeriesModel;
 
-    public static class EnergySkateParkCCP extends ClockControlPanel {
-        public EnergySkateParkCCP( IClock clock ) {
-            super( clock );
-            setPlayString( "Playback" );
-        }
-
-        public void addPlayPauseActionListener( ActionListener actionListener ) {
-            super.addPlayPauseActionListener( actionListener );
-        }
-
-        public void setPlayButtonEnabled( boolean b ) {
-            super.setPlayPauseButtonEnabled( b );
-        }
-    }
-
     public EnergySkateParkPlaybackPanel( final TimeSeriesModel timeSeriesModel, final Clock clock ) {
         this.timeSeriesModel = timeSeriesModel;
         this.clock = clock;
@@ -82,7 +67,7 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
             e.printStackTrace();
         }
         try {
-            recordButton.setPreferredSize( ( SwingUtils.getMaxDimension(recordButton, "REC", new ImageIcon( ImageLoader.loadBufferedImage( "timeseries/images/icons/record24.gif" ) ), "Pause", new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_PAUSE ) ))));
+            recordButton.setPreferredSize( ( SwingUtils.getMaxDimension( recordButton, "REC", new ImageIcon( ImageLoader.loadBufferedImage( "timeseries/images/icons/record24.gif" ) ), "Pause", new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_PAUSE ) ) ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -132,6 +117,7 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
     private void updateModeButtons() {
         SwingUtilities.invokeLater( new Runnable() {//hack to make sure this happens last (after other state update events)
             //todo: listening to different objects for state changes should allow us to avoid this hack.
+
             public void run() {
                 if( clock.isPaused() ) {
                     recordButton.setEnabled( true );
@@ -155,6 +141,21 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
         }
         catch( IOException e ) {
             e.printStackTrace();
+        }
+    }
+
+    public static class EnergySkateParkCCP extends ClockControlPanel {
+        public EnergySkateParkCCP( IClock clock ) {
+            super( clock );
+            setPlayString( "Playback" );
+        }
+
+        public void addPlayPauseActionListener( ActionListener actionListener ) {
+            super.addPlayPauseActionListener( actionListener );
+        }
+
+        public void setPlayButtonEnabled( boolean b ) {
+            super.setPlayPauseButtonEnabled( b );
         }
     }
 

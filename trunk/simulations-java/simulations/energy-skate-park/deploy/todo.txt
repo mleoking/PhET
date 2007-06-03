@@ -10,9 +10,12 @@ Implement improved time series controls (see notes from 5-31-2007 Energy Skate P
 3. When user presses playback on E vs. T graph, mode switches to "playback"
 How does user switch mode from "playback" to "record" or "live" again?  Perhaps there should be a "record" button on the E vs. T controls.
 
+If the user grabs the skater during playback mode (whether or not it is paused), it should probably change to record (or live) mode.
+
 -How much of ClockControlPanel should be generalized for reuse?
 
 Charts are correctly overlaid in Rotation, but not in Energy Skate Park.
+-I don't think this is true; full repaint is in layered mode, but not incremental repaint 
 
 “Record Path” should be “Show Path”
 
