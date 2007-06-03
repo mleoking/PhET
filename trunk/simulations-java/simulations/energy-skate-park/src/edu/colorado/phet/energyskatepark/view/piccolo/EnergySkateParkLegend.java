@@ -25,10 +25,6 @@ public class EnergySkateParkLegend extends Legend {
         setBackgroundPaint( EnergyLookAndFeel.getLegendBackground() );
     }
 
-    public void addNegPEEntry() {
-        addEntry( EnergySkateParkStrings.getString( "energy.potential-negative" ), Color.black );
-    }
-
     public void addTotalEnergyEntry() {
         addEntry( EnergySkateParkStrings.getEnergyString( "energy.total" ), ec3Module.getEnergyLookAndFeel().getTotalEnergyColor() );
     }

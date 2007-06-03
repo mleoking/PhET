@@ -130,14 +130,6 @@ public class SplineNode extends PNode {
         return new BasicStroke( (float)( EnergySkateParkModel.SPLINE_THICKNESS * thickness ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[]{(float)( EnergySkateParkModel.SPLINE_THICKNESS * 0.4 ), (float)( EnergySkateParkModel.SPLINE_THICKNESS * 0.6f )}, 0 );
     }
 
-    public void disableDragHandler() {
-        removeInputEventListener( dragHandler );
-    }
-
-    public PBasicInputEventHandler getDragHandler() {
-        return dragHandler;
-    }
-
     private void dragSpline( PInputEvent event ) {
         Point2D.Double tx = new Point2D.Double( event.getDeltaRelativeTo( this ).width, event.getDeltaRelativeTo( this ).height );
         dragSpline( event, tx );
@@ -160,10 +152,6 @@ public class SplineNode extends PNode {
         this.spline = spline;
         popupMenu.attachListeners( spline );
         update();
-    }
-
-    public void forceUpdate() {
-        lastState = null;
     }
 
     public void processExternalStartDragEvent() {
