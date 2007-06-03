@@ -277,7 +277,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     public void removeSplineNode( SplineNode splineNode ) {
         splineLayer.removeChild( splineNode );
-        splineNode.delete();
+        splineNode.detachListeners();
     }
 
     private void updateHistory() {
@@ -315,21 +315,21 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             addSkaterNode( new SkaterNode( getModel().getBody( 0 ) ) );
         }
         while( numBodyGraphics() > getModel().getNumBodies() ) {
-            removeBodyGraphic( bodyGraphicAt( numBodyGraphics() - 1 ) );
+            removeSkaterNode( getSkaterNode( numBodyGraphics() - 1 ) );
         }
         for( int i = 0; i < getModel().getNumBodies(); i++ ) {
-            bodyGraphicAt( i ).setBody( getModel().getBody( i ) );
+            getSkaterNode( i ).setBody( getModel().getBody( i ) );
         }
         if( bodyGraphics.getChildrenCount() == 1 ) {
             initPieChart();
-            offscreenManIndicatorNode.setSkaterNode( bodyGraphicAt( 0 ) );
+            offscreenManIndicatorNode.setSkaterNode( getSkaterNode( 0 ) );
         }
     }
 
-    public void initPieChart() {
+    private void initPieChart() {
         pieCharts.removeAllChildren();
 
-        EnergySkateParkPieChartNode energySkateParkPieChartNode = new EnergySkateParkPieChartNode( module, bodyGraphicAt( 0 ) );
+        EnergySkateParkPieChartNode energySkateParkPieChartNode = new EnergySkateParkPieChartNode( module, getSkaterNode( 0 ) );
         energySkateParkPieChartNode.setIgnoreThermal( ignoreThermal );
         pieCharts.addChild( energySkateParkPieChartNode );
     }
@@ -346,7 +346,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         }
     }
 
-    private void removeBodyGraphic( SkaterNode skaterNode ) {
+    private void removeSkaterNode( SkaterNode skaterNode ) {
         bodyGraphics.removeChild( skaterNode );
         skaterNode.delete();
     }
@@ -355,7 +355,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         return bodyGraphics.getChildrenCount();
     }
 
-    public SkaterNode bodyGraphicAt( int i ) {
+    public SkaterNode getSkaterNode( int i ) {
         return (SkaterNode)bodyGraphics.getChild( i );
     }
 
@@ -440,7 +440,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
         this.skaterCharacter = skaterCharacter;
         for( int i = 0; i < bodyGraphics.getChildrenCount(); i++ ) {
-            bodyGraphicAt( i ).setSkaterCharacter( skaterCharacter );
+            getSkaterNode( i ).setSkaterCharacter( skaterCharacter );
         }
     }
 

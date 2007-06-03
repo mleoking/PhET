@@ -97,8 +97,8 @@ public class SplineNode extends PNode {
         updateAll();
     }
 
-    public void delete() {
-        popupMenu.delete();
+    public void detachListeners() {
+        popupMenu.detachListeners();
     }
 
     private void showColorControls() {
@@ -156,8 +156,9 @@ public class SplineNode extends PNode {
     }
 
     public void setSpline( EnergySkateParkSpline spline ) {
+        detachListeners();
         this.spline = spline;
-//        this.spline = spline.getSpline();
+        popupMenu.attachListeners( spline );
         updateAll();
     }
 
@@ -460,7 +461,7 @@ public class SplineNode extends PNode {
 
         public TrackPopupMenu( final EnergySkateParkSplineEnvironment ec3Canvas ) {
             rollerCoasterMode = new JCheckBoxMenuItem( "Roller-Coaster Mode", spline.isRollerCoasterMode() );
-            spline.addListener( splineListener );
+            attachListeners( spline );
             rollerCoasterMode.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     spline.setRollerCoasterMode( rollerCoasterMode.isSelected() );
@@ -490,12 +491,16 @@ public class SplineNode extends PNode {
             add( colors );
         }
 
-        public void delete() {
+        public void detachListeners() {
             spline.removeListener( splineListener );
         }
 
         public void updateAll() {
             rollerCoasterMode.setSelected( spline.isRollerCoasterMode() );
+        }
+
+        public void attachListeners( EnergySkateParkSpline spline ) {
+            spline.addListener( splineListener );
         }
     }
 
