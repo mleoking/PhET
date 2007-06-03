@@ -55,8 +55,8 @@ public class EnergyVsTimePlot {
     private ArrayList listeners = new ArrayList();
     private JFreeChartCursorNode jFreeChartCursorNode;
 
-//    public static final double MAX_TIME = 50.0;
-    public static final double MAX_TIME = 5.0;
+    public static final double MAX_TIME = 50.0;
+//    public static final double MAX_TIME = 5.0;
 
     public EnergyVsTimePlot( JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
