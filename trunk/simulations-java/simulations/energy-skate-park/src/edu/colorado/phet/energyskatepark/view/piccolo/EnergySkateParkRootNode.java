@@ -31,16 +31,16 @@ import java.util.HashMap;
  */
 
 public class EnergySkateParkRootNode extends PhetRootPNode {
-    private PNode bodyGraphics = new PNode();
-    private PNode splineLayer = new PNode();
     private EnergySkateParkModule module;
     private EnergySkateParkSimulationPanel simulationPanel;
-    private PNode historyGraphics = new PNode();
-    private PNode historyReadouts = new PNode();
+
+    private PNode skaterNodeLayer = new PNode();
+    private PNode splineLayer = new PNode();
+    private PNode historyLayer = new PNode();
+    private PNode historyReadoutLayer = new PNode();
+    private PNode pieChartLayer = new PNode();
+
     private MeasuringTape measuringTape;
-    private static final boolean DEFAULT_TAPE_VISIBLE = false;
-    private static final boolean DEFAULT_PIE_CHART_VISIBLE = false;
-    private PNode pieCharts = new PNode();
     private OffscreenManIndicatorNode offscreenManIndicatorNode;
     private boolean ignoreThermal = true;
     private PauseIndicatorNode pauseIndicator;
@@ -49,13 +49,16 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private SplineToolboxNode splineToolbox;
     private FloorNode floorNode;
     private ZeroPointPotentialNode zeroPointPotentialNode;
-    public static final Color SKY_COLOR = new Color( 170, 200, 220 );
     private GridNode gridNode;
     private PanZoomOnscreenControlNode panZoomControls;
     private PNode energyErrorIndicatorContainer = new PNode();
     private EnergyErrorIndicatorNode energyErrorIndicatorNode;
     private SurfaceObjectNode houseNode;
     private SurfaceObjectNode mountainNode;
+
+    public static final Color SKY_COLOR = new Color( 170, 200, 220 );
+    private static final boolean DEFAULT_TAPE_VISIBLE = false;
+    private static final boolean DEFAULT_PIE_CHART_VISIBLE = false;
 
     public EnergySkateParkRootNode( final EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
         this.module = module;
@@ -96,32 +99,33 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         houseNode = new SurfaceObjectNode( SurfaceObjectNode.HOUSE_URL, 1.5, 10 );
         mountainNode = new SurfaceObjectNode( SurfaceObjectNode.MOUNTAIN_URL, 1.5, 0.0 );
 
-        addScreenChild( screenBackground );
-        addScreenChild( splineToolbox );
+        offscreenManIndicatorNode = new OffscreenManIndicatorNode( simulationPanel, module, null );
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void gravityChanged() {
                 updateHouseAndMountainVisible();
             }
         } );
+
+        addScreenChild( screenBackground );
+        addScreenChild( splineToolbox );
+
         addWorldChild( houseNode );
         addWorldChild( mountainNode );
         addWorldChild( floorNode );
         addWorldChild( splineLayer );
+        addWorldChild( skaterNodeLayer );
 
-        addWorldChild( bodyGraphics );
-
-        addScreenChild( historyGraphics );
-        addScreenChild( historyReadouts );
-
+        addScreenChild( historyLayer );
+        addScreenChild( historyReadoutLayer );
         addScreenChild( measuringTape );
-        addScreenChild( pieCharts );
+        addScreenChild( pieChartLayer );
         addScreenChild( pauseIndicator );
         addScreenChild( legend );
         addScreenChild( zeroPointPotentialNode );
-        offscreenManIndicatorNode = new OffscreenManIndicatorNode( simulationPanel, module, null );
         addScreenChild( offscreenManIndicatorNode );
 
         addWorldChild( gridNode );
+
         setGridVisible( false );
 
         resetDefaults();
@@ -154,8 +158,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             }
         } );
 
+        //todo: this could be moved to PDebugKeyHandlers
         simulationPanel.addKeyListener( new KeyAdapter() {
-
             public void keyReleased( KeyEvent event ) {
                 if( event.getKeyCode() == KeyEvent.VK_V && event.isControlDown() && event.isShiftDown() ) {
                     showAll( EnergySkateParkRootNode.this );
@@ -170,8 +174,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             public void splineCountChanged() {
                 updateSplines();
             }
-        } );
-        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+
             public void historyChanged() {
                 updateHistory();
             }
@@ -235,7 +238,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
      * Resets the state of the controls in the view.
      */
     public void reset() {
-        pieCharts.removeAllChildren();
+        pieChartLayer.removeAllChildren();
         setZeroPointVisible( false );
         setMeasuringTapeVisible( false );
         panZoomControls.reset();
@@ -247,7 +250,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
                 module.setRecordOrLiveMode();
             }
         } );
-        bodyGraphics.addChild( skaterNode );
+        skaterNodeLayer.addChild( skaterNode );
     }
 
     public SplineNode splineGraphicAt( int i ) {
@@ -276,21 +279,21 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     private HistoryPointNode historyGraphicAt( int i ) {
-        return (HistoryPointNode)historyGraphics.getChild( i );
+        return (HistoryPointNode)historyLayer.getChild( i );
     }
 
     private void removeHistoryPointGraphic( HistoryPointNode node ) {
-        historyGraphics.removeChild( node );
-        historyReadouts.removeChild( node.getReadoutGraphic() );
+        historyLayer.removeChild( node );
+        historyReadoutLayer.removeChild( node.getReadoutGraphic() );
     }
 
     private void addHistoryGraphic( HistoryPointNode historyPointNode ) {
-        historyGraphics.addChild( historyPointNode );
-        historyReadouts.addChild( historyPointNode.getReadoutGraphic() );
+        historyLayer.addChild( historyPointNode );
+        historyReadoutLayer.addChild( historyPointNode.getReadoutGraphic() );
     }
 
     private int numHistoryGraphics() {
-        return historyGraphics.getChildrenCount();
+        return historyLayer.getChildrenCount();
     }
 
     private void updateBodies() {
@@ -303,18 +306,18 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         for( int i = 0; i < getModel().getNumBodies(); i++ ) {
             getSkaterNode( i ).setBody( getModel().getBody( i ) );
         }
-        if( bodyGraphics.getChildrenCount() == 1 ) {
+        if( skaterNodeLayer.getChildrenCount() == 1 ) {
             initPieChart();
             offscreenManIndicatorNode.setSkaterNode( getSkaterNode( 0 ) );
         }
     }
 
     private void initPieChart() {
-        pieCharts.removeAllChildren();
+        pieChartLayer.removeAllChildren();
 
         EnergySkateParkPieChartNode energySkateParkPieChartNode = new EnergySkateParkPieChartNode( module, getSkaterNode( 0 ) );
         energySkateParkPieChartNode.setIgnoreThermal( ignoreThermal );
-        pieCharts.addChild( energySkateParkPieChartNode );
+        pieChartLayer.addChild( energySkateParkPieChartNode );
     }
 
     private void updateSplines() {
@@ -330,16 +333,16 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     private void removeSkaterNode( SkaterNode skaterNode ) {
-        bodyGraphics.removeChild( skaterNode );
+        skaterNodeLayer.removeChild( skaterNode );
         skaterNode.delete();
     }
 
     public int numBodyGraphics() {
-        return bodyGraphics.getChildrenCount();
+        return skaterNodeLayer.getChildrenCount();
     }
 
     public SkaterNode getSkaterNode( int i ) {
-        return (SkaterNode)bodyGraphics.getChild( i );
+        return (SkaterNode)skaterNodeLayer.getChild( i );
     }
 
     public boolean isMeasuringTapeVisible() {
@@ -353,11 +356,11 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public boolean isPieChartVisible() {
-        return pieCharts.getVisible();
+        return pieChartLayer.getVisible();
     }
 
     public void setPieChartVisible( boolean selected ) {
-        pieCharts.setVisible( selected );
+        pieChartLayer.setVisible( selected );
         legend.setVisible( selected );
     }
 
@@ -367,8 +370,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     public void setIgnoreThermal( boolean selected ) {
         this.ignoreThermal = selected;
-        for( int i = 0; i < pieCharts.getChildrenCount(); i++ ) {
-            EnergySkateParkPieChartNode energySkateParkPieChartNode = (EnergySkateParkPieChartNode)pieCharts.getChild( i );
+        for( int i = 0; i < pieChartLayer.getChildrenCount(); i++ ) {
+            EnergySkateParkPieChartNode energySkateParkPieChartNode = (EnergySkateParkPieChartNode)pieChartLayer.getChild( i );
             energySkateParkPieChartNode.setIgnoreThermal( ignoreThermal );
         }
     }
