@@ -45,7 +45,7 @@ public class Body implements Serializable {
     public static double staticSticky = DEFAULT_STICKINESS;
     private SkaterCharacter skaterCharacter;
 
-    public Body( double width, double height, ParticleStage particleStage, double gravity, double zeroPointPotentialY,SkaterCharacter skaterCharacter ) {
+    public Body( double width, double height, ParticleStage particleStage, double gravity, double zeroPointPotentialY, SkaterCharacter skaterCharacter ) {
         this.width = width;
         this.height = height;
         this.skaterCharacter = skaterCharacter;
@@ -55,6 +55,7 @@ public class Body implements Serializable {
         particle.setStickiness( staticSticky );
         setGravityState( gravity, zeroPointPotentialY );
         particles.add( this );
+        reset();
     }
 
     public void setSpline( EnergySkateParkSpline spline, boolean top, double alpha ) {
@@ -322,6 +323,7 @@ public class Body implements Serializable {
 
     public void clearHeat() {
         particle.resetThermalEnergy();
+        notifyEnergyChanged();
     }
 
     public double getPotentialEnergy() {

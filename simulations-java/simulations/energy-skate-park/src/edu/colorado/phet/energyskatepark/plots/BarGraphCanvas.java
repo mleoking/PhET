@@ -2,8 +2,8 @@
 package edu.colorado.phet.energyskatepark.plots;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.view.swing.ClearHeatButton;
 import edu.colorado.phet.energyskatepark.plots.bargraphs.EnergySkateParkBarGraph;
+import edu.colorado.phet.energyskatepark.view.swing.ClearHeatButton;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.axis.NumberAxis;
@@ -31,7 +31,7 @@ public class BarGraphCanvas extends PSwingCanvas {
         getLayer().addChild( energyBarGraphSet );
         energyBarGraphSet.translate( 45, 45 );
 
-        ClearHeatButton clear = new ClearHeatButton( module );
+        ClearHeatButton clear = new ClearHeatButton( module.getEnergySkateParkModel() );
         clearHeatButton = new PSwing( clear );
         getLayer().addChild( clearHeatButton );
 

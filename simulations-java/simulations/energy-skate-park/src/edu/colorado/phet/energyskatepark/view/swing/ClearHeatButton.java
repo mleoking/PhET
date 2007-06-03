@@ -1,7 +1,6 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.swing;
 
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -17,20 +16,27 @@ import java.awt.event.ActionListener;
  */
 
 public class ClearHeatButton extends JButton {
-    public ClearHeatButton( final EnergySkateParkModule module ) {
+    private EnergySkateParkModel model;
+
+    public ClearHeatButton( final EnergySkateParkModel model ) {
+        this.model = model;
         setText( EnergySkateParkStrings.getString( "controls.clear-heat" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.clearHeat();
+                model.clearHeat();
             }
         } );
-        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-            public void stepFinished() {
-                if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
-                    Body body = module.getEnergySkateParkModel().getBody( 0 );
-                    setEnabled( body.getThermalEnergy() > 0 );
-                }
+        model.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void primaryBodyChanged() {
+                update();
             }
         } );
+    }
+
+    private void update() {
+        if( model.getNumBodies() > 0 ) {
+            Body body = model.getBody( 0 );
+            setEnabled( body.getThermalEnergy() > 0 );
+        }
     }
 }

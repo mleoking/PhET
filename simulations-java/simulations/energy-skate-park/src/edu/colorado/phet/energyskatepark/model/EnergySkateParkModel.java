@@ -4,9 +4,9 @@ package edu.colorado.phet.energyskatepark.model;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.SkaterCharacterSet;
+import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
-import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -78,6 +78,10 @@ public class EnergySkateParkModel implements Serializable {
             EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
             energyModelListener.bodyEnergyChanged();
         }
+    }
+
+    public Body createBody() {
+        return new Body( getSkaterCharacter().getModelWidth(), getSkaterCharacter().getModelHeight(), getParticleStage(), getGravity(), getZeroPointPotentialY(), getSkaterCharacter() );
     }
 
     public int getNumSplines() {

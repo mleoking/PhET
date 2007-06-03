@@ -3,36 +3,21 @@ package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
-import edu.colorado.phet.common.phetcommon.util.persistence.Point2DPersistenceDelegate;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.common.servicemanager.InputStreamFileContents;
-import edu.colorado.phet.common.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.model.*;
 import edu.colorado.phet.energyskatepark.plots.BarGraphCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlotCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyVsTimePlot;
-import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkModuleBean;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.WiggleMeInSpace;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTimePanel;
 
-import javax.jnlp.FileContents;
-import javax.jnlp.FileOpenService;
-import javax.jnlp.FileSaveService;
-import javax.jnlp.UnavailableServiceException;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -153,10 +138,8 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     private void init() {
-        final Body body = createBody();
-        body.reset();
+        final Body body = energyModel.createBody();
         energyModel.addBody( body );
-
         energyModel.addSplineSurface( createDefaultTrack() );
         initBodyOnTrack( body );
     }
@@ -270,10 +253,6 @@ public class EnergySkateParkModule extends PiccoloModule {
         return skaterCharacterSet.getSkaterCharacters();
     }
 
-    public Body createBody() {
-        return new Body( getSkaterCharacter().getModelWidth(), getSkaterCharacter().getModelHeight(), getEnergySkateParkModel().getParticleStage(), getEnergySkateParkModel().getGravity(), getEnergySkateParkModel().getZeroPointPotentialY(), getEnergySkateParkModel().getSkaterCharacter() );
-    }
-
     public void setEnergyErrorVisible( boolean selected ) {
         energyCanvas.setEnergyErrorVisible( selected );
     }
@@ -307,10 +286,6 @@ public class EnergySkateParkModule extends PiccoloModule {
         listeners.remove( moduleListener );
     }
 
-    public static interface Listener {
-        void skaterCharacterChanged();
-    }
-
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
@@ -320,5 +295,13 @@ public class EnergySkateParkModule extends PiccoloModule {
             Listener listener = (Listener)listeners.get( i );
             listener.skaterCharacterChanged();
         }
+    }
+
+    public Body createBody() {
+        return energyModel.createBody();
+    }
+
+    public static interface Listener {
+        void skaterCharacterChanged();
     }
 }
