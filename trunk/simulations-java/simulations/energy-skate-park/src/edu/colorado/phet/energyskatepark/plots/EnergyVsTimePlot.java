@@ -28,6 +28,7 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
@@ -37,7 +38,6 @@ public class EnergyVsTimePlot {
     private EnergySkateParkModel model;
     private TimeSeriesModel timeSeriesModel;
     private IClock clock;
-//    private double initialTime = Double.NEGATIVE_INFINITY;
 
     private JDialog dialog;
     private PhetPCanvas phetPCanvas;
@@ -49,7 +49,9 @@ public class EnergyVsTimePlot {
     private ReadoutTextNode keText;
     private ReadoutTextNode peText;
     private ReadoutTextNode totalText;
-//    private double recordTime = 0.0;
+
+    private ArrayList listeners = new ArrayList();
+    private JFreeChartCursorNode jFreeChartCursorNode;
 
     public EnergyVsTimePlot( JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
@@ -91,14 +93,13 @@ public class EnergyVsTimePlot {
                 peText.setText( "PE = " + formatter.format( pe ) + " J" );
                 totalText.setText( "Total = " + formatter.format( total ) + " J" );
 
-//                recordTime = getEnergySkateParkModel().getTime() - initialTime;
-//                System.out.println( "simulationTime = " + recordTime );
-                double time=timeSeriesModel.getRecordTime();
+                double time = timeSeriesModel.getRecordTime();
                 dynamicJFreeChartNode.addValue( 0, time, thermal );
                 dynamicJFreeChartNode.addValue( 1, time, ke );
                 dynamicJFreeChartNode.addValue( 2, time, pe );
                 dynamicJFreeChartNode.addValue( 3, time, total );
-
+                
+                jFreeChartCursorNode.setMaxDragTime( time );
             }
         } );
         dialog = new JDialog( parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
@@ -120,7 +121,7 @@ public class EnergyVsTimePlot {
 
         dialog.setLocation( 0, Toolkit.getDefaultToolkit().getScreenSize().height - dialog.getHeight() - 100 );
 
-        final JFreeChartCursorNode jFreeChartCursorNode = new JFreeChartCursorNode( dynamicJFreeChartNode );
+        jFreeChartCursorNode = new JFreeChartCursorNode( dynamicJFreeChartNode );
         phetPCanvas.addScreenChild( jFreeChartCursorNode );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
             public void cursorTimeChanged() {
@@ -191,16 +192,16 @@ public class EnergyVsTimePlot {
         return model;
     }
 
-    public void setVisible( boolean visible ) {
-        if( visible && !dialog.isVisible() ) {
-            timeSeriesModel.setRecordMode();
-        }
-        else if( !visible && dialog.isVisible() ) {
-            timeSeriesModel.setLiveMode();
-        }
+    public boolean isVisible() {
+        return dialog.isVisible();
+    }
 
-        dialog.setVisible( visible );
-        relayout();
+    public void setVisible( boolean visible ) {
+        if( visible != dialog.isVisible() ) {
+            dialog.setVisible( visible );
+            relayout();
+            notifyVisibilityChanged();
+        }
     }
 
     private void relayout() {
@@ -214,5 +215,24 @@ public class EnergyVsTimePlot {
 
     public void reset() {
         dynamicJFreeChartNode.clear();
+    }
+
+
+    public static interface Listener {
+        void visibilityChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    public void notifyVisibilityChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener)listeners.get( i ) ).visibilityChanged();
+        }
     }
 }
