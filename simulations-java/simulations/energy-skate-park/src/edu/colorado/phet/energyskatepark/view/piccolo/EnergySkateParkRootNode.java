@@ -187,6 +187,14 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             public void historyChanged() {
                 updateHistory();
             }
+
+            public void splinesSynced() {
+                updateSplines();
+            }
+
+            public void bodiesSynced() {
+                updateBodies();
+            }
         } );
     }
 

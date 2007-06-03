@@ -143,7 +143,7 @@ public class EnergySkateParkModel implements Serializable {
     public void updateFloorState() {
         int desiredNumFloors = Math.abs( getGravity() ) > 0 ? 1 : 0;
         if( desiredNumFloors == 1 ) {
-            floor = new Floor( this );
+            floor = new Floor( );
         }
         else {
             floor = null;
@@ -178,19 +178,17 @@ public class EnergySkateParkModel implements Serializable {
         this.time = model.time;
         this.maxNumHistoryPoints = model.maxNumHistoryPoints;
 
-        removeAllBodies();
-        for( int i = 0; i < model.bodies.size(); i++ ) {
-            addBody( (Body)model.bodies.get( i ) );
+        this.bodies = model.bodies;
+        notifyBodiesSynced();
+
+        this.splines = model.splines;
+        notifySplinesSynced();
+
+        if( this.floor.getY() != model.floor.getY() ) {
+            this.floor.setY( model.floor.getY() );
+            notifyFloorChanged();
         }
-
-        removeAllSplineSurfaces();
-        for( int i = 0; i < model.splines.size(); i++ ) {
-            addSplineSurface( (EnergySkateParkSpline)model.splines.get( i ) );
-        }
-
-        this.floor = model.floor;
-        notifyFloorChanged();
-
+        
         this.history = model.history;
         notifyHistoryChanged();
 
@@ -204,6 +202,20 @@ public class EnergySkateParkModel implements Serializable {
             notifyZeroPointPotentialYChanged();
         }
 
+    }
+
+    private void notifyBodiesSynced() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.bodiesSynced();
+        }
+    }
+
+    private void notifySplinesSynced() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.splinesSynced();
+        }
     }
 
     private void notifyHistoryChanged() {
@@ -409,6 +421,12 @@ public class EnergySkateParkModel implements Serializable {
 
         public void zeroPointPotentialYChanged() {
         }
+
+        public void splinesSynced() {
+        }
+
+        public void bodiesSynced() {
+        }
     }
 
     public static interface EnergyModelListener {
@@ -429,6 +447,10 @@ public class EnergySkateParkModel implements Serializable {
         void historyChanged();
 
         void zeroPointPotentialYChanged();
+
+        void splinesSynced();
+
+        void bodiesSynced();
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {
