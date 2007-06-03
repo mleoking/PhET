@@ -30,9 +30,7 @@ public class EnergySkateParkModuleBean {
         }
         for( int i = 0; i < module.getEnergySkateParkModel().getNumSplines(); i++ ) {
             EnergySkateParkSpline splineSurface = module.getEnergySkateParkModel().getSpline( i );
-//            if( !( splineSurface instanceof FloorSpline ) ) {
             addSplineSurface( splineSurface );             //todo: handle floor
-//            }
         }
         this.gravity = module.getEnergySkateParkModel().getGravity();
     }

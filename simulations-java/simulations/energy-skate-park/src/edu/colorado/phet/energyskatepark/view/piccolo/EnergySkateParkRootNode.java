@@ -231,12 +231,13 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         splineLayer.addChild( splineNode );
     }
 
-    //todo: this should be model-based
+    /**
+     * Resets the state of the controls in the view.
+     */
     public void reset() {
         pieCharts.removeAllChildren();
         setZeroPointVisible( false );
         setMeasuringTapeVisible( false );
-//        setGridVisible( false );
         panZoomControls.reset();
     }
 

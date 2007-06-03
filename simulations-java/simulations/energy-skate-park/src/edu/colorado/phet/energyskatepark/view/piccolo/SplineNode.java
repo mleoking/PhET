@@ -54,11 +54,12 @@ public class SplineNode extends PNode {
     private EnergySkateParkSplineEnvironment splineEnvironment;
     private TrackNode centerPath;
     private SplineNode.TrackPopupMenu popupMenu;
+    private EnergySkateParkSpline.Listener splineListener;
 
-    public SplineNode( JComponent parent, EnergySkateParkSpline splineSurface, EnergySkateParkSplineEnvironment splineEnvironment ) {
+    public SplineNode( JComponent parent, EnergySkateParkSpline energySkateParkSpline, EnergySkateParkSplineEnvironment splineEnvironment ) {
         this.parent = parent;
         this.splineEnvironment = splineEnvironment;
-        this.spline = splineSurface;
+        this.spline = energySkateParkSpline;
         splinePath = new TrackNode( 0.75f, Color.gray );
         centerPath = new TrackNode( 0.15f, new Color( 235, 193, 56 ) );
 
@@ -94,11 +95,17 @@ public class SplineNode extends PNode {
         popupMenu = new TrackPopupMenu( splineEnvironment );
         splinePath.addInputEventListener( new PopupMenuHandler( parent, popupMenu ) );
 
-        update();
-    }
+        splineListener = new EnergySkateParkSpline.Listener() {
+            public void rollerCoasterModeChanged() {
+                update();
+            }
 
-    public void detachListeners() {
-        popupMenu.detachListeners();
+            public void controlPointsChanged() {
+                update();
+            }
+        };
+        energySkateParkSpline.addListener( splineListener );
+        update();
     }
 
     private void showColorControls() {
@@ -140,16 +147,21 @@ public class SplineNode extends PNode {
         if( isAttachAllowed( event ) ) {
             proposeMatchesTrunk();
         }
-        update();
     }
 
     public EnergySkateParkSpline getSpline() {
         return spline;
     }
 
+    public void detachListeners() {
+        this.spline.removeListener( splineListener );
+        popupMenu.detachListeners();
+    }
+
     public void setSpline( EnergySkateParkSpline spline ) {
         detachListeners();
         this.spline = spline;
+        this.spline.addListener( splineListener );
         popupMenu.attachListeners( spline );
         update();
     }
@@ -190,7 +202,7 @@ public class SplineNode extends PNode {
         spline.setUserControlled( true );
         initDragSpline = new Point2D.Double[spline.getControlPoints().length];
         for( int i = 0; i < initDragSpline.length; i++ ) {
-            initDragSpline[i] = new Point2D.Double( spline.controlPointAt( i ).getX(), spline.controlPointAt( i ).getY() );
+            initDragSpline[i] = new Point2D.Double( spline.getControlPoint( i ).getX(), spline.getControlPoint( i ).getY() );
         }
     }
 
@@ -205,7 +217,6 @@ public class SplineNode extends PNode {
         SplineMatch match = getTrunkMatch( index );
         if( match != null ) {
             spline.setControlPointLocation( index, new SerializablePoint2D( match.getTarget().getFullBounds().getCenter2D() ) );
-            update();
             return true;
         }
         else {
@@ -254,7 +265,7 @@ public class SplineNode extends PNode {
             controlPointLayer.removeAllChildren();
 
             for( int i = 0; i < spline.numControlPoints(); i++ ) {
-                Point2D point = spline.controlPointAt( i );
+                Point2D point = spline.getControlPoint( i );
                 addControlPoint( point, i );
             }
             for( int i = 0; i < controlPointLayer.getChildrenCount(); i++ ) {
@@ -280,6 +291,7 @@ public class SplineNode extends PNode {
     private boolean same() {
         return lastState.equals( spline.copy() );
     }
+
 
     private class ControlPointNode extends PPath {
 
@@ -319,7 +331,6 @@ public class SplineNode extends PNode {
                     if( isAttachAllowed( event ) ) {
                         proposeMatchesEndpoint( index );
                     }
-                    update();
                     event.setHandled( true );
                 }
             } );
@@ -347,7 +358,6 @@ public class SplineNode extends PNode {
                     }
                     else {
                         spline.removeControlPoint( index );
-                        SplineNode.this.update();
                     }
                 }
             } );
@@ -361,10 +371,9 @@ public class SplineNode extends PNode {
             System.out.println( "match=" + match );
             if( match != null ) {
                 spline.setControlPointLocation( index, new SerializablePoint2D( match.getTarget().getFullBounds().getCenter2D() ) );
-                update();
             }
             else {
-                spline.controlPointAt( index ).setLocation( controlPointLoc );
+                spline.setControlPointLocation( index, new SerializablePoint2D( controlPointLoc ) );
             }
         }
     }
@@ -390,7 +399,7 @@ public class SplineNode extends PNode {
 
     private void initDragControlPoint( int index ) {
         if( index == 0 || index == numControlPointGraphics() - 1 ) {
-            controlPointLoc = new Point2D.Double( spline.controlPointAt( index ).getX(), spline.controlPointAt( index ).getY() );
+            controlPointLoc = new Point2D.Double( spline.getControlPoint( index ).getX(), spline.getControlPoint( index ).getY() );
         }
     }
 
@@ -444,6 +453,9 @@ public class SplineNode extends PNode {
         private EnergySkateParkSpline.Listener splineListener = new EnergySkateParkSpline.Listener() {
             public void rollerCoasterModeChanged() {
                 TrackPopupMenu.this.updateAll();
+            }
+
+            public void controlPointsChanged() {
             }
         };
 

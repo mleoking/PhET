@@ -44,32 +44,10 @@ public class EnergySkateParkModel implements Serializable {
     private SkaterCharacter skaterCharacter = SkaterCharacterSet.getDefaultCharacter();
     private Body.ListenerAdapter primaryBodyAdapter = new PrimaryBodyListenerAdapter();
 
-    class PrimaryBodyListenerAdapter extends Body.ListenerAdapter implements Serializable {
-        public void thrustChanged() {
-            notifyPrimaryBodyChanged();
-        }
-
-        public void energyChanged() {
-            notifyPrimaryBodyChanged();
-        }
-
-        public void positionAngleChanged() {
-            notifyPrimaryBodyChanged();
-        }
-
-        public void skaterCharacterChanged() {
-            notifyPrimaryBodyChanged();
-        }
-
-        public void dimensionChanged() {
-            notifyPrimaryBodyChanged();
-        }
-    }
-
     public EnergySkateParkModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
         this.initZeroPointPotentialY = zeroPointPotentialY;
-        this.particleStage = new EnergySkateParkSplineListAdapter( this );//todo copy, clone this
+        this.particleStage = new EnergySkateParkSplineListAdapter( this );
         updateFloorState();
     }
 
@@ -155,10 +133,14 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void removeBody( int i ) {
-        getBody( i ).removeListener( energyListener );
-        getBody( i ).removeListener( primaryBodyAdapter );
+        removeListeners( getBody( i ) );
         bodies.remove( i );
         notifyBodyCountChanged();
+    }
+
+    private void removeListeners( Body body ) {
+        body.removeListener( energyListener );
+        body.removeListener( primaryBodyAdapter );
     }
 
     public void updateFloorState() {
@@ -200,10 +182,13 @@ public class EnergySkateParkModel implements Serializable {
         this.maxNumHistoryPoints = model.maxNumHistoryPoints;
         setSkaterCharacter( model.getSkaterCharacter() );
 
-        //todo: detach listeners from existing bodies and splines, see removeBody
+        //detach listeners from existing bodies and splines, see removeBody
+        for( int i = 0; i < bodies.size(); i++ ) {
+            removeListeners( (Body)bodies.get( i ) );
+        }
         this.bodies = model.bodies;
         notifyBodiesSynced();
-        notifyPrimaryBodyChanged();//todo: this could send notifications even when unnecessary (if no changes were made)
+        notifyPrimaryBodyChanged();//todo: this could inadvertently send notifications even when unnecessary (if no changes were made)
 
         this.splines = model.splines;
         notifySplinesSynced();
@@ -378,16 +363,8 @@ public class EnergySkateParkModel implements Serializable {
                 body.setFreeFallMode();
             }
         }
-        notifyBodiesSplineRemoved( splineSurface );//todo: this looks like it is duplicating the above work
         splines.remove( splineSurface );
         notifySplineCountChanged();
-    }
-
-    private void notifyBodiesSplineRemoved( EnergySkateParkSpline spline ) {
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
-            body.splineRemoved( spline );
-        }
     }
 
     public double getZeroPointPotentialY() {
@@ -545,6 +522,28 @@ public class EnergySkateParkModel implements Serializable {
     private class EnergyChangeNotifyingListener extends Body.ListenerAdapter implements Serializable {
         public void energyChanged() {
             notifyBodyEnergyChanged();
+        }
+    }
+
+    class PrimaryBodyListenerAdapter extends Body.ListenerAdapter implements Serializable {
+        public void thrustChanged() {
+            notifyPrimaryBodyChanged();
+        }
+
+        public void energyChanged() {
+            notifyPrimaryBodyChanged();
+        }
+
+        public void positionAngleChanged() {
+            notifyPrimaryBodyChanged();
+        }
+
+        public void skaterCharacterChanged() {
+            notifyPrimaryBodyChanged();
+        }
+
+        public void dimensionChanged() {
+            notifyPrimaryBodyChanged();
         }
     }
 }
