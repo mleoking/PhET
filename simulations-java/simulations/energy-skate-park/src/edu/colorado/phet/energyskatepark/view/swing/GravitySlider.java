@@ -1,8 +1,6 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.swing;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
@@ -19,11 +17,12 @@ import java.util.Hashtable;
  * Time: 11:11:41 AM
  */
 
-//public class GravitySlider extends ModelSlider {
 public class GravitySlider extends LinearValueControl {
+    private EnergySkateParkModule module;
 
     public GravitySlider( final EnergySkateParkModule module ) {
         super( 0, 30, EnergySkateParkStrings.getString( "controls.gravity" ), "0.00", EnergySkateParkStrings.getString( "units.accel" ) );
+        this.module = module;
         Hashtable modelTicks = new Hashtable();
         modelTicks.put( new Double( 0 ), new JLabel( EnergySkateParkStrings.getString( "location.space" ) ) );
         modelTicks.put( new Double( -EnergySkateParkModel.G_EARTH ), new JLabel( EnergySkateParkStrings.getString( "location.earth" ) ) );
@@ -37,21 +36,19 @@ public class GravitySlider extends LinearValueControl {
                 module.getEnergySkateParkModel().setGravity( -getValue() );
             }
         } );
-        module.getClock().addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent event ) {
-                double val = module.getEnergySkateParkModel().getGravity();
-                setValue( -val );
-
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void gravityChanged() {
+                update();
             }
         } );
         setFocusable( false );
         getSlider().setFocusable( false );
         setBorder( BorderFactory.createEtchedBorder() );
+        update();
     }
 
-    public void setValue( double value ) {
-        if( value != super.getValue() ) {
-            super.setValue( value );
-        }
+    private void update() {
+        setValue( -module.getEnergySkateParkModel().getGravity() );
     }
+
 }
