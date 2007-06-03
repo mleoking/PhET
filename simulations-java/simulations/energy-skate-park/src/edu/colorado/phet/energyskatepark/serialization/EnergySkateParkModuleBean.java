@@ -2,6 +2,7 @@ package edu.colorado.phet.energyskatepark.serialization;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.SkaterCharacterSet;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
@@ -83,7 +84,7 @@ public class EnergySkateParkModuleBean {
         }
         module.getEnergySkateParkModel().updateFloorState();
         module.getEnergySkateParkModel().setGravity( gravity );
-        module.setSkaterCharacter( module.getDefaultSkaterCharacter() );
+        module.setSkaterCharacter( SkaterCharacterSet.getDefaultCharacter() );
     }
 
 
@@ -132,7 +133,7 @@ public class EnergySkateParkModuleBean {
             body.setMass( mass );
 
             if( restorePoint != null ) {
-                Body restored = new Body( body.getWidth(), body.getHeight(), body.getParticleStage(), body.getGravity(), body.getZeroPointPotentialY() );
+                Body restored = new Body( body.getWidth(), body.getHeight(), body.getParticleStage(), body.getGravity(), body.getZeroPointPotentialY(),body.getSkaterCharacter() );
                 restorePoint.apply( restored );
                 body.setRestorePoint( restored );
             }

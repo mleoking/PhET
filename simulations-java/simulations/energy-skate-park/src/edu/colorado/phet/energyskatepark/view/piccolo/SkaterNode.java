@@ -58,6 +58,9 @@ public class SkaterNode extends PNode {
 
     public SkaterNode( final Body body ) {
         this.body = body;
+        if( body == null ) {
+            throw new IllegalArgumentException( "Body cannot be null in " + getClass().getName() );
+        }
 
         try {
             jetPackImage = ImageLoader.loadBufferedImage( "energy-skate-park/images/rocket5.png" );

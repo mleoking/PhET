@@ -149,7 +149,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         init();
         timeSeriesModel.startLiveMode();
         barGraphCanvas.reset();
-        setSkaterCharacter( getDefaultSkaterCharacter() );
+        setSkaterCharacter( SkaterCharacterSet.getDefaultCharacter() );
     }
 
     public void resetSkater() {
@@ -321,7 +321,6 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
         energyModel.setSkaterCharacter( skaterCharacter );
-//        energyCanvas.setSkaterCharacter( skaterCharacter );
         notifySkaterCharacterChanged();
     }
 
@@ -333,12 +332,8 @@ public class EnergySkateParkModule extends PiccoloModule {
         return skaterCharacterSet.getSkaterCharacters();
     }
 
-    public SkaterCharacter getDefaultSkaterCharacter() {
-        return skaterCharacterSet.getSkaterCharacters()[0];
-    }
-
     public Body createBody() {
-        return new Body( getSkaterCharacter().getModelWidth(), getSkaterCharacter().getModelHeight(), getEnergySkateParkModel().getParticleStage(), getEnergySkateParkModel().getGravity(), getEnergySkateParkModel().getZeroPointPotentialY() );
+        return new Body( getSkaterCharacter().getModelWidth(), getSkaterCharacter().getModelHeight(), getEnergySkateParkModel().getParticleStage(), getEnergySkateParkModel().getGravity(), getEnergySkateParkModel().getZeroPointPotentialY(),getEnergySkateParkModel().getSkaterCharacter() );
     }
 
     public void setEnergyErrorVisible( boolean selected ) {
