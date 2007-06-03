@@ -135,7 +135,7 @@ public class SkaterNode extends PNode {
     }
 
     protected void setBodyNoUpdate( Body body ) {
-        this.body = body;
+        this.body = body;//todo memory leak for listeners
     }
 
     public void update() {

@@ -179,17 +179,18 @@ public class EnergySkateParkModel implements Serializable {
         this.maxNumHistoryPoints = model.maxNumHistoryPoints;
 
         removeAllBodies();
-        removeAllSplineSurfaces();
         for( int i = 0; i < model.bodies.size(); i++ ) {
             addBody( (Body)model.bodies.get( i ) );
         }
+
+        removeAllSplineSurfaces();
         for( int i = 0; i < model.splines.size(); i++ ) {
             addSplineSurface( (EnergySkateParkSpline)model.splines.get( i ) );
         }
 
         this.floor = model.floor;
         notifyFloorChanged();
-        
+
         this.history = model.history;
         notifyHistoryChanged();
 

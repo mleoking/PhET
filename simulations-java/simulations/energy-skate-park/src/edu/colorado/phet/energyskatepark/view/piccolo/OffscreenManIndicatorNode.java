@@ -51,8 +51,10 @@ public class OffscreenManIndicatorNode extends PhetPNode {
             }
         };
         module.addListener( moduleListener );
-        skaterNode.getBody().addListener( bodyListener );
-        
+        if( skaterNode != null ) {
+            skaterNode.getBody().addListener( bodyListener );
+        }
+
         update();
     }
 
@@ -77,6 +79,7 @@ public class OffscreenManIndicatorNode extends PhetPNode {
         else {
             setVisible( !getVisibleBounds().contains( skaterNode.getGlobalFullBounds() ) );
         }
+//        System.out.println( "OffscreenManIndicatorNode.updateVisible = "+getVisible() );
     }
 
     private void updateLocation() {
@@ -87,4 +90,12 @@ public class OffscreenManIndicatorNode extends PhetPNode {
         return new Rectangle( module.getEnergyConservationCanvas().getSize() );
     }
 
+    public void setSkaterNode( SkaterNode skaterNode ) {
+        if( this.skaterNode != null ) {
+            this.skaterNode.getBody().removeListener( bodyListener );
+        }
+        this.skaterNode = skaterNode;
+        this.skaterNode.getBody().addListener( bodyListener );
+        update();
+    }
 }
