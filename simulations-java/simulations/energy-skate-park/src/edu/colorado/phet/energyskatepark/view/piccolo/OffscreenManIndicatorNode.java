@@ -68,6 +68,7 @@ public class OffscreenManIndicatorNode extends PhetPNode {
     }
 
     public void update() {
+        updateText();
         updateVisible();
         updateLocation();
     }
