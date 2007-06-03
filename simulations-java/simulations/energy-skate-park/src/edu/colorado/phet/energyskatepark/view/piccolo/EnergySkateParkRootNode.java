@@ -32,7 +32,6 @@ import java.util.HashMap;
 
 public class EnergySkateParkRootNode extends PhetRootPNode {
     private PNode bodyGraphics = new PNode();
-    private PNode jetPackGraphics = new PNode();
     private PNode splineLayer = new PNode();
     private EnergySkateParkModule module;
     private EnergySkateParkSimulationPanel simulationPanel;
@@ -109,7 +108,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addWorldChild( floorNode );
         addWorldChild( splineLayer );
 
-        addWorldChild( jetPackGraphics );
         addWorldChild( bodyGraphics );
 
         addScreenChild( historyGraphics );
@@ -235,12 +233,10 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     //todo: this should be model-based
     public void reset() {
-        bodyGraphics.removeAllChildren();
-        splineLayer.removeAllChildren();
-        jetPackGraphics.removeAllChildren();
         pieCharts.removeAllChildren();
         setZeroPointVisible( false );
         setMeasuringTapeVisible( false );
+//        setGridVisible( false );
         panZoomControls.reset();
     }
 
@@ -438,5 +434,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     public void setBackgroundVisible( boolean selected ) {
         getBackground().setVisible( selected );
         updateHouseAndMountainVisible();
+    }
+
+    public void updateSplineNodes() {
+        updateSplines();
     }
 }

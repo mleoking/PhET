@@ -102,7 +102,7 @@ public class SplineToolboxNode extends PNode {
 
         final SplineNode splineNode = new SplineNode( energySkateParkSimulationPanel, surface, energySkateParkSimulationPanel );
         splineNode.setControlPointsPickable( false );
-        splineNode.updateAll();
+        splineNode.update();
         return splineNode;
     }
 

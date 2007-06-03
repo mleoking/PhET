@@ -380,11 +380,11 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void reset() {
-        bodies.clear();
-        splines.clear();
-        history.clear();
+        removeAllBodies();
+        removeAllSplineSurfaces();
+        clearHistory();
         setGravity( G_EARTH );
-        zeroPointPotentialY = initZeroPointPotentialY;
+        setZeroPointPotentialY( initZeroPointPotentialY );
         updateFloorState();
         setSkaterCharacter( SkaterCharacterSet.getDefaultCharacter() );
     }

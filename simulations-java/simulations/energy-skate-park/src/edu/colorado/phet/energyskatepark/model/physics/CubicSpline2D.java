@@ -76,8 +76,11 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
 
 
     public void translateControlPoints( double dx, double dy ) {
-        super.translateControlPoints( dx, dy );
-        update();
+        if( dx != 0 || dy != 0 ) {
+            super.translateControlPoints( dx, dy );
+            update();
+            notifyTrackChanged();
+        }
     }
 
     private void update() {
