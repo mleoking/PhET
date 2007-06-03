@@ -4,6 +4,7 @@ package edu.colorado.phet.energyskatepark.view;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;

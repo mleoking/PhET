@@ -33,13 +33,12 @@ package edu.colorado.phet.energyskatepark;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkTestMenu;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkTrackMenu;
+import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTestMenu;
+import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTrackMenu;
 
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.*;

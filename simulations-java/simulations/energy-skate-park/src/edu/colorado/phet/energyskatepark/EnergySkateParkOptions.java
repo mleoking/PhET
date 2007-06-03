@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark;
 
-import edu.colorado.phet.energyskatepark.view.LocationControlPanel;
+import edu.colorado.phet.energyskatepark.view.swing.LocationControlPanel;
 
 /**
  * Author: Sam Reid

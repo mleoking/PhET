@@ -1,0 +1,535 @@
+/* Copyright 2007, University of Colorado */
+package edu.colorado.phet.energyskatepark.view.piccolo;
+
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.piccolophet.PhetRootPNode;
+import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
+import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.SkaterCharacter;
+import edu.colorado.phet.energyskatepark.view.piccolo.BackgroundScreenNode;
+import edu.colorado.phet.energyskatepark.view.piccolo.EnergyErrorIndicatorNode;
+import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkLegend;
+import edu.colorado.phet.energyskatepark.view.*;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.model.Floor;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PPaintContext;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Random;
+
+/**
+ * User: Sam Reid
+ * Date: Oct 21, 2005
+ * Time: 2:16:21 PM
+ */
+
+public class EnergySkateParkRootNode extends PhetRootPNode {
+    private PNode bodyGraphics = new PNode();
+    private PNode jetPackGraphics = new PNode();
+    private PNode splineGraphics = new PNode();
+    private PNode buses;
+    private EnergySkateParkModule module;
+    private EnergySkateParkSimulationPanel simulationPanel;
+    private PNode historyGraphics = new PNode();
+    private PNode historyReadouts = new PNode();
+    private MeasuringTape measuringTape;
+    private static final boolean DEFAULT_TAPE_VISIBLE = false;
+    private static final boolean DEFAULT_PIE_CHART_VISIBLE = false;
+    private PNode pieCharts = new PNode();
+    private OffscreenManIndicatorNode offscreenManIndicatorNode;
+    private boolean ignoreThermal = true;
+    private PauseIndicatorNode pauseIndicator;
+    private EnergySkateParkLegend legend;
+    private BackgroundScreenNode screenBackground;
+    private SplineToolboxNode splineToolbox;
+    private FloorNode floorNode;
+    private ZeroPointPotentialNode zeroPointPotentialNode;
+    public static final Color SKY_COLOR = new Color( 170, 200, 220 );
+    private GridNode gridNode;
+    private PanZoomOnscreenControlNode panZoomControls;
+    private SkaterCharacter skaterCharacter;
+    private PNode energyErrorIndicatorContainer = new PNode();
+    private EnergyErrorIndicatorNode energyErrorIndicatorNode;
+    private SurfaceObjectNode houseNode;
+    private SurfaceObjectNode mountainNode;
+
+    public EnergySkateParkRootNode( final EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
+        this.module = module;
+        this.simulationPanel = simulationPanel;
+        EnergySkateParkModel ec3Model = getModel();
+        Floor floor = ec3Model.getFloor();
+
+        simulationPanel.setBackground( SKY_COLOR );
+        splineToolbox = new SplineToolboxNode( simulationPanel, this );
+
+        measuringTape = new MeasuringTape( new ModelViewTransform2D(
+                new Rectangle( 50, 50 ), new Rectangle2D.Double( 0, 0, 50, 50 ) ),
+                                           new Point2D.Double( 25, 25 ) );
+        updateMapping();
+        measuringTape.setModelSrc( new Point2D.Double( 5, 5 ) );
+        measuringTape.setModelDst( new Point2D.Double( 7, 5 ) );
+
+        pauseIndicator = new PauseIndicatorNode( module, simulationPanel, this );
+        legend = new EnergySkateParkLegend( module );
+//        legend.addNegPEEntry();
+        floorNode = new FloorNode( module, getModel(), floor );
+        screenBackground = new BackgroundScreenNode( simulationPanel, null, floorNode, this );
+        zeroPointPotentialNode = new ZeroPointPotentialNode( simulationPanel );
+        offscreenManIndicatorNode = new OffscreenManIndicatorNode( simulationPanel, module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
+        gridNode = new GridNode( -50, -150, 100, 150, 1, 1 );
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void gravityChanged() {
+                HashMap map = new HashMap();
+                map.put( new Double( EnergySkateParkModel.G_SPACE ), Color.lightGray );
+                map.put( new Double( EnergySkateParkModel.G_JUPITER ), Color.white );
+                map.put( new Double( EnergySkateParkModel.G_MOON ), Color.lightGray );
+                Double key = new Double( module.getEnergySkateParkModel().getGravity() );
+//                System.out.println( "module.getEnergySkateParkModel().getGravity() = " + module.getEnergySkateParkModel().getGravity() +", contains key="+map.containsKey( new Double(module.getEnergySkateParkModel().getGravity( ))));
+                Paint paint = (Paint)( map.containsKey( key ) ? map.get( key ) : Color.black );
+                gridNode.setGridPaint( paint );
+            }
+        } );
+
+        houseNode = new SurfaceObjectNode( SurfaceObjectNode.HOUSE_URL, 1.5, 10 );
+        mountainNode = new SurfaceObjectNode( SurfaceObjectNode.MOUNTAIN_URL, 1.5, 0.0 );
+
+        addScreenChild( screenBackground );
+        addScreenChild( splineToolbox );
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void gravityChanged() {
+                updateHouseAndMountainVisible();
+            }
+        } );
+        addWorldChild( houseNode );
+        addWorldChild( mountainNode );
+        addWorldChild( floorNode );
+        addWorldChild( splineGraphics );
+
+        addWorldChild( jetPackGraphics );
+        addWorldChild( bodyGraphics );
+
+        addScreenChild( historyGraphics );
+        addScreenChild( historyReadouts );
+
+        addScreenChild( measuringTape );
+        addScreenChild( pieCharts );
+        addScreenChild( pauseIndicator );
+        addScreenChild( legend );
+        addScreenChild( zeroPointPotentialNode );
+        addScreenChild( offscreenManIndicatorNode );
+
+
+        addWorldChild( gridNode );
+        setGridVisible( false );
+
+        resetDefaults();
+        simulationPanel.addComponentListener( new ComponentListener() {
+            public void componentHidden( ComponentEvent e ) {
+            }
+
+            public void componentMoved( ComponentEvent e ) {
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                screenBackground.update();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+            }
+        } );
+        setZeroPointVisible( false );
+        getModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void gravityChanged() {
+                updateGraphics();
+            }
+        } );
+//        addClouds();
+        panZoomControls = new PanZoomOnscreenControlNode( simulationPanel );
+        addScreenChild( panZoomControls );
+
+//        PDebug.debugRegionManagement=true;
+//        PDebug.debugBounds=true;
+//        PDebug.debugPaintCalls=true;
+
+        energyErrorIndicatorNode = new EnergyErrorIndicatorNode( module.getEnergySkateParkModel() );
+        energyErrorIndicatorContainer.setVisible( false );
+        energyErrorIndicatorContainer.addChild( energyErrorIndicatorNode );
+        addScreenChild( energyErrorIndicatorContainer );
+        simulationPanel.addComponentListener( new ComponentAdapter() {
+            public void componentShown( ComponentEvent e ) {
+                updateEnergyIndicator();
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                updateEnergyIndicator();
+            }
+        } );
+        updateMapping();
+        addWorldTransformListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                updateMapping();
+            }
+        } );
+
+        simulationPanel.addKeyListener( new KeyAdapter() {
+
+            public void keyReleased( KeyEvent event ) {
+                if( event.getKeyCode() == KeyEvent.VK_V && event.isControlDown() && event.isShiftDown() ) {
+                    showAll( EnergySkateParkRootNode.this );
+                }
+            }
+        } );
+    }
+
+    private void updateHouseAndMountainVisible() {
+
+        houseNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH &&getBackground().getVisible());
+        mountainNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH &&getBackground().getVisible());
+    }
+
+    private void showAll( PNode node ) {
+        node.setVisible( true );
+        for( int i = 0; i < node.getChildrenCount(); i++ ) {
+            showAll( node.getChild( i ) );
+        }
+    }
+
+    private void updateMapping() {
+        Rectangle2D rect = new Rectangle2D.Double( 0, 0, 1, 1 );
+        worldToScreen( rect );
+        measuringTape.setModelViewTransform2D( new ModelViewTransform2D( new Rectangle( 1, 1 ), rect ) );
+
+    }
+
+    private void updateEnergyIndicator() {
+        double insetX = 20;
+        double insetY = 20;
+        energyErrorIndicatorNode.setOffset( insetX, simulationPanel.getHeight() - insetY - energyErrorIndicatorNode.getFullBounds().getHeight() );
+    }
+
+    private void addClouds() {
+        Random random = new Random();
+        BufferedImage newImage = null;
+        try {
+            newImage = ImageLoader.loadBufferedImage( "energy-skate-park/images/cloud2.gif" );
+            newImage = BufferedImageUtils.flipY( newImage );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
+        for( int i = 0; i < 10; i++ ) {
+
+            PImage image = new PImage( newImage );
+            image.setOffset( ( random.nextDouble() - 0.5 ) * 30, random.nextDouble() * 20 + 5 );
+            image.setScale( 0.01 );
+
+            addWorldChild( image );
+        }
+    }
+
+    public BackgroundScreenNode getBackground() {
+        return screenBackground;
+    }
+
+    public void setBackground( BufferedImage image ) {
+        screenBackground.setBackground( image );
+    }
+
+    private void resetDefaults() {
+        setPieChartVisible( DEFAULT_PIE_CHART_VISIBLE );
+        setMeasuringTapeVisible( DEFAULT_TAPE_VISIBLE );
+    }
+
+    public void initPieChart() {
+        EnergySkateParkPieChartNode energySkateParkPieChartNode = new EnergySkateParkPieChartNode( module, bodyGraphicAt( 0 ) );
+        energySkateParkPieChartNode.setIgnoreThermal( ignoreThermal );
+        pieCharts.addChild( energySkateParkPieChartNode );
+    }
+
+    private EnergySkateParkModel getModel() {
+        return module.getEnergySkateParkModel();
+    }
+
+    protected void paint( PPaintContext paintContext ) {
+        super.paint( paintContext );
+    }
+
+    public void clearBuses() {
+        if( buses != null ) {
+            buses.removeAllChildren();
+            removeChild( buses );
+            buses = null;
+        }
+    }
+
+    public void addBuses() {
+        if( buses == null ) {
+            try {
+                buses = new PNode();
+                Floor floor = getModel().getFloor();
+                BufferedImage newImage = ImageLoader.loadBufferedImage( "energy-skate-park/images/schoolbus200.gif" );
+                PImage schoolBus = new PImage( newImage );
+                double y = floor.getY() - schoolBus.getFullBounds().getHeight() + 10;
+                schoolBus.setOffset( 0, y );
+                double busStart = 500;
+                for( int i = 0; i < 10; i++ ) {
+                    PImage bus = new PImage( newImage );
+                    double dbus = 2;
+                    bus.setOffset( busStart + i * ( bus.getFullBounds().getWidth() + dbus ), y );
+                    buses.addChild( bus );
+                }
+                addWorldChild( buses );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void addSplineGraphic( SplineNode splineNode ) {
+        splineGraphics.addChild( splineNode );
+    }
+
+    public void reset() {
+        bodyGraphics.removeAllChildren();
+        splineGraphics.removeAllChildren();
+        jetPackGraphics.removeAllChildren();
+        clearBuses();
+        pieCharts.removeAllChildren();
+        setZeroPointVisible( false );
+        setMeasuringTapeVisible( false );
+        panZoomControls.reset();
+//        resetDefaults();//needs MVC update before this will work.
+    }
+
+    public void addSkaterNode( SkaterNode skaterNode ) {
+        skaterNode.addInputEventListener( new PBasicInputEventHandler(){
+            public void mousePressed( PInputEvent event ) {
+                module.setRecordOrLiveMode();
+            }
+
+            public void mouseDragged( PInputEvent event ) {
+                module.redrawAllGraphics();
+            }
+        } );
+        bodyGraphics.addChild( skaterNode );
+        if( bodyGraphics.getChildrenCount() == 1 ) {
+            offscreenManIndicatorNode.setBodyGraphic( skaterNode );
+        }
+    }
+
+    public SplineNode splineGraphicAt( int i ) {
+        return (SplineNode)splineGraphics.getChildrenReference().get( i );
+    }
+
+    public int numSplineGraphics() {
+        return splineGraphics.getChildrenReference().size();
+    }
+
+    public void removeSplineGraphic( SplineNode splineNode ) {
+        splineGraphics.removeChild( splineNode );
+    }
+
+    public void updateGraphics() {
+        updateSplines();
+        updateBodies();
+        updateHistory();
+        updatePieChart();
+        updateZeroPotential();
+        offscreenManIndicatorNode.update();
+    }
+
+    private void updateZeroPotential() {
+        zeroPointPotentialNode.setZeroPointPotential( getModel().getZeroPointPotentialY() );
+    }
+
+    private void updatePieChart() {
+        for( int i = 0; i < pieCharts.getChildrenCount(); i++ ) {
+            EnergySkateParkPieChartNode energySkateParkPieChartNode = (EnergySkateParkPieChartNode)pieCharts.getChild( i );
+            energySkateParkPieChartNode.update();
+        }
+    }
+
+    private void updateHistory() {
+        while( numHistoryGraphics() < getModel().getNumHistoryPoints() ) {
+            addHistoryGraphic( new HistoryPointNode( getModel().historyPointAt( 0 ), this ) );
+        }
+        while( numHistoryGraphics() > getModel().getNumHistoryPoints() ) {
+            removeHistoryPointGraphic( historyGraphicAt( numHistoryGraphics() - 1 ) );
+        }
+        for( int i = 0; i < getModel().getNumHistoryPoints(); i++ ) {
+            historyGraphicAt( i ).setHistoryPoint( getModel().historyPointAt( i ) );
+        }
+    }
+
+    private HistoryPointNode historyGraphicAt( int i ) {
+        return (HistoryPointNode)historyGraphics.getChild( i );
+    }
+
+    private void removeHistoryPointGraphic( HistoryPointNode node ) {
+        historyGraphics.removeChild( node );
+        historyReadouts.removeChild( node.getReadoutGraphic() );
+    }
+
+    private void addHistoryGraphic( HistoryPointNode historyPointNode ) {
+        historyGraphics.addChild( historyPointNode );
+        historyReadouts.addChild( historyPointNode.getReadoutGraphic() );
+    }
+
+    private int numHistoryGraphics() {
+        return historyGraphics.getChildrenCount();
+    }
+
+    private void updateBodies() {
+        while( numBodyGraphics() < getModel().getNumBodies() ) {
+            addSkaterNode( new SkaterNode( getModel().getBody( 0 ) ) );
+        }
+        while( numBodyGraphics() > getModel().getNumBodies() ) {
+            removeBodyGraphic( bodyGraphicAt( numBodyGraphics() - 1 ) );
+        }
+        for( int i = 0; i < getModel().getNumBodies(); i++ ) {
+            bodyGraphicAt( i ).setBody( getModel().getBody( i ) );
+        }
+    }
+
+    private void updateSplines() {
+        while( numSplineGraphics() < getModel().getNumSplines() ) {
+            addSplineGraphic( new SplineNode( simulationPanel, getModel().getSpline( 0 ), simulationPanel ) );
+        }
+        while( numSplineGraphics() > getModel().getNumSplines() ) {
+            removeSplineGraphic( splineGraphicAt( numSplineGraphics() - 1 ) );
+        }
+        for( int i = 0; i < getModel().getNumSplines(); i++ ) {
+            splineGraphicAt( i ).setSpline( getModel().getSpline( i ) );
+        }
+    }
+
+    private void removeBodyGraphic( SkaterNode skaterNode ) {
+        bodyGraphics.removeChild( skaterNode );
+    }
+
+    public int numBodyGraphics() {
+        return bodyGraphics.getChildrenCount();
+    }
+
+    public SkaterNode bodyGraphicAt( int i ) {
+        return (SkaterNode)bodyGraphics.getChild( i );
+    }
+
+    public boolean isMeasuringTapeVisible() {
+        return measuringTape.getVisible();
+    }
+
+    public void setMeasuringTapeVisible( boolean selected ) {
+        measuringTape.setVisible( selected );
+        measuringTape.setPickable( selected );
+        measuringTape.setChildrenPickable( selected );
+    }
+
+    public boolean isPieChartVisible() {
+        return pieCharts.getVisible();
+    }
+
+    public void setPieChartVisible( boolean selected ) {
+        pieCharts.setVisible( selected );
+        legend.setVisible( selected );
+    }
+
+    public boolean getIgnoreThermal() {
+        return ignoreThermal;
+    }
+
+    public void setIgnoreThermal( boolean selected ) {
+        this.ignoreThermal = selected;
+        for( int i = 0; i < pieCharts.getChildrenCount(); i++ ) {
+            EnergySkateParkPieChartNode energySkateParkPieChartNode = (EnergySkateParkPieChartNode)pieCharts.getChild( i );
+            energySkateParkPieChartNode.setIgnoreThermal( ignoreThermal );
+        }
+    }
+
+    public void clearBackground() {
+        BufferedImage image = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB );
+        Graphics2D g2 = image.createGraphics();
+        g2.setColor( new Color( 0, 0, 0, 255 ) );
+        g2.fillRect( 0, 0, 1, 1 );
+        setBackground( null );
+    }
+
+    protected void layoutChildren() {
+        super.layoutChildren();
+        pauseIndicator.relayout();
+        double insetX = 10;
+        double insetY = 10;
+        legend.setOffset( getSimulationPanel().getWidth() - legend.getFullBounds().getWidth() - insetX, insetY );
+        if( panZoomControls != null ) {
+            panZoomControls.setOffset( getSimulationPanel().getWidth() - panZoomControls.getFullBounds().getWidth() - insetX, getSimulationPanel().getHeight() - panZoomControls.getFullBounds().getHeight() - insetY );
+        }
+    }
+
+    private EnergySkateParkSimulationPanel getSimulationPanel() {
+        return simulationPanel;
+    }
+
+    public void setZeroPointVisible( boolean selected ) {
+        zeroPointPotentialNode.setVisible( selected );
+    }
+
+    public boolean isZeroPointVisible() {
+        return zeroPointPotentialNode.getVisible();
+    }
+
+    public boolean isGridVisible() {
+        return gridNode.getVisible();
+    }
+
+    public void setGridVisible( boolean selected ) {
+        gridNode.setVisible( selected );
+    }
+
+    public PNode getMeasuringTapeNode() {
+        return measuringTape;
+    }
+
+    public void updateScale() {
+        panZoomControls.updateScale();
+    }
+
+    public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
+        this.skaterCharacter = skaterCharacter;
+        for( int i = 0; i < bodyGraphics.getChildrenCount(); i++ ) {
+            bodyGraphicAt( i ).setSkaterCharacter( skaterCharacter );
+        }
+    }
+
+    public void setEnergyErrorVisible( boolean selected ) {
+        energyErrorIndicatorContainer.setVisible( selected );
+    }
+
+    public boolean isEnergyErrorVisible() {
+        return energyErrorIndicatorContainer.getVisible();
+    }
+
+    public static void main( String[] args ) {
+        System.out.println( "new Double(0).equals( new Double(-0)) = " + new Double( 0 ).equals( new Double( -0 ) ) );
+    }
+
+    public void setBackgroundVisible( boolean selected ) {
+        getBackground().setVisible( selected );
+        updateHouseAndMountainVisible();
+    }
+}

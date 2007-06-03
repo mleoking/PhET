@@ -15,7 +15,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkPlaybackPanel;
+import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkPlaybackPanel;
 import edu.umd.cs.piccolo.nodes.PPath;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;

@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.view.swing.*;
 import edu.colorado.phet.energyskatepark.common.IconComponent;
 import edu.umd.cs.piccolo.PNode;
 

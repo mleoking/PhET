@@ -5,7 +5,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSplineEnvironment;
 import edu.colorado.phet.energyskatepark.view.SplineMatch;
-import edu.colorado.phet.energyskatepark.view.SplineNode;
+import edu.colorado.phet.energyskatepark.view.piccolo.SplineNode;
 
 import javax.swing.*;
 import java.awt.geom.Point2D;

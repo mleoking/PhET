@@ -17,6 +17,7 @@ import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlotCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyVsTimePlot;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkModuleBean;
 import edu.colorado.phet.energyskatepark.view.*;
+import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTimePanel;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.FileOpenService;

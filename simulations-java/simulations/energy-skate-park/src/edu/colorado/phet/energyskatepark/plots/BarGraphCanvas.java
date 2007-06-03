@@ -2,8 +2,8 @@
 package edu.colorado.phet.energyskatepark.plots;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.view.ClearHeatButton;
-import edu.colorado.phet.energyskatepark.view.bargraphs.EnergySkateParkBarGraph;
+import edu.colorado.phet.energyskatepark.view.swing.ClearHeatButton;
+import edu.colorado.phet.energyskatepark.plots.bargraphs.EnergySkateParkBarGraph;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.axis.NumberAxis;

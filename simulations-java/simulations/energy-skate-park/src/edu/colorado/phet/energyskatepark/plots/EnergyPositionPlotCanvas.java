@@ -11,7 +11,7 @@ import edu.colorado.phet.energyskatepark.common.SavedGraph;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkLegend;
+import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkLegend;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
