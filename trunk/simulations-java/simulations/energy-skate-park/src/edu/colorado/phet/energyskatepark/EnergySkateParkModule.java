@@ -3,8 +3,6 @@ package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.persistence.Point2DPersistenceDelegate;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -50,6 +48,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     private JDialog barChartFrame;
     private double floorY = 0.0;
     private EnergySkateParkRecordableModel energyTimeSeriesModel;
+    private SkaterCharacterSet skaterCharacterSet = new SkaterCharacterSet();
 
     private JDialog energyPositionPlotFrame;
     private EnergyPositionPlotCanvas energyPositionCanvas;
@@ -57,19 +56,13 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     private BarGraphCanvas barGraphCanvas;
     private EnergySkateParkControlPanel energySkateParkControlPanel;
-
-    private SkaterCharacterSet skaterCharacterSet = new SkaterCharacterSet();
-
-    private ArrayList listeners = new ArrayList();
-
-    public static final int energyFrameWidth = 200;
-    public static final int chartFrameHeight = 250;
-
-    private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
-    private static final boolean DEFAULT_PLOT_VISIBLE = false;
     private TimeSeriesModel timeSeriesModel;
     private EnergyVsTimePlot energyVsTimePlot;
     private EnergySkateParkOptions options;
+    private ArrayList listeners = new ArrayList();
+
+    private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
+    private static final boolean DEFAULT_PLOT_VISIBLE = false;
 
     public EnergySkateParkModule( String name, Clock clock, PhetFrame phetFrame, EnergySkateParkOptions options ) {
         super( name, clock );
@@ -93,8 +86,8 @@ public class EnergySkateParkModule extends PiccoloModule {
         barGraphCanvas = new BarGraphCanvas( this );
         barChartFrame.setContentPane( barGraphCanvas );
 
-        barChartFrame.setSize( energyFrameWidth, 625 );
-        barChartFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - energyFrameWidth, 0 );
+        barChartFrame.setSize( 200, 625 );
+        barChartFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - barChartFrame.getWidth(), 0 );
 
         energyVsTimePlot = new EnergyVsTimePlot( phetFrame, clock, energyModel, timeSeriesModel );
         energyVsTimePlot.addListener( new EnergyVsTimePlot.Listener() {
@@ -253,53 +246,6 @@ public class EnergySkateParkModule extends PiccoloModule {
         int response = JOptionPane.showConfirmDialog( getSimulationPanel(), EnergySkateParkStrings.getString( "message.confirm-reset" ), EnergySkateParkStrings.getString( "message.confirm-reset-title" ), JOptionPane.YES_NO_OPTION );
         if( response == JOptionPane.OK_OPTION ) {
             reset();
-        }
-    }
-
-    public void save() throws UnavailableServiceException, IOException {
-        String xml = toXMLString();
-        System.out.println( "xml = " + xml );
-        InputStream stream = new ByteArrayInputStream( xml.getBytes() );
-        FileContents data = new InputStreamFileContents( "esp_output", stream );
-
-        FileSaveService fos = PhetServiceManager.getFileSaveService( getSimulationPanel() );
-        FileContents out = fos.saveAsFileDialog( null, null, data );
-        System.out.println( "Saved file." );
-    }
-
-    private String toXMLString() {
-        ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
-        XMLEncoder e = new XMLEncoder( out );
-        e.setPersistenceDelegate( Point2D.Double.class, new Point2DPersistenceDelegate() );
-        e.writeObject( new EnergySkateParkModuleBean( this ) );
-        e.writeObject( new JButton( "My Button" ) );
-        e.close();
-
-        return out.toString();
-    }
-
-    public void open() throws UnavailableServiceException, IOException, ClassNotFoundException {
-        FileOpenService fos = PhetServiceManager.getFileOpenService( getSimulationPanel() );
-        FileContents open = fos.openFileDialog( null, null );
-        if( open == null ) {
-            return;
-        }
-
-        XMLDecoder xmlDecoder = new XMLDecoder( open.getInputStream() );
-        Object obj = xmlDecoder.readObject();
-        if( obj instanceof EnergySkateParkModuleBean ) {
-            EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean)obj;
-            energySkateParkModelBean.apply( this );
-        }
-    }
-
-    public void open( String filename ) {
-        System.out.println( "filename = " + filename );
-        XMLDecoder xmlDecoder = new XMLDecoder( Thread.currentThread().getContextClassLoader().getResourceAsStream( filename ) );
-        Object obj = xmlDecoder.readObject();
-        if( obj instanceof EnergySkateParkModuleBean ) {
-            EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean)obj;
-            energySkateParkModelBean.apply( this );
         }
     }
 

@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.view.swing;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
+import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,7 +27,7 @@ public class EnergySkateParkTrackMenu extends JMenu {
             final EnergySkateParkTestMenu.TestItem testItem = testItems[i];
             add( new JMenuItem( new AbstractAction( testItem.getTitle() ) {
                 public void actionPerformed( ActionEvent e ) {
-                    parentApp.getModule().open( testItem.getLocation() );
+                    EnergySkateParkIO.open( testItem.getLocation(), parentApp.getModule() );
                 }
             } ) );
         }

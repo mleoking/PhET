@@ -1,4 +1,5 @@
 Moving the energy zero point while paused doesn't update pie chart.
+Changing "roller coaster mode" doesn't update graphics
 
 -Should there be separate controls for playback mode?
     For example, should the user be able to set the "live" speed and "playback" speed independently?

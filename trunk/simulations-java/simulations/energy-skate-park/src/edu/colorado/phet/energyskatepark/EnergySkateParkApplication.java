@@ -33,6 +33,7 @@ package edu.colorado.phet.energyskatepark;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkFrameSetup;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTestMenu;
@@ -65,7 +66,7 @@ new EnergySkateParkFrameSetup() );
         saveItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    module.save();
+                    EnergySkateParkIO.save( module );
                 }
                 catch( Exception e1 ) {
                     e1.printStackTrace();
@@ -77,7 +78,7 @@ new EnergySkateParkFrameSetup() );
         openItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    module.open();
+                    EnergySkateParkIO.open( module );
                 }
                 catch( Exception e1 ) {
                     e1.printStackTrace();
