@@ -125,6 +125,14 @@ public class ClockControlPanel extends JPanel implements ClockListener {
     protected void addPlayPauseActionListener( ActionListener actionListener ) {
         playPause.addActionListener( actionListener );
     }
+    
+    /**
+     * Removes a listener to the play/pause button.
+     * @param actionListener the listener
+     */
+    protected void removePlayPauseActionListener( ActionListener actionListener ) {
+        playPause.removeActionListener( actionListener );
+    }
 
     /**
      * Sets whether the play/pause button is enabled
