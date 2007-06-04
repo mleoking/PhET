@@ -51,9 +51,6 @@ public class DNAStrandNode extends PNode implements Observer {
     private static final Color STRAND_STROKE_COLOR = Color.BLACK;
     private static final Stroke STRAND_STROKE = new BasicStroke( 1f );
     
-    private static final double PIVOT_RADIUS = 2; // pixels
-    private static final Color PIVOT_FILL_COLOR = Color.RED;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -162,19 +159,20 @@ public class DNAStrandNode extends PNode implements Observer {
         double viewX, viewY;
         for ( int i = 0; i < pivots.length; i++ ) {
             
+            // draw line segment from previous to current pivot point
             viewX = _modelViewTransform.modelToView( pivots[i].getX() );
             viewY = _modelViewTransform.modelToView( pivots[i].getY() );
             if ( i == 0 ) {
+                // tail
                 _strandPath.moveTo( (float) viewX, (float) viewY );
             }
             else {
                 _strandPath.lineTo( (float) viewX, (float) viewY );
             }
             
+            // draw pivot point
             if ( _pivotsParentNode != null ) {
-                Shape pivotShape = new Ellipse2D.Double( viewX - PIVOT_RADIUS, viewY - PIVOT_RADIUS, 2 * PIVOT_RADIUS, 2 * PIVOT_RADIUS );
-                PPath pivotNode = new PPath( pivotShape );
-                pivotNode.setPaint( PIVOT_FILL_COLOR );
+                DNAPivotNode pivotNode = new DNAPivotNode( viewX, viewY );
                 _pivotsParentNode.addChild( pivotNode );
             }
         }
