@@ -62,7 +62,7 @@ new EnergySkateParkFrameSetup() );
         getPhetFrame().addMenu( new EnergySkateParkTestMenu( this ) );
         getPhetFrame().addMenu( new EnergySkateParkTrackMenu( this ) );
 
-        JMenuItem saveItem = new JMenuItem( "Save" );
+        JMenuItem saveItem = new JMenuItem( EnergySkateParkStrings.getString( "file-menu.save" )+"..." );
         saveItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -74,7 +74,7 @@ new EnergySkateParkFrameSetup() );
             }
         } );
 
-        JMenuItem openItem = new JMenuItem( "Open" );
+        JMenuItem openItem = new JMenuItem( EnergySkateParkStrings.getString( "file-menu.open" )+"..." );
         openItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {

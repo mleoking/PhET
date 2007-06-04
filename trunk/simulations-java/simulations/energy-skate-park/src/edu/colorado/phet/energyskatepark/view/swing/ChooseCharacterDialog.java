@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -27,7 +28,7 @@ public class ChooseCharacterDialog extends JDialog {
     private EnergySkateParkModule module;
 
     public ChooseCharacterDialog( EnergySkateParkModule module ) {
-        super( module.getPhetFrame(), "Choose Character", false );
+        super( module.getPhetFrame(), EnergySkateParkStrings.getString( "controls.choose-character" ), false );
         this.module = module;
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = GridBagConstraints.RELATIVE;
