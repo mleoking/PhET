@@ -12,8 +12,8 @@ import java.awt.*;
  * Time: 1:48:27 PM
  */
 public abstract class ValueAccessor {
-    String name;
-    Color color;
+    private String name;
+    private Color color;
 
     protected ValueAccessor( String name, Color color ) {
         this.name = name;

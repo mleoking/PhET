@@ -45,7 +45,7 @@ public class EnergySkateParkTestMenu extends EnergySkateParkTrackMenu {
     }
 
     private static TestItem[] createTestItems() {
-        TestItem[] testItems = new TestItem[]{
+        return new TestItem[]{
                 new TestItem( "energy-skate-park/tests/a.esp", "Head Bounce Get Stuck" ),
                 new TestItem( "energy-skate-park/tests/double-fall.esp", "Double Well fall-through" ),
                 new TestItem( "energy-skate-park/tests/moon-upside.esp", "Upside-Down on moon" ),
@@ -59,7 +59,6 @@ public class EnergySkateParkTestMenu extends EnergySkateParkTrackMenu {
                 new TestItem( "energy-skate-park/tests/upside-down_test.esp", "Upside Down" ),
                 new TestItem( "energy-skate-park/tests/s-track.esp", "S-Track" )
         };
-        return testItems;
     }
 
     public static class TestItem {

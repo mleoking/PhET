@@ -240,7 +240,6 @@ public class EnergyVsTimePlot {
         dynamicJFreeChartNode.clear();
     }
 
-
     public static interface Listener {
         void visibilityChanged();
     }
@@ -253,7 +252,7 @@ public class EnergyVsTimePlot {
         listeners.remove( listener );
     }
 
-    public void notifyVisibilityChanged() {
+    private void notifyVisibilityChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener)listeners.get( i ) ).visibilityChanged();
         }

@@ -11,7 +11,7 @@ public class BinarySearch {
         double evaluate( double x );
     }
 
-    public static double search( Function f, double lowerBound, double upperBound, double targetValue, double tolerance, int maxIterations ) {
+    private static double search( Function f, double lowerBound, double upperBound, double targetValue, double tolerance, int maxIterations ) {
         double guess = ( upperBound + lowerBound ) / 2;
         double value = f.evaluate( guess );
         int count = 0;

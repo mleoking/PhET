@@ -122,9 +122,7 @@ public class TestTransform4 {
             System.out.println( "scale = " + scale );
             if( scale > 0 ) {
                 AffineTransform t = getTransformReference( true );
-                double scaleX = scale;
-                double scaleY = -scale;
-                t.setTransform( scaleX, t.getShearY(), t.getShearX(), scaleY, t.getTranslateX(), t.getTranslateY() + 600 );
+                t.setTransform( scale, t.getShearY(), t.getShearX(), -scale, t.getTranslateX(), t.getTranslateY() + 600 );
             }
         }
         //todo: override setscale?  Or have a private hidden inner instance?  Or just assume this interface won't be abused.

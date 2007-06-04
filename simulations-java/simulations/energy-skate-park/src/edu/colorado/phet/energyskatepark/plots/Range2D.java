@@ -24,11 +24,10 @@ public class Range2D {
     }
 
     public Range2D union( Range2D range ) {
-        Range2D union = new Range2D( Math.min( minX, range.minX ),
-                                     Math.min( minY, range.minY ),
-                                     Math.max( maxX, range.maxX ),
-                                     Math.max( maxY, range.maxY ) );
-        return union;
+        return new Range2D( Math.min( minX, range.minX ),
+                            Math.min( minY, range.minY ),
+                            Math.max( maxX, range.maxX ),
+                            Math.max( maxY, range.maxY ) );
     }
 
     public void setRange( double minX, double minY, double maxX, double maxY ) {
@@ -78,8 +77,7 @@ public class Range2D {
     }
 
     public Rectangle2D.Double getBounds() {
-        Rectangle2D.Double r = new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY );
-        return r;
+        return new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY );
     }
 
     public Range2D getScaledRange( double fractionX, double fractionY ) {

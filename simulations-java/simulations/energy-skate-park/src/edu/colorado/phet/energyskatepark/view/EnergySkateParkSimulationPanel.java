@@ -48,7 +48,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         addKeyHandling();
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
         energySkateParkModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-            public void preStep( double dt ) {
+            public void preStep() {
                 updateThrust();
             }
         } );
@@ -280,7 +280,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         multiKeyHandler.clear();
     }
 
-    public void keyPressed( KeyEvent e ) {
+    private void keyPressed( KeyEvent e ) {
         multiKeyHandler.keyPressed( e );
         if( hasFocus() ) {
             if( e.getKeyCode() == KeyEvent.VK_P ) {
@@ -300,11 +300,11 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         }
     }
 
-    public void keyReleased( KeyEvent e ) {
+    private void keyReleased( KeyEvent e ) {
         multiKeyHandler.keyReleased( e );
     }
 
-    public void keyTyped( KeyEvent e ) {
+    private void keyTyped( KeyEvent e ) {
         multiKeyHandler.keyTyped( e );
     }
 

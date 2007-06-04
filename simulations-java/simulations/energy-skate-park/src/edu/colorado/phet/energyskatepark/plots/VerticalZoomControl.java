@@ -16,6 +16,7 @@ public class VerticalZoomControl extends DefaultZoomControl {
     }
 
     protected void updateZoom() {
+        int zoom = getZoom();
         setZoomInEnabled( zoom > -MAX_ZOOM_IN );
         setZoomOutEnabled( zoom < MAX_ZOOM_OUT );
         double range = 7000 + zoom * 1000;
@@ -33,11 +34,11 @@ public class VerticalZoomControl extends DefaultZoomControl {
             minY = -range / 2;
         }
 //        System.out.println( "minY = " + minY );
-        axis.setRange( minY, minY + range );
+        getAxis().setRange( minY, minY + range );
     }
 
     public void setZoom( int zoom ) {
-        this.zoom = zoom;
+        super.setZoom( zoom );
         updateZoom();
     }
 }

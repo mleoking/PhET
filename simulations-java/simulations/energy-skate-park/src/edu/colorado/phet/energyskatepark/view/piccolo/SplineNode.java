@@ -27,8 +27,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -258,7 +258,7 @@ public class SplineNode extends PNode {
         setChildrenPickable( spline.isInteractive() );
         if( changed() ) {
             GeneralPath path = spline.getInterpolationPath();
-            
+
             splinePath.setPathTo( path );
             centerPath.setPathTo( path );
             rollerCoasterPath.setPathTo( path );

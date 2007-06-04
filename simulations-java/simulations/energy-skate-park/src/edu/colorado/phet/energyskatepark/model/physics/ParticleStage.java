@@ -47,14 +47,14 @@ public class ParticleStage implements Serializable {
         listeners.add( listener );
     }
 
-    public void notifySplineRemoved() {
+    private void notifySplineRemoved() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.splineRemoved();
         }
     }
 
-    public void notifySplineAdded() {
+    private void notifySplineAdded() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.splineAdded();

@@ -40,7 +40,6 @@ public class EnergySkateParkModel implements Serializable {
     public static final double G_MOON = -1.62;
     public static final double G_JUPITER = -25.95;
     public static final double SPLINE_THICKNESS = 0.25f;//meters
-    private Body.Listener energyListener = new EnergyChangeNotifyingListener();
     private SkaterCharacter skaterCharacter = SkaterCharacterSet.getDefaultCharacter();
     private Body.ListenerAdapter primaryBodyAdapter = new PrimaryBodyListenerAdapter();
 
@@ -51,15 +50,8 @@ public class EnergySkateParkModel implements Serializable {
         updateFloorState();
     }
 
-    private void notifyBodyEnergyChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
-            energyModelListener.bodyEnergyChanged();
-        }
-    }
-
     public Body createBody() {
-        return new Body( getSkaterCharacter().getModelWidth(), getSkaterCharacter().getModelHeight(), getParticleStage(), getGravity(), getZeroPointPotentialY(), getSkaterCharacter() );
+        return new Body( getSkaterCharacter().getModelWidth(), getSkaterCharacter().getModelHeight(), particleStage, getGravity(), getZeroPointPotentialY(), getSkaterCharacter() );
     }
 
     public int getNumSplines() {
@@ -139,7 +131,6 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     private void removeListeners( Body body ) {
-        body.removeListener( energyListener );
         body.removeListener( primaryBodyAdapter );
     }
 
@@ -253,7 +244,7 @@ public class EnergySkateParkModel implements Serializable {
         return null;
     }
 
-    public double timeSinceLastHistory() {
+    private double timeSinceLastHistory() {
         if( history.size() == 0 ) {
             return time;
         }
@@ -268,20 +259,12 @@ public class EnergySkateParkModel implements Serializable {
             Body body = (Body)bodies.get( i );
             body.stepInTime( dt );
         }
-        notifyPostStep();
-    }
-
-    private void notifyPostStep() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
-            energyModelListener.stepFinished();
-        }
     }
 
     private void notifyPreStep( double dt ) {
         for( int i = 0; i < listeners.size(); i++ ) {
             EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
-            energyModelListener.preStep( dt );
+            energyModelListener.preStep();
         }
     }
 
@@ -317,7 +300,6 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void addBody( Body body ) {
-        body.addListener( energyListener );
         bodies.add( body );
 //        System.out.println( "EnergySkateParkModel.addBody, bodies="+bodies.size() );
         if( bodies.size() == 1 ) {//The zero point potential now occurs at the center of mass of the skater.
@@ -401,10 +383,6 @@ public class EnergySkateParkModel implements Serializable {
         setSkaterCharacter( SkaterCharacterSet.getDefaultCharacter() );
     }
 
-    public ParticleStage getParticleStage() {
-        return particleStage;
-    }
-
     public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
         if( !this.skaterCharacter.equals( skaterCharacter ) ) {
             this.skaterCharacter = skaterCharacter;
@@ -429,7 +407,7 @@ public class EnergySkateParkModel implements Serializable {
 
     public static class EnergyModelListenerAdapter implements EnergyModelListener {
 
-        public void preStep( double dt ) {
+        public void preStep() {
         }
 
         public void gravityChanged() {
@@ -439,12 +417,6 @@ public class EnergySkateParkModel implements Serializable {
         }
 
         public void floorChanged() {
-        }
-
-        public void stepFinished() {
-        }
-
-        public void bodyEnergyChanged() {
         }
 
         public void bodyCountChanged() {
@@ -474,17 +446,13 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public static interface EnergyModelListener {
-        void preStep( double dt );
+        void preStep();
 
         void gravityChanged();
 
         void splineCountChanged();
 
         void floorChanged();
-
-        void stepFinished();
-
-        void bodyEnergyChanged();
 
         void bodyCountChanged();
 
@@ -517,12 +485,6 @@ public class EnergySkateParkModel implements Serializable {
 
     public HistoryPoint historyPointAt( int i ) {
         return (HistoryPoint)history.get( i );
-    }
-
-    private class EnergyChangeNotifyingListener extends Body.ListenerAdapter implements Serializable {
-        public void energyChanged() {
-            notifyBodyEnergyChanged();
-        }
     }
 
     class PrimaryBodyListenerAdapter extends Body.ListenerAdapter implements Serializable {

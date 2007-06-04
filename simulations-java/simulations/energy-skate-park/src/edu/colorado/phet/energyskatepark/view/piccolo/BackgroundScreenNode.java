@@ -3,7 +3,6 @@ package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -25,7 +24,7 @@ public class BackgroundScreenNode extends PhetPNode {
     private BufferedImage backgroundImage;
     private PNode floorGraphic;
 
-    public BackgroundScreenNode( EnergySkateParkSimulationPanel simulationPanel, BufferedImage backgroundImage, PNode floorGraphic, PhetRootPNode rootNode ) {
+    public BackgroundScreenNode( EnergySkateParkSimulationPanel simulationPanel, BufferedImage backgroundImage, PNode floorGraphic ) {
         this.canvas = simulationPanel;
         this.backgroundImage = backgroundImage;
         this.floorGraphic = floorGraphic;

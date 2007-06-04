@@ -110,7 +110,7 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
         listeners.add( listener );
     }
 
-    public void notifyTrackChanged() {
+    private void notifyTrackChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.trackChanged();

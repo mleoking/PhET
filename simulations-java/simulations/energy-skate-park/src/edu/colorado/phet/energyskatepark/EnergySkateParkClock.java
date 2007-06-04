@@ -33,7 +33,7 @@ public class EnergySkateParkClock extends SwingClock {
         listeners.remove( listener );
     }
 
-    public void notifyTimingStrategyChanged() {
+    private void notifyTimingStrategyChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener)listeners.get( i ) ).changed();
         }

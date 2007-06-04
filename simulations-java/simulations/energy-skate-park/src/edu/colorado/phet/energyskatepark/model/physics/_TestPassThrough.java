@@ -22,7 +22,7 @@ public class _TestPassThrough extends TestCase {
         System.out.println( "Starting t=0, top=" + testState.getSide() + ", testState.getParticle().getPosition() = " + testState.getParticle().getPosition() );
         boolean origSide = testState.getSide();
         double t = 0;
-        for( int i = 0; i < 100; i++ ) {
+        for( int i = 0; i < iterations; i++ ) {
             testState.stepInTime( dt );
             t += dt;
             boolean side = testState.getSide();

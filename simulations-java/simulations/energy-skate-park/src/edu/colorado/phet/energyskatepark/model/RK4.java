@@ -7,12 +7,10 @@ package edu.colorado.phet.energyskatepark.model;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 public class RK4 {
-    public static void main( String[] argv ) throws IOException,
-                                                    FileNotFoundException {// open  file RK4.dat for output data
+    public static void main( String[] argv ) throws FileNotFoundException {// open  file RK4.dat for output data
         PrintWriter w =
                 new PrintWriter( new FileOutputStream( "RK4.dat" ), true );
 
