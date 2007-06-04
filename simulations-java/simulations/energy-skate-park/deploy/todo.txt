@@ -6,11 +6,6 @@ Questions:
 	One performance optimization we can do for this simulation would be to cache values for points on the spline after user has stopped manipulating it (tradeoff processor usage for memory usage).  However, this would be nontrivial work, and I'm not sure it would pay off.  I would do a feasibility test to make sure enough track data can be cached at high enough resolution to make this effective.
 
 To Do:
-• Add Spanish translation.
-• Fix listener leaks
-• Splines are using manual copy methods, should be using serialization
-• Better mountain graphics?
-• Add an ellipsis for menu items or buttons that pop up a dialog
 • "Bar Graph" button and "Bar Chart" window have different text.
 • Bug: On the tracks that open in roller coaster mode, when you right click, you cannot change the mode
 • When I open the Energy vs Position graph, the performance rapidly decreases.
@@ -25,10 +20,13 @@ To Do:
     There will be slight (a few percent) performance degradation for this layered representation.
     I expect it will take around 2 hours to implement and test this.
 • Generalize ClockControlPanel for reuse
+• Add Spanish translation.
+• Better mountain graphics?
+• Fix listener leaks
 
-To Interview On:
-• PE=0 line is visible in space
-• Pie chart disappears when going underneath PE=0
+Interview Questions:
+• Should PE=0 line be visible in space?
+• Should pie chart disappear when going underneath PE=0 (even when oscillating)?
 
 Maybe:
 • Support for undo?
