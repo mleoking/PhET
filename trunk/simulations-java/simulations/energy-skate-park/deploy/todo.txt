@@ -1,3 +1,20 @@
+6-4-2007
+1.	Character sometimes stops in space.  To reproduce this problem:
+    a.	Drag
+    b.	Thrust
+    c.	Release thrust
+    d.	Release drag
+2.	Lots of exceptions (harmless) in energy (e.g. on Jupiter)
+3.	Out of memory error
+    a.	Add bar graph, e vs. x graph, e vs. t graph, show path
+    b.	Change planet radio buttons & slider
+    c.	Thrust
+    d.	After about 1 minute, increasingly large GC hiccups, then out of memory error
+4.	Bug: Readout for “show path” follows last point
+5.	User tries to click on the clock icon (recommends removing it)
+6.	Why can you “rewind” during record or playback?
+7.	Auto-stop was very confusing to the user (several times)
+
 Questions:
 • Is simulation supposed to pause when end of recording time is reached?
    -if not, are E vs. T readouts supposed to continue to update?
