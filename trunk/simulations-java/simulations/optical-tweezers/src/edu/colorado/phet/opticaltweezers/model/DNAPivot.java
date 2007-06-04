@@ -37,7 +37,7 @@ public class DNAPivot {
     }
     
     public void setVelocity( double xVelocity, double yVelocity ) {
-        _x = xVelocity;
+        _xVelocity = xVelocity;
         _yVelocity = yVelocity;
     }
     
