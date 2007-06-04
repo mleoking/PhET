@@ -78,6 +78,10 @@ public class Body implements Serializable {
         return restorePoint != null;
     }
 
+    public void deleteRestorePoint() {
+        this.restorePoint = null;
+    }
+
     public void reset() {
         setFreeFallMode();
         particle.setVelocity( 0, 0 );

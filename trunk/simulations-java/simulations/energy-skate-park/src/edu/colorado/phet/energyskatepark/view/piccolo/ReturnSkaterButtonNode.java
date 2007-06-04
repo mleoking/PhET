@@ -2,17 +2,15 @@
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkUtils;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,7 +23,7 @@ import java.awt.event.ActionListener;
 public class ReturnSkaterButtonNode extends PhetPNode {
     private EnergySkateParkModule module;
     private PSwingCanvas canvas;
-    
+
     private SkaterNode skaterNode;
     private PNode buttonNode;
     private JButton bringBackSkater = new JButton( "" );
@@ -37,7 +35,7 @@ public class ReturnSkaterButtonNode extends PhetPNode {
         EnergySkateParkUtils.fixButtonOpacity( bringBackSkater );
         bringBackSkater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.resetSkater();
+                module.returnSkater();
             }
         } );
         buttonNode = new PhetPNode( new PSwing( bringBackSkater ) );
@@ -67,16 +65,16 @@ public class ReturnSkaterButtonNode extends PhetPNode {
             setVisible( false );
         }
         else {
-            setVisible( !getVisibleBounds().contains( skaterNode.getGlobalFullBounds() ) );
+            setVisible( !isSkaterFullyOnscreen() );
         }
+    }
+
+    private boolean isSkaterFullyOnscreen() {
+        return module.getEnergySkateParkSimulationPanel().isSkaterFullyOnscreen( skaterNode );
     }
 
     private void updateLocation() {
         buttonNode.setOffset( canvas.getWidth() / 2 - buttonNode.getFullBounds().getWidth() / 2, canvas.getHeight() / 2 - buttonNode.getFullBounds().getHeight() / 2 );
-    }
-
-    private Rectangle getVisibleBounds() {
-        return new Rectangle( module.getEnergySkateParkSimulationPanel().getSize() );
     }
 
     public void setSkaterNode( SkaterNode skaterNode ) {
