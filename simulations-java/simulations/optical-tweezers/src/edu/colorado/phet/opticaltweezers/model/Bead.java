@@ -6,6 +6,8 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
@@ -20,6 +22,9 @@ public class Bead extends MovableObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     public static final String PROPERTY_DIAMETER = "diameter";
+    public static final String PROPERTY_DT_SUBDIVISION_THRESHOLD = "dtSubdivisionThreshold";
+    public static final String PROPERTY_NUMBER_OF_DT_SUBDIVISION = "numberOfDtSubdivisions";
+    public static final String PROPERTY_BROWNIAN_MOTION_SCALE = "brownianMotionScale";
     
     //----------------------------------------------------------------------------
     // Private class data
@@ -27,15 +32,6 @@ public class Bead extends MovableObject implements ModelElement {
     
     // Debugging output for the motion algorithm
     private static final boolean MOTION_DEBUG_OUTPUT = false;
-    
-    // Brownian motion scaling factor, bigger values cause bigger motion
-    private static final double DEFAULT_BROWNIAN_MOTION_SCALE = 1;
-    
-    // Clock steps above this value will be subdivided for running the motion algorithm
-    private static final double DEFAULT_DT_SUBDIVISION_THRESHOLD = 1;
-    
-    // How many times to equally divide the clock step when running the motion algorithm
-    private static final int DEFAULT_NUMBER_OF_DT_SUBDIVISIONS = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -50,9 +46,13 @@ public class Bead extends MovableObject implements ModelElement {
     private Vector2D _velocity; // nm/sec
     private DNAStrand _dnaStrand;
     
-    private double _brownianMotionScale;
+    private DoubleRange _dtSubdivisionThresholdRange;
+    private IntegerRange _numberOfDtSubdivisionsRange;
+    private DoubleRange _brownianMotionScaleRange;
+    
     private double _dtSubdivisionThreshold;
     private int _numberOfDtSubdivisions;
+    private double _brownianMotionScale;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -65,17 +65,31 @@ public class Bead extends MovableObject implements ModelElement {
      * @param orientation radians
      * @param diameter nm
      * @param density g/nm^3
+     * @param dtSubdivisionThresholdRange
+     * @param numberOfDtSubdivisionsRange
+     * @param brownianMotionScaleRange
      * @param fluid
      * @param laser
      */
-    public Bead( Point2D position, double orientation, double diameter, double density, Fluid fluid, Laser laser ) {
+    public Bead( Point2D position, 
+            double orientation, 
+            double diameter, 
+            double density,
+            DoubleRange dtSubdivisionThresholdRange,
+            IntegerRange numberOfDtSubdivisionsRange,
+            DoubleRange brownianMotionScaleRange,
+            Fluid fluid, 
+            Laser laser ) {
+        
         super( position, orientation, 0 /* speed */ );
+        
         if ( diameter <= 0 ) {
             throw new IllegalArgumentException( "diameter must be > 0: " + diameter );
         }
         if ( density <= 0 ) {
             throw new IllegalArgumentException( "density must be > 0: " + density );   
         }
+        
         _diameter = diameter;
         _density = density;
         _fluid = fluid;
@@ -84,9 +98,13 @@ public class Bead extends MovableObject implements ModelElement {
         _motionEnabled = true;
         _velocity = new Vector2D();
         
-        _brownianMotionScale = DEFAULT_BROWNIAN_MOTION_SCALE;
-        _dtSubdivisionThreshold = DEFAULT_DT_SUBDIVISION_THRESHOLD;
-        _numberOfDtSubdivisions = DEFAULT_NUMBER_OF_DT_SUBDIVISIONS;
+        _brownianMotionScaleRange = brownianMotionScaleRange;
+        _dtSubdivisionThresholdRange = dtSubdivisionThresholdRange;
+        _numberOfDtSubdivisionsRange = numberOfDtSubdivisionsRange;
+        
+        _brownianMotionScale = brownianMotionScaleRange.getDefault();
+        _dtSubdivisionThreshold = dtSubdivisionThresholdRange.getDefault();
+        _numberOfDtSubdivisions = numberOfDtSubdivisionsRange.getDefault();
     }
     
     //----------------------------------------------------------------------------
@@ -200,21 +218,20 @@ public class Bead extends MovableObject implements ModelElement {
         return dnaForce;
     }
     
-    //----------------------------------------------------------------------------
-    // Developer methods for tuning bead motion algorithm
-    //----------------------------------------------------------------------------
-    
     /**
      * Sets the scaling factor used to calculate Brownian motion.
      * Bigger values cause bigger motion.
      * 
-     * @param scale
+     * @param brownianMotionScale
      */
-    public void setBrownianMotionScale( double scale ) {
-        if ( !( scale >= 0 ) ) {
-            throw new IllegalArgumentException( "scale must be >= 0: " + scale );
+    public void setBrownianMotionScale( double brownianMotionScale ) {
+        if ( !_brownianMotionScaleRange.contains( brownianMotionScale ) ) {
+            throw new IllegalArgumentException( "brownianMotionScale out of range: " + brownianMotionScale );
         }
-        _brownianMotionScale = scale;
+        if ( brownianMotionScale != _brownianMotionScale ) {
+            _brownianMotionScale = brownianMotionScale;
+            notifyObservers( PROPERTY_BROWNIAN_MOTION_SCALE );
+        }
     }
     
     /**
@@ -226,15 +243,25 @@ public class Bead extends MovableObject implements ModelElement {
         return _brownianMotionScale;
     }
     
+    public DoubleRange getBrownianMotionScaleRange() {
+        return _brownianMotionScaleRange;
+    }
+    
     /**
      * Sets the subdivision threshold for the clock step.
      * Clock steps above this value will be subdivided as specified by
      * setNumberOfDtSubdivisions.
      * 
-     * @param threshold
+     * @param dtSubdivisionThreshold
      */
-    public void setDtSubdivisionThreshold( double threshold ) {
-        _dtSubdivisionThreshold = threshold;
+    public void setDtSubdivisionThreshold( double dtSubdivisionThreshold ) {
+        if ( !_dtSubdivisionThresholdRange.contains( dtSubdivisionThreshold ) ) {
+            throw new IllegalArgumentException( "dtSubdivisionThreshold out of range: " + dtSubdivisionThreshold );
+        }
+        if ( dtSubdivisionThreshold != _dtSubdivisionThreshold ) {
+            _dtSubdivisionThreshold = dtSubdivisionThreshold;
+            notifyObservers( PROPERTY_DT_SUBDIVISION_THRESHOLD );
+        }
     }
     
     /**
@@ -246,6 +273,10 @@ public class Bead extends MovableObject implements ModelElement {
         return _dtSubdivisionThreshold;
     }
     
+    public DoubleRange getDtSubdivisionThresholdRange() {
+        return _dtSubdivisionThresholdRange;
+    }
+    
     /**
      * Sets the number of subdivisions for the clock step.
      * This determines how many times the motion algorithm is run
@@ -254,10 +285,13 @@ public class Bead extends MovableObject implements ModelElement {
      * @param numberOfDtSubdivisions
      */
     public void setNumberOfDtSubdivisions( int numberOfDtSubdivisions ) {
-        if ( ! ( numberOfDtSubdivisions > 0 ) ) {
-            throw new IllegalArgumentException( "numberOfSubdivisions must be > 0: " + numberOfDtSubdivisions );
+        if ( !_numberOfDtSubdivisionsRange.contains( numberOfDtSubdivisions ) ) {
+            throw new IllegalArgumentException( "numberOfSubdivisions out of range: " + numberOfDtSubdivisions );
         }
-        _numberOfDtSubdivisions = numberOfDtSubdivisions;
+        if ( numberOfDtSubdivisions != _numberOfDtSubdivisions ) {
+            _numberOfDtSubdivisions = numberOfDtSubdivisions;
+            notifyObservers( PROPERTY_NUMBER_OF_DT_SUBDIVISION );
+        }
     }
     
     /**
@@ -267,6 +301,10 @@ public class Bead extends MovableObject implements ModelElement {
      */
     public int getNumberOfDtSubdivisions() {
         return _numberOfDtSubdivisions;
+    }
+    
+    public IntegerRange getNumberOfDtSubdivisionsRange() {
+        return _numberOfDtSubdivisionsRange;
     }
     
     //----------------------------------------------------------------------------

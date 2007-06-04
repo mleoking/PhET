@@ -11,6 +11,7 @@ import java.util.Observer;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
@@ -103,12 +104,12 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _kickConstantRange = kickConstantRange;
         _numberOfEvolutionsPerClockTickRange = numberOfEvolutionsPerClockTickRange;
 
-        _springConstant = springConstantRange.getDefault();
-        _dampingConstant = dampingConstantRange.getDefault();
-        _kickConstant = kickConstantRange.getDefault();
-        _numberOfEvolutionsPerClockTick = numberOfEvolutionsPerClockTickRange.getDefault();
-
-        initializeStrand();
+        _springConstant = _springConstantRange.getDefault();
+        _dampingConstant = _dampingConstantRange.getDefault();
+        _kickConstant = _kickConstantRange.getDefault();
+        _numberOfEvolutionsPerClockTick = _numberOfEvolutionsPerClockTickRange.getDefault();
+        
+        initStrand();
     }
 
     /**
@@ -272,14 +273,14 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     //----------------------------------------------------------------------------
     // Strand shape model
     //----------------------------------------------------------------------------
-
-    /*
-     * Initializes each of the pivot points that make up the DNA strand.
-     */
-    private void initializeStrand() {
-
+    
+    public void initStrand() {
+        
         // head is attached to the bead
         _headPosition.setLocation( _bead.getPositionRef() );
+        
+        //XXX not correct
+        _tailPosition.setLocation( _bead.getX() - _contourLength / 2, _bead.getY() );
 
         final double initialSegmentLength = getExtension() / _numberOfSegments;
         _pivots = new ArrayList();

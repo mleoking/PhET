@@ -58,7 +58,7 @@ public class DNADefaults {
     public static final double LASER_VISIBLE_WAVELENGTH = 632; // nm, to be used by view components
     public static final Point2D LASER_POSITION = new Point2D.Double( 2400, FLUID_POSITION.getY() ); // nm
     public static final double LASER_ORIENTATION = Math.toRadians( -90 );
-    public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500, 0 ); // mW
+    public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500 ); // mW
     public static final boolean LASER_RUNNING = true;
     
     // Bead model, local origin at center
@@ -66,8 +66,9 @@ public class DNADefaults {
     public static final double BEAD_ORIENTATION = Math.toRadians( 0 );
     public static final double BEAD_DIAMETER = 200; // nm
     public static final double BEAD_DENSITY = 1.05E-21; // g/nm^3, polystyrene
-    public static final double BEAD_DT_SUBDIVISION_THRESHOLD = 1E-6;
-    public static final int BEAD_NUMBER_OF_DT_SUBDIVISIONS = 10;
+    public static final DoubleRange BEAD_DT_SUBDIVISION_THRESHOLD_RANGE = new DoubleRange( CLOCK_DT_RANGE.getMax() * 1E-2, CLOCK_DT_RANGE.getMax(), 1E-6 );
+    public static final IntegerRange BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE = new IntegerRange( 1, 1000, 10 );
+    public static final DoubleRange BEAD_BROWNIAN_MOTION_SCALE_RANGE = new DoubleRange( 0, 5, 1 );
     
     // DNA Strand model
     public static final double DNA_CONTOUR_LENGTH = 2413; // nm

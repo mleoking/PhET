@@ -69,8 +69,16 @@ public class Laser extends MovableObject implements ModelElement {
         _distanceFromObjectiveToControlPanel = distanceFromObjectiveToControlPanel;
         _wavelength = wavelength;
         _visibleWavelength = visibleWavelength;
-        _power = powerRange.getDefault();
         _powerRange = new DoubleRange( powerRange );
+        
+        reset();
+    }
+    
+    /**
+     * Resets the model to its initial state.
+     */
+    public void reset() {
+        setPower( _powerRange.getDefault() );
     }
     
     //----------------------------------------------------------------------------

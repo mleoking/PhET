@@ -60,8 +60,8 @@ public class Fluid extends MovableObject implements ModelElement {
         _viscosityRange = viscosityRange;
         _temperatureRange = temperatureRange;
         
-        _viscosity = viscosityRange.getDefault();
-        _temperature = temperatureRange.getDefault();
+        _viscosity = _viscosityRange.getDefault();
+        _temperature = _temperatureRange.getDefault();
     }
     
     //----------------------------------------------------------------------------
