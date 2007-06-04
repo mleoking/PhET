@@ -24,12 +24,20 @@ import edu.colorado.phet.opticaltweezers.model.DNAStrand;
  */
 public class DNAStrandControlPanel extends JPanel implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private DNAStrand _dnaStrand;
     
     private LinearValueControl _springConstantControl;
     private LinearValueControl _dragCoefficientControl;
     private LinearValueControl _kickConstant;
     private LinearValueControl _numberOfEvolutionsPerClockTickControl;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public DNAStrandControlPanel( Font titleFont, Font controlFont, DNAStrand dnaStrand ) {
         super();
@@ -107,6 +115,10 @@ public class DNAStrandControlPanel extends JPanel implements Observer {
         _dnaStrand.deleteObserver( this );
     }
     
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+    
     private void handleSpringConstantControl() {
         double value = _springConstantControl.getValue();
         _dnaStrand.setSpringConstant( value );
@@ -127,6 +139,10 @@ public class DNAStrandControlPanel extends JPanel implements Observer {
         _dnaStrand.setNumberOfEvolutionsPerClockTick( value );
     }
 
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
     public void update( Observable o, Object arg ) {
         if ( o == _dnaStrand ) {
             if ( arg == DNAStrand.PROPERTY_SPRING_CONSTANT ) {

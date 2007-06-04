@@ -25,11 +25,19 @@ import edu.colorado.phet.opticaltweezers.model.Bead;
  */
 public class BeadMotionControlPanel extends JPanel implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Bead _bead;
 
     private LogarithmicValueControl _dtSubdivisionThresholdControl;
     private LinearValueControl _numberOfDtSubdivisions;
     private LinearValueControl _brownianMotionScaleControl;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public BeadMotionControlPanel( Font titleFont, Font controlFont, Bead bead ) {
         super();
@@ -94,6 +102,10 @@ public class BeadMotionControlPanel extends JPanel implements Observer {
         _bead.deleteObserver( this );
     }
     
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+    
     private void handleBrownianMotionScaleControl() {
         double value = _brownianMotionScaleControl.getValue();
         _bead.setBrownianMotionScale( value );
@@ -109,6 +121,10 @@ public class BeadMotionControlPanel extends JPanel implements Observer {
         _bead.setNumberOfDtSubdivisions( value );
     }
 
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
     public void update( Observable o, Object arg ) {
         if ( o == _bead ) {
             if ( arg == Bead.PROPERTY_DT_SUBDIVISION_THRESHOLD ) {
