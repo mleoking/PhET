@@ -75,9 +75,9 @@ public class DNADefaults {
     public static final double DNA_PERSISTENCE_LENGTH = DNAStrand.DOUBLE_STRANDED_PERSISTENCE_LENGTH; // nm 
     public static final int DNA_NUMBER_OF_SEGMENTS = 40; // nm
     public static final DoubleRange DNA_SPRING_CONSTANT_RANGE = new DoubleRange( 2.0, 10.0, 6 );
-    public static final DoubleRange DNA_DAMPING_CONSTANT_RANGE = new DoubleRange( 0.1, 0.3, 0.2 );
+    public static final DoubleRange DNA_DRAG_COEFFICIENT_RANGE = new DoubleRange( 0.1, 0.3, 0.2 );
     public static final DoubleRange DNA_KICK_CONSTANT_RANGE = new DoubleRange( 0.25, 0.75, 0.5 );
-    public static final IntegerRange DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE = new IntegerRange( 1, 20, 10 );
+    public static final IntegerRange DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE = new IntegerRange( 1, 20, 1 );
     
     // Control panel settings
     public static final String LASER_DISPLAY_CHOICE = LaserDisplayControlPanel.CHOICE_BEAM;

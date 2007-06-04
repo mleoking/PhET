@@ -124,7 +124,7 @@ public class DNAModule extends AbstractModule {
             // DNA Strand
             DNAStrand dnaStrand = _model.getDNAStrand();
             dnaStrand.setSpringConstant( DNADefaults.DNA_SPRING_CONSTANT_RANGE.getDefault() );
-            dnaStrand.setDampingConstant( DNADefaults.DNA_DAMPING_CONSTANT_RANGE.getDefault() );
+            dnaStrand.setDragCoefficient( DNADefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrand.setKickConstant( DNADefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
             dnaStrand.setNumberOfEvolutionsPerClockTick( DNADefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE.getDefault() );
             dnaStrand.initializeStrand();

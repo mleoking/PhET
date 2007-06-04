@@ -77,7 +77,7 @@ public class DNAModel extends ClockAdapter {
                  DNADefaults.DNA_PERSISTENCE_LENGTH, 
                  DNADefaults.DNA_NUMBER_OF_SEGMENTS, 
                  DNADefaults.DNA_SPRING_CONSTANT_RANGE, 
-                 DNADefaults.DNA_DAMPING_CONSTANT_RANGE, 
+                 DNADefaults.DNA_DRAG_COEFFICIENT_RANGE, 
                  DNADefaults.DNA_KICK_CONSTANT_RANGE, 
                  DNADefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE,
                  _bead,

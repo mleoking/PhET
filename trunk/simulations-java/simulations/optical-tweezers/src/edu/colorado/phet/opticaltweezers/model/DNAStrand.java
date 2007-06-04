@@ -31,7 +31,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     public static final String PROPERTY_FORCE = "force"; // force applied to the bead that is attached to the head
     public static final String PROPERTY_SHAPE = "shape"; // shape of the strand
     public static final String PROPERTY_SPRING_CONSTANT = "springConstant";
-    public static final String PROPERTY_DAMPING_CONSTANT = "dampingConstant";
+    public static final String PROPERTY_DRAG_COEFFICIENT = "dragCoefficient";
     public static final String PROPERTY_KICK_CONSTANT = "kickConstant";
     public static final String PROPERTY_NUMBER_OF_EVOLUTIONS_PER_CLOCK_TICK = "numberOfEvolutionsPerClockTick";
 
@@ -43,9 +43,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     // Private class data
     //----------------------------------------------------------------------------
 
-    private static final double DRAG_COEFFICIENT = 0.2; //XXX drag coefficient, should be based on fluid variables!
-    
-    private static final double INITIAL_STRETCHINESS = 0.95; // how much the strand is stretched initially, % of contour length
+    private static final double INITIAL_STRETCHINESS = 0.5; // how much the strand is stretched initially, % of contour length
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -60,11 +58,11 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
 
     private DNAPivot[] _pivots;
     private DoubleRange _springConstantRange;
-    private DoubleRange _dampingConstantRange;
+    private DoubleRange _dragCoefficientRange;
     private DoubleRange _kickConstantRange;
     private IntegerRange _numberOfEvolutionsPerClockTickRange;
-    private double _springConstant;
-    private double _dampingConstant;
+    private double _springConstant; // actually the spring constant divided by mass
+    private double _dragCoefficient;
     private double _kickConstant;
     private int _numberOfEvolutionsPerClockTick;
     private Random _kickRandom;
@@ -81,13 +79,15 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * @param numberOfSegments
      * @param tailPosition
      * @param springConstantRange
-     * @param dampingConstantRange
+     * @param dragCoefficientRange
      * @param kickConstantRange
      * @param numberOfEvolutionsPerClockTickRange
      * @param bead
      * @param fluid
      */
-    public DNAStrand( double contourLength, double persistenceLength, int numberOfSegments, DoubleRange springConstantRange, DoubleRange dampingConstantRange, DoubleRange kickConstantRange, IntegerRange numberOfEvolutionsPerClockTickRange, Bead bead, Fluid fluid ) {
+    public DNAStrand( double contourLength, double persistenceLength, int numberOfSegments, 
+            DoubleRange springConstantRange, DoubleRange dragCoefficientRange, DoubleRange kickConstantRange, 
+            IntegerRange numberOfEvolutionsPerClockTickRange, Bead bead, Fluid fluid ) {
 
         _contourLength = contourLength;
         _persistenceLength = persistenceLength;
@@ -100,12 +100,12 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _fluid.addObserver( this );
 
         _springConstantRange = springConstantRange;
-        _dampingConstantRange = dampingConstantRange;
+        _dragCoefficientRange = dragCoefficientRange;
         _kickConstantRange = kickConstantRange;
         _numberOfEvolutionsPerClockTickRange = numberOfEvolutionsPerClockTickRange;
 
         _springConstant = _springConstantRange.getDefault();
-        _dampingConstant = _dampingConstantRange.getDefault();
+        _dragCoefficient = _dragCoefficientRange.getDefault();
         _kickConstant = _kickConstantRange.getDefault();
         _numberOfEvolutionsPerClockTick = _numberOfEvolutionsPerClockTickRange.getDefault();
         
@@ -176,22 +176,22 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         return _springConstantRange;
     }
 
-    public void setDampingConstant( double dampingConstant ) {
-        if ( !_dampingConstantRange.contains( dampingConstant ) ) {
-            new IllegalArgumentException( "dampingConstant out of range: " + dampingConstant );
+    public void setDragCoefficient( double dragCoefficient ) {
+        if ( !_dragCoefficientRange.contains( dragCoefficient ) ) {
+            new IllegalArgumentException( "dragCoefficient out of range: " + dragCoefficient );
         }
-        if ( dampingConstant != _dampingConstant ) {
-            _dampingConstant = dampingConstant;
-            notifyObservers( PROPERTY_DAMPING_CONSTANT );
+        if ( dragCoefficient != _dragCoefficient ) {
+            _dragCoefficient = dragCoefficient;
+            notifyObservers( PROPERTY_DRAG_COEFFICIENT );
         }
     }
 
-    public double getDampingConstant() {
-        return _dampingConstant;
+    public double getDragCoefficient() {
+        return _dragCoefficient;
     }
 
-    public DoubleRange getDampingConstantRange() {
-        return _dampingConstantRange;
+    public DoubleRange getDragCoefficientRange() {
+        return _dragCoefficientRange;
     }
 
     public void setKickConstant( double kickConstant ) {
@@ -346,8 +346,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 // distance to previous and next pivots
                 final double dxPrevious = currentPivot.getX() - previousPivot.getX();
                 final double dyPrevious = currentPivot.getY() - previousPivot.getY();
-                final double dxNext = currentPivot.getX() - nextPivot.getX();
-                final double dyNext = currentPivot.getY() - nextPivot.getY();
+                final double dxNext = nextPivot.getX() - currentPivot.getX();
+                final double dyNext = nextPivot.getY() - currentPivot.getY();
                 final double distanceToPrevious = Math.sqrt( ( dxPrevious * dxPrevious ) + ( dyPrevious * dyPrevious ) );
                 final double distanceToNext = Math.sqrt( ( dxNext * dxNext ) + ( dyNext * dyNext ) );
                 
@@ -356,13 +356,13 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 final double termNext = 1 - ( segmentLength / distanceToNext );
                 
                 // acceleration
-                final double xAcceleration = ( ( dxNext * termNext ) - ( dxPrevious * termPrevious ) ) - ( DRAG_COEFFICIENT * currentPivot.getXVelocity() );
-                final double yAcceleration = ( ( dyNext * termNext ) - ( dyPrevious * termPrevious ) ) - ( DRAG_COEFFICIENT * currentPivot.getYVelocity() );
+                final double xAcceleration = ( _springConstant * ( ( dxNext * termNext ) - ( dxPrevious * termPrevious ) ) ) - ( _dragCoefficient * currentPivot.getXVelocity() );
+                final double yAcceleration = ( _springConstant * ( ( dyNext * termNext ) - ( dyPrevious * termPrevious ) ) ) - ( _dragCoefficient * currentPivot.getYVelocity() );
                 currentPivot.setAcceleration( xAcceleration, yAcceleration );
                 
                 // velocity
-                final double xVelocity = currentPivot.getXVelocity() + ( xAcceleration * dt ) + ( _kickConstant * ( _kickRandom.nextDouble() - 0.5 ) );
-                final double yVelocity = currentPivot.getYVelocity() + ( yAcceleration * dt ) + ( _kickConstant * ( _kickRandom.nextDouble() - 0.5 ) );
+                final double xVelocity = currentPivot.getXVelocity() + ( currentPivot.getXAcceleration() * dt ) + ( _kickConstant * ( _kickRandom.nextDouble() - 0.5 ) );
+                final double yVelocity = currentPivot.getYVelocity() + ( currentPivot.getYAcceleration() * dt ) + ( _kickConstant * ( _kickRandom.nextDouble() - 0.5 ) );
                 currentPivot.setVelocity( xVelocity, yVelocity );
             }
         }
