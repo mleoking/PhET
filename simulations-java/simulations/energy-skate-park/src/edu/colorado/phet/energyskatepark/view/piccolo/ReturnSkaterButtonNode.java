@@ -5,6 +5,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkUtils;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -33,7 +34,7 @@ public class ReturnSkaterButtonNode extends PhetPNode {
         this.canvas = canvas;
         this.skaterNode = skaterNode;
         this.module = module;
-        SwingUtils.fixButtonOpacity( bringBackSkater );
+        EnergySkateParkUtils.fixButtonOpacity( bringBackSkater );
         bringBackSkater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.resetSkater();

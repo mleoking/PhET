@@ -7,6 +7,7 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -46,7 +47,7 @@ public class PauseIndicatorNode extends PNode {
         } );
 
         JButton resume = new JButton( EnergySkateParkStrings.getString( "time.resume" ) );
-        SwingUtils.fixButtonOpacity( resume );
+        EnergySkateParkUtils.fixButtonOpacity( resume );
         resume.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setRecordOrLiveMode();
