@@ -96,16 +96,12 @@ public class TestDynamicJFreeChartNode {
             }
         } );
         panel.add( clear );
-        pSwing = new PSwing(panel );
+        pSwing = new PSwing( panel );
         phetPCanvas.addScreenChild( pSwing );
 
         timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                double t = ( System.currentTimeMillis() - t0 ) / 1000.0;
-                double frequency = 1.0 / 10.0;
-                double sin = Math.sin( t * 2 * Math.PI * frequency );
-                Point2D.Double pt = new Point2D.Double( t / 100.0, sin );
-                dynamicJFreeChartNode.addValue( pt.getX(), pt.getY() );
+                updateGraph();
             }
         } );
         phetPCanvas.addKeyListener( new KeyAdapter() {
@@ -128,6 +124,13 @@ public class TestDynamicJFreeChartNode {
         relayout();
     }
 
+    protected void updateGraph() {
+        double t = ( System.currentTimeMillis() - t0 ) / 1000.0;
+        double frequency = 1.0 / 10.0;
+        double sin = Math.sin( t * 2 * Math.PI * frequency );
+        Point2D.Double pt = new Point2D.Double( t / 100.0, sin );
+        dynamicJFreeChartNode.addValue( pt.getX(), pt.getY() );
+    }
 
     public DynamicJFreeChartNode getDynamicJFreeChartNode() {
         return dynamicJFreeChartNode;
@@ -161,13 +164,17 @@ public class TestDynamicJFreeChartNode {
         dynamicJFreeChartNode.setBounds( 0, pSwing.getFullBounds().getHeight(), phetPCanvas.getWidth(), phetPCanvas.getHeight() - pSwing.getFullBounds().getHeight() );
     }
 
-    public static void main( String[] args ) {
-        new TestDynamicJFreeChartNode().start();
-    }
-
     public void start() {
         frame.setVisible( true );
         timer.start();
         phetPCanvas.requestFocus();
+    }
+
+    public double getInitialTime() {
+        return t0;
+    }
+
+    public static void main( String[] args ) {
+        new TestDynamicJFreeChartNode().start();
     }
 }
