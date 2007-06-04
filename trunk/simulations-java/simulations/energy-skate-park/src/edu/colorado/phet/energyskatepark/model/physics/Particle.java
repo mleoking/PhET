@@ -724,7 +724,7 @@ public class Particle implements Serializable {
         listeners.add( listener );
     }
 
-    public void notifyListeners() {
+    private void notifyListeners() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.particleChanged();

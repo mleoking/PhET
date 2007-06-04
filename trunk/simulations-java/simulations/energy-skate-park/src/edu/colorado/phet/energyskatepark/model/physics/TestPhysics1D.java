@@ -1,6 +1,5 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -343,17 +342,6 @@ public class TestPhysics1D extends JFrame {
         controlFrame.pack();
         controlFrame.setLocation( this.getX() + this.getWidth(), this.getY() );
         controlFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-    }
-
-    private double getOffsetEnergy() {
-        if( particle.getParticle1D().getCubicSpline2D() == null ) {
-            return Double.NaN;
-        }
-        double R = Math.abs( particle.getParticle1D().getRadiusOfCurvature() );//todo: should this be allowed to be negative?
-        double L = splineLayer.getOffsetDistance();
-        AbstractVector2D vec = particle.getParticle1D().getSideVector().getScaledInstance( L ).getAddedInstance( particle.getX(), particle.getY() );
-        double offE1 = particle.getKineticEnergy() * ( R + L ) / R + particle.getPotentialEnergy() + particle.getMass() * particle.getGravity() * vec.getY();
-        return offE1;
     }
 
     public Particle getParticle() {

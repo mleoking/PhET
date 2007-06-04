@@ -62,24 +62,14 @@ public class SplineLayer extends PNode {
         if( getChildrenCount() == 0 ) {
             return false;
         }
-        if( ( (ParametricFunction2DNode)getChild( 0 ) ).isNormalsVisible() ) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return ( (ParametricFunction2DNode)getChild( 0 ) ).isNormalsVisible();
     }
 
     public boolean isCurvatureVisible() {
         if( getChildrenCount() == 0 ) {
             return false;
         }
-        if( ( (ParametricFunction2DNode)getChild( 0 ) ).isCurvatureVisible() ) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return ( (ParametricFunction2DNode)getChild( 0 ) ).isCurvatureVisible();
     }
 
     public void setCurvatureVisible( boolean selected ) {

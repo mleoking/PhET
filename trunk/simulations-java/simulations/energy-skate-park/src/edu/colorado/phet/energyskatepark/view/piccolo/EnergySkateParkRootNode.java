@@ -45,7 +45,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private boolean ignoreThermal = true;
     private PauseIndicatorNode pauseIndicator;
     private EnergySkateParkLegend legend;
-    private BackgroundScreenNode screenBackground;
+    private BackgroundScreenNode backgroundScreenNode;
     private SplineToolboxNode splineToolbox;
     private FloorNode floorNode;
     private ZeroPointPotentialNode zeroPointPotentialNode;
@@ -79,7 +79,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         pauseIndicator = new PauseIndicatorNode( module );
         legend = new EnergySkateParkLegend( module );
         floorNode = new FloorNode( module, getModel(), floor );
-        screenBackground = new BackgroundScreenNode( simulationPanel, null, floorNode, this );
+        backgroundScreenNode = new BackgroundScreenNode( simulationPanel, null, floorNode );
         zeroPointPotentialNode = new ZeroPointPotentialNode( simulationPanel, energySkateParkModel );
 
         gridNode = new GridNode( -50, -150, 100, 150, 1, 1 );
@@ -106,7 +106,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             }
         } );
 
-        addScreenChild( screenBackground );
+        addScreenChild( backgroundScreenNode );
         addScreenChild( splineToolbox );
 
         addWorldChild( houseNode );
@@ -131,7 +131,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         resetDefaults();
         simulationPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                screenBackground.update();
+                backgroundScreenNode.update();
             }
         } );
         setZeroPointVisible( false );
@@ -190,8 +190,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     private void updateHouseAndMountainVisible() {
-        houseNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH && getBackground().getVisible() );
-        mountainNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH && getBackground().getVisible() );
+        houseNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH && getBackgroundScreenNode().getVisible() );
+        mountainNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH && getBackgroundScreenNode().getVisible() );
     }
 
     private void showAll( PNode node ) {
@@ -213,12 +213,12 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         energyErrorIndicatorNode.setOffset( insetX, simulationPanel.getHeight() - insetY - energyErrorIndicatorNode.getFullBounds().getHeight() );
     }
 
-    public BackgroundScreenNode getBackground() {
-        return screenBackground;
+    private BackgroundScreenNode getBackgroundScreenNode() {
+        return backgroundScreenNode;
     }
 
     public void setBackground( BufferedImage image ) {
-        screenBackground.setBackground( image );
+        backgroundScreenNode.setBackground( image );
     }
 
     private void resetDefaults() {
@@ -436,7 +436,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public void setBackgroundVisible( boolean selected ) {
-        getBackground().setVisible( selected );
+        getBackgroundScreenNode().setVisible( selected );
         updateHouseAndMountainVisible();
     }
 

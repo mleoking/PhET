@@ -34,7 +34,7 @@ public class EnergySkateParkTrackMenu extends JMenu {
     }
 
     private static EnergySkateParkTestMenu.TestItem[] getTests() {
-        EnergySkateParkTestMenu.TestItem[] testItems = new EnergySkateParkTestMenu.TestItem[]{
+        return new EnergySkateParkTestMenu.TestItem[]{
                 new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/loop.esp", "Loop" ),
                 new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/double-well.esp", "Double Well" ),
                 new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/double-well-rc.esp", "Double Well (Roller Coaster)" ),
@@ -42,6 +42,5 @@ public class EnergySkateParkTrackMenu extends JMenu {
                 new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/jump.esp", "Jump" ),
                 new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/strack4.esp", "S-Curve" ),
         };
-        return testItems;
     }
 }

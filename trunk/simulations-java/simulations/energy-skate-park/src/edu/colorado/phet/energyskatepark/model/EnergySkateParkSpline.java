@@ -187,7 +187,7 @@ public class EnergySkateParkSpline implements Serializable {
         listeners.remove( listener );
     }
 
-    public void notifyRollerCoasterModeChanged() {
+    private void notifyRollerCoasterModeChanged() {
         createListenerArray();
         for( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener)listeners.get( i ) ).rollerCoasterModeChanged();

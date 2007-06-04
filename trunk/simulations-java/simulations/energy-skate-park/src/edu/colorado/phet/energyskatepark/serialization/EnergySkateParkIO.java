@@ -48,7 +48,7 @@ public class EnergySkateParkIO {
         return out.toString();
     }
 
-    public static void open( EnergySkateParkModule module ) throws UnavailableServiceException, IOException, ClassNotFoundException {
+    public static void open( EnergySkateParkModule module ) throws UnavailableServiceException, IOException {
         FileOpenService fos = PhetServiceManager.getFileOpenService( module.getEnergySkateParkSimulationPanel() );
         FileContents open = fos.openFileDialog( null, null );
         if( open == null ) {

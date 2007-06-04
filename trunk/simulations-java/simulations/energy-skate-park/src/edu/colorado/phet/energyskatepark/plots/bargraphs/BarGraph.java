@@ -159,7 +159,7 @@ public class BarGraph extends PNode {
             return new Line2D.Double( 0, barChartHeight, background.getFullBounds().getWidth(), barChartHeight );
         }
 
-        public void setBarChartHeight( double baselineY ) {
+        public void setBarChartHeight() {
             path.setPathTo( createLinePath() );
         }
     }
@@ -186,7 +186,7 @@ public class BarGraph extends PNode {
             }
         }
 
-        public void setBarChartHeight( double baselineY ) {
+        public void setBarChartHeight() {
             path.setPathTo( createShape() );
         }
     }

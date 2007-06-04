@@ -89,7 +89,7 @@ public class SplineToolboxNode extends PNode {
         centerTheNode();
     }
 
-    public void centerTheNode() {
+    private void centerTheNode() {
         draggableIcon.setScale( 60 );
         draggableIcon.setOffset( boundGraphic.getFullBounds().getWidth() / 2 - draggableIcon.getFullBounds().getWidth() / 2, boundGraphic.getFullBounds().getHeight() / 2 );
     }

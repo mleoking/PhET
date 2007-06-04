@@ -36,8 +36,6 @@ public class SkaterNode extends PNode {
     private PPath centerDebugger;
     protected boolean debugCenter = true;
 
-    private PPath feetDebugger;
-    private boolean debugFeet = false;
     private PNode jetPackNode;
     private BufferedImage jetPackImage;
     private BufferedImage skaterImage;
@@ -73,11 +71,6 @@ public class SkaterNode extends PNode {
         }
         catch( IOException e ) {
             e.printStackTrace();
-        }
-
-        feetDebugger = new PhetPPath( Color.green );
-        if( debugFeet ) {
-            addChild( feetDebugger );
         }
 
         centerDebugger = new PhetPPath( Color.red );
@@ -148,7 +141,7 @@ public class SkaterNode extends PNode {
         this.body.addListener( bodyListener );
     }
 
-    public void update() {
+    private void update() {
         updateSkaterTransform();
 
         jetPackNode.setVisible( body.getThrust().getMagnitude() > 0 );
@@ -157,7 +150,6 @@ public class SkaterNode extends PNode {
         double ellipseWidth = 0.1 * 0.85;
         Ellipse2D.Double aShape = new Ellipse2D.Double( body.getCenterOfMass().getX() - ellipseWidth / 2, body.getCenterOfMass().getY() - ellipseWidth / 2, ellipseWidth, ellipseWidth );
         centerDebugger.setPathTo( aShape );
-        feetDebugger.setPathTo( body.getFeetShape() );
     }
 
     private void updateJetPackTransform() {

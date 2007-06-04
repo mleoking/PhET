@@ -288,7 +288,7 @@ public class Body implements Serializable {
         return getTransform().createTransformedShape( new Rectangle2D.Double( 0, height * ( 1 - feetFraction ), width, height * feetFraction ) );
     }
 
-    public AffineTransform getTransform() {
+    private AffineTransform getTransform() {
         AffineTransform transform = new AffineTransform();
         double dy = getHeight();
         transform.translate( getPosition().getX() - getWidth() / 2, getPosition().getY() - dy );
@@ -375,7 +375,7 @@ public class Body implements Serializable {
         listeners.remove( listener );
     }
 
-    public void setDimension( double modelWidth, double modelHeight ) {
+    private void setDimension( double modelWidth, double modelHeight ) {
         this.width = modelWidth;
         this.height = modelHeight;
         notifyDimensionChanged();
@@ -422,9 +422,9 @@ public class Body implements Serializable {
     }
 
     public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
+        this.skaterCharacter = skaterCharacter;
         setDimension( skaterCharacter.getModelWidth(), skaterCharacter.getModelHeight() );
         setMass( skaterCharacter.getMass() );
-        this.skaterCharacter = skaterCharacter;
         notifySkaterCharacterChanged();
     }
 
@@ -473,7 +473,7 @@ public class Body implements Serializable {
 //        System.out.println( "Body: listeners.size() = " + listeners.size() );
     }
 
-    protected void notifyThrustChanged() {
+    private void notifyThrustChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.thrustChanged();

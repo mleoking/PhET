@@ -8,8 +8,8 @@ import org.jfree.chart.axis.ValueAxis;
  * May 22, 2007, 3:56:28 AM
  */
 public abstract class DefaultZoomControl extends ZoomControlNode {
-    protected int zoom = 0;
-    protected ValueAxis axis;
+    private int zoom = 0;
+    private ValueAxis axis;
 
     public DefaultZoomControl( int orientation, ValueAxis axis ) {
         super( orientation );
@@ -39,4 +39,8 @@ public abstract class DefaultZoomControl extends ZoomControlNode {
     }
 
     protected abstract void updateZoom();
+
+    public void setZoom( int zoom ) {
+        this.zoom = zoom;
+    }
 }
