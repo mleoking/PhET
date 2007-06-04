@@ -37,7 +37,8 @@ public class SkaterCharacter implements Serializable {
                    sc.mass == mass &&
                    sc.modelHeight == modelHeight &&
                    sc.heightDivisor == heightDivisor;
-        }else{
+        }
+        else {
             return false;
         }
     }

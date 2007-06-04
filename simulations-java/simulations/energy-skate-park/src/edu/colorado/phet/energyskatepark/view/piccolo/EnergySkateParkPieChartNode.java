@@ -41,7 +41,7 @@ public class EnergySkateParkPieChartNode extends PNode {
             public void energyChanged() {
                 update();
             }
-        });
+        } );
     }
 
     private Rectangle createPieRect() {

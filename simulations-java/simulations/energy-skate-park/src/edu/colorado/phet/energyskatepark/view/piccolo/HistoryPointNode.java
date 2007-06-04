@@ -3,7 +3,6 @@ package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.energyskatepark.model.HistoryPoint;
-import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

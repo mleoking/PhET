@@ -8,8 +8,8 @@ import java.util.Hashtable;
 
 /**
  * Author: Sam Reid
-* Jun 1, 2007, 2:27:44 PM
-*/
+ * Jun 1, 2007, 2:27:44 PM
+ */
 public class TimeSpeedSlider extends LinearValueControl {
     private EnergySkateParkClock energySkateParkClock;
 
@@ -31,6 +31,6 @@ public class TimeSpeedSlider extends LinearValueControl {
     }
 
     private void update( EnergySkateParkClock energySkateParkClock ) {
-        setValue( energySkateParkClock.getTimingStrategy().getSimulationTimeChangeForPausedClock());
+        setValue( energySkateParkClock.getTimingStrategy().getSimulationTimeChangeForPausedClock() );
     }
 }

@@ -5,10 +5,10 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
+import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.TrackWithFriction;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
-import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
 
 import java.io.Serializable;
 import java.util.List;
