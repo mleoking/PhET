@@ -1,8 +1,8 @@
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.energyskatepark.view.swing.PanZoomControl;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
+import edu.colorado.phet.energyskatepark.view.swing.PanZoomControl;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**

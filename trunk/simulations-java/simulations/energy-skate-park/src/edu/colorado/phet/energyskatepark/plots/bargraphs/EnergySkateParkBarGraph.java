@@ -35,8 +35,8 @@ public class EnergySkateParkBarGraph extends BarGraph {
             public void primaryBodyChanged() {
                 update();
             }
-        });
-        
+        } );
+
     }
 
     public static Variable[] toVariableArray( final ValueAccessor[] energyAccess, final EnergySkateParkModel energySkateParkModel ) {

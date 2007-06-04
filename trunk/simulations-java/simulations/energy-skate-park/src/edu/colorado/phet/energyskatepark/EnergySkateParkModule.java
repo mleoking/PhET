@@ -18,7 +18,6 @@ import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTimePanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid

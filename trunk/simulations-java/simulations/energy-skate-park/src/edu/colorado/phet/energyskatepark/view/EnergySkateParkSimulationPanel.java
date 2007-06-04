@@ -8,7 +8,6 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.*;
 import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
 import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
-import edu.colorado.phet.energyskatepark.view.piccolo.SkaterNode;
 import edu.colorado.phet.energyskatepark.view.piccolo.SplineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -375,7 +374,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         void zeroPointEnergyVisibilityChanged();
     }
 
-    public static class Adapter implements Listener{
+    public static class Adapter implements Listener {
 
         public void zoomChanged() {
         }

@@ -122,8 +122,8 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
     }
 
     public void translate( double dx, double dy ) {
-        if (dx!=0||dy!=0){
-        parametricFunction2D.translateControlPoints( dx, dy );
+        if( dx != 0 || dy != 0 ) {
+            parametricFunction2D.translateControlPoints( dx, dy );
             notifyControlPointsChanged();
         }
     }

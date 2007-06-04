@@ -131,7 +131,7 @@ public class EnergySkateParkModuleBean {
             body.setMass( mass );
 
             if( restorePoint != null ) {
-                Body restored = new Body( body.getWidth(), body.getHeight(), body.getParticleStage(), body.getGravity(), body.getZeroPointPotentialY(),body.getSkaterCharacter() );
+                Body restored = new Body( body.getWidth(), body.getHeight(), body.getParticleStage(), body.getGravity(), body.getZeroPointPotentialY(), body.getSkaterCharacter() );
                 restorePoint.apply( restored );
                 body.setRestorePoint( restored );
             }

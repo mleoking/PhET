@@ -7,8 +7,8 @@ import java.awt.*;
 
 /**
  * Author: Sam Reid
-* Jun 3, 2007, 3:34:07 PM
-*/
+ * Jun 3, 2007, 3:34:07 PM
+ */
 public class EnergySkateParkFrameSetup implements FrameSetup {
     public void initialize( JFrame frame ) {
         if( Toolkit.getDefaultToolkit().getScreenSize().height <= 768 ) {

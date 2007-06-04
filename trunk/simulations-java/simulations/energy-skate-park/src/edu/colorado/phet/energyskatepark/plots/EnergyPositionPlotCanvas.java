@@ -1,10 +1,10 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.plots;
 
+import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.SavedGraph;

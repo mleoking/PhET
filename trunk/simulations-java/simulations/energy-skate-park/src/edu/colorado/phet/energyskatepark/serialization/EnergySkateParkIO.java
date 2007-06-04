@@ -26,7 +26,7 @@ import java.io.InputStream;
 public class EnergySkateParkIO {
 
     public static void save( EnergySkateParkModule module ) throws UnavailableServiceException, IOException {
-        Component component=module.getEnergySkateParkSimulationPanel();
+        Component component = module.getEnergySkateParkSimulationPanel();
         String xml = toXMLString( module );
         System.out.println( "xml = " + xml );
         InputStream stream = new ByteArrayInputStream( xml.getBytes() );
@@ -49,7 +49,7 @@ public class EnergySkateParkIO {
     }
 
     public static void open( EnergySkateParkModule module ) throws UnavailableServiceException, IOException, ClassNotFoundException {
-        FileOpenService fos = PhetServiceManager.getFileOpenService( module.getEnergySkateParkSimulationPanel( ) );
+        FileOpenService fos = PhetServiceManager.getFileOpenService( module.getEnergySkateParkSimulationPanel() );
         FileContents open = fos.openFileDialog( null, null );
         if( open == null ) {
             return;
