@@ -4,63 +4,53 @@ package edu.colorado.phet.opticaltweezers.model;
 
 public class DNAPivot {
 
-    private double yOffset;
-    private double xOffset;
-    private double xVelocity, yVelocity;
-    private double xAcceleration, yAcceleration;
+    private double _x, _y;
+    private double _xVelocity, _yVelocity;
+    private double _xAcceleration, _yAcceleration;
 
-    public DNAPivot( double xOffset, double yOffset ) {
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
-        xVelocity = yVelocity = 0;
-        xAcceleration = yAcceleration = 0;
-    }
-
-    public double getXOffset() {
-        return xOffset;
-    }
-
-    public void setXOffset( double offset ) {
-        xOffset = offset;
+    public DNAPivot( double x, double y ) {
+        _x = x;
+        _y = y;
+        _xVelocity = _yVelocity = 0;
+        _xAcceleration = _yAcceleration = 0;
     }
     
-    public double getYOffset() {
-        return yOffset;
+    public void setPosition( double x, double y ) {
+        _x = x;
+        _y = y;
+    }
+
+    public double getX() {
+        return _x;
+    }
+ 
+    public double getY() {
+        return _y;
     }
     
-    public void setYOffset( double offset ) {
-        yOffset = offset;
+    public void setVelocity( double xVelocity, double yVelocity ) {
+        _x = xVelocity;
+        _yVelocity = yVelocity;
     }
     
     public double getXVelocity() {
-        return xVelocity;
-    }
-    
-    public void setXVelocity( double vx ) {
-        this.xVelocity = vx;
+        return _xVelocity;
     }
     
     public double getYVelocity() {
-        return yVelocity;
+        return _yVelocity;
     }
-    
-    public void setYVelocity( double vy ) {
-        this.yVelocity = vy;
+
+    public void setAcceleration( double xAcceleration, double yAcceleration ) {
+        _xAcceleration = xAcceleration;
+        _yAcceleration = yAcceleration;
     }
     
     public double getXAcceleration() {
-        return xAcceleration;
-    }
-
-    public void setXAcceleration( double ax ) {
-        this.xAcceleration = ax;
+        return _xAcceleration;
     }
 
     public double getYAcceleration() {
-        return yAcceleration;
-    }
-
-    public void setYAcceleration( double ay ) {
-        this.yAcceleration = ay;
+        return _yAcceleration;
     }
 }
