@@ -5,6 +5,8 @@ Reworded “Record Path” to “Show Path”
 "Playback" auto-restarts playback timer if already at the end of the sequence.
 Change of character is correctly recorded and played back.
 Added an ellipsis for menu items or buttons that pop up a dialog
+Fixed: On the tracks that open in roller coaster mode, when you right click, you cannot change the mode
+Fixed: "Bring back the skater" button should have setopaque false for mac
 Internal changes:
     -Fixed: Splines are using manual copy methods, should be using serialization
 
