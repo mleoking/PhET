@@ -190,11 +190,6 @@ public class Particle implements Serializable {
         return frictionCoefficient;
     }
 
-    public void resetAngle() {
-        this.angle = DEFAULT_ANGLE;
-        update();
-    }
-
     public TraversalState getTrackMatch( double dx, double dy ) {
         boolean[] above = getOrigAbove();
         SearchState crossPoint = getBestCrossPoint( new SerializablePoint2D( getPosition().getX() + dx, getPosition().getY() + dy ), getOrigAbove(), getPosition() );

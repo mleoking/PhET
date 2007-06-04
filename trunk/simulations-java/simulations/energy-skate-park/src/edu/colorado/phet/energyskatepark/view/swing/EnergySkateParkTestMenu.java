@@ -15,11 +15,9 @@ import java.awt.event.ActionListener;
  */
 
 public class EnergySkateParkTestMenu extends EnergySkateParkTrackMenu {
-    private EnergySkateParkApplication parentApp;
 
     public EnergySkateParkTestMenu( final EnergySkateParkApplication parentApp ) {
         super( "Tests", parentApp, createTestItems() );
-        this.parentApp = parentApp;
 
         addSeparator();
         JMenuItem jMenuItem = new JMenuItem( "New Spline" );

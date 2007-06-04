@@ -65,16 +65,6 @@ public class BarGraph extends PNode {
         return new Font( "Lucida Sans", Font.BOLD, 18 );
     }
 
-    public void setBarChartHeight( double baselineY ) {
-        this.barChartHeight = baselineY;
-        xAxis.setBarChartHeight( baselineY );
-        yAxis.setBarChartHeight( baselineY );
-        for( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
-            BarGraphic2D barGraphic2D = (BarGraphic2D)barLayer.getChild( i );
-            barGraphic2D.setBarHeight( baselineY );
-        }
-    }
-
     public static class Variable {
         private String name;
         private double value;
