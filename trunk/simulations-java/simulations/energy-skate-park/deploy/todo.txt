@@ -6,6 +6,8 @@ Questions:
 	One performance optimization we can do for this simulation would be to cache values for points on the spline after user has stopped manipulating it (tradeoff processor usage for memory usage).  However, this would be nontrivial work, and I'm not sure it would pay off.  I would do a feasibility test to make sure enough track data can be cached at high enough resolution to make this effective.
 
 To Do:
+• Dropping the character outside of the visible range, and then pressing "return the character" returns him to the same offscreen location.
+    -This makes it very difficult to retrieve the character.
 • "Bar Graph" button and "Bar Chart" window have different text.
 • Bug: On the tracks that open in roller coaster mode, when you right click, you cannot change the mode
 • When I open the Energy vs Position graph, the performance rapidly decreases.
