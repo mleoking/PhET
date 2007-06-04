@@ -86,7 +86,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyPositionPlotFrame.setContentPane( energyPositionCanvas );
         energyPositionPlotFrame.setSize( 400, 400 );
 
-        EnergySkateParkTimePanel timePanel = new EnergySkateParkTimePanel( this, timeSeriesModel, clock );
+        EnergySkateParkTimePanel timePanel = new EnergySkateParkTimePanel( this, clock );
         getModulePanel().setClockControlPanel( timePanel );
 
         setDefaults();
@@ -204,10 +204,6 @@ public class EnergySkateParkModule extends PiccoloModule {
         for( int i = 0; i < getEnergySkateParkModel().getNumBodies(); i++ ) {
             getEnergySkateParkModel().getBody( i ).setFrictionCoefficient( value );
         }
-    }
-
-    public void clearHeat() {
-        getEnergySkateParkModel().clearHeat();
     }
 
     public void setEnergyPositionPlotVisible( boolean b ) {

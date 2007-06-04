@@ -67,7 +67,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         Floor floor = energySkateParkModel.getFloor();
 
         simulationPanel.setBackground( SKY_COLOR );
-        splineToolbox = new SplineToolboxNode( simulationPanel, this );
+        splineToolbox = new SplineToolboxNode( simulationPanel );
 
         measuringTape = new MeasuringTape( new ModelViewTransform2D(
                 new Rectangle( 50, 50 ), new Rectangle2D.Double( 0, 0, 50, 50 ) ),
@@ -76,7 +76,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         measuringTape.setModelSrc( new Point2D.Double( 5, 5 ) );
         measuringTape.setModelDst( new Point2D.Double( 7, 5 ) );
 
-        pauseIndicator = new PauseIndicatorNode( module, simulationPanel, this );
+        pauseIndicator = new PauseIndicatorNode( module );
         legend = new EnergySkateParkLegend( module );
         floorNode = new FloorNode( module, getModel(), floor );
         screenBackground = new BackgroundScreenNode( simulationPanel, null, floorNode, this );

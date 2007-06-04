@@ -38,7 +38,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     private EnergySkateParkRootNode rootNode;
     private double matchThresholdWorldCoordinates = 1.5 * 0.33;
     private ArrayList listeners = new ArrayList();
-    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 25;
 
     public EnergySkateParkSimulationPanel( EnergySkateParkModule module ) {
         super( new Rectangle2D.Double( 0, -1, 15, 10 ) );
@@ -107,10 +106,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         super.paintComponent( g );
     }
 
-    private void toggleFullScreen() {
-        getEnergySkateParkModule().getModulePanel().setFullScreen( !getEnergySkateParkModule().getModulePanel().isFullScreen() );
-    }
-
     private void addFocusRequest() {
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
@@ -161,10 +156,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         }
     }
 
-    public void addSplineGraphic( SplineNode splineNode ) {
-        rootNode.addSplineNode( splineNode );
-    }
-
     private void removeSkater() {
         if( getEnergySkateParkModel().getNumBodies() > 1 ) {
             energySkateParkModel.removeBody( 1 );
@@ -175,10 +166,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         Body body = module.createBody();
         module.returnSkater( body );
         energySkateParkModel.addBody( body );
-    }
-
-    public void addSkaterNode( SkaterNode skaterNode ) {
-        rootNode.addSkaterNode( skaterNode );
     }
 
     private void printControlPoints() {

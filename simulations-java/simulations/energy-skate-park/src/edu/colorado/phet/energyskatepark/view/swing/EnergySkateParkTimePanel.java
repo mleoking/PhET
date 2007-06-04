@@ -22,11 +22,9 @@ import java.awt.event.ActionListener;
  */
 public class EnergySkateParkTimePanel extends JPanel {
     private EnergySkateParkModule module;
-    private TimeSeriesModel timeSeriesModel;
 
-    public EnergySkateParkTimePanel( EnergySkateParkModule module, TimeSeriesModel timeSeriesModel, final Clock clock ) {
+    public EnergySkateParkTimePanel( EnergySkateParkModule module, final Clock clock ) {
         this.module = module;
-        this.timeSeriesModel = timeSeriesModel;
         final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, "0.00", (EnergySkateParkClock)clock );
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

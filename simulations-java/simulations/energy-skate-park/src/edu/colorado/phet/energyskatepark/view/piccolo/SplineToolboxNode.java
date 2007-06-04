@@ -28,14 +28,12 @@ import java.awt.geom.Point2D;
 public class SplineToolboxNode extends PNode {
     private EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
     private PText textGraphic;
-    private EnergySkateParkRootNode energySkateParkRootNode;
     private PNode draggableIcon;
     private PPath boundGraphic;
     private boolean created = false;
     private EnergySkateParkSpline createdSurface;
 
-    public SplineToolboxNode( final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, EnergySkateParkRootNode energySkateParkRootNode ) {
-        this.energySkateParkRootNode = energySkateParkRootNode;
+    public SplineToolboxNode( final EnergySkateParkSimulationPanel energySkateParkSimulationPanel) {
         this.energySkateParkSimulationPanel = energySkateParkSimulationPanel;
         this.draggableIcon = new PNodeFacade( createSplineGraphic() );
         draggableIcon.addInputEventListener( new CursorHandler() );
