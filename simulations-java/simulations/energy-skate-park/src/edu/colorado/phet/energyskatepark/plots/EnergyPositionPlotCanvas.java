@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.plots;
 
-import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
@@ -154,7 +154,7 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         addScreenChild( verticalBar );
         legend = new EnergySkateParkLegend( module );
         legend.addTotalEnergyEntry();
-        legend.setFont( new LucidaSansFont( 12 ) );
+        legend.setFont( new PhetDefaultFont( 12 ) );
         addScreenChild( dataLayer );
         addScreenChild( legend );
 

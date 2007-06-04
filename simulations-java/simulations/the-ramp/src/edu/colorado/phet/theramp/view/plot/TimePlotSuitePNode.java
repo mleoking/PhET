@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.LinearTransf
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.theramp.RampModule;
@@ -585,7 +585,7 @@ public class TimePlotSuitePNode extends PhetPNode {
             Point2D imagLoc = toImageLocation( t, 0 );
             PText text = new PText( "" + t );
             text.setOffset( imagLoc.getX() - text.getWidth() / 2, imagLoc.getY() );
-            text.setFont( new LucidaSansFont( 10 ) );
+            text.setFont( new PhetDefaultFont( 10 ) );
             text.fullPaint( new PPaintContext( g2 ) );
         }
     }

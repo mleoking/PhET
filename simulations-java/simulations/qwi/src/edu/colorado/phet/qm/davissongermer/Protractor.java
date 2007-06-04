@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
@@ -164,7 +164,7 @@ public class Protractor extends PhetPNode {
 
             text = new PText();
             text.setTextPaint( Color.black );
-            text.setFont( new LucidaSansFont( 16, true ) );
+            text.setFont( new PhetDefaultFont( 16, true ) );
 
             addInputEventListener( new PDragEventHandler() {
                 protected void drag( PInputEvent event ) {

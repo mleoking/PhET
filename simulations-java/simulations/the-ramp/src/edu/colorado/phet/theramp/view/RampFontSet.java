@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import java.awt.*;
 
@@ -26,12 +26,12 @@ public class RampFontSet {
     }
 
     public RampFontSet() {
-        normalButtonFont = new LucidaSansFont( 10 );
-        barGraphTitleFont = new LucidaSansFont( 12, true );
-        timeReadoutFont = new LucidaSansFont( 14, true );
+        normalButtonFont = new PhetDefaultFont( 10 );
+        barGraphTitleFont = new PhetDefaultFont( 12, true );
+        timeReadoutFont = new PhetDefaultFont( 14, true );
         speedReadoutFont = timeReadoutFont;
-        forceArrowLabelFont = new LucidaSansFont( 12, true );
-        barFont = new LucidaSansFont( 12, true );
+        forceArrowLabelFont = new PhetDefaultFont( 12, true );
+        barFont = new PhetDefaultFont( 12, true );
     }
 
     public Font getNormalButtonFont() {
