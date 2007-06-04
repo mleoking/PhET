@@ -43,7 +43,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     // Private class data
     //----------------------------------------------------------------------------
 
-    private static final double INITIAL_STRETCHINESS = 0.5; // how much the strand is stretched initially, % of contour length
+    private static final double INITIAL_STRETCHINESS = 0.9; // how much the strand is stretched initially, % of contour length
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -310,7 +310,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     }
     
     /*
-     * Evolves the strand using a "Hollywood" spring model.
+     * Evolves the strand using a "Hollywood" model.
+     * The strand is a collection of springs connected at pivot points.
      * This model was provided by Mike Dubson.
      */
     private void evolveStrand( double clockStep ) {
