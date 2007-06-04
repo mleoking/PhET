@@ -2,6 +2,7 @@ package edu.colorado.phet.energyskatepark.view.swing;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.energyskatepark.EnergySkateParkClock;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 import javax.swing.*;
 import java.util.Hashtable;
@@ -18,8 +19,8 @@ public class TimeSpeedSlider extends LinearValueControl {
         this.energySkateParkClock = energySkateParkClock;
         setTextFieldVisible( false );
         Hashtable table = new Hashtable();
-        table.put( new Double( min ), new JLabel( "slow" ) );
-        table.put( new Double( max ), new JLabel( "normal" ) );
+        table.put( new Double( min ), new JLabel( EnergySkateParkStrings.getString( "time.slow") ) );
+        table.put( new Double( max ), new JLabel( EnergySkateParkStrings.getString( "time.normal") ) );
         setTickLabels( table );
         setValue( max );
         energySkateParkClock.addListener( new EnergySkateParkClock.Listener() {

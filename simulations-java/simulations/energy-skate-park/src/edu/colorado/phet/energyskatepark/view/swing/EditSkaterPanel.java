@@ -39,14 +39,14 @@ public class EditSkaterPanel extends AdvancedPanel {
             }
         } );
 
-        final EnergySkateParkSlider stickiness = new EnergySkateParkSlider( "Stickiness", "", 0.01, 5, Body.DEFAULT_STICKINESS );
+        final EnergySkateParkSlider stickiness = new EnergySkateParkSlider( EnergySkateParkStrings.getString( "controls.skater.stickiness" ), "", 0.01, 5, Body.DEFAULT_STICKINESS );
         stickiness.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setStickiness( stickiness.getValue() );
             }
         } );
 
-        JButton revertToDefaults = new JButton( "Restore Defaults" );
+        JButton revertToDefaults = new JButton( EnergySkateParkStrings.getString( "controls.skater.restore-defaults" ) );
         revertToDefaults.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setMass( module.getSkaterCharacter().getMass() );
