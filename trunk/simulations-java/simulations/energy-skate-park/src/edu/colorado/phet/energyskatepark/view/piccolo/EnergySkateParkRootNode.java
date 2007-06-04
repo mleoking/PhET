@@ -41,7 +41,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private PNode pieChartLayer = new PNode();
 
     private MeasuringTape measuringTape;
-    private OffscreenManIndicatorNode offscreenManIndicatorNode;
+    private ReturnSkaterButtonNode returnSkaterButtonNode;
     private boolean ignoreThermal = true;
     private PauseIndicatorNode pauseIndicator;
     private EnergySkateParkLegend legend;
@@ -99,7 +99,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         houseNode = new SurfaceObjectNode( SurfaceObjectNode.HOUSE_URL, 1.5, 10 );
         mountainNode = new SurfaceObjectNode( SurfaceObjectNode.MOUNTAIN_URL, 1.5, 0.0 );
 
-        offscreenManIndicatorNode = new OffscreenManIndicatorNode( simulationPanel, module, null );
+        returnSkaterButtonNode = new ReturnSkaterButtonNode( simulationPanel, module, null );
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void gravityChanged() {
                 updateHouseAndMountainVisible();
@@ -122,7 +122,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addScreenChild( pauseIndicator );
         addScreenChild( legend );
         addScreenChild( zeroPointPotentialNode );
-        addScreenChild( offscreenManIndicatorNode );
+        addScreenChild( returnSkaterButtonNode );
 
         addWorldChild( gridNode );
 
@@ -308,7 +308,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         }
         if( skaterNodeLayer.getChildrenCount() == 1 ) {
             initPieChart();
-            offscreenManIndicatorNode.setSkaterNode( getSkaterNode( 0 ) );
+            returnSkaterButtonNode.setSkaterNode( getSkaterNode( 0 ) );
         }
     }
 
