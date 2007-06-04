@@ -14,7 +14,7 @@
             
             print <<<EOT
                 <div class="field">
-                    <span class="label">Email:</span>
+                    <span class="label">email</span>
                     <span class="label_content">
                         <input type="text" name="contributor_email" id="contributor_email_uid" value="$contributor_email" onchange="javascript:on_email_change();" onkeyup="javascript:on_email_change();"/>
                         
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="field">
-                    <span class="label">Password:</span>
+                    <span class="label">password</span>
                     <span class="label_content">
                         <input type="password" name="contributor_password" id="contributor_password_uid" onchange="javascript:on_password_change();" onkeyup="javascript:on_password_change();"/>
                         
@@ -37,7 +37,7 @@ EOT;
         else {
             print <<<EOT
                 <div class="field">
-                    <span class="label">Email:</span>
+                    <span class="label">email</span>
                     <span class="label_content">
                         <input type="text" name="contributor_email" id="contributor_email_uid" onchange="javascript:on_email_change();"/>
                         
@@ -47,7 +47,7 @@ EOT;
                 </div>
                 
                 <div class="field">
-                    <span class="label">Desired Password:</span>
+                    <span class="label">choose password</span>
                     <span class="label_content">
                         <input type="password" name="contributor_password" id="contributor_password_uid" />
                         
@@ -57,7 +57,7 @@ EOT;
                 </div>
                 
                 <div class="field">
-                    <span class="label">Organization:</span>
+                    <span class="label">organization</span>
                     <span class="label_content">
                         <input type="text" name="contributor_organization" id="contributor_organization_uid" />
                     </span>

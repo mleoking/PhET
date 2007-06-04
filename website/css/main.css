@@ -35,6 +35,9 @@ p {
 a img {
 	border:none;
 }
+td {
+	padding: 0.5ex;
+}
 hr {
 	border-collapse:collapse;
 	border:0;
@@ -85,19 +88,21 @@ hr {
 }
 
 #nationalstandards table {
-	border: 0 0 0 0;
+	border-style:   none;
+	border: 		0;
+	margin:  		1em;
+	padding: 		0;
 	border-collapse:collapse;
-	width:100%;
+	position: 		relative; 
+	margin-left: 	auto; 
+	margin-right: 	auto;
 }
 #nationalstandards table thead td, 
 #nationalstandards table tbody td {
-	background-color: transparent;
-	border-left: none;
-	border-top: none;
-	border-bottom: none;
-	border-right: none;
-	text-align:center;
-	vertical-align:top;
+	border-style:   	none;
+	background-color:   transparent;
+	text-align:			center;
+	vertical-align:		top;
 }
 #nationalstandards table thead {
 	font-weight: bold;
@@ -209,37 +214,22 @@ span.validation-failure {
     font-weight:bold;
 }
 
-div.field {
-	clear:  right;
-	width:  100%;
-	margin: 0 0 0 0;
-	border: 0 0 0 0;
-	padding: 5px 0 5px 0;
+.field {
+	clear:   right;
+	width:   100%;
+	border:  0;
+	margin:  0;
+	padding: 0.5ex 0 0.5ex 0;
 }
-div.field .label {
-	float: 			left;
+.field .label {
 	width: 			25%;
     font-weight:	bold;	
 }
-div.field .label_content, div.field .right_label_content {
+.field .label_content {
 	float: right;
 	width: 75%;
 }
-div.field .left_label_content {
-	float: none;
-	width: 37%;
-}
-div.field .right_label {
-	float: 			none;
-    font-weight:	bold;	
-	margin-left:	5em;
-}
-div.field .right_label_content {
-	float: none;
-	width: 38%;
-	margin-left: 3em;
-}
-div.comments {
+.comments {
 	margin-top: 10px;
 }
 
@@ -249,7 +239,7 @@ div.comments {
     padding:	0px 0px 25px 0px;	
 	border: 	0 0 0 0;
 }
-#browsefilter table, thead, tbody {
+#browsefilter table, #browsefilter thead, #browsefilter tbody {
 	border-style: none;
 }
 #browsefilter td, #browsefilter tr {
@@ -274,10 +264,13 @@ div.comments {
 	float: right;
 }
 
-div .separator {
-	width: 100%;
-	clear: right;
-	height: 5px;
+div.separator {
+	margin:   0;
+	padding:  0;
+	width:    100%;
+	clear:    right;
+	position: relative;
+	height:   5px;
 }
 
 /******** Contribution edit form *********/
@@ -292,7 +285,7 @@ div .separator {
 #contributioneditform legend {
     font-weight:bold;
     font-size: 14pt;
-}
+}/*
 #contributioneditform label, p {
     display:		block;
 	clear:			right;
@@ -302,7 +295,7 @@ div .separator {
 #contributioneditform input, #contributioneditform textarea {
     border:			1px solid #999999;
     background:		#CCCCCC;
-}
+}*/
 #contributioneditform .multiselector {
 	width:          500px;
     float:			right;
@@ -398,15 +391,16 @@ div .separator {
 *//******** =footer ********/
 #footer {
 }
-p.footer {
-	color:#000;
-	font-size:14px;
-	text-align:center;
+#footer p.footer {
+	color:		black;
+	font-size:	14px;
+	clear:      right;
+	text-align:	center;
 }
-p.footer a,p.footer a:visited {
+#footer p.footer a, #footer p.footer a:visited {
 	color:#900;
 }
-p.footer a:hover {
+#footer p.footer a:hover {
 	color: #666;
 }
 /******** =content ********/
@@ -730,29 +724,11 @@ caption {
 	font:italic 11px "arial",Verdana,Arial,Helvetica,sans-serif;
 	text-align:left;
 }
-th {
-	font:bold 11px "arial",Verdana,Arial,Helvetica,sans-serif;
-	color:#4f6b72;
-	border-right:1px solid #C1DAD7;
-	border-bottom:1px solid #C1DAD7;
-	border-top:1px solid #C1DAD7;
-	letter-spacing:2px;
-	text-transform:uppercase;
-	text-align:left;
-	padding:6px 6px 6px 12px;
-	background:#CAE8EA url(../images/bg_header.jpg) no-repeat;
-}
 th.nobg {
 	border-top:0;
 	border-left:0;
 	border-right:1px solid #C1DAD7;
 	background:none;
-}
-td {
-	border-right:1px solid #C1DAD7;
-	border-bottom:1px solid #C1DAD7;
-	padding:6px 6px 6px 12px;
-	color:#4f6b72;
 }
 td.alt {
 	background:#F5FAFA;
@@ -1011,48 +987,60 @@ img.sponsors {
 	color: 			  white;
 }
 
+#content #keywords .keywordlist {
+	padding:        0;
+	margin: 		0;	
+}
+#content #keywords a {
+	position: 			relative;
+	margin-left:  		0px;
+	margin-right: 		10px;
+	font-style: 		normal;
+	font-weight: 		normal;	
+	text-align:   		right;
+}
 
 #content #floatingkeywords .keywordlist {
-	width:          300px;
-	margin: 		0;
-	margin-top: 	5px;	
-	font-size:  	9pt;
-	float:          right;
-	text-align:   	right;
+	width:          	300px;
+	margin: 			0;
+	padding: 			0;
+	margin-top: 		5px;		
+	float:          	right;
 }
-#content #floatingkeywords .keywordlist span {
-	margin-left:  5px;
-	margin-right: 5px;
+#content #floatingkeywords .keywordlist a {
+	position: 			relative;
+	margin-left:  		0px;
+	margin-right: 		10px;
+	color: 				rgb(120, 120, 120);	
+	font-size:  		9pt;
+	font-style: 		normal;
+	font-weight: 		normal;	
+	text-align:   		right;
+	text-decoration: 	none;
 }
-#content #floatingkeywords .keywordlist span a:link{
+#content #floatingkeywords .keywordlist a:link {
 	font-style: 		normal;
 	color: 				rgb(120, 120, 120);
-	text-decoration: 	none;	
-	font-weight: 		normal;
 }
-#content #floatingkeywords .keywordlist span a:visited {
+#content #floatingkeywords .keywordlist a:visited {
 	font-style: 		normal;
 	color: 				rgb(120, 120, 120);
-	text-decoration: 	none;	
-	font-weight: 		normal;
 }
-#content #floatingkeywords .keywordlist span a:hover {
+#content #floatingkeywords .keywordlist a:hover {
 	font-style: 		normal;	
 	color: 				rgb(25, 25, 25);
 	text-decoration: 	underline;	
-	font-weight: 		normal;
 }
-#content #floatingkeywords .keywordlist span a:active {
+#content #floatingkeywords .keywordlist a:active {
 	color: 				black;
 	text-decoration: 	underline;	
-	font-weight: 		normal;
 }
 
 
 #content .compact table {
 	width:				558px;
 	background-color: 	transparent;
-	padding: 		  	0 10px 0 10px;
+	padding: 		  	5px 10px 20px 10px;
 	border:				none;
 }
 #content .compact table td {

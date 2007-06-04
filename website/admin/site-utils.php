@@ -292,7 +292,9 @@ EOT;
         print <<<EOT
                         </div>
                         
-                        <p class="footer">© 2007 PhET. All rights reserved.</p><br />
+                        <div id="footer">
+                            <p class="footer">© 2007 PhET. All rights reserved.</p>
+                        </div>
                     </div>
                 </div>
             </body>

@@ -5,6 +5,8 @@
     include_once("../admin/contrib-utils.php");
     include_once("../admin/site-utils.php");
     
+    // Cannot require user login:
+    $g_login_required = false;
     include_once("../teacher_ideas/user-login.php");
 
     $sim_id             = $_REQUEST['sim_id'];
@@ -21,10 +23,16 @@
     $type     = $file['type'];
     $tmp_name = $file['tmp_name'];
     $size     = $file['size'];
-    $error    = $file['error'] !== 0;
+    $error    = $file['error'] != 0;
     
     if ($contribution_title == '') {
         $contribution_title = remove_file_extension(basename($name));
+    }
+    
+    if (!isset($contributor_id)) {
+        // The user isn't logged in yet. We'll add the contribution and change 
+        // the owner later:
+        $contributor_id = -1;
     }
     
     $contribution_id = contribution_add_new_contribution($contribution_title, $contributor_id, $tmp_name, $name);
@@ -42,7 +50,7 @@
             $type     = $file['type'];
             $tmp_name = $file['tmp_name'];
             $size     = $file['size'];
-            $error    = $file['error'] !== 0;
+            $error    = $file['error'] != 0;
             
             if (!$error){                
                 contribution_add_new_file_to_contribution($contribution_id, $tmp_name, $name);
@@ -57,25 +65,9 @@
         contribution_associate_contribution_with_simulation($contribution_id, $sim_id);
     }
     
-    $sims_page    = "../simulations/sims.php?sim_id=$sim_id";    
-    $edit_contrib = "$prefix/teacher_ideas/edit-contribution.php?contribution_id=$contribution_id&amp;referrer=$sims_page;sim_id=$sim_id";
+    $sims_page    = "\"../simulations/sims.php?sim_id=$sim_id\"";
+    $edit_contrib = "$prefix/teacher_ideas/edit-contribution.php?contribution_id=$contribution_id&amp;sim_id=$sim_id&amp;referrer=$sims_page";
     
-    // Redirect to contribution editing page:
-    force_redirect("$edit_contrib", 7);
-    
-    function print_content() {
-        global $edit_contrib;
-        
-        print <<<EOT
-        <h1>New Contribution</h1>
-        
-        <p>Your contribution has been successfully submitted to PhET.</p>
-        
-        <p>On the next page, you will have the chance to edit your contribution or specify additional information.</p>
-        
-        <p><a href="$edit_contrib">Proceed to the next page.</a></p>
-EOT;
-    }
-    
-    print_site_page('print_content', 2);
+    // Immediately redirect to contribution editing page:
+    force_redirect("$edit_contrib", 0);
 ?>

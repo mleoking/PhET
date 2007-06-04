@@ -269,33 +269,40 @@ EOT;
         }
     }
     
-    function contribution_print_full_edit_form($contribution_id, $script, $referrer, $optional_message = null) {
+    function contribution_print_full_edit_form($contribution_id, $script, $referrer) {
         $contribution = contribution_get_contribution_by_id($contribution_id);
         
         eval(get_code_to_create_variables_from_array($contribution));
         
+        $contribution_authors_organization = '';
+        $contribution_contact_email        = '';
+        $contribution_authors              = '';
+        
+        if ($contributor_id == -1) {
+            // The contribution didn't have any owner; assume the owner is the current editor:
+            $contributor_id = $GLOBALS['contributor_id'];
+        }
+                
         // Set reasonable defaults:
-        if (!isset($contribution_authors_organization) || $contribution_authors_organization == '') {
-            $contribution_authors_organization = $GLOBALS['contributor_organization'];
-        }
-        if (!isset($contribution_contact_email) || $contribution_contact_email == '') {
-            $contribution_contact_email = $GLOBALS['contributor_email'];
-        }
-        if (!isset($contribution_authors) || $contribution_authors == '') {
-            $contribution_authors = $GLOBALS['contributor_name'];
+        if (isset($contributor_id)) {
+            if (!isset($contribution_authors_organization) || $contribution_authors_organization == '') {
+                $contribution_authors_organization = $GLOBALS['contributor_organization'];
+            }
+            if (!isset($contribution_contact_email) || $contribution_contact_email == '') {
+                $contribution_contact_email = $GLOBALS['contributor_email'];
+            }
+            if (!isset($contribution_authors) || $contribution_authors == '') {
+                $contribution_authors = $GLOBALS['contributor_name'];
+            }
         }
         if (!isset($contribution_keywords) || $contribution_keywords == '' && isset($GLOBALS['sim_id'])) {
             $simulation = sim_get_simulation_by_id($GLOBALS['sim_id']);
             
             $contribution_keywords = $simulation['sim_keywords'];
-        }
-        
-        //$simulations_html = contribution_get_simulations_listing_html($contribution_id);
-            
+        }            
         
         $all_contribution_types = contribution_get_all_template_type_names();
         $contribution_types     = contribution_get_type_names_for_contribution($contribution_id);
-        
 
         print <<<EOT
             <form id="contributioneditform" method="post" action="$script" enctype="multipart/form-data">
@@ -303,57 +310,80 @@ EOT;
                     <legend>Required</legend>
 EOT;
 
-        if ($optional_message !== null) {
-            print "$optional_message";
+        if (!isset($contributor_id) || $contributor_id == -1) {
+            print <<<EOT
+                    
+                        <div class="field">
+                            <span class="label">name</span>
+                            <span class="label_content">                
+                                <input type="text" size="20" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_email_entered();"/>
+                            </span>
+                        </div>
+                
+                        <div id="required_login_info_uid">
+                    
+                        </div>
+EOT;
         }
-        
+
         print <<<EOT
-                    <label for="contribution_authors" class="required">
-                        authors:
+
+                    <div class="field">
+                        <span class="label">
+                            authors
+                        </span>
                         
-                        <span class="inputcontainer">
-                            <input type="text" name="contribution_authors"
+                        <span class="label_content">
+                            <input type="text" name="contribution_authors" 
                                 value="$contribution_authors" tabindex="1" id="contribution_authors" size="50" />
                         </span>
-                    </label>
+                    </div>
 
-                    <label for="contribution_authors_organization" class="required">
-                        organization:
+                    <div class="field">
+                        <span class="label">
+                            organization
+                        </span>
                         
-                        <span class="inputcontainer">
+                        <span class="label_content">
                             <input type="text" name="contribution_authors_organization" 
                                 value="$contribution_authors_organization" tabindex="1" id="contribution_authors_organization" size="50"/>
                         </span>
-                    </label>
+                    </div>
                     
-                    <label for="contribution_contact_email" class="required">
-                        contact email:
+                    <div class="field">
+                        <span class="label">
+                            contact email
+                        </span>
                         
-                        <span class="inputcontainer">
+                        <span class="label_content">
                             <input type="text" name="contribution_contact_email" 
                                 value="$contribution_contact_email" tabindex="1" id="contribution_contact_email" size="50"/>
                         </span>
-                    </label>
+                    </div>
 
                     <hr/>              
                     
-                    <label for="contribution_title" class="required">
-                        title:
+                    <div class="field">
+                        <span class="label">
+                            title
+                        </span>
                         
-                        <span class="inputcontainer">
+                        <span class="label_content">
                             <input type="text" name="contribution_title" 
                                 value="$contribution_title" tabindex="1" id="contribution_title" size="50"/>
                         </span>
-                    </label>
+                    </div>
                     
-                    <label for="contribution_keywords" class="required">
-                        keywords:
+                    <div class="field">
+                        <span class="label">
+                            keywords
+                        </span>
                         
-                        <span class="inputcontainer">
+                        <span class="label_content">
                             <input type="text" name="contribution_keywords"
                                 value="$contribution_keywords" tabindex="3" id="contribution_keywords" size="50" />
                         </span>
-                    </label>
+                    </div>
                     
                     <hr/>
 
@@ -396,7 +426,7 @@ EOT;
         print <<<EOT
                     <p>Add any number of files to the contribution:</p>
                     
-                    <span class="inputcontainer">
+                    <span class="label_content">
                         <input type="file" name="contribution_file_url" class="multi" />
                     </span>
 
@@ -411,15 +441,19 @@ EOT;
                 <fieldset>
                     <legend>Optional</legend>
                                         
-                    <label for="contribution_desc">
-                        description:
+                    <div class="field">
+                        <span class="label">
+                            description
+                        </span>
                         
-                        <span class="inputcontainer">
+                        <span class="label_content">
                             <textarea name="contribution_desc" tabindex="4" id="contribution_desc" rows="5" cols="50">$contribution_desc</textarea>
                         </span>
-                    </label>
+                    </div>
                     
-                    <p>Please choose the subject areas covered by the contribution:</p>
+                    
+                    <div class="field">
+                        <p>Please choose the subject areas covered by the contribution:</p>
 
 EOT;
         
@@ -429,8 +463,14 @@ EOT;
         );
         
         print <<<EOT
-                    <label for="contribution_duration_uid">
-                        duration:
+                    </div>
+                    
+                    <div class="field">
+                        <span class="label">
+                            duration
+                        </span>
+                        
+                        <span class="label_content">
 EOT;
 
         print_single_selection(
@@ -445,10 +485,13 @@ EOT;
         );
 
         print <<<EOT
-                    </label>
+                        </span>
+                    </div>
                     
-                    <label for="contribution_answers_included_uid">
-                        answers included:
+                    <div class="field">
+                        <span class="label">
+                            answers included
+                        </span>
 EOT;
 
         print_checkbox(
@@ -458,19 +501,22 @@ EOT;
         );
 
         print <<<EOT
-                    </label>
+                    </div>
                     
-                    <p>Please describe how the contribution complies with the K-12 National Science Standards:</p>
+                    <div class="field">
+                        <p>Please describe how the contribution complies with the K-12 National Science Standards:</p>
                     
 EOT;
 
         contribution_print_standards_compliance($contribution_standards_compliance);
 
         print <<<EOT
-
+                    </div>
+                    
                     <input type="hidden" name="referrer"        value="$referrer" />
                     <input type="hidden" name="contribution_id" value="$contribution_id" />
-
+                    <input type="hidden" name="action"          value="update" />
+                    
                     <div class="button">
                         <input name="submit" type="submit" id="submit" tabindex="13" value="Update" />
                     </div>
@@ -764,7 +810,9 @@ EOT;
         $contribution = contribution_get_contribution_by_id($contribution_id);
         $contributor  = contributor_get_contributor_by_id($contributor_id);        
         
-        return $contribution['contributor_id'] == $contributor_id || $contributor['contributor_is_team_member'] == '1';
+        return $contribution['contributor_id'] == $contributor_id || 
+               $contributor['contributor_is_team_member'] == '1' ||
+               $contribution['contributor_id'] == '-1';
     }
     
     function contribution_get_manageable_contributions_for_contributor_id($contributor_id) {
@@ -1503,6 +1551,7 @@ EOT;
     
     function contributor_print_full_edit_form($contributor_id, $script, $optional_message = null, 
                                               $standard_message = "<p>You may edit your profile information below.</p>") {
+
                                                   
         $contributor = contributor_get_contributor_by_id($contributor_id);
         
