@@ -26,21 +26,6 @@ public abstract class ControlPointParametricFunction2D extends ParametricFunctio
         }
     }
 
-    public Object clone() {
-        try {
-            ControlPointParametricFunction2D cppf2d = (ControlPointParametricFunction2D)super.clone();
-            cppf2d.pts = new SerializablePoint2D[pts.length];
-            for( int i = 0; i < pts.length; i++ ) {
-                cppf2d.pts[i] = (SerializablePoint2D)pts[i].clone();
-            }
-            return cppf2d;
-        }
-        catch( CloneNotSupportedException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
-    }
-
     public void setControlPoints( SerializablePoint2D[] pts ) {
         this.pts = pts;
     }
