@@ -14,10 +14,9 @@ import java.util.Arrays;
  * Time: 3:09:47 AM
  */
 
-public abstract class ParametricFunction2D implements Cloneable, Serializable {
+public abstract class ParametricFunction2D implements Serializable {
 
     public double getClosestPoint( SerializablePoint2D pt ) {
-//        return getClosestPointFlatSearch( pt );
         return getClosestPointBinarySearch( pt );
     }
 

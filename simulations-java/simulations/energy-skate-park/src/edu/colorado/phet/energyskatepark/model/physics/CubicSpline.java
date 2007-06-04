@@ -14,7 +14,7 @@ import java.util.Arrays;
  * see http://en.wikipedia.org/wiki/Spline_interpolation
  */
 
-public class CubicSpline implements Cloneable, Serializable {
+public class CubicSpline implements Serializable {
     private CubicSplineSegment[] segments;
     private double[] xTrain;
     private double[] yTrain;
@@ -33,23 +33,6 @@ public class CubicSpline implements Cloneable, Serializable {
         else {
             return false;
         }
-    }
-
-    protected Object clone() throws CloneNotSupportedException {
-        CubicSpline clone = (CubicSpline)super.clone();
-        clone.segments = new CubicSplineSegment[segments.length];
-        for( int i = 0; i < segments.length; i++ ) {
-            clone.segments[i] = (CubicSplineSegment)this.segments[i].clone();
-        }
-        clone.xTrain = new double[xTrain.length];
-        clone.yTrain = new double[yTrain.length];
-        for( int i = 0; i < xTrain.length; i++ ) {
-            clone.xTrain[i] = this.xTrain[i];
-        }
-        for( int i = 0; i < yTrain.length; i++ ) {
-            clone.yTrain[i] = this.yTrain[i];
-        }
-        return clone;
     }
 
     public double evaluate( double x ) {
@@ -99,18 +82,6 @@ public class CubicSpline implements Cloneable, Serializable {
             else {
                 return false;
             }
-        }
-
-        protected Object clone() throws CloneNotSupportedException {
-            CubicSplineSegment clone = (CubicSplineSegment)super.clone();
-            clone.h = this.h;
-            clone.z0 = this.z0;
-            clone.z1 = this.z1;
-            clone.x0 = this.x0;
-            clone.x1 = this.x1;
-            clone.y0 = this.y0;
-            clone.y1 = this.y1;
-            return clone;
         }
 
         public double evaluate( double x ) {
