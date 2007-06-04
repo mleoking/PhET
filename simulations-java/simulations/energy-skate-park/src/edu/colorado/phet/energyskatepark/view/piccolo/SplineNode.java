@@ -28,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.GeneralPath;
 
 /**
  * User: Sam Reid
@@ -256,9 +257,11 @@ public class SplineNode extends PNode {
         setPickable( spline.isInteractive() );
         setChildrenPickable( spline.isInteractive() );
         if( changed() ) {
-            splinePath.setPathTo( spline.getInterpolationPath() );
-            centerPath.setPathTo( spline.getInterpolationPath() );
-            rollerCoasterPath.setPathTo( spline.getInterpolationPath() );
+            GeneralPath path = spline.getInterpolationPath();
+            
+            splinePath.setPathTo( path );
+            centerPath.setPathTo( path );
+            rollerCoasterPath.setPathTo( path );
             rollerCoasterPath.setVisible( spline.isRollerCoasterMode() );
             rollerCoasterPath.setStrokePaint( spline.isRollerCoasterMode() ? Color.gray : Color.black );
 
@@ -466,7 +469,6 @@ public class SplineNode extends PNode {
                 public void actionPerformed( ActionEvent e ) {
                     spline.setRollerCoasterMode( rollerCoasterMode.isSelected() );
                     lastState = null;
-                    updateAll();//todo should be notification mechanism
                 }
             } );
 

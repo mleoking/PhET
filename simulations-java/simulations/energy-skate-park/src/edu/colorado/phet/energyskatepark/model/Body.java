@@ -212,7 +212,13 @@ public class Body implements Serializable {
     }
 
     public Body getRestorePoint() {
-        return restorePoint;//todo: should this be a deep copy? 
+        try {
+            return (Body)PersistenceUtil.copy( restorePoint );
+        }
+        catch( PersistenceUtil.CopyFailedException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
     }
 
     public double getHeight() {

@@ -8,6 +8,7 @@ Questions:
 To Do:
 • Add Spanish translation.
 • Fix listener leaks
+• Splines are using manual copy methods, should be using serialization
 • Better mountain graphics?
 • Add an ellipsis for menu items or buttons that pop up a dialog
 • "Bar Graph" button and "Bar Chart" window have different text.
