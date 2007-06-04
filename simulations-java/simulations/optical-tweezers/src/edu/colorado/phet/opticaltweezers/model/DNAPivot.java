@@ -2,9 +2,17 @@
 
 package edu.colorado.phet.opticaltweezers.model;
 
+/**
+ * A DNA strand is modeled as a set of connected line segements.
+ * Each segement is a simple spring, and the springs are joined 
+ * at pivot points. DNAPivot is the data structure that describes
+ * these pivot points.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class DNAPivot {
 
-    private double _x, _y;
+    private double _x, _y;  // position
     private double _xVelocity, _yVelocity;
     private double _xAcceleration, _yAcceleration;
 
