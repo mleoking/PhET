@@ -193,6 +193,24 @@ public class PhetHistogramSeries extends Series {
         return getBin( binIndex ).getEndBoundary();
     }
     
+    /**
+     * Looks at all the bins and finds the maximum number of observations in a bin.
+     * This is useful for adjusting the range of axes.
+     * 
+     * @return int
+     */
+    public int getMaxObservations() {
+        int maxBinSize = 0;
+        final int numberOfBins = getNumberOfBins();
+        for ( int i = 0; i < numberOfBins; i++ ) {
+            int binSize = getBin( i ).getNumberOfObservations();
+            if ( binSize > maxBinSize ) {
+                maxBinSize = binSize;
+            }
+        }
+        return maxBinSize;
+    }
+    
     //----------------------------------------------------------------------------
     // Bin management
     //----------------------------------------------------------------------------
