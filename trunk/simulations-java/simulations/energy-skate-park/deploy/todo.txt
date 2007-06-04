@@ -8,13 +8,7 @@ Questions:
 To Do:
 • Dropping the character outside of the visible range, and then pressing "return the character" returns him to the same offscreen location.
     -This makes it very difficult to retrieve the character.
-• "Bar Graph" button and "Bar Chart" window have different text.
-• Bug: On the tracks that open in roller coaster mode, when you right click, you cannot change the mode
-• When I open the Energy vs Position graph, the performance rapidly decreases.
-    -On my machine, it is approx 25% processor usage without this E vs X graph, 40% with.
-• "Bring back the skater" button broken sometimes (mac problem?)
-• "Bring back the skater" button should have setopaque false for mac
-• Zoom out button on mac chopped off right 1/4 due to resize handles on window.
+    -"Bring back the skater" button broken sometimes (related issue?) (mac problem?)
 • Implement separate layers for time series graph (currently different series are interleaved).  How long would this take?
     To implement this without substantial loss of performance, path segments should be drawn that are longer than 1/2 the stroke width.
     This means instead of painting just the most recent data point, the last N data points should be drawn, where N is a function of the stroke width.
@@ -25,6 +19,9 @@ To Do:
 • Add Spanish translation.
 • Better mountain graphics?
 • Fix listener leaks
+• When I open the Energy vs Position graph, the performance rapidly decreases.
+    -On my machine, it is approx 25% processor usage without this E vs X graph, 40% with.
+• Playback cursor (on E vs. T graph) is completely opaque on mac.
 
 Interview Questions:
 • Should PE=0 line be visible in space?
@@ -56,6 +53,7 @@ Maybe:
 • Would it take much time to have a right click on the character bring up the character choices?
 
 Postponed:
+• Zoom out button on mac chopped off right 1/4 due to resize handles on window.
 • Add rotation for skater in the air.
 • Add visualization for force diagram (or just normal force?)
 • With high enough speed, sometimes the skater can pass through a track (or ground)
