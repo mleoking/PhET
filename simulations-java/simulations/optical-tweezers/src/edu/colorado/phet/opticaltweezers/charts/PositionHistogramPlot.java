@@ -37,6 +37,7 @@ public class PositionHistogramPlot extends XYPlot {
     private static final Color BACKGROUND_COLOR = OTConstants.COLOR_TRANSPARENT;
     private static final Color BAR_FILL_COLOR = Color.YELLOW;
     private static final Color BAR_OUTLINE_COLOR = Color.BLACK;
+    private static final int INITIAL_Y_MAX = 10;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -46,6 +47,8 @@ public class PositionHistogramPlot extends XYPlot {
     private PhetHistogramDataset _dataset;
     private PhetHistogramSeries _series;
     private NumberAxis _xAxis;
+    private NumberAxis _yAxis;
+    private boolean _isAutoRangeEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -85,12 +88,13 @@ public class PositionHistogramPlot extends XYPlot {
         setDomainAxis( _xAxis );
         
         // y-axis, no label, no ticks
-        NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel( null );
-        yAxis.setTickLabelsVisible( false );
-        yAxis.setTickMarksVisible( false );
-        yAxis.setAutoRange( true ); // adjust range to fit data, so data appears normalized
-        setRangeAxis( yAxis );
+        _yAxis = new NumberAxis();
+        _yAxis.setLabel( null );
+        _yAxis.setTickLabelsVisible( false );
+        _yAxis.setTickMarksVisible( false );
+        _yAxis.setRange( 0, INITIAL_Y_MAX );
+        setRangeAxis( _yAxis );
+        _isAutoRangeEnabled = false;
 
         // plot configuration
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
@@ -140,6 +144,13 @@ public class PositionHistogramPlot extends XYPlot {
      */
     public void addPosition( double position ) {
         _series.addObservation( position );
+        
+        // When at least one bin reaches the top of the y-axis range,
+        // adjust the range to fit data, so data appears normalized.
+        if ( !_isAutoRangeEnabled && _series.getMaxObservations() > INITIAL_Y_MAX ) {
+            _yAxis.setAutoRange( true );
+            _isAutoRangeEnabled = true;
+        }
     }
 
     /**
