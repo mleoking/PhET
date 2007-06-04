@@ -417,7 +417,9 @@ EOT;
         $xml = '<div class="keywordlist">';
         
         foreach(preg_split('/( +)|( *, *)/i', $list) as $keyword) {
-            $xml .= '<span><a href="'.SITE_ROOT.'simulations/search.php?search_for='.urlencode($keyword).'&amp;referrer='.$referrer.'">'.$keyword.'</a></span>';
+            $keyword = trim($keyword);
+            
+            $xml .= '<a href="'.SITE_ROOT.'simulations/search.php?search_for='.urlencode($keyword).'&amp;referrer='.$referrer.'">'.$keyword.'</a>';
         }
         
         $xml .= '</div>';
@@ -789,7 +791,7 @@ EOT;
         $is_checked = $checkbox_value == "1" ? "checked=\"checked\"" : "";
         
         print <<<EOT
-            <span class="inputcontainer">
+            <span class="label_content">
                 <input type="hidden"   name="$checkbox_name" value="0" />
                 <input type="checkbox" name="$checkbox_name" value="1" id="${checkbox_name}_uid" $is_checked>$checkbox_text</input>
             </span>

@@ -64,76 +64,77 @@
             <h3>Submission Information</h3>
             
             <div class="field">
-                <span class="label">Authors</span>
+                <span class="label">authors</span>
                 <span class="label_content">$contribution_authors &nbsp;</span>
             </div>
             
             <div class="field">
-                <span class="label">Contact Email</span>
+                <span class="label">contact email</span>
                 <span class="label_content">$contribution_contact_email &nbsp;</span>
             </div>
             
             <div class="field">
-                <span class="label">School/Organization</span>
+                <span class="label">school/organization</span>
                 <span class="label_content">$contribution_authors_organization &nbsp;</span>
             </div>
             
             <div class="field">
-                <span class="label">Submitted</span>
-                <span class="left_label_content">$contribution_date_created</span>
-                
-                <span class="right_label">Updated</span>
-                <span class="right_label_content">$contribution_date_updated</span>
-            </div>            
+                <span class="label">submitted</span>
+                <span class="label_content">$contribution_date_created</span>
+            </div>   
+            
+            <div class="field">
+                <span class="label">updated</span>
+                <span class="label_content">$contribution_date_updated</span>
+            </div>        
             
             <h3>Contribution Description</h3>
             
             <div class="field">
-                <span class="label">Title</span>
+                <span class="label">title</span>
                 <span class="label_content">$contribution_title &nbsp;</span>
             </div>            
             
             <div class="field">
-                <span class="label">Keywords</span>
-                <span class="label_content">$contribution_keywords &nbsp;</span>
+                <span class="label">keywords</span>
+                <span class="label_content" id="keywords">$contribution_keywords</span>
             </div>
             
             <div class="field">
-                <span class="label">Description</span>
+                <span class="label">description</span>
                 <span class="label_content">$contribution_desc &nbsp;</span>
             </div>
 
             <div class="field">
-                <span class="label">Level</span>
+                <span class="label">level</span>
                 <span class="label_content">$level_list &nbsp;</span>
             </div>
             
             <div class="field">
-                <span class="label">Type</span>
+                <span class="label">type</span>
                 <span class="label_content">$type_list &nbsp;</span>
             </div>
             
             <div class="field">
-                <span class="label">Subject</span>
+                <span class="label">subject</span>
                 <span class="label_content">$subject_list &nbsp;</span>
             </div>
             
             <div class="field">
-                <span class="label">Duration</span>
+                <span class="label">duration</span>
                 <span class="label_content">$contribution_duration minutes</span>
             </div>
             
             <div class="field">
-                <span class="label">Answers Included</span>
+                <span class="label">answers included</span>
                 <span class="label_content">$contribution_answers_included</span>
             </div>
-            
-            <div class="field">
-                <span class="label">Standards Compliance</span>
-                <span class="label_content"> &nbsp;</span>
+
+            <div class="field">            
+                <span class="label">standards compliance</span>
             </div>
             
-            <div class="field">
+            <div style="field">
 EOT;
 
         contribution_print_standards_compliance($contribution_standards_compliance, true);
@@ -145,7 +146,7 @@ EOT;
             
             <div class="field">
                 <span class="label">
-                    Comments
+                    comments
                 </span>
                 
                 <span class="label_content">
@@ -164,7 +165,7 @@ EOT;
                     <input type="hidden" name="referrer"        value="$php_self?contribution_id=$contribution_id&referrer=$referrer" />
                     
                     <div class="field">
-                        <span class="label">Name</span>
+                        <span class="label">name</span>
                         <span class="label_content">                
                             <input type="text" size="25" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_email_entered();"/>
                         </span>
@@ -175,7 +176,7 @@ EOT;
                     </div>                
                 
                     <div class="field">
-                        <span class="label">Comment</span>
+                        <span class="label">comment</span>
                         <span class="label_content">
                             <textarea name="contribution_comment_text" cols="40" rows="5" ></textarea>
                         </span>

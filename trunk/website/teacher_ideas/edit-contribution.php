@@ -2,12 +2,22 @@
 
     include_once("../admin/global.php");
 
+    // Cannot require user login:
+    $g_login_required = false;
     include_once(SITE_ROOT."teacher_ideas/user-login.php");  
     
     include_once(SITE_ROOT."admin/contrib-utils.php");    
     include_once(SITE_ROOT."admin/site-utils.php");   
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."teacher_ideas/referrer.php");  
+    
+    function handle_action($action) {
+        $contribution = gather_script_params_into_array('contribution_');
+        
+        if ($action == 'update') {
+            update_contribution($contribution);
+        }
+    }
     
     function update_contribution($contribution) {
         contribution_update_contribution($contribution);
@@ -84,7 +94,7 @@ EOT;
     }
 
     function print_content() {
-        global $referrer, $contribution_id;
+        global $referrer, $contribution_id, $contributor_id;
         
         /*
     
@@ -120,20 +130,18 @@ EOT;
     if (!isset($_REQUEST['contribution_id'])) {
         print_site_page('print_content_no_contribution_specified', 3);
     }
-    else {    
+    else {
         $contribution_id = $_REQUEST['contribution_id'];
-    
-        if (isset($_REQUEST['action'])) {
-            handle_action($_REQUEST['action']);
-        }
-    
-        $contribution = gather_script_params_into_array('contribution_');   
-    
-        if (contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {   
-            if (count($contribution) > 7) { 
-                update_contribution($contribution);
-            }
         
+        if (!isset($contributor_id)) {            
+            $contributor_id = -1;
+        }
+        
+        if (contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {   
+            if ($contributor_id != -1 && isset($_REQUEST['action'])) {
+                handle_action($_REQUEST['action']);
+            }
+            
             print_site_page('print_content', 3);
         }
         else {
