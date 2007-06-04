@@ -6,9 +6,10 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.opticaltweezers.control.BeadChargeControlPanel;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
 import edu.colorado.phet.opticaltweezers.control.LaserDisplayControlPanel;
+import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 
@@ -33,7 +34,7 @@ public class DNADefaults {
     private static final double MAX_DT = ( 1E-3 / FRAME_RATE );
     private static final double MIN_DT = 140E-16 * MAX_DT;
     private static final double DEFAULT_DT = MAX_DT;
-    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( MIN_DT, MAX_DT, DEFAULT_DT, 20 /* significantDecimalPlaces */ );
+    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( MIN_DT, MAX_DT, DEFAULT_DT );
     public static final OTClock CLOCK = new OTClock( FRAME_RATE, CLOCK_DT_RANGE );
     public static final String CLOCK_CONTROL_PATTERN = "0.0E0";
     public static final String CLOCK_TIME_PATTERN = "0.0000000000000000000";
@@ -44,9 +45,9 @@ public class DNADefaults {
     private static final double FLUID_Y_OFFSET = 200; // nm
     public static final Point2D FLUID_POSITION = new Point2D.Double( 0, FLUID_Y_OFFSET + ( FLUID_HEIGHT /2 ) ); // nm
     public static final double FLUID_ORIENTATION = Math.toRadians( 0 ); // left-to-right flow direction
-    public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 0, 1000000, 0, 0 ); // nm/sec, min must be >0
-    public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 1E-4, 1E-2, Fluid.WATER_VISCOSITY, 5 ); // Pa*s
-    public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 200, 0 ); // Kelvin
+    public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 0, 1000000, 0 ); // nm/sec, min must be >0
+    public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 1E-4, 1E-2, Fluid.WATER_VISCOSITY ); // Pa*s
+    public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 200 ); // Kelvin
 
     // Laser model, local origin at center of objective
     public static final double LASER_DIAMETER_AT_OBJECTIVE = 1800; // nm, chosen so that beam shape is similar to PhysicsDefaults
@@ -69,7 +70,13 @@ public class DNADefaults {
     public static final int BEAD_NUMBER_OF_DT_SUBDIVISIONS = 10;
     
     // DNA Strand model
-    public static final Point2D DNA_STRAND_TAIL_POSITION = new Point2D.Double( 200, FLUID_POSITION.getY() );
+    public static final double DNA_CONTOUR_LENGTH = 2413; // nm
+    public static final double DNA_PERSISTENCE_LENGTH = DNAStrand.DOUBLE_STRANDED_PERSISTENCE_LENGTH; // nm 
+    public static final int DNA_NUMBER_OF_SEGMENTS = 40; // nm
+    public static final DoubleRange DNA_SPRING_CONSTANT_RANGE = new DoubleRange( 2.0, 10.0, 6 );
+    public static final DoubleRange DNA_DAMPING_CONSTANT_RANGE = new DoubleRange( 0.1, 0.3, 0.2 );
+    public static final DoubleRange DNA_KICK_CONSTANT_RANGE = new DoubleRange( 0.25, 0.75, 0.5 );
+    public static final IntegerRange DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE = new IntegerRange( 1, 20, 10 );
     
     // Control panel settings
     public static final String LASER_DISPLAY_CHOICE = LaserDisplayControlPanel.CHOICE_BEAM;

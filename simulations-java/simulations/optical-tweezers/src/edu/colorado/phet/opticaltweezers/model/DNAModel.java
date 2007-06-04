@@ -8,6 +8,8 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 
 /**
@@ -72,7 +74,15 @@ public class DNAModel extends ClockAdapter {
          _bead.setNumberOfDtSubdivisions( DNADefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS );
          _modelElements.add( _bead );
          
-         _dnaStrand = new DNAStrand( DNADefaults.DNA_STRAND_TAIL_POSITION, _bead, _fluid );
+         _dnaStrand = new DNAStrand( DNADefaults.DNA_CONTOUR_LENGTH, 
+                 DNADefaults.DNA_PERSISTENCE_LENGTH, 
+                 DNADefaults.DNA_NUMBER_OF_SEGMENTS, 
+                 DNADefaults.DNA_SPRING_CONSTANT_RANGE, 
+                 DNADefaults.DNA_DAMPING_CONSTANT_RANGE, 
+                 DNADefaults.DNA_KICK_CONSTANT_RANGE, 
+                 DNADefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE,
+                 _bead,
+                 _fluid );
          _modelElements.add( _dnaStrand );
          _bead.attachTo( _dnaStrand ); // attach bead to DNA strand
 
