@@ -166,7 +166,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
     }
 
     private void resetSkater() {
-        module.resetSkater();
+        module.returnSkater();
     }
 
     private void reset() {
