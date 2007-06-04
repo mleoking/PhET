@@ -96,9 +96,6 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _fluid = fluid;
         _fluid.addObserver( this );
 
-        _headPosition = new Point2D.Double();
-        _tailPosition = new Point2D.Double();
-
         _springConstantRange = springConstantRange;
         _dampingConstantRange = dampingConstantRange;
         _kickConstantRange = kickConstantRange;
@@ -274,28 +271,32 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     // Strand shape model
     //----------------------------------------------------------------------------
     
+    public List getPivots() {
+        return _pivots;
+    }
+    
     public void initStrand() {
         
         // head is attached to the bead
-        _headPosition.setLocation( _bead.getPositionRef() );
+        _headPosition = new Point2D.Double( _bead.getX(), _bead.getY() );
         
         //XXX not correct
-        _tailPosition.setLocation( _bead.getX() - _contourLength / 2, _bead.getY() );
+        _tailPosition = new Point2D.Double( _bead.getX() - _contourLength / 2, _bead.getY() );
 
         final double initialSegmentLength = getExtension() / _numberOfSegments;
         _pivots = new ArrayList();
-        Pivot tailPivot = new Pivot( 0, 0 );
+        DNAPivot tailPivot = new DNAPivot( 0, 0 );
         _pivots.add( tailPivot );
-        Pivot previousPivot = tailPivot;
+        DNAPivot previousPivot = tailPivot;
         for ( int i = 1; i < _numberOfSegments; i++ ) {
             //XXX this is wrong, these points need to be arranged between tail and head
-            double xOffset = previousPivot.xOffset + initialSegmentLength + ( 0.2 * Math.random() - 0.1 );
-            double yOffset = previousPivot.yOffset + ( 2 * ( 0.2 * Math.random() - 0.1 ) );
-            Pivot pivot = new Pivot( xOffset, yOffset );
+            double xOffset = previousPivot.getXOffset() + initialSegmentLength + ( 0.2 * Math.random() - 0.1 );
+            double yOffset = previousPivot.getYOffset() + ( 2 * ( 0.2 * Math.random() - 0.1 ) );
+            DNAPivot pivot = new DNAPivot( xOffset, yOffset );
             _pivots.add( pivot );
             previousPivot = pivot;
         }
-        Pivot headPivot = new Pivot( _headPosition.getX() - _tailPosition.getX(), _headPosition.getY() - _headPosition.getY() );
+        DNAPivot headPivot = new DNAPivot( _headPosition.getX() - _tailPosition.getX(), _headPosition.getY() - _headPosition.getY() );
         _pivots.add( headPivot );
 
         notifyObservers( PROPERTY_SHAPE );
@@ -308,6 +309,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
             //XXX the tail is pinned, so pivots[first] does not evolve
             //XXX the head is attached to the bead, so pivot[last] does not evolve
         }
+        notifyObservers( PROPERTY_SHAPE );
     }
 
     //----------------------------------------------------------------------------
@@ -340,28 +342,5 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
 
     public void stepInTime( double dt ) {
         evolveStrand( dt );
-        notifyObservers( PROPERTY_SHAPE );
-    }
-
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-
-    /*
-     * Pivot is a data structure that describes one of points 
-     * that exists between line segments of the strand.
-     */
-    private static class Pivot {
-
-        private double xOffset, yOffset; // position, relative to strand tail
-        private double vx, vy; // velocity
-        private double ax, ay; // acceleration
-
-        public Pivot( double xOffset, double yOffset ) {
-            this.xOffset = xOffset;
-            this.yOffset = yOffset;
-            vx = vy = 0;
-            ax = ay = 0;
-        }
     }
 }
