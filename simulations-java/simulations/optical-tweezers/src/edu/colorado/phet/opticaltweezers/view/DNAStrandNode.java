@@ -120,11 +120,11 @@ public class DNAStrandNode extends PNode implements Observer {
     private void update() {
         
         // Move the tail
-        Point2D modelTailPosition = _dnaStrand.getTailPositionRef();
+        Point2D modelTailPosition = _dnaStrand.getTailPosition();
         Point2D viewTailPosition = _modelViewTransform.modelToView( modelTailPosition );
         _tailNode.setOffset( viewTailPosition );
         
-        Point2D modelHeadPosition = _dnaStrand.getHeadPositionRef();
+        Point2D modelHeadPosition = _dnaStrand.getHeadPosition();
         Point2D viewHeadPosition = _modelViewTransform.modelToView( modelHeadPosition );
         
         // Draw the extension

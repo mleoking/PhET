@@ -3,15 +3,11 @@
 package edu.colorado.phet.opticaltweezers.model;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
@@ -42,6 +38,14 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     // persistence length is a measure of the strand's bending stiffness
     public static final double DOUBLE_STRANDED_PERSISTENCE_LENGTH = 50; // nm
     public static final double SINGLE_STRANDED_PERSISTENCE_LENGTH = 1; // nm
+    
+    //----------------------------------------------------------------------------
+    // Private class data
+    //----------------------------------------------------------------------------
+
+    private static final double DRAG_COEFFICIENT = 0.2; //XXX drag coefficient, should be based on fluid variables!
+    
+    private static final double INITIAL_STRETCHINESS = 0.95; // how much the strand is stretched initially, % of contour length
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -53,10 +57,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private final double _contourLength; // length of the DNA strand, nm
     private final double _persistenceLength; // nm
     private final int _numberOfSegments; // number of discrete segments used to model the strand
-    private Point2D _headPosition; // nm
-    private Point2D _tailPosition; // nm
 
-    private List _pivots;
+    private DNAPivot[] _pivots;
     private DoubleRange _springConstantRange;
     private DoubleRange _dampingConstantRange;
     private DoubleRange _kickConstantRange;
@@ -65,6 +67,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private double _dampingConstant;
     private double _kickConstant;
     private int _numberOfEvolutionsPerClockTick;
+    private Random _kickRandom;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -106,7 +109,9 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _kickConstant = _kickConstantRange.getDefault();
         _numberOfEvolutionsPerClockTick = _numberOfEvolutionsPerClockTickRange.getDefault();
         
-        initStrand();
+        _kickRandom = new Random();
+        
+        initializeStrand();
     }
 
     /**
@@ -128,29 +133,29 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     public int getNumberOfSegments() {
         return _numberOfSegments;
     }
-
-    public Point2D getHeadPositionRef() {
-        return _headPosition;
+    
+    public Point2D getHeadPosition() {
+        return new Point2D.Double( getHeadX(), getHeadY() );
     }
 
     public double getHeadX() {
-        return _headPosition.getX();
+        return getHeadPivot().getX();
     }
 
     public double getHeadY() {
-        return _headPosition.getY();
+        return getHeadPivot().getY();
     }
 
-    public Point2D getTailPositionRef() {
-        return _tailPosition;
+    public Point2D getTailPosition() {
+        return new Point2D.Double( getTailX(), getTailY() );
     }
 
     public double getTailX() {
-        return _tailPosition.getX();
+        return getTailPivot().getX();
     }
 
     public double getTailY() {
-        return _tailPosition.getY();
+        return getTailPivot().getY();
     }
 
     public void setSpringConstant( double springConstant ) {
@@ -244,8 +249,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * Gets the direction of the force acting on the DNA head (radians).
      */
     private double getForceDirection() {
-        final double xOffset = _tailPosition.getX() - _headPosition.getX();
-        final double yOffset = _tailPosition.getY() - _headPosition.getY();
+        final double xOffset = getTailPivot().getX() - getHeadPivot().getX();
+        final double yOffset = getTailPivot().getY() - getHeadPivot().getY();
         return Math.atan2( yOffset, xOffset );
     }
 
@@ -264,51 +269,104 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * Gets the extension, the straight-line distance between the head and tail.
      */
     private double getExtension() {
-        return _tailPosition.distance( _headPosition );
+        Point2D tailPosition = getTailPosition();
+        Point2D headPosition = getHeadPosition();
+        return tailPosition.distance( headPosition );
     }
 
     //----------------------------------------------------------------------------
     // Strand shape model
     //----------------------------------------------------------------------------
     
-    public List getPivots() {
+    public DNAPivot[] getPivots() {
         return _pivots;
     }
     
-    public void initStrand() {
-        
-        // head is attached to the bead
-        _headPosition = new Point2D.Double( _bead.getX(), _bead.getY() );
-        
-        //XXX not correct
-        _tailPosition = new Point2D.Double( _bead.getX() - _contourLength / 2, _bead.getY() );
+    public int getNumberOfPivots() {
+        return _pivots.length;
+    }
+    
+    public DNAPivot getHeadPivot() {
+        return _pivots[ _pivots.length - 1 ];
+    }
+    
+    public DNAPivot getTailPivot() {
+        return _pivots[ 0 ];
+    }
+    
+    /**
+     * Initializes the strand.
+     * The head is attached to the bead.
+     * The tail is located some distance to the left of the head.
+     */
+    public void initializeStrand() {
 
-        final double initialSegmentLength = getExtension() / _numberOfSegments;
-        _pivots = new ArrayList();
-        DNAPivot tailPivot = new DNAPivot( 0, 0 );
-        _pivots.add( tailPivot );
-        DNAPivot previousPivot = tailPivot;
-        for ( int i = 1; i < _numberOfSegments; i++ ) {
-            //XXX this is wrong, these points need to be arranged between tail and head
-            double xOffset = previousPivot.getXOffset() + initialSegmentLength + ( 0.2 * Math.random() - 0.1 );
-            double yOffset = previousPivot.getYOffset() + ( 2 * ( 0.2 * Math.random() - 0.1 ) );
-            DNAPivot pivot = new DNAPivot( xOffset, yOffset );
-            _pivots.add( pivot );
-            previousPivot = pivot;
+        final double segmentLength = INITIAL_STRETCHINESS * ( _contourLength / _numberOfSegments );
+        final int numberOfPivots = _numberOfSegments + 1;
+        _pivots = new DNAPivot[numberOfPivots];
+
+        // head is attached to the bead
+        DNAPivot headPivot = new DNAPivot( _bead.getX(), _bead.getY() );
+        _pivots[numberOfPivots - 1] = headPivot;
+
+        // work backwards from head to tail
+        for ( int i = numberOfPivots - 2; i >= 0; i-- ) {
+            _pivots[i] = new DNAPivot( _pivots[i + 1].getX() - segmentLength, _pivots[i + 1].getY() );
         }
-        DNAPivot headPivot = new DNAPivot( _headPosition.getX() - _tailPosition.getX(), _headPosition.getY() - _headPosition.getY() );
-        _pivots.add( headPivot );
 
         notifyObservers( PROPERTY_SHAPE );
     }
-
+    
+    /*
+     * Evolves the strand using a "Hollywood" spring model.
+     * This model was provided by Mike Dubson.
+     */
     private void evolveStrand( double clockStep ) {
+        
         final double dt = clockStep / _numberOfEvolutionsPerClockTick;
+        final double segmentLength = _contourLength / _numberOfSegments;
+        
         for ( int i = 0; i < _numberOfEvolutionsPerClockTick; i++ ) {
-            //XXX evolve the list of pivot points using Mike Dubson's "Hollywood" algorithm
-            //XXX the tail is pinned, so pivots[first] does not evolve
-            //XXX the head is attached to the bead, so pivot[last] does not evolve
+
+            final int numberOfPivots = _pivots.length;
+            DNAPivot currentPivot, previousPivot, nextPivot; // previous is closer to tail, next is closer to head
+            
+            // traverse all pivots from tail to head, skipping tail and head
+            for ( int j = 1; j < numberOfPivots - 1; j++ ) {
+                
+                currentPivot = _pivots[ j ];
+                previousPivot = _pivots[ j - 1 ];
+                nextPivot = _pivots[ j + 1 ];
+                
+                // offset
+                final double x = currentPivot.getX() + ( currentPivot.getXVelocity() * dt ) + ( 0.5 * currentPivot.getXAcceleration() * dt * dt );
+                final double y = currentPivot.getY() + ( currentPivot.getYVelocity() * dt ) + ( 0.5 * currentPivot.getYAcceleration() * dt * dt );
+                currentPivot.setPosition( x, y );
+                
+                // distance to previous and next pivots
+                final double dxPrevious = currentPivot.getX() - previousPivot.getX();
+                final double dyPrevious = currentPivot.getY() - previousPivot.getY();
+                final double dxNext = currentPivot.getX() - nextPivot.getX();
+                final double dyNext = currentPivot.getY() - nextPivot.getY();
+                final double distanceToPrevious = Math.sqrt( ( dxPrevious * dxPrevious ) + ( dyPrevious * dyPrevious ) );
+                final double distanceToNext = Math.sqrt( ( dxNext * dxNext ) + ( dyNext * dyNext ) );
+                
+                // common terms
+                final double termPrevious = 1 - ( segmentLength / distanceToPrevious );
+                final double termNext = 1 - ( segmentLength / distanceToNext );
+                
+                // acceleration
+                final double xAcceleration = ( ( dxNext * termNext ) - ( dxPrevious * termPrevious ) ) - ( DRAG_COEFFICIENT * currentPivot.getXVelocity() );
+                final double yAcceleration = ( ( dyNext * termNext ) - ( dyPrevious * termPrevious ) ) - ( DRAG_COEFFICIENT * currentPivot.getYVelocity() );
+                currentPivot.setAcceleration( xAcceleration, yAcceleration );
+                
+                // velocity
+                final double xVelocity = currentPivot.getXVelocity() + ( xAcceleration * dt ) + ( _kickConstant * ( _kickRandom.nextDouble() - 0.5 ) );
+                final double yVelocity = currentPivot.getYVelocity() + ( yAcceleration * dt ) + ( _kickConstant * ( _kickRandom.nextDouble() - 0.5 ) );
+                currentPivot.setVelocity( xVelocity, yVelocity );
+            }
         }
+        
         notifyObservers( PROPERTY_SHAPE );
     }
 
@@ -325,7 +383,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     public void update( Observable o, Object arg ) {
         if ( o == _bead ) {
             if ( arg == Bead.PROPERTY_POSITION ) {
-                _headPosition.setLocation( _bead.getPositionRef() );
+                DNAPivot headPivot = getHeadPivot();
+                headPivot.setPosition( _bead.getX(), _bead.getY() );
                 notifyObservers( PROPERTY_FORCE );
             }
         }

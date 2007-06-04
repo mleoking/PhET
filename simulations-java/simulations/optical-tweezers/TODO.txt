@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - limit DNA extension to N% of contour length (start with 95%)
-- implement DNA strand initialization and evolution
+
 - ? initalize DNA strand tailX = headX - (75% of contour length); tailY = headY;
 - modify strand evolution to accommodate variable fluid properties?
 
@@ -27,6 +27,7 @@ MEDIUM PRIORITY:
 - make "beam" the only laser display option in fast mode
 
 LOW PRIORITY:
+- control panels have vertical scrollbars
 - make developer controls savable/loadable?
 - get rid of "Advanced" panel, there's only 1 control left in it ?
 - position histogram should make an observation every N seconds, not every clock tick (?)
@@ -60,6 +61,7 @@ MISSING INFO:
 
  
 DONE:
+6/4/07 - implement model for DNA strand initialization and evolution
 6/4/07 - don't make position histogram autoscale until a least one bin contains 10 observations
 6/4/07 - make all developer controls resettable
 6/4/07 - add model properties for all developer controls for Bead and DNAStrand
