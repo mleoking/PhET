@@ -48,7 +48,6 @@ public class PositionHistogramPlot extends XYPlot {
     private PhetHistogramSeries _series;
     private NumberAxis _xAxis;
     private NumberAxis _yAxis;
-    private boolean _isAutoRangeEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -92,9 +91,9 @@ public class PositionHistogramPlot extends XYPlot {
         _yAxis.setLabel( null );
         _yAxis.setTickLabelsVisible( false );
         _yAxis.setTickMarksVisible( false );
+        _yAxis.setAutoRange( false );
         _yAxis.setRange( 0, OBSERVATIONS_REQUIRED_TO_ENABLE_AUTORANGE );
         setRangeAxis( _yAxis );
-        _isAutoRangeEnabled = false;
 
         // plot configuration
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
@@ -147,9 +146,8 @@ public class PositionHistogramPlot extends XYPlot {
         
         // When at least one bin reaches the top of the y-axis range,
         // adjust the range to fit data, so data appears normalized.
-        if ( !_isAutoRangeEnabled && _series.getMaxObservations() > OBSERVATIONS_REQUIRED_TO_ENABLE_AUTORANGE ) {
+        if ( !_yAxis.isAutoRange() && _series.getMaxObservations() > OBSERVATIONS_REQUIRED_TO_ENABLE_AUTORANGE ) {
             _yAxis.setAutoRange( true );
-            _isAutoRangeEnabled = true;
         }
     }
 
@@ -158,7 +156,7 @@ public class PositionHistogramPlot extends XYPlot {
      */
     public void clear() {
         _series.clear();
-        _isAutoRangeEnabled = false;
+        _yAxis.setAutoRange( false );
         _yAxis.setRange( 0, OBSERVATIONS_REQUIRED_TO_ENABLE_AUTORANGE );
     }
     
