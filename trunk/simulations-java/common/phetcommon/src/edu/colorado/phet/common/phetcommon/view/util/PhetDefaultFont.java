@@ -11,9 +11,8 @@ public class PhetDefaultFont extends Font {
     
     private static final String FONT_NAME = new JLabel().getFont().getFontName();
 
-
     /**
-     * Constructs a LucidaSansFont with a specified point size.
+     * Constructs a PhetDefaultFont with a specified point size.
      *
      * @param size the size of the font.
      */
@@ -33,7 +32,7 @@ public class PhetDefaultFont extends Font {
     }
 
     /**
-     * Constructs a LucidaSansFont with the specified font size, and whether it is bold.
+     * Constructs a PhetDefaultFont with the specified font size, and whether it is bold.
      *
      * @param size the font size
      * @param bold whether it is bold.
