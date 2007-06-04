@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -20,17 +21,19 @@ import java.awt.event.ActionListener;
  * Time: 9:18:57 AM
  */
 
-public class OffscreenManIndicatorNode extends PhetPNode {
-    private PSwingCanvas canvas;
-    private SkaterNode skaterNode;
+public class ReturnSkaterButtonNode extends PhetPNode {
     private EnergySkateParkModule module;
+    private PSwingCanvas canvas;
+    
+    private SkaterNode skaterNode;
     private PNode buttonNode;
     private JButton bringBackSkater = new JButton( "" );
 
-    public OffscreenManIndicatorNode( PSwingCanvas canvas, final EnergySkateParkModule module, SkaterNode skaterNode ) {
+    public ReturnSkaterButtonNode( PSwingCanvas canvas, final EnergySkateParkModule module, SkaterNode skaterNode ) {
         this.canvas = canvas;
         this.skaterNode = skaterNode;
         this.module = module;
+        SwingUtils.fixButtonOpacity( bringBackSkater );
         bringBackSkater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.resetSkater();
