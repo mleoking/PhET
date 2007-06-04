@@ -4,16 +4,19 @@ package edu.colorado.phet.opticaltweezers.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.opticaltweezers.model.DNAPivot;
 import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * DNAStrandNode is the visual representation of a DNA strand.
@@ -28,6 +31,9 @@ public class DNAStrandNode extends PNode implements Observer {
     
     // shows the extension distance, a straight line between head and tail
     private static final boolean SHOW_EXTENSION = true;
+    
+    // shows the pivot points
+    private static final boolean SHOW_PIVOTS = true;
     
     //----------------------------------------------------------------------------
     // Class data
@@ -45,6 +51,9 @@ public class DNAStrandNode extends PNode implements Observer {
     private static final Color STRAND_STROKE_COLOR = Color.BLACK;
     private static final Stroke STRAND_STROKE = new BasicStroke( 1f );
     
+    private static final double PIVOT_RADIUS = 2; // pixels
+    private static final Color PIVOT_FILL_COLOR = Color.RED;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -57,6 +66,7 @@ public class DNAStrandNode extends PNode implements Observer {
     private GeneralPath _extensionPath;
     private PPath _extensionNode; // straight line between head and tail
     private PNode _tailNode;
+    private PNode _pivotsParentNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -70,6 +80,9 @@ public class DNAStrandNode extends PNode implements Observer {
      */
     public DNAStrandNode( DNAStrand dnaStrand, ModelViewTransform modelViewTransform ) {
         super();
+        
+        setPickable( false );
+        setChildrenPickable( false );
         
         _dnaStrand = dnaStrand;
         _dnaStrand.addObserver( this );
@@ -94,6 +107,11 @@ public class DNAStrandNode extends PNode implements Observer {
         _tailNode = new SphericalNode( viewTailDiameter, TAIL_FILL_COLOR, TAIL_STROKE, TAIL_STROKE_COLOR, false /* convertToImage */ );
         addChild( _tailNode );
         
+        if ( SHOW_PIVOTS ) {
+            _pivotsParentNode = new PComposite();
+            addChild( _pivotsParentNode );
+        }
+        
         update();
     }
     
@@ -109,8 +127,8 @@ public class DNAStrandNode extends PNode implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _dnaStrand ) {
-           update(); 
+        if ( o == _dnaStrand && arg == DNAStrand.PROPERTY_SHAPE ) {
+           update();
         }
     }
     
@@ -120,25 +138,46 @@ public class DNAStrandNode extends PNode implements Observer {
     private void update() {
         
         // Move the tail
-        Point2D modelTailPosition = _dnaStrand.getTailPosition();
-        Point2D viewTailPosition = _modelViewTransform.modelToView( modelTailPosition );
-        _tailNode.setOffset( viewTailPosition );
+        double viewTailX = _modelViewTransform.modelToView( _dnaStrand.getTailX() );
+        double viewTailY = _modelViewTransform.modelToView( _dnaStrand.getTailY() );
+        _tailNode.setOffset( viewTailX, viewTailY );
         
-        Point2D modelHeadPosition = _dnaStrand.getHeadPosition();
-        Point2D viewHeadPosition = _modelViewTransform.modelToView( modelHeadPosition );
-        
-        // Draw the extension
+        // Draw the extension, a straight line from tail to head
         if ( _extensionPath != null ) {
+            double viewHeadX = _modelViewTransform.modelToView( _dnaStrand.getHeadX() );
+            double viewHeadY = _modelViewTransform.modelToView( _dnaStrand.getHeadY() );
             _extensionPath.reset();
-            _extensionPath.moveTo( (float) viewTailPosition.getX(), (float) viewTailPosition.getY() );
-            _extensionPath.lineTo( (float) viewHeadPosition.getX(), (float) viewHeadPosition.getY() );
+            _extensionPath.moveTo( (float) viewTailX, (float) viewTailY );
+            _extensionPath.lineTo( (float) viewHeadX, (float) viewHeadY );
             _extensionNode.setPathTo( _extensionPath );
+        }
+        
+        if ( _pivotsParentNode != null ) {
+            _pivotsParentNode.removeAllChildren();
         }
         
         // Draw the strand, from the tail to the head
         _strandPath.reset();
-        //XXX
+        DNAPivot[] pivots = _dnaStrand.getPivots();
+        double viewX, viewY;
+        for ( int i = 0; i < pivots.length; i++ ) {
+            
+            viewX = _modelViewTransform.modelToView( pivots[i].getX() );
+            viewY = _modelViewTransform.modelToView( pivots[i].getY() );
+            if ( i == 0 ) {
+                _strandPath.moveTo( (float) viewX, (float) viewY );
+            }
+            else {
+                _strandPath.lineTo( (float) viewX, (float) viewY );
+            }
+            
+            if ( _pivotsParentNode != null ) {
+                Shape pivotShape = new Ellipse2D.Double( viewX - PIVOT_RADIUS, viewY - PIVOT_RADIUS, 2 * PIVOT_RADIUS, 2 * PIVOT_RADIUS );
+                PPath pivotNode = new PPath( pivotShape );
+                pivotNode.setPaint( PIVOT_FILL_COLOR );
+                _pivotsParentNode.addChild( pivotNode );
+            }
+        }
         _strandNode.setPathTo( _strandPath );
     }
-
 }
