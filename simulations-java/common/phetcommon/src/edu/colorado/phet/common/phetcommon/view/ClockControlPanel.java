@@ -29,7 +29,11 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * ClockControlPanel
+ * ClockControlPanel implements a Swing component for play/pause and step in PhET simulations.
+ *
+ * ClockControlPanel should be abstracted to TimePanel or AbstractTimePanel,
+ * which exposes listener interface methods such as play, pause, and step, 
+ * and ClockControlPanel should provide implementations of these methods that are specific to IClock.
  *
  * @author ?
  * @version $Revision$
