@@ -24,6 +24,17 @@ public class DoubleRange {
     //----------------------------------------------------------------------------
     
     /**
+     * Constructs a DoubleRange where all decimal places are significant.
+     * 
+     * @param min
+     * @param max
+     * @param defaultValue
+     */
+    public DoubleRange( double min, double max, double defaultValue ) {
+        this( min, max, defaultValue, Integer.MAX_VALUE );
+    }
+    
+    /**
      * Constructor.
      * 
      * @param min
@@ -88,7 +99,7 @@ public class DoubleRange {
     
     /**
      * Gets the number of significant decimal places.
-     * Integer.MAX_VALUE should be interpretted to mean that all decimal places are significant.
+     * Integer.MAX_VALUE means that all decimal places are significant.
      * 
      * @return int
      */
