@@ -8,8 +8,6 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 
 /**
@@ -64,14 +62,15 @@ public class DNAModel extends ClockAdapter {
                 DNADefaults.LASER_POWER_RANGE );
         _modelElements.add( _laser );
         
-         _bead = new Bead( DNADefaults.BEAD_POSITION, 
+        _bead = new Bead( DNADefaults.BEAD_POSITION, 
                 DNADefaults.BEAD_ORIENTATION, 
                 DNADefaults.BEAD_DIAMETER,
                 DNADefaults.BEAD_DENSITY,
+                DNADefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE,
+                DNADefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
+                DNADefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE,
                 _fluid,
                 _laser );
-         _bead.setDtSubdivisionThreshold( DNADefaults.BEAD_DT_SUBDIVISION_THRESHOLD );
-         _bead.setNumberOfDtSubdivisions( DNADefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS );
          _modelElements.add( _bead );
          
          _dnaStrand = new DNAStrand( DNADefaults.DNA_CONTOUR_LENGTH, 

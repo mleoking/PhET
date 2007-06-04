@@ -5,6 +5,7 @@ package edu.colorado.phet.opticaltweezers.module;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
+import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 
@@ -104,6 +105,9 @@ public class DNAModule extends AbstractModule {
             Bead bead = _model.getBead();
             bead.setPosition( DNADefaults.BEAD_POSITION );
             bead.setOrientation( DNADefaults.BEAD_ORIENTATION );
+            bead.setDtSubdivisionThreshold( DNADefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
+            bead.setNumberOfDtSubdivisions( DNADefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
+            bead.setBrownianMotionScale( DNADefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE.getDefault() );
             
             // Laser
             Laser laser = _model.getLaser();
@@ -123,6 +127,7 @@ public class DNAModule extends AbstractModule {
             dnaStrand.setDampingConstant( DNADefaults.DNA_DAMPING_CONSTANT_RANGE.getDefault() );
             dnaStrand.setKickConstant( DNADefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
             dnaStrand.setNumberOfEvolutionsPerClockTick( DNADefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE.getDefault() );
+            dnaStrand.initStrand();
         }
         
         // Control panel settings that are view-related

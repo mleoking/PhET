@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.opticaltweezers.control.BeadChargeControlPanel;
 import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
 import edu.colorado.phet.opticaltweezers.control.LaserDisplayControlPanel;
@@ -33,7 +34,7 @@ public class PhysicsDefaults {
     private static final double MAX_DT = ( 1E-3 / FRAME_RATE );
     private static final double MIN_DT = 140E-16 * MAX_DT;
     private static final double DEFAULT_DT = MAX_DT;
-    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( MIN_DT, MAX_DT, DEFAULT_DT, 20 /* significantDecimalPlaces */ );
+    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( MIN_DT, MAX_DT, DEFAULT_DT );
     public static final OTClock CLOCK = new OTClock( FRAME_RATE, CLOCK_DT_RANGE );
     public static final String CLOCK_CONTROL_PATTERN = "0.0E0";
     public static final String CLOCK_TIME_PATTERN = "0.0000000000000000000";
@@ -44,9 +45,9 @@ public class PhysicsDefaults {
     private static final double FLUID_Y_OFFSET = 100; // nm
     public static final Point2D FLUID_POSITION = new Point2D.Double( 0, FLUID_Y_OFFSET + ( FLUID_HEIGHT /2 ) ); // nm
     public static final double FLUID_ORIENTATION = Math.toRadians( 0 ); // left-to-right flow direction
-    public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 0, 1000000, 0, 0 ); // nm/sec, min must be >0
-    public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 1E-4, 1E-2, Fluid.WATER_VISCOSITY, 5 ); // Pa*s
-    public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 200, 0 ); // Kelvin
+    public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 0, 1000000, 0 ); // nm/sec, min must be >0
+    public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 1E-4, 1E-2, Fluid.WATER_VISCOSITY ); // Pa*s
+    public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 200 ); // Kelvin
 
     // Laser model, local origin at center of objective
     public static final double LASER_DIAMETER_AT_OBJECTIVE = 1000; // nm
@@ -57,7 +58,7 @@ public class PhysicsDefaults {
     public static final double LASER_VISIBLE_WAVELENGTH = 632; // nm, to be used by view components
     public static final Point2D LASER_POSITION = new Point2D.Double( 1200, FLUID_POSITION.getY() ); // nm
     public static final double LASER_ORIENTATION = Math.toRadians( -90 );
-    public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500, 0 ); // mW
+    public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500 ); // mW
     public static final boolean LASER_RUNNING = true;
     
     // Bead model, local origin at center
@@ -65,8 +66,9 @@ public class PhysicsDefaults {
     public static final double BEAD_ORIENTATION = Math.toRadians( 0 );
     public static final double BEAD_DIAMETER = 200; // nm
     public static final double BEAD_DENSITY = 1.05E-21; // g/nm^3, polystyrene
-    public static final double BEAD_DT_SUBDIVISION_THRESHOLD = 1E-6;
-    public static final int BEAD_NUMBER_OF_DT_SUBDIVISIONS = 10;
+    public static final DoubleRange BEAD_DT_SUBDIVISION_THRESHOLD_RANGE = new DoubleRange( CLOCK_DT_RANGE.getMax() * 1E-2, CLOCK_DT_RANGE.getMax(), 1E-6 );
+    public static final IntegerRange BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE = new IntegerRange( 1, 1000, 10 );
+    public static final DoubleRange BEAD_BROWNIAN_MOTION_SCALE_RANGE = new DoubleRange( 0, 5, 1 );
     
     // Control panel settings
     public static final String LASER_DISPLAY_CHOICE = LaserDisplayControlPanel.CHOICE_BEAM;

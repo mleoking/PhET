@@ -3,11 +3,11 @@
 package edu.colorado.phet.opticaltweezers.control.developer;
 
 import java.awt.Font;
-import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -15,7 +15,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 
 /**
@@ -24,7 +23,7 @@ import edu.colorado.phet.opticaltweezers.model.Bead;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeadMotionControlPanel extends JPanel {
+public class BeadMotionControlPanel extends JPanel implements Observer {
 
     private Bead _bead;
 
@@ -36,14 +35,15 @@ public class BeadMotionControlPanel extends JPanel {
         super();
         
         _bead = bead;
+        _bead.addObserver( this );
         
         TitledBorder border = new TitledBorder( "Bead motion algorithm:" );
         border.setTitleFont( titleFont );
         this.setBorder( border );
         
-        double dtMin = PhysicsDefaults.CLOCK_DT_RANGE.getMax() * 1E-2;
-        double dtMax = PhysicsDefaults.CLOCK_DT_RANGE.getMax();
-        _dtSubdivisionThresholdControl = new LogarithmicValueControl( dtMin, dtMax, "dt subdivision threshold:", "0.0E0", "" );
+        double min = bead.getDtSubdivisionThresholdRange().getMin();
+        double max = bead.getDtSubdivisionThresholdRange().getMax();
+        _dtSubdivisionThresholdControl = new LogarithmicValueControl( min, max, "dt subdivision threshold:", "0.0E0", "" );
         _dtSubdivisionThresholdControl.setTextFieldColumns( 4 );
         _dtSubdivisionThresholdControl.setFont( controlFont );
         _dtSubdivisionThresholdControl.addChangeListener( new ChangeListener() {
@@ -52,7 +52,9 @@ public class BeadMotionControlPanel extends JPanel {
             }
         });
         
-        _numberOfDtSubdivisions = new LinearValueControl( 1, 1000, "# of dt subdivisions:", "###0", "" );
+        min = bead.getNumberOfDtSubdivisionsRange().getMin();
+        max = bead.getNumberOfDtSubdivisionsRange().getMax();
+        _numberOfDtSubdivisions = new LinearValueControl( min, max, "# of dt subdivisions:", "###0", "" );
         _numberOfDtSubdivisions.setUpDownArrowDelta( 1 );
         _numberOfDtSubdivisions.setFont( controlFont );
         _numberOfDtSubdivisions.addChangeListener( new ChangeListener() {
@@ -61,7 +63,9 @@ public class BeadMotionControlPanel extends JPanel {
             }
         });
         
-        _brownianMotionScaleControl = new LinearValueControl( 0, 5, "Brownian motion scale:", "0.00", "" );
+        min = bead.getBrownianMotionScaleRange().getMin();
+        max = bead.getBrownianMotionScaleRange().getMax();
+        _brownianMotionScaleControl = new LinearValueControl( min, max, "Brownian motion scale:", "0.00", "" );
         _brownianMotionScaleControl.setUpDownArrowDelta( 0.01 );
         _brownianMotionScaleControl.setFont( controlFont );
         _brownianMotionScaleControl.addChangeListener( new ChangeListener() {
@@ -86,6 +90,10 @@ public class BeadMotionControlPanel extends JPanel {
         _brownianMotionScaleControl.setValue( _bead.getBrownianMotionScale() );
     }
     
+    public void cleanup() {
+        _bead.deleteObserver( this );
+    }
+    
     private void handleBrownianMotionScaleControl() {
         double value = _brownianMotionScaleControl.getValue();
         _bead.setBrownianMotionScale( value );
@@ -99,5 +107,19 @@ public class BeadMotionControlPanel extends JPanel {
     private void handleNumberOfDtDubdivisionsControl() {
         int value = (int)_numberOfDtSubdivisions.getValue();
         _bead.setNumberOfDtSubdivisions( value );
+    }
+
+    public void update( Observable o, Object arg ) {
+        if ( o == _bead ) {
+            if ( arg == Bead.PROPERTY_DT_SUBDIVISION_THRESHOLD ) {
+                _dtSubdivisionThresholdControl.setValue( _bead.getDtSubdivisionThreshold() );
+            }
+            else if ( arg == Bead.PROPERTY_NUMBER_OF_DT_SUBDIVISION ) {
+                _numberOfDtSubdivisions.setValue( _bead.getNumberOfDtSubdivisions() );
+            }
+            else if ( arg == Bead.PROPERTY_BROWNIAN_MOTION_SCALE ) {
+                _brownianMotionScaleControl.setValue( _bead.getBrownianMotionScale() );
+            }
+        }
     }
 }

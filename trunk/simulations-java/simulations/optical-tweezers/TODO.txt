@@ -28,7 +28,6 @@ MEDIUM PRIORITY:
 - make "beam" the only laser display option in fast mode
 
 LOW PRIORITY:
-- make developer controls resettable?
 - make developer controls savable/loadable?
 - get rid of "Advanced" panel, there's only 1 control left in it ?
 - position histogram should make an observation every N seconds, not every clock tick (?)
@@ -62,6 +61,9 @@ MISSING INFO:
 
  
 DONE:
+6/4/07 - make all developer controls resettable
+6/4/07 - add model properties for all developer controls for Bead and DNAStrand
+6/4/07 - add ranges for all developer controls in constant classes
 6/1/07 - add ranges for all DNAStrand properties to DNADefaults
 6/1/07 - add properties to DNAStrand for everything that's settable
 6/1/07 - reorganize package structure

@@ -104,6 +104,9 @@ public class PhysicsModule extends AbstractModule {
             Bead bead = _model.getBead();
             bead.setPosition( PhysicsDefaults.BEAD_POSITION );
             bead.setOrientation( PhysicsDefaults.BEAD_ORIENTATION );
+            bead.setDtSubdivisionThreshold( PhysicsDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
+            bead.setNumberOfDtSubdivisions( PhysicsDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
+            bead.setBrownianMotionScale( PhysicsDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE.getDefault() );
             
             // Laser
             Laser laser = _model.getLaser();

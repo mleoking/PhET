@@ -49,10 +49,17 @@ public class LaserPowerControl extends JPanel {
     /**
      * Constructor.
      * 
+     * @param powerRange
+     * @param label
+     * @param units
+     * @param pattern
+     * @param columns
+     * @param wavelength
      * @param sliderSize
      * @param font
      */
-    public LaserPowerControl( DoubleRange powerRange, String label, String units, int columns, double wavelength, Dimension sliderSize, Font font ) {
+    public LaserPowerControl( DoubleRange powerRange, String label, String units, String pattern, int columns,
+            double wavelength, Dimension sliderSize, Font font ) {
         super();
         
         _minPower = powerRange.getMin();
@@ -76,13 +83,6 @@ public class LaserPowerControl extends JPanel {
         _formattedTextField.addFocusListener( _listener );
         _formattedTextField.addKeyListener( _listener );
         
-        String pattern = "0";
-        for ( int i = 0; i < powerRange.getSignificantDecimalPlaces(); i++ ) {
-            if ( i == 0 ) {
-                pattern += ".";
-            }
-            pattern += "0";
-        }
         _formatter = new DecimalFormat( pattern );
         
         _units = new JLabel( units );

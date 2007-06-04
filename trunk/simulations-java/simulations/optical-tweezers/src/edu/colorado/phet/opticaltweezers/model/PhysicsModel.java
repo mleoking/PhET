@@ -65,10 +65,11 @@ public class PhysicsModel extends ClockAdapter {
                 PhysicsDefaults.BEAD_ORIENTATION, 
                 PhysicsDefaults.BEAD_DIAMETER,
                 PhysicsDefaults.BEAD_DENSITY,
+                PhysicsDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE,
+                PhysicsDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
+                PhysicsDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE,
                 _fluid,
                 _laser );
-         _bead.setDtSubdivisionThreshold( PhysicsDefaults.BEAD_DT_SUBDIVISION_THRESHOLD );
-         _bead.setNumberOfDtSubdivisions( PhysicsDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS );
          _modelElements.add( _bead );
 
          _modelViewTransform = new ModelViewTransform( PhysicsDefaults.MODEL_TO_VIEW_SCALE );

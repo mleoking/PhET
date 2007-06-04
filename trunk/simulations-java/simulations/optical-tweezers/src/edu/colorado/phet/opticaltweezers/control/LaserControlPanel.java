@@ -42,8 +42,9 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     private static final Color PANEL_STROKE_COLOR = Color.BLACK;
     private static final Color PANEL_FILL_COLOR = Color.DARK_GRAY;
     
-    private static final Dimension POWER_SLIDER_SIZE = new Dimension( 150, 25 );
-    private static final int POWER_VALUE_DIGITS = 4;
+    private static final Dimension POWER_CONTROL_SLIDER_SIZE = new Dimension( 150, 25 );
+    private static final String POWER_CONTROL_PATTERN = "0";
+    private static final int POWER_CONTROL_COLUMNS = 4;
         
     //----------------------------------------------------------------------------
     // Instance data
@@ -96,9 +97,8 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         DoubleRange powerRange = _laser.getPowerRange();
         String label = OTResources.getString( "label.power" );
         String units = OTResources.getString( "units.power" );
-        int columns = POWER_VALUE_DIGITS;
         double wavelength = laser.getVisibleWavelength();
-        _powerControl = new LaserPowerControl( powerRange, label, units, columns, wavelength, POWER_SLIDER_SIZE, font );
+        _powerControl = new LaserPowerControl( powerRange, label, units, POWER_CONTROL_PATTERN, POWER_CONTROL_COLUMNS, wavelength, POWER_CONTROL_SLIDER_SIZE, font );
         _powerControl.setLabelForeground( Color.WHITE );
         _powerControl.setUnitsForeground( Color.WHITE );
         _powerControlListener = new ChangeListener() {

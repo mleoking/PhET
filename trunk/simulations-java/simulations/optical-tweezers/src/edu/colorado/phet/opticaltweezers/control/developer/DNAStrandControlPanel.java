@@ -35,6 +35,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer {
         super();
         
         _dnaStrand = dnaStrand;
+        _dnaStrand.addObserver( this );
         
         TitledBorder border = new TitledBorder( "DNA strand behavior:" );
         border.setTitleFont( titleFont );
@@ -100,6 +101,10 @@ public class DNAStrandControlPanel extends JPanel implements Observer {
         _dampingConstantControl.setValue( _dnaStrand.getDampingConstant() );
         _kickConstant.setValue( _dnaStrand.getKickConstant() );
         _numberOfEvolutionsPerClockTickControl.setValue( _dnaStrand.getNumberOfEvolutionsPerClockTick() );
+    }
+    
+    public void cleanup() {
+        _dnaStrand.deleteObserver( this );
     }
     
     private void handleSpringConstantControl() {
