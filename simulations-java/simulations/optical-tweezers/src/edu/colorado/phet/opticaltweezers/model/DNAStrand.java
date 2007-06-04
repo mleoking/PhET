@@ -133,10 +133,6 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     public int getNumberOfSegments() {
         return _numberOfSegments;
     }
-    
-    public Point2D getHeadPosition() {
-        return new Point2D.Double( getHeadX(), getHeadY() );
-    }
 
     public double getHeadX() {
         return getHeadPivot().getX();
@@ -144,10 +140,6 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
 
     public double getHeadY() {
         return getHeadPivot().getY();
-    }
-
-    public Point2D getTailPosition() {
-        return new Point2D.Double( getTailX(), getTailY() );
     }
 
     public double getTailX() {
@@ -269,9 +261,9 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * Gets the extension, the straight-line distance between the head and tail.
      */
     private double getExtension() {
-        Point2D tailPosition = getTailPosition();
-        Point2D headPosition = getHeadPosition();
-        return tailPosition.distance( headPosition );
+        final double dx = getHeadX() - getTailX();
+        final double dy = getHeadY() - getTailY();
+        return Math.sqrt( ( dx * dx ) + ( dy * dy ) );
     }
 
     //----------------------------------------------------------------------------
