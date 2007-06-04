@@ -1,7 +1,7 @@
 package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import java.awt.*;
 
@@ -18,19 +18,19 @@ public class RotationLookAndFeel extends PhetLookAndFeel {
     }
 
     public static Font getControlPanelTitleFont() {
-        return new LucidaSansFont( 20, true );
+        return new PhetDefaultFont( 20, true );
     }
 
     public static Font getLegendItemFont() {
-        return new LucidaSansFont( 18, false );
+        return new PhetDefaultFont( 18, false );
     }
 
     public static Font getCheckBoxFont() {
-        return new LucidaSansFont( 18, false );
+        return new PhetDefaultFont( 18, false );
     }
 
     public static Font getGraphSelectionItemFont() {
-        return new LucidaSansFont( 18, false );
+        return new PhetDefaultFont( 18, false );
     }
 
 }

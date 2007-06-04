@@ -2,7 +2,7 @@ package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.phetcommon.view.util.LucidaSansFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolo.PNode;
@@ -22,7 +22,7 @@ public class RotationOriginNode extends PNode {
         addChild( path );
 
         HTMLNode htmlNode = new HTMLNode( "<html>" + UnicodeUtil.THETA + "=0<sup>o</sup></html>" );
-        htmlNode.setFont( new LucidaSansFont( 18, true ) );
+        htmlNode.setFont( new PhetDefaultFont( 18, true ) );
         addChild( htmlNode );
 
         translate( rotationPlatform.getCenter().getX() + rotationPlatform.getRadius() + offsetX, rotationPlatform.getCenter().getY() );

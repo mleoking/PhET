@@ -1,14 +1,25 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.phetcommon.view.util;
 
+import javax.swing.*;
 import java.awt.Font;
 
 /**
- * Simplified interface for using a platform-independent (JRE bundled) font.
+ * Simplified interface for instantiating the default font used in PhET simulations.
  */
-public class LucidaSansFont extends Font {
+public class PhetDefaultFont extends Font {
     
-    private static final String FONT_NAME = "Lucida Sans";
+    private static final String FONT_NAME = new JLabel().getFont().getFontName();
+
+
+    /**
+     * Constructs a LucidaSansFont with a specified point size.
+     *
+     * @param size the size of the font.
+     */
+    public PhetDefaultFont( int size ) {
+        this( Font.PLAIN, size);
+    }
     
     /**
      * This constructor is more similar to the Font constructor, 
@@ -17,17 +28,8 @@ public class LucidaSansFont extends Font {
      * @param style
      * @param size
      */
-    public LucidaSansFont( int style, int size ) {
+    public PhetDefaultFont( int style, int size ) {
         super( FONT_NAME, style, size );
-    }
-    
-    /**
-     * Constructs a LucidaSansFont with a specified point size.
-     *
-     * @param size the size of the font.
-     */
-    public LucidaSansFont( int size ) {
-        this( size, false );
     }
 
     /**
@@ -36,7 +38,7 @@ public class LucidaSansFont extends Font {
      * @param size the font size
      * @param bold whether it is bold.
      */
-    public LucidaSansFont( int size, boolean bold ) {
+    public PhetDefaultFont( int size, boolean bold ) {
         this( size, bold, false );
     }
 
@@ -47,7 +49,7 @@ public class LucidaSansFont extends Font {
      * @param bold    whether it is bold
      * @param italics whether it is italicized.
      */
-    public LucidaSansFont( int size, boolean bold, boolean italics ) {
+    public PhetDefaultFont( int size, boolean bold, boolean italics ) {
         this( ( bold ? Font.BOLD : Font.PLAIN ) | ( italics ? Font.ITALIC : Font.PLAIN ), size );
     }
 }
