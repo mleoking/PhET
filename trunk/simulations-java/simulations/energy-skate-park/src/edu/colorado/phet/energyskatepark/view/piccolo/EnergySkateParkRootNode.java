@@ -158,7 +158,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             }
         } );
 
-        //todo: this could be moved to PDebugKeyHandlers
+        //todo: this could be moved to PDebugKeyHandlers or a subclass
         simulationPanel.addKeyListener( new KeyAdapter() {
             public void keyReleased( KeyEvent event ) {
                 if( event.getKeyCode() == KeyEvent.VK_V && event.isControlDown() && event.isShiftDown() ) {

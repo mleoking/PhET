@@ -188,7 +188,7 @@ public class EnergySkateParkModel implements Serializable {
         }
         this.bodies = model.bodies;
         notifyBodiesSynced();
-        notifyPrimaryBodyChanged();//todo: this could inadvertently send notifications even when unnecessary (if no changes were made)
+        notifyPrimaryBodyChanged();
 
         this.splines = model.splines;
         notifySplinesSynced();

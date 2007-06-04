@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  * Author: Sam Reid
  * Mar 16, 2007, 11:30:06 AM
  */
-public class EnergySkateParkSpline implements Cloneable, Serializable {
+public class EnergySkateParkSpline implements Serializable {
     private DefaultTrackSpline parametricFunction2D;
     private boolean rollerCoaster;
     private boolean userControlled;
@@ -21,7 +22,6 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
     private transient ArrayList listeners = new ArrayList();
 
     public EnergySkateParkSpline( SerializablePoint2D[] controlPoints ) {
-//        this( new CubicSpline2D( controlPoints ) );
         this( new DefaultTrackSpline( controlPoints ) );
     }
 
@@ -37,23 +37,14 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
         return "fn=" + parametricFunction2D;
     }
 
-    public Object clone() {
+    public EnergySkateParkSpline copy() {
         try {
-            EnergySkateParkSpline clone = (EnergySkateParkSpline)super.clone();
-            clone.parametricFunction2D = (DefaultTrackSpline)this.parametricFunction2D.clone();
-            clone.rollerCoaster = this.rollerCoaster;
-            clone.userControlled = this.userControlled;
-            clone.interactive = this.interactive;
-            return clone;
+            return (EnergySkateParkSpline)PersistenceUtil.copy( this );
         }
-        catch( CloneNotSupportedException e ) {
+        catch( PersistenceUtil.CopyFailedException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
-    }
-
-    public EnergySkateParkSpline copy() {
-        return (EnergySkateParkSpline)clone();
     }
 
     public boolean equals( Object obj ) {
@@ -95,7 +86,7 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
     }
 
     public GeneralPath getInterpolationPath() {
-        return createInterpolationPath();//todo: buffering for this call?
+        return createInterpolationPath();//todo: internal buffering for this call?
     }
 
     private GeneralPath createInterpolationPath() {
@@ -141,6 +132,7 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
 
     public void translateControlPoint( int index, double width, double height ) {
         parametricFunction2D.translateControlPoint( index, width, height );
+        notifyControlPointsChanged();
     }
 
     public void removeControlPoint( int index ) {
