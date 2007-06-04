@@ -321,7 +321,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         for ( int i = 0; i < _numberOfEvolutionsPerClockTick; i++ ) {
 
             final int numberOfPivots = _pivots.length;
-            DNAPivot currentPivot, previousPivot, nextPivot; // previous is closer to tail, next is closer to head
+            DNAPivot currentPivot, previousPivot, nextPivot; // previousPivot is closer to tail, nextPivot is closer to head
             
             // traverse all pivots from tail to head, skipping tail and head
             for ( int j = 1; j < numberOfPivots - 1; j++ ) {
@@ -330,7 +330,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 previousPivot = _pivots[ j - 1 ];
                 nextPivot = _pivots[ j + 1 ];
                 
-                // offset
+                // position
                 final double x = currentPivot.getX() + ( currentPivot.getXVelocity() * dt ) + ( 0.5 * currentPivot.getXAcceleration() * dt * dt );
                 final double y = currentPivot.getY() + ( currentPivot.getYVelocity() * dt ) + ( 0.5 * currentPivot.getYAcceleration() * dt * dt );
                 currentPivot.setPosition( x, y );
