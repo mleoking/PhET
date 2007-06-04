@@ -3,11 +3,11 @@
 package edu.colorado.phet.opticaltweezers.control.developer;
 
 import java.awt.Font;
-import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -22,7 +22,7 @@ import edu.colorado.phet.opticaltweezers.model.DNAStrand;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DNAStrandControlPanel extends JPanel {
+public class DNAStrandControlPanel extends JPanel implements Observer {
 
     private DNAStrand _dnaStrand;
     
@@ -40,7 +40,9 @@ public class DNAStrandControlPanel extends JPanel {
         border.setTitleFont( titleFont );
         this.setBorder( border );
         
-        _springConstantControl = new LinearValueControl( 2.0, 10.0, "spring:", "0.00", "" );
+        double min = dnaStrand.getSpringConstantRange().getMin();
+        double max = dnaStrand.getSpringConstantRange().getMax();
+        _springConstantControl = new LinearValueControl( min, max, "spring:", "0.00", "" );
         _springConstantControl.setUpDownArrowDelta( 0.01 );
         _springConstantControl.setFont( controlFont );
         _springConstantControl.addChangeListener( new ChangeListener() {
@@ -49,7 +51,9 @@ public class DNAStrandControlPanel extends JPanel {
             }
         });
         
-        _dampingConstantControl = new LinearValueControl( 0.1, 0.3, "damping:", "0.00", "" );
+        min = dnaStrand.getDampingConstantRange().getMin();
+        max = dnaStrand.getDampingConstantRange().getMax();
+        _dampingConstantControl = new LinearValueControl( min, max, "damping:", "0.00", "" );
         _dampingConstantControl.setUpDownArrowDelta( 0.01 );
         _dampingConstantControl.setFont( controlFont );
         _dampingConstantControl.addChangeListener( new ChangeListener() {
@@ -58,7 +62,9 @@ public class DNAStrandControlPanel extends JPanel {
             }
         });
         
-        _kickConstant = new LinearValueControl( 0.25, 0.75, "kick:", "0.00", "" );
+        min = dnaStrand.getKickConstantRange().getMin();
+        max = dnaStrand.getKickConstantRange().getMax();
+        _kickConstant = new LinearValueControl( min, max, "kick:", "0.00", "" );
         _kickConstant.setUpDownArrowDelta( 0.01 );
         _kickConstant.setFont( controlFont );
         _kickConstant.addChangeListener( new ChangeListener() {
@@ -67,7 +73,9 @@ public class DNAStrandControlPanel extends JPanel {
             }
         });
         
-        _numberOfEvolutionsPerClockTickControl = new LinearValueControl( 1, 20, "evolutions/tick:", "#0", "" );
+        min = dnaStrand.getNumberOfEvolutionsPerClockTickRange().getMin();
+        max = dnaStrand.getNumberOfEvolutionsPerClockTickRange().getMax();
+        _numberOfEvolutionsPerClockTickControl = new LinearValueControl( min, max, "evolutions/tick:", "#0", "" );
         _numberOfEvolutionsPerClockTickControl.setUpDownArrowDelta( 1 );
         _numberOfEvolutionsPerClockTickControl.setFont( controlFont );
         _numberOfEvolutionsPerClockTickControl.addChangeListener( new ChangeListener() {
@@ -112,5 +120,22 @@ public class DNAStrandControlPanel extends JPanel {
     private void handleNumberOfEvolutionsPerClockTickControl() {
         int value = (int) Math.round( _numberOfEvolutionsPerClockTickControl.getValue() );
         _dnaStrand.setNumberOfEvolutionsPerClockTick( value );
+    }
+
+    public void update( Observable o, Object arg ) {
+        if ( o == _dnaStrand ) {
+            if ( arg == DNAStrand.PROPERTY_SPRING_CONSTANT ) {
+                _springConstantControl.setValue( _dnaStrand.getSpringConstant() );
+            }
+            else if ( arg == DNAStrand.PROPERTY_DAMPING_CONSTANT ) {
+                _dampingConstantControl.setValue( _dnaStrand.getDampingConstant() );
+            }
+            else if ( arg == DNAStrand.PROPERTY_KICK_CONSTANT ) {
+                _kickConstant.setValue( _dnaStrand.getKickConstant() );
+            }
+            else if ( arg == DNAStrand.PROPERTY_NUMBER_OF_EVOLUTIONS_PER_CLOCK_TICK ) {
+                _numberOfEvolutionsPerClockTickControl.setValue( _dnaStrand.getNumberOfEvolutionsPerClockTick() ); 
+            }
+        }
     }
 }

@@ -9,6 +9,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
@@ -24,45 +26,40 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DNAStrand extends OTObservable implements ModelElement, Observer {
-    
+
     //----------------------------------------------------------------------------
     // Public class data
     //----------------------------------------------------------------------------
-    
+
     public static final String PROPERTY_FORCE = "force"; // force applied to the bead that is attached to the head
     public static final String PROPERTY_SHAPE = "shape"; // shape of the strand
-    public static final String PROPERTY_TAIL_POSITION = "tailPosition"; // position of the pinned tail
-    
+    public static final String PROPERTY_SPRING_CONSTANT = "springConstant";
+    public static final String PROPERTY_DAMPING_CONSTANT = "dampingConstant";
+    public static final String PROPERTY_KICK_CONSTANT = "kickConstant";
+    public static final String PROPERTY_NUMBER_OF_EVOLUTIONS_PER_CLOCK_TICK = "numberOfEvolutionsPerClockTick";
+
     // persistence length is a measure of the strand's bending stiffness
     public static final double DOUBLE_STRANDED_PERSISTENCE_LENGTH = 50; // nm
     public static final double SINGLE_STRANDED_PERSISTENCE_LENGTH = 1; // nm
-    
-    //----------------------------------------------------------------------------
-    // Private class data
-    //----------------------------------------------------------------------------
-    
-    private static final double DEFAULT_CONTOUR_LENGTH = 2413; // nm
-    private static final double DEFAULT_PERSISTENCE_LENGTH = DOUBLE_STRANDED_PERSISTENCE_LENGTH; // nm 
-    private static final int DEFAULT_NUMBER_OF_SEGMENTS = 40; // nm
-    private static final double DEFAULT_SPRING_CONSTANT = 6;
-    private static final double DEFAULT_DAMPING_CONSTANT = 0.2;
-    private static final double DEFAULT_KICK_CONSTANT = 0.5;
-    private static final int DEFAULT_EVOLUTIONS_PER_CLOCK_TICK = 10;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private Bead _bead;
     private Fluid _fluid;
-    
+
     private final double _contourLength; // length of the DNA strand, nm
     private final double _persistenceLength; // nm
     private final int _numberOfSegments; // number of discrete segments used to model the strand
     private Point2D _headPosition; // nm
     private Point2D _tailPosition; // nm
-    
+
     private List _pivots;
+    private DoubleRange _springConstantRange;
+    private DoubleRange _dampingConstantRange;
+    private DoubleRange _kickConstantRange;
+    private IntegerRange _numberOfEvolutionsPerClockTickRange;
     private double _springConstant;
     private double _dampingConstant;
     private double _kickConstant;
@@ -71,52 +68,49 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
-     * Constructors a DNA strand with default contour length and persistence length.
-     * The head is at the bead's position, the tail position is specified.
-     * 
-     * @param tailPosition
-     * @param bead
-     * @param fluid
-     */
-    public DNAStrand( Point2D tailPosition, Bead bead, Fluid fluid ) {
-        this( DEFAULT_CONTOUR_LENGTH, DEFAULT_PERSISTENCE_LENGTH, DEFAULT_NUMBER_OF_SEGMENTS, tailPosition, bead, fluid );
-    }
-    
-    /*
      * Constructor.
      * 
      * @param contourLength
      * @param persistenceLength
      * @param numberOfSegments
      * @param tailPosition
+     * @param springConstantRange
+     * @param dampingConstantRange
+     * @param kickConstantRange
+     * @param numberOfEvolutionsPerClockTickRange
      * @param bead
      * @param fluid
      */
-    protected DNAStrand( double contourLength, double persistenceLength, int numberOfSegments, Point2D tailPosition, Bead bead, Fluid fluid ) {
-        
+    public DNAStrand( double contourLength, double persistenceLength, int numberOfSegments, DoubleRange springConstantRange, DoubleRange dampingConstantRange, DoubleRange kickConstantRange, IntegerRange numberOfEvolutionsPerClockTickRange, Bead bead, Fluid fluid ) {
+
         _contourLength = contourLength;
         _persistenceLength = persistenceLength;
         _numberOfSegments = numberOfSegments;
-        
+
         _bead = bead;
         _bead.addObserver( this );
-        
+
         _fluid = fluid;
         _fluid.addObserver( this );
-        
-        _headPosition = new Point2D.Double( _bead.getPositionRef().getX(), _bead.getPositionRef().getY() );
-        _tailPosition = new Point2D.Double( tailPosition.getX(), tailPosition.getY() );
-        
-        _springConstant = DEFAULT_SPRING_CONSTANT;
-        _dampingConstant = DEFAULT_DAMPING_CONSTANT;
-        _kickConstant = DEFAULT_KICK_CONSTANT;
-        _numberOfEvolutionsPerClockTick = DEFAULT_EVOLUTIONS_PER_CLOCK_TICK;
-        
+
+        _headPosition = new Point2D.Double();
+        _tailPosition = new Point2D.Double();
+
+        _springConstantRange = springConstantRange;
+        _dampingConstantRange = dampingConstantRange;
+        _kickConstantRange = kickConstantRange;
+        _numberOfEvolutionsPerClockTickRange = numberOfEvolutionsPerClockTickRange;
+
+        _springConstant = springConstantRange.getDefault();
+        _dampingConstant = dampingConstantRange.getDefault();
+        _kickConstant = kickConstantRange.getDefault();
+        _numberOfEvolutionsPerClockTick = numberOfEvolutionsPerClockTickRange.getDefault();
+
         initializeStrand();
     }
-    
+
     /**
      * Call this before releasing all references to this object.
      */
@@ -124,100 +118,119 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _bead.deleteObserver( this );
         _fluid.deleteObserver( this );
     }
-    
+
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
-    
+
     public double getContourLength() {
         return _contourLength;
     }
-    
-    public double getPersistenceLength() {
-        return _persistenceLength;
-    }
-    
+
     public int getNumberOfSegments() {
         return _numberOfSegments;
     }
-    
-    public Point2D getHeadPosition() {
-        return new Point2D.Double( _headPosition.getX(), _headPosition.getY() );
-    }
-    
+
     public Point2D getHeadPositionRef() {
         return _headPosition;
     }
-    
+
     public double getHeadX() {
         return _headPosition.getX();
     }
-    
+
     public double getHeadY() {
         return _headPosition.getY();
     }
-    
-    public void setTailPosition( Point2D tailPosition ) {
-        setTailPosition( tailPosition.getX(), tailPosition.getY() );
-    }
-    
-    public void setTailPosition( double x, double y ) {
-        _tailPosition.setLocation( x, y );
-        notifyObservers( PROPERTY_TAIL_POSITION );
-    }
-    
-    public Point2D getTailPosition() {
-        return new Point2D.Double( _tailPosition.getX(), _tailPosition.getY() );
-    }
-    
+
     public Point2D getTailPositionRef() {
         return _tailPosition;
     }
-    
+
     public double getTailX() {
         return _tailPosition.getX();
     }
-    
+
     public double getTailY() {
         return _tailPosition.getY();
     }
-    
+
     public void setSpringConstant( double springConstant ) {
-        _springConstant = springConstant;
+        if ( !_springConstantRange.contains( springConstant ) ) {
+            new IllegalArgumentException( "springConstant out of range: " + springConstant );
+        }
+        if ( springConstant != _springConstant ) {
+            _springConstant = springConstant;
+            notifyObservers( PROPERTY_SPRING_CONSTANT );
+        }
     }
-    
+
     public double getSpringConstant() {
         return _springConstant;
     }
-    
-    public void setDampingConstant( double dampingConstant ) {
-        _dampingConstant = dampingConstant;
+
+    public DoubleRange getSpringConstantRange() {
+        return _springConstantRange;
     }
-    
+
+    public void setDampingConstant( double dampingConstant ) {
+        if ( !_dampingConstantRange.contains( dampingConstant ) ) {
+            new IllegalArgumentException( "dampingConstant out of range: " + dampingConstant );
+        }
+        if ( dampingConstant != _dampingConstant ) {
+            _dampingConstant = dampingConstant;
+            notifyObservers( PROPERTY_DAMPING_CONSTANT );
+        }
+    }
+
     public double getDampingConstant() {
         return _dampingConstant;
     }
-    
-    public void setKickConstant( double kickConstant ) {
-        _kickConstant = kickConstant;
+
+    public DoubleRange getDampingConstantRange() {
+        return _dampingConstantRange;
     }
-    
+
+    public void setKickConstant( double kickConstant ) {
+        if ( !_kickConstantRange.contains( kickConstant ) ) {
+            new IllegalArgumentException( "kickConstant out of range: " + kickConstant );
+        }
+        if ( kickConstant != _kickConstant ) {
+            _kickConstant = kickConstant;
+            notifyObservers( PROPERTY_KICK_CONSTANT );
+        }
+    }
+
     public double getKickConstant() {
         return _kickConstant;
     }
-    
-    public void setNumberOfEvolutionsPerClockTick( int numberOfEvolutions ) {
-        _numberOfEvolutionsPerClockTick = numberOfEvolutions;
+
+    public DoubleRange getKickConstantRange() {
+        return _kickConstantRange;
     }
-    
+
+    public void setNumberOfEvolutionsPerClockTick( int numberOfEvolutionsPerClockTick ) {
+        if ( !_numberOfEvolutionsPerClockTickRange.contains( numberOfEvolutionsPerClockTick ) ) {
+            new IllegalArgumentException( "numberOfEvolutionsPerClockTick out of range: " + numberOfEvolutionsPerClockTick );
+        }
+        if ( numberOfEvolutionsPerClockTick != _numberOfEvolutionsPerClockTick ) {
+            _numberOfEvolutionsPerClockTick = numberOfEvolutionsPerClockTick;
+            notifyObservers( PROPERTY_NUMBER_OF_EVOLUTIONS_PER_CLOCK_TICK );
+        }
+    }
+
     public int getNumberOfEvolutionsPerClockTick() {
         return _numberOfEvolutionsPerClockTick;
     }
-    
+
+    public IntegerRange getNumberOfEvolutionsPerClockTickRange() {
+        return _numberOfEvolutionsPerClockTickRange;
+    }
+
     //----------------------------------------------------------------------------
     // Force model
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the force acting on the DNA head.
      * 
@@ -228,7 +241,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         double direction = getForceDirection();
         return new Vector2D.Polar( magnitude, direction );
     }
-    
+
     /*
      * Gets the direction of the force acting on the DNA head (radians).
      */
@@ -237,7 +250,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         final double yOffset = _tailPosition.getY() - _headPosition.getY();
         return Math.atan2( yOffset, xOffset );
     }
-    
+
     /*
      * Gets the magnitude of the force acting on the DNA head (pN).
      */
@@ -248,22 +261,26 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         final double x = extension / _contourLength;
         return ( kbT / Lp ) * ( ( 1 / ( 4 * ( 1 - x ) * ( 1 - x ) ) ) - ( 0.24 ) + x );
     }
-    
+
     /*
      * Gets the extension, the straight-line distance between the head and tail.
      */
     private double getExtension() {
         return _tailPosition.distance( _headPosition );
     }
-    
+
     //----------------------------------------------------------------------------
     // Strand shape model
     //----------------------------------------------------------------------------
-    
+
     /*
      * Initializes each of the pivot points that make up the DNA strand.
      */
     private void initializeStrand() {
+
+        // head is attached to the bead
+        _headPosition.setLocation( _bead.getPositionRef() );
+
         final double initialSegmentLength = getExtension() / _numberOfSegments;
         _pivots = new ArrayList();
         Pivot tailPivot = new Pivot( 0, 0 );
@@ -279,8 +296,10 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         }
         Pivot headPivot = new Pivot( _headPosition.getX() - _tailPosition.getX(), _headPosition.getY() - _headPosition.getY() );
         _pivots.add( headPivot );
+
+        notifyObservers( PROPERTY_SHAPE );
     }
-    
+
     private void evolveStrand( double clockStep ) {
         final double dt = clockStep / _numberOfEvolutionsPerClockTick;
         for ( int i = 0; i < _numberOfEvolutionsPerClockTick; i++ ) {
@@ -289,11 +308,11 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
             //XXX the head is attached to the bead, so pivot[last] does not evolve
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
-    
+
     /*
      * Updates the model when something it's observing changes.
      * 
@@ -317,26 +336,26 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
-    
+
     public void stepInTime( double dt ) {
         evolveStrand( dt );
         notifyObservers( PROPERTY_SHAPE );
     }
-    
+
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
-    
+
     /*
      * Pivot is a data structure that describes one of points 
      * that exists between line segments of the strand.
      */
     private static class Pivot {
-        
+
         private double xOffset, yOffset; // position, relative to strand tail
         private double vx, vy; // velocity
         private double ax, ay; // acceleration
-        
+
         public Pivot( double xOffset, double yOffset ) {
             this.xOffset = xOffset;
             this.yOffset = yOffset;
