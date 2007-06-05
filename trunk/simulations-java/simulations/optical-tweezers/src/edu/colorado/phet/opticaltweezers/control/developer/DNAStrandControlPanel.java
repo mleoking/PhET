@@ -63,6 +63,9 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         this.setBorder( border );
         
         _pivotsCheckBox = new JCheckBox( "Show pivots" );
+        _pivotsCheckBox.setToolTipText( 
+                "<html>Determines whether you can see the<br>" + 
+                "pivot points used to model the strand</html>" );
         _pivotsCheckBox.setFont( controlFont );
         _pivotsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -71,6 +74,9 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         } );
         
         _extensionCheckBox = new JCheckBox( "Show extension" );
+        _extensionCheckBox.setToolTipText( 
+                "<html>Draws a straight line between<br>" + 
+                "the ends of the DNA strand</html>" );
         _extensionCheckBox.setFont( controlFont );
         _extensionCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -81,6 +87,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         double min = dnaStrand.getSpringConstantRange().getMin();
         double max = dnaStrand.getSpringConstantRange().getMax();
         _springConstantControl = new LinearValueControl( min, max, "k/m (spring):", "0.00", "" );
+        _springConstantControl.setToolTipText( "<html>spring constant divided by mass<html>" );
         _springConstantControl.setUpDownArrowDelta( 0.01 );
         _springConstantControl.setFont( controlFont );
         _springConstantControl.addChangeListener( new ChangeListener() {
@@ -92,6 +99,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         min = dnaStrand.getDragCoefficientRange().getMin();
         max = dnaStrand.getDragCoefficientRange().getMax();
         _dragCoefficientControl = new LinearValueControl( min, max, "b (drag):", "0.00", "" );
+        _dragCoefficientControl.setToolTipText( "<html>drag coefficient</html>" );
         _dragCoefficientControl.setUpDownArrowDelta( 0.01 );
         _dragCoefficientControl.setFont( controlFont );
         _dragCoefficientControl.addChangeListener( new ChangeListener() {
@@ -103,6 +111,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         min = dnaStrand.getKickConstantRange().getMin();
         max = dnaStrand.getKickConstantRange().getMax();
         _kickConstant = new LinearValueControl( min, max, "k (kick):", "0.00", "" );
+        _kickConstant.setToolTipText( "<html>kick applied to velocity on each evolution</html>" );
         _kickConstant.setUpDownArrowDelta( 0.01 );
         _kickConstant.setFont( controlFont );
         _kickConstant.addChangeListener( new ChangeListener() {
@@ -114,6 +123,9 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         min = dnaStrand.getNumberOfEvolutionsPerClockTickRange().getMin();
         max = dnaStrand.getNumberOfEvolutionsPerClockTickRange().getMax();
         _numberOfEvolutionsPerClockTickControl = new LinearValueControl( min, max, "evolutions per clockstep:", "#0", "" );
+        _numberOfEvolutionsPerClockTickControl.setToolTipText( 
+                "<html>number of times to run the evolution<br>" + 
+                "algorithm each time the clock ticks</html>" );
         _numberOfEvolutionsPerClockTickControl.setUpDownArrowDelta( 1 );
         _numberOfEvolutionsPerClockTickControl.setFont( controlFont );
         _numberOfEvolutionsPerClockTickControl.addChangeListener( new ChangeListener() {
@@ -125,6 +137,10 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         min = dnaStrand.getEvolutionDtScaleRange().getMin();
         max = dnaStrand.getEvolutionDtScaleRange().getMax();
         _evolutionDtScaleControl = new LinearValueControl( min, max, "evolution dt scale", "###0", "" );
+        _evolutionDtScaleControl.setToolTipText( 
+                "<html>The simulation clock's scale is much too small to see the strand evolve.<br>" +
+                "dt used in the evolution algorithm is:<br>" + 
+                "evolutionDtScale * clockstep / evolutionsPerClockstep</html>" );
         _evolutionDtScaleControl.setUpDownArrowDelta( 0.01 );
         _evolutionDtScaleControl.setFont( controlFont );
         _evolutionDtScaleControl.addChangeListener( new ChangeListener() {
