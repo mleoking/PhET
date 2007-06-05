@@ -306,6 +306,21 @@ public abstract class AbstractValueControl extends JPanel {
         }
     }
 
+    /**
+     * Sets tooltip text for all subcomponents.
+     * When the user puts the cursor over any part of this control,
+     * they will see the tooltip.
+     * 
+     * @param text
+     */
+    public void setToolTipText( String text ) {
+        super.setToolTipText( text );
+        _valueLabel.setToolTipText( text );
+        _textField.setToolTipText( text );
+        _unitsLabel.setToolTipText( text );
+        _slider.setToolTipText( text );
+    }
+    
     //----------------------------------------------------------------------------
     // TextField
     //----------------------------------------------------------------------------
