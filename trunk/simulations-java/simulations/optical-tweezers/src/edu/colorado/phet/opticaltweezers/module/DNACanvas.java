@@ -212,6 +212,10 @@ public class DNACanvas extends PhetPCanvas {
     public DNAForceNode getDNAForceNode() {
         return _dnaForceNode;
     }
+    
+    public DNAStrandNode getDNAStrandNode() {
+        return _dnaStrandNode;
+    }
 
     //----------------------------------------------------------------------------
     // Canvas layout
