@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- when user drags bead, auto-release if DNA extension is 97% of contour length
 
 MEDIUM PRIORITY:
 - tune developer controls, pick appropriate defaults
