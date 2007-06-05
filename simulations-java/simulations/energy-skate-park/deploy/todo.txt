@@ -1,5 +1,3 @@
-7.	Auto-stop was very confusing to the user (repeatedly)
-
 Questions:
 • Is simulation supposed to pause when end of recording time is reached?
    -if not, are E vs. T readouts supposed to continue to update?
