@@ -14,11 +14,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -48,6 +46,12 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         addFocusRequest();
         addKeyHandling();
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
+        addKeyListener( new KeyAdapter() {
+            public void keyPressed( KeyEvent e ) {
+                displayMemoryUsage();
+            }
+
+        } );
         energySkateParkModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void preStep() {
                 updateThrust();
@@ -91,6 +95,24 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
                 return false;
             }
         } );
+//        new Timer( 1000, new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                displayMemoryUsage();
+//            }
+//        } ).start();
+    }
+
+    private void displayMemoryUsage() {
+//        System.gc();
+        long heapSize = Runtime.getRuntime().totalMemory();// Get current size of heap in bytes
+        long heapMaxSize = Runtime.getRuntime().maxMemory();// Get maximum size of heap in bytes. The heap cannot grow beyond this size.// Any attempt will result in an OutOfMemoryException.
+        long heapFreeSize = Runtime.getRuntime().freeMemory();// Get amount of free memory within the heap in bytes. This size will increase // after garbage collection and decrease as new objects are created.
+        long currentUsage = heapSize - heapFreeSize;
+        System.out.println( "currentUsage=" + toMB( currentUsage ) + ", totalMemory=" + toMB( heapSize ) + ", maxMemory=" + toMB( heapMaxSize ) + ", freeMemory=" + toMB( heapFreeSize ) );
+    }
+
+    private String toMB( long heapFreeSize ) {
+        return heapFreeSize / ( 1048576L ) + "M";
     }
 
     protected void updateScale() {
@@ -345,16 +367,19 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         return rootNode.isZeroPointVisible();
     }
 
-    public void dragSplineSurface( PInputEvent event, EnergySkateParkSpline createdSurface ) {
-        SplineNode splineNode = getSplineNode( createdSurface );
+    public void dragSplineSurface( PInputEvent event, EnergySkateParkSpline spline ) {
+        SplineNode splineNode = getSplineNode( spline );
+        if( splineNode == null ) {
+            throw new RuntimeException( "Spline node not found for spline=" + spline );
+        }
         PDimension delta = event.getCanvasDelta();
         rootNode.screenToWorld( delta );
         splineNode.processExternalDragEvent( event, delta.width, delta.height );
     }
 
-    public SplineNode getSplineNode( EnergySkateParkSpline createdSurface ) {
+    public SplineNode getSplineNode( EnergySkateParkSpline spline ) {
         for( int i = 0; i < numSplineGraphics(); i++ ) {
-            if( getSplineNode( i ).getSpline() == createdSurface ) {
+            if( getSplineNode( i ).getSpline() == spline ) {
                 return getSplineNode( i );
             }
         }

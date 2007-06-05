@@ -40,6 +40,11 @@ public class SkaterNode extends PNode {
     private BufferedImage jetPackImage;
     private BufferedImage skaterImage;
     private Body.ListenerAdapter bodyListener = new Body.ListenerAdapter() {
+
+        public void thrustChanged() {
+            update();
+        }
+
         public void dimensionChanged() {
             update();
         }
