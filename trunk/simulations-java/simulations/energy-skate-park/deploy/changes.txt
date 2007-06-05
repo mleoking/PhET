@@ -14,6 +14,7 @@ Fixed: Readout for “show path” follows last point
 Rewind button is disabled during record and playback.
 Made simulation continue after recording time runs out
 Energy vs. Time readouts update even when mode is live, not record
+Fixed: Planet radio buttons are deselectable
 Internal changes:
     -Fixed: Splines are using manual copy methods, should be using serialization
 

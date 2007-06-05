@@ -24,6 +24,7 @@ public class PlanetButton extends JRadioButton {
         this.selected = selected;
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                setSelected( true );//planet radio buttons don't deselect when pressed, and there is no ButtonGroup to manage their state (since sometimes none is selected)
                 planet.apply( module );
             }
         } );
