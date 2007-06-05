@@ -83,7 +83,7 @@
             $st .= "(`sim_name` LIKE '%$word%' OR `sim_desc` LIKE '%$word%' OR `sim_keywords` LIKE '%$word%' OR  `sim_main_topics` LIKE '%$word%' OR `sim_subtopics` LIKE '%$word%' OR `sim_sample_goals` LIKE '%$word%' )";
         }
         
-        $result = run_sql_statement($st);
+        $result = db_exec_query($st);
         
         while ($simulation = mysql_fetch_assoc($result)) {
             $simulations[] = $simulation;
@@ -104,7 +104,7 @@
     function sim_get_all_sims() {
         $simulations = array();
         
-        $simulation_rows = run_sql_statement("SELECT * FROM `simulation` ");
+        $simulation_rows = db_exec_query("SELECT * FROM `simulation` ");
         
         while($simulation = mysql_fetch_assoc($simulation_rows)) {
             $sim_id = $simulation['sim_id'];
@@ -120,7 +120,7 @@
     function sim_get_all_sim_names() {
         $simulations = array();
         
-        $simulation_rows = run_sql_statement("SELECT * FROM `simulation` ");
+        $simulation_rows = db_exec_query("SELECT * FROM `simulation` ");
         
         while($simulation = mysql_fetch_assoc($simulation_rows)) {
             $sim_id   = $simulation['sim_id'];

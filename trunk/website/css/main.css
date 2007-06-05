@@ -50,11 +50,11 @@ hr {
 	padding: 0;
 }
 /******** table ********/
-#browseresults, #browseresults table {
-	border:  0 0 0 0;
-	margin:  0 0 0 0;
-	padding: 0 10px 0 10px;
-	width:	 100%;
+/*#browseresults table {
+	border:  0;
+	margin:  0 10px 0 10px;
+	padding: 0;
+	width:   100%;
 }
 #browseresults table tbody td {
 	border:  0 0 0 0;
@@ -79,7 +79,7 @@ hr {
 	text-align:			left;
 	vertical-align:		top;	
 }
-
+*/
 
 #quicksearch {
 	float:		right;
@@ -214,6 +214,25 @@ span.validation-failure {
     font-weight:bold;
 }
 
+div.form_content {
+	position:		relative;
+	padding: 		0;
+	margin:  		1ex;
+	margin-left:    1em;
+	border-style: 	none;
+}
+
+.button {
+	clear: 			right;
+	float: 			none;
+	padding: 		0;
+	position: 		relative;
+	margin-left: 	1ex;
+	margin-right: 	1ex;
+	margin-top: 	1em;
+	margin-bottom: 	1em;
+}
+
 .field {
 	clear:   right;
 	width:   100%;
@@ -285,7 +304,8 @@ div.separator {
 #contributioneditform legend {
     font-weight:bold;
     font-size: 14pt;
-}/*
+}
+/*
 #contributioneditform label, p {
     display:		block;
 	clear:			right;
@@ -304,11 +324,6 @@ div.separator {
 #contributioneditform .selector, #contributioneditform .inputcontainer {
 	width:          400px;
     float:			right;
-}
-#contributioneditform .button {
-	width: 100%;
-	clear: right;
-	float: none;
 }
 #contributioneditform hr {
 	height: 1px;
@@ -344,7 +359,7 @@ div.separator {
     font-weight:bold;
     font-size:  9pt;
 }
-#userprofileform label {
+#/*userprofileform label {
     display:	block;
     height:		2em;
     padding:	10px 10px 0;
@@ -358,7 +373,7 @@ div.separator {
 }
 #userprofileform input:focus, #userprofileform input:hover {
 	border:1px solid #333333;
-}
+}*/
 #userprofileform .error{
     color:			red;
     font-weight:	bold;
@@ -405,9 +420,9 @@ div.separator {
 }
 /******** =content ********/
 #content {
-	background:url(../images/content_BG.gif) right bottom no-repeat;
-	margin-left:178px;
-	padding:20px 18px 39px 30px;
+	background:		url(../images/content_BG.gif) right bottom no-repeat;
+	margin-left:	178px;
+	padding:		20px 18px 39px 30px;
 }
 #content a {
 	color:#900;
@@ -432,9 +447,9 @@ p.openingParagraph {
 
 /* PRODUCT LISTING CONTENT */
 .productListContent {
-	width:578px;
-	float:right;
-	margin:31px 0 0 0;
+	width:	578px;
+	float:	right;
+	margin:	31px 0 0 0;
 }
 .productListContent #filterBreadcrumb {
 	padding:13px 0 0 0;
@@ -1036,28 +1051,31 @@ img.sponsors {
 	text-decoration: 	underline;	
 }
 
-
 #content .compact table {
 	width:				558px;
 	background-color: 	transparent;
-	padding: 		  	5px 10px 20px 10px;
-	border:				none;
+	padding:			0;
+	margin: 		  	5px 10px 20px 10px;
+	position: 			relative;
+	left:				-20px;
 }
 #content .compact table td {
 	background-color: 	transparent;
 	padding: 		  	0;
-	border:				none;
+	margin:				0;
+	border-style:		none;
 	vertical-align: 	top;
-	border-collapse:    separate;
+	border-collapse:    collapse;
 }
 #content .compact table thead td {
 	font-weight: 	bold;
-	padding: 		0 1em 0 0;	
+	padding: 		0;
+	border-bottom:  1px solid rgb(220, 220, 220);
 }
 #content .compact table tbody td {
-	padding: 		0 0 0 2em;
+	padding: 0;
 }
 #content .compact table ul {
-	margin:  		0 1em 0 1em;
-	padding: 		0;
+	padding: 0;
+	margin:  0 1em 0 2em;
 }

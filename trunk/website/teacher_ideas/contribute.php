@@ -5,9 +5,10 @@
     function print_content() {
         ?>
             <h1>Contribute</h1>
-            
-            <p>TODO: This is where the user can specify all contribution fields for a new contribution.</p>
+
         <?php
+        
+        contribution_print_full_edit_form(-1, '../teacher_ideas/edit-contribution.php', '../teacher_ideas/edit-contribution.php', 'Contribute');
     }
 
     print_site_page('print_content', 3);

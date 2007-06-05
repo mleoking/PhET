@@ -59,7 +59,7 @@
     function do_delete() {
         global $cat_id;
         
-        run_sql_statement("DELETE FROM `category` WHERE `cat_id`='$cat_id' ");
+        db_exec_query("DELETE FROM `category` WHERE `cat_id`='$cat_id' ");
     }
     
     function do_add() {
@@ -67,7 +67,7 @@
         
         $cat_order = get_next_order_number(end($cat_orders));
         
-        run_sql_statement("INSERT INTO `category` (`cat_name`, `cat_order`) VALUES ('$cat_name', '$cat_order') ");
+        db_exec_query("INSERT INTO `category` (`cat_name`, `cat_order`) VALUES ('$cat_name', '$cat_order') ");
     }
     
     function do_move_up() {
@@ -76,11 +76,11 @@
         $new_cat_order = get_previous_order_number($cat_order);
         
         // Swap the orders of the two adjacents:
-        run_sql_statement("UPDATE `category` SET `cat_order`='$new_cat_order' WHERE `cat_id`='$cat_id' ");
+        db_exec_query("UPDATE `category` SET `cat_order`='$new_cat_order' WHERE `cat_id`='$cat_id' ");
         
         $updated_cat_order = $new_cat_order + 1;
         
-        run_sql_statement("UPDATE `category` SET `cat_order`='$updated_cat_order' WHERE `cat_order`='$new_cat_order' AND `cat_id`<>'$cat_id' ");
+        db_exec_query("UPDATE `category` SET `cat_order`='$updated_cat_order' WHERE `cat_order`='$new_cat_order' AND `cat_id`<>'$cat_id' ");
     }
     
     function do_move_down() {
@@ -89,17 +89,17 @@
         $new_cat_order = get_next_order_number($cat_order);
         
         // Swap the orders of the two adjacents:        
-        run_sql_statement("UPDATE `category` SET `cat_order`='$new_cat_order' WHERE `cat_id`='$cat_id' ");
+        db_exec_query("UPDATE `category` SET `cat_order`='$new_cat_order' WHERE `cat_id`='$cat_id' ");
         
         $updated_cat_order = $new_cat_order - 1;
         
-        run_sql_statement("UPDATE `category` SET `cat_order`='$updated_cat_order' WHERE `cat_order`='$new_cat_order' AND `cat_id`<>'$cat_id' ");        
+        db_exec_query("UPDATE `category` SET `cat_order`='$updated_cat_order' WHERE `cat_order`='$new_cat_order' AND `cat_id`<>'$cat_id' ");        
     }
     
     function do_rename() {
         global $cat_id, $cat_name;
         
-        run_sql_statement("UPDATE `category` SET `cat_name`='$cat_name' WHERE `cat_id`='$cat_id' ");
+        db_exec_query("UPDATE `category` SET `cat_name`='$cat_name' WHERE `cat_id`='$cat_id' ");
     }
 
     gather_script_params_into_globals();
