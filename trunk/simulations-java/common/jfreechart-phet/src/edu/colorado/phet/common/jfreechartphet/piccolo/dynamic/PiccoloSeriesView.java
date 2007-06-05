@@ -62,14 +62,6 @@ public class PiccoloSeriesView extends SeriesView {
         }
     }
 
-    public Point2D.Double getPoint( int i ) {
-        return new Point2D.Double( getSeries().getX( i ).doubleValue(), getSeries().getY( i ).doubleValue() );
-    }
-
-    public Point2D getNodePoint( int i ) {
-        return getDynamicJFreeChartNode().plotToNode( getPoint( i ) );
-    }
-
     public void setClip( Rectangle2D clip ) {
         pathClip.setPathTo( clip );
     }
