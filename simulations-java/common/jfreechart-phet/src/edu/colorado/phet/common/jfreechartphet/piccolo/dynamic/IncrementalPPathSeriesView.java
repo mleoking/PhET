@@ -15,8 +15,8 @@ public class IncrementalPPathSeriesView extends SeriesView {
     public IncrementalPPathSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
         super( dynamicJFreeChartNode, seriesData );
         incrementalPPath = new IncrementalPPath( dynamicJFreeChartNode.getPhetPCanvas() );
-        incrementalPPath.setStroke( new BasicStroke( 1) );
-        incrementalPPath.setStrokePaint( Color.blue);
+        incrementalPPath.setStroke( new BasicStroke( 3) );
+        incrementalPPath.setStrokePaint( seriesData.getColor() );
     }
 
     public void dataAdded() {
