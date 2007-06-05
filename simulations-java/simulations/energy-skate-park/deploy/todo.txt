@@ -4,6 +4,7 @@ Questions:
 • Is performance good enough during track friction > 0 case?  I removed duplicated computation in radius of curvature approximation.
 	Removing this duplicated work resulted in substantial improvement (non-friction case = 10% processor, old friction case=30% processor, new fixed case=18% processor), but a difference in visible performance is still visible under a profiler.  Should I continue to investigate this issue?
 	One performance optimization we can do for this simulation would be to cache values for points on the spline after user has stopped manipulating it (tradeoff processor usage for memory usage).  However, this would be nontrivial work, and I'm not sure it would pay off.  I would do a feasibility test to make sure enough track data can be cached at high enough resolution to make this effective.
+• Add horizontal zoom for Energy vs. Time plot?
 
 To Do:
 • Out of memory error after recording lots of complicated states, loading lots of images and setting charts to very large.
@@ -21,8 +22,8 @@ To Do:
 • When I open the Energy vs Position graph, the performance rapidly decreases.
     -On my machine, it is approx 25% processor usage without this E vs X graph, 40% with.
 • Playback cursor (on E vs. T graph) is completely opaque on mac.
-• Bug: In one run, there is a floor in space
 • Bug: If the skater is on the floor when gravity changes to 0.0, floor persists in space
+• Bug: In one run, there is a floor in space (may be caused by above problem)
 
 Interview Questions:
 • Should PE=0 line be visible in space?
@@ -32,6 +33,7 @@ Maybe:
 • Support for undo?
 • Skater location is not correctly saved in File->Save (if on track)
 • Track can become dissociated from mouse during drag after proposed match.
+• Bug: The dragging constraints are not skater-centric; after dragging against a constraint, the mouse is no longer directly over the skater.
 • Save skater character as part of a saved state? (30 min or so)
 • Performance problems after lots of runs?
 • Allow user to save a "batch" of experiments, and switch between them.
@@ -40,11 +42,9 @@ Maybe:
 • Improve performance e.g. during right-click interaction with track
 • Energy conservation (wait until we see visible problem)
 • Skater should point at track while dragging: Unpredictable behavior when there are 2+ possible matches.
-• Bounciness & Stickiness to give realistic behavior for little perpendicular bounces?
 • Mystery planet where they would have to figure out the acceleration due to gravity?
         With a Mystery Planet, we'd want to remove other features from the simulation (readout of gravity on the slider), etc.
         Maybe we shouldn't implement this until we have decided on the activity, what the user should be able to do, what measurements she will be able to take, etc...
-• Bug: The dragging constraints are not skater-centric; after dragging against a constraint, the mouse is no longer directly over the skater.
 • Crashing skater?
 • Add game-ish modes
 	. 2-skater mode
@@ -65,9 +65,4 @@ Postponed:
 • Part of grid is disappearing when pie chart disappears (low priority)
 
 Double check:
-Floor in outer space
-max number of history points
-After going to space, then dragging the gravity slider to some nonzero value, the floor is invisible.
-zero-point potential y-values getting recorded
-Moving the energy zero point while paused doesn't update pie chart.
-Changing "roller coaster mode" doesn't update graphics
+Moving the energy zero point while paused doesn't update pie chart or bar chart

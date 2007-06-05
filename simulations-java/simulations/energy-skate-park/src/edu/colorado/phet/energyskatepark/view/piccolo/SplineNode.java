@@ -253,7 +253,7 @@ public class SplineNode extends PNode {
         }
     }
 
-    public void update() {
+    private void update() {
         setPickable( spline.isInteractive() );
         setChildrenPickable( spline.isInteractive() );
         if( changed() ) {
@@ -421,7 +421,7 @@ public class SplineNode extends PNode {
             getControlPointGraphic( i ).setPickable( pick );
             getControlPointGraphic( i ).setChildrenPickable( pick );
         }
-
+                update();
     }
 
 
@@ -497,7 +497,7 @@ public class SplineNode extends PNode {
             spline.removeListener( splineListener );
         }
 
-        public void updateAll() {
+        private void updateAll() {
             rollerCoasterMode.setSelected( spline.isRollerCoasterMode() );
         }
 

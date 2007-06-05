@@ -173,7 +173,4 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         module.confirmAndReset();
     }
 
-//    public void update() {
-//        piePanel.update();
-//    }
 }
