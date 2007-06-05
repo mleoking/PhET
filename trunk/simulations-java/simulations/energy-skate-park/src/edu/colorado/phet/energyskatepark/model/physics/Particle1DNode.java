@@ -25,7 +25,7 @@ class Particle1DNode extends PNode {
         update();
     }
 
-    public void update() {
+    void update() {
         phetPPath.setOffset( particle1d.getX() - phetPPath.getWidth() / 2, particle1d.getY() - phetPPath.getHeight() / 2 );
     }
 }

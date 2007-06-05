@@ -105,7 +105,7 @@ public class EnergySkateParkPieChartNode extends PNode {
         return module.getEnergyLookAndFeel();
     }
 
-    public void update() {
+    private void update() {
         pieChartNode.setArea( createPieRect() );
         pieChartNode.setPieValues( createPieValues() );
 

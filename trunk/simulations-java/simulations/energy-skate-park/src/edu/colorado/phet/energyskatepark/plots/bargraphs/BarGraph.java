@@ -136,7 +136,7 @@ public class BarGraph extends PNode {
         update();
     }
 
-    public void update() {
+    protected void update() {
         if( getVisible() ) {
             for( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
                 BarGraphic2D barGraphic2D = (BarGraphic2D)barLayer.getChild( i );

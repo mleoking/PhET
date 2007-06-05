@@ -88,7 +88,7 @@ public class CubicSpline2DNode extends ParametricFunction2DNode {
             update();
         }
 
-        public void update() {
+        private void update() {
             controlPoint.setOffset( parametricFunction2D.getControlPoints()[index] );
         }
 
