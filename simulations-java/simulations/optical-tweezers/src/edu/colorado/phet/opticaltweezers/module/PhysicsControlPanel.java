@@ -63,7 +63,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
                 _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getBrownianForceNode(), null /* dnaForceNode */ );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getPositionHistogramChartNode(), _canvas.getPotentialEnergyChartNode() );
         _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getFluid() );
-        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getBead(), null /* dnaStrand */ );
+        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getBead(), 
+                null /* dnaStrand */, null /* dnaStrandNode */ );
         
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
         _rulerCheckBox.setFont( CONTROL_FONT );

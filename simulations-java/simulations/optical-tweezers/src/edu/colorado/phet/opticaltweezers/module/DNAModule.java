@@ -5,9 +5,9 @@ package edu.colorado.phet.opticaltweezers.module;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
-import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
+import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
 
 /**
  * DNAModule is the "Fun with DNA" module.
@@ -127,7 +127,16 @@ public class DNAModule extends AbstractModule {
             dnaStrand.setDragCoefficient( DNADefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrand.setKickConstant( DNADefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
             dnaStrand.setNumberOfEvolutionsPerClockTick( DNADefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE.getDefault() );
+            dnaStrand.setEvolutionDtScale( DNADefaults.DNA_EVOLUTION_DT_SCALE_RANGE.getDefault() );
             dnaStrand.initializeStrand();
+        }
+        
+        // View 
+        {
+            // DNA Strand node
+            DNAStrandNode dnaStrandNode = _canvas.getDNAStrandNode();
+            dnaStrandNode.setPivotsVisible( DNADefaults.DNA_PIVOTS_VISIBLE );
+            dnaStrandNode.setExtensionVisible( DNADefaults.DNA_EXTENSION_VISIBLE );
         }
         
         // Control panel settings that are view-related

@@ -77,7 +77,10 @@ public class DNADefaults {
     public static final DoubleRange DNA_SPRING_CONSTANT_RANGE = new DoubleRange( 2.0, 10.0, 6 );
     public static final DoubleRange DNA_DRAG_COEFFICIENT_RANGE = new DoubleRange( 0.1, 0.3, 0.2 );
     public static final DoubleRange DNA_KICK_CONSTANT_RANGE = new DoubleRange( 0.25, 0.75, 0.5 );
-    public static final IntegerRange DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE = new IntegerRange( 1, 20, 1 );
+    public static final IntegerRange DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE = new IntegerRange( 1, 20, 5 );
+    public static final DoubleRange DNA_EVOLUTION_DT_SCALE_RANGE = new DoubleRange( 1, 10000, 1000 );
+    public static final boolean DNA_PIVOTS_VISIBLE = true;
+    public static final boolean DNA_EXTENSION_VISIBLE = true;
     
     // Control panel settings
     public static final String LASER_DISPLAY_CHOICE = LaserDisplayControlPanel.CHOICE_BEAM;

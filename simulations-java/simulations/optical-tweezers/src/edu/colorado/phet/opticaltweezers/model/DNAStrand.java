@@ -34,6 +34,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     public static final String PROPERTY_DRAG_COEFFICIENT = "dragCoefficient";
     public static final String PROPERTY_KICK_CONSTANT = "kickConstant";
     public static final String PROPERTY_NUMBER_OF_EVOLUTIONS_PER_CLOCK_TICK = "numberOfEvolutionsPerClockTick";
+    public static final String PROPERTY_EVOLUTION_DT_SCALE = "evolutionDtScale";
 
     // persistence length is a measure of the strand's bending stiffness
     public static final double DOUBLE_STRANDED_PERSISTENCE_LENGTH = 50; // nm
@@ -57,14 +58,19 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private final int _numberOfSegments; // number of discrete segments used to model the strand
 
     private DNAPivot[] _pivots;
+    
     private DoubleRange _springConstantRange;
     private DoubleRange _dragCoefficientRange;
     private DoubleRange _kickConstantRange;
     private IntegerRange _numberOfEvolutionsPerClockTickRange;
+    private DoubleRange _evolutionDtScaleRange;
+    
     private double _springConstant; // actually the spring constant divided by mass
     private double _dragCoefficient;
     private double _kickConstant;
     private int _numberOfEvolutionsPerClockTick;
+    private double _evolutionDtScale;
+    
     private Random _kickRandom;
 
     //----------------------------------------------------------------------------
@@ -82,12 +88,14 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * @param dragCoefficientRange
      * @param kickConstantRange
      * @param numberOfEvolutionsPerClockTickRange
+     * @param evolutionDtScaleRange
      * @param bead
      * @param fluid
      */
     public DNAStrand( double contourLength, double persistenceLength, int numberOfSegments, 
             DoubleRange springConstantRange, DoubleRange dragCoefficientRange, DoubleRange kickConstantRange, 
-            IntegerRange numberOfEvolutionsPerClockTickRange, Bead bead, Fluid fluid ) {
+            IntegerRange numberOfEvolutionsPerClockTickRange, DoubleRange evolutionDtScaleRange,
+            Bead bead, Fluid fluid ) {
 
         _contourLength = contourLength;
         _persistenceLength = persistenceLength;
@@ -103,11 +111,13 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _dragCoefficientRange = dragCoefficientRange;
         _kickConstantRange = kickConstantRange;
         _numberOfEvolutionsPerClockTickRange = numberOfEvolutionsPerClockTickRange;
+        _evolutionDtScaleRange = evolutionDtScaleRange;
 
         _springConstant = _springConstantRange.getDefault();
         _dragCoefficient = _dragCoefficientRange.getDefault();
         _kickConstant = _kickConstantRange.getDefault();
         _numberOfEvolutionsPerClockTick = _numberOfEvolutionsPerClockTickRange.getDefault();
+        _evolutionDtScale = _evolutionDtScaleRange.getDefault();
         
         _kickRandom = new Random();
         
@@ -222,6 +232,24 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         return _numberOfEvolutionsPerClockTickRange;
     }
 
+    public void setEvolutionDtScale( double evolutionDt ) {
+        if ( !_evolutionDtScaleRange.contains( evolutionDt ) ) {
+            new IllegalArgumentException( "evolutionDt out of range: " + evolutionDt );
+        }
+        if ( evolutionDt != _evolutionDtScale ) {
+            _evolutionDtScale = evolutionDt;
+            notifyObservers( PROPERTY_EVOLUTION_DT_SCALE );
+        }
+    }
+    
+    public double getEvolutionDtScale() {
+        return _evolutionDtScale;
+    }
+    
+    public DoubleRange getEvolutionDtScaleRange() {
+        return _evolutionDtScaleRange;
+    }
+    
     //----------------------------------------------------------------------------
     // Force model
     //----------------------------------------------------------------------------
@@ -316,7 +344,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      */
     private void evolveStrand( double clockStep ) {
         
-        final double dt = clockStep / _numberOfEvolutionsPerClockTick;
+        final double dt = _evolutionDtScale * clockStep / _numberOfEvolutionsPerClockTick;
         final double segmentLength = _contourLength / _numberOfSegments;
         
         for ( int i = 0; i < _numberOfEvolutionsPerClockTick; i++ ) {

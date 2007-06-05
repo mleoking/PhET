@@ -4,9 +4,14 @@ package edu.colorado.phet.opticaltweezers.control.developer;
 
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -15,6 +20,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.model.DNAStrand;
+import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
 
 /**
  * DNAStrandControlPanel constains developer controls for the DNA strand model.
@@ -22,32 +28,55 @@ import edu.colorado.phet.opticaltweezers.model.DNAStrand;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DNAStrandControlPanel extends JPanel implements Observer {
+public class DNAStrandControlPanel extends JPanel implements Observer, PropertyChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private DNAStrand _dnaStrand;
+    private DNAStrandNode _dnaStrandNode;
     
+    private JCheckBox _pivotsCheckBox;
+    private JCheckBox _extensionCheckBox;
     private LinearValueControl _springConstantControl;
     private LinearValueControl _dragCoefficientControl;
     private LinearValueControl _kickConstant;
     private LinearValueControl _numberOfEvolutionsPerClockTickControl;
+    private LinearValueControl _evolutionDtScaleControl;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DNAStrandControlPanel( Font titleFont, Font controlFont, DNAStrand dnaStrand ) {
+    public DNAStrandControlPanel( Font titleFont, Font controlFont, DNAStrand dnaStrand, DNAStrandNode dnaStrandNode ) {
         super();
         
         _dnaStrand = dnaStrand;
         _dnaStrand.addObserver( this );
         
+        _dnaStrandNode = dnaStrandNode;
+        _dnaStrandNode.addPropertyChangeListener( this );
+        
         TitledBorder border = new TitledBorder( "DNA strand behavior:" );
         border.setTitleFont( titleFont );
         this.setBorder( border );
+        
+        _pivotsCheckBox = new JCheckBox( "Show pivots" );
+        _pivotsCheckBox.setFont( controlFont );
+        _pivotsCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handlePivotsCheckBox();
+            }
+        } );
+        
+        _extensionCheckBox = new JCheckBox( "Show extension" );
+        _extensionCheckBox.setFont( controlFont );
+        _extensionCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleExtensionCheckBox();
+            }
+        } );
         
         double min = dnaStrand.getSpringConstantRange().getMin();
         double max = dnaStrand.getSpringConstantRange().getMax();
@@ -93,31 +122,57 @@ public class DNAStrandControlPanel extends JPanel implements Observer {
             }
         });
         
+        min = dnaStrand.getEvolutionDtScaleRange().getMin();
+        max = dnaStrand.getEvolutionDtScaleRange().getMax();
+        _evolutionDtScaleControl = new LinearValueControl( min, max, "evolution dt scale", "###0", "" );
+        _evolutionDtScaleControl.setUpDownArrowDelta( 0.01 );
+        _evolutionDtScaleControl.setFont( controlFont );
+        _evolutionDtScaleControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleEvolutionDtScaleControl();
+            }
+        });
+        
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         layout.setInsets( new Insets( 0, 0, 0, 0 ) );
         this.setLayout( layout );
         int row = 0;
         int column = 0;
+        layout.addComponent( _pivotsCheckBox, row++, column );
+        layout.addComponent( _extensionCheckBox, row++, column );
         layout.addComponent( _springConstantControl, row++, column );
         layout.addComponent( _dragCoefficientControl, row++, column );
         layout.addComponent( _kickConstant, row++, column );
         layout.addComponent( _numberOfEvolutionsPerClockTickControl, row++, column );
+        layout.addComponent( _evolutionDtScaleControl, row++, column );
         
         // Default state
+        _pivotsCheckBox.setSelected( _dnaStrandNode.isPivotsVisible() );
+        _extensionCheckBox.setSelected( _dnaStrandNode.isExtensionVisible() );
         _springConstantControl.setValue( _dnaStrand.getSpringConstant() );
         _dragCoefficientControl.setValue( _dnaStrand.getDragCoefficient() );
         _kickConstant.setValue( _dnaStrand.getKickConstant() );
         _numberOfEvolutionsPerClockTickControl.setValue( _dnaStrand.getNumberOfEvolutionsPerClockTick() );
+        _evolutionDtScaleControl.setValue( _dnaStrand.getEvolutionDtScale() );
     }
     
     public void cleanup() {
         _dnaStrand.deleteObserver( this );
+        _dnaStrandNode.removePropertyChangeListener( this );
     }
     
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
+    
+    private void handlePivotsCheckBox() {
+        _dnaStrandNode.setPivotsVisible( _pivotsCheckBox.isSelected() );
+    }
+    
+    private void handleExtensionCheckBox() {
+        _dnaStrandNode.setExtensionVisible( _extensionCheckBox.isSelected() );
+    }
     
     private void handleSpringConstantControl() {
         double value = _springConstantControl.getValue();
@@ -138,6 +193,11 @@ public class DNAStrandControlPanel extends JPanel implements Observer {
         int value = (int) Math.round( _numberOfEvolutionsPerClockTickControl.getValue() );
         _dnaStrand.setNumberOfEvolutionsPerClockTick( value );
     }
+    
+    private void handleEvolutionDtScaleControl() {
+        double value = _evolutionDtScaleControl.getValue();
+        _dnaStrand.setEvolutionDtScale( value );
+    }
 
     //----------------------------------------------------------------------------
     // Observer implementation
@@ -156,6 +216,24 @@ public class DNAStrandControlPanel extends JPanel implements Observer {
             }
             else if ( arg == DNAStrand.PROPERTY_NUMBER_OF_EVOLUTIONS_PER_CLOCK_TICK ) {
                 _numberOfEvolutionsPerClockTickControl.setValue( _dnaStrand.getNumberOfEvolutionsPerClockTick() ); 
+            }
+            else if ( arg == DNAStrand.PROPERTY_EVOLUTION_DT_SCALE ) {
+                _evolutionDtScaleControl.setValue( _dnaStrand.getEvolutionDtScale() );
+            }
+        }
+    }
+
+    //----------------------------------------------------------------------------
+    // PropertChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void propertyChange( PropertyChangeEvent event ) {
+        if ( event.getSource() == _dnaStrandNode ) {
+            if ( event.getPropertyName() == DNAStrandNode.PROPERTY_PIVOTS_VISIBLE ) {
+                _pivotsCheckBox.setSelected( _dnaStrandNode.isPivotsVisible() );
+            }
+            else if ( event.getPropertyName() == DNAStrandNode.PROPERTY_EXTENSION_VISIBLE ) {
+                _extensionCheckBox.setSelected( _dnaStrandNode.isExtensionVisible() );
             }
         }
     }

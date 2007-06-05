@@ -59,7 +59,7 @@ public class DNAControlPanel extends AbstractControlPanel {
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
                 _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getBrownianForceNode(), _canvas.getDNAForceNode() );
         _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getFluid() );
-        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getBead(), model.getDNAStrand() );
+        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getBead(), model.getDNAStrand(), _canvas.getDNAStrandNode() );
         
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
         _rulerCheckBox.setFont( CONTROL_FONT );
