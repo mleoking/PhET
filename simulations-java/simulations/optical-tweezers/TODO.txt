@@ -58,6 +58,8 @@ MISSING INFO:
 
  
 DONE:
+6/5/07 - make strand follow bead when clock is paused
+6/5/07 - disable tooltips on developer controls, they're annoying
 6/5/07 - add tooltips to all developer controls
 6/5/07 - add developer controls for showing DNA strand pivots and extension
 6/5/07 - add evolution dt scaling factor to DNA strand model, clock timestep is too slow

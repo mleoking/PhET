@@ -407,6 +407,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 DNAPivot headPivot = getHeadPivot();
                 headPivot.setPosition( _bead.getX(), _bead.getY() );
                 notifyObservers( PROPERTY_FORCE );
+                notifyObservers( PROPERTY_SHAPE );
             }
         }
         else if ( o == _fluid ) {
