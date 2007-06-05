@@ -423,6 +423,44 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             }
         }
 
+//        public void dataAddedDemonstrateFailureForInterleaved() {
+//            if( getSeries().getItemCount() >= 100 ) {
+//                BufferedImage image = dynamicJFreeChartNode.getBuffer();
+//                if( image != null ) {
+//                    if( image != lastFullPaint ) {
+//                        paintAll();
+//                        lastFullPaint = image;
+//                    }
+//                    Graphics2D graphics2D = image.createGraphics();
+//                    graphics2D.setPaint( getSeriesData().getColor() );
+//
+//                    graphics2D.setStroke( stroke );
+//                    int itemCount = getSeries().getItemCount();
+////                    Line2D.Double viewLine = new Line2D.Double( getViewPoint( itemCount - 2 ), getViewPoint( itemCount - 1 ) );
+//                    GeneralPath viewPath = new GeneralPath();
+//                    viewPath.moveTo( (float)getViewPoint( itemCount - 1 ).getX(), (float)getViewPoint( itemCount - 1 ).getY() );
+//                    for( int i = 0; i < 100; i++ ) {
+//                        viewPath.lineTo( (float)getViewPoint( itemCount - 1 - i ).getX(), (float)getViewPoint( itemCount - 1 - i ).getY() );
+//                    }
+//                    setupRenderingHints( graphics2D );
+////                    graphics2D.clip( getChartViewBounds() );
+////                    System.out.println( "getChartViewBounds() = " + getChartViewBounds() );
+//                    graphics2D.clip( getChartViewBounds() );
+//                    graphics2D.draw( viewPath );
+//
+//                    Shape sh = stroke.createStrokedShape( viewPath );
+//                    Rectangle2D bounds = sh.getBounds2D();
+//                    if( dynamicJFreeChartNode.isBuffered() ) {
+//                        bounds = new Rectangle2D.Double( bounds.getX() + dynamicJFreeChartNode.getBounds().getX(), bounds.getY() + dynamicJFreeChartNode.getBounds().getY(), bounds.getWidth(), bounds.getHeight() );
+//                    }
+//                    dynamicJFreeChartNode.localToGlobal( bounds );
+//                    dynamicJFreeChartNode.phetPCanvas.getPhetRootNode().globalToScreen( bounds );
+////                    System.out.println( "bounds = " + bounds );
+//                    repaintPanel( bounds );
+//                }
+//            }
+//        }
+
         private void setupRenderingHints( Graphics2D graphics2D ) {
             graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         }
