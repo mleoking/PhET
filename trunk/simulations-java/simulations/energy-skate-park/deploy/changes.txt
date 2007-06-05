@@ -8,6 +8,7 @@ Added an ellipsis for menu items or buttons that pop up a dialog
 Fixed: On the tracks that open in roller coaster mode, when you right click, you cannot change the mode
 Fixed: "Bring back the skater" button should have setopaque false for mac
 Fixed: Dropping the character outside of the visible range, and then pressing "return the character" returns him to the same offscreen location. -This makes it very difficult to retrieve the character.
+Fixed: Jet pack graphic doesn't update when thrust changes
 Internal changes:
     -Fixed: Splines are using manual copy methods, should be using serialization
 
