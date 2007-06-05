@@ -1,7 +1,5 @@
-6-4-2007
-4.	Bug: Readout for “show path” follows last point
 6.	Why can you “rewind” during record or playback?
-7.	Auto-stop was very confusing to the user (several times)
+7.	Auto-stop was very confusing to the user (repeatedly)
 
 Questions:
 • Is simulation supposed to pause when end of recording time is reached?

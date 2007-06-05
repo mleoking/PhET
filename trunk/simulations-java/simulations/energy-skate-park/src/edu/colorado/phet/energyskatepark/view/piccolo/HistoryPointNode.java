@@ -26,11 +26,9 @@ public class HistoryPointNode extends PNode {
     private EnergySkateParkRootNode rootNode;
     private DecimalFormat formatter = new DecimalFormat( "0.00" );
     private ShadowHTMLNode htmlNode;
-    private String html = "";
-    private boolean readoutVisible = false;
     private Paint paint = new Color( 220, 175, 250 );
 
-    public HistoryPointNode( final HistoryPoint historyPoint, EnergySkateParkRootNode rootNode ) {
+    public HistoryPointNode( HistoryPoint historyPoint, EnergySkateParkRootNode rootNode ) {
         this.historyPoint = historyPoint;
         this.rootNode = rootNode;
         final double scale = 1.5;
@@ -47,7 +45,8 @@ public class HistoryPointNode extends PNode {
         htmlNode.scale( scale );
         PBasicInputEventHandler eventHandler = new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
-                toggleVisible();
+                HistoryPointNode.this.historyPoint.setReadoutVisible( !HistoryPointNode.this.historyPoint.isReadoutVisible() );
+                update();//todo: listener pattern
             }
         };
         rootNode.addWorldTransformListener( new PropertyChangeListener() {
@@ -57,11 +56,6 @@ public class HistoryPointNode extends PNode {
         } );
         addInputEventListener( eventHandler );
         htmlNode.addInputEventListener( eventHandler );
-        update();
-    }
-
-    private void toggleVisible() {
-        this.readoutVisible = !this.readoutVisible;
         update();
     }
 
@@ -75,18 +69,18 @@ public class HistoryPointNode extends PNode {
         setOffset( pt );
 
         String heatString = historyPoint.getThermalEnergy() != 0 ? "Thermal Energy=" + format( historyPoint.getThermalEnergy() ) + " J<br>" : "";
-        html = ( "<html>" +
-                 "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
-                 "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +
-                 heatString +
-                 "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
-                 "</html>" );
-        if( readoutVisible ) {
+        String html = "<html>" +
+                      "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
+                      "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +
+                      heatString +
+                      "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
+                      "</html>";
+        if( historyPoint.isReadoutVisible() ) {
             htmlNode.setHtml( html );
         }
-        getReadoutGraphic().setVisible( readoutVisible );
-        getReadoutGraphic().setPickable( readoutVisible );
-        getReadoutGraphic().setChildrenPickable( readoutVisible );
+        getReadoutGraphic().setVisible( historyPoint.isReadoutVisible() );
+        getReadoutGraphic().setPickable( historyPoint.isReadoutVisible() );
+        getReadoutGraphic().setChildrenPickable( historyPoint.isReadoutVisible() );
         getReadoutGraphic().setOffset( getOffset() );
     }
 
