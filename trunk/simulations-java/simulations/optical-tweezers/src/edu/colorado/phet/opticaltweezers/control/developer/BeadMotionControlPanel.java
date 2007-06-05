@@ -26,6 +26,12 @@ import edu.colorado.phet.opticaltweezers.model.Bead;
 public class BeadMotionControlPanel extends JPanel implements Observer {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final boolean TOOL_TIPS_ENABLED = false;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -52,9 +58,6 @@ public class BeadMotionControlPanel extends JPanel implements Observer {
         double min = bead.getDtSubdivisionThresholdRange().getMin();
         double max = bead.getDtSubdivisionThresholdRange().getMax();
         _dtSubdivisionThresholdControl = new LogarithmicValueControl( min, max, "dt subdivision threshold:", "0.0E0", "" );
-        _dtSubdivisionThresholdControl.setToolTipText( 
-                "<html>When the clockstep is >= this value, the motion algorithm<br>" +
-                "is run multiple times each time the clock ticks</html>" );
         _dtSubdivisionThresholdControl.setTextFieldColumns( 4 );
         _dtSubdivisionThresholdControl.setFont( controlFont );
         _dtSubdivisionThresholdControl.addChangeListener( new ChangeListener() {
@@ -66,9 +69,6 @@ public class BeadMotionControlPanel extends JPanel implements Observer {
         min = bead.getNumberOfDtSubdivisionsRange().getMin();
         max = bead.getNumberOfDtSubdivisionsRange().getMax();
         _numberOfDtSubdivisions = new LinearValueControl( min, max, "# of dt subdivisions:", "###0", "" );
-        _numberOfDtSubdivisions.setToolTipText( 
-                "<html>Number of times to run the motion algorithm<br>" + 
-                "when subdividing the clockstep</html>" );
         _numberOfDtSubdivisions.setUpDownArrowDelta( 1 );
         _numberOfDtSubdivisions.setFont( controlFont );
         _numberOfDtSubdivisions.addChangeListener( new ChangeListener() {
@@ -80,9 +80,6 @@ public class BeadMotionControlPanel extends JPanel implements Observer {
         min = bead.getBrownianMotionScaleRange().getMin();
         max = bead.getBrownianMotionScaleRange().getMax();
         _brownianMotionScaleControl = new LinearValueControl( min, max, "Brownian motion scale:", "0.00", "" );
-        _brownianMotionScaleControl.setToolTipText( 
-                "<html>How much to scale the Brownian motion.<br>" + 
-                "Larger values cause more exaggerated motion</html>" );
         _brownianMotionScaleControl.setUpDownArrowDelta( 0.01 );
         _brownianMotionScaleControl.setFont( controlFont );
         _brownianMotionScaleControl.addChangeListener( new ChangeListener() {
@@ -90,6 +87,18 @@ public class BeadMotionControlPanel extends JPanel implements Observer {
                 handleBrownianMotionScaleControl();
             }
         });
+        
+        if ( TOOL_TIPS_ENABLED ) {
+            _dtSubdivisionThresholdControl.setToolTipText( 
+                    "<html>When the clockstep is >= this value, the motion algorithm<br>" +
+                    "is run multiple times each time the clock ticks</html>" );
+            _numberOfDtSubdivisions.setToolTipText( 
+                    "<html>Number of times to run the motion algorithm<br>" + 
+                    "when subdividing the clockstep</html>" );
+            _brownianMotionScaleControl.setToolTipText( 
+                    "<html>How much to scale the Brownian motion.<br>" + 
+                    "Larger values cause more exaggerated motion</html>" );
+        }
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
