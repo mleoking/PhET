@@ -6,10 +6,13 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
+- implement custom simulation speed control
+- E-field feature
 
 MEDIUM PRIORITY:
+- DNA strand looks too straight initially, evolve a few times before displaying?
 - tune developer controls, pick appropriate defaults
-- modify strand evolution to accommodate variable fluid properties?
+- modify DNA strand evolution to accommodate variable fluid properties?
 - position histogram requires more precision on x-axis and ruler
 - get model for Brownian force, or delete "Show Brownian force" feature
 - ruler is slightly off-center in all panels
@@ -18,9 +21,7 @@ MEDIUM PRIORITY:
 - when fluid viscosity=0, use Verlet motion model, disable fluid speed & temperature controls, make glass slide black
 - add light grey draggable frame around laster controls, or make entire panel draggable
 - rail slider for lens ?
-- implement custom simulation speed control
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
-- E-field feature
 - adjust clock time display and units as dt is changed
 - enable/disable controls based on clock speed
 - make "beam" the only laser display option in fast mode
@@ -32,12 +33,9 @@ LOW PRIORITY:
 - position histogram should make an observation every N seconds, not every clock tick (?)
 - when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
 - dialogs don't repaint or close immediately when clock is running, thread priority?
-- why is fluid.getDragForce not used directly in Bead.move ?
 - improve positioning of value in Vector2DNode
 - try to make entire laser control panel draggable
 - use TrigCache to improve performance?
-- replace OTRuler alignment hack with permanent solution
-- add close button to ruler?
 - save/load
 - javadoc
 - package level javadoc
@@ -60,6 +58,7 @@ MISSING INFO:
 
  
 DONE:
+6/5/07 - remove OTRuler alignment hack, it wasn't working in all cases
 ********* version 0.00.09 (15620)
 6/5/07 - make strand follow bead when clock is paused
 6/5/07 - disable tooltips on developer controls, they're annoying
@@ -396,6 +395,8 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+6/5/07 - add close button to ruler (inappropriate, ugly, etc)
+6/5/07 - why is fluid.getDragForce not used directly in Bead.move (it appears in the model indirectly)
 5/31/07 - make DNA tail draggable (feature not needed)
 5/17/07 - improve collision detection in Bead.move (not necessary, only Brownian force causes collisions)
 4/24/07 - add AbstractValueControl.setInverted (makes things unnecessarily complex)
