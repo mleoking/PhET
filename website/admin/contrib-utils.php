@@ -276,7 +276,7 @@ EOT;
         
         $contribution = contribution_get_contribution_by_id($contribution_id);
         
-        if (!$contribution) {
+        if (!$contribution) {            
             // Allow 'editing' of non-existent contributions:
             $contribution = db_get_blank_row('contribution');
         }
@@ -325,15 +325,17 @@ EOT;
             print <<<EOT
                     
                         <div class="field">
-                            <span class="label">name</span>
+                            <span class="label">your name</span>
                             <span class="label_content">                
-                                <input type="text" size="20" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_email_entered();"/>
+                                <input type="text" size="20" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_name_change();"/>
                             </span>
                         </div>
                 
                         <div id="required_login_info_uid">
                     
                         </div>
+                        
+                        <hr/>   
 EOT;
         }
 
@@ -346,18 +348,18 @@ EOT;
                         
                         <span class="label_content">
                             <input type="text" name="contribution_authors" 
-                                value="$contribution_authors" tabindex="1" id="contribution_authors" size="50" />
+                                value="$contribution_authors" id="contribution_authors_uid" size="50" />
                         </span>
                     </div>
 
                     <div class="field">
                         <span class="label">
-                            organization
+                            authors organization
                         </span>
                         
                         <span class="label_content">
                             <input type="text" name="contribution_authors_organization" 
-                                value="$contribution_authors_organization" tabindex="1" id="contribution_authors_organization" size="50"/>
+                                value="$contribution_authors_organization" id="contribution_authors_organization_uid" size="50"/>
                         </span>
                     </div>
                     
@@ -368,7 +370,7 @@ EOT;
                         
                         <span class="label_content">
                             <input type="text" name="contribution_contact_email" 
-                                value="$contribution_contact_email" tabindex="1" id="contribution_contact_email" size="50"/>
+                                value="$contribution_contact_email" id="contribution_contact_email_uid" size="50"/>
                         </span>
                     </div>
 
@@ -381,7 +383,7 @@ EOT;
                         
                         <span class="label_content">
                             <input type="text" name="contribution_title" 
-                                value="$contribution_title" tabindex="1" id="contribution_title" size="50"/>
+                                value="$contribution_title" id="contribution_title_uid" size="50"/>
                         </span>
                     </div>
                     
@@ -392,7 +394,7 @@ EOT;
                         
                         <span class="label_content">
                             <input type="text" name="contribution_keywords"
-                                value="$contribution_keywords" tabindex="3" id="contribution_keywords" size="50" />
+                                value="$contribution_keywords" id="contribution_keywords_uid" size="50" />
                         </span>
                     </div>
                     
@@ -444,7 +446,7 @@ EOT;
                     <br/>
 
                     <div class="button">
-                        <input name="submit" type="submit" id="submit" tabindex="13" value="$button_name" />
+                        <input name="submit" type="submit" id="submit" value="$button_name" />
                     </div>
 
 
@@ -458,7 +460,7 @@ EOT;
                         </span>
                         
                         <span class="label_content">
-                            <textarea name="contribution_desc" tabindex="4" id="contribution_desc" rows="5" cols="50">$contribution_desc</textarea>
+                            <textarea name="contribution_desc" id="contribution_desc_uid" rows="5" cols="50">$contribution_desc</textarea>
                         </span>
                     </div>
                     
@@ -529,7 +531,7 @@ EOT;
                     <input type="hidden" name="action"          value="update" />
                     
                     <div class="button">
-                        <input name="submit" type="submit" id="submit" tabindex="13" value="$button_name" />
+                        <input name="submit" type="submit" id="submit" value="$button_name" />
                     </div>
                  </fieldset>
             </form>
@@ -1037,7 +1039,7 @@ EOT;
             $levels[$name] = $contribution_level;
         }
         
-        return array_unique($levels);
+        return $levels;
     }
     
     function contribution_get_all_template_level_names() {
@@ -1109,7 +1111,7 @@ EOT;
             $subjects[$name] = format_for_html($contribution_subject);
         }
         
-        return array_unique($subjects);
+        return $subjects;
     }
     
     function contribution_get_all_template_subject_names() {
@@ -1594,7 +1596,7 @@ EOT;
                         
                             <span class="label_content">
                                 <input type="password" name="contributor_password" 
-                                    value="$contributor_password" tabindex="1" id="password" size="25"/>                        
+                                    value="$contributor_password" id="password" size="25"/>                        
                             </span>
                         </div>
                     
@@ -1603,7 +1605,7 @@ EOT;
                         
                             <span class="label_content">
                                 <input type="text" name="contributor_name" 
-                                    value="$contributor_name" tabindex="2" id="name" size="25"/>
+                                    value="$contributor_name" id="name" size="25"/>
                             </span>
                         </div>
                     
@@ -1612,7 +1614,7 @@ EOT;
                         
                             <span class="label_content">
                                 <input type="text" name="contributor_organization" 
-                                    value="$contributor_organization" tabindex="2" id="contributor_organization" size="25"/>
+                                    value="$contributor_organization" id="contributor_organization" size="25"/>
                             </span>
                         </div>
                     
@@ -1621,7 +1623,7 @@ EOT;
                         
                             <span class="label_content">
                                 <input type="text" name="contributor_title"
-                                    value="$contributor_title" tabindex="3" id="title" size="25" />
+                                    value="$contributor_title" id="title" size="25" />
                             </span>
                         </div>
                     
@@ -1630,7 +1632,7 @@ EOT;
                         
                             <span class="label_content">
                                 <input type="text" name="contributor_address"
-                                    value="$contributor_address" tabindex="4" id="address" size="25" />
+                                    value="$contributor_address" id="address" size="25" />
                             </span>
                         </div>
                     
@@ -1639,7 +1641,7 @@ EOT;
                         
                             <span class="label_content">
                                 <input type="text" name="contributor_office"
-                                    value="$contributor_office" tabindex="5" id="office" size="15" />
+                                    value="$contributor_office" id="office" size="15" />
                             </span>
                         </div>
                     
@@ -1648,7 +1650,7 @@ EOT;
                         
                             <span class="label_content">
                                 <input type="text" name="contributor_city"
-                                    value="$contributor_city" tabindex="6" id="city" size="15" />
+                                    value="$contributor_city" id="city" size="15" />
                             </span>
                         </div>
                     
@@ -1657,7 +1659,7 @@ EOT;
                     
                             <span class="label_content">
                                 <input type="text" name="contributor_state"
-                                    value="$contributor_state" tabindex="7" id="state" size="15" />
+                                    value="$contributor_state" id="state" size="15" />
                             </span>
                         </div>
                     
@@ -1666,7 +1668,7 @@ EOT;
                         
                             <span class="label_content">
                                 <input type="text" name="contributor_postal_code"
-                                    value="$contributor_postal_code" tabindex="8" id="postal_code" size="10" />
+                                    value="$contributor_postal_code" id="postal_code" size="10" />
                             </span>
                         </div>
                     
@@ -1676,7 +1678,7 @@ EOT;
                         
                             <span class="label_content">
                                 <input type="text" name="contributor_primary_phone"
-                                    value="$contributor_primary_phone" tabindex="9" id="primary_phone" size="12" />
+                                    value="$contributor_primary_phone" id="primary_phone" size="12" />
                             </span>
                         </div>
                     
@@ -1685,7 +1687,7 @@ EOT;
                     
                             <span class="label_content">
                                 <input type="text" name="contributor_secondary_phone"
-                                    value="$contributor_secondary_phone" tabindex="10" id="secondary_phone" size="12" />
+                                    value="$contributor_secondary_phone" id="secondary_phone" size="12" />
                             </span>
                         </div>
                     
@@ -1694,7 +1696,7 @@ EOT;
                         
                             <span class="label_content">
                                 <input type="text" name="contributor_fax"
-                                    value="$contributor_fax" tabindex="10" id="fax" size="12" />
+                                    value="$contributor_fax" id="fax" size="12" />
                             </span>                        
                         </div>
                     
@@ -1705,12 +1707,12 @@ EOT;
                         
                             <span class="label_content">
                                 <input type="checkbox" name="contributor_receive_email"
-                                    value="1" tabindex="12" $contributor_receive_email_checked>
+                                    value="1" $contributor_receive_email_checked>
                             </span>
                         </div>
                     </div>
 
-                   <input class="button" name="Submit" type="submit" id="submit" tabindex="13" value="Done" />
+                   <input class="button" name="Submit" type="submit" id="submit" value="Done" />
                  </fieldset>
             </form>
 EOT;

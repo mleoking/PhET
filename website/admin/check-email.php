@@ -19,4 +19,7 @@ EOT;
 EOT;
         }
     }
+    else {
+        print "This script must be invoked with contributor_email as an argument.";
+    }
 ?>

@@ -17,6 +17,8 @@
     }
     
     function update_contribution($contribution) {
+        do_authentication(true);
+        
         if (!isset($contribution['contributor_id']) || $contribution['contributor_id'] == -1) {
             // The contribution is unowned; transfer ownership to the present user:
             $contribution['contributor_id'] = $GLOBALS['contributor_id'];
