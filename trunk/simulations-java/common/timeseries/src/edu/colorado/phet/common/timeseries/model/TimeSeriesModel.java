@@ -237,6 +237,14 @@ public class TimeSeriesModel extends ClockAdapter {
         series.clear();
         record.reset();
         notifyDataSeriesChanged();
+        notifyDataSeriesCleared();
+    }
+
+    private void notifyDataSeriesCleared() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.dataSeriesCleared();
+        }
     }
 
     public int numPlaybackStates() {
@@ -303,6 +311,8 @@ public class TimeSeriesModel extends ClockAdapter {
         void modeChanged();
 
         void pauseChanged();
+
+        void dataSeriesCleared();
     }
 
     public static class Adapter implements Listener {
@@ -313,6 +323,9 @@ public class TimeSeriesModel extends ClockAdapter {
         }
 
         public void pauseChanged() {
+        }
+
+        public void dataSeriesCleared() {
         }
     }
 }

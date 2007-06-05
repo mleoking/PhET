@@ -12,6 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
@@ -53,10 +54,10 @@ public class EnergyVsTimePlot {
     private ArrayList listeners = new ArrayList();
     private JFreeChartCursorNode jFreeChartCursorNode;
 
-    public static final double MAX_TIME = 50.0;
-//    public static final double MAX_TIME = 5.0;
+//    public static final double MAX_TIME = 50.0;
+    public static final double MAX_TIME = 5.0;
 
-    public EnergyVsTimePlot( JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
+    public EnergyVsTimePlot( EnergySkateParkModule module,JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
         this.clock = clock;
         this.timeSeriesModel = timeSeriesModel;
@@ -111,11 +112,16 @@ public class EnergyVsTimePlot {
                 }
             }
         } );
+        model.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void primaryBodyChanged() {
+                updateReadouts();//this listener updates the readouts even when mode is live
+            }
+        });
 
         dialog = new JDialog( parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
         JPanel contentPane = new JPanel( new BorderLayout() );
         contentPane.add( phetPCanvas, BorderLayout.CENTER );
-        contentPane.add( new EnergySkateParkPlaybackPanel( timeSeriesModel, clock ), BorderLayout.SOUTH );
+        contentPane.add( new EnergySkateParkPlaybackPanel(module, timeSeriesModel, clock ), BorderLayout.SOUTH );
         dialog.setContentPane( contentPane );
         dialog.setSize( 800, 400 );
         dialog.addComponentListener( new ComponentAdapter() {
