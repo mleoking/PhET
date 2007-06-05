@@ -53,7 +53,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         addControl( resetSkater );
 
         try {
-            JButton chooseCharacter = new JButton( EnergySkateParkStrings.getString( "controls.choose-character" )+"..." );
+            JButton chooseCharacter = new JButton( EnergySkateParkStrings.getString( "controls.choose-character" ) + "..." );
             chooseCharacter.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     new ChooseCharacterDialog( module ).setVisible( true );

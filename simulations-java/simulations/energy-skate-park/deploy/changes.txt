@@ -1,4 +1,4 @@
-2.01.07
+2.01.07 (6-4-2007)
 Added improved time series controls for main window and Energy vs. Time graph
 If the user grabs the skater during playback mode (whether or not it is paused), it changes to record (or live) mode.
 Reworded “Record Path” to “Show Path”

@@ -49,7 +49,7 @@ public class GravitySlider extends LinearValueControl {
     }
 
     private void update() {
-        setValue( Math.abs(module.getEnergySkateParkModel().getGravity() ));
+        setValue( Math.abs( module.getEnergySkateParkModel().getGravity() ) );
     }
 
 }
