@@ -15,6 +15,7 @@ Rewind button is disabled during record and playback.
 Made simulation continue after recording time runs out
 Energy vs. Time readouts update even when mode is live, not record
 Fixed: Planet radio buttons are deselectable
+Fixed: Gravity shows as negative zero in space
 Internal changes:
     -Fixed: Splines are using manual copy methods, should be using serialization
 

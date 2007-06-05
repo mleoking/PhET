@@ -46,12 +46,11 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         addFocusRequest();
         addKeyHandling();
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
-        addKeyListener( new KeyAdapter() {
-            public void keyPressed( KeyEvent e ) {
-                displayMemoryUsage();
-            }
-
-        } );
+//        addKeyListener( new KeyAdapter() {
+//            public void keyPressed( KeyEvent e ) {
+//                displayMemoryUsage();
+//            }
+//        } );
         energySkateParkModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void preStep() {
                 updateThrust();

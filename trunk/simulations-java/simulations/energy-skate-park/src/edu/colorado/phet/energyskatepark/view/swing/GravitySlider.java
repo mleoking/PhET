@@ -22,6 +22,7 @@ public class GravitySlider extends LinearValueControl {
 
     public GravitySlider( final EnergySkateParkModule module ) {
         super( 0, 30, EnergySkateParkStrings.getString( "controls.gravity" ), "0.00", EnergySkateParkStrings.getString( "units.accel" ) );
+
         this.module = module;
         Hashtable modelTicks = new Hashtable();
         modelTicks.put( new Double( 0 ), new JLabel( EnergySkateParkStrings.getString( "location.space" ) ) );
@@ -48,7 +49,7 @@ public class GravitySlider extends LinearValueControl {
     }
 
     private void update() {
-        setValue( -module.getEnergySkateParkModel().getGravity() );
+        setValue( Math.abs(module.getEnergySkateParkModel().getGravity() ));
     }
 
 }
