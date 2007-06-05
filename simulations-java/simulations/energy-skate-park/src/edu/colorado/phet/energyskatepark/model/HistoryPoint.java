@@ -19,6 +19,8 @@ public class HistoryPoint implements Serializable {
     private double totalEnergy;
     private double thermalEnergy;
 
+    private boolean readoutVisible = false;
+
     public HistoryPoint( double time, Body body ) {
         this.body = body;
         this.x = body.getX();
@@ -56,5 +58,13 @@ public class HistoryPoint implements Serializable {
 
     public double getThermalEnergy() {
         return thermalEnergy;
+    }
+
+    public void setReadoutVisible( boolean readoutVisible ) {
+        this.readoutVisible = readoutVisible;
+    }
+
+    public boolean isReadoutVisible() {
+        return readoutVisible;
     }
 }

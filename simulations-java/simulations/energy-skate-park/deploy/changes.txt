@@ -10,6 +10,7 @@ Fixed: "Bring back the skater" button should have setopaque false for mac
 Fixed: Dropping the character outside of the visible range, and then pressing "return the character" returns him to the same offscreen location. -This makes it very difficult to retrieve the character.
 Fixed: Jet pack graphic doesn't update when thrust changes
 Removed clock icon
+Fixed: Readout for “show path” follows last point
 Internal changes:
     -Fixed: Splines are using manual copy methods, should be using serialization
 
