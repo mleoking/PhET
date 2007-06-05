@@ -45,7 +45,7 @@ public class BeadMotionControlPanel extends JPanel implements Observer {
         _bead = bead;
         _bead.addObserver( this );
         
-        TitledBorder border = new TitledBorder( "Bead motion algorithm:" );
+        TitledBorder border = new TitledBorder( "Bead motion model" );
         border.setTitleFont( titleFont );
         this.setBorder( border );
         

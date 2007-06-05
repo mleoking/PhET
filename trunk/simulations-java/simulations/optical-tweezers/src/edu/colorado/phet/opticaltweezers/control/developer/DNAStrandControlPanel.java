@@ -58,7 +58,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         _dnaStrandNode = dnaStrandNode;
         _dnaStrandNode.addPropertyChangeListener( this );
         
-        TitledBorder border = new TitledBorder( "DNA strand behavior:" );
+        TitledBorder border = new TitledBorder( "DNA strand model" );
         border.setTitleFont( titleFont );
         this.setBorder( border );
         
