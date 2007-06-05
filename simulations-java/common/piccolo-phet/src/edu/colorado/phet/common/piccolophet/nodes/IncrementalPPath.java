@@ -37,11 +37,11 @@ public class IncrementalPPath extends PPath {
 
         Line2D.Double line = new Line2D.Double( currentPoint, newPoint );
         Rectangle2D bounds = getStroke().createStrokedShape( line ).getBounds2D();
-        Rectangle2D.Double localBounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
+//        Rectangle2D.Double localBounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
         localToGlobal( bounds );
 
 //        System.out.println( "line=" + toString(line) + ", stroke=" + toString( getStroke() ) + ", localBounds=" + localBounds + ", globalBounds=" + bounds );
-        System.out.println( "line=" + toString(line) + ", stroke=" + toString( getStroke() ) + ", globalBounds=" + bounds );
+//        System.out.println( "line=" + toString(line) + ", stroke=" + toString( getStroke() ) + ", globalBounds=" + bounds );
         pCanvas.repaint( new PBounds( bounds ) );
     }
 

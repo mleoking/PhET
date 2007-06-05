@@ -7,6 +7,9 @@ package edu.colorado.phet.common.jfreechartphet.test;
  */
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.SeriesView;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.SeriesData;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.IncrementalPPathSeriesView;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -32,7 +35,7 @@ public class TestDynamicJFreeChartNode {
 
     public TestDynamicJFreeChartNode() {
         frame = new JFrame();
-        frame.setSize( 1024 - 100, 768 - 100 );
+        frame.setSize( 1280 , 768 - 100 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         phetPCanvas = new PhetPCanvas();
@@ -60,11 +63,15 @@ public class TestDynamicJFreeChartNode {
                 dynamicJFreeChartNode.setPiccoloSeries();
             }
         } ) );
-//        panel.add( createButton( "Incremental Piccolo Series", buttonGroup, false, new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                dynamicJFreeChartNode.setIncrementalPiccoloSeries();
-//            }
-//        } ) );
+        panel.add( createButton( "Incremental Piccolo Series", buttonGroup, false, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                dynamicJFreeChartNode.setViewFactory( new DynamicJFreeChartNode.SeriesViewFactory() {
+                    public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+                        return new IncrementalPPathSeriesView( dynamicJFreeChartNode, seriesData );
+                    }
+                } );
+            }
+        } ) );
         panel.add( createButton( "Buffered Series", buttonGroup, false, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dynamicJFreeChartNode.setBufferedSeries();
