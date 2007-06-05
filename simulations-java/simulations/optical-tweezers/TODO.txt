@@ -33,7 +33,6 @@ LOW PRIORITY:
 - position histogram should make an observation every N seconds, not every clock tick (?)
 - when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
 - dialogs don't repaint or close immediately when clock is running, thread priority?
-- improve positioning of value in Vector2DNode
 - try to make entire laser control panel draggable
 - use TrigCache to improve performance?
 - save/load
@@ -58,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+6/5/07 - improve algorithm for positioning the value in Vector2DNode
 6/5/07 - remove OTRuler alignment hack, it wasn't working in all cases
 ********* version 0.00.09 (15620)
 6/5/07 - make strand follow bead when clock is paused

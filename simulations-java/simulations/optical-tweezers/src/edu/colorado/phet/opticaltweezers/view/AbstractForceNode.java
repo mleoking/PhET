@@ -31,7 +31,7 @@ public abstract class AbstractForceNode extends PComposite {
     private static final double VECTOR_TAIL_WIDTH = 5;
     private static final Stroke VECTOR_STROKE = new BasicStroke( 1f );
     private static final Paint VECTOR_STROKE_PAINT = Color.BLACK;
-    private static final double VALUE_SPACING = 0; // space between value and arrow head
+    private static final double VALUE_SPACING = 2; // space between value and arrow head
     private static final Paint VALUE_PAINT = Color.BLACK;
     
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0.##E0" );
