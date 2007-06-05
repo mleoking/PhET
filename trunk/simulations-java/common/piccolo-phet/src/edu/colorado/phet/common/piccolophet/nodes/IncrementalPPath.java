@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.PanZoomWorldKeyHandler;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -39,8 +40,13 @@ public class IncrementalPPath extends PPath {
         Rectangle2D.Double localBounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
         localToGlobal( bounds );
 
-        System.out.println( "line=" + line + ", stroke=" + toString( getStroke() ) + ", localBounds=" + localBounds + ", globalBounds=" + bounds );
+//        System.out.println( "line=" + toString(line) + ", stroke=" + toString( getStroke() ) + ", localBounds=" + localBounds + ", globalBounds=" + bounds );
+        System.out.println( "line=" + toString(line) + ", stroke=" + toString( getStroke() ) + ", globalBounds=" + bounds );
         pCanvas.repaint( new PBounds( bounds ) );
+    }
+
+    private String toString( Line2D.Double line ) {
+        return line.getP1()+" to "+line.getP2();
     }
 
     private String toString( Stroke stroke ) {
@@ -59,6 +65,10 @@ public class IncrementalPPath extends PPath {
         }
     }
 
+    /**
+     * Demonstration for IncrementalPPath.
+     * @param args
+     */
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Test IncrementalPPath" );
         PhetPCanvas contentPane = new PhetPCanvas();
@@ -73,10 +83,9 @@ public class IncrementalPPath extends PPath {
             boolean firstTime = true;
 
             public void actionPerformed( ActionEvent e ) {
-
                 x_var += 1;
-//                y_var = 100 * (float)Math.sin( x_var / 30.0 ) + 150;
-                y_var = 100;
+                y_var = 100 * (float)Math.sin( x_var / 30.0 ) + 150;
+//                y_var = 100;
                 System.out.println( "x = " + x_var + ", y=" + y_var );
                 if( firstTime ) {
                     path.moveTo( x_var, y_var );
@@ -87,7 +96,7 @@ public class IncrementalPPath extends PPath {
                 }
             }
         } );
-        contentPane.addScreenChild( path );
+        contentPane.addWorldChild( path );
         frame.setContentPane( contentPane );
         frame.setSize( 400, 400 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -95,5 +104,6 @@ public class IncrementalPPath extends PPath {
                            Toolkit.getDefaultToolkit().getScreenSize().height / 2 - frame.getHeight() / 2 );
         frame.show();
         timer.start();
+        contentPane.requestFocus();
     }
 }

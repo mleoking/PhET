@@ -6,7 +6,7 @@ package edu.colorado.phet.common.jfreechartphet.test;
  * Time: 11:56:07 PM
  */
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.DynamicJFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -60,6 +60,11 @@ public class TestDynamicJFreeChartNode {
                 dynamicJFreeChartNode.setPiccoloSeries();
             }
         } ) );
+//        panel.add( createButton( "Incremental Piccolo Series", buttonGroup, false, new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                dynamicJFreeChartNode.setIncrementalPiccoloSeries();
+//            }
+//        } ) );
         panel.add( createButton( "Buffered Series", buttonGroup, false, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dynamicJFreeChartNode.setBufferedSeries();

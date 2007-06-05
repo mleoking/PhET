@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.plots;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.DynamicJFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
