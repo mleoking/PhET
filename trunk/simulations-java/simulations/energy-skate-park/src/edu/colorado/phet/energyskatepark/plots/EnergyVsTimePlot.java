@@ -54,7 +54,7 @@ public class EnergyVsTimePlot {
     private ArrayList listeners = new ArrayList();
     private JFreeChartCursorNode jFreeChartCursorNode;
 
-        public static final double MAX_TIME = 50.0;
+    public static final double MAX_TIME = 50.0;
 //    public static final double MAX_TIME = 5.0;
 
     public EnergyVsTimePlot( EnergySkateParkModule module, JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
@@ -188,10 +188,10 @@ public class EnergyVsTimePlot {
         double total = getEnergySkateParkModel().getBody( 0 ).getTotalEnergy();
 
         DecimalFormat formatter = new DecimalFormat( "0.00" );
-        thermalPText.setText( EnergySkateParkStrings.getString( "energy.thermal" )+" = " + formatter.format( thermal ) + " J" );
-        keText.setText( EnergySkateParkStrings.getString( "energy.kinetic.abbreviation" ) + formatter.format( ke ) + " J" );
-        peText.setText( EnergySkateParkStrings.getString( "energy.potential.abbreviation" )+" = " + formatter.format( pe ) + " J" );
-        totalText.setText( EnergySkateParkStrings.getString( "energy.total" )+" = " + formatter.format( total ) + " J" );
+        thermalPText.setText( EnergySkateParkStrings.getString( "energy.thermal" ) + " = " + formatter.format( thermal ) + " J" );
+        keText.setText( EnergySkateParkStrings.getString( "energy.kinetic.abbreviation" ) + " = " + formatter.format( ke ) + " J" );
+        peText.setText( EnergySkateParkStrings.getString( "energy.potential.abbreviation" ) + " = " + formatter.format( pe ) + " J" );
+        totalText.setText( EnergySkateParkStrings.getString( "energy.total" ) + " = " + formatter.format( total ) + " J" );
     }
 
     public class ReadoutTextNode extends PhetPNode {

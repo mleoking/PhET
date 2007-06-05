@@ -136,7 +136,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         if( !getEnergySkateParkSimulationPanel().isSkaterFullyOnscreen( body ) ) {
 //            System.out.println( "After initial reset, skater was offscreen, deleting restore point." );
 //            System.out.println( "Resetting again." );
-            
+
             body.deleteRestorePoint();
             body.reset();
         }

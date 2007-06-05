@@ -5,9 +5,9 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
-import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -446,9 +446,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public SkaterNode getSkaterNode( Body body ) {
-        for (int i=0;i<skaterNodeLayer.getChildrenCount();i++){
-            SkaterNode node= (SkaterNode)skaterNodeLayer.getChild( i);
-            if (node.getBody()==body){
+        for( int i = 0; i < skaterNodeLayer.getChildrenCount(); i++ ) {
+            SkaterNode node = (SkaterNode)skaterNodeLayer.getChild( i );
+            if( node.getBody() == body ) {
                 return node;
             }
         }
