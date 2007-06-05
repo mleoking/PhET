@@ -314,14 +314,14 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             pathClip.setStrokePaint( null );//set to non-null for debugging clip area
             root.addChild( pathClip );
 
-            pathNode = new PhetPPath( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f ), seriesData.getColor() );
+            pathNode = new PhetPPath( new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f ), seriesData.getColor() );
             pathClip.addChild( pathNode );
 
             updateClip();
         }
 
         private void updateClip() {
-            pathClip.setPathTo( dynamicJFreeChartNode.getDataArea() );
+            pathClip.setPathTo( dynamicJFreeChartNode.getDataArea() );//todo: this may need to be transformed when dynamicJFreeChartNode.isBuffered()==true
         }
 
         public void updateSeriesGraphic() {
