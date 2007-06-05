@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.DynamicJFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.motion.model.SimulationVariable;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
