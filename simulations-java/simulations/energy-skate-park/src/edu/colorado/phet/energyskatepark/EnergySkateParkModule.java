@@ -72,7 +72,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         barChartFrame.setSize( 200, 625 );
         barChartFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - barChartFrame.getWidth(), 0 );
 
-        energyVsTimePlot = new EnergyVsTimePlot( phetFrame, clock, energyModel, timeSeriesModel );
+        energyVsTimePlot = new EnergyVsTimePlot( this, phetFrame, clock, energyModel, timeSeriesModel );
         energyVsTimePlot.addListener( new EnergyVsTimePlot.Listener() {
             public void visibilityChanged() {
                 setRecordOrLiveMode();
