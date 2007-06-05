@@ -79,10 +79,9 @@ public class Vector2D {
      * @param angle the angle, in radians
      */
     public void setMagnitudeAngle( double magnitude, double angle ) {
-        _magnitude = magnitude;
-        _angle = angle;
-        _x = Math.cos( angle ) * magnitude;
-        _y = Math.sin( angle ) * magnitude;
+        double x = Math.cos( angle ) * magnitude;
+        double y = Math.sin( angle ) * magnitude;
+        setXY( x, y );
     }
     
     /**

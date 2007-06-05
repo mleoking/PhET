@@ -9,10 +9,11 @@ import java.text.DecimalFormat;
 import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.opticaltweezers.util.Vector2D;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.opticaltweezers.util.Vector2D;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Vector2DNode is the visual representation of a 2D vector.
@@ -340,7 +341,7 @@ public class Vector2DNode extends PhetPNode {
                 double headWidth = ( _headHeight + 1 ) * Math.cos( _vector.getAngle() ); // + 1 to avoid Arrow problems with headHeight being bigger than arrow length
                 double headHeight = ( _headHeight + 1 ) * Math.sin( _vector.getAngle() ); // + 1 to avoid Arrow problems with headHeight being bigger than arrow length
                 double xTip = tailWidth + headWidth;
-                double yTip = tailHeight + headHeight;
+                double yTip = tailHeight + headHeight; // Java2D +y is down
                 Point2D tipPosition = new Point2D.Double( xTip, yTip );
                 Arrow arrow = new Arrow( TAIL_POSITION, tipPosition, _headHeight, _headWidth, _tailWidth, _fractionalHeadHeight, true /* scaleTailToo */ );
                 _arrowNode.setPathTo( arrow.getShape() );
@@ -352,22 +353,73 @@ public class Vector2DNode extends PhetPNode {
                 }
                 _valueNode.setText( text );
 
-                // position the text at the tip of the arrow
-                double x = 0;
-                if ( _vector.getX() > 0 ) {
-                    x = _arrowNode.getFullBounds().getMaxX() + _valueSpacing;
+                /* 
+                 * Position the text at the tip of the arrow.
+                 * Sorry about this, and good luck debugging.
+                 * There is undoubtedly a simpler way to do this...
+                 * 
+                 * Basic idea of this algorithm:
+                 * Divide a circle into eight 45-degree slices.
+                 * The vector's angle falls into one of these slices.
+                 * For each slice, the vector's tip slides alone one of 
+                 * the sides of the valueNode's bounds as the angle 
+                 * sweeps through the slide.
+                 * 
+                 * Test changes to this algorithm using TestVector2DNode.
+                 */
+                {
+                    double x = 0;
+                    double y = 0;
+                    final double valueWidth = _valueNode.getFullBoundsReference().getWidth();
+                    final double valueHeight = _valueNode.getFullBoundsReference().getHeight();
+                    double frac = 0;
+                    double angle = Math.atan2( _vector.getY(), _vector.getX() );
+                    if ( angle < 0 ) {
+                        angle += ( 2 * Math.PI );
+                    }
+
+                    if ( angle >= 0 && angle < 0.25 * Math.PI ) {
+                        frac = angle / ( 0.25 * Math.PI );
+                        x = xTip + _valueSpacing;
+                        y = yTip - ( ( 1 - frac ) * valueHeight / 2 ) + ( frac * _valueSpacing );
+                    }
+                    else if ( angle >= 0.25 * Math.PI && angle < 0.5 * Math.PI ) {
+                        frac = ( ( 0.5 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
+                        x = xTip - ( ( 1 - frac ) * valueWidth / 2 ) + ( frac * _valueSpacing );
+                        y = yTip + _valueSpacing;
+                    }
+                    else if ( angle >= 0.5 * Math.PI && angle < 0.75 * Math.PI ) {
+                        frac = ( ( 0.75 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
+                        x = xTip - ( valueWidth / 2 ) - ( ( 1 - frac ) * valueWidth / 2 ) - ( ( 1 - frac ) * _valueSpacing );
+                        y = yTip + _valueSpacing;
+                    }
+                    else if ( angle >= 0.75 * Math.PI && angle < Math.PI ) {
+                        frac = ( Math.PI - angle ) / ( 0.25 * Math.PI );
+                        x = xTip - valueWidth - _valueSpacing;
+                        y = yTip - ( ( 1 - frac ) * valueHeight / 2 ) + ( frac * _valueSpacing );
+                    }
+                    else if ( angle >= Math.PI && angle < 1.25 * Math.PI ) {
+                        frac = ( ( 1.25 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
+                        x = xTip - valueWidth - _valueSpacing;
+                        y = yTip - ( valueHeight / 2 ) - ( ( 1 - frac ) * valueHeight / 2 ) - ( ( 1 - frac ) * _valueSpacing );
+                    }
+                    else if ( angle >= 1.25 * Math.PI && angle < 1.5 * Math.PI ) {
+                        frac = ( ( 1.5 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
+                        x = xTip - valueWidth + ( ( 1 - frac ) * valueWidth / 2 ) - ( frac * _valueSpacing );
+                        y = yTip - valueHeight - _valueSpacing;
+                    }
+                    else if ( angle >= 1.5 * Math.PI && angle < 1.75 * Math.PI ) {
+                        frac = ( ( 1.75 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
+                        x = xTip - ( valueWidth / 2 ) + ( ( 1 - frac ) * valueWidth / 2 ) + ( ( 1 - frac ) * _valueSpacing );
+                        y = yTip - valueHeight - _valueSpacing;
+                    }
+                    else {
+                        frac = ( ( 2 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
+                        x = xTip + _valueSpacing;
+                        y = yTip - valueHeight + ( ( 1 - frac ) * valueHeight / 2 ) - ( frac * _valueSpacing );
+                    }
+                    _valueNode.setOffset( x, y );
                 }
-                else {
-                    x = _arrowNode.getFullBounds().getX() - _valueSpacing - _valueNode.getFullBounds().getWidth();
-                }
-                double y = 0;
-                if ( _vector.getY() > 0 ) {
-                    y = _arrowNode.getFullBounds().getMaxY() + _valueSpacing;
-                }
-                else {
-                    y = _arrowNode.getFullBounds().getY() - _valueSpacing - _valueNode.getFullBounds().getHeight();
-                }
-                _valueNode.setOffset( x, y );
             }
         }
     }
