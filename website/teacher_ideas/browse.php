@@ -140,7 +140,7 @@ EOT;
     function build_association_filter_list($names, $all_filter_name, $selected_values, $size = '8') {
         $list = '';
         
-        $on_change = 'onchange="javascript:update_browser_for_select_element(\''.$all_filter_name.'\');"';
+        $on_change = 'onchange="javascript:browse_update_browser_for_select_element();"';
         
         $list .= '<select name="'.$all_filter_name.'[]" '.$on_change.' multiple="multiple" size="'.$size.'" id="'.$all_filter_name.'_uid">';
         
@@ -211,7 +211,7 @@ EOT;
         
         print <<<EOT
 
-            <div id="browseresults">
+            <div id="browseresults" class="compact">
                 <table>
                     <thead>
                         <tr>
@@ -259,7 +259,7 @@ EOT;
         print <<<EOT
             <script type="text/javascript">
                 /* <![CDATA[ */
-                    function update_browser_for_select_element(select_prefix) {                        
+                    function browse_build_update_query(select_prefix) {                        
                         var select_id = select_prefix + '_uid';
 
                         var select_element = document.getElementById(select_id);
@@ -278,7 +278,15 @@ EOT;
                             }
                         }
                         
-                        var url = 'browse.php?content_only=true&order=$order&sort_by=$sort_by' + selected_options;
+                        return selected_options;
+                    }
+                    
+                    function browse_update_browser_for_select_element() {   
+                        var sims_query   = browse_build_update_query('Simulations');
+                        var types_query  = browse_build_update_query('Types');
+                        var levels_query = browse_build_update_query('Levels');
+                                                
+                        var url = 'browse.php?content_only=true&order=$order&sort_by=$sort_by' + sims_query + types_query + levels_query;
                         
                         HTTP.updateElementWithGet(url, null, 'browseresults');                        
 

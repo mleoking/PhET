@@ -2,10 +2,7 @@
 
     include_once("../admin/global.php");
 
-    // Cannot require user login:
-    $g_login_required = false;
-    include_once(SITE_ROOT."teacher_ideas/user-login.php");  
-    
+    include_once(SITE_ROOT."admin/authentication.php");      
     include_once(SITE_ROOT."admin/contrib-utils.php");    
     include_once(SITE_ROOT."admin/site-utils.php");   
     include_once(SITE_ROOT."admin/web-utils.php");
@@ -20,6 +17,11 @@
     }
     
     function update_contribution($contribution) {
+        if ($contribution['contributor_id'] == -1) {
+            // The contribution is unowned; transfer ownership to the present user:
+            $contribution['contributor_id'] = $GLOBALS['contributor_id'];
+        }
+        
         contribution_update_contribution($contribution);
         
         $contribution_id = $contribution['contribution_id'];
@@ -122,6 +124,9 @@ EOT;
             
         print "<p><a href=\"$referrer\">cancel</a></p>";
     }
+    
+    // Authenticate, if information is available:
+    do_authentication(false);
     
     if (isset($_REQUEST['sim_id'])) {
         $sim_id = $_REQUEST['sim_id'];

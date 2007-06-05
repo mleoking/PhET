@@ -86,7 +86,7 @@
 
             $sim_number = -1;
 
-            $simulations = run_sql_statement($select_sims_st, $connection);
+            $simulations = db_exec_query($select_sims_st, $connection);
 
              while ($simulation = mysql_fetch_assoc($simulations)) {
                 eval(get_code_to_create_variables_from_array($simulation));
@@ -146,7 +146,7 @@ EOT;
             print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=thumbs\">thumbnails</a></div>";
             
             // ALPHABETICAL INDEX                        
-            $simulations = run_sql_statement($select_sims_st, $connection);
+            $simulations = db_exec_query($select_sims_st, $connection);
             
             print "<div id=\"pg\">\n";
             
@@ -170,7 +170,7 @@ EOT;
             
             print "<div class=\"productList\">";
             
-            $simulations = run_sql_statement($select_sims_st, $connection);
+            $simulations = db_exec_query($select_sims_st, $connection);
             
             $last_printed_char = '';
             

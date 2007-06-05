@@ -10,5 +10,6 @@
             $GLOBALS['referrer'] = $_SERVER['REQUEST_URI'];
         }
     }
-
+    
+    $GLOBALS['referrer'] = remove_script_param_from_url('content_only', $GLOBALS['referrer']);
 ?>

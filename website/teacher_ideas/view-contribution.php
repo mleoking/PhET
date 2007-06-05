@@ -21,8 +21,8 @@
         // Perform cleanup for some fields:
         $contribution_keywords = convert_comma_list_into_linked_keyword_list($contribution_keywords);
         
-        $contribution_date_created = simplify_sql_timestamp($contribution_date_created);
-        $contribution_date_updated = simplify_sql_timestamp($contribution_date_updated);        
+        $contribution_date_created = db_simplify_sql_timestamp($contribution_date_created);
+        $contribution_date_updated = db_simplify_sql_timestamp($contribution_date_updated);        
         
         $contribution_answers_included = $contribution_answers_included == 1 ? "Yes" : "No";
         

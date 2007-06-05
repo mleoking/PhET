@@ -42,7 +42,7 @@
     // Specify which sim to update:
     $update_simulation_st = "$update_simulation_st WHERE `sim_id`='$sim_id' ";
 
-    verify_mysql_result(mysql_query($update_simulation_st, $connection), $update_simulation_st);
+    db_verify_mysql_result(mysql_query($update_simulation_st, $connection), $update_simulation_st);
     
     // Now we have to update the categories manually:
     $category_rows = mysql_query("SELECT * FROM `category` ", $connection);
@@ -55,10 +55,10 @@
 
         $should_be_in_category = isset($_REQUEST["$key_to_check_for"]);
                
-        run_sql_statement("DELETE FROM `simulation_listing` WHERE `cat_id`='$cat_id' AND `sim_id`='$sim_id' ");
+        db_exec_query("DELETE FROM `simulation_listing` WHERE `cat_id`='$cat_id' AND `sim_id`='$sim_id' ");
                 
         if ($should_be_in_category) {
-            run_sql_statement("INSERT INTO `simulation_listing` (`sim_id`, `cat_id`) VALUES('$sim_id', '$cat_id')");
+            db_exec_query("INSERT INTO `simulation_listing` (`sim_id`, `cat_id`) VALUES('$sim_id', '$cat_id')");
         }
     }  
     

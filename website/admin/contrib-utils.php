@@ -1,11 +1,13 @@
 <?php
 
-    include_once("global.php");
-    include_once("db.inc");
-    include_once("db-utils.php");
-    include_once("web-utils.php");
-    include_once("sys-utils.php"); 
-    include_once("sim-utils.php");  
+    include_once("../admin/global.php");
+    
+    include_once(SITE_ROOT."admin/db.inc");
+    include_once(SITE_ROOT."admin/authentication.php");    
+    include_once(SITE_ROOT."admin/db-utils.php");
+    include_once(SITE_ROOT."admin/web-utils.php");
+    include_once(SITE_ROOT."admin/sys-utils.php"); 
+    include_once(SITE_ROOT."admin/sim-utils.php");  
     
     function contribution_search_for_contributions($search_for) {
         $contributions = array();
@@ -25,7 +27,7 @@
             $st .= "(`contribution_title` LIKE '%$word%' OR `contribution_desc` LIKE '%$word%' OR `contribution_keywords` LIKE '%$word%' )";
         }
         
-        $result = run_sql_statement($st);
+        $result = db_exec_query($st);
         
         while ($contribution = mysql_fetch_assoc($result)) {
             $contributions[] = $contribution;
@@ -37,7 +39,7 @@
     function contribution_get_comments($contribution_id) {
         $comments = array();
         
-        $result = run_sql_statement("SELECT * FROM `contribution_comment`, `contributor` WHERE `contribution_comment`.`contributor_id` = `contributor`.`contributor_id` AND `contribution_comment`.`contribution_id`='$contribution_id'  ");
+        $result = db_exec_query("SELECT * FROM `contribution_comment`, `contributor` WHERE `contribution_comment`.`contributor_id` = `contributor`.`contributor_id` AND `contribution_comment`.`contribution_id`='$contribution_id'  ");
         
         while ($comment = mysql_fetch_assoc($result)) {
             $comments[] = $comment;
@@ -47,7 +49,7 @@
     }
     
     function contribution_add_comment($contribution_id, $contributor_id, $contribution_comment_text) {
-        $id = insert_row_into_table(
+        $id = db_insert_row(
             'contribution_comment',
             array(
                 'contribution_comment_text' => $contribution_comment_text,
@@ -60,7 +62,7 @@
     }
     
     function contribution_delete_comment($contribution_comment_id) {
-        return delete_row_from_table('contribution_comment_id', array( 'contribution_comment_id' => $contribution_comment_id ) );
+        return db_delete_row('contribution_comment_id', array( 'contribution_comment_id' => $contribution_comment_id ) );
     }
     
     function contribution_extract_original_file_name($contribution_file_url) {
@@ -86,7 +88,7 @@
             
                 $name = contribution_extract_original_file_name($contribution_file_url);
             
-                $kb = $contribution_file_size / 1024;
+                $kb = ceil($contribution_file_size / 1024);
             
                 $files_html .= "<li><a href=\"".SITE_ROOT."$contribution_file_url\">$name</a> - $kb KB</li>";
             }
@@ -269,8 +271,15 @@ EOT;
         }
     }
     
-    function contribution_print_full_edit_form($contribution_id, $script, $referrer) {
+    function contribution_print_full_edit_form($contribution_id, $script, $referrer, $button_name = 'Update') {
+        global $contributor_authenticated;
+        
         $contribution = contribution_get_contribution_by_id($contribution_id);
+        
+        if (!$contribution) {
+            // Allow 'editing' of non-existent contributions:
+            $contribution = db_get_blank_row('contribution');
+        }
         
         eval(get_code_to_create_variables_from_array($contribution));
         
@@ -278,13 +287,15 @@ EOT;
         $contribution_contact_email        = '';
         $contribution_authors              = '';
         
+        do_authentication(false);
+        
         if ($contributor_id == -1) {
             // The contribution didn't have any owner; assume the owner is the current editor:
             $contributor_id = $GLOBALS['contributor_id'];
         }
                 
         // Set reasonable defaults:
-        if (isset($contributor_id)) {
+        if ($contributor_authenticated) {
             if (!isset($contribution_authors_organization) || $contribution_authors_organization == '') {
                 $contribution_authors_organization = $GLOBALS['contributor_organization'];
             }
@@ -310,7 +321,7 @@ EOT;
                     <legend>Required</legend>
 EOT;
 
-        if (!isset($contributor_id) || $contributor_id == -1) {
+        if (!$contributor_authenticated) {
             print <<<EOT
                     
                         <div class="field">
@@ -433,7 +444,7 @@ EOT;
                     <br/>
 
                     <div class="button">
-                        <input name="submit" type="submit" id="submit" tabindex="13" value="Update" />
+                        <input name="submit" type="submit" id="submit" tabindex="13" value="$button_name" />
                     </div>
 
 
@@ -518,7 +529,7 @@ EOT;
                     <input type="hidden" name="action"          value="update" />
                     
                     <div class="button">
-                        <input name="submit" type="submit" id="submit" tabindex="13" value="Update" />
+                        <input name="submit" type="submit" id="submit" tabindex="13" value="$button_name" />
                     </div>
                  </fieldset>
             </form>
@@ -771,7 +782,7 @@ EOT;
     function contribution_delete_contribution_file($contribution_file_id) {
         $condition = array( 'contribution_file_id' => $contribution_file_id );
         
-        delete_row_from_table('contribution_file', $condition);
+        db_delete_row('contribution_file', $condition);
         
         return true;
     }
@@ -797,7 +808,7 @@ EOT;
     function contribution_get_contribution_files($contribution_id) {
         $contribution_files = array();
         
-        $contribution_file_rows = run_sql_statement("SELECT * FROM `contribution_file` WHERE `contribution_id`='$contribution_id' ");
+        $contribution_file_rows = db_exec_query("SELECT * FROM `contribution_file` WHERE `contribution_id`='$contribution_id' ");
         
         while ($contribution = mysql_fetch_assoc($contribution_file_rows)) {
             $contribution_files[] = format_for_html($contribution);
@@ -830,21 +841,29 @@ EOT;
     function contribution_delete_contribution($contribution_id) {
         $condition = array( 'contribution_id' => $contribution_id );
         
-        delete_row_from_table('contribution',            $condition);
-        delete_row_from_table('contribution_file',       $condition);
-        delete_row_from_table('simulation_contribution', $condition);
-        delete_row_from_table('contribution_type',       $condition);
-        delete_row_from_table('contribution_level',      $condition);
-        delete_row_from_table('contribution_subject',    $condition);        
-        delete_row_from_table('contribution_comment',    $condition);            
-        delete_row_from_table('contribution_flagging',   $condition);            
-        delete_row_from_table('contribution_nomination', $condition);                            
+        db_delete_row('contribution',            $condition);
+        db_delete_row('contribution_file',       $condition);
+        db_delete_row('simulation_contribution', $condition);
+        db_delete_row('contribution_type',       $condition);
+        db_delete_row('contribution_level',      $condition);
+        db_delete_row('contribution_subject',    $condition);        
+        db_delete_row('contribution_comment',    $condition);            
+        db_delete_row('contribution_flagging',   $condition);            
+        db_delete_row('contribution_nomination', $condition);                            
         
         return true;
     }
     
-    function contribution_update_contribution($contribution) {
-        if (!update_table('contribution', $contribution, 'contribution_id', $contribution['contribution_id'])) {
+    function contribution_update_contribution($contribution) {        
+        if ($contribution['contribution_id'] == -1) {
+            // Updating a contribution that does not exist. First, create it:
+            $contribution['contribution_id'] = contribution_add_new_contribution(
+                $contribution['contribution_title'],
+                $contribution['contributor_id']                
+            );
+        }
+        
+        if (!db_update_table('contribution', $contribution, 'contribution_id', $contribution['contribution_id'])) {
             return false;
         }
         
@@ -852,13 +871,13 @@ EOT;
     }
     
     function contribution_delete_all_multiselect_associations($assoc_name, $contribution_id) {
-        run_sql_statement("DELETE FROM `$assoc_name` WHERE `contribution_id`='$contribution_id' AND `${assoc_name}_is_template`='0' ");
+        db_exec_query("DELETE FROM `$assoc_name` WHERE `contribution_id`='$contribution_id' AND `${assoc_name}_is_template`='0' ");
         
         return true;
     }
     
     function contribution_get_association_abbreviation_desc($table_name, $text) {
-        $result = run_sql_statement("SELECT * FROM `$table_name` WHERE `${table_name}_desc`='$text' AND `${table_name}_is_template`='1' ");
+        $result = db_exec_query("SELECT * FROM `$table_name` WHERE `${table_name}_desc`='$text' AND `${table_name}_is_template`='1' ");
         
         if (!$result) {
             return abbreviate($text);
@@ -888,7 +907,7 @@ EOT;
         
         $table_name = $matches[1];
         
-        $result = run_sql_statement("SELECT * FROM `$table_name` WHERE `${table_name}_desc`='$text' AND `contribution_id`='$contribution_id' ");
+        $result = db_exec_query("SELECT * FROM `$table_name` WHERE `${table_name}_desc`='$text' AND `contribution_id`='$contribution_id' ");
         
         if ($first_row = mysql_fetch_assoc($result)) {   
             $id = $first_row["${table_name}_id"];
@@ -896,7 +915,7 @@ EOT;
             return $id;
         }
         else {                        
-            $id = insert_row_into_table(
+            $id = db_insert_row(
                 $table_name,
                 array(
                     "${table_name}_desc"        => $text,
@@ -910,18 +929,23 @@ EOT;
         }
     }
     
-    function contribution_add_new_contribution($contribution_title, $contributor_id, $file_tmp_name, $file_user_name) {    
-        if (preg_match('/.+\\.(doc|txt|rtf|pdf|odt)/i', $file_user_name) == 1) {
-            $contribution_type = "Activity";
-        }
-        else if (preg_match('/.+\\.(ppt|odp)/i', $file_user_name) == 1) {
-            $contribution_type = "Lecture";
+    function contribution_add_new_contribution($contribution_title, $contributor_id, $file_tmp_name = null, $file_user_name = null) {    
+        if ($file_tmp_name != null) {
+            if (preg_match('/.+\\.(doc|txt|rtf|pdf|odt)/i', $file_user_name) == 1) {
+                $contribution_type = "Activity";
+            }
+            else if (preg_match('/.+\\.(ppt|odp)/i', $file_user_name) == 1) {
+                $contribution_type = "Lecture";
+            }
+            else {
+                $contribution_type = "Support";
+            }
         }
         else {
-            $contribution_type = "Support";
+            $contribution_type = "Activity";
         }
         
-        $contribution_id = insert_row_into_table(
+        $contribution_id = db_insert_row(
             'contribution',
             array(
                 'contribution_title'        => $contribution_title,
@@ -930,16 +954,14 @@ EOT;
             )
         );
         
-        if (contribution_add_new_file_to_contribution($contribution_id, $file_tmp_name, $file_user_name) == FALSE) {
-            return FALSE;
+        if ($file_tmp_name != null) {
+            if (contribution_add_new_file_to_contribution($contribution_id, $file_tmp_name, $file_user_name) == FALSE) {
+                return FALSE;
+            }
         }
 
-        $contribution_type_id = insert_row_into_table(
-            'contribution_type',
-            array(
-                'contribution_id'        => $contribution_id,
-                'contribution_type_desc' => $contribution_type
-            )
+        contribution_create_multiselect_association($contribution_id, 
+            'multiselect_contribution_type_id_0', $contribution_type
         );
         
         return $contribution_id;
@@ -958,13 +980,15 @@ EOT;
         $new_file_path_rel = "$new_file_dir_rel/$new_name";
         $new_file_path_abs = "$new_file_dir_abs/$new_name";
         
+        $file_size = filesize($file_tmp_name);
+        
         if (move_uploaded_file($file_tmp_name, $new_file_path_abs)) {
-            $contribution_file_id = insert_row_into_table(
+            $contribution_file_id = db_insert_row(
                 'contribution_file',
                 array(
                     'contribution_id'        => $contribution_id,
                     'contribution_file_url'  => $new_file_path_rel,
-                    'contribution_file_size' => filesize($file_tmp_name)
+                    'contribution_file_size' => $file_size
                 )
             );
             
@@ -975,13 +999,13 @@ EOT;
     }
     
     function contribution_unassociate_contribution_with_all_simulations($contribution_id) {
-        run_sql_statement("DELETE FROM `simulation_contribution` WHERE `contribution_id`='$contribution_id' ");
+        db_exec_query("DELETE FROM `simulation_contribution` WHERE `contribution_id`='$contribution_id' ");
         
         return true;
     }
     
     function contribution_associate_contribution_with_simulation($contribution_id, $sim_id) {
-        $simulation_contribution_id = insert_row_into_table(
+        $simulation_contribution_id = db_insert_row(
             'simulation_contribution',
             array(
                 'sim_id'          => $sim_id,
@@ -995,7 +1019,7 @@ EOT;
     function contribution_get_all_level_names() {
         $levels = array();
         
-        $contribution_level_rows = run_sql_statement("SELECT * FROM `contribution_level` ORDER BY `contribution_level_desc` ASC ");
+        $contribution_level_rows = db_exec_query("SELECT * FROM `contribution_level` ORDER BY `contribution_level_desc` ASC ");
         
         while ($contribution_level = mysql_fetch_assoc($contribution_level_rows)) {
             $id = $contribution_level['contribution_level_id'];
@@ -1011,7 +1035,7 @@ EOT;
     function contribution_get_all_template_levels() {
         $levels = array();
         
-        $contribution_level_rows = run_sql_statement("SELECT * FROM `contribution_level` WHERE `contribution_level_is_template`='1' ORDER BY `contribution_level_desc` ASC ");
+        $contribution_level_rows = db_exec_query("SELECT * FROM `contribution_level` WHERE `contribution_level_is_template`='1' ORDER BY `contribution_level_desc` ASC ");
         
         while ($contribution_level = mysql_fetch_assoc($contribution_level_rows)) {
             $id = $contribution_level['contribution_level_id'];
@@ -1039,7 +1063,7 @@ EOT;
     function contribution_get_levels_for_contribution($contribution_id) {
         $levels = array();
         
-        $contribution_level_rows = run_sql_statement("SELECT * FROM `contribution_level` WHERE `contribution_id`='$contribution_id' ORDER BY `contribution_level_desc` ASC ");
+        $contribution_level_rows = db_exec_query("SELECT * FROM `contribution_level` WHERE `contribution_id`='$contribution_id' ORDER BY `contribution_level_desc` ASC ");
         
         while ($contribution_level = mysql_fetch_assoc($contribution_level_rows)) {
             $id = $contribution_level['contribution_level_id'];
@@ -1067,7 +1091,7 @@ EOT;
     function contribution_get_all_subject_names() {
         $subjects = array();
         
-        $contribution_subject_rows = run_sql_statement("SELECT * FROM `contribution_subject` ORDER BY `contribution_subject_desc` ASC ");
+        $contribution_subject_rows = db_exec_query("SELECT * FROM `contribution_subject` ORDER BY `contribution_subject_desc` ASC ");
         
         while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
             $id = $contribution_subject['contribution_subject_id'];
@@ -1083,7 +1107,7 @@ EOT;
     function contribution_get_all_template_subjects() {
         $subjects = array();
         
-        $contribution_subject_rows = run_sql_statement("SELECT * FROM `contribution_subject` WHERE `contribution_subject_is_template`='1' ORDER BY `contribution_subject_desc` ASC ");
+        $contribution_subject_rows = db_exec_query("SELECT * FROM `contribution_subject` WHERE `contribution_subject_is_template`='1' ORDER BY `contribution_subject_desc` ASC ");
         
         while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
             $id = $contribution_subject['contribution_subject_id'];
@@ -1099,7 +1123,7 @@ EOT;
     function contribution_get_all_template_subject_names() {
         $subjects = array();
         
-        $contribution_subject_rows = run_sql_statement("SELECT * FROM `contribution_subject` WHERE `contribution_subject_is_template`='1' ORDER BY `contribution_subject_desc` ASC ");
+        $contribution_subject_rows = db_exec_query("SELECT * FROM `contribution_subject` WHERE `contribution_subject_is_template`='1' ORDER BY `contribution_subject_desc` ASC ");
         
         while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
             $id = $contribution_subject['contribution_subject_id'];
@@ -1115,7 +1139,7 @@ EOT;
     function contribution_get_subject_names_for_contribution($contribution_id) {
         $subjects = array();
         
-        $contribution_subject_rows = run_sql_statement("SELECT * FROM `contribution_subject` WHERE `contribution_id`='$contribution_id' ORDER BY `contribution_subject_desc` ASC ");
+        $contribution_subject_rows = db_exec_query("SELECT * FROM `contribution_subject` WHERE `contribution_id`='$contribution_id' ORDER BY `contribution_subject_desc` ASC ");
         
         while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
             $id = $contribution_subject['contribution_subject_id'];
@@ -1131,7 +1155,7 @@ EOT;
     function contribution_get_subjects_for_contribution($contribution_id) {
         $subjects = array();
         
-        $contribution_subject_rows = run_sql_statement("SELECT * FROM `contribution_subject` WHERE `contribution_id`='$contribution_id' ORDER BY `contribution_subject_desc` ASC ");
+        $contribution_subject_rows = db_exec_query("SELECT * FROM `contribution_subject` WHERE `contribution_id`='$contribution_id' ORDER BY `contribution_subject_desc` ASC ");
         
         while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
             $id = $contribution_subject['contribution_subject_id'];
@@ -1147,7 +1171,7 @@ EOT;
     function contribution_get_all_type_names() {
         $types = array();
         
-        $contribution_type_rows = run_sql_statement("SELECT * FROM `contribution_type` ORDER BY `contribution_type_desc` ASC ");
+        $contribution_type_rows = db_exec_query("SELECT * FROM `contribution_type` ORDER BY `contribution_type_desc` ASC ");
         
         while ($contribution_type = mysql_fetch_assoc($contribution_type_rows)) {
             $id   = $contribution_type['contribution_type_id'];
@@ -1164,7 +1188,7 @@ EOT;
     function contribution_get_all_template_type_names() {
         $types = array();
         
-        $contribution_type_rows = run_sql_statement("SELECT * FROM `contribution_type` WHERE `contribution_type_is_template` = '1' ORDER BY `contribution_type_desc` ASC ");
+        $contribution_type_rows = db_exec_query("SELECT * FROM `contribution_type` WHERE `contribution_type_is_template` = '1' ORDER BY `contribution_type_desc` ASC ");
         
         while ($contribution_type = mysql_fetch_assoc($contribution_type_rows)) {
             $id   = $contribution_type['contribution_type_id'];
@@ -1181,7 +1205,7 @@ EOT;
     function contribution_get_types_for_contribution($contribution_id) {
         $types = array();
         
-        $contribution_type_rows = run_sql_statement("SELECT * FROM `contribution_type` WHERE `contribution_id`='$contribution_id' ");
+        $contribution_type_rows = db_exec_query("SELECT * FROM `contribution_type` WHERE `contribution_id`='$contribution_id' ");
         
         while ($contribution_type = mysql_fetch_assoc($contribution_type_rows)) {
             $id   = $contribution_type['contribution_type_id'];
@@ -1197,7 +1221,7 @@ EOT;
     function contribution_get_type_names_for_contribution($contribution_id) {
         $types = array();
         
-        $contribution_type_rows = run_sql_statement("SELECT * FROM `contribution_type` WHERE `contribution_id`='$contribution_id' ");
+        $contribution_type_rows = db_exec_query("SELECT * FROM `contribution_type` WHERE `contribution_id`='$contribution_id' ");
         
         while ($contribution_type = mysql_fetch_assoc($contribution_type_rows)) {
             $id   = $contribution_type['contribution_type_id'];
@@ -1212,7 +1236,7 @@ EOT;
     }    
 
     function contribution_get_associated_simulation_listing_names($contribution_id) {
-        $simulation_rows = run_sql_statement("SELECT * FROM `simulation`,`simulation_contribution` WHERE `simulation`.`sim_id`=`simulation_contribution`.`sim_id` AND `simulation_contribution`.`contribution_id`='$contribution_id' ");
+        $simulation_rows = db_exec_query("SELECT * FROM `simulation`,`simulation_contribution` WHERE `simulation`.`sim_id`=`simulation_contribution`.`sim_id` AND `simulation_contribution`.`contribution_id`='$contribution_id' ");
         
         $simulations = array();
         
@@ -1228,7 +1252,7 @@ EOT;
     
     function contribution_get_associated_simulation_listings($contribution_id) {
         $simulation_contribution_rows = 
-            run_sql_statement("SELECT * FROM `simulation_contribution` WHERE `contribution_id`='$contribution_id' ");
+            db_exec_query("SELECT * FROM `simulation_contribution` WHERE `contribution_id`='$contribution_id' ");
         
         $simulation_contributions = array();
         
@@ -1249,7 +1273,7 @@ EOT;
             $status = '0';
         }
         
-        return update_table('contribution', array( 'contribution_approved' => $status ), 'contribution_id', $contribution_id);
+        return db_update_table('contribution', array( 'contribution_approved' => $status ), 'contribution_id', $contribution_id);
     }
     
     function contribution_explode_contribution_by_array($contribution, $array) {
@@ -1324,7 +1348,7 @@ EOT;
     function contribution_get_all_contributions() {
         $contributions = array();
         
-        $contribution_rows = run_sql_statement("SELECT * FROM `contribution` ORDER BY `contribution_title` ASC");
+        $contribution_rows = db_exec_query("SELECT * FROM `contribution` ORDER BY `contribution_title` ASC");
         
         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
             $contribution_id = $contribution['contribution_id'];
@@ -1338,7 +1362,7 @@ EOT;
     function contribution_get_all_contributions_for_sim($sim_id) {
         $contributions = array();
         
-        $contribution_rows = run_sql_statement("SELECT * FROM `contribution` , `simulation_contribution` WHERE `contribution` . `contribution_id` = `simulation_contribution` . `contribution_id` AND `simulation_contribution` . `sim_id` = '$sim_id' ORDER BY `contribution_title` ASC");
+        $contribution_rows = db_exec_query("SELECT * FROM `contribution` , `simulation_contribution` WHERE `contribution` . `contribution_id` = `simulation_contribution` . `contribution_id` AND `simulation_contribution` . `sim_id` = '$sim_id' ORDER BY `contribution_title` ASC");
         
         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
             $contributions[] = format_for_html($contribution);
@@ -1360,7 +1384,7 @@ EOT;
     }
     
     function contribution_get_contribution_by_id($contribution_id) {
-        $contribution_rows = run_sql_statement("SELECT * FROM `contribution` WHERE `contribution_id`='$contribution_id' ");
+        $contribution_rows = db_exec_query("SELECT * FROM `contribution` WHERE `contribution_id`='$contribution_id' ");
         
         return format_for_html(mysql_fetch_assoc($contribution_rows));
     }
@@ -1369,7 +1393,7 @@ EOT;
         $contributors = array();
         
         $contributor_rows = 
-        run_sql_statement("SELECT * from `contributor` ORDER BY `contributor_name` ASC ");
+        db_exec_query("SELECT * from `contributor` ORDER BY `contributor_name` ASC ");
         
         while ($contributor = mysql_fetch_assoc($contributor_rows)) {
             $contributors[] = format_for_html($contributor);
@@ -1417,7 +1441,7 @@ EOT;
     function contributor_get_team_members() {
         $admins = array();
         
-        $contributor_rows = run_sql_statement("SELECT * from `contributor` WHERE `contributor_is_team_member`='1' ORDER BY `contributor_name` ASC ");
+        $contributor_rows = db_exec_query("SELECT * from `contributor` WHERE `contributor_is_team_member`='1' ORDER BY `contributor_name` ASC ");
         
         while ($contributor = mysql_fetch_assoc($contributor_rows)) {
             $admins[] = format_for_html($contributor);
@@ -1506,7 +1530,7 @@ EOT;
     function contributor_add_new_blank_contributor($is_team_member = false) {
         $team_member_field = $is_team_member ? '1' : '0';
         
-        run_sql_statement("INSERT INTO `contributor` (`contributor_is_team_member`) VALUES ('$team_member_field') ");
+        db_exec_query("INSERT INTO `contributor` (`contributor_is_team_member`) VALUES ('$team_member_field') ");
         
         return mysql_insert_id();
     }
@@ -1514,13 +1538,13 @@ EOT;
     function contributor_add_new_contributor($username, $password, $is_team_member = false) {
         $team_member_field = $is_team_member ? '1' : '0';
         
-        run_sql_statement("INSERT INTO `contributor` (`contributor_email`, `contributor_password`, `contributor_is_team_member`) VALUES ('$username', '$password', '$team_member_field') ");
+        db_exec_query("INSERT INTO `contributor` (`contributor_email`, `contributor_password`, `contributor_is_team_member`) VALUES ('$username', '$password', '$team_member_field') ");
         
         return mysql_insert_id();
     }
     
     function contributor_get_contributor_by_id($contributor_id) {
-        $result = run_sql_statement("SELECT * FROM `contributor` WHERE `contributor_id`='$contributor_id' ");
+        $result = db_exec_query("SELECT * FROM `contributor` WHERE `contributor_id`='$contributor_id' ");
 
         if (!$result) {
             return false;
@@ -1530,7 +1554,7 @@ EOT;
     }
     
     function contributor_get_contributor_by_name($contributor_name) {
-        $result = run_sql_statement("SELECT * FROM `contributor` WHERE `contributor_name`='$contributor_name' ");
+        $result = db_exec_query("SELECT * FROM `contributor` WHERE `contributor_name`='$contributor_name' ");
         
         if (!$result) {
             return false;
@@ -1540,7 +1564,7 @@ EOT;
     }
     
     function contributor_get_contributor_by_email($contributor_email) {
-        $result = run_sql_statement("SELECT * FROM `contributor` WHERE `contributor_email`='$contributor_email' ");
+        $result = db_exec_query("SELECT * FROM `contributor` WHERE `contributor_email`='$contributor_email' ");
         
         if (!$result) {
             return false;
@@ -1572,115 +1596,142 @@ EOT;
         print <<<EOT
                     $standard_message
                     
-                    <label for="contributor_password">
-                        <input type="password" name="contributor_password" 
-                            value="$contributor_password" tabindex="1" id="password" size="25"/>
+                    <div class="form_content">
+                        <div class="field">
+                            <span class="label">password</span>
                         
-                        password:
-                    </label>
+                            <span class="label_content">
+                                <input type="password" name="contributor_password" 
+                                    value="$contributor_password" tabindex="1" id="password" size="25"/>                        
+                            </span>
+                        </div>
                     
-                    <label for="contributor_name">
-                        name:
+                        <div class="field">
+                            <span class="label">name</span>
                         
-                        <input type="text" name="contributor_name" 
-                            value="$contributor_name" tabindex="2" id="name" size="25"/>
-                    </label>
+                            <span class="label_content">
+                                <input type="text" name="contributor_name" 
+                                    value="$contributor_name" tabindex="2" id="name" size="25"/>
+                            </span>
+                        </div>
                     
-                    <label for="contributor_organization">
-                        organization:
+                        <div class="field">
+                            <span class="label">organization</span>
                         
-                        <input type="text" name="contributor_organization" 
-                            value="$contributor_organization" tabindex="2" id="contributor_organization" size="25"/>
-                    </label>
+                            <span class="label_content">
+                                <input type="text" name="contributor_organization" 
+                                    value="$contributor_organization" tabindex="2" id="contributor_organization" size="25"/>
+                            </span>
+                        </div>
                     
-                    <label for="contributor_title">
-                        title:
+                        <div class="field">
+                            <span class="label">title</span>
                         
-                        <input type="text" name="contributor_title"
-                            value="$contributor_title" tabindex="3" id="title" size="25" />
-                    </label>
+                            <span class="label_content">
+                                <input type="text" name="contributor_title"
+                                    value="$contributor_title" tabindex="3" id="title" size="25" />
+                            </span>
+                        </div>
                     
-                    <label for="contributor_address">
-                        address:
+                        <div class="field">
+                            <span class="label">address</span>
                         
-                        <input type="text" name="contributor_address"
-                            value="$contributor_address" tabindex="4" id="address" size="25" />
-                    </label>
+                            <span class="label_content">
+                                <input type="text" name="contributor_address"
+                                    value="$contributor_address" tabindex="4" id="address" size="25" />
+                            </span>
+                        </div>
                     
-                    <label for="contributor_office">
-                        office:
+                        <div class="field">
+                            <span class="label">office</span>
                         
-                        <input type="text" name="contributor_office"
-                            value="$contributor_office" tabindex="5" id="office" size="15" />
-                    </label>
+                            <span class="label_content">
+                                <input type="text" name="contributor_office"
+                                    value="$contributor_office" tabindex="5" id="office" size="15" />
+                            </span>
+                        </div>
                     
-                    <label for="contributor_city">
-                        city:
+                        <div class="field">
+                            <span class="label">city</span>
                         
-                        <input type="text" name="contributor_city"
-                            value="$contributor_city" tabindex="6" id="city" size="15" />
-                    </label>
+                            <span class="label_content">
+                                <input type="text" name="contributor_city"
+                                    value="$contributor_city" tabindex="6" id="city" size="15" />
+                            </span>
+                        </div>
                     
-                    <label for="contributor_state">
-                        state or province:
+                        <div class="field">
+                            <span class="label">state/province</span>
                     
-                        <input type="text" name="contributor_state"
-                            value="$contributor_state" tabindex="7" id="state" size="15" />
-                    </label>
+                            <span class="label_content">
+                                <input type="text" name="contributor_state"
+                                    value="$contributor_state" tabindex="7" id="state" size="15" />
+                            </span>
+                        </div>
                     
-                    <label for="contributor_postal_code">
-                        postal code:
+                        <div class="field">
+                            <span class="label">postal code</span>
                         
-                        <input type="text" name="contributor_postal_code"
-                            value="$contributor_postal_code" tabindex="8" id="postal_code" size="15" />
-                    </label>
+                            <span class="label_content">
+                                <input type="text" name="contributor_postal_code"
+                                    value="$contributor_postal_code" tabindex="8" id="postal_code" size="10" />
+                            </span>
+                        </div>
                     
                     
-                    <label for="contributor_primary_phone">
-                        primary phone:
+                        <div class="field">
+                            <span class="label">primary phone</span>
                         
-                        <input type="text" name="contributor_primary_phone"
-                            value="$contributor_primary_phone" tabindex="9" id="primary_phone" size="12" />
-                    </label>
+                            <span class="label_content">
+                                <input type="text" name="contributor_primary_phone"
+                                    value="$contributor_primary_phone" tabindex="9" id="primary_phone" size="12" />
+                            </span>
+                        </div>
                     
-                    <label for="contributor_secondary_phone">
-                        secondary phone:
+                        <div class="field">
+                            <span class="label">secondary phone</span>
                     
-                        <input type="text" name="contributor_secondary_phone"
-                            value="$contributor_secondary_phone" tabindex="10" id="secondary_phone" size="12" />
+                            <span class="label_content">
+                                <input type="text" name="contributor_secondary_phone"
+                                    value="$contributor_secondary_phone" tabindex="10" id="secondary_phone" size="12" />
+                            </span>
+                        </div>
+                    
+                        <div class="field">
+                            <span class="label">fax</span>
+                        
+                            <span class="label_content">
+                                <input type="text" name="contributor_fax"
+                                    value="$contributor_fax" tabindex="10" id="fax" size="12" />
+                            </span>                        
+                        </div>
+                    
+                        <input type="hidden" name="contributor_receive_email" value="0" />
+                    
+                        <div class="field">
+                            <span class="label">phet newsletter</span>
+                        
+                            <span class="label_content">
+                                <input type="checkbox" name="contributor_receive_email"
+                                    value="1" tabindex="12" $contributor_receive_email_checked>
+                            </span>
+                        </div>
+                    </div>
 
-                    </label>
-                    
-                    <label for="contributor_fax">
-                        <input type="text" name="contributor_fax"
-                            value="$contributor_fax" tabindex="10" id="fax" size="11" />
-
-                        fax:
-                    </label>
-                    
-                    <input type="hidden" name="contributor_receive_email" value="0" />
-                    
-                    <label for="contributor_receive_email">
-                        <input type="checkbox" name="contributor_receive_email"
-                            value="1" tabindex="12" $contributor_receive_email_checked>
-                            
-                        receive email from phet:
-                    </label>
-
-                   <input name="Submit" type="submit" id="submit" tabindex="13" value="Done" />
+                   <input class="button" name="Submit" type="submit" id="submit" tabindex="13" value="Done" />
                  </fieldset>
             </form>
 EOT;
     }
     
     function contributor_delete_contributor($contributor_id) {
-        run_sql_statement("DELETE FROM `contributor` WHERE `contributor_id`='$contributor_id' ");
+        db_exec_query("DELETE FROM `contributor` WHERE `contributor_id`='$contributor_id' ");
         
         return true;
     }
     
     function contributor_update_contributor($contributor_id, $update_array) {
-        return update_table('contributor', $update_array, 'contributor_id', $contributor_id);
+        return db_update_table('contributor', $update_array, 'contributor_id', $contributor_id);
     }
     
     function contributor_update_contributor_from_script_parameters($contributor_id) {

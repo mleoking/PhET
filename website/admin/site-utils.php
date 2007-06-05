@@ -4,6 +4,7 @@
     include_once("sim-utils.php");
     include_once("db-utils.php");    
     include_once("sys-utils.php");
+    include_once("authentication.php");
     
     include_once("../teacher_ideas/referrer.php");
     
@@ -82,16 +83,36 @@ EOT;
         print_navigation_element($prefix, $selected_page, "simulations/index.php",      "Simulations",
             get_sim_categories_html($prefix)
         );
+
+        do_authentication(false);
+
+        $login_option = '';
+        $logout_option = '';
+        
+        if (!isset($GLOBALS['contributor_authenticated']) || $GLOBALS['contributor_authenticated'] == false) {
+            $login_option = <<<EOT
+                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/login.php">→ Login</a></span></li>
+EOT;
+        }
+        else {
+            $logout_option = <<<EOT
+                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/user-logout.php">→ Logout</a></span></li>
+EOT;
+        }
         
         print_navigation_element($prefix, $selected_page, "teacher_ideas/index.php",   "Teacher Ideas &amp; Activities",
             <<<EOT
             <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/browse.php">→ Browse</a></span></li>
+            
+            $login_option
 
             <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/contribute.php">→ New Contribution</a></span></li>
 
             <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/manage-contributions.php">→ Manage Contributions</a></span></li>  
             
             <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/user-edit-profile.php">→ Edit Profile</a></span></li>                
+            
+            $logout_option
 EOT
         );
         

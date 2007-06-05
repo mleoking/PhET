@@ -7,7 +7,7 @@
     include_once("../admin/web-utils.php");
     include_once("../admin/db-utils.php");
     
-    update_table('contributor', gather_script_params_into_array('contributor_'), 'contributor_id', $contributor_id);
+    db_update_table('contributor', gather_script_params_into_array('contributor_'), 'contributor_id', $contributor_id);
     
     force_redirect("../teacher_ideas/user-edit-profile.php", 2);    
     
