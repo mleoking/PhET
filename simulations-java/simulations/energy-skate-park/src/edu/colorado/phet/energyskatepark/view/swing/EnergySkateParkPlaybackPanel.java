@@ -27,6 +27,7 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
     private Clock clock;
     private EnergySkateParkCCP energySkateParkCCP;
     private TimeSeriesModel timeSeriesModel;
+    private JButton rewindButton;
 
     public EnergySkateParkPlaybackPanel( final TimeSeriesModel timeSeriesModel, final Clock clock ) {
         this.timeSeriesModel = timeSeriesModel;
@@ -101,13 +102,22 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
         } );
 
         add( energySkateParkCCP );
-        JButton rewindButton = new JButton( "Rewind", new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_REWIND ) ) );
+        rewindButton = new JButton( "Rewind", new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_REWIND ) ) );
         rewindButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.rewind();
             }
         } );
         add( rewindButton );
+        clock.addClockListener( new ClockAdapter() {
+            public void clockPaused( ClockEvent clockEvent ) {
+                updateRewindButtonEnabled();
+            }
+
+            public void clockStarted( ClockEvent clockEvent ) {
+                updateRewindButtonEnabled();
+            }
+        });
         JButton clearButton = new JButton( "Clear", new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_STOP ) ) );
         clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -117,6 +127,10 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
         add( clearButton );
         updateRecordButton();
         updateModeButtons();
+    }
+
+    private void updateRewindButtonEnabled() {
+        rewindButton.setEnabled( clock.isPaused() );
     }
 
     private void updateModeButtons() {
