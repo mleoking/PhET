@@ -30,7 +30,7 @@ public class EnergySkateParkTimePanel extends JPanel {
                 clock.setTimingStrategy( new TimingStrategy.Constant( timeSpeedSlider.getValue() ) );
             }
         } );
-        add( new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOCK ) ) ) );
+//        add( new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOCK ) ) ) );
         add( timeSpeedSlider );
         ClockControlPanel controlPanel = new ESPCCP( clock );
         add( controlPanel );
