@@ -44,7 +44,7 @@ public class BufferedSeriesView extends SeriesView {
 
                 graphics2D.setStroke( stroke );
                 int itemCount = getSeries().getItemCount();
-                Line2D.Double viewLine = new Line2D.Double( getViewPoint( itemCount - 2 ), getViewPoint( itemCount - 1 ) );
+                Line2D.Double viewLine = new Line2D.Double( getNodePoint( itemCount - 2 ), getNodePoint( itemCount - 1 ) );
                 setupRenderingHints( graphics2D );
 //                    graphics2D.clip( getChartViewBounds() );
 //                    System.out.println( "getChartViewBounds() = " + getChartViewBounds() );
@@ -64,44 +64,6 @@ public class BufferedSeriesView extends SeriesView {
         }
     }
 
-//        public void dataAddedDemonstrateFailureForInterleaved() {
-//            if( getSeries().getItemCount() >= 100 ) {
-//                BufferedImage image = dynamicJFreeChartNode.getBuffer();
-//                if( image != null ) {
-//                    if( image != lastFullPaint ) {
-//                        paintAll();
-//                        lastFullPaint = image;
-//                    }
-//                    Graphics2D graphics2D = image.createGraphics();
-//                    graphics2D.setPaint( getSeriesData().getColor() );
-//
-//                    graphics2D.setStroke( stroke );
-//                    int itemCount = getSeries().getItemCount();
-////                    Line2D.Double viewLine = new Line2D.Double( getViewPoint( itemCount - 2 ), getViewPoint( itemCount - 1 ) );
-//                    GeneralPath viewPath = new GeneralPath();
-//                    viewPath.moveTo( (float)getViewPoint( itemCount - 1 ).getX(), (float)getViewPoint( itemCount - 1 ).getY() );
-//                    for( int i = 0; i < 100; i++ ) {
-//                        viewPath.lineTo( (float)getViewPoint( itemCount - 1 - i ).getX(), (float)getViewPoint( itemCount - 1 - i ).getY() );
-//                    }
-//                    setupRenderingHints( graphics2D );
-////                    graphics2D.clip( getChartViewBounds() );
-////                    System.out.println( "getChartViewBounds() = " + getChartViewBounds() );
-//                    graphics2D.clip( getChartViewBounds() );
-//                    graphics2D.draw( viewPath );
-//
-//                    Shape sh = stroke.createStrokedShape( viewPath );
-//                    Rectangle2D bounds = sh.getBounds2D();
-//                    if( dynamicJFreeChartNode.isBuffered() ) {
-//                        bounds = new Rectangle2D.Double( bounds.getX() + dynamicJFreeChartNode.getBounds().getX(), bounds.getY() + dynamicJFreeChartNode.getBounds().getY(), bounds.getWidth(), bounds.getHeight() );
-//                    }
-//                    dynamicJFreeChartNode.localToGlobal( bounds );
-//                    dynamicJFreeChartNode.phetPCanvas.getPhetRootNode().globalToScreen( bounds );
-////                    System.out.println( "bounds = " + bounds );
-//                    repaintPanel( bounds );
-//                }
-//            }
-//        }
-
     private void setupRenderingHints( Graphics2D graphics2D ) {
         graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
     }
@@ -114,14 +76,6 @@ public class BufferedSeriesView extends SeriesView {
                                                    xyPlot.getDomainAxis().getUpperBound() - xyPlot.getDomainAxis().getLowerBound(),
                                                    xyPlot.getRangeAxis().getUpperBound() - xyPlot.getRangeAxis().getLowerBound() );
         return dynamicJFreeChartNode.plotToNode( rect );
-    }
-
-    private Point2D getViewPoint( int index ) {
-        return dynamicJFreeChartNode.plotToNode( getPoint( index ) );
-    }
-
-    private Point2D.Double getPoint( int index ) {
-        return new Point2D.Double( getSeries().getX( index ).doubleValue(), getSeries().getY( index ).doubleValue() );
     }
 
     public void install() {
@@ -155,10 +109,10 @@ public class BufferedSeriesView extends SeriesView {
     private GeneralPath toGeneralPath() {
         GeneralPath path = new GeneralPath();
         if( getSeries().getItemCount() > 0 ) {
-            path.moveTo( (float)getViewPoint( 0 ).getX(), (float)getViewPoint( 0 ).getY() );
+            path.moveTo( (float)getNodePoint( 0 ).getX(), (float)getNodePoint( 0 ).getY() );
         }
         for( int i = 1; i < getSeries().getItemCount(); i++ ) {
-            path.lineTo( (float)getViewPoint( i ).getX(), (float)getViewPoint( i ).getY() );
+            path.lineTo( (float)getNodePoint( i ).getX(), (float)getNodePoint( i ).getY() );
         }
         return path;
     }
