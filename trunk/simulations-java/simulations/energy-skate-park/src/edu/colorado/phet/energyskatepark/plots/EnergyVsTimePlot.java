@@ -11,8 +11,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
@@ -54,10 +54,10 @@ public class EnergyVsTimePlot {
     private ArrayList listeners = new ArrayList();
     private JFreeChartCursorNode jFreeChartCursorNode;
 
-//    public static final double MAX_TIME = 50.0;
-    public static final double MAX_TIME = 5.0;
+        public static final double MAX_TIME = 50.0;
+//    public static final double MAX_TIME = 5.0;
 
-    public EnergyVsTimePlot( EnergySkateParkModule module,JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
+    public EnergyVsTimePlot( EnergySkateParkModule module, JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
         this.clock = clock;
         this.timeSeriesModel = timeSeriesModel;
@@ -66,14 +66,16 @@ public class EnergyVsTimePlot {
 
         chart = ChartFactory.createXYLineChart(
                 EnergySkateParkStrings.getString( "plots.energy-vs-time" ),
-                "time (sec)", "Energy (Joules)", new XYSeriesCollection( new XYSeries( "series" ) ),
+                EnergySkateParkStrings.getString( "plots.energy-vs-time.time" ),
+                EnergySkateParkStrings.getString( "plots.energy-vs-time.energy" ),
+                new XYSeriesCollection( new XYSeries( "series" ) ),
                 PlotOrientation.VERTICAL, false, false, false );
         dynamicJFreeChartNode = new DynamicJFreeChartNode( phetPCanvas, chart );
 
-        dynamicJFreeChartNode.addSeries( "Thermal", Color.red );
-        dynamicJFreeChartNode.addSeries( "KE", Color.green );
-        dynamicJFreeChartNode.addSeries( "PE", Color.blue );
-        dynamicJFreeChartNode.addSeries( "Total", new EnergyLookAndFeel().getTotalEnergyColor() );
+        dynamicJFreeChartNode.addSeries( EnergySkateParkStrings.getString( "energy.thermal" ), Color.red );
+        dynamicJFreeChartNode.addSeries( EnergySkateParkStrings.getString( "energy.kinetic.abbreviation" ), Color.green );
+        dynamicJFreeChartNode.addSeries( EnergySkateParkStrings.getString( "energy.potential.abbreviation" ), Color.blue );
+        dynamicJFreeChartNode.addSeries( EnergySkateParkStrings.getString( "energy.total" ), new EnergyLookAndFeel().getTotalEnergyColor() );
 
         chart.getXYPlot().getRangeAxis().setRange( 0, 7000 );
         chart.getXYPlot().getDomainAxis().setRange( 0, MAX_TIME );
@@ -116,12 +118,12 @@ public class EnergyVsTimePlot {
             public void primaryBodyChanged() {
                 updateReadouts();//this listener updates the readouts even when mode is live
             }
-        });
+        } );
 
         dialog = new JDialog( parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
         JPanel contentPane = new JPanel( new BorderLayout() );
         contentPane.add( phetPCanvas, BorderLayout.CENTER );
-        contentPane.add( new EnergySkateParkPlaybackPanel(module, timeSeriesModel, clock ), BorderLayout.SOUTH );
+        contentPane.add( new EnergySkateParkPlaybackPanel( module, timeSeriesModel, clock ), BorderLayout.SOUTH );
         dialog.setContentPane( contentPane );
         dialog.setSize( 800, 400 );
         dialog.addComponentListener( new ComponentAdapter() {
@@ -186,10 +188,10 @@ public class EnergyVsTimePlot {
         double total = getEnergySkateParkModel().getBody( 0 ).getTotalEnergy();
 
         DecimalFormat formatter = new DecimalFormat( "0.00" );
-        thermalPText.setText( "Thermal = " + formatter.format( thermal ) + " J" );
-        keText.setText( "KE = " + formatter.format( ke ) + " J" );
-        peText.setText( "PE = " + formatter.format( pe ) + " J" );
-        totalText.setText( "Total = " + formatter.format( total ) + " J" );
+        thermalPText.setText( EnergySkateParkStrings.getString( "energy.thermal" )+" = " + formatter.format( thermal ) + " J" );
+        keText.setText( EnergySkateParkStrings.getString( "energy.kinetic.abbreviation" ) + formatter.format( ke ) + " J" );
+        peText.setText( EnergySkateParkStrings.getString( "energy.potential.abbreviation" )+" = " + formatter.format( pe ) + " J" );
+        totalText.setText( EnergySkateParkStrings.getString( "energy.total" )+" = " + formatter.format( total ) + " J" );
     }
 
     public class ReadoutTextNode extends PhetPNode {

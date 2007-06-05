@@ -42,7 +42,6 @@ import java.awt.image.BufferedImage;
 
 public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     private JFreeChart chart;
-    //    private ArrayList fadeDots = new ArrayList();
     private XYSeriesCollection dataset;
     private EnergySkateParkModule module;
 
@@ -63,11 +62,9 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     private ZoomControlNode verticalZoom;
     private ZoomControlNode horizontalZoom;
     private PSwing southPSwing;
-    private int verticalZoomLevel = 0;
     private PNode dataLayer = new PNode();
 
     public EnergyPositionPlotCanvas( EnergySkateParkModule module ) {
-//        super( new Dimension( 100, 100 ) );
         setBackground( EnergySkateParkLookAndFeel.backgroundColor );
         this.module = module;
         ke = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "energy.kinetic" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getKEColor(), this ) {
@@ -131,7 +128,6 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         southPanel.add( clear );
         southPanel.add( showPanel );
 
-//        add( southPanel, BorderLayout.SOUTH );
         southPSwing = new PSwing( southPanel );
         addScreenChild( southPSwing );
 
