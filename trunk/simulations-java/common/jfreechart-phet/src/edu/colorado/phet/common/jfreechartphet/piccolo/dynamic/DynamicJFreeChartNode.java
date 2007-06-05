@@ -227,7 +227,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         debugBufferRegion.setPathTo( bounds );
     }
 
-    static interface SeriesViewFactory {
+    public static interface SeriesViewFactory {
         SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData );
     }
 
