@@ -59,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.09 (?)
 6/5/07 - make strand follow bead when clock is paused
 6/5/07 - disable tooltips on developer controls, they're annoying
 6/5/07 - add tooltips to all developer controls
