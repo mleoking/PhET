@@ -172,8 +172,10 @@ EOT;
                     </div>
                 
                     <div id="required_login_info_uid">
-                    
+                        
                     </div>                
+                    
+                    <hr/>
                 
                     <div class="field">
                         <span class="label">comment</span>

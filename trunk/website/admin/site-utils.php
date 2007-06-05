@@ -8,9 +8,6 @@
     
     include_once("../teacher_ideas/referrer.php");
     
-    // Don't want browsers caching the javascript code:
-    expire_page_immediately();
-    
     function print_header_navigation_element($prefix, $selected_page, $link, $desc, $access_key) {
         $this_element_is_selected = "$access_key" == "$selected_page";
 
@@ -181,6 +178,8 @@ EOT;
         
         $prefix = "..";
         
+        expire_page_immediately();
+        
         print <<<EOT
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -189,6 +188,8 @@ EOT;
                 <title>PhET :: Physics Education Technology at CU Boulder</title>
                 
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                <meta http-equiv="Pragma"  content="no-cache">
+                <meta http-equiv="Expires" content="-1">
                 
                 <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" />
                 
@@ -207,15 +208,17 @@ EOT;
                     // AJAX login stuff:
                     /*<![CDATA[*/
                     
-                    function on_email_entered() {
-                        var name_element = document.getElementById('contributor_name_uid');
+                    function post_required_info_displayed() {
+                        // Place focus on password:
+                        var password_element = document.getElementById('contributor_password_uid');
                         
-                        var name = name_element.value;
+                        if (password_element) {
+                            password_element.focus();
+                        }
                         
-                        HTTP.updateElementWithGet('$prefix/admin/do-ajax-login.php?contributor_name=' + 
-                            encodeURI(name), null, 'required_login_info_uid');
+                        on_email_change();
                     }
-
+                    
                     function on_remind_me() {
                         var email_element = document.getElementById('contributor_email_uid');
 
@@ -226,14 +229,47 @@ EOT;
                         HTTP.updateElementWithGet('$prefix/admin/remind-password.php?contributor_email=' + 
                             encodeURI(email), null, 'ajax_password_comment_uid');
                     }
+
+                    function on_email_entered() {
+                        var email_element = document.getElementById('contributor_email_uid');
+
+                        var email = email_element.value;
+                            
+                        HTTP.updateElementWithGet('$prefix/admin/do-ajax-login.php?contributor_email=' + 
+                            encodeURI(email), null, 'required_login_info_uid', 'post_required_info_displayed();');
+                    }
+                    
+                    function deduce_author_organization() {
+                        var email_element = document.getElementById('contributor_email_uid');
+
+                        var email = email_element.value;
+                            
+                        HTTP.updateElementValueWithGet('$prefix/admin/get-contributor-org.php?contributor_email=' +
+                            encodeURI(email), null, 'contribution_authors_organization_uid');                        
+                    }
                         
                     function on_email_change() {
                         var email_element = document.getElementById('contributor_email_uid');
 
                         var email = email_element.value;
+                        
+                        var contact_element = document.getElementById('contribution_contact_email_uid');
+                            
+                        if (contact_element) {
+                            contact_element.value = email;
+                        }                        
 
                         HTTP.updateElementWithGet('$prefix/admin/check-email.php?contributor_email=' + 
-                            encodeURI(email), null, 'ajax_email_comment_uid');
+                            encodeURI(email), null, 'ajax_email_comment_uid', 'deduce_author_organization();');
+                    }
+                    
+                    function on_contributor_organization_change() {
+                        var contributor_org_element = document.getElementById('contributor_organization_uid');
+                        var contribution_org_element = document.getElementById('contribution_authors_organization_uid');
+                        
+                        if (contributor_org_element && contribution_org_element) {
+                            contribution_org_element.value = contributor_org_element.value;
+                        }
                     }
                     
                     function on_password_change() {
@@ -246,6 +282,24 @@ EOT;
                         HTTP.updateElementWithGet('$prefix/admin/check-password.php?contributor_email=' + 
                             encodeURI(email) + '&contributor_password=' + 
                             encodeURI(password), null, 'ajax_password_comment_uid');
+                    }
+                    
+                    function on_name_change() {
+                        // When the name changes, update the authors:
+                        var name_element = document.getElementById('contributor_name_uid');
+                        
+                        if (name_element) {
+                            var name = name_element.value;
+                            
+                            var authors_element = document.getElementById('contribution_authors_uid');
+                            
+                            if (authors_element) {
+                                authors_element.value = name;
+                            }
+                            
+                            HTTP.updateElementWithGet('$prefix/admin/do-ajax-login.php?contributor_name=' + 
+                                encodeURI(name), null, 'required_login_info_uid', 'on_email_change();');
+                        }
                     }
                     
                     $('#contributor_name_uid').autocomplete('$prefix/admin/get-contributor-names.php');
@@ -318,12 +372,16 @@ EOT;
                         </div>
                     </div>
                 </div>
-            </body>
+            </body>        
+            <meta http-equiv="Pragma"  content="no-cache">
+            <meta http-equiv="Expires" content="-1">
             </html>
 EOT;
     }
     
  function print_blank_site_page($content_printer, $prefix = "..") {
+     expire_page_immediately();
+     
         print <<<EOT
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

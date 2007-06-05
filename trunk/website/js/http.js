@@ -258,8 +258,6 @@ HTTP._getResponse = function(request) {
  * the requested URL as its argument.
  **/
 HTTP.get = function(url, callback, options) {
-	//alert("HTTP.get being called with url = " + url + ", callback = " + callback + ", options.parameters = " + options.parameters);
-	
     var request = HTTP.newRequest();
     var n = 0;
     var timer;
@@ -300,7 +298,7 @@ HTTP.get = function(url, callback, options) {
  * This is a simple function to update the inner html of an element with the
  * GET result from a URL.
  */
-HTTP.updateElementWithGet = function(url, parameters, elementId) {	
+HTTP.updateElementWithGet = function(url, parameters, elementId, code) {	
 	element = document.getElementById(elementId);	
 	
 	var options = {};
@@ -310,9 +308,37 @@ HTTP.updateElementWithGet = function(url, parameters, elementId) {
 	callback = function(result) {
 		if (result != null) {
 			element.innerHTML = result;
+			
+			if (code) {
+				eval(code);
+			}
 		}
 		else {
 			element.innerHTML = "The server does not appear to be responding. Please try later.";
+		}
+	};
+	
+	HTTP.get(url, callback, options);
+};
+
+/**
+ * This is a simple function to update the value of an element with the
+ * GET result from a URL.
+ */
+HTTP.updateElementValueWithGet = function(url, parameters, elementId, code) {	
+	element = document.getElementById(elementId);	
+	
+	var options = {};
+	
+	options.parameters = parameters;
+	
+	callback = function(result) {
+		if (result != null) {
+			element.value = result;
+			
+			if (code) {
+				eval(code);
+			}
 		}
 	};
 	
