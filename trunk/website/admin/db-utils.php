@@ -4,7 +4,7 @@
     
     function db_verify_mysql_result($result, $statement) {
         if (!$result && $statement !== "") {
-            $message  = 'Invalid query: ' . mysql_error() . "\n";
+            $message  = 'Invalid query: ' . mysql_error() . "<br/>";
             $message .= 'Whole query: ' . $statement;
 
             die($message);

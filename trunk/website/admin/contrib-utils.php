@@ -855,14 +855,6 @@ EOT;
     }
     
     function contribution_update_contribution($contribution) {        
-        if ($contribution['contribution_id'] == -1) {
-            // Updating a contribution that does not exist. First, create it:
-            $contribution['contribution_id'] = contribution_add_new_contribution(
-                $contribution['contribution_title'],
-                $contribution['contributor_id']                
-            );
-        }
-        
         if (!db_update_table('contribution', $contribution, 'contribution_id', $contribution['contribution_id'])) {
             return false;
         }

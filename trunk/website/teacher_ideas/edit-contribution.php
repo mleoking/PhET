@@ -17,9 +17,19 @@
     }
     
     function update_contribution($contribution) {
-        if ($contribution['contributor_id'] == -1) {
+        if (!isset($contribution['contributor_id']) || $contribution['contributor_id'] == -1) {
             // The contribution is unowned; transfer ownership to the present user:
             $contribution['contributor_id'] = $GLOBALS['contributor_id'];
+        }
+        
+        if (!isset($contribution['contribution_id']) || $contribution['contribution_id'] == -1) {
+            // Updating a contribution that does not exist. First, create it:
+            $contribution['contribution_id'] = contribution_add_new_contribution(
+                $contribution['contribution_title'],
+                $contribution['contributor_id']                
+            );
+            
+            $GLOBALS['contribution_id'] = $contribution['contribution_id'];
         }
         
         contribution_update_contribution($contribution);
