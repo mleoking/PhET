@@ -5,9 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- modify strand evolution to accommodate variable fluid properties?
 
 MEDIUM PRIORITY:
+- tune developer controls, pick appropriate defaults
+- modify strand evolution to accommodate variable fluid properties?
 - position histogram requires more precision on x-axis and ruler
 - get model for Brownian force, or delete "Show Brownian force" feature
 - ruler is slightly off-center in all panels
