@@ -70,8 +70,8 @@ public class OTConstants {
     // Images
     //----------------------------------------------------------------------------
     
-    public static final String IMAGE_CLOCK = "clock.png";
     public static final String IMAGE_LASER_SIGN = "laserDangerSign.png";
+    public static final String IMAGE_PUSHPIN = "pushpin.png";
     
     //----------------------------------------------------------------------------
     // Cursors

@@ -4,17 +4,18 @@ package edu.colorado.phet.opticaltweezers.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.DNAPivot;
 import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -39,11 +40,6 @@ public class DNAStrandNode extends PNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double TAIL_DIAMETER = 100; // nm
-    private static final Color TAIL_FILL_COLOR = Color.GRAY;
-    private static final Color TAIL_STROKE_COLOR = Color.BLACK;
-    private static final Stroke TAIL_STROKE = new BasicStroke( 1f );
-    
     private static final Color EXTENSION_STROKE_COLOR = Color.BLACK;
     private static final Stroke EXTENSION_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
@@ -62,8 +58,8 @@ public class DNAStrandNode extends PNode implements Observer {
     private PPath _strandNode;
     private GeneralPath _extensionPath;
     private PPath _extensionNode; // straight line between head and tail
-    private PNode _tailNode;
     private PNode _pivotsParentNode;
+    private PImage _pushpinNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -100,14 +96,13 @@ public class DNAStrandNode extends PNode implements Observer {
             addChild( _extensionNode );
         }
         
-        double viewTailDiameter = _modelViewTransform.modelToView( TAIL_DIAMETER );
-        _tailNode = new SphericalNode( viewTailDiameter, TAIL_FILL_COLOR, TAIL_STROKE, TAIL_STROKE_COLOR, false /* convertToImage */ );
-        addChild( _tailNode );
-        
         if ( SHOW_PIVOTS ) {
             _pivotsParentNode = new PComposite();
             addChild( _pivotsParentNode );
         }
+        
+        _pushpinNode = new PImage( OTResources.getImage( OTConstants.IMAGE_PUSHPIN ) );
+        addChild( _pushpinNode );
         
         update();
     }
@@ -134,10 +129,14 @@ public class DNAStrandNode extends PNode implements Observer {
      */
     private void update() {
         
-        // Move the tail
+        // tail position, in view coordinates
         double viewTailX = _modelViewTransform.modelToView( _dnaStrand.getTailX() );
         double viewTailY = _modelViewTransform.modelToView( _dnaStrand.getTailY() );
-        _tailNode.setOffset( viewTailX, viewTailY );
+        
+        // pushpin at the tail
+        double xOffset = viewTailX - _pushpinNode.getFullBounds().getWidth();
+        double yOffset = viewTailY - _pushpinNode.getFullBounds().getHeight();
+        _pushpinNode.setOffset( xOffset, yOffset );
         
         // Draw the extension, a straight line from tail to head
         if ( _extensionPath != null ) {
