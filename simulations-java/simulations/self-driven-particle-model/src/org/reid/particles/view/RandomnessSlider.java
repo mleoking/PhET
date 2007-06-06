@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.view;
 
-import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import org.reid.particles.model.ParticleModel;
 
 import javax.swing.event.ChangeEvent;

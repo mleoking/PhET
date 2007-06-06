@@ -1,10 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.piccolo.pswing.PSwing;
-import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -37,7 +37,7 @@ public class TitleScreen extends PSwingCanvas {
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( "images/title-page3.jpg" );
             if (TutorialApplication.isLowResolution() ){
-                image= BufferedImageUtils.rescaleYMaintainAspectRatio( null,image, tutorialApplication.getTutorialFrame().getHeight()-30 );
+                image= BufferedImageUtils.rescaleYMaintainAspectRatio(image, tutorialApplication.getTutorialFrame().getHeight()-30 );
             }
             titleImage = new PImage( image );
             titleImage.setOffset( 100, 100 );

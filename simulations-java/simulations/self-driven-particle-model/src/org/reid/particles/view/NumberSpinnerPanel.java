@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.view;
 
-import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

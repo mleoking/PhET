@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial.unit2;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.umd.cs.piccolo.nodes.PImage;
 import org.reid.particles.tutorial.BasicTutorialCanvas;
 import org.reid.particles.tutorial.Page;

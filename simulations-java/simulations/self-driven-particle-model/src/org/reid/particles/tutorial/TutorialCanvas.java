@@ -1,10 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.reid.particles.util.JSAudioPlayer;
 
 import java.awt.event.ComponentEvent;

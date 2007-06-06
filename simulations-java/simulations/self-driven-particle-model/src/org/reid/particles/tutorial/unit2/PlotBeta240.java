@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial.unit2;
 
-import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
-import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import org.jfree.chart.ChartFrame;
 import org.jfree.data.xy.XYDataItem;
 import org.jfree.data.xy.XYSeries;
