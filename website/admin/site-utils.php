@@ -218,6 +218,38 @@ EOT;
                         
                         on_email_change();
                     }
+
+                	function select_text_in_field(field, start, end){
+                		if( field.createTextRange ){
+                			var selRange = field.createTextRange();
+                			selRange.collapse(true);
+                			selRange.moveStart("character", start);
+                			selRange.moveEnd("character", end);
+                			selRange.select();
+                		} 
+                		else if( field.setSelectionRange ){
+                			field.setSelectionRange(start, end);
+                		} 
+                		else {
+                			if( field.selectionStart ){
+                				field.selectionStart = start;
+                				field.selectionEnd = end;
+                			}
+                		}
+                		field.focus();
+                	};
+                    
+                    function on_focus_select_question_marks(id) {
+                        var element = document.getElementById(id);
+                        
+                        if (element) {
+                            var value      = element.value;
+                            var firstIndex = value.indexOf('?');
+                            var lastIndex  = value.lastIndexOf('?') + 1;
+                            
+                            select_text_in_field(element, firstIndex, lastIndex);
+                        }
+                    }
                     
                     function on_remind_me() {
                         var email_element = document.getElementById('contributor_email_uid');
@@ -257,7 +289,34 @@ EOT;
                             
                         if (contact_element) {
                             contact_element.value = email;
-                        }                        
+                        }      
+                        
+                        var contributor_org_element = document.getElementById('contributor_organization_uid');
+                        var contribution_org_element = document.getElementById('contribution_authors_organization_uid');
+
+                        if (contributor_org_element) {
+                            if (contributor_org_element.value == '') {
+                                var email_pattern = /^s*\w+@(\w+)\.(\w{3,})\s*$/;
+                                
+                                var result;
+                                
+                                if ((result = email_pattern.exec(email)) != null) {
+                                    var domain = result[1];
+                                    var ext    = result[2];
+                                    
+                                    domain = domain.substring(0, 1).toUpperCase() + domain.substring(1, domain.length);
+                                    
+                                    if (ext == 'edu') {
+                                        contributor_org_element.value = 'University of ' + domain;
+                                    }
+                                    else {
+                                        contributor_org_element.value = domain + ', Inc.';
+                                    }
+                                    
+                                    on_contributor_organization_change();
+                                }
+                            }
+                        }
 
                         HTTP.updateElementWithGet('$prefix/admin/check-email.php?contributor_email=' + 
                             encodeURI(email), null, 'ajax_email_comment_uid', 'deduce_author_organization();');
@@ -268,7 +327,9 @@ EOT;
                         var contribution_org_element = document.getElementById('contribution_authors_organization_uid');
                         
                         if (contributor_org_element && contribution_org_element) {
-                            contribution_org_element.value = contributor_org_element.value;
+                            if (contribution_org_element.value == '') {
+                                contribution_org_element.value = contributor_org_element.value;
+                            }
                         }
                     }
                     

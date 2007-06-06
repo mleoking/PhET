@@ -10,16 +10,12 @@
         variable 'contributor_id', corresponding to the id of the contributor,
         along with all other fields of the contributor, such as: 'contributor_name',
         'contributor_organization', 'contributor_email', etc.
-        
-        If $g_login_required is false, the user isn't required to login, but 
-        contributor information will be available if cookies have already been 
-        stored by a prior login.
     
     */
     
     include_once("../admin/global.php");
     
     include_once(SITE_ROOT."admin/authentication.php");
-    
-    do_authentication($g_login_required);
+
+    do_authentication(true);
 ?>

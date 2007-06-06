@@ -33,19 +33,36 @@
     }    
 
     function do_authentication($login_required) {
-        static $already_tried = false;
+        static $already_tried_login_required = null;
         
-        if ($already_tried) return;
+        if ($already_tried_login_required == $login_required) return;
         
-        $already_tried = true;
+        $already_tried_login_required = $login_required;
         
         global $contributor_authenticated;
 
         if (isset($_REQUEST['username'])) {
             $username = $_REQUEST['username'];
         }
+        else if (isset($_REQUEST['contributor_email'])) {
+            $username = $_REQUEST['contributor_email'];
+        }
+        
+        if (!isset($username) || ($username == '' && isset($_REQUEST['contributor_name']))) {
+            // Username not present, but contributor name is. 
+            // Deduce email from contributor name:
+            $contributor = contributor_get_contributor_by_name($_REQUEST['contributor_name']);
+            
+            if ($contributor) {
+                $username = $contributor['contributor_email'];
+            }
+        }
+        
         if (isset($_REQUEST['password'])) {
             $password = $_REQUEST['password'];
+        }
+        else if (isset($_REQUEST['contributor_password'])) {
+            $password = $_REQUEST['contributor_password'];
         }
         if (!isset($login_required)) {
             $login_required = true;

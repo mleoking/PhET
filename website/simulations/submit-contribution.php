@@ -4,10 +4,11 @@
     include_once("../admin/sys-utils.php");
     include_once("../admin/contrib-utils.php");
     include_once("../admin/site-utils.php");
+
+    include_once("../admin/authentication.php");
     
-    // Cannot require user login:
-    $g_login_required = false;
-    include_once("../teacher_ideas/user-login.php");
+    // Don't require authentication, but do it if the cookies are available:
+    do_authentication(false);    
 
     $sim_id             = $_REQUEST['sim_id'];
     $contribution_title = $_REQUEST['contribution_title'];

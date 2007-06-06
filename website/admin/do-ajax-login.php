@@ -28,6 +28,9 @@
         $contributor_name  = $contributor['contributor_name'];
         $contributor_email = $contributor['contributor_email'];
         
+        $scrambled_contributor_email = $contributor_email;
+        $scrambled_js = '';
+        
         if ($lookup_by_name) {
             $matches = array();
             
@@ -37,7 +40,12 @@
             
                 $disguised_email_username = preg_replace('/(?<=.)./i', '?', $email_username);
             
-                $contributor_email = $disguised_email_username.$email_domain;
+                $scrambled_contributor_email = $disguised_email_username.$email_domain;
+                
+                $scrambled_js = <<<EOT
+                    onfocus="javascript:on_focus_select_question_marks('contributor_email_uid');"
+                    onclick="javascript:on_focus_select_question_marks('contributor_email_uid');"
+EOT;
             }
         }
         
@@ -45,17 +53,22 @@
             <div class="field">
                 <span class="label">your email</span>
                 <span class="label_content">
-                    <input type="text" name="contributor_email" id="contributor_email_uid" value="$contributor_email" onchange="javascript:on_email_entered();" onkeyup="javascript:on_email_change();"/>
+                    <input type="text" name="contributor_email" id="contributor_email_uid" 
+                        value="$scrambled_contributor_email" onchange="javascript:on_email_entered();" 
+                        onkeyup="javascript:on_email_change();" $scrambled_js />
 
                     <span id="ajax_email_comment_uid">
                     </span>
                 </span>
             </div>
+EOT;
+        
 
+        print <<<EOT
             <div class="field">
                 <span class="label">your password</span>
                 <span class="label_content">
-                    <input type="password" name="contributor_password" id="contributor_password_uid" onchange="javascript:on_password_change();" onkeyup="javascript:on_password_change();"/>
+                    <input type="password" name="contributor_password" id="contributor_password_uid" onchange="javascript:on_password_change();" onkeyup="javascript:on_password_change();" />
                     
                     <span id="ajax_password_comment_uid">
                     </span>
@@ -68,7 +81,7 @@ EOT;
             <div class="field">
                 <span class="label">your email</span>
                 <span class="label_content">
-                    <input type="text" name="contributor_email" id="contributor_email_uid" onchange="javascript:on_email_entered();" onkeyup="javascript:on_email_change();" value="$contributor_email"/>
+                    <input type="text" name="contributor_email" id="contributor_email_uid" onchange="javascript:on_email_entered();" onkeyup="javascript:on_email_change();" value="$contributor_email" />
                     
                     <span id="ajax_email_comment_uid">
                     </span>

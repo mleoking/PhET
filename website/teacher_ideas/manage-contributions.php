@@ -1,10 +1,11 @@
 <?php
 
     include_once("../admin/global.php");
-    include_once("../admin/contrib-utils.php");
-    include_once("../admin/site-utils.php");
-    include_once("../admin/web-utils.php");
-    include_once("user-login.php");
+    
+    include_once(SITE_ROOT."admin/contrib-utils.php");
+    include_once(SITE_ROOT."admin/site-utils.php");
+    include_once(SITE_ROOT."admin/web-utils.php");
+    include_once(SITE_ROOT."teacher_ideas/user-login.php");
     
     function print_manage_contributions() {
         global $contributor_id, $contributor_is_team_member;
