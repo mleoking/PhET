@@ -689,7 +689,7 @@ EOT;
 EOT;
     }
 
-    function contribution_print_summary3($contribution, $print_sims = true) {
+    function contribution_print_summary3($contribution, $print_sims = true) {    
         global $referrer;
         
         eval(get_code_to_create_variables_from_array($contribution));
@@ -732,10 +732,14 @@ EOT;
         
         $author_html = "<abbr title=\"$contribution_author\">$author_first_initial. $author_last_name</abbr>";
         
+        $title_html = <<<EOT
+                <a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
+EOT;
+        
         print <<<EOT
             <tr>
                 <td>
-                    <a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
+                    $title_html
                 </td>
             
                 <td>

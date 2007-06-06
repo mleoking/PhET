@@ -250,7 +250,9 @@ EOT;
                             var firstIndex = value.indexOf('?');
                             var lastIndex  = value.lastIndexOf('?') + 1;
                             
-                            select_text_in_field(element, firstIndex, lastIndex);
+                            if (firstIndex != -1) {                            
+                                select_text_in_field(element, firstIndex, lastIndex);
+                            }
                         }
                     }
                     

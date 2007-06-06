@@ -48,7 +48,7 @@
             $username = $_REQUEST['contributor_email'];
         }
         
-        if (!isset($username) || ($username == '' && isset($_REQUEST['contributor_name']))) {
+        if ((!isset($username) || $username == '') && isset($_REQUEST['contributor_name'])) {
             // Username not present, but contributor name is. 
             // Deduce email from contributor name:
             $contributor = contributor_get_contributor_by_name($_REQUEST['contributor_name']);
