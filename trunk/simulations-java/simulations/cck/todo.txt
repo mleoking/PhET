@@ -13,6 +13,17 @@ for DC and AC but am unable to save them for later use. (The save button
 does not seem to work) It would be of great value to save the circuits.
 Do you have any ideas how I might overcome this problem.*
 
+>Hi PhET ... we love your simulations here at St. Ignatius in San
+>Francisco and use them a lot!
+>My students are doing a lab using your AC & DC circuit simulator where
+>they set up an LC oscillator circuit with a 0.02 F capacitor and a 10
+>Henry inductor. The students are calculating a period of
+>2.8 seconds but the simulator puts the period at 28 seconds when
+>measured with a current graph or virtual stopwatch.
+>Have you seen this problem before? Am I missing something obvious?
+>Thanks!
+
+
 
 ################################################
 #To Do
