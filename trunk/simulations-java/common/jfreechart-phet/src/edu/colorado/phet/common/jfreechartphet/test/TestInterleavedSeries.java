@@ -13,6 +13,7 @@ public class TestInterleavedSeries extends TestDynamicJFreeChartNode {
 
         getDynamicJFreeChartNode().addSeries( "Series 1", Color.green);
         getDynamicJFreeChartNode().addSeries( "Series 2", Color.red);
+        getDynamicJFreeChartNode().addSeries( "Series 3", Color.black);
     }
 
     protected void updateGraph() {
@@ -24,6 +25,7 @@ public class TestInterleavedSeries extends TestDynamicJFreeChartNode {
         getDynamicJFreeChartNode().addValue( 0, pt.getX(), pt.getY() );
         getDynamicJFreeChartNode().addValue( 1, pt.getX(), pt.getY()*0.9 );
         getDynamicJFreeChartNode().addValue( 2, pt.getX(), pt.getY()*0.8 );
+        getDynamicJFreeChartNode().addValue( 3, pt.getX(), pt.getY()*1.5 );
     }
     public static void main( String[] args ) {
         new TestInterleavedSeries().start();
