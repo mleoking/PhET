@@ -219,6 +219,8 @@ div.form_content {
 .field .label_content {
 	float: right;
 	width: 75%;
+}
+.field .label_content input, .field .label_content select, .field .label_content textarea {
 	position: relative;
 	top:      -1ex;
 }
@@ -302,7 +304,7 @@ div.separator {
 	height: 1px;
     background:#E6E6FA;
 	clear: right;
-    margin: 20px 150px 10px 150px;    
+    margin: 15px 150px 15px 150px;    
 }
 #contributioneditform .error {
     color:red;

@@ -64,70 +64,83 @@
             <h3>Submission Information</h3>
             
             <div class="field">
-                <span class="label">authors</span>
                 <span class="label_content">$contribution_authors &nbsp;</span>
+                
+                <span class="label">authors</span>
             </div>
             
             <div class="field">
-                <span class="label">contact email</span>
                 <span class="label_content">$contribution_contact_email &nbsp;</span>
+                
+                <span class="label">contact email</span>
             </div>
             
             <div class="field">
-                <span class="label">school/organization</span>
                 <span class="label_content">$contribution_authors_organization &nbsp;</span>
+                
+                <span class="label">school/organization</span>
             </div>
             
             <div class="field">
-                <span class="label">submitted</span>
                 <span class="label_content">$contribution_date_created</span>
+                
+                <span class="label">submitted</span>
             </div>   
             
             <div class="field">
-                <span class="label">updated</span>
                 <span class="label_content">$contribution_date_updated</span>
+                
+                <span class="label">updated</span>
             </div>        
             
             <h3>Contribution Description</h3>
             
             <div class="field">
-                <span class="label">title</span>
                 <span class="label_content">$contribution_title &nbsp;</span>
+                
+                <span class="label">title</span>
             </div>            
             
             <div class="field">
-                <span class="label">keywords</span>
                 <span class="label_content" id="keywords">$contribution_keywords</span>
+                
+                <span class="label">keywords</span>
             </div>
             
             <div class="field">
-                <span class="label">description</span>
                 <span class="label_content">$contribution_desc &nbsp;</span>
+                
+                <span class="label">description</span>
             </div>
 
             <div class="field">
-                <span class="label">level</span>
                 <span class="label_content">$level_list &nbsp;</span>
+                
+                <span class="label">level</span>
             </div>
             
             <div class="field">
-                <span class="label">type</span>
                 <span class="label_content">$type_list &nbsp;</span>
+                
+                <span class="label">type</span>
             </div>
             
             <div class="field">
-                <span class="label">subject</span>
                 <span class="label_content">$subject_list &nbsp;</span>
+                
+                <span class="label">subject</span>                
             </div>
             
             <div class="field">
-                <span class="label">duration</span>
                 <span class="label_content">$contribution_duration minutes</span>
+                
+                <span class="label">duration</span>                
             </div>
             
             <div class="field">
-                <span class="label">answers included</span>
                 <span class="label_content">$contribution_answers_included</span>
+                
+                <span class="label">answers included</span>
             </div>
 
             <div class="field">            
@@ -145,13 +158,13 @@ EOT;
             </div>
             
             <div class="field">
-                <span class="label">
-                    comments
-                </span>
-                
                 <span class="label_content">
                     <a href="javascript:void;" onclick="$(this).parent().parent().next().toggle(300);">$comment_count comments</a>
-                    (<a href="javascript:void;" onclick="$(this).parent().parent().next().next().toggle(300);">add</a>)
+                    (<a href="javascript:void;" onclick="$(this).parent().parent().next().next().next().toggle(300);">add</a>)
+                </span>
+                
+                <span class="label">
+                    comments
                 </span>
             </div>
             
@@ -159,36 +172,39 @@ EOT;
                 $comments_html
             </div>
             
+            <hr/>
+            
             <div style="display: none">
                 <form method="post" action="add-comment.php" onsubmit="javascript:return false;">
                     <input type="hidden" name="contribution_id" value="$contribution_id" />
                     <input type="hidden" name="referrer"        value="$php_self?contribution_id=$contribution_id&referrer=$referrer" />
                     
                     <div class="field">
-                        <span class="label">name</span>
                         <span class="label_content">                
                             <input type="text" size="25" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_email_entered();"/>
                         </span>
+                        
+                        <span class="label">your name</span>                        
                     </div>
                 
                     <div id="required_login_info_uid">
                         
-                    </div>                
-                    
-                    <hr/>
+                    </div>
                 
                     <div class="field">
-                        <span class="label">comment</span>
                         <span class="label_content">
                             <textarea name="contribution_comment_text" cols="40" rows="5" ></textarea>
                         </span>
+                        
+                        <span class="label">your comment</span>
                     </div>
                     
                     <div class="field">
-                        <span class="label">&nbsp;</span>
                         <span class="label_content">
                             <input type="button" onclick="javascript:this.form.submit();" value="Add Comment" name="add" />
                         </span>
+                        
+                        <span class="label">&nbsp;</span>                        
                     </div>
                     
                 </form>
