@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.jfreechartphet.test;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode2;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.util.PDebug;
@@ -32,6 +33,7 @@ public class TestDataAreaChange {
         frame.setContentPane( phetPCanvas );
 
         JFreeChart chart = ChartFactory.createXYLineChart( "title", "x", "y", new XYSeriesCollection(), PlotOrientation.VERTICAL, false, false, false );
+//        dynamicJFreeChartNode = new DynamicJFreeChartNode2( phetPCanvas, chart );
         dynamicJFreeChartNode = new DynamicJFreeChartNode( phetPCanvas, chart );
 //        dynamicJFreeChartNode = new JFreeChartNode( chart);
         
