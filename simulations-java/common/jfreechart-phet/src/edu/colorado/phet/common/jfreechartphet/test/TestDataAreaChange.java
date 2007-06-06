@@ -33,8 +33,8 @@ public class TestDataAreaChange {
         frame.setContentPane( phetPCanvas );
 
         JFreeChart chart = ChartFactory.createXYLineChart( "title", "x", "y", new XYSeriesCollection(), PlotOrientation.VERTICAL, false, false, false );
-//        dynamicJFreeChartNode = new DynamicJFreeChartNode2( phetPCanvas, chart );
-        dynamicJFreeChartNode = new DynamicJFreeChartNode( phetPCanvas, chart );
+        dynamicJFreeChartNode = new DynamicJFreeChartNode2( phetPCanvas, chart );
+//        dynamicJFreeChartNode = new DynamicJFreeChartNode( phetPCanvas, chart );
 //        dynamicJFreeChartNode = new JFreeChartNode( chart);
         
         chart.getXYPlot().getRangeAxis().setAutoRange( false );
