@@ -4,7 +4,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -17,7 +18,6 @@ import java.beans.PropertyChangeListener;
  * Jun 5, 2007, 6:04:09 PM
  */
 public class BufferedSeriesView extends SeriesView {
-    private boolean origStateBuffered;
     private BasicStroke stroke = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
     private PhetPPath debugRegion = new PhetPPath( new BasicStroke( 3 ), Color.blue );
 
@@ -25,10 +25,17 @@ public class BufferedSeriesView extends SeriesView {
         super( dynamicJFreeChartNode, seriesData );
         dynamicJFreeChartNode.addBufferedImagePropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
-                paintAll();
+                if( !paintingAll ) {
+                    paintAll();
+                }
             }
         } );
         dynamicJFreeChartNode.getPhetPCanvas().addScreenChild( debugRegion );
+        dynamicJFreeChartNode.getPhetPCanvas().addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                paintAll();
+            }
+        } );
     }
 
     public void dataAdded() {
@@ -51,12 +58,12 @@ public class BufferedSeriesView extends SeriesView {
                 Rectangle2D bounds = sh.getBounds2D();
                 getDynamicJFreeChartNode().localToGlobal( bounds );
                 getDynamicJFreeChartNode().getPhetPCanvas().getPhetRootNode().globalToScreen( bounds );
-                repaintPanel( translateDown(bounds) );
+                repaintPanel( translateDown( bounds ) );
             }
         }
     }
 
-    private Rectangle2D translateDown( Rectangle2D d) {
+    private Rectangle2D translateDown( Rectangle2D d ) {
         return new Rectangle2D.Double( d.getX() + getDynamicJFreeChartNode().getBounds().getX(),
                                        d.getY() + getDynamicJFreeChartNode().getBounds().getY(),
                                        d.getWidth(), d.getHeight() );
@@ -80,26 +87,33 @@ public class BufferedSeriesView extends SeriesView {
 
     public void install() {
         super.install();
+        getDynamicJFreeChartNode().updateAll();
         paintAll();
-        this.origStateBuffered = getDynamicJFreeChartNode().isBuffered();
-        if( !origStateBuffered ) {
-            getDynamicJFreeChartNode().setBuffered( true );
-        }
     }
 
+
+    public void uninstall() {
+        super.uninstall();
+        getDynamicJFreeChartNode().updateAll();
+    }
+
+    private boolean paintingAll = false;
+
     private void paintAll() {
+        paintingAll = true;
+//        getDynamicJFreeChartNode().updateAll();
         BufferedImage image = getDynamicJFreeChartNode().getBuffer();
         if( image != null ) {
             Graphics2D graphics2D = image.createGraphics();
             graphics2D.setPaint( getSeriesData().getColor() );
             graphics2D.setStroke( stroke );
-            GeneralPath path = toGeneralPath();
             setupRenderingHints( graphics2D );
             graphics2D.clip( getDataArea() );
-            graphics2D.draw( path );
-            getDynamicJFreeChartNode().getPhetPCanvas().repaint( );
-//            repaintPanel( new Rectangle2D.Double( 0, 0, getDynamicJFreeChartNode().getPhetPCanvas().getWidth(), getDynamicJFreeChartNode().getPhetPCanvas().getHeight() ) );
+            graphics2D.draw( toGeneralPath() );
+//            getDynamicJFreeChartNode().getPhetPCanvas().repaint( );
+            repaintPanel( translateDown( new Rectangle2D.Double( 0, 0, getDynamicJFreeChartNode().getPhetPCanvas().getWidth(), getDynamicJFreeChartNode().getPhetPCanvas().getHeight() ) ) );
         }
+        paintingAll = false;
     }
 
     protected void repaintPanel( Rectangle2D bounds ) {
