@@ -30,6 +30,7 @@ public class IncrementalPPath extends PPath {
 //    private Point2D prevPt;
     //    private Point2D currPt;
     ArrayList pts = new ArrayList();
+    private static boolean updatingAndPainting=false;//todo: should only coalesce siblings in same chart
 
     public IncrementalPPath( PCanvas pCanvas ) {
         this.pCanvas = pCanvas;
@@ -48,6 +49,7 @@ public class IncrementalPPath extends PPath {
     }
 
     public void lineTo( float x, float y ) {
+
         pts.add( new Point2D.Double( x, y ) );
 //        this.prevPt = getPathReference().getCurrentPoint();
 //        this.currPt = ;
@@ -64,8 +66,9 @@ public class IncrementalPPath extends PPath {
 
 //        System.out.println( "line=" + toString(line) + ", stroke=" + toString( getStroke() ) + ", localBounds=" + localBounds + ", globalBounds=" + bounds );
 //        System.out.println( "line=" + toString(line) + ", stroke=" + toString( getStroke() ) + ", globalBounds=" + bounds );
+        updatingAndPainting=true;
         globalBoundsChanged( bounds );
-
+        updatingAndPainting=false;
     }
 
     private void localLineTo( float x, float y, Point2D prevPoint ) {
@@ -76,7 +79,7 @@ public class IncrementalPPath extends PPath {
     }
 
     protected void paint( PPaintContext paintContext ) {
-        System.out.println( "paintContext.getLocalClip() = " + paintContext.getLocalClip() );
+//        System.out.println( "paintContext.getLocalClip() = " + paintContext.getLocalClip() );
         Paint p = getPaint();
         Graphics2D g2 = paintContext.getGraphics();
 
@@ -89,10 +92,12 @@ public class IncrementalPPath extends PPath {
             g2.setPaint( getStrokePaint() );
             g2.setStroke( getStroke() );
             int numPtsToUse = 30;
-            if( pts.size() < numPtsToUse||paintContext.getLocalClip().getHeight()>=100 ) {
+            if( pts.size() < numPtsToUse||!updatingAndPainting) {
+                System.out.println( "rendering full path: updating&P="+updatingAndPainting );
                 g2.draw( getPathReference() );
             }
             else {
+//                System.out.println( "rendering subpath" );
                 GeneralPath path = new GeneralPath();
                 path.moveTo( (float)getPreviousPoint( 0 ).getX(), (float)getPreviousPoint( 0 ).getY() );
                 for( int i = 1; i < numPtsToUse; i++ ) {
