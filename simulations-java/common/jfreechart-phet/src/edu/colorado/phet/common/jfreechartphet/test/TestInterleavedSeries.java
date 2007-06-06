@@ -1,5 +1,9 @@
 package edu.colorado.phet.common.jfreechartphet.test;
 
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+
 import java.awt.geom.Point2D;
 import java.awt.*;
 
@@ -14,6 +18,10 @@ public class TestInterleavedSeries extends TestDynamicJFreeChartNode {
         getDynamicJFreeChartNode().addSeries( "Series 1", Color.green);
         getDynamicJFreeChartNode().addSeries( "Series 2", Color.red);
         getDynamicJFreeChartNode().addSeries( "Series 3", Color.black);
+        PhetPPath phetPPath = new PhetPPath( new Rectangle( 0, 0, 100, 100 ), new BasicStroke( 2 ), Color.green );
+        phetPPath.addInputEventListener( new PDragEventHandler() );
+        phetPPath.addInputEventListener(new CursorHandler( ) );
+        getPhetPCanvas().addScreenChild( phetPPath );
     }
 
     protected void updateGraph() {

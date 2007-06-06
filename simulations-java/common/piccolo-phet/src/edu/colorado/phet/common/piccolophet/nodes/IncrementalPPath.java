@@ -76,6 +76,7 @@ public class IncrementalPPath extends PPath {
     }
 
     protected void paint( PPaintContext paintContext ) {
+        System.out.println( "paintContext.getLocalClip() = " + paintContext.getLocalClip() );
         Paint p = getPaint();
         Graphics2D g2 = paintContext.getGraphics();
 
@@ -88,7 +89,7 @@ public class IncrementalPPath extends PPath {
             g2.setPaint( getStrokePaint() );
             g2.setStroke( getStroke() );
             int numPtsToUse = 30;
-            if( pts.size() < numPtsToUse ) {
+            if( pts.size() < numPtsToUse||paintContext.getLocalClip().getHeight()>=100 ) {
                 g2.draw( getPathReference() );
             }
             else {
