@@ -146,7 +146,7 @@ public class TestDynamicJFreeChartNode {
         dynamicJFreeChartNode.addValue( pt.getX(), pt.getY() );
 
 //        dynamicJFreeChartNode.updateChartRenderingInfo();
-        System.out.println( "dynamicJFreeChartNode.getDataArea( ) = " + dynamicJFreeChartNode.getDataArea() );
+//        System.out.println( "dynamicJFreeChartNode.getDataArea( ) = " + dynamicJFreeChartNode.getDataArea() );
     }
 
     public DynamicJFreeChartNode getDynamicJFreeChartNode() {
