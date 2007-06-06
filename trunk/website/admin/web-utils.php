@@ -753,8 +753,7 @@ EOT;
                 
                 <span class="multiselector">
                     <select name="$select_name" id="$select_id" 
-                                onclick="ms_on_change('$name',  '$list_id', this.form.$select_name);" 
-                                onchange="ms_on_change('$name', '$list_id', this.form.$select_name);">
+                        onchange="ms_on_change('$name', '$list_id', this.form.$select_name);">
                         $options
                     </select>
                 </span>
