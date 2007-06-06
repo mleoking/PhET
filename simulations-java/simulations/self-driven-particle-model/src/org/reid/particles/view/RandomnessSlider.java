@@ -4,7 +4,12 @@ package org.reid.particles.view;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import org.reid.particles.model.ParticleModel;
+import org.reid.particles.tutorial.BasicTutorialCanvas;
+import org.reid.particles.tutorial.TutorialApplication;
+import org.reid.particles.tutorial.TutorialCanvas;
+import org.reid.particles.tutorial.unit1.Unit1;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -46,10 +51,16 @@ public class RandomnessSlider extends ModelSlider {
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
 //        JPanel contentPane = new JPanel();
-        PhetPCanvas pane = new PhetPCanvas();
-        pane.addScreenChild( new PSwing( pane, new RandomnessSlider( new ParticleModel( 400, 400 ) ) ) );
+//        PhetPCanvas pane = new PhetPCanvas();
+        TutorialApplication tutorialApplication = new TutorialApplication();
+//        PhetPCanvas pane = new BasicTutorialCanvas( tutorialApplication, new Unit1( tutorialApplication ) );
+        BasicTutorialCanvas pane = new BasicTutorialCanvas( tutorialApplication, new Unit1( tutorialApplication ) );
+//        TutorialCanvas pane = new TutorialCanvas( );
+        pane.setZoomEventHandler( new PZoomEventHandler() );
+        pane.addChild( new PSwing( pane, new RandomnessSlider( new ParticleModel( 400, 400 ) ) ) );
         frame.setContentPane( pane );
         frame.pack();
+        frame.setSize( 400,400);
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width / 2 - frame.getWidth() / 2,
                            Toolkit.getDefaultToolkit().getScreenSize().height / 2 - frame.getHeight() / 2 );

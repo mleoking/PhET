@@ -3,10 +3,12 @@ package org.reid.particles.tutorial;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import org.reid.particles.model.Particle;
 import org.reid.particles.model.ParticleModel;
 import org.reid.particles.view.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +27,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
 
     private UniverseGraphic universeGraphic;
     private ParticleModel particleModel;
-//    private JTextArea textArea;
+    //    private JTextArea textArea;
     private TutorialTextArea textArea;
     private int textBoundsHeight = 150;
     private PButton nextSwing;
@@ -41,6 +43,20 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     private boolean showedPrevButton = false;
     private int viewingPageIndex = 0;
     private TutorialApplication tutorialApplication;
+    private MyPSwing textAreaPSwing;
+
+    static class MyPSwing extends PSwing {
+
+        public MyPSwing( JComponent component ) {
+            super( component );
+        }
+
+        public void doReshape() {
+            getComponent().setBounds( 0, 0, getComponent().getPreferredSize().width, getComponent().getPreferredSize().height );
+            double height=Math.max( getComponent().getPreferredSize().height ,150);
+            setBounds( 0, 0, getComponent().getPreferredSize().width, height);
+        }
+    }
 
     public BasicTutorialCanvas( TutorialApplication tutorialApplication, AbstractUnit unit ) {
         this.tutorialApplication = tutorialApplication;
@@ -53,7 +69,9 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
         }
         textArea = new TutorialTextArea();
         setLayout( null );
-        add( textArea );
+//        add( textArea );
+        textAreaPSwing = new MyPSwing( textArea );
+        addChild( textAreaPSwing );
         nextSwing = new PButton( this, "Next " );
 
         nextSwing.addActionListener( new ActionListener() {
@@ -85,6 +103,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
         pages.add( currentPage );
         addKeyListener( tutorialApplication.getKeyHandler() );
         getKeyListeners();
+        relayoutChildren();
     }
 
     public void setModelDT( double modelDT ) {
@@ -93,11 +112,13 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
 
     public void setText( String text ) {
         textArea.setText( text );
+        relayoutChildren();
     }
 
     public void createUniverse() {
         addChild( universeGraphic );
         topLeft( universeGraphic );
+        relayoutChildren();
     }
 
     public UniverseGraphic getUniverseGraphic() {
@@ -107,12 +128,13 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     public void topLeft( PNode node ) {
 //        node.setOffset( ( getWidth() - node.getFullBounds().getWidth() ) / 2, text( getHeight() - node.getFullBounds().getHeight() ) / 2+textArea.getHeight()/2 );
         int inset = 2;
-        node.setOffset( inset, textArea.getY() + textArea.getHeight() + inset );
+        node.setOffset( inset, textAreaPSwing.getFullBounds().getMaxY() + inset );
     }
 
 
     public void append( String finishText ) {
         textArea.setText( textArea.getText() + finishText );
+        relayoutChildren();
     }
 
     public void clearParticles() {
@@ -186,7 +208,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
             System.out.println( "0xtextArea = " + textArea );
             System.out.println( "getWidth() = " + getWidth() );
         }
-        return new Point2D.Double( textArea.getWidth() - nextSwing.getFullBounds().getWidth() - 5, textArea.getHeight() + 5 );
+        return new Point2D.Double( textAreaPSwing.getFullBounds().getWidth() - nextSwing.getFullBounds().getWidth() - 5, textAreaPSwing.getFullBounds().getHeight() + 5 );
     }
 
     public void showNextButton() {
@@ -194,16 +216,18 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
             addChild( nextSwing );
             nextSwing.setOffset( getNextButtonLocation() );
         }
+        relayoutChildren();
     }
 
     public void hideNextButton() {
         while( getLayer().getChildrenReference().contains( nextSwing ) ) {
             removeChild( nextSwing );
         }
+        relayoutChildren();
     }
 
     private void previousSection() {
-        if (viewingPageIndex==0&&tutorialApplication.isFirstUnit()){
+        if( viewingPageIndex == 0 && tutorialApplication.isFirstUnit() ) {
             return;
         }
         else if( viewingPageIndex == 0 ) {
@@ -221,6 +245,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
 //        synchronizePage();
         synchronizeFullText();
         showNextButton();
+        relayoutChildren();
     }
 
     private void synchronizeFullText() {
@@ -313,10 +338,16 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     protected void relayoutChildren() {
 
         super.relayoutChildren();
-        testTopLeft( universeGraphic );
         if( textArea != null ) {
             textArea.setBounds( 0, 0, getWidth(), textBoundsHeight );
+            textAreaPSwing.doReshape();
+//            textAreaPSwing.reshape();
+//            textAreaPSwing.invalidateFullBounds();
+//            textAreaPSwing.re
+//            textArea.setBounds( 0, 0, 100, 100);
         }
+        testTopLeft( universeGraphic );
+
         nextSwing.setOffset( getNextButtonLocation() );
         prevSwing.setOffset( 2 + universeGraphic.getFullBounds().getMaxX(), nextSwing.getFullBounds().getY() );
 
