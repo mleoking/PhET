@@ -126,7 +126,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             SeriesData seriesData = (SeriesData)seriesDataList.get( i );
             seriesData.clear();
         }
-        clearBufferAndRepaint();
+        updateAll();
     }
 
     private SeriesData getSeries( int series ) {
@@ -189,7 +189,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     private void updateSeriesViews() {
         removeAllSeriesViews();
-        clearBufferAndRepaint();
+        updateAll();
         addAllSeriesViews();
         updateChartRenderingInfo();
     }

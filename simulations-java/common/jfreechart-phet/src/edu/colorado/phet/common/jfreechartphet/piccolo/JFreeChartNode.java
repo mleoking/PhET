@@ -17,6 +17,7 @@ import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
+import org.jfree.chart.event.ChartChangeEventType;
 import org.jfree.chart.plot.*;
 
 import javax.swing.event.SwingPropertyChangeSupport;
@@ -117,7 +118,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
 
         addPNodeUpdateHandler();
 
-        updateChartRenderingInfo();
+        updateAll();
     }
     
     //----------------------------------------------------------------------------
@@ -150,18 +151,17 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     protected void addPNodeUpdateHandler() {
         addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
-                _chartImage = null;
-                repaint();
+                updateAll();
             }
         } );
     }
 
     /**
-     * Instantiates a new buffer and repaints it.
+     * Rebuilds the buffer and updates the chart rendering info.
      */
-    protected void clearBufferAndRepaint() {
-        _chartImage = null; // the image needs to be regenerated
-        repaint();
+    protected void updateAll() {
+        rebuildBuffer( );
+        updateChartRenderingInfo();
     }
 
     //----------------------------------------------------------------------------
@@ -208,7 +208,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         if( _bufferedImageType != bufferedImageType ) {
             int oldType = _bufferedImageType;
             _bufferedImageType = bufferedImageType;
-            clearBufferAndRepaint();
+            updateAll();
             _changeSupport.firePropertyChange( PROPERTY_BUFFERED_IMAGE_TYPE, oldType, _bufferedImageType );
         }
     }
@@ -219,6 +219,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * @return
      */
     public Rectangle2D getDataArea() {
+//        updateChartRenderingInfo();
         ChartRenderingInfo chartInfo = getChartRenderingInfo();
         PlotRenderingInfo plotInfo = chartInfo.getPlotInfo();
         // Careful! getDataArea returns a direct reference!
@@ -311,8 +312,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     public void setBuffered( boolean buffered ) {
         if( _buffered != buffered ) {
             _buffered = buffered;
-            _chartImage = null;
-            updateChartRenderingInfo();
+            updateAll();
             _changeSupport.firePropertyChange( PROPERTY_BUFFERED, !_buffered, _buffered );
         }
     }
@@ -555,7 +555,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      */
     protected void internalUpdateBounds( double x, double y, double width, double height ) {
         super.internalUpdateBounds( x, y, width, height );
-        updateChartRenderingInfo();
+        updateAll();
     }
     
     /*
@@ -593,10 +593,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         Rectangle2D bounds = getBoundsReference();
 
         if( _chartImage == null ) {
-            BufferedImage oldImage = _chartImage;
-            _chartImage = _chart.createBufferedImage( (int)bounds.getWidth(), (int)bounds.getHeight(),
-                                                      _bufferedImageType, _info );
-            _changeSupport.firePropertyChange( PROPERTY_BUFFERED_IMAGE, oldImage, _chartImage );
+            rebuildBuffer( );
         }
 
         Graphics2D g2 = paintContext.getGraphics();
@@ -606,6 +603,22 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
 
         _imageTransform.setToTranslation( bounds.getX(), bounds.getY() );
         g2.drawRenderedImage( _chartImage, _imageTransform );
+    }
+
+    /**
+     * If the bounds area is greater than zero, instantiates a new BufferedImage buffer for the chart, and fires a property change.
+     */
+    private void rebuildBuffer() {
+        Rectangle2D bounds=getBoundsReference();
+        BufferedImage oldImage = _chartImage;
+
+        int w = (int)bounds.getWidth();
+        int h = (int)bounds.getHeight();
+        if( w > 0 && h > 0 ) {
+            _chartImage = _chart.createBufferedImage( w, h,
+                                                      _bufferedImageType, _info );
+            _changeSupport.firePropertyChange( PROPERTY_BUFFERED_IMAGE, oldImage, _chartImage );
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -619,10 +632,19 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * @param event
      */
     public void chartChanged( ChartChangeEvent event ) {
+
         /* 
          * Do not look at event.getSource(), since the source of the event is
          * likely to be one of the chart's components rather than the chart itself.
          */
-        clearBufferAndRepaint();
+        if( event.getType() == ChartChangeEventType.DATASET_UPDATED ) {
+            repaint();
+        }
+        else if( event.getType() == ChartChangeEventType.NEW_DATASET ) {
+            repaint();
+        }
+        else {
+            updateAll();
+        }
     }
 }
