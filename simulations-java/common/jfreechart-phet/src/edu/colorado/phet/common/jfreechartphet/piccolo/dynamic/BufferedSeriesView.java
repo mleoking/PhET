@@ -6,12 +6,11 @@ import edu.umd.cs.piccolo.util.PBounds;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
 
 /**
  * Author: Sam Reid
@@ -25,9 +24,7 @@ public class BufferedSeriesView extends SeriesView {
         super( dynamicJFreeChartNode, seriesData );
         dynamicJFreeChartNode.addBufferedImagePropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
-                if( !paintingAll ) {
-                    paintAll();
-                }
+                paintAll();
             }
         } );
         dynamicJFreeChartNode.getPhetPCanvas().addScreenChild( debugRegion );
@@ -88,20 +85,22 @@ public class BufferedSeriesView extends SeriesView {
     public void install() {
         super.install();
         getDynamicJFreeChartNode().updateAll();
-        paintAll();
     }
-
 
     public void uninstall() {
         super.uninstall();
-        getDynamicJFreeChartNode().updateAll();
     }
 
-    private boolean paintingAll = false;
-
     private void paintAll() {
-        paintingAll = true;
-//        getDynamicJFreeChartNode().updateAll();
+        boolean rebuildingBounds = Arrays.asList( new Exception().getStackTrace() ).toString().toLowerCase().indexOf( "updateall" ) >= 0;
+        if( !rebuildingBounds ) {
+            System.out.println( "manual update all" );
+            getDynamicJFreeChartNode().updateAll();
+        }
+        else {
+            System.out.println( "came from update all" );
+        }
+        System.out.println( "BufferedSeriesView.paintAll" );
         BufferedImage image = getDynamicJFreeChartNode().getBuffer();
         if( image != null ) {
             Graphics2D graphics2D = image.createGraphics();
@@ -109,15 +108,20 @@ public class BufferedSeriesView extends SeriesView {
             graphics2D.setStroke( stroke );
             setupRenderingHints( graphics2D );
             graphics2D.clip( getDataArea() );
-            graphics2D.draw( toGeneralPath() );
-//            getDynamicJFreeChartNode().getPhetPCanvas().repaint( );
+            graphics2D.draw( translateDown( toGeneralPath() ) );
             repaintPanel( translateDown( new Rectangle2D.Double( 0, 0, getDynamicJFreeChartNode().getPhetPCanvas().getWidth(), getDynamicJFreeChartNode().getPhetPCanvas().getHeight() ) ) );
         }
-        paintingAll = false;
+    }
+
+    private Shape translateDown( GeneralPath d ) {
+        return AffineTransform.getTranslateInstance( getDynamicJFreeChartNode().getBounds().getX(), getDynamicJFreeChartNode().getBounds().getY() ).createTransformedShape( d );
     }
 
     protected void repaintPanel( Rectangle2D bounds ) {
-        getDynamicJFreeChartNode().getPhetPCanvas().repaint( new PBounds( bounds ) );
+        Rectangle2D dataArea = getDataArea();
+        getDynamicJFreeChartNode().localToGlobal( dataArea );
+        Rectangle2D b = bounds.createIntersection( dataArea );
+        getDynamicJFreeChartNode().getPhetPCanvas().repaint( new PBounds( b ) );
     }
 
 }
