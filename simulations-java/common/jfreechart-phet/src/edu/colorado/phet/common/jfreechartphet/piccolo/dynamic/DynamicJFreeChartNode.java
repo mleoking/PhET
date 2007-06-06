@@ -150,7 +150,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     public void setPiccoloSeries() {
         setViewFactory( new SeriesViewFactory() {
             public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-                return new PiccoloSeriesView( dynamicJFreeChartNode, seriesData );
+                return new PPathSeriesView( dynamicJFreeChartNode, seriesData );
             }
         } );
     }

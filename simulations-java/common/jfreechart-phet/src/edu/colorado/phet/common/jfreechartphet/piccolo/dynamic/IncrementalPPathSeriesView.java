@@ -13,6 +13,6 @@ public class IncrementalPPathSeriesView extends PPathSeriesView {
     }
 
     protected PPath createPPath() {
-        return new IncrementalPPath( dynamicJFreeChartNode.getPhetPCanvas() );
+        return new IncrementalPPath( getDynamicJFreeChartNode().getPhetPCanvas() );
     }
 }

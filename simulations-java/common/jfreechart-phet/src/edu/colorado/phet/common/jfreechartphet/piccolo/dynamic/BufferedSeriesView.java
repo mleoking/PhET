@@ -33,7 +33,7 @@ public class BufferedSeriesView extends SeriesView {
 
     public void dataAdded() {
         if( getSeries().getItemCount() >= 2 ) {
-            BufferedImage image = dynamicJFreeChartNode.getBuffer();
+            BufferedImage image = getDynamicJFreeChartNode().getBuffer();
             if( image != null ) {
                 if( image != lastFullPaint ) {
                     paintAll();
@@ -53,11 +53,11 @@ public class BufferedSeriesView extends SeriesView {
 
                 Shape sh = stroke.createStrokedShape( viewLine );
                 Rectangle2D bounds = sh.getBounds2D();
-                if( dynamicJFreeChartNode.isBuffered() ) {
-                    bounds = new Rectangle2D.Double( bounds.getX() + dynamicJFreeChartNode.getBounds().getX(), bounds.getY() + dynamicJFreeChartNode.getBounds().getY(), bounds.getWidth(), bounds.getHeight() );
+                if( getDynamicJFreeChartNode().isBuffered() ) {
+                    bounds = new Rectangle2D.Double( bounds.getX() + getDynamicJFreeChartNode().getBounds().getX(), bounds.getY() + getDynamicJFreeChartNode().getBounds().getY(), bounds.getWidth(), bounds.getHeight() );
                 }
-                dynamicJFreeChartNode.localToGlobal( bounds );
-                dynamicJFreeChartNode.getPhetPCanvas().getPhetRootNode().globalToScreen( bounds );
+                getDynamicJFreeChartNode().localToGlobal( bounds );
+                getDynamicJFreeChartNode().getPhetPCanvas().getPhetRootNode().globalToScreen( bounds );
 //                    System.out.println( "bounds = " + bounds );
                 repaintPanel( bounds );
             }
@@ -70,25 +70,25 @@ public class BufferedSeriesView extends SeriesView {
 
     //todo: is there a simpler way to do this?
     public Rectangle2D getChartViewBounds() {
-        XYPlot xyPlot = dynamicJFreeChartNode.getChart().getXYPlot();
+        XYPlot xyPlot = getDynamicJFreeChartNode().getChart().getXYPlot();
         Rectangle2D rect = new Rectangle2D.Double( xyPlot.getDomainAxis().getLowerBound(),
                                                    xyPlot.getRangeAxis().getLowerBound(),
                                                    xyPlot.getDomainAxis().getUpperBound() - xyPlot.getDomainAxis().getLowerBound(),
                                                    xyPlot.getRangeAxis().getUpperBound() - xyPlot.getRangeAxis().getLowerBound() );
-        return dynamicJFreeChartNode.plotToNode( rect );
+        return getDynamicJFreeChartNode().plotToNode( rect );
     }
 
     public void install() {
         super.install();
         paintAll();
-        this.origStateBuffered = dynamicJFreeChartNode.isBuffered();
+        this.origStateBuffered = getDynamicJFreeChartNode().isBuffered();
         if( !origStateBuffered ) {
-            dynamicJFreeChartNode.setBuffered( true );
+            getDynamicJFreeChartNode().setBuffered( true );
         }
     }
 
     private void paintAll() {
-        BufferedImage image = dynamicJFreeChartNode.getBuffer();
+        BufferedImage image = getDynamicJFreeChartNode().getBuffer();
         if( image != null ) {
             Graphics2D graphics2D = image.createGraphics();
             graphics2D.setPaint( getSeriesData().getColor() );
@@ -97,12 +97,12 @@ public class BufferedSeriesView extends SeriesView {
             setupRenderingHints( graphics2D );
             graphics2D.clip( getChartViewBounds() );
             graphics2D.draw( path );
-            repaintPanel( new Rectangle2D.Double( 0, 0, dynamicJFreeChartNode.getPhetPCanvas().getWidth(), dynamicJFreeChartNode.getPhetPCanvas().getHeight() ) );
+            repaintPanel( new Rectangle2D.Double( 0, 0, getDynamicJFreeChartNode().getPhetPCanvas().getWidth(), getDynamicJFreeChartNode().getPhetPCanvas().getHeight() ) );
         }
     }
 
     protected void repaintPanel( Rectangle2D bounds ) {
-        dynamicJFreeChartNode.getPhetPCanvas().repaint( new PBounds( bounds ) );
+        getDynamicJFreeChartNode().getPhetPCanvas().repaint( new PBounds( bounds ) );
     }
 
     private GeneralPath toGeneralPath() {

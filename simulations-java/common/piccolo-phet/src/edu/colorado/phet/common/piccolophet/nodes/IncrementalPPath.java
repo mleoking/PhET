@@ -1,7 +1,6 @@
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.event.PanZoomWorldKeyHandler;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -42,7 +41,18 @@ public class IncrementalPPath extends PPath {
 
 //        System.out.println( "line=" + toString(line) + ", stroke=" + toString( getStroke() ) + ", localBounds=" + localBounds + ", globalBounds=" + bounds );
 //        System.out.println( "line=" + toString(line) + ", stroke=" + toString( getStroke() ) + ", globalBounds=" + bounds );
+        globalBoundsChanged( bounds );
+    }
+
+    protected void globalBoundsChanged( Rectangle2D bounds ) {
+        repaintGlobalBounds( bounds );
+    }
+
+    protected void repaintGlobalBounds( Rectangle2D bounds ) {
         pCanvas.repaint( new PBounds( bounds ) );
+    }
+    protected void repaintGlobalBoundsImmediately( Rectangle2D bounds ) {
+        pCanvas.paintImmediately( bounds.getBounds() );
     }
 
     private String toString( Line2D.Double line ) {
