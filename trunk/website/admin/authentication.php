@@ -35,7 +35,7 @@
     function do_authentication($login_required) {
         static $already_tried_login_required = null;
         
-        if ($already_tried_login_required == $login_required) return;
+        if ($already_tried_login_required === $login_required) return;
         
         $already_tried_login_required = $login_required;
         

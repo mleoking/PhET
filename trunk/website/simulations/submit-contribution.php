@@ -1,11 +1,11 @@
 <?php
 
     include_once("../admin/global.php");
-    include_once("../admin/sys-utils.php");
-    include_once("../admin/contrib-utils.php");
-    include_once("../admin/site-utils.php");
-
-    include_once("../admin/authentication.php");
+    
+    include_once(SITE_ROOT."admin/sys-utils.php");
+    include_once(SITE_ROOT."admin/contrib-utils.php");
+    include_once(SITE_ROOT."admin/site-utils.php");
+    include_once(SITE_ROOT."admin/authentication.php");
     
     // Don't require authentication, but do it if the cookies are available:
     do_authentication(false);    

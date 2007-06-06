@@ -1,12 +1,17 @@
 <?php
-    include_once("db.inc");
-    include_once("web-utils.php");
-    include_once("sim-utils.php");
-    include_once("db-utils.php");    
-    include_once("sys-utils.php");
-    include_once("authentication.php");
+    include_once("../admin/global.php");
     
-    include_once("../teacher_ideas/referrer.php");
+    include_once(SITE_ROOT."admin/db.inc");
+    include_once(SITE_ROOT."admin/web-utils.php");
+    include_once(SITE_ROOT."admin/sim-utils.php");
+    include_once(SITE_ROOT."admin/db-utils.php");    
+    include_once(SITE_ROOT."admin/sys-utils.php");
+    include_once(SITE_ROOT."admin/authentication.php");
+    
+    include_once(SITE_ROOT."teacher_ideas/referrer.php");
+    
+    // Don't require authentication, but do it if the cookies are available:
+    do_authentication(false);
     
     function print_header_navigation_element($prefix, $selected_page, $link, $desc, $access_key) {
         $this_element_is_selected = "$access_key" == "$selected_page";
@@ -80,8 +85,6 @@ EOT;
         print_navigation_element($prefix, $selected_page, "simulations/index.php",      "Simulations",
             get_sim_categories_html($prefix)
         );
-
-        do_authentication(false);
 
         $login_option = '';
         $logout_option = '';
