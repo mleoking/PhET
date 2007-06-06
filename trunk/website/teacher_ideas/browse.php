@@ -192,6 +192,40 @@ EOT;
         return $encoded;
     }    
     
+    function consolidate_identical_adjacent_titles($contributions) {
+        $new = array();
+        
+        $new_last_title = null;
+        $new_index = 0;
+        
+        foreach($contributions as $contrib) {
+            $cur_title = $contrib['contribution_title'];
+            
+            // See if the title is the same as the last one:
+            if ($cur_title == $new_last_title) {
+                // Append information to last one:
+                $new_last_index = $new_index - 1;
+                
+                foreach($contrib as $cur_field => $cur_value) {
+                    $new_last_value = $new[$new_last_index][$cur_field];
+                    
+                    if ($cur_value != '' && !strrchr($new_last_value, $cur_value)) {
+                        $new[$new_last_index][$cur_field] .= ", $cur_value";
+                    }
+                }
+            }
+            else {
+                ++$new_index;
+                
+                $new_last_title = $cur_title;
+
+                $new[] = $contrib;
+            }
+        }
+        
+        return $new;
+    }
+    
     function print_content_only($print_simulations = true) {
         $contributions = get_contributions();
         
@@ -208,6 +242,8 @@ EOT;
         }
         
         $date   = get_sorting_link('contribution_date_updated', 'Updated');
+        
+        $contributions = consolidate_identical_adjacent_titles($contributions);
         
         print <<<EOT
 

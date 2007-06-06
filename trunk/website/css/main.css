@@ -49,37 +49,6 @@ hr {
 	margin:5px 12px 0 0;
 	padding: 0;
 }
-/******** table ********/
-/*#browseresults table {
-	border:  0;
-	margin:  0 10px 0 10px;
-	padding: 0;
-	width:   100%;
-}
-#browseresults table tbody td {
-	border:  0 0 0 0;
-	margin:  0 0 0 0;
-	padding: 0 0 0 0;
-		
-	background-color: 	transparent;
-	text-align:			left;
-	vertical-align:		top;
-}
-#browseresults table thead td {
-	border:  0 0 0 0;
-	margin:  0 0 0 0;
-	padding: 0 0 0 0;
-		
-	background-color: 	transparent;
-	border-style: 		solid;
-	border-left: 		none;
-	border-top: 		none;
-	border-bottom: 		1px solid #C1DAD7;
-	border-right: 		none;
-	text-align:			left;
-	vertical-align:		top;	
-}
-*/
 
 #quicksearch {
 	float:		right;
@@ -786,6 +755,9 @@ th.specalt-none {
 	padding:0;
 	border:none;
 }
+#simcontribbrowser {
+
+}
 th.spec-sim {
 	border:none;
 	background:#fff;
@@ -840,7 +812,7 @@ p.indi-sim {
 	font-family:	"arial",Verdana,Arial,Helvetica,sans-serif;
 	font-size:		10pt;
 	padding:		0;
-	margin: 		1ex 0 1ex 0;
+	margin: 		1ex 0 1.5em 0;
 	text-align: 	left;
 	text-transform: lowercase;
 	font-variant: 	small-caps;
@@ -857,7 +829,7 @@ p.indi-sim {
 	padding-left: 			15px;
 }
 h1.page-title {
-	width: 			278px;
+	width: 			258px;
 }
 h1.indi-sim {
 	width:			578px;
@@ -1052,30 +1024,21 @@ img.sponsors {
 }
 
 #content .compact table {
-	width:				558px;
+	width:				100%;
 	background-color: 	transparent;
 	padding:			0;
 	margin: 		  	5px 10px 20px 10px;
-	position: 			relative;
-	left:				-20px;
+	border-collapse:    collapse;
 }
 #content .compact table td {
 	background-color: 	transparent;
-	padding: 		  	0;
-	margin:				0;
+	padding: 		  	0 0 0 2ex;
+	margin:				0 0 0 0;
+
 	border-style:		none;
 	vertical-align: 	top;
-	border-collapse:    collapse;
 }
 #content .compact table thead td {
 	font-weight: 	bold;
-	padding: 		0;
 	border-bottom:  1px solid rgb(220, 220, 220);
-}
-#content .compact table tbody td {
-	padding: 0;
-}
-#content .compact table ul {
-	padding: 0;
-	margin:  0 1em 0 2em;
 }

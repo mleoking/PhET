@@ -39,9 +39,7 @@
                 ?>
             </p>
 
-            <table id="indi-sim" cellspacing="0" summary="">
-                <tr>
-                    <th scope="row" abbr="" class="spec-sim">
+            <div>
                         <?php
                             $simrating_image = $SIM_RATING_TO_IMAGE["$sim_rating"];
                             $simtype_image   = $SIM_TYPE_TO_IMAGE["$sim_type"];
@@ -51,15 +49,13 @@
                         
                             print "$simrating $simtype";
                         ?>
-                    </th>
-                </tr>
-            </table>
+            </div>
         
-            <span class="size">
+            <div class="size">
                 <?php
-                    print "???kb";
+                    print "$sim_size KB";
                 ?>
-            </span>       
+            </div>       
         </div>
 
         <div class="shortcuts">
@@ -133,6 +129,7 @@
 
         <h2 class="sub-title">Ideas and Activities for this Sim</h2>   
         
+        <div id="simcontribbrowser">
         <?php
             global $contributor_id, $contributor_is_team_member;
             
@@ -141,6 +138,7 @@
             include_once(SITE_ROOT."teacher_ideas/browse.php");
         
         ?>
+        </div>
     
         <h2 class="sub-title">Submit Ideas &amp; Activities</h2>
 
