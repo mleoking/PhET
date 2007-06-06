@@ -36,7 +36,6 @@ public class BufferedSeriesView extends SeriesView {
     }
 
     public void dataAdded() {
-//        debugRegion.setPathTo( getDataArea() );
         if( getSeries().getItemCount() >= 2 ) {
             BufferedImage image = getDynamicJFreeChartNode().getBuffer();
             if( image != null ) {
@@ -61,21 +60,29 @@ public class BufferedSeriesView extends SeriesView {
     }
 
     private Rectangle2D translateDown( Rectangle2D d ) {
-        return new Rectangle2D.Double( d.getX() + getDynamicJFreeChartNode().getBounds().getX(),
-                                       d.getY() + getDynamicJFreeChartNode().getBounds().getY(),
+        return new Rectangle2D.Double( d.getX() + getDX(),
+                                       d.getY() + getDY(),
                                        d.getWidth(), d.getHeight() );
     }
 
     private Shape translateDataArea() {
         Rectangle2D d = getDataArea();
-        return new Rectangle2D.Double( d.getX() - getDynamicJFreeChartNode().getBounds().getX(),
-                                       d.getY() - getDynamicJFreeChartNode().getBounds().getY(),
+        return new Rectangle2D.Double( d.getX() - getDX(),
+                                       d.getY() - getDY(),
                                        d.getWidth(), d.getHeight() );
     }
 
+    private double getDX() {
+        return getDynamicJFreeChartNode().getBounds().getX();
+    }
+
+    private double getDY() {
+        return getDynamicJFreeChartNode().getBounds().getY();
+    }
+
     public Point2D getNodePoint( int i ) {
-        return new Point2D.Double( super.getNodePoint( i ).getX() - getDynamicJFreeChartNode().getBounds().getX(),
-                                   super.getNodePoint( i ).getY() - getDynamicJFreeChartNode().getBounds().getY() );
+        return new Point2D.Double( super.getNodePoint( i ).getX() - getDX(),
+                                   super.getNodePoint( i ).getY() - getDY() );
     }
 
     private void setupRenderingHints( Graphics2D graphics2D ) {
@@ -92,15 +99,6 @@ public class BufferedSeriesView extends SeriesView {
     }
 
     private void paintAll() {
-        boolean rebuildingBounds = Arrays.asList( new Exception().getStackTrace() ).toString().toLowerCase().indexOf( "updateall" ) >= 0;
-        if( !rebuildingBounds ) {
-            System.out.println( "manual update all" );
-            getDynamicJFreeChartNode().updateAll();
-        }
-        else {
-            System.out.println( "came from update all" );
-        }
-        System.out.println( "BufferedSeriesView.paintAll" );
         BufferedImage image = getDynamicJFreeChartNode().getBuffer();
         if( image != null ) {
             Graphics2D graphics2D = image.createGraphics();
@@ -114,7 +112,7 @@ public class BufferedSeriesView extends SeriesView {
     }
 
     private Shape translateDown( GeneralPath d ) {
-        return AffineTransform.getTranslateInstance( getDynamicJFreeChartNode().getBounds().getX(), getDynamicJFreeChartNode().getBounds().getY() ).createTransformedShape( d );
+        return AffineTransform.getTranslateInstance( getDX(), getDY() ).createTransformedShape( d );
     }
 
     protected void repaintPanel( Rectangle2D bounds ) {
