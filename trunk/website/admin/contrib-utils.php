@@ -518,7 +518,9 @@ EOT;
                     </div>
                     
                     <div class="field">
-                        <p>Please describe how the contribution complies with the K-12 National Science Standards:</p>
+                        <p>Please describe how the contribution complies with the 
+                        <a href="http://www.nap.edu/readingroom/books/nses/html/6a.html">K-12 National Science Standards</a>:
+                        </p>
                     
 EOT;
 
