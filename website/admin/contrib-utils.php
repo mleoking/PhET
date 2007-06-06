@@ -325,10 +325,11 @@ EOT;
             print <<<EOT
                     
                         <div class="field">
-                            <span class="label">your name</span>
                             <span class="label_content">                
                                 <input type="text" size="20" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_name_change();"/>
                             </span>
+                            
+                            <span class="label">your name</span>                            
                         </div>
                 
                         <div id="required_login_info_uid">
@@ -342,61 +343,61 @@ EOT;
         print <<<EOT
 
                     <div class="field">
-                        <span class="label">
-                            authors
-                        </span>
-                        
                         <span class="label_content">
                             <input type="text" name="contribution_authors" 
-                                value="$contribution_authors" id="contribution_authors_uid" size="50" />
+                                value="$contribution_authors" id="contribution_authors_uid" size="40" />
+                        </span>
+                        
+                        <span class="label">
+                            authors
                         </span>
                     </div>
 
                     <div class="field">
-                        <span class="label">
-                            authors organization
-                        </span>
-                        
                         <span class="label_content">
                             <input type="text" name="contribution_authors_organization" 
-                                value="$contribution_authors_organization" id="contribution_authors_organization_uid" size="50"/>
+                                value="$contribution_authors_organization" id="contribution_authors_organization_uid" size="40"/>
+                        </span>
+                        
+                        <span class="label">
+                            authors organization
                         </span>
                     </div>
                     
                     <div class="field">
-                        <span class="label">
-                            contact email
-                        </span>
-                        
                         <span class="label_content">
                             <input type="text" name="contribution_contact_email" 
-                                value="$contribution_contact_email" id="contribution_contact_email_uid" size="50"
+                                value="$contribution_contact_email" id="contribution_contact_email_uid" size="40"
                                 onfocus="javascript:on_focus_select_question_marks('contribution_contact_email_uid');"
                                 onclick="javascript:on_focus_select_question_marks('contribution_contact_email_uid');" />
+                        </span>
+                        
+                        <span class="label">
+                            contact email
                         </span>
                     </div>
 
                     <hr/>              
                     
                     <div class="field">
-                        <span class="label">
-                            title
-                        </span>
-                        
                         <span class="label_content">
                             <input type="text" name="contribution_title" 
-                                value="$contribution_title" id="contribution_title_uid" size="50"/>
+                                value="$contribution_title" id="contribution_title_uid" size="40"/>
+                        </span>
+                        
+                        <span class="label">
+                            title
                         </span>
                     </div>
                     
                     <div class="field">
-                        <span class="label">
-                            keywords
-                        </span>
-                        
                         <span class="label_content">
                             <input type="text" name="contribution_keywords"
-                                value="$contribution_keywords" id="contribution_keywords_uid" size="50" />
+                                value="$contribution_keywords" id="contribution_keywords_uid" size="40" />
+                        </span>
+                        
+                        <span class="label">
+                            keywords
                         </span>
                     </div>
                     
@@ -457,12 +458,12 @@ EOT;
                     <legend>Optional</legend>
                                         
                     <div class="field">
-                        <span class="label">
-                            description
+                        <span class="label_content">
+                            <textarea name="contribution_desc" id="contribution_desc_uid" rows="5" cols="40">$contribution_desc</textarea>
                         </span>
                         
-                        <span class="label_content">
-                            <textarea name="contribution_desc" id="contribution_desc_uid" rows="5" cols="50">$contribution_desc</textarea>
+                        <span class="label">
+                            description
                         </span>
                     </div>
                     
@@ -481,11 +482,6 @@ EOT;
                     </div>
                     
                     <div class="field">
-                        <span class="label">
-                            duration
-                        </span>
-                        
-                        <span class="label_content">
 EOT;
 
         print_single_selection(
@@ -500,13 +496,13 @@ EOT;
         );
 
         print <<<EOT
+                        
+                        <span class="label">
+                            duration
                         </span>
                     </div>
                     
                     <div class="field">
-                        <span class="label">
-                            answers included
-                        </span>
 EOT;
 
         print_checkbox(
@@ -516,6 +512,9 @@ EOT;
         );
 
         print <<<EOT
+                        <span class="label">
+                            answers included
+                        </span>
                     </div>
                     
                     <div class="field">

@@ -764,7 +764,7 @@ EOT;
     
     function print_single_selection($select_name, $value_to_text, $selected) {
         print <<<EOT
-            <span class="selector">
+            <span class="label_content">
             <select name="$select_name" id="${select_name}_uid">
 EOT;
 
