@@ -10,7 +10,6 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Arrays;
 
 /**
  * Author: Sam Reid
@@ -39,24 +38,32 @@ public class BufferedSeriesView extends SeriesView {
         if( getSeries().getItemCount() >= 2 ) {
             BufferedImage image = getDynamicJFreeChartNode().getBuffer();
             if( image != null ) {
-                Graphics2D graphics2D = image.createGraphics();
-                graphics2D.setPaint( getSeriesData().getColor() );
-
-                graphics2D.setStroke( stroke );
-                int itemCount = getSeries().getItemCount();
-                Line2D.Double viewLine = new Line2D.Double( getNodePoint( itemCount - 2 ), getNodePoint( itemCount - 1 ) );
-                setupRenderingHints( graphics2D );
-
-                graphics2D.clip( translateDataArea() );
-                graphics2D.draw( viewLine );
-
-                Shape sh = stroke.createStrokedShape( viewLine );
-                Rectangle2D bounds = sh.getBounds2D();
-                getDynamicJFreeChartNode().localToGlobal( bounds );
-                getDynamicJFreeChartNode().getPhetPCanvas().getPhetRootNode().globalToScreen( bounds );
-                repaintPanel( translateDown( bounds ) );
+                drawPoint( 0 );
+//                for( int i = 0; i < Math.min( 50,getSeries().getItemCount() - 1); i++ ) {
+//                    drawPoint( i );
+//                }
             }
         }
+    }
+
+    private void drawPoint( int index ) {
+        BufferedImage image = getDynamicJFreeChartNode().getBuffer();
+        Graphics2D graphics2D = image.createGraphics();
+        graphics2D.setPaint( getSeriesData().getColor() );
+
+        graphics2D.setStroke( stroke );
+        int itemCount = getSeries().getItemCount();
+        Line2D.Double viewLine = new Line2D.Double( getNodePoint( itemCount - 2 - index ), getNodePoint( itemCount - 1 - index ) );
+        setupRenderingHints( graphics2D );
+
+        graphics2D.clip( translateDataArea() );
+        graphics2D.draw( viewLine );
+
+        Shape sh = stroke.createStrokedShape( viewLine );
+        Rectangle2D bounds = sh.getBounds2D();
+        getDynamicJFreeChartNode().localToGlobal( bounds );
+        getDynamicJFreeChartNode().getPhetPCanvas().getPhetRootNode().globalToScreen( bounds );
+        repaintPanel( translateDown( bounds ) );
     }
 
     private Rectangle2D translateDown( Rectangle2D d ) {
@@ -80,6 +87,7 @@ public class BufferedSeriesView extends SeriesView {
         return getDynamicJFreeChartNode().getBounds().getY();
     }
 
+    //toGeneralPath calls our overriden getNodePoint
     public Point2D getNodePoint( int i ) {
         return new Point2D.Double( super.getNodePoint( i ).getX() - getDX(),
                                    super.getNodePoint( i ).getY() - getDY() );
@@ -106,7 +114,7 @@ public class BufferedSeriesView extends SeriesView {
             graphics2D.setStroke( stroke );
             setupRenderingHints( graphics2D );
             graphics2D.clip( getDataArea() );
-            graphics2D.draw( translateDown( toGeneralPath() ) );
+            graphics2D.draw( translateDown( toGeneralPath() ) );//toGeneralPath calls our overriden getNodePoint
             repaintPanel( translateDown( new Rectangle2D.Double( 0, 0, getDynamicJFreeChartNode().getPhetPCanvas().getWidth(), getDynamicJFreeChartNode().getPhetPCanvas().getHeight() ) ) );
         }
     }
