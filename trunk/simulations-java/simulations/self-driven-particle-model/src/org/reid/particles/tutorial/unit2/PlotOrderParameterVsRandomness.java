@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial.unit2;
 
-import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
-import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import org.reid.particles.model.ParticleModel;
 import org.reid.particles.tutorial.BasicTutorialCanvas;
 import org.reid.particles.tutorial.TutorialChartFrame;

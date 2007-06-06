@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial.unit1;
 
-import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import org.reid.particles.model.ParticleModel;
 import org.reid.particles.tutorial.BasicTutorialCanvas;
 import org.reid.particles.tutorial.Page;

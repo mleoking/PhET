@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.model;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 import java.util.ArrayList;
 import java.util.Arrays;
