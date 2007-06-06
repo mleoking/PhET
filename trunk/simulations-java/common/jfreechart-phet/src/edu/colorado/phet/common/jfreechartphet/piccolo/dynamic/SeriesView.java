@@ -4,6 +4,7 @@ import org.jfree.data.xy.XYSeries;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.GeneralPath;
 
 /**
  * Base class strategy for painting a data series.
@@ -53,5 +54,16 @@ public abstract class SeriesView {
     }
     public Rectangle2D getDataArea(){
         return getDynamicJFreeChartNode().getDataArea();
+    }
+
+    protected GeneralPath toGeneralPath() {
+        GeneralPath path = new GeneralPath();
+        if( getSeries().getItemCount() > 0 ) {
+            path.moveTo( (float)getNodePoint( 0 ).getX(), (float)getNodePoint( 0 ).getY() );
+        }
+        for( int i = 1; i < getSeries().getItemCount(); i++ ) {
+            path.lineTo( (float)getNodePoint( i ).getX(), (float)getNodePoint( i ).getY() );
+        }
+        return path;
     }
 }

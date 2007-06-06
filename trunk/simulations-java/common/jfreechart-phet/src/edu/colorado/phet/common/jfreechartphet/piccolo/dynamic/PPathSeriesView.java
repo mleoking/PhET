@@ -111,15 +111,6 @@ public class PPathSeriesView extends SeriesView {
         getDynamicJFreeChartNode().getPhetPCanvas().repaint( new PBounds( bounds ) );
     }
 
-    private GeneralPath toGeneralPath() {
-        GeneralPath path = new GeneralPath();
-        if( getSeries().getItemCount() > 0 ) {
-            path.moveTo( (float)getNodePoint( 0 ).getX(), (float)getNodePoint( 0 ).getY() );
-        }
-        for( int i = 1; i < getSeries().getItemCount(); i++ ) {
-            path.lineTo( (float)getNodePoint( i ).getX(), (float)getNodePoint( i ).getY() );
-        }
-        return path;
-    }
+    
 
 }
