@@ -146,7 +146,7 @@ public abstract class Page {
     }
 
     public void playApplause() {
-        JSAudioPlayer.playNoBlock( BasicTutorialCanvas.class.getClassLoader().getResource( "audio/claps.wav" ) );
+        JSAudioPlayer.playNoBlock( BasicTutorialCanvas.class.getClassLoader().getResource( "self-driven-particle-model/audio/claps.wav" ) );
     }
 
     public void relayoutChildren() {
