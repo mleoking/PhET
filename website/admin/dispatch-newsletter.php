@@ -38,9 +38,11 @@ EOT;
         $subs_newsletter_from = replace_jokers($newsletter_from, $contributor);
         $subs_newsletter_body = replace_jokers($newsletter_body, $contributor);
 
-        mail($contributor['contributor_email'], 
-             $subs_newsletter_from, 
-             $subs_newsletter_body);
+        if ($contributor['contributor_receive_email'] == 1) {
+            mail($contributor['contributor_email'], 
+                 $subs_newsletter_from, 
+                 $subs_newsletter_body);
+        }
 	}		
 	
 	print_site_page('print_success_message', 9);
