@@ -50,7 +50,7 @@ import java.util.ArrayList;
  * <p/>
  * Data is added to the chart through addValue() methods, not through the underlying XYSeriesCollection dataset.
  * <p/>
- * The 3 rendering styles are:
+ * The rendering styles are:
  * 1. JFreeChart renderer: This uses the JFreeChart subsystem to do all the data rendering.
  * This looks beautiful and comes built-in to jfreechart but has performance problems during dynamic data display, since the entire region
  * is repainted whenever a single point changes.
@@ -216,7 +216,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     public void setBuffered( boolean buffered ) {
         super.setBuffered( buffered );
-//        updateSeriesViews();
+        updateSeriesViews();
     }
 
     public PhetPCanvas getPhetPCanvas() {
@@ -243,16 +243,4 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         return super.getBuffer();
     }
 
-
-//    //todo: handle this in superclass  ?
-//    public Point2D plotToNode( Point2D plotPoint ) {
-//        if( isBuffered() ) {
-//            Point2D pt=super.plotToNode( plotPoint);
-//            return new Point2D.Double( pt.getX()+getBoundsReference().getX(),pt.getY() +getBoundsReference().getY());
-//        }
-//        else {
-//            Point2D v = super.plotToNode( plotPoint );
-//            return new Point2D.Double( v.getX(),v.getY() );
-//        }
-//    }
 }

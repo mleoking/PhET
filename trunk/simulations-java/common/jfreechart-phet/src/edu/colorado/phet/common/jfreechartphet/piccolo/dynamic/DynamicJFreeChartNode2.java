@@ -38,114 +38,14 @@ import org.jfree.chart.JFreeChart;
  * @version $Revision: 15634 $
  */
 public class DynamicJFreeChartNode2 extends JFreeChartNode {
-    private ArrayList seriesDataList = new ArrayList();//of type SeriesData
-    private ArrayList seriesViewList = new ArrayList();//of type SeriesView
-    private PhetPCanvas phetPCanvas;
-    private PhetPPath debugBufferRegion;//internal debugging tool for deciphering screen output regions
-
-    //The default SeriesView is JFreeChart rendering.
-//    private DynamicJFreeChartNode2.SeriesViewFactory viewFactory = new DynamicJFreeChartNode2.SeriesViewFactory() {
-//        public SeriesView createSeriesView( DynamicJFreeChartNode2 dynamicJFreeChartNode, SeriesData seriesData ) {
-//            return new JFreeChartSeriesView( dynamicJFreeChartNode, seriesData );
-//        }
-//    };
-
 
     public DynamicJFreeChartNode2( PhetPCanvas phetPCanvas, JFreeChart chart ) {
         super( chart );
-        this.phetPCanvas = phetPCanvas;
-        debugBufferRegion = new PhetPPath( new BasicStroke( 1.0f ), Color.green );
-//        addChild( debugBufferRegion );//this can destroy the bounds of the graph, use with care
     }
 
-    /**
-     * Adds the specified (x,y) pair to the 0th series in this plot.
-     *
-     * @param x the x-value to add
-     * @param y the y-value to add
-     */
-    public void addValue( double x, double y ) {
-        addValue( 0, x, y );
-    }
-
-    /**
-     * Adds the specified (x,y) pair to the specified series.
-     *
-     * @param series the series to which data should be added.  This series should have already been added to this dynamic jfreechartnode with addSeries().
-     * @param x      the x-value to add
-     * @param y      the y-value to add
-     */
-    public void addValue( int series, double x, double y ) {
-        getSeries( series ).addValue( x, y );
-    }
-
-    /**
-     * Adds a new series to this chart for plotting, with the given name and color.
-     *
-     * @param title the title for the series
-     * @param color the series' color
-     */
-    public void addSeries( String title, Color color ) {
-        SeriesData seriesData = new SeriesData( title, color );
-        seriesDataList.add( seriesData );
-        updateSeriesViews();
-    }
-
-    /**
-     * Empties each series associated with this chart.
-     */
-    public void clear() {
-        for( int i = 0; i < seriesDataList.size(); i++ ) {
-            SeriesData seriesData = (SeriesData)seriesDataList.get( i );
-            seriesData.clear();
-        }
+    public void setBuffered( boolean buffered ) {
+        super.setBuffered( buffered );
         clearBufferAndRepaint();
-    }
-
-    private SeriesData getSeries( int series ) {
-        return (SeriesData)seriesDataList.get( series );
-    }
-
-    /**
-     * Sets an arbitrary (possibly user-defined) view style.
-     *
-     * @param factory
-     */
-    public void setViewFactory( DynamicJFreeChartNode2.SeriesViewFactory factory ) {
-//        viewFactory = factory;
-        updateSeriesViews();
-    }
-
-    private void updateSeriesViews() {
-        removeAllSeriesViews();
-        clearBufferAndRepaint();
-//        addAllSeriesViews();
-        updateChartRenderingInfo();
-    }
-
-    private void removeAllSeriesViews() {
-        while( seriesViewList.size() > 0 ) {
-            SeriesView seriesView = (SeriesView)seriesViewList.get( 0 );
-            seriesView.uninstall();
-            seriesViewList.remove( seriesView );
-        }
-    }
-
-//    public void setBuffered( boolean buffered ) {
-//        super.setBuffered( buffered );
-//        updateSeriesViews();
-//    }
-
-    public PhetPCanvas getPhetPCanvas() {
-        return phetPCanvas;
-    }
-
-    public void setDebugBufferRegionPath( Rectangle2D bounds ) {
-        debugBufferRegion.setPathTo( bounds );
-    }
-
-    public static interface SeriesViewFactory {
-        SeriesView createSeriesView( DynamicJFreeChartNode2 dynamicJFreeChartNode, SeriesData seriesData );
     }
 
 }
