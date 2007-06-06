@@ -267,4 +267,16 @@ public class PhetApplicationConfig {
     public static PhetVersionInfo getVersion( String simName ) {
         return new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( simName ) ).getVersion();
     }
+
+    /**
+     * This method is provided to facilitate older simulations reading the version property for this simulation.
+     * When all simulations properly use PhetApplicationConfig, this method will be deleted.
+     *
+     * @param simName the simulation to get the version for.
+     * @return the credits
+     * @deprecated Simulations should use PhetApplicationConfig properly.
+     */
+    public static String getCredits( String simName ) {
+        return new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( simName ) ).getCredits();
+    }
 }

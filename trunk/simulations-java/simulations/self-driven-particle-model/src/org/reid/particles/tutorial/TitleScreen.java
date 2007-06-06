@@ -1,12 +1,14 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial;
 
+import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +30,8 @@ public class TitleScreen extends PSwingCanvas {
     private TutorialApplication tutorialApplication;
     private PSwing startButton;
     private PImage titleImage;
+    private static final String simName = "self-driven-particle-model";
+    private PSwing aboutSwing;
 
     public TitleScreen( final TutorialApplication tutorialApplication ) {
         this.tutorialApplication = tutorialApplication;
@@ -35,9 +39,9 @@ public class TitleScreen extends PSwingCanvas {
         setPanEventHandler( null );
         setZoomEventHandler( null );
         try {
-            BufferedImage image = ImageLoader.loadBufferedImage( "images/title-page3.jpg" );
-            if (TutorialApplication.isLowResolution() ){
-                image= BufferedImageUtils.rescaleYMaintainAspectRatio(image, tutorialApplication.getTutorialFrame().getHeight()-30 );
+            BufferedImage image = ImageLoader.loadBufferedImage( "self-driven-particle-model/images/title-page3.jpg" );
+            if( TutorialApplication.isLowResolution() ) {
+                image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, tutorialApplication.getTutorialFrame().getHeight() - 30 );
             }
             titleImage = new PImage( image );
             titleImage.setOffset( 100, 100 );
@@ -48,7 +52,7 @@ public class TitleScreen extends PSwingCanvas {
         }
 
         try {
-            BufferedImage bufferedImage = ImageLoader.loadBufferedImage( "images/startbutton.jpg" );
+            BufferedImage bufferedImage = ImageLoader.loadBufferedImage( "self-driven-particle-model/images/startbutton.jpg" );
             ImageIcon ii = new ImageIcon( bufferedImage );
             JButton startButton = new JButton( ii );
             startButton.addActionListener( new ActionListener() {
@@ -59,6 +63,21 @@ public class TitleScreen extends PSwingCanvas {
             this.startButton = new PSwing( this, startButton );
             addChild( this.startButton );
             this.startButton.setOffset( getWidth() - this.startButton.getWidth() - 5, getHeight() - this.startButton.getHeight() - 5 );
+
+            JButton aboutButton = new JButton( "About..." );
+
+            aboutButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    new PhetAboutDialog( tutorialApplication.getTutorialFrame(), new PhetAboutDialog.SimpleDialogConfig(
+                            "Self-Driven Particle Model", "",
+                            PhetApplicationConfig.getVersion( simName ).formatForAboutDialog(),
+                            PhetApplicationConfig.getCredits( simName )
+                    ) ).show();
+                }
+            } );
+            aboutSwing = new PSwing( aboutButton );
+
+            addChild( aboutSwing );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -86,6 +105,7 @@ public class TitleScreen extends PSwingCanvas {
     private void relayoutChildren() {
 //        startButton.setOffset( getWidth() - startButton.getWidth() - 5, getHeight() - startButton.getHeight() - 5 );
         startButton.setOffset( getWidth() - startButton.getWidth() - 5, getHeight() - startButton.getHeight() - 100 );
+        aboutSwing.setOffset( this.startButton.getOffset().getX(), this.startButton.getOffset().getY() + this.startButton.getFullBounds().getHeight() + 2 );
         titleImage.setOffset( ( getWidth() - titleImage.getWidth() ) / 2, ( getHeight() - titleImage.getHeight() ) / 2 );
     }
 

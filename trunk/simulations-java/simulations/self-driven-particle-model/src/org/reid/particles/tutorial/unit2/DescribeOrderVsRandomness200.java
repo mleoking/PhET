@@ -32,7 +32,7 @@ public class DescribeOrderVsRandomness200 extends Page {
         showNextButton();
 
         try {
-            sample = new PImage( ImageLoader.loadBufferedImage( "images/plot-example.png" ) );
+            sample = new PImage( ImageLoader.loadBufferedImage( "self-driven-particle-model/images/plot-example.png" ) );
 
         }
         catch( IOException e ) {
