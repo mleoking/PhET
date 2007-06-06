@@ -33,19 +33,12 @@ public class IncrementalPPathSeriesView extends SeriesView {
         } );
         dynamicJFreeChartNode.addBufferedPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
-                dynamicJFreeChartNode.updateChartRenderingInfo();
                 bufferChanged();
-                SwingUtilities.invokeLater( new Runnable() {
-                    public void run() {
-                        dynamicJFreeChartNode.updateChartRenderingInfo();
-                    }
-                } );
             }
         } );
     }
 
     private void bufferChanged() {
-        dynamicJFreeChartNode.updateChartRenderingInfo();
         if( dynamicJFreeChartNode.isBuffered() ) {
             incrementalPPath.setOffset( dynamicJFreeChartNode.getBounds().getX(), dynamicJFreeChartNode.getBounds().getY() );
         }
@@ -81,11 +74,9 @@ public class IncrementalPPathSeriesView extends SeriesView {
 
     protected void repaintPanel( Rectangle2D bounds ) {
         dynamicJFreeChartNode.getPhetPCanvas().repaint( new PBounds( bounds ) );
-        dynamicJFreeChartNode.setDebugBufferRegionPath( bounds );
     }
 
     private GeneralPath toGeneralPath() {
-        dynamicJFreeChartNode.updateChartRenderingInfo();
         GeneralPath path = new GeneralPath();
         if( getSeries().getItemCount() > 0 ) {
             path.moveTo( (float)getNodePoint( 0 ).getX(), (float)getNodePoint( 0 ).getY() );
@@ -96,9 +87,4 @@ public class IncrementalPPathSeriesView extends SeriesView {
         return path;
     }
 
-//    public Point2D getNodePoint( int i ) {
-//        Point2D pt=super.getNodePoint( i );
-//        System.out.println( "pt = " + pt );
-//        return pt;
-//    }
 }
