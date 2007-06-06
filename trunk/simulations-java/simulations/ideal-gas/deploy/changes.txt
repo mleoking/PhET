@@ -1,0 +1,5 @@
+3.05.04 (6-6-2007)
+Fixes for the energy histogram: added scroll bars, made resizable, made it not expand taller than the screen height. 
+
+3.05.03 (6-5-2007)
+Fixed: Checking the energy histogram option doesn't do anything

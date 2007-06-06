@@ -87,7 +87,6 @@ public class EnergyHistogramDialog extends JDialog {
         super( owner );
         this.model = model;
         this.setTitle( IdealGasResources.getString( "EnergyHistorgramDialog.Title" ) );
-        this.setResizable( false );
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 updater.setRunning( false );
@@ -159,6 +158,11 @@ public class EnergyHistogramDialog extends JDialog {
             detailsBtn.setText( IdealGasResources.getString( "EnergyHistorgramDialog.More_Details" ) );
         }
         pack();
+        //Workaround to make sure the panel doesn't go offscreen e.g. at 1024x768
+        if( getHeight() > Toolkit.getDefaultToolkit().getScreenSize().height ) {
+            setSize( getWidth(), Toolkit.getDefaultToolkit().getScreenSize().height );
+            validate();//without calling validate, scroll bars don't appear (on Windows)
+        }
         repaint();
     }
 
@@ -184,7 +188,8 @@ public class EnergyHistogramDialog extends JDialog {
         Insets xAxisTitleInsets = new Insets( 0, 0, 12, 0 );
         Insets outOfBoundsAnnunciatorInsets = new Insets( 0, 0, 12, 20 );
 
-        this.getContentPane().setLayout( new GridBagLayout() );
+        JPanel contentPane=new JPanel( );
+        contentPane.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
@@ -196,7 +201,7 @@ public class EnergyHistogramDialog extends JDialog {
 
         // Upper histogram
         outOfRangeIndicatorFont = new Font( "Lucida Sans", Font.BOLD, 30 );
-        Container contentPane = getContentPane();
+
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = defaultInsets;
         gbc.gridx = 0;
@@ -279,6 +284,8 @@ public class EnergyHistogramDialog extends JDialog {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets( 10, 10, 10, 10 );
         contentPane.add( detailsBtn, gbc );
+
+        setContentPane( new JScrollPane(contentPane));
     }
 
     //----------------------------------------------------------------
