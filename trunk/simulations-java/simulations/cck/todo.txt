@@ -23,6 +23,9 @@ Do you have any ideas how I might overcome this problem.*
 >Have you seen this problem before? Am I missing something obvious?
 >Thanks!
 
+Dear PhET team-
+   I was using the Circuit Construction kit with my students today, and had them testing the items in the grab bag. Several of them pointed out that the pencil did not behave as they expected. We had done a lab early where they used pencils as electrodes for electrolysis, using only 3 volts.  Thus, they were surprised that the pencil does not appreciably conduct at low voltage. Why is that?
+
 
 
 ################################################
