@@ -10,7 +10,7 @@
 
                 <li><a href="choose-sim.php">Edit Existing Simulation</a></li>
 
-                <li><a href="list-sims.php">Simulations Index</a></li>
+                <li><a href="list-sims.php">List Simulations</a></li>
 
                 <li><a href="organize-cats.php">Organize Categories</a></li>
         

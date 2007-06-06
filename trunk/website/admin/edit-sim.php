@@ -40,7 +40,7 @@
     }
 	
 	function print_site_content() {
-        eval(get_code_to_create_variables_from_array($_REQUEST));
+        eval(get_code_to_create_variables_from_array(sim_get_sim_by_id($_REQUEST['sim_id'])));
 
         if ($sim_system_req == SIM_SYSTEM_REQ_NO_MAC) { 
             $mac_ch = "checked";
@@ -58,13 +58,12 @@
         print <<<EOT
             <h1>Edit Simulation Parameters</h1>
     
-    <form enctype="multipart/form-data" action="update-sim.php" method="post">
-        <?php
+            <form enctype="multipart/form-data" action="update-sim.php" method="post">
     
-        <input type=hidden name=sim_id value=$sim_id>
+                <input type="hidden" name="sim_id" value="$sim_id" />
 EOT;
     
-        print_captioned_editable_area("Specify the name of the simulation",                "sim_name",       $sim_name,       "1");
+        print_captioned_editable_area("Specify the name of the simulation",  "sim_name",       $sim_name,       "1");
     
         print_captioned_url_upload_control("Specify the URL that launches the simulation",      "sim_launch_url", $sim_launch_url, "2");
         print_captioned_url_upload_control("Specify the URL of the JPEG simulation screenshot", "sim_image_url",  $sim_image_url,  "2");   
@@ -75,16 +74,16 @@ EOT;
         print <<<EOT
     <div>Please select a rating for this simulation</div>
                 <p>
-                    <input name=sim_rating type=radio value=0 $bmin_check>
-                    <img src=../images/sims/ratings/beta-minus-rating.gif width=16 height=16>
-                    <input name=sim_rating type=radio value=1 $bplus_check>
-                    <img src=../images/sims/ratings/beta-plus-rating.gif width=16 height=16>
-                    <input name=sim_rating type=radio value=2 $b_check>
-                    <img src=../images/sims/ratings/beta-rating.gif width=16 height=16>
-                    <input name=sim_rating type=radio value=3 $star_check>
-                    <img src=../images/sims/ratings/check_Icon.gif width=16 height=16>
-                    <input name=sim_rating type=radio value=4 $tri_check>
-                    <img src=../images/sims/ratings/alpha-rating.gif width=16 height=14><br/>
+                    <input name="sim_rating" type="radio" value="0" $bmin_check />
+                    <img src="../images/sims/ratings/beta-minus-rating.gif" width="16" height="16" />
+                    <input name="sim_rating" type="radio" value="1" $bplus_check />
+                    <img src=../images/sims/ratings/beta-plus-rating.gif width="16" height="16" />
+                    <input name="sim_rating" type="radio" value="2" $b_check />
+                    <img src=../images/sims/ratings/beta-rating.gif width="16" height="16" />
+                    <input name="sim_rating" type="radio" value="3" $star_check />
+                    <img src=../images/sims/ratings/check_Icon.gif width="16" height="16" />
+                    <input name="sim_rating" type="radio" value="4" $tri_check />
+                    <img src=../images/sims/ratings/alpha-rating.gif width="16" height="14" />
                 </p>
 EOT;
   
@@ -106,9 +105,13 @@ EOT;
         print_category_checkboxes();
     
         print <<<EOT
-            </p><p>
+            </p>
             
-            <input type=submit value=Submit name=submit></p></form>
+            <p>
+                <input type="submit" value="Update" name="submit">
+            </p>
+            
+            </form>
     
             <div>*Separated by commas.</div>
 EOT;

@@ -34,9 +34,7 @@
 
     function do_authentication($login_required) {
         static $already_tried_login_required = null;
-        
-        if ($already_tried_login_required === $login_required) return;
-        
+
         $already_tried_login_required = $login_required;
         
         global $contributor_authenticated;
@@ -64,9 +62,6 @@
         else if (isset($_REQUEST['contributor_password'])) {
             $password = $_REQUEST['contributor_password'];
         }
-        if (!isset($login_required)) {
-            $login_required = true;
-        }
 
         $contributor_authenticated = false;
 
@@ -76,7 +71,7 @@
             if (cookie_var_is_stored("username")) {
                 $username      = cookie_var_get("username");
                 $password_hash = cookie_var_get("password_hash");
-
+                
                 // Don't trust the cookie; validate it:
                 if (!contributor_is_valid_login($username, $password_hash)) {
                     // Cookie is invalid. Clear it:

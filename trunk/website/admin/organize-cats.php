@@ -1,9 +1,12 @@
 <?php
-    include_once("password-protection.php");
-	include_once("db.inc");
-	include_once("sim-utils.php");
-	include_once("web-utils.php");
-	include_once("db-utils.php");
+    include_once("../admin/global.php");
+    
+    include_once(SITE_ROOT."admin/password-protection.php");
+	include_once(SITE_ROOT."admin/db.inc");
+	include_once(SITE_ROOT."admin/sim-utils.php");
+	include_once(SITE_ROOT."admin/web-utils.php");
+	include_once(SITE_ROOT."admin/db-utils.php");
+	include_once(SITE_ROOT."admin/site-utils.php");	
 	
 	// Compute all category orders:
     $category_rows = mysql_query(SQL_SELECT_ALL_VISIBLE_CATEGORIES, $connection);
@@ -122,35 +125,52 @@
         }
     }
     
-    $category_rows = mysql_query(SQL_SELECT_ALL_VISIBLE_CATEGORIES, $connection);
-    
-    while ($category = mysql_fetch_assoc($category_rows)) {
-        $cat_id    = $category['cat_id'];
-        $cat_name  = $category['cat_name'];
-        $cat_order = $category['cat_order']; 
-        
+    function print_categories() {
         print <<<EOT
-            <form action="organize-cats.php" method="post">
-                <p>
-                    <input type="hidden" name="cat_id" value="$cat_id" />
-                    <input type="hidden" name="action" value="rename"  />
-                    
-                    <input type="text" name="cat_name" value="$cat_name" maxlength="40" /> 
-                    <a href="organize-cats.php?action=move_up&amp;cat_id=$cat_id&amp;cat_order=$cat_order">up</a>
-                    <a href="organize-cats.php?action=move_down&amp;cat_id=$cat_id&amp;cat_order=$cat_order">down</a>
-                    <a href="organize-cats.php?action=delete&amp;cat_id=$cat_id">delete</a>
-                    
-                    <input type="submit" value="rename" />
-                </p>
-            </form>
+            <h1>Organize Categories</h1>
+            
+            <p>
+                You may use this form to create, edit, and change the order of the categories under which simulations appear.
+            </p>
 EOT;
+        $category_rows = mysql_query(SQL_SELECT_ALL_VISIBLE_CATEGORIES);
+    
+        while ($category = mysql_fetch_assoc($category_rows)) {
+            $cat_id    = $category['cat_id'];
+            $cat_name  = $category['cat_name'];
+            $cat_order = $category['cat_order']; 
+        
+            print <<<EOT
+                <form action="organize-cats.php" method="post">
+                    <div class="simcategory">
+                        <p>
+                            <input type="hidden" name="cat_id" value="$cat_id" />
+                            <input type="hidden" name="action" value="rename"  />
+                    
+                            <input type="text" name="cat_name" value="$cat_name" size="40" /> 
+                            <a href="organize-cats.php?action=move_up&amp;cat_id=$cat_id&amp;cat_order=$cat_order">up</a>
+                            <a href="organize-cats.php?action=move_down&amp;cat_id=$cat_id&amp;cat_order=$cat_order">down</a>
+                            <a href="organize-cats.php?action=delete&amp;cat_id=$cat_id">delete</a>
+                    
+                            <input type="submit" value="rename" />
+                        </p>
+                    </div>
+                </form>
+EOT;
+        }
+    
+        ?>
+    
+        <form action="organize-cats.php" method="post">
+            <div class="simcategory">
+                <p>                
+                    <input type="text" name="cat_name" maxlength="40" /> 
+                    <input type="submit" value="add">
+                </p>
+            </div>
+        </form>
+        <?php
     }
     
-    ?>
-    
-    <form action="organize-cats.php" method="post">
-        <p>
-            <input type="text" name="cat_name" maxlength="40" /> 
-            <input type="submit" value="add">
-        </p>
-    </form>
+    print_site_page('print_categories', 9);
+?>

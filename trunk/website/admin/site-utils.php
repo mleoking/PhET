@@ -209,8 +209,8 @@ EOT;
                 <title>PhET :: Physics Education Technology at CU Boulder</title>
                 
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                <meta http-equiv="Pragma"  content="no-cache">
-                <meta http-equiv="Expires" content="-1">
+                <meta http-equiv="Pragma"  content="no-cache" />
+                <meta http-equiv="Expires" content="-1" />
                 
                 <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" />
                 
@@ -448,10 +448,12 @@ EOT;
                 
                 <div id="quicksearch">
                     <form method="post" action="../simulations/search.php">
-                        Search
-                        <input type="text" size="15" name="search_for" />
-                        <input type="submit" value="Go" />
-                        <input type="hidden" name="referrer" value="$referrer" />
+                        <fieldset>
+                            <span>Search</span>
+                            <input type="text" size="15" name="search_for" />
+                            <input type="submit" value="Go" />
+                            <input type="hidden" name="referrer" value="$referrer" />
+                        </fieldset>
                     </form>
                 </div>
 
@@ -476,8 +478,8 @@ EOT;
                     </div>
                 </div>
             </body>        
-            <meta http-equiv="Pragma"  content="no-cache">
-            <meta http-equiv="Expires" content="-1">
+            <meta http-equiv="Pragma"  content="no-cache" />
+            <meta http-equiv="Expires" content="-1" />
             </html>
 EOT;
     }

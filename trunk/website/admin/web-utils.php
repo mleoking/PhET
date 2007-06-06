@@ -182,7 +182,7 @@
     }
     
     function print_captioned_editable_area($caption, $control_name, $contents, $rows = "20", $cols = "40") {
-        print("<p align=\"left\" class=\"style16\">$caption<br/>");
+        print("<p>$caption</p><p>");
             
         print_editable_area($control_name, $contents, $rows, $cols);
         
@@ -225,12 +225,10 @@ EO_PRINT_HIDDEN_INPUT;
     }
     
     function print_captioned_url_upload_control($caption, $control_name, $contents, $rows = "20", $cols = "40") {
-        print("<p align=\"left\" class=\"style16\">$caption<br/>");
+        print("<p>$caption<p/>");
         
         print_editable_area($control_name, $contents, $rows, $cols);
-        print("<p align=\"left\" class=\"style16\">Or upload a file: <input name=\"${control_name}_file_upload\" type=\"file\" /></p>");
-        
-        print("</p>");
+        print("<p>Or upload a file: <input name=\"${control_name}_file_upload\" type=\"file\" /></p>");
     }
     
     function process_url_upload_control($control_name, $value) {
@@ -375,24 +373,34 @@ EOT;
     
     function cookie_var_clear($name) {
         setcookie("$name", '', time() - 60*60*24*365*10);
+        unset($_SESSION[$name]);
     }
     
     function cookie_var_store($name, $var) {        
         cookie_var_clear($name);
         
         setcookie("$name", $var);
+        
+        $_SESSION[$name] = $var;
     }
     
     function cookie_var_is_stored($name) {
-        return isset($_COOKIE["$name"]);
+        return cookie_var_get($name) !== '';
     }
     
     function cookie_var_get($name) {
-        if (!isset($_COOKIE["$name"])) {            
-            return "";
-        } 
+        $value = '';
         
-        return $_COOKIE["$name"];
+        if (isset($_COOKIE["$name"])) {
+            $value = $_COOKIE["$name"];
+        }
+        else if (isset($_SESSION["$name"])) {
+            $value = $_SESSION["$name"];
+        }
+
+        cookie_var_store($name, $value);
+        
+        return $value;
     }
     
     function string_starts_with($string, $prefix) {
