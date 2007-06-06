@@ -18,21 +18,17 @@ import java.beans.PropertyChangeListener;
  * Author: Sam Reid
  * Jun 5, 2007, 6:04:09 PM
  */
-public class IncrementalPPathSeriesView extends SeriesView {
+public class PPathSeriesView extends SeriesView {
     private PPath pathNode;
     private BasicStroke stroke = new BasicStroke( 3 );
     private PNode root = new PNode();
-//    private PhetPPath pathNode;
-
     private PClip pathClip;
-    private PropertyChangeListener listener = new PropertyChangeListener() {
-        public void propertyChange( PropertyChangeEvent evt ) {
-            updateClip();
-        }
-    };
 
-    public IncrementalPPathSeriesView( final DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+    private PropertyChangeListener listener;
+
+    public PPathSeriesView( final DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
         super( dynamicJFreeChartNode, seriesData );
+
         pathNode = createPPath();
         pathNode.setStroke( stroke );
         pathNode.setStrokePaint( seriesData.getColor() );
@@ -56,15 +52,19 @@ public class IncrementalPPathSeriesView extends SeriesView {
                 updateOffset();
             }
         } );
+        listener = new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                updateClip();
+            }
+        };
     }
-
 
     private void updateClip() {
         pathClip.setPathTo( dynamicJFreeChartNode.getDataArea() );//todo: this may need to be transformed when dynamicJFreeChartNode.isBuffered()==true
     }
 
     protected PPath createPPath() {
-        return new IncrementalPPath( dynamicJFreeChartNode.getPhetPCanvas() );
+        return new PPath( );
     }
 
     private void updateOffset() {
