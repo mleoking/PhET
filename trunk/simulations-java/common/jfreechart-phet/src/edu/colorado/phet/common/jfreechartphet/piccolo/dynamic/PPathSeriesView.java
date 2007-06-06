@@ -60,7 +60,7 @@ public class PPathSeriesView extends SeriesView {
     }
 
     private void updateClip() {
-        pathClip.setPathTo( dynamicJFreeChartNode.getDataArea() );//todo: this may need to be transformed when dynamicJFreeChartNode.isBuffered()==true
+        pathClip.setPathTo( getDataArea() );//todo: this may need to be transformed when dynamicJFreeChartNode.isBuffered()==true
     }
 
     protected PPath createPPath() {
@@ -68,8 +68,8 @@ public class PPathSeriesView extends SeriesView {
     }
 
     private void updateOffset() {
-        if( dynamicJFreeChartNode.isBuffered() ) {
-            pathNode.setOffset( dynamicJFreeChartNode.getBounds().getX(), dynamicJFreeChartNode.getBounds().getY() );
+        if( getDynamicJFreeChartNode().isBuffered() ) {
+            pathNode.setOffset( getDynamicJFreeChartNode().getBounds().getX(), getDynamicJFreeChartNode().getBounds().getY() );
         }
         else {
             pathNode.setOffset( 0, 0 );
@@ -89,15 +89,15 @@ public class PPathSeriesView extends SeriesView {
     public void uninstall() {
         super.uninstall();
         super.getDynamicJFreeChartNode().removeChild( root );
-        dynamicJFreeChartNode.removeChartRenderingInfoPropertyChangeListener( listener );
-        dynamicJFreeChartNode.removeBufferedImagePropertyChangeListener( listener );
+        getDynamicJFreeChartNode().removeChartRenderingInfoPropertyChangeListener( listener );
+        getDynamicJFreeChartNode().removeBufferedImagePropertyChangeListener( listener );
     }
 
     public void install() {
         super.install();
         getDynamicJFreeChartNode().addChild( root );
-        dynamicJFreeChartNode.addChartRenderingInfoPropertyChangeListener( listener );
-        dynamicJFreeChartNode.addBufferedImagePropertyChangeListener( listener );
+        getDynamicJFreeChartNode().addChartRenderingInfoPropertyChangeListener( listener );
+        getDynamicJFreeChartNode().addBufferedImagePropertyChangeListener( listener );
         updateClip();
 //        updateSeriesGraphic();
         updateAll();
@@ -108,7 +108,7 @@ public class PPathSeriesView extends SeriesView {
     }
 
     protected void repaintPanel( Rectangle2D bounds ) {
-        dynamicJFreeChartNode.getPhetPCanvas().repaint( new PBounds( bounds ) );
+        getDynamicJFreeChartNode().getPhetPCanvas().repaint( new PBounds( bounds ) );
     }
 
     private GeneralPath toGeneralPath() {

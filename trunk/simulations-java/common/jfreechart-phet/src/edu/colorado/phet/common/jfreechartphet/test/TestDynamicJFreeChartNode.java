@@ -6,10 +6,7 @@ package edu.colorado.phet.common.jfreechartphet.test;
  * Time: 11:56:07 PM
  */
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
-import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.SeriesView;
-import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.SeriesData;
-import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.PPathSeriesView;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.*;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -35,7 +32,7 @@ public class TestDynamicJFreeChartNode {
 
     public TestDynamicJFreeChartNode() {
         frame = new JFrame();
-        frame.setSize( 1280 , 768 - 100 );
+        frame.setSize( 1280, 768 - 100 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         phetPCanvas = new PhetPCanvas();
@@ -58,16 +55,34 @@ public class TestDynamicJFreeChartNode {
                 dynamicJFreeChartNode.setJFreeChartSeries();
             }
         } ) );
-        panel.add( createButton( "Piccolo Series", buttonGroup, false, new ActionListener() {
+        panel.add( createButton( "PPath", buttonGroup, false, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dynamicJFreeChartNode.setPiccoloSeries();
             }
         } ) );
-        panel.add( createButton( "Incremental Piccolo Series", buttonGroup, false, new ActionListener() {
+        panel.add( createButton( "Incremental PPath", buttonGroup, false, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dynamicJFreeChartNode.setViewFactory( new DynamicJFreeChartNode.SeriesViewFactory() {
                     public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-                        return new PPathSeriesView( dynamicJFreeChartNode, seriesData );
+                        return new IncrementalPPathSeriesView( dynamicJFreeChartNode, seriesData );
+                    }
+                } );
+            }
+        } ) );
+        panel.add( createButton( "Bound Incremental PPath", buttonGroup, false, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                dynamicJFreeChartNode.setViewFactory( new DynamicJFreeChartNode.SeriesViewFactory() {
+                    public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+                        return new BoundedPPathSeriesView( dynamicJFreeChartNode, seriesData );
+                    }
+                } );
+            }
+        } ) );
+        panel.add( createButton( "Immediate Bound Incremental PPath", buttonGroup, false, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                dynamicJFreeChartNode.setViewFactory( new DynamicJFreeChartNode.SeriesViewFactory() {
+                    public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+                        return new ImmediateBoundedPPathSeriesView( dynamicJFreeChartNode, seriesData );
                     }
                 } );
             }

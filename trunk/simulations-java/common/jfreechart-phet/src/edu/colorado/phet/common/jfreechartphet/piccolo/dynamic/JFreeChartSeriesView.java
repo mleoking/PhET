@@ -18,13 +18,13 @@ public class JFreeChartSeriesView extends SeriesView {
 
     public void uninstall() {
         super.uninstall();
-        XYSeriesCollection xySeriesCollection = (XYSeriesCollection)dynamicJFreeChartNode.getChart().getXYPlot().getDataset();
-        xySeriesCollection.removeSeries( seriesData.getSeries() );
+        XYSeriesCollection xySeriesCollection = (XYSeriesCollection)getDynamicJFreeChartNode().getChart().getXYPlot().getDataset();
+        xySeriesCollection.removeSeries( getSeriesData().getSeries() );
     }
 
     public void install() {
         super.install();
-        XYSeriesCollection xySeriesCollection = (XYSeriesCollection)dynamicJFreeChartNode.getChart().getXYPlot().getDataset();
-        xySeriesCollection.addSeries( seriesData.getSeries() );
+        XYSeriesCollection xySeriesCollection = (XYSeriesCollection)getDynamicJFreeChartNode().getChart().getXYPlot().getDataset();
+        xySeriesCollection.addSeries( getSeriesData().getSeries() );
     }
 }
