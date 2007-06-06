@@ -190,18 +190,6 @@ div.form_content {
 	margin-left:    1em;
 	border-style: 	none;
 }
-
-.button {
-	clear: 			right;
-	float: 			none;
-	padding: 		0;
-	position: 		relative;
-	margin-left: 	1ex;
-	margin-right: 	1ex;
-	margin-top: 	1em;
-	margin-bottom: 	1em;
-}
-
 .field {
 	clear:   right;
 	width:   100%;
@@ -223,6 +211,16 @@ div.form_content {
 .field .label_content input, .field .label_content select, .field .label_content textarea {
 	position: relative;
 	top:      -1ex;
+}
+.button {
+	clear: 			right;
+	float: 			none;
+	padding: 		0;
+	position: 		relative;
+	margin-left: 	1ex;
+	margin-right: 	1ex;
+	margin-top: 	1em;
+	margin-bottom: 	1em;
 }
 .comments {
 	margin-top: 10px;

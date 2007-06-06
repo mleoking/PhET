@@ -177,11 +177,11 @@
         print "</ul>";
     }
 
-    function print_editable_area($control_name, $contents, $rows = "20", $cols = "80") {
+    function print_editable_area($control_name, $contents, $rows = "20", $cols = "40") {
         print("<textarea name=\"$control_name\" rows=\"$rows\" cols=\"$cols\">$contents</textarea>");
     }
     
-    function print_captioned_editable_area($caption, $control_name, $contents, $rows = "20", $cols = "80") {
+    function print_captioned_editable_area($caption, $control_name, $contents, $rows = "20", $cols = "40") {
         print("<p align=\"left\" class=\"style16\">$caption<br/>");
             
         print_editable_area($control_name, $contents, $rows, $cols);
@@ -224,7 +224,7 @@ EO_PRINT_HIDDEN_INPUT;
         return $path_prefix;
     }
     
-    function print_captioned_url_upload_control($caption, $control_name, $contents, $rows = "20", $cols = "80") {
+    function print_captioned_url_upload_control($caption, $control_name, $contents, $rows = "20", $cols = "40") {
         print("<p align=\"left\" class=\"style16\">$caption<br/>");
         
         print_editable_area($control_name, $contents, $rows, $cols);

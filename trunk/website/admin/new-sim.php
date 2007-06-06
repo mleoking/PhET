@@ -1,8 +1,10 @@
 <?php
-    include_once("password-protection.php");
-	include_once("db.inc");
-	include_once("web-utils.php");
-	include_once("db-utils.php");
+    include_once("../admin/global.php");
+
+    include_once(SITE_ROOT."admin/password-protection.php");
+    include_once(SITE_ROOT."admin/db.inc");
+    include_once(SITE_ROOT."admin/web-utils.php");
+    include_once(SITE_ROOT."admin/sim-utils.php");
 	
     db_exec_query("INSERT INTO `simulation` (`sim_name`, `sim_keywords`) VALUES ('New Simulation', 'keyword1, keyword2, keyword3') ");
      

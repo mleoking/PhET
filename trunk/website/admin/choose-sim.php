@@ -4,7 +4,7 @@
 	
 	//start drop down menu & form
 	
-	print ("<form action=\"edit-sim.php\" method=post><select name=\"sim_id\">");
+	print ("<form action=\"edit-sim.php\" method=\"post\"><select name=\"sim_id\">");
 	
     $select_simulations_st = "SELECT * FROM `simulation` ORDER BY `sim_name` ASC ";
     $simulation_table      = mysql_query($select_simulations_st);
