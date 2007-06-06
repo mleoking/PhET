@@ -109,7 +109,7 @@ public class EnergyHistogramDialog extends JDialog {
             }
         } );
         this.layoutComponents();
-        this.setDefaultCloseOperation( JDialog.EXIT_ON_CLOSE );
+        this.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
         hideShowDetails();
 
         this.pack();

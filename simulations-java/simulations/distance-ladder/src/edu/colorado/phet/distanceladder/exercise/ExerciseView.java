@@ -60,7 +60,7 @@ public class ExerciseView {
             super( owner, false );
 
             // Don't let the user close the dialog with the icon in the upper right corner
-            this.setDefaultCloseOperation( JDialog.EXIT_ON_CLOSE );
+            this.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
             this.setResizable( false );
             this.setUndecorated( true );
             this.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
