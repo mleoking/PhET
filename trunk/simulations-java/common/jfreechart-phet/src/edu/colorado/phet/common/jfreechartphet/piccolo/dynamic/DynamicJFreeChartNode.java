@@ -216,7 +216,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     public void setBuffered( boolean buffered ) {
         super.setBuffered( buffered );
-        updateSeriesViews();
+//        updateSeriesViews();
     }
 
     public PhetPCanvas getPhetPCanvas() {
