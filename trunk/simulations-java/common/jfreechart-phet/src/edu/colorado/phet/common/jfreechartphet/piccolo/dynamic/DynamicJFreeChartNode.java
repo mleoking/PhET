@@ -32,12 +32,9 @@ package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import org.jfree.chart.JFreeChart;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -71,7 +68,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     private ArrayList seriesDataList = new ArrayList();//of type SeriesData 
     private ArrayList seriesViewList = new ArrayList();//of type SeriesView
     private PhetPCanvas phetPCanvas;
-    private PhetPPath debugBufferRegion;//internal debugging tool for deciphering screen output regions 
+//    private PhetPPath debugBufferRegion;//internal debugging tool for deciphering screen output regions
 
     //The default SeriesView is JFreeChart rendering.
     private SeriesViewFactory viewFactory = new SeriesViewFactory() {
@@ -84,7 +81,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     public DynamicJFreeChartNode( PhetPCanvas phetPCanvas, JFreeChart chart ) {
         super( chart );
         this.phetPCanvas = phetPCanvas;
-        debugBufferRegion = new PhetPPath( new BasicStroke( 1.0f ), Color.green );
+//        debugBufferRegion = new PhetPPath( new BasicStroke( 1.0f ), Color.green );
 //        addChild( debugBufferRegion );//this can destroy the bounds of the graph, use with care
     }
 
@@ -221,10 +218,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     public PhetPCanvas getPhetPCanvas() {
         return phetPCanvas;
-    }
-
-    public void setDebugBufferRegionPath( Rectangle2D bounds ) {
-        debugBufferRegion.setPathTo( bounds );
     }
 
     public static interface SeriesViewFactory {
