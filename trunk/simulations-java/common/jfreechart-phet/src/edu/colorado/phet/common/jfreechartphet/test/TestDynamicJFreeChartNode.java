@@ -140,8 +140,8 @@ public class TestDynamicJFreeChartNode {
 //        double t = ( System.currentTimeMillis() - t0 ) / 1000.0;
         double t = ( System.currentTimeMillis() - t0 ) / 500.0;
         double frequency = 1.0 / 10.0;
-//        double y = Math.sin( t * 2 * Math.PI * frequency );
-        double y = 0;
+        double y = Math.sin( t * 2 * Math.PI * frequency );
+//        double y = 0;
         Point2D.Double pt = new Point2D.Double( t / 100.0, y );
         dynamicJFreeChartNode.addValue( pt.getX(), pt.getY() );
 

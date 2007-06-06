@@ -2,13 +2,6 @@ package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-
-import java.util.ArrayList;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeListener;
 
 import org.jfree.chart.JFreeChart;
 
@@ -45,7 +38,7 @@ public class DynamicJFreeChartNode2 extends JFreeChartNode {
 
     public void setBuffered( boolean buffered ) {
         super.setBuffered( buffered );
-        clearBufferAndRepaint();
+        updateAll();
     }
 
 }
