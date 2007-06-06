@@ -422,7 +422,7 @@ EOT;
         }
         
         if (isset($sim_id)) {            
-            $sim = sim_get_simulation_by_id($sim_id);
+            $sim = sim_get_sim_by_id($sim_id);
             
             $Simulations = array( $sim['sim_name'] );
         }

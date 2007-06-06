@@ -1,22 +1,42 @@
 <?php
-    include_once("password-protection.php");
-    include_once("db.inc");	
-	
-	//start drop down menu & form
-	
-	print ("<form action=\"edit-sim.php\" method=\"post\"><select name=\"sim_id\">");
-	
-    $select_simulations_st = "SELECT * FROM `simulation` ORDER BY `sim_name` ASC ";
-    $simulation_table      = mysql_query($select_simulations_st);
-	
-    while ($sim = mysql_fetch_row($simulation_table)) {      
-        $sim_id   = $sim[0];
-        $simtitle = $sim[1];
-	
-        //print drop down menu
-        print "<option value=\"$sim_id\">$simtitle";
-    }
+    include_once("../admin/global.php");
+    
+    include_once(SITE_ROOT."admin/password-protection.php");
+    include_once(SITE_ROOT."admin/db.inc");	
+    include_once(SITE_ROOT."admin/site-utils.php");
 
-    // close drop down menu and form
-    print "</select><input type=\"submit\" value=\"edit\"></form>";
+    function print_selection() {
+        print <<<EOT
+            <h1>Choose Simulation</h1>
+            
+            <p>
+                Please choose the simulation to edit from the list below.
+            </p>
+            
+            <form action="edit-sim.php" method="post">            
+                <p>            
+                    <select name="sim_id">
+EOT;
+
+        $select_simulations_st = "SELECT * FROM `simulation` ORDER BY `sim_name` ASC ";
+        $simulation_table      = mysql_query($select_simulations_st);
+	
+        while ($sim = mysql_fetch_row($simulation_table)) {      
+            $sim_id   = $sim[0];
+            $simtitle = $sim[1];
+	
+            //print drop down menu
+            print "<option value=\"$sim_id\">$simtitle";
+        }
+
+        // close drop down menu and form
+        print <<<EOT
+                    </select>
+                    
+                <input type="submit" value="edit">
+            </form>
+EOT;
+    }
+    
+    print_site_page('print_selection', 9);
 ?>

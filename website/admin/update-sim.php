@@ -5,6 +5,7 @@
     include_once("web-utils.php");
     include_once("sim-utils.php");
     include_once("db-utils.php");    
+    include_once("site-utils.php");       
 
     $update_simulation_st = "UPDATE `simulation` SET ";
     
@@ -47,7 +48,7 @@
     // Now we have to update the categories manually:
     $category_rows = mysql_query("SELECT * FROM `category` ", $connection);
     
-    while ($category_row=mysql_fetch_assoc($category_rows)) {
+    while ($category_row = mysql_fetch_assoc($category_rows)) {
         $cat_id   = $category_row['cat_id'];
         $cat_name = $category_row['cat_name'];
         
@@ -62,7 +63,20 @@
         }
     }  
     
-    print "The simulation \"$sim_name\" was successfully updated.";
+    // Cleanup junk, if any:
+    mysql_query('DELETE FROM `simulation` WHERE `sim_name`=\'New Simulation\' ');
     
-    force_redirect("edit-sim.php?sim_id=$sim_id", 2);
+    function print_success_message() {
+        global $sim_name;
+        
+        print <<<EOT
+            <h1>Update Successful</h1>
+            
+            <p>The simulation "$sim_name" was successfully updated.</p>
+EOT;
+    }
+    
+    print_site_page('print_success_message', 9);
+    
+    force_redirect("edit-sim.php?sim_id=$sim_id", 3);
 ?>

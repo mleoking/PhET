@@ -55,6 +55,18 @@ hr {
 	font-size:  10px;
 	color: 		gray;
 }
+#quicksearch fieldset {
+	margin:       0;
+	padding:      0;
+	padding-top:   1ex;
+	padding-right: 1ex;
+	border-style: none;
+}
+
+.simcategory {
+	padding-left: 2em;
+	padding-right: 2em;
+}
 
 #nationalstandards table {
 	border-style:   none;
@@ -1036,6 +1048,9 @@ img.sponsors {
 
 	border-style:		none;
 	vertical-align: 	top;
+}
+#content .compact tbody td input {
+	margin-top:    2ex;
 }
 #content .compact table thead td {
 	font-weight: 	bold;

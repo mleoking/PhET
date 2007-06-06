@@ -58,7 +58,7 @@
         return $matches[3];
     }
     
-    function sim_get_simulation_by_id($sim_id) {
+    function sim_get_sim_by_id($sim_id) {
         $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
         $simulation    = mysql_fetch_assoc(mysql_query($select_sim_st));
         

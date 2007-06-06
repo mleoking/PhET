@@ -107,7 +107,7 @@
         foreach($simulation_listings as $simulation_listing) {
             eval(get_code_to_create_variables_from_array($simulation_listing));
             
-            $simulation = sim_get_simulation_by_id($sim_id);
+            $simulation = sim_get_sim_by_id($sim_id);
             
             eval(get_code_to_create_variables_from_array($simulation));
             
@@ -307,7 +307,7 @@ EOT;
             }
         }
         if (!isset($contribution_keywords) || $contribution_keywords == '' && isset($GLOBALS['sim_id'])) {
-            $simulation = sim_get_simulation_by_id($GLOBALS['sim_id']);
+            $simulation = sim_get_sim_by_id($GLOBALS['sim_id']);
             
             $contribution_keywords = $simulation['sim_keywords'];
         }            
@@ -625,7 +625,7 @@ EOT;
         foreach($contribution_sims as $listing) {
             eval(get_code_to_create_variables_from_array($listing));
             
-            $sim = sim_get_simulation_by_id($sim_id);
+            $sim = sim_get_sim_by_id($sim_id);
             
             eval(get_code_to_create_variables_from_array($sim));
             
@@ -1333,7 +1333,7 @@ EOT;
         
         foreach($exploded as $contribution) {
             if (isset($contribution['sim_id'])) {
-                $simulation = sim_get_simulation_by_id($contribution['sim_id']);
+                $simulation = sim_get_sim_by_id($contribution['sim_id']);
         
                 if (is_array($simulation)) {
                     foreach($simulation as $key => $value) {

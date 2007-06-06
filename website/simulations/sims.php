@@ -2,19 +2,23 @@
     ini_set('display_errors', '1');
 
     include_once("../admin/global.php");
-    include_once("../admin/db.inc");
-    include_once("../admin/web-utils.php");
-    include_once("../admin/sim-utils.php");
-    include_once("../admin/site-utils.php");
-    include_once("../admin/contrib-utils.php");
-    include_once("../admin/authentication.php");
     
-    include_once("../teacher_ideas/referrer.php");    
+    include_once(SITE_ROOT."admin/db.inc");
+    include_once(SITE_ROOT."admin/web-utils.php");
+    include_once(SITE_ROOT."admin/sim-utils.php");
+    include_once(SITE_ROOT."admin/site-utils.php");
+    include_once(SITE_ROOT."admin/contrib-utils.php");
+    include_once(SITE_ROOT."admin/authentication.php");
+    
+    include_once(SITE_ROOT."teacher_ideas/referrer.php");    
+
+    // Don't require authentication, but do it if the cookies are available:
+    do_authentication(false);
     
     function print_content() {
-        global $SIM_RATING_TO_IMAGE, $SIM_TYPE_TO_IMAGE;
+        global $SIM_RATING_TO_IMAGE, $SIM_TYPE_TO_IMAGE, $contributor_is_team_member;
         
-        $simulation = sim_get_simulation_by_id($_REQUEST['sim_id']);
+        $simulation = sim_get_sim_by_id($_REQUEST['sim_id']);
             
         eval(get_code_to_create_variables_from_array($simulation));
         
@@ -24,8 +28,14 @@
 
         <div>
             <?php
-                print "<span id=\"floatingkeywords\">$sim_keywords_xml</span>";    
-                print "<h1 class=\"page-title\">$sim_name</h1>";
+                print "<span id=\"floatingkeywords\">$sim_keywords_xml</span>";   
+                
+                if (isset($contributor_is_team_member) && $contributor_is_team_member == '1') {
+                    print "<h1 class=\"page-title\"><a href=\"../admin/edit-sim.php?sim_id=$sim_id\">$sim_name</a></h1>";  
+                } 
+                else {
+                    print "<h1 class=\"page-title\">$sim_name</h1>";
+                }
             ?>
         </div>
 
@@ -285,9 +295,6 @@
         
         <?php
     }
-
-    // Don't require authentication, but do it if the cookies are available:
-    do_authentication(false);
 
     print_site_page('print_content', 2);
 

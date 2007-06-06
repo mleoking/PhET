@@ -1,26 +1,46 @@
-<?
-    include_once("password-protection.php");
-	include_once("db.inc");
-	include_once("web-utils.php");
-	include_once("sim-utils.php");
+<?
+    include_once("../admin/global.php");
 
-    print "<b>Simulation Listing</b><br/><br/>";
-    
-    // start selecting SIMULATIONS from database table
-    $select_all_sims_st  = "SELECT * FROM `simulation` ORDER BY `sim_name` ASC ";
-    $query_result = mysql_query($select_all_sims_st);
+    include_once(SITE_ROOT."admin/password-protection.php");
+	include_once(SITE_ROOT."admin/db.inc");
+	include_once(SITE_ROOT."admin/web-utils.php");
+	include_once(SITE_ROOT."admin/sim-utils.php");
+	include_once(SITE_ROOT."admin/site-utils.php");	
 
-    while ($simulation = mysql_fetch_assoc($query_result)) {
-        print "<table>";
+    function print_sims_list() {
+        print "<h1>Simulation Listing</h1>";
+
+        print "<table class=\"compact\">";
+
+        print "<thead><tr>";
+        print "<td></td>";
+        print "</tr></thead>";
+        print "<tbody>";
+
+        foreach (sim_get_all_sims() as $simulation) {
+            print "<tr><td><h3>".$simulation['sim_name']."</h3>";
+            print "<a href=\"delete-sim.php?sim_id=$sim_id&amp;delete=0\">Delete</a>, ";
+            print "<a href=\"edit-sim.php?sim_id=$sim_id\">Edit</a>";
+            print "</td></tr>";
         
-        foreach($simulation as $key => $value) {
-            print "<tr><td>$key</td><td>$value</td></tr>";
+            foreach($simulation as $key => $value) {
+                if ($key != 'sim_name') {
+                    print "<tr><td>$key</td><td>$value</td></tr>";
+                }
+            }
+        
+            $sim_id = $simulation['sim_id'];
+        
+;
+            print "<tr><td>&nbsp;</td></tr>";
         }
         
-        gather_array_into_globals($simulation);
+        if (!$first_time) {
+            print "</tbody>";
+        }
         
-        print "<tr><td><a href=\"delete-sim.php?sim_id=$sim_id&amp;delete=0\">delete</a></td></tr>";
-        print "<tr><td><a href=\"edit-sim.php?sim_id=$sim_id\">edit</a></td></tr>";
-        print "</table><br/><br/>";
+        print "</table>";
     }
+    
+    print_site_page('print_sims_list', 9);
 ?>
