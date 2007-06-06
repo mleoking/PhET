@@ -155,7 +155,6 @@
             
             <br/>
             <br/>            
-            <!-- The file element -- NOTE: it has an ID -->
         	<input type="file" class="multi" name="contribution_file_url">
 
             <br/>

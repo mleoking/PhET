@@ -6,7 +6,7 @@ body {
 	padding: 0;
 }
 /******** defaults ********/
-h1,h2,h3,h4,h5,h6, {
+h1,h2,h3,h4,h5,h6 {
 	font-size:		14px;
 	margin:			0;
 	padding:		0;
@@ -40,7 +40,7 @@ td {
 }
 hr {
 	border-collapse:collapse;
-	border:0;
+	border:  0;
 	background-color:#ccc;
 }
 .inlineImage {
@@ -209,6 +209,9 @@ div.form_content {
 	margin:  0;
 	padding: 0.5ex 0 0.5ex 0;
 }
+.field input, .field textarea {
+	background: rgb(220, 220, 220);
+}
 .field .label {
 	width: 			25%;
     font-weight:	bold;	
@@ -216,16 +219,18 @@ div.form_content {
 .field .label_content {
 	float: right;
 	width: 75%;
+	position: relative;
+	top:      -1ex;
 }
 .comments {
 	margin-top: 10px;
 }
 
 #browsefilter {
-	width: 		100%;
-	margin: 	auto;
-    padding:	0px 0px 25px 0px;	
-	border: 	0 0 0 0;
+	width: 			100%;
+	margin: 		auto;
+    padding:		0px 0px 25px 0px;	
+	border-style:	none;
 }
 #browsefilter table, #browsefilter thead, #browsefilter tbody {
 	border-style: none;
@@ -233,7 +238,6 @@ div.form_content {
 #browsefilter td, #browsefilter tr {
 	border-style: none;
 	margin: 0 0 0 0;
-	border: 0 0 0 0;
 	padding: 0 0 0 0;
 }
 #browsefilter .Simulations {
@@ -297,10 +301,8 @@ div.separator {
 #contributioneditform hr {
 	height: 1px;
     background:#E6E6FA;
+	clear: right;
     margin: 20px 150px 10px 150px;    
-}
-#contributioneditform input:focus,#contributioneditform input:hover {
-	border:1px solid #333333;
 }
 #contributioneditform .error {
     color:red;
@@ -317,7 +319,7 @@ div.separator {
 
 /******** User-profile form *********/
 #userprofileform {
-	width:   	400;
+	width:   	400px;
 	margin:  	auto;
 	padding: 	0px 0px 25px 0px;
 }
@@ -328,7 +330,7 @@ div.separator {
     font-weight:bold;
     font-size:  9pt;
 }
-#/*userprofileform label {
+/*#userprofileform label {
     display:	block;
     height:		2em;
     padding:	10px 10px 0;
@@ -437,7 +439,7 @@ p.openingParagraph {
 	float: 		left;
 }
 .productEntry {
-	width:      130;
+	width:      130px;
 	height: 	130px;
     /* overflow: 	hidden; */
 	float: 		left;
@@ -481,19 +483,17 @@ ul.selectBox li.defaultOption,.standardContent ul.selectBox li.defaultOption {
 }
 ul.selectBox li a:link,ul.selectBox li a:visited,.standardContent ul.selectBox li a:link,ul.selectBox li a:visited {
 	display:block;
-	padd\ing:3px 4px 3px 7px;
-	*padding:3px 2px 3px 3px;
+	padding:3px 2px 3px 3px;	
 	color:#363531;
 	font-size:.9em;
-	*float:left;
+	float:left;
 }
 ul.selectBox li a:hover,.standardContent ul.selectBox li a:hover {
 	background:#DBEBF5;
 	text-decoration:none;
 }
 ul.selectBox li.defaultOption a,.standardContent ul.selectBox li.defaultOption a {
-	padd\ing:4px 4px 4px 7px;
-	*padding:4px 2px 4px 3px;
+	padding:4px 2px 4px 3px;
 }
 ul.selectBox li.defaultOption a:hover,.standardContent ul.selectBox li.defaultOption a:hover {
 	background:transparent;
@@ -674,7 +674,6 @@ img.rating {
 	color:#0d2973;
 	margin:0;
 	padding:0 0 15px 0;
-	_padding:0 0 30px 0;
 }
 span.size {
 	font-family:Courier New,times,arial;
@@ -950,7 +949,7 @@ img.sponsors {
 	top:0;
 	left:0;
 	z-index:-1;
-	filter:mask();
+	/*filter:mask(); */ /* IE5?? */
 	width:3000px;
 	height:3000px;
 }
@@ -1041,4 +1040,8 @@ img.sponsors {
 #content .compact table thead td {
 	font-weight: 	bold;
 	border-bottom:  1px solid rgb(220, 220, 220);
+}
+#content .compact table tbody td ul {
+	padding: 0;
+	margin:  0.5ex 0.5ex 0.5ex 1.5em;
 }
