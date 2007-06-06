@@ -35,12 +35,12 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import org.jfree.chart.JFreeChart;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 /**
  * This class extends the functionality of JFreeChartNode by providing different strategies for rendering the data.
@@ -242,4 +242,17 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     public BufferedImage getBuffer() {
         return super.getBuffer();
     }
+
+
+//    //todo: handle this in superclass  ?
+//    public Point2D plotToNode( Point2D plotPoint ) {
+//        if( isBuffered() ) {
+//            Point2D pt=super.plotToNode( plotPoint);
+//            return new Point2D.Double( pt.getX()+getBoundsReference().getX(),pt.getY() +getBoundsReference().getY());
+//        }
+//        else {
+//            Point2D v = super.plotToNode( plotPoint );
+//            return new Point2D.Double( v.getX(),v.getY() );
+//        }
+//    }
 }
