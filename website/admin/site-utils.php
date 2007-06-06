@@ -350,13 +350,22 @@ EOT;
                             encodeURI(password), null, 'ajax_password_comment_uid');
                     }
                     
-                    function on_name_change() {
-                        // When the name changes, update the authors:
-                        var name_element = document.getElementById('contributor_name_uid');
+                    function on_name_change(n) {
+                        var name;
                         
-                        if (name_element) {
-                            var name = name_element.value;
-                            
+                        // When the name changes, update the authors:
+                        if (n) {
+                            name = n;                            
+                        }
+                        else {
+                            var name_element = document.getElementById('contributor_name_uid');
+                        
+                            if (name_element) {
+                                name = name_element.value;
+                            }
+                        }
+                         
+                        if (name) {   
                             var authors_element = document.getElementById('contribution_authors_uid');
                             
                             if (authors_element) {
@@ -368,7 +377,17 @@ EOT;
                         }
                     }
                     
-                    $('#contributor_name_uid').autocomplete('$prefix/admin/get-contributor-names.php');
+                    $(document).ready(
+                        function() {
+                            $('#contributor_name_uid').autocomplete('$prefix/admin/get-contributor-names.php',
+                                {
+                                    onItemSelect: function(li, v) {
+                                        on_name_change(v);
+                                    }
+                                }
+                            );
+                        }
+                    );
                     
                     /*]]>*/
                 </script>             

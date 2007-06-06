@@ -179,7 +179,7 @@ jQuery.autocomplete = function(input, options) {
 		$results.html("");
 		$input.val(v);
 		hideResultsNow();
-		if (options.onItemSelect) setTimeout(function() { options.onItemSelect(li) }, 1);
+		if (options.onItemSelect) setTimeout(function() { options.onItemSelect(li, v) }, 1);
 	};
 
 	// selects a portion of the input string
