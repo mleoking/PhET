@@ -155,7 +155,7 @@ EOT;
         }
         
         if (contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {   
-            if ($contributor_id != -1 && isset($_REQUEST['action'])) {
+            if (isset($_REQUEST['action'])) {
                 handle_action($_REQUEST['action']);
             }
             

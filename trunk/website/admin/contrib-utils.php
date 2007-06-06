@@ -370,7 +370,9 @@ EOT;
                         
                         <span class="label_content">
                             <input type="text" name="contribution_contact_email" 
-                                value="$contribution_contact_email" id="contribution_contact_email_uid" size="50"/>
+                                value="$contribution_contact_email" id="contribution_contact_email_uid" size="50"
+                                onfocus="javascript:on_focus_select_question_marks('contribution_contact_email_uid');"
+                                onclick="javascript:on_focus_select_question_marks('contribution_contact_email_uid');" />
                         </span>
                     </div>
 
@@ -820,6 +822,8 @@ EOT;
     }
     
     function contribution_can_contributor_manage_contribution($contributor_id, $contribution_id) {
+        if ($contribution_id == -1) return true;
+
         $contribution = contribution_get_contribution_by_id($contribution_id);
         $contributor  = contributor_get_contributor_by_id($contributor_id);        
         

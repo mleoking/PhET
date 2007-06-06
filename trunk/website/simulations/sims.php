@@ -7,9 +7,7 @@
     include_once("../admin/sim-utils.php");
     include_once("../admin/site-utils.php");
     include_once("../admin/contrib-utils.php");
-    
-    $g_login_required = false;    
-    include_once("../teacher_ideas/user-login.php");
+    include_once("../admin/authentication.php");
     
     include_once("../teacher_ideas/referrer.php");    
     
@@ -290,6 +288,9 @@
         
         <?php
     }
+
+    // Don't require authentication, but do it if the cookies are available:
+    do_authentication(false);
 
     print_site_page('print_content', 2);
 
