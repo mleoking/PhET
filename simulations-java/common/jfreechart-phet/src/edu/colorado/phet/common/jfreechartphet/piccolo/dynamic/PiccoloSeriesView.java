@@ -62,10 +62,6 @@ public class PiccoloSeriesView extends SeriesView {
         }
     }
 
-    public void setClip( Rectangle2D clip ) {
-        pathClip.setPathTo( clip );
-    }
-
     public void uninstall() {
         super.uninstall();
         super.getDynamicJFreeChartNode().removeChild( root );
