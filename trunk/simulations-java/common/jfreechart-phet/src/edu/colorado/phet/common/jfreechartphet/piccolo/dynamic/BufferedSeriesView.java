@@ -103,7 +103,6 @@ public class BufferedSeriesView extends SeriesView {
 
     protected void repaintPanel( Rectangle2D bounds ) {
         dynamicJFreeChartNode.getPhetPCanvas().repaint( new PBounds( bounds ) );
-        dynamicJFreeChartNode.setDebugBufferRegionPath( bounds );
     }
 
     private GeneralPath toGeneralPath() {
