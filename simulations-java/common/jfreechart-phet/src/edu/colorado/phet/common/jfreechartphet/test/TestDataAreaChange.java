@@ -1,10 +1,8 @@
 package edu.colorado.phet.common.jfreechartphet.test;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
-import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode2;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -12,8 +10,10 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -33,10 +33,10 @@ public class TestDataAreaChange {
         frame.setContentPane( phetPCanvas );
 
         JFreeChart chart = ChartFactory.createXYLineChart( "title", "x", "y", new XYSeriesCollection(), PlotOrientation.VERTICAL, false, false, false );
-        dynamicJFreeChartNode = new DynamicJFreeChartNode2( phetPCanvas, chart );
-//        dynamicJFreeChartNode = new DynamicJFreeChartNode( phetPCanvas, chart );
+//        dynamicJFreeChartNode = new DynamicJFreeChartNode2( phetPCanvas, chart );
+        dynamicJFreeChartNode = new DynamicJFreeChartNode( phetPCanvas, chart );
 //        dynamicJFreeChartNode = new JFreeChartNode( chart);
-        
+
         chart.getXYPlot().getRangeAxis().setAutoRange( false );
         chart.getXYPlot().getRangeAxis().setRange( -1, 1 );
         chart.getXYPlot().getDomainAxis().setAutoRange( false );
