@@ -147,6 +147,24 @@ EOT
             <li class="sub"><span class="sub-nav"><a href="$prefix/about/licensing.php">→ Licensing</a></span></li>
 EOT
         );
+        
+        if (isset($GLOBALS['contributor_is_team_member']) && $GLOBALS['contributor_is_team_member'] == 1) {        
+            print_navigation_element($prefix, $selected_page, "admin/index.php",           "Administrative",
+                <<<EOT
+                <li class="sub"><span class="sub-nav"><a href="$prefix/admin/new-sim.php">→ Add Simulation</a></span></li>
+
+                <li class="sub"><span class="sub-nav"><a href="$prefix/admin/choose-sim.php">→ Edit Simulation</a></span></li>
+            
+                <li class="sub"><span class="sub-nav"><a href="$prefix/admin/list-sims.php">→ List Simulations</a></span></li>
+            
+                <li class="sub"><span class="sub-nav"><a href="$prefix/admin/organize-cats.php">→ Organize Categories</a></span></li>
+            
+                <li class="sub"><span class="sub-nav"><a href="$prefix/admin/manage-contributors.php">→ Manage Contributors</a></span></li>
+                
+                <li class="sub"><span class="sub-nav"><a href="$prefix/admin/compose-newsletter.php">→ Compose Newsletter</a></span></li>
+EOT
+            );        
+        }
                     
         print <<<EOT
                 </ul>

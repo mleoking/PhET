@@ -1,58 +1,32 @@
 <?php       
     /*
     
-    A very simple, one-file password protection mechanism that uses cookies.
+    A very simple, one-file password protection mechanism that uses cookies,
+    designed to be used to restrict access to certain pages to those 
+    contributors who are PhET team members.
+    
     If the user hasn't logged in, the script will prompt the user to login.
+    If the user isn't a team member, the script will print an error message
+    and exit.
     
     */    
-    include_once("contrib-utils.php");
-    include_once("web-utils.php");
+    include_once("../admin/authentication.php");
     
-    function logout() {
-        setcookie("username");
-        setcookie("password_hash");        
-    }
+    do_authentication(true);
     
-    function do_authentication() {    
-        $username      = "";
-        $password      = "";
-        $password_hash = "";
-        
-        $user_entered_password = false;
+    function print_not_team_member() {
+        print <<<EOT
+            <h1>Permissions Error</h1>
 
-        if (cookie_var_get("username") !== "") {
-            $username      = cookie_var_get("username");
-            $password_hash = cookie_var_get("password_hash");
-            
-            $user_entered_password = true;
+            <p class="error">
+                You do not have permission to access this page, because you are not a PhET team member.
+            </p>
+EOT;
         }
-        if (isset($_POST["username"])) { 
-            $username      = $_POST["username"];
-            $password      = $_POST["password"];
-            $password_hash = md5($password);
-            
-            $user_entered_password = true;
-        }
+
+    if (!$contributor_is_team_member) {
+        print_site_page('print_not_team_member', 9);
         
-        if (contributor_is_valid_admin_login($username, $password_hash)) {
-            cookie_var_store("username",      $username);
-            cookie_var_store("password_hash", $password_hash);
-        }
-        else {  
-            $optional_message = null;
-                      
-            if ($user_entered_password) {
-                $optional_message = "<p>The email and/or password you entered is incorrect. If you entered 
-                                    the correct email address, please check your email now for a password reminder.</p>";
-            }
-            
-            print_login_form($optional_message);
-            
-            contributor_send_password_reminder($username);
-                        
-            exit;
-        }
+        exit;
     }
-    
-    do_authentication();
 ?>
