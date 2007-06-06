@@ -77,6 +77,9 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     };
 
+    public void updateAll() {
+        super.updateAll();
+    }
 
     public DynamicJFreeChartNode( PhetPCanvas phetPCanvas, JFreeChart chart ) {
         super( chart );
