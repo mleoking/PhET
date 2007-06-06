@@ -1,22 +1,57 @@
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
 import edu.colorado.phet.common.piccolophet.nodes.IncrementalPPath;
+import edu.umd.cs.piccolo.util.PBounds;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * Author: Sam Reid
  * Jun 5, 2007, 6:04:09 PM
  */
 public class IncrementalPPathSeriesView extends SeriesView {
-    //    private BasicStroke stroke = new BasicStroke( 4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
     private IncrementalPPath incrementalPPath;
+    private BasicStroke stroke = new BasicStroke( 3 );
 
-    public IncrementalPPathSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+    public IncrementalPPathSeriesView( final DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
         super( dynamicJFreeChartNode, seriesData );
         incrementalPPath = new IncrementalPPath( dynamicJFreeChartNode.getPhetPCanvas() );
-        incrementalPPath.setStroke( new BasicStroke( 3) );
+        incrementalPPath.setStroke( stroke );
         incrementalPPath.setStrokePaint( seriesData.getColor() );
+        dynamicJFreeChartNode.getPhetPCanvas().addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateAll();
+            }
+        } );
+        dynamicJFreeChartNode.addBufferedPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                dynamicJFreeChartNode.updateChartRenderingInfo();
+                bufferChanged();
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        dynamicJFreeChartNode.updateChartRenderingInfo();
+                    }
+                } );
+            }
+        } );
+    }
+
+    private void bufferChanged() {
+        dynamicJFreeChartNode.updateChartRenderingInfo();
+        if( dynamicJFreeChartNode.isBuffered() ) {
+            incrementalPPath.setOffset( dynamicJFreeChartNode.getBounds().getX(), dynamicJFreeChartNode.getBounds().getY() );
+        }
+        else {
+            incrementalPPath.setOffset( 0, 0 );
+        }
     }
 
     public void dataAdded() {
@@ -36,6 +71,34 @@ public class IncrementalPPathSeriesView extends SeriesView {
 
     public void install() {
         super.install();
-        getDynamicJFreeChartNode().addChild( incrementalPPath);
+        getDynamicJFreeChartNode().addChild( incrementalPPath );
+        updateAll();
     }
+
+    private void updateAll() {
+        incrementalPPath.setPathTo( toGeneralPath() );
+    }
+
+    protected void repaintPanel( Rectangle2D bounds ) {
+        dynamicJFreeChartNode.getPhetPCanvas().repaint( new PBounds( bounds ) );
+        dynamicJFreeChartNode.setDebugBufferRegionPath( bounds );
+    }
+
+    private GeneralPath toGeneralPath() {
+        dynamicJFreeChartNode.updateChartRenderingInfo();
+        GeneralPath path = new GeneralPath();
+        if( getSeries().getItemCount() > 0 ) {
+            path.moveTo( (float)getNodePoint( 0 ).getX(), (float)getNodePoint( 0 ).getY() );
+        }
+        for( int i = 1; i < getSeries().getItemCount(); i++ ) {
+            path.lineTo( (float)getNodePoint( i ).getX(), (float)getNodePoint( i ).getY() );
+        }
+        return path;
+    }
+
+//    public Point2D getNodePoint( int i ) {
+//        Point2D pt=super.getNodePoint( i );
+//        System.out.println( "pt = " + pt );
+//        return pt;
+//    }
 }

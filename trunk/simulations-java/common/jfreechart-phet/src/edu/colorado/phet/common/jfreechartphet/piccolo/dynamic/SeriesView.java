@@ -5,7 +5,7 @@ import org.jfree.data.xy.XYSeries;
 import java.awt.geom.Point2D;
 
 /**
-     * Base class strategy for painting a data series.
+ * Base class strategy for painting a data series.
  */
 public abstract class SeriesView {
     DynamicJFreeChartNode dynamicJFreeChartNode;
