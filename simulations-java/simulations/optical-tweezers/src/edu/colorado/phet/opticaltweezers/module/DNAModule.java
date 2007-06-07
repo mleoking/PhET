@@ -127,7 +127,7 @@ public class DNAModule extends AbstractModule {
             dnaStrand.setDragCoefficient( DNADefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrand.setKickConstant( DNADefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
             dnaStrand.setNumberOfEvolutionsPerClockTick( DNADefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE.getDefault() );
-            dnaStrand.setEvolutionDtScale( DNADefaults.DNA_EVOLUTION_DT_SCALE_RANGE.getDefault() );
+            dnaStrand.setEvolutionDt( DNADefaults.DNA_EVOLUTION_DT_RANGE.getDefault() );
             dnaStrand.initializeStrand();
         }
         

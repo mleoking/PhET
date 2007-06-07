@@ -58,6 +58,7 @@ MISSING INFO:
 
  
 DONE:
+6/7/07 - rescale range/values for DNA strand parameters by 100x
 6/5/07 - improve algorithm for positioning the value in Vector2DNode
 6/5/07 - remove OTRuler alignment hack, it wasn't working in all cases
 ********* version 0.00.09 (15620)
