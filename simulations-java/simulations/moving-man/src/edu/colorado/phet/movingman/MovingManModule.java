@@ -109,7 +109,7 @@ public class MovingManModule extends Module {
     }
 
     public void showMegaHelp() {
-        showHelpImage( "moving-man/images/mm-mh.gif" );
+        showHelpImage( "moving-man/images/megahelp.gif" );
     }
 
     public void showHelpImage( String imageName ) {

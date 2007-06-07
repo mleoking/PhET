@@ -11,6 +11,7 @@ import edu.colorado.phet.common_movingman.view.util.ImageLoader;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -175,7 +176,7 @@ public class WalkWayGraphic extends CompositePhetGraphic {
                 double modelx = minValue + i * modelDX;
                 String str = format.format( modelx );
                 if( str.equals( "0" ) ) {
-                    str = "0 meters";
+                    str = "0" + SimStrings.get( "WalkWayGraphic.MetersText" );
                 }
                 TickGraphic tickGraphic = new TickGraphic( component, modelx, transform, str );
                 graphicList.add( tickGraphic );

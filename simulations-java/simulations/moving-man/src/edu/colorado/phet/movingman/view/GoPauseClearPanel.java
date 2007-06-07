@@ -104,7 +104,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
 
         }
         if( pause ) {
-            goPauseButton.setText( "Pause" );
+            goPauseButton.setText( SimStrings.get( "MMPlot.PauseButton" ) );
 //            goPauseButton.setText( "" );
             goPauseButton.setIcon( pauseIcon );
             super.invalidate();
@@ -113,7 +113,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
             itsAGoButton = false;
         }
         else {
-            goPauseButton.setText( "      Go!" );
+            goPauseButton.setText( "      "+SimStrings.get( "MMPlot.RecordButton" ) );
             goPauseButton.setIcon( goIcon );
             super.invalidate();
             super.validate();
