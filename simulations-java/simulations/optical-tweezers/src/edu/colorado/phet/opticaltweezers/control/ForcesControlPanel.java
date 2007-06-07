@@ -13,6 +13,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -33,9 +34,9 @@ public class ForcesControlPanel extends JPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private Bead _bead;
     private PNode _trapForceNode;
     private PNode _dragForceNode;
-    private PNode _brownianForceNode;
     private PNode _dnaForceNode;
     
     private JCheckBox _trapForceCheckBox;
@@ -43,7 +44,7 @@ public class ForcesControlPanel extends JPanel {
     private JRadioButton _wholeBeadRadioButton;
     private JRadioButton _halfBeadRadioButton;
     private JCheckBox _dragForceCheckBox;
-    private JCheckBox _brownianForceCheckBox;
+    private JCheckBox _brownianMotionCheckBox;
     private JCheckBox _dnaForceCheckBox;
     
     //----------------------------------------------------------------------------
@@ -55,17 +56,17 @@ public class ForcesControlPanel extends JPanel {
      * 
      * @param titleFont
      * @param controlFont
+     * @param bead
      * @param trapForceNode
      * @param dragForceNode
-     * @param brownianForceNode
      * @param dnaForceNode optional
      */
-    public ForcesControlPanel( Font titleFont, Font controlFont, PNode trapForceNode, PNode dragForceNode, PNode brownianForceNode, PNode dnaForceNode ) {
+    public ForcesControlPanel( Font titleFont, Font controlFont, Bead bead, PNode trapForceNode, PNode dragForceNode, PNode dnaForceNode ) {
         super();
         
+        _bead = bead;
         _trapForceNode = trapForceNode;
         _dragForceNode = dragForceNode;
-        _brownianForceNode = brownianForceNode;
         _dnaForceNode = dnaForceNode;
         
         JLabel titleLabel = new JLabel( OTResources.getString( "label.forcesOnBead" ) );
@@ -110,14 +111,6 @@ public class ForcesControlPanel extends JPanel {
             }
          });
         
-        _brownianForceCheckBox = new JCheckBox( OTResources.getString( "label.showBrownianForce" ) );
-        _brownianForceCheckBox.setFont( controlFont );
-        _brownianForceCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleBrownianForceCheckBox();
-            }
-         });
-        
         if ( _dnaForceNode != null ) {
             _dnaForceCheckBox = new JCheckBox( OTResources.getString( "label.showDNAForce" ) );
             _dnaForceCheckBox.setFont( controlFont );
@@ -127,6 +120,14 @@ public class ForcesControlPanel extends JPanel {
                 }
             } );
         }
+        
+        _brownianMotionCheckBox = new JCheckBox( OTResources.getString( "label.enableBrownianMotion" ) );
+        _brownianMotionCheckBox.setFont( controlFont );
+        _brownianMotionCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleBrownianMotionCheckBox();
+            }
+         });
         
         // Layout
         JPanel innerPanel = new JPanel();
@@ -142,10 +143,10 @@ public class ForcesControlPanel extends JPanel {
         layout.addComponent( _wholeBeadRadioButton, row++, 1 );
         layout.addComponent( _halfBeadRadioButton, row++, 1 );
         layout.addComponent( _dragForceCheckBox, row++, 0, 2, 1 );
-        layout.addComponent( _brownianForceCheckBox, row++, 0, 2, 1 );
         if ( _dnaForceCheckBox != null ) {
             layout.addComponent( _dnaForceCheckBox, row++, 0, 2, 1 );
         }
+        layout.addComponent( _brownianMotionCheckBox, row++, 0, 2, 1 );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
         
@@ -157,7 +158,7 @@ public class ForcesControlPanel extends JPanel {
         _halfBeadRadioButton.setSelected( false );
         _halfBeadRadioButton.setEnabled( _trapForceCheckBox.isSelected() );
         _dragForceCheckBox.setSelected( false );
-        _brownianForceCheckBox.setSelected( false );
+        _brownianMotionCheckBox.setSelected( _bead.isBrownianMotionEnabled() );
         if ( _dnaForceCheckBox != null ) {
             _dnaForceCheckBox.setSelected( false );
         }
@@ -166,7 +167,6 @@ public class ForcesControlPanel extends JPanel {
         _horizontalTrapForceLabel.setForeground( Color.RED );
         _wholeBeadRadioButton.setForeground( Color.RED );
         _halfBeadRadioButton.setForeground( Color.RED );
-        _brownianForceCheckBox.setForeground( Color.RED );
     }
     
     //----------------------------------------------------------------------------
@@ -224,13 +224,13 @@ public class ForcesControlPanel extends JPanel {
         return _dragForceCheckBox.isSelected();
     }
    
-    public void setBrownianForceSelected( boolean b ) {
-        _brownianForceCheckBox.setSelected( b );
-        handleBrownianForceCheckBox();
+    public void setBrownianMotionSelected( boolean b ) {
+        _brownianMotionCheckBox.setSelected( b );
+        handleBrownianMotionCheckBox();
     }
     
-    public boolean isBrownianForceSelected() {
-        return _brownianForceCheckBox.isSelected();
+    public boolean isBrownianMotionSelected() {
+        return _brownianMotionCheckBox.isSelected();
     }
     
     public void setHorizontalTrapForceControlsEnabled( boolean enabled ) {
@@ -286,9 +286,9 @@ public class ForcesControlPanel extends JPanel {
         _dragForceNode.setVisible( selected );
     }
     
-    private void handleBrownianForceCheckBox() {
-        final boolean selected = _brownianForceCheckBox.isSelected();
-        _brownianForceNode.setVisible( selected );
+    private void handleBrownianMotionCheckBox() {
+        final boolean selected = _brownianMotionCheckBox.isSelected();
+        _bead.setBrownianMotionEnabled( selected );
     }
     
     private void handleDNAForceCheckBox() {

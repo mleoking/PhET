@@ -76,7 +76,7 @@ public class PhysicsDefaults {
     public static final boolean TRAP_FORCE_SELECTED = false;
     public static final String HORIZONTAL_TRAP_FORCE_CHOICE = ForcesControlPanel.CHOICE_WHOLE_BEAD;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
-    public static final boolean BROWNIAN_FORCE_SELECTED = false;
+    public static final boolean BEAD_BROWNIAN_MOTION_ENABLED = true;
     public static final boolean POSITION_HISTOGRAM_SELECTED = false;
     public static final boolean POTENTIAL_ENERGY_CHART_SELECTED = false;
     public static final boolean RULER_SELECTED = false;

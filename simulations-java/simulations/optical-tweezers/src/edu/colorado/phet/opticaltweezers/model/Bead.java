@@ -43,6 +43,7 @@ public class Bead extends MovableObject implements ModelElement {
     private Laser _laser;
     private Random _stepAngleRandom;
     private boolean _motionEnabled;
+    private boolean _brownianMotionEnabled;
     private Vector2D _velocity; // nm/sec
     private DNAStrand _dnaStrand;
     
@@ -96,6 +97,7 @@ public class Bead extends MovableObject implements ModelElement {
         _laser = laser;
         _stepAngleRandom = new Random();
         _motionEnabled = true;
+        _brownianMotionEnabled = true;
         _velocity = new Vector2D();
         
         _brownianMotionScaleRange = brownianMotionScaleRange;
@@ -156,14 +158,12 @@ public class Bead extends MovableObject implements ModelElement {
         _motionEnabled = motionEnabled;    
     }
     
-    /**
-     * Gets the Brownian force acting on the bead.
-     * 
-     * @return Vector2D
-     */
-    public Vector2D getBrownianForce() {
-        //XXX not implemented
-        return new Vector2D.Cartesian( 0, 0 );
+    public void setBrownianMotionEnabled( boolean enabled ) {
+        _brownianMotionEnabled = enabled;
+    }
+    
+    public boolean isBrownianMotionEnabled() {
+        return _brownianMotionEnabled;
     }
     
     /**
@@ -384,7 +384,13 @@ public class Bead extends MovableObject implements ModelElement {
             }
                 
             // Brownian displacement (nm)
-            Vector2D brownianDisplacement = computeBrownianDisplacement( dt ); // nm
+            Vector2D brownianDisplacement = null;
+            if ( _brownianMotionEnabled ) {
+                brownianDisplacement = computeBrownianDisplacement( dt ); // nm
+            }
+            else {
+                brownianDisplacement = new Vector2D.Cartesian( 0, 0 );
+            }
 
             // New position
             xNew = xOld + ( vxOld * dt ) + brownianDisplacement.getX(); // nm
