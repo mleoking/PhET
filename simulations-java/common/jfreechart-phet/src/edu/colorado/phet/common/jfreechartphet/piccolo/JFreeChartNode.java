@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2007, University of Colorado */
 
 package edu.colorado.phet.common.jfreechartphet.piccolo;
 
@@ -47,7 +38,6 @@ import java.util.List;
  * is not the result of changes to the chart or node.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class JFreeChartNode extends PNode implements ChartChangeListener {
 
@@ -219,7 +209,6 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * @return
      */
     public Rectangle2D getDataArea() {
-//        updateChartRenderingInfo();
         ChartRenderingInfo chartInfo = getChartRenderingInfo();
         PlotRenderingInfo plotInfo = chartInfo.getPlotInfo();
         // Careful! getDataArea returns a direct reference!
@@ -234,7 +223,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * Only combined charts have subplots.
      *
      * @param subplotIndex
-     * @return
+     * @return 
      * @throws IndexOutOfBoundsException if subplotIndex is out of bounds
      */
     public Rectangle2D getDataArea( int subplotIndex ) {
