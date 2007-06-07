@@ -176,7 +176,7 @@ public class WalkWayGraphic extends CompositePhetGraphic {
                 double modelx = minValue + i * modelDX;
                 String str = format.format( modelx );
                 if( str.equals( "0" ) ) {
-                    str = "0" + SimStrings.get( "WalkWayGraphic.MetersText" );
+                    str = "0" + SimStrings.get( "units.meters" );
                 }
                 TickGraphic tickGraphic = new TickGraphic( component, modelx, transform, str );
                 graphicList.add( tickGraphic );

@@ -16,7 +16,7 @@ public class RecordMode extends Mode {
 
     public RecordMode( final MovingManModule module, MovingManTimeModel movingManTimeModel ) {
         super( module, SimStrings.get( "RecordMode.ModeName" ), true );
-        timer = new MMTimer( SimStrings.get( "MovingManModule.RecordTimerLabel" ) );//, MovingManModel.TIMER_SCALE );
+        timer = new MMTimer( SimStrings.get( "controls.record" ) );//, MovingManModel.TIMER_SCALE );
         this.module = module;
         movingManTimeModel.addListener( new TimeListenerAdapter() {
             public void recordingStarted() {

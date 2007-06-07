@@ -22,7 +22,7 @@ public class PositionController {
 
     public PositionController( final RampModule rampModule ) {
         this.rampModule = rampModule;
-        this.modelSlider = new ModelSlider( TheRampStrings.getString( "property.position" ), TheRampStrings.getString( "units.meters" ), -getGroundLength(), rampModule.getRampPhysicalModel().getRamp().getLength(), getBlockPosition() );
+        this.modelSlider = new ModelSlider( TheRampStrings.getString( "property.position" ), TheRampStrings.getString( "units.meters.abbreviation" ), -getGroundLength(), rampModule.getRampPhysicalModel().getRamp().getLength(), getBlockPosition() );
         rampModule.getRampPhysicalModel().getBlock().addListener( new Block.Adapter() {
             public void positionChanged() {
                 modelSlider.setValue( getBlockPosition() );

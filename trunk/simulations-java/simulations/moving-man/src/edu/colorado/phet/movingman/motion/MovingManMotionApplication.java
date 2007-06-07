@@ -2,7 +2,6 @@ package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.motion.model.MotionModel;
-import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -58,11 +57,11 @@ public class MovingManMotionApplication {
         CursorModel cursorModel = new CursorModel( motionModel.getTimeSeriesModel() );
 
         GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
-                new MinimizableControlGraph( SimStrings.get( "PlotSet.PositionAbbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getXVariable(), SimStrings.get( "PlotSet.PositionAbbreviation" ), SimStrings.get( "PlotSet.PositionLabel" ), -10, 10, Color.blue,
+                new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getXVariable(), SimStrings.get( "variables.position.abbreviation" ), SimStrings.get( "variables.position" ), -10, 10, Color.blue,
                                                                           new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, cursorModel, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven() ) ),
-                new MinimizableControlGraph( SimStrings.get( "PlotSet.VelocityAbbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getVVariable(), SimStrings.get( "PlotSet.VelocityAbbreviation" ), SimStrings.get( "PlotSet.VelocityLabel" ), -1, 1, Color.red,
+                new MinimizableControlGraph( SimStrings.get( "variables.velocity.abbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getVVariable(), SimStrings.get( "variables.velocity.abbreviation" ), SimStrings.get( "variables.velocity" ), -1, 1, Color.red,
                                                                           new PImage( GraphSuiteSet.loadRedArrow() ), motionModel, true, cursorModel, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven() ) ),
-                new MinimizableControlGraph( SimStrings.get( "PlotSet.AccelerationAbbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getAVariable(), SimStrings.get( "PlotSet.AccelerationAbbreviation" ), SimStrings.get( "PlotSet.AccelerationLabel" ), -0.01, 0.01, Color.green,
+                new MinimizableControlGraph( SimStrings.get( "variables.acceleration.abbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getAVariable(), SimStrings.get( "variables.acceleration.abbreviation" ), SimStrings.get( "variables.acceleration" ), -0.01, 0.01, Color.green,
                                                                           new PImage( GraphSuiteSet.loadGreenArrow() ), motionModel, true, cursorModel, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven() ) )
         } ) ) );
         graphSetNode.setAlignedLayout();

@@ -308,8 +308,8 @@ public class PlotDevice extends GraphicLayerSet {
             ActionListener incPos = new ValueChange( 5, 0, 100 );
             ActionListener incNeg = new ValueChange( -5, 0, 100 );
 
-            MagButton zoomIn = new MagButton( new ImageIcon( imPlus ), smoothPos, incPos, SimStrings.get( "MMPlot.ZoomInButton" ) );
-            MagButton zoomOut = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, SimStrings.get( "MMPlot.ZoomOutButton" ) );
+            MagButton zoomIn = new MagButton( new ImageIcon( imPlus ), smoothPos, incPos, SimStrings.get( "plot.zoom-in" ) );
+            MagButton zoomOut = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, SimStrings.get( "plot.zoom-out" ) );
 
             JPanel panel = new JPanel();
             panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );

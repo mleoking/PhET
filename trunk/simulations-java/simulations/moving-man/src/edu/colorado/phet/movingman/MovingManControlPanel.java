@@ -61,7 +61,7 @@ public class MovingManControlPanel extends JPanel {
         JLabel phetIconLabel = new JLabel( imageIcon );
         northPanel.add( phetIconLabel );
 
-        final JCheckBox invertAxes = new JCheckBox( SimStrings.get( "MovingManControlPanel.InvertXAxisCheckBox" ), false );
+        final JCheckBox invertAxes = new JCheckBox( SimStrings.get( "controls.reverse-x-axis" ), false );
         invertAxes.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean ok = module.confirmClear();
@@ -71,7 +71,7 @@ public class MovingManControlPanel extends JPanel {
             }
         } );
         northPanel.add( invertAxes );
-        reset = new JButton( SimStrings.get( "MovingManControlPanel.ResetButton" ) );
+        reset = new JButton( SimStrings.get( "controls.reset" ) );
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
