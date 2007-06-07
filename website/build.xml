@@ -63,9 +63,15 @@ build-related libraries from the simulations-java project.
              
     <target name="deploy" description="This task deploys the website." depends="_read-username-and-password">
         <maverick-ssh host="${deploy.server.name}" username="${deploy.username}" password="${deploy.password}" version="2">
+            <!-- Make the remote directory: -->
+            <sftp action="mkdir" remotedir="${deploy.server.path}" verbose="true" />
+            
+            <!-- Put all files to the remote directory: -->
             <sftp action="put"   remotedir="${deploy.server.path}" verbose="true">
                 <fileset dir="${dir.website}" />
             </sftp>
+            
+            <!-- Finally, modify the permissions so everyone can read & execute, and group & owner can write: -->
             <sftp action="chmod" remotedir="${deploy.server.path}" verbose="true" mode="775" >
                 <fileset dir=".">
                     <include name="**/*.*"  />
