@@ -8,6 +8,7 @@ import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShadowTextGraphi
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.plots.MMPlotSuite;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -25,8 +26,6 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
     private ForceArrowGraphic vel;
     private ForceArrowGraphic accel;
 
-//    public static final double lengthScale = 10;
-//    private LinearTransform1d transform1d;
     private double arrowTailWidth = 30;
     private double arrowHeadHeight = 55;
     private double v = 0;
@@ -37,12 +36,12 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         this.movingManModule = movingManModule;
         this.manGraphic = manGraphic;
 
-        vel = new ForceArrowGraphic( force1DPanel, "Velocity", Color.red, 0, new ForceComponent() {
+        vel = new ForceArrowGraphic( force1DPanel, SimStrings.get( "PlotSet.VelocityLabel" ), Color.red, 0, new ForceComponent() {
             public double getValue() {
                 return getVelocity();
             }
         } );
-        accel = new ForceArrowGraphic( force1DPanel, "Acceleration", Color.green, 0, new ForceComponent() {
+        accel = new ForceArrowGraphic( force1DPanel, SimStrings.get( "PlotSet.AccelerationLabel" ), Color.green, 0, new ForceComponent() {
             public double getValue() {
                 return getAcceleration();
             }

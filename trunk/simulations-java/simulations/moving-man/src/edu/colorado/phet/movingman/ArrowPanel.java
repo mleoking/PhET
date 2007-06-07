@@ -2,6 +2,7 @@
 package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common_movingman.view.components.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,8 +17,8 @@ import java.awt.event.ActionListener;
 
 public class ArrowPanel extends HorizontalLayoutPanel {
     public ArrowPanel( final MovingManModule module ) {
-        setBorder( BorderFactory.createTitledBorder( "Vectors" ) );
-        final JCheckBox velocity = new JCheckBox( "Velocity" );
+        setBorder( BorderFactory.createTitledBorder( SimStrings.get( "controls.vectors" ) ) );
+        final JCheckBox velocity = new JCheckBox( SimStrings.get( "PlotSet.VelocityLabel" ) );
         velocity.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setShowVelocityVector( velocity.isSelected() );
@@ -25,7 +26,7 @@ public class ArrowPanel extends HorizontalLayoutPanel {
         } );
 
 
-        final JCheckBox acceleration = new JCheckBox( "Acceleration" );
+        final JCheckBox acceleration = new JCheckBox( SimStrings.get( "PlotSet.AccelerationLabel" ) );
         acceleration.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setShowAccelerationVector( acceleration.isSelected() );
