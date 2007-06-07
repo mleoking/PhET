@@ -4,6 +4,7 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
@@ -107,6 +108,7 @@ public class PhysicsModule extends AbstractModule {
             bead.setDtSubdivisionThreshold( PhysicsDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
             bead.setNumberOfDtSubdivisions( PhysicsDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
             bead.setBrownianMotionScale( PhysicsDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE.getDefault() );
+            bead.setBrownianMotionEnabled( PhysicsDefaults.BEAD_BROWNIAN_MOTION_ENABLED );
             
             // Laser
             Laser laser = _model.getLaser();
@@ -129,7 +131,6 @@ public class PhysicsModule extends AbstractModule {
             _controlPanel.getForcesControlPanel().setTrapForceSelected( PhysicsDefaults.TRAP_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setHorizontalTrapForceChoice( PhysicsDefaults.HORIZONTAL_TRAP_FORCE_CHOICE );
             _controlPanel.getForcesControlPanel().setDragForceSelected( PhysicsDefaults.FLUID_DRAG_FORCE_SELECTED );
-            _controlPanel.getForcesControlPanel().setBrownianForceSelected( PhysicsDefaults.BROWNIAN_FORCE_SELECTED );
             _controlPanel.getChartsControlPanel().setPositionHistogramSelected( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );
             _controlPanel.getChartsControlPanel().setPotentialEnergySelected( PhysicsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
             _controlPanel.setRulerSelected( PhysicsDefaults.RULER_SELECTED );

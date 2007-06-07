@@ -76,7 +76,7 @@ public class DNADefaults {
     public static final int DNA_NUMBER_OF_SPRINGS = 40; // nm
     public static final DoubleRange DNA_SPRING_CONSTANT_RANGE = new DoubleRange( 200, 1000, 600 );
     public static final DoubleRange DNA_DRAG_COEFFICIENT_RANGE = new DoubleRange( 10, 30, 20 );
-    public static final DoubleRange DNA_KICK_CONSTANT_RANGE = new DoubleRange( 25, 75, 50 );
+    public static final DoubleRange DNA_KICK_CONSTANT_RANGE = new DoubleRange( 25, 1000, 50 );
     public static final IntegerRange DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE = new IntegerRange( 1, 100, 5 );
     public static final DoubleRange DNA_EVOLUTION_DT_RANGE = new DoubleRange( 0.001, 0.3, 0.002 );
     public static final boolean DNA_PIVOTS_VISIBLE = true;
@@ -87,8 +87,8 @@ public class DNADefaults {
     public static final boolean TRAP_FORCE_SELECTED = false;
     public static final String HORIZONTAL_TRAP_FORCE_CHOICE = ForcesControlPanel.CHOICE_WHOLE_BEAD;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
-    public static final boolean BROWNIAN_FORCE_SELECTED = false;
     public static final boolean DNA_FORCE_SELECTED = false;
+    public static final boolean BROWNIAN_MOTION_ENABLED = true;
     public static final boolean RULER_SELECTED = false;
     public static final boolean ADVANCED_VISIBLE = true;
     public static final boolean FLUID_CONTROLS_SELECTED = false;

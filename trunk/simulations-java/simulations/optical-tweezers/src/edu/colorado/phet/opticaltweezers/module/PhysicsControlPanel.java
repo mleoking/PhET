@@ -59,8 +59,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _clockStepControlPanel = new ClockStepControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
         _laserDisplayControlPanel = new LaserDisplayControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getLaserNode() );
         _beadChargeControlPanel = new BeadChargeControlPanel( TITLE_FONT, CONTROL_FONT );
-        _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT,
-                _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getBrownianForceNode(), null /* dnaForceNode */ );
+        _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, model.getBead(),
+                _canvas.getTrapForceNode(), _canvas.getDragForceNode(), null /* dnaForceNode */ );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getPositionHistogramChartNode(), _canvas.getPotentialEnergyChartNode() );
         _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getFluid() );
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getBead(), 

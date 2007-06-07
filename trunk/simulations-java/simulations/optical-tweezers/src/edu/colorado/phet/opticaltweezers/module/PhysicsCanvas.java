@@ -66,7 +66,6 @@ public class PhysicsCanvas extends PhetPCanvas {
     private PotentialEnergyChartNode _potentialEnergyChartNode;
     private TrapForceNode _trapForceNode;
     private DragForceNode _dragForceNode;
-    private BrownianForceNode _brownianForceNode;
     
     // Control
     private PSwing _returnBeadButtonWrapper;
@@ -132,7 +131,6 @@ public class PhysicsCanvas extends PhetPCanvas {
             final double viewReferenceLength = DNADefaults.FORCE_VECTOR_REFERENCE_LENGTH;
             _trapForceNode = new TrapForceNode( laser, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
             _dragForceNode = new DragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
-            _brownianForceNode = new BrownianForceNode( bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
         }
         
         // Ruler
@@ -167,7 +165,6 @@ public class PhysicsCanvas extends PhetPCanvas {
         _rootNode.addChild( _beadDragBoundsNode );
         _rootNode.addChild( _trapForceNode );
         _rootNode.addChild( _dragForceNode );
-        _rootNode.addChild( _brownianForceNode );
         _rootNode.addChild( _positionHistogramChartNode );
         _rootNode.addChild( _potentialEnergyChartNode );
         _rootNode.addChild( _rulerNode );
@@ -217,10 +214,6 @@ public class PhysicsCanvas extends PhetPCanvas {
     
     public DragForceNode getDragForceNode() {
         return _dragForceNode;
-    }
-    
-    public BrownianForceNode getBrownianForceNode() {
-        return _brownianForceNode;
     }
 
     //----------------------------------------------------------------------------
