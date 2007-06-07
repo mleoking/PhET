@@ -27,6 +27,7 @@ MEDIUM PRIORITY:
 - make "beam" the only laser display option in fast mode
 
 LOW PRIORITY:
+- power slider doesn't work sometimes (only seen this under Vista so far)
 - control panels have vertical scrollbars
 - make developer controls savable/loadable?
 - get rid of "Advanced" panel, there's only 1 control left in it ?
