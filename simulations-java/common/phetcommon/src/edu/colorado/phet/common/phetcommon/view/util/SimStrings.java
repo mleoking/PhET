@@ -21,7 +21,7 @@ public class SimStrings {
     private Locale locale;
 
     private static SimStrings INSTANCE = new SimStrings();
-    private static boolean debugLocalization=true;
+    private static boolean debugLocalization=false;
 
     public static SimStrings getInstance() {
         return INSTANCE;
