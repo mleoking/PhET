@@ -56,7 +56,7 @@
 	            
     	            <div class="field">
     	                <span class="label_content">
-<textarea rows="10" cols="40" name="newsletter_body" onfocus="javascript:this.select();">
+<textarea rows="30" cols="40" name="newsletter_body" onfocus="javascript:this.select();">
 
 Dear \$NAME\$,
     
@@ -65,6 +65,10 @@ Dear \$NAME\$,
 Regards,
     
 The PhET Team
+
+----
+
+If you would like to unsubscribe from the PhET mailing list, please visit http://phet.colorado.edu/teacher_ideas/user-edit-profile.php
 
 </textarea>
     	                </span>

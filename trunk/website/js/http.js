@@ -334,7 +334,9 @@ HTTP.updateElementValueWithGet = function(url, parameters, elementId, code) {
 	
 	callback = function(result) {
 		if (result != null) {
-			element.value = result;
+			if (result != '') {
+				element.value = result;
+			}			
 			
 			if (code) {
 				eval(code);

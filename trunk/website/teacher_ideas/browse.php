@@ -142,7 +142,7 @@ EOT;
         
         $on_change = 'onchange="javascript:browse_update_browser_for_select_element();"';
         
-        $list .= '<select name="'.$all_filter_name.'[]" '.$on_change.' multiple="multiple" size="'.$size.'" id="'.$all_filter_name.'_uid">';
+        $list .= '<select class="'.$all_filter_name.'" name="'.$all_filter_name.'[]" '.$on_change.' multiple="multiple" size="'.$size.'" id="'.$all_filter_name.'_uid">';
         
         $list .= build_option_string('all', "All $all_filter_name", $selected_values);
         
@@ -355,15 +355,15 @@ EOT;
                 
                     <tbody>
                         <tr>
-                            <td class="Simulations">
+                            <td>
                                 $sim_list
                             </td>
                         
-                            <td class="Types">
+                            <td>
                                 $type_list                        
                             </td>
                         
-                            <td class="Levels">
+                            <td>
                                 $level_list                        
                             </td>
                         </tr>

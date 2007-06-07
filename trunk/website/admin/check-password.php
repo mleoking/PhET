@@ -12,7 +12,7 @@
         if ($contributor = contributor_get_contributor_by_email($contributor_email)) {
             if ($contributor_password == $contributor['contributor_password']) {
                 print <<<EOT
-                    <span class="validation-success">valid</span>
+                    <span class="validation-success">password is correct</span>
 EOT;
             }
             else {

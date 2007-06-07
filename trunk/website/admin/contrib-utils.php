@@ -312,6 +312,10 @@ EOT;
             $contribution_keywords = $simulation['sim_keywords'];
         }            
         
+        if (!isset($contribution_title) || $contribution_title == '') {
+            $contribution_title = "A contribution from me";
+        }
+        
         $all_contribution_types = contribution_get_all_template_type_names();
         $contribution_types     = contribution_get_type_names_for_contribution($contribution_id);
 
@@ -368,8 +372,8 @@ EOT;
                         <span class="label_content">
                             <input type="text" name="contribution_contact_email" 
                                 value="$contribution_contact_email" id="contribution_contact_email_uid" size="40"
-                                onfocus="javascript:on_focus_select_question_marks('contribution_contact_email_uid');"
-                                onclick="javascript:on_focus_select_question_marks('contribution_contact_email_uid');" />
+                                onfocus="javascript:select_question_marks_in_input('contribution_contact_email_uid');"
+                                onclick="javascript:select_question_marks_in_input('contribution_contact_email_uid');" />
                         </span>
                         
                         <span class="label">
@@ -381,8 +385,7 @@ EOT;
                     
                     <div class="field">
                         <span class="label_content">
-                            <input type="text" name="contribution_title" 
-                                value="$contribution_title" id="contribution_title_uid" size="40"/>
+                            <input type="text" name="contribution_title" value="$contribution_title" id="contribution_title_uid" size="40"/>
                         </span>
                         
                         <span class="label">
@@ -582,6 +585,8 @@ EOT;
             $abbr = $contribution["${table_name}_desc_abbrev"];
         }
         
+        $abbr = preg_replace('/ *, */', '<br/>', $abbr);
+        
         return "<abbr title=\"$desc\">$abbr</abbr>";
     }
     
@@ -700,7 +705,22 @@ EOT;
         $sim_list = "None";
         
         if (isset($sim_name)) {
-            $sim_list = '<a href="'.SITE_ROOT.'simulations/sims.php?sim_id='.$sim_id.'">'.$sim_name.'</a>';
+            $sim_list = '';
+            
+            $is_first = true;
+            
+            foreach(preg_split('/ *, */', $sim_name) as $sim) {
+                $simulation = sim_get_sim_by_name($sim);
+                
+                if ($is_first) {
+                    $is_first = false;
+                }
+                else {
+                    $sim_list .= '<br/>';
+                }
+                
+                $sim_list .= '<a href="'.SITE_ROOT.'simulations/sims.php?sim_id='.$simulation['sim_id'].'">'.$simulation['sim_name'].'</a>';
+            }
         }
         
         $level_list = contribution_generate_association_abbr(
@@ -1601,123 +1621,123 @@ EOT;
                     
                     <div class="form_content">
                         <div class="field">
-                            <span class="label">password</span>
-                        
                             <span class="label_content">
                                 <input type="password" name="contributor_password" 
                                     value="$contributor_password" id="password" size="25"/>                        
                             </span>
+                            
+                            <span class="label">password</span>
                         </div>
                     
                         <div class="field">
-                            <span class="label">name</span>
-                        
                             <span class="label_content">
                                 <input type="text" name="contributor_name" 
                                     value="$contributor_name" id="name" size="25"/>
                             </span>
+                            
+                            <span class="label">name</span>
                         </div>
                     
                         <div class="field">
-                            <span class="label">organization</span>
-                        
                             <span class="label_content">
                                 <input type="text" name="contributor_organization" 
                                     value="$contributor_organization" id="contributor_organization" size="25"/>
                             </span>
+                            
+                            <span class="label">organization</span>
                         </div>
                     
                         <div class="field">
-                            <span class="label">title</span>
-                        
                             <span class="label_content">
                                 <input type="text" name="contributor_title"
                                     value="$contributor_title" id="title" size="25" />
                             </span>
+                            
+                            <span class="label">title</span>
                         </div>
                     
                         <div class="field">
-                            <span class="label">address</span>
-                        
                             <span class="label_content">
                                 <input type="text" name="contributor_address"
                                     value="$contributor_address" id="address" size="25" />
                             </span>
+                            
+                            <span class="label">address</span>
                         </div>
                     
                         <div class="field">
-                            <span class="label">office</span>
-                        
                             <span class="label_content">
                                 <input type="text" name="contributor_office"
                                     value="$contributor_office" id="office" size="15" />
                             </span>
+                            
+                            <span class="label">office</span>
                         </div>
                     
                         <div class="field">
-                            <span class="label">city</span>
-                        
                             <span class="label_content">
                                 <input type="text" name="contributor_city"
                                     value="$contributor_city" id="city" size="15" />
                             </span>
+                            
+                            <span class="label">city</span>
                         </div>
                     
                         <div class="field">
-                            <span class="label">state/province</span>
-                    
                             <span class="label_content">
                                 <input type="text" name="contributor_state"
                                     value="$contributor_state" id="state" size="15" />
                             </span>
+                            
+                            <span class="label">state/province</span>
                         </div>
                     
                         <div class="field">
-                            <span class="label">postal code</span>
-                        
                             <span class="label_content">
                                 <input type="text" name="contributor_postal_code"
                                     value="$contributor_postal_code" id="postal_code" size="10" />
                             </span>
+                            
+                            <span class="label">postal code</span>
                         </div>
                     
                     
                         <div class="field">
-                            <span class="label">primary phone</span>
-                        
                             <span class="label_content">
                                 <input type="text" name="contributor_primary_phone"
                                     value="$contributor_primary_phone" id="primary_phone" size="12" />
                             </span>
+                            
+                            <span class="label">primary phone</span>
                         </div>
                     
                         <div class="field">
-                            <span class="label">secondary phone</span>
-                    
                             <span class="label_content">
                                 <input type="text" name="contributor_secondary_phone"
                                     value="$contributor_secondary_phone" id="secondary_phone" size="12" />
                             </span>
+                            
+                            <span class="label">secondary phone</span>
                         </div>
                     
                         <div class="field">
-                            <span class="label">fax</span>
-                        
                             <span class="label_content">
                                 <input type="text" name="contributor_fax"
                                     value="$contributor_fax" id="fax" size="12" />
                             </span>                        
+                            
+                            <span class="label">fax</span>
                         </div>
                     
                         <input type="hidden" name="contributor_receive_email" value="0" />
                     
                         <div class="field">
-                            <span class="label">phet newsletter</span>
-                        
                             <span class="label_content">
                                 <input type="checkbox" name="contributor_receive_email"
                                     value="1" $contributor_receive_email_checked>
                             </span>
+                            
+                            <span class="label">receive phet email</span>                            
                         </div>
                     </div>
 
