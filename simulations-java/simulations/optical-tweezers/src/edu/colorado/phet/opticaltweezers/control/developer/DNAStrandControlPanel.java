@@ -86,9 +86,9 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         
         double min = dnaStrand.getSpringConstantRange().getMin();
         double max = dnaStrand.getSpringConstantRange().getMax();
-        _springConstantControl = new LinearValueControl( min, max, "k/m (spring):", "0.00", "" );
+        _springConstantControl = new LinearValueControl( min, max, "k/m (spring):", "##0", "" );
         _springConstantControl.setToolTipText( "<html>spring constant divided by mass<html>" );
-        _springConstantControl.setUpDownArrowDelta( 0.01 );
+        _springConstantControl.setUpDownArrowDelta( 1 );
         _springConstantControl.setFont( controlFont );
         _springConstantControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
@@ -98,8 +98,8 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         
         min = dnaStrand.getDragCoefficientRange().getMin();
         max = dnaStrand.getDragCoefficientRange().getMax();
-        _dragCoefficientControl = new LinearValueControl( min, max, "b (drag):", "0.00", "" );
-        _dragCoefficientControl.setUpDownArrowDelta( 0.01 );
+        _dragCoefficientControl = new LinearValueControl( min, max, "b (drag):", "##0", "" );
+        _dragCoefficientControl.setUpDownArrowDelta( 1 );
         _dragCoefficientControl.setFont( controlFont );
         _dragCoefficientControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
@@ -120,8 +120,8 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         
         min = dnaStrand.getKickConstantRange().getMin();
         max = dnaStrand.getKickConstantRange().getMax();
-        _kickConstant = new LinearValueControl( min, max, "kick:", "0.00", "" );
-        _kickConstant.setUpDownArrowDelta( 0.01 );
+        _kickConstant = new LinearValueControl( min, max, "kick:", "##0", "" );
+        _kickConstant.setUpDownArrowDelta( 1 );
         _kickConstant.setFont( controlFont );
         _kickConstant.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
@@ -166,8 +166,8 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         layout.addComponent( _extensionCheckBox, row++, column );
         layout.addComponent( _springConstantControl, row++, column );
         layout.addComponent( _dragCoefficientControl, row++, column );
-        layout.addComponent( _evolutionDtControl, row++, column );
         layout.addComponent( _kickConstant, row++, column );
+        layout.addComponent( _evolutionDtControl, row++, column );
         layout.addComponent( _numberOfEvolutionsPerClockTickControl, row++, column );
         
         // Default state
