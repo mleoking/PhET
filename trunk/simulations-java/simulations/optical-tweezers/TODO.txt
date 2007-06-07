@@ -6,14 +6,16 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - fix scale issues with DNA strand model
+- modify DNA strand model to accommodate variable fluid properties?
+- modify DNA strand model to accommodate variable clock step
+- better model for trap force
+
+MEDIUM PRIORITY:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
 - implement custom simulation speed control
 - E-field feature
-
-MEDIUM PRIORITY:
 - DNA strand looks too straight initially, evolve a few times before displaying?
 - tune developer controls, pick appropriate defaults
-- modify DNA strand evolution to accommodate variable fluid properties?
 - position histogram requires more precision on x-axis and ruler
 - get model for Brownian force, or delete "Show Brownian force" feature
 - ruler is slightly off-center in all panels
@@ -28,6 +30,7 @@ MEDIUM PRIORITY:
 - make "beam" the only laser display option in fast mode
 
 LOW PRIORITY:
+- look at PSwingEventHandler for PSwing drag problem
 - show DNA strand as a double helix
 - power slider doesn't work sometimes (only seen this under Vista so far)
 - control panels have vertical scrollbars
