@@ -14,6 +14,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Laser;
@@ -83,7 +84,9 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _startString = OTResources.getString( "label.startLaser" );
         _stopString = OTResources.getString( "label.stopLaser" );
         _startStopButton = new JButton( _laser.isRunning() ? _stopString : _startString );
-        _startStopButton.setOpaque( false );
+        if ( PhetUtilities.isMacintosh() ) {
+            _startStopButton.setOpaque( false );
+        }
         _startStopButton.setFont( font );
         _startStopButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
