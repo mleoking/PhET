@@ -53,8 +53,8 @@ public class MovingManApplication {
         SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
         FrameSetup setup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 800 ) );
         String version = PhetApplicationConfig.getVersion( "moving-man" ).formatForTitleBar();
-        ApplicationModel desc = new ApplicationModel( SimStrings.get( "MovingManApplication.title" ) + " (" + version + ")",
-                                                      SimStrings.get( "MovingManApplication.description" ),
+        ApplicationModel desc = new ApplicationModel( SimStrings.get( "moving-man.name" ) + " (" + version + ")",
+                                                      SimStrings.get( "moving-man.description" ),
                                                       version, setup );
         desc.setName( "movingman" );
         PhetApplication tpa = new PhetApplication( args, desc.getWindowTitle(), desc.getDescription(), desc.getVersion(), clock, false, setup );

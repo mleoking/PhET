@@ -52,7 +52,7 @@ public class MovingManModule extends Module {
 
 
     public MovingManModule( AbstractClock clock ) throws IOException {
-        super( SimStrings.get( "ModuleTitle.MovingManModule" ), clock );
+        super( SimStrings.get( "moving-man.name" ), clock );
 
         super.setModel( new BaseModel() );
         movingManModel = new MovingManModel( this, clock );
