@@ -8,6 +8,13 @@
 
     $lookup_by_email = false;
     $lookup_by_name  = false;
+    
+    if (isset($_REQUEST['contributor_password'])) {
+        $contributor_password = $_REQUEST['contributor_password'];
+    }
+    else {
+        $contributor_password = '';
+    }
 
     if (isset($_REQUEST['contributor_email'])) {
         $contributor_email = $_REQUEST['contributor_email'];
@@ -54,8 +61,8 @@
                     <input type="text" name="contributor_email" id="contributor_email_uid" 
                         value="$scrambled_contributor_email" onchange="javascript:on_email_entered();" 
                         onkeyup="javascript:on_email_change();"
-                        onfocus="javascript:on_focus_select_question_marks('contributor_email_uid');"
-                        onclick="javascript:on_focus_select_question_marks('contributor_email_uid');"
+                        onfocus="javascript:select_question_marks_in_input('contributor_email_uid');"
+                        onclick="javascript:select_question_marks_in_input('contributor_email_uid');"
                          />
 
                     <span id="ajax_email_comment_uid">
@@ -70,7 +77,7 @@ EOT;
         print <<<EOT
             <div class="field">
                 <span class="label_content">
-                    <input type="password" name="contributor_password" id="contributor_password_uid" onchange="javascript:on_password_change();" onkeyup="javascript:on_password_change();" />
+                    <input type="password" name="contributor_password" id="contributor_password_uid" onchange="javascript:on_password_change();" onkeyup="javascript:on_password_change();" value="$contributor_password" />
                     
                     <span id="ajax_password_comment_uid">
                     </span>
@@ -95,7 +102,7 @@ EOT;
             
             <div class="field">
                 <span class="label_content">
-                    <input type="password" name="contributor_password" id="contributor_password_uid" />
+                    <input type="password" name="contributor_password" id="contributor_password_uid" value="$contributor_password" />
                     
                     <span id="ajax_password_comment_uid">
                     </span>

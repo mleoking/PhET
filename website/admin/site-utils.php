@@ -10,9 +10,6 @@
     
     include_once(SITE_ROOT."teacher_ideas/referrer.php");
     
-    // Don't require authentication, but do it if the cookies are available:
-    do_authentication(false);
-    
     function print_header_navigation_element($prefix, $selected_page, $link, $desc, $access_key) {
         $this_element_is_selected = "$access_key" == "$selected_page";
 
@@ -195,6 +192,9 @@ EOT;
     }
     
     function print_site_page($content_printer, $selected_page = null) {
+        // Don't require authentication, but do it if the cookies are available:
+        do_authentication(false);
+        
         global $referrer;
         
         $prefix = "..";
@@ -229,18 +229,21 @@ EOT;
                     // AJAX login stuff:
                     /*<![CDATA[*/
                     
-                    function post_required_info_displayed() {
-                        // Place focus on password:
+                    // This array stores all the 'contributor organizations' that we generated:
+                    var generated_contributor_orgs = [];
+                    
+                    function post_required_info_displayed() {                    
+                        on_email_change();
+                        
+                        // Place focus on password if it's empty':
                         var password_element = document.getElementById('contributor_password_uid');
                         
                         if (password_element) {
                             password_element.focus();
                         }
-                        
-                        on_email_change();
                     }
 
-                	function select_text_in_field(field, start, end){
+                	function select_text_in_input(field, start, end){
                 		if( field.createTextRange ){
                 			var selRange = field.createTextRange();
                 			selRange.collapse(true);
@@ -260,7 +263,7 @@ EOT;
                 		field.focus();
                 	};
                     
-                    function on_focus_select_question_marks(id) {
+                    function select_question_marks_in_input(id) {
                         var element = document.getElementById(id);
                         
                         if (element) {
@@ -269,7 +272,7 @@ EOT;
                             var lastIndex  = value.lastIndexOf('?') + 1;
                             
                             if (firstIndex != -1) {                            
-                                select_text_in_field(element, firstIndex, lastIndex);
+                                select_text_in_input(element, firstIndex, lastIndex);
                             }
                         }
                     }
@@ -286,21 +289,24 @@ EOT;
                     }
 
                     function on_email_entered() {
-                        var email_element = document.getElementById('contributor_email_uid');
-
-                        var email = email_element.value;
+                        var email_element    = document.getElementById('contributor_email_uid');
+                        var password_element = document.getElementById('contributor_password_uid');
+                        
+                        var email    = email_element.value;
+                        var password = password_element.value;
                             
                         HTTP.updateElementWithGet('$prefix/admin/do-ajax-login.php?contributor_email=' + 
-                            encodeURI(email), null, 'required_login_info_uid', 'post_required_info_displayed();');
+                            encodeURI(email) + '&contributor_password=' + encodeURI(password), 
+                            null, 'required_login_info_uid', 'post_required_info_displayed();');
                     }
                     
                     function deduce_author_organization() {
                         var email_element = document.getElementById('contributor_email_uid');
 
                         var email = email_element.value;
-                            
+                        
                         HTTP.updateElementValueWithGet('$prefix/admin/get-contributor-org.php?contributor_email=' +
-                            encodeURI(email), null, 'contribution_authors_organization_uid');                        
+                            encodeURI(email), null, 'contribution_authors_organization_uid'); 
                     }
                         
                     function on_email_change() {
@@ -314,18 +320,35 @@ EOT;
                             contact_element.value = email;
                         }      
                         
+                        // The email has changed. Now we would like to update the contributor organization
+                        // based on the email domain:
                         var contributor_org_element = document.getElementById('contributor_organization_uid');
                         var contribution_org_element = document.getElementById('contribution_authors_organization_uid');
 
                         if (contributor_org_element) {
-                            if (contributor_org_element.value == '') {
-                                var email_pattern = /^s*\w+@(\w+)\.(\w{3,})\s*$/;
+                            // We can update contributor organization if it's blank:
+                            var can_overwrite_contrib = contributor_org_element.value == '';
+                            
+                            // Otherwise, the only reason we can update it is if it's holding a value
+                            // that we generated ourselves:
+                            if (!can_overwrite_contrib) {
+                                for (var i = 0; i < generated_contributor_orgs.length; i++) {
+                                    if (generated_contributor_orgs[i] == contributor_org_element.value) {
+                                        can_overwrite_contrib = true;
+                                        
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            if (can_overwrite_contrib) {
+                                var email_pattern = /^s*\w+@(\w+)(\.([\w\.]+))?\s*$/;
                                 
                                 var result;
                                 
                                 if ((result = email_pattern.exec(email)) != null) {
                                     var domain = result[1];
-                                    var ext    = result[2];
+                                    var ext    = result[3];
                                     
                                     domain = domain.substring(0, 1).toUpperCase() + domain.substring(1, domain.length);
                                     
@@ -336,13 +359,21 @@ EOT;
                                         contributor_org_element.value = domain + ', Inc.';
                                     }
                                     
-                                    on_contributor_organization_change();
+                                    // Remember that we generated this value, so we know we can overwrite
+                                    // it later:
+                                    generated_contributor_orgs.push(contributor_org_element.value);
+                                    
+                                    var contribution_org_element = document.getElementById('contribution_authors_organization_uid');
+
+                                    if (contribution_org_element) {
+                                        contribution_org_element.value = contributor_org_element.value;
+                                    }
                                 }
                             }
                         }
 
                         HTTP.updateElementWithGet('$prefix/admin/check-email.php?contributor_email=' + 
-                            encodeURI(email), null, 'ajax_email_comment_uid', 'deduce_author_organization();');
+                            encodeURI(email), null, 'ajax_email_comment_uid', 'on_password_change();');
                     }
                     
                     function on_contributor_organization_change() {
@@ -365,7 +396,7 @@ EOT;
 
                         HTTP.updateElementWithGet('$prefix/admin/check-password.php?contributor_email=' + 
                             encodeURI(email) + '&contributor_password=' + 
-                            encodeURI(password), null, 'ajax_password_comment_uid');
+                            encodeURI(password), null, 'ajax_password_comment_uid', 'deduce_author_organization();');
                     }
                     
                     function on_name_change(n) {
@@ -390,8 +421,19 @@ EOT;
                                 authors_element.value = name;
                             }
                             
+                            var password_element = document.getElementById('contributor_password_uid');
+                            
+                            var password_url = '';
+                            
+                            if (password_element) {
+                                var password = password_element.value;
+                                
+                                password_url = '&contributor_password=' + encodeURI(password);
+                            }
+                            
                             HTTP.updateElementWithGet('$prefix/admin/do-ajax-login.php?contributor_name=' + 
-                                encodeURI(name), null, 'required_login_info_uid', 'on_email_change();');
+                                encodeURI(name) + password_url, 
+                                null, 'required_login_info_uid', 'on_email_change();');
                         }
                     }
                     
@@ -485,6 +527,9 @@ EOT;
     }
     
  function print_blank_site_page($content_printer, $prefix = "..") {
+     // Don't require authentication, but do it if the cookies are available:
+     do_authentication(false);
+     
      expire_page_immediately();
      
         print <<<EOT

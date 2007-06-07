@@ -372,14 +372,14 @@ EOT;
     }
     
     function cookie_var_clear($name) {
-        setcookie("$name", '', time() - 60*60*24*365*10);
+        // setcookie("$name", '', time() - 60*60*24*365*10);
         unset($_SESSION[$name]);
     }
     
     function cookie_var_store($name, $var) {        
         cookie_var_clear($name);
         
-        setcookie("$name", $var);
+        // setcookie("$name", $var);
         
         $_SESSION[$name] = $var;
     }
@@ -391,14 +391,15 @@ EOT;
     function cookie_var_get($name) {
         $value = '';
         
-        if (isset($_COOKIE["$name"])) {
-            $value = $_COOKIE["$name"];
-        }
-        else if (isset($_SESSION["$name"])) {
+        // if (isset($_COOKIE["$name"])) {
+        //             $value = $_COOKIE["$name"];
+        //         }
+        //         else 
+        if (isset($_SESSION["$name"])) {
             $value = $_SESSION["$name"];
         }
 
-        cookie_var_store($name, $value);
+        //cookie_var_store($name, $value);
         
         return $value;
     }

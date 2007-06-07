@@ -109,13 +109,11 @@ hr {
 
 span.validation-success {
 	font-size:  9pt;
-	font-style: italic;
-	color: gray;
+	color: 		gray;
 }
 span.validation-failure {
 	font-size:  9pt;
-	font-style: italic;
-	color: red;
+	color: 		red;
 }
 /******** =skipNav ********/
 #skipNav {
@@ -239,27 +237,30 @@ div.form_content {
 }
 
 #browsefilter {
-	width: 			100%;
 	margin: 		auto;
     padding:		0px 0px 25px 0px;	
 	border-style:	none;
 }
 #browsefilter table, #browsefilter thead, #browsefilter tbody {
-	border-style: none;
+	border-style: 	none;
 }
 #browsefilter td, #browsefilter tr {
-	border-style: none;
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;
+	border-style: 	none;
+	margin: 		0;
+	padding: 		0;
 }
-#browsefilter .Simulations {
-	width: 50%;
+#browsefilter table td select {
+	margin: 		0;
+	padding: 		0;
 }
-#browsefilter .Types {
-	width: 20%;
+#browsefilter table td select.Simulations {
+	width: 225px;
 }
-#browsefilter .Levels {
-	width: 30%;
+#browsefilter table td select.Types {
+	width: 130px;
+}
+#browsefilter table td select.Levels {
+	width: 180px;
 }
 #Simulations_uid, #Types_uid, #Levels_uid {
 	width: 100%;
@@ -267,7 +268,6 @@ div.form_content {
 #browsefilter input {
 	float: right;
 }
-
 div.separator {
 	margin:   0;
 	padding:  0;
@@ -1034,7 +1034,6 @@ img.sponsors {
 }
 
 #content .compact table {
-	width:				100%;
 	background-color: 	transparent;
 	padding:			0;
 	margin: 		  	5px 10px 20px 10px;
@@ -1042,7 +1041,7 @@ img.sponsors {
 }
 #content .compact table td {
 	background-color: 	transparent;
-	padding: 		  	0 0 0 2ex;
+	padding: 		  	0.25ex 0 0.25ex 2ex;
 	margin:				0 0 0 0;
 
 	border-style:		none;
@@ -1058,4 +1057,13 @@ img.sponsors {
 #content .compact table tbody td ul {
 	padding: 0;
 	margin:  0.5ex 0.5ex 0.5ex 1.5em;
+}
+
+#ajax_email_comment_uid {
+	position: relative;
+	top:      -1ex;
+}
+#ajax_password_comment_uid {
+	position: relative;
+	top:      -1ex;
 }

@@ -10,7 +10,7 @@
         contributor_send_password_reminder($contributor_email);
         
         print <<<EOT
-            <span class="validation-success">Your password has been emailed to you.</span>
+            <span class="validation-success">check your email</span>
 EOT;
     }
 
