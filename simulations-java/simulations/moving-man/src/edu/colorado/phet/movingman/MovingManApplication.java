@@ -48,9 +48,7 @@ public class MovingManApplication {
         plaf.apply();
         PhetLookAndFeel.setLookAndFeel();
 
-        String path = localizedStringsPath;
-        System.out.println( "path = " + path );
-        SimStrings.setStrings( path );
+        SimStrings.getInstance().addStrings( localizedStringsPath );
 
         SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
         FrameSetup setup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 800 ) );
