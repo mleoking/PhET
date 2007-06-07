@@ -12,7 +12,7 @@ import java.util.Vector;
  * <p/>
  * Manages strings for simulations so that they can be localized.
  *
- * @deprecated used PhetResourceLoader
+ * @deprecated use PhetResourceLoader
  */
 public class SimStrings {
     
