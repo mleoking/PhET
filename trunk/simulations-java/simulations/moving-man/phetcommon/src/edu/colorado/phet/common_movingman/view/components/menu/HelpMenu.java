@@ -15,7 +15,12 @@ import edu.colorado.phet.common_movingman.application.ModuleManager;
 import edu.colorado.phet.common_movingman.application.ModuleObserver;
 import edu.colorado.phet.common_movingman.application.PhetApplication;
 import edu.colorado.phet.common_movingman.util.VersionUtils;
+import edu.colorado.phet.common_movingman.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.balloons.BalloonsResources;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -31,15 +36,17 @@ import java.io.IOException;
 public class HelpMenu extends JMenu implements ModuleObserver {
     private ImageIcon icon;
     private JMenuItem onscreenHelp;
+    private PhetFrame frame;
 
-    public HelpMenu( PhetApplication application ) {
+    public HelpMenu( PhetApplication application, PhetFrame frame ) {
         this( application.getModuleManager(), application.getApplicationModel().getName(),
-              application.getApplicationModel().getDescription(), application.getApplicationModel().getVersion() );
+              application.getApplicationModel().getDescription(), application.getApplicationModel().getVersion(),frame );
     }
 
     public HelpMenu( final ModuleManager moduleManager, final String title,
-                     String description, String version ) {
+                     String description, String version, final PhetFrame frame ) {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
+        this.frame = frame;
         this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         moduleManager.addModuleObserver( this );
 
@@ -96,7 +103,9 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         final String msg = message;
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JOptionPane.showMessageDialog( about, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + title, JOptionPane.INFORMATION_MESSAGE, icon );
+                PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), BalloonsResources.getResourceLoader() );
+                new PhetAboutDialog(frame, new PhetAboutDialog.PhetApplicationConfigDialogConfig( phetApplicationConfig ) ).show( );
+//                JOptionPane.showMessageDialog( about, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + title, JOptionPane.INFORMATION_MESSAGE, icon );
             }
         } );
         add( about );
