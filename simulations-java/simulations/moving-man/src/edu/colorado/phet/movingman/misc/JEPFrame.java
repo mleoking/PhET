@@ -29,7 +29,7 @@ public class JEPFrame extends JDialog {
         private String expression;
 
         public EvaluationMode( MovingManModule module ) {
-            super( module, SimStrings.get( "JEPFrame.ModeName" ), true );
+            super( module, SimStrings.get( "expressions.mode" ), true );
             this.module = module;
         }
 
@@ -91,24 +91,24 @@ public class JEPFrame extends JDialog {
     }
 
     public JEPFrame( Frame owner, final MovingManModule module ) throws HeadlessException {
-        super( owner, SimStrings.get( "JEPFrame.DialogTitle" ), false );
+        super( owner, SimStrings.get( "expressions.title" ), false );
         this.module = module;
         this.mode = new EvaluationMode( module );
         this.parser = new JEP();
         parser.addStandardFunctions();
         parser.addStandardConstants();
         VerticalLayoutPanel contentPanel = new VerticalLayoutPanel();
-        JLabel explanation = new JLabel( SimStrings.get( "JEPFrame.ExplanationText" ) );
+        JLabel explanation = new JLabel( SimStrings.get( "expressions.description" ) );
         JPanel horizontalLayoutPanel = new JPanel( new FlowLayout() );
 
-        String testEquation = SimStrings.get( "JEPFrame.TestEquation" );
+        String testEquation = SimStrings.get( "expressions.example" );
         final JTextField expression = new JTextField( testEquation, 15 );
         expression.setBackground( Color.white );
-        horizontalLayoutPanel.add( new JLabel( " " + SimStrings.get( "JEPFrame.ResultFunctionLabel" ) + " = " ) );
+        horizontalLayoutPanel.add( new JLabel( " " + SimStrings.get( "expressions.range" ) + " = " ) );
         horizontalLayoutPanel.add( expression );
         contentPanel.add( explanation );
         contentPanel.add( horizontalLayoutPanel );
-        JButton go = new JButton( SimStrings.get( "JEPFrame.GoButton" ) );
+        JButton go = new JButton( SimStrings.get( "expressions.control.go" ) );
         go.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 mode.setExpression( expression.getText() );
@@ -116,7 +116,7 @@ public class JEPFrame extends JDialog {
                 module.setPaused( false );
             }
         } );
-        JButton reset = new JButton( SimStrings.get( "JEPFrame.ResetButton" ) );
+        JButton reset = new JButton( SimStrings.get( "expressions.control.reset" ) );
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();

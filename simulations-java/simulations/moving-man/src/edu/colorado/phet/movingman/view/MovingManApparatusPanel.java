@@ -89,7 +89,7 @@ public class MovingManApparatusPanel extends ApparatusPanel2 {
         Point2D start = manGraphic.getRectangle().getLocation();
         start = new Point2D.Double( start.getX() + 50, start.getY() + 50 );
         wiggleMe = new WiggleMe( this, start,
-                                 new ImmutableVector2D.Double( 0, 1 ), 15, .02, SimStrings.get( "MovingManModule.DragTheManText" ) );
+                                 new ImmutableVector2D.Double( 0, 1 ), 15, .02, SimStrings.get( "help.drag-the-man" ) );
         wiggleMe.setVisible( false );//TODO don't delete this line.
         module.addListener( new TimeListenerAdapter() {
             public void recordingStarted() {

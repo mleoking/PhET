@@ -72,7 +72,7 @@ public class TimeGraphic extends PhetGraphic {
         double scalarTime = tx.getTime();
         double seconds = scalarTime;// * timerDisplayScale; //TIMING
         Rectangle r = getShape();
-        this.timeStr = decimalFormat.format( seconds ) + " " + SimStrings.get( "TimeGraphic.SecondsText" );
+        this.timeStr = decimalFormat.format( seconds ) + " " + SimStrings.get( "units.seconds" );
         repaint( r, getShape() );
     }
 

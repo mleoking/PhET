@@ -39,7 +39,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
                 module.requestEditInTextBox( GoPauseClearPanel.this );
             }
         };
-        goPauseButton = new ControlButton( SimStrings.get( "MMPlot.PauseButton" ) );//longer text
+        goPauseButton = new ControlButton( SimStrings.get( "plot.pause" ) );//longer text
         try {
             goIcon = new ImageIcon( ImageLoader.loadBufferedImage( "moving-man/images/light3.png" ) );
             pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( "moving-man/images/stop-20.png" ) );
@@ -64,7 +64,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
                 }
             }
         } );
-        resetButton = new ControlButton( SimStrings.get( "MMPlot.ResetButton" ) );
+        resetButton = new ControlButton( SimStrings.get( "plot.clear" ) );
         resetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.confirmAndApplyReset();
@@ -104,7 +104,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
 
         }
         if( pause ) {
-            goPauseButton.setText( SimStrings.get( "MMPlot.PauseButton" ) );
+            goPauseButton.setText( SimStrings.get( "plot.pause" ) );
 //            goPauseButton.setText( "" );
             goPauseButton.setIcon( pauseIcon );
             super.invalidate();
@@ -113,7 +113,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
             itsAGoButton = false;
         }
         else {
-            goPauseButton.setText( "      "+SimStrings.get( "MMPlot.RecordButton" ) );
+            goPauseButton.setText( "      "+SimStrings.get( "plot.go" ) );
             goPauseButton.setIcon( goIcon );
             super.invalidate();
             super.validate();

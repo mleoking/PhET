@@ -28,7 +28,7 @@ public class PlaybackPanel extends JPanel {
         this.module = module;
         ImageIcon pauseIcon = new ImageIcon( new ImageLoader().loadImage( "moving-man/images/icons/java/media/Pause24.gif" ) );
 
-        pause = new JButton( SimStrings.get( "PlaybackPanel.PauseButton" ), pauseIcon );
+        pause = new JButton( SimStrings.get( "time.pause" ), pauseIcon );
         pause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 //pausing from playback leaves it alone
@@ -36,7 +36,7 @@ public class PlaybackPanel extends JPanel {
             }
         } );
         ImageIcon playIcon = new ImageIcon( new ImageLoader().loadImage( "moving-man/images/icons/java/media/Play24.gif" ) );
-        play = new JButton( SimStrings.get( "PlaybackPanel.PlaybackButton" ), playIcon );
+        play = new JButton( SimStrings.get( "time.playback" ), playIcon );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.startPlaybackMode( 1.0 );
@@ -44,7 +44,7 @@ public class PlaybackPanel extends JPanel {
         } );
 
         ImageIcon rewindIcon = new ImageIcon( new ImageLoader().loadImage( "moving-man/images/icons/java/media/Rewind24.gif" ) );
-        rewind = new JButton( SimStrings.get( "PlaybackPanel.RewindButton" ), rewindIcon );
+        rewind = new JButton( SimStrings.get( "time.rewind" ), rewindIcon );
         rewind.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.rewind();
@@ -53,14 +53,14 @@ public class PlaybackPanel extends JPanel {
         } );
 
         ImageIcon slowIcon = new ImageIcon( new ImageLoader().loadImage( "moving-man/images/icons/java/media/StepForward24.gif" ) );
-        slowMotion = new JButton( SimStrings.get( "PlaybackPanel.ShowPlaybackButton" ), slowIcon );
+        slowMotion = new JButton( SimStrings.get( "time.slow-playback" ), slowIcon );
         slowMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.startPlaybackMode( .4 );
             }
         } );
 
-        clear = new JButton( SimStrings.get( "PlaybackPanel.Clear" ) );
+        clear = new JButton( SimStrings.get( "time.clear" ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.confirmAndApplyReset();

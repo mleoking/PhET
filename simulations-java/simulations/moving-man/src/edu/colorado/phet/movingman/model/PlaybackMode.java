@@ -16,8 +16,8 @@ public class PlaybackMode extends Mode {
     private MMTimer timer;
 
     public PlaybackMode( MovingManModule module, MovingManTimeModel movingManTimeModel ) {
-        super( module, SimStrings.get( "PlaybackMode.ModeName" ), false );
-        timer = new MMTimer( SimStrings.get( "MovingManModule.PlaybackTimerLabel" ) );//, MovingManModel.TIMER_SCALE );
+        super( module, SimStrings.get( "controls.playback" ), false );
+        timer = new MMTimer( SimStrings.get( "controls.playback" ) );//, MovingManModel.TIMER_SCALE );
         this.module = module;
     }
 

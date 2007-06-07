@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 public class ArrowPanel extends HorizontalLayoutPanel {
     public ArrowPanel( final MovingManModule module ) {
         setBorder( BorderFactory.createTitledBorder( SimStrings.get( "controls.vectors" ) ) );
-        final JCheckBox velocity = new JCheckBox( SimStrings.get( "PlotSet.VelocityLabel" ) );
+        final JCheckBox velocity = new JCheckBox( SimStrings.get( "variables.velocity" ) );
         velocity.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setShowVelocityVector( velocity.isSelected() );
@@ -26,7 +26,7 @@ public class ArrowPanel extends HorizontalLayoutPanel {
         } );
 
 
-        final JCheckBox acceleration = new JCheckBox( SimStrings.get( "PlotSet.AccelerationLabel" ) );
+        final JCheckBox acceleration = new JCheckBox( SimStrings.get( "variables.acceleration" ) );
         acceleration.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setShowAccelerationVector( acceleration.isSelected() );

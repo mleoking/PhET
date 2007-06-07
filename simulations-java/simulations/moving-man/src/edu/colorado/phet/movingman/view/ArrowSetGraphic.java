@@ -36,12 +36,12 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         this.movingManModule = movingManModule;
         this.manGraphic = manGraphic;
 
-        vel = new ForceArrowGraphic( force1DPanel, SimStrings.get( "PlotSet.VelocityLabel" ), Color.red, 0, new ForceComponent() {
+        vel = new ForceArrowGraphic( force1DPanel, SimStrings.get( "variables.velocity" ), Color.red, 0, new ForceComponent() {
             public double getValue() {
                 return getVelocity();
             }
         } );
-        accel = new ForceArrowGraphic( force1DPanel, SimStrings.get( "PlotSet.AccelerationLabel" ), Color.green, 0, new ForceComponent() {
+        accel = new ForceArrowGraphic( force1DPanel, SimStrings.get( "variables.acceleration" ), Color.green, 0, new ForceComponent() {
             public double getValue() {
                 return getAcceleration();
             }

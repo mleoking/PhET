@@ -35,7 +35,7 @@ public class MMHelpSuite {
     }
 
     private void init() {
-        dragTheMan = new HelpItem3( module.getMovingManApparatusPanel(), new PhetGraphicTarget.Left( module.getManGraphic() ), 50, 0, SimStrings.get( "MovingManModule.DragTheManText" ));
+        dragTheMan = new HelpItem3( module.getMovingManApparatusPanel(), new PhetGraphicTarget.Left( module.getManGraphic() ), 50, 0, SimStrings.get( "help.drag-the-man" ));
         dragSlider = new HelpItem3( module.getMovingManApparatusPanel(), new PhetGraphicTarget.Right( module.getMovingManApparatusPanel().getPlotSet().getPositionPlot().getChartSlider() ), -30, 0, SimStrings.get( "help.drag-the-slider" ) );
         typeValue = new HelpItem3( module.getMovingManApparatusPanel(), module.getMovingManApparatusPanel().getPlotSet().getPositionPlotSuite().getTextBoxGraphic(), -30, 0, SimStrings.get( "help.type-a-value" ) );
         dragCursor = new HelpItem3( module.getMovingManApparatusPanel(), module.getMovingManApparatusPanel().getPlotSet().getPositionPlotSuite().getPlotDevice().getCursor(), 0, 30, SimStrings.get( "help.drag-the-cursor" ) );

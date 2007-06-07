@@ -134,7 +134,7 @@ public class MovingManModule extends Module {
             StringWriter sw = new StringWriter();
             e.printStackTrace( new PrintWriter( sw ) );
             JOptionPane.showMessageDialog( getApparatusPanel(), sw.getBuffer().toString(),
-                                           SimStrings.get( "MovingManModule.ErrorLoadingHelpDialog" ), JOptionPane.ERROR_MESSAGE );
+                                           SimStrings.get( "controls.error-loading-help" ), JOptionPane.ERROR_MESSAGE );
         }
 
     }
@@ -444,9 +444,9 @@ public class MovingManModule extends Module {
 
     static void addMiscMenu( final MovingManModule module ) {
         final JFrame frame = module.getFrame();
-        JMenu miscMenu = new JMenu( SimStrings.get( "MovingManModule.SpecialFeaturesMenu" ) );
-        miscMenu.setMnemonic( SimStrings.get( "MovingManModule.SpecialFeaturesMenuMnemonic" ).charAt( 0 ) );
-        JMenuItem jep = new JMenuItem( SimStrings.get( "MovingManModule.ExprEvalMenuItem" ) );
+        JMenu miscMenu = new JMenu( SimStrings.get( "controls.special-features" ) );
+        miscMenu.setMnemonic( SimStrings.get( "controls.special-features.mnemonic" ).charAt( 0 ) );
+        JMenuItem jep = new JMenuItem( SimStrings.get( "expressions.title" ) );
         miscMenu.add( jep );
         final JEPFrame jef = new JEPFrame( frame, module );
         jep.addActionListener( new ActionListener() {
@@ -455,7 +455,7 @@ public class MovingManModule extends Module {
             }
         } );
 
-        final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( SimStrings.get( "MovingManModule.InvertXAxisMenuItem" ), false );
+        final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( SimStrings.get( "controls.reverse-x-axis" ), false );
         jcbmi.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean ok = module.confirmClear();
@@ -567,8 +567,8 @@ public class MovingManModule extends Module {
         }
         setPaused( true );
         int option = JOptionPane.showConfirmDialog( getApparatusPanel(),
-                                                    SimStrings.get( "MMPlot.ClearConfirmText" ),
-                                                    SimStrings.get( "MMPlot.ClearConfirmButton" ),
+                                                    SimStrings.get( "plot.confirm-clear" ),
+                                                    SimStrings.get( "plot.confirm-reset" ),
                                                     JOptionPane.YES_NO_CANCEL_OPTION );
         if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
             return true;
