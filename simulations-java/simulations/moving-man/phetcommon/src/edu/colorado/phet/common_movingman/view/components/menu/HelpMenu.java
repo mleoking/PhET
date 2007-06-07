@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.balloons.BalloonsResources;
 
 import javax.swing.*;
@@ -103,7 +104,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         final String msg = message;
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), BalloonsResources.getResourceLoader() );
+                PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( "moving-man" ) );
                 new PhetAboutDialog(frame, new PhetAboutDialog.PhetApplicationConfigDialogConfig( phetApplicationConfig ) ).show( );
 //                JOptionPane.showMessageDialog( about, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + title, JOptionPane.INFORMATION_MESSAGE, icon );
             }
