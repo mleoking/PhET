@@ -12,16 +12,28 @@ package edu.colorado.phet.opticaltweezers.model;
  */
 public class DNAPivot {
 
-    private double _x, _y;  // position
-    private double _xVelocity, _yVelocity;
-    private double _xAcceleration, _yAcceleration;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private double _x, _y;  // position components
+    private double _xVelocity, _yVelocity; // velocity components
+    private double _xAcceleration, _yAcceleration; // acceleration components
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public DNAPivot( double x, double y ) {
         _x = x;
         _y = y;
         _xVelocity = _yVelocity = 0;
         _xAcceleration = _yAcceleration = 0;
     }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
     
     public void setPosition( double x, double y ) {
         _x = x;
