@@ -136,26 +136,56 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     // Setters and getters
     //----------------------------------------------------------------------------
 
+    /**
+     * Gets the length of the DNA strand, more formally known as the contour length.
+     * 
+     * @return contour length (nm)
+     */
     public double getContourLength() {
         return _contourLength;
     }
 
+    /**
+     * Gets the number of line segments (springs) used to model the DNA strand.
+     * 
+     * @return
+     */
     public int getNumberOfSegments() {
         return _numberOfSegments;
     }
 
+    /**
+     * Gets the x coordinate of the strand's head, the end connected to the bead.
+     * 
+     * @return
+     */
     public double getHeadX() {
         return getHeadPivot().getX();
     }
 
+    /**
+     * Gets the y coordinate of the strand's head, the end connected to the bead.
+     * 
+     * @return
+     */
     public double getHeadY() {
         return getHeadPivot().getY();
     }
 
+    /**
+     * Gets the x coordinate of the strand's tail, the end that is pinned.
+     * 
+     * @return
+     */
     public double getTailX() {
         return getTailPivot().getX();
     }
 
+    /**
+     * Gets the y coordinate of the strand's tail, the end that is pinned.
+     * 
+     * @return
+     */
     public double getTailY() {
         return getTailPivot().getY();
     }
@@ -298,18 +328,38 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     // Strand shape model
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the collection of pivots used to model the strand,
+     * ordered from tail (pinned end) to head (end attached to bead).
+     * 
+     * @return array of DNAPivot
+     */
     public DNAPivot[] getPivots() {
         return _pivots;
     }
     
+    /**
+     * Gets the number of pivots used to model the strand.
+     * 
+     * @return
+     */
     public int getNumberOfPivots() {
         return _pivots.length;
     }
     
+    /**
+     * Gets the head pivot, attached to the bead.
+     * 
+     * @return
+     */
     public DNAPivot getHeadPivot() {
         return _pivots[ _pivots.length - 1 ];
     }
     
+    /**
+     * Gets the tail pivot, at the pinned end.
+     * @return
+     */
     public DNAPivot getTailPivot() {
         return _pivots[ 0 ];
     }
@@ -421,6 +471,11 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     // ModelElement implementation
     //----------------------------------------------------------------------------
 
+    /**
+     * Advances the model each time the simulation clock ticks.
+     * 
+     * @param dt clock step
+     */
     public void stepInTime( double dt ) {
         evolveStrand( dt );
     }
