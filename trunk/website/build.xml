@@ -12,7 +12,7 @@ build-related libraries from the simulations-java project.
     <property name="deploy.server.name" value="tigercat.colorado.edu" />
 
     <!-- Properties for deploy output-->
-    <property name="deploy.server.path" value="/web/htdocs/phet/new/" />
+    <property name="deploy.server.path" value="/web/htdocs/phet/new2" />
     <property name="deploy.server.url"  value="http://phet.colorado.edu/new/" />
     
     <!-- Build tools -->
@@ -68,16 +68,13 @@ build-related libraries from the simulations-java project.
             
             <!-- Put all files to the remote directory: -->
             <sftp action="put"   remotedir="${deploy.server.path}" verbose="true">
-                <fileset dir="${dir.website}" />
-            </sftp>
-            
-            <!-- Finally, modify the permissions so everyone can read & execute, and group & owner can write: -->
-            <sftp action="chmod" remotedir="${deploy.server.path}" verbose="true" mode="775" >
-                <fileset dir=".">
-                    <include name="**/*.*"  />
-                    <exclude name="**/.svn" />
+                <fileset dir="${dir.website}">
+                    <exclude name=".svn" />
                 </fileset>
             </sftp>
+            
+            <!-- Finally, modify the permissions so everyone can read & execute, and group & owner can write: -->        
+            <exec cmd="chmod -R 775 ${deploy.server.path}" />
         </maverick-ssh>
     </target>
 </project>
