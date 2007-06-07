@@ -72,14 +72,14 @@ public class DNADefaults {
     
     // DNA Strand model
     public static final double DNA_CONTOUR_LENGTH = 2413; // nm
-    public static final double DNA_PERSISTENCE_LENGTH = DNAStrand.DOUBLE_STRANDED_PERSISTENCE_LENGTH; // nm 
-    public static final int DNA_NUMBER_OF_SEGMENTS = 40; // nm
-    public static final DoubleRange DNA_SPRING_CONSTANT_RANGE = new DoubleRange( 2.0, 10.0, 6 );
-    public static final DoubleRange DNA_DRAG_COEFFICIENT_RANGE = new DoubleRange( 0.1, 0.3, 0.2 );
-    public static final DoubleRange DNA_KICK_CONSTANT_RANGE = new DoubleRange( 0.25, 0.75, 0.5 );
-    public static final IntegerRange DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE = new IntegerRange( 1, 20, 5 );
-    public static final DoubleRange DNA_EVOLUTION_DT_SCALE_RANGE = new DoubleRange( 1, 10000, 1000 );
-    public static final boolean DNA_PIVOTS_VISIBLE = false;
+    public static final double DNA_PERSISTENCE_LENGTH = 50; // nm, double strand
+    public static final int DNA_NUMBER_OF_SPRINGS = 40; // nm
+    public static final DoubleRange DNA_SPRING_CONSTANT_RANGE = new DoubleRange( 200, 1000, 600 );
+    public static final DoubleRange DNA_DRAG_COEFFICIENT_RANGE = new DoubleRange( 10, 30, 20 );
+    public static final DoubleRange DNA_KICK_CONSTANT_RANGE = new DoubleRange( 25, 75, 50 );
+    public static final IntegerRange DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE = new IntegerRange( 1, 100, 5 );
+    public static final DoubleRange DNA_EVOLUTION_DT_RANGE = new DoubleRange( 0.001, 0.3, 0.002 );
+    public static final boolean DNA_PIVOTS_VISIBLE = true;
     public static final boolean DNA_EXTENSION_VISIBLE = false;
     
     // Control panel settings

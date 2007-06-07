@@ -34,12 +34,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     public static final String PROPERTY_DRAG_COEFFICIENT = "dragCoefficient";
     public static final String PROPERTY_KICK_CONSTANT = "kickConstant";
     public static final String PROPERTY_NUMBER_OF_EVOLUTIONS_PER_CLOCK_TICK = "numberOfEvolutionsPerClockTick";
-    public static final String PROPERTY_EVOLUTION_DT_SCALE = "evolutionDtScale";
+    public static final String PROPERTY_EVOLUTION_DT = "evolutionDtScale";
 
-    // persistence length is a measure of the strand's bending stiffness
-    public static final double DOUBLE_STRANDED_PERSISTENCE_LENGTH = 50; // nm
-    public static final double SINGLE_STRANDED_PERSISTENCE_LENGTH = 1; // nm
-    
     //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
@@ -53,9 +49,9 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private Bead _bead;
     private Fluid _fluid;
 
-    private final double _contourLength; // length of the DNA strand, nm
-    private final double _persistenceLength; // nm
-    private final int _numberOfSegments; // number of discrete segments used to model the strand
+    private final double _contourLength; // nm, length of the DNA strand
+    private final double _persistenceLength; // nm, measure of the strand's bending stiffness
+    private final int _numberOfSprings; // number of connected springs used to model the strand
 
     private DNAPivot[] _pivots;
     
@@ -63,13 +59,13 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private DoubleRange _dragCoefficientRange;
     private DoubleRange _kickConstantRange;
     private IntegerRange _numberOfEvolutionsPerClockTickRange;
-    private DoubleRange _evolutionDtScaleRange;
+    private DoubleRange _evolutionDtRange;
     
     private double _springConstant; // actually the spring constant divided by mass
     private double _dragCoefficient;
     private double _kickConstant;
     private int _numberOfEvolutionsPerClockTick;
-    private double _evolutionDtScale;
+    private double _evolutionDt;
     
     private Random _kickRandom;
 
@@ -82,24 +78,24 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * 
      * @param contourLength
      * @param persistenceLength
-     * @param numberOfSegments
+     * @param numberOfSprings
      * @param tailPosition
      * @param springConstantRange
      * @param dragCoefficientRange
      * @param kickConstantRange
      * @param numberOfEvolutionsPerClockTickRange
-     * @param evolutionDtScaleRange
+     * @param evolutionDtRange
      * @param bead
      * @param fluid
      */
-    public DNAStrand( double contourLength, double persistenceLength, int numberOfSegments, 
+    public DNAStrand( double contourLength, double persistenceLength, int numberOfSprings, 
             DoubleRange springConstantRange, DoubleRange dragCoefficientRange, DoubleRange kickConstantRange, 
-            IntegerRange numberOfEvolutionsPerClockTickRange, DoubleRange evolutionDtScaleRange,
+            IntegerRange numberOfEvolutionsPerClockTickRange, DoubleRange evolutionDtRange,
             Bead bead, Fluid fluid ) {
 
         _contourLength = contourLength;
         _persistenceLength = persistenceLength;
-        _numberOfSegments = numberOfSegments;
+        _numberOfSprings = numberOfSprings;
 
         _bead = bead;
         _bead.addObserver( this );
@@ -111,13 +107,13 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _dragCoefficientRange = dragCoefficientRange;
         _kickConstantRange = kickConstantRange;
         _numberOfEvolutionsPerClockTickRange = numberOfEvolutionsPerClockTickRange;
-        _evolutionDtScaleRange = evolutionDtScaleRange;
+        _evolutionDtRange = evolutionDtRange;
 
         _springConstant = _springConstantRange.getDefault();
         _dragCoefficient = _dragCoefficientRange.getDefault();
         _kickConstant = _kickConstantRange.getDefault();
         _numberOfEvolutionsPerClockTick = _numberOfEvolutionsPerClockTickRange.getDefault();
-        _evolutionDtScale = _evolutionDtScaleRange.getDefault();
+        _evolutionDt = _evolutionDtRange.getDefault();
         
         _kickRandom = new Random();
         
@@ -146,12 +142,12 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     }
 
     /**
-     * Gets the number of line segments (springs) used to model the DNA strand.
+     * Gets the number of springs used to model the DNA strand.
      * 
      * @return
      */
-    public int getNumberOfSegments() {
-        return _numberOfSegments;
+    public int getNumberOfSprings() {
+        return _numberOfSprings;
     }
 
     /**
@@ -262,22 +258,22 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         return _numberOfEvolutionsPerClockTickRange;
     }
 
-    public void setEvolutionDtScale( double evolutionDt ) {
-        if ( !_evolutionDtScaleRange.contains( evolutionDt ) ) {
+    public void setEvolutionDt( double evolutionDt ) {
+        if ( !_evolutionDtRange.contains( evolutionDt ) ) {
             new IllegalArgumentException( "evolutionDt out of range: " + evolutionDt );
         }
-        if ( evolutionDt != _evolutionDtScale ) {
-            _evolutionDtScale = evolutionDt;
-            notifyObservers( PROPERTY_EVOLUTION_DT_SCALE );
+        if ( evolutionDt != _evolutionDt ) {
+            _evolutionDt = evolutionDt;
+            notifyObservers( PROPERTY_EVOLUTION_DT );
         }
     }
     
-    public double getEvolutionDtScale() {
-        return _evolutionDtScale;
+    public double getEvolutionDt() {
+        return _evolutionDt;
     }
     
-    public DoubleRange getEvolutionDtScaleRange() {
-        return _evolutionDtScaleRange;
+    public DoubleRange getEvolutionDtRange() {
+        return _evolutionDtRange;
     }
     
     //----------------------------------------------------------------------------
@@ -371,8 +367,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      */
     public void initializeStrand() {
 
-        final double segmentLength = INITIAL_STRETCHINESS * ( _contourLength / _numberOfSegments );
-        final int numberOfPivots = _numberOfSegments + 1;
+        final double springLength = INITIAL_STRETCHINESS * ( _contourLength / _numberOfSprings );
+        final int numberOfPivots = _numberOfSprings + 1;
         _pivots = new DNAPivot[numberOfPivots];
 
         // head is attached to the bead
@@ -381,7 +377,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
 
         // work backwards from head to tail
         for ( int i = numberOfPivots - 2; i >= 0; i-- ) {
-            _pivots[i] = new DNAPivot( _pivots[i + 1].getX() - segmentLength, _pivots[i + 1].getY() );
+            _pivots[i] = new DNAPivot( _pivots[i + 1].getX() - springLength, _pivots[i + 1].getY() );
         }
 
         notifyObservers( PROPERTY_SHAPE );
@@ -394,8 +390,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      */
     private void evolveStrand( double clockStep ) {
         
-        final double dt = _evolutionDtScale * clockStep / _numberOfEvolutionsPerClockTick;
-        final double segmentLength = _contourLength / _numberOfSegments;
+        final double dt = _evolutionDt; //XXX scale this based on clockStep and max clockStep
+        final double springLength = _contourLength / _numberOfSprings;
         
         for ( int i = 0; i < _numberOfEvolutionsPerClockTick; i++ ) {
 
@@ -423,8 +419,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 final double distanceToNext = Math.sqrt( ( dxNext * dxNext ) + ( dyNext * dyNext ) );
                 
                 // common terms
-                final double termPrevious = 1 - ( segmentLength / distanceToPrevious );
-                final double termNext = 1 - ( segmentLength / distanceToNext );
+                final double termPrevious = 1 - ( springLength / distanceToPrevious );
+                final double termNext = 1 - ( springLength / distanceToNext );
                 
                 // acceleration
                 final double xAcceleration = ( _springConstant * ( ( dxNext * termNext ) - ( dxPrevious * termPrevious ) ) ) - ( _dragCoefficient * currentPivot.getXVelocity() );

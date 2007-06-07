@@ -49,7 +49,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
     private LinearValueControl _dragCoefficientControl;
     private LinearValueControl _kickConstant;
     private LinearValueControl _numberOfEvolutionsPerClockTickControl;
-    private LinearValueControl _evolutionDtScaleControl;
+    private LinearValueControl _evolutionDtControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -107,9 +107,20 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
             }
         });
         
+        min = dnaStrand.getEvolutionDtRange().getMin();
+        max = dnaStrand.getEvolutionDtRange().getMax();
+        _evolutionDtControl = new LinearValueControl( min, max, "dt (evolve)", "0.000", "" );
+        _evolutionDtControl.setUpDownArrowDelta( 0.001 );
+        _evolutionDtControl.setFont( controlFont );
+        _evolutionDtControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleEvolutionDtScaleControl();
+            }
+        });
+        
         min = dnaStrand.getKickConstantRange().getMin();
         max = dnaStrand.getKickConstantRange().getMax();
-        _kickConstant = new LinearValueControl( min, max, "k (kick):", "0.00", "" );
+        _kickConstant = new LinearValueControl( min, max, "kick:", "0.00", "" );
         _kickConstant.setUpDownArrowDelta( 0.01 );
         _kickConstant.setFont( controlFont );
         _kickConstant.addChangeListener( new ChangeListener() {
@@ -129,17 +140,6 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
             }
         });
         
-        min = dnaStrand.getEvolutionDtScaleRange().getMin();
-        max = dnaStrand.getEvolutionDtScaleRange().getMax();
-        _evolutionDtScaleControl = new LinearValueControl( min, max, "evolution dt scale", "###0", "" );
-        _evolutionDtScaleControl.setUpDownArrowDelta( 0.01 );
-        _evolutionDtScaleControl.setFont( controlFont );
-        _evolutionDtScaleControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                handleEvolutionDtScaleControl();
-            }
-        });
-        
         if ( TOOL_TIPS_ENABLED ) {
             _pivotsCheckBox.setToolTipText( 
                     "<html>Determines whether you can see the<br>" + 
@@ -148,14 +148,12 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
                     "<html>Draws a straight line between<br>" + 
                     "the ends of the DNA strand</html>" );
             _dragCoefficientControl.setToolTipText( "<html>drag coefficient</html>" );
+            _evolutionDtControl.setToolTipText( 
+                    "<html>dt used in evolution alogrithm at max simulation speed</html>" );
             _kickConstant.setToolTipText( "<html>kick applied to velocity on each evolution</html>" );
             _numberOfEvolutionsPerClockTickControl.setToolTipText( 
                     "<html>number of times to run the evolution<br>" + 
                     "algorithm each time the clock ticks</html>" );
-            _evolutionDtScaleControl.setToolTipText( 
-                    "<html>The simulation clock's scale is much too small to see the strand evolve.<br>" +
-                    "dt used in the evolution algorithm is:<br>" + 
-                    "evolutionDtScale * clockstep / evolutionsPerClockstep</html>" );
         }
         
         // Layout
@@ -168,9 +166,9 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         layout.addComponent( _extensionCheckBox, row++, column );
         layout.addComponent( _springConstantControl, row++, column );
         layout.addComponent( _dragCoefficientControl, row++, column );
+        layout.addComponent( _evolutionDtControl, row++, column );
         layout.addComponent( _kickConstant, row++, column );
         layout.addComponent( _numberOfEvolutionsPerClockTickControl, row++, column );
-        layout.addComponent( _evolutionDtScaleControl, row++, column );
         
         // Default state
         _pivotsCheckBox.setSelected( _dnaStrandNode.isPivotsVisible() );
@@ -179,7 +177,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         _dragCoefficientControl.setValue( _dnaStrand.getDragCoefficient() );
         _kickConstant.setValue( _dnaStrand.getKickConstant() );
         _numberOfEvolutionsPerClockTickControl.setValue( _dnaStrand.getNumberOfEvolutionsPerClockTick() );
-        _evolutionDtScaleControl.setValue( _dnaStrand.getEvolutionDtScale() );
+        _evolutionDtControl.setValue( _dnaStrand.getEvolutionDt() );
     }
     
     public void cleanup() {
@@ -220,8 +218,8 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
     }
     
     private void handleEvolutionDtScaleControl() {
-        double value = _evolutionDtScaleControl.getValue();
-        _dnaStrand.setEvolutionDtScale( value );
+        double value = _evolutionDtControl.getValue();
+        _dnaStrand.setEvolutionDt( value );
     }
 
     //----------------------------------------------------------------------------
@@ -242,8 +240,8 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
             else if ( arg == DNAStrand.PROPERTY_NUMBER_OF_EVOLUTIONS_PER_CLOCK_TICK ) {
                 _numberOfEvolutionsPerClockTickControl.setValue( _dnaStrand.getNumberOfEvolutionsPerClockTick() ); 
             }
-            else if ( arg == DNAStrand.PROPERTY_EVOLUTION_DT_SCALE ) {
-                _evolutionDtScaleControl.setValue( _dnaStrand.getEvolutionDtScale() );
+            else if ( arg == DNAStrand.PROPERTY_EVOLUTION_DT ) {
+                _evolutionDtControl.setValue( _dnaStrand.getEvolutionDt() );
             }
         }
     }
