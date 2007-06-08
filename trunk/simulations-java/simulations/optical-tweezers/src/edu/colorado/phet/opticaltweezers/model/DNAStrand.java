@@ -400,7 +400,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         final double timeScale = clockStep / _maxClockStep;
         
         final double dt = _evolutionDt * timeScale;
-        final double equilibriumSpringLength = _contourLength / _numberOfSprings;
+        final double maxSpringLength = _contourLength / _numberOfSprings;
         
         for ( int i = 0; i < _numberOfEvolutionsPerClockTick; i++ ) {
 
@@ -428,8 +428,10 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 final double distanceToNext = Math.sqrt( ( dxNext * dxNext ) + ( dyNext * dyNext ) );
                 
                 // common terms
-                final double termPrevious = 1 - ( equilibriumSpringLength / distanceToPrevious );
-                final double termNext = 1 - ( equilibriumSpringLength / distanceToNext );
+                final double stretchFactor = Math.min( 1, getExtension() / _contourLength );
+                final double scale = Math.sqrt( 1 - stretchFactor );
+                final double termPrevious = 1 - ( scale * maxSpringLength / distanceToPrevious );
+                final double termNext = 1 - ( scale * maxSpringLength / distanceToNext );
                 
                 // acceleration
                 final double xAcceleration = ( _springConstant * ( ( dxNext * termNext ) - ( dxPrevious * termPrevious ) ) ) - ( _dragCoefficient * currentPivot.getXVelocity() );
