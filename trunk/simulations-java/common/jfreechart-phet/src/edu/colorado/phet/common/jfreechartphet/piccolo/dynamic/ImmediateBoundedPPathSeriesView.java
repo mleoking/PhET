@@ -27,8 +27,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Author: Sam Reid
- * Jun 6, 2007, 4:13:36 AM
+ * DISCLAIMER: This class is under development and not ready for general use.
+ * Renderer for DynamicJFreeChartNode
+ *
+ * @author Sam Reid
  */
 public class ImmediateBoundedPPathSeriesView extends PPathSeriesView {
     public ImmediateBoundedPPathSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {

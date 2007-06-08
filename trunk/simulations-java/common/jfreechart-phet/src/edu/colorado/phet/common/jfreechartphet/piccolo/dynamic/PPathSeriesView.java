@@ -34,8 +34,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * Author: Sam Reid
- * Jun 5, 2007, 6:04:09 PM
+ * DISCLAIMER: This class is under development and not ready for general use.
+ * Renderer for DynamicJFreeChartNode
+ *
+ * @author Sam Reid
  */
 public class PPathSeriesView extends SeriesView {
     private PPath pathNode;

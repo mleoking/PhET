@@ -25,8 +25,10 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Author: Sam Reid
- * Jun 5, 2007, 6:04:16 PM
+ * DISCLAIMER: This class is under development and not ready for general use.
+ * Renderer for DynamicJFreeChartNode
+ *
+ * @author Sam Reid
  */
 public class BufferedImmediateSeriesView extends BufferedSeriesView {
 
