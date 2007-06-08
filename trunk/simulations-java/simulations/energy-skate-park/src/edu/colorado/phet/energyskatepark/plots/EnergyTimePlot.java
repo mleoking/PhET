@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
@@ -26,9 +27,9 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -192,6 +193,16 @@ public class EnergyTimePlot {
         developerControlDialog.setContentPane( new DynamicJFreeChartNodeControlPanel( dynamicJFreeChartNode ));
         developerControlDialog.pack();
         developerControlDialog.setLocation( dialog.getLocation().x,dialog.getLocation().y-developerControlDialog.getHeight());
+
+        JPopupMenu popupMenu=new JPopupMenu( );
+        JMenuItem item = new JMenuItem( "Show Renderers" );
+        item.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                developerControlDialog.setVisible( true );
+            }
+        } );
+        popupMenu.add( item );
+        phetPCanvas.addInputEventListener( new PopupMenuHandler( phetPCanvas, popupMenu) );
     }
 
     private void updateReadouts() {
@@ -243,7 +254,7 @@ public class EnergyTimePlot {
     public void setVisible( boolean visible ) {
         if( visible != dialog.isVisible() ) {
             dialog.setVisible( visible );
-            developerControlDialog.setVisible( visible );
+//            developerControlDialog.setVisible( visible );
             relayout();
             notifyVisibilityChanged();
         }
