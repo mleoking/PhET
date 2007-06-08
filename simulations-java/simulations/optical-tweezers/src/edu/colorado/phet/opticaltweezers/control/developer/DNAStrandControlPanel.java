@@ -109,7 +109,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         
         min = dnaStrand.getEvolutionDtRange().getMin();
         max = dnaStrand.getEvolutionDtRange().getMax();
-        _evolutionDtControl = new LinearValueControl( min, max, "dt (evolve)", "0.00", "" );
+        _evolutionDtControl = new LinearValueControl( min, max, "dt (evolve):", "0.00", "" );
         _evolutionDtControl.setUpDownArrowDelta( 0.001 );
         _evolutionDtControl.setFont( controlFont );
         _evolutionDtControl.addChangeListener( new ChangeListener() {
