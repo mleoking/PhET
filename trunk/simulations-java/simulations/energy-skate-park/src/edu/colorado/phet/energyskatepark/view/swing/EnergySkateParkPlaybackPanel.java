@@ -71,6 +71,11 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
                 }
             } );
             add( recordButton );
+            timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
+                public void modeChanged() {
+                    updateRecordButton();
+                }
+            });
             clock.addClockListener( new ClockAdapter() {
                 public void clockPaused( ClockEvent clockEvent ) {
                     updateRecordButton();
@@ -185,7 +190,8 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
     }
 
     private void updatePlaybackButtonMode() {
-        if( clock.isPaused() || timeSeriesModel.isRecording() ) {
+        //todo: add check that there is data available to playback before enabling playback button
+        if( clock.isPaused() || timeSeriesModel.isRecording() || timeSeriesModel.isLiveMode() ) {
             playbackButton.setMode( "playback" );
         }
         else {
@@ -202,7 +208,8 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
     }
 
     private void updateRecordButton() {
-        if( clock.isPaused() || timeSeriesModel.isPlaybackMode() ) {
+        //todo: add check that there is space to record before enabling record button
+        if( clock.isPaused() || timeSeriesModel.isPlaybackMode() || timeSeriesModel.isLiveMode() ) {
             recordButton.setMode( KEY_REC );
         }
         else {
