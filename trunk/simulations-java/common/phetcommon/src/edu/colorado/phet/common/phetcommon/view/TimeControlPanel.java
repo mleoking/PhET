@@ -168,6 +168,7 @@ public class TimeControlPanel extends JPanel {
 
     /**
      * Listener interface for receiving events from TimeControlPanel
+     * This interface may be revised to pass a TimeControlEvent.   
      */
     public static interface TimeControlListener{
         void stepPressed();
