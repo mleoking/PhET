@@ -68,7 +68,7 @@ public class ClockControlPanel extends TimeControlPanel  {
     /**
      * Call this method before releasing all references to this object.
      */
-    protected void cleanup(){
+    public void cleanup(){
         clock.removeClockListener( clockListener );
         //I don't think the TimeControlListener needs to be removed in order to properly clean up this object.
     }
