@@ -3,67 +3,28 @@ package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 import edu.umd.cs.piccolo.util.PDebug;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * Author: Sam Reid
  * Jun 8, 2007, 1:58:55 AM
  */
 public class DynamicJFreeChartNodeControlPanel extends JPanel {
-    public DynamicJFreeChartNodeControlPanel( final DynamicJFreeChartNode dynamicJFreeChartNode ) {
+    private DynamicJFreeChartNode dynamicJFreeChartNode;
 
+    public DynamicJFreeChartNodeControlPanel( final DynamicJFreeChartNode dynamicJFreeChartNode ) {
+        this.dynamicJFreeChartNode = dynamicJFreeChartNode;
         JPanel panel = this;
         ButtonGroup buttonGroup = new ButtonGroup();
-        panel.add( createButton( "JFreeChart", buttonGroup, true, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setJFreeChartSeries();
-            }
-        } ) );
-        panel.add( createButton( "Piccolo", buttonGroup, false, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setPiccoloSeries();
-            }
-        } ) );
-//        panel.add( createButton( "Piccolo (incremental)", buttonGroup, false, new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                dynamicJFreeChartNode.setViewFactory( new DynamicJFreeChartNode.SeriesViewFactory() {
-//                    public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-//                        return new IncrementalPPathSeriesView( dynamicJFreeChartNode, seriesData );
-//                    }
-//                } );
-//            }
-//        } ) );
-        panel.add( createButton( "Piccolo (incremental)", buttonGroup, false, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setViewFactory( new DynamicJFreeChartNode.SeriesViewFactory() {
-                    public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-                        return new BoundedPPathSeriesView( dynamicJFreeChartNode, seriesData );
-                    }
-                } );
-            }
-        } ) );
-        panel.add( createButton( "Piccolo (incremental + immediate)", buttonGroup, false, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setViewFactory( new DynamicJFreeChartNode.SeriesViewFactory() {
-                    public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-                        return new ImmediateBoundedPPathSeriesView( dynamicJFreeChartNode, seriesData );
-                    }
-                } );
-            }
-        } ) );
-        panel.add( createButton( "Direct", buttonGroup, false, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setBufferedSeries();
-            }
-        } ) );
-        panel.add( createButton( "Direct (immediate)", buttonGroup, false, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setBufferedImmediateSeries();
-            }
-        } ) );
+        panel.add( createButton( "JFreeChart", buttonGroup, DynamicJFreeChartNode.RENDERER_JFREECHART ) );
+        panel.add( createButton( "Piccolo", buttonGroup, DynamicJFreeChartNode.RENDERER_PICCOLO ) );
+        panel.add( createButton( "Piccolo (incremental)", buttonGroup, DynamicJFreeChartNode.RENDERER_PICCOLO_INCREMENTAL ) );
+        panel.add( createButton( "Piccolo (incremental + immediate)", buttonGroup, DynamicJFreeChartNode.RENDERER_PICCOLO_INCREMENTAL_IMMEDIATE ) );
+        panel.add( createButton( "Direct", buttonGroup, DynamicJFreeChartNode.RENDERER_BUFFERED ) );
+        panel.add( createButton( "Direct (immediate)", buttonGroup, DynamicJFreeChartNode.RENDERER_BUFFERED_IMMEDIATE ) );
         final JCheckBox jCheckBox = new JCheckBox( "Buffered", dynamicJFreeChartNode.isBuffered() );
         jCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -85,13 +46,14 @@ public class DynamicJFreeChartNodeControlPanel extends JPanel {
         panel.add( debug );
     }
 
-    private JComponent createButton( String text, ButtonGroup buttonGroup, boolean enabled, ActionListener actionListener ) {
-        JRadioButton jRadioButton = new JRadioButton( text, enabled );
+    private JComponent createButton( String text, ButtonGroup buttonGroup, final SeriesViewFactory viewFactory ) {
+        JRadioButton jRadioButton = new JRadioButton( text, dynamicJFreeChartNode.getViewFactory() == viewFactory );
         buttonGroup.add( jRadioButton );
-        jRadioButton.addActionListener( actionListener );
-        if( enabled ) {
-            actionListener.actionPerformed( null );
-        }
+        jRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                dynamicJFreeChartNode.setViewFactory( viewFactory );
+            }
+        } );
         return jRadioButton;
     }
 
