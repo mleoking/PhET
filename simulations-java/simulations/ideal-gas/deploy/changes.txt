@@ -1,3 +1,8 @@
+3.05.07 (6-8-2007)
+Trial fix for "molecules stick to right wall and pass through left wall" bug in reversible-reactions module.
+    -This fix may have introduced other issues in the simulation
+    -The existence of this bug may be indicative of other similar bugs, which may need more work
+
 3.05.05 (6-8-2007)
 Renamed 'advanced-gas' to 'reversible-reactions'
 
