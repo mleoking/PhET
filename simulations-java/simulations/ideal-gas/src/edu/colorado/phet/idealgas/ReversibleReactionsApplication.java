@@ -20,12 +20,12 @@ import edu.colorado.phet.idealgas.view.IdealGasLandF;
 import javax.swing.*;
 import java.awt.*;
 
-public class AdvancedGasApplication extends PhetApplication {
+public class ReversibleReactionsApplication extends PhetApplication {
 
 
-    public AdvancedGasApplication( String[] args ) {
-        super( args, IdealGasResources.getString( "advanced-gas.name" ),
-               IdealGasResources.getString( "advanced-gas.description" ),
+    public ReversibleReactionsApplication( String[] args ) {
+        super( args, IdealGasResources.getString( "reversible-reactions.name" ),
+               IdealGasResources.getString( "reversible-reactions.description" ),
                IdealGasConfig.getVersion().formatForTitleBar(),
 //               new SwingClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true ),
 //               true,
@@ -64,6 +64,6 @@ public class AdvancedGasApplication extends PhetApplication {
         }
 
         SimStrings.getInstance().addStrings( IdealGasConfig.localizedStringsPath );
-        new AdvancedGasApplication( args ).startApplication();
+        new ReversibleReactionsApplication( args ).startApplication();
     }
 }
