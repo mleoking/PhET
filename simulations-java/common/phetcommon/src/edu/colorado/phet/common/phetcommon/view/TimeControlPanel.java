@@ -30,14 +30,13 @@ public class TimeControlPanel extends JPanel {
 
     private JButton playPause;
     private JButton step;
-    private JPanel buttonPanel;
+    private JPanel buttonPanel;//todo: why is there an embedded sub-panel in this panel?
     private ImageIcon playIcon;
     private ImageIcon pauseIcon;
     private String playString;
     private String pauseString;
 
-    private boolean isPaused=false;
-    private boolean enabled=true;
+    private boolean paused =false;
 
     private ArrayList listeners = new ArrayList();
 
@@ -71,14 +70,12 @@ public class TimeControlPanel extends JPanel {
         buttonPanel.add( step );
         this.add( buttonPanel, BorderLayout.CENTER );
 
-        updateButtons( isPaused, enabled );
-
         //Adapter methods for event dispatch
         playPause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                isPaused=!isPaused;
-                updateButtons( isPaused, enabled );
-                if (isPaused){
+                paused =!paused;
+                updateButtons();
+                if ( paused ){
                     notifyPausePressed();
                 }else{
                     notifyPlayPressed();
@@ -90,6 +87,8 @@ public class TimeControlPanel extends JPanel {
                 notifyStepPressed();
             }
         } );
+
+        updateButtons( );
     }
 
     /**
@@ -107,7 +106,7 @@ public class TimeControlPanel extends JPanel {
     protected void setPlayString(String playString){
         this.playString=playString;
         updatePlayPauseButtonDimension();
-        updateButtons(isPaused,enabled);
+        updateButtons();
     }
 
     /**
@@ -135,25 +134,50 @@ public class TimeControlPanel extends JPanel {
         buttonPanel.add(control,0);
     }
 
-    public void updateButtons( boolean isPaused, boolean enabled ) {
-        if( isPaused ) {
-            playPause.setText( playString );
-            playPause.setIcon( playIcon );
-        }
-        else {
-            playPause.setText( pauseString );
-            playPause.setIcon( pauseIcon );
-        }
-        playPause.setEnabled( enabled );
-        step.setEnabled( enabled && isPaused );
+    /**
+     * Sets whether this TimeControlPanel should treat time as paused.
+     *
+     * @param paused
+     */
+    public void setPaused( boolean paused ) {
+        this.paused = paused;
+        updateButtons();
     }
 
+    /**
+     * Enables or disables the clock control panel.
+     * When disabled, all buttons (play/pause/step) are also disabled.
+     * When enabled, the buttons are enabled to correspond to the clock state.
+     *
+     * @param enabled true or false
+     */
+    public void setEnabled( boolean enabled ) {
+        super.setEnabled( enabled );
+        updateButtons();
+    }
+
+    /**
+     * Updates the state of the play/pause and step buttons to reflect whether the control is paused and/or enabled.
+     */
+    public void updateButtons( ) {
+        playPause.setText( paused ? playString : pauseString );
+        playPause.setIcon( paused ? playIcon : pauseIcon );
+        playPause.setEnabled( isEnabled() );
+        step.setEnabled( isEnabled() && paused );
+    }
+
+    /**
+     * Listener interface for receiving events from TimeControlPanel
+     */
     public static interface TimeControlListener{
         void stepPressed();
         void playPressed();
         void pausePressed();
     }
 
+    /**
+     * Convenience adapter class for TimeControlListener
+     */
     public static class TimeControlAdapter implements TimeControlListener{
         public void stepPressed() {
         }
