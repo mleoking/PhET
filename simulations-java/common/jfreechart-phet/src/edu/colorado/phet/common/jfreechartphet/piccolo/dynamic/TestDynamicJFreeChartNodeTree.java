@@ -29,6 +29,10 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * Demonstration of usage and behavior of JFreeChartNode nested in a piccolo scene graph.
+ * @author Sam Reid
+ */
 public class TestDynamicJFreeChartNodeTree extends TestDynamicJFreeChartNode {
     private PNode root;
     private boolean constructed = false;

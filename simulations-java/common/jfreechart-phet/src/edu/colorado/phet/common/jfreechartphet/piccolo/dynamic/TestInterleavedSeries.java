@@ -29,8 +29,8 @@ import java.awt.geom.Point2D;
 import java.awt.*;
 
 /**
- * Author: Sam Reid
- * Jun 4, 2007, 3:19:47 AM
+ * Demonstration of usage and behavior of JFreeChartNode with multiple series.
+ * @author Sam Reid
  */
 public class TestInterleavedSeries extends TestDynamicJFreeChartNode {
 

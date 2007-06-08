@@ -1,3 +1,24 @@
+/*
+* The Physics Education Technology (PhET) project provides
+* a suite of interactive educational simulations.
+* Copyright (C) 2004-2006 University of Colorado.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along
+* with this program; if not, write to the Free Software Foundation, Inc.,
+* 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+*
+* For additional licensing options, please contact PhET at phethelp@colorado.edu
+*/
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -21,8 +42,10 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 /**
- * Author: Sam Reid
- * Jun 5, 2007, 4:23:15 PM
+ * DISCLAIMER: This class is under development and not ready for general use.
+ * The IncrementalPPath provides performance optimization in terms of bounds computation and rendering
+ * when the client repeatedly calls lineTo().  Run the main() method for a usage and graphical demonstration. 
+ * @author Sam Reid
  */
 public class IncrementalPPath extends PPath {
     private PCanvas pCanvas;
