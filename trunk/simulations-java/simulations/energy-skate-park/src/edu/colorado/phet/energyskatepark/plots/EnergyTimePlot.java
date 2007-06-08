@@ -188,7 +188,7 @@ public class EnergyTimePlot {
         } );
         relayout();
 
-        developerControlDialog = new JDialog(parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
+        developerControlDialog = new JDialog(parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" )+" (developer controls)", false );
         developerControlDialog.setContentPane( new DynamicJFreeChartNodeControlPanel( dynamicJFreeChartNode ));
         developerControlDialog.pack();
         developerControlDialog.setLocation( dialog.getLocation().x,dialog.getLocation().y-developerControlDialog.getHeight());
