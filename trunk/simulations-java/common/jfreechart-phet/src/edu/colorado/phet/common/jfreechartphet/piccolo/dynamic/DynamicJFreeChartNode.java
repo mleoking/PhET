@@ -20,14 +20,6 @@
 * For additional licensing options, please contact PhET at phethelp@colorado.edu
 */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
