@@ -21,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.balloons.BalloonsResources;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
