@@ -15,12 +15,14 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
 import edu.colorado.phet.idealgas.model.SimulationClock;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class ReversibleReactionsApplication extends PhetApplication {
+    private MovableWallsModule wallsModule;
 
 
     public ReversibleReactionsApplication( String[] args ) {
@@ -33,7 +35,8 @@ public class ReversibleReactionsApplication extends PhetApplication {
 
         SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
 
-        setModules( new Module[] { new MovableWallsModule( clock ) } );
+        wallsModule = new MovableWallsModule( clock );
+        setModules( new Module[] {wallsModule} );
 //        setModules( new Module[] { new MovableWallsModule( getClock() ) } );
 
     }
@@ -64,6 +67,8 @@ public class ReversibleReactionsApplication extends PhetApplication {
         }
 
         SimStrings.getInstance().addStrings( IdealGasConfig.localizedStringsPath );
-        new ReversibleReactionsApplication( args ).startApplication();
+        ReversibleReactionsApplication reversibleReactionsApplication = new ReversibleReactionsApplication( args );
+        reversibleReactionsApplication.startApplication();
+//        reversibleReactionsApplication.wallsModule.pumpGasMolecules( 1, HeavySpecies.class );
     }
 }
