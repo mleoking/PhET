@@ -138,14 +138,6 @@ public class TimeControlPanel extends JPanel {
         buttonPanel.add(control,0);
     }
 
-    public void addToLeft( JComponent component ) {
-        add( component, BorderLayout.WEST );
-    }
-
-    public void addToRight( JComponent component ) {
-        add( component, BorderLayout.EAST );
-    }
-
     public void updateButtons( boolean isPaused, boolean enabled ) {
         if( isPaused ) {
             playPause.setText( playString );
