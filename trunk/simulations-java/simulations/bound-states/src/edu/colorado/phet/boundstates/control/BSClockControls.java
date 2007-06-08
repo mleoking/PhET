@@ -66,7 +66,7 @@ public class BSClockControls extends ClockControlPanel {
         // Clock
         _clock = clock;
         _clock.setSimulationTimeChange( BSConstants.DEFAULT_CLOCK_STEP );
-        _clock.addClockListener( this );
+//        _clock.addClockListener( this );//this is handled automatically in superclass; it appears previous versions called addClockListener twice, once here and once in superclass
         
         // Restart button
         String restartLabel = BSResources.getString( "button.restart" );
@@ -129,7 +129,7 @@ public class BSClockControls extends ClockControlPanel {
      * Call this method before releasing all references to this object.
      */
     public void cleanup() {
-        _clock.removeClockListener( this );
+        super.cleanup();//detachment from clock is handled in ClockControlPanel
         _clock = null;
     }
     
