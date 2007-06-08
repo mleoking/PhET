@@ -1,11 +1,11 @@
 package edu.colorado.phet.energyskatepark.view.swing;
 
-import edu.colorado.phet.common.phetcommon.model.clock.*;
+import edu.colorado.phet.common.phetcommon.model.clock.Clock;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
-import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkClock;
@@ -24,11 +24,18 @@ import java.io.IOException;
  * Jun 1, 2007, 2:27:34 PM
  */
 public class EnergySkateParkPlaybackPanel extends JPanel {
-    private JButton recordButton;
+    private MultiStateButton recordButton;
     private Clock clock;
-    private ClockControlPanel energySkateParkCCP;
     private TimeSeriesModel timeSeriesModel;
     private JButton rewindButton;
+    private MultiStateButton playbackButton;
+    private JButton stepButton;
+
+    private static final String KEY_PLAYBACK = "playback";
+    private static final String KEY_PAUSE = "pause";
+
+    private static final Object KEY_REC = "rec";
+    private static final Object KEY_PAUSE_REC = "pause-rec";
 
     public EnergySkateParkPlaybackPanel( final EnergySkateParkModule module, final TimeSeriesModel timeSeriesModel, final Clock clock ) {
         this.timeSeriesModel = timeSeriesModel;
@@ -46,17 +53,21 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
             }
         } );
         try {
-            recordButton = new JButton( EnergySkateParkStrings.getString( "controls.playback.record" ),
-                                        new ImageIcon( ImageLoader.loadBufferedImage( "timeseries/images/icons/record24.gif" ) ) );
-            recordButton.addActionListener( new ActionListener() {
+
+            recordButton = new MultiStateButton( new Object[]{KEY_REC, KEY_PAUSE_REC}, new String[]{"REC", "Pause"},
+                                                 new Icon[]{
+                                                         new ImageIcon( ImageLoader.loadBufferedImage( "timeseries/images/icons/record24.gif" ) ),
+                                                         loadCommonIcon( PhetCommonResources.IMAGE_PAUSE )
+                                                 } );
+            recordButton.addActionListener( KEY_REC, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if( recordButton.getText().equals( EnergySkateParkStrings.getString( "controls.playback.pause" ) ) ) {
-                        clock.pause();
-                    }
-                    else {
-                        timeSeriesModel.setRecordMode();
-                        clock.start();
-                    }
+                    timeSeriesModel.setRecordMode();
+                    clock.start();
+                }
+            } );
+            recordButton.addActionListener( KEY_PAUSE_REC, new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    clock.pause();
                 }
             } );
             add( recordButton );
@@ -73,64 +84,70 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        try {
-            recordButton.setPreferredSize( ( SwingUtils.getMaxDimension(
-                    recordButton, EnergySkateParkStrings.getString( "controls.playback.record" ),
-                    new ImageIcon( ImageLoader.loadBufferedImage( "timeseries/images/icons/record24.gif" ) ),
-                    EnergySkateParkStrings.getString( "controls.playback.pause" ),
-                    new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_PAUSE ) ) ) ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
-            public void modeChanged() {
-                updateModeButtons();
-            }
-        } );
-        clock.addClockListener( new ClockAdapter() {
 
-            public void clockStarted( ClockEvent clockEvent ) {
-                updateModeButtons();
-            }
-
-            public void clockPaused( ClockEvent clockEvent ) {
-                updateModeButtons();
-            }
-        } );
-
-        energySkateParkCCP = new ClockControlPanel( clock );
-        energySkateParkCCP.setPlayString( EnergySkateParkStrings.getString( "controls.playback.playback" ) );
-        energySkateParkCCP.addTimeControlListener( new TimeControlPanel.TimeControlAdapter() {
-            public void playPressed() {
-                actionPerformed();
-            }
-
-            public void pausePressed() {
-                actionPerformed();
-            }
-
-            public void actionPerformed() {
-//                System.out.println( "timeSeriesModel.getPlaybackTime() = " + timeSeriesModel.getPlaybackTime() +", recTime="+timeSeriesModel.getRecordTime());
-                //todo: this depends on correct sequence of dispatches to listeners in superclass
+        playbackButton = new MultiStateButton( new Object[]{KEY_PLAYBACK, KEY_PAUSE}, new String[]{"Playback", "Pause"}, new Icon[]{loadCommonIcon( PhetCommonResources.IMAGE_PLAY ), loadCommonIcon( PhetCommonResources.IMAGE_PAUSE )} );
+        playbackButton.addActionListener( KEY_PLAYBACK, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( timeSeriesModel.isRecording() ) {
+                    timeSeriesModel.setPlaybackMode();
+                    timeSeriesModel.setPlaybackTime( 0.0 );
+                }
                 if( timeSeriesModel.getPlaybackTime() == timeSeriesModel.getRecordTime() ) {
                     timeSeriesModel.setPlaybackTime( 0.0 );
                 }
                 timeSeriesModel.setPlaybackMode();
+                clock.start();
             }
         } );
-//        energySkateParkCCP.addPlayPauseActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-////                System.out.println( "timeSeriesModel.getPlaybackTime() = " + timeSeriesModel.getPlaybackTime() +", recTime="+timeSeriesModel.getRecordTime());
-//                //todo: this depends on correct sequence of dispatches to listeners in superclass
-//                if( timeSeriesModel.getPlaybackTime() == timeSeriesModel.getRecordTime() ) {
-//                    timeSeriesModel.setPlaybackTime( 0.0 );
-//                }
-//                timeSeriesModel.setPlaybackMode();
-//            }
-//        } );
+        playbackButton.addActionListener( KEY_PAUSE, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                clock.pause();
+            }
+        } );
+        clock.addClockListener( new ClockAdapter() {
+            public void clockStarted( ClockEvent clockEvent ) {
+                updatePlaybackButtonMode();
+            }
 
-        add( energySkateParkCCP );
+            public void clockPaused( ClockEvent clockEvent ) {
+                updatePlaybackButtonMode();
+            }
+        } );
+        timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
+
+            public void modeChanged() {
+                updatePlaybackButtonMode();
+            }
+
+            public void pauseChanged() {
+                updatePlaybackButtonMode();
+            }
+        } );
+
+
+        stepButton = new JButton( "Step", loadCommonIcon( PhetCommonResources.IMAGE_STEP_FORWARD ) );
+        stepButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                clock.stepClockWhilePaused();
+            }
+        } );
+        add( playbackButton );
+        add( stepButton );
+        clock.addClockListener( new ClockAdapter() {
+            public void clockStarted( ClockEvent clockEvent ) {
+                updateStepEnabled();
+            }
+
+            public void clockPaused( ClockEvent clockEvent ) {
+                updateStepEnabled();
+            }
+        } );
+        timeSeriesModel.addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
+            public void timeChanged() {
+                updateStepEnabled();
+            }
+        } );
+
         rewindButton = new JButton( EnergySkateParkStrings.getString( "controls.playback.rewind" ), new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_REWIND ) ) );
         rewindButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -155,38 +172,41 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
         } );
         add( clearButton );
         updateRecordButton();
-        updateModeButtons();
+    }
+
+    private void updateStepEnabled() {
+        boolean endTime = ( timeSeriesModel.getPlaybackTime() == timeSeriesModel.getRecordTime() );
+        if( endTime || clock.isRunning() ) {
+            stepButton.setEnabled( false );
+        }
+        else {
+            stepButton.setEnabled( true );
+        }
+    }
+
+    private void updatePlaybackButtonMode() {
+        if( clock.isPaused() || timeSeriesModel.isRecording() ) {
+            playbackButton.setMode( "playback" );
+        }
+        else {
+            playbackButton.setMode( "pause" );
+        }
+    }
+
+    private Icon loadCommonIcon( String commonResource ) {
+        return new ImageIcon( PhetCommonResources.getInstance().getImage( commonResource ) );
     }
 
     private void updateRewindButtonEnabled() {
         rewindButton.setEnabled( clock.isPaused() );
     }
 
-    private void updateModeButtons() {
-        SwingUtilities.invokeLater( new Runnable() {
-            //hack to make sure this happens last (after other state update events)
-            //todo: listening to different objects for state changes should allow us to avoid this hack.
-            public void run() {
-                if( clock.isPaused() ) {
-                    recordButton.setEnabled( true );
-                }
-                else {
-                    recordButton.setEnabled( timeSeriesModel.isRecording() );
-                }
-            }
-        } );
-    }
-
     private void updateRecordButton() {
-        recordButton.setText( clock.isPaused() ? EnergySkateParkStrings.getString( "controls.playback.record" ) : EnergySkateParkStrings.getString( "controls.playback.pause" ) );
-        try {
-            recordButton.setIcon( clock.isPaused() ?
-                                  new ImageIcon( ImageLoader.loadBufferedImage( "timeseries/images/icons/record24.gif" ) ) :
-                                  new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_PAUSE ) )
-            );
+        if( clock.isPaused() || timeSeriesModel.isPlaybackMode() ) {
+            recordButton.setMode( KEY_REC );
         }
-        catch( IOException e ) {
-            e.printStackTrace();
+        else {
+            recordButton.setMode( KEY_PAUSE_REC );
         }
     }
 
