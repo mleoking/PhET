@@ -1,3 +1,11 @@
+2.01.09 (6-8-2007)
+Added developer controls for choosing E vs. T renderer.
+    -You should always leave "buffered" on, unless comparing to "Jfreechart" renderer
+    -The main 2 renderers to consider on are "Piccolo" and "Buffered (direct)"
+        o "Piccolo" does layering correctly
+        o "Buffered (direct)" sometimes interleaves layers, but has higher performance (may not be a concern in this application)
+    -Use the "regions" checkbox to see differences in painted regions
+
 2.01.08 (6-8-2007)
 Changed recording max time from 50 sec to 20 sec.
 Readouts on E vs. T plot no longer update during "live mode"
