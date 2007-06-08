@@ -65,8 +65,7 @@ public class BSClockControls extends ClockControlPanel {
         
         // Clock
         _clock = clock;
-        _clock.setSimulationTimeChange( BSConstants.DEFAULT_CLOCK_STEP );
-//        _clock.addClockListener( this );//this is handled automatically in superclass; it appears previous versions called addClockListener twice, once here and once in superclass
+        _clock.setDt( BSConstants.DEFAULT_CLOCK_STEP );
         
         // Restart button
         String restartLabel = BSResources.getString( "button.restart" );
@@ -129,7 +128,7 @@ public class BSClockControls extends ClockControlPanel {
      * Call this method before releasing all references to this object.
      */
     public void cleanup() {
-        super.cleanup();//detachment from clock is handled in ClockControlPanel
+        super.cleanup();
         _clock = null;
     }
     
@@ -181,7 +180,7 @@ public class BSClockControls extends ClockControlPanel {
     private void handleClockIndexChange() {
         int index = _clockIndexSlider.getValue();
         _timePanel.setTimeFormat( BSConstants.CLOCK_FORMATS[index] );
-        _clock.setSimulationTimeChange( BSConstants.CLOCK_STEPS[index] );
+        _clock.setDt( BSConstants.CLOCK_STEPS[index] );
         _clock.resetSimulationTime(); // so the clock display doesn't overflow
     }
     
