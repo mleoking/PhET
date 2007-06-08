@@ -311,10 +311,12 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         return ( kbT / Lp ) * ( ( 1 / ( 4 * ( 1 - x ) * ( 1 - x ) ) ) - ( 0.24 ) + x );
     }
 
-    /*
+    /**
      * Gets the extension, the straight-line distance between the head and tail.
+     * 
+     * @return extension (nm)
      */
-    private double getExtension() {
+    public double getExtension() {
         final double dx = getHeadX() - getTailX();
         final double dy = getHeadY() - getTailY();
         return Math.sqrt( ( dx * dx ) + ( dy * dy ) );
