@@ -7,6 +7,8 @@ Questions:
 • Add horizontal zoom for Energy vs. Time plot?
 
 To Do:
+• On the E vs. T graph, only one “pause” button should be visible at a time, other button should be grayed out and read “record” or “playback”; it is confusing to see 2 pause buttons at once
+• The playback button should be enabled during record; when pressed during recording, it should reset the playback timer and start playback.
 • Out of memory error after recording lots of complicated states, loading lots of images and setting charts to very large.
 • Bug: in one run, EnergySkateParkSimulationPanel.dragSplineSurface( PInputEvent event, EnergySkateParkSpline spline )  threw an exception, getting a null graphic for model object
 • Implement separate layers for time series graph (currently different series are interleaved).  How long would this take?
