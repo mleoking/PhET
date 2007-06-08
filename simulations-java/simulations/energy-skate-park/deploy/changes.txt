@@ -1,3 +1,6 @@
+2.01.10 (6-8-2007)
+Fixed: Adding a skater with 'A' was broken
+
 2.01.09 (6-8-2007)
 Added developer controls for choosing E vs. T renderer.
     -You should always leave "buffered" on, unless comparing to "Jfreechart" renderer
