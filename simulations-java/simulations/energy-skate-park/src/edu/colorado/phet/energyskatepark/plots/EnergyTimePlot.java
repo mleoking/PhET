@@ -55,7 +55,8 @@ public class EnergyTimePlot {
     private JFreeChartCursorNode jFreeChartCursorNode;
 
 //    public static final double MAX_TIME = 50.0;
-    public static final double MAX_TIME = 30.0;
+//    public static final double MAX_TIME = 30.0;
+    public static final double MAX_TIME = 20.0;
 //    public static final double MAX_TIME = 5.0;
 
     public EnergyTimePlot( EnergySkateParkModule module, JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
