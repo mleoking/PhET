@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - fix scale issues with DNA strand model
 - modify DNA strand model to accommodate variable fluid properties?
-- modify DNA strand model to accommodate variable clock step
 - better model for trap force
 
 MEDIUM PRIORITY:
@@ -64,7 +63,7 @@ MISSING INFO:
  
 DONE:
 6/7/07 - scale kick proportial to sqrt of simulation speed in DNA strand model
-6/7/07 - scale dt proportional to simulation speed in DNA strand model
+6/7/07 - scale evolution dt proportional to simulation speed in DNA strand model
 6/7/07 - add node for displaying DNA extension and associated value
 6/7/07 - new DNA strand parameter values and ranges, per Mike Dubson
 6/7/07 - change "Show Brownian force" feature to "Enable Brownian force"
