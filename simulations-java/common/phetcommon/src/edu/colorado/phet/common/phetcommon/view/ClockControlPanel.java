@@ -10,9 +10,6 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -29,25 +26,20 @@ public class ClockControlPanel extends TimeControlPanel implements ClockListener
     private IClock clock;
 
     public ClockControlPanel( final IClock clock ) {
-        addPlayPauseActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( clock.isPaused() ) {
-                    clock.start();
-                }
-                else {
-                    clock.pause();
-                }
-                updateButtons();
-            }
-        } );
+        addTimeControlListener( new TimeControlAdapter(){
 
-        addStepActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( clock.isPaused() ) {
-                    clock.stepClockWhilePaused();
-                }
+            public void stepPressed() {
+                clock.stepClockWhilePaused();
             }
-        } );
+
+            public void playPressed() {
+                clock.start();
+            }
+
+            public void pausePressed() {
+                clock.pause();
+            }
+        });
         if( clock == null ) {
             throw new RuntimeException( "Cannot have a control panel for a null clock." );
         }

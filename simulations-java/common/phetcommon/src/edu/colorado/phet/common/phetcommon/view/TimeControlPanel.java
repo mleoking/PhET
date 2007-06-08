@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * TimeControlPanel implements a Swing component for play/pause and step in PhET simulations.
@@ -37,7 +38,9 @@ public class TimeControlPanel extends JPanel {
 
     private boolean isPaused=false;
     private boolean enabled=true;
-    
+
+    private ArrayList listeners = new ArrayList();
+
     public TimeControlPanel() {
 
         // Button labels
@@ -69,6 +72,24 @@ public class TimeControlPanel extends JPanel {
         this.add( buttonPanel, BorderLayout.CENTER );
 
         updateButtons( isPaused, enabled );
+
+        //Adapter methods for event dispatch
+        playPause.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                isPaused=!isPaused;
+                updateButtons( isPaused, enabled );
+                if (isPaused){
+                    notifyPausePressed();
+                }else{
+                    notifyPlayPressed();
+                }
+            }
+        } );
+        step.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifyStepPressed();
+            }
+        } );
     }
 
     /**
@@ -149,5 +170,70 @@ public class TimeControlPanel extends JPanel {
         }
         playPause.setEnabled( enabled );
         step.setEnabled( enabled && isPaused );
+    }
+
+    public static interface TimeControlListener{
+        void stepPressed();
+        void playPressed();
+        void pausePressed();
+    }
+
+    public static class TimeControlAdapter implements TimeControlListener{
+        public void stepPressed() {
+        }
+
+        public void playPressed() {
+        }
+
+        public void pausePressed() {
+        }
+    }
+
+    public void addTimeControlListener( TimeControlListener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeTimeControlListener( TimeControlListener listener ) {
+        listeners.remove( listener );
+    }
+
+    private void notifyStepPressed() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ( (TimeControlListener)listeners.get( i ) ).stepPressed();
+        }
+    }
+    private void notifyPlayPressed(){
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ( (TimeControlListener)listeners.get( i ) ).playPressed();
+        }
+    }
+    private void notifyPausePressed() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ( (TimeControlListener)listeners.get( i ) ).pausePressed();
+        }
+    }
+
+    public static void main( String[] args ) {
+        JFrame frame = new JFrame();
+        TimeControlPanel pane = new TimeControlPanel();
+        pane.addTimeControlListener( new TimeControlListener() {
+            public void stepPressed() {
+                System.out.println( "TimeControlPanel.stepPressed" );
+            }
+
+            public void playPressed() {
+                System.out.println( "TimeControlPanel.playPressed" );
+            }
+
+            public void pausePressed() {
+                System.out.println( "TimeControlPanel.pausePressed" );
+            }
+        } );
+        frame.setContentPane( pane );
+        frame.pack();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width / 2 - frame.getWidth() / 2,
+                           Toolkit.getDefaultToolkit().getScreenSize().height / 2 - frame.getHeight() / 2 );
+        frame.show();
     }
 }
