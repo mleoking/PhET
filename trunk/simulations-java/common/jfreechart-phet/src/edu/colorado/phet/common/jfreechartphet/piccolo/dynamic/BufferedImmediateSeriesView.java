@@ -21,13 +21,13 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
-import java.awt.geom.Rectangle2D;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Author: Sam Reid
-* Jun 5, 2007, 6:04:16 PM
-*/
+ * Jun 5, 2007, 6:04:16 PM
+ */
 public class BufferedImmediateSeriesView extends BufferedSeriesView {
 
     public BufferedImmediateSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {

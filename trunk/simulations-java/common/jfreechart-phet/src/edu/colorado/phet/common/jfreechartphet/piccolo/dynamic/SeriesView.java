@@ -23,13 +23,14 @@ package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
 import org.jfree.data.xy.XYSeries;
 
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.GeneralPath;
 
 /**
  * DISCLAIMER: This class and subclasses are under development and not ready for general use.
  * Base class strategy for painting a data series.
+ *
  * @author Sam Reid
  */
 public abstract class SeriesView {
@@ -75,7 +76,8 @@ public abstract class SeriesView {
     public Point2D getNodePoint( int i ) {
         return getDynamicJFreeChartNode().plotToNode( getPoint( i ) );
     }
-    public Rectangle2D getDataArea(){
+
+    public Rectangle2D getDataArea() {
         return getDynamicJFreeChartNode().getDataArea();
     }
 

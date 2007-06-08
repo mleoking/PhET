@@ -21,27 +21,28 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * Demonstration of usage and behavior of JFreeChartNode with multiple series.
+ *
  * @author Sam Reid
  */
 public class TestInterleavedSeries extends TestDynamicJFreeChartNode {
 
     public TestInterleavedSeries() {
 
-        getDynamicJFreeChartNode().addSeries( "Series 1", Color.green);
-        getDynamicJFreeChartNode().addSeries( "Series 2", Color.red);
-        getDynamicJFreeChartNode().addSeries( "Series 3", Color.black);
+        getDynamicJFreeChartNode().addSeries( "Series 1", Color.green );
+        getDynamicJFreeChartNode().addSeries( "Series 2", Color.red );
+        getDynamicJFreeChartNode().addSeries( "Series 3", Color.black );
         PhetPPath phetPPath = new PhetPPath( new Rectangle( 0, 0, 100, 100 ), new BasicStroke( 2 ), Color.green );
         phetPPath.addInputEventListener( new PDragEventHandler() );
-        phetPPath.addInputEventListener(new CursorHandler( ) );
+        phetPPath.addInputEventListener( new CursorHandler() );
         getPhetPCanvas().addScreenChild( phetPPath );
     }
 
@@ -52,10 +53,11 @@ public class TestInterleavedSeries extends TestDynamicJFreeChartNode {
         Point2D.Double pt = new Point2D.Double( t / 100.0, sin );
 
         getDynamicJFreeChartNode().addValue( 0, pt.getX(), pt.getY() );
-        getDynamicJFreeChartNode().addValue( 1, pt.getX(), pt.getY()*0.9 );
-        getDynamicJFreeChartNode().addValue( 2, pt.getX(), pt.getY()*0.8 );
-        getDynamicJFreeChartNode().addValue( 3, pt.getX(), pt.getY()*1.5 );
+        getDynamicJFreeChartNode().addValue( 1, pt.getX(), pt.getY() * 0.9 );
+        getDynamicJFreeChartNode().addValue( 2, pt.getX(), pt.getY() * 0.8 );
+        getDynamicJFreeChartNode().addValue( 3, pt.getX(), pt.getY() * 1.5 );
     }
+
     public static void main( String[] args ) {
         new TestInterleavedSeries().start();
     }

@@ -21,8 +21,8 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.colorado.phet.common.piccolophet.nodes.IncrementalPPath;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.geom.Rectangle2D;
 
@@ -38,7 +38,7 @@ public class ImmediateBoundedPPathSeriesView extends PPathSeriesView {
     protected PPath createPPath() {
         return new IncrementalPPath( getDynamicJFreeChartNode().getPhetPCanvas() ) {
             protected void globalBoundsChanged( Rectangle2D bounds ) {
-                Rectangle2D dataArea=getDataArea();
+                Rectangle2D dataArea = getDataArea();
                 getDynamicJFreeChartNode().localToGlobal( dataArea );
                 Rectangle2D b = bounds.createIntersection( dataArea );
                 super.repaintGlobalBoundsImmediately( b );

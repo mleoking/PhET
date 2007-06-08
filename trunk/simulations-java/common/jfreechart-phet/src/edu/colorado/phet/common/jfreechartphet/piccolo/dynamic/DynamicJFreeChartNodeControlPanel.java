@@ -32,6 +32,7 @@ import java.beans.PropertyChangeListener;
 /**
  * DISCLAIMER: This class is under development and not ready for general use.
  * Controls for setting and observing state for a DynamicJFreeChartNode
+ *
  * @author Sam Reid
  */
 public class DynamicJFreeChartNodeControlPanel extends JPanel {

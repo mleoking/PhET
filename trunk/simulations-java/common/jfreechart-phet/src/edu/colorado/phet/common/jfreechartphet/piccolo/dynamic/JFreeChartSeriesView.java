@@ -25,8 +25,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  * Author: Sam Reid
-* Jun 5, 2007, 6:03:46 PM
-*/
+ * Jun 5, 2007, 6:03:46 PM
+ */
 public class JFreeChartSeriesView extends SeriesView {
 
     public JFreeChartSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {

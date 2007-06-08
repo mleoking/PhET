@@ -33,10 +33,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+
 /**
  * Demonstration of usage and behavior of JFreeChartNode
+ *
  * @author Sam Reid
  */
 public class TestDynamicJFreeChartNode {
@@ -65,16 +65,16 @@ public class TestDynamicJFreeChartNode {
 
         phetPCanvas.addScreenChild( dynamicJFreeChartNode );
 
-        JPanel controlPanel=new JPanel( );
-        JPanel dynamicJFreeChartNodeControlPanel=new DynamicJFreeChartNodeControlPanel(dynamicJFreeChartNode);
+        JPanel controlPanel = new JPanel();
+        JPanel dynamicJFreeChartNodeControlPanel = new DynamicJFreeChartNodeControlPanel( dynamicJFreeChartNode );
         JButton clear = new JButton( "Clear" );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clear();
             }
         } );
-        controlPanel.add(dynamicJFreeChartNodeControlPanel);
-        controlPanel.add(clear);
+        controlPanel.add( dynamicJFreeChartNodeControlPanel );
+        controlPanel.add( clear );
 //        panel.add( clear );
         pSwing = new PSwing( controlPanel );
         phetPCanvas.addScreenChild( pSwing );
