@@ -47,82 +47,18 @@ public class TestDynamicJFreeChartNode {
 
         phetPCanvas.addScreenChild( dynamicJFreeChartNode );
 
-        JPanel panel = new JPanel();
-        ButtonGroup buttonGroup = new ButtonGroup();
-        panel.add( createButton( "JFreeChart Series", buttonGroup, true, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setJFreeChartSeries();
-            }
-        } ) );
-        panel.add( createButton( "PPath", buttonGroup, false, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setPiccoloSeries();
-            }
-        } ) );
-        panel.add( createButton( "Incremental PPath", buttonGroup, false, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setViewFactory( new DynamicJFreeChartNode.SeriesViewFactory() {
-                    public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-                        return new IncrementalPPathSeriesView( dynamicJFreeChartNode, seriesData );
-                    }
-                } );
-            }
-        } ) );
-        panel.add( createButton( "Bound Incremental PPath", buttonGroup, false, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setViewFactory( new DynamicJFreeChartNode.SeriesViewFactory() {
-                    public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-                        return new BoundedPPathSeriesView( dynamicJFreeChartNode, seriesData );
-                    }
-                } );
-            }
-        } ) );
-        panel.add( createButton( "Immediate Bound Incremental PPath", buttonGroup, false, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setViewFactory( new DynamicJFreeChartNode.SeriesViewFactory() {
-                    public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-                        return new ImmediateBoundedPPathSeriesView( dynamicJFreeChartNode, seriesData );
-                    }
-                } );
-            }
-        } ) );
-        panel.add( createButton( "Buffered Series", buttonGroup, false, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setBufferedSeries();
-            }
-        } ) );
-        panel.add( createButton( "Buffered Immediate", buttonGroup, false, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setBufferedImmediateSeries();
-            }
-        } ) );
-        final JCheckBox jCheckBox = new JCheckBox( "buffered", dynamicJFreeChartNode.isBuffered() );
-        jCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dynamicJFreeChartNode.setBuffered( jCheckBox.isSelected() );
-            }
-        } );
-        dynamicJFreeChartNode.addBufferedPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                jCheckBox.setSelected( dynamicJFreeChartNode.isBuffered() );
-            }
-        } );
-        final JCheckBox debug = new JCheckBox( "Show Regions", PDebug.debugBounds );
-        debug.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                PDebug.debugRegionManagement = debug.isSelected();
-            }
-        } );
-        panel.add( jCheckBox );
-        panel.add( debug );
+        JPanel controlPanel=new JPanel( );
+        JPanel dynamicJFreeChartNodeControlPanel=new DynamicJFreeChartNodeControlPanel(dynamicJFreeChartNode);
         JButton clear = new JButton( "Clear" );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clear();
             }
         } );
-        panel.add( clear );
-        pSwing = new PSwing( panel );
+        controlPanel.add(dynamicJFreeChartNodeControlPanel);
+        controlPanel.add(clear);
+//        panel.add( clear );
+        pSwing = new PSwing( controlPanel );
         phetPCanvas.addScreenChild( pSwing );
 
         timer = new Timer( 30, new ActionListener() {
@@ -178,16 +114,6 @@ public class TestDynamicJFreeChartNode {
     private void clear() {
         dynamicJFreeChartNode.clear();
         t0 = System.currentTimeMillis();
-    }
-
-    private JComponent createButton( String text, ButtonGroup buttonGroup, boolean enabled, ActionListener actionListener ) {
-        JRadioButton jRadioButton = new JRadioButton( text, enabled );
-        buttonGroup.add( jRadioButton );
-        jRadioButton.addActionListener( actionListener );
-        if( enabled ) {
-            actionListener.actionPerformed( null );
-        }
-        return jRadioButton;
     }
 
     protected void relayout() {
