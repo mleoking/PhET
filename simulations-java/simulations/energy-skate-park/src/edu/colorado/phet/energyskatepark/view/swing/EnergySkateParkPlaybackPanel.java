@@ -149,11 +149,9 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
             public void run() {
                 if( clock.isPaused() ) {
                     recordButton.setEnabled( true );
-                    energySkateParkCCP.setPlayButtonEnabled( true );
                 }
                 else {
                     recordButton.setEnabled( timeSeriesModel.isRecording() );
-                    energySkateParkCCP.setPlayButtonEnabled( timeSeriesModel.isPlaybackMode() );
                 }
             }
         } );
@@ -182,9 +180,6 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
             super.addPlayPauseActionListener( actionListener );
         }
 
-        public void setPlayButtonEnabled( boolean b ) {
-            super.setPlayPauseButtonEnabled( b );
-        }
     }
 
 
