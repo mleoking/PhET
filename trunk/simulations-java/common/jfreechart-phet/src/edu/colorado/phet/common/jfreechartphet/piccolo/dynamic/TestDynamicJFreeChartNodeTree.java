@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.jfreechartphet.test;
+package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
