@@ -37,10 +37,6 @@ public class DNAStrandNode extends PNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Color EXTENSION_STROKE_COLOR = Color.BLACK;
-    private static final Stroke EXTENSION_STROKE = 
-        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
-    
     private static final Color STRAND_STROKE_COLOR = Color.BLACK;
     private static final Stroke STRAND_STROKE = new BasicStroke( 1f );
     
@@ -53,13 +49,9 @@ public class DNAStrandNode extends PNode implements Observer {
     
     private GeneralPath _strandPath;
     private PPath _strandNode;
-    private GeneralPath _extensionPath;
-    private PPath _extensionNode; // straight line between head and tail
+    private DNAExtensionNode _extensionNode;
     private PNode _pivotsParentNode;
     private PImage _pushpinNode;
-    
-    private boolean _pivotsVisible;
-    private boolean _extensionVisible;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -88,10 +80,7 @@ public class DNAStrandNode extends PNode implements Observer {
         _strandNode.setStrokePaint( STRAND_STROKE_COLOR );
         addChild( _strandNode );
 
-        _extensionPath = new GeneralPath();
-        _extensionNode = new PPath();
-        _extensionNode.setStroke( EXTENSION_STROKE );
-        _extensionNode.setStrokePaint( EXTENSION_STROKE_COLOR );
+        _extensionNode = new DNAExtensionNode();
         addChild( _extensionNode );
 
         _pivotsParentNode = new PComposite();
@@ -99,9 +88,6 @@ public class DNAStrandNode extends PNode implements Observer {
 
         _pushpinNode = new PImage( OTResources.getImage( OTConstants.IMAGE_PUSHPIN ) );
         addChild( _pushpinNode );
-        
-        _pivotsVisible = false;
-        _extensionVisible = false;
         
         update();
     }
@@ -118,27 +104,27 @@ public class DNAStrandNode extends PNode implements Observer {
     //----------------------------------------------------------------------------
     
     public void setPivotsVisible( boolean visible ) {
-        if ( visible != _pivotsVisible ) {
-            _pivotsVisible = visible;
+        if ( visible != _pivotsParentNode.getVisible() ) {
+            _pivotsParentNode.setVisible( visible );
             update();
             firePropertyChange( -1, PROPERTY_PIVOTS_VISIBLE, null, null );
         }
     }
     
     public boolean isPivotsVisible() {
-        return _pivotsVisible;
+        return _pivotsParentNode.getVisible();
     }
     
     public void setExtensionVisible( boolean visible ) {
-        if ( visible != _extensionVisible ) {
-            _extensionVisible = visible;
+        if ( visible != _extensionNode.getVisible() ) {
+            _extensionNode.setVisible( visible );
             update();
             firePropertyChange( -1, PROPERTY_EXTENSION_VISIBLE, null, null );
         }
     }
     
     public boolean isExtensionVisible() {
-        return _extensionVisible;
+        return _extensionNode.getVisible();
     }
     
     //----------------------------------------------------------------------------
@@ -166,18 +152,15 @@ public class DNAStrandNode extends PNode implements Observer {
         _pushpinNode.setOffset( xOffset, yOffset );
         
         // Draw the extension, a straight line from tail to head
-        _extensionPath.reset();
-        if ( _extensionVisible ) {
+        if ( isExtensionVisible() ) {
+            double extension = _dnaStrand.getExtension();
             double viewHeadX = _modelViewTransform.modelToView( _dnaStrand.getHeadX() );
             double viewHeadY = _modelViewTransform.modelToView( _dnaStrand.getHeadY() );
-            _extensionPath.moveTo( (float) viewTailX, (float) viewTailY );
-            _extensionPath.lineTo( (float) viewHeadX, (float) viewHeadY );
+            _extensionNode.update( extension, viewTailX, viewTailY, viewHeadX, viewHeadY );
         }
-        _extensionNode.setPathTo( _extensionPath );
         
-        _pivotsParentNode.removeAllChildren();
-
         // Draw the strand, from the tail to the head
+        _pivotsParentNode.removeAllChildren();
         _strandPath.reset();
         DNAPivot[] pivots = _dnaStrand.getPivots();
         double viewPivotX, viewPivotY;
@@ -195,7 +178,7 @@ public class DNAStrandNode extends PNode implements Observer {
             }
             
             // draw pivot point
-            if ( _pivotsVisible ) {
+            if ( isPivotsVisible() ) {
                 DNAPivotNode pivotNode = new DNAPivotNode( viewPivotX, viewPivotY );
                 _pivotsParentNode.addChild( pivotNode );
             }
