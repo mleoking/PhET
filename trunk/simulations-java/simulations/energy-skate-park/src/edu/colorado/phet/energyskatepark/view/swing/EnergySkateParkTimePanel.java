@@ -11,8 +11,6 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Author: Sam Reid
@@ -38,8 +36,16 @@ public class EnergySkateParkTimePanel extends JPanel {
     class ESPCCP extends ClockControlPanel {
         public ESPCCP( IClock clock ) {
             super( clock );
-            addPlayPauseActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
+            addTimeControlListener( new TimeControlAdapter() {
+                public void stepPressed() {
+                    module.setRecordOrLiveMode();
+                }
+
+                public void playPressed() {
+                    module.setRecordOrLiveMode();
+                }
+
+                public void pausePressed() {
                     module.setRecordOrLiveMode();
                 }
             } );

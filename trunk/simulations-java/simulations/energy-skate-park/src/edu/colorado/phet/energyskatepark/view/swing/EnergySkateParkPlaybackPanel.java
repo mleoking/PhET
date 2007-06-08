@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark.view.swing;
 import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
+import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
@@ -99,8 +100,16 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
         } );
 
         energySkateParkCCP = new EnergySkateParkCCP( clock );
-        energySkateParkCCP.addPlayPauseActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        energySkateParkCCP.addTimeControlListener( new TimeControlPanel.TimeControlAdapter() {
+            public void playPressed() {
+                actionPerformed();
+            }
+
+            public void pausePressed() {
+                actionPerformed();
+            }
+
+            public void actionPerformed() {
 //                System.out.println( "timeSeriesModel.getPlaybackTime() = " + timeSeriesModel.getPlaybackTime() +", recTime="+timeSeriesModel.getRecordTime());
                 //todo: this depends on correct sequence of dispatches to listeners in superclass
                 if( timeSeriesModel.getPlaybackTime() == timeSeriesModel.getRecordTime() ) {
@@ -109,6 +118,16 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
                 timeSeriesModel.setPlaybackMode();
             }
         } );
+//        energySkateParkCCP.addPlayPauseActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+////                System.out.println( "timeSeriesModel.getPlaybackTime() = " + timeSeriesModel.getPlaybackTime() +", recTime="+timeSeriesModel.getRecordTime());
+//                //todo: this depends on correct sequence of dispatches to listeners in superclass
+//                if( timeSeriesModel.getPlaybackTime() == timeSeriesModel.getRecordTime() ) {
+//                    timeSeriesModel.setPlaybackTime( 0.0 );
+//                }
+//                timeSeriesModel.setPlaybackMode();
+//            }
+//        } );
 
         add( energySkateParkCCP );
         rewindButton = new JButton( EnergySkateParkStrings.getString( "controls.playback.rewind" ), new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_REWIND ) ) );
@@ -176,9 +195,9 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
             setPlayString( EnergySkateParkStrings.getString( "controls.playback.playback" ) );
         }
 
-        public void addPlayPauseActionListener( ActionListener actionListener ) {
-            super.addPlayPauseActionListener( actionListener );
-        }
+//        public void addPlayPauseActionListener( ActionListener actionListener ) {
+//            super.addPlayPauseActionListener( actionListener );
+//        }
 
     }
 

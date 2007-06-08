@@ -93,30 +93,6 @@ public class TimeControlPanel extends JPanel {
     }
 
     /**
-     * Adds a listener to the play/pause button.
-     * @param actionListener the listener
-     */
-    protected void addPlayPauseActionListener( ActionListener actionListener ) {
-        playPause.addActionListener( actionListener );
-    }
-
-    /**
-     * Removes a listener to the play/pause button.
-     * @param actionListener the listener
-     */
-    protected void removePlayPauseActionListener( ActionListener actionListener ) {
-        playPause.removeActionListener( actionListener );
-    }
-
-    public void addStepActionListener( ActionListener actionListener ) {
-        step.addActionListener( actionListener );
-    }
-
-    public void removeStepActionListener(ActionListener actionListener){
-        step.removeActionListener( actionListener );
-    }
-
-    /**
      * Sets whether the play/pause button is enabled
      * @param enabled true if the play/pause button is enabled
      */
