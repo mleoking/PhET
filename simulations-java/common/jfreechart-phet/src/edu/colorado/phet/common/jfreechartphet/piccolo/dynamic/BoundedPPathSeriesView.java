@@ -37,7 +37,7 @@ public class BoundedPPathSeriesView extends PPathSeriesView {
     protected PPath createPPath() {
         return new IncrementalPPath( getDynamicJFreeChartNode().getPhetPCanvas() ) {
             protected void globalBoundsChanged( Rectangle2D bounds ) {
-                Rectangle2D dataArea=getDataArea();
+                Rectangle2D dataArea = getDataArea();
                 getDynamicJFreeChartNode().localToGlobal( dataArea );
                 Rectangle2D b = bounds.createIntersection( dataArea );
                 super.globalBoundsChanged( b );

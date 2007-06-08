@@ -22,10 +22,10 @@
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
-import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.TestDynamicJFreeChartNodeTree;
 
 /**
  * Simple demonstration for usage of JFreeChartCursorNode
+ *
  * @author Sam Reid
  */
 public class TestJFreeChartCursorNode extends TestDynamicJFreeChartNodeTree {

@@ -28,8 +28,9 @@ import java.util.ArrayList;
 
 /**
  * Represents the series that can be painted on a DynamicJFreeChartNode
+ *
  * @author Sam Reid
-*/
+ */
 public class SeriesData {
     private String title;
     private Color color;
