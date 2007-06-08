@@ -71,11 +71,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 //    private PhetPPath debugBufferRegion;//internal debugging tool for deciphering screen output regions
 
     //The default SeriesView is JFreeChart rendering.
-    private SeriesViewFactory viewFactory = new SeriesViewFactory() {
-        public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-            return new JFreeChartSeriesView( dynamicJFreeChartNode, seriesData );
-        }
-    };
+    private SeriesViewFactory viewFactory = RENDERER_JFREECHART;
 
     public void updateAll() {
         super.updateAll();
@@ -140,44 +136,32 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
      * Sets the rendering strategy to JFreeChart style.
      */
     public void setJFreeChartSeries() {
-        setViewFactory( new SeriesViewFactory() {
-            public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-                return new JFreeChartSeriesView( dynamicJFreeChartNode, seriesData );
-            }
-        } );
+        setViewFactory( RENDERER_JFREECHART );
+    }
+
+    public SeriesViewFactory getViewFactory() {
+        return viewFactory;
     }
 
     /**
      * Sets the rendering strategy to Piccolo style.
      */
     public void setPiccoloSeries() {
-        setViewFactory( new SeriesViewFactory() {
-            public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-                return new PPathSeriesView( dynamicJFreeChartNode, seriesData );
-            }
-        } );
+        setViewFactory( RENDERER_PICCOLO );
     }
 
     /**
      * Sets the rendering strategy to Buffered style.
      */
     public void setBufferedSeries() {
-        setViewFactory( new SeriesViewFactory() {
-            public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-                return new BufferedSeriesView( dynamicJFreeChartNode, seriesData );
-            }
-        } );
+        setViewFactory( RENDERER_BUFFERED );
     }
 
     /**
      * Sets the rendering strategy to Buffered Immediate style.
      */
     public void setBufferedImmediateSeries() {
-        setViewFactory( new SeriesViewFactory() {
-            public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-                return new BufferedImmediateSeriesView( dynamicJFreeChartNode, seriesData );
-            }
-        } );
+        setViewFactory( RENDERER_BUFFERED_IMMEDIATE );
     }
 
     /**
@@ -223,10 +207,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         return phetPCanvas;
     }
 
-    public static interface SeriesViewFactory {
-        SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData );
-    }
-
     public void addBufferedImagePropertyChangeListener( PropertyChangeListener listener ) {
         super.addBufferedImagePropertyChangeListener( listener );
     }
@@ -239,4 +219,36 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         return super.getBuffer();
     }
 
+    public static final SeriesViewFactory RENDERER_JFREECHART = new SeriesViewFactory() {
+        public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+            return new JFreeChartSeriesView( dynamicJFreeChartNode, seriesData );
+        }
+    };
+
+    public static final SeriesViewFactory RENDERER_BUFFERED = new SeriesViewFactory() {
+        public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+            return new BufferedSeriesView( dynamicJFreeChartNode, seriesData );
+        }
+    };
+    public static final SeriesViewFactory RENDERER_PICCOLO = new SeriesViewFactory() {
+        public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+            return new PPathSeriesView( dynamicJFreeChartNode, seriesData );
+        }
+    };
+    public static final SeriesViewFactory RENDERER_BUFFERED_IMMEDIATE = new SeriesViewFactory() {
+        public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+            return new BufferedImmediateSeriesView( dynamicJFreeChartNode, seriesData );
+        }
+    };
+    public static final SeriesViewFactory RENDERER_PICCOLO_INCREMENTAL_IMMEDIATE = new SeriesViewFactory() {
+        public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+            return new ImmediateBoundedPPathSeriesView( dynamicJFreeChartNode, seriesData );
+        }
+    };
+
+    public static final SeriesViewFactory RENDERER_PICCOLO_INCREMENTAL = new SeriesViewFactory() {
+        public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+            return new BoundedPPathSeriesView( dynamicJFreeChartNode, seriesData );
+        }
+    };
 }

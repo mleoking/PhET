@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.plots;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNodeControlPanel;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -57,6 +58,7 @@ public class EnergyTimePlot {
 //    public static final double MAX_TIME = 50.0;
 //    public static final double MAX_TIME = 30.0;
     public static final double MAX_TIME = 20.0;
+    private JDialog developerControlDialog;
 //    public static final double MAX_TIME = 5.0;
 
     public EnergyTimePlot( EnergySkateParkModule module, JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
@@ -185,6 +187,11 @@ public class EnergyTimePlot {
             }
         } );
         relayout();
+
+        developerControlDialog = new JDialog(parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
+        developerControlDialog.setContentPane( new DynamicJFreeChartNodeControlPanel( dynamicJFreeChartNode ));
+        developerControlDialog.pack();
+        developerControlDialog.setLocation( dialog.getLocation().x,dialog.getLocation().y-developerControlDialog.getHeight());
     }
 
     private void updateReadouts() {
@@ -236,6 +243,7 @@ public class EnergyTimePlot {
     public void setVisible( boolean visible ) {
         if( visible != dialog.isVisible() ) {
             dialog.setVisible( visible );
+            developerControlDialog.setVisible( visible );
             relayout();
             notifyVisibilityChanged();
         }
