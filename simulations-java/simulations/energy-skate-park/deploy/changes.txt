@@ -1,5 +1,12 @@
 2.01.10 (6-8-2007)
 Fixed: Adding a skater with 'A' was broken
+Fixed: On the E vs. T graph, only one “pause” button should be visible at a time,
+    other button should be grayed out and read “record” or “playback”;
+    it is confusing to see 2 pause buttons at once
+Fixed: The playback button should be enabled during record; when pressed during recording,
+    it should reset the playback timer and start playback.
+Moved renderer selection to a right-click menu
+    Right-click on the chart to select the renderer controls.
 
 2.01.09 (6-8-2007)
 Added developer controls for choosing E vs. T renderer.

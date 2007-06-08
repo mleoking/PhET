@@ -48,6 +48,25 @@ public class MultiStateButton extends JButton {
             throw new IllegalArgumentException( "Duplicate mode not allowed, key=" + key );
         }
         modes.add( new Mode( key, label, icon ) );
+        Dimension[] d = new Dimension[modes.size()];
+        for( int i = 0; i < modes.size(); i++ ) {
+            Mode mode = (Mode)modes.get( i );
+            setText( mode.getLabel() );
+            setIcon( mode.getIcon() );
+            d[i] = getUI().getPreferredSize( this );
+        }
+        if( mode != null ) {
+            setText( mode.getLabel() );
+            setIcon( mode.getIcon() );
+        }
+        int maxWidth = 0;
+        int maxHeight = 0;
+        for( int i = 0; i < d.length; i++ ) {
+            Dimension dimension = d[i];
+            maxWidth = Math.max( dimension.width, maxWidth );
+            maxHeight = Math.max( dimension.height, maxHeight );
+        }
+        setPreferredSize( new Dimension( maxWidth, maxHeight ) );
     }
 
     protected static class Mode {
