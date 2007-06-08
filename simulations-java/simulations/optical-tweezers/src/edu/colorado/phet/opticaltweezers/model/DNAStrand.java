@@ -46,6 +46,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     // Instance data
     //----------------------------------------------------------------------------
 
+    private OTClock _clock;
     private Bead _bead;
     private Fluid _fluid;
 
@@ -85,18 +86,21 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * @param kickConstantRange
      * @param numberOfEvolutionsPerClockTickRange
      * @param evolutionDtRange
+     * @param clock
      * @param bead
      * @param fluid
      */
     public DNAStrand( double contourLength, double persistenceLength, int numberOfSprings, 
             DoubleRange springConstantRange, DoubleRange dragCoefficientRange, DoubleRange kickConstantRange, 
             IntegerRange numberOfEvolutionsPerClockTickRange, DoubleRange evolutionDtRange,
-            Bead bead, Fluid fluid ) {
+            OTClock clock, Bead bead, Fluid fluid ) {
 
         _contourLength = contourLength;
         _persistenceLength = persistenceLength;
         _numberOfSprings = numberOfSprings;
 
+        _clock = clock;
+        
         _bead = bead;
         _bead.addObserver( this );
 
@@ -392,7 +396,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      */
     private void evolveStrand( double clockStep ) {
         
-        final double dt = _evolutionDt; //XXX scale this based on clockStep and max clockStep
+        final double dt = _evolutionDt * _clock.getDt() / _clock.getDtRange().getMax(); // scale dt based on clock speed
         final double springLength = _contourLength / _numberOfSprings;
         
         for ( int i = 0; i < _numberOfEvolutionsPerClockTick; i++ ) {
@@ -430,8 +434,9 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 currentPivot.setAcceleration( xAcceleration, yAcceleration );
                 
                 // velocity
-                final double xVelocity = currentPivot.getXVelocity() + ( currentPivot.getXAcceleration() * dt ) + ( _kickConstant * ( _kickRandom.nextDouble() - 0.5 ) );
-                final double yVelocity = currentPivot.getYVelocity() + ( currentPivot.getYAcceleration() * dt ) + ( _kickConstant * ( _kickRandom.nextDouble() - 0.5 ) );
+                final double kick = _kickConstant * Math.sqrt( _clock.getDt() / _clock.getDtRange().getMax() ); // scale kick based on clock speed
+                final double xVelocity = currentPivot.getXVelocity() + ( currentPivot.getXAcceleration() * dt ) + ( kick * ( _kickRandom.nextDouble() - 0.5 ) );
+                final double yVelocity = currentPivot.getYVelocity() + ( currentPivot.getYAcceleration() * dt ) + ( kick * ( _kickRandom.nextDouble() - 0.5 ) );
                 currentPivot.setVelocity( xVelocity, yVelocity );
             }
         }
