@@ -98,7 +98,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         
         min = dnaStrand.getDragCoefficientRange().getMin();
         max = dnaStrand.getDragCoefficientRange().getMax();
-        _dragCoefficientControl = new LinearValueControl( min, max, "b (drag):", "##0", "" );
+        _dragCoefficientControl = new LinearValueControl( min, max, "b (drag):", "0.0", "" );
         _dragCoefficientControl.setUpDownArrowDelta( 1 );
         _dragCoefficientControl.setFont( controlFont );
         _dragCoefficientControl.addChangeListener( new ChangeListener() {
@@ -109,7 +109,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         
         min = dnaStrand.getEvolutionDtRange().getMin();
         max = dnaStrand.getEvolutionDtRange().getMax();
-        _evolutionDtControl = new LinearValueControl( min, max, "dt (evolve)", "0.000", "" );
+        _evolutionDtControl = new LinearValueControl( min, max, "dt (evolve)", "0.00", "" );
         _evolutionDtControl.setUpDownArrowDelta( 0.001 );
         _evolutionDtControl.setFont( controlFont );
         _evolutionDtControl.addChangeListener( new ChangeListener() {
@@ -166,8 +166,8 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         layout.addComponent( _extensionCheckBox, row++, column );
         layout.addComponent( _springConstantControl, row++, column );
         layout.addComponent( _dragCoefficientControl, row++, column );
-        layout.addComponent( _kickConstant, row++, column );
         layout.addComponent( _evolutionDtControl, row++, column );
+        layout.addComponent( _kickConstant, row++, column );
         layout.addComponent( _numberOfEvolutionsPerClockTickControl, row++, column );
         
         // Default state
