@@ -101,11 +101,33 @@ public class TimeControlPanel extends JPanel {
 
     /**
      * Sets the text of the Play mode on the Play/Pause button.
+     *
      * @param playString the new text for the Play mode
      */
-    protected void setPlayString(String playString){
-        this.playString=playString;
+    public void setPlayString( String playString ) {
+        this.playString = playString;
         updatePlayPauseButtonDimension();
+        updateButtons();
+    }
+
+    /**
+     * Sets the text of the Pause mode on the Play/Pause button.
+     *
+     * @param pauseString the new text for the pause mode
+     */
+    public void setPauseString( String pauseString ) {
+        this.pauseString = pauseString;
+        updatePlayPauseButtonDimension();
+        updateButtons();
+    }
+
+    /**
+     * Sets the text of the Step button
+     *
+     * @param stepString the new text for the Step button
+     */
+    public void setStepString( String stepString ) {
+        step.setText( stepString );
         updateButtons();
     }
 
