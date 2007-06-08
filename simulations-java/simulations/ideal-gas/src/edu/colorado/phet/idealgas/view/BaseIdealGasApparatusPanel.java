@@ -12,8 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.idealgas.IdealGasApplication;
+import edu.colorado.phet.idealgas.GasPropertiesApplication;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
@@ -25,7 +24,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  *
@@ -97,8 +95,8 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     /**
      * @return
      */
-    protected IdealGasApplication getIdealGasApplication() {
-        return (IdealGasApplication)PhetApplication.instance();
+    protected GasPropertiesApplication getIdealGasApplication() {
+        return (GasPropertiesApplication)PhetApplication.instance();
     }
 
     /**
