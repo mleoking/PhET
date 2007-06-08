@@ -10,12 +10,11 @@ package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
 import edu.colorado.phet.idealgas.model.SimulationClock;
-import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
 
 import javax.swing.*;
@@ -31,12 +30,12 @@ public class ReversibleReactionsApplication extends PhetApplication {
                IdealGasConfig.getVersion().formatForTitleBar(),
 //               new SwingClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true ),
 //               true,
-               IdealGasConfig.FRAME_SETUP );
+IdealGasConfig.FRAME_SETUP );
 
         SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
 
         wallsModule = new MovableWallsModule( clock );
-        setModules( new Module[] {wallsModule} );
+        setModules( new Module[]{wallsModule} );
 //        setModules( new Module[] { new MovableWallsModule( getClock() ) } );
 
     }
@@ -57,18 +56,21 @@ public class ReversibleReactionsApplication extends PhetApplication {
         }
     }
 
-    public static void main( String[] args ) {
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel( new IdealGasLandF() );
+                }
+                catch( UnsupportedLookAndFeelException e ) {
+                    e.printStackTrace();
+                }
 
-        try {
-            UIManager.setLookAndFeel( new IdealGasLandF() );
-        }
-        catch( UnsupportedLookAndFeelException e ) {
-            e.printStackTrace();
-        }
-
-        SimStrings.getInstance().addStrings( IdealGasConfig.localizedStringsPath );
-        ReversibleReactionsApplication reversibleReactionsApplication = new ReversibleReactionsApplication( args );
-        reversibleReactionsApplication.startApplication();
+                SimStrings.getInstance().addStrings( IdealGasConfig.localizedStringsPath );
+                ReversibleReactionsApplication reversibleReactionsApplication = new ReversibleReactionsApplication( args );
+                reversibleReactionsApplication.startApplication();
 //        reversibleReactionsApplication.wallsModule.pumpGasMolecules( 1, HeavySpecies.class );
+            }
+        } );
     }
 }

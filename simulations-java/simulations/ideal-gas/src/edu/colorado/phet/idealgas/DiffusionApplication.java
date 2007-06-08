@@ -8,9 +8,9 @@ package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
 import edu.colorado.phet.idealgas.model.SimulationClock;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
@@ -27,11 +27,11 @@ public class DiffusionApplication extends PhetApplication {
                IdealGasConfig.getVersion().formatForTitleBar(),
 //               new SwingClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true ),
 //               true,
-               IdealGasConfig.FRAME_SETUP );
+IdealGasConfig.FRAME_SETUP );
 
-        SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP);
+        SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
 
-        setModules( new Module[] { new DiffusionModule( clock ) } );
+        setModules( new Module[]{new DiffusionModule( clock )} );
     }
 
     protected void parseArgs( String[] args ) {
@@ -50,16 +50,19 @@ public class DiffusionApplication extends PhetApplication {
         }
     }
 
-    public static void main( String[] args ) {
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel( new IdealGasLandF() );
+                }
+                catch( UnsupportedLookAndFeelException e ) {
+                    e.printStackTrace();
+                }
 
-        try {
-            UIManager.setLookAndFeel( new IdealGasLandF() );
-        }
-        catch( UnsupportedLookAndFeelException e ) {
-            e.printStackTrace();
-        }
-
-        SimStrings.getInstance().addStrings( IdealGasConfig.localizedStringsPath );
-        new DiffusionApplication( args ).startApplication();
+                SimStrings.getInstance().addStrings( IdealGasConfig.localizedStringsPath );
+                new DiffusionApplication( args ).startApplication();
+            }
+        } );
     }
 }
