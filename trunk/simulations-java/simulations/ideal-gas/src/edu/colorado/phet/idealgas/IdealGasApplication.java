@@ -8,14 +8,14 @@ package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
+import edu.colorado.phet.idealgas.model.SimulationClock;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
 import edu.colorado.phet.idealgas.view.WiggleMeGraphic;
-import edu.colorado.phet.idealgas.model.SimulationClock;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,16 +30,16 @@ public class IdealGasApplication extends PhetApplication {
                IdealGasConfig.getVersion().formatForTitleBar(),
 //               new SwingClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true ),
 //               true,
-               IdealGasConfig.FRAME_SETUP );
+IdealGasConfig.FRAME_SETUP );
 
 //        SimulationClock clock = new SimulationClock( 20, IdealGasConfig.TIME_STEP);
-        SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP);
+        SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
 
 //        FrameRateReporter frameRateReporter = new FrameRateReporter( clock );
 
         final IdealGasModule idealGasModule = new IdealGasModule( clock );
         Module[] modules = new Module[]{
-            idealGasModule,
+                idealGasModule,
         };
         setModules( modules );
 
@@ -79,14 +79,18 @@ public class IdealGasApplication extends PhetApplication {
         }
     }
 
-    public static void main( String[] args ) {
-        try {
-            UIManager.setLookAndFeel( new IdealGasLandF() );
-        }
-        catch( UnsupportedLookAndFeelException e ) {
-            e.printStackTrace();
-        }
-        SimStrings.getInstance().init( args, IdealGasConfig.localizedStringsPath );
-        new IdealGasApplication( args );
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel( new IdealGasLandF() );
+                }
+                catch( UnsupportedLookAndFeelException e ) {
+                    e.printStackTrace();
+                }
+                SimStrings.getInstance().init( args, IdealGasConfig.localizedStringsPath );
+                new IdealGasApplication( args );
+            }
+        } );
     }
 }

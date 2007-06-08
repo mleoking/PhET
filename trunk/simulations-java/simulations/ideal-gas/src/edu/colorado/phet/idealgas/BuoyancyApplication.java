@@ -8,17 +8,17 @@ package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.controller.HeliumBalloonModule;
 import edu.colorado.phet.idealgas.controller.HotAirBalloonModule;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.controller.RigidHollowSphereModule;
+import edu.colorado.phet.idealgas.model.SimulationClock;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
 import edu.colorado.phet.idealgas.view.WiggleMeGraphic;
-import edu.colorado.phet.idealgas.model.SimulationClock;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +32,7 @@ public class BuoyancyApplication extends PhetApplication {
                IdealGasConfig.getVersion().formatForTitleBar(),
 //               new SwingClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true ),
 //               true,
-               IdealGasConfig.FRAME_SETUP );
+IdealGasConfig.FRAME_SETUP );
 
         SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
 
@@ -46,10 +46,10 @@ public class BuoyancyApplication extends PhetApplication {
 //        Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
 //        final HotAirBalloonModule hotAirBalloonModule = new HotAirBalloonModule( getClock() );
         Module[] modules = new Module[]{
-            hotAirBalloonModule,
-            rigidSphereModule,
-            heliumBalloonModule,
-            idealgasModule,
+                hotAirBalloonModule,
+                rigidSphereModule,
+                heliumBalloonModule,
+                idealgasModule,
         };
         setModules( modules );
 
@@ -87,16 +87,19 @@ public class BuoyancyApplication extends PhetApplication {
         }
     }
 
-    public static void main( String[] args ) {
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel( new IdealGasLandF() );
+                }
+                catch( UnsupportedLookAndFeelException e ) {
+                    e.printStackTrace();
+                }
 
-        try {
-            UIManager.setLookAndFeel( new IdealGasLandF() );
-        }
-        catch( UnsupportedLookAndFeelException e ) {
-            e.printStackTrace();
-        }
-
-        SimStrings.getInstance().init( args, IdealGasConfig.localizedStringsPath );
-        new BuoyancyApplication( args ).startApplication();
+                SimStrings.getInstance().init( args, IdealGasConfig.localizedStringsPath );
+                new BuoyancyApplication( args ).startApplication();
+            }
+        } );
     }
 }
