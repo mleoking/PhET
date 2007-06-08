@@ -21,12 +21,6 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
-/**
- * User: Sam Reid
- * Date: Jan 22, 2007
- * Time: 11:56:07 PM
- */
-
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -41,7 +35,10 @@ import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
+/**
+ * Demonstration of usage and behavior of JFreeChartNode
+ * @author Sam Reid
+ */
 public class TestDynamicJFreeChartNode {
     private JFrame frame;
     private Timer timer;

@@ -28,7 +28,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.GeneralPath;
 
 /**
+ * DISCLAIMER: This class and subclasses are under development and not ready for general use.
  * Base class strategy for painting a data series.
+ * @author Sam Reid
  */
 public abstract class SeriesView {
     private DynamicJFreeChartNode dynamicJFreeChartNode;

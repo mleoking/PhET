@@ -1,13 +1,12 @@
 Questions:
-• Is simulation supposed to pause when end of recording time is reached?
-   -if not, are E vs. T readouts supposed to continue to update?
 • Is performance good enough during track friction > 0 case?  I removed duplicated computation in radius of curvature approximation.
 	Removing this duplicated work resulted in substantial improvement (non-friction case = 10% processor, old friction case=30% processor, new fixed case=18% processor), but a difference in visible performance is still visible under a profiler.  Should I continue to investigate this issue?
 	One performance optimization we can do for this simulation would be to cache values for points on the spline after user has stopped manipulating it (tradeoff processor usage for memory usage).  However, this would be nontrivial work, and I'm not sure it would pay off.  I would do a feasibility test to make sure enough track data can be cached at high enough resolution to make this effective.
 • Add horizontal zoom for Energy vs. Time plot?
 
 To Do:
-• On the E vs. T graph, only one “pause” button should be visible at a time, other button should be grayed out and read “record” or “playback”; it is confusing to see 2 pause buttons at once
+• On the E vs. T graph, only one “pause” button should be visible at a time,
+    other button should be grayed out and read “record” or “playback”; it is confusing to see 2 pause buttons at once
 • The playback button should be enabled during record; when pressed during recording, it should reset the playback timer and start playback.
 • Out of memory error after recording lots of complicated states, loading lots of images and setting charts to very large.
 • Bug: in one run, EnergySkateParkSimulationPanel.dragSplineSurface( PInputEvent event, EnergySkateParkSpline spline )  threw an exception, getting a null graphic for model object

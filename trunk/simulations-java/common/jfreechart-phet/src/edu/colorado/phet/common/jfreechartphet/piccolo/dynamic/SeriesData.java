@@ -27,8 +27,8 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * Author: Sam Reid
-* Jun 5, 2007, 6:04:29 PM
+ * Represents the series that can be painted on a DynamicJFreeChartNode
+ * @author Sam Reid
 */
 public class SeriesData {
     private String title;
