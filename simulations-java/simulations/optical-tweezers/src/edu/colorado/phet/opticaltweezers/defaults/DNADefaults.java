@@ -80,7 +80,7 @@ public class DNADefaults {
     public static final DoubleRange DNA_KICK_CONSTANT_RANGE = new DoubleRange( 10, 100, 50, 0 );
     public static final IntegerRange DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE = new IntegerRange( 1, 100, 30 );
     public static final boolean DNA_PIVOTS_VISIBLE = true;
-    public static final boolean DNA_EXTENSION_VISIBLE = false;
+    public static final boolean DNA_EXTENSION_VISIBLE = true;
     
     // Control panel settings
     public static final String LASER_DISPLAY_CHOICE = LaserDisplayControlPanel.CHOICE_BEAM;
