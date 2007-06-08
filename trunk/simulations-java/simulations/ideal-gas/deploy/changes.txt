@@ -1,10 +1,11 @@
 3.05.07 (6-8-2007)
-Trial fix for "molecules stick to right wall and pass through left wall" bug in reversible-reactions module.
-    -This fix may have introduced other issues in the simulation
-    -The existence of this bug may be indicative of other similar bugs, which may need more work
+(same as 3.05.05)
 
 3.05.05 (6-8-2007)
 Renamed 'advanced-gas' to 'reversible-reactions'
+Trial fix for "molecules stick to right wall and pass through left wall" bug in reversible-reactions module.
+    -This fix may have introduced other issues in the simulation
+    -The existence of this bug may be indicative of other similar bugs, which may need more work
 
 3.05.04 (6-6-2007)
 Fixes for the energy histogram: added scroll bars, made resizable, made it not expand taller than the screen height. 
