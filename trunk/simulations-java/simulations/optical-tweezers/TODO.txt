@@ -8,6 +8,7 @@ HIGH PRIORITY:
 - fix scale issues with DNA strand model
 - modify DNA strand model to accommodate variable fluid properties?
 - better model for trap force
+- DNA force node size doesn't shrink as small as expected, seems to hit a min size
 
 MEDIUM PRIORITY:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
