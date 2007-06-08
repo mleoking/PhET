@@ -86,9 +86,8 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         
         double min = dnaStrand.getSpringConstantRange().getMin();
         double max = dnaStrand.getSpringConstantRange().getMax();
-        _springConstantControl = new LinearValueControl( min, max, "k/m (spring):", "##0", "" );
-        _springConstantControl.setToolTipText( "<html>spring constant divided by mass<html>" );
-        _springConstantControl.setUpDownArrowDelta( 1 );
+        _springConstantControl = new LinearValueControl( min, max, "k/m:", "#0.0", "(spring)" );
+        _springConstantControl.setUpDownArrowDelta( 0.1 );
         _springConstantControl.setFont( controlFont );
         _springConstantControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
@@ -98,8 +97,8 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         
         min = dnaStrand.getDragCoefficientRange().getMin();
         max = dnaStrand.getDragCoefficientRange().getMax();
-        _dragCoefficientControl = new LinearValueControl( min, max, "b (drag):", "0.0", "" );
-        _dragCoefficientControl.setUpDownArrowDelta( 1 );
+        _dragCoefficientControl = new LinearValueControl( min, max, "b:", "0.0", "(damping)" );
+        _dragCoefficientControl.setUpDownArrowDelta( 0.1 );
         _dragCoefficientControl.setFont( controlFont );
         _dragCoefficientControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
@@ -109,8 +108,8 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         
         min = dnaStrand.getEvolutionDtRange().getMin();
         max = dnaStrand.getEvolutionDtRange().getMax();
-        _evolutionDtControl = new LinearValueControl( min, max, "dt (evolve):", "0.00", "" );
-        _evolutionDtControl.setUpDownArrowDelta( 0.001 );
+        _evolutionDtControl = new LinearValueControl( min, max, "dt:", "0.00", "" );
+        _evolutionDtControl.setUpDownArrowDelta( 0.01 );
         _evolutionDtControl.setFont( controlFont );
         _evolutionDtControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
@@ -131,7 +130,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         
         min = dnaStrand.getNumberOfEvolutionsPerClockTickRange().getMin();
         max = dnaStrand.getNumberOfEvolutionsPerClockTickRange().getMax();
-        _numberOfEvolutionsPerClockTickControl = new LinearValueControl( min, max, "evolutions per clockstep:", "#0", "" );
+        _numberOfEvolutionsPerClockTickControl = new LinearValueControl( min, max, "evolutions:", "##0", "" );
         _numberOfEvolutionsPerClockTickControl.setUpDownArrowDelta( 1 );
         _numberOfEvolutionsPerClockTickControl.setFont( controlFont );
         _numberOfEvolutionsPerClockTickControl.addChangeListener( new ChangeListener() {
@@ -147,6 +146,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
             _extensionCheckBox.setToolTipText( 
                     "<html>Draws a straight line between<br>" + 
                     "the ends of the DNA strand</html>" );
+            _springConstantControl.setToolTipText( "<html>spring constant divided by mass<html>" );
             _dragCoefficientControl.setToolTipText( "<html>drag coefficient</html>" );
             _evolutionDtControl.setToolTipText( 
                     "<html>dt used in evolution alogrithm at max simulation speed</html>" );

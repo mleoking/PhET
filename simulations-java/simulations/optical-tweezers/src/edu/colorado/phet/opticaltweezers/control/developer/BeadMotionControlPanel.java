@@ -57,7 +57,7 @@ public class BeadMotionControlPanel extends JPanel implements Observer {
         
         double min = bead.getDtSubdivisionThresholdRange().getMin();
         double max = bead.getDtSubdivisionThresholdRange().getMax();
-        _dtSubdivisionThresholdControl = new LogarithmicValueControl( min, max, "dt subdivision threshold:", "0.0E0", "" );
+        _dtSubdivisionThresholdControl = new LogarithmicValueControl( min, max, "dt threshold:", "0.0E0", "" );
         _dtSubdivisionThresholdControl.setTextFieldColumns( 4 );
         _dtSubdivisionThresholdControl.setFont( controlFont );
         _dtSubdivisionThresholdControl.addChangeListener( new ChangeListener() {
@@ -68,7 +68,7 @@ public class BeadMotionControlPanel extends JPanel implements Observer {
         
         min = bead.getNumberOfDtSubdivisionsRange().getMin();
         max = bead.getNumberOfDtSubdivisionsRange().getMax();
-        _numberOfDtSubdivisions = new LinearValueControl( min, max, "# of dt subdivisions:", "###0", "" );
+        _numberOfDtSubdivisions = new LinearValueControl( min, max, "# subdivisions:", "###0", "" );
         _numberOfDtSubdivisions.setUpDownArrowDelta( 1 );
         _numberOfDtSubdivisions.setFont( controlFont );
         _numberOfDtSubdivisions.addChangeListener( new ChangeListener() {
@@ -79,8 +79,8 @@ public class BeadMotionControlPanel extends JPanel implements Observer {
         
         min = bead.getBrownianMotionScaleRange().getMin();
         max = bead.getBrownianMotionScaleRange().getMax();
-        _brownianMotionScaleControl = new LinearValueControl( min, max, "Brownian motion scale:", "0.00", "" );
-        _brownianMotionScaleControl.setUpDownArrowDelta( 0.01 );
+        _brownianMotionScaleControl = new LinearValueControl( min, max, "Brownian scale:", "0.0", "" );
+        _brownianMotionScaleControl.setUpDownArrowDelta( 0.1 );
         _brownianMotionScaleControl.setFont( controlFont );
         _brownianMotionScaleControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
