@@ -24,8 +24,10 @@ package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 import org.jfree.data.xy.XYSeriesCollection;
 
 /**
- * Author: Sam Reid
- * Jun 5, 2007, 6:03:46 PM
+ * DISCLAIMER: This class is under development and not ready for general use.
+ * Renderer for DynamicJFreeChartNode
+ *
+ * @author Sam Reid
  */
 public class JFreeChartSeriesView extends SeriesView {
 

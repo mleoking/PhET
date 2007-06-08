@@ -25,8 +25,10 @@ import edu.colorado.phet.common.piccolophet.nodes.IncrementalPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * Author: Sam Reid
- * Jun 5, 2007, 6:03:59 PM
+ * DISCLAIMER: This class is under development and not ready for general use.
+ * Renderer for DynamicJFreeChartNode
+ *
+ * @author Sam Reid
  */
 public class IncrementalPPathSeriesView extends PPathSeriesView {
     public IncrementalPPathSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
