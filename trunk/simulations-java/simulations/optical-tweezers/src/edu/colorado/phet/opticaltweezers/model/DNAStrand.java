@@ -368,7 +368,6 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     public void initializeStrand() {
 
         final double springLength = INITIAL_STRETCHINESS * ( _contourLength / _numberOfSprings );
-        System.out.println( "springLength=" + springLength );//XXX
         final int numberOfPivots = _numberOfSprings + 1;
         _pivots = new DNAPivot[numberOfPivots];
 
