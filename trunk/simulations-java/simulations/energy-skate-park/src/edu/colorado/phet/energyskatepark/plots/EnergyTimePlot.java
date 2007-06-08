@@ -119,11 +119,12 @@ public class EnergyTimePlot {
                 }
             }
         } );
-        model.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-            public void primaryBodyChanged() {
-                updateReadouts();//this listener updates the readouts even when mode is live
-            }
-        } );
+        //this listener updates the readouts even when mode is live
+//        model.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+//            public void primaryBodyChanged() {
+//                updateReadouts();
+//            }
+//        } );
 
         dialog = new JDialog( parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
         JPanel contentPane = new JPanel( new BorderLayout() );
