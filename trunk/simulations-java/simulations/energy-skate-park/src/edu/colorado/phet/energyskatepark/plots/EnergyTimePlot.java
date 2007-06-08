@@ -35,7 +35,7 @@ import java.util.ArrayList;
  * Author: Sam Reid
  * May 22, 2007, 2:18:52 AM
  */
-public class EnergyVsTimePlot {
+public class EnergyTimePlot {
     private EnergySkateParkModel model;
     private TimeSeriesModel timeSeriesModel;
     private IClock clock;
@@ -57,7 +57,7 @@ public class EnergyVsTimePlot {
     public static final double MAX_TIME = 50.0;
 //    public static final double MAX_TIME = 5.0;
 
-    public EnergyVsTimePlot( EnergySkateParkModule module, JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
+    public EnergyTimePlot( EnergySkateParkModule module, JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
         this.clock = clock;
         this.timeSeriesModel = timeSeriesModel;
@@ -71,6 +71,7 @@ public class EnergyVsTimePlot {
                 new XYSeriesCollection( new XYSeries( "series" ) ),
                 PlotOrientation.VERTICAL, false, false, false );
         dynamicJFreeChartNode = new DynamicJFreeChartNode( phetPCanvas, chart );
+        dynamicJFreeChartNode.setBufferedImmediateSeries();
 
         dynamicJFreeChartNode.addSeries( EnergySkateParkStrings.getString( "energy.thermal" ), Color.red );
         dynamicJFreeChartNode.addSeries( EnergySkateParkStrings.getString( "energy.kinetic.abbreviation" ), Color.green );
@@ -79,7 +80,8 @@ public class EnergyVsTimePlot {
 
         chart.getXYPlot().getRangeAxis().setRange( 0, 7000 );
         chart.getXYPlot().getDomainAxis().setRange( 0, MAX_TIME );
-        dynamicJFreeChartNode.setBufferedImmediateSeries();
+//        dynamicJFreeChartNode.setBufferedImmediateSeries();
+        dynamicJFreeChartNode.setPiccoloSeries();
 
         thermalPText = new ReadoutTextNode( Color.red );
         keText = new ReadoutTextNode( Color.green );
