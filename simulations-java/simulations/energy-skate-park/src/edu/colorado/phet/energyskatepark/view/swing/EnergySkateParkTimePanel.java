@@ -1,9 +1,9 @@
 package edu.colorado.phet.energyskatepark.view.swing;
 
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
+import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkClock;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
@@ -19,7 +19,7 @@ import javax.swing.event.ChangeListener;
 public class EnergySkateParkTimePanel extends JPanel {
     private EnergySkateParkModule module;
 
-    public EnergySkateParkTimePanel( EnergySkateParkModule module, final Clock clock ) {
+    public EnergySkateParkTimePanel( final EnergySkateParkModule module, final Clock clock ) {
         this.module = module;
         final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, "0.00", (EnergySkateParkClock)clock );
         timeSpeedSlider.addChangeListener( new ChangeListener() {
@@ -29,26 +29,21 @@ public class EnergySkateParkTimePanel extends JPanel {
         } );
 //        add( new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOCK ) ) ) );
         add( timeSpeedSlider );
-        ClockControlPanel controlPanel = new ESPCCP( clock );
+        ClockControlPanel controlPanel = new ClockControlPanel( clock );
+        controlPanel.addTimeControlListener( new TimeControlPanel.TimeControlAdapter() {
+            public void stepPressed() {
+                module.setRecordOrLiveMode();
+            }
+
+            public void playPressed() {
+                module.setRecordOrLiveMode();
+            }
+
+            public void pausePressed() {
+                module.setRecordOrLiveMode();
+            }
+        } );
         add( controlPanel );
     }
 
-    class ESPCCP extends ClockControlPanel {
-        public ESPCCP( IClock clock ) {
-            super( clock );
-            addTimeControlListener( new TimeControlAdapter() {
-                public void stepPressed() {
-                    module.setRecordOrLiveMode();
-                }
-
-                public void playPressed() {
-                    module.setRecordOrLiveMode();
-                }
-
-                public void pausePressed() {
-                    module.setRecordOrLiveMode();
-                }
-            } );
-        }
-    }
 }

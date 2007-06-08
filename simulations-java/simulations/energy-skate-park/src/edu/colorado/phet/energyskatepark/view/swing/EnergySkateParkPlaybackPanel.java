@@ -26,7 +26,7 @@ import java.io.IOException;
 public class EnergySkateParkPlaybackPanel extends JPanel {
     private JButton recordButton;
     private Clock clock;
-    private EnergySkateParkCCP energySkateParkCCP;
+    private ClockControlPanel energySkateParkCCP;
     private TimeSeriesModel timeSeriesModel;
     private JButton rewindButton;
 
@@ -99,7 +99,8 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
             }
         } );
 
-        energySkateParkCCP = new EnergySkateParkCCP( clock );
+        energySkateParkCCP = new ClockControlPanel( clock );
+        energySkateParkCCP.setPlayString( EnergySkateParkStrings.getString( "controls.playback.playback" ) );
         energySkateParkCCP.addTimeControlListener( new TimeControlPanel.TimeControlAdapter() {
             public void playPressed() {
                 actionPerformed();
@@ -188,18 +189,5 @@ public class EnergySkateParkPlaybackPanel extends JPanel {
             e.printStackTrace();
         }
     }
-
-    public static class EnergySkateParkCCP extends ClockControlPanel {
-        public EnergySkateParkCCP( IClock clock ) {
-            super( clock );
-            setPlayString( EnergySkateParkStrings.getString( "controls.playback.playback" ) );
-        }
-
-//        public void addPlayPauseActionListener( ActionListener actionListener ) {
-//            super.addPlayPauseActionListener( actionListener );
-//        }
-
-    }
-
 
 }
