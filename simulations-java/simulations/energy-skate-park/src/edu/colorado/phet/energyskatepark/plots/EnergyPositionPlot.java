@@ -40,7 +40,7 @@ import java.awt.image.BufferedImage;
  * Time: 8:05:15 PM
  */
 
-public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
+public class EnergyPositionPlot extends BufferedPhetPCanvas {
     private JFreeChart chart;
     private XYSeriesCollection dataset;
     private EnergySkateParkModule module;
@@ -64,25 +64,25 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
     private PSwing southPSwing;
     private PNode dataLayer = new PNode();
 
-    public EnergyPositionPlotCanvas( EnergySkateParkModule module ) {
+    public EnergyPositionPlot( EnergySkateParkModule module ) {
         setBackground( EnergySkateParkLookAndFeel.backgroundColor );
         this.module = module;
-        ke = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "energy.kinetic" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getKEColor(), this ) {
+        ke = new EnergyType( EnergyPositionPlot.this.module, EnergySkateParkStrings.getString( "energy.kinetic" ), EnergyPositionPlot.this.module.getEnergyLookAndFeel().getKEColor(), this ) {
             public double getValue() {
                 return getBody().getKineticEnergy();
             }
         };
-        pe = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "energy.potential" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getPEColor(), this ) {
+        pe = new EnergyType( EnergyPositionPlot.this.module, EnergySkateParkStrings.getString( "energy.potential" ), EnergyPositionPlot.this.module.getEnergyLookAndFeel().getPEColor(), this ) {
             public double getValue() {
                 return getBody().getPotentialEnergy();
             }
         };
-        thermal = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "energy.thermal" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getThermalEnergyColor(), this ) {
+        thermal = new EnergyType( EnergyPositionPlot.this.module, EnergySkateParkStrings.getString( "energy.thermal" ), EnergyPositionPlot.this.module.getEnergyLookAndFeel().getThermalEnergyColor(), this ) {
             public double getValue() {
                 return getBody().getThermalEnergy();
             }
         };
-        total = new EnergyType( module, EnergySkateParkStrings.getString( "energy.total" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getTotalEnergyColor(), this ) {
+        total = new EnergyType( module, EnergySkateParkStrings.getString( "energy.total" ), EnergyPositionPlot.this.module.getEnergyLookAndFeel().getTotalEnergyColor(), this ) {
             public double getValue() {
                 return getBody().getTotalEnergy();
             }
@@ -366,14 +366,14 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
         private EnergySkateParkModule module;
         String name;
         private Color color;
-        private EnergyPositionPlotCanvas energyPositionPlotCanvas;
+        private EnergyPositionPlot energyPositionPlot;
         boolean visible = true;
 
-        public EnergyType( EnergySkateParkModule module, String name, Color color, EnergyPositionPlotCanvas energyPositionPlotCanvas ) {
+        public EnergyType( EnergySkateParkModule module, String name, Color color, EnergyPositionPlot energyPositionPlot ) {
             this.module = module;
             this.name = name;
             this.color = color;
-            this.energyPositionPlotCanvas = energyPositionPlotCanvas;
+            this.energyPositionPlot = energyPositionPlot;
         }
 
         public JCheckBox createCheckBox() {
@@ -381,7 +381,7 @@ public class EnergyPositionPlotCanvas extends BufferedPhetPCanvas {
             checkBox.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     visible = checkBox.isSelected();
-                    energyPositionPlotCanvas.reset();
+                    energyPositionPlot.reset();
                 }
             } );
             return checkBox;
