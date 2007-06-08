@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.jfreechartphet.test;
+package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
 /**
  * User: Sam Reid
@@ -6,7 +6,6 @@ package edu.colorado.phet.common.jfreechartphet.test;
  * Time: 11:56:07 PM
  */
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.*;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;

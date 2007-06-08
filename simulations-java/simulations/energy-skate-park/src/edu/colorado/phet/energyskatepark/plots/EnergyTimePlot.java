@@ -54,7 +54,8 @@ public class EnergyTimePlot {
     private ArrayList listeners = new ArrayList();
     private JFreeChartCursorNode jFreeChartCursorNode;
 
-    public static final double MAX_TIME = 50.0;
+//    public static final double MAX_TIME = 50.0;
+    public static final double MAX_TIME = 30.0;
 //    public static final double MAX_TIME = 5.0;
 
     public EnergyTimePlot( EnergySkateParkModule module, JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
@@ -71,7 +72,10 @@ public class EnergyTimePlot {
                 new XYSeriesCollection( new XYSeries( "series" ) ),
                 PlotOrientation.VERTICAL, false, false, false );
         dynamicJFreeChartNode = new DynamicJFreeChartNode( phetPCanvas, chart );
+        dynamicJFreeChartNode.setBuffered( true );
+
         dynamicJFreeChartNode.setBufferedImmediateSeries();
+//        dynamicJFreeChartNode.setPiccoloSeries();
 
         dynamicJFreeChartNode.addSeries( EnergySkateParkStrings.getString( "energy.thermal" ), Color.red );
         dynamicJFreeChartNode.addSeries( EnergySkateParkStrings.getString( "energy.kinetic.abbreviation" ), Color.green );
@@ -80,8 +84,6 @@ public class EnergyTimePlot {
 
         chart.getXYPlot().getRangeAxis().setRange( 0, 7000 );
         chart.getXYPlot().getDomainAxis().setRange( 0, MAX_TIME );
-//        dynamicJFreeChartNode.setBufferedImmediateSeries();
-        dynamicJFreeChartNode.setPiccoloSeries();
 
         thermalPText = new ReadoutTextNode( Color.red );
         keText = new ReadoutTextNode( Color.green );

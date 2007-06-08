@@ -19,7 +19,7 @@ public class TimeSpeedSlider extends LinearValueControl {
         this.energySkateParkClock = energySkateParkClock;
         setTextFieldVisible( false );
         Hashtable table = new Hashtable();
-        table.put( new Double( min ), new JLabel( EnergySkateParkStrings.getString( "time.slow-playback" ) ) );
+        table.put( new Double( min ), new JLabel( EnergySkateParkStrings.getString( "time.slow" ) ) );
         table.put( new Double( max ), new JLabel( EnergySkateParkStrings.getString( "time.normal" ) ) );
         setTickLabels( table );
         setValue( max );
