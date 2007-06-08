@@ -135,11 +135,20 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         System.out.println( new File( "." ).getAbsolutePath() );
         System.out.println( new PhetBuildJnlpTask().loadJnlpTemplate() );
 
-        PhetProject phetProject = new PhetProject( new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations\\balloons" ) );
+        PhetProject phetProject = new PhetProject( new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations\\ideal-gas" ) );
 
-        PhetBuildJnlpTask phetBuildJnlpTask = new PhetBuildJnlpTask();
+
+        String[] idealGasFlavors = phetProject.getFlavorNames();
+        for( int i = 0; i < idealGasFlavors.length; i++ ) {
+            PhetBuildJnlpTask phetBuildJnlpTask = new PhetBuildJnlpTask();
 //        phetBuildJnlpTask.setFlavor( "cck-ac" );
-        phetBuildJnlpTask.setLocale( "fr" );
-        phetBuildJnlpTask.executeImpl( phetProject );
+//        phetBuildJnlpTask.setLocale( "fr" );
+            phetBuildJnlpTask.setFlavor( idealGasFlavors[i] );
+            phetBuildJnlpTask.setDeployUrl( "http://phet-web.colorado.edu/simulations/gasses-buoyancy" );
+            phetBuildJnlpTask.executeImpl( phetProject );
+
+            phetBuildJnlpTask.setLocale( "es" );
+            phetBuildJnlpTask.executeImpl( phetProject );
+        }
     }
 }
