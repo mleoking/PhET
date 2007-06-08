@@ -5,8 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- fix scale issues with DNA strand model
-- modify DNA strand model to accommodate variable fluid properties?
+- instead of scaling termPrevious and termNext, investigate scaling _springConstant in DNAStrand.evolve
+- add fluid drag to DNAStrand.evolve, xAcceleration=...+ (A*_fluid.getVelocity().getX()) where A is adjustable dev control
 - better model for trap force
 - DNA force node size doesn't shrink as small as expected, seems to hit a min size
 
@@ -30,9 +30,8 @@ MEDIUM PRIORITY:
 - make "beam" the only laser display option in fast mode
 
 LOW PRIORITY:
-- look at PSwingEventHandler for PSwing drag problem
+- power slider problem, look at PSwingEventHandler for PSwing drag problem
 - show DNA strand as a double helix
-- power slider doesn't work sometimes (only seen this under Vista so far)
 - control panels have vertical scrollbars
 - make developer controls savable/loadable?
 - get rid of "Advanced" panel, there's only 1 control left in it ?
