@@ -46,7 +46,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private OTClock _clock;
+    private double _maxClockStep;
     private Bead _bead;
     private Fluid _fluid;
 
@@ -86,20 +86,20 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * @param kickConstantRange
      * @param numberOfEvolutionsPerClockTickRange
      * @param evolutionDtRange
-     * @param clock
+     * @param maxClockStep for scaling time dependent behavior relative to the simulation clock speed
      * @param bead
      * @param fluid
      */
     public DNAStrand( double contourLength, double persistenceLength, int numberOfSprings, 
             DoubleRange springConstantRange, DoubleRange dragCoefficientRange, DoubleRange kickConstantRange, 
             IntegerRange numberOfEvolutionsPerClockTickRange, DoubleRange evolutionDtRange,
-            OTClock clock, Bead bead, Fluid fluid ) {
+            double maxClockStep, Bead bead, Fluid fluid ) {
 
         _contourLength = contourLength;
         _persistenceLength = persistenceLength;
         _numberOfSprings = numberOfSprings;
 
-        _clock = clock;
+        _maxClockStep = maxClockStep;
         
         _bead = bead;
         _bead.addObserver( this );
@@ -373,7 +373,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      */
     public void initializeStrand() {
 
-        final double springLength = INITIAL_STRETCHINESS * ( _contourLength / _numberOfSprings );
+        final double initialSpringLength = INITIAL_STRETCHINESS * ( _contourLength / _numberOfSprings );
         final int numberOfPivots = _numberOfSprings + 1;
         _pivots = new DNAPivot[numberOfPivots];
 
@@ -383,7 +383,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
 
         // work backwards from head to tail
         for ( int i = numberOfPivots - 2; i >= 0; i-- ) {
-            _pivots[i] = new DNAPivot( _pivots[i + 1].getX() - springLength, _pivots[i + 1].getY() );
+            _pivots[i] = new DNAPivot( _pivots[i + 1].getX() - initialSpringLength, _pivots[i + 1].getY() );
         }
 
         notifyObservers( PROPERTY_SHAPE );
@@ -396,8 +396,11 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      */
     private void evolveStrand( double clockStep ) {
         
-        final double dt = _evolutionDt * _clock.getDt() / _clock.getDtRange().getMax(); // scale dt based on clock speed
-        final double springLength = _contourLength / _numberOfSprings;
+        // scale all time dependent parameters based on how the clockStep compares to the max simulation speed
+        final double timeScale = clockStep / _maxClockStep;
+        
+        final double dt = _evolutionDt * timeScale;
+        final double equilibriumSpringLength = _contourLength / _numberOfSprings;
         
         for ( int i = 0; i < _numberOfEvolutionsPerClockTick; i++ ) {
 
@@ -425,8 +428,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 final double distanceToNext = Math.sqrt( ( dxNext * dxNext ) + ( dyNext * dyNext ) );
                 
                 // common terms
-                final double termPrevious = 1 - ( springLength / distanceToPrevious );
-                final double termNext = 1 - ( springLength / distanceToNext );
+                final double termPrevious = 1 - ( equilibriumSpringLength / distanceToPrevious );
+                final double termNext = 1 - ( equilibriumSpringLength / distanceToNext );
                 
                 // acceleration
                 final double xAcceleration = ( _springConstant * ( ( dxNext * termNext ) - ( dxPrevious * termPrevious ) ) ) - ( _dragCoefficient * currentPivot.getXVelocity() );
@@ -434,7 +437,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 currentPivot.setAcceleration( xAcceleration, yAcceleration );
                 
                 // velocity
-                final double kick = _kickConstant * Math.sqrt( _clock.getDt() / _clock.getDtRange().getMax() ); // scale kick based on clock speed
+                final double kick = _kickConstant * Math.sqrt( timeScale );
                 final double xVelocity = currentPivot.getXVelocity() + ( currentPivot.getXAcceleration() * dt ) + ( kick * ( _kickRandom.nextDouble() - 0.5 ) );
                 final double yVelocity = currentPivot.getYVelocity() + ( currentPivot.getYAcceleration() * dt ) + ( kick * ( _kickRandom.nextDouble() - 0.5 ) );
                 currentPivot.setVelocity( xVelocity, yVelocity );
@@ -477,9 +480,9 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     /**
      * Advances the model each time the simulation clock ticks.
      * 
-     * @param dt clock step
+     * @param clockStep clock step
      */
-    public void stepInTime( double dt ) {
-        evolveStrand( dt );
+    public void stepInTime( double clockStep ) {
+        evolveStrand( clockStep );
     }
 }
