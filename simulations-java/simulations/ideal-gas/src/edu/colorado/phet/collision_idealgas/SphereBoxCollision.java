@@ -55,7 +55,7 @@ public class SphereBoxCollision implements Collision {
         boolean rightWall = false;
         boolean topWall = false;
         boolean bottomWall = false;
-        if( !( sphere instanceof GasMolecule ) || box.containsBody(sphere) /* (GasMolecule)sphere ).isInBox()*/ ) {
+        if( true||!( sphere instanceof GasMolecule ) || box.containsBody(sphere) /* (GasMolecule)sphere ).isInBox()*/ ) {
 //        if( !( sphere instanceof GasMolecule ) || ( (GasMolecule)sphere ).isInBox() ) {
             leftWall = ( sx - r ) <= box.getMinX();
             rightWall = ( sx + r ) >= box.getMaxX();
