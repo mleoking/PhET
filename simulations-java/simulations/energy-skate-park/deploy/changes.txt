@@ -1,3 +1,7 @@
+2.01.11 (6-9-2007)
+Set "Reset Skater" button to move the skater to the default location.
+Added "Return Skater" button to move to the last set restore point.
+
 2.01.10 (6-8-2007)
 Fixed: Adding a skater with 'A' was broken
 Fixed: On the E vs. T graph, only one “pause” button should be visible at a time,

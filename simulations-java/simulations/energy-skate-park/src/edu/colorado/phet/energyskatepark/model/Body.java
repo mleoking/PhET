@@ -415,6 +415,14 @@ public class Body implements Serializable {
 
     public void setRestorePoint( Body restorePoint ) {
         this.restorePoint = restorePoint;
+        notifyRestorePointChanged();
+    }
+
+    private void notifyRestorePointChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.restorePointChanged();
+        }
     }
 
     public boolean isKeepEnergyOnLanding() {
@@ -453,6 +461,8 @@ public class Body implements Serializable {
         void positionAngleChanged();
 
         void skaterCharacterChanged();
+
+        void restorePointChanged();
     }
 
     public static class ListenerAdapter implements Listener {
@@ -469,6 +479,9 @@ public class Body implements Serializable {
         }
 
         public void skaterCharacterChanged() {
+        }
+
+        public void restorePointChanged() {
         }
     }
 
