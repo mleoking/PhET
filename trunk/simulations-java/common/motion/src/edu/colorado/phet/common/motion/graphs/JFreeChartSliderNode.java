@@ -17,19 +17,20 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 /**
- * This component contains both a JFreeChartNode (supplied by the caller) and a vertical Slider node, which spans the data range of the JFreeChart.
+ * This component contains both a JFreeChartNode (supplied by the caller) and a vertical Slider node,
+ * which spans the data range of the JFreeChart.
  * This component can be used to display and control an xy dataset.
  *
  * @author Sam Reid
  */
-public class ChartSlider extends PNode {
+public class JFreeChartSliderNode extends PNode {
     private PhetPPath trackPPath;
     private PNode sliderThumb;
     private double value = 0.0;
     private ArrayList listeners = new ArrayList();
     private JFreeChartNode jFreeChartNode;
 
-    public ChartSlider( JFreeChartNode jFreeChartNode, final PNode sliderThumb ) {
+    public JFreeChartSliderNode( JFreeChartNode jFreeChartNode, final PNode sliderThumb ) {
         this.sliderThumb = sliderThumb;
         this.sliderThumb.addInputEventListener( new CursorHandler() );
         trackPPath = new PhetPPath( new BasicStroke( 1 ), Color.black );
@@ -164,13 +165,13 @@ public class ChartSlider extends PNode {
      *
      * @param listener the value change listener.
      */
-    public void addListener( ChartSlider.Listener listener ) {
+    public void addListener( JFreeChartSliderNode.Listener listener ) {
         listeners.add( listener );
     }
 
     private void notifyValueChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            ChartSlider.Listener listener = (ChartSlider.Listener)listeners.get( i );
+            JFreeChartSliderNode.Listener listener = (JFreeChartSliderNode.Listener)listeners.get( i );
             listener.valueChanged();
         }
     }
