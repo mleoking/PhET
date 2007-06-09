@@ -2,6 +2,7 @@ package edu.colorado.phet.common.motion.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
@@ -43,6 +44,9 @@ public class MotionModel implements IPositionDriven {
             //the setState paradigm is used to allow attachment of listeners to model substructure
             //states are copied without listeners
             currentState.setState( (ModelState)o );
+            xVariable.setValue( ((ModelState)o).getPosition() );
+            vVariable.setValue( ((ModelState)o).getVelocity() );
+            aVariable.setValue( ((ModelState)o).getAcceleration() );
         }
 
         public void resetTime() {
@@ -56,7 +60,11 @@ public class MotionModel implements IPositionDriven {
         timeSeriesModel.setRecordMode();
         currentState = createModelState();
 
-
+        clock.addClockListener( new ClockAdapter() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                timeSeriesModel.stepMode( clockEvent.getSimulationTimeChange() );
+            }
+        });
         stateHistory.add( copyState() );
 
         xVariable = new SimulationVariable( getPosition() );

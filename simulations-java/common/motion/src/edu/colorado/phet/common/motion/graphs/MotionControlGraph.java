@@ -13,7 +13,8 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * This subclass of ControlGraph is automatically connected to the supplied MotionModel for update/notification messaging.
+ * This subclass of ControlGraph is automatically connected to the supplied MotionModel
+ * for update/notification messaging.
  *
  * @author Sam Reid
  */
@@ -29,7 +30,7 @@ public class MotionControlGraph extends ControlGraph {
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
-                               boolean editable, final CursorModel cursorModel, TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy ) {
+                               boolean editable, final CursorModel cursorModel, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy ) {
         super( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb ,timeSeriesModel);
         this.motionModel = motionModel;
         addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
@@ -52,7 +53,8 @@ public class MotionControlGraph extends ControlGraph {
         } );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
             public void cursorTimeChanged() {
-                cursorModel.setTime( jFreeChartCursorNode.getTime() );
+                timeSeriesModel.setPlaybackTime( jFreeChartCursorNode.getTime() );
+                cursorModel.setTime( jFreeChartCursorNode.getTime() );//todo consolidate these model objects?
             }
         } );
         motionModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
@@ -69,20 +71,27 @@ public class MotionControlGraph extends ControlGraph {
             public void cursorTimeChanged() {
                 motionModel.getTimeSeriesModel().setPlaybackMode();
                 motionModel.getTimeSeriesModel().setPlaybackTime( jFreeChartCursorNode.getTime() );
+                System.out.println( "playback time="+jFreeChartCursorNode.getTime() );
             }
         } );
         motionModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
             public void dataSeriesChanged() {
                 jFreeChartCursorNode.setMaxDragTime( motionModel.getTimeSeriesModel().getRecordTime() );
+                System.out.println( "max record time="+motionModel.getTimeSeriesModel().getRecordTime() );
             }
         } );
         updateCursorVisible( jFreeChartCursorNode, motionModel );
 
-        motionModel.addListener( new MotionModel.Listener() {
-            public void steppedInTime() {
-                addValue( motionModel.getTime(), simulationVariable.getValue() );
+        motionModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
+            public void dataSeriesChanged() {
+                addValue( motionModel.getTimeSeriesModel().getRecordTime(), simulationVariable.getValue() );
             }
-        } );
+        });
+//        motionModel.addListener( new MotionModel.Listener() {
+//            public void steppedInTime() {
+//                addValue( motionModel.getTime(), simulationVariable.getValue() );
+//            }
+//        } );
         if( updateStrategy != null ) {
             addListener( new Adapter() {
                 public void controlFocusGrabbed() {
