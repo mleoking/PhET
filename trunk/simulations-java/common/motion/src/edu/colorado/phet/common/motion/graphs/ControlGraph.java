@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.motion.model.SimulationVariable;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -70,7 +70,7 @@ public class ControlGraph extends PNode {
 //        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), 1.0 );
 //        graphControlNode = new GraphControlsNode( title, simulationVariable, timeSeriesModel, color );
 //        graphControlNode = new GraphControlsNode( title, abbr, simulationVariable, timeSeriesModel, color );
-        graphControlNode = new GraphControlsNode( timeSeriesModel);
+        graphControlNode = new GraphControlsNode( timeSeriesModel );
         addSeries( title, color, abbr, simulationVariable );
         chartSlider = new ChartSlider( jFreeChartNode, thumb );
         zoomControl = new ZoomSuiteNode();
@@ -370,7 +370,7 @@ public class ControlGraph extends PNode {
 
     public void addValue( int series, double time, double value ) {
         jFreeChartNode.addValue( series, time, value );
-        System.out.println( "series = " + series +" time="+time+", value="+value);
+        System.out.println( "series = " + series + " time=" + time + ", value=" + value );
     }
 
     public void setEditable( boolean editable ) {

@@ -69,7 +69,7 @@ public class GraphSuiteSet {
         return (GraphSuite)suites.get( i );
     }
 
-    public void addGraphSuite(MinimizableControlGraph[] graphs){
+    public void addGraphSuite( MinimizableControlGraph[] graphs ) {
         addGraphSuite( new GraphSuite( graphs ) );
     }
 

@@ -9,10 +9,10 @@ package edu.colorado.phet.common.motion.tests;
 
 import edu.colorado.phet.common.motion.graphs.GraphControlsNode;
 import edu.colorado.phet.common.motion.model.SimulationVariable;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
 import javax.swing.*;
 
@@ -26,11 +26,11 @@ public class TestGraphControlNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetPCanvas phetPCanvas = new PhetPCanvas();
-        swingClock = new SwingClock( 30,1.0);
+        swingClock = new SwingClock( 30, 1.0 );
         TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), swingClock );
 
         swingClock.addClockListener( timeSeriesModel );
-        phetPCanvas.addScreenChild( new GraphControlsNode( "title", "abbr",new SimulationVariable(), timeSeriesModel ) );
+        phetPCanvas.addScreenChild( new GraphControlsNode( "title", "abbr", new SimulationVariable(), timeSeriesModel ) );
         frame.setContentPane( phetPCanvas );
     }
 
