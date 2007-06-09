@@ -51,14 +51,14 @@ public class TestTimeSeriesGraphSetNode {
 
         public TestGraphSet( PhetPCanvas pSwingCanvas, final TestMotionModel motionModel ) {
             super( new CursorModel( motionModel.getTimeSeriesModel() ) );
-            positionGraph = new MinimizableControlGraph( "x", new MotionControlGraph( pSwingCanvas, motionModel.getXVariable(), "X", "Position", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), motionModel, true, cursorModel, null) );
+            positionGraph = new MinimizableControlGraph( "x", new MotionControlGraph( pSwingCanvas, motionModel.getXVariable(), "X", "Position", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), motionModel, true, cursorModel, motionModel.getTimeSeriesModel()) );
             addGraphSuite( new GraphSuite( new MinimizableControlGraph[]{positionGraph} ) );
 
-            motionModel.addListener( new MotionModel.Listener() {
-                public void steppedInTime() {
-                    positionGraph.addValue( motionModel.getTime(), motionModel.getPosition() );
-                }
-            } );
+//            motionModel.addListener( new MotionModel.Listener() {
+//                public void steppedInTime() {
+//                    positionGraph.addValue( motionModel.getTime(), motionModel.getPosition() );
+//                }
+//            } );
             positionGraph.addControlGraphListener( new ControlGraph.Adapter() {
                 public void controlFocusGrabbed() {
                     motionModel.setPositionDriven();

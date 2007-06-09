@@ -58,13 +58,7 @@ public class ControlGraph extends PNode {
         jFreeChart.getXYPlot().getDomainAxis().setRange( 0, minDomainValue );
         jFreeChart.setBackgroundPaint( null );
 
-        jFreeChartNode = new DynamicJFreeChartNode( pSwingCanvas, jFreeChart ) {
-            public boolean setBounds( double x, double y, double width, double height ) {
-                boolean ok = super.setBounds( x, y, width, height );
-                updateChartRenderingInfo();
-                return ok;
-            }
-        };
+        jFreeChartNode = new DynamicJFreeChartNode( pSwingCanvas, jFreeChart );
         jFreeChartNode.setBuffered( true );
         jFreeChartNode.setBounds( 0, 0, 300, 400 );
 //        jFreeChartNode.setPiccoloSeries();
@@ -376,6 +370,7 @@ public class ControlGraph extends PNode {
 
     public void addValue( int series, double time, double value ) {
         jFreeChartNode.addValue( series, time, value );
+        System.out.println( "series = " + series +" time="+time+", value="+value);
     }
 
     public void setEditable( boolean editable ) {
