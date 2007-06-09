@@ -20,33 +20,33 @@ import java.text.DecimalFormat;
  * Time: 8:55:43 AM
  */
 
-public class GraphControlsNode extends PNode {
+public class GraphTimeControlNode extends PNode {
     private PSwing goStopButton;
     private PSwing clearButton;
     private PNode seriesLayer = new PNode();
     private boolean editable = true;
     private boolean constructed = false;
-    private TimeSeriesModel graphTimeSeries;
+    private TimeSeriesModel timeSeriesModel;
 
-    public GraphControlsNode( TimeSeriesModel graphTimeSeries ) {
-        this.graphTimeSeries = graphTimeSeries;
+    public GraphTimeControlNode( TimeSeriesModel timeSeriesModel ) {
+        this.timeSeriesModel = timeSeriesModel;
         addChild( seriesLayer );
 
-        goStopButton = new PSwing( new GoStopButton( graphTimeSeries ) );
+        goStopButton = new PSwing( new GoStopButton( timeSeriesModel ) );
         addChild( goStopButton );
 
-        clearButton = new PSwing( new ClearButton( graphTimeSeries ) );
+        clearButton = new PSwing( new ClearButton( timeSeriesModel ) );
         addChild( clearButton );
 
         constructed = true;
         relayout();
     }
 
-    public GraphControlsNode( String title, String abbr, SimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries ) {
+    public GraphTimeControlNode( String title, String abbr, SimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries ) {
         this( title, abbr, simulationVariable, graphTimeSeries, Color.black );
     }
 
-    public GraphControlsNode( String title, String abbr, SimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries, Color color ) {
+    public GraphTimeControlNode( String title, String abbr, SimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries, Color color ) {
         this( graphTimeSeries );
         addVariable( title, abbr, color, simulationVariable );
         relayout();
@@ -135,22 +135,22 @@ public class GraphControlsNode extends PNode {
 
     public static class GoStopButton extends JButton {
         private boolean goButton = true;
-        private TimeSeriesModel graphTimeSeries;
+        private TimeSeriesModel timeSeriesModel;
 
-        public GoStopButton( final TimeSeriesModel graphTimeSeries ) {
+        public GoStopButton( final TimeSeriesModel timeSeriesModel ) {
             super( "Go" );
-            this.graphTimeSeries = graphTimeSeries;
+            this.timeSeriesModel = timeSeriesModel;
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( isGoButton() ) {
-                        graphTimeSeries.startRecording();
+                        timeSeriesModel.startRecording();
                     }
                     else {
-                        graphTimeSeries.setPaused( true );
+                        timeSeriesModel.setPaused( true );
                     }
                 }
             } );
-            graphTimeSeries.addListener( new TimeSeriesModel.Adapter() {
+            timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
 
                 public void modeChanged() {
                     updateGoState();
@@ -164,7 +164,7 @@ public class GraphControlsNode extends PNode {
         }
 
         private void updateGoState() {
-            setGoButton( !graphTimeSeries.isRecording() );
+            setGoButton( !timeSeriesModel.isRecording() );
         }
 
         private void setGoButton( boolean go ) {

@@ -12,15 +12,13 @@ import java.util.ArrayList;
  */
 public class GraphSuiteSet {
     protected ArrayList suites = new ArrayList();
-    protected CursorModel cursorModel;
     private MotionControlGraph.Listener zoomListener = new MotionControlGraph.Listener() {
         public void horizontalZoomChanged( MotionControlGraph source ) {
             setDomainUpperBound( source.getMaxDataX() );
         }
     };
 
-    public GraphSuiteSet( CursorModel cursorModel ) {
-        this.cursorModel = cursorModel;
+    public GraphSuiteSet( ) {
     }
 
     public static BufferedImage loadRedArrow() {

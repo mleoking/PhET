@@ -54,15 +54,13 @@ public class MovingManMotionApplication {
         motionModel.setVelocityDriven();
         motionModel.setVelocity( 0.1 );
 
-        CursorModel cursorModel = new CursorModel( motionModel.getTimeSeriesModel() );
-
         GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
                 new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getXVariable(), SimStrings.get( "variables.position.abbreviation" ), SimStrings.get( "variables.position" ), -10, 10, Color.blue,
-                                                                          new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, cursorModel, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven() ) ),
+                                                                          new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven() ) ),
                 new MinimizableControlGraph( SimStrings.get( "variables.velocity.abbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getVVariable(), SimStrings.get( "variables.velocity.abbreviation" ), SimStrings.get( "variables.velocity" ), -1, 1, Color.red,
-                                                                          new PImage( GraphSuiteSet.loadRedArrow() ), motionModel, true, cursorModel, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven() ) ),
+                                                                          new PImage( GraphSuiteSet.loadRedArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven() ) ),
                 new MinimizableControlGraph( SimStrings.get( "variables.acceleration.abbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getAVariable(), SimStrings.get( "variables.acceleration.abbreviation" ), SimStrings.get( "variables.acceleration" ), -0.01, 0.01, Color.green,
-                                                                          new PImage( GraphSuiteSet.loadGreenArrow() ), motionModel, true, cursorModel, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven() ) )
+                                                                          new PImage( GraphSuiteSet.loadGreenArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven() ) )
         } ) ) );
         graphSetNode.setAlignedLayout();
         graphSetNode.setBounds( 0, 0, 800, 600 );
