@@ -73,6 +73,6 @@ public class MotionBody implements Serializable {
     }
 
     public String toString() {
-        return "motion body: x="+position+", v="+velocity+", a="+acceleration;
+        return "motion body: x=" + position + ", v=" + velocity + ", a=" + acceleration;
     }
 }

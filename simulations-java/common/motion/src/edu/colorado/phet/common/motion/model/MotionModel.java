@@ -1,8 +1,8 @@
 package edu.colorado.phet.common.motion.model;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
@@ -44,9 +44,9 @@ public class MotionModel implements IPositionDriven {
             //the setState paradigm is used to allow attachment of listeners to model substructure
             //states are copied without listeners
             currentState.setState( (ModelState)o );
-            xVariable.setValue( ((ModelState)o).getPosition() );
-            vVariable.setValue( ((ModelState)o).getVelocity() );
-            aVariable.setValue( ((ModelState)o).getAcceleration() );
+            xVariable.setValue( ( (ModelState)o ).getPosition() );
+            vVariable.setValue( ( (ModelState)o ).getVelocity() );
+            aVariable.setValue( ( (ModelState)o ).getAcceleration() );
         }
 
         public void resetTime() {
@@ -55,7 +55,7 @@ public class MotionModel implements IPositionDriven {
     };
     private TimeSeriesModel timeSeriesModel;
 
-    public MotionModel( IClock clock) {
+    public MotionModel( IClock clock ) {
         timeSeriesModel = new TimeSeriesModel( recordableModel, clock );
         timeSeriesModel.setRecordMode();
         currentState = createModelState();
@@ -64,7 +64,7 @@ public class MotionModel implements IPositionDriven {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 timeSeriesModel.stepMode( clockEvent.getSimulationTimeChange() );
             }
-        });
+        } );
         stateHistory.add( copyState() );
 
         xVariable = new SimulationVariable( getPosition() );
@@ -102,9 +102,11 @@ public class MotionModel implements IPositionDriven {
         setUpdateStrategy( positionDriven );
     }
 
-    /**These getters are provided for convenience in setting up listeners; i.e. to set up a different
+    /**
+     * These getters are provided for convenience in setting up listeners; i.e. to set up a different
      * mode, the client has to pass a different object, not call a different method.
-     * @return the strategy 
+     *
+     * @return the strategy
      */
     public PositionDriven getPositionDriven() {
         return positionDriven;

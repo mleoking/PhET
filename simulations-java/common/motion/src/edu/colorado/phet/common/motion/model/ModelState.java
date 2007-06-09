@@ -76,6 +76,6 @@ public class ModelState implements Serializable {
     }
 
     public String toString() {
-        return super.toString()+" motionBody="+motionBody.toString();
+        return super.toString() + " motionBody=" + motionBody.toString();
     }
 }

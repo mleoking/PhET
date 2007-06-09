@@ -2,10 +2,10 @@ package edu.colorado.phet.common.motion.tests;
 
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.motion.model.MotionModel;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
@@ -30,7 +30,7 @@ public class TestTimeSeriesGraphSetNode {
         pSwingCanvas = new PhetPCanvas();
         frame.setContentPane( pSwingCanvas );
         clock = new SwingClock( 30, 1 );
-        final TestMotionModel testMotionModel = new TestMotionModel(clock );
+        final TestMotionModel testMotionModel = new TestMotionModel( clock );
         timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( new GraphSetModel( new TestGraphSet( pSwingCanvas, testMotionModel ).getGraphSuite( 0 ) ), new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), clock ) );
         pSwingCanvas.getLayer().addChild( timeSeriesGraphSetNode );
         pSwingCanvas.addComponentListener( new ComponentAdapter() {
@@ -43,7 +43,7 @@ public class TestTimeSeriesGraphSetNode {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 testMotionModel.stepInTime( clockEvent.getSimulationTimeChange() );
             }
-        });
+        } );
     }
 
     class TestGraphSet extends GraphSuiteSet {
@@ -51,7 +51,7 @@ public class TestTimeSeriesGraphSetNode {
 
         public TestGraphSet( PhetPCanvas pSwingCanvas, final TestMotionModel motionModel ) {
             super( new CursorModel( motionModel.getTimeSeriesModel() ) );
-            positionGraph = new MinimizableControlGraph( "x", new MotionControlGraph( pSwingCanvas, motionModel.getXVariable(), "X", "Position", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), motionModel, true, cursorModel, motionModel.getTimeSeriesModel()) );
+            positionGraph = new MinimizableControlGraph( "x", new MotionControlGraph( pSwingCanvas, motionModel.getXVariable(), "X", "Position", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), motionModel, true, cursorModel, motionModel.getTimeSeriesModel() ) );
             addGraphSuite( new GraphSuite( new MinimizableControlGraph[]{positionGraph} ) );
 
 //            motionModel.addListener( new MotionModel.Listener() {
