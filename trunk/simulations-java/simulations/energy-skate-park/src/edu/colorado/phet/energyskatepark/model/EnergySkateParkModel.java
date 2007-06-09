@@ -506,5 +506,9 @@ public class EnergySkateParkModel implements Serializable {
         public void dimensionChanged() {
             notifyPrimaryBodyChanged();
         }
+
+        public void restorePointChanged() {
+            notifyPrimaryBodyChanged();
+        }
     }
 }

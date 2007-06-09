@@ -121,25 +121,31 @@ public class EnergySkateParkModule extends PiccoloModule {
         addDefaultBody();
     }
 
-    public void returnSkater() {
+    public void reinitializeSkater() {
         if( getEnergySkateParkModel().getNumBodies() > 0 ) {
             Body body = getEnergySkateParkModel().getBody( 0 );
-            returnSkater( body );
+            reinitializeSkater( body );
         }
     }
 
-    public void returnSkater( Body body ) {
+    public void reinitializeSkater( Body body ) {
+        body.deleteRestorePoint();
+        body.reset();
+        initBodyOnTrack( body );
+    }
+
+    public void returnSkateToRestorePoint( Body body ) {
         body.reset();
         if( !body.isRestorePointSet() ) {
             initBodyOnTrack( body );
         }
-        if( !getEnergySkateParkSimulationPanel().isSkaterFullyOnscreen( body ) ) {
-//            System.out.println( "After initial reset, skater was offscreen, deleting restore point." );
-//            System.out.println( "Resetting again." );
-
-            body.deleteRestorePoint();
-            body.reset();
-        }
+//        if( !getEnergySkateParkSimulationPanel().isSkaterFullyOnscreen( body ) ) {
+////            System.out.println( "After initial reset, skater was offscreen, deleting restore point." );
+////            System.out.println( "Resetting again." );
+//
+//            body.deleteRestorePoint();
+//            body.reset();
+//        }
     }
 
     private void addDefaultBody() {
