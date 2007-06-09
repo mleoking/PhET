@@ -258,10 +258,6 @@ public class MotionModel implements IPositionDriven {
         currentState.setAcceleration( acceleration );
     }
 
-    public RecordableModel getTimeSeries() {
-        return recordableModel;
-    }
-
     public TimeSeriesModel getTimeSeriesModel() {
         return timeSeriesModel;
     }

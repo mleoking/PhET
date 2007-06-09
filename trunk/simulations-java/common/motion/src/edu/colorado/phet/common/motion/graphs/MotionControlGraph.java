@@ -24,13 +24,13 @@ public class MotionControlGraph extends ControlGraph {
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
-                               boolean editable, final CursorModel cursorModel, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb, motionModel, editable, cursorModel, timeSeriesModel, null );
+                               boolean editable, TimeSeriesModel timeSeriesModel ) {
+        this( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb, motionModel, editable, timeSeriesModel, null );
     }
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
-                               boolean editable, final CursorModel cursorModel, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy ) {
+                               boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy ) {
         super( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb, timeSeriesModel );
         this.motionModel = motionModel;
         addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
@@ -46,15 +46,14 @@ public class MotionControlGraph extends ControlGraph {
 
         final JFreeChartCursorNode jFreeChartCursorNode = new JFreeChartCursorNode( getJFreeChartNode() );
         addChild( jFreeChartCursorNode );
-        cursorModel.addListener( new CursorModel.Listener() {
-            public void notifyCursorChanged() {
-                jFreeChartCursorNode.setTime( cursorModel.getTime() );
+        timeSeriesModel.addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
+            public void timeChanged() {
+                jFreeChartCursorNode.setTime( timeSeriesModel.getTime() );
             }
         } );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
             public void cursorTimeChanged() {
                 timeSeriesModel.setPlaybackTime( jFreeChartCursorNode.getTime() );
-                cursorModel.setTime( jFreeChartCursorNode.getTime() );//todo consolidate these model objects?
             }
         } );
         motionModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {

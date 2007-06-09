@@ -7,7 +7,7 @@ package edu.colorado.phet.common.motion.tests;
  *
  */
 
-import edu.colorado.phet.common.motion.graphs.GraphControlsNode;
+import edu.colorado.phet.common.motion.graphs.GraphTimeControlNode;
 import edu.colorado.phet.common.motion.model.SimulationVariable;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -30,7 +30,7 @@ public class TestGraphControlNode {
         TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), swingClock );
 
         swingClock.addClockListener( timeSeriesModel );
-        phetPCanvas.addScreenChild( new GraphControlsNode( "title", "abbr", new SimulationVariable(), timeSeriesModel ) );
+        phetPCanvas.addScreenChild( new GraphTimeControlNode( "title", "abbr", new SimulationVariable(), timeSeriesModel ) );
         frame.setContentPane( phetPCanvas );
     }
 
