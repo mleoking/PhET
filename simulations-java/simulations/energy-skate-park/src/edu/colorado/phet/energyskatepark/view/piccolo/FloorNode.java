@@ -62,13 +62,18 @@ public class FloorNode extends PNode {
 
     private void update() {
         Planet[] planets = module.getPlanets();
-        setPlanetVisible( new Planet.Earth() );//default state
+
+        boolean madeVisible = false;
         for( int i = 0; i < planets.length; i++ ) {
             Planet planet = planets[i];
             if( planet.getGravity() == energySkateParkModel.getGravity() ) {
                 setPlanetVisible( planet );
+                madeVisible = true;
                 break;
             }
+        }
+        if( !madeVisible ) {
+            setPlanetVisible( new Planet.Earth() );//default state
         }
         setVisible( energySkateParkModel.getFloor() != null );
     }
