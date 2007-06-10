@@ -14,6 +14,7 @@ import edu.colorado.phet.common_movingman.view.util.FrameSetup;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * User: Sam Reid
@@ -43,6 +44,7 @@ public class MovingManApplication {
     }
 
     private static void runMain( String[] args ) throws IOException {
+//        Locale.setDefault( new Locale( "sk") );
         PhetLookAndFeel plaf = new PhetLookAndFeel();
         plaf.setInsets( new Insets( 1, 1, 1, 1 ) );
         plaf.apply();
