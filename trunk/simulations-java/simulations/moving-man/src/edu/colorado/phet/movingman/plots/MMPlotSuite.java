@@ -226,7 +226,7 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
         listeners.add( listener );
     }
 
-    private void setPlotVisible( boolean plotVisible ) {
+    public void setPlotVisible( boolean plotVisible ) {
         if( plotVisible != this.plotVisible ) {
             this.plotVisible = plotVisible;
             plot.setVisible( plotVisible );

@@ -376,6 +376,10 @@ public class MovingManModule extends Module {
         movingManApparatusPanel.requestEditInTextBox( goPauseClearPanel );
     }
 
+    public void minimizeGraphsExceptPosition() {
+        movingManApparatusPanel.minimizeGraphsExceptPosition();
+    }
+
     public static interface Listener {
         public void reset();
 

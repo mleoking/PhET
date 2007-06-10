@@ -14,7 +14,7 @@ import edu.colorado.phet.common_movingman.view.util.FrameSetup;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Locale;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -28,13 +28,14 @@ public class MovingManApplication {
 
     // Localization
     public static final String localizedStringsPath = "moving-man/localization/moving-man-strings";
+    private MovingManModule module;
 
     public static void main( final String[] args ) throws Exception {
         //Putting in swing thread avoids concurrentmodification exception in GraphicLayerSet.
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
                 try {
-                    runMain( args );
+                    new MovingManApplication( args );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
@@ -43,8 +44,8 @@ public class MovingManApplication {
         } );
     }
 
-    private static void runMain( String[] args ) throws IOException {
-//        Locale.setDefault( new Locale( "sk") );
+
+    public MovingManApplication( String[] args ) throws IOException {
         PhetLookAndFeel plaf = new PhetLookAndFeel();
         plaf.setInsets( new Insets( 1, 1, 1, 1 ) );
         plaf.apply();
@@ -61,23 +62,30 @@ public class MovingManApplication {
         desc.setName( "movingman" );
         PhetApplication tpa = new PhetApplication( args, desc.getWindowTitle(), desc.getDescription(), desc.getVersion(), clock, false, setup );
         PhetFrame frame = tpa.getPhetFrame();
-        final MovingManModule m = new MovingManModule( clock );
+        this.module = new MovingManModule( clock );
 
-        tpa.setModules( new Module[]{m} );
+        tpa.setModules( new Module[]{module} );
 
-        m.setFrame( frame );
-        if( m.getControlPanel() != null ) {
+        module.setFrame( frame );
+        if( module.getControlPanel() != null ) {
         }
         if( addJEP ) {
-            MovingManModule.addMiscMenu( m );
+            MovingManModule.addMiscMenu( module );
         }
 
         tpa.startApplication();
-        m.getTimeModel().getRecordMode().initialize();
+        module.getTimeModel().getRecordMode().initialize();
 
-        m.setInited( true );
-        m.relayout();
-        m.setSmoothingSmooth();
-        RepaintDebugGraphic.enable( m.getApparatusPanel(), clock );
+        module.setInited( true );
+        module.relayout();
+        module.setSmoothingSmooth();
+        RepaintDebugGraphic.enable( module.getApparatusPanel(), clock );
+        if( Arrays.asList( args ).contains( "-position" ) ) {
+            getModule().minimizeGraphsExceptPosition();
+        }
+    }
+
+    public MovingManModule getModule() {
+        return module;
     }
 }
