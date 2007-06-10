@@ -339,4 +339,9 @@ public class MovingManApparatusPanel extends ApparatusPanel2 {
         plotSuite.getTextBox().getTextField().requestFocus();
         plotSuite.getTextBoxGraphic().repaint();
     }
+
+    public void minimizeGraphsExceptPosition() {
+        plotSet.getVelocityPlotSuite().setPlotVisible( false );
+        plotSet.getAccelerationPlotSuite().setPlotVisible( false );
+    }
 }
