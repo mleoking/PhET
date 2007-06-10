@@ -50,29 +50,29 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             JButton resetSkater = new JButton( EnergySkateParkStrings.getString( "controls.reset-character" ) );
             resetSkater.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.reinitializeSkater();
+                    module.returnOrResetSkater();
                 }
             } );
             addControl( resetSkater );
         }
 
-        {
-            final JButton returnSkaterButton = new JButton( EnergySkateParkStrings.getString( "controls.return-character" ) );
-            returnSkaterButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
-                        module.returnSkateToRestorePoint( module.getEnergySkateParkModel().getBody( 0 ) );
-                    }
-                }
-            } );
-            addControl( returnSkaterButton );
-            module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-                public void primaryBodyChanged() {
-                    updateReturnSkaterButton( module, returnSkaterButton );
-                }
-            } );
-            updateReturnSkaterButton( module, returnSkaterButton );
-        }
+//        {
+//            final JButton returnSkaterButton = new JButton( EnergySkateParkStrings.getString( "controls.return-character" ) );
+//            returnSkaterButton.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
+//                        module.returnSkateToRestorePoint( module.getEnergySkateParkModel().getBody( 0 ) );
+//                    }
+//                }
+//            } );
+////            addControl( returnSkaterButton );
+//            module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+//                public void primaryBodyChanged() {
+//                    updateReturnSkaterButton( module, returnSkaterButton );
+//                }
+//            } );
+//            updateReturnSkaterButton( module, returnSkaterButton );
+//        }
         try {
             JButton chooseCharacter = new JButton( EnergySkateParkStrings.getString( "controls.choose-character" ) + "..." );
             chooseCharacter.addActionListener( new ActionListener() {
@@ -196,27 +196,27 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         }
     }
 
-    private void updateReturnSkaterButton( EnergySkateParkModule module, JButton returnSkater ) {
-        if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
-            Body body = module.getEnergySkateParkModel().getBody( 0 );
-            if( body.isRestorePointSet() ) {
-
-                String x = decimalFormat.format( body.getRestorePoint().getX() );
-                String y = decimalFormat.format( body.getRestorePoint().getY() );
-                String returnString = getReturnString( x, y );
-                setReturnSkateText( returnSkater, returnString );
-                setEnabled( returnSkater, true );
-            }
-            else {
-                setReturnSkateText( returnSkater, getReturnString( "?", "?" ) );
-                setEnabled( returnSkater, false );
-            }
-        }
-        else {
-            setReturnSkateText( returnSkater, getReturnString( "?", "?" ) );
-            setEnabled( returnSkater, false );
-        }
-    }
+//    private void updateReturnSkaterButton( EnergySkateParkModule module, JButton returnSkater ) {
+//        if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
+//            Body body = module.getEnergySkateParkModel().getBody( 0 );
+//            if( body.isRestorePointSet() ) {
+//
+//                String x = decimalFormat.format( body.getRestorePoint().getX() );
+//                String y = decimalFormat.format( body.getRestorePoint().getY() );
+//                String returnString = getReturnString( x, y );
+//                setReturnSkateText( returnSkater, returnString );
+//                setEnabled( returnSkater, true );
+//            }
+//            else {
+//                setReturnSkateText( returnSkater, getReturnString( "?", "?" ) );
+//                setEnabled( returnSkater, false );
+//            }
+//        }
+//        else {
+//            setReturnSkateText( returnSkater, getReturnString( "?", "?" ) );
+//            setEnabled( returnSkater, false );
+//        }
+//    }
 
     private String getReturnString( String x, String y ) {
         String template = EnergySkateParkStrings.getString( "controls.return-character" );

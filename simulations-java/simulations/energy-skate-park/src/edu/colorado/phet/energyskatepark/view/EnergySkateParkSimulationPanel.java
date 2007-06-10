@@ -395,12 +395,18 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         return rootNode.isEnergyErrorVisible();
     }
 
-    public boolean isSkaterFullyOnscreen( Body body ) {
-        return isSkaterFullyOnscreen( getRootNode().getSkaterNode( body ) );
+    public boolean isSkaterOnscreen( Body body ) {
+        return isSkaterOnscreen( getRootNode().getSkaterNode( body ) );
     }
 
-    public boolean isSkaterFullyOnscreen( SkaterNode skaterNode ) {
-        return new Rectangle( module.getEnergySkateParkSimulationPanel().getSize() ).contains( skaterNode.getGlobalFullBounds() );
+    public boolean isSkaterOnscreen( SkaterNode skaterNode ) {
+        Rectangle screenRect = new Rectangle( module.getEnergySkateParkSimulationPanel().getSize() );
+//        skaterNode.get
+        Rectangle2D d = skaterNode.getRedDotGlobalFullBounds();
+//        Point2D center = d.getc
+//        System.out.println( "screenRect = " + screenRect +", center="+center);
+//        return screenRect.contains( d.getCenterX(),d.getCenterY());
+        return screenRect.contains(d);
     }
 
     public static interface Listener {

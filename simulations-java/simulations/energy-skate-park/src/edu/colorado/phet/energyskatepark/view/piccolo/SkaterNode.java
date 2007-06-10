@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -155,6 +156,10 @@ public class SkaterNode extends PNode {
         double ellipseWidth = 0.1 * 0.85;
         Ellipse2D.Double aShape = new Ellipse2D.Double( body.getCenterOfMass().getX() - ellipseWidth / 2, body.getCenterOfMass().getY() - ellipseWidth / 2, ellipseWidth, ellipseWidth );
         centerDebugger.setPathTo( aShape );
+    }
+
+    public Rectangle2D getRedDotGlobalFullBounds(){
+        return centerDebugger.getGlobalFullBounds();
     }
 
     private void updateJetPackTransform() {

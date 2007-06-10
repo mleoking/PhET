@@ -35,7 +35,7 @@ public class ReturnSkaterButtonNode extends PhetPNode {
         EnergySkateParkUtils.fixButtonOpacity( bringBackSkater );
         bringBackSkater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.reinitializeSkater();
+                module.returnOrResetSkater();
             }
         } );
         buttonNode = new PhetPNode( new PSwing( bringBackSkater ) );
@@ -70,7 +70,7 @@ public class ReturnSkaterButtonNode extends PhetPNode {
     }
 
     private boolean isSkaterFullyOnscreen() {
-        return module.getEnergySkateParkSimulationPanel().isSkaterFullyOnscreen( skaterNode );
+        return module.getEnergySkateParkSimulationPanel().isSkaterOnscreen( skaterNode );
     }
 
     private void updateLocation() {
