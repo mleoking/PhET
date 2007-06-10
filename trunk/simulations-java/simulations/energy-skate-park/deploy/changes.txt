@@ -3,6 +3,7 @@ Removed "Return skater to x=... y=..." button.
 Made the red-dot the value used for determining when the skater is offscreen:
     -for showing the "return skater" button in the play area
     -for determining whether a "return skater" location has failed, and the skater should be moved to the initial location
+Fixed: If the skater is on the floor when gravity changes to 0.0, floor persists in space
 
 2.01.11 (6-9-2007)
 Set "Reset Skater" button to move the skater to the default location.

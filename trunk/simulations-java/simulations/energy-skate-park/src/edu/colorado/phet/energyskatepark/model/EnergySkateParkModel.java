@@ -139,9 +139,19 @@ public class EnergySkateParkModel implements Serializable {
             floor = new Floor();
         }
         else {
+            detachFromFloor( );
             floor = null;
         }
         notifyFloorChanged();
+    }
+
+    private void detachFromFloor() {
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            if (body.isOnFloor()){
+                body.setFreeFallMode();
+            }
+        }
     }
 
     private void notifyFloorChanged() {
@@ -192,6 +202,9 @@ public class EnergySkateParkModel implements Serializable {
         else {
             this.floor = model.floor;
             notifyFloorChanged();
+        }
+        if (floor==null){
+            detachFromFloor();
         }
 
         this.history = model.history;
@@ -338,14 +351,18 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void removeSplineSurface( EnergySkateParkSpline splineSurface ) {
+        detachBodies( splineSurface.getParametricFunction2D() );
+        splines.remove( splineSurface );
+        notifySplineCountChanged();
+    }
+
+    private void detachBodies( ParametricFunction2D spline) {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
-            if( body.isOnSpline( splineSurface ) ) {
+            if( body.isOnSpline( spline ) ) {
                 body.setFreeFallMode();
             }
         }
-        splines.remove( splineSurface );
-        notifySplineCountChanged();
     }
 
     public double getZeroPointPotentialY() {
