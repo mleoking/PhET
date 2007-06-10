@@ -306,7 +306,11 @@ public class Body implements Serializable {
     }
 
     public boolean isOnSpline( EnergySkateParkSpline splineSurface ) {
-        return particle.isOnSpline( splineSurface.getParametricFunction2D() );
+        return isOnSpline( splineSurface.getParametricFunction2D( ));
+    }
+
+    public boolean isOnSpline(ParametricFunction2D parametricFunction2D){
+        return particle.isOnSpline( parametricFunction2D );
     }
 
     public double getMechanicalEnergy() {
@@ -449,6 +453,10 @@ public class Body implements Serializable {
 
     public SkaterCharacter getSkaterCharacter() {
         return skaterCharacter;
+    }
+
+    public boolean isOnFloor() {
+        return particle.getSpline() instanceof LinearFloorSpline2D;
     }
 
     public static interface Listener {

@@ -5,9 +5,6 @@ Questions:
 • Add horizontal zoom for Energy vs. Time plot?
 
 To Do:
-• Bug: If the skater is on the floor when gravity changes to 0.0, floor persists in space
-• Bug: In one run, there is a floor in space (may be caused by above problem)
-• Out of memory error after recording lots of complicated states, loading lots of images and setting charts to very large.
 • Bug: in one run, EnergySkateParkSimulationPanel.dragSplineSurface( PInputEvent event, EnergySkateParkSpline spline )  threw an exception, getting a null graphic for model object
 • Implement separate layers for time series graph (currently different series are interleaved).  How long would this take?
     To implement this without substantial loss of performance, path segments should be drawn that are longer than 1/2 the stroke width.
@@ -21,6 +18,9 @@ To Do:
 • When I open the Energy vs Position graph, the performance rapidly decreases.
     -On my machine, it is approx 25% processor usage without this E vs X graph, 40% with.
 • Playback cursor (on E vs. T graph) is completely opaque on mac, I think a different buffered image type (or colormodel?) is necessary on mac
+• Bug: In one run, there is a floor in space (may be solved)
+• Out of memory error after recording lots of complicated states, loading lots of images and setting charts to very large.
+• Performance is terrible during playback on other planets.
 
 Interview Questions:
 • Should PE=0 line be visible in space?
