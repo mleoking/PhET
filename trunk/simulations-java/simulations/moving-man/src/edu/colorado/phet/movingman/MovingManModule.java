@@ -472,7 +472,7 @@ public class MovingManModule extends Module {
         module.addTimeScaleChooser( miscMenu );
 
         miscMenu.addSeparator();
-        JMenuItem optionsItem = new JMenuItem( "Model Options" );
+        JMenuItem optionsItem = new JMenuItem( SimStrings.get( "options.model-options" ) );
         optionsItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getMovingManModel().showControls();
@@ -485,7 +485,7 @@ public class MovingManModule extends Module {
 
     private void addTimeScaleChooser( JMenu miscMenu ) {
         boolean useDynamicTime = false;
-        final JCheckBoxMenuItem dynamicTimeScale = new JCheckBoxMenuItem( "RealTime(tm)", useDynamicTime );
+        final JCheckBoxMenuItem dynamicTimeScale = new JCheckBoxMenuItem( SimStrings.get( "options.real-time" ), useDynamicTime );
         dynamicTimeScale.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setDynamicTime( dynamicTimeScale.isSelected() );
@@ -506,8 +506,8 @@ public class MovingManModule extends Module {
     }
 
     private void addBoundaryConditionButtons( JMenu miscMenu ) {
-        JRadioButtonMenuItem closed = new JRadioButtonMenuItem( "Walls", true );
-        JRadioButtonMenuItem open = new JRadioButtonMenuItem( "Free Range", false );
+        JRadioButtonMenuItem closed = new JRadioButtonMenuItem( SimStrings.get( "options.walls" ), true );
+        JRadioButtonMenuItem open = new JRadioButtonMenuItem( SimStrings.get( "options.free-range" ), false );
         open.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setBoundaryConditionsOpen();

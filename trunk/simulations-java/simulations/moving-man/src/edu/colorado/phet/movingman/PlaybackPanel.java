@@ -76,7 +76,7 @@ public class PlaybackPanel extends JPanel {
         JPanel arrowPanel = new ArrowPanel( module );
         add( arrowPanel );
 
-        final JCheckBox audio = new JCheckBox( "Sound", true );
+        final JCheckBox audio = new JCheckBox( SimStrings.get( "options.sound" ), true );
         audio.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setSoundEnabled( audio.isSelected() );

@@ -8,6 +8,7 @@ import edu.colorado.phet.common_movingman.view.util.SwingUtils;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -98,7 +99,7 @@ public class MovingManModel {
         private JPanel contentPanel;
 
         public ControlFrame() {
-            super( "Model Controls" );
+            super( SimStrings.get( "options.model-controls" ) );
             contentPanel = new VerticalLayoutPanel();
             setContentPane( contentPanel );
             final JSpinner xs = new JSpinner( new SpinnerNumberModel( smoothPositionSize, 1, 20, 1 ) );
@@ -108,10 +109,10 @@ public class MovingManModel {
                     positionDataSuite.setNumSmoothingPoints( smoothPositionSize );
                 }
             } );
-            xs.setBorder( BorderFactory.createTitledBorder( "x" ) );
+            xs.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "variables.position.abbreviation" ) ) );
 
             final JSpinner vs = new JSpinner( new SpinnerNumberModel( smoothVelocitySize, 1, 20, 1 ) );
-            vs.setBorder( BorderFactory.createTitledBorder( "v" ) );
+            vs.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "variables.velocity.abbreviation" ) ) );
             vs.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
 //                    velocityDataSuite.setNumSmoothingPoints( ( (Number)vs.getValue() ).intValue() );
@@ -127,23 +128,19 @@ public class MovingManModel {
                     accelerationDataSuite.setNumSmoothingPoints( smoothAccelerationSize );
                 }
             } );
-            as.setBorder( BorderFactory.createTitledBorder( "a" ) );
+            as.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "variables.acceleration.abbreviation" ) ) );
 //            JTextField instructions = new JTextField( "Select the number of points to include\n" +
 //                                                      "In the smoothing window for each variable." );
-            JLabel instructions = new JLabel( "<html>Select the number of points<br>to include in the<br>" +
-                                              "smoothing window for each variable.<br> The 'constant-check-window' checks the last unsmoothed<br>" +
-                                              "data points of position, and if they are the same<br>" +
-                                              "sets velocity and acceleration (pre-smoothing)<br>" +
-                                              "to zero.<html>" );
+            JLabel instructions = new JLabel( SimStrings.get( "options.model-controls.explanation" ) );
             addComponent( instructions );
             addComponent( xs );
             addComponent( vs );
             addComponent( as );
 
             JSpinner constantWindowSize = new JSpinner( new SpinnerNumberModel( constancyTestWindowSize, 1, 20, 1 ) );
-            constantWindowSize.setBorder( BorderFactory.createTitledBorder( "constant-check-window" ) );
+            constantWindowSize.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "options.constant-check-window" ) ) );
 
-            final JCheckBox useConstantWindow = new JCheckBox( "Use Constant Window", useConstancyWindow );
+            final JCheckBox useConstantWindow = new JCheckBox( SimStrings.get( "options.use-constant-window" ), useConstancyWindow );
             useConstantWindow.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     MovingManModel.this.useConstancyWindow = useConstantWindow.isSelected();
@@ -263,14 +260,6 @@ public class MovingManModel {
     public DataSuite getAccelerationDataSuite() {
         return accelerationDataSuite;
     }
-
-//    public double getNumSmoothingPosition() {
-//        return numSmoothingPosition;
-//    }
-//
-//    public int getNumVelocitySmoothPoints() {
-//        return numVelocitySmoothPoints;
-//    }
 
     public double getMaxTime() {
         return maxTime;
