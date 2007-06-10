@@ -79,6 +79,10 @@ public abstract class Planet {
             }
             module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );
         }
+
+        public boolean isGroundVisible() {
+            return false;
+        }
     }
 
     public static class Earth extends Planet {
