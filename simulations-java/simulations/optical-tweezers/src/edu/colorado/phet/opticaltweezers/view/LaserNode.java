@@ -124,7 +124,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         _controlPanel.setOffset( -_controlPanel.getFullBounds().getWidth()/2, distanceFromObjectiveToWaist + distanceFromObjectiveToControlPanel );
         // Support beams
         leftSupportNode.setOffset( objectiveNode.getFullBounds().getX(), objectiveNode.getOffset().getY() - ( leftSupportNode.getHeadHeight() / 2 ) );
-        rightSupportNode.setOffset( objectiveNode.getFullBounds().getMaxX() + 1, objectiveNode.getOffset().getY() - ( rightSupportNode.getHeadHeight() / 2 ) );
+        rightSupportNode.setOffset( objectiveNode.getFullBounds().getMaxX(), objectiveNode.getOffset().getY() - ( rightSupportNode.getHeadHeight() / 2 ) );
         // Handles
         leftHandleNode.setOffset( _controlPanel.getFullBounds().getX() - leftHandleNode.getFullBounds().getWidth() + 2, 
                 _controlPanel.getFullBounds().getY() + ( ( _controlPanel.getFullBounds().getHeight() - leftHandleNode.getFullBounds().getHeight() ) / 2 ) );
