@@ -25,6 +25,7 @@ MEDIUM PRIORITY:
 - make "beam" the only laser display option in fast mode
 
 LOW PRIORITY:
+- visible seams where symmetrical pieces of laser beam gradient are stitched together
 - power slider problem, look at PSwingEventHandler for PSwing drag problem
 - show DNA strand as a double helix
 - control panels have vertical scrollbars
