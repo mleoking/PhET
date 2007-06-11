@@ -451,11 +451,13 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 final double distanceToPrevious = Math.sqrt( ( dxPrevious * dxPrevious ) + ( dyPrevious * dyPrevious ) );
                 final double distanceToNext = Math.sqrt( ( dxNext * dxNext ) + ( dyNext * dyNext ) );
                 
-                // common terms
+                // scale down the spring's restorative force as the strand becomes stretched taut
                 final double stretchFactor = Math.min( 1, getExtension() / _contourLength );
-                final double scale = Math.sqrt( 1 - stretchFactor );
-                final double termPrevious = 1 - ( scale * maxSpringLength / distanceToPrevious );
-                final double termNext = 1 - ( scale * maxSpringLength / distanceToNext );
+                final double restorativeForceScale = Math.sqrt( 1 - stretchFactor );
+                
+                // common terms
+                final double termPrevious = 1 - ( restorativeForceScale * maxSpringLength / distanceToPrevious );
+                final double termNext = 1 - ( restorativeForceScale * maxSpringLength / distanceToNext );
                 
                 // fluid drag force
                 final double xFluidDrag = _fluidDragCoefficient * _fluid.getVelocity().getX();
