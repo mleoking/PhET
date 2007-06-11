@@ -4,6 +4,8 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JCheckBox;
 
@@ -59,7 +61,12 @@ public class DNAControlPanel extends AbstractControlPanel {
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, model.getBead(),
                 _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getDNAForceNode() );
         _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getFluid() );
-        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getBead(), model.getDNAStrand(), _canvas.getDNAStrandNode() );
+        List forceVectorNodes = new ArrayList();
+        forceVectorNodes.add( _canvas.getTrapForceNode() );
+        forceVectorNodes.add( _canvas.getDragForceNode() );
+        forceVectorNodes.add( _canvas.getDNAForceNode() );
+        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getBead(), 
+                model.getDNAStrand(), _canvas.getDNAStrandNode(), forceVectorNodes );
         
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
         _rulerCheckBox.setFont( CONTROL_FONT );

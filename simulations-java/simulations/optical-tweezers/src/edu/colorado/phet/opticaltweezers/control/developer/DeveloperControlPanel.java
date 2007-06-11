@@ -8,6 +8,7 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -15,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
@@ -32,8 +34,9 @@ public class DeveloperControlPanel extends JPanel {
     
     private JButton _showHideButton;
     private Box _panel;
+    private VectorsControlPanel _vectorsPanel;
     
-    public DeveloperControlPanel( Font titleFont, Font controlFont, Frame parentFrame, Bead bead, DNAStrand dnaStrand, DNAStrandNode dnaStrandNode ) {
+    public DeveloperControlPanel( Font titleFont, Font controlFont, Frame parentFrame, Bead bead, DNAStrand dnaStrand, DNAStrandNode dnaStrandNode, List forceVectorNodes ) {
         super();
         
         _showHideButton = new JButton();
@@ -45,6 +48,9 @@ public class DeveloperControlPanel extends JPanel {
         } );
         
         _panel = new Box( BoxLayout.Y_AXIS );
+        
+        _vectorsPanel = new VectorsControlPanel( titleFont, controlFont, forceVectorNodes );
+        _panel.add( _vectorsPanel );
         
         JPanel beadMotionPanel = new BeadMotionControlPanel( titleFont, controlFont, bead );
         _panel.add( beadMotionPanel );
@@ -80,6 +86,10 @@ public class DeveloperControlPanel extends JPanel {
     
     public boolean isAdvancedVisible() {
         return _showHideButton.isVisible();
+    }
+    
+    public VectorsControlPanel getVectorsPanel() {
+        return _vectorsPanel;
     }
     
     private void handleShowHideButton() {
