@@ -59,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.10 (?)
 6/10/07 - fix Vector2DNode so that small magnitudes scale properly
 6/10/07 - add fluid drag force to acceleration in DNA strand evolution model
 6/10/07 - add fluid drag coefficient to DNA model and developer controls
