@@ -345,17 +345,16 @@ public class Laser extends MovableObject implements ModelElement {
             throw new IllegalArgumentException( "power must be >= 0 : " + power );
         }
         
+        final double K = 582771.6; // provided by Tom Perkins
         final double ry = getRadius( yOffset ); // radius at yOffset, nm
-        final double intensity = getIntensityOnRadius( xOffset, ry, power );
+        final double intensity = getIntensityOnRadius( xOffset, ry, power ); // intensity at radius, mW/nm^2
         
         // x component
-        final double Kx = 582771.6; // provided by Tom Perkins
-        final double fx = -1 * Kx * ( xOffset / ( ry * ry ) ) * intensity;
+        final double fx = -1 * K * ( xOffset / ( ry * ry ) ) * intensity;
 
         // y component
-        final double Ky = Kx / 5.6;
-        final double r0 = getRadius( 0 ); // radius at waist, nm
-        final double fy = -1 * Ky * ( yOffset / ( r0 * r0 ) ) * intensity;
+        final double fudgeFactor = 1; // increase this to increase the ratio of fy:fx
+        final double fy = -1 * K * ( yOffset / ( ry * ry ) ) * intensity * fudgeFactor * ( 1 - ( ( 2 * xOffset * xOffset ) / ( ry * ry ) ) );
 
         return new Vector2D.Cartesian( fx, fy );
     }
