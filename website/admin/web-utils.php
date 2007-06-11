@@ -364,7 +364,7 @@ EO_DISPLAY_SLIDESHOW_2;
                                             <td class="label">password</td>
                                             
                                             <td>
-                                                <input type="text" size="15" name="contributor_password"  class="always_enabled"/>
+                                                <input type="password" size="15" name="contributor_password"  class="always_enabled"/>
                                             </td>
                                         </tr>
                                 
@@ -408,7 +408,7 @@ EO_DISPLAY_SLIDESHOW_2;
                                             <td class="label">password</td>
                                             
                                             <td>
-                                                <input type="text" size="15" name="contributor_password"  class="always_enabled"/>
+                                                <input type="password" size="15" name="contributor_password"  class="always_enabled"/>
                                             </td>
                                         </tr>
                         
