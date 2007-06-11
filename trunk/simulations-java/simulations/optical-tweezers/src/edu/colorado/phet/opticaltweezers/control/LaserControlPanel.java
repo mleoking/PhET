@@ -40,7 +40,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     
     private static final int X_MARGIN = 10;
     private static final int Y_MARGIN = 10;
-    private static final int X_SPACING = 10; // horizontal spacing between components, in pixels
+    private static final int X_SPACING = 20; // horizontal spacing between components, in pixels
     
     private static final Stroke PANEL_STROKE = new BasicStroke( 1f );
     private static final Color PANEL_STROKE_COLOR = Color.BLACK;
