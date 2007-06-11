@@ -5,9 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- instead of scaling termPrevious and termNext, investigate scaling _springConstant in DNAStrand.evolve
 - better model for trap force
-- what to do when DNA strand's extension length attempts to exceed control length?
+- what to do when DNA strand's extension length attempts to exceed control length? (eg, with fluid speed > 0)
 
 MEDIUM PRIORITY:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
@@ -16,7 +15,6 @@ MEDIUM PRIORITY:
 - DNA strand looks too straight initially, evolve a few times before displaying?
 - tune developer controls, pick appropriate defaults
 - position histogram requires more precision on x-axis and ruler
-- get model for Brownian force, or delete "Show Brownian force" feature
 - ruler is slightly off-center in all panels
 - change lens view, make it an on-edge view
 - make the lens supports look 3D, as if they are holding the lens
@@ -61,14 +59,14 @@ MISSING INFO:
 
  
 DONE:
-6/7/07 - fix Vector2DNode so that small magnitudes scale properly
-6/7/07 - add fluid drag force to acceleration in DNA strand evolution model
-6/7/07 - add fluid drag coefficient to DNA model and developer controls
-6/7/07 - add motion scaling factor related to how tightly the DNA strand is stretched
-6/7/07 - scale kick proportial to sqrt of simulation speed in DNA strand model
-6/7/07 - scale evolution dt proportional to simulation speed in DNA strand model
-6/7/07 - add node for displaying DNA extension and associated value
-6/7/07 - new DNA strand parameter values and ranges, per Mike Dubson
+6/10/07 - fix Vector2DNode so that small magnitudes scale properly
+6/10/07 - add fluid drag force to acceleration in DNA strand evolution model
+6/10/07 - add fluid drag coefficient to DNA model and developer controls
+6/8/07 - add motion scaling factor related to how tightly the DNA strand is stretched
+6/8/07 - scale kick proportial to sqrt of simulation speed in DNA strand model
+6/8/07 - scale evolution dt proportional to simulation speed in DNA strand model
+6/8/07 - add node for displaying DNA extension and associated value
+6/8/07 - new DNA strand parameter values and ranges, per Mike Dubson
 6/7/07 - change "Show Brownian force" feature to "Enable Brownian force"
 6/7/07 - make laser start/stop button transparent on Mac only
 6/7/07 - make pushpin green, add original image to assets folder
@@ -412,6 +410,8 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+6/10/07 - instead of scaling termPrevious and termNext, investigate scaling _springConstant in DNAStrand.evolve (doesn't work right)
+6/7/07 - get model for Brownian force (delete "Show Brownian force" feature)
 6/5/07 - add close button to ruler (inappropriate, ugly, etc)
 6/5/07 - why is fluid.getDragForce not used directly in Bead.move (it appears in the model indirectly)
 5/31/07 - make DNA tail draggable (feature not needed)
