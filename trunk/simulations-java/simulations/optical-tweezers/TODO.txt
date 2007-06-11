@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - better model for trap force
-- what to do when DNA strand's extension length attempts to exceed control length? (eg, with fluid speed > 0)
+- are there any cases where DNA strand's extension length exceeds contour length?
 
 MEDIUM PRIORITY:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
