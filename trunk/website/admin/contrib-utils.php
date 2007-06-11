@@ -326,22 +326,27 @@ EOT;
 EOT;
 
         if (!$contributor_authenticated) {
-            print <<<EOT
+            if (isset($_REQUEST['loginmethod']) && strtolower($_REQUEST['loginmethod']) == 'static') {
+                print_contribute_login_form();
+            }
+            else {
+                print <<<EOT
                     
-                        <div class="field">
-                            <span class="label_content">                
-                                <input type="text" size="20" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_name_change();"/>
-                            </span>
+                            <div class="field">
+                                <span class="label_content">                
+                                    <input type="text" size="20" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_name_change();"/>
+                                </span>
                             
-                            <span class="label">your name</span>                            
-                        </div>
+                                <span class="label">your name</span>                            
+                            </div>
                 
-                        <div id="required_login_info_uid">
+                            <div id="required_login_info_uid">
                     
-                        </div>
+                            </div>
                         
-                        <hr/>   
+                            <hr/>   
 EOT;
+            }
         }
 
         print <<<EOT
