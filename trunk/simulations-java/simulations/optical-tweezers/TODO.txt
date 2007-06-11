@@ -3,7 +3,6 @@
 ================================================================================
 
 IN PROGRESS:
-- make the lens supports look 3D, as if they are holding the lens
 
 HIGH PRIORITY:
 - better model for trap force
@@ -58,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+6/11/07 - make the objective supports look more substantial, as if they are holding the lens
 6/11/07 - change objective view, make it an on-edge view of the lens
 ********* version 0.00.10 (15790)
 6/10/07 - fix Vector2DNode so that small magnitudes scale properly
