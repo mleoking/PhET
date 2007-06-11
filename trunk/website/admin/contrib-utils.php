@@ -271,6 +271,119 @@ EOT;
         }
     }
     
+    function print_contribute_login_form($script, $contribution_id, $referrer) {
+        print <<<EOT
+            <div id="twofacelogin" class="table_container">
+            <table>
+                <tr>
+                    <td>
+                        <form method="post" action="$script">
+                            <fieldset>
+                                <legend>Login</legend>
+
+                                <table>
+                                    <div class="horizontal_center">
+
+                                        <tr>
+                                            <td class="label">email</td>
+
+                                            <td>
+                                                <input type="text" size="15" name="contributor_email"  class="always_enabled"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="label">password</td>
+
+                                            <td>
+                                                <input type="password" size="15" name="contributor_password"  class="always_enabled"/>
+                                            </td>
+                                        </tr>
+
+                                        <td colspan="2">
+                                            <input type="submit" name="submit" value="Login" class="button"/>
+                                        </td>
+                                    </div>
+                                </table>
+
+                                <input type="hidden" name="referrer"        value="$referrer"        />
+                                <input type="hidden" name="contribution_id" value="$contribution_id" />
+                            </fieldset>
+                        </form>
+                    </td>
+
+                    <td>
+                        <strong>OR</strong>
+                    </td>
+
+                    <td>
+                        <form method="post" action="$script">
+                            <fieldset>
+                                <legend>New Account</legend>
+
+                                <table>
+                                    <div class="horizontal_center">
+                                        <tr>
+                                            <td class="label">name</td>
+
+                                            <td>
+                                                <input type="text" size="15" name="contributor_name"  class="always_enabled"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="label">email</td>
+
+                                            <td>
+                                                <input type="text" size="15" name="contributor_email" class="always_enabled" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="label">password</td>
+
+                                            <td>
+                                                <input type="password" size="15" name="contributor_password"  class="always_enabled"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="label">organization</td>
+
+                                            <td>
+                                                <input type="text" size="15" name="contributor_organization"  class="always_enabled"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2">
+                                                <input type="submit" name="submit" value="Create Account" class="button"/>
+                                            </td>
+                                        </tr>
+                                    </div>
+                                </table>
+
+                                <input type="hidden" name="referrer"        value="$referrer"        />
+                                <input type="hidden" name="contribution_id" value="$contribution_id" />
+                            </fieldset>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            </div>
+
+            <script type="text/javascript">
+                $(document).ready(
+                    function() {
+                        $('input').not('.always_enabled').disable();
+                        $('select').not('.always_enabled').disable();
+                        $('input.button').enable();
+                    }
+                );
+            </script>
+EOT;
+    }
+    
     function contribution_print_full_edit_form($contribution_id, $script, $referrer, $button_name = 'Update') {
         global $contributor_authenticated;
         
@@ -321,7 +434,12 @@ EOT;
         
         if (!$contributor_authenticated) {
             if (isset($_REQUEST['loginmethod']) && strtolower($_REQUEST['loginmethod']) == 'static') {
-                print_contribute_login_form();
+                if ($contribution_id == -1) {
+                    print_contribute_login_form('../teacher_ideas/contribute.php', -1, $referrer);
+                }
+                else {
+                    print_contribute_login_form('../teacher_ideas/edit-contribution.php', $contribution_id, $referrer);
+                }
             }
         }
 
