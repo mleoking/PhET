@@ -87,7 +87,8 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         if ( PhetUtilities.isMacintosh() ) {
             _startStopButton.setOpaque( false );
         }
-        _startStopButton.setFont( font );
+        Font startStartFont = new Font( font.getName(), Font.BOLD, font.getSize() + 4 ); // bigger
+        _startStopButton.setFont( startStartFont );
         _startStopButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 _laser.setRunning( !_laser.isRunning() );

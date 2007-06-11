@@ -5,13 +5,12 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- are there any cases where DNA strand's extension length exceeds contour length?
+- when user drags bead, auto-release if DNA extension is 97% of contour length
 
 MEDIUM PRIORITY:
-- when user drags bead, auto-release if DNA extension is 97% of contour length
 - implement custom simulation speed control
 - E-field feature
-- DNA strand looks too straight initially, evolve a few times before displaying?
+- are there any cases where DNA strand's extension length exceeds contour length?
 - tune developer controls, pick appropriate defaults
 - position histogram requires more precision on x-axis and ruler
 - ruler is slightly off-center in all panels
@@ -24,6 +23,7 @@ MEDIUM PRIORITY:
 - make "beam" the only laser display option in fast mode
 
 LOW PRIORITY:
+- DNA strand looks too straight initially, evolve a few times before displaying?
 - visible seams where symmetrical pieces of laser beam gradient are stitched together
 - power slider problem, look at PSwingEventHandler for PSwing drag problem
 - show DNA strand as a double helix
@@ -33,7 +33,6 @@ LOW PRIORITY:
 - position histogram should make an observation every N seconds, not every clock tick (?)
 - when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
 - dialogs don't repaint or close immediately when clock is running, thread priority?
-- try to make entire laser control panel draggable
 - use TrigCache to improve performance?
 - save/load
 - javadoc
@@ -57,6 +56,7 @@ MISSING INFO:
 
  
 DONE:
+6/11/07 - change laser button to big ON/OFF (temporary solution)
 6/11/07 - developer controls to show vector components and values
 6/11/07 - reset DNA fluid drag coefficient with "Reset All"
 6/11/07 - implement new model for trap force Fz
