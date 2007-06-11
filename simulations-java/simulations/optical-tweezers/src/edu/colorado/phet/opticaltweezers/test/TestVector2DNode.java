@@ -5,8 +5,7 @@ package edu.colorado.phet.opticaltweezers.test;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -22,36 +21,52 @@ import edu.umd.cs.piccolo.PCanvas;
  */
 public class TestVector2DNode extends JFrame {
 
-    private static final double CONSTANT_MAGNITUDE = 100;
-    
     public TestVector2DNode() {
         super();
         
-        final Vector2D vector = new Vector2D.Polar( CONSTANT_MAGNITUDE, 0 );
-        final double referenceMagnitude = CONSTANT_MAGNITUDE;
+        final Vector2D vector = new Vector2D.Polar( 100, 0 );
+        final double referenceMagnitude = 100;
         final double referenceLength = 100;
         final Vector2DNode vectorNode = new Vector2DNode( vector, referenceMagnitude, referenceLength );
         vectorNode.setValueSpacing( 5 );
-        
+
         PCanvas canvas = new PCanvas();
         canvas.setPreferredSize( new Dimension( 400, 300 ) );
         canvas.getLayer().addChild( vectorNode );
         vectorNode.setOffset( 200, 150 );
         
-        final LinearValueControl angleControl = new LinearValueControl( -720, 720, "angle:", "##0", "degrees");
+        final LinearValueControl magnitudeControl = new LinearValueControl( 0, 100, "magnitude:", "##0.0000", "" );
+        magnitudeControl.setUpDownArrowDelta( 1 );
+        magnitudeControl.setValue( vector.getAngle() );
+        magnitudeControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                double magnitude = magnitudeControl.getValue();
+                vector.setMagnitude( magnitude );
+                vectorNode.setVector( vector );
+            }
+        });
+        
+        final LinearValueControl angleControl = new LinearValueControl( -720, 720, "angle:", "##0", "degrees" );
         angleControl.setUpDownArrowDelta( 1 );
         angleControl.setValue( vector.getAngle() );
         angleControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 double angle = Math.toRadians( angleControl.getValue() );
-                vectorNode.setVectorMagnitudeAngle( CONSTANT_MAGNITUDE, angle );
+                vector.setAngle( angle );
+                vectorNode.setVector( vector );
             }
         });
+        
+        Box controlPanel = new Box( BoxLayout.Y_AXIS );
+        controlPanel.add( new JSeparator() );
+        controlPanel.add( magnitudeControl );
+        controlPanel.add( new JSeparator() );
+        controlPanel.add( angleControl );
         
         JPanel panel = new JPanel();
         panel.setLayout( new BorderLayout() );
         panel.add( canvas, BorderLayout.CENTER );
-        panel.add( angleControl, BorderLayout.SOUTH );
+        panel.add( controlPanel, BorderLayout.SOUTH );
         
         setContentPane( panel );
         pack();
