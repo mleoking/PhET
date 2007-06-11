@@ -15,12 +15,13 @@ MEDIUM PRIORITY:
 - position histogram requires more precision on x-axis and ruler
 - ruler is slightly off-center in all panels
 - when fluid viscosity=0, use Verlet motion model, disable fluid speed & temperature controls, make glass slide black
-- add light grey draggable frame around laster controls, or make entire panel draggable
-- rail slider for lens ?
+- add light grey draggable frame around laser controls, or make entire panel draggable
+- rail slider for laser ?
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - adjust clock time display and units as dt is changed
 - enable/disable controls based on clock speed
 - make "beam" the only laser display option in fast mode
+- dialogs don't repaint or close immediately when clock is running, thread priority?
 
 LOW PRIORITY:
 - DNA strand looks too straight initially, evolve a few times before displaying?
@@ -32,7 +33,6 @@ LOW PRIORITY:
 - get rid of "Advanced" panel, there's only 1 control left in it ?
 - position histogram should make an observation every N seconds, not every clock tick (?)
 - when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
-- dialogs don't repaint or close immediately when clock is running, thread priority?
 - use TrigCache to improve performance?
 - save/load
 - javadoc
@@ -40,6 +40,7 @@ LOW PRIORITY:
 - make laser danger sign look better
 - Spanish translations
 - remove code for "Show change in momentum model" if we don't implement it 
+- improve startup performance
 
 CLEANUP:
 - setPickable(false) on non-interactive nodes
