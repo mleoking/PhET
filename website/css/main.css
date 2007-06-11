@@ -838,6 +838,12 @@ p.indi-sim {
 	background-position: 	0 0.5ex;
 	padding-left: 			15px;
 }
+
+#browseresults img {
+	position: relative;
+	top: 	  1px;
+}
+
 h1.page-title {
 	width: 			578px;
 }
