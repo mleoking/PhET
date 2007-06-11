@@ -57,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+6/11/07 - first pass at new on/off button for laser
 6/11/07 - change laser button to big ON/OFF (temporary solution)
 6/11/07 - developer controls to show vector components and values
 6/11/07 - reset DNA fluid drag coefficient with "Reset All"
