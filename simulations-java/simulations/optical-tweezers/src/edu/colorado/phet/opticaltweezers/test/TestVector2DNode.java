@@ -35,9 +35,9 @@ public class TestVector2DNode extends JFrame {
         canvas.getLayer().addChild( vectorNode );
         vectorNode.setOffset( 200, 150 );
         
-        final LinearValueControl magnitudeControl = new LinearValueControl( 0, 100, "magnitude:", "##0.0000", "" );
+        final LinearValueControl magnitudeControl = new LinearValueControl( 0, 100, "magnitude:", "##0", "" );
         magnitudeControl.setUpDownArrowDelta( 1 );
-        magnitudeControl.setValue( vector.getAngle() );
+        magnitudeControl.setValue( vector.getMagnitude() );
         magnitudeControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 double magnitude = magnitudeControl.getValue();

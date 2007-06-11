@@ -299,14 +299,12 @@ public class Vector2DNode extends PhetPNode {
      * Sets the fractonal head height for the arrow.
      * When the (head height)/(arrow length) > fractionalHeadHeight,
      * the arrow head and tail will be scaled.
-     * <p>
-     * To disable scaling, set this to 1.
      * 
      * @param fractionHeadHeight
      */
     public void setFractionalHeadHeight( double fractionHeadHeight ) {
-        if ( !( fractionHeadHeight > 0 && fractionHeadHeight <= 1 ) ) {
-            throw new IllegalArgumentException( "fractionalHeadHeight must be > 0 and <= 1" );
+        if ( !( fractionHeadHeight > 0 && fractionHeadHeight < 1 ) ) {
+            throw new IllegalArgumentException( "fractionalHeadHeight must be > 0 and < 1" );
         }
         if ( fractionHeadHeight != _fractionalHeadHeight ) {
             _fractionalHeadHeight = fractionHeadHeight;
@@ -335,13 +333,9 @@ public class Vector2DNode extends PhetPNode {
                 _arrowNode.setVisible( true );
                 _valueNode.setVisible( _valueVisible );
                 
-                // update the arrow, vector magnitude determines tail length
-                double tailWidth = _vector.getX() * ( _referenceLength / _referenceMagnitude );
-                double tailHeight = _vector.getY() * ( _referenceLength / _referenceMagnitude );
-                double headWidth = ( _headHeight + 1 ) * Math.cos( _vector.getAngle() ); // + 1 to avoid Arrow problems with headHeight being bigger than arrow length
-                double headHeight = ( _headHeight + 1 ) * Math.sin( _vector.getAngle() ); // + 1 to avoid Arrow problems with headHeight being bigger than arrow length
-                double xTip = tailWidth + headWidth;
-                double yTip = tailHeight + headHeight; // Java2D +y is down
+                // update the arrow
+                final double xTip = _vector.getX() * ( _referenceLength / _referenceMagnitude );
+                final double yTip = _vector.getY() * ( _referenceLength / _referenceMagnitude );
                 Point2D tipPosition = new Point2D.Double( xTip, yTip );
                 Arrow arrow = new Arrow( TAIL_POSITION, tipPosition, _headHeight, _headWidth, _tailWidth, _fractionalHeadHeight, true /* scaleTailToo */ );
                 _arrowNode.setPathTo( arrow.getShape() );
