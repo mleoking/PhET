@@ -110,7 +110,7 @@
                     
                         <td>
                             <?php
-                                print_comma_list_as_bulleted_list($sim_subtopics);
+                                print $sim_keywords;
                             ?>
                         </td>
                     
