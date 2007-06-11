@@ -341,7 +341,7 @@ EO_DISPLAY_SLIDESHOW_2;
     
     function print_contribute_login_form() {
         print <<<EOT
-            <div class="table_container">
+            <div id="twofacelogin" class="table_container">
             <table>
                 <tr>
                     <td>
@@ -356,7 +356,7 @@ EO_DISPLAY_SLIDESHOW_2;
                                             <td class="label">email</td>
                                             
                                             <td>
-                                                <input type="text" size="15" name="contributor_email" />
+                                                <input type="text" size="15" name="contributor_email"  class="always_enabled"/>
                                             </td>
                                         </tr>
                     
@@ -364,7 +364,7 @@ EO_DISPLAY_SLIDESHOW_2;
                                             <td class="label">password</td>
                                             
                                             <td>
-                                                <input type="text" size="15" name="contributor_password" />
+                                                <input type="text" size="15" name="contributor_password"  class="always_enabled"/>
                                             </td>
                                         </tr>
                                 
@@ -392,7 +392,7 @@ EO_DISPLAY_SLIDESHOW_2;
                                             <td class="label">name</td>
                                             
                                             <td>
-                                                <input type="text" size="15" name="contributor_name" />
+                                                <input type="text" size="15" name="contributor_name"  class="always_enabled"/>
                                             </td>
                                         </tr>
                         
@@ -400,7 +400,7 @@ EO_DISPLAY_SLIDESHOW_2;
                                             <td class="label">email</td>
                                             
                                             <td>
-                                                <input type="text" size="15" name="contributor_email" />
+                                                <input type="text" size="15" name="contributor_email" class="always_enabled" />
                                             </td>
                                         </tr>
 
@@ -408,7 +408,7 @@ EO_DISPLAY_SLIDESHOW_2;
                                             <td class="label">password</td>
                                             
                                             <td>
-                                                <input type="text" size="15" name="contributor_password" />
+                                                <input type="text" size="15" name="contributor_password"  class="always_enabled"/>
                                             </td>
                                         </tr>
                         
@@ -416,7 +416,7 @@ EO_DISPLAY_SLIDESHOW_2;
                                             <td class="label">organization</td>
                                             
                                             <td>
-                                                <input type="text" size="15" name="contributor_organization" />
+                                                <input type="text" size="15" name="contributor_organization"  class="always_enabled"/>
                                             </td>
                                         </tr>
                             
@@ -433,6 +433,16 @@ EO_DISPLAY_SLIDESHOW_2;
                 </tr>
             </table>
             </div>
+            
+            <script type="text/javascript">
+                $(document).ready(
+                    function() {
+                        $('input').not('.always_enabled').disable();
+                        $('select').not('.always_enabled').disable();
+                        $('input.button').enable();
+                    }
+                );
+            </script>
 EOT;
     }
     
