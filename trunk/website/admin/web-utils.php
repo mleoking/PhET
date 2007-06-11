@@ -420,13 +420,28 @@ EOT;
         return preg_match($p, $email) == 1;
     }
     
-    function convert_comma_list_into_linked_keyword_list($list) {  
+    function convert_comma_list_into_linked_keyword_list($list, $print_commas = false) {  
         global $referrer;
           
         $xml = '<div class="keywordlist">';
         
+        $comma_xml = '';
+        
+        if ($print_commas) {
+            $comma_xml = ', ';
+        }
+        
+        $is_first = true;
+        
         foreach(preg_split('/( +)|( *, *)/i', $list) as $keyword) {
             $keyword = trim($keyword);
+            
+            if ($is_first) {
+                $is_first = false;
+            }
+            else {
+                $xml .= $comma_xml;
+            }
             
             $xml .= '<a href="'.SITE_ROOT.'simulations/search.php?search_for='.urlencode($keyword).'&amp;referrer='.$referrer.'">'.$keyword.'</a>';
         }

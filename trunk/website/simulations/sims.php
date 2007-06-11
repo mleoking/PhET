@@ -22,14 +22,10 @@
             
         eval(get_code_to_create_variables_from_array($simulation));
         
-        $sim_keywords_xml = convert_comma_list_into_linked_keyword_list($sim_keywords);
-        
         ?>
 
         <div>
-            <?php
-                print "<span id=\"floatingkeywords\">$sim_keywords_xml</span>";   
-                
+            <?php                
                 if (isset($contributor_is_team_member) && $contributor_is_team_member == '1') {
                     print "<h1 class=\"page-title\"><a href=\"../admin/edit-sim.php?sim_id=$sim_id\">$sim_name</a></h1>";  
                 } 
@@ -82,47 +78,27 @@
 
         <h1 class="indi-sim" id="topics">Topics</h1>
 
-        <div class="compact">
-            <table>
-                <thead>
-                    <tr>
-                        <td>
-                            Main Topics
-                        </td>
-                    
-                        <td>
-                            Subtopics
-                        </td>
-                    
-                        <td>
-                            Sample Learning Goals
-                        </td>
-                    </tr>
-                </thead>
+        <h2>Main Topics</h2>
             
-                <tbody>
-                    <tr>
-                        <td>
-                            <?php
-                                print_comma_list_as_bulleted_list($sim_main_topics);
-                            ?>
-                        </td>
-                    
-                        <td>
-                            <?php
-                                print $sim_keywords;
-                            ?>
-                        </td>
-                    
-                        <td>
-                            <?php
-                                print_comma_list_as_bulleted_list($sim_sample_goals);
-                            ?>
-                        </td>                    
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <?php
+            print_comma_list_as_bulleted_list($sim_main_topics);
+        ?>        
+        
+        <h2>Subtopics</h2>
+        
+        <ul>
+            <li>
+                <?php
+                    print convert_comma_list_into_linked_keyword_list($sim_keywords, true);
+                ?>
+            </li>
+        </ul>      
+        
+        <h2>Sample Learning Goals</h2>
+        
+        <?php
+            print_comma_list_as_bulleted_list($sim_sample_goals);
+        ?>
 
         <p><a href="#top"><img src="../images/top.gif" /></a></p>
 
