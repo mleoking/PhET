@@ -8,6 +8,9 @@
     include_once(SITE_ROOT."admin/sim-utils.php");    
     include_once(SITE_ROOT."teacher_ideas/referrer.php");
     
+    define("UP_ARROW",   SITE_ROOT."images/sorting-uarrow.gif");
+    define("DOWN_ARROW", SITE_ROOT."images/sorting-darrow.gif");    
+    
     function sort_contributions($contributions, $sort_by, $order) {
         $keyed_contributions = array();
         $id_to_contribution  = array();
@@ -84,11 +87,18 @@
     
     function get_sorting_link($link_sort_by, $desc) {
         global $sort_by, $order, $next_order, $referrer;
-        
-        $link_order = null;
+            
+        $arrow_xml = '';
         
         if ($sort_by == $link_sort_by) {
             $link_order = $next_order;
+            
+            if ($order == 'asc') {
+                $arrow_xml = '<img src="'.UP_ARROW.'"/>';
+            }
+            else {
+                $arrow_xml = '<img src="'.DOWN_ARROW.'"/>';
+            }
         }
         else {
             $link_order = $order;
@@ -120,7 +130,10 @@
                 
         $script = "${php_self}${prefix}order=${link_order}&amp;sort_by=${link_sort_by}${filter_options}&amp;referrer=${referrer}";
         
-        $link = "<a href=\"${script}\">${desc}</a>";
+        // Cleanup excess question marks:
+        $script = preg_replace('/\?+/', '?', $script);
+        
+        $link = "<a href=\"${script}\">${arrow_xml}${desc}</a>";
         
         return <<<EOT
             <td>${link}</td>
@@ -390,16 +403,16 @@ EOT;
     }
     
     if (isset($_REQUEST['order'])) {
-        $order = $_REQUEST['order'];
+        $order = strtolower($_REQUEST['order']);
     }
     else {
         $order = 'desc';
     }
     
-    $next_order = 'desc';
+    $next_order = 'asc';
     
-    if ($order == 'desc') {
-        $next_order = 'asc';
+    if ($order == 'asc') {
+        $next_order = 'desc';
     }
     
     $Types = array( 'all' );
