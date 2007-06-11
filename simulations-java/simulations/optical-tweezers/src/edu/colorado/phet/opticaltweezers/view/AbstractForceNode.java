@@ -23,7 +23,7 @@ public abstract class AbstractForceNode extends PComposite {
     //----------------------------------------------------------------------------
     
     private static final boolean SHOW_VALUES = true;
-    private static final boolean SHOW_XY_COMPONENTS = false;
+    private static final boolean SHOW_COMPONENT_VECTORS = true;
 
     // properties of the vectors
     private static final double VECTOR_HEAD_HEIGHT = 20;
@@ -65,11 +65,12 @@ public abstract class AbstractForceNode extends PComposite {
         _yComponentNode.setValuePaint( VALUE_PAINT );
         _yComponentNode.setValueVisible( SHOW_VALUES );
 
-        if ( SHOW_XY_COMPONENTS ) {
-            addChild( _xComponentNode );
-            addChild( _yComponentNode );
-        }
+        addChild( _xComponentNode );
+        addChild( _yComponentNode );
         addChild( _sumNode );
+        
+        setValuesVisible( SHOW_VALUES );
+        setComponentVectorsVisible( SHOW_COMPONENT_VECTORS );
     }
     
     /*
@@ -95,10 +96,21 @@ public abstract class AbstractForceNode extends PComposite {
     // Accessors
     //----------------------------------------------------------------------------
     
+    public void setComponentVectorsVisible( boolean visible ) {
+        _xComponentNode.setVisible( visible );
+        _yComponentNode.setVisible( visible );
+    }
+    
+    public void setValuesVisible( boolean visible ) {
+        _sumNode.setValueVisible( visible );
+        _xComponentNode.setValueVisible( visible );
+        _yComponentNode.setValueVisible( visible );
+    }
+    
     protected void setForce( Vector2D force ) {
         _sumNode.setVector( force );
         _xComponentNode.setVectorXY( force.getX(), 0 );
         _yComponentNode.setVectorXY( 0, force.getY() );
     }
-
+    
 }

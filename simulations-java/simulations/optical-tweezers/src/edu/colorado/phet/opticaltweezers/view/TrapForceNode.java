@@ -48,6 +48,8 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     public TrapForceNode( Laser laser, Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
         super( modelReferenceMagnitude, viewReferenceLength, UNITS, COLOR );
         
+        setComponentVectorsVisible( true );//XXX
+        
         _laser = laser;
         _laser.addObserver( this );
         
