@@ -8,6 +8,7 @@ HIGH PRIORITY:
 - instead of scaling termPrevious and termNext, investigate scaling _springConstant in DNAStrand.evolve
 - better model for trap force
 - DNA force node size doesn't shrink as small as expected, seems to hit a min size
+- what to do when DNA strand's extension length attempts to exceed control length?
 
 MEDIUM PRIORITY:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
