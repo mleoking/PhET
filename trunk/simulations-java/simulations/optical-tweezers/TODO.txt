@@ -3,6 +3,7 @@
 ================================================================================
 
 IN PROGRESS:
+- make the lens supports look 3D, as if they are holding the lens
 
 HIGH PRIORITY:
 - better model for trap force
@@ -16,7 +17,6 @@ MEDIUM PRIORITY:
 - tune developer controls, pick appropriate defaults
 - position histogram requires more precision on x-axis and ruler
 - ruler is slightly off-center in all panels
-- make the lens supports look 3D, as if they are holding the lens
 - when fluid viscosity=0, use Verlet motion model, disable fluid speed & temperature controls, make glass slide black
 - add light grey draggable frame around laster controls, or make entire panel draggable
 - rail slider for lens ?
