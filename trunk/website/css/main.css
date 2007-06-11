@@ -296,36 +296,36 @@ div.horizontal_center {
     font-weight:bold;
     font-size: 14pt;
 }
-#contributioneditform .table_container {
+#twofacelogin {
 	padding: 0;
 	margin:  0;
 	margin-bottom: 1em;
 }
-#contributioneditform fieldset table {
+#twofacelogin table {
 	width: 100%;
 	margin:  0;
 	padding: 0;
 	margin-left:   auto;
     margin-right:  auto;
 }
-#contributioneditform fieldset table td {
+#twofacelogin table td {
 	margin:  0;
 	padding: 0;
 }
-#contributioneditform fieldset table td .label {
+#twofacelogin table td .label {
 	font-weight: bold;	
 }
-#contributioneditform fieldset table input .button {
+#twofacelogin table input .button {
 	float: none;
 	padding: 0;
 	margin:  0;
 	margin-top: 1em;
 }
-#contributioneditform fieldset fieldset {
+#twofacelogin fieldset {
 	border-color: rgb(220, 220, 220);
 	border-width:  1px;
 }
-#contributioneditform fieldset fieldset legend {
+#twofacelogin fieldset legend {
     font-weight:bold;
     font-size: 10pt;
 }

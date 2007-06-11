@@ -318,6 +318,12 @@ EOT;
         
         $all_contribution_types = contribution_get_all_template_type_names();
         $contribution_types     = contribution_get_type_names_for_contribution($contribution_id);
+        
+        if (!$contributor_authenticated) {
+            if (isset($_REQUEST['loginmethod']) && strtolower($_REQUEST['loginmethod']) == 'static') {
+                print_contribute_login_form();
+            }
+        }
 
         print <<<EOT
             <form id="contributioneditform" method="post" action="$script" enctype="multipart/form-data">
@@ -326,10 +332,7 @@ EOT;
 EOT;
 
         if (!$contributor_authenticated) {
-            if (isset($_REQUEST['loginmethod']) && strtolower($_REQUEST['loginmethod']) == 'static') {
-                print_contribute_login_form();
-            }
-            else {
+            if (!isset($_REQUEST['loginmethod']) || strtolower($_REQUEST['loginmethod']) == 'dynamic') {
                 print <<<EOT
                     
                             <div class="field">

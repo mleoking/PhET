@@ -1,6 +1,10 @@
 <?php
 
+    include_once("../admin/authentication.php");
     include_once("../admin/site-utils.php");
+    include_once("../admin/contrib-utils.php");
+    
+    do_authentication(false);
     
     function print_content() {
         ?>
