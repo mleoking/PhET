@@ -35,6 +35,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     public static final String PROPERTY_KICK_CONSTANT = "kickConstant";
     public static final String PROPERTY_NUMBER_OF_EVOLUTIONS_PER_CLOCK_TICK = "numberOfEvolutionsPerClockTick";
     public static final String PROPERTY_EVOLUTION_DT = "evolutionDtScale";
+    public static final String PROPERTY_FLUID_DRAG_COEFFICIENT = "fluidDragCoefficient";
 
     //----------------------------------------------------------------------------
     // Private class data
@@ -61,12 +62,14 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private DoubleRange _kickConstantRange;
     private IntegerRange _numberOfEvolutionsPerClockTickRange;
     private DoubleRange _evolutionDtRange;
+    private DoubleRange _fluidDragCoefficientRange;
     
     private double _springConstant; // actually the spring constant divided by mass
     private double _dragCoefficient;
     private double _kickConstant;
     private int _numberOfEvolutionsPerClockTick;
     private double _evolutionDt;
+    private double _fluidDragCoefficient;
     
     private Random _kickRandom;
 
@@ -86,13 +89,14 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * @param kickConstantRange
      * @param numberOfEvolutionsPerClockTickRange
      * @param evolutionDtRange
+     * @param fluidDragCoefficientRange
      * @param maxClockStep for scaling time dependent behavior relative to the simulation clock speed
      * @param bead
      * @param fluid
      */
     public DNAStrand( double contourLength, double persistenceLength, int numberOfSprings, 
             DoubleRange springConstantRange, DoubleRange dragCoefficientRange, DoubleRange kickConstantRange, 
-            IntegerRange numberOfEvolutionsPerClockTickRange, DoubleRange evolutionDtRange,
+            IntegerRange numberOfEvolutionsPerClockTickRange, DoubleRange evolutionDtRange, DoubleRange fluidDragCoefficientRange,
             double maxClockStep, Bead bead, Fluid fluid ) {
 
         _contourLength = contourLength;
@@ -112,12 +116,14 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _kickConstantRange = kickConstantRange;
         _numberOfEvolutionsPerClockTickRange = numberOfEvolutionsPerClockTickRange;
         _evolutionDtRange = evolutionDtRange;
+        _fluidDragCoefficientRange = fluidDragCoefficientRange;
 
         _springConstant = _springConstantRange.getDefault();
         _dragCoefficient = _dragCoefficientRange.getDefault();
         _kickConstant = _kickConstantRange.getDefault();
         _numberOfEvolutionsPerClockTick = _numberOfEvolutionsPerClockTickRange.getDefault();
         _evolutionDt = _evolutionDtRange.getDefault();
+        _fluidDragCoefficient = _fluidDragCoefficientRange.getDefault();
         
         _kickRandom = new Random();
         
@@ -192,7 +198,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
 
     public void setSpringConstant( double springConstant ) {
         if ( !_springConstantRange.contains( springConstant ) ) {
-            new IllegalArgumentException( "springConstant out of range: " + springConstant );
+            throw new IllegalArgumentException( "springConstant out of range: " + springConstant );
         }
         if ( springConstant != _springConstant ) {
             _springConstant = springConstant;
@@ -210,7 +216,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
 
     public void setDragCoefficient( double dragCoefficient ) {
         if ( !_dragCoefficientRange.contains( dragCoefficient ) ) {
-            new IllegalArgumentException( "dragCoefficient out of range: " + dragCoefficient );
+            throw new IllegalArgumentException( "dragCoefficient out of range: " + dragCoefficient );
         }
         if ( dragCoefficient != _dragCoefficient ) {
             _dragCoefficient = dragCoefficient;
@@ -228,7 +234,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
 
     public void setKickConstant( double kickConstant ) {
         if ( !_kickConstantRange.contains( kickConstant ) ) {
-            new IllegalArgumentException( "kickConstant out of range: " + kickConstant );
+            throw new IllegalArgumentException( "kickConstant out of range: " + kickConstant );
         }
         if ( kickConstant != _kickConstant ) {
             _kickConstant = kickConstant;
@@ -246,7 +252,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
 
     public void setNumberOfEvolutionsPerClockTick( int numberOfEvolutionsPerClockTick ) {
         if ( !_numberOfEvolutionsPerClockTickRange.contains( numberOfEvolutionsPerClockTick ) ) {
-            new IllegalArgumentException( "numberOfEvolutionsPerClockTick out of range: " + numberOfEvolutionsPerClockTick );
+            throw new IllegalArgumentException( "numberOfEvolutionsPerClockTick out of range: " + numberOfEvolutionsPerClockTick );
         }
         if ( numberOfEvolutionsPerClockTick != _numberOfEvolutionsPerClockTick ) {
             _numberOfEvolutionsPerClockTick = numberOfEvolutionsPerClockTick;
@@ -264,7 +270,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
 
     public void setEvolutionDt( double evolutionDt ) {
         if ( !_evolutionDtRange.contains( evolutionDt ) ) {
-            new IllegalArgumentException( "evolutionDt out of range: " + evolutionDt );
+            throw new IllegalArgumentException( "evolutionDt out of range: " + evolutionDt );
         }
         if ( evolutionDt != _evolutionDt ) {
             _evolutionDt = evolutionDt;
@@ -278,6 +284,24 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     
     public DoubleRange getEvolutionDtRange() {
         return _evolutionDtRange;
+    }
+    
+    public void setFluidDragCoefficient( double fluidDragCoefficient ) {
+        if ( !_fluidDragCoefficientRange.contains( fluidDragCoefficient  ) ) {
+            new IllegalArgumentException( "fluidDragCoefficient out of range: " + fluidDragCoefficient );
+        }
+        if ( fluidDragCoefficient != _fluidDragCoefficient ) {
+            _fluidDragCoefficient = fluidDragCoefficient;
+            notifyObservers( PROPERTY_FLUID_DRAG_COEFFICIENT );
+        }
+    }
+    
+    public double getFluidDragCoefficient() {
+        return _fluidDragCoefficient;
+    }
+    
+    public DoubleRange getFluidDragCoefficientRange() {
+        return _fluidDragCoefficientRange;
     }
     
     //----------------------------------------------------------------------------
@@ -433,9 +457,16 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 final double termPrevious = 1 - ( scale * maxSpringLength / distanceToPrevious );
                 final double termNext = 1 - ( scale * maxSpringLength / distanceToNext );
                 
+                // fluid drag force
+                final double xFluidDrag = _fluidDragCoefficient * _fluid.getVelocity().getX();
+                final double yFluidDrag = _fluidDragCoefficient * _fluid.getVelocity().getY();
+                assert( yFluidDrag == 0 );
+                    
                 // acceleration
-                final double xAcceleration = ( _springConstant * ( ( dxNext * termNext ) - ( dxPrevious * termPrevious ) ) ) - ( _dragCoefficient * currentPivot.getXVelocity() );
-                final double yAcceleration = ( _springConstant * ( ( dyNext * termNext ) - ( dyPrevious * termPrevious ) ) ) - ( _dragCoefficient * currentPivot.getYVelocity() );
+                final double xAcceleration = ( _springConstant * ( ( dxNext * termNext ) - ( dxPrevious * termPrevious ) ) ) - 
+                    ( _dragCoefficient * currentPivot.getXVelocity() ) + xFluidDrag;
+                final double yAcceleration = ( _springConstant * ( ( dyNext * termNext ) - ( dyPrevious * termPrevious ) ) ) - 
+                    ( _dragCoefficient * currentPivot.getYVelocity() ) + yFluidDrag;
                 currentPivot.setAcceleration( xAcceleration, yAcceleration );
                 
                 // velocity

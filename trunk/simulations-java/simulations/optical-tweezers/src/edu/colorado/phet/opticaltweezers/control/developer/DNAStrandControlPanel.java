@@ -50,6 +50,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
     private LinearValueControl _kickConstant;
     private LinearValueControl _numberOfEvolutionsPerClockTickControl;
     private LinearValueControl _evolutionDtControl;
+    private LinearValueControl _fluidDragCoefficientControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -139,6 +140,17 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
             }
         });
         
+        min = dnaStrand.getFluidDragCoefficientRange().getMin();
+        max = dnaStrand.getFluidDragCoefficientRange().getMax();
+        _fluidDragCoefficientControl = new LinearValueControl( min, max, "fluid drag coeff:", "0.000000", "" );
+        _fluidDragCoefficientControl.setUpDownArrowDelta( 0.1 );
+        _fluidDragCoefficientControl.setFont( controlFont );
+        _fluidDragCoefficientControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleFluidDragCoefficientControl();
+            }
+        });
+        
         if ( TOOL_TIPS_ENABLED ) {
             _pivotsCheckBox.setToolTipText( 
                     "<html>Determines whether you can see the<br>" + 
@@ -154,6 +166,9 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
             _numberOfEvolutionsPerClockTickControl.setToolTipText( 
                     "<html>number of times to run the evolution<br>" + 
                     "algorithm each time the clock ticks</html>" );
+            _fluidDragCoefficientControl.setToolTipText(
+                    "<html>coefficient used in the computation<br>" +
+                    "of fluid drag force</html>" );
         }
         
         // Layout
@@ -169,6 +184,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         layout.addComponent( _evolutionDtControl, row++, column );
         layout.addComponent( _kickConstant, row++, column );
         layout.addComponent( _numberOfEvolutionsPerClockTickControl, row++, column );
+        layout.addComponent( _fluidDragCoefficientControl, row++, column );
         
         // Default state
         _pivotsCheckBox.setSelected( _dnaStrandNode.isPivotsVisible() );
@@ -178,6 +194,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         _kickConstant.setValue( _dnaStrand.getKickConstant() );
         _numberOfEvolutionsPerClockTickControl.setValue( _dnaStrand.getNumberOfEvolutionsPerClockTick() );
         _evolutionDtControl.setValue( _dnaStrand.getEvolutionDt() );
+        _fluidDragCoefficientControl.setValue( _dnaStrand.getFluidDragCoefficient() );
     }
     
     public void cleanup() {
@@ -221,6 +238,11 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
         double value = _evolutionDtControl.getValue();
         _dnaStrand.setEvolutionDt( value );
     }
+    
+    private void handleFluidDragCoefficientControl() {
+        double value = _fluidDragCoefficientControl.getValue();
+        _dnaStrand.setFluidDragCoefficient( value );
+    }
 
     //----------------------------------------------------------------------------
     // Observer implementation
@@ -242,6 +264,9 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
             }
             else if ( arg == DNAStrand.PROPERTY_EVOLUTION_DT ) {
                 _evolutionDtControl.setValue( _dnaStrand.getEvolutionDt() );
+            }
+            else if ( arg == DNAStrand.PROPERTY_FLUID_DRAG_COEFFICIENT ) {
+                _fluidDragCoefficientControl.setValue( _dnaStrand.getFluidDragCoefficient() );
             }
         }
     }

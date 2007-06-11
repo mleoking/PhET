@@ -81,6 +81,7 @@ public class DNAModel extends ClockAdapter {
                  DNADefaults.DNA_KICK_CONSTANT_RANGE, 
                  DNADefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE,
                  DNADefaults.DNA_EVOLUTION_DT_RANGE,
+                 DNADefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE,
                  _clock.getDtRange().getMax(),
                  _bead,
                  _fluid );
