@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
@@ -39,9 +40,6 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     //----------------------------------------------------------------------------
     
     private static final boolean DEBUG_SHOW_ORIGIN = true;
-    
-    private static final Stroke LINE_STROKE = new BasicStroke();
-    private static final Color LINE_COLOR = Color.BLACK;
     
     private static final double HANDLE_WIDTH = 25; // view coordinates
     private static final Color HANDLE_COLOR = Color.LIGHT_GRAY;
@@ -79,6 +77,8 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         _modelViewTransform = modelViewTransform;
         
         final double laserWidth = _modelViewTransform.modelToView( _laser.getDiameterAtObjective() );
+        final double distanceFromObjectiveToWaist = _modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToWaist() );
+        final double distanceFromObjectiveToControlPanel = _modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToControlPanel() );
         
         // Objective (lens) used to focus the laser beam
         double objectiveWidth = laserWidth / OBJECT_WIDTH_TO_BEAM_WIDTH_RATIO;
@@ -87,16 +87,14 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         
         // Control panel
         _controlPanel = new LaserControlPanel( laser, OTConstants.PLAY_AREA_CONTROL_FONT, objectiveWidth );
-        final double controlPanelYOffset = modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToControlPanel() );
         
-        // Lines connecting objective to control panel.
-        Line2D line = new Line2D.Double( 0, 0, 0, controlPanelYOffset );
-        PPath leftLineNode = new PPath( line );
-        leftLineNode.setStroke( LINE_STROKE );
-        leftLineNode.setStrokePaint( LINE_COLOR );
-        PPath rightLineNode = new PPath( line );
-        rightLineNode.setStroke( LINE_STROKE );
-        rightLineNode.setStrokePaint( LINE_COLOR );
+        // Supports for the objective
+        final double supportHeight = distanceFromObjectiveToControlPanel + _controlPanel.getFullBounds().getHeight();
+        ObjectiveSupportNode leftSupportNode = new ObjectiveSupportNode( supportHeight );
+        ObjectiveSupportNode rightSupportNode = new ObjectiveSupportNode( supportHeight );
+        AffineTransform horizontalReflection = new AffineTransform();
+        horizontalReflection.scale( -1, 1 );
+        rightSupportNode.setTransform( horizontalReflection );
         
         // Laser beam
         _beamNode = new LaserBeamNode( _laser, _modelViewTransform );
@@ -107,9 +105,9 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         HandleNode rightHandleNode = new HandleNode( HANDLE_WIDTH, handleHeight, HANDLE_COLOR );
         
         // Layering
-        addChild( leftLineNode );
-        addChild( rightLineNode );
         addChild( objectiveNode );
+        addChild( leftSupportNode );
+        addChild( rightSupportNode );
         addChild( _beamNode );
         addChild( leftHandleNode );
         addChild( rightHandleNode );
@@ -118,17 +116,15 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
             addChild( new FineCrosshairNode( new PDimension( 20, 20), new BasicStroke(1f), Color.BLACK ) );
         }
         
-        final double distanceFromObjectiveToWaist = _modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToWaist() );
-        final double distanceFromObjectiveToControlPanel = _modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToControlPanel() );
         // Beam above objective
         _beamNode.setOffset( -_beamNode.getFullBounds().getWidth()/2, -distanceFromObjectiveToWaist );
         // Objective below beam
         objectiveNode.setOffset( 0, distanceFromObjectiveToWaist );
         // Control panel below beam
         _controlPanel.setOffset( -_controlPanel.getFullBounds().getWidth()/2, distanceFromObjectiveToWaist + distanceFromObjectiveToControlPanel );
-        // Connecting lines
-        leftLineNode.setOffset( objectiveNode.getFullBounds().getX(), objectiveNode.getOffset().getY() );
-        rightLineNode.setOffset( objectiveNode.getFullBounds().getMaxX(), objectiveNode.getOffset().getY() );
+        // Support beams
+        leftSupportNode.setOffset( objectiveNode.getFullBounds().getX(), objectiveNode.getOffset().getY() - ( leftSupportNode.getHeadHeight() / 2 ) );
+        rightSupportNode.setOffset( objectiveNode.getFullBounds().getMaxX() + 1, objectiveNode.getOffset().getY() - ( rightSupportNode.getHeadHeight() / 2 ) );
         // Handles
         leftHandleNode.setOffset( _controlPanel.getFullBounds().getX() - leftHandleNode.getFullBounds().getWidth() + 2, 
                 _controlPanel.getFullBounds().getY() + ( ( _controlPanel.getFullBounds().getHeight() - leftHandleNode.getFullBounds().getHeight() ) / 2 ) );
@@ -141,12 +137,16 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         objectiveNode.addInputEventListener( new CursorHandler( cursor ) );
         leftHandleNode.addInputEventListener( new CursorHandler( cursor ) );
         rightHandleNode.addInputEventListener( new CursorHandler( cursor ) );
+        leftSupportNode.addInputEventListener( new CursorHandler( cursor ) );
+        rightSupportNode.addInputEventListener( new CursorHandler( cursor ) );
         
         // Constrain dragging
         BoundedDragHandler dragHandler = new BoundedDragHandler( this, dragBoundsNode );
         objectiveNode.addInputEventListener( dragHandler );
         leftHandleNode.addInputEventListener( dragHandler );
         rightHandleNode.addInputEventListener( dragHandler );
+        leftSupportNode.addInputEventListener( dragHandler );
+        rightSupportNode.addInputEventListener( dragHandler );
         
         // Update the model when this node is dragged.
         addPropertyChangeListener( this );
