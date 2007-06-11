@@ -153,6 +153,8 @@ public class DNAModule extends AbstractModule {
             _controlPanel.getAdvancedControlPanel().setAdvancedVisible( DNADefaults.ADVANCED_VISIBLE );
             _controlPanel.getAdvancedControlPanel().setFluidControlSelected( DNADefaults.FLUID_CONTROLS_SELECTED );
             _controlPanel.getAdvancedControlPanel().setMomentumChangeSelected( DNADefaults.MOMENTUM_CHANGE_MODEL_SELECTED );
+            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setValuesVisible( DNADefaults.VECTOR_VALUES_VISIBLE );
+            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setComponentsVisible( DNADefaults.VECTOR_COMPONENTS_VISIBLE );
         }
     }
 

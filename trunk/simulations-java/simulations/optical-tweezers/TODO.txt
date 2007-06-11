@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- developer controls to show vector components and values
 - are there any cases where DNA strand's extension length exceeds contour length?
 
 MEDIUM PRIORITY:
@@ -58,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+6/11/07 - developer controls to show vector components and values
 6/11/07 - reset DNA fluid drag coefficient with "Reset All"
 6/11/07 - implement new model for trap force Fz
 6/11/07 - make the objective supports look more substantial, as if they are holding the lens

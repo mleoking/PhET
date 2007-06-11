@@ -4,6 +4,8 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JCheckBox;
 
@@ -63,8 +65,11 @@ public class PhysicsControlPanel extends AbstractControlPanel {
                 _canvas.getTrapForceNode(), _canvas.getDragForceNode(), null /* dnaForceNode */ );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getPositionHistogramChartNode(), _canvas.getPotentialEnergyChartNode() );
         _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getFluid() );
+        List forceVectorNodes = new ArrayList();
+        forceVectorNodes.add( _canvas.getTrapForceNode() );
+        forceVectorNodes.add( _canvas.getDragForceNode() );
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getBead(), 
-                null /* dnaStrand */, null /* dnaStrandNode */ );
+                null /* dnaStrand */, null /* dnaStrandNode */, forceVectorNodes );
         
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
         _rulerCheckBox.setFont( CONTROL_FONT );

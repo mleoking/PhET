@@ -4,7 +4,6 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
@@ -137,6 +136,8 @@ public class PhysicsModule extends AbstractModule {
             _controlPanel.getAdvancedControlPanel().setAdvancedVisible( PhysicsDefaults.ADVANCED_VISIBLE );
             _controlPanel.getAdvancedControlPanel().setFluidControlSelected( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
             _controlPanel.getAdvancedControlPanel().setMomentumChangeSelected( PhysicsDefaults.MOMENTUM_CHANGE_MODEL_SELECTED );
+            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setValuesVisible( PhysicsDefaults.VECTOR_VALUES_VISIBLE );
+            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setComponentsVisible( PhysicsDefaults.VECTOR_COMPONENTS_VISIBLE );
         }
     }
 
