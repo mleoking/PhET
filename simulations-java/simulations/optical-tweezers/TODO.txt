@@ -49,7 +49,6 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 MISSING INFO:
-- better model for trap force y component Fy
 - spec for "Show change in momentum model" feature
 - spec for "Show charge on bead" feature
 - spec for "Fun With DNA" panel
