@@ -97,7 +97,7 @@ EOT;
         print_captioned_url_upload_control("Enter the URL for the teacher's guide PDF", "sim_teachers_guide_url", $sim_teachers_guide_url, "2");    
     
         print_captioned_editable_area("Enter the main topics*",                              "sim_main_topics",     $sim_main_topics, "2");  
-        print_captioned_editable_area("Enter the subtopics*",                                "sim_subtopics",       $sim_subtopics,   "2");  
+
         print_captioned_editable_area("Enter the sample learning goals*",                    "sim_sample_goals",    $sim_sample_goals,"2");
     
         print("<div>Please select the categories you would like the Simulation to appear under:</div>");
