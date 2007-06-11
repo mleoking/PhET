@@ -339,6 +339,103 @@ EO_DISPLAY_SLIDESHOW_1;
 EO_DISPLAY_SLIDESHOW_2;
     }
     
+    function print_contribute_login_form() {
+        print <<<EOT
+            <div class="table_container">
+            <table>
+                <tr>
+                    <td>
+                        <form method="post" action="../teacher_ideas/contribute.php">
+                            <fieldset>
+                                <legend>Login</legend>
+                                
+                                <table>
+                                    <div class="horizontal_center">
+                                
+                                        <tr>
+                                            <td class="label">email</td>
+                                            
+                                            <td>
+                                                <input type="text" size="15" name="contributor_email" />
+                                            </td>
+                                        </tr>
+                    
+                                        <tr>
+                                            <td class="label">password</td>
+                                            
+                                            <td>
+                                                <input type="text" size="15" name="contributor_password" />
+                                            </td>
+                                        </tr>
+                                
+                                        <td colspan="2">
+                                            <input type="submit" name="submit" value="Login" class="button"/>
+                                        </td>
+                                    </div>
+                                </table>
+                            </fieldset>
+                        </form>
+                    </td>
+                    
+                    <td>
+                        <strong>OR</strong>
+                    </td>
+                    
+                    <td>
+                        <form method="post" action="../teacher_ideas/contribute.php">
+                            <fieldset>
+                                <legend>New Account</legend>
+                                
+                                <table>
+                                    <div class="horizontal_center">
+                                        <tr>
+                                            <td class="label">name</td>
+                                            
+                                            <td>
+                                                <input type="text" size="15" name="contributor_name" />
+                                            </td>
+                                        </tr>
+                        
+                                        <tr>
+                                            <td class="label">email</td>
+                                            
+                                            <td>
+                                                <input type="text" size="15" name="contributor_email" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="label">password</td>
+                                            
+                                            <td>
+                                                <input type="text" size="15" name="contributor_password" />
+                                            </td>
+                                        </tr>
+                        
+                                        <tr>
+                                            <td class="label">organization</td>
+                                            
+                                            <td>
+                                                <input type="text" size="15" name="contributor_organization" />
+                                            </td>
+                                        </tr>
+                            
+                                        <tr>
+                                            <td colspan="2">
+                                                <input type="submit" name="submit" value="Create Account" class="button"/>
+                                            </td>
+                                        </tr>
+                                    </div>
+                                </table>
+                            </fieldset>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            </div>
+EOT;
+    }
+    
     function print_login_form($optional_message = null, $standard_message = "<p>Please enter your email and password.</p>", $username = '') {
         $script = get_self_url();
         
