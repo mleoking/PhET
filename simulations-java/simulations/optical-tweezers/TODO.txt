@@ -5,7 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- better model for trap force
+- reset fluid drag coefficient with "Reset All"
+- developer controls to show vector components and values
 - are there any cases where DNA strand's extension length exceeds contour length?
 
 MEDIUM PRIORITY:
@@ -58,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+6/11/07 - implement new model for trap force Fz
 6/11/07 - make the objective supports look more substantial, as if they are holding the lens
 6/11/07 - change objective view, make it an on-edge view of the lens
 ********* version 0.00.10 (15790)
