@@ -57,7 +57,7 @@ MISSING INFO:
 
  
 DONE:
-********* version 0.00.11 (?)
+********* version 0.00.11 (15814)
 6/11/07 - first pass at new on/off button for laser
 6/11/07 - change laser button to big ON/OFF (temporary solution)
 6/11/07 - developer controls to show vector components and values
