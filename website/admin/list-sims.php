@@ -34,9 +34,7 @@
             print "<tr><td>&nbsp;</td></tr>";
         }
         
-        if (!$first_time) {
-            print "</tbody>";
-        }
+        print "</tbody>";
         
         print "</table>";
     }

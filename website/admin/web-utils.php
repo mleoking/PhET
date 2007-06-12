@@ -221,7 +221,7 @@ EO_PRINT_HIDDEN_INPUT;
         
         $path_prefix = preg_replace('/_/', '/', $path_name);
         
-        print "Path prefix = $path_prefix\n";
+        //print "Path prefix = $path_prefix\n";
         
         return $path_prefix;
     }
@@ -237,7 +237,7 @@ EO_PRINT_HIDDEN_INPUT;
         $files_key = "${control_name}_file_upload";
         
         if (isset($_FILES[$files_key])) {
-            print ("User uploading for $control_name");
+            //print ("User uploading for $control_name");
 
             $upload_path_prefix = get_upload_path_prefix_from_name($control_name);
             
@@ -252,7 +252,7 @@ EO_PRINT_HIDDEN_INPUT;
             if ($target_name !== "" && $target_name !== null) {                
                 mkdirs($target_dir);
                 
-                print("\nTarget name = $target_name; target path = $target_path\n");
+                //print("\nTarget name = $target_name; target path = $target_path\n");
              
                 if (move_uploaded_file($file_tmp_name, $target_path)) {                
                     return "$upload_path_prefix/$target_name";
@@ -300,7 +300,7 @@ EO_PRINT_HIDDEN_INPUT;
         */ 
 
         print <<<EO_DISPLAY_SLIDESHOW_1
-            <script language="javascript">
+            <script type="text/javascript">
 
             var delay=$delay
             var curindex=0

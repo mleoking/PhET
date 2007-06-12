@@ -8,7 +8,7 @@
 	
     db_exec_query("INSERT INTO `simulation` (`sim_name`, `sim_keywords`) VALUES ('New Simulation', 'keyword1, keyword2, keyword3') ");
      
-    $sim_id = mysql_insert_id($connection);
+    $sim_id = mysql_insert_id();
     
     force_redirect("edit-sim.php?sim_id=$sim_id");
 ?>
