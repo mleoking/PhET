@@ -104,7 +104,7 @@
 
         <h1 class="indi-sim" id="ideas">Teaching Ideas</h1>
 
-        <h2 class="sub-title">Tips for Teachers</h2>
+        <h2>Tips for Teachers</h2>
         
         <p class="indi-sim">
             <?php
@@ -113,7 +113,7 @@
         </p>
 
 
-        <h2 class="sub-title">Ideas and Activities for this Sim</h2>   
+        <h2>Ideas and Activities for this Sim</h2>   
         
         <div id="simcontribbrowser">
         <?php
@@ -126,7 +126,7 @@
         ?>
         </div>
     
-        <h2 class="sub-title">Submit Ideas &amp; Activities</h2>
+        <h2>Submit Ideas &amp; Activities</h2>
 
         <form id="upload-form" enctype="multipart/form-data" action="submit-contribution.php" method="post">    
             <?php

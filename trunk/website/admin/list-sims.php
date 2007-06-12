@@ -18,6 +18,8 @@
         print "<tbody>";
 
         foreach (sim_get_all_sims() as $simulation) {
+            $sim_id = $simulation['sim_id'];
+            
             print "<tr><td><h3>".$simulation['sim_name']."</h3>";
             print "<a href=\"delete-sim.php?sim_id=$sim_id&amp;delete=0\">Delete</a>, ";
             print "<a href=\"edit-sim.php?sim_id=$sim_id\">Edit</a>";
@@ -28,10 +30,7 @@
                     print "<tr><td>$key</td><td>$value</td></tr>";
                 }
             }
-        
-            $sim_id = $simulation['sim_id'];
-        
-;
+            
             print "<tr><td>&nbsp;</td></tr>";
         }
         

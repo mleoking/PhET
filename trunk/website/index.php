@@ -56,13 +56,13 @@
     <div id="container">
         <div class="section">
 
-<div class="mainImage">
+            <div class="mainImage">
     
-            <?php
-                print "<img width=\"350\" height=\"277\" src=\"random-thumbnail.php\" alt=\"\">";            
-            ?>
+                <?php
+                    print "<img width=\"350\" height=\"277\" src=\"random-thumbnail.php\" alt=\"\">";            
+                ?>
             
-</div>
+            </div>
 
             <h1>Interactive Physics Simulations</h1>
 

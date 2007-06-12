@@ -48,6 +48,8 @@
                 $delete_st .= ' AND ';
             }
             
+            $value = mysql_real_escape_string($value);
+            
             $delete_st .= "`$key`='$value'";
         }
         
@@ -88,6 +90,8 @@
                 else {
                     $insert_st .= ', ';
                 }
+                
+                $value = mysql_real_escape_string($value);
                 
                 $insert_st .= "'";
                 $insert_st .= "$value";
@@ -142,6 +146,8 @@
                 if ($first_item_already_printed) {
                     $content_st .= ", ";
                 }
+                
+                $value = mysql_real_escape_string($value);
 
                 $content_st .= " `$key`='$value' ";
             

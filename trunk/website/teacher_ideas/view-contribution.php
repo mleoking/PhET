@@ -153,6 +153,13 @@ EOT;
         contribution_print_standards_compliance($contribution_standards_compliance, true);
         
         $php_self = $_SERVER['PHP_SELF'];
+        
+        if (!isset($GLOBALS['contributor_name'])) {
+            $contributor_name = '';
+        }
+        else {
+            $contributor_name = $GLOBALS['contributor_name'];
+        }
 
         print <<<EOT
             </div>
@@ -181,7 +188,7 @@ EOT;
                     
                     <div class="field">
                         <span class="label_content">                
-                            <input type="text" size="25" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_email_entered();"/>
+                            <input type="text" size="25" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_email_entered();" value="$contributor_name"/>
                         </span>
                         
                         <span class="label">your name</span>                        

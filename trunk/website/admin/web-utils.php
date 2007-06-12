@@ -136,6 +136,8 @@
         $code = '';
         
         foreach($array as $key => $value) {
+            $value = str_replace("'", "\\'", $value);
+            
             $code .= "\$$key = '$value'; ";
         }
         
