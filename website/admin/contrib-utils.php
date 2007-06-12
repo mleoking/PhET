@@ -373,6 +373,8 @@ EOT;
             </div>
 
             <script type="text/javascript">
+                 /*<![CDATA[*/
+            
                 $(document).ready(
                     function() {
                         $('input').not('.always_enabled').disable();
@@ -380,6 +382,8 @@ EOT;
                         $('input.button').enable();
                     }
                 );
+                
+                /*]]>*/
             </script>
 EOT;
     }
