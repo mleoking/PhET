@@ -20,7 +20,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 30, 2005
  * Time: 7:43:35 AM
- *
  */
 
 public class PopupMenuHandler extends PBasicInputEventHandler {
@@ -32,8 +31,18 @@ public class PopupMenuHandler extends PBasicInputEventHandler {
         this.popupMenu = popupMenu;
     }
 
+    public void mousePressed( PInputEvent event ) {
+        super.mouseReleased( event );
+        handlePopup( event );
+    }
+
     public void mouseReleased( PInputEvent event ) {
         super.mouseReleased( event );
+        handlePopup( event );
+    }
+
+    private void handlePopup( PInputEvent event ) {
+
         if( event.isPopupTrigger() ) {
             popupMenu.show( parent, (int)event.getCanvasPosition().getX(), (int)event.getCanvasPosition().getY() );
         }
