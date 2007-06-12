@@ -7,19 +7,36 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * Author: Sam Reid
- * Jun 8, 2007, 6:40:14 AM
+ * This class represents a button that can change state.  Each state can have its own
+ * list of ActionListeners.
+ *
+ * TODO: there should probably be mode change listeners for this class.
+ *
+ * @author Sam Reid
  */
 public class MultiStateButton extends JButton {
     private Mode mode;
     private ArrayList modes = new ArrayList();
+
+    public MultiStateButton( Mode[] mode ) {
+        for( int i = 0; i < mode.length; i++ ) {
+            addMode( mode[i].getKey(), mode[i].getLabel(), mode[i].getIcon() );
+        }
+        init();
+    }
 
     //use a separate key object instead of label as key so bogus translations will still work properly
     public MultiStateButton( Object[] keys, String[] labels, Icon[] icons ) {
         for( int i = 0; i < labels.length; i++ ) {
             addMode( keys[i], labels[i], icons[i] );
         }
-        setMode( 0 );
+        init();
+    }
+
+    private void init() {
+        if( getNumModes() > 0 ) {
+            setMode( 0 );
+        }
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 Mode sourceMode = mode;
@@ -44,20 +61,31 @@ public class MultiStateButton extends JButton {
     }
 
     public void addMode( Object key, String label, Icon icon ) {
-        if( getMode( key ) != null ) {
-            throw new IllegalArgumentException( "Duplicate mode not allowed, key=" + key );
+        addMode( new Mode( key, label, icon ) );
+    }
+
+    public void addMode( Mode mode ) {
+        if( getMode( mode.getKey() ) != null ) {
+            throw new IllegalArgumentException( "Duplicate mode not allowed, key=" + mode.getKey() );
         }
-        modes.add( new Mode( key, label, icon ) );
+        modes.add( mode );
+
+        updateDimension();
+
+        if( this.mode != null ) {
+            updateButton();
+        }
+    }
+
+    public int getNumModes() {
+        return modes.size();
+    }
+
+    private void updateDimension() {
         Dimension[] d = new Dimension[modes.size()];
         for( int i = 0; i < modes.size(); i++ ) {
-            Mode mode = (Mode)modes.get( i );
-            setText( mode.getLabel() );
-            setIcon( mode.getIcon() );
+            setIconAndText( ( (Mode)modes.get( i ) ) );
             d[i] = getUI().getPreferredSize( this );
-        }
-        if( mode != null ) {
-            setText( mode.getLabel() );
-            setIcon( mode.getIcon() );
         }
         int maxWidth = 0;
         int maxHeight = 0;
@@ -103,7 +131,9 @@ public class MultiStateButton extends JButton {
         public void addActionListener( ActionListener actionListener ) {
             actionListeners.add( actionListener );
         }
+
     }
+
 
     public void setMode( Object key ) {
         setMode( getMode( key ) );
@@ -120,9 +150,13 @@ public class MultiStateButton extends JButton {
         return null;
     }
 
-    private void updateButton() {
+    private void setIconAndText( Mode mode ) {
         setText( mode.getLabel() );
         setIcon( mode.getIcon() );
+    }
+
+    private void updateButton() {
+        setIconAndText( mode );
     }
 
     public void addActionListener( Object key, final ActionListener actionListener ) {

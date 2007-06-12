@@ -1,0 +1,2 @@
+1.16.06 (6-11-2007)
+Improved Slovak localization file.
