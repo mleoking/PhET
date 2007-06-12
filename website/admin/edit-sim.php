@@ -40,7 +40,11 @@
     }
 	
 	function print_site_content() {
-        eval(get_code_to_create_variables_from_array(sim_get_sim_by_id($_REQUEST['sim_id'])));
+	    $simulation = sim_get_sim_by_id($_REQUEST['sim_id']);
+	    
+	    $sim_code = get_code_to_create_variables_from_array($simulation);
+	    
+        eval($sim_code);
 
         if ($sim_system_req == SIM_SYSTEM_REQ_NO_MAC) { 
             $mac_ch = "checked";

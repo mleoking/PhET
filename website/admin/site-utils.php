@@ -222,8 +222,8 @@ EOT;
                 
                 <script src="$prefix/js/jquery.pack.js"         type="text/javascript"></script>
                 <script src="$prefix/js/jquery.MultiFile.js"    type="text/javascript"></script>
-                <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript"></script>
-                <script src="$prefix/js/jquery_std.js"          type="text/javascript"></script>                
+                <script src="$prefix/js/jquery_std.js"          type="text/javascript"></script>
+                <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript"></script>              
                 <script src="$prefix/js/http.js"                type="text/javascript"></script>   
                 
                 <script type="text/javascript">

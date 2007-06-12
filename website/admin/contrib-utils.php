@@ -455,19 +455,9 @@ EOT;
 
         if (!$contributor_authenticated) {
             if (!isset($_REQUEST['loginmethod']) || strtolower($_REQUEST['loginmethod']) == 'dynamic') {
-                print <<<EOT
-                    
-                            <div class="field">
-                                <span class="label_content">                
-                                    <input type="text" size="20" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_name_change();"/>
-                                </span>
-                            
-                                <span class="label">your name</span>                            
-                            </div>
+                contributor_print_quick_login();
                 
-                            <div id="required_login_info_uid">
-                    
-                            </div>
+                print <<<EOT
                         
                             <hr/>   
 EOT;
@@ -1668,14 +1658,14 @@ EOT;
     function contributor_print_quick_login() {
         print <<<EOT
             <div class="field">
-                <span class="label">Name</span>
                 <span class="label_content">                
-                    <input type="text" size="25" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_email_entered();"/>
+                    <input type="text" size="20" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_name_change();"/>
                 </span>
-            </div>
-        
-            <div id="required_login_info_uid">
             
+                <span class="label">your name</span>                            
+            </div>
+
+            <div id="required_login_info_uid">    
             </div>
 EOT;
     }
