@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
  */
 public class JEPFrame extends JDialog {
     private MovingManModule module;
-    EvaluationMode mode;
+    private EvaluationMode mode;
     private JEP parser;
 
     private class EvaluationMode extends Mode {
