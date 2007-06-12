@@ -372,7 +372,7 @@ EOT;
     }
     
     function cookie_var_clear($name) {
-        // setcookie("$name", '', time() - 60*60*24*365*10);
+        setcookie("$name", '', time() - 60*60*24*365*10);
         unset($_SESSION[$name]);
     }
     
