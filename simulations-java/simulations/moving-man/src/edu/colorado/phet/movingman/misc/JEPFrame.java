@@ -121,7 +121,7 @@ public class JEPFrame extends JDialog {
         Object KEY_GO="go";
         Object KEY_PAUSE="pause";
         MultiStateButton goPauseButton=new MultiStateButton( );
-        goPauseButton.addMode(KEY_GO, SimStrings.get( "expressions.control.go" ),null);
+        goPauseButton.addMode(KEY_GO, SimStrings.get( "plot.go" ),null);
         goPauseButton.addMode(KEY_PAUSE, SimStrings.get( "plot.pause" ),null);
 
         goPauseButton.addActionListener( KEY_GO,goActionListener );
@@ -131,7 +131,7 @@ public class JEPFrame extends JDialog {
             }
         } );
 
-        JButton go = new JButton( SimStrings.get( "expressions.control.go" ) );
+        JButton go = new JButton( SimStrings.get( "plot.go" ) );
 
         go.addActionListener( goActionListener );
         JButton reset = new JButton( SimStrings.get( "expressions.control.reset" ) );
