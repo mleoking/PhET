@@ -15,6 +15,8 @@
     else {
         $contributor_password = '';
     }
+    
+    $contributor_email = '';
 
     if (isset($_REQUEST['contributor_email'])) {
         $contributor_email = $_REQUEST['contributor_email'];
@@ -32,7 +34,10 @@
     }
     
     if (isset($contributor) && $contributor) {
+        // The name/email, at least, refers to a real contributor.
+        
         if ($lookup_by_name) {
+            // Have to (?) scramble the e-mail, for security reasons:
             $contributor_email = $contributor['contributor_email'];
                     
             $matches = array();
