@@ -216,6 +216,13 @@ public class PhetBuildGUI extends AbstractPhetTask {
         if( phetProject != null ) {
             java.setClassname( phetProject.getFlavor( getSelectedSimulation().getFlavorName(), locale ).getMainclass() );
             java.setFork( true );
+            String args="";
+            String[]a=phetProject.getFlavor( getSelectedSimulation().getFlavorName(), locale ).getArgs();
+            for( int i = 0; i < a.length; i++ ) {
+                String s = a[i];
+                args+=s+" ";
+            }
+            java.setArgs(args); 
             Path classpath = new Path( getProject() );
             FileSet set = new FileSet();
             set.setFile( phetProject.getDefaultDeployJar() );
