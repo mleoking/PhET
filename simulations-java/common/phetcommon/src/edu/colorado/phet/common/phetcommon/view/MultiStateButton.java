@@ -1,4 +1,4 @@
-package edu.colorado.phet.energyskatepark.view.swing;
+package edu.colorado.phet.common.phetcommon.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,15 +9,22 @@ import java.util.ArrayList;
 /**
  * This class represents a button that can change state.  Each state can have its own
  * list of ActionListeners.
- *
+ * <p/>
  * TODO: there should probably be mode change listeners for this class.
  *
  * @author Sam Reid
  */
 public class MultiStateButton extends JButton {
-    private Mode mode;
-    private ArrayList modes = new ArrayList();
+    private Mode mode;//the current mode
+    private ArrayList modes = new ArrayList();//all modes for this button
 
+    /**
+     * Create a MultiStateButton with the specified set of modes.
+     * Each mode must have a different key.
+     * ActionListeners can be added to the modes later.
+     *
+     * @param mode
+     */
     public MultiStateButton( Mode[] mode ) {
         for( int i = 0; i < mode.length; i++ ) {
             addMode( mode[i].getKey(), mode[i].getLabel(), mode[i].getIcon() );
@@ -25,7 +32,6 @@ public class MultiStateButton extends JButton {
         init();
     }
 
-    //use a separate key object instead of label as key so bogus translations will still work properly
     public MultiStateButton( Object[] keys, String[] labels, Icon[] icons ) {
         for( int i = 0; i < labels.length; i++ ) {
             addMode( keys[i], labels[i], icons[i] );
@@ -56,7 +62,7 @@ public class MultiStateButton extends JButton {
         updateButton();
     }
 
-    private Mode getMode( int i ) {
+    public Mode getMode( int i ) {
         return (Mode)modes.get( i );
     }
 
@@ -64,7 +70,14 @@ public class MultiStateButton extends JButton {
         addMode( new Mode( key, label, icon ) );
     }
 
+    /**
+     * Adds the specified mode to this button.
+     *
+     * @param mode
+     * @throws IllegalArgumentException if any key is duplicated
+     */
     public void addMode( Mode mode ) {
+        //use a separate key object instead of label as key so bogus translations will still work properly
         if( getMode( mode.getKey() ) != null ) {
             throw new IllegalArgumentException( "Duplicate mode not allowed, key=" + mode.getKey() );
         }
@@ -81,6 +94,10 @@ public class MultiStateButton extends JButton {
         return modes.size();
     }
 
+    /**
+     * Sets the dimension of this button to be the max specified by the UI and
+     * all available modes.
+     */
     private void updateDimension() {
         Dimension[] d = new Dimension[modes.size()];
         for( int i = 0; i < modes.size(); i++ ) {
@@ -97,6 +114,48 @@ public class MultiStateButton extends JButton {
         setPreferredSize( new Dimension( maxWidth, maxHeight ) );
     }
 
+    /**
+     * Sets the mode of this button to that specified by the given key.
+     * @param key
+     */
+    public void setMode( Object key ) {
+        setMode( getMode( key ) );
+        updateButton();
+    }
+
+    private Mode getMode( Object key ) {
+        for( int i = 0; i < modes.size(); i++ ) {
+            Mode mode = (Mode)modes.get( i );
+            if( mode.getKey().equals( key ) ) {
+                return mode;
+            }
+        }
+        return null;
+    }
+
+    private void setIconAndText( Mode mode ) {
+        setText( mode.getLabel() );
+        setIcon( mode.getIcon() );
+    }
+
+    private void updateButton() {
+        setIconAndText( mode );
+    }
+
+    /**
+     * Adds an ActionListener to a specific mode for this button.
+     *
+     * @param key
+     * @param actionListener
+     */
+    public void addActionListener( Object key, final ActionListener actionListener ) {
+        getMode( key ).addActionListener( actionListener );
+    }
+
+    /**
+     * The Mode for a MultiStateButton maintains state for a particular mode of that button,
+     * including action listeners.
+     */
     protected static class Mode {
         private Object key;
         private String label;
@@ -132,35 +191,6 @@ public class MultiStateButton extends JButton {
             actionListeners.add( actionListener );
         }
 
-    }
-
-
-    public void setMode( Object key ) {
-        setMode( getMode( key ) );
-        updateButton();
-    }
-
-    private Mode getMode( Object key ) {
-        for( int i = 0; i < modes.size(); i++ ) {
-            Mode mode = (Mode)modes.get( i );
-            if( mode.getKey().equals( key ) ) {
-                return mode;
-            }
-        }
-        return null;
-    }
-
-    private void setIconAndText( Mode mode ) {
-        setText( mode.getLabel() );
-        setIcon( mode.getIcon() );
-    }
-
-    private void updateButton() {
-        setIconAndText( mode );
-    }
-
-    public void addActionListener( Object key, final ActionListener actionListener ) {
-        getMode( key ).addActionListener( actionListener );
     }
 
     public static void main( String[] args ) {
