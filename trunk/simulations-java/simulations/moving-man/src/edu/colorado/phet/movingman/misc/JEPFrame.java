@@ -6,6 +6,7 @@ import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.Mode;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
 import org.nfunk.jep.JEP;
 
 import javax.swing.*;
@@ -108,14 +109,31 @@ public class JEPFrame extends JDialog {
         horizontalLayoutPanel.add( expression );
         contentPanel.add( explanation );
         contentPanel.add( horizontalLayoutPanel );
-        JButton go = new JButton( SimStrings.get( "expressions.control.go" ) );
-        go.addActionListener( new ActionListener() {
+
+        ActionListener goActionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 mode.setExpression( expression.getText() );
                 module.setMode( mode );
                 module.setPaused( false );
             }
+        };
+
+        Object KEY_GO="go";
+        Object KEY_PAUSE="pause";
+        MultiStateButton goPauseButton=new MultiStateButton( );
+        goPauseButton.addMode(KEY_GO, SimStrings.get( "expressions.control.go" ),null);
+        goPauseButton.addMode(KEY_PAUSE, SimStrings.get( "plot.pause" ),null);
+
+        goPauseButton.addActionListener( KEY_GO,goActionListener );
+        goPauseButton.addActionListener( KEY_PAUSE,new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setPaused( true );
+            }
         } );
+
+        JButton go = new JButton( SimStrings.get( "expressions.control.go" ) );
+
+        go.addActionListener( goActionListener );
         JButton reset = new JButton( SimStrings.get( "expressions.control.reset" ) );
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -125,7 +143,8 @@ public class JEPFrame extends JDialog {
 
         contentPanel.setAnchor( GridBagConstraints.CENTER );
         contentPanel.setFill( GridBagConstraints.NONE );
-        contentPanel.add( go );
+        contentPanel.add( goPauseButton);
+//        contentPanel.add( go );
         contentPanel.add( reset );
 
         JButton help = new JButton( "Help and Examples" );
