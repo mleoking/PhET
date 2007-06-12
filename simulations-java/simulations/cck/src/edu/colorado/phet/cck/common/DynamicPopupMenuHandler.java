@@ -21,8 +21,17 @@ public class DynamicPopupMenuHandler extends PBasicInputEventHandler {
         this.popupMenuFactory = popupMenuFactory;
     }
 
+    public void mousePressed( PInputEvent event ) {
+        super.mousePressed( event );
+        handlePopup( event );
+    }
+
     public void mouseReleased( PInputEvent event ) {
         super.mouseReleased( event );
+        handlePopup( event );
+    }
+
+    private void handlePopup( PInputEvent event ) {
         if( event.isPopupTrigger() ) {
             JPopupMenu popup = popupMenuFactory.createPopupMenu();
             if( popup != null ) {
