@@ -19,6 +19,13 @@ public class MultiStateButton extends JButton {
     private ArrayList modes = new ArrayList();//all modes for this button
 
     /**
+     * Creates a MultiStateButton with no modes, modes can be added with addMode().
+     */
+    public MultiStateButton() {
+        this( new Mode[0] );
+    }
+
+    /**
      * Create a MultiStateButton with the specified set of modes.
      * Each mode must have a different key.
      * ActionListeners can be added to the modes later.
@@ -71,7 +78,8 @@ public class MultiStateButton extends JButton {
     }
 
     /**
-     * Adds the specified mode to this button.
+     * Adds the specified mode to this button.  If this is the first mode
+     * added to a button, it will become the button's mode.
      *
      * @param mode
      * @throws IllegalArgumentException if any key is duplicated
@@ -84,10 +92,10 @@ public class MultiStateButton extends JButton {
         modes.add( mode );
 
         updateDimension();
-
-        if( this.mode != null ) {
-            updateButton();
+        if( this.mode == null ) {
+            setMode( mode );
         }
+        updateButton();
     }
 
     public int getNumModes() {
@@ -116,6 +124,7 @@ public class MultiStateButton extends JButton {
 
     /**
      * Sets the mode of this button to that specified by the given key.
+     *
      * @param key
      */
     public void setMode( Object key ) {
