@@ -31,6 +31,12 @@ public class PopupMenuHandler extends PBasicInputEventHandler {
         this.popupMenu = popupMenu;
     }
 
+    /**
+     * right-click popup menu on mac is fired on mousePressed, not mouseReleased:
+     * http://developer.apple.com/technotes/tn/tn2042.html
+     *
+     * @param event
+     */
     public void mousePressed( PInputEvent event ) {
         super.mouseReleased( event );
         handlePopup( event );
