@@ -22,8 +22,10 @@
     }
     
     function db_get_row_by_id($table_name, $id_name, $id_value) {
-        $rows = db_exec_query("SELECT * FROM `$table_name` WHERE `$id_name`='$id_value' ");
+        $query = "SELECT * FROM `$table_name` WHERE `$id_name`='$id_value' ";
         
+        $rows = db_exec_query($query);
+                
         if (!$rows) return FALSE;
 
         $assoc = mysql_fetch_assoc($rows);
@@ -33,6 +35,8 @@
         foreach($assoc as $key => $value) {
             $cleaned["$key"] = format_for_html("$value");
         }
+        
+        return $cleaned;
     }
     
     function db_delete_row($table_name, $array) {

@@ -5,7 +5,7 @@
 	include_once(SITE_ROOT."admin/db.inc");
 	include_once(SITE_ROOT."admin/web-utils.php");
 	include_once(SITE_ROOT."admin/sim-utils.php");
-	include_once(SITE_ROOT."admin/site-utils.php");	
+	include_once(SITE_ROOT."admin/site-utils.php");		
 	
 	function print_category_checkbox($cat_id, $cat_name, $cat_is_visible) {
         global $sim_id, $connection;
@@ -41,6 +41,11 @@
 	
 	function print_site_content() {
 	    $simulation = sim_get_sim_by_id($_REQUEST['sim_id']);
+	    
+	    if (!$simulation) {
+	        print "<h1>No Simulation Found</h1><p>There is no simulation with the specified id.</p>";
+	        return;
+	    }
 	    
 	    $sim_code = get_code_to_create_variables_from_array($simulation);
 	    

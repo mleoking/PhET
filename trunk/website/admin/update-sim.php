@@ -3,50 +3,36 @@
     include_once("password-protection.php");
     include_once("db.inc");
     include_once("web-utils.php");
-    include_once("sim-utils.php");
     include_once("db-utils.php");    
-    include_once("site-utils.php");       
-
-    $update_simulation_st = "UPDATE `simulation` SET ";
+    include_once("site-utils.php");
+    include_once("sim-utils.php");    
     
-    gather_array_into_globals($_REQUEST);
-    
-    $is_first_entry = true; 
+    $simulation = array();
 
     // Update every field that was passed in as a _REQUEST parameter and 
     // which starts with 'sim_':
     foreach($_REQUEST as $key => $value) {
-        if (preg_match('/sim_.*/', $key) == 1 && $key !== "sim_id") {
+        if (preg_match('/sim_.*/', $key) == 1) {
             if (preg_match('/^sim_.+_url$/', $key) == 1) {
                 // Maybe the user uploaded something instead of specifying a url:
                 $value = process_url_upload_control($key, $value);
             }
             
-            $escaped_value = mysql_escape_string($value);
-
-            if ($is_first_entry) {
-                $is_first_entry = false;
-            }
-            else {
-                $update_simulation_st = "$update_simulation_st, ";
-            }
-            
-            $update_simulation_st = "$update_simulation_st `$key`='$escaped_value' ";
+            $simulation[$key] = $value;
         }
     }
+    
+    eval(get_code_to_create_variables_from_array($simulation));
+    
+    print_r($simulation);
     
     // The sorting name should not be prefixed by such words as 'the', 'an', 'a':
     $sim_sorting_name = get_sorting_name($sim_name);
     
-    $update_simulation_st = "$update_simulation_st, `sim_sorting_name`='$sim_sorting_name' ";
-
-    // Specify which sim to update:
-    $update_simulation_st = "$update_simulation_st WHERE `sim_id`='$sim_id' ";
-
-    db_verify_mysql_result(mysql_query($update_simulation_st, $connection), $update_simulation_st);
+    sim_update_sim($simulation);
     
     // Now we have to update the categories manually:
-    $category_rows = mysql_query("SELECT * FROM `category` ", $connection);
+    $category_rows = mysql_query("SELECT * FROM `category` ");
     
     while ($category_row = mysql_fetch_assoc($category_rows)) {
         $cat_id   = $category_row['cat_id'];

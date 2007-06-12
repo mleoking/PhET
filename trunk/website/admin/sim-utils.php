@@ -1,6 +1,7 @@
 <?php
     include_once("db.inc");
     include_once("web-utils.php");
+    include_once("db-utils.php");    
     
     define("SIM_TYPE_JAVA",  "0");
     define("SIM_TYPE_FLASH", "1");
@@ -66,10 +67,11 @@
     }
     
     function sim_get_sim_by_id($sim_id) {
-        $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
-        $simulation    = mysql_fetch_assoc(mysql_query($select_sim_st));
-        
-        return $simulation;
+        return db_get_row_by_id('simulation', 'sim_id', $sim_id);
+    }
+    
+    function sim_update_sim($simulation) {
+        return db_update_table('simulation', $simulation, 'sim_id', $simulation['sim_id']);
     }
     
     function sim_search_for_sims($search_for) {
