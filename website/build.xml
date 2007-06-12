@@ -61,7 +61,7 @@ build-related libraries from the simulations-java project.
         </if>
     </target>
              
-    <target name="deploy" description="This task deploys the website." depends="_read-username-and-password">
+    <target name="deploy"  description="This task deploys the website." depends="_read-username-and-password">
         <maverick-ssh host="${deploy.server.name}" username="${deploy.username}" password="${deploy.password}" version="2">
             <!-- Make the remote directory: -->
             <sftp action="mkdir" remotedir="${deploy.server.path}" verbose="true" />
