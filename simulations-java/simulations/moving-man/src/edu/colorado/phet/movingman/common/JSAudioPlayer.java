@@ -16,7 +16,7 @@ public class JSAudioPlayer {
     private static final int EXTERNAL_BUFFER_SIZE = 12000;//one sample clip is 11665 bytes.
 
     public static void main( String[] args ) throws IOException, UnsupportedAudioFileException {
-        URL url = JSAudioPlayer.class.getClassLoader().getResource( "audio/songwriterscentral_one shot c add9 upstroke-ii.wav" );
+        URL url = JSAudioPlayer.class.getClassLoader().getResource( "moving-man/audio/songwriterscentral_one shot c add9 upstroke-ii.wav" );
         System.out.println( "url = " + url );
         System.out.println( "getle = " + getLength( url ) );
         play( url );
