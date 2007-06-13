@@ -68,7 +68,7 @@
             
             </div>
 
-            <h1>Interactive Physics Simulations</h1>
+            <h1 class="home-page">Interactive Physics Simulations</h1>
 
             <p class="openingParagraph">Fun, interactive simulations of physical phenomena from the Physics Education Technology project at the University of Colorado.</p>
 

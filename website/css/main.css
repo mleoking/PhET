@@ -885,7 +885,10 @@ p.indi-sim {
 	position: relative;
 	padding-right: 4px;
 }
-
+h1.home-page {
+	position: relative;
+	left:     0;
+}
 h1.page-title {
 	width: 			578px;
 }
