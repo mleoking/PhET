@@ -22,14 +22,14 @@ import edu.colorado.phet.opticaltweezers.view.AbstractForceNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class VectorsControlPanel extends JPanel {
+public class VectorsDeveloperPanel extends JPanel {
     
     private List _forceVectorNodes; // list of AbstractForceNode
     
     private JCheckBox _showValuesCheckBox;
     private JCheckBox _showComponentsCheckBox;
     
-    public VectorsControlPanel( Font titleFont, Font controlFont, List forceVectorNodes ) {
+    public VectorsDeveloperPanel( Font titleFont, Font controlFont, List forceVectorNodes ) {
         super();
         
         _forceVectorNodes = new ArrayList( forceVectorNodes );

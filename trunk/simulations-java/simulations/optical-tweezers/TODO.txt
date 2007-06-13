@@ -5,11 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add dev control for Fx:Fz ratio in trap force model
 - when user drags bead, auto-release if DNA extension is 97% of contour length
 
 MEDIUM PRIORITY:
 - remove "Enable Brownian motion" from DNA module
-- add dev control for Fx:Fz ratio in trap force model
 - implement custom simulation speed control
 - E-field feature
 - are there any cases where DNA strand's extension length exceeds contour length?
@@ -58,6 +58,7 @@ MISSING INFO:
 
  
 DONE:
+6/12/07 - rename panels that contain developer controls
 ********* version 0.00.11 (15814)
 6/11/07 - first pass at new on/off button for laser
 6/11/07 - change laser button to big ON/OFF (temporary solution)

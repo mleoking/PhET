@@ -23,7 +23,7 @@ import edu.colorado.phet.opticaltweezers.model.Bead;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeadMotionControlPanel extends JPanel implements Observer {
+public class BeadMotionDeveloperPanel extends JPanel implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -45,7 +45,7 @@ public class BeadMotionControlPanel extends JPanel implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BeadMotionControlPanel( Font titleFont, Font controlFont, Bead bead ) {
+    public BeadMotionDeveloperPanel( Font titleFont, Font controlFont, Bead bead ) {
         super();
         
         _bead = bead;
