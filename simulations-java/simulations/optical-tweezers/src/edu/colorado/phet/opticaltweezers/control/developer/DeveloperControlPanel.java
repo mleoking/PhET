@@ -16,14 +16,14 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.DNAStrand;
+import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
 
 /**
  * DeveloperControlPanel contains developer controls.
- * This panel is for developers only, and it not localized.
+ * This panel is for developers only, and it is not localized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -36,7 +36,10 @@ public class DeveloperControlPanel extends JPanel {
     private Box _panel;
     private VectorsDeveloperPanel _vectorsPanel;
     
-    public DeveloperControlPanel( Font titleFont, Font controlFont, Frame parentFrame, Bead bead, DNAStrand dnaStrand, DNAStrandNode dnaStrandNode, List forceVectorNodes ) {
+    public DeveloperControlPanel( Font titleFont, Font controlFont, Frame parentFrame, 
+            Bead bead, Laser laser,
+            DNAStrand dnaStrand, DNAStrandNode dnaStrandNode,
+            List forceVectorNodes ) {
         super();
         
         _showHideButton = new JButton();
@@ -52,8 +55,11 @@ public class DeveloperControlPanel extends JPanel {
         _vectorsPanel = new VectorsDeveloperPanel( titleFont, controlFont, forceVectorNodes );
         _panel.add( _vectorsPanel );
         
-        JPanel beadMotionPanel = new BeadMotionDeveloperPanel( titleFont, controlFont, bead );
-        _panel.add( beadMotionPanel );
+        JPanel laserPanel = new LaserDeveloperPanel( titleFont, controlFont, laser );
+        _panel.add( laserPanel );
+        
+        JPanel beadPanel = new BeadDeveloperPanel( titleFont, controlFont, bead );
+        _panel.add( beadPanel );
         
         if ( dnaStrand != null ) {
             JPanel dnaStrandPanel = new DNAStrandDeveloperPanel( titleFont, controlFont, dnaStrand, dnaStrandNode );
