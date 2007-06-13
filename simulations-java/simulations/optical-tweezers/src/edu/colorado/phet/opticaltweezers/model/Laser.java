@@ -4,8 +4,6 @@ package edu.colorado.phet.opticaltweezers.model;
 
 import java.awt.geom.Point2D;
 
-import javax.media.j3d.IllegalRenderingStateException;
-
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
