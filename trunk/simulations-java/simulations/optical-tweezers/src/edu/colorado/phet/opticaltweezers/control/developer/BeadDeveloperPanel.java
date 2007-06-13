@@ -18,12 +18,12 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 
 /**
- * BeadMotionControlPanel is a set of developer controls for the bead motion model.
- * This panel is for developers only, and it not localized.
+ * BeadDeveloperPanel contains developer controls for the bead model.
+ * This panel is for developers only, and it is not localized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeadMotionDeveloperPanel extends JPanel implements Observer {
+public class BeadDeveloperPanel extends JPanel implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -45,13 +45,13 @@ public class BeadMotionDeveloperPanel extends JPanel implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BeadMotionDeveloperPanel( Font titleFont, Font controlFont, Bead bead ) {
+    public BeadDeveloperPanel( Font titleFont, Font controlFont, Bead bead ) {
         super();
         
         _bead = bead;
         _bead.addObserver( this );
         
-        TitledBorder border = new TitledBorder( "Bead motion model" );
+        TitledBorder border = new TitledBorder( "Bead model" );
         border.setTitleFont( titleFont );
         this.setBorder( border );
         

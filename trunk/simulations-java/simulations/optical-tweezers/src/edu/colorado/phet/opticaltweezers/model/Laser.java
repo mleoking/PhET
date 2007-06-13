@@ -4,6 +4,8 @@ package edu.colorado.phet.opticaltweezers.model;
 
 import java.awt.geom.Point2D;
 
+import javax.media.j3d.IllegalRenderingStateException;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
@@ -22,6 +24,7 @@ public class Laser extends MovableObject implements ModelElement {
     
     public static final String PROPERTY_POWER = "power";
     public static final String PROPERTY_RUNNING = "running";
+    public static final String PROPERTY_TRAP_FORCE_RATIO = "trapForceRatio";
     
     // fudge factor for potential energy model
     private static final double ALPHA = 1; // nm^2/sec
@@ -40,6 +43,9 @@ public class Laser extends MovableObject implements ModelElement {
     private double _power; // mW
     private final DoubleRange _powerRange; // mW
     
+    private DoubleRange _trapForceRatioRange;
+    private double _trapForceRatio; // determines ratio of x & y trap force components
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -56,10 +62,11 @@ public class Laser extends MovableObject implements ModelElement {
      * @param wavelength wavelength (nm)
      * @param visibleWavelength wavelength (nm) to use in views, since actual wavelength is likely IR
      * @param power power (mW)
+     * @param trapForceRatioRange
      */
     public Laser( Point2D position, double orientation, 
             double diameterAtObjective, double diameterAtWaist, double distanceFromObjectiveToWaist, double distanceFromObjectiveToControlPanel,
-            double wavelength, double visibleWavelength, DoubleRange powerRange ) {
+            double wavelength, double visibleWavelength, DoubleRange powerRange, DoubleRange trapForceRatioRange ) {
         super( position, orientation, 0 /* speed */ );
         
         _running = false;
@@ -70,6 +77,8 @@ public class Laser extends MovableObject implements ModelElement {
         _wavelength = wavelength;
         _visibleWavelength = visibleWavelength;
         _powerRange = new DoubleRange( powerRange );
+        _trapForceRatioRange = trapForceRatioRange;
+        _trapForceRatio = _trapForceRatioRange.getDefault();
         
         reset();
     }
@@ -193,6 +202,43 @@ public class Laser extends MovableObject implements ModelElement {
      */
     public DoubleRange getPowerRange() {
         return _powerRange;
+    }
+    
+    /**
+     * Sets the trap force ratio.
+     * This value is used in the calculation of Fy, the y-component of the trap force,
+     * and determines the ratio of Fy:Fx.
+     * 
+     * @param trapForceRatio
+     */
+    public void setTrapForceRatio( double trapForceRatio ) {
+        if ( !_trapForceRatioRange.contains( trapForceRatio  ) ) {
+            throw new IllegalArgumentException( "trapForceRation out of range: " + trapForceRatio );
+        }
+        if ( trapForceRatio != _trapForceRatio ) {
+            _trapForceRatio = trapForceRatio;
+            notifyObservers( PROPERTY_TRAP_FORCE_RATIO );
+        }
+    }
+    
+    /**
+     * Gets the trap force ratio.
+     * See setTrapForceRatio.
+     * 
+     * @return
+     */
+    public double getTrapForceRatio() {
+        return _trapForceRatio;
+    }
+    
+    /**
+     * Gets the range of the trap force ratio.
+     * See setTrapForceRatio.
+     * 
+     * @return
+     */
+    public DoubleRange getTrapForceRatioRange() {
+        return _trapForceRatioRange;
     }
     
     //----------------------------------------------------------------------------
@@ -353,8 +399,7 @@ public class Laser extends MovableObject implements ModelElement {
         final double fx = -1 * K * ( xOffset / ( ry * ry ) ) * intensity;
 
         // y component
-        final double fudgeFactor = 1; // increase this to increase the ratio of fy:fx
-        final double fy = -1 * K * ( yOffset / ( ry * ry ) ) * intensity * fudgeFactor * ( 1 - ( ( 2 * xOffset * xOffset ) / ( ry * ry ) ) );
+        final double fy = -1 * K * ( yOffset / ( ry * ry ) ) * intensity * _trapForceRatio * ( 1 - ( ( 2 * xOffset * xOffset ) / ( ry * ry ) ) );
 
         return new Vector2D.Cartesian( fx, fy );
     }

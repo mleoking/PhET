@@ -23,8 +23,8 @@ import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
 
 /**
- * DNAStrandControlPanel constains developer controls for the DNA strand model.
- * This panel is for developers only, and it not localized.
+ * DNAStrandDeveloperPanel constains developer controls for the DNA strand model.
+ * This panel is for developers only, and it is not localized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

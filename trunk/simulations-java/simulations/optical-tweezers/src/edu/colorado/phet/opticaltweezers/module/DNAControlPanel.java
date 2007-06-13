@@ -65,7 +65,8 @@ public class DNAControlPanel extends AbstractControlPanel {
         forceVectorNodes.add( _canvas.getTrapForceNode() );
         forceVectorNodes.add( _canvas.getDragForceNode() );
         forceVectorNodes.add( _canvas.getDNAForceNode() );
-        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getBead(), 
+        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
+                model.getBead(), model.getLaser(), 
                 model.getDNAStrand(), _canvas.getDNAStrandNode(), forceVectorNodes );
         
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );

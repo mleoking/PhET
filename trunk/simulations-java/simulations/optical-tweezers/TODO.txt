@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add dev control for Fx:Fz ratio in trap force model
 - when user drags bead, auto-release if DNA extension is 97% of contour length
 
 MEDIUM PRIORITY:
@@ -58,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+6/12/07 - add dev control for Fz:Fx ratio in trap force model
 6/12/07 - rename panels that contain developer controls
 ********* version 0.00.11 (15814)
 6/11/07 - first pass at new on/off button for laser
