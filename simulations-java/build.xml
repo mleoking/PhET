@@ -23,7 +23,8 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="proguard.jar" location="build-tools/proguard3.8/lib/proguard.jar"/>
     <property name="phetbuild-src" location="build-tools/phet-build/src"/>
 
-    <property name="phet.version" value="0.0.1"/>
+    <property name="phet.version" value=""/>
+    <property name="phet.src.distribution" value="${basedir}/deploy/phet-src.zip"/>
 
     <!--Phet task implementations-->
     <property name="phetbuild-classname" value="edu.colorado.phet.build.PhetBuildTask"/>
@@ -171,6 +172,7 @@ PhET-team specific tasks are located in an auxiliary build file.
 
     <!--Cleans deploy directories of jar and jnlp files-->
     <target name="clean-all" depends="_init,_list-sims">
+        <delete file="${phet.src.distribution}"/>
         <foreach list="${phet.simlist}" target="clean-sim" param="sim.name"/>
         <!--<delete dir="${ant-output}" excludes="${phetbuild-classes}"/>-->
     </target>
@@ -257,7 +259,7 @@ PhET-team specific tasks are located in an auxiliary build file.
 
     <!-- To Do: make local files (local.properties, open_cmd.bat, etc) start with '.' for filtering in this task.-->
     <target name="build-source-distribution" depends="_init,clean-all" >
-        <zip destfile="${basedir}/deploy/phet-src-${phet.version}.zip" basedir="${basedir}"
+        <zip destfile="${phet.src.distribution}" basedir="${basedir}"
                 excludes="local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output/, **/classes/, deploy/,
                 **/ant-contrib/docs/, **/antform-bin-2.0beta2/doc/, **/apache-ant-1.7.0/docs/, **/junit3.8.2/doc/, **/junit3.8.2/javadoc/,
                 **/proguard3.8/docs, **/retroweaver-2.0/, **/retroweaver-test/, **/JSci/documentation/, **/JSci/examples/,
