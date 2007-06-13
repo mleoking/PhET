@@ -21,9 +21,12 @@ public class TestPSwingJSlider {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 600, 600 );
 
-        JComponent c2 = new JScrollBar();
-        c2.setPreferredSize(new Dimension( c2.getPreferredSize().width,400));
-        pCanvas.getLayer().addChild( new PSwing(c2 ) );
+//        JComponent c2 = new JScrollBar();
+        JComponent c2 = new JSlider();
+//        c2.setPreferredSize(new Dimension( c2.getPreferredSize().width,400));
+        PSwing child = new PSwing( c2 );
+        child.setOffset( 100,100);
+        pCanvas.getLayer().addChild( child );
         pCanvas.setPanEventHandler( null );
     }
 
