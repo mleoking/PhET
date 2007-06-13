@@ -15,8 +15,8 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
-***** 1.04.00 (?)
-6/13/07 - remove ARTS implementation of associated Legendre polynomials, remove from credits
+***** 1.04.00 (15865)
+6/13/07 - remove ARTS implementation (GPL) of associated Legendre polynomials, remove from credits
 6/13/07 - integrate Sam Reid's solver for associated Legendre polynomials
 5/14/07 - remove duplicate code by making HAClockControlPanel extend ClockControlPanel
 5/14/07 - get clock.png from phetcommon
