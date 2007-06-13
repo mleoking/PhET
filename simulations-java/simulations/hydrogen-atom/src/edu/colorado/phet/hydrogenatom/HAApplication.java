@@ -22,16 +22,15 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.hydrogenatom.dialog.TransitionsDialog;
 import edu.colorado.phet.hydrogenatom.menu.DeveloperMenu;
 import edu.colorado.phet.hydrogenatom.menu.OptionsMenu;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
  * HAApplication
@@ -45,8 +44,8 @@ public class HAApplication extends PiccoloPhetApplication {
     // Class data
     //----------------------------------------------------------------------------
     
-    // Provide this program argument to enable developer-only features.
-    private static final String DEVELOPER_ARG = "-dev";
+    // property to enable developer-only features.
+    private static final String DEVELOPER_PROPERTY = "javaws.phet.developer";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -98,7 +97,7 @@ public class HAApplication extends PiccoloPhetApplication {
         }
 
         // Developer menu
-        if ( CommandLineUtils.contains( args, DEVELOPER_ARG ) ) {
+        if ( System.getProperty( DEVELOPER_PROPERTY ) != null ) {
             DeveloperMenu developerMenu = new DeveloperMenu( _module );
             getPhetFrame().addMenu( developerMenu );
         }
