@@ -19,27 +19,27 @@ public class AssociatedLegendrePolynomials {
      * <p>
      * This solution uses Wolfram's definition of the associated Legendre polynomial.
      * See http://mathworld.wolfram.com/LegendrePolynomial.html.
-     * When L > 6, this implemention starts to differ from Wolfram and "Numerical Recipes in C".
+     * When l > 6, this implemention starts to differ from Wolfram and "Numerical Recipes in C".
      * To compare with Mathematica online, use: x^2*(3)*( LegendreP[7,3,-0.99])
      * as the input to The Integrator at http://integrals.wolfram.com/index.jsp
      * 
-     * @param L electron's secondary state
-     * @param M electron's tertiary state
+     * @param l electron's secondary state
+     * @param m electron's tertiary state
      * @param x coordinate on horizontal axis
      * @return double
-     * @throws IllegalArgumentException if L > 6
+     * @throws IllegalArgumentException if l > 6
      */
-    public static double solve( int L, int M, double x ) {
+    public static double solve( int l, int m, double x ) {
 
         // validate arguments
-        if ( L > 6 ) {
-            throw new IllegalArgumentException( "untested for L > 6" );
+        if ( l > 6 ) {
+            throw new IllegalArgumentException( "untested for l > 6" );
         }
-        if ( L < 0 ) {
-            throw new IllegalArgumentException( "L out of bounds: " + L );
+        if ( l < 0 ) {
+            throw new IllegalArgumentException( "l out of bounds: " + l );
         }
-        if ( M < 0 || M > L ) {
-            throw new IllegalArgumentException( "M out of bounds: " + M );
+        if ( m < 0 || m > l ) {
+            throw new IllegalArgumentException( "m out of bounds: " + m );
         }
         if ( Math.abs( x ) > 1.0 ) {
             throw new IllegalArgumentException( "x out of bounds: " + x );
@@ -47,7 +47,7 @@ public class AssociatedLegendrePolynomials {
 
         ArrayList productTerms = new ArrayList();
         productTerms.add( new PolynomialTerm( 0, 1 ) );
-        for ( int i = 0; i < L; i++ ) {
+        for ( int i = 0; i < l; i++ ) {
             //x^2-1 times each term on left side
             ArrayList terms = new ArrayList();
             for ( int k = 0; k < productTerms.size(); k++ ) {
@@ -59,11 +59,11 @@ public class AssociatedLegendrePolynomials {
         }
         for ( int k = 0; k < productTerms.size(); k++ ) {
             PolynomialTerm t = (PolynomialTerm) productTerms.get( k );
-            productTerms.set( k, t.derive( L + M ) );
+            productTerms.set( k, t.derive( l + m ) );
         }
 
         // Wolfram says there is a sign convention difference here
-        double legendre = Math.pow( -1, M ) / (Math.pow( 2, L ) * fact( L )) * Math.pow( 1 - x * x, M / 2.0 ) * eval( productTerms, x );
+        double legendre = Math.pow( -1, m ) / (Math.pow( 2, l ) * fact( l )) * Math.pow( 1 - x * x, m / 2.0 ) * eval( productTerms, x );
         return legendre;
     }
 
