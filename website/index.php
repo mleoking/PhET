@@ -1,4 +1,8 @@
 <?php
+    if (!defined('SITE_ROOT')) {
+        define("SITE_ROOT", "./");
+    }
+    
     include_once("admin/sim-utils.php");
     include_once("admin/web-utils.php");
 ?>
