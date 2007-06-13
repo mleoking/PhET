@@ -6,26 +6,16 @@ package edu.colorado.phet.hydrogenatom.model;
 import java.util.ArrayList;
 
 /**
- * AssociatedLegendrePolynomials imlpements associated Legendre polymonials.
+ * AssociatedLegendrePolynomials implements associated Legendre polymonials.
  * 
- * @author Sam Reid / Chris Malley
+ * @author Sam Reid
  */
 public class AssociatedLegendrePolynomials {
 
     /**
      * Solves the associated Legendre polynomial.
-     * 
-     * @param l electron's secondary state
-     * @param m electron's tertiary state
-     * @param x coordinate on horizontal axis
-     * @return double
-     */
-    public static double solve( int l, int m, double x ) {
-        return solveWolfram( l, m, x );
-    }
-
-    /*
-     * Solution that uses Wolfram's definition of the associated Legendre polynomial.
+     * <p>
+     * This solution uses Wolfram's definition of the associated Legendre polynomial.
      * See http://mathworld.wolfram.com/LegendrePolynomial.html.
      * When l > 6, this implemention starts to differ from Wolfram and "Numerical Recipes in C".
      * To compare with Mathematica online, use: x^2*(3)*( LegendreP[7,3,-0.99])
@@ -37,7 +27,7 @@ public class AssociatedLegendrePolynomials {
      * @return double
      * @throws IllegalArgumentException if l > 6
      */
-    private static double solveWolfram( int l, int m, double x ) {
+    public static double solve( int l, int m, double x ) {
 
         // validate arguments
         if ( l > 6 ) {
