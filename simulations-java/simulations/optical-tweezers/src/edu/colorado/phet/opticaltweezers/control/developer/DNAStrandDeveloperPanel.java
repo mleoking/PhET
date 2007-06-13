@@ -28,7 +28,7 @@ import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DNAStrandControlPanel extends JPanel implements Observer, PropertyChangeListener {
+public class DNAStrandDeveloperPanel extends JPanel implements Observer, PropertyChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -56,7 +56,7 @@ public class DNAStrandControlPanel extends JPanel implements Observer, PropertyC
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DNAStrandControlPanel( Font titleFont, Font controlFont, DNAStrand dnaStrand, DNAStrandNode dnaStrandNode ) {
+    public DNAStrandDeveloperPanel( Font titleFont, Font controlFont, DNAStrand dnaStrand, DNAStrandNode dnaStrandNode ) {
         super();
         
         _dnaStrand = dnaStrand;

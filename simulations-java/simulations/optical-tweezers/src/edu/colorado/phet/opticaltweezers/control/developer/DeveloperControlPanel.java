@@ -34,7 +34,7 @@ public class DeveloperControlPanel extends JPanel {
     
     private JButton _showHideButton;
     private Box _panel;
-    private VectorsControlPanel _vectorsPanel;
+    private VectorsDeveloperPanel _vectorsPanel;
     
     public DeveloperControlPanel( Font titleFont, Font controlFont, Frame parentFrame, Bead bead, DNAStrand dnaStrand, DNAStrandNode dnaStrandNode, List forceVectorNodes ) {
         super();
@@ -49,14 +49,14 @@ public class DeveloperControlPanel extends JPanel {
         
         _panel = new Box( BoxLayout.Y_AXIS );
         
-        _vectorsPanel = new VectorsControlPanel( titleFont, controlFont, forceVectorNodes );
+        _vectorsPanel = new VectorsDeveloperPanel( titleFont, controlFont, forceVectorNodes );
         _panel.add( _vectorsPanel );
         
-        JPanel beadMotionPanel = new BeadMotionControlPanel( titleFont, controlFont, bead );
+        JPanel beadMotionPanel = new BeadMotionDeveloperPanel( titleFont, controlFont, bead );
         _panel.add( beadMotionPanel );
         
         if ( dnaStrand != null ) {
-            JPanel dnaStrandPanel = new DNAStrandControlPanel( titleFont, controlFont, dnaStrand, dnaStrandNode );
+            JPanel dnaStrandPanel = new DNAStrandDeveloperPanel( titleFont, controlFont, dnaStrand, dnaStrandNode );
             _panel.add( dnaStrandPanel );
         }
         
@@ -88,7 +88,7 @@ public class DeveloperControlPanel extends JPanel {
         return _showHideButton.isVisible();
     }
     
-    public VectorsControlPanel getVectorsPanel() {
+    public VectorsDeveloperPanel getVectorsPanel() {
         return _vectorsPanel;
     }
     
