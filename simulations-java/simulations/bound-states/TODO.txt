@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+6/12/07 - add Schmidt & Lee to credits
 6/8/07 - review changes that were needed for changes made to ClockControlPanel
 5/14/07 - reimplement BSClockControls using ClockControlPanel and ClockTimeDisplay
 5/14/07 - move clock.png to phetcommon
