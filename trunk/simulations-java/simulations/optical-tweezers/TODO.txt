@@ -8,6 +8,8 @@ HIGH PRIORITY:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
 
 MEDIUM PRIORITY:
+- remove "Enable Brownian motion" from DNA module
+- add dev control for Fx:Fz ratio in trap force model
 - implement custom simulation speed control
 - E-field feature
 - are there any cases where DNA strand's extension length exceeds contour length?
