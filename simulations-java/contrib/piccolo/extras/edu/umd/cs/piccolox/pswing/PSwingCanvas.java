@@ -10,6 +10,7 @@
  */
 package edu.umd.cs.piccolox.pswing;
 
+import edu.umd.cs.piccolo.IgnorableEventSource;
 import edu.umd.cs.piccolo.PCanvas;
 
 import javax.swing.*;
@@ -23,12 +24,13 @@ import java.awt.*;
  * @author Lance E. Good
  */
 
-public class PSwingCanvas extends PCanvas {
+public class PSwingCanvas extends PCanvas implements IgnorableEventSource {
     public static final String SWING_WRAPPER_KEY = "Swing Wrapper";
     private static PSwingRepaintManager pSwingRepaintManager = new PSwingRepaintManager();
 
     private SwingWrapper swingWrapper;
     private PSwingEventHandler swingEventHandler;
+    private volatile boolean ignoringEvents;
 
     /**
      * Construct a new PSwingCanvas.
@@ -45,6 +47,20 @@ public class PSwingCanvas extends PCanvas {
 
     JComponent getSwingWrapper() {
         return swingWrapper;
+    }
+
+    /*
+     * For internal use only.
+     */
+    public void setIgnoringEvents(boolean flag) {
+        ignoringEvents = flag;
+    }
+
+    /*
+     * For internal use only.
+     */
+    public boolean isIgnoringEvents() {
+        return ignoringEvents;
     }
 
     public void addPSwing( PSwing pSwing ) {

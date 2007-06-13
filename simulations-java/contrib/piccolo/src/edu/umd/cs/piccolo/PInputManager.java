@@ -29,17 +29,13 @@
  */
 package edu.umd.cs.piccolo;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.geom.Point2D;
-
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.util.PPickPath;
+
+import java.awt.event.*;
+import java.awt.geom.Point2D;
 
 /**
  * <b>PInputManager</b> is responsible for dispatching PInputEvents
@@ -226,7 +222,15 @@ public class PInputManager extends PBasicInputEventHandler implements PRoot.Inpu
 	public void processInput() {
 		if (nextInput == null) return;
 
-		PInputEvent e = new PInputEvent(this, nextInput);
+        if (nextInput.getSource() instanceof IgnorableEventSource) {
+            IgnorableEventSource source = (IgnorableEventSource)nextInput.getSource();
+
+            if (source.isIgnoringEvents()) {
+                return;
+            }
+        }
+
+        PInputEvent e = new PInputEvent(this, nextInput);
 		
 		Point2D newCurrentCanvasPosition = null;
 		Point2D newLastCanvasPosition = null;
