@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2007, University of Colorado */
 
 package edu.colorado.phet.hydrogenatom.model;
 
@@ -59,7 +50,6 @@ import edu.colorado.phet.hydrogenatom.util.RandomUtils;
  * The only way to get out of this state (2,0,0) is by going to a higher state.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class SchrodingerModel extends DeBroglieModel {
 
@@ -501,7 +491,7 @@ public class SchrodingerModel extends DeBroglieModel {
      */
     private static double getWaveFunction( int n, int l, int m, double r, double cosTheta ) {
         final double t1 = getGeneralizedLaguerrePolynomial( n, l, r );
-        final double t2 = getAssociatedLegendrePolynomial( l, Math.abs( m ), cosTheta );
+        final double t2 = AssociatedLegendrePolynomials.solve( l, Math.abs( m ), cosTheta );
         return ( t1 * t2 );
     }
     
@@ -521,71 +511,6 @@ public class SchrodingerModel extends DeBroglieModel {
             sum += ( bj * Math.pow( r, j ) );
         }
         return ( multiplier * sum );
-    }
-    
-    /*
-     * Associated Legendre Polynomial.
-     * This does not correspond to the design document.
-     * 
-     * This implementation was obtained from ARTS (Atmospheric Radiative Transfer Simulator)
-     * at http://www.sat.uni-bremen.de/arts.
-     * The original function was written in C, appeared in legendre.cc, 
-     * and was named legengre_poly. Here we have ported it to Java.
-     * The original code is GPL, and the original copyright appears below.
-     * 
-     * =================================================================
-     * Copyright (C) 2003 Oliver Lemke  <olemke@uni-bremen.de>
-     * This program is free software; you can redistribute it and/or modify it
-     * under the terms of the GNU General Public License as published by the
-     * Free Software Foundation; either version 2, or (at your option) any
-     * later version.
-     *
-     * This program is distributed in the hope that it will be useful,
-     * but WITHOUT ANY WARRANTY; without even the implied warranty of
-     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     * GNU General Public License for more details.
-     *
-     * You should have received a copy of the GNU General Public License
-     * along with this program; if not, write to the Free Software
-     * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-     * =================================================================
-     */
-    private static double getAssociatedLegendrePolynomial( int l, int m, double x ) {
-
-        if ( m < 0 || m > l || Math.abs( x ) > 1.0 ) {
-            throw new IllegalArgumentException( "illegal argument" );
-        }
-
-        double pmm = 1.0;
-        double result = 0;
-        
-        if ( m > 0 ) {
-            double fact = 1.0;
-            final double somx2 = Math.sqrt( ( 1.0 - x ) * ( 1.0 + x ) );
-            for ( int i = 1; i <= m; i++ ) {
-                pmm *= -fact * somx2;
-                fact += 2.0;
-            }
-        }
-
-        if ( l == m ) {
-            result = pmm;
-        }
-        else {
-            double pmmp1 = x * ( 2 * m + 1 ) * pmm;
-            if ( l == ( m + 1 ) ) {
-                return pmmp1;
-            }
-            else {
-                for ( int ll = ( m + 2 ); ll <= l; ll++ ) {
-                    result = ( x * ( 2 * ll - 1 ) * pmmp1 - ( ll + m - 1 ) * pmm ) / ( ll - m );
-                    pmm = pmmp1;
-                    pmmp1 = result;
-                }
-            }
-        }
-        
-        return result;
     }
     
     //----------------------------------------------------------------------------
