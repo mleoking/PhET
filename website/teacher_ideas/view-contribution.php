@@ -59,7 +59,7 @@
         
             $files_html          
             
-            Or you may <a href="$download_script">download</a> all files as a compressed archive.  
+            Or you may <a href="$download_script">download</a> all files as a compressed archive (<a href="http://en.wikipedia.org/wiki/ZIP_(file_format)">ZIP</a>).  
             
             <h3>Submission Information</h3>
             

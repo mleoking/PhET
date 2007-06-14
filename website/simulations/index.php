@@ -32,7 +32,7 @@
 
         $sim_limit = SIMS_PER_PAGE;
 
-        if (isset($HTTP_GET_VARS['st'])) {
+        if (isset($_REQUEST['st'])) {
             $sim_start_number = $_REQUEST['st'];
             
             if ($sim_start_number == -1) {
