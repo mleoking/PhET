@@ -158,7 +158,7 @@
     }
     
     function sim_get_select_sims_by_category_statement($cat) {
-        return "SELECT * FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation`.`sim_sorting_name` ASC ";
+        return "SELECT DISTINCT `simulation`.`sim_id` FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation`.`sim_sorting_name` ASC ";
     }
     
     function sim_get_image_previews($type, $field) {
