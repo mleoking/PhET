@@ -126,16 +126,16 @@ public class ExpressionFrame extends JDialog {
         public void stepInTime( double dt ) {
             String timeString = "(" + module.getRecordingTimer().getTime() + ")";
 
-            String actual = expression.replaceAll( "t", timeString );
-            actual = actual.replaceAll( "cos", "Math.cos" );
-            actual = actual.replaceAll( "sin", "Math.sin" );
-            actual = actual.replaceAll( "pi", "Math.PI" );
-            actual = actual.replaceAll( "log", "Math.log" );
-            actual = actual.replaceAll( "pow", "Math.pow" );
+//            String equation = expression.replaceAll( "t", timeString );
+            String equation = expression.replaceAll( "cos", "Math.cos" );
+            equation = equation.replaceAll( "sin", "Math.sin" );
+            equation = equation.replaceAll( "pi", "Math.PI" );
+            equation = equation.replaceAll( "log", "Math.log" );
+            equation = equation.replaceAll( "pow", "Math.pow" );
 
             double x = 0;
             try {
-                Object value = interpreter.eval( "y=" + actual );
+                Object value = interpreter.eval( "t="+timeString+"; y=" + equation );
                 x = ( (Number)value ).doubleValue();
             }
             catch( EvalError evalError ) {
