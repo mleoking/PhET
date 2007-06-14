@@ -24,8 +24,6 @@
     
     eval(get_code_to_create_variables_from_array($simulation));
     
-    print_r($simulation);
-    
     // The sorting name should not be prefixed by such words as 'the', 'an', 'a':
     $sim_sorting_name = get_sorting_name($sim_name);
     

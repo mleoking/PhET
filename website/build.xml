@@ -12,7 +12,7 @@ build-related libraries from the simulations-java project.
     <property name="deploy.server.name" value="tigercat.colorado.edu" />
 
     <!-- Properties for deploy output-->
-    <property name="deploy.server.path" value="/web/htdocs/phet/new2" />
+    <property name="deploy.server.path" value="/web/htdocs/phet/new" />
     <property name="deploy.server.url"  value="http://phet.colorado.edu/new/" />
     
     <!-- Build tools -->
