@@ -17,6 +17,10 @@
                 // Maybe the user uploaded something instead of specifying a url:
                 $value = process_url_upload_control($key, $value);
             }
+            else {
+                // Get rid of escape characters:
+                $value = str_replace('\\', '', $value);
+            }
             
             $simulation[$key] = $value;
         }
@@ -25,7 +29,7 @@
     eval(get_code_to_create_variables_from_array($simulation));
     
     // The sorting name should not be prefixed by such words as 'the', 'an', 'a':
-    $sim_sorting_name = get_sorting_name($sim_name);
+    $simulation['sim_sorting_name'] = get_sorting_name($sim_name);
     
     sim_update_sim($simulation);
     
