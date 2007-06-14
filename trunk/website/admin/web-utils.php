@@ -170,10 +170,15 @@
     function print_comma_list_as_bulleted_list($comma_list) {
         print "<ul>";
         
-        foreach(explode(',', $comma_list) as $item) {
-            $trimmed_item = trim($item);
-            
-            print "<li>$trimmed_item</li>";
+        if (strstr($comma_list, '*')) {
+            $list = preg_split('/ *\\* */', $comma_list);
+        }
+        else {
+            $list = preg_split('/ *, */', $comma_list);
+        }
+        
+        foreach($list as $item) {            
+            print "<li>$item</li>";
         }
         
         print "</ul>";

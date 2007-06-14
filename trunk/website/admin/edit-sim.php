@@ -8,10 +8,10 @@
 	include_once(SITE_ROOT."admin/site-utils.php");		
 	
 	function print_category_checkbox($cat_id, $cat_name, $cat_is_visible) {
-        global $sim_id, $connection;
+        $sim_id = $_REQUEST['sim_id'];
 
         $sql_cat        = "SELECT * FROM `simulation_listing` WHERE `sim_id`= '$sim_id' AND `cat_id`='$cat_id' ";
-        $sql_result_cat = mysql_query($sql_cat, $connection);
+        $sql_result_cat = mysql_query($sql_cat);
         $row_cat        = mysql_num_rows($sql_result_cat);
 
         $is_checked = ($row_cat >= 1 ? "checked" : "");

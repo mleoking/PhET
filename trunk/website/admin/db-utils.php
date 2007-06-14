@@ -33,6 +33,9 @@
         $cleaned = array();
         
         foreach($assoc as $key => $value) {
+            // Get rid of escapes:
+            $value = str_replace('\\', '', $value);
+            
             $cleaned["$key"] = format_for_html("$value");
         }
         
