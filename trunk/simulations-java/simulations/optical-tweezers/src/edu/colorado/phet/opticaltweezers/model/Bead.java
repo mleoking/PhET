@@ -371,13 +371,13 @@ public class Bead extends MovableObject implements ModelElement {
         // Run the motion algorithm for subdivided clock step
         for ( int i = 0; i < loops; i++ ) {
 
-            // Trap force
-            Vector2D trapForce = _laser.getTrapForce( xOld, yOld ); // pN
+            // Trap force (pN)
+            Vector2D trapForce = _laser.getTrapForce( xOld, yOld );
 
-            // DNA force
+            // DNA force (pN)
             Vector2D dnaForce = null;
             if ( _dnaStrand != null ) {
-                dnaForce = _dnaStrand.getForce();
+                dnaForce = _dnaStrand.getForce( xOld, yOld );
             }
             else {
                 dnaForce = new Vector2D.Cartesian( 0, 0 );
@@ -386,20 +386,22 @@ public class Bead extends MovableObject implements ModelElement {
             // Brownian displacement (nm)
             Vector2D brownianDisplacement = null;
             if ( _brownianMotionEnabled ) {
-                brownianDisplacement = computeBrownianDisplacement( dt ); // nm
+                brownianDisplacement = computeBrownianDisplacement( dt );
             }
             else {
                 brownianDisplacement = new Vector2D.Cartesian( 0, 0 );
             }
 
-            // New position
-            xNew = xOld + ( vxOld * dt ) + brownianDisplacement.getX(); // nm
-            yNew = yOld + ( vyOld * dt ) + brownianDisplacement.getY(); // nm
+            // New position (nm)
+            xNew = xOld + ( vxOld * dt ) + brownianDisplacement.getX();
+            yNew = yOld + ( vyOld * dt ) + brownianDisplacement.getY();
 
             /*
              * Collision detection.
-             * This is very simplified, because the only thing causing collisions
-             * with the edges of the microscope slide is the Brownian force.
+             * This is very simplified because Brownian force is the only force
+             * that moves the bead toward the edges of the microscope slide.
+             * Trap force and DNA force pull the bead towards the center,
+             * while fluid flow moves the bead from left to right.
              */
             if ( yNew < yTopOfSlide ) {
                 // collide with top edge of microscope slide
