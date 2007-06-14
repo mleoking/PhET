@@ -28,11 +28,7 @@
             $cat_name = $category_row['cat_name'];
 
             print "<div class=\"productListHeader\"><h1>$cat_name</h1></div>";
-        }                    
-
-        $select_all_simulation_listings_st = "SELECT * FROM `simulation_listing` WHERE `cat_id`='$cat'";
-
-        $num_sims_in_category = mysql_num_rows(mysql_query($select_all_simulation_listings_st, $connection));
+        }
 
         $sim_limit = SIMS_PER_PAGE;
 
@@ -56,7 +52,9 @@
         }
         
         // This statement selects for all sims in the category, and orders by the sim sorting name:
-        $select_sims_st = sim_get_select_sims_by_category_statement($cat);
+        $simulations = sim_get_sims_by_cat_id($cat);
+        
+        $num_sims_in_category = count($simulations);
         
         if ($view_type == "thumbs") {
             // THUMBNAIL INDEX
@@ -86,9 +84,10 @@
 
             $sim_number = -1;
 
-            $simulations = db_exec_query($select_sims_st, $connection);
-
-             while ($simulation = mysql_fetch_assoc($simulations)) {
+            foreach($simulations as $simulation) {
+                 
+//                 print get_code_to_create_variables_from_array($simulation)."<br/>";
+                 
                 eval(get_code_to_create_variables_from_array($simulation));
 
                 // Make sure the simulation is valid:
@@ -145,14 +144,13 @@ EOT;
         else {
             print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=thumbs\">thumbnails</a></div>";
             
-            // ALPHABETICAL INDEX                        
-            $simulations = db_exec_query($select_sims_st, $connection);
+            // ALPHABETICAL INDEX
             
             print "<div id=\"pg\">\n";
             
             $last_printed_char = '';
             
-            while ($simulation = mysql_fetch_assoc($simulations)) {
+            foreach($simulations as $simulation) {                
                 eval(get_code_to_create_variables_from_array($simulation));
                 
                 $sim_sorting_name = get_sorting_name($sim_name);
@@ -170,11 +168,9 @@ EOT;
             
             print "<div class=\"productList\">";
             
-            $simulations = db_exec_query($select_sims_st, $connection);
-            
             $last_printed_char = '';
             
-            while ($simulation = mysql_fetch_assoc($simulations)) {
+            foreach($simulations as $simulation) {
                 eval(get_code_to_create_variables_from_array($simulation));
                 
                 $sim_sorting_name = get_sorting_name($sim_name);
