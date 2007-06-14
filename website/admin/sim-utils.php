@@ -126,6 +126,20 @@
         return $simulations;        
     }
     
+    function sim_get_sims_by_cat_id($cat_id) {
+        $select_sims_st = sim_get_select_sims_by_category_statement($cat_id);
+
+        $result = db_exec_query($select_sims_st);
+        
+        $cleans = array();
+        
+        while ($unclean = mysql_fetch_assoc($result)) {
+            $cleans[] = sim_get_sim_by_id($unclean['sim_id']);
+        }
+        
+        return $cleans;
+    }
+    
     function sim_get_all_sim_names() {
         $simulations = array();
         

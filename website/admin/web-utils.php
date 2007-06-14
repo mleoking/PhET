@@ -177,8 +177,10 @@
             $list = preg_split('/ *, */', $comma_list);
         }
         
-        foreach($list as $item) {            
-            print "<li>$item</li>";
+        foreach($list as $item) {    
+            if (trim($item) != '') {
+                print "<li>$item</li>";
+            }
         }
         
         print "</ul>";
