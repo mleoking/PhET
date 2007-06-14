@@ -99,9 +99,9 @@ public class ExpressionFrame extends JDialog {
                          "\nExamples:\n" +
                          "3*t\n" +
                          "log(t)\n" +
-                         "2^t\n" +
+                         "pow(t,2)\n" +
                          "sqrt(sin(t^2))\n" +
-                         "t^2-t+3\n";
+                         "pow(t,2)-t+3\n";
 
 
         JOptionPane.showMessageDialog( this, message, "Java Expression Parser", JOptionPane.INFORMATION_MESSAGE );
@@ -130,6 +130,8 @@ public class ExpressionFrame extends JDialog {
             actual = actual.replaceAll( "cos", "Math.cos" );
             actual = actual.replaceAll( "sin", "Math.sin" );
             actual = actual.replaceAll( "pi", "Math.PI" );
+            actual = actual.replaceAll( "log", "Math.log" );
+            actual = actual.replaceAll( "pow", "Math.pow" );
 
             double x = 0;
             try {
