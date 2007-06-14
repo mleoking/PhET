@@ -33,6 +33,9 @@
     
     sim_update_sim($simulation);
     
+    // Update size of simulation:    
+    sim_auto_calc_sim_size($simulation['sim_id'])
+    
     // Now we have to update the categories manually:
     $category_rows = mysql_query("SELECT * FROM `category` ");
     

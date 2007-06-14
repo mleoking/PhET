@@ -2,6 +2,7 @@
     include_once("db.inc");
     include_once("web-utils.php");
     include_once("db-utils.php");    
+    include_once("xml_parser.php");
     
     define("SIM_TYPE_JAVA",  "0");
     define("SIM_TYPE_FLASH", "1");
@@ -155,6 +156,61 @@
         }
         
         return $simulations;        
+    }
+    
+    function sim_auto_calc_sim_size($sim_id) {        
+        $simulation = sim_get_sim_by_id($sim_id);
+        
+        $sim_launch_url = $simulation['sim_launch_url'];
+        
+        $ext = get_file_extension($sim_launch_url);
+        
+        if ($ext == 'jnlp') {            
+            $size = 0;
+            
+            // Java jnlp file; have to compute file size by examining jnlp
+            $xml = file_get_contents($sim_launch_url);
+            
+            $xml_encoding = mb_detect_encoding($xml);
+            
+            if (!$xml_encoding || $xml_encoding == '') {
+                // Can't detect it; assume UTF-16 big endian
+                $xml = mb_convert_encoding($xml, "UTF-8", "UTF-16BE");
+            }
+            else {            
+                $xml = mb_convert_encoding($xml, "UTF-8", $xml_encoding);
+            }
+            
+            // Try to clean it up:
+            $xml = str_replace('<br>', '<br/>', $xml);
+            
+            $parser = new XMLParser($xml);
+
+            if ($parser->Parse()) {
+                $codebase = $parser->document->tagAttrs['codebase'];
+            
+                foreach($parser->document->resources as $resource) {                
+                    foreach($resource->jar as $jar) {
+                        $href = $codebase.'/'.$jar->tagAttrs['href'];
+                
+                        $size += url_or_file_size($href);
+                    }
+                }
+            }
+            else {
+                print "Error trying to detect size: ".$simulation['sim_name'].", id = ".$simulation['sim_id'].", url = $sim_launch_url, encoding = $xml_encoding<br/>";
+            }
+        }
+        else {
+            $size = url_or_file_size($sim_launch_url);
+        }
+        
+        $simulation = array(
+            'sim_id'   => $sim_id,
+            'sim_size' => $size / 1024
+        );
+        
+        return sim_update_sim($simulation);        
     }
     
     function sim_get_select_sims_by_category_statement($cat) {

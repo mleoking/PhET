@@ -229,6 +229,15 @@
         flush();
     }
     
+    function get_file_extension($thefile) {
+        if (strpos($thefile, '.') === false) {
+            return '';
+        }
+        else {
+            return strtolower(substr($thefile, strrpos($thefile, '.') + 1));
+        }
+    }
+    
     function remove_file_extension($thefile) {
         if (strpos($thefile, '.') === false) {
             return $thefile;
