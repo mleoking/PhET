@@ -58,6 +58,7 @@ MISSING INFO:
  
 DONE:
 ********* version 0.00.12 (15899)
+6/14/07 - set Save/Load menu items foreground=red to indicate that they aren't implemented
 6/14/07 - fix bead motion model so that DNA force is computed using intermediate bead position
 6/14/07 - add ability to ask for DNA force at any arbitrary point
 6/12/07 - add dev control for Fz:Fx ratio in trap force model
