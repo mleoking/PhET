@@ -104,9 +104,11 @@ public class OTApplication extends PiccoloPhetApplication {
                 }
             } );
             
-            //XXX
-            saveItem.setForeground( Color.RED );
-            loadItem.setForeground( Color.RED );
+            //XXX feature not implemented
+            {
+                saveItem.setEnabled( false );
+                loadItem.setEnabled( false );
+            }
 
             frame.addFileMenuItem( saveItem );
             frame.addFileMenuItem( loadItem );
