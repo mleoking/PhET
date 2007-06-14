@@ -12,7 +12,7 @@ import edu.colorado.phet.common_movingman.view.util.ImageLoader;
 import edu.colorado.phet.common_movingman.view.util.SwingUtils;
 import edu.colorado.phet.movingman.common.CircularBuffer;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
-import edu.colorado.phet.movingman.misc.JEPFrame;
+import edu.colorado.phet.movingman.misc.ExpressionFrame;
 import edu.colorado.phet.movingman.model.*;
 import edu.colorado.phet.movingman.plotdevice.PlotDevice;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
@@ -452,7 +452,7 @@ public class MovingManModule extends Module {
         miscMenu.setMnemonic( SimStrings.get( "controls.special-features.mnemonic" ).charAt( 0 ) );
         JMenuItem jep = new JMenuItem( SimStrings.get( "expressions.title" ) );
         miscMenu.add( jep );
-        final JEPFrame jef = new JEPFrame( frame, module );
+        final ExpressionFrame jef = new ExpressionFrame( frame, module );
         jep.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 jef.setVisible( true );
