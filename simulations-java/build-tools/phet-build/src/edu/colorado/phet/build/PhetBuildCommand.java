@@ -57,7 +57,9 @@ public class PhetBuildCommand implements Command {
 //          lines, vars, source: 1.15 MB
 //          lines: 1.07 MB
 //        javac.setDebugLevel( "lines,vars,source" );
-        javac.setDebugLevel( "lines" );
+//        javac.setDebugLevel( "lines" );
+        //"lines,source" appears to be necessary to get line number debug info
+        javac.setDebugLevel( "lines,source" );
         javac.setDebug( true );
 
         antTaskRunner.runTask( javac );
