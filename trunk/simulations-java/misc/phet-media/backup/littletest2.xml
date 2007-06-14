@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.4.2_05" class="java.beans.XMLDecoder"> 
+ <object class="edu.colorado.phet.mm.MultimediaApplication$ImageEntryList"> 
+  <void property="list"> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="done"> 
+      <boolean>true</boolean> 
+     </void> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\2D Motion\ballsmall2.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="done"> 
+      <boolean>true</boolean> 
+     </void> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\2D Motion\empty.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="done"> 
+      <boolean>true</boolean> 
+     </void> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\2D Motion\images\arrow-down.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\2D Motion\images\arrow-right.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\2D Motion\images\icons\java\media\FastForward24.gif</string> 
+     </void> 
+     <void property="nonPhet"> 
+      <boolean>true</boolean> 
+     </void> 
+     <void property="source"> 
+      <string>java</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\2D Motion\images\icons\java\media\Pause24.gif</string> 
+     </void> 
+     <void property="nonPhet"> 
+      <boolean>true</boolean> 
+     </void> 
+     <void property="source"> 
+      <string>java</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\2D Motion\images\icons\java\media\Play24.gif</string> 
+     </void> 
+     <void property="nonPhet"> 
+      <boolean>true</boolean> 
+     </void> 
+     <void property="source"> 
+      <string>java</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\2D Motion\images\icons\java\media\Rewind24.gif</string> 
+     </void> 
+     <void property="nonPhet"> 
+      <boolean>true</boolean> 
+     </void> 
+     <void property="source"> 
+      <string>java</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\2D Motion\images\icons\java\media\StepForward24.gif</string> 
+     </void> 
+     <void property="nonPhet"> 
+      <boolean>true</boolean> 
+     </void> 
+     <void property="source"> 
+      <string>java</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\2D Motion\images\icons\java\media\Stop24.gif</string> 
+     </void> 
+     <void property="nonPhet"> 
+      <boolean>true</boolean> 
+     </void> 
+     <void property="source"> 
+      <string>java</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\2D Motion\images\Phet-Flatirons-logo-3-small.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\2D Motion\images\Phet-logo-48x48.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\icons\PhET.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\10-nanometer-stick.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\5-meter-stick.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0001.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0001.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0002.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0002.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0003.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0003.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0004.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0004.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0005.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0005.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0006.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0006.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0007.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0007.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0008.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0008.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0009.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0009.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0010.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0010.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0011.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0011.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0012.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0012.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0013.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0013.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0014.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0014.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0015.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0015.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0016.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0016.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0017.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0017.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0018.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0018.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0019.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher\pusher-3_0019.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0001.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0001.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0002.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0002.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0003.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0003.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0004.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0004.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0005.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0005.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0006.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0006.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0007.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0007.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0008.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0008.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0009.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0009.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0010.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0010.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0011.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0011.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0012.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0012.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0013.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0013.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0014.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0014.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0015.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0015.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0016.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0016.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0017.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0017.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0018.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0018.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0019.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0019.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0020.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0020.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0021.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0021.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0022.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0022.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0023.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0023.png</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.ImageEntryBean"> 
+     <void property="fileAbsolutePath"> 
+      <string>phet-mm-temp\Balloons &amp; Buoyancy\images\animations\pusher-leaning\pusher-leaning_0024.gif</string> 
+     </void> 
+    </object> 
+   </void> 
+  </void> 
+ </object> 
+</java> 
