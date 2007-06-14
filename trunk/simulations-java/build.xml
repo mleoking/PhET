@@ -260,7 +260,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     <!-- To Do: make local files (local.properties, open_cmd.bat, etc) start with '.' for filtering in this task.-->
     <target name="build-source-distribution" depends="_init,clean-all" >
         <zip destfile="${phet.src.distribution}" basedir="${basedir}"
-                excludes="local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output/, **/classes/, deploy/,
+                excludes="local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output/, deploy/,
                 **/ant-contrib/docs/, **/antform-bin-2.0beta2/doc/, **/apache-ant-1.7.0/docs/, **/junit3.8.2/doc/, **/junit3.8.2/javadoc/,
                 **/proguard3.8/docs, **/retroweaver-2.0/, **/retroweaver-test/, **/JSci/documentation/, **/JSci/examples/,
                 **/liquidlnf-2.9.1-src/, **/oyoaha/"></zip>
