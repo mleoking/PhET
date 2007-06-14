@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
@@ -10,9 +11,9 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.opticaltweezers.menu.DeveloperMenu;
 import edu.colorado.phet.opticaltweezers.menu.OptionsMenu;
 import edu.colorado.phet.opticaltweezers.module.DNAModule;
@@ -21,7 +22,6 @@ import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 import edu.colorado.phet.opticaltweezers.persistence.GlobalConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTPersistenceManager;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
  * OTApplication is the main application for this simulation.
@@ -103,6 +103,10 @@ public class OTApplication extends PiccoloPhetApplication {
                     _persistenceManager.load();
                 }
             } );
+            
+            //XXX
+            saveItem.setForeground( Color.RED );
+            loadItem.setForeground( Color.RED );
 
             frame.addFileMenuItem( saveItem );
             frame.addFileMenuItem( loadItem );
