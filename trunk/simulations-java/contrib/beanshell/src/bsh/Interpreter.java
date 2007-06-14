@@ -33,7 +33,6 @@
 
 package bsh;
 
-import java.util.Vector;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
@@ -1123,10 +1122,10 @@ public class Interpreter
 		try {
 			systemLineSeparator = System.getProperty("line.separator");
     		debug = System.err;
-    		DEBUG = Boolean.getBoolean("debug");
-    		TRACE = Boolean.getBoolean("trace");
-    		LOCALSCOPING = Boolean.getBoolean("localscoping");
-			String outfilename = System.getProperty("outfile");
+    		DEBUG = getBoolean("debug",false);
+    		TRACE = getBoolean("trace",false);
+    		LOCALSCOPING = getBoolean("localscoping",false);
+			String outfilename = getProperty("outfile",null);
 			if ( outfilename != null )
 				redirectOutputToFile( outfilename );
 		} catch ( SecurityException e ) { 
@@ -1138,7 +1137,30 @@ public class Interpreter
 		}
 	}
 
-	/**
+    private static String getProperty( String s, String defaultValue ) {
+        try {
+            return System.getProperty( s);
+        }
+        catch( SecurityException se ) {
+            return defaultValue;
+        }
+    }
+
+    private static boolean getBoolean( String property, boolean defaultValue ) {
+        try {
+            String value = System.getProperty( property );
+            return value==null?defaultValue:convertToBoolean( value );
+        }
+        catch( SecurityException se ) {
+            return defaultValue;
+        }
+    }
+
+    private static boolean convertToBoolean( String value ) {
+        return value != null && value.equalsIgnoreCase( "true" );
+    }
+
+    /**
 		Specify the source of the text from which this interpreter is reading.
 		Note: there is a difference between what file the interrpeter is 
 		sourcing and from what file a method was originally parsed.  One
@@ -1240,9 +1262,14 @@ public class Interpreter
 		return showResults;
 	}
 
-	public static String getSaveClassesDir() {
-		return System.getProperty("saveClasses");
-	}
+    public static String getSaveClassesDir() {
+        try {
+            return System.getProperty( "saveClasses" );
+        }
+        catch( SecurityException securityException ) {
+            return null;
+        }
+    }
 
 	public static boolean getSaveClasses()  {
 		return getSaveClassesDir() != null;
