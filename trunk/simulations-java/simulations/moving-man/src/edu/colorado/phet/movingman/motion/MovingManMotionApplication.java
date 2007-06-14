@@ -9,11 +9,17 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
+import edu.colorado.phet.movingman.MovingManApplication;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import bsh.Interpreter;
+import bsh.EvalError;
 
 /**
  * Author: Sam Reid
@@ -23,12 +29,14 @@ public class MovingManMotionApplication {
     public static void main( String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
+                SimStrings.getInstance().addStrings( MovingManApplication.localizedStringsPath );
                 runApp();
             }
         } );
     }
 
     private static void runApp() {
+
         JFrame frame = new JFrame( "Test Moving Man Node" );
         frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height - 400 );
         PhetPCanvas phetPCanvas = new BufferedPhetPCanvas();
@@ -68,6 +76,24 @@ public class MovingManMotionApplication {
         phetPCanvas.addScreenChild( graphSetNode );
         phetPCanvas.requestFocus();
         phetPCanvas.addKeyListener( new PDebugKeyHandler() );
+        phetPCanvas.addKeyListener( new KeyAdapter() {
+            public void keyPressed( KeyEvent e ) {
+                System.out.println( "MovingManMotionApplication.keyPressed" );
+                if (e.getKeyCode()==KeyEvent.VK_B){
+                    System.out.println( "MovingManMotionApplication.keyPressed" );
+                    Interpreter interpreter=new Interpreter( );
+                    try {
+//                        System.out.println( "interpreter.eval( \"System.out.println(\\\"hello\\\"\") = " + interpreter.eval( "System.out.println(\"hello\"" ) );
+                        interpreter.eval( "System.out.println(3+4)");
+                        interpreter.eval( "System.out.println(\"hello\")");
+                        System.out.println( "finished eval" );
+                    }
+                    catch( EvalError evalError ) {
+                        evalError.printStackTrace();
+                    }
+                }
+            }
+        } );
     }
 
 }
