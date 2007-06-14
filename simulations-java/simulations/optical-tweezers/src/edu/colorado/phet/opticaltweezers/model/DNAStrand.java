@@ -314,40 +314,51 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * @return force (pN)
      */
     public Vector2D getForce() {
-        double magnitude = getForceMagnitude();
-        double direction = getForceDirection();
-        return new Vector2D.Polar( magnitude, direction );
+        return getForce( getHeadX(), getHeadY() );
     }
-
-    /*
-     * Gets the direction of the force acting on the DNA head (radians).
+    
+    /**
+     * Gets the force at some arbitrary point.
+     * 
+     * @param x
+     * @param y
+     * @return force (pN)
      */
-    private double getForceDirection() {
-        final double xOffset = getTailPivot().getX() - getHeadPivot().getX();
-        final double yOffset = getTailPivot().getY() - getHeadPivot().getY();
-        return Math.atan2( yOffset, xOffset );
-    }
-
-    /*
-     * Gets the magnitude of the force acting on the DNA head (pN).
-     */
-    private double getForceMagnitude() {
-        final double extension = getExtension();
+    public Vector2D getForce( double x, double y ) {
+        
+        // angle (radians)
+        final double xOffset = getTailPivot().getX() - x;
+        final double yOffset = getTailPivot().getY() - y;
+        final double angle = Math.atan2( yOffset, xOffset );
+        
+        // magnitude (pN)
+        final double extension = getExtension( x, y );
         final double kbT = 4.1 * _fluid.getTemperature() / 293; // kbT is 4.1 pN-nm at temperature=293K
         final double Lp = _persistenceLength;
-        final double x = extension / _contourLength;
-        return ( kbT / Lp ) * ( ( 1 / ( 4 * ( 1 - x ) * ( 1 - x ) ) ) - ( 0.24 ) + x );
+        final double scale = extension / _contourLength;
+        final double magnitude = ( kbT / Lp ) * ( ( 1 / ( 4 * ( 1 - scale ) * ( 1 - scale ) ) ) - ( 0.24 ) + scale );
+        
+        return new Vector2D.Polar( magnitude, angle );
     }
 
     /**
-     * Gets the extension, the straight-line distance between the head and tail.
+     * Gets the extension, the distance between the head and tail.
      * 
      * @return extension (nm)
      */
     public double getExtension() {
-        final double dx = getHeadX() - getTailX();
-        final double dy = getHeadY() - getTailY();
-        return Math.sqrt( ( dx * dx ) + ( dy * dy ) );
+        return getExtension( getHeadX(), getHeadY() );
+    }
+    
+    /*
+     * Gets the distance between the tail and some arbitrary point.
+     * 
+     * @returns extension (nm)
+     */
+    private double getExtension( double x, double y ) {
+        final double dx = x - getTailX();
+        final double dy = y - getTailY();
+        return Math.sqrt( ( dx * dx ) + ( dy * dy ) ); 
     }
 
     //----------------------------------------------------------------------------
