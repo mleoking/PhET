@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.4.2_05" class="java.beans.XMLDecoder"> 
+ <object class="edu.colorado.phet.mm.MultimediaApplication$ImageEntryList"> 
+  <void property="list"> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.MultimediaApplication$ImageData"> 
+     <void property="fileAbsolutePath"> 
+      <string>C:\PhET\projects\phet-mm\.\phet-mm-temp\2D Motion\ballsmall2.gif</string> 
+     </void> 
+     <void property="notes"> 
+      <string>maker</string> 
+     </void> 
+     <void property="source"> 
+      <string>ax</string> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object class="edu.colorado.phet.mm.MultimediaApplication$ImageData"> 
+     <void property="fileAbsolutePath"> 
+      <string>C:\PhET\projects\phet-mm\.\phet-mm-temp\2D Motion\empty.gif</string> 
+     </void> 
+     <void property="nonPhet"> 
+      <boolean>true</boolean> 
+     </void> 
+     <void property="notes"> 
+      <string>dx</string> 
+     </void> 
+     <void property="source"> 
+      <string>cx</string> 
+     </void> 
+    </object> 
+   </void> 
+  </void> 
+ </object> 
+</java> 
