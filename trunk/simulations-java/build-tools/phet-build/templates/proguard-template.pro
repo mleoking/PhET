@@ -21,6 +21,10 @@
     public protected *;
 }
 
+-keep public class bsh.**{
+    public protected *;
+}
+
 -keep public class gnu.xml.aelfred2.**{
     public protected *;
 }
