@@ -829,5 +829,50 @@ EOT;
             </span>
 EOT;
     }
+    
+    function web_close_unclosed_tags($html) {
+        preg_match_all("#<([a-z]+)( .*)?(?!/)>#iU",$html,$result);
+        
+        $openedtags=$result[1];
+
+        preg_match_all("#</([a-z]+)>#iU",$html,$result);
+        
+        $closedtags=$result[1];
+        $len_opened = count($openedtags);
+
+        if (count($closedtags) == $len_opened){
+            return $html;
+        }
+
+        $openedtags = array_reverse($openedtags);
+
+        for($i=0;$i < $len_opened;$i++) {
+            if (!in_array($openedtags[$i],$closedtags)){
+                $html .= '</'.$openedtags[$i].'>';
+            } 
+            else {
+                unset($closedtags[array_search($openedtags[$i],$closedtags)]);
+            }
+        }
+        return $html;
+    }
+    
+    
+    function web_utf16_decode( $str ) {
+        if( strlen($str) < 2 ) return $str;
+        $bom_be = true;
+        $c0 = ord($str{0});
+        $c1 = ord($str{1});
+        if( $c0 == 0xfe && $c1 == 0xff ) { $str = substr($str,2); }
+        elseif( $c0 == 0xff && $c1 == 0xfe ) { $str = substr($str,2); $bom_be = false; }
+        $len = strlen($str);
+        $newstr = '';
+        for($i=0;$i<$len;$i+=2) {
+            if( $bom_be ) { $val = ord($str{$i})   << 4; $val += ord($str{$i+1}); }
+            else {        $val = ord($str{$i+1}) << 4; $val += ord($str{$i}); }
+            $newstr .= ($val == 0x228) ? "\n" : chr($val);
+        }
+        return $newstr;
+    }
 
 ?>

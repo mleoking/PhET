@@ -49,12 +49,12 @@ build-related libraries from the simulations-java project.
                 <echo message="Gathering username and password from user"/>
 
                 <!-- If the username and password are not set, get them now: -->
-                <antform title="Deployment Host Login" width="550" height="300" focus="login">
+                <antform title="Deployment Host Login" width="550" height="300">
                     <label>Please enter your username and password that you use to login to the deployment host machine
                         ${deploy.server.name}.
                     </label>
 
-                    <textProperty label="Username:" property="deploy.username" required="true" />
+                    <textProperty label="Username:" property="deploy.username" required="true" focus="true" />
                     <textProperty label="Password:" property="deploy.password" required="true" password="true" />
                 </antform>
             </then>
