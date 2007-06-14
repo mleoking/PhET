@@ -25,6 +25,7 @@ MEDIUM PRIORITY:
 - dialogs don't repaint or close immediately when clock is running, thread priority?
 
 LOW PRIORITY:
+- add description to About dialog
 - DNA strand looks too straight initially, evolve a few times before displaying?
 - visible seams where symmetrical pieces of laser beam gradient are stitched together
 - power slider problem, look at PSwingEventHandler for PSwing drag problem
