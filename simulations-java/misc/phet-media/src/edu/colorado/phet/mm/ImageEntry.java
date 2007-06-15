@@ -16,49 +16,37 @@ import java.util.Properties;
  * Copyright (c) Aug 17, 2006 by Sam Reid
  */
 public class ImageEntry {
-    private File file;
+    private String imageName;
     private boolean nonPhet = false;
     private String source = "";
     private String notes = "";
     private boolean done = false;
 
-    public ImageEntry( File file ) {
-        this.file = file;
+    public ImageEntry( String imageName ) {
+        this.imageName = imageName;
+        System.out.println( "imageName = " + imageName );
     }
 
-    public ImageEntry( Properties prop, File file ) {
-        this( file );
-        parseProperties( prop );
+    public ImageEntry( Properties prop, String imageName ) {
+        parseProperties( prop, imageName );
+        System.out.println( "imageName = " + imageName );
     }
 
-    public String getName() {
-        return file.getName();
-    }
-
-    public boolean equals( Object obj ) {
-        if( obj instanceof ImageEntry ) {
-            ImageEntry imageEntry = (ImageEntry)obj;
-            return imageEntry.getFile().getName().equals( file.getName() );// && imageEntry.getFile().length() == file.length();
-        }
-        return false;
+    public String getImageName() {
+        return imageName;
     }
 
     public BufferedImage toImage() {
         try {
+            System.out.println( "imageName = " + imageName );
+            File file = new File( "annotated-data", imageName );
+            System.out.println( "file = " + file.getAbsolutePath() );
             return ImageLoader.loadBufferedImage( file.toURL() );
         }
         catch( IOException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
-    }
-
-    public void setFile( File file ) {
-        this.file = file;
-    }
-
-    public File getFile() {
-        return file;
     }
 
     public boolean isNonPhet() {
@@ -78,9 +66,7 @@ public class ImageEntry {
     }
 
     public String getSimulationName() {
-        String key = "phet-mm-temp\\";
-        String a = file.getAbsolutePath().substring( file.getAbsolutePath().lastIndexOf( key ) + key.length() );
-        return a.substring( 0, a.indexOf( '\\' ) );
+        return "";
     }
 
     private ArrayList listeners = new ArrayList();
@@ -93,9 +79,8 @@ public class ImageEntry {
         return notes;
     }
 
-    public Properties getProperties() {
+    public Properties toProperties() {
         Properties prop = new Properties();
-        prop.setProperty( "filename", getFile().getName() );
         prop.setProperty( "nonphet", isNonPhet() + "" );
         prop.setProperty( "source", getSource() );
         prop.setProperty( "notes", getNotes() );
@@ -103,16 +88,16 @@ public class ImageEntry {
         return prop;
     }
 
-    public void parseProperties( Properties prop ) {
-        this.file = new File( "annotated-data", prop.getProperty( "filename" ) );
+    public void parseProperties( Properties prop, String imageName ) {
+        this.imageName = imageName;
         this.nonPhet = Boolean.valueOf( prop.getProperty( "nonphet" ) ).booleanValue();
         this.source = prop.getProperty( "source" );
         this.notes = prop.getProperty( "notes" );
         this.done = Boolean.valueOf( prop.getProperty( "done" ) ).booleanValue();
     }
 
-    public static ImageEntry createNewEntry( File file ) {
-        ImageEntry imageEntry = new ImageEntry( file );
+    public static ImageEntry createNewEntry( String imageName ) {
+        ImageEntry imageEntry = new ImageEntry( imageName );
         imageEntry.nonPhet = false;
         imageEntry.source = "?";
         imageEntry.notes = "?";
@@ -121,7 +106,7 @@ public class ImageEntry {
     }
 
     public String toString() {
-        return getProperties().toString();
+        return toProperties().toString();
     }
 
     public static interface Listener {
