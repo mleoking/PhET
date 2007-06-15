@@ -1,7 +1,6 @@
 package edu.colorado.phet.mm;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -11,5 +10,5 @@ import java.awt.*;
  */
 
 public class MultimediaPanel extends JPanel {
-    
+
 }

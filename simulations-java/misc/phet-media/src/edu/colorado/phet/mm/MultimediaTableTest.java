@@ -3,9 +3,9 @@ package edu.colorado.phet.mm;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 import javax.swing.*;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.io.IOException;
 

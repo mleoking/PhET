@@ -10,9 +10,6 @@ import java.beans.XMLEncoder;
 import java.io.*;
 import java.text.DateFormat;
 import java.util.*;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 /**
  * User: Sam Reid
@@ -156,21 +153,21 @@ public class MultimediaApplication {
         return new File( "./phet-mm-temp" );
     }
 
-    public static ImageEntry[] getAllImageEntries(){
-        ArrayList list=new ArrayList( );
-        File root=getTempDir();
-        File[]children=root.listFiles( );
+    public static ImageEntry[] getAllImageEntries() {
+        ArrayList list = new ArrayList();
+        File root = getTempDir();
+        File[] children = root.listFiles();
         for( int i = 0; i < children.length; i++ ) {
             File simDir = children[i];
-            ImageEntry[] e=getImageEntries( simDir );
+            ImageEntry[] e = getImageEntries( simDir );
             for( int j = 0; j < e.length; j++ ) {
                 ImageEntry imageEntry = e[j];
-                if (!list.contains( imageEntry )){
+                if( !list.contains( imageEntry ) ) {
                     list.add( imageEntry );
                 }
             }
         }
-        return (ImageEntry[])list.toArray(new ImageEntry[0]);
+        return (ImageEntry[])list.toArray( new ImageEntry[0] );
     }
 
     void browseImages() {
@@ -178,7 +175,7 @@ public class MultimediaApplication {
         JPanel panel = new JPanel();
         panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
         File root = getTempDir();
-        File[]children = root.listFiles();
+        File[] children = root.listFiles();
 //        int MAX = 100;
         int MAX = Integer.MAX_VALUE;
         MultimediaTable table = new MultimediaTable();
@@ -348,11 +345,13 @@ public class MultimediaApplication {
             }
         }
     }
+
     static String[] suffixes = new String[]{"png", "gif", "jpg", "tif", "tiff"};
+
     private static ImageEntry[] getImageEntries( File simDir ) {
 
         ArrayList all = new ArrayList();
-        File[]children = simDir.listFiles();
+        File[] children = simDir.listFiles();
         for( int i = 0; children != null && i < children.length; i++ ) {
             File child = children[i];
             if( child.isFile() ) {
@@ -364,7 +363,7 @@ public class MultimediaApplication {
                 }
             }
             else {
-                ImageEntry[]entries = getImageEntries( child );
+                ImageEntry[] entries = getImageEntries( child );
                 all.addAll( Arrays.asList( entries ) );
             }
         }
@@ -380,7 +379,6 @@ public class MultimediaApplication {
     private void decorate( ImageEntry imageEntry ) {
         loadedList.decorate( imageEntry );
     }
-
 
 
     private static boolean hasSuffix( String zipEntryName, String[] suffixes ) {
