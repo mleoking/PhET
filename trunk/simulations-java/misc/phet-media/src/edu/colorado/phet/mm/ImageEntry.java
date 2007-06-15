@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * User: Sam Reid
@@ -25,6 +26,10 @@ public class ImageEntry {
     public ImageEntry( String path ) {
         this.path = path;
         this.file = new File( path );
+    }
+
+    public ImageEntry( Properties prop ) {
+        parseProperties( prop );
     }
 
     public String getName() {
@@ -91,6 +96,25 @@ public class ImageEntry {
 
     public String getPath() {
         return path;
+    }
+
+    public Properties getProperties() {
+        Properties prop = new Properties();
+        prop.setProperty( "filename", getFile().getName() );
+        prop.setProperty( "nonphet", isNonPhet() + "" );
+        prop.setProperty( "source", getSource() );
+        prop.setProperty( "notes", getNotes() );
+        prop.setProperty( "done", done + "" );
+        return prop;
+    }
+
+    public void parseProperties( Properties prop ) {
+        this.file = new File( "annotated-data", prop.getProperty( "filename" ) );
+        this.nonPhet = Boolean.valueOf( prop.getProperty( "filename" ) ).booleanValue();
+        this.source = prop.getProperty( "source" );
+        this.notes = prop.getProperty( "notes" );
+        this.done = Boolean.valueOf( prop.getProperty( "done" ) ).booleanValue();
+        this.path=file.getAbsolutePath();
     }
 
     public static interface Listener {
