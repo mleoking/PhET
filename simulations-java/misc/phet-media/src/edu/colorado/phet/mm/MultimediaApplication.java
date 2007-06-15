@@ -152,8 +152,25 @@ public class MultimediaApplication {
         appendLine( sourceTable.toString() );
     }
 
-    public File getTempDir() {
+    public static File getTempDir() {
         return new File( "./phet-mm-temp" );
+    }
+
+    public static ImageEntry[] getAllImageEntries(){
+        ArrayList list=new ArrayList( );
+        File root=getTempDir();
+        File[]children=root.listFiles( );
+        for( int i = 0; i < children.length; i++ ) {
+            File simDir = children[i];
+            ImageEntry[] e=getImageEntries( simDir );
+            for( int j = 0; j < e.length; j++ ) {
+                ImageEntry imageEntry = e[j];
+                if (!list.contains( imageEntry )){
+                    list.add( imageEntry );
+                }
+            }
+        }
+        return (ImageEntry[])list.toArray(new ImageEntry[0]);
     }
 
     void browseImages() {
@@ -331,8 +348,9 @@ public class MultimediaApplication {
             }
         }
     }
+    static String[] suffixes = new String[]{"png", "gif", "jpg", "tif", "tiff"};
+    private static ImageEntry[] getImageEntries( File simDir ) {
 
-    private ImageEntry[] getImageEntries( File simDir ) {
         ArrayList all = new ArrayList();
         File[]children = simDir.listFiles();
         for( int i = 0; children != null && i < children.length; i++ ) {
@@ -363,9 +381,9 @@ public class MultimediaApplication {
         loadedList.decorate( imageEntry );
     }
 
-    private String[] suffixes = new String[]{"png", "gif", "jpg", "tif", "tiff"};
 
-    private boolean hasSuffix( String zipEntryName, String[] suffixes ) {
+
+    private static boolean hasSuffix( String zipEntryName, String[] suffixes ) {
         boolean image = false;
         for( int i = 0; i < suffixes.length; i++ ) {
             String suffix = suffixes[i];

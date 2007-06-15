@@ -10,8 +10,11 @@ import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.io.File;
 import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.beans.XMLDecoder;
 
 /**
  * Author: Sam Reid
@@ -54,12 +57,23 @@ public class ImageFinder {
         System.out.println( "singleCopies.size() = " + singleCopies.size() );
         System.out.println( "singleCopies = " + singleCopies );
 
+        System.out.println( "loading previous labels" );
+        ImageEntry[] previousLabels = MultimediaApplication.getAllImageEntries();
+        ArrayList list=new ArrayList( Arrays.asList( previousLabels ));
+        loadXML(new File( "C:\\phet\\subversion\\trunk\\simulations-java\\misc\\phet-media\\list26.xml") ,list );
+        System.out.println( "finished loading previous labels" );
+
         MultimediaTable table = new MultimediaTable();
         for( int i = 0; i < singleCopies.size(); i++ ) {
             File file = (File)singleCopies.get( i );
             System.out.println( "file.getAbsolutePath() = " + file.getAbsolutePath() );
             ImageEntry entry = new ImageEntry( file.getAbsolutePath() );
-            table.addEntry( entry );
+            ImageEntry findDuplicate=findPreviousLabel(previousLabels,entry);
+            if (findDuplicate!=null){
+                table.addEntry( findDuplicate );
+            }else{
+                table.addEntry( entry );
+            }
         }
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -70,6 +84,38 @@ public class ImageFinder {
         frame.setSize( 1024, 768 );
         frame.show();
 
+    }
+
+    private static void loadXML( File file,ArrayList entries ) {
+        try {
+            XMLDecoder decoder = new XMLDecoder( new FileInputStream( file ) );
+            MultimediaApplication.ImageEntryList loadedList = (MultimediaApplication.ImageEntryList)decoder.readObject();
+            decorateAll(loadedList,entries );
+            decoder.close();
+//            storeLastUsedFile( file );
+//            appendLine( "Loaded " + file.getAbsolutePath() );
+        }
+        catch( FileNotFoundException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void decorateAll(MultimediaApplication.ImageEntryList annotations,ArrayList list) {
+        for( int i = 0; i < list.size(); i++ ) {
+            ImageEntry entry = (ImageEntry)list.get( i );
+            annotations.decorate( entry );
+        }
+    }
+
+
+    private static ImageEntry findPreviousLabel( ImageEntry[] previousLabels, ImageEntry entry ) {
+        for( int i = 0; i < previousLabels.length; i++ ) {
+            ImageEntry previousLabel = previousLabels[i];
+            if (imageFileEquals( previousLabel.getFile(), entry.getFile( ))){
+                return previousLabel;
+            }
+        }
+        return null;
     }
 
     private static ArrayList discardDuplicates( ArrayList imageFiles ) {
