@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Jun 15, 2007, 1:26:14 AM
  */
 public class FileUtils {
-        //http://www.exampledepot.com/egs/java.io/CopyFile.html
+    //http://www.exampledepot.com/egs/java.io/CopyFile.html
     // Copies src file to dst file.
     // If the dst file does not exist, it is created
     public static void copy( File src, File dst ) throws IOException {
@@ -25,9 +25,12 @@ public class FileUtils {
         out.close();
     }
 
-    public static boolean compare( File fileA, File fileB ) throws IOException {
-        if (fileA.isDirectory()||fileB.isDirectory()){
-            throw new IllegalArgumentException( "Directories cannot be compared with this method");
+    public static boolean contentEquals( File fileA, File fileB ) throws IOException {
+        if( fileA.isDirectory() || fileB.isDirectory() ) {
+            throw new IllegalArgumentException( "Directories cannot be compared with this method, fileA="+fileA.getAbsolutePath()+", fileB="+fileB.getAbsolutePath() );
+        }
+        if( fileA.length() != fileB.length() ) {
+            return false;
         }
         InputStream inA = new FileInputStream( fileA );
         InputStream inB = new FileInputStream( fileB );
@@ -53,18 +56,18 @@ public class FileUtils {
     }
 
     public static void main( String[] args ) throws IOException {
-        File a=new File( "C:\\Users\\Sam\\Desktop\\sshot-14 - Copy.png");
-        File b=new File( "C:\\Users\\Sam\\Desktop\\sshot-14.png");
-        File c=new File("C:\\Users\\Sam\\Desktop\\phet-src-15909(2)\\LICENSE.txt" );
-        test(a,b);
-        test(b,c);
-        test(b,a);
-        test(a,c);
+        File a = new File( "C:\\Users\\Sam\\Desktop\\sshot-14 - Copy.png" );
+        File b = new File( "C:\\Users\\Sam\\Desktop\\sshot-14.png" );
+        File c = new File( "C:\\Users\\Sam\\Desktop\\phet-src-15909(2)\\LICENSE.txt" );
+        test( a, b );
+        test( b, c );
+        test( b, a );
+        test( a, c );
     }
 
     private static void test( File a, File b ) throws IOException {
-        System.out.println( "comparing "+a.getAbsolutePath()+", to "+b.getAbsolutePath() );
-        System.out.println( "compare( a,b ) = " + compare( a, b ) );
+        System.out.println( "comparing " + a.getAbsolutePath() + ", to " + b.getAbsolutePath() );
+        System.out.println( "compare( a,b ) = " + contentEquals( a, b ) );
     }
 
 }

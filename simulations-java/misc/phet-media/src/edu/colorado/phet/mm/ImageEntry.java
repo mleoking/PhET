@@ -110,11 +110,24 @@ public class ImageEntry {
 
     public void parseProperties( Properties prop ) {
         this.file = new File( "annotated-data", prop.getProperty( "filename" ) );
-        this.nonPhet = Boolean.valueOf( prop.getProperty( "filename" ) ).booleanValue();
+        this.nonPhet = Boolean.valueOf( prop.getProperty( "nonphet" ) ).booleanValue();
         this.source = prop.getProperty( "source" );
         this.notes = prop.getProperty( "notes" );
         this.done = Boolean.valueOf( prop.getProperty( "done" ) ).booleanValue();
         this.path=file.getAbsolutePath();
+    }
+
+    public static ImageEntry createNewEntry( String absolutePath ) {
+        ImageEntry imageEntry=new ImageEntry( absolutePath );
+        imageEntry.nonPhet=false;
+        imageEntry.source="?";
+        imageEntry.notes = "?";
+        imageEntry.done = false;
+        return imageEntry;
+    }
+
+    public String toString() {
+        return getProperties().toString();
     }
 
     public static interface Listener {
