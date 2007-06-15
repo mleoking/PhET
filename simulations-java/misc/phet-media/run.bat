@@ -1,1 +1,0 @@
-java -Xmx256M -jar multimedia-browser-pro.jar
