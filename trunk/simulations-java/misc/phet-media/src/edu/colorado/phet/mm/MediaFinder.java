@@ -63,7 +63,12 @@ public class MediaFinder {
         searchFiles( new ArrayList( Arrays.asList( dataDirs )),result, new FileFilter() {
             public boolean accept( File pathname ) {
                 return pathname.isFile()&&!isImage( pathname )&&!pathname.getAbsolutePath().endsWith( ".svn")
-                        &&!pathname.getAbsolutePath().toLowerCase().endsWith( ".properties");
+                        &&!pathname.getAbsolutePath().toLowerCase().endsWith( ".properties")
+                        &&!pathname.getAbsolutePath().toLowerCase( ).endsWith( ".xml")
+                        &&!pathname.getAbsolutePath().toLowerCase( ).endsWith( ".esp")
+                        &&!pathname.getAbsolutePath().toLowerCase( ).endsWith( ".txt")
+                        &&!pathname.getAbsolutePath().toLowerCase( ).endsWith( ".html")
+                        ;
             }
         } );
         return (File[])result.toArray( new File[0]);
@@ -98,6 +103,10 @@ public class MediaFinder {
     public static void main( String[] args ) {
         File[]nonImage=getNonImageFiles();
         System.out.println( "nonImage.length = " + nonImage.length );
-        System.out.println( "Arrays.asList( nonImage ) = " + Arrays.asList( nonImage ) );
+//        System.out.println( "Arrays.asList( nonImage ) = " + Arrays.asList( nonImage ) );
+        for( int i = 0; i < nonImage.length; i++ ) {
+            File file = nonImage[i];
+            System.out.println( "file = " + file );
+        }
     }
 }
