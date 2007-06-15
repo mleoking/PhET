@@ -26,7 +26,7 @@ public class SimAssociations {
                 System.out.println( "(" + i + "/" + imageEntries.length + "): simAssociations[" + imageEntry.getImageName() + "] = " + simAssociations[i] );
             }
             else {
-                simAssociations[i]=new ArrayList( );
+                simAssociations[i] = new ArrayList();
             }
         }
     }
@@ -64,7 +64,8 @@ public class SimAssociations {
         QuickTimer quickTimer = new QuickTimer();
         SimAssociations simAssociations = new SimAssociations(
 //                new ImageEntry[]{new ImageEntry( "dog.gif" ),new ImageEntry( "dollarbill.gif" )}
-ConvertAnnotatedRepository.loadAnnotatedEntries()
+//ConvertAnnotatedRepository.loadAnnotatedEntries()
+new ImageEntry[]{new ImageEntry( "0_faucet.png")}
         );
         System.out.println( "simAssociations = " + simAssociations );
         System.out.println( "quickTimer.getTime() = " + quickTimer.getTime() );
