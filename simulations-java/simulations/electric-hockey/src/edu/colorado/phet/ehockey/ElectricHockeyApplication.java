@@ -4,6 +4,7 @@ package edu.colorado.phet.ehockey;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.ehockey.common.SwingUtils;
+import edu.colorado.phet.theramp.common.PhetAudioClip;
 
 import javax.swing.*;
 import java.applet.AudioClip;
@@ -21,7 +22,8 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
     private FieldGrid fieldGrid;
     private ControlPanel controlPanel;
     private BarrierList barrierList;
-    AudioClip tada, cork;
+    AudioClip tada;
+    AudioClip cork;
     Image plusDisk, minusDisk, plusBag, minusBag, positivePuckImage;
 
     Container pane;
@@ -65,6 +67,7 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
     }
 
     public AudioClip getAudioClip( MyClipLoader mcl, String name ) {
+//        return new PhetAudioClip( name);
         return mcl.loadAudioClip( name );
     }
 
@@ -118,8 +121,8 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
     }
 
     public void run() {
-        tada = getAudioClip( mcl, "tada.WAV" );
-        cork = getAudioClip( mcl, "cork.au" );
+        tada = getAudioClip( mcl, "electric-hockey/audio/tada.WAV" );
+        cork = getAudioClip( mcl, "electric-hockey/audio/cork.au" );
     }
 
     public boolean isAntialias() {

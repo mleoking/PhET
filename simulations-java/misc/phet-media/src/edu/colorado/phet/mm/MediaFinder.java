@@ -57,21 +57,36 @@ public class MediaFinder {
         } );
     }
 
-    public static File[]getNonImageFiles(){
-        File[]dataDirs=getDataDirectories();
-        ArrayList result=new ArrayList( );
-        searchFiles( new ArrayList( Arrays.asList( dataDirs )),result, new FileFilter() {
+    public static java.io.File[] getSoundFiles() {
+        File[] dataDirs = getDataDirectories();
+        ArrayList result = new ArrayList();
+        searchFiles( new ArrayList( Arrays.asList( dataDirs ) ), result, new FileFilter() {
             public boolean accept( File pathname ) {
-                return pathname.isFile()&&!isImage( pathname )&&!pathname.getAbsolutePath().endsWith( ".svn")
-                        &&!pathname.getAbsolutePath().toLowerCase().endsWith( ".properties")
-                        &&!pathname.getAbsolutePath().toLowerCase( ).endsWith( ".xml")
-                        &&!pathname.getAbsolutePath().toLowerCase( ).endsWith( ".esp")
-                        &&!pathname.getAbsolutePath().toLowerCase( ).endsWith( ".txt")
-                        &&!pathname.getAbsolutePath().toLowerCase( ).endsWith( ".html")
+                return pathname.isFile() && (
+                        pathname.getAbsolutePath().toLowerCase().endsWith( "au" )
+                        ||
+                        pathname.getAbsolutePath().toLowerCase().endsWith( "wav" )
+                );
+            }
+        } );
+        return (File[])result.toArray( new File[0] );
+    }
+
+    public static File[] getNonImageFiles() {
+        File[] dataDirs = getDataDirectories();
+        ArrayList result = new ArrayList();
+        searchFiles( new ArrayList( Arrays.asList( dataDirs ) ), result, new FileFilter() {
+            public boolean accept( File pathname ) {
+                return pathname.isFile() && !isImage( pathname ) && !pathname.getAbsolutePath().endsWith( ".svn" )
+                       && !pathname.getAbsolutePath().toLowerCase().endsWith( ".properties" )
+                       && !pathname.getAbsolutePath().toLowerCase().endsWith( ".xml" )
+                       && !pathname.getAbsolutePath().toLowerCase().endsWith( ".esp" )
+                       && !pathname.getAbsolutePath().toLowerCase().endsWith( ".txt" )
+                       && !pathname.getAbsolutePath().toLowerCase().endsWith( ".html" )
                         ;
             }
         } );
-        return (File[])result.toArray( new File[0]);
+        return (File[])result.toArray( new File[0] );
     }
 
     private static void searchFiles( ArrayList dataDirectories, ArrayList imageFiles, FileFilter fileFilter ) {
@@ -80,7 +95,7 @@ public class MediaFinder {
             if( fileFilter.accept( file ) ) {
                 imageFiles.add( file );
             }
-            else if( file.isDirectory()&&!file.getAbsolutePath().endsWith( ".svn") ) {
+            else if( file.isDirectory() && !file.getAbsolutePath().endsWith( ".svn" ) ) {
                 dataDirectories.addAll( Arrays.asList( file.listFiles() ) );
             }
         }
@@ -101,7 +116,7 @@ public class MediaFinder {
     }
 
     public static void main( String[] args ) {
-        File[]nonImage=getNonImageFiles();
+        File[] nonImage = getNonImageFiles();
         System.out.println( "nonImage.length = " + nonImage.length );
 //        System.out.println( "Arrays.asList( nonImage ) = " + Arrays.asList( nonImage ) );
         for( int i = 0; i < nonImage.length; i++ ) {
