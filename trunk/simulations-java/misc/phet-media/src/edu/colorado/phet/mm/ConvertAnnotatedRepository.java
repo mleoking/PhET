@@ -1,7 +1,5 @@
 package edu.colorado.phet.mm;
 
-import edu.colorado.phet.mm.util.FileUtils;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -12,16 +10,17 @@ import java.util.Properties;
  */
 public class ConvertAnnotatedRepository {
 
-    public static void storeProperties(ImageEntry entry,File repositoryFile){
+    public static void storeProperties( ImageEntry entry, String imageName ) {
         try {
-            entry.getProperties().store( new FileOutputStream( getPropertiesFile( repositoryFile )),null );
+            entry.toProperties().store( new FileOutputStream( getPropertiesFile( imageName ) ), null );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
     }
-    public static File getPropertiesFile( File dst ) {
-        return new File( dst.getAbsolutePath() + ".properties" );
+
+    public static File getPropertiesFile( String dst ) {
+        return new File( "annotated-data", dst + ".properties" );
     }
 
     public static File createNewRepositoryFile( File file ) {
@@ -50,10 +49,10 @@ public class ConvertAnnotatedRepository {
         ArrayList imageEntries = new ArrayList();
         for( int i = 0; i < f.length; i++ ) {
             File file = f[i];
-
+            System.out.println( "file.getAbsolutePath() = " + file.getAbsolutePath() );
             Properties prop = new Properties();
             prop.load( new FileInputStream( file ) );
-            ImageEntry entry = new ImageEntry( prop,file );
+            ImageEntry entry = new ImageEntry( prop, file.getName().substring( 0,file.getName().length()-".properties".length()) );
             imageEntries.add( entry );
         }
         return (ImageEntry[])imageEntries.toArray( new ImageEntry[0] );

@@ -73,9 +73,9 @@ public class MultimediaApplication {
 //            System.out.println( "imageEntry.getFile() = " + imageEntry.getFile() );
             if( changed( imageEntry ) ) {
                 boolean didchange=changed( imageEntry );//debugging
-                System.out.println( "Saving annotation for: " + imageEntry.getFile() );
+                System.out.println( "Saving annotation for: " + imageEntry.getImageName());
 
-                ConvertAnnotatedRepository.storeProperties( imageEntry, imageEntry.getFile() );
+                ConvertAnnotatedRepository.storeProperties( imageEntry, imageEntry.getImageName());
                 count++;
             }
         }
@@ -83,10 +83,10 @@ public class MultimediaApplication {
     }
 
     private boolean changed( ImageEntry imageEntry ) {
-        Properties memory = imageEntry.getProperties();
+        Properties memory = imageEntry.toProperties();
         Properties onDisk = new Properties();
         try {
-            onDisk.load( new FileInputStream( ConvertAnnotatedRepository.getPropertiesFile( imageEntry.getFile() ) ) );
+            onDisk.load( new FileInputStream( ConvertAnnotatedRepository.getPropertiesFile( imageEntry.getImageName( )) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -112,8 +112,8 @@ public class MultimediaApplication {
         File file = ConvertAnnotatedRepository.createNewRepositoryFile( imageFile );
         try {
             FileUtils.copy( imageFile, file );
-            ImageEntry imageEntry = ImageEntry.createNewEntry( file );
-            ConvertAnnotatedRepository.storeProperties( imageEntry, file );
+            ImageEntry imageEntry = ImageEntry.createNewEntry( file.getName( ) );
+            ConvertAnnotatedRepository.storeProperties( imageEntry, file.getName() );
             System.out.println( "added to repository: imageEntry = " + imageEntry.toString() );
         }
         catch( IOException e ) {
