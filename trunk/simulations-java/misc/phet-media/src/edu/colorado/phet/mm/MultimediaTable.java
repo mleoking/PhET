@@ -142,7 +142,7 @@ public class MultimediaTable extends JTable {
     ArrayList list = new ArrayList();
 
     public void addEntry( final ImageEntry entry ) {
-        Object[]rowData = new Object[]{entry.getSimulationName(), entry.getName(), entry.toImage(),
+        Object[] rowData = new Object[]{entry.getSimulationName(), entry.getName(), entry.toImage(),
                 new Integer( entry.toImage().getWidth() ), new Integer( entry.toImage().getHeight() ), new Boolean( entry.isNonPhet() ),
                 entry.getSource(), new Boolean( entry.isDone() ), entry.getNotes()
         };
