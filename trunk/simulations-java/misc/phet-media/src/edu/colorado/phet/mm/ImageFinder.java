@@ -8,13 +8,13 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
+import java.beans.XMLDecoder;
 import java.io.File;
-import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.beans.XMLDecoder;
 
 /**
  * Author: Sam Reid
@@ -23,6 +23,62 @@ import java.beans.XMLDecoder;
 public class ImageFinder {
 
     public static void main( String[] args ) {
+        ArrayList dataDirectories = getDataDirectories();
+
+        ArrayList imageFiles = getImageFiles( dataDirectories );
+
+        System.out.println( "imageFiles.size = " + imageFiles.size() );
+        System.out.println( "imageFiles = " + imageFiles );
+
+        ArrayList singleCopies = discardDuplicates( imageFiles );
+        System.out.println( "singleCopies.size() = " + singleCopies.size() );
+        System.out.println( "singleCopies = " + singleCopies );
+
+        ImageEntry[] solo = new ImageEntry[singleCopies.size()];
+        for( int i = 0; i < solo.length; i++ ) {
+            solo[i] = new ImageEntry( ( (File)singleCopies.get( i ) ).getAbsolutePath() );
+        }
+
+        System.out.println( "loading previous labels" );
+        ImageEntry[] previousLabels = MultimediaApplication.getAllImageEntries();
+        ArrayList list = new ArrayList( Arrays.asList( previousLabels ) );
+        loadXML( new File( "C:\\phet\\subversion\\trunk\\simulations-java\\misc\\phet-media\\list26.xml" ), list );
+        System.out.println( "finished loading previous labels" );
+
+        ArrayList annotated = new ArrayList();
+        for( int i = 0; i < solo.length; i++ ) {
+            ImageEntry findDuplicate = findPreviousLabel( previousLabels, solo[i] );
+            if( findDuplicate != null ) {
+                annotated.add( findDuplicate );
+            }
+            else {
+                annotated.add( solo[i] );
+            }
+        }
+
+        MultimediaTable table = new MultimediaTable();
+        for( int i = 0; i < annotated.size(); i++ ) {
+            table.addEntry( (ImageEntry)annotated.get( i ) );
+        }
+
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setContentPane( table );
+        JScrollPane comp = new JScrollPane( table );
+        comp.setPreferredSize( new Dimension( 800, 700 ) );
+        frame.setContentPane( comp );
+        frame.setSize( 1024, 768 );
+        frame.show();
+
+    }
+
+    private static ArrayList getImageFiles( ArrayList dataDirectories ) {
+        ArrayList imageFiles = new ArrayList();
+        searchImageFiles( dataDirectories, imageFiles );
+        return imageFiles;
+    }
+
+    private static ArrayList getDataDirectories() {
         ArrayList dataDirectories = new ArrayList();
         File[] roots = new File[]{
                 new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations" ),
@@ -46,51 +102,14 @@ public class ImageFinder {
             dataDirectories.add( buildFolder );
         }
         System.out.println( "dataDirectories = " + dataDirectories );
-
-        ArrayList imageFiles = new ArrayList();
-        searchImageFiles( dataDirectories, imageFiles );
-
-        System.out.println( "imageFiles.size = " + imageFiles.size() );
-        System.out.println( "imageFiles = " + imageFiles );
-
-        ArrayList singleCopies = discardDuplicates( imageFiles );
-        System.out.println( "singleCopies.size() = " + singleCopies.size() );
-        System.out.println( "singleCopies = " + singleCopies );
-
-        System.out.println( "loading previous labels" );
-        ImageEntry[] previousLabels = MultimediaApplication.getAllImageEntries();
-        ArrayList list=new ArrayList( Arrays.asList( previousLabels ));
-        loadXML(new File( "C:\\phet\\subversion\\trunk\\simulations-java\\misc\\phet-media\\list26.xml") ,list );
-        System.out.println( "finished loading previous labels" );
-
-        MultimediaTable table = new MultimediaTable();
-        for( int i = 0; i < singleCopies.size(); i++ ) {
-            File file = (File)singleCopies.get( i );
-            System.out.println( "file.getAbsolutePath() = " + file.getAbsolutePath() );
-            ImageEntry entry = new ImageEntry( file.getAbsolutePath() );
-            ImageEntry findDuplicate=findPreviousLabel(previousLabels,entry);
-            if (findDuplicate!=null){
-                table.addEntry( findDuplicate );
-            }else{
-                table.addEntry( entry );
-            }
-        }
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( table );
-        JScrollPane comp = new JScrollPane( table );
-        comp.setPreferredSize( new Dimension( 800, 700 ) );
-        frame.setContentPane( comp );
-        frame.setSize( 1024, 768 );
-        frame.show();
-
+        return dataDirectories;
     }
 
-    private static void loadXML( File file,ArrayList entries ) {
+    private static void loadXML( File file, ArrayList entries ) {
         try {
             XMLDecoder decoder = new XMLDecoder( new FileInputStream( file ) );
             MultimediaApplication.ImageEntryList loadedList = (MultimediaApplication.ImageEntryList)decoder.readObject();
-            decorateAll(loadedList,entries );
+            decorateAll( loadedList, entries );
             decoder.close();
 //            storeLastUsedFile( file );
 //            appendLine( "Loaded " + file.getAbsolutePath() );
@@ -100,7 +119,7 @@ public class ImageFinder {
         }
     }
 
-    private static void decorateAll(MultimediaApplication.ImageEntryList annotations,ArrayList list) {
+    private static void decorateAll( MultimediaApplication.ImageEntryList annotations, ArrayList list ) {
         for( int i = 0; i < list.size(); i++ ) {
             ImageEntry entry = (ImageEntry)list.get( i );
             annotations.decorate( entry );
@@ -111,7 +130,7 @@ public class ImageFinder {
     private static ImageEntry findPreviousLabel( ImageEntry[] previousLabels, ImageEntry entry ) {
         for( int i = 0; i < previousLabels.length; i++ ) {
             ImageEntry previousLabel = previousLabels[i];
-            if (imageFileEquals( previousLabel.getFile(), entry.getFile( ))){
+            if( imageFileEquals( previousLabel.getFile(), entry.getFile() ) ) {
                 return previousLabel;
             }
         }
