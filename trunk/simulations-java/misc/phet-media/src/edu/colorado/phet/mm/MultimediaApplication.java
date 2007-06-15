@@ -7,12 +7,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Hashtable;
+import java.util.*;
 
 /**
  * User: Sam Reid
@@ -37,7 +35,7 @@ public class MultimediaApplication {
                 scanImages();
             }
         } ) );
-        controlPanel.add( new JButton( new AbstractAction( "Show Annotations" ) {
+        controlPanel.add( new JButton( new AbstractAction( "Load Annotations" ) {
             public void actionPerformed( ActionEvent e ) {
                 try {
                     setImageEntries( ConvertAnnotatedRepository.loadAnnotatedEntries() );
@@ -52,6 +50,11 @@ public class MultimediaApplication {
                 count();
             }
         } ) );
+        controlPanel.add( new JButton( new AbstractAction( "Save Annotations" ) {
+            public void actionPerformed( ActionEvent e ) {
+                saveAnnotations();
+            }
+        } ) );
 
 
         JPanel mainPanel = new JPanel( new BorderLayout() );
@@ -61,6 +64,34 @@ public class MultimediaApplication {
         mainPanel.add( new JScrollPane( textArea ), BorderLayout.SOUTH );
         frame.setContentPane( mainPanel );
         frame.setSize( 1000, 1000 );
+    }
+
+    private void saveAnnotations() {
+        int count=0;
+        for( int i = 0; i < imageEntries.length; i++ ) {
+            ImageEntry imageEntry = imageEntries[i];
+//            System.out.println( "imageEntry.getFile() = " + imageEntry.getFile() );
+            if( changed( imageEntry ) ) {
+                boolean didchange=changed( imageEntry );//debugging
+                System.out.println( "Saving annotation for: " + imageEntry.getFile() );
+
+                ConvertAnnotatedRepository.storeProperties( imageEntry, imageEntry.getFile() );
+                count++;
+            }
+        }
+        System.out.println( "Saved: count = " + count );
+    }
+
+    private boolean changed( ImageEntry imageEntry ) {
+        Properties memory = imageEntry.getProperties();
+        Properties onDisk = new Properties();
+        try {
+            onDisk.load( new FileInputStream( ConvertAnnotatedRepository.getPropertiesFile( imageEntry.getFile() ) ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        return !memory.equals( onDisk );
     }
 
     //Searches through phet simulations for images not in the annotation repository
