@@ -268,7 +268,7 @@ EO_PRINT_HIDDEN_INPUT;
         }
         
         return $value;
-    }
+    }    
     
     function remove_script_param_from_url($param_name, $url) {
         $param_name = preg_quote($param_name);

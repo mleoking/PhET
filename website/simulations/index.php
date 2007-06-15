@@ -58,7 +58,7 @@
         
         if ($view_type == "thumbs") {
             // THUMBNAIL INDEX
-            print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=index\">index</a></div>";
+            print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=index\">index view</a></div>";
 
             if ($num_sims_in_category > SIMS_PER_PAGE) {
                 // Don't bother printing this section unless there are more sims than will fit on one page:
@@ -142,7 +142,7 @@ EOT;
             print "</div>\n";
         }
         else {
-            print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=thumbs\">thumbnails</a></div>";
+            print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=thumbs\">thumbnail view</a></div>";
             
             // ALPHABETICAL INDEX
             

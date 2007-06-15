@@ -5,10 +5,12 @@
     
     include_once("admin/sim-utils.php");
     include_once("admin/web-utils.php");
+    
+    print <<<EOT
+        <?xml version="1.0" encoding="UTF-8"?>
+EOT;
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>PhET :: Physics Education Technology at CU Boulder</title>
@@ -122,7 +124,9 @@
             </div>
         </div>
 
-        <p class="footer">© 2007 PhET. All rights reserved.<br />
+        <div id="footer">
+            <p>&copy; 2007 University of Colorado. All rights reserved.</p>
+        </div>
         
     </div>
 </body>

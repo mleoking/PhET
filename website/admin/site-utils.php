@@ -455,7 +455,7 @@ EOT;
             </head>
             
 
-            <body>
+            <body id="top">
                 <div id="skipNav">
                     <a href="#content" accesskey="0">Skip to Main Content</a>
                 </div>
@@ -516,13 +516,11 @@ EOT;
                         </div>
                         
                         <div id="footer">
-                            <p class="footer">© 2007 PhET. All rights reserved.</p>
+                            <p>&copy; 2007 University of Colorado. All rights reserved.</p>
                         </div>
                     </div>
                 </div>
             </body>        
-            <meta http-equiv="Pragma"  content="no-cache" />
-            <meta http-equiv="Expires" content="-1" />
             </html>
 EOT;
     }
