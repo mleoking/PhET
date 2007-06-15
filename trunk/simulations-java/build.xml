@@ -203,7 +203,7 @@ this task looks like it is executing _build_phet-build Twice.
     </target>
     
     <!-- *************************************BEGIN BUILD NUMBERS************************************* -->
-    <target name="_inc-sim-dev-version-number" description="Increments the development version number"  depends="_verify-sim-name-specified, _define-sim-properties-file">
+    <target name="_inc-sim-dev-version-number" description="Increments the development version number"  depends="_define-sim-properties-file">
         <echo message="Incrementing the simulation development version number in property file ${file.project.properties}" />
 
         <propertyfile file="${file.project.properties}">
@@ -211,7 +211,7 @@ this task looks like it is executing _build_phet-build Twice.
         </propertyfile>
     </target>
 
-    <target name="_reset-sim-dev-version-number" description="Increments the development version number"  depends="_verify-sim-name-specified, _define-sim-properties-file">
+    <target name="_reset-sim-dev-version-number" description="Increments the development version number"  depends="_define-sim-properties-file">
         <echo message="Resetting the simulation development version number in property file ${file.project.properties}" />
 
         <propertyfile file="${file.project.properties}">
@@ -219,7 +219,7 @@ this task looks like it is executing _build_phet-build Twice.
         </propertyfile>
     </target>    
 
-    <target name="_inc-sim-minor-version-number" description="Increments the development version number"  depends="_verify-sim-name-specified, _define-sim-properties-file">
+    <target name="_inc-sim-minor-version-number" description="Increments the development version number"  depends="_define-sim-properties-file">
         <echo message="Incrementing the simulation minor version number..." />
 
         <propertyfile file="${file.project.properties}">
@@ -227,7 +227,7 @@ this task looks like it is executing _build_phet-build Twice.
         </propertyfile>
     </target>
 
-    <target name="_set-sim-revision-number" description="Sets the simulation revision number" depends="_verify-sim-name-specified, _define-sim-properties-file">
+    <target name="_set-sim-revision-number" description="Sets the simulation revision number" depends="_define-sim-properties-file">
         <echo message="Setting the simulation revision number in property file ${file.project.properties}" />
 
         <exec executable="svn" outputproperty="exec.output.svn.info">
