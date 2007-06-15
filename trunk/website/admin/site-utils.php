@@ -478,10 +478,10 @@ EOT;
                             <ul>
 EOT;
 
-        print_header_navigation_element($prefix, $selected_page, "$prefix/index.php",              "Home",          1);
-        print_header_navigation_element($prefix, $selected_page, "$prefix/simulations/index.php",  "Simulations",   2);
-        print_header_navigation_element($prefix, $selected_page, "$prefix/research/index.php",     "Research",      7);
-        print_header_navigation_element($prefix, $selected_page, "$prefix/about/index.php",        "About PhET",    8);
+        print_header_navigation_element($prefix, $selected_page, "index.php",              "Home",          1);
+        print_header_navigation_element($prefix, $selected_page, "simulations/index.php",  "Simulations",   2);
+        print_header_navigation_element($prefix, $selected_page, "research/index.php",     "Research",      7);
+        print_header_navigation_element($prefix, $selected_page, "about/index.php",        "About PhET",    8);
                                 
        print <<<EOT
                             </ul>
