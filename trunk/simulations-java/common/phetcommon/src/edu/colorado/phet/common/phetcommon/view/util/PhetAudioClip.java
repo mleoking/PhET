@@ -18,7 +18,11 @@ public class PhetAudioClip {
     private volatile boolean playing;
 
     public PhetAudioClip( String resourceName ) {
-        this.url = Thread.currentThread().getContextClassLoader().getResource( resourceName );
+        this( Thread.currentThread().getContextClassLoader().getResource( resourceName ) );
+    }
+
+    public PhetAudioClip( URL url ) {
+        this.url = url;
     }
 
     public boolean isPlaying() {
