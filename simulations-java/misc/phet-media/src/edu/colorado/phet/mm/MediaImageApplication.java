@@ -19,13 +19,13 @@ import java.util.*;
  * Copyright (c) Aug 11, 2006 by Sam Reid
  */
 
-public class MultimediaApplication {
+public class MediaImageApplication {
     private JFrame frame;
     private JPanel controlPanel;
     private final JTextArea textArea = new JTextArea();
     private ImageEntry[] imageEntries;
 
-    public MultimediaApplication() {
+    public MediaImageApplication() {
         frame = new JFrame( "PhET Multimedia Browser" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
@@ -142,10 +142,6 @@ public class MultimediaApplication {
         return null;
     }
 
-    private void appendLine() {
-        appendLine( "" );
-    }
-
     private void appendLine( String line ) {
         textArea.append( line + System.getProperty( "line.separator" ) );
         textArea.setCaretPosition( textArea.getDocument().getLength() );
@@ -215,8 +211,8 @@ public class MultimediaApplication {
     }
 
     public static void main( String[] args ) {
-        MultimediaApplication multimediaApplication = new MultimediaApplication();
-        multimediaApplication.start();
+        MediaImageApplication mediaImageApplication = new MediaImageApplication();
+        mediaImageApplication.start();
     }
 
     public void start() {
