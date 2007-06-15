@@ -2,6 +2,8 @@ package edu.colorado.phet.mm;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
@@ -26,7 +28,9 @@ public class ImageFinder {
         for( int i = 0; i < roots.length; i++ ) {
             File root = roots[i];
             File[] f = root.listFiles();
-            for( int j = 0; j < f.length; j++ ) {
+            for( int j = 0; j < f.length
+                            && j < Integer.MAX_VALUE//debugging only
+                    ; j++ ) {
                 File file = f[j];
                 File dataDir = new File( file, "data" );
                 if( dataDir.exists() ) {
@@ -40,7 +44,6 @@ public class ImageFinder {
         }
         System.out.println( "dataDirectories = " + dataDirectories );
 
-
         ArrayList imageFiles = new ArrayList();
         searchImageFiles( dataDirectories, imageFiles );
 
@@ -50,11 +53,23 @@ public class ImageFinder {
         ArrayList singleCopies = discardDuplicates( imageFiles );
         System.out.println( "singleCopies.size() = " + singleCopies.size() );
         System.out.println( "singleCopies = " + singleCopies );
-//        for( int i = 0; i < roots.length; i++ ) {
-//            File root = roots[i];
-//        }
-//        String[] projects = PhetListSimTask.getSimNames( new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations" ) );
-//        System.out.println( "Arrays.asList( projects ) = " + Arrays.asList( projects ) );
+
+        MultimediaTable table = new MultimediaTable();
+        for( int i = 0; i < singleCopies.size(); i++ ) {
+            File file = (File)singleCopies.get( i );
+            System.out.println( "file.getAbsolutePath() = " + file.getAbsolutePath() );
+            ImageEntry entry = new ImageEntry( file.getAbsolutePath() );
+            table.addEntry( entry );
+        }
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setContentPane( table );
+        JScrollPane comp = new JScrollPane( table );
+        comp.setPreferredSize( new Dimension( 800, 700 ) );
+        frame.setContentPane( comp );
+        frame.setSize( 1024, 768 );
+        frame.show();
+
     }
 
     private static ArrayList discardDuplicates( ArrayList imageFiles ) {
@@ -81,7 +96,7 @@ public class ImageFinder {
     private static boolean imageFileEquals( File a, File b ) {
         return a.length() == b.length()
 //               && a.getName().equals( b.getName() )
-               && imagesEqual( a, b );
+&& imagesEqual( a, b );
     }
 
     private static boolean imagesEqual( File a, File b ) {
@@ -164,12 +179,14 @@ public class ImageFinder {
     }
 
     private static boolean isImage( File file ) {
-        String path = file.getAbsolutePath().toLowerCase();
-        String[] suffixes = new String[]{"png", "gif", "jpg", "tif", "tiff", "jpeg"};
-        for( int i = 0; i < suffixes.length; i++ ) {
-            String suffix = suffixes[i];
-            if( path.endsWith( suffix ) ) {
-                return true;
+        if( !file.isDirectory() ) {
+            String path = file.getAbsolutePath().toLowerCase();
+            String[] suffixes = new String[]{"png", "gif", "jpg", "tif", "tiff", "jpeg"};
+            for( int i = 0; i < suffixes.length; i++ ) {
+                String suffix = suffixes[i];
+                if( path.endsWith( "." + suffix ) ) {
+                    return true;
+                }
             }
         }
         return false;
