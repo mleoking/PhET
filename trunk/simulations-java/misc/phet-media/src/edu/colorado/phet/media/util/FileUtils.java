@@ -1,4 +1,4 @@
-package edu.colorado.phet.mm.util;
+package edu.colorado.phet.media.util;
 
 import java.io.*;
 import java.util.Arrays;

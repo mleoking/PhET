@@ -1,6 +1,6 @@
-package edu.colorado.phet.mm;
+package edu.colorado.phet.media;
 
-import edu.colorado.phet.mm.util.FileUtils;
+import edu.colorado.phet.media.util.FileUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,6 +55,11 @@ public class MediaImageApplication {
                 saveAnnotations();
             }
         } ) );
+        controlPanel.add(new JButton(new AbstractAction( "Export to HTML"){
+            public void actionPerformed( ActionEvent e ) {
+                exportToHTML();
+            }
+        }));
 
 
         JPanel mainPanel = new JPanel( new BorderLayout() );
@@ -64,6 +69,10 @@ public class MediaImageApplication {
         mainPanel.add( new JScrollPane( textArea ), BorderLayout.SOUTH );
         frame.setContentPane( mainPanel );
         frame.setSize( 1000, 1000 );
+    }
+
+    private void exportToHTML() {
+        new HTMLExport().export(imageEntries);
     }
 
     private void saveAnnotations() {
