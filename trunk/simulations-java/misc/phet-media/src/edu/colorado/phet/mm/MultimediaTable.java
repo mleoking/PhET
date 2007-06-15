@@ -1,6 +1,7 @@
 package edu.colorado.phet.mm;
 
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
+
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;

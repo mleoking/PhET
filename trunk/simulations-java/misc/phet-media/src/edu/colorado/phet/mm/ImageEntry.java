@@ -1,6 +1,7 @@
 package edu.colorado.phet.mm;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
