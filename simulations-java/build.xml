@@ -94,7 +94,9 @@ PhET-team specific tasks are located in an auxiliary build file.
             </then>
         </if>
     </target>
-
+<!--Todo:
+this task looks like it is executing _build_phet-build Twice.
+-->
     <target name="_declare-phet-build-tasks" depends="_build-phet-build, _build-phet-build">
         <taskdef name="phet-build"
                  classname="${phetbuild-classname}"
