@@ -82,7 +82,7 @@
         
         $is_first = true;
         
-        foreach(preg_split('/( +)|( *, *)/i', $search_for) as $word) {
+        foreach(preg_split('/( +)|( *, *)/i', $search_for) as $word) {            
             if ($is_first) {
                 $is_first = false;
             }

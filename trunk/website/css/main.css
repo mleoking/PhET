@@ -428,18 +428,16 @@ div.horizontal_center {
 	text-decoration: underline;
 }
 *//******** =footer ********/
-#footer {
-}
-#footer p.footer {
+#footer p {
 	color:		black;
 	font-size:	14px;
 	clear:      right;
 	text-align:	center;
 }
-#footer p.footer a, #footer p.footer a:visited {
+#footer p a, #footer p a {
 	color:#900;
 }
-#footer p.footer a:hover {
+#footer p a:hover {
 	color: #666;
 }
 /******** =content ********/
@@ -729,7 +727,7 @@ img.rating {
 	padding:0 0 15px 0;
 }
 span.size {
-	font-family:Courier New,times,arial;
+	font-family:"Courier New","Times","Arial";
 	color:#000;
 	font-size:15px;
 }
