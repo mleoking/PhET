@@ -96,7 +96,7 @@ public class MultimediaApplication {
 
     //Searches through phet simulations for images not in the annotation repository
     private void scanImages() {
-        File[] imageFiles = ImageFinder.getImageFiles();
+        File[] imageFiles = MediaFinder.getImageFiles();
         for( int i = 0; i < imageFiles.length; i++ ) {
             System.out.println( "scanning i=" + i + "/" + imageFiles.length );
             File imageFile = imageFiles[i];
