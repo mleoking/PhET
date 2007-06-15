@@ -23,6 +23,25 @@ import java.util.Arrays;
 public class ImageFinder {
 
     public static void main( String[] args ) {
+        ArrayList annotated = getAnnotatedImageEntries();
+
+        MultimediaTable table = new MultimediaTable();
+        for( int i = 0; i < annotated.size(); i++ ) {
+            table.addEntry( (ImageEntry)annotated.get( i ) );
+        }
+
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setContentPane( table );
+        JScrollPane comp = new JScrollPane( table );
+        comp.setPreferredSize( new Dimension( 800, 700 ) );
+        frame.setContentPane( comp );
+        frame.setSize( 1024, 768 );
+        frame.show();
+
+    }
+
+    public static ArrayList getAnnotatedImageEntries() {
         ArrayList dataDirectories = getDataDirectories();
 
         ArrayList imageFiles = getImageFiles( dataDirectories );
@@ -49,27 +68,14 @@ public class ImageFinder {
         for( int i = 0; i < solo.length; i++ ) {
             ImageEntry findDuplicate = findPreviousLabel( previousLabels, solo[i] );
             if( findDuplicate != null ) {
+                findDuplicate.setFile( solo[i].getFile() );
                 annotated.add( findDuplicate );
             }
             else {
                 annotated.add( solo[i] );
             }
         }
-
-        MultimediaTable table = new MultimediaTable();
-        for( int i = 0; i < annotated.size(); i++ ) {
-            table.addEntry( (ImageEntry)annotated.get( i ) );
-        }
-
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( table );
-        JScrollPane comp = new JScrollPane( table );
-        comp.setPreferredSize( new Dimension( 800, 700 ) );
-        frame.setContentPane( comp );
-        frame.setSize( 1024, 768 );
-        frame.show();
-
+        return annotated;
     }
 
     private static ArrayList getImageFiles( ArrayList dataDirectories ) {

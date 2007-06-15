@@ -1,7 +1,5 @@
 package edu.colorado.phet.mm;
 
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,31 +18,25 @@ import java.util.*;
 
 public class MultimediaApplication {
     private JFrame frame;
-    private Action updateImages;
-    private AbstractAction browseImages;
     private MultimediaPanel multimediaPanel;
     private ImageEntryList loadedList;
     private static final String PROPERTIES_HEADER = "Phet multimedia properties file.  Do not modify";
     private String PROPERTIES_FILENAME = "phet-mm.properties";
     private final String LAST_SAVED_KEY = "lastsaved";
     private final JTextArea textArea = new JTextArea();
+    private ImageEntry[] imageEntries;
 
     public MultimediaApplication() {
         frame = new JFrame( "PhET Multimedia Browser" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-//        updateImages = new AbstractAction( "Download Images" ) {
-//            public void actionPerformed( ActionEvent e ) {
-//                    updateImages();
-//            }
-//        };
-        browseImages = new AbstractAction( "Browse Images" ) {
+        AbstractAction browseImages = new AbstractAction( "Browse Images" ) {
             public void actionPerformed( ActionEvent e ) {
-                browseImages();
+                setImageEntries( getAllImageEntries() );
+                tryAndLoadDefaults();
             }
         };
 
         multimediaPanel = new MultimediaPanel();
-        multimediaPanel.add( new JButton( getUpdateImages() ) );
         multimediaPanel.add( new JButton( browseImages ) );
 
         multimediaPanel.add( new JButton( new AbstractAction( "Load XML" ) {
@@ -58,23 +50,11 @@ public class MultimediaApplication {
                 saveXML();
             }
         } ) );
-        multimediaPanel.add( new JButton( new AbstractAction( "Heuristic Label" ) {
-            public void actionPerformed( ActionEvent e ) {
-                heuristicLabel();
-            }
-
-        } ) );
-        multimediaPanel.add( new JButton( new AbstractAction( "Count" ) {
+        multimediaPanel.add( new JButton( new AbstractAction( "Statistics" ) {
             public void actionPerformed( ActionEvent e ) {
                 count();
             }
         } ) );
-        multimediaPanel.add( new JButton( new AbstractAction( "Write to Dir" ) {
-            public void actionPerformed( ActionEvent e ) {
-                writeListToFolder();
-            }
-        } ) );
-
 
         JPanel mainPanel = new JPanel( new BorderLayout() );
         mainPanel.add( multimediaPanel, BorderLayout.CENTER );
@@ -97,30 +77,13 @@ public class MultimediaApplication {
         textArea.setCaretPosition( textArea.getDocument().getLength() );
     }
 
-    ArrayList list = new ArrayList();
-
-    private void heuristicLabel() {
-        for( int i = 0; i < list.size(); i++ ) {
-            ImageEntry imageEntry = (ImageEntry)list.get( i );
-            if( !imageEntry.isNonPhet() ) {
-                imageEntry.setDone( true );
-            }
-            else if( imageEntry.getSource().equalsIgnoreCase( "java" ) ) {
-                imageEntry.setDone( true );
-            }
-            else {
-                imageEntry.setDone( false );
-            }
-        }
-    }
-
     private void count() {
         int numDone = 0;
         int total = 0;
         int numNonPhet = 0;
         Hashtable sourceTable = new Hashtable();
-        for( int i = 0; i < list.size(); i++ ) {
-            ImageEntry imageEntry = (ImageEntry)list.get( i );
+        for( int i = 0; i < imageEntries.length; i++ ) {
+            ImageEntry imageEntry = imageEntries[i];
             total++;
             if( imageEntry.isDone() ) {
                 numDone++;
@@ -149,13 +112,13 @@ public class MultimediaApplication {
         appendLine( sourceTable.toString() );
     }
 
-    public static File getTempDir() {
+    public static File getDataDirectory() {
         return new File( "./phet-mm-temp" );
     }
 
     public static ImageEntry[] getAllImageEntries() {
         ArrayList list = new ArrayList();
-        File root = getTempDir();
+        File root = getDataDirectory();
         File[] children = root.listFiles();
         for( int i = 0; i < children.length; i++ ) {
             File simDir = children[i];
@@ -170,31 +133,14 @@ public class MultimediaApplication {
         return (ImageEntry[])list.toArray( new ImageEntry[0] );
     }
 
-    void browseImages() {
-        int count = 0;
+    public void setImageEntries( ImageEntry[] imageEntries ) {
+        this.imageEntries = imageEntries;
         JPanel panel = new JPanel();
         panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
-        File root = getTempDir();
-        File[] children = root.listFiles();
-//        int MAX = 100;
-        int MAX = Integer.MAX_VALUE;
         MultimediaTable table = new MultimediaTable();
-        for( int i = 0; i < children.length && count < MAX; i++ ) {
-            File simDir = children[i];
-            String name = simDir.getName();
-            ImageEntry[] imageEntry = getImageEntries( simDir );
-            System.out.println( "imageEntry.length = " + imageEntry.length );
-            for( int j = 0; j < imageEntry.length && count < MAX; j++ ) {
-                final ImageEntry entry = imageEntry[j];
-                System.out.println( "name=" + name + ", file=" + entry.getFile().getAbsolutePath() );
-                if( !list.contains( entry ) ) {
-                    table.addEntry( entry );
-                    list.add( entry );
-                    count++;
-                }
-            }
+        for( int i = 0; i < imageEntries.length; i++ ) {
+            table.addEntry( imageEntries[i] );
         }
-        System.out.println( "count = " + count );
         JScrollPane comp = new JScrollPane( table );
         comp.setPreferredSize( new Dimension( 800, 700 ) );
         multimediaPanel.add( comp );
@@ -204,6 +150,10 @@ public class MultimediaApplication {
         multimediaPanel.updateUI();
         multimediaPanel.paintImmediately( multimediaPanel.getBounds() );
 
+
+    }
+
+    private void tryAndLoadDefaults() {
         Properties properties = new Properties();
         try {
             File propertyFile = new File( PROPERTIES_FILENAME );
@@ -223,7 +173,6 @@ public class MultimediaApplication {
         catch( IOException e ) {
             e.printStackTrace();
         }
-//        writeListXML();
     }
 
     private void loadXML() {
@@ -249,9 +198,8 @@ public class MultimediaApplication {
     }
 
     private void decorateAll() {
-        for( int i = 0; i < list.size(); i++ ) {
-            ImageEntry entry = (ImageEntry)list.get( i );
-            decorate( entry );
+        for( int i = 0; i < imageEntries.length; i++ ) {
+            decorate( imageEntries[i] );
         }
     }
 
@@ -267,7 +215,7 @@ public class MultimediaApplication {
             catch( FileNotFoundException e ) {
                 e.printStackTrace();
             }
-            encoder.writeObject( new ImageEntryList( (ImageEntry[])list.toArray( new ImageEntry[0] ) ) );
+            encoder.writeObject( new ImageEntryList( imageEntries ) );
             encoder.flush();
             encoder.close();
             storeLastUsedFile( dest.getSelectedFile() );
@@ -287,6 +235,9 @@ public class MultimediaApplication {
         }
     }
 
+    /**
+     * This class is serialized, so shouldn't be modified.
+     */
     public static class ImageEntryList {
         ArrayList list = new ArrayList();
 
@@ -327,25 +278,6 @@ public class MultimediaApplication {
         }
     }
 
-    private void writeListToFolder() {
-        String folder = JOptionPane.showInputDialog( "Enter ID of folder to write to:" );
-        if( folder != null ) {
-            File dir = new File( "C:\\PhET\\projects\\phet-mm\\simlauncher-module\\" + folder );
-            dir.mkdirs();
-            for( int i = 0; i < list.size(); i++ ) {
-                ImageEntry imageEntry = (ImageEntry)list.get( i );
-                if( !imageEntry.isDone() ) {
-                    try {
-                        ImageIO.write( imageEntry.toImage(), "png", new File( dir, imageEntry.getName() ) );
-                    }
-                    catch( IOException e ) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
-
     static String[] suffixes = new String[]{"png", "gif", "jpg", "tif", "tiff"};
 
     private static ImageEntry[] getImageEntries( File simDir ) {
@@ -356,7 +288,7 @@ public class MultimediaApplication {
             File child = children[i];
             if( child.isFile() ) {
                 if( hasSuffix( child.getName(), suffixes ) ) {
-                    String path = getPath( getTempDir().getParentFile(), child );
+                    String path = getPath( getDataDirectory().getParentFile(), child );
                     ImageEntry imageEntry = new ImageEntry( path );
 //                    decorate( imageEntry );
                     all.add( imageEntry );
@@ -393,15 +325,11 @@ public class MultimediaApplication {
         return image;
     }
 
-    private Action getUpdateImages() {
-        return updateImages;
-    }
-
     public static void main( String[] args ) {
         new MultimediaApplication().start();
     }
 
-    private void start() {
+    public void start() {
         frame.setVisible( true );
     }
 }
