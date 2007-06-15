@@ -8,10 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
-import java.beans.XMLDecoder;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,9 +39,7 @@ public class ImageFinder {
     }
 
     public static ArrayList getAnnotatedImageEntries() {
-        ArrayList dataDirectories = getDataDirectories();
-
-        ArrayList imageFiles = getImageFiles( dataDirectories );
+        ArrayList imageFiles = new ArrayList( Arrays.asList( getImageFiles() ) );
 
         System.out.println( "imageFiles.size = " + imageFiles.size() );
         System.out.println( "imageFiles = " + imageFiles );
@@ -60,8 +55,6 @@ public class ImageFinder {
 
         System.out.println( "loading previous labels" );
         ImageEntry[] previousLabels = MultimediaApplication.getAllImageEntries();
-        ArrayList list = new ArrayList( Arrays.asList( previousLabels ) );
-        loadXML( new File( "C:\\phet\\subversion\\trunk\\simulations-java\\misc\\phet-media\\list26.xml" ), list );
         System.out.println( "finished loading previous labels" );
 
         ArrayList annotated = new ArrayList();
@@ -76,6 +69,11 @@ public class ImageFinder {
             }
         }
         return annotated;
+    }
+
+    public static File[] getImageFiles() {
+        ArrayList dataDirectories = getDataDirectories();
+        return (File[])getImageFiles( dataDirectories ).toArray( new File[0] );
     }
 
     private static ArrayList getImageFiles( ArrayList dataDirectories ) {
@@ -110,28 +108,6 @@ public class ImageFinder {
         System.out.println( "dataDirectories = " + dataDirectories );
         return dataDirectories;
     }
-
-    private static void loadXML( File file, ArrayList entries ) {
-        try {
-            XMLDecoder decoder = new XMLDecoder( new FileInputStream( file ) );
-            MultimediaApplication.ImageEntryList loadedList = (MultimediaApplication.ImageEntryList)decoder.readObject();
-            decorateAll( loadedList, entries );
-            decoder.close();
-//            storeLastUsedFile( file );
-//            appendLine( "Loaded " + file.getAbsolutePath() );
-        }
-        catch( FileNotFoundException e ) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void decorateAll( MultimediaApplication.ImageEntryList annotations, ArrayList list ) {
-        for( int i = 0; i < list.size(); i++ ) {
-            ImageEntry entry = (ImageEntry)list.get( i );
-            annotations.decorate( entry );
-        }
-    }
-
 
     private static ImageEntry findPreviousLabel( ImageEntry[] previousLabels, ImageEntry entry ) {
         for( int i = 0; i < previousLabels.length; i++ ) {

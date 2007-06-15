@@ -1,13 +1,18 @@
 package edu.colorado.phet.mm;
 
+import edu.colorado.phet.mm.util.FileUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
 import java.text.DateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Hashtable;
 
 /**
  * User: Sam Reid
@@ -18,54 +23,92 @@ import java.util.*;
 
 public class MultimediaApplication {
     private JFrame frame;
-    private MultimediaPanel multimediaPanel;
-    private ImageEntryList loadedList;
-    private static final String PROPERTIES_HEADER = "Phet multimedia properties file.  Do not modify";
-    private String PROPERTIES_FILENAME = "phet-mm.properties";
-    private final String LAST_SAVED_KEY = "lastsaved";
+    private JPanel controlPanel;
     private final JTextArea textArea = new JTextArea();
     private ImageEntry[] imageEntries;
 
     public MultimediaApplication() {
         frame = new JFrame( "PhET Multimedia Browser" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        AbstractAction browseImages = new AbstractAction( "Browse Images" ) {
-            public void actionPerformed( ActionEvent e ) {
-                setImageEntries( getAllImageEntries() );
-                tryAndLoadDefaults();
-            }
-        };
 
-        multimediaPanel = new MultimediaPanel();
-        multimediaPanel.add( new JButton( browseImages ) );
-
-        multimediaPanel.add( new JButton( new AbstractAction( "Load XML" ) {
+        controlPanel = new JPanel();
+        controlPanel.add( new JButton( new AbstractAction( "Scan Sims" ) {
             public void actionPerformed( ActionEvent e ) {
-                loadXML();
+                scanImages();
             }
         } ) );
-
-        multimediaPanel.add( new JButton( new AbstractAction( "Save XML" ) {
+        controlPanel.add( new JButton( new AbstractAction( "Show Annotations" ) {
             public void actionPerformed( ActionEvent e ) {
-                saveXML();
+                try {
+                    setImageEntries( ConvertAnnotatedRepository.loadAnnotatedEntries() );
+                }
+                catch( IOException e1 ) {
+                    e1.printStackTrace();
+                }
             }
         } ) );
-        multimediaPanel.add( new JButton( new AbstractAction( "Statistics" ) {
+        controlPanel.add( new JButton( new AbstractAction( "Statistics" ) {
             public void actionPerformed( ActionEvent e ) {
                 count();
             }
         } ) );
 
+
         JPanel mainPanel = new JPanel( new BorderLayout() );
-        mainPanel.add( multimediaPanel, BorderLayout.CENTER );
+        mainPanel.add( controlPanel, BorderLayout.CENTER );
         textArea.setAutoscrolls( true );
         textArea.setRows( 10 );
         mainPanel.add( new JScrollPane( textArea ), BorderLayout.SOUTH );
         frame.setContentPane( mainPanel );
         frame.setSize( 1000, 1000 );
-        appendLine( "For first time use, press Download Images (only needs to be done once)" );
-        appendLine( "After images have been downloaded, press Browse Images." );
-        appendLine();
+    }
+
+    //Searches through phet simulations for images not in the annotation repository
+    private void scanImages() {
+        File[] imageFiles = ImageFinder.getImageFiles();
+        for( int i = 0; i < imageFiles.length; i++ ) {
+            System.out.println( "scanning i=" + i + "/" + imageFiles.length );
+            File imageFile = imageFiles[i];
+            File repositoryCopy = getRepositoryCopy( imageFile );
+            if( repositoryCopy == null ) {
+                System.out.println( "Found an unannotated file: " + imageFile.getAbsolutePath() );
+                addToRepository( imageFile );
+            }
+        }
+    }
+
+    private void addToRepository( File imageFile ) {
+        File file = ConvertAnnotatedRepository.createNewRepositoryFile( imageFile );
+        try {
+            FileUtils.copy( imageFile, file );
+            ImageEntry imageEntry = ImageEntry.createNewEntry( file.getAbsolutePath() );
+            ConvertAnnotatedRepository.storeProperties( imageEntry, file );
+            System.out.println( "added to repository: imageEntry = " + imageEntry.toString() );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private File getRepositoryCopy( File imageFile ) {
+        File[] repositoryFiles = new File( "annotated-data" ).listFiles( new FileFilter() {
+            public boolean accept( File pathname ) {
+                return !pathname.getAbsolutePath().toLowerCase().endsWith( ".properties" ) &&
+                       !pathname.getAbsolutePath().toLowerCase().endsWith( ".svn" );
+            }
+        } );
+        for( int i = 0; i < repositoryFiles.length; i++ ) {
+            File repositoryFile = repositoryFiles[i];
+            try {
+                if( FileUtils.contentEquals( imageFile, repositoryFile ) ) {
+                    return repositoryFile;
+                }
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     private void appendLine() {
@@ -143,139 +186,12 @@ public class MultimediaApplication {
         }
         JScrollPane comp = new JScrollPane( table );
         comp.setPreferredSize( new Dimension( 800, 700 ) );
-        multimediaPanel.add( comp );
-        multimediaPanel.invalidate();
-        multimediaPanel.revalidate();
-        multimediaPanel.doLayout();
-        multimediaPanel.updateUI();
-        multimediaPanel.paintImmediately( multimediaPanel.getBounds() );
-
-
-    }
-
-    private void tryAndLoadDefaults() {
-        Properties properties = new Properties();
-        try {
-            File propertyFile = new File( PROPERTIES_FILENAME );
-            if( propertyFile.exists() ) {
-                properties.load( new FileInputStream( propertyFile ) );
-                String lastSaved = properties.getProperty( LAST_SAVED_KEY );
-                if( lastSaved != null && lastSaved.trim().length() != 0 ) {
-                    File file = new File( lastSaved );
-                    if( file.exists() ) {
-                        loadXML( file );
-                        System.out.println( "MultimediaApplication.browseImages autoloaded XML from " + file.getAbsolutePath() );
-                        appendLine( "Autoloaded from " + file.getAbsolutePath() );
-                    }
-                }
-            }
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-    }
-
-    private void loadXML() {
-        JFileChooser chooser = new JFileChooser( new File( "." ) );
-        int val = chooser.showOpenDialog( multimediaPanel );
-        if( val == JFileChooser.APPROVE_OPTION ) {
-            loadXML( chooser.getSelectedFile() );
-        }
-    }
-
-    private void loadXML( File file ) {
-        try {
-            XMLDecoder decoder = new XMLDecoder( new FileInputStream( file ) );
-            loadedList = (ImageEntryList)decoder.readObject();
-            decorateAll();
-            decoder.close();
-            storeLastUsedFile( file );
-            appendLine( "Loaded " + file.getAbsolutePath() );
-        }
-        catch( FileNotFoundException e ) {
-            e.printStackTrace();
-        }
-    }
-
-    private void decorateAll() {
-        for( int i = 0; i < imageEntries.length; i++ ) {
-            decorate( imageEntries[i] );
-        }
-    }
-
-    private void saveXML() {
-        JFileChooser dest = new JFileChooser( new File( "." ) );
-        int returnVal = dest.showSaveDialog( multimediaPanel );
-        if( returnVal == JFileChooser.APPROVE_OPTION ) {
-            //            XMLEncoder encoder = new XMLEncoder( new FileOutputStream( "C:\\PhET\\projects\\phet-mm\\simlauncher-module" ) );
-            XMLEncoder encoder = null;
-            try {
-                encoder = new XMLEncoder( new FileOutputStream( dest.getSelectedFile() ) );
-            }
-            catch( FileNotFoundException e ) {
-                e.printStackTrace();
-            }
-            encoder.writeObject( new ImageEntryList( imageEntries ) );
-            encoder.flush();
-            encoder.close();
-            storeLastUsedFile( dest.getSelectedFile() );
-            appendLine( "Saved " + dest.getSelectedFile() );
-        }
-
-    }
-
-    private void storeLastUsedFile( File dest ) {
-        Properties properties = new Properties();
-        properties.setProperty( LAST_SAVED_KEY, dest.getAbsolutePath() );
-        try {
-            properties.store( new FileOutputStream( PROPERTIES_FILENAME ), PROPERTIES_HEADER );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * This class is serialized, so shouldn't be modified.
-     */
-    public static class ImageEntryList {
-        ArrayList list = new ArrayList();
-
-        public ImageEntryList() {
-        }
-
-        public ArrayList getList() {
-            return list;
-        }
-
-        public void setList( ArrayList list ) {
-            this.list = list;
-        }
-
-        public ImageEntryList( ImageEntry[] imageEntries ) {
-            for( int i = 0; i < imageEntries.length; i++ ) {
-                list.add( new ImageEntryBean( imageEntries[i] ) );
-            }
-        }
-
-        public void decorate( ImageEntry imageEntry ) {
-            for( int i = 0; i < list.size(); i++ ) {
-                ImageEntryBean imageEntryBean = (ImageEntryBean)list.get( i );
-                if( pathMatches( imageEntryBean, imageEntry ) ) {
-                    System.out.println( "path matches, imageData=" + imageEntryBean.getPath() + ", entry=" + imageEntry.getFile().getAbsolutePath() );
-                    imageEntry.setNonPhet( imageEntryBean.isNonPhet() );
-                    imageEntry.setSource( imageEntryBean.getSource() );
-                    imageEntry.setNotes( imageEntryBean.getNotes() );
-                    imageEntry.setDone( imageEntryBean.isDone() );
-                }
-            }
-        }
-
-        private boolean pathMatches( ImageEntryBean imageEntryBean, ImageEntry imageEntry ) {
-            String asub = imageEntryBean.getPath().substring( imageEntryBean.getPath().lastIndexOf( "temp" ) );
-            String bsum = imageEntry.getFile().getAbsolutePath().substring( imageEntry.getFile().getAbsolutePath().lastIndexOf( "temp" ) );
-            return asub.equals( bsum );
-        }
+        controlPanel.add( comp );
+        controlPanel.invalidate();
+        controlPanel.revalidate();
+        controlPanel.doLayout();
+        controlPanel.updateUI();
+        controlPanel.paintImmediately( controlPanel.getBounds() );
     }
 
     static String[] suffixes = new String[]{"png", "gif", "jpg", "tif", "tiff"};
@@ -308,11 +224,6 @@ public class MultimediaApplication {
         return childAbs.substring( parentAbs.length() + 1 );
     }
 
-    private void decorate( ImageEntry imageEntry ) {
-        loadedList.decorate( imageEntry );
-    }
-
-
     private static boolean hasSuffix( String zipEntryName, String[] suffixes ) {
         boolean image = false;
         for( int i = 0; i < suffixes.length; i++ ) {
@@ -326,7 +237,8 @@ public class MultimediaApplication {
     }
 
     public static void main( String[] args ) {
-        new MultimediaApplication().start();
+        MultimediaApplication multimediaApplication = new MultimediaApplication();
+        multimediaApplication.start();
     }
 
     public void start() {
