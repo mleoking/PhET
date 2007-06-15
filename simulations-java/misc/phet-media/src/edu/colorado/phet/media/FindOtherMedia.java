@@ -1,4 +1,4 @@
-package edu.colorado.phet.mm;
+package edu.colorado.phet.media;
 
 import java.io.File;
 

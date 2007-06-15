@@ -1,4 +1,4 @@
-package edu.colorado.phet.mm;
+package edu.colorado.phet.media;
 
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;

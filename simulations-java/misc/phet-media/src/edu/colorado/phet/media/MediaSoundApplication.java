@@ -1,7 +1,7 @@
-package edu.colorado.phet.mm;
+package edu.colorado.phet.media;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
-import edu.colorado.phet.mm.util.FileUtils;
+import edu.colorado.phet.media.util.FileUtils;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
