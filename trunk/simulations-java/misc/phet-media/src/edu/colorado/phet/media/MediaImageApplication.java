@@ -10,7 +10,9 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.Hashtable;
+import java.util.Properties;
 
 /**
  * User: Sam Reid
@@ -55,11 +57,11 @@ public class MediaImageApplication {
                 saveAnnotations();
             }
         } ) );
-        controlPanel.add(new JButton(new AbstractAction( "Export to HTML"){
+        controlPanel.add( new JButton( new AbstractAction( "Export to HTML" ) {
             public void actionPerformed( ActionEvent e ) {
                 exportToHTML();
             }
-        }));
+        } ) );
 
 
         JPanel mainPanel = new JPanel( new BorderLayout() );
@@ -72,19 +74,24 @@ public class MediaImageApplication {
     }
 
     private void exportToHTML() {
-        new HTMLExport().export(imageEntries);
+        try {
+            new HTMLExport(true).export( new File( "phet-media.html" ), imageEntries );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     private void saveAnnotations() {
-        int count=0;
+        int count = 0;
         for( int i = 0; i < imageEntries.length; i++ ) {
             ImageEntry imageEntry = imageEntries[i];
 //            System.out.println( "imageEntry.getFile() = " + imageEntry.getFile() );
             if( changed( imageEntry ) ) {
-                boolean didchange=changed( imageEntry );//debugging
-                System.out.println( "Saving annotation for: " + imageEntry.getImageName());
+                boolean didchange = changed( imageEntry );//debugging
+                System.out.println( "Saving annotation for: " + imageEntry.getImageName() );
 
-                ConvertAnnotatedRepository.storeProperties( imageEntry, imageEntry.getImageName());
+                ConvertAnnotatedRepository.storeProperties( imageEntry, imageEntry.getImageName() );
                 count++;
             }
         }
@@ -95,7 +102,7 @@ public class MediaImageApplication {
         Properties memory = imageEntry.toProperties();
         Properties onDisk = new Properties();
         try {
-            onDisk.load( new FileInputStream( ConvertAnnotatedRepository.getPropertiesFile( imageEntry.getImageName( )) ) );
+            onDisk.load( new FileInputStream( ConvertAnnotatedRepository.getPropertiesFile( imageEntry.getImageName() ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -121,7 +128,7 @@ public class MediaImageApplication {
         File file = ConvertAnnotatedRepository.createNewRepositoryFile( imageFile );
         try {
             FileUtils.copy( imageFile, file );
-            ImageEntry imageEntry = ImageEntry.createNewEntry( file.getName( ) );
+            ImageEntry imageEntry = ImageEntry.createNewEntry( file.getName() );
             ConvertAnnotatedRepository.storeProperties( imageEntry, file.getName() );
             System.out.println( "added to repository: imageEntry = " + imageEntry.toString() );
         }

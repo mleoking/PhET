@@ -52,7 +52,7 @@ public class ConvertAnnotatedRepository {
             System.out.println( "file.getAbsolutePath() = " + file.getAbsolutePath() );
             Properties prop = new Properties();
             prop.load( new FileInputStream( file ) );
-            ImageEntry entry = new ImageEntry( prop, file.getName().substring( 0,file.getName().length()-".properties".length()) );
+            ImageEntry entry = new ImageEntry( prop, file.getName().substring( 0, file.getName().length() - ".properties".length() ) );
             imageEntries.add( entry );
         }
         return (ImageEntry[])imageEntries.toArray( new ImageEntry[0] );
