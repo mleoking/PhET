@@ -227,15 +227,11 @@
             $cat_id   = $category_row['cat_id'];
             $cat_name = $category_row['cat_name'];
             
-            if (preg_match("/.*$type.*preview.*/i", $cat_name) == 1) {                
-                $select_sims_st = sim_get_select_sims_by_category_statement($cat_id);
-                
-                $simulation_rows = mysql_query($select_sims_st, $connection);
-
+            if (preg_match("/.*$type.*preview.*/i", $cat_name) == 1) {
                 $animated_images = array();
                 
-                while ($simulation_row = mysql_fetch_assoc($simulation_rows)) {
-                    $sim_animated_image_url = $simulation_row["$field"];
+                foreach (sim_get_sims_by_cat_id($cat_id) as $simulation) {
+                    $sim_animated_image_url = $simulation["$field"];
                     
                     $animated_images[] = $sim_animated_image_url;
                 }
