@@ -21,14 +21,13 @@ public class ImageEntry {
     private String source = "";
     private String notes = "";
     private boolean done = false;
-    private String path;
 
-    public ImageEntry( String path ) {
-        this.path = path;
-        this.file = new File( path );
+    public ImageEntry( File file ) {
+        this.file = file;
     }
 
-    public ImageEntry( Properties prop ) {
+    public ImageEntry( Properties prop, File file ) {
+        this( file );
         parseProperties( prop );
     }
 
@@ -94,10 +93,6 @@ public class ImageEntry {
         return notes;
     }
 
-    public String getPath() {
-        return path;
-    }
-
     public Properties getProperties() {
         Properties prop = new Properties();
         prop.setProperty( "filename", getFile().getName() );
@@ -114,13 +109,12 @@ public class ImageEntry {
         this.source = prop.getProperty( "source" );
         this.notes = prop.getProperty( "notes" );
         this.done = Boolean.valueOf( prop.getProperty( "done" ) ).booleanValue();
-        this.path=file.getAbsolutePath();
     }
 
-    public static ImageEntry createNewEntry( String absolutePath ) {
-        ImageEntry imageEntry=new ImageEntry( absolutePath );
-        imageEntry.nonPhet=false;
-        imageEntry.source="?";
+    public static ImageEntry createNewEntry( File file ) {
+        ImageEntry imageEntry = new ImageEntry( file );
+        imageEntry.nonPhet = false;
+        imageEntry.source = "?";
         imageEntry.notes = "?";
         imageEntry.done = false;
         return imageEntry;
