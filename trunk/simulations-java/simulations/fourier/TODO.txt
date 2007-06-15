@@ -53,6 +53,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+6/15/07 - convert description properties to well-formed HTML
 4/6/07 - organize imports
 4/6/07 - set locale in Spanish JNLP file via javaws.locale property
 4/6/07 - encapsulate loading of strings and images in FourierResources
