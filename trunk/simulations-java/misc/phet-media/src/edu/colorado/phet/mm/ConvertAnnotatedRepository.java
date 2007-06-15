@@ -11,23 +11,7 @@ import java.util.Properties;
  * Jun 15, 2007, 12:15:36 AM
  */
 public class ConvertAnnotatedRepository {
-    public static void main( String[] args ) throws IOException {
-        ArrayList list = ImageFinder.getAnnotatedImageEntries();
 
-        convertRepository( list );
-    }
-
-    private static void convertRepository( ArrayList list ) throws IOException {
-        for( int i = 0; i < list.size(); i++ ) {
-            ImageEntry entry = (ImageEntry)list.get( i );
-            File file = entry.getFile();
-            File dst = createNewRepositoryFile( file );
-            FileUtils.copy( file, dst );
-//            Properties properties = entry.getProperties();
-//            properties.store( new FileOutputStream( getPropertiesFile( dst ) ), null );
-            storeProperties( entry, dst );
-        }
-    }
     public static void storeProperties(ImageEntry entry,File repositoryFile){
         try {
             entry.getProperties().store( new FileOutputStream( getPropertiesFile( repositoryFile )),null );
@@ -69,7 +53,7 @@ public class ConvertAnnotatedRepository {
 
             Properties prop = new Properties();
             prop.load( new FileInputStream( file ) );
-            ImageEntry entry = new ImageEntry( prop );
+            ImageEntry entry = new ImageEntry( prop,file );
             imageEntries.add( entry );
         }
         return (ImageEntry[])imageEntries.toArray( new ImageEntry[0] );

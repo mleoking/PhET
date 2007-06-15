@@ -112,7 +112,7 @@ public class MultimediaApplication {
         File file = ConvertAnnotatedRepository.createNewRepositoryFile( imageFile );
         try {
             FileUtils.copy( imageFile, file );
-            ImageEntry imageEntry = ImageEntry.createNewEntry( file.getAbsolutePath() );
+            ImageEntry imageEntry = ImageEntry.createNewEntry( file );
             ConvertAnnotatedRepository.storeProperties( imageEntry, file );
             System.out.println( "added to repository: imageEntry = " + imageEntry.toString() );
         }
@@ -190,23 +190,6 @@ public class MultimediaApplication {
         return new File( "./phet-mm-temp" );
     }
 
-    public static ImageEntry[] getAllImageEntries() {
-        ArrayList list = new ArrayList();
-        File root = getDataDirectory();
-        File[] children = root.listFiles();
-        for( int i = 0; i < children.length; i++ ) {
-            File simDir = children[i];
-            ImageEntry[] e = getImageEntries( simDir );
-            for( int j = 0; j < e.length; j++ ) {
-                ImageEntry imageEntry = e[j];
-                if( !list.contains( imageEntry ) ) {
-                    list.add( imageEntry );
-                }
-            }
-        }
-        return (ImageEntry[])list.toArray( new ImageEntry[0] );
-    }
-
     public void setImageEntries( ImageEntry[] imageEntries ) {
         this.imageEntries = imageEntries;
         JPanel panel = new JPanel();
@@ -225,46 +208,10 @@ public class MultimediaApplication {
         controlPanel.paintImmediately( controlPanel.getBounds() );
     }
 
-    static String[] suffixes = new String[]{"png", "gif", "jpg", "tif", "tiff"};
-
-    private static ImageEntry[] getImageEntries( File simDir ) {
-
-        ArrayList all = new ArrayList();
-        File[] children = simDir.listFiles();
-        for( int i = 0; children != null && i < children.length; i++ ) {
-            File child = children[i];
-            if( child.isFile() ) {
-                if( hasSuffix( child.getName(), suffixes ) ) {
-                    String path = getPath( getDataDirectory().getParentFile(), child );
-                    ImageEntry imageEntry = new ImageEntry( path );
-//                    decorate( imageEntry );
-                    all.add( imageEntry );
-                }
-            }
-            else {
-                ImageEntry[] entries = getImageEntries( child );
-                all.addAll( Arrays.asList( entries ) );
-            }
-        }
-        return (ImageEntry[])all.toArray( new ImageEntry[0] );
-    }
-
     public static String getPath( File parent, File child ) {
         String parentAbs = parent.getAbsolutePath();
         String childAbs = child.getAbsolutePath();
         return childAbs.substring( parentAbs.length() + 1 );
-    }
-
-    private static boolean hasSuffix( String zipEntryName, String[] suffixes ) {
-        boolean image = false;
-        for( int i = 0; i < suffixes.length; i++ ) {
-            String suffix = suffixes[i];
-            if( zipEntryName.toLowerCase().endsWith( suffix ) ) {
-                image = true;
-                break;
-            }
-        }
-        return image;
     }
 
     public static void main( String[] args ) {

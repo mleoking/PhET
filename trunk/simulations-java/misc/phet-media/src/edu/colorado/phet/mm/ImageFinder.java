@@ -19,58 +19,6 @@ import java.util.Arrays;
  */
 public class ImageFinder {
 
-    public static void main( String[] args ) {
-        ArrayList annotated = getAnnotatedImageEntries();
-
-        MultimediaTable table = new MultimediaTable();
-        for( int i = 0; i < annotated.size(); i++ ) {
-            table.addEntry( (ImageEntry)annotated.get( i ) );
-        }
-
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( table );
-        JScrollPane comp = new JScrollPane( table );
-        comp.setPreferredSize( new Dimension( 800, 700 ) );
-        frame.setContentPane( comp );
-        frame.setSize( 1024, 768 );
-        frame.show();
-
-    }
-
-    public static ArrayList getAnnotatedImageEntries() {
-        ArrayList imageFiles = new ArrayList( Arrays.asList( getImageFiles() ) );
-
-        System.out.println( "imageFiles.size = " + imageFiles.size() );
-        System.out.println( "imageFiles = " + imageFiles );
-
-        ArrayList singleCopies = discardDuplicates( imageFiles );
-        System.out.println( "singleCopies.size() = " + singleCopies.size() );
-        System.out.println( "singleCopies = " + singleCopies );
-
-        ImageEntry[] solo = new ImageEntry[singleCopies.size()];
-        for( int i = 0; i < solo.length; i++ ) {
-            solo[i] = new ImageEntry( ( (File)singleCopies.get( i ) ).getAbsolutePath() );
-        }
-
-        System.out.println( "loading previous labels" );
-        ImageEntry[] previousLabels = MultimediaApplication.getAllImageEntries();
-        System.out.println( "finished loading previous labels" );
-
-        ArrayList annotated = new ArrayList();
-        for( int i = 0; i < solo.length; i++ ) {
-            ImageEntry findDuplicate = findPreviousLabel( previousLabels, solo[i] );
-            if( findDuplicate != null ) {
-                findDuplicate.setFile( solo[i].getFile() );
-                annotated.add( findDuplicate );
-            }
-            else {
-                annotated.add( solo[i] );
-            }
-        }
-        return annotated;
-    }
-
     public static File[] getImageFiles() {
         ArrayList dataDirectories = getDataDirectories();
         return (File[])getImageFiles( dataDirectories ).toArray( new File[0] );
@@ -107,27 +55,6 @@ public class ImageFinder {
         }
         System.out.println( "dataDirectories = " + dataDirectories );
         return dataDirectories;
-    }
-
-    private static ImageEntry findPreviousLabel( ImageEntry[] previousLabels, ImageEntry entry ) {
-        for( int i = 0; i < previousLabels.length; i++ ) {
-            ImageEntry previousLabel = previousLabels[i];
-            if( imageFileEquals( previousLabel.getFile(), entry.getFile() ) ) {
-                return previousLabel;
-            }
-        }
-        return null;
-    }
-
-    private static ArrayList discardDuplicates( ArrayList imageFiles ) {
-        ArrayList solo = new ArrayList();
-        for( int i = 0; i < imageFiles.size(); i++ ) {
-            File file = ( (File)imageFiles.get( i ) );
-            if( !listContains( solo, file ) ) {
-                solo.add( file );
-            }
-        }
-        return solo;
     }
 
     private static boolean listContains( ArrayList list, File f ) {
