@@ -13,6 +13,7 @@ LOW PRIORITY:
 
 
 DONE:
+6/15/07 - convert description properties to well-formed HTML
 4/23/07 - replace SliderControl with LinearValueControl from phetcommon
 4/12/07 - merge test-src into src
 4/7/07 - encapsulate PhetProjectConfig in RSResources
