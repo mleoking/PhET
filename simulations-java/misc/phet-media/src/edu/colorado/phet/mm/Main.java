@@ -1,16 +1,20 @@
 package edu.colorado.phet.mm;
 
-import java.util.ArrayList;
+import java.io.IOException;
 
 /**
  * Author: Sam Reid
- * Jun 15, 2007, 12:15:36 AM
+ * Jun 15, 2007, 12:49:30 AM
  */
 public class Main {
     public static void main( String[] args ) {
-        ArrayList list = ImageFinder.getAnnotatedImageEntries();
         MultimediaApplication multimediaApplication = new MultimediaApplication();
-        multimediaApplication.setImageEntries( (ImageEntry[])list.toArray( new ImageEntry[0] ) );
+        try {
+            multimediaApplication.setImageEntries( ConvertAnnotatedRepository.loadAnnotatedEntries() );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         multimediaApplication.start();
     }
 }
