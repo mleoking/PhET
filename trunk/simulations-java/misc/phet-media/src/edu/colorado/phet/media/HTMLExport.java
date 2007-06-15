@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 public class HTMLExport {
     boolean showPhetImages = true;
-
+    private boolean useSimList = true;
 
     public HTMLExport( boolean showPhetImages ) {
         this.showPhetImages = showPhetImages;
@@ -36,14 +36,18 @@ public class HTMLExport {
         content += "<hr>";
         for( int i = 0; i < imageEntries.length; i++ ) {
             ImageEntry imageEntry = imageEntries[i];
-            if( shouldInclude( imageEntry ) ) {
 
+            if( shouldInclude( imageEntry ) ) {
+                String simList = useSimList ? getSimList( imageEntry ) : "";
+//                String simList = i<50? getSimList( imageEntry ) : "";
+                System.out.println( "simList = " + simList );
                 content += "<a name=\"" + imageEntry.getImageName() + "\">" + imageEntry.getImageName() + "</a>" +
                            "<br>" +
                            "<img src=\"annotated-data/" + imageEntry.getImageName() + "\">" +
                            "<br>" +
                            "source=" + getSourceText( imageEntry ) + "<br>" +
                            "notes=" + imageEntry.getNotes() + "<br>" +
+                           simList +
                            "<br><br><br><hr>";
             }
         }
@@ -61,6 +65,25 @@ public class HTMLExport {
                               "</html>" );
 
         bufferedWriter.close();
+    }
+
+    private String getSimList( ImageEntry imageEntry ) {
+        SimAssociations simAssociations = new SimAssociations( new ImageEntry[0] );
+        File[] f = simAssociations.getAssociations( imageEntry );
+
+        String html = "usages:</br><ul>";
+        for( int i = 0; i < f.length; i++ ) {
+            File file = f[i];
+            html += "<li>" + toName( file ) + "</li>";
+        }
+        html += "</ul>";
+        return html;
+    }
+
+    private String toName( File file ) {
+        String abs = file.getAbsolutePath();
+        int prefix = abs.lastIndexOf( "simulations-java" );
+        return abs.substring( prefix + "simulations-java".length() +1);
     }
 
     private boolean shouldInclude( ImageEntry imageEntry ) {

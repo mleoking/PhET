@@ -33,7 +33,7 @@ public class SimAssociations {
 
     private File[] dataDirs = MediaFinder.getDataDirectories();
 
-    private File[] getAssociations( ImageEntry imageEntry ) {
+    public File[] getAssociations( ImageEntry imageEntry ) {
         return getAssociations( dataDirs, new File( "annotated-data", imageEntry.getImageName() ) );
     }
 
