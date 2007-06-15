@@ -9,7 +9,7 @@ import java.util.Properties;
  */
 public class RemoveFileProperties {
     public static void main( String[] args ) throws IOException {
-        File[] file = new File( "annotated-data" ).listFiles( new FilenameFilter() {
+        File[] file = new File( "C:\\phet\\subversion\\trunk\\simulations-java\\misc\\phet-media\\annotated-data" ).listFiles( new FilenameFilter() {
             public boolean accept( File dir, String name ) {
                 return name.toLowerCase().endsWith( "properties" );
             }
