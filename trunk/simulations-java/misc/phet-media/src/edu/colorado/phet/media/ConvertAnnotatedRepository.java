@@ -57,4 +57,17 @@ public class ConvertAnnotatedRepository {
         }
         return (ImageEntry[])imageEntries.toArray( new ImageEntry[0] );
     }
+
+    public static ImageEntry[] getNonPhetEntries() throws IOException {
+        ImageEntry[]entries=loadAnnotatedEntries();
+        ArrayList nonPhet=new ArrayList( );
+        for( int i = 0; i < entries.length; i++ ) {
+            ImageEntry entry = entries[i];
+            if (entry.isNonPhet() ){
+                nonPhet.add( entry );
+            }
+        }
+        return (ImageEntry[])nonPhet.toArray( new ImageEntry[0]);
+
+    }
 }

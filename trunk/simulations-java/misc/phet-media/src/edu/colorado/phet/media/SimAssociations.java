@@ -62,13 +62,21 @@ public class SimAssociations {
 
     public static void main( String[] args ) throws IOException {
         QuickTimer quickTimer = new QuickTimer();
+        ImageEntry[] nonPhetEntries = ConvertAnnotatedRepository.getNonPhetEntries();
         SimAssociations simAssociations = new SimAssociations(
 //                new ImageEntry[]{new ImageEntry( "dog.gif" ),new ImageEntry( "dollarbill.gif" )}
-//ConvertAnnotatedRepository.loadAnnotatedEntries()
-new ImageEntry[]{new ImageEntry( "0_faucet.png")}
+//nonPhetEntries
+//new ImageEntry[]{new ImageEntry( "0_faucet.png")}
+new ImageEntry[0]
         );
         System.out.println( "simAssociations = " + simAssociations );
         System.out.println( "quickTimer.getTime() = " + quickTimer.getTime() );
+        for( int i = 0; i < nonPhetEntries.length; i++ ) {
+            ImageEntry nonPhetEntry = nonPhetEntries[i];
+
+            File[] assoc = simAssociations.getAssociations( nonPhetEntry );
+            System.out.println( ( assoc.length == 0 ? "###" : "" ) + "entry=" + nonPhetEntry.getImageName() + ", assoc = " + Arrays.asList( assoc ) );
+        }
     }
 
     public String toString() {
