@@ -24,12 +24,12 @@ public class ImageEntry {
 
     public ImageEntry( String imageName ) {
         this.imageName = imageName;
-        System.out.println( "imageName = " + imageName );
+//        System.out.println( "imageName = " + imageName );
     }
 
     public ImageEntry( Properties prop, String imageName ) {
         parseProperties( prop, imageName );
-        System.out.println( "imageName = " + imageName );
+//        System.out.println( "imageName = " + imageName );
     }
 
     public String getImageName() {
@@ -38,9 +38,9 @@ public class ImageEntry {
 
     public BufferedImage toImage() {
         try {
-            System.out.println( "imageName = " + imageName );
+//            System.out.println( "imageName = " + imageName );
             File file = new File( "annotated-data", imageName );
-            System.out.println( "file = " + file.getAbsolutePath() );
+//            System.out.println( "file = " + file.getAbsolutePath() );
             return ImageLoader.loadBufferedImage( file.toURL() );
         }
         catch( IOException e ) {
