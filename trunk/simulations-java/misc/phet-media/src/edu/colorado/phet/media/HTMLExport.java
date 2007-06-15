@@ -22,6 +22,7 @@ public class HTMLExport {
     }
 
     public void export( File file, ImageEntry[] imageEntries ) throws IOException {
+//        updateSimAssociations( imageEntries );//do it once because it's expensive
         BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
         String title = "PhET Images";
         String content = "";
@@ -63,7 +64,7 @@ public class HTMLExport {
     }
 
     private boolean shouldInclude( ImageEntry imageEntry ) {
-        return showPhetImages || !getSourceText( imageEntry ).equalsIgnoreCase( "phet" );
+        return showPhetImages || imageEntry.isNonPhet();
     }
 
     private String getSourceText( ImageEntry imageEntry ) {
@@ -78,6 +79,6 @@ public class HTMLExport {
     public static void main( String[] args ) throws IOException {
         ImageEntry[] entries = ConvertAnnotatedRepository.loadAnnotatedEntries();
 
-        new HTMLExport(false).export( new File( "phet-media.html" ), entries );
+        new HTMLExport( false ).export( new File( "phet-media.html" ), entries );
     }
 }
