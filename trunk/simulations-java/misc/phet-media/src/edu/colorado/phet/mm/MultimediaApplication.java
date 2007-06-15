@@ -363,41 +363,7 @@ public class MultimediaApplication {
         loadedList.decorate( imageEntry );
     }
 
-//    private void updateImages() throws SimResourceException {
-//        Catalog catalog = Catalog.instance();
-//        List sims = catalog.getAllSimulations();
-//        for( int i = 0; i < sims.size(); i++ ) {
-//            Object o = (Object)sims.get( i );
-//            System.out.println( "o = " + o + " : " + o.getClass() );
-//        }
-//        Simulation[]sim = (Simulation[])sims.toArray( new Simulation[0] );
-//        for( int i = 0; i < sim.length; i++ ) {
-//            Simulation simulation = sim[i];
-//            if( simulation instanceof JavaSimulation ) {
-//                JavaSimulation javaSimulation = (JavaSimulation)simulation;
-//                javaSimulation.install();
-//                List resources = javaSimulation.getResources();
-//                for( int j = 0; j < resources.size(); j++ ) {
-//                    Object o = (Object)resources.get( j );
-//                    System.out.println( "o = " + o + " : " + o.getClass() );
-//                    if( o instanceof JarResource ) {
-//                        JarResource jr = (JarResource)o;
-//                        File f = jr.getLocalFile();
-//                        System.out.println( "f.getab = " + f.getAbsolutePath() );
-//                        if( f.getAbsolutePath().endsWith( ".jar" ) ) {
-//                            unzipIt( javaSimulation, f );
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     private String[] suffixes = new String[]{"png", "gif", "jpg", "tif", "tiff"};
-
-//    private void unzipIt( JavaSimulation javaSimulation, File f ) {
-//        unzip( javaSimulation, f.getAbsolutePath() );
-//    }
 
     private boolean hasSuffix( String zipEntryName, String[] suffixes ) {
         boolean image = false;
@@ -410,47 +376,6 @@ public class MultimediaApplication {
         }
         return image;
     }
-
-//    public void unzip( JavaSimulation javaSimulation, String filename ) {//todo lift criteria
-//        int BUFFER = 2048;
-//        try {
-//            BufferedOutputStream dest = null;
-//            FileInputStream fis = new FileInputStream( filename );
-//            ZipInputStream zis = new ZipInputStream( new BufferedInputStream( fis ) );
-//            ZipEntry entry;
-//            while( ( entry = zis.getNextEntry() ) != null ) {
-//                if( hasSuffix( entry.getName(), suffixes ) ) {
-//                    System.out.println( "Extracting: " + entry );
-//                    int count;
-//                    byte data[] = new byte[BUFFER];
-//                    // write the files to the disk
-//                    File destination = new File( getTempDir().getAbsolutePath() + "\\" + getFileFriendlyName( javaSimulation ) );
-//                    destination.mkdirs();
-//                    File file = new File( destination, entry.getName() );
-//                    if( entry.getName().indexOf( '/' ) >= 0 ) {
-//                        file.getParentFile().mkdirs();
-//                    }
-//                    FileOutputStream fos = new FileOutputStream( file );
-//                    dest = new BufferedOutputStream( fos, BUFFER );
-//                    while( ( count = zis.read( data, 0, BUFFER ) ) != -1 ) {
-//                        dest.write( data, 0, count );
-//                    }
-//                    dest.flush();
-//                    dest.close();
-//                }
-//            }
-//            zis.close();
-//        }
-//        catch( Exception e ) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    private String getFileFriendlyName( JavaSimulation javaSimulation ) {
-//        String name = javaSimulation.getName();
-//        name = name.replace( ':', ' ' );
-//        return name;
-//    }
 
     private Action getUpdateImages() {
         return updateImages;
