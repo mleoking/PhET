@@ -201,6 +201,62 @@ this task looks like it is executing _build_phet-build Twice.
         <!--And build a locale-less version-->
         <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${sim.server.url}/${sim.name}/${sim.version}"/>
     </target>
+    
+    <!-- *************************************BEGIN BUILD NUMBERS************************************* -->
+    <target name="_inc-sim-dev-version-number" description="Increments the development version number"  depends="_verify-sim-name-specified, _define-sim-properties">
+        <echo message="Incrementing the simulation development version number in property file ${file.project.properties}" />
+
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.dev" type="int" operation="+" value="1" pattern="00"/>
+        </propertyfile>
+    </target>
+
+    <target name="_reset-sim-dev-version-number" description="Increments the development version number"  depends="_verify-sim-name-specified, _define-sim-properties">
+        <echo message="Resetting the simulation development version number in property file ${file.project.properties}" />
+
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.dev" type="int" operation="=" value="0" pattern="00"/>
+        </propertyfile>
+    </target>
+
+    <target name="_inc-sim-minor-version-number" description="Increments the development version number"  depends="_verify-sim-name-specified, _define-sim-properties">
+        <echo message="Incrementing the simulation minor version number..." />
+
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.minor" type="int" operation="+" value="1" pattern="0"/>
+        </propertyfile>
+    </target>
+
+    <target name="_set-sim-revision-number" description="Sets the simulation revision number" depends="_verify-sim-name-specified, _define-sim-properties">
+        <echo message="Setting the simulation revision number in property file ${file.project.properties}" />
+
+        <exec executable="svn" outputproperty="exec.output.svn.info">
+            <arg value="info"/>
+            <arg value="${simulations-directory}/${sim.name}"/>
+        </exec>
+
+        <echo message="Svn output = ${exec.output.svn.info}" />
+
+        <propertyregex property="number.subversion.revision"
+            override="true"
+            input="${exec.output.svn.info}"
+            regexp="Revision: *(\d+)"
+            select="\1"
+            casesensitive="false" />
+
+        <echo message="Revision number is ${number.subversion.revision}" />
+
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.revision" type="int" operation="=" value="${number.subversion.revision}"/>
+        </propertyfile>
+    </target>
+    
+    <!-- *************************************END BUILD NUMBERS************************************* -->
+
+    <target name="_define-sim-properties">
+        <var name="file.project.properties"
+             value="${simulations-directory}/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
+    </target>
 
     <!--
     To use this task, call ant like this:
@@ -225,9 +281,7 @@ this task looks like it is executing _build_phet-build Twice.
 
     about.credits (optional)
     -->
-    <target name="build-jnlp" depends="_init,_verify-sim-name-specified">
-        <var name="file.project.properties"
-             value="${simulations-directory}/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
+    <target name="build-jnlp" depends="_init,_verify-sim-name-specified, _define-sim-properties">
         <if>
             <not>
                 <isset property="sim.version"/>
@@ -304,18 +358,17 @@ this task looks like it is executing _build_phet-build Twice.
                 <echo message="Gathering username and password from user"/>
 
                 <!-- If the username and password are not set, get them now: -->
-                <antform title="Deployment Host Login" width="550" height="300" focus="login">
+                <antform title="Deployment Host Login" width="550" height="300">
                     <label>Please enter your username and password that you use to login to the deployment host machine
                         ${ssh-host}.
                     </label>
 
-                    <textProperty label="Username:" property="deploy.username" required="true"/>
+                    <textProperty label="Username:" property="deploy.username" required="true" focus="true"/>
                     <textProperty label="Password:" property="deploy.password" required="true" password="true"/>
                 </antform>
             </then>
         </if>
     </target>
-
 
     <target name="_verify-sim-name-specified" description="Verifies that the simulation name has been specified">
         <if>
@@ -334,10 +387,7 @@ this task looks like it is executing _build_phet-build Twice.
         </if>
     </target>
 
-
-    <!--This task builds a simulation's jar file and jnlp file and posts it to PhET's dev/ site-->
-    <target name="_build-and-deploy"
-            depends="_init, _read-username-and-password,build-jar, build-jnlp">
+    <target name="_deploy">
         <property name="sim.deploy.dir" value="${sim.server.path}/${sim.name}"/>
         <property name="sim.deploy.dir.version"
                   value="${sim.deploy.dir}/${sim.version}"/>
@@ -358,12 +408,20 @@ this task looks like it is executing _build_phet-build Twice.
                     <arg value="${deployurl}"/>
                 </exec>
             </then>
-        </if>
+        </if>        
+    </target>
 
+    <!--This task builds a simulation's jar file and jnlp file and deploys it -->
+    <target name="_build-and-deploy-dev"
+            depends="_init, _read-username-and-password, _set-sim-revision-number, build-jar, build-jnlp, _deploy">
+    </target>
+    
+    <target name="_build-and-deploy-prod"
+            depends="_init, _read-username-and-password, _set-sim-revision-number, build-jar, build-jnlp, _deploy">
     </target>
 
     <target name="build-and-deploy-dev">
-        <antcall target="_build-and-deploy">
+        <antcall target="_build-and-deploy-dev">
             <param name="sim.server.url" value="${dev.server.url}"/>
             <param name="sim.server.path" value="${dev.server.path}"/>
             <param name="ssh-host" value="${dev.server.name}"/>
@@ -371,7 +429,7 @@ this task looks like it is executing _build_phet-build Twice.
     </target>
 
     <target name="build-and-deploy-prod">
-        <antcall target="_build-and-deploy">
+        <antcall target="_build-and-deploy-prod">
             <param name="sim.server.url" value="${prod.server.url}"/>
             <param name="sim.server.path" value="${prod.server.path}"/>
             <param name="ssh-host" value="${prod.server.name}"/>
