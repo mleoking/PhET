@@ -15,6 +15,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+6/15/07 - convert description properties to well-formed HTML
 ***** 1.04.00 (15867)
 6/13/07 - use property javaws.phet.developer to enable developer controls
 6/13/07 - remove ARTS implementation (GPL) of associated Legendre polynomials, remove from credits
