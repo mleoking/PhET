@@ -253,7 +253,7 @@ this task looks like it is executing _build_phet-build Twice.
     
     <!-- *************************************END BUILD NUMBERS************************************* -->
 
-    <target name="_define-sim-version" depends="_define-sim-properties-file">
+    <target name="_define-sim-version" depends="_define-sim-properties-file" description="Defines the simulation version in terms of the major, minor, and development versions.">
          <if>
              <not>
                  <isset property="sim.version"/>
@@ -265,7 +265,7 @@ this task looks like it is executing _build_phet-build Twice.
          </if>             
     </target>
     
-    <target name="_define-sim-properties-file" depends="_verify-sim-name-specified">
+    <target name="_define-sim-properties-file" depends="_verify-sim-name-specified" description="Creates a property whose value is equal to the name of the simulation properties file.">
         <var name="file.project.properties" value="${simulations-directory}/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
     </target>
 
@@ -361,8 +361,7 @@ this task looks like it is executing _build_phet-build Twice.
 
                 <!-- If the username and password are not set, get them now: -->
                 <antform title="Deployment Host Login" width="550" height="300">
-                    <label>Please enter your username and password that you use to login to the deployment host machine
-                        ${ssh-host}.
+                    <label>Please enter your username and password that you use to login to the deployment host machine.
                     </label>
 
                     <textProperty label="Username:" property="deploy.username" required="true" focus="true"/>
@@ -378,12 +377,12 @@ this task looks like it is executing _build_phet-build Twice.
                 <isset property="sim.name"/>
             </not>
             <then>
-                <antform title="Enter Simulation Name" focus="OK" width="750" height="300">
+                <antform title="Enter Simulation Name" width="750" height="300">
                     <label>Please enter the name of the simulation with which to perform the operation. This is the name
                         of the Subversion folder that the simulation is stored in.
                     </label>
                     <textProperty label="Simulation Name: " property="sim.name" required="true"
-                                  tooltip="The simulation name"/>
+                                  tooltip="The simulation name" focus="true"/>
                 </antform>
             </then>
         </if>
@@ -411,17 +410,11 @@ this task looks like it is executing _build_phet-build Twice.
         </if>        
     </target>
 
-    <!--This task builds a simulation's jar file and jnlp file and deploys it -->
-    <target name="_build-and-deploy-dev"
-            depends="build-jar, build-jnlp, _deploy">
-    </target>
-    
-    <target name="_build-and-deploy-prod"
-            depends="build-jar, build-jnlp, _deploy">
-    </target>
+    <!-- This task builds and deploys; assumes all required properties have been previously defined -->
+    <target name="_build-and-deploy" depends="build-jar, build-jnlp, _deploy" />
 
     <target name="build-and-deploy-dev" depends="_init, _read-username-and-password, _set-sim-revision-number, _inc-sim-dev-version-number, _define-sim-version">
-        <antcall target="_build-and-deploy-dev">
+        <antcall target="_build-and-deploy">
             <param name="sim.server.url"        value="${dev.server.url}"/>
             <param name="sim.server.path"       value="${dev.server.path}"/>
             <param name="sim.deploy.dir.parent" value="${dev.server.path}${sim.name}" />
@@ -431,7 +424,7 @@ this task looks like it is executing _build_phet-build Twice.
     </target>
 
     <target name="build-and-deploy-prod" depends="_init, _read-username-and-password, _set-sim-revision-number, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _define-sim-version">
-        <antcall target="_build-and-deploy-prod">
+        <antcall target="_build-and-deploy">
             <param name="sim.server.url"        value="${prod.server.url}"/>
             <param name="sim.server.path"       value="${prod.server.path}"/>
             <param name="sim.deploy.dir.parent" value="${prod.server.path}" />
