@@ -65,7 +65,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
                 model.getBead(), model.getFluid(),
                 _canvas.getTrapForceNode(), _canvas.getDragForceNode(), null /* dnaForceNode */ );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getPositionHistogramChartNode(), _canvas.getPotentialEnergyChartNode() );
-        _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getMicroscopeSlide() );
+        _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getFluid() );
         List forceVectorNodes = new ArrayList();
         forceVectorNodes.add( _canvas.getTrapForceNode() );
         forceVectorNodes.add( _canvas.getDragForceNode() );

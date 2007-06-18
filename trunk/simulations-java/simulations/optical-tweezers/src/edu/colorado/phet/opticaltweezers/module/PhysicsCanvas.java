@@ -107,7 +107,7 @@ public class PhysicsCanvas extends PhetPCanvas {
         addWorldChild( _rootNode );
         
         // Microscope slide
-        _microscopeSlideNode = new MicroscopeSlideNode( microscopeSlide, modelViewTransform, PhysicsDefaults.FLUID_SPEED_RANGE.getMax() );
+        _microscopeSlideNode = new MicroscopeSlideNode( microscopeSlide, fluid, modelViewTransform, PhysicsDefaults.FLUID_SPEED_RANGE.getMax() );
         
         // Laser
         _laserDragBoundsNode = new PPath();

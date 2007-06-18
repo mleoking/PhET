@@ -54,8 +54,7 @@ public class DNAModel extends ClockAdapter {
         _microscopeSlide = new MicroscopeSlide( DNADefaults.MICROSCOPE_SLIDE_POSITION,
                 DNADefaults.MICROSCOPE_SLIDE_ORIENTATION,
                 DNADefaults.MICROSCOPE_SLIDE_CENTER_HEIGHT,
-                DNADefaults.MICROSCOPE_SLIDE_EDGE_HEIGHT,
-                _fluid );
+                DNADefaults.MICROSCOPE_SLIDE_EDGE_HEIGHT );
         _modelElements.add( _microscopeSlide );
         
         _laser = new Laser( DNADefaults.LASER_POSITION, 
@@ -77,6 +76,7 @@ public class DNAModel extends ClockAdapter {
                 DNADefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE,
                 DNADefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
                 DNADefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE,
+                _fluid,
                 _microscopeSlide,
                 _laser );
          _modelElements.add( _bead );
