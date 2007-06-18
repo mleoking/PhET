@@ -14,7 +14,7 @@
 
             <p>Our philosophy is to make PhET simulations freely available to all users around the world. They have now been run hundreds of thousands of times from our web site, and the full PhET suite has been installed on thousands of computers. But while the simulations may be free to users, they are expensive for us to create, test and maintain, and our financial support is limited. If you would like to help make it possible for us to develop more and better simulations, please contact Krista Beck at kristab@jila.colorado.edu or phone (303-492-7746) to find out how you can make a tax deductible contribution.</p>
 
-            <p>PhET would like to thank <a href="../sponsors/index.php">our sponsors</a>.</p>
+            <p>PhET would like to thank <a href="../sponsors/index.php">our sponsors</a>, and <a href="http://www.royalinteractive.com/">Royal Interactive</a> for original site design and layout.</p>
 
             <h2>Translate Simulations</h2>
 
