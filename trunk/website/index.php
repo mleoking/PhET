@@ -76,7 +76,8 @@ EOT;
 
             <p class="findOutMore"><a href="simulations/index.php"><img src="images/findOutMore.gif" alt="Find out More" title="Find out More" /></a><br />
             <br />
-            <img src="images/version_es.gif" /> <a class="espanol" href="simulations-espanol.htm">Simulaciones en espa&ntilde;ol</a></p>
+            
+            <img src="images/version_es.gif" /> <a class="espanol" href="http://translate.google.com/translate?hl=es&amp;sl=en&amp;u=http://phet.colorado.edu/new/index.php">Simulaciones en espa&ntilde;ol</a></p>
 
             <div class="clear"></div>
         </div>
