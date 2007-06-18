@@ -350,6 +350,7 @@ public class Bead extends MovableObject implements ModelElement {
     
     /*
      * Bead motion in a vacuum, Verlet algorithm.
+     * The only force acting on the bead is the optical trap force.
      * 
      * Units:
      *     time - sec
@@ -374,19 +375,21 @@ public class Bead extends MovableObject implements ModelElement {
             loops = _numberOfDtSubdivisions;
         }
         
-        final double m = 0.1; //XXX adjustable
+        final double m = 1; //XXX adjustable, decrease to increase acceleration
         
+        // current values for positon, velocity and acceleration
         double xOld = getX();
         double yOld = getY();
         double vxOld = _velocity.getX();
         double vyOld = _velocity.getY();
-        Vector2D trapForce = _laser.getTrapForce( xOld, yOld ); // pN
+        Vector2D trapForce = _laser.getTrapForce( xOld, yOld );
         double axOld = trapForce.getX() / m;
         double ayOld = trapForce.getY() / m;
         
-        double xNew = 0, yNew = 0;  // position
-        double vxNew = 0, vyNew = 0; // velocity
-        double axNew = 0, ayNew = 0; // acceleration
+        // next values for position, velocity and acceleration
+        double xNew = 0, yNew = 0;
+        double vxNew = 0, vyNew = 0;
+        double axNew = 0, ayNew = 0;
         
         // Run the motion algorithm for subdivided clock step
         for ( int i = 0; i < loops; i++ ) {
@@ -395,7 +398,7 @@ public class Bead extends MovableObject implements ModelElement {
             xNew = xOld + ( vxOld * dt ) + ( 0.5 * axOld * dt * dt );
             yNew = yOld + ( vyOld * dt ) + ( 0.5 * ayOld * dt * dt );
             
-            // Collision detection.
+            // simple collision detection
             if ( yNew < yTopOfSlide ) {
                 // collide with top edge of microscope slide
                 yNew = yTopOfSlide;
@@ -405,7 +408,7 @@ public class Bead extends MovableObject implements ModelElement {
                 yNew = yBottomOfSlide;
             }
             
-            // acceleration
+            // new acceleration
             trapForce = _laser.getTrapForce( xNew, yNew ); // pN
             axNew = trapForce.getX() / m;
             ayNew = trapForce.getY() / m;
@@ -429,6 +432,8 @@ public class Bead extends MovableObject implements ModelElement {
     
     /*
      * Bead motion in a fluid.
+     * Forces acting on the bead include Brownian force, optical trap force,
+     * fluid drag force and (if the bead is attached to a DNA strand) DNA force.
      * 
      * Units:
      *     time - sec
