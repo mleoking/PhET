@@ -24,9 +24,11 @@ public class PhysicsModel extends ClockAdapter {
     private final ArrayList _modelElements; // array of ModelElement
     
     private final OTClock _clock;
-    private final Bead _bead;
-    private final Laser _laser;
+
     private final Fluid _fluid;
+    private final MicroscopeSlide _microscopeSlide;
+    private final Laser _laser;
+    private final Bead _bead;
     
     private final ModelViewTransform _modelViewTransform;
 
@@ -42,13 +44,18 @@ public class PhysicsModel extends ClockAdapter {
         
         _modelElements = new ArrayList();
         
-        _fluid = new Fluid( PhysicsDefaults.FLUID_POSITION,
-                PhysicsDefaults.FLUID_ORIENTATION,
-                PhysicsDefaults.FLUID_HEIGHT,
-                PhysicsDefaults.FLUID_SPEED_RANGE, 
+        _fluid = new Fluid( PhysicsDefaults.FLUID_SPEED_RANGE,
+                PhysicsDefaults.FLUID_DIRECTION,
                 PhysicsDefaults.FLUID_VISCOSITY_RANGE, 
                 PhysicsDefaults.FLUID_TEMPERATURE_RANGE );
         _modelElements.add( _fluid );
+        
+        _microscopeSlide = new MicroscopeSlide( PhysicsDefaults.MICROSCOPE_SLIDE_POSITION,
+                PhysicsDefaults.MICROSCOPE_SLIDE_ORIENTATION,
+                PhysicsDefaults.MICROSCOPE_SLIDE_CENTER_HEIGHT,
+                PhysicsDefaults.MICROSCOPE_SLIDE_EDGE_HEIGHT,
+                _fluid );
+        _modelElements.add( _microscopeSlide );
         
         _laser = new Laser( PhysicsDefaults.LASER_POSITION, 
                 PhysicsDefaults.LASER_ORIENTATION, 
@@ -69,7 +76,7 @@ public class PhysicsModel extends ClockAdapter {
                 PhysicsDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE,
                 PhysicsDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
                 PhysicsDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE,
-                _fluid,
+                _microscopeSlide,
                 _laser );
          _modelElements.add( _bead );
 
@@ -86,6 +93,10 @@ public class PhysicsModel extends ClockAdapter {
     
     public Fluid getFluid() {
         return _fluid;
+    }
+   
+    public MicroscopeSlide getMicroscopeSlide() {
+        return _microscopeSlide;
     }
     
     public Laser getLaser() {

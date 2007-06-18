@@ -8,10 +8,14 @@ import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
+import edu.colorado.phet.opticaltweezers.model.MicroscopeSlide;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 import edu.umd.cs.piccolo.PNode;
@@ -19,24 +23,31 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * FluidNode is the visual representation of the fluid.
- * The fluid is contained on a glass microscope slide that has a fixed height
- * and infinite width.  The slide has top and bottom edges that have a fixed height.
+ * MicroscopeSlideNode is the visual representation of a glass microscope slide.
+ * The slide that has a fixed height and infinite width.
+ * The slide has top and bottom edges that have a fixed height.
+ * The slide contains either a fluid or a vacuum (the absence of fluid).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FluidNode extends PhetPNode implements Observer {
+public class MicroscopeSlideNode extends PhetPNode implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
     // properties of the "glass slide" that the fluid sits on
-    public static final double EDGE_HEIGHT = 12; // pixels
     private static final Stroke EDGE_STROKE = new BasicStroke( 1f );
-    private static final Color EDGE_STROKE_COLOR = Color.BLACK;
-    private static final Color EDGE_FILL_COLOR = new Color( 176, 218, 200 );
-    private static final Color CENTER_FILL_COLOR = new Color( 220, 239, 239 );
+    
+    // colors used to represent fluid
+    private static final Color FLUID_EDGE_STROKE_COLOR = Color.BLACK;
+    private static final Color FLUID_EDGE_FILL_COLOR = new Color( 176, 218, 200 );
+    private static final Color FLUID_CENTER_FILL_COLOR = new Color( 220, 239, 239 );
+    
+    // colors used to represent vacuum
+    private static final Color VACUUM_EDGE_STROKE_COLOR = Color.BLACK;
+    private static final Color VACUUM_EDGE_FILL_COLOR = Color.DARK_GRAY;
+    private static final Color VACUUM_CENTER_FILL_COLOR = Color.BLACK;
     
     // properties of the fluid velocity vectors
     private static final int NUMBER_OF_VELOCITY_VECTORS = 10;
@@ -46,13 +57,14 @@ public class FluidNode extends PhetPNode implements Observer {
     private static final double VELOCITY_VECTOR_MAX_TAIL_LENGTH = 125;
     private static final Stroke VELOCITY_VECTOR_STROKE = new BasicStroke( 1f );
     private static final Paint VELOCITY_VECTOR_STROKE_PAINT = Color.BLACK;
-    private static final Paint VELOCITY_VECTOR_FILL_PAINT = EDGE_FILL_COLOR;
+    private static final Paint VELOCITY_VECTOR_FILL_PAINT = FLUID_EDGE_FILL_COLOR;
     private static final double VELOCITY_VECTOR_X_OFFSET = 30;
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
+    private MicroscopeSlide _microscopeSlide;
     private Fluid _fluid;
     private ModelViewTransform _modelViewTransform;
     private double _worldWidth;
@@ -61,6 +73,8 @@ public class FluidNode extends PhetPNode implements Observer {
     private PPath _topEdgeNode, _bottomEdgeNode, _centerNode;
     private PNode _velocityVectorsParentNode;
     
+    private boolean _vacuumEnabled;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -68,48 +82,43 @@ public class FluidNode extends PhetPNode implements Observer {
     /**
      * Constructor.
      * 
-     * @param fluid
+     * @param microscopeSlide
      * @param modelViewTransform
      */
-    public FluidNode( Fluid fluid, ModelViewTransform modelViewTransform ) {
+    public MicroscopeSlideNode( MicroscopeSlide microscopeSlide, ModelViewTransform modelViewTransform, double vectorReferenceMagnitude ) {
         super();
          
         setPickable( false );
         setChildrenPickable( false );
         
-        _fluid = fluid;
-        _fluid.addObserver( this );
+        _microscopeSlide = microscopeSlide;
         
         _modelViewTransform = modelViewTransform;
         _worldWidth = 1;
+        _vacuumEnabled = false;
         
         // top edge of the miscroscope slide
         _topEdgeNode = new PPath();
         _topEdgeNode.setStroke( EDGE_STROKE );
-        _topEdgeNode.setStrokePaint( EDGE_STROKE_COLOR );
-        _topEdgeNode.setPaint( EDGE_FILL_COLOR );
         
         // bottom edge of the miscroscope slide
         _bottomEdgeNode = new PPath();
         _bottomEdgeNode.setStroke( EDGE_STROKE );
-        _bottomEdgeNode.setStrokePaint( EDGE_STROKE_COLOR );
-        _bottomEdgeNode.setPaint( EDGE_FILL_COLOR );
         
         // center portion of the microscope slide, where the bead moves
         _centerNode = new PPath();
         _centerNode.setStroke( null );
-        _centerNode.setPaint( CENTER_FILL_COLOR );
         
         // fluid velocity vectors
-        final double fluidHeight = _modelViewTransform.modelToView( _fluid.getHeight() );
-        final double referenceMagnitude = _fluid.getSpeedRange().getMax();
+        final double microscopeSlideCenterHeight = _modelViewTransform.modelToView( _microscopeSlide.getCenterHeight() );
+        final double referenceMagnitude = vectorReferenceMagnitude;
         final double referenceLength = VELOCITY_VECTOR_MAX_TAIL_LENGTH;
         Vector2D vector = new Vector2D.Polar( referenceMagnitude, 0 );
         _velocityVectorsParentNode = new PComposite();
         for ( int i = 0; i < NUMBER_OF_VELOCITY_VECTORS; i++ ) {
             VelocityVectorNode vectorNode = new VelocityVectorNode( vector, referenceMagnitude, referenceLength );
             double x = VELOCITY_VECTOR_X_OFFSET;
-            double y = ( i * fluidHeight / NUMBER_OF_VELOCITY_VECTORS ) + ( ( fluidHeight / NUMBER_OF_VELOCITY_VECTORS ) - vectorNode.getFullBounds().getHeight() );
+            double y = ( i * microscopeSlideCenterHeight / NUMBER_OF_VELOCITY_VECTORS ) + ( VELOCITY_VECTOR_HEAD_HEIGHT / 2 );
             vectorNode.setOffset( x, y );
             _velocityVectorsParentNode.addChild( vectorNode );
         }
@@ -119,7 +128,9 @@ public class FluidNode extends PhetPNode implements Observer {
         addChild( _bottomEdgeNode );
         addChild( _velocityVectorsParentNode );
         
-        updateSlide();
+        updateFluid();
+        updateSlideGeometry();
+        updateSlideColors();
         updateVelocityVectors();
     }
     
@@ -127,7 +138,10 @@ public class FluidNode extends PhetPNode implements Observer {
      * Call this method before releasing all references to this object.
      */
     public void cleanup() {
-        _fluid.deleteObserver( this );
+        _microscopeSlide.deleteObserver( this );
+        if ( _fluid != null ) {
+            _fluid.deleteObserver( this );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -158,8 +172,16 @@ public class FluidNode extends PhetPNode implements Observer {
         }
         if ( worldWidth != _worldWidth ) {
             _worldWidth = worldWidth;
-            updateSlide();
+            updateSlideGeometry();
             updateVelocityVectors();
+        }
+    }
+    
+    public void setVacuumEnabled( boolean enabled ) {
+        if ( enabled != _vacuumEnabled ) {
+            _vacuumEnabled = enabled;
+            _velocityVectorsParentNode.setVisible( !_vacuumEnabled );
+            updateSlideColors();
         }
     }
     
@@ -168,7 +190,13 @@ public class FluidNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _fluid ) {
+        if ( o == _microscopeSlide ) {
+            if ( arg == MicroscopeSlide.PROPERTY_FLUID ) {
+                updateFluid();
+                updateVelocityVectors();
+            }
+        }
+        else if ( o == _fluid ) {
             if ( arg == Fluid.PROPERTY_SPEED ) {
                 updateVelocityVectors();
             }
@@ -179,26 +207,34 @@ public class FluidNode extends PhetPNode implements Observer {
     // Updaters
     //----------------------------------------------------------------------------
     
+    private void updateFluid() {
+        if ( _fluid != null ) {
+            _fluid.deleteObserver( this );
+        }
+        _fluid = _microscopeSlide.getFluid();
+        if ( _fluid != null ) {
+            _fluid.addObserver( this );
+        }
+    }
+    
     /*
-     * Updates the microscope slide to match the model.
+     * Updates the microscope slide's geometry to match the model.
      */
-    private void updateSlide() {
+    private void updateSlideGeometry() {
         
-        // fluid flow must be left-to-right or right-to-left
-        assert( _fluid.getOrientation() ==  Math.toRadians( 0 ) || _fluid.getOrientation() == Math.toRadians( 180 ) );
-        
-        final double height = _modelViewTransform.modelToView( _fluid.getHeight() );
-        final double y = _modelViewTransform.modelToView( _fluid.getY() );
+        final double centerHeight = _modelViewTransform.modelToView( _microscopeSlide.getCenterHeight() );
+        final double edgeHeight = _modelViewTransform.modelToView( _microscopeSlide.getEdgeHeight() );
+        final double y = _modelViewTransform.modelToView( _microscopeSlide.getY() );
         
         // create each part with (0,0) at top right
-        _topEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _worldWidth, EDGE_HEIGHT ) );
-        _bottomEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _worldWidth, EDGE_HEIGHT ) );
-        _centerNode.setPathTo( new Rectangle2D.Double( 0, 0, _worldWidth, height ) );
+        _topEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _worldWidth, edgeHeight ) );
+        _bottomEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _worldWidth, edgeHeight ) );
+        _centerNode.setPathTo( new Rectangle2D.Double( 0, 0, _worldWidth, centerHeight ) );
         
         // translate parts so that (0,0) of the slide is at left center
-        _topEdgeNode.setOffset( 0, -( height / 2 ) - EDGE_HEIGHT );
-        _centerNode.setOffset( 0, -( height / 2 ) );
-        _bottomEdgeNode.setOffset( 0, +( height / 2 ) );
+        _topEdgeNode.setOffset( 0, -( centerHeight / 2 ) - edgeHeight );
+        _centerNode.setOffset( 0, -( centerHeight / 2 ) );
+        _bottomEdgeNode.setOffset( 0, +( centerHeight / 2 ) );
         _velocityVectorsParentNode.setOffset( 0, 
                 _centerNode.getOffset().getY() + ( ( _centerNode.getFullBounds().getHeight() - _velocityVectorsParentNode.getFullBounds().getHeight() ) / 2 ) );
         
@@ -206,20 +242,53 @@ public class FluidNode extends PhetPNode implements Observer {
     }
     
     /*
+     * Updates the colors of the slide to indicate whether the slide
+     * contains a fluid or vacuum.
+     */
+    private void updateSlideColors() {
+        if ( _fluid == null ) {
+            _topEdgeNode.setStrokePaint( VACUUM_EDGE_STROKE_COLOR );
+            _topEdgeNode.setPaint( VACUUM_EDGE_STROKE_COLOR );
+            _topEdgeNode.setPaint( VACUUM_EDGE_FILL_COLOR );
+            
+            _bottomEdgeNode.setStrokePaint( VACUUM_EDGE_STROKE_COLOR );
+            _bottomEdgeNode.setPaint( VACUUM_EDGE_STROKE_COLOR );
+            _bottomEdgeNode.setPaint( VACUUM_EDGE_FILL_COLOR );
+            
+            _centerNode.setPaint( VACUUM_CENTER_FILL_COLOR );
+        }
+        else {
+            _topEdgeNode.setStrokePaint( FLUID_EDGE_STROKE_COLOR );
+            _topEdgeNode.setPaint( FLUID_EDGE_FILL_COLOR );
+            _topEdgeNode.setPaint( FLUID_EDGE_FILL_COLOR );
+            
+            _bottomEdgeNode.setStrokePaint( FLUID_EDGE_STROKE_COLOR );
+            _bottomEdgeNode.setPaint( FLUID_EDGE_FILL_COLOR );
+            _bottomEdgeNode.setPaint( FLUID_EDGE_FILL_COLOR );
+            
+            _centerNode.setPaint( FLUID_CENTER_FILL_COLOR );
+        }
+    }
+    
+    /*
      * Updates the fluid velocity vectors to match the model.
      */
     private void updateVelocityVectors() {
         
-        final double speed = _fluid.getSpeed();
-        final double orientation = _fluid.getOrientation();
-        
-        List childNodes = _velocityVectorsParentNode.getChildrenReference();
-        Iterator i = childNodes.iterator();
-        while ( i.hasNext() ) {
-            Object nextChild = i.next();
-            if ( nextChild instanceof VelocityVectorNode ) {
-                VelocityVectorNode velocityVectorNode = (VelocityVectorNode) nextChild;
-                velocityVectorNode.setVectorMagnitudeAngle( speed, orientation );
+        _velocityVectorsParentNode.setVisible( !( _fluid == null ) );
+        if ( _fluid != null ) {
+
+            final double speed = _fluid.getSpeed();
+            final double direction = _fluid.getDirection();
+
+            List childNodes = _velocityVectorsParentNode.getChildrenReference();
+            Iterator i = childNodes.iterator();
+            while ( i.hasNext() ) {
+                Object nextChild = i.next();
+                if ( nextChild instanceof VelocityVectorNode ) {
+                    VelocityVectorNode velocityVectorNode = (VelocityVectorNode) nextChild;
+                    velocityVectorNode.setVectorMagnitudeAngle( speed, direction );
+                }
             }
         }
     }

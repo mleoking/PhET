@@ -39,12 +39,17 @@ public class DNADefaults {
     public static final String CLOCK_CONTROL_PATTERN = "0.0E0";
     public static final String CLOCK_TIME_PATTERN = "0.0000000000000000000";
     public static final int CLOCK_TIME_COLUMNS = 15;
+
+    // Microscope Slide model, local origin at slide's geometric center
+    public static final double MICROSCOPE_SLIDE_CENTER_HEIGHT = 2000; // nm
+    public static final double MICROSCOPE_SLIDE_EDGE_HEIGHT = 0.025 * MICROSCOPE_SLIDE_CENTER_HEIGHT; // nm
+    private static final double MICROSCOPE_SLIDE_HEIGHT = MICROSCOPE_SLIDE_CENTER_HEIGHT + ( 2 * MICROSCOPE_SLIDE_EDGE_HEIGHT );
+    private static final double MICROSCOPE_SLIDE_Y_OFFSET = 150; // nm
+    public static final Point2D MICROSCOPE_SLIDE_POSITION = new Point2D.Double( 0, MICROSCOPE_SLIDE_Y_OFFSET + ( MICROSCOPE_SLIDE_HEIGHT /2 ) ); // nm
+    public static final double MICROSCOPE_SLIDE_ORIENTATION = Math.toRadians( 0 );
     
-    // Fluid model, local origin at fluid's center
-    public static final double FLUID_HEIGHT = 2000; // nm
-    private static final double FLUID_Y_OFFSET = 200; // nm
-    public static final Point2D FLUID_POSITION = new Point2D.Double( 0, FLUID_Y_OFFSET + ( FLUID_HEIGHT /2 ) ); // nm
-    public static final double FLUID_ORIENTATION = Math.toRadians( 0 ); // left-to-right flow direction
+    // Fluid model
+    public static final double FLUID_DIRECTION = Math.toRadians( 0 ); // left-to-right flow direction
     public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 0, 1000000, 0 ); // nm/sec, min must be >0
     public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 1E-4, 1E-2, Fluid.WATER_VISCOSITY ); // Pa*s
     public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 200 ); // Kelvin
@@ -52,11 +57,11 @@ public class DNADefaults {
     // Laser model, local origin at center of objective
     public static final double LASER_DIAMETER_AT_OBJECTIVE = 1800; // nm, chosen so that beam shape is similar to PhysicsDefaults
     public static final double LASER_DIAMETER_AT_WAIST = 500; // nm
-    public static final double LASER_DISTANCE_FROM_OBJECTIVE_TO_WAIST = ( FLUID_HEIGHT / 2 ) + FLUID_Y_OFFSET; // nm
+    public static final double LASER_DISTANCE_FROM_OBJECTIVE_TO_WAIST = ( MICROSCOPE_SLIDE_HEIGHT / 2 ) + MICROSCOPE_SLIDE_Y_OFFSET; // nm
     public static final double LASER_DISTANCE_FROM_OBJECTIVE_TO_CONTROL_PANEL = 200; // nm
     public static final double LASER_WAVELENGTH = 1064; // nm, invisible IR
     public static final double LASER_VISIBLE_WAVELENGTH = 632; // nm, to be used by view components
-    public static final Point2D LASER_POSITION = new Point2D.Double( 2400, FLUID_POSITION.getY() ); // nm
+    public static final Point2D LASER_POSITION = new Point2D.Double( 2400, MICROSCOPE_SLIDE_POSITION.getY() ); // nm
     public static final double LASER_ORIENTATION = Math.toRadians( -90 );
     public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500 ); // mW
     public static final boolean LASER_RUNNING = true;
