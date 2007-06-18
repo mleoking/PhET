@@ -93,7 +93,9 @@ public class Bead extends MovableObject implements ModelElement {
         
         _diameter = diameter;
         _density = density;
+        
         _microscopeSlide = microscopeSlide;
+        
         _laser = laser;
         _stepAngleRandom = new Random();
         _motionEnabled = true;
@@ -330,16 +332,91 @@ public class Bead extends MovableObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     private void move( double clockDt ) {
-        if ( _microscopeSlide.isVacuumEnabled() ) {
-            moveInVacuum( clockDt );
+        if ( _microscopeSlide.isFluidEnabled() ) {
+            moveInFluid( clockDt );
         }
         else {
-            moveInFluid( clockDt );
+            moveInVacuum( clockDt );
         }
     }
     
+    /*
+     * Bead motion in a vacuum, Verlet algorithm.
+     * 
+     * Units:
+     *     time - sec
+     *     force - pN
+     *     distance - nm
+     *     velocity - nm/sec
+     *     acceleration - nm/sec^2
+     * 
+     * @param clockDt
+     */
     private void moveInVacuum( double clockDt ) {
-        //XXX
+        
+        // Top and bottom edges of microscope slide, bead treated as a point
+        final double yTopOfSlide = _microscopeSlide.getCenterMinY() + ( getDiameter() / 2 ); // nm
+        final double yBottomOfSlide = _microscopeSlide.getCenterMaxY() - ( getDiameter() / 2 ); // nm
+        
+        // Subdivide the clock step into N equals pieces
+        double dt = clockDt;
+        int loops = 1;
+        if ( clockDt > ( 1.001 * _dtSubdivisionThreshold ) ) {
+            dt = clockDt / _numberOfDtSubdivisions;
+            loops = _numberOfDtSubdivisions;
+        }
+        
+        final double m = 0.1; //XXX adjustable
+        
+        double xOld = getX();
+        double yOld = getY();
+        double vxOld = _velocity.getX();
+        double vyOld = _velocity.getY();
+        Vector2D trapForce = _laser.getTrapForce( xOld, yOld ); // pN
+        double axOld = trapForce.getX() / m;
+        double ayOld = trapForce.getY() / m;
+        
+        double xNew = 0, yNew = 0;  // position
+        double vxNew = 0, vyNew = 0; // velocity
+        double axNew = 0, ayNew = 0; // acceleration
+        
+        // Run the motion algorithm for subdivided clock step
+        for ( int i = 0; i < loops; i++ ) {
+            
+            // new position
+            xNew = xOld + ( vxOld * dt ) + ( 0.5 * axOld * dt * dt );
+            yNew = yOld + ( vyOld * dt ) + ( 0.5 * ayOld * dt * dt );
+            
+            // Collision detection.
+            if ( yNew < yTopOfSlide ) {
+                // collide with top edge of microscope slide
+                yNew = yTopOfSlide;
+            }
+            else if ( yNew > yBottomOfSlide ) {
+                // collide with bottom edge of microscope slide
+                yNew = yBottomOfSlide;
+            }
+            
+            // acceleration
+            trapForce = _laser.getTrapForce( xNew, yNew ); // pN
+            axNew = trapForce.getX() / m;
+            ayNew = trapForce.getY() / m;
+            
+            // new velocity
+            vxNew = vxOld + ( 0.5 * ( axNew + axOld ) * dt );
+            vyNew = vyOld + ( 0.5 * ( ayNew + ayOld ) * dt );
+            
+            xOld = xNew;
+            yOld = yNew;
+            vxOld = vxNew;
+            vyOld = vyNew;
+            axOld = axNew;
+            ayOld = ayNew;
+        }
+        
+        // Set new values
+        _velocity.setXY( vxNew, vyNew ); // nm/sec
+        setPosition( xNew, yNew ); // nm
     }
     
     /*

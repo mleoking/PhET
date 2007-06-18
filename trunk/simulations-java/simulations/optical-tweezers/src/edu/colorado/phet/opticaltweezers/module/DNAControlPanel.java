@@ -58,7 +58,8 @@ public class DNAControlPanel extends AbstractControlPanel {
         // Sub-panels
         DNAModel model = module.getDNAModel();
         _clockStepControlPanel = new ClockStepControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
-        _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, model.getBead(),
+        _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
+                model.getBead(), model.getFluid(),
                 _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getDNAForceNode() );
         _forcesControlPanel.setBrownianMotionCheckBoxVisible( false );
         _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getMicroscopeSlide() );

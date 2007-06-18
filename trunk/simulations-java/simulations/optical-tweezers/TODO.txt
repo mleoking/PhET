@@ -4,6 +4,11 @@
 
 IN PROGRESS:
 - implement Verlet motion algorithm for bead in a vacuum
+- add default values for fluid/vacuum state controls
+- hide fluid/vacuum controls in DNA panel
+- disable "Show fluid drag force" when vacuum is selected
+- hide FluidDragForceNode when vacuum is selected
+- selecting "vacuum" while fluid controls dialog is open causes a beep
 
 HIGH PRIORITY:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
@@ -57,6 +62,8 @@ MISSING INFO:
 
  
 DONE:
+6/18/07 - first try at Verlet algorithm for bead in a vacuum, not working as expected
+6/18/07 - switch between fluid and vaccum by disabling fluid
 6/18/07 - add fluid/vacuum radio buttons to control panel
 6/18/07 - make Fluid final in Microscope slide model to simplify lots of things
 6/18/07 - add MicroscopeSlide to model, in preparation for switching between fluid and vacuum

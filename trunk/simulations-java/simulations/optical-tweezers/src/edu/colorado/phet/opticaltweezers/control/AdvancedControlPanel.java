@@ -30,7 +30,6 @@ public class AdvancedControlPanel extends JPanel implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private MicroscopeSlide _microscopeSlide;
     private Fluid _fluid;
     private Frame _parentFrame;
     private FluidControlDialog _fluidControlDialog;
@@ -58,9 +57,8 @@ public class AdvancedControlPanel extends JPanel implements Observer {
         
         _parentFrame = parentFrame;
         
-        _microscopeSlide = microscopeSlide;
-        _microscopeSlide.addObserver( this );
-        _fluid = _microscopeSlide.getFluid();
+        _fluid = microscopeSlide.getFluid();
+        _fluid.addObserver( this );
         
         _fluidControlDialog = null;
         
@@ -139,7 +137,7 @@ public class AdvancedControlPanel extends JPanel implements Observer {
         
         // Default state
         _panel.setVisible( false );
-        if ( _microscopeSlide.getFluid() != null ) {
+        if ( _fluid.isEnabled() ) {
             _fluidRadioButton.setSelected( true );
         }
         else {
@@ -153,10 +151,7 @@ public class AdvancedControlPanel extends JPanel implements Observer {
     }
     
     public void cleanup() {
-        _microscopeSlide.deleteObserver( this );
-        if ( _microscopeSlide.getFluid() != null ) {
-            _microscopeSlide.getFluid().deleteObserver( this );
-        }
+        _fluid.deleteObserver( this );
     }
     
     //----------------------------------------------------------------------------
@@ -218,9 +213,9 @@ public class AdvancedControlPanel extends JPanel implements Observer {
     }
     
     private void handleFluidOrVacuumChoice() {
-        _microscopeSlide.deleteObserver( this );
-        _microscopeSlide.setFluidEnabled( _fluidRadioButton.isSelected() );
-        _microscopeSlide.addObserver( this );
+        _fluid.deleteObserver( this );
+        _fluid.setEnabled( _fluidRadioButton.isSelected() );
+        _fluid.addObserver( this );
         
         _fluidControlsCheckBox.setEnabled( _fluidRadioButton.isSelected() );
         
@@ -269,9 +264,9 @@ public class AdvancedControlPanel extends JPanel implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _microscopeSlide ) {
-            if ( arg == MicroscopeSlide.PROPERTY_FLUID_OR_VACUUM ) {
-                setVacuumSelected( _microscopeSlide.isVacuumEnabled() );
+        if ( o == _fluid ) {
+            if ( arg == Fluid.PROPERTY_ENABLED ) {
+                setFluidSelected( _fluid.isEnabled() );
             }
         }
     }
