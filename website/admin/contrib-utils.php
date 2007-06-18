@@ -1657,15 +1657,25 @@ EOT;
     
     function contributor_print_quick_login() {
         print <<<EOT
-            <div class="field">
-                <span class="label_content">                
-                    <input type="text" size="20" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_name_change();"/>
-                </span>
+            <div id="quick_login_uid">
+                <div class="field">
+                    <span class="label_content">                
+                        <input type="text" size="20" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_name_change();"/> 
+                    </span>
             
-                <span class="label">your name</span>                            
-            </div>
+                    <span class="label">your name</span>                            
+                </div>
 
-            <div id="required_login_info_uid">    
+                <div id="required_login_info_uid"> 
+                    <div class="field">
+                        <span class="label_content">
+                            <input type="button" name="enter" value="Enter" />
+                        </span>
+                    </div>
+                </div>
+
+                <br/>
+                
             </div>
 EOT;
     }
@@ -1681,9 +1691,13 @@ EOT;
     function contributor_add_new_contributor($username, $password, $is_team_member = false) {
         $team_member_field = $is_team_member ? '1' : '0';
         
-        db_exec_query("INSERT INTO `contributor` (`contributor_email`, `contributor_password`, `contributor_is_team_member`) VALUES ('$username', '$password', '$team_member_field') ");
-        
-        return mysql_insert_id();
+        return db_insert_row('contributor', 
+            array(
+                'contributor_email'             => $username,
+                'contributor_password'          => $password,
+                'contributor_is_team_member'    => $team_member_field
+            )
+        );
     }
     
     function contributor_get_contributor_by_id($contributor_id) {
@@ -1881,7 +1895,7 @@ EOT;
         $params = array();
         
         foreach($_REQUEST as $key => $value) {
-            if ("$key" !== "contributor_id") {
+            if ("$key" !== "contributor_id" && "$key" !== "contributor_email") {
                 if (preg_match('/contributor_.*/', "$key") == 1) {
                     $params["$key"] = mysql_real_escape_string("$value");
                 }

@@ -38,6 +38,8 @@
         $already_tried_login_required = $login_required;
         
         global $contributor_authenticated;
+        
+        $contributor_authenticated = false;
 
         if (isset($_REQUEST['username'])) {
             $username = $_REQUEST['username'];
@@ -62,8 +64,6 @@
         else if (isset($_REQUEST['contributor_password'])) {
             $password = $_REQUEST['contributor_password'];
         }
-
-        $contributor_authenticated = false;
 
         if (!isset($username) || !isset($password)) {   
             // Either a username or password was not specified.
@@ -178,5 +178,7 @@
             // Stuff all the contributor fields into global variables:
             gather_array_into_globals(contributor_get_contributor_by_id($contributor_id));
         }
+        
+        return $contributor_authenticated;
     }
 ?>

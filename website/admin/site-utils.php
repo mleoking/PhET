@@ -439,6 +439,32 @@ EOT;
                                 null, 'required_login_info_uid', 'on_email_change();');
                         }
                     }
+
+                    function login_create_account() {
+                        var name     = document.getElementById('contributor_name_uid').value;
+                        var email    = document.getElementById('contributor_email_uid').value;
+                        var password = document.getElementById('contributor_password_uid').value;
+                        var org      = document.getElementById('contributor_organization_uid').value;
+                        
+                        HTTP.updateElementWithGet('$prefix/admin/do-ajax-login.php' + 
+                            '?contributor_name='            + encodeURI(name)       + 
+                            '&contributor_email='           + encodeURI(email)      +
+                            '&contributor_password='        + encodeURI(password)   +
+                            '&contributor_organization='    + encodeURI(org)        +
+                            '&action=create', 
+                            null, 'required_login_info_uid');
+                    }
+                    
+                    function login_login() {
+                        var email    = document.getElementById('contributor_email_uid').value;
+                        var password = document.getElementById('contributor_password_uid').value;
+                        
+                        HTTP.updateElementWithGet('$prefix/admin/do-ajax-login.php' + 
+                            '?contributor_email='           + encodeURI(email)      +
+                            '&contributor_password='        + encodeURI(password)   +
+                            '&action=login', 
+                            null, 'required_login_info_uid');                        
+                    }
                     
                     $(document).ready(
                         function() {

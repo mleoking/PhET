@@ -2,12 +2,51 @@
 
     include_once("../admin/global.php");
 
+    include_once(SITE_ROOT."admin/authentication.php");
     include_once(SITE_ROOT."admin/contrib-utils.php");
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."admin/sys-utils.php");      
 
     $lookup_by_email = false;
     $lookup_by_name  = false;
+    
+    if (isset($_REQUEST['action'])) {
+        $action = $_REQUEST['action'];
+        
+        if ($action == 'login') {
+            if (do_authentication(false)) {            
+                print <<<EOT
+                    <p class="validation-success">You have been successfully logged in.</p>
+EOT;
+                exit;
+            }
+        }
+        else if ($action == 'create') {
+            $contributor_email        = $_REQUEST['contributor_email'];
+            $contributor_name         = $_REQUEST['contributor_name'];
+            $contributor_password     = $_REQUEST['contributor_password'];
+            $contributor_organization = $_REQUEST['contributor_organization'];
+                        
+            if (!contributor_is_contributor($contributor_email)) {
+                $contributor_id = contributor_add_new_contributor($contributor_email, $contributor_password);
+                
+                contributor_update_contributor($contributor_id,
+                    array(
+                        'contributor_name'         => $contributor_name,
+                        'contributor_organization' => $contributor_organization
+                    )
+                );
+                
+                do_authentication(false);
+                
+                print <<<EOT
+                    <p class="validation-success">An account for $contributor_email has successfully been created.</p>
+EOT;
+                
+                exit;
+            }
+        }
+    }
     
     if (isset($_REQUEST['contributor_password'])) {
         $contributor_password = $_REQUEST['contributor_password'];
@@ -90,6 +129,12 @@ EOT;
                 
                 <span class="label">your password</span>                
             </div>
+
+            <div class="field">
+                <span class="label_content">
+                    <input type="button" name="enter" value="Login" onclick="javascript:login_login();"/>
+                </span>
+            </div>
 EOT;
     }
     else {
@@ -123,7 +168,13 @@ EOT;
                 </span>
                 
                 <span class="label">your organization</span>                
-            </div>                
+            </div>    
+            
+            <div class="field">
+                <span class="label_content">
+                    <input type="button" name="enter" value="Create Account" onclick="javascript:login_create_account();"/>
+                </span>
+            </div>            
 EOT;
     }
 
