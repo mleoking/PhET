@@ -115,7 +115,7 @@ EOT;
 EOT
         );
         
-        print_navigation_element($prefix, $selected_page, "get_phet/index.php",        "Download PhET",
+        print_navigation_element($prefix, $selected_page, "get_phet/index.php",        "Running our Simulations",
             <<<EOT
             <li class="sub"><span class="sub-nav"><a href="$prefix/get_phet/full_install.php">→ Full Install</a></span></li>
 
