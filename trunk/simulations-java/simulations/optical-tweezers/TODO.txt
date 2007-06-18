@@ -58,6 +58,8 @@ MISSING INFO:
 
  
 DONE:
+6/18/07 - set velocity to zero when user grabs the bead
+6/18/07 - add debug output for Verlet motion-in-vacuum algorithm
 6/18/07 - disable brownian motion control when bead is in a vacuum
 6/18/07 - add default values and "reset all" for fluid/vacuum state
 6/18/07 - hide fluid/vacuum radio buttons in DNA panel

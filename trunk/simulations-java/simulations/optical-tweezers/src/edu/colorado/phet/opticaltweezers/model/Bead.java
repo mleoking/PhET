@@ -30,8 +30,9 @@ public class Bead extends MovableObject implements ModelElement {
     // Private class data
     //----------------------------------------------------------------------------
     
-    // Debugging output for the motion algorithm
-    private static final boolean MOTION_DEBUG_OUTPUT = false;
+    // Debugging output for the motion algorithms
+    private static final boolean DEBUG_MOTION_IN_FLUID = false;
+    private static final boolean DEBUG_MOTION_IN_VACUUM = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -162,7 +163,10 @@ public class Bead extends MovableObject implements ModelElement {
      * @param motionEnabled true or false
      */
     public void setMotionEnabled( boolean motionEnabled ) {
-        _motionEnabled = motionEnabled;    
+        if ( motionEnabled != _motionEnabled ) {
+            _motionEnabled = motionEnabled;
+            _velocity.setXY( 0, 0 );
+        }
     }
     
     public void setBrownianMotionEnabled( boolean enabled ) {
@@ -417,6 +421,18 @@ public class Bead extends MovableObject implements ModelElement {
             vxNew = vxOld + ( 0.5 * ( axNew + axOld ) * dt );
             vyNew = vyOld + ( 0.5 * ( ayNew + ayOld ) * dt );
             
+            if ( DEBUG_MOTION_IN_VACUUM ) {
+                System.out.println( "dt = " + dt );
+                System.out.println( "old position = " + new Point2D.Double( xOld, yOld ) + " nm" );
+                System.out.println( "new position = " + new Point2D.Double( xNew, yNew ) + " nm" );
+                System.out.println( "new trap force = " + trapForce + " pN" );
+                System.out.println( "old acceleration = [" + axOld + "," + ayOld + "] nm/sec^2" );
+                System.out.println( "new acceleration = [" + axNew + "," + ayNew + "] nm/sec^2" );
+                System.out.println( "old velocity = [" + vxOld + "," + vyOld + "] nm/sec" );
+                System.out.println( "new velocity = [" + vxNew + "," + vyNew + "] nm/sec" );
+                System.out.println();
+            }
+            
             xOld = xNew;
             yOld = yNew;
             vxOld = vxNew;
@@ -527,7 +543,7 @@ public class Bead extends MovableObject implements ModelElement {
             vxNew = ( mobility * trapForce.getX() ) + ( mobility * dnaForce.getX() ) + fluidVelocity.getX(); // nm/sec
             vyNew = ( mobility * trapForce.getY() ) + ( mobility * dnaForce.getY() ) + fluidVelocity.getY(); // nm/sec
 
-            if ( MOTION_DEBUG_OUTPUT ) {
+            if ( DEBUG_MOTION_IN_FLUID ) {
                 System.out.println( "old position = " + new Point2D.Double( xOld, yOld ) + " nm" );
                 System.out.println( "new position = " + new Point2D.Double( xNew, yNew ) + " nm" );
                 System.out.println( "old velocity = [" + vxOld + "," + vyOld + "] nm/sec" );
