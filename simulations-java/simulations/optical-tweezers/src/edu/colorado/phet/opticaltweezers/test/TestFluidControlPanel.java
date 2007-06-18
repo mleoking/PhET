@@ -23,10 +23,9 @@ public class TestFluidControlPanel extends JFrame {
         
         Font font = new JLabel().getFont();
         
-        Fluid fluid = new Fluid( PhysicsDefaults.FLUID_POSITION,
-                PhysicsDefaults.FLUID_ORIENTATION,
-                PhysicsDefaults.FLUID_HEIGHT,
-                PhysicsDefaults.FLUID_SPEED_RANGE, 
+        Fluid fluid = new Fluid( 
+                PhysicsDefaults.FLUID_SPEED_RANGE,
+                PhysicsDefaults.FLUID_DIRECTION,
                 PhysicsDefaults.FLUID_VISCOSITY_RANGE, 
                 PhysicsDefaults.FLUID_TEMPERATURE_RANGE );
         

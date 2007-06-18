@@ -39,7 +39,7 @@ public class Bead extends MovableObject implements ModelElement {
     
     private double _diameter; // nm
     private final double _density; // kg/nm^3
-    private Fluid _fluid;
+    private MicroscopeSlide _microscopeSlide;
     private Laser _laser;
     private Random _stepAngleRandom;
     private boolean _motionEnabled;
@@ -69,7 +69,7 @@ public class Bead extends MovableObject implements ModelElement {
      * @param dtSubdivisionThresholdRange
      * @param numberOfDtSubdivisionsRange
      * @param brownianMotionScaleRange
-     * @param fluid
+     * @param microscopeSlide
      * @param laser
      */
     public Bead( Point2D position, 
@@ -79,7 +79,7 @@ public class Bead extends MovableObject implements ModelElement {
             DoubleRange dtSubdivisionThresholdRange,
             IntegerRange numberOfDtSubdivisionsRange,
             DoubleRange brownianMotionScaleRange,
-            Fluid fluid, 
+            MicroscopeSlide microscopeSlide,
             Laser laser ) {
         
         super( position, orientation, 0 /* speed */ );
@@ -93,7 +93,7 @@ public class Bead extends MovableObject implements ModelElement {
         
         _diameter = diameter;
         _density = density;
-        _fluid = fluid;
+        _microscopeSlide = microscopeSlide;
         _laser = laser;
         _stepAngleRandom = new Random();
         _motionEnabled = true;
@@ -172,7 +172,15 @@ public class Bead extends MovableObject implements ModelElement {
      * @return Vector2D
      */
     public Vector2D getDragForce() {
-        return _fluid.getDragForce( _velocity );
+        Vector2D dragForce = null;
+        if ( _microscopeSlide.isVacuum() ) {
+            dragForce = new Vector2D.Cartesian( 0, 0 );
+        }
+        else {
+            Fluid fluid = _microscopeSlide.getFluid();
+            dragForce = fluid.getDragForce( _velocity );
+        }
+        return dragForce;
     }
     
     /**
@@ -321,8 +329,21 @@ public class Bead extends MovableObject implements ModelElement {
     // Motion model
     //----------------------------------------------------------------------------
     
+    private void move( double clockDt ) {
+        if ( _microscopeSlide.isVacuum() ) {
+            moveInVacuum( clockDt );
+        }
+        else {
+            moveInFluid( clockDt );
+        }
+    }
+    
+    private void moveInVacuum( double clockDt ) {
+        //XXX
+    }
+    
     /*
-     * Bead motion algorithm.
+     * Bead motion in a fluid.
      * 
      * Units:
      *     time - sec
@@ -334,16 +355,17 @@ public class Bead extends MovableObject implements ModelElement {
      * Constraints:
      *     direction of fluid flow must be horizontal
      */
-    private void move( double clockDt ) {
+    private void moveInFluid( double clockDt ) {
         
         // Top and bottom edges of microscope slide, bead treated as a point
-        final double yTopOfSlide = _fluid.getMinY() + ( getDiameter() / 2 ); // nm
-        final double yBottomOfSlide = _fluid.getMaxY() - ( getDiameter() / 2 ); // nm
+        final double yTopOfSlide = _microscopeSlide.getCenterMinY() + ( getDiameter() / 2 ); // nm
+        final double yBottomOfSlide = _microscopeSlide.getCenterMaxY() - ( getDiameter() / 2 ); // nm
         
         // Mobility
-        final double normalizedViscosity = _fluid.getDimensionlessNormalizedViscosity(); // unitless
-        final double mobility = _fluid.getMobility(); // (nm/sec)/pN
-        final Vector2D fluidVelocity = _fluid.getVelocity(); // nm/sec
+        Fluid fluid = _microscopeSlide.getFluid();
+        final double normalizedViscosity = fluid.getDimensionlessNormalizedViscosity(); // unitless
+        final double mobility = fluid.getMobility(); // (nm/sec)/pN
+        final Vector2D fluidVelocity = fluid.getVelocity(); // nm/sec
         if ( fluidVelocity.getY() != 0 ) {
             throw new IllegalStateException( "bead motion algorithm requires horizontal fluid flow" );
         }
@@ -450,12 +472,20 @@ public class Bead extends MovableObject implements ModelElement {
      */
     private Vector2D computeBrownianDisplacement( double dt ) {
         
-        final double normalizedViscosity = _fluid.getDimensionlessNormalizedViscosity(); // unitless
-        final double fluidTemperature = _fluid.getTemperature(); // Kelvin
-        
-        final double stepLength = _brownianMotionScale * ( 2200 / Math.sqrt( normalizedViscosity ) ) * Math.sqrt( fluidTemperature / 300 ) * Math.sqrt( dt ); // nm
-        double stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI ); // radians
-        
-        return new Vector2D.Polar( stepLength, stepAngle );
+        Vector2D displacement = null;
+        if ( _microscopeSlide.isVacuum() ) {
+            displacement = new Vector2D.Cartesian( 0, 0 );
+        }
+        else {
+            Fluid fluid = _microscopeSlide.getFluid();
+            final double normalizedViscosity = fluid.getDimensionlessNormalizedViscosity(); // unitless
+            final double fluidTemperature = fluid.getTemperature(); // Kelvin
+
+            final double stepLength = _brownianMotionScale * ( 2200 / Math.sqrt( normalizedViscosity ) ) * Math.sqrt( fluidTemperature / 300 ) * Math.sqrt( dt ); // nm
+            double stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI ); // radians
+
+            displacement = new Vector2D.Polar( stepLength, stepAngle );
+        }
+        return displacement;
     }
 }

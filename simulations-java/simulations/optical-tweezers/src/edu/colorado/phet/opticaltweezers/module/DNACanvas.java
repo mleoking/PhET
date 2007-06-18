@@ -51,7 +51,7 @@ public class DNACanvas extends PhetPCanvas {
     
     // View
     private PNode _rootNode;
-    private FluidNode _fluidNode;
+    private MicroscopeSlideNode _microscopeSlideNode;
     private LaserNode _laserNode;
     private DNAStrandNode _dnaStrandNode;
     private BeadNode _beadNode;
@@ -80,6 +80,7 @@ public class DNACanvas extends PhetPCanvas {
         _model = model;
         
         Fluid fluid = model.getFluid();
+        MicroscopeSlide microscopeSlide = model.getMicroscopeSlide();
         Laser laser = model.getLaser();
         DNAStrand dnaStrand = model.getDNAStrand();
         Bead bead = model.getBead();
@@ -101,8 +102,8 @@ public class DNACanvas extends PhetPCanvas {
         _rootNode = new PNode();
         addWorldChild( _rootNode );
         
-        // Fluid
-        _fluidNode = new FluidNode( fluid, modelViewTransform );
+        // Microscope slide
+        _microscopeSlideNode = new MicroscopeSlideNode( microscopeSlide, modelViewTransform, PhysicsDefaults.FLUID_SPEED_RANGE.getMax() );
         
         // Laser
         _laserDragBoundsNode = new PPath();
@@ -152,7 +153,7 @@ public class DNACanvas extends PhetPCanvas {
         _returnBeadButtonWrapper = new PSwing( returnBeadButton );
         
         // Layering order of nodes on the canvas
-        _rootNode.addChild( _fluidNode );
+        _rootNode.addChild( _microscopeSlideNode );
         _rootNode.addChild( _laserNode );
         _rootNode.addChild( _laserDragBoundsNode );
         _rootNode.addChild( _dnaStrandNode );
@@ -174,8 +175,8 @@ public class DNACanvas extends PhetPCanvas {
         return _beadNode;
     }
     
-    public FluidNode getFluidNode() {
-        return _fluidNode;
+    public MicroscopeSlideNode getMicroscopeSlideNode() {
+        return _microscopeSlideNode;
     }
     
     public PPath getLaserDragBoundsNode() {
@@ -233,7 +234,7 @@ public class DNACanvas extends PhetPCanvas {
         
         // Adjust width of things that must fill the canvas width
         {
-            _fluidNode.setWorldSize( worldSize );
+            _microscopeSlideNode.setWorldSize( worldSize );
             _rulerNode.setWorldSize( worldSize );
         }
 
@@ -242,7 +243,7 @@ public class DNACanvas extends PhetPCanvas {
             // This percentage of the bead must remain visible
             final double m = 0.15;
             
-            Rectangle2D sb = _fluidNode.getCenterGlobalBounds();
+            Rectangle2D sb = _microscopeSlideNode.getCenterGlobalBounds();
             Rectangle2D bb = _beadNode.getGlobalFullBounds();
             x = sb.getX() - ( ( 1 - m ) * bb.getWidth() );
             y = sb.getY();
@@ -268,7 +269,7 @@ public class DNACanvas extends PhetPCanvas {
             // This percentage of the laser must remain visible
             final double m = 0.15;
             
-            Rectangle2D sb = _fluidNode.getCenterGlobalBounds();
+            Rectangle2D sb = _microscopeSlideNode.getCenterGlobalBounds();
             Rectangle2D lb = _laserNode.getGlobalFullBounds();
             double xAdjust = ( 1 - m ) * lb.getWidth();
             x = -xAdjust;

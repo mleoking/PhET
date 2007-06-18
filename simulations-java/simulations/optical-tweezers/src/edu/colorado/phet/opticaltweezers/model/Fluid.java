@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.model;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
@@ -13,7 +11,7 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Fluid extends MovableObject implements ModelElement {
+public class Fluid extends OTObservable implements ModelElement {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -21,6 +19,7 @@ public class Fluid extends MovableObject implements ModelElement {
     
     public static final double WATER_VISCOSITY = 1E-3; // Pa*sec
     
+    public static final String PROPERTY_SPEED = "speed";
     public static final String PROPERTY_VISCOSITY = "viscosity";
     public static final String PROPERTY_TEMPERATURE = "temperature";
     
@@ -32,7 +31,8 @@ public class Fluid extends MovableObject implements ModelElement {
     private final DoubleRange _viscosityRange; // Pa*sec
     private final DoubleRange _temperatureRange; // Kelvin
     
-    private final double _height; // nm
+    private double _speed; // nm/sec
+    private final double _direction; // radians
     private double _viscosity; // Pa*sec
     private double _temperature; // Kelvin
     
@@ -43,23 +43,18 @@ public class Fluid extends MovableObject implements ModelElement {
     /**
      * Constructor.
      * 
-     * @param position position at the center of the fluid "stream" (nm)
-     * @param orientation direction that the fluid stream flows (radians)
-     * @param height height of the fluid stream (nm)
      * @param speedRange speed of the fluid stream (nm/sec)
      * @param viscosityRange (Pa*sec)
      * @param temperatureRange (Kelvin)
      */
-    public Fluid( Point2D position, double orientation, double height, 
-            DoubleRange speedRange, DoubleRange viscosityRange, DoubleRange temperatureRange ) {
-        super( position, orientation, speedRange.getDefault() );
-        
-        _height = height;
+    public Fluid( DoubleRange speedRange, double direction, DoubleRange viscosityRange, DoubleRange temperatureRange ) {
         
         _speedRange = speedRange;
         _viscosityRange = viscosityRange;
         _temperatureRange = temperatureRange;
         
+        _speed = _speedRange.getDefault();
+        _direction = direction;
         _viscosity = _viscosityRange.getDefault();
         _temperature = _temperatureRange.getDefault();
     }
@@ -69,39 +64,12 @@ public class Fluid extends MovableObject implements ModelElement {
     //----------------------------------------------------------------------------
 
     /**
-     * Gets the height of the fluid.
-     * 
-     * @return height (nm)
-     */
-    public double getHeight() {
-        return _height;
-    }
-
-    /**
-     * Gets the minimum y (top) boundary of the fluid.
-     * 
-     * @return top boundary (nm)
-     */
-    public double getMinY() {
-        return getY() - ( _height / 2 );
-    }
-    
-    /**
-     * Gets the maximum y (bottom) boundary of the fluid.
-     * 
-     * @return bottom boundary (nm)
-     */
-    public double getMaxY() {
-        return getY() + ( _height / 2 );
-    }
-
-    /**
      * Gets the fluid speed.
      * 
      * @return speed (nm/sec)
      */
     public double getSpeed() {
-        return super.getSpeed();
+        return _speed;
     }
     
     /**
@@ -114,26 +82,26 @@ public class Fluid extends MovableObject implements ModelElement {
         if ( speed < _speedRange.getMin() || speed > _speedRange.getMax() ) {
             throw new IllegalArgumentException( "speed out of range: " + speed );
         }
-        super.setSpeed( speed );
+        _speed = speed;
+        notifyObservers( PROPERTY_SPEED );
     }
     
     /**
-     * Get the fluid velocity, a vector describing speed (nm/sec) and orientation (radians).
+     * Gets the direction of the fluid flow.
+     * 
+     * @return direction (radians)
+     */
+    public double getDirection() {
+        return _direction;
+    }
+    
+    /**
+     * Get the fluid velocity, a vector describing speed (nm/sec) and direction (radians).
      * 
      * @return Vector2D
      */
     public Vector2D getVelocity() {
-        return new Vector2D.Polar( getSpeed(), getOrientation() );
-    }
-    
-    /**
-     * Sets the fluid velocity, a vector describing speed (nm/sec) and orientation (radians).
-     * 
-     * @param Vector2D
-     */
-    public void setVelocity( Vector2D velocity ) {
-        setSpeed( velocity.getMagnitude() );
-        setOrientation( velocity.getAngle() );
+        return new Vector2D.Polar( getSpeed(), _direction );
     }
     
     /**

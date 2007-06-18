@@ -57,6 +57,8 @@ MISSING INFO:
 
  
 DONE:
+6/18/07 - add MicroscopeSlide to model, in preparation for switching between fluid and vacuum
+6/18/07 - fix centering of fluid speed vectors in microscope slide
 6/18/07 - remove "Enable Brownian motion" from DNA module
 ********* version 0.00.12 (15901)
 6/14/07 - set Save/Load menu items foreground=red to indicate that they aren't implemented
