@@ -9,13 +9,19 @@
         global $connection;
         
         if (isset($_REQUEST['cat'])) {
-            $cat = $_REQUEST['cat'];
+            $cat_encoding = $_REQUEST['cat'];
+            
+            $categories = sim_get_categories();
+            
+            $category = $categories[$cat_encoding];
+            
+            $cat_id = $category['cat_id'];
         }
         else {
-            $cat = 1;
+            $cat_id = 1;
         }
 
-        $select_category_st = "SELECT * FROM `category` WHERE `cat_id`='$cat'";
+        $select_category_st = "SELECT * FROM `category` WHERE `cat_id`='$cat_id'";
         $category_rows      = mysql_query($select_category_st, $connection);
         
         // Print the category header -- e.g. 'Top Sims':
@@ -52,13 +58,15 @@
         }
         
         // This statement selects for all sims in the category, and orders by the sim sorting name:
-        $simulations = sim_get_sims_by_cat_id($cat);
+        $simulations = sim_get_sims_by_cat_id($cat_id);
         
         $num_sims_in_category = count($simulations);
         
         if ($view_type == "thumbs") {
+            $link = sim_get_category_link_by_cat_id($cat_id, 'index view', '&amp;view_type=index');
+            
             // THUMBNAIL INDEX
-            print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=index\">index view</a></div>";
+            print "<div id=\"listing_type\">$link</div>";
 
             if ($num_sims_in_category > SIMS_PER_PAGE) {
                 // Don't bother printing this section unless there are more sims than will fit on one page:
@@ -70,11 +78,15 @@
                     $page_number = $n + 1;
 
                     $page_sim_start_number = SIMS_PER_PAGE * $n; 
+                    
+                    $link = sim_get_category_link_by_cat_id($cat_id, "$page_number", "&amp;st=$page_sim_start_number", 'pg');
 
-                    print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=$page_sim_start_number\">$page_number</a> ";
+                    print "$link";
                 }
+                
+                $link = sim_get_category_link_by_cat_id($cat_id, "view all&raquo;", "&amp;st=-1", 'pg');
 
-                print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=-1\">view all&raquo;</a>";
+                print "$link";
                 
                 print "</div>\n";    
             }
@@ -84,10 +96,7 @@
 
             $sim_number = -1;
 
-            foreach($simulations as $simulation) {
-                 
-//                 print get_code_to_create_variables_from_array($simulation)."<br/>";
-                 
+            foreach($simulations as $simulation) {                 
                 eval(get_code_to_create_variables_from_array($simulation));
 
                 // Make sure the simulation is valid:
@@ -129,9 +138,7 @@
                         </a>
                     
 EOT;
-                    // print "<img src=\"../admin/get-upload.php?url=$sim_image_url\" width=\"130\" height=\"97\" alt=\"View $sim_name Simulation\" />";
-                    // print "</a>\n";
-                    //print "$link_to_sim$sim_name</a>\n";
+
                     print "<br/><p>$link_to_sim$sim_name</a></p>\n";
 
                     // Close product:
@@ -142,7 +149,9 @@ EOT;
             print "</div>\n";
         }
         else {
-            print "<div id=\"listing_type\"><a href=\"index.php?cat=$cat&amp;view_type=thumbs\">thumbnail view</a></div>";
+            $link = sim_get_category_link_by_cat_id($cat_id, "thumbnail view", "&amp;view_type=thumbs");
+                            
+            print "<div id=\"listing_type\">$link</a></div>";
             
             // ALPHABETICAL INDEX
             

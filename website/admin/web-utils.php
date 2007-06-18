@@ -276,6 +276,15 @@ EO_PRINT_HIDDEN_INPUT;
         return preg_replace("/(&$param_name=[^&]+)|((?<=\\?)$param_name=[^?&]+&?)/i", '', $url);
     }  
     
+    function web_encode_string($string) {
+        $string = str_replace(' ',              '_',    $string);
+        $string = str_replace('&amp;',          'and',  $string);        
+        $string = str_replace('&',              'and',  $string);
+        $string = preg_replace('/[^\\w_\\d]+/',  '',     $string);
+        
+        return $string;
+    } 
+    
     function resolve_url_upload($url) {
         if (preg_match('/http.*/i', $url) == 1) {
             // URL is absolute:
