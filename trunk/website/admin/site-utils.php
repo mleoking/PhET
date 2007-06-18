@@ -62,8 +62,10 @@ EOT;
             $cat_id   = $category['cat_id'];
             $cat_name = format_for_html($category['cat_name']);
 
-            $categories .= "<li class=\"sub\"><span class=\"sub-nav\">".
-                           "<a href=\"${prefix}/simulations/index.php?cat=$cat_id\">&rarr; $cat_name</a></span></li>";          
+            $desc = "&rarr; $cat_name";
+            $link = sim_get_category_link_by_cat_id($cat_id, $desc);
+
+            $categories .= "<li class=\"sub\"><span class=\"sub-nav\">$link</span></li>";          
         } 
         
         return $categories;
