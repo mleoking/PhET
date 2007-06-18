@@ -274,8 +274,8 @@ EO_PRINT_HIDDEN_INPUT;
         $param_name = preg_quote($param_name);
         
         return preg_replace("/(&$param_name=[^&]+)|((?<=\\?)$param_name=[^?&]+&?)/i", '', $url);
-    }  
-    
+    }
+    
     function web_encode_string($string) {
         $string = str_replace(' ',              '_',    $string);
         $string = str_replace('&amp;',          'and',  $string);        
@@ -591,8 +591,9 @@ EOT;
                             if ($first_word !== '') {
                                 $abbrev .= strtoupper($first_word[0]);
                             }
-                            
-                            $abbrev .= strtoupper($second_word[0]);
+                            if ($second_word !== '') {
+                                $abbrev .= strtoupper($second_word[0]);
+                            }
                         }
                         else {
                             $w = ucfirst($second_word);
