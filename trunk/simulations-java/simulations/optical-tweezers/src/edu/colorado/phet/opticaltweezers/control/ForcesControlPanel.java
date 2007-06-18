@@ -258,6 +258,16 @@ public class ForcesControlPanel extends JPanel {
         return selected;
     }
     
+    /**
+     * Sets visibility of the checkbox that controls Brownian motion.
+     * This feature is not visible in for some control panels.
+     * 
+     * @param visible
+     */
+    public void setBrownianMotionCheckBoxVisible( boolean visible ) {
+        _brownianMotionCheckBox.setVisible( visible );
+    }
+    
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
