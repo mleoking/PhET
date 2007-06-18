@@ -5,11 +5,9 @@ PhET-team specific tasks are located in an auxiliary build file.
 -->
 
 <project name="PhET Master Build Script" default="gui" basedir=".">
-
-
     <!-- Deployment properties -->
-    <property name="dev.server.name" value="spot.colorado.edu"/>
-    <property name="prod.server.name" value="tigercat.colorado.edu"/>
+    <property name="dev.server.name"    value="spot.colorado.edu"/>
+    <property name="prod.server.name"   value="tigercat.colorado.edu"/>
 
     <!--Properties for deploy output-->
     <property name="dev.server.path"    value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev/"/>
@@ -18,35 +16,34 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="prod.server.url"    value="http://phet.colorado.edu/sims/"/>
 
     <!--Do not modify: these properties define the codebase for java-implementation of ant tasks.-->
-    <property name="ant-output" location="ant_output"/>
-    <property name="phetbuild-classes" location="${ant-output}/phetbuild/classes"/>
-    <property name="proguard.jar" location="build-tools/proguard3.8/lib/proguard.jar"/>
-    <property name="phetbuild-src" location="build-tools/phet-build/src"/>
+    <property name="ant-output"         location="ant_output"/>
+    <property name="phetbuild-classes"  location="${ant-output}/phetbuild/classes"/>
+    <property name="proguard.jar"       location="build-tools/proguard3.8/lib/proguard.jar"/>
+    <property name="phetbuild-src"      location="build-tools/phet-build/src"/>
 
-    <property name="phet.version" value=""/>
-    <property name="phet.src.distribution" value="${basedir}/deploy/phet-src.zip"/>
+    <property name="phet.version"           value=""/>
+    <property name="phet.src.distribution"  value="${basedir}/deploy/phet-src.zip"/>
 
     <!--Phet task implementations-->
-    <property name="phetbuild-classname" value="edu.colorado.phet.build.PhetBuildTask"/>
-    <property name="phetdisplaystats-classname" value="edu.colorado.phet.build.PhetDisplayStatsTask"/>
-    <property name="phetclean-classname" value="edu.colorado.phet.build.PhetCleanTask"/>
-    <property name="phetjnlp-classname" value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
-    <property name="phet-list-sims-classname" value="edu.colorado.phet.build.PhetListSimTask"/>
-    <property name="phet-list-flavors-classname" value="edu.colorado.phet.build.PhetListFlavorsTask"/>
-    <property name="phet-list-locales-classname" value="edu.colorado.phet.build.PhetListLocalesTask"/>
-    <property name="phet-build-gui-classname" value="edu.colorado.phet.build.PhetBuildGUI"/>
+    <property name="phetbuild-classname"            value="edu.colorado.phet.build.PhetBuildTask"/>
+    <property name="phetdisplaystats-classname"     value="edu.colorado.phet.build.PhetDisplayStatsTask"/>
+    <property name="phetclean-classname"            value="edu.colorado.phet.build.PhetCleanTask"/>
+    <property name="phetjnlp-classname"             value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
+    <property name="phet-list-sims-classname"       value="edu.colorado.phet.build.PhetListSimTask"/>
+    <property name="phet-list-flavors-classname"    value="edu.colorado.phet.build.PhetListFlavorsTask"/>
+    <property name="phet-list-locales-classname"    value="edu.colorado.phet.build.PhetListLocalesTask"/>
+    <property name="phet-build-gui-classname"       value="edu.colorado.phet.build.PhetBuildGUI"/>
 
     <!--Properties for the structure of the phet codebase.-->
     <property name="build-tools" value="build-tools"/>
-    <property name="simulations-directory" value="${basedir}/simulations"/>
-
-    <property name="phetbuild-dependencies" value="${phetbuild-classes};${proguard.jar}"/>
-
-    <property name="dir.build-tools" value="${basedir}/build-tools/"/>
+    <property name="simulations-directory"          value="${basedir}/simulations"/>
+    <property name="phetbuild-dependencies"         value="${phetbuild-classes};${proguard.jar}"/>
+    <property name="dir.build-tools"                value="${basedir}/build-tools/"/>
+    
     <!-- Support jars -->
-    <property name="jar.ant-contrib" value="${dir.build-tools}ant-contrib/ant-contrib-1.0b3.jar"/>
-    <property name="jar.junit" value="${dir.build-tools}junit3.8.2/junit.jar"/>
-    <property name="jar.antform" value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"/>
+    <property name="jar.ant-contrib"    value="${dir.build-tools}ant-contrib/ant-contrib-1.0b3.jar"/>
+    <property name="jar.junit"          value="${dir.build-tools}junit3.8.2/junit.jar"/>
+    <property name="jar.antform"        value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"/>
 
     <!--
     The local.properties file encodes platform-specific and user-specific defaults for deployment and testing.
@@ -167,7 +164,7 @@ this task looks like it is executing _build_phet-build Twice.
     </target>
 
     <target name="clean-sim-jnlp">
-        <property name="sim.flavor.jnlp" value="${simulations-directory}/${sim.name}/deploy/${sim.flavor}.jnlp"/>
+        <var name="sim.flavor.jnlp" value="${simulations-directory}/${sim.name}/deploy/${sim.flavor}.jnlp"/>
         <echo message="Cleaning jnlp file ${sim.flavor.jnlp}"/>
         <delete file="${sim.flavor.jnlp}"/>
     </target>
@@ -260,7 +257,7 @@ this task looks like it is executing _build_phet-build Twice.
              </not>
              <then>
                  <loadproperties srcFile="${file.project.properties}"/>
-                 <property name="sim.version" value="${version.major}.${version.minor}.${version.dev}"/>
+                 <var name="sim.version" value="${version.major}.${version.minor}.${version.dev}"/>
              </then>
          </if>             
     </target>
@@ -306,7 +303,7 @@ this task looks like it is executing _build_phet-build Twice.
                 <isset property="sim.server.url"/>
             </not>
             <then>
-                <property name="sim.server.url" value="${dev.server.url}"/>
+                <var name="sim.server.url" value="${dev.server.url}"/>
             </then>
         </if>
 
@@ -326,8 +323,8 @@ this task looks like it is executing _build_phet-build Twice.
 
     <target name="_build-translatable-sim" depends="_init,_verify-sim-name-specified">
         <phet-build project="${sim.name}"/>
-        <property name="sim.translation.dir" value="${ant-output}/translation/sims/${sim.name}"/>
-        <property name="sim.localization.dir" value="${sim.translation.dir}/${sim.name}/localization"/>
+        <var name="sim.translation.dir" value="${ant-output}/translation/sims/${sim.name}"/>
+        <var name="sim.localization.dir" value="${sim.translation.dir}/${sim.name}/localization"/>
         <mkdir dir="${sim.localization.dir}"/>
         <copy file="${basedir}/simulations/${sim.name}/deploy/${sim.name}.jar" todir="${sim.translation.dir}"/>
         <copy todir="${sim.localization.dir}">
@@ -432,5 +429,12 @@ this task looks like it is executing _build_phet-build Twice.
             <param name="ssh-host"              value="${prod.server.name}"/>
         </antcall>
     </target>
+    
+    <target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password, _list-sims" description="Builds and deploys all sims to the development server.">
+        <foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name"/>
+    </target>
 
+    <target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password, _list-sims" description="Builds and deploys all sims to the production server.">
+        <foreach list="${phet.simlist}" target="build-and-deploy-prod" param="sim.name"/>
+    </target>
 </project>
