@@ -38,7 +38,7 @@
         <div class="container">
             <p>
                 <?php
-                    print "<a href=\"../admin/get-upload.php?url=$sim_launch_url\">";
+                    print "<a href=\"$sim_launch_url\">";
                     print "<img class=\"sim-large\" src=\"../admin/get-upload.php?url=$sim_image_url\"/>";
                     print "</a>";
                     print "$sim_desc";  
