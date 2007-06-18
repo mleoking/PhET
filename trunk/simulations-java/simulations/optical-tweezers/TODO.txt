@@ -5,7 +5,6 @@
 IN PROGRESS:
 - implement Verlet motion algorithm for bead in a vacuum
 - add default values for fluid/vacuum state controls
-- hide fluid/vacuum controls in DNA panel
 - bug: beep occurs when selecting vacuum with fluid controls dialog open
 
 HIGH PRIORITY:
@@ -60,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+6/18/07 - hide fluid/vacuum radio buttons in DNA panel
 6/18/07 - remove dependency of MicroscopeSlide model on Fluid model
 6/18/07 - disable "Show fluid drag force" when vacuum is selected
 6/18/07 - hide FluidDragForceNode when vacuum is selected

@@ -35,7 +35,8 @@ public class AdvancedControlPanel extends JPanel implements Observer {
     private FluidControlDialog _fluidControlDialog;
     
     private JButton _showHideButton;
-    private JPanel _panel;
+    private JPanel _mainPanel;
+    private Box _fluidVacuumPanel;
     private JRadioButton _fluidRadioButton, _vacuumRadioButton;
     private JCheckBox _fluidControlsCheckBox;
     private JCheckBox _momemtumChangeCheckBox;
@@ -105,19 +106,19 @@ public class AdvancedControlPanel extends JPanel implements Observer {
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( _fluidRadioButton );
         buttonGroup.add( _vacuumRadioButton );
-        Box radioButtonPanel = new Box( BoxLayout.X_AXIS );
-        radioButtonPanel.add( _fluidRadioButton );
-        radioButtonPanel.add( _vacuumRadioButton );
+        _fluidVacuumPanel = new Box( BoxLayout.X_AXIS );
+        _fluidVacuumPanel.add( _fluidRadioButton );
+        _fluidVacuumPanel.add( _vacuumRadioButton );
         
-        _panel = new JPanel();
+        _mainPanel = new JPanel();
         {
-            EasyGridBagLayout layout = new EasyGridBagLayout( _panel );
-            _panel.setLayout( layout );
+            EasyGridBagLayout layout = new EasyGridBagLayout( _mainPanel );
+            _mainPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
             layout.setFill( GridBagConstraints.HORIZONTAL );
             layout.setMinimumWidth( 0, 20 );
             int row = 0;
-            layout.addComponent( radioButtonPanel, row++, 0 );
+            layout.addComponent( _fluidVacuumPanel, row++, 0 );
             layout.addComponent( _fluidControlsCheckBox, row++, 0 );
             layout.addComponent( _momemtumChangeCheckBox, row++, 0 );
         }
@@ -131,12 +132,12 @@ public class AdvancedControlPanel extends JPanel implements Observer {
         layout.setMinimumWidth( 0, 0 );
         int row = 0;
         layout.addComponent( _showHideButton, row++, 1 );
-        layout.addComponent( _panel, row++, 1 );
+        layout.addComponent( _mainPanel, row++, 1 );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
         
         // Default state
-        _panel.setVisible( false );
+        _mainPanel.setVisible( false );
         if ( _fluid.isEnabled() ) {
             _fluidRadioButton.setSelected( true );
         }
@@ -159,13 +160,17 @@ public class AdvancedControlPanel extends JPanel implements Observer {
     //----------------------------------------------------------------------------
     
     public void setAdvancedVisible( boolean b ) {
-        if ( b ^ _panel.isVisible() ) {
+        if ( b ^ _mainPanel.isVisible() ) {
             handleShowHideButton();
         }
     }
     
     public boolean isAdvancedVisible() {
         return _showHideButton.isVisible();
+    }
+    
+    public void setFluidVacuumPanelVisible( boolean b ) {
+        _fluidVacuumPanel.setVisible( b );
     }
     
     public void setFluidSelected( boolean b ) {
@@ -203,8 +208,8 @@ public class AdvancedControlPanel extends JPanel implements Observer {
     //----------------------------------------------------------------------------
     
     private void handleShowHideButton() {
-        _panel.setVisible( !_panel.isVisible() );
-        if ( _panel.isVisible() ) {
+        _mainPanel.setVisible( !_mainPanel.isVisible() );
+        if ( _mainPanel.isVisible() ) {
             _showHideButton.setText( OTResources.getString( "label.hideAdvanced" ) );
         }
         else {
