@@ -118,6 +118,7 @@ public class PhysicsModule extends AbstractModule {
             
             // Fluid
             Fluid fluid = _model.getFluid();
+            fluid.setEnabled( PhysicsDefaults.FLUID_ENABLED );
             fluid.setSpeed( PhysicsDefaults.FLUID_SPEED_RANGE.getDefault() );
             fluid.setViscosity( PhysicsDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
             fluid.setTemperature( PhysicsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );

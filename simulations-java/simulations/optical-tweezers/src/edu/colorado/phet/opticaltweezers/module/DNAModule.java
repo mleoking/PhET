@@ -120,6 +120,7 @@ public class DNAModule extends AbstractModule {
             
             // Fluid
             Fluid fluid = _model.getFluid();
+            fluid.setEnabled( DNADefaults.FLUID_ENABLED );
             fluid.setSpeed( DNADefaults.FLUID_SPEED_RANGE.getDefault() );
             fluid.setViscosity( DNADefaults.FLUID_VISCOSITY_RANGE.getDefault() );
             fluid.setTemperature( DNADefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
