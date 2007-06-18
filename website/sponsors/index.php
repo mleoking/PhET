@@ -6,41 +6,40 @@
         ?>
             <h1>PhET Would Like to Thank</h1>
 
-            <div class="cellTwo">
-                <h3>Financial Support</h3>
+            <h2>Financial Support</h2>
 
-                <ul class="people">
-                    <li class="hewlett"><img class="sponsors" src="../images/hewlett-logo.jpg" /><strong><a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a></strong></li>
+            <ul class="people">
+                <li class="hewlett"><a href="http://www.hewlett.org/Default.htm"><img class="sponsors" src="../images/hewlett-logo.jpg" /><strong>The William and Flora Hewlett Foundation</strong></a></li>
 
-                    <li class="nsf"><img class="sponsors" src="../images/nsf-logo.gif" /><strong><a href="http://www.nsf.gov/">The National Science Foundation</a></strong></li>
+                <li class="nsf"><a href="http://www.nsf.gov/"><img class="sponsors" src="../images/nsf-logo.gif" /><strong>The National Science Foundation</strong></a></li>
 
-                    <li class="kavli"><img class="sponsors" src="../images/kavli-logo.jpg" /><strong><a href="http://www.kavlifoundation.org/index.php">The Kavli Operating Institute</a></strong></li>
-                </ul><br />
+                <li class="kavli"><a href="http://www.kavlifoundation.org/index.php"><img class="sponsors" src="../images/kavli-logo.jpg" /><strong>The Kavli Operating Institute</strong></a></li>
+            </ul><br />
 
-                <ul class="people">
-                    <li style="list-style: none">
-                        <h3>Technical Support</h3><br />
-                    </li>
+            <h2>Technical Support</h2>
 
-                    <li class="one"><strong><a href="http://www.cs.umd.edu/hcil/piccolo/index.shtml">Piccolo</a></strong><br />
-                    <em>an open source graphics implementation</em></li>
+            <ul class="people">
+                <li class="one"><strong><a href="http://www.cs.umd.edu/hcil/piccolo/index.shtml"><img class="sponsors" src="../images/piccolo.jpg"/>Piccolo</a></strong><br />
+                <em>An open source graphics library</em></li>
 
-                    <li class="two"><strong><a href="http://www.jfree.org/jfreechart/">JFreeChart</a></strong><br />
-                    <em>an open source chart implementation</em></li>
+                <li class="two"><strong><a href="http://www.jfree.org/jfreechart/"><img class="sponsors" src="../images/jfreechart.png"/>JFreeChart</a></strong><br />
+                <em>An open source chart library</em></li>
 
-                    <li class="three"><strong><a href="http://rsheh.web.cse.unsw.edu.au/homepage/index.php?id=34">Raymond Sheh's</a></strong><br />
-                    <em>dynamics engine JADE</em></li>
+                <li class="three"><strong><a href="http://rsheh.web.cse.unsw.edu.au/homepage/index.php?id=34"><img class="sponsors" src="../images/jade.jpg"/>Raymond Sheh's JADE</a></strong><br />
+                <em>A dynamics engine</em></li>
 
-                    <li><strong><a href="http://sourceforge.net/">Sourceforge.net</a></strong><br />
-                    <em>for hosting our source code repository</em></li>
+                <li><strong><a href="http://sourceforge.net/"><img class="sponsors" src="../images/sourceforge.png"/>Sourceforge.net</a></strong><br />
+                <em>For hosting our source code repository</em></li>
 
-                    <li><strong><a href="http://proguard.sourceforge.net">Proguard</a></strong><br />
-                    <em>an open source tool for code</em></li>
+                <li><strong><a href="http://proguard.sourceforge.net"><img class="sponsors" src="../images/proguard.gif"/>Proguard</a></strong><br />
+                <em>An open source tool for code shrinking</em></li>
 
-                    <li><strong><a href="http://www.jetbrains.com/idea/">JetBrains</a></strong><br />
-                    <em>for providing for our Java development environment</em></li>
-                </ul>
-            </div>
+                <li><strong><a href="http://www.jetbrains.com/idea/"><img class="sponsors" src="../images/jetbrains.gif"/>JetBrains</a></strong><br />
+                <em>For providing for our Java development environment</em></li>
+                
+                <li><strong><a href="http://www.ej-technologies.com/products/jprofiler/overview.html"><img class="bordered_sponsors" src="../images/ej.gif"/>ej-technologies</a></strong><br />
+                <em>For providing for our Java profilers</em></li>
+            </ul>
         <?php
     }
 
