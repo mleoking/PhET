@@ -64,9 +64,9 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private MicroscopeSlide _microscopeSlide;
-    private Fluid _fluid;
-    private ModelViewTransform _modelViewTransform;
+    private final MicroscopeSlide _microscopeSlide;
+    private final Fluid _fluid;
+    private final ModelViewTransform _modelViewTransform;
     private double _worldWidth;
     
     // parts of the microscope slide
@@ -92,6 +92,10 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
         setChildrenPickable( false );
         
         _microscopeSlide = microscopeSlide;
+        _microscopeSlide.addObserver( this );
+        
+        _fluid = microscopeSlide.getFluid();
+        _fluid.addObserver( this );
         
         _modelViewTransform = modelViewTransform;
         _worldWidth = 1;
@@ -128,7 +132,6 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
         addChild( _bottomEdgeNode );
         addChild( _velocityVectorsParentNode );
         
-        updateFluid();
         updateSlideGeometry();
         updateSlideColors();
         updateVelocityVectors();
@@ -139,9 +142,7 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
      */
     public void cleanup() {
         _microscopeSlide.deleteObserver( this );
-        if ( _fluid != null ) {
-            _fluid.deleteObserver( this );
-        }
+        _fluid.deleteObserver( this );
     }
     
     //----------------------------------------------------------------------------
@@ -177,22 +178,14 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
         }
     }
     
-    public void setVacuumEnabled( boolean enabled ) {
-        if ( enabled != _vacuumEnabled ) {
-            _vacuumEnabled = enabled;
-            _velocityVectorsParentNode.setVisible( !_vacuumEnabled );
-            updateSlideColors();
-        }
-    }
-    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
         if ( o == _microscopeSlide ) {
-            if ( arg == MicroscopeSlide.PROPERTY_FLUID ) {
-                updateFluid();
+            if ( arg == MicroscopeSlide.PROPERTY_FLUID_OR_VACUUM ) {
+                updateSlideColors();
                 updateVelocityVectors();
             }
         }
@@ -206,16 +199,6 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
-    
-    private void updateFluid() {
-        if ( _fluid != null ) {
-            _fluid.deleteObserver( this );
-        }
-        _fluid = _microscopeSlide.getFluid();
-        if ( _fluid != null ) {
-            _fluid.addObserver( this );
-        }
-    }
     
     /*
      * Updates the microscope slide's geometry to match the model.
@@ -246,7 +229,8 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
      * contains a fluid or vacuum.
      */
     private void updateSlideColors() {
-        if ( _fluid == null ) {
+        if ( _microscopeSlide.isVacuumEnabled() ) {
+            
             _topEdgeNode.setStrokePaint( VACUUM_EDGE_STROKE_COLOR );
             _topEdgeNode.setPaint( VACUUM_EDGE_STROKE_COLOR );
             _topEdgeNode.setPaint( VACUUM_EDGE_FILL_COLOR );
@@ -275,8 +259,9 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
      */
     private void updateVelocityVectors() {
         
-        _velocityVectorsParentNode.setVisible( !( _fluid == null ) );
-        if ( _fluid != null ) {
+        final boolean fluidEnabled = _microscopeSlide.isFluidEnabled();
+        _velocityVectorsParentNode.setVisible( fluidEnabled );
+        if ( fluidEnabled ) {
 
             final double speed = _fluid.getSpeed();
             final double direction = _fluid.getDirection();
