@@ -73,8 +73,6 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
     private PPath _topEdgeNode, _bottomEdgeNode, _centerNode;
     private PNode _velocityVectorsParentNode;
     
-    private boolean _vacuumEnabled;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -92,14 +90,12 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
         setChildrenPickable( false );
         
         _microscopeSlide = microscopeSlide;
-        _microscopeSlide.addObserver( this );
         
         _fluid = microscopeSlide.getFluid();
         _fluid.addObserver( this );
         
         _modelViewTransform = modelViewTransform;
         _worldWidth = 1;
-        _vacuumEnabled = false;
         
         // top edge of the miscroscope slide
         _topEdgeNode = new PPath();
@@ -141,7 +137,6 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
      * Call this method before releasing all references to this object.
      */
     public void cleanup() {
-        _microscopeSlide.deleteObserver( this );
         _fluid.deleteObserver( this );
     }
     
@@ -183,14 +178,12 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _microscopeSlide ) {
-            if ( arg == MicroscopeSlide.PROPERTY_FLUID_OR_VACUUM ) {
-                updateSlideColors();
+        if ( o == _fluid ) {
+            if ( arg == Fluid.PROPERTY_SPEED ) {
                 updateVelocityVectors();
             }
-        }
-        else if ( o == _fluid ) {
-            if ( arg == Fluid.PROPERTY_SPEED ) {
+            else if ( arg == Fluid.PROPERTY_ENABLED ) {
+                updateSlideColors();
                 updateVelocityVectors();
             }
         }

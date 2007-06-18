@@ -14,32 +14,20 @@ public class MicroscopeSlide extends FixedObject implements ModelElement {
     private final double _centerHeight; // nm
     private final double _edgeHeight; // nm
     private final Fluid _fluid;
-    private boolean _fluidEnabled;
     
     public MicroscopeSlide( Point2D position, double orientation, double centerHeight, double edgeHeight, Fluid fluid ) {
         super( position, orientation );
         _centerHeight = centerHeight;
         _edgeHeight = edgeHeight;
         _fluid = fluid;
-        _fluidEnabled = true;
-    }
-    
-    public void setFluidEnabled( boolean enabled ) {
-        _fluidEnabled = enabled;
-        notifyObservers( PROPERTY_FLUID_OR_VACUUM );
     }
     
     public boolean isFluidEnabled() {
-        return _fluidEnabled;
-    }
-    
-    public void setVaccumEnabled( boolean enabled ) {
-        _fluidEnabled = !enabled;
-        notifyObservers( PROPERTY_FLUID_OR_VACUUM );
+        return _fluid.isEnabled();
     }
     
     public boolean isVacuumEnabled() {
-        return !_fluidEnabled;
+        return !isFluidEnabled();
     }
     
     public Fluid getFluid() {

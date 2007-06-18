@@ -8,12 +8,15 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
+import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -21,7 +24,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ForcesControlPanel extends JPanel {
+public class ForcesControlPanel extends JPanel implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -35,6 +38,7 @@ public class ForcesControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     private Bead _bead;
+    private Fluid _fluid;
     private PNode _trapForceNode;
     private PNode _dragForceNode;
     private PNode _dnaForceNode;
@@ -57,14 +61,19 @@ public class ForcesControlPanel extends JPanel {
      * @param titleFont
      * @param controlFont
      * @param bead
+     * @param fluid
      * @param trapForceNode
      * @param dragForceNode
      * @param dnaForceNode optional
      */
-    public ForcesControlPanel( Font titleFont, Font controlFont, Bead bead, PNode trapForceNode, PNode dragForceNode, PNode dnaForceNode ) {
+    public ForcesControlPanel( Font titleFont, Font controlFont, Bead bead, Fluid fluid, PNode trapForceNode, PNode dragForceNode, PNode dnaForceNode ) {
         super();
         
         _bead = bead;
+        
+        _fluid = fluid;
+        _fluid.addObserver( this );
+        
         _trapForceNode = trapForceNode;
         _dragForceNode = dragForceNode;
         _dnaForceNode = dnaForceNode;
@@ -158,6 +167,7 @@ public class ForcesControlPanel extends JPanel {
         _halfBeadRadioButton.setSelected( false );
         _halfBeadRadioButton.setEnabled( _trapForceCheckBox.isSelected() );
         _dragForceCheckBox.setSelected( false );
+        _dragForceCheckBox.setEnabled( _fluid.isEnabled() );
         _brownianMotionCheckBox.setSelected( _bead.isBrownianMotionEnabled() );
         if ( _dnaForceCheckBox != null ) {
             _dnaForceCheckBox.setSelected( false );
@@ -167,6 +177,10 @@ public class ForcesControlPanel extends JPanel {
         _horizontalTrapForceLabel.setForeground( Color.RED );
         _wholeBeadRadioButton.setForeground( Color.RED );
         _halfBeadRadioButton.setForeground( Color.RED );
+    }
+    
+    public void cleanup() {
+        _fluid.deleteObserver( this );
     }
     
     //----------------------------------------------------------------------------
@@ -304,5 +318,18 @@ public class ForcesControlPanel extends JPanel {
     private void handleDNAForceCheckBox() {
         final boolean selected = _dnaForceCheckBox.isSelected();
         _dnaForceNode.setVisible( selected );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    public void update( Observable o, Object arg ) {
+        if ( o == _fluid ) {
+            if ( arg == Fluid.PROPERTY_ENABLED ) {
+                _dragForceCheckBox.setEnabled( _fluid.isEnabled() );
+                _dragForceNode.setVisible( _fluid.isEnabled() && _dragForceCheckBox.isSelected() );
+            }
+        }
     }
 }

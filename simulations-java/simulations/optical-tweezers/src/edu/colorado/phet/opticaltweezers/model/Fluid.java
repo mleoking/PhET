@@ -22,6 +22,7 @@ public class Fluid extends OTObservable implements ModelElement {
     public static final String PROPERTY_SPEED = "speed";
     public static final String PROPERTY_VISCOSITY = "viscosity";
     public static final String PROPERTY_TEMPERATURE = "temperature";
+    public static final String PROPERTY_ENABLED = "enabled";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -35,6 +36,8 @@ public class Fluid extends OTObservable implements ModelElement {
     private final double _direction; // radians
     private double _viscosity; // Pa*sec
     private double _temperature; // Kelvin
+    
+    private boolean _enabled;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -57,6 +60,8 @@ public class Fluid extends OTObservable implements ModelElement {
         _direction = direction;
         _viscosity = _viscosityRange.getDefault();
         _temperature = _temperatureRange.getDefault();
+        
+        _enabled = true;
     }
     
     //----------------------------------------------------------------------------
@@ -179,6 +184,17 @@ public class Fluid extends OTObservable implements ModelElement {
         return _temperatureRange;
     }
 
+    public void setEnabled( boolean enabled ) {
+        if ( enabled != _enabled ) {
+            _enabled = enabled;
+            notifyObservers( PROPERTY_ENABLED );
+        }
+    }
+    
+    public boolean isEnabled() {
+        return _enabled;
+    }
+    
     //----------------------------------------------------------------------------
     // Drag force model
     //----------------------------------------------------------------------------
