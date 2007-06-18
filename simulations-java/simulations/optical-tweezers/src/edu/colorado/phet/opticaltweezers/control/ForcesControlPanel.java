@@ -169,6 +169,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
         _dragForceCheckBox.setSelected( false );
         _dragForceCheckBox.setEnabled( _fluid.isEnabled() );
         _brownianMotionCheckBox.setSelected( _bead.isBrownianMotionEnabled() );
+        _brownianMotionCheckBox.setEnabled( _fluid.isEnabled() );
         if ( _dnaForceCheckBox != null ) {
             _dnaForceCheckBox.setSelected( false );
         }
@@ -327,6 +328,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
     public void update( Observable o, Object arg ) {
         if ( o == _fluid ) {
             if ( arg == Fluid.PROPERTY_ENABLED ) {
+                _brownianMotionCheckBox.setEnabled( _fluid.isEnabled() );
                 _dragForceCheckBox.setEnabled( _fluid.isEnabled() );
                 _dragForceNode.setVisible( _fluid.isEnabled() && _dragForceCheckBox.isSelected() );
             }
