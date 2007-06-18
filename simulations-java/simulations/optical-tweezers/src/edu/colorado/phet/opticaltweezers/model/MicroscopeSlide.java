@@ -9,29 +9,13 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 public class MicroscopeSlide extends FixedObject implements ModelElement {
     
-    public static final String PROPERTY_FLUID_OR_VACUUM = "fluidOrVacuum";
-    
     private final double _centerHeight; // nm
     private final double _edgeHeight; // nm
-    private final Fluid _fluid;
     
-    public MicroscopeSlide( Point2D position, double orientation, double centerHeight, double edgeHeight, Fluid fluid ) {
+    public MicroscopeSlide( Point2D position, double orientation, double centerHeight, double edgeHeight ) {
         super( position, orientation );
         _centerHeight = centerHeight;
         _edgeHeight = edgeHeight;
-        _fluid = fluid;
-    }
-    
-    public boolean isFluidEnabled() {
-        return _fluid.isEnabled();
-    }
-    
-    public boolean isVacuumEnabled() {
-        return !isFluidEnabled();
-    }
-    
-    public Fluid getFluid() {
-        return _fluid;
     }
     
     public double getWidth() {

@@ -52,12 +52,12 @@ public class AdvancedControlPanel extends JPanel implements Observer {
      * @param parentFrame
      * @param miscroscopeSlide
      */
-    public AdvancedControlPanel( Font titleFont, Font controlFont, Frame parentFrame, MicroscopeSlide microscopeSlide ) {
+    public AdvancedControlPanel( Font titleFont, Font controlFont, Frame parentFrame, Fluid fluid ) {
         super();
         
         _parentFrame = parentFrame;
         
-        _fluid = microscopeSlide.getFluid();
+        _fluid = fluid;
         _fluid.addObserver( this );
         
         _fluidControlDialog = null;

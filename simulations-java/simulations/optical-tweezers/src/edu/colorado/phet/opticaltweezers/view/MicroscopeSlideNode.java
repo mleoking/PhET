@@ -83,7 +83,7 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
      * @param microscopeSlide
      * @param modelViewTransform
      */
-    public MicroscopeSlideNode( MicroscopeSlide microscopeSlide, ModelViewTransform modelViewTransform, double vectorReferenceMagnitude ) {
+    public MicroscopeSlideNode( MicroscopeSlide microscopeSlide, Fluid fluid, ModelViewTransform modelViewTransform, double vectorReferenceMagnitude ) {
         super();
          
         setPickable( false );
@@ -91,7 +91,7 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
         
         _microscopeSlide = microscopeSlide;
         
-        _fluid = microscopeSlide.getFluid();
+        _fluid = fluid;
         _fluid.addObserver( this );
         
         _modelViewTransform = modelViewTransform;
@@ -222,8 +222,21 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
      * contains a fluid or vacuum.
      */
     private void updateSlideColors() {
-        if ( _microscopeSlide.isVacuumEnabled() ) {
+        if ( _fluid.isEnabled() ) {
+            // fluid
+            _topEdgeNode.setStrokePaint( FLUID_EDGE_STROKE_COLOR );
+            _topEdgeNode.setPaint( FLUID_EDGE_FILL_COLOR );
+            _topEdgeNode.setPaint( FLUID_EDGE_FILL_COLOR );
             
+            _bottomEdgeNode.setStrokePaint( FLUID_EDGE_STROKE_COLOR );
+            _bottomEdgeNode.setPaint( FLUID_EDGE_FILL_COLOR );
+            _bottomEdgeNode.setPaint( FLUID_EDGE_FILL_COLOR );
+            
+            _centerNode.setPaint( FLUID_CENTER_FILL_COLOR );
+
+        }
+        else {
+            // vacuum
             _topEdgeNode.setStrokePaint( VACUUM_EDGE_STROKE_COLOR );
             _topEdgeNode.setPaint( VACUUM_EDGE_STROKE_COLOR );
             _topEdgeNode.setPaint( VACUUM_EDGE_FILL_COLOR );
@@ -234,17 +247,6 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
             
             _centerNode.setPaint( VACUUM_CENTER_FILL_COLOR );
         }
-        else {
-            _topEdgeNode.setStrokePaint( FLUID_EDGE_STROKE_COLOR );
-            _topEdgeNode.setPaint( FLUID_EDGE_FILL_COLOR );
-            _topEdgeNode.setPaint( FLUID_EDGE_FILL_COLOR );
-            
-            _bottomEdgeNode.setStrokePaint( FLUID_EDGE_STROKE_COLOR );
-            _bottomEdgeNode.setPaint( FLUID_EDGE_FILL_COLOR );
-            _bottomEdgeNode.setPaint( FLUID_EDGE_FILL_COLOR );
-            
-            _centerNode.setPaint( FLUID_CENTER_FILL_COLOR );
-        }
     }
     
     /*
@@ -252,7 +254,7 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
      */
     private void updateVelocityVectors() {
         
-        final boolean fluidEnabled = _microscopeSlide.isFluidEnabled();
+        final boolean fluidEnabled = _fluid.isEnabled();
         _velocityVectorsParentNode.setVisible( fluidEnabled );
         if ( fluidEnabled ) {
 

@@ -53,8 +53,7 @@ public class PhysicsModel extends ClockAdapter {
         _microscopeSlide = new MicroscopeSlide( PhysicsDefaults.MICROSCOPE_SLIDE_POSITION,
                 PhysicsDefaults.MICROSCOPE_SLIDE_ORIENTATION,
                 PhysicsDefaults.MICROSCOPE_SLIDE_CENTER_HEIGHT,
-                PhysicsDefaults.MICROSCOPE_SLIDE_EDGE_HEIGHT,
-                _fluid );
+                PhysicsDefaults.MICROSCOPE_SLIDE_EDGE_HEIGHT );
         _modelElements.add( _microscopeSlide );
         
         _laser = new Laser( PhysicsDefaults.LASER_POSITION, 
@@ -76,6 +75,7 @@ public class PhysicsModel extends ClockAdapter {
                 PhysicsDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE,
                 PhysicsDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
                 PhysicsDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE,
+                _fluid,
                 _microscopeSlide,
                 _laser );
          _modelElements.add( _bead );
