@@ -275,7 +275,7 @@ EO_PRINT_HIDDEN_INPUT;
         
         return preg_replace("/(&$param_name=[^&]+)|((?<=\\?)$param_name=[^?&]+&?)/i", '', $url);
     }  
-    
+    
     function web_encode_string($string) {
         $string = str_replace(' ',              '_',    $string);
         $string = str_replace('&amp;',          'and',  $string);        

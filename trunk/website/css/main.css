@@ -107,11 +107,11 @@ hr {
 }
 
 
-span.validation-success {
+.validation-success {
 	font-size:  9pt;
 	color: 		gray;
 }
-span.validation-failure {
+.validation-failure {
 	font-size:  9pt;
 	color: 		red;
 }
