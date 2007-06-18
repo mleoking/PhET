@@ -9,38 +9,45 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 public class MicroscopeSlide extends FixedObject implements ModelElement {
     
-    public static final String PROPERTY_FLUID = "fluid";
+    public static final String PROPERTY_FLUID_OR_VACUUM = "fluidOrVacuum";
     
     private final double _centerHeight; // nm
     private final double _edgeHeight; // nm
-    private Fluid _fluid;
+    private final Fluid _fluid;
+    private boolean _fluidEnabled;
     
     public MicroscopeSlide( Point2D position, double orientation, double centerHeight, double edgeHeight, Fluid fluid ) {
         super( position, orientation );
         _centerHeight = centerHeight;
         _edgeHeight = edgeHeight;
         _fluid = fluid;
+        _fluidEnabled = true;
     }
     
-    public void setFluid( Fluid fluid ) {
-        _fluid = fluid;
-        notifyObservers( PROPERTY_FLUID );
+    public void setFluidEnabled( boolean enabled ) {
+        _fluidEnabled = enabled;
+        notifyObservers( PROPERTY_FLUID_OR_VACUUM );
+    }
+    
+    public boolean isFluidEnabled() {
+        return _fluidEnabled;
+    }
+    
+    public void setVaccumEnabled( boolean enabled ) {
+        _fluidEnabled = !enabled;
+        notifyObservers( PROPERTY_FLUID_OR_VACUUM );
+    }
+    
+    public boolean isVacuumEnabled() {
+        return !_fluidEnabled;
     }
     
     public Fluid getFluid() {
         return _fluid;
     }
     
-    public boolean isVacuum() {
-        return _fluid == null;
-    }
-
     public double getWidth() {
         return Double.POSITIVE_INFINITY;
-    }
-    
-    private double getHeight() { 
-        return _centerHeight + ( 2 * _edgeHeight );
     }
     
     public double getCenterHeight() {

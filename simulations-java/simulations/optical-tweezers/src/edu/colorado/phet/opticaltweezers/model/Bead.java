@@ -173,7 +173,7 @@ public class Bead extends MovableObject implements ModelElement {
      */
     public Vector2D getDragForce() {
         Vector2D dragForce = null;
-        if ( _microscopeSlide.isVacuum() ) {
+        if ( _microscopeSlide.isVacuumEnabled() ) {
             dragForce = new Vector2D.Cartesian( 0, 0 );
         }
         else {
@@ -330,7 +330,7 @@ public class Bead extends MovableObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     private void move( double clockDt ) {
-        if ( _microscopeSlide.isVacuum() ) {
+        if ( _microscopeSlide.isVacuumEnabled() ) {
             moveInVacuum( clockDt );
         }
         else {
@@ -473,7 +473,7 @@ public class Bead extends MovableObject implements ModelElement {
     private Vector2D computeBrownianDisplacement( double dt ) {
         
         Vector2D displacement = null;
-        if ( _microscopeSlide.isVacuum() ) {
+        if ( _microscopeSlide.isVacuumEnabled() ) {
             displacement = new Vector2D.Cartesian( 0, 0 );
         }
         else {
