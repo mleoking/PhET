@@ -80,16 +80,16 @@
             
             global $action;
             
-            if ($can_edit) {
-                print "<h2>Administration</h2>";
-                
+            if ($can_edit) {                
                 if (isset($action) && $action == 'edit') {
-                    $op_desc        = "edit an existing research item";
+                    $legend         = "Update Research Item";
+                    $op_desc        = 'edit an existing research item or <a href="index.php">add</a> a new item';
                     $research_id    = $_REQUEST['research_id'];
                     $button_caption = "Update";                    
                     $action_html    = '<input type="hidden" name="action" value="update" />';
                 }
                 else {
+                    $legend         = "Add Research Item";
                     $op_desc        = "add a new research item";
                     $research_id    = null;
                     $button_caption = "Add";
@@ -99,7 +99,7 @@
                 print <<<EOT
                     <form method="post" action="index.php">
                         <fieldset>
-                            <legend>Research Administration</legend>
+                            <legend>$legend</legend>
                             
                             <p>As a PhET team member, you may use this form to $op_desc.</p>
 EOT;
