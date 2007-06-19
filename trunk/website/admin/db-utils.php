@@ -21,6 +21,46 @@
         return $result;
     }
     
+    function db_get_rows_by_condition($table_name, $condition = array(), $fuzzy = false) {
+        $query = "SELECT * FROM `$table_name` ";
+        
+        $is_first = true;
+        
+        foreach($condition as $key => $value) {
+            if ($is_first) {
+                $is_first = false;
+                
+                $query .= " WHERE ";
+            }
+            else {
+                $query .= " AND ";
+            }
+            
+            $value = mysql_real_escape_string($value);
+            
+            if ($fuzzy) {
+                $query .= "`$key` LIKE '%$value%'";
+            }
+            else {
+                $query .= "`$key`='$value'";
+            }
+        }
+        
+        $result = db_exec_query($query);
+        
+        if (!$result) {
+            return false;
+        }
+        
+        $rows = array();
+        
+        while ($row = mysql_fetch_assoc($result)) {
+            $rows[] = format_for_html($row);
+        }
+        
+        return $rows;
+    }
+    
     function db_get_row_by_id($table_name, $id_name, $id_value) {
         $query = "SELECT * FROM `$table_name` WHERE `$id_name`='$id_value' ";
         
