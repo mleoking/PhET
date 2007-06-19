@@ -785,16 +785,10 @@ EOT;
             </script>
 EOT;
         }        
-        
-        print <<<EOT
-            <ul id="$list_id">
-                $selections
-            </ul>
-EOT;
-        
+
         if ($print_select) {
             print <<<EOT
-                
+
                 <span class="multiselector">
                     <select name="$select_name" id="$select_id" 
                         onchange="ms_on_change('$name', '$list_id', this.form.$select_name);">
@@ -803,6 +797,12 @@ EOT;
                 </span>
 EOT;
         }
+        
+        print <<<EOT
+            <ul id="$list_id">
+                $selections
+            </ul>
+EOT;
     }
     
     function print_single_selection($select_name, $value_to_text, $selected) {
