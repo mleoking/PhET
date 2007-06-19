@@ -1000,12 +1000,11 @@ EOT;
         db_delete_row('contribution',            $condition);
         db_delete_row('contribution_file',       $condition);
         db_delete_row('simulation_contribution', $condition);
-        db_delete_row('contribution_type',       $condition);
-        db_delete_row('contribution_level',      $condition);
-        db_delete_row('contribution_subject',    $condition);        
         db_delete_row('contribution_comment',    $condition);            
         db_delete_row('contribution_flagging',   $condition);            
-        db_delete_row('contribution_nomination', $condition);                            
+        db_delete_row('contribution_nomination', $condition);
+        
+        contribution_delete_all_multiselect_associations($contribution_id);                            
         
         return true;
     }

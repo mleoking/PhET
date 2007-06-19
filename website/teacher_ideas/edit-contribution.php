@@ -9,7 +9,11 @@
     include_once(SITE_ROOT."teacher_ideas/referrer.php");  
     
     function handle_action($action) {
-        $contribution = gather_script_params_into_array('contrib');
+        $contribution = gather_script_params_into_array('contribution_');
+        
+        if (isset($_REQUEST['contributor_id'])) {
+            $contribution['contributor_id'] = $_REQUEST['contributor_id'];
+        }
         
         if ($action == 'update') {
             update_contribution($contribution);
