@@ -18,7 +18,7 @@ public class GraphSuiteSet {
         }
     };
 
-    public GraphSuiteSet( ) {
+    public GraphSuiteSet() {
     }
 
     public static BufferedImage loadRedArrow() {
