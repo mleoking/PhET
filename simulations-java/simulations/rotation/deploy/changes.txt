@@ -1,3 +1,6 @@
+0.00.12
+Fixed: Chart arrows not updating during playback.
+
 0.00.11 (5-23-2007)
 Added a graph cursor to show during playback.
 Fixed: Graph cursor should appear at the correct time when simulation is paused.
