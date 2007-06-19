@@ -12,9 +12,7 @@ public class PositionDriven implements UpdateStrategy {
 
     //todo: try 2nd order derivative directly from position data
     public void update( MotionModel model, double dt ) {
-        double vel = MotionMath.estimateDerivative( model.getAvailablePositionTimeSeries( 10 ) );
-        double acc = MotionMath.estimateDerivative( model.getAvailableVelocityTimeSeries( 10 ) );
-        model.setVelocity( vel );
-        model.setAcceleration( acc );
+        model.setVelocity( MotionMath.estimateDerivative( model.getAvailablePositionTimeSeries( 10 ) ));
+        model.setAcceleration( MotionMath.estimateDerivative( model.getAvailableVelocityTimeSeries( 10 ) ));
     }
 }

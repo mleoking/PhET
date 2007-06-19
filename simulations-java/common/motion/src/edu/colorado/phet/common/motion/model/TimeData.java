@@ -7,8 +7,8 @@ package edu.colorado.phet.common.motion.model;
  */
 
 public class TimeData {
-    double value;
-    double time;
+    private double value;
+    private double time;
 
     public TimeData( double value, double time ) {
         this.value = value;
