@@ -8,26 +8,26 @@ import java.io.Serializable;
  * Author: Sam Reid
  * May 14, 2007, 10:44:25 PM
  */
-public class ModelState implements Serializable {
+public class MotionModelState implements Serializable {
 
     private MotionBody motionBody = new MotionBody();
     private double time = 0.0;
 
-    public ModelState() {
+    public MotionModelState() {
     }
 
     protected void setMotionBody( MotionBody motionBody ) {
         this.motionBody = motionBody;
     }
 
-    public void setState( ModelState state ) {
+    public void setState( MotionModelState state ) {
         time = state.time;
         motionBody.setState( state.motionBody );
     }
 
-    public ModelState copy() {
+    public MotionModelState copy() {
         try {
-            return (ModelState)PersistenceUtil.copy( this );
+            return (MotionModelState)PersistenceUtil.copy( this );
         }
         catch( PersistenceUtil.CopyFailedException e ) {
             e.printStackTrace();

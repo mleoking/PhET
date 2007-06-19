@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 
 public class MotionModel implements IPositionDriven {
-    private ModelState currentState;
+    private MotionModelState currentState;
 
     private ArrayList stateHistory = new ArrayList();
 
@@ -43,10 +43,10 @@ public class MotionModel implements IPositionDriven {
         public void setState( Object o ) {
             //the setState paradigm is used to allow attachment of listeners to model substructure
             //states are copied without listeners
-            currentState.setState( (ModelState)o );
-            xVariable.setValue( ( (ModelState)o ).getPosition() );
-            vVariable.setValue( ( (ModelState)o ).getVelocity() );
-            aVariable.setValue( ( (ModelState)o ).getAcceleration() );
+            currentState.setState( (MotionModelState)o );
+            xVariable.setValue( ( (MotionModelState)o ).getPosition() );
+            vVariable.setValue( ( (MotionModelState)o ).getVelocity() );
+            aVariable.setValue( ( (MotionModelState)o ).getAcceleration() );
         }
 
         public void resetTime() {
@@ -89,11 +89,11 @@ public class MotionModel implements IPositionDriven {
         } );
     }
 
-    protected ModelState createModelState() {
-        return new ModelState();
+    protected MotionModelState createModelState() {
+        return new MotionModelState();
     }
 
-    private ModelState copyState() {
+    private MotionModelState copyState() {
         return currentState.copy();
     }
 
@@ -132,8 +132,8 @@ public class MotionModel implements IPositionDriven {
         this.updateStrategy = updateStrategy;
     }
 
-    public ModelState getLastState() {
-        return (ModelState)stateHistory.get( stateHistory.size() - 1 );
+    public MotionModelState getLastState() {
+        return (MotionModelState)stateHistory.get( stateHistory.size() - 1 );
     }
 
     public void stepInTime( double dt ) {
@@ -153,12 +153,12 @@ public class MotionModel implements IPositionDriven {
     protected void doStepInTime( double dt ) {
     }
 
-    public ModelState getStateFromEnd( int i ) {
+    public MotionModelState getStateFromEnd( int i ) {
         return getState( stateHistory.size() - 1 - i );
     }
 
-    private ModelState getState( int index ) {
-        return (ModelState)stateHistory.get( index );
+    private MotionModelState getState( int index ) {
+        return (MotionModelState)stateHistory.get( index );
     }
 
     public TimeData[] getAvailableAccelerationTimeSeries( int numPts ) {
@@ -174,7 +174,7 @@ public class MotionModel implements IPositionDriven {
     public TimeData[] getAccelerationTimeSeries( int numPts ) {
         TimeData[] td = new TimeData[numPts];
         for( int i = 0; i < td.length; i++ ) {
-            ModelState state = getState( getStateCount() - numPts + i );
+            MotionModelState state = getState( getStateCount() - numPts + i );
             td[i] = new TimeData( state.getAcceleration(), state.getTime() );
         }
         return td;
@@ -183,7 +183,7 @@ public class MotionModel implements IPositionDriven {
     public TimeData[] getVelocityTimeSeries( int numPts ) {
         TimeData[] td = new TimeData[numPts];
         for( int i = 0; i < td.length; i++ ) {
-            ModelState state = getState( getStateCount() - numPts + i );
+            MotionModelState state = getState( getStateCount() - numPts + i );
             td[i] = new TimeData( state.getVelocity(), state.getTime() );
         }
         return td;
@@ -192,7 +192,7 @@ public class MotionModel implements IPositionDriven {
     public TimeData[] getPositionTimeSeries( int numPts ) {
         TimeData[] td = new TimeData[numPts];
         for( int i = 0; i < td.length; i++ ) {
-            ModelState state = getState( getStateCount() - numPts + i );
+            MotionModelState state = getState( getStateCount() - numPts + i );
             td[i] = new TimeData( state.getPosition(), state.getTime() );
         }
         return td;
@@ -223,7 +223,7 @@ public class MotionModel implements IPositionDriven {
     }
 
     public void clear() {
-        ModelState state = getLastState().copy();
+        MotionModelState state = getLastState().copy();
         state.setTime( 0.0 );
         stateHistory.clear();
         stateHistory.add( state );
@@ -266,7 +266,7 @@ public class MotionModel implements IPositionDriven {
         timeSeriesModel.clockTicked( clockEvent );
     }
 
-    public ModelState getCurrentState() {
+    public MotionModelState getCurrentState() {
         return currentState;
     }
 

@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-public class TestModelPlot {
+public class TestMotionGraphs {
     private JFrame frame;
     private Timer timer;
     private PhetPCanvas phetPCanvas;
@@ -33,7 +33,7 @@ public class TestModelPlot {
     private ControlGraph vGraph;
     private ControlGraph aGraph;
 
-    public TestModelPlot() {
+    public TestMotionGraphs() {
         new PhetLookAndFeel().initLookAndFeel();
         frame = new JFrame();
         frame.setSize( 600, 600 );
@@ -97,7 +97,7 @@ public class TestModelPlot {
     }
 
     public static void main( String[] args ) {
-        new TestModelPlot().start();
+        new TestMotionGraphs().start();
     }
 
     private void start() {

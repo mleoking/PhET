@@ -1,6 +1,6 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.common.motion.model.ModelState;
+import edu.colorado.phet.common.motion.model.MotionModelState;
 
 import java.util.ArrayList;
 
@@ -8,19 +8,19 @@ import java.util.ArrayList;
  * Author: Sam Reid
  * May 22, 2007, 11:49:32 PM
  */
-public class RotationModelState extends ModelState {
+public class RotationMotionModelState extends MotionModelState {
     private ArrayList rotationBodies = new ArrayList();
 
-    public RotationModelState() {
+    public RotationMotionModelState() {
         setMotionBody( new RotationPlatform() );
     }
 
-    public void setState( ModelState state ) {
+    public void setState( MotionModelState state ) {
         super.setState( state );
-        if( !( state instanceof RotationModelState ) ) {
-            throw new IllegalArgumentException( "state should have been " + RotationModelState.class.getName() + ", instead was: " + state.getClass().getName() );
+        if( !( state instanceof RotationMotionModelState ) ) {
+            throw new IllegalArgumentException( "state should have been " + RotationMotionModelState.class.getName() + ", instead was: " + state.getClass().getName() );
         }
-        RotationModelState rotationState = (RotationModelState)state;
+        RotationMotionModelState rotationState = (RotationMotionModelState)state;
         if( rotationBodies.size() != rotationState.rotationBodies.size() ) {
             throw new IllegalArgumentException( "Different number of bodies not supported: orig=" + rotationBodies.size() + ", new=" + rotationState.rotationBodies.size() );
         }
