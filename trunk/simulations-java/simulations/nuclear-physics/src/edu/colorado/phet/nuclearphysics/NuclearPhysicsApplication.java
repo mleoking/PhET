@@ -8,6 +8,7 @@ package edu.colorado.phet.nuclearphysics;
 
 import edu.colorado.phet.common.phetcommon.application.AWTSplashWindow;
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -41,7 +42,7 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
     public NuclearPhysicsApplication( String[] args ) {
         super( args, SimStrings.getInstance().getString( "NuclearPhysicsApplication.title" ),
                SimStrings.getInstance().getString( "NuclearPhysicsApplication.description" ),
-               Config.version,
+               PhetApplicationConfig.getVersion( "nuclear-physics").formatForTitleBar(),
                new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
         Module alphaModule = new AlphaDecayModule( ClockFactory.create( 40, Config.ALPHA_DECAY_SIM_TIME_STEP  ) );
