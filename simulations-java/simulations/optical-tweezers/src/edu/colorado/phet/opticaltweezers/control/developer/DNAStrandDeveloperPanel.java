@@ -31,12 +31,6 @@ import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
 public class DNAStrandDeveloperPanel extends JPanel implements Observer, PropertyChangeListener {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final boolean TOOL_TIPS_ENABLED = false;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -150,26 +144,6 @@ public class DNAStrandDeveloperPanel extends JPanel implements Observer, Propert
                 handleFluidDragCoefficientControl();
             }
         });
-        
-        if ( TOOL_TIPS_ENABLED ) {
-            _pivotsCheckBox.setToolTipText( 
-                    "<html>Determines whether you can see the<br>" + 
-                    "pivot points used to model the strand</html>" );
-            _extensionCheckBox.setToolTipText( 
-                    "<html>Draws a straight line between<br>" + 
-                    "the ends of the DNA strand</html>" );
-            _springConstantControl.setToolTipText( "<html>spring constant divided by mass<html>" );
-            _dragCoefficientControl.setToolTipText( "<html>drag coefficient</html>" );
-            _evolutionDtControl.setToolTipText( 
-                    "<html>dt used in evolution alogrithm at max simulation speed</html>" );
-            _kickConstant.setToolTipText( "<html>kick applied to velocity on each evolution</html>" );
-            _numberOfEvolutionsPerClockTickControl.setToolTipText( 
-                    "<html>number of times to run the evolution<br>" + 
-                    "algorithm each time the clock ticks</html>" );
-            _fluidDragCoefficientControl.setToolTipText(
-                    "<html>coefficient used in the computation<br>" +
-                    "of fluid drag force</html>" );
-        }
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );

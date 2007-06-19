@@ -76,6 +76,7 @@ public class DNAModel extends ClockAdapter {
                 DNADefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE,
                 DNADefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
                 DNADefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE,
+                DNADefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE,
                 _fluid,
                 _microscopeSlide,
                 _laser );

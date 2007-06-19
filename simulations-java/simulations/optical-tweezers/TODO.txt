@@ -4,7 +4,6 @@
 
 IN PROGRESS:
 - bug: beep occurs when selecting vacuum with fluid controls dialog open
-- add developer control for 'm' constant in Verlet algorithm for bead motion in vacuum
 
 HIGH PRIORITY:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
@@ -57,7 +56,8 @@ MISSING INFO:
 
  
 DONE:
-6/18/07 - make units consistent in Verlet motion-in-vacuum algorithm, bead moves correctly
+6/19/07 - add developer control for acceleration scale in Verlet motion-in-vacuum algorithm
+6/19/07 - make units consistent in Verlet motion-in-vacuum algorithm, bead moves correctly
 6/18/07 - set velocity to zero when user grabs the bead
 6/18/07 - add debug output for Verlet motion-in-vacuum algorithm
 6/18/07 - disable brownian motion control when bead is in a vacuum
