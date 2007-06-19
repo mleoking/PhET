@@ -94,9 +94,7 @@ EOT;
         
         print <<<EOT
             <div class="research">
-                <span class="title">
-                    <a href="$research_publication_mainlink_url">$research_title</a>
-                </span>,
+                <span class="title"><a href="$research_publication_mainlink_url">$research_title</a></span>,
                 
                 <span class="authors">$research_authors</span>,
                 
