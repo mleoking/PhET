@@ -126,26 +126,55 @@
         ?>
         </div>
     
-        <h2>Submit Ideas &amp; Activities</h2>
+        <h2>Contribute Your Ideas &amp; Activities</h2>
 
-        <form id="upload-form" enctype="multipart/form-data" action="submit-contribution.php" method="post">    
+        <form id="quicksubmit" enctype="multipart/form-data" action="submit-contribution.php" method="post">    
             <?php
                 print "<input type=\"hidden\" name=\"sim_id\"   value=\"$sim_id\" />";
             ?>
 
-            <p class="indi-sim">
-                Please enter a title to describe your contribution:
-            </p>   
-
-            <input type="text" name="contribution_title" size="50" />
+            <div class="field">
+                <span class="label_content">
+                    <input type="text" name="contribution_title" size="50" />
+                </span>
+                
+                <span class="label">
+                    title:
+                </span>
+            </div>  
             
-            <br/>
-            <br/>            
-        	<input type="file" class="multi" name="contribution_file_url">
-
-            <br/>
+            <div class="field">                
+                <span class="label_content">
+                    <input type="file" class="multi" name="contribution_file_url">
+                </span>
+                
+                <span class="label">
+                    files:
+                </span>
+            </div>
             
-            <input type="submit" value="Contribute" class="buttonSubmit" />
+            <hr/>
+            
+            <div class="field">                
+                <span class="label_content">
+                    <?php
+
+                        print_multiple_selection(
+                            contribution_get_all_template_level_names(),
+                            array()
+                        );
+
+                    ?>
+                </span>
+                
+                <span class="label">
+                    level:
+                </span>
+            </div>
+            
+            <div class="button">
+                <input type="submit" value="Contribute"  />
+            </div>
         </form>
 
         <p><a href="#top"><img src="../images/top.gif" /></a></p>

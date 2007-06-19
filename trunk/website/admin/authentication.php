@@ -34,10 +34,13 @@
 
     function do_authentication($login_required) {
         static $already_tried_login_required = null;
+        global $contributor_authenticated;
+
+        if ($login_required === $already_tried_login_required) {
+            return $contributor_authenticated;
+        }
 
         $already_tried_login_required = $login_required;
-        
-        global $contributor_authenticated;
         
         $contributor_authenticated = false;
 
