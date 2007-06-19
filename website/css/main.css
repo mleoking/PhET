@@ -1150,3 +1150,28 @@ img.bordered_sponsors {
 	position: relative;
 	top:      -1ex;
 }
+
+div.research .title {
+	
+}
+div.research .authors {
+	
+}
+div.research .publication_name {
+	font-style: italic;
+}
+div.research .publication_date {
+	
+}
+div.research .publication_lookup {
+	
+}
+div.research .publication_mainlink {
+	
+}
+div.research .publication_pdflink {
+	
+}
+div.research .publication_htmllink {
+	
+}
