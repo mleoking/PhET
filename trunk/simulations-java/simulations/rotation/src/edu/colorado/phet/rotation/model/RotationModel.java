@@ -1,6 +1,6 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.common.motion.model.ModelState;
+import edu.colorado.phet.common.motion.model.MotionModelState;
 import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.motion.model.SimulationVariable;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -51,8 +51,8 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         }
     }
 
-    protected ModelState createModelState() {
-        RotationModelState modelState = new RotationModelState();
+    protected MotionModelState createModelState() {
+        RotationMotionModelState modelState = new RotationMotionModelState();
         modelState.getMotionBody().addListener( new RotationPlatform.Listener() {//todo: memory leak
             public void angleChanged( double dtheta ) {
                 getXPositionVariable().setValue( getCurrentState().getMotionBody().getPosition() );
@@ -93,8 +93,8 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         getCurrentRotationModelState().addRotationBody( rotationBody );
     }
 
-    private RotationModelState getCurrentRotationModelState() {
-        return (RotationModelState)getCurrentState();
+    private RotationMotionModelState getCurrentRotationModelState() {
+        return (RotationMotionModelState)getCurrentState();
     }
 
     public int getNumRotationBodies() {
