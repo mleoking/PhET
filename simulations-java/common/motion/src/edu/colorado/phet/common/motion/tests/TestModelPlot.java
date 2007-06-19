@@ -64,9 +64,6 @@ public class TestModelPlot {
             }
         } );
 
-        vGraph.setOffset( 0, xGraph.getFullBounds().getMaxY() );
-        aGraph.setOffset( 0, vGraph.getFullBounds().getMaxY() );
-
         phetPCanvas.addScreenChild( xGraph );
         phetPCanvas.addScreenChild( vGraph );
         phetPCanvas.addScreenChild( aGraph );
