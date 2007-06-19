@@ -14,7 +14,6 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;

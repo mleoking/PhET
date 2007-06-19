@@ -16,8 +16,9 @@ import java.util.ArrayList;
 
 public class MotionModel implements IPositionDriven {
     private MotionModelState currentState;
-
     private ArrayList stateHistory = new ArrayList();//history is necessary for computing derivatives
+
+    private TimeSeriesModel timeSeriesModel;
 
     private PositionDriven positionDriven = new PositionDriven();
     private VelocityDriven velocityDriven = new VelocityDriven();
@@ -30,7 +31,6 @@ public class MotionModel implements IPositionDriven {
     private SimulationVariable aVariable;
 
     private ArrayList listeners = new ArrayList();
-    private TimeSeriesModel timeSeriesModel;
 
     private RecordableModel recordableModel = new RecordableModel() {
         public void stepInTime( double simulationTimeChange ) {
@@ -65,7 +65,7 @@ public class MotionModel implements IPositionDriven {
                 timeSeriesModel.stepMode( clockEvent.getSimulationTimeChange() );
             }
         } );
-        stateHistory.add( copyState() );
+        stateHistory.add( currentState.copy() );
 
         xVariable = new SimulationVariable( getPosition() );
         vVariable = new SimulationVariable( getVelocity() );
@@ -92,11 +92,6 @@ public class MotionModel implements IPositionDriven {
     protected MotionModelState createModelState() {
         return new MotionModelState();
     }
-
-    private MotionModelState copyState() {
-        return currentState.copy();
-    }
-
 
     public void setPositionDriven() {
         setUpdateStrategy( positionDriven );
@@ -137,7 +132,7 @@ public class MotionModel implements IPositionDriven {
     }
 
     public void stepInTime( double dt ) {
-        stateHistory.add( copyState() );
+        stateHistory.add( currentState.copy() );
         currentState.setPosition( currentState.getMotionBody().getPosition() );
         updateStrategy.update( this, dt );
         currentState.stepInTime( dt );
@@ -150,6 +145,9 @@ public class MotionModel implements IPositionDriven {
         notifySteppedInTime();
     }
 
+    /* Any other operations that must be completed before notifySteppedInTime is called should
+    be performed here.
+     */
     protected void doStepInTime( double dt ) {
     }
 

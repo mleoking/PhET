@@ -10,8 +10,8 @@ package edu.colorado.phet.common.motion.tests;
 import edu.colorado.phet.common.motion.graphs.GraphTimeControlNode;
 import edu.colorado.phet.common.motion.model.SimulationVariable;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
