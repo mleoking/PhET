@@ -34,6 +34,13 @@ public class Bead extends MovableObject implements ModelElement {
     private static final boolean DEBUG_MOTION_IN_FLUID = false;
     private static final boolean DEBUG_MOTION_IN_VACUUM = false;
     
+    // scaling factor for acceleration component of Verlet motion algorithm
+    private static final double VERLET_ACCELERATION_SCALE = 1;
+    
+    // units conversions
+    private static final double PM_PER_NM = 1E9; // picometers per nanometer
+    private static final double G_PER_KG = 1E3; // grams per kilogram
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -358,10 +365,11 @@ public class Bead extends MovableObject implements ModelElement {
      * 
      * Units:
      *     time - sec
-     *     force - pN
+     *     force - pN = 1E-12 * (kg*m)/sec^2
      *     distance - nm
      *     velocity - nm/sec
      *     acceleration - nm/sec^2
+     *     mass - grams
      * 
      * @param clockDt
      */
@@ -379,16 +387,16 @@ public class Bead extends MovableObject implements ModelElement {
             loops = _numberOfDtSubdivisions;
         }
         
-        final double m = 1; //XXX adjustable, decrease to increase acceleration
+        final double mass = getMass() / G_PER_KG; // kg
         
         // current values for positon, velocity and acceleration
         double xOld = getX();
         double yOld = getY();
         double vxOld = _velocity.getX();
         double vyOld = _velocity.getY();
-        Vector2D trapForce = _laser.getTrapForce( xOld, yOld );
-        double axOld = trapForce.getX() / m;
-        double ayOld = trapForce.getY() / m;
+        Vector2D trapForce = _laser.getTrapForce( xOld, yOld ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2
+        double axOld = VERLET_ACCELERATION_SCALE * ( 1 / PM_PER_NM ) * trapForce.getX() / mass; // nm/sec^2
+        double ayOld = VERLET_ACCELERATION_SCALE * ( 1 / PM_PER_NM ) * trapForce.getY() / mass;
         
         // next values for position, velocity and acceleration
         double xNew = 0, yNew = 0;
@@ -413,9 +421,9 @@ public class Bead extends MovableObject implements ModelElement {
             }
             
             // new acceleration
-            trapForce = _laser.getTrapForce( xNew, yNew ); // pN
-            axNew = trapForce.getX() / m;
-            ayNew = trapForce.getY() / m;
+            trapForce = _laser.getTrapForce( xNew, yNew ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2
+            axNew = VERLET_ACCELERATION_SCALE * ( 1 / PM_PER_NM ) * trapForce.getX() / mass; // nm/sec^2
+            ayNew = VERLET_ACCELERATION_SCALE * ( 1 / PM_PER_NM ) * trapForce.getY() / mass;
             
             // new velocity
             vxNew = vxOld + ( 0.5 * ( axNew + axOld ) * dt );
@@ -423,6 +431,7 @@ public class Bead extends MovableObject implements ModelElement {
             
             if ( DEBUG_MOTION_IN_VACUUM ) {
                 System.out.println( "dt = " + dt );
+                System.out.println( "mass = " + mass + " g" );
                 System.out.println( "old position = " + new Point2D.Double( xOld, yOld ) + " nm" );
                 System.out.println( "new position = " + new Point2D.Double( xNew, yNew ) + " nm" );
                 System.out.println( "new trap force = " + trapForce + " pN" );
