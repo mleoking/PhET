@@ -38,6 +38,7 @@
     
     $contribution_id = contribution_add_new_contribution($contribution_title, $contributor_id, $tmp_name, $name);
     
+    // Handle files:
     for ($i = 1; true; $i++) {
         $file_key = "MF__F_0_$i";
         
@@ -62,9 +63,13 @@
         }
     }
     
+    // Associate contribution with simulation:
     if (is_numeric($sim_id)) {
         contribution_associate_contribution_with_simulation($contribution_id, $sim_id);
     }
+    
+    // Establish multiselect associations (level, subject, type):
+    contribution_establish_multiselect_associations_from_script_params($contribution_id);
     
     $sims_page    = "\"../simulations/sims.php?sim_id=$sim_id\"";
     $edit_contrib = "../teacher_ideas/edit-contribution.php?contribution_id=$contribution_id&amp;sim_id=$sim_id&amp;referrer=$sims_page";

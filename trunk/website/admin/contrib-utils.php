@@ -388,6 +388,28 @@ EOT;
 EOT;
     }
     
+    function contribution_establish_multiselect_associations_from_script_params($contribution_id) {
+        // Now have to process multiselect controls:
+        foreach($_REQUEST as $key => $value) {
+            $matches = array();
+            
+            if (is_multiple_selection_control("$key")) {
+                contribution_create_multiselect_association($contribution_id, $key, $value);
+            }
+            else if (is_deletable_item_control("$key")) {
+                // We have to keep a file; extract the ID from the name:
+                $contribution_file_id = get_deletable_item_control_id("$key");
+                
+                $files_to_keep[] = "$contribution_file_id";
+            }
+            else if (preg_match('/sim_id_([0-9]+)/i', "$key", $matches) == 1) {
+                $sim_id = $matches[1];
+                
+                contribution_associate_contribution_with_simulation($contribution_id, $sim_id);
+            }
+        }
+    }
+    
     function contribution_print_full_edit_form($contribution_id, $script, $referrer, $button_name = 'Update') {
         global $contributor_authenticated;
         
