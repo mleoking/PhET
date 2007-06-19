@@ -123,6 +123,36 @@ EOT;
         return $categories;
     }
     
+    function research_get_categories_as_javascript_array() {
+        $default_categories = array(
+            strtolower("About PhET")                    => "About PhET",
+            strtolower("Studies of PhET Effectiveness") => "Studies of PhET Effectiveness",
+            strtolower("Student Beliefs and Learning")  => "Student Beliefs and Learning"
+        );
+        
+        $array = '[';
+        
+        $categories = array_merge($default_categories, research_get_all_categories());
+        $categories = array_unique($categories);
+        
+        $is_first = true;
+        
+        foreach($categories as $category) {
+            if ($is_first) {
+                $is_first = false;
+            }
+            else {
+                $array .= ', ';            
+            }
+            
+            $array .= '"'.$category.'"';
+        }
+        
+        $array .= ']';
+        
+        return $array;
+    }
+    
     function research_get_all_by_category($selected_cat) {
         $researches = array();
         
@@ -161,6 +191,8 @@ EOT;
         
         eval(get_code_to_create_variables_from_array($research));
         
+        $cat_array = research_get_categories_as_javascript_array();
+        
         print <<<EOT
             <input type="hidden" name="research_id" value="$research_id">
             
@@ -179,7 +211,7 @@ EOT;
                     <input type="text" name="research_category" value="$research_category" id="research_category_uid" size="25"/>
                     
                     <script type="text/javascript">
-                        $("#research_category_uid").autocompleteArray(["About PhET","Studies of PhET Effectiveness","Student Beliefs and Learning"]);
+                        $("#research_category_uid").autocompleteArray($cat_array);
                     </script>
                 </span>
                 
