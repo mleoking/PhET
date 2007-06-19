@@ -23,13 +23,11 @@ package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PClip;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -70,31 +68,18 @@ public class PPathSeriesView extends SeriesView {
         } );
         dynamicJFreeChartNode.addBufferedPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
-                updateOffset();
+                updateAll();
             }
         } );
         listener = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
-                updateClip();
+                updateAll();
             }
         };
     }
 
-    private void updateClip() {
-        pathClip.setPathTo( getDataArea() );//todo: this may need to be transformed when dynamicJFreeChartNode.isBuffered()==true
-    }
-
     protected PPath createPPath() {
         return new PPath();
-    }
-
-    private void updateOffset() {
-        if( getDynamicJFreeChartNode().isBuffered() ) {
-            pathNode.setOffset( getDynamicJFreeChartNode().getBounds().getX(), getDynamicJFreeChartNode().getBounds().getY() );
-        }
-        else {
-            pathNode.setOffset( 0, 0 );
-        }
     }
 
     public void dataAdded() {
@@ -120,17 +105,20 @@ public class PPathSeriesView extends SeriesView {
         getDynamicJFreeChartNode().addChartRenderingInfoPropertyChangeListener( listener );
         getDynamicJFreeChartNode().addBufferedImagePropertyChangeListener( listener );
         updateClip();
-//        updateSeriesGraphic();
         updateAll();
     }
 
     private void updateAll() {
+        updateClip();
+        updatePath();
+    }
+
+    private void updateClip() {
+        pathClip.setPathTo( getDataArea() );//todo: this may need to be transformed when dynamicJFreeChartNode.isBuffered()==true
+    }
+
+    private void updatePath() {
         pathNode.setPathTo( toGeneralPath() );
     }
-
-    protected void repaintPanel( Rectangle2D bounds ) {
-        getDynamicJFreeChartNode().getPhetPCanvas().repaint( new PBounds( bounds ) );
-    }
-
 
 }

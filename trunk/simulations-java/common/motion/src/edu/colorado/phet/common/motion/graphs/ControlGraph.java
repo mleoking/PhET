@@ -64,9 +64,9 @@ public class ControlGraph extends PNode {
         dynamicJFreeChartNode.setBuffered( true );
         dynamicJFreeChartNode.setBounds( 0, 0, 300, 400 );
         dynamicJFreeChartNode.setPiccoloSeries();
-//        jFreeChartNode.setJFreeChartSeries();
-//        jFreeChartNode.setBufferedSeries();
-//        jFreeChartNode.setBufferedImmediateSeries();
+//        dynamicJFreeChartNode.setJFreeChartSeries();
+//        dynamicJFreeChartNode.setBufferedSeries();
+//        dynamicJFreeChartNode.setBufferedImmediateSeries();
 
         graphTimeControlNode = new GraphTimeControlNode( timeSeriesModel );
         addSeries( title, color, abbr, simulationVariable );
@@ -143,6 +143,10 @@ public class ControlGraph extends PNode {
                 event.getInputManager().setKeyboardFocus( event.getPath() );
             }
         } );
+    }
+
+    public DynamicJFreeChartNode getDynamicJFreeChartNode() {
+        return dynamicJFreeChartNode;
     }
 
     private void notifyControlGrabbed() {
