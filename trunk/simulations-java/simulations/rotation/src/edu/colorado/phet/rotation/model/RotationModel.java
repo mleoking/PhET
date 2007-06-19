@@ -13,26 +13,25 @@ import java.awt.geom.Point2D;
  * May 22, 2007, 11:37:56 PM
  */
 public class RotationModel extends MotionModel implements RotationBodyNode.RotationBodyEnvironment {
-    private SimulationVariable xPositionVariable;
-    private SimulationVariable yPositionVariable;
-    private SimulationVariable speedVariable;
-    private SimulationVariable xVelocityVariable;
-    private SimulationVariable yVelocityVariable;
-    private SimulationVariable centripetalAcceleration;
+    private SimulationVariable xPositionVariable = new SimulationVariable();
+    private SimulationVariable yPositionVariable = new SimulationVariable();
+    private SimulationVariable speedVariable = new SimulationVariable();
+    private SimulationVariable xVelocityVariable = new SimulationVariable();
+    private SimulationVariable yVelocityVariable = new SimulationVariable();
+    private SimulationVariable centripetalAcceleration = new SimulationVariable();
 
-    public RotationModel( IClock clock) {
-        super(clock );
+    public RotationModel( IClock clock ) {
+        super( clock );
         addRotationBody( new RotationBody() );
-        xPositionVariable = new SimulationVariable( getRotationBody( 0 ).getX() );
-        yPositionVariable = new SimulationVariable( getRotationBody( 0 ).getY() );
-        speedVariable = new SimulationVariable( getRotationBody( 0 ).getVelocity().getMagnitude() );
-        xVelocityVariable = new SimulationVariable( getRotationBody( 0 ).getVelocity().getX() );
-        yVelocityVariable = new SimulationVariable( getRotationBody( 0 ).getVelocity().getY() );
-        centripetalAcceleration = new SimulationVariable( getRotationBody( 0 ).getAcceleration().getMagnitude() );
+        updateSimulationVariables();
     }
 
     protected void doStepInTime( double dt ) {
         super.doStepInTime( dt );
+        updateSimulationVariables();
+    }
+
+    private void updateSimulationVariables() {
         xPositionVariable.setValue( getRotationBody( 0 ).getX() );
         yPositionVariable.setValue( getRotationBody( 0 ).getY() );
         speedVariable.setValue( getRotationBody( 0 ).getVelocity().getMagnitude() );
@@ -54,7 +53,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
 
     protected ModelState createModelState() {
         RotationModelState modelState = new RotationModelState();
-        modelState.getMotionBody().addListener( new RotationPlatform.Listener() {
+        modelState.getMotionBody().addListener( new RotationPlatform.Listener() {//todo: memory leak
             public void angleChanged( double dtheta ) {
                 getXPositionVariable().setValue( getCurrentState().getMotionBody().getPosition() );
             }

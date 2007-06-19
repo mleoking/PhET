@@ -26,7 +26,6 @@ public class RotationBodyNode extends PhetPNode {
 
     public RotationBodyNode( final RotationBodyEnvironment model, final RotationBody rotationBody ) {
         this.rotationBody = rotationBody;
-//        PText pText = new PText( "body" );
         PNode node = null;
         try {
             node = new PImage( RotationResources.loadBufferedImage( "ladybug.gif" ) );
@@ -34,7 +33,6 @@ public class RotationBodyNode extends PhetPNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-//        PNode pText = new PhetPPath( new Rectangle( -5, -5, 10, 10 ), Color.blue );
         node.translate( -node.getFullBounds().getWidth() / 2, -node.getFullBounds().getHeight() / 2 );
         addChild( node );
         addInputEventListener( new CursorHandler() );
