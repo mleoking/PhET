@@ -1,7 +1,8 @@
 <?php
 
     include_once("../admin/global.php");
-    
+
+    include_once(SITE_ROOT."admin/authentication.php");    
     include_once(SITE_ROOT."admin/site-utils.php");
     include_once(SITE_ROOT."admin/research-utils.php");
     
@@ -117,6 +118,8 @@ EOT;
     }
 
     if (isset($_REQUEST['action'])) {
+        do_authentication(true);
+        
         $action = $_REQUEST['action'];
         
         handle_action($action);
