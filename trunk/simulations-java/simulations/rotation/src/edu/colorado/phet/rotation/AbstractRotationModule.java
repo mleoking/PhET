@@ -27,12 +27,6 @@ public abstract class AbstractRotationModule extends PiccoloModule {
         setModel( new BaseModel() );
         setLogoPanel( null );
         setClockControlPanel( null );
-        getClock().addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent clockEvent ) {
-                rotationModel.clockTicked( clockEvent );
-            }
-        } );
-
         rotationModel = createModel(getClock());
 
         rotationSimulationPanel = createSimulationPanel();

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class MotionModel implements IPositionDriven {
     private MotionModelState currentState;
 
-    private ArrayList stateHistory = new ArrayList();
+    private ArrayList stateHistory = new ArrayList();//history is necessary for computing derivatives
 
     private PositionDriven positionDriven = new PositionDriven();
     private VelocityDriven velocityDriven = new VelocityDriven();
@@ -30,6 +30,7 @@ public class MotionModel implements IPositionDriven {
     private SimulationVariable aVariable;
 
     private ArrayList listeners = new ArrayList();
+    private TimeSeriesModel timeSeriesModel;
 
     private RecordableModel recordableModel = new RecordableModel() {
         public void stepInTime( double simulationTimeChange ) {
@@ -53,7 +54,6 @@ public class MotionModel implements IPositionDriven {
             currentState.setTime( 0.0 );
         }
     };
-    private TimeSeriesModel timeSeriesModel;
 
     public MotionModel( IClock clock ) {
         timeSeriesModel = new TimeSeriesModel( recordableModel, clock );
@@ -260,10 +260,6 @@ public class MotionModel implements IPositionDriven {
 
     public TimeSeriesModel getTimeSeriesModel() {
         return timeSeriesModel;
-    }
-
-    public void clockTicked( ClockEvent clockEvent ) {
-        timeSeriesModel.clockTicked( clockEvent );
     }
 
     public MotionModelState getCurrentState() {
