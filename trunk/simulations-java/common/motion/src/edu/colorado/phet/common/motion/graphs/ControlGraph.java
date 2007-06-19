@@ -253,6 +253,7 @@ public class ControlGraph extends PNode {
             Rectangle2D d = dynamicJFreeChartNode.plotToNode( getDataArea() );
             titleLayer.setOffset( d.getX() + dynamicJFreeChartNode.getOffset().getX(), d.getY() + dynamicJFreeChartNode.getOffset().getY() );
 
+            setOffset( getBounds().getX(), getBounds().getY() );
         }
     }
 
@@ -371,7 +372,7 @@ public class ControlGraph extends PNode {
 
     public void addValue( int series, double time, double value ) {
         dynamicJFreeChartNode.addValue( series, time, value );
-        System.out.println( "series = " + series + " time=" + time + ", value=" + value );
+//        System.out.println( "series = " + series + " time=" + time + ", value=" + value );
     }
 
     public void setEditable( boolean editable ) {
