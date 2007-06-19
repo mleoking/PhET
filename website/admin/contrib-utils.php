@@ -967,7 +967,10 @@ EOT;
     }
     
     function contribution_can_contributor_manage_contribution($contributor_id, $contribution_id) {
-        if ($contribution_id == -1) return true;
+        if ($contribution_id == -1) {
+            // No one owns this contribution:
+            return true;
+        }
 
         $contribution = contribution_get_contribution_by_id($contribution_id);
         $contributor  = contributor_get_contributor_by_id($contributor_id);        
@@ -980,13 +983,15 @@ EOT;
     function contribution_get_manageable_contributions_for_contributor_id($contributor_id) {
         $contributions = contribution_get_all_contributions();
         
-        foreach($contributions as $index => $contribution) {
-            if (!contribution_can_contributor_manage_contribution($contributor_id, $contribution['contribution_id'])) {
-                unset($contributions[$index]);
+        $filtered = array();
+        
+        foreach($contributions as $contribution) {
+            if (contribution_can_contributor_manage_contribution($contributor_id, $contribution['contribution_id'])) {
+                $filtered[] = $contribution;
             }
         }
         
-        return $contributions;
+        return $filtered;
     }
     
     function contribution_delete_contribution($contribution_id) {
