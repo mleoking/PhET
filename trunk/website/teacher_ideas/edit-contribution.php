@@ -9,7 +9,7 @@
     include_once(SITE_ROOT."teacher_ideas/referrer.php");  
     
     function handle_action($action) {
-        $contribution = gather_script_params_into_array('contribution_');
+        $contribution = gather_script_params_into_array('contrib');
         
         if ($action == 'update') {
             update_contribution($contribution);
@@ -109,22 +109,6 @@ EOT;
 
     function print_content() {
         global $referrer, $contribution_id, $contributor_id;
-        
-        /*
-    
-        Array ( 
-            [contribution_authors]              => John A. De Goes
-            [contribution_authors_organization] => University of Colorado
-            [contribution_contact_email]        => degoes@colorado.edu
-            [contribution_title]                => Another contribution 4
-            [contribution_keywords]             =>
-            [contribution_desc]                 => 
-            [contribution_duration]             => 30 
-            [contribution_answers_included]     => 0 
-            [contribution_id]                   => 34
-        )
-    
-        */
     
         ?>
     
