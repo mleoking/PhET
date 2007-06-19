@@ -25,6 +25,7 @@ public class Bead extends MovableObject implements ModelElement {
     public static final String PROPERTY_DT_SUBDIVISION_THRESHOLD = "dtSubdivisionThreshold";
     public static final String PROPERTY_NUMBER_OF_DT_SUBDIVISION = "numberOfDtSubdivisions";
     public static final String PROPERTY_BROWNIAN_MOTION_SCALE = "brownianMotionScale";
+    public static final String PROPERTY_VERLET_ACCELERATION_SCALE = "verletAccelerationScale";
     
     //----------------------------------------------------------------------------
     // Private class data
@@ -33,9 +34,6 @@ public class Bead extends MovableObject implements ModelElement {
     // Debugging output for the motion algorithms
     private static final boolean DEBUG_MOTION_IN_FLUID = false;
     private static final boolean DEBUG_MOTION_IN_VACUUM = false;
-    
-    // scaling factor for acceleration component of Verlet motion algorithm
-    private static final double VERLET_ACCELERATION_SCALE = 1E-6;
     
     // units conversions
     private static final double PM_PER_NM = 1E3; // picometers per nanometer
@@ -59,10 +57,12 @@ public class Bead extends MovableObject implements ModelElement {
     private final DoubleRange _dtSubdivisionThresholdRange;
     private final IntegerRange _numberOfDtSubdivisionsRange;
     private final DoubleRange _brownianMotionScaleRange;
+    private final DoubleRange _verletAccelerationScaleRange;
     
     private double _dtSubdivisionThreshold;
     private int _numberOfDtSubdivisions;
     private double _brownianMotionScale;
+    private double _verletAccelerationScale;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -78,6 +78,7 @@ public class Bead extends MovableObject implements ModelElement {
      * @param dtSubdivisionThresholdRange
      * @param numberOfDtSubdivisionsRange
      * @param brownianMotionScaleRange
+     * @param verletAccelerationScaleRange
      * @param fluid
      * @param microscopeSlide
      * @param laser
@@ -89,6 +90,7 @@ public class Bead extends MovableObject implements ModelElement {
             DoubleRange dtSubdivisionThresholdRange,
             IntegerRange numberOfDtSubdivisionsRange,
             DoubleRange brownianMotionScaleRange,
+            DoubleRange verletAccelerationScaleRange,
             Fluid fluid,
             MicroscopeSlide microscopeSlide,
             Laser laser ) {
@@ -118,10 +120,12 @@ public class Bead extends MovableObject implements ModelElement {
         _brownianMotionScaleRange = brownianMotionScaleRange;
         _dtSubdivisionThresholdRange = dtSubdivisionThresholdRange;
         _numberOfDtSubdivisionsRange = numberOfDtSubdivisionsRange;
+        _verletAccelerationScaleRange = verletAccelerationScaleRange;
         
         _brownianMotionScale = brownianMotionScaleRange.getDefault();
         _dtSubdivisionThreshold = dtSubdivisionThresholdRange.getDefault();
         _numberOfDtSubdivisions = numberOfDtSubdivisionsRange.getDefault();
+        _verletAccelerationScale = verletAccelerationScaleRange.getDefault();
     }
     
     //----------------------------------------------------------------------------
@@ -334,6 +338,30 @@ public class Bead extends MovableObject implements ModelElement {
         return _numberOfDtSubdivisionsRange;
     }
     
+    /**
+     * Sets the acceleration scaling factor used in the Verlet algorithm for 
+     * bead motion in a vacuum.
+     * 
+     * @param verletAccelerationScale
+     */
+    public void setVerletAccelerationScale( double verletAccelerationScale ) {
+        if ( !_verletAccelerationScaleRange.contains( verletAccelerationScale ) ) {
+            throw new IllegalArgumentException( "verletAccelerationScale out of range: " + verletAccelerationScale );
+        }
+        if ( verletAccelerationScale != _verletAccelerationScale ) {
+            _verletAccelerationScale = verletAccelerationScale;
+            notifyObservers( PROPERTY_VERLET_ACCELERATION_SCALE );
+        }
+    }
+    
+    public double getVerletAccelerationScale() {
+        return _verletAccelerationScale;
+    }
+    
+    public DoubleRange getVerletAccelerationScaleRange() {
+        return _verletAccelerationScaleRange;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -395,8 +423,8 @@ public class Bead extends MovableObject implements ModelElement {
         double vxOld = _velocity.getX();
         double vyOld = _velocity.getY();
         Vector2D trapForce = _laser.getTrapForce( xOld, yOld ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2
-        double axOld = VERLET_ACCELERATION_SCALE * ( 1 / PM_PER_NM ) * trapForce.getX() / mass; // nm/sec^2
-        double ayOld = VERLET_ACCELERATION_SCALE * ( 1 / PM_PER_NM ) * trapForce.getY() / mass;
+        double axOld = _verletAccelerationScale * ( 1 / PM_PER_NM ) * trapForce.getX() / mass; // nm/sec^2
+        double ayOld = _verletAccelerationScale * ( 1 / PM_PER_NM ) * trapForce.getY() / mass;
         
         // next values for position, velocity and acceleration
         double xNew = 0, yNew = 0;
@@ -422,8 +450,8 @@ public class Bead extends MovableObject implements ModelElement {
             
             // new acceleration
             trapForce = _laser.getTrapForce( xNew, yNew ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2
-            axNew = VERLET_ACCELERATION_SCALE * ( 1 / PM_PER_NM ) * trapForce.getX() / mass; // nm/sec^2
-            ayNew = VERLET_ACCELERATION_SCALE * ( 1 / PM_PER_NM ) * trapForce.getY() / mass;
+            axNew = _verletAccelerationScale * ( 1 / PM_PER_NM ) * trapForce.getX() / mass; // nm/sec^2
+            ayNew = _verletAccelerationScale * ( 1 / PM_PER_NM ) * trapForce.getY() / mass;
             
             // new velocity
             vxNew = vxOld + ( 0.5 * ( axNew + axOld ) * dt );

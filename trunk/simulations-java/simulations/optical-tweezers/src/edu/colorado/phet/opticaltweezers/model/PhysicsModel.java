@@ -75,6 +75,7 @@ public class PhysicsModel extends ClockAdapter {
                 PhysicsDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE,
                 PhysicsDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
                 PhysicsDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE,
+                PhysicsDefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE,
                 _fluid,
                 _microscopeSlide,
                 _laser );

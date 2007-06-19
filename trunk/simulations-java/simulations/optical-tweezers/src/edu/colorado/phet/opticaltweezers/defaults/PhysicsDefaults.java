@@ -76,6 +76,8 @@ public class PhysicsDefaults {
     public static final DoubleRange BEAD_DT_SUBDIVISION_THRESHOLD_RANGE = new DoubleRange( CLOCK_DT_RANGE.getMax() * 1E-2, CLOCK_DT_RANGE.getMax(), 1E-6 );
     public static final IntegerRange BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE = new IntegerRange( 1, 1000, 10 );
     public static final DoubleRange BEAD_BROWNIAN_MOTION_SCALE_RANGE = new DoubleRange( 0, 5, 1 );
+    public static final boolean BEAD_BROWNIAN_MOTION_ENABLED = true;
+    public static final DoubleRange BEAD_VERLET_ACCELERATION_SCALE_RANGE = new DoubleRange( 1E-8, 1E-4, 1E-6 );
     
     // Control panel settings
     public static final String LASER_DISPLAY_CHOICE = LaserDisplayControlPanel.CHOICE_BEAM;
@@ -83,7 +85,6 @@ public class PhysicsDefaults {
     public static final boolean TRAP_FORCE_SELECTED = false;
     public static final String HORIZONTAL_TRAP_FORCE_CHOICE = ForcesControlPanel.CHOICE_WHOLE_BEAD;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
-    public static final boolean BEAD_BROWNIAN_MOTION_ENABLED = true;
     public static final boolean POSITION_HISTOGRAM_SELECTED = false;
     public static final boolean POTENTIAL_ENERGY_CHART_SELECTED = false;
     public static final boolean RULER_SELECTED = false;

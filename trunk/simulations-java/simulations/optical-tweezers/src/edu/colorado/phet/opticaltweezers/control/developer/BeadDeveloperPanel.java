@@ -26,12 +26,6 @@ import edu.colorado.phet.opticaltweezers.model.Bead;
 public class BeadDeveloperPanel extends JPanel implements Observer {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final boolean TOOL_TIPS_ENABLED = false;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -40,6 +34,7 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
     private LogarithmicValueControl _dtSubdivisionThresholdControl;
     private LinearValueControl _numberOfDtSubdivisions;
     private LinearValueControl _brownianMotionScaleControl;
+    private LogarithmicValueControl _verletMotionScaleControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -88,17 +83,16 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
             }
         });
         
-        if ( TOOL_TIPS_ENABLED ) {
-            _dtSubdivisionThresholdControl.setToolTipText( 
-                    "<html>When the clockstep is >= this value, the motion algorithm<br>" +
-                    "is run multiple times each time the clock ticks</html>" );
-            _numberOfDtSubdivisions.setToolTipText( 
-                    "<html>Number of times to run the motion algorithm<br>" + 
-                    "when subdividing the clockstep</html>" );
-            _brownianMotionScaleControl.setToolTipText( 
-                    "<html>How much to scale the Brownian motion.<br>" + 
-                    "Larger values cause more exaggerated motion</html>" );
-        }
+        min = bead.getVerletAccelerationScaleRange().getMin();
+        max = bead.getVerletAccelerationScaleRange().getMax();
+        _verletMotionScaleControl = new LogarithmicValueControl( min, max, "Verlet scale:", "0.0E0", "" );
+        _verletMotionScaleControl.setUpDownArrowDelta( 0.000000001 );
+        _verletMotionScaleControl.setFont( controlFont );
+        _verletMotionScaleControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleVerletAccelerationScaleControl();
+            }
+        });
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -109,11 +103,13 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
         layout.addComponent( _dtSubdivisionThresholdControl, row++, column );
         layout.addComponent( _numberOfDtSubdivisions, row++, column );
         layout.addComponent( _brownianMotionScaleControl, row++, column );
+        layout.addComponent( _verletMotionScaleControl, row++, column );
         
         // Default state
         _dtSubdivisionThresholdControl.setValue( _bead.getDtSubdivisionThreshold() );
         _numberOfDtSubdivisions.setValue( _bead.getNumberOfDtSubdivisions() );
         _brownianMotionScaleControl.setValue( _bead.getBrownianMotionScale() );
+        _verletMotionScaleControl.setValue( _bead.getVerletAccelerationScale() );
     }
     
     public void cleanup() {
@@ -135,10 +131,15 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
     }
     
     private void handleNumberOfDtDubdivisionsControl() {
-        int value = (int)_numberOfDtSubdivisions.getValue();
+        int value = (int) Math.round( _numberOfDtSubdivisions.getValue() );
         _bead.setNumberOfDtSubdivisions( value );
     }
-
+    
+    private void handleVerletAccelerationScaleControl() {
+        double value = _verletMotionScaleControl.getValue();
+        _bead.setVerletAccelerationScale( value );
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
@@ -153,6 +154,9 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
             }
             else if ( arg == Bead.PROPERTY_BROWNIAN_MOTION_SCALE ) {
                 _brownianMotionScaleControl.setValue( _bead.getBrownianMotionScale() );
+            }
+            else if ( arg == Bead.PROPERTY_VERLET_ACCELERATION_SCALE ) {
+                _verletMotionScaleControl.setValue( _bead.getVerletAccelerationScale() );
             }
         }
     }

@@ -5,7 +5,6 @@ package edu.colorado.phet.opticaltweezers.module;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
-import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
@@ -109,7 +108,8 @@ public class DNAModule extends AbstractModule {
             bead.setDtSubdivisionThreshold( DNADefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
             bead.setNumberOfDtSubdivisions( DNADefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
             bead.setBrownianMotionScale( DNADefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE.getDefault() );
-            bead.setBrownianMotionEnabled( PhysicsDefaults.BEAD_BROWNIAN_MOTION_ENABLED );
+            bead.setBrownianMotionEnabled( DNADefaults.BEAD_BROWNIAN_MOTION_ENABLED );
+            bead.setVerletAccelerationScale( DNADefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE.getDefault() );
             
             // Laser
             Laser laser = _model.getLaser();
