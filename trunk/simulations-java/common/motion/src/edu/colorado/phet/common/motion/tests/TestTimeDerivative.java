@@ -2,6 +2,7 @@ package edu.colorado.phet.common.motion.tests;
 
 import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.model.TimeData;
+import junit.framework.TestCase;
 
 /**
  * User: Sam Reid
@@ -9,7 +10,11 @@ import edu.colorado.phet.common.motion.model.TimeData;
  * Time: 12:30:09 AM
  */
 
-public class TestTimeDerivative {
+public class TestTimeDerivative extends TestCase {
+    public void testDerivative() {
+        double slope = MotionMath.estimateDerivative( getTestData() );
+        assertEquals( slope, 2.0, 1E-7 );
+    }
 
     /**
      * public static AbstractDoubleVector linearRegression(double[][] data)
@@ -24,6 +29,11 @@ public class TestTimeDerivative {
      * @param args
      */
     public static void main( String[] args ) {
+        double slope = MotionMath.estimateDerivative( getTestData() );
+        System.out.println( "slope = " + slope );
+    }
+
+    private static TimeData[] getTestData() {
         double[] x = new double[]{0, 1, 2, 3, 4};
         double[] y = new double[]{1, 3, 5, 7, 9};
 
@@ -31,7 +41,6 @@ public class TestTimeDerivative {
         for( int i = 0; i < timeData.length; i++ ) {
             timeData[i] = new TimeData( y[i], x[i] );
         }
-        double slope = MotionMath.estimateDerivative( timeData );
-        System.out.println( "slope = " + slope );
+        return timeData;
     }
 }
