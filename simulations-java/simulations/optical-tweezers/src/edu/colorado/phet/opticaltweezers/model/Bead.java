@@ -35,10 +35,10 @@ public class Bead extends MovableObject implements ModelElement {
     private static final boolean DEBUG_MOTION_IN_VACUUM = false;
     
     // scaling factor for acceleration component of Verlet motion algorithm
-    private static final double VERLET_ACCELERATION_SCALE = 1;
+    private static final double VERLET_ACCELERATION_SCALE = 1E-6;
     
     // units conversions
-    private static final double PM_PER_NM = 1E9; // picometers per nanometer
+    private static final double PM_PER_NM = 1E3; // picometers per nanometer
     private static final double G_PER_KG = 1E3; // grams per kilogram
     
     //----------------------------------------------------------------------------
