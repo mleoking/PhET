@@ -1,7 +1,10 @@
 package edu.colorado.phet.media;
 
+import edu.colorado.phet.media.util.FileUtils;
+
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -57,7 +60,7 @@ public class MediaFinder {
         } );
     }
 
-    public static java.io.File[] getSoundFiles() {
+    public static File[] getAllSoundFiles() {
         File[] dataDirs = getDataDirectories();
         ArrayList result = new ArrayList();
         searchFiles( new ArrayList( Arrays.asList( dataDirs ) ), result, new FileFilter() {
@@ -123,5 +126,33 @@ public class MediaFinder {
             File file = nonImage[i];
             System.out.println( "file = " + file );
         }
+    }
+
+    public static File[] getSoundFilesNoDuplicates() {
+        File[] soundFiles = getAllSoundFiles();
+
+        ArrayList singleCopies = new ArrayList();
+        for( int i = 0; i < soundFiles.length; i++ ) {
+            File soundFile = soundFiles[i];
+            if( !contains( singleCopies, soundFile ) ) {
+                singleCopies.add( soundFile );
+            }
+        }
+        return (File[])singleCopies.toArray( new File[0] );
+    }
+
+    private static boolean contains( ArrayList fileList, File b ) {
+        for( int i = 0; i < fileList.size(); i++ ) {
+            File a = (File)fileList.get( i );
+            try {
+                if( FileUtils.contentEquals( a, b ) ) {
+                    return true;
+                }
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 }

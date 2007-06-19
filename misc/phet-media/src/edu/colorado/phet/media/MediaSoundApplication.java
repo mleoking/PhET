@@ -1,7 +1,6 @@
 package edu.colorado.phet.media;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
-import edu.colorado.phet.media.util.FileUtils;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -10,9 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 
 /**
@@ -23,17 +21,9 @@ public class MediaSoundApplication {
     private static JList list;
 
     public static void main( String[] args ) {
-        File[] soundFiles = MediaFinder.getSoundFiles();
-        ArrayList singleCopies = new ArrayList();
-        for( int i = 0; i < soundFiles.length; i++ ) {
-            File soundFile = soundFiles[i];
-            if( !contains( singleCopies, soundFile ) ) {
-                singleCopies.add( soundFile );
-            }
-        }
+        File[] soundFiles = MediaFinder.getSoundFilesNoDuplicates();
         System.out.println( "original = " + soundFiles.length );
-        System.out.println( "without duplicates = " + singleCopies.size() );
-        list = new JList( new Vector( singleCopies ) );
+        list = new JList( new Vector( Arrays.asList( soundFiles ) ) );
         list.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         JFrame frame = new JFrame();
         JPanel panel = new JPanel( new BorderLayout() );
@@ -79,18 +69,5 @@ public class MediaSoundApplication {
         }
     }
 
-    private static boolean contains( ArrayList fileList, File b ) {
-        for( int i = 0; i < fileList.size(); i++ ) {
-            File a = (File)fileList.get( i );
-            try {
-                if( FileUtils.contentEquals( a, b ) ) {
-                    return true;
-                }
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
+
 }
