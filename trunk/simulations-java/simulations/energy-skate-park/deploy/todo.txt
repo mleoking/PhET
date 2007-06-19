@@ -21,6 +21,8 @@ To Do:
 • Bug: In one run, there is a floor in space (may be solved)
 • Out of memory error after recording lots of complicated states, loading lots of images and setting charts to very large.
 • Performance is terrible during playback on other planets.
+• On a track with high-friction, near the bottom of a local minimum, the skater gained energy and sped off.
+    -I have had trouble reproducing this.
 
 Interview Questions:
 • Should PE=0 line be visible in space?
