@@ -31,7 +31,13 @@ public class MotionControlGraph extends ControlGraph {
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
                                boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy ) {
-        super( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb, timeSeriesModel );
+        this( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb, motionModel, editable, timeSeriesModel, updateStrategy, 1000 );
+    }
+
+    public MotionControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String label, String title,
+                               double min, double max, Color color, PNode thumb, final MotionModel motionModel,
+                               boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, int maxDomainValue ) {
+        super( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb, timeSeriesModel, maxDomainValue );
         this.motionModel = motionModel;
         addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
@@ -81,16 +87,12 @@ public class MotionControlGraph extends ControlGraph {
         } );
         updateCursorVisible( jFreeChartCursorNode, motionModel );
 
-        motionModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
-            public void dataSeriesChanged() {
-                addValue( motionModel.getTimeSeriesModel().getRecordTime(), simulationVariable.getValue() );
-            }
-        } );
-//        motionModel.addListener( new MotionModel.Listener() {
-//            public void steppedInTime() {
-//                addValue( motionModel.getTime(), simulationVariable.getValue() );
+//        motionModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
+//            public void dataSeriesChanged() {
+//                addValue( motionModel.getTimeSeriesModel().getRecordTime(), simulationVariable.getValue() );
 //            }
 //        } );
+        motionModel.addListener( getListener( simulationVariable ) );
         if( updateStrategy != null ) {
             addListener( new Adapter() {
                 public void controlFocusGrabbed() {
@@ -103,12 +105,16 @@ public class MotionControlGraph extends ControlGraph {
     public void addSeries( final String title, Color color, String abbr, final SimulationVariable simulationVariable ) {
         super.addSeries( title, color, abbr, simulationVariable );
         if( motionModel != null ) {//main series handled in our constructor, this is for additional series.
-            motionModel.addListener( new MotionModel.Listener() {
-                public void steppedInTime() {
-                    addValue( getSeriesIndex( simulationVariable ), motionModel.getTime(), simulationVariable.getValue() );
-                }
-            } );
+            motionModel.addListener( getListener( simulationVariable ) );
         }
+    }
+
+    private MotionModel.Listener getListener( final SimulationVariable simulationVariable ) {
+        return new MotionModel.Listener() {
+            public void steppedInTime() {
+                addValue( getSeriesIndex( simulationVariable ), motionModel.getTime( simulationVariable ), simulationVariable.getValue() );
+            }
+        };
     }
 
     private void updateCursorLocation( JFreeChartCursorNode jFreeChartCursorNode, MotionModel motionModel ) {

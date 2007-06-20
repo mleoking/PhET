@@ -279,8 +279,42 @@ public class MotionModel implements IPositionDriven {
         }
     }
 
-    public double getTime() {
+    private double getTime() {
         return currentState.getTime();
+    }
+
+    public double getTime( SimulationVariable simulationVariable ) {
+        if( isPositionDriven() ) {
+            if( simulationVariable == xVariable ) {
+                return currentState.getTime();
+            }
+            else if( simulationVariable == vVariable ) {
+                return currentState.getTime() - positionDriven.getVelocityWindowSize()/2;
+            }
+            else if( simulationVariable == aVariable ) {
+                return currentState.getTime() - positionDriven.getVelocityWindowSize()/2 - positionDriven.getAccelerationWindowSize()/2;
+            }
+            else{
+                System.out.println( "MotionModel.getTime X, unknown" );
+                return currentState.getTime();
+            }
+        }
+        else if( isVelocityDriven() ) {
+            System.out.println( "MotionModel.getTime: v" );
+            return currentState.getTime();
+        }
+        else {
+            System.out.println( "MotionModel.getTime, a" );
+            return currentState.getTime();
+        }
+    }
+
+    private boolean isVelocityDriven() {
+        return updateStrategy == velocityDriven;
+    }
+
+    private boolean isPositionDriven() {
+        return updateStrategy == positionDriven;
     }
 
 }

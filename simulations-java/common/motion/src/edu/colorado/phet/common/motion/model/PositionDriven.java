@@ -9,10 +9,20 @@ import edu.colorado.phet.common.motion.MotionMath;
  */
 
 public class PositionDriven implements UpdateStrategy {
+    private int velocityWindowSize = 10;
+    private int accelerationWindowSize = 10;
+
+    public int getVelocityWindowSize() {
+        return velocityWindowSize;
+    }
 
     //todo: try 2nd order derivative directly from position data
     public void update( MotionModel model, double dt ) {
-        model.setVelocity( MotionMath.estimateDerivative( model.getAvailablePositionTimeSeries( 10 ) ));
-        model.setAcceleration( MotionMath.estimateDerivative( model.getAvailableVelocityTimeSeries( 10 ) ));
+        model.setVelocity( MotionMath.estimateDerivative( model.getAvailablePositionTimeSeries( velocityWindowSize ) ) );
+        model.setAcceleration( MotionMath.estimateDerivative( model.getAvailableVelocityTimeSeries( accelerationWindowSize ) ) );
+    }
+
+    public double getAccelerationWindowSize() {
+        return accelerationWindowSize;
     }
 }
