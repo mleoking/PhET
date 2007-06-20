@@ -95,7 +95,7 @@ EOT;
 
         print_checkbox(
             "sim_no_mac", 
-            "<img src=\"".SIM_NO_MAC_IMAGE."\" alt=\"\" />".
+            SIM_NO_MAC_IMAGE_HTML.
             "Check here if the simulation is <strong>not</strong> compatible with Mac", 
             $sim_no_mac
         );

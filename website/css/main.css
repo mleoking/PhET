@@ -580,14 +580,42 @@ span.logo-title {
 span.sub {
 	margin-left:14px;
 }
-img.sim-large {
+div.simpreview {
 	float:	left;
 	border:	none;
 	margin:	0 1em 0 1em;
 }
+div.simpreview table {
+	width:				200px;
+	background-color: 	transparent;
+	padding:			0;
+	margin: 		  	0;
+	border-collapse:    collapse;
+}
+div.simsummary table tr td {
+	margin:  0;
+	padding: 0;
+	width:   66px;
+}
+div.simsummary table tr td:first-child img {
+	text-align: left;
+}
+div.simsummary table tr td + td img {
+	text-align: center;
+}
+div.simsummary table tr td + td + td img {
+	text-align: right;
+}
 img.rating {
 	margin: 0;
 }
+div.simsummary {
+	margin:  0;
+	padding: 0;
+	float: 	 right;
+	width: 	 200px;
+}
+
 #content a.breadcrumbs {
 	margin:0px 20px 0px 0px;
 	padding:0px 0px 0px 15px;
