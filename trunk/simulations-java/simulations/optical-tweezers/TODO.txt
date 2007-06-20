@@ -5,26 +5,33 @@
 IN PROGRESS:
 - bug: beep occurs when selecting vacuum with fluid controls dialog open
 
-HIGH PRIORITY:
-- when user drags bead, auto-release if DNA extension is 97% of contour length
-
-MEDIUM PRIORITY:
-- implement custom simulation speed control
+AAPT:
 - E-field feature
-- are there any cases where DNA strand's extension length exceeds contour length?
-- tune developer controls, pick appropriate defaults
+- when user drags bead, auto-release if DNA extension is 97% of contour length
+- reduce vertical spacing of control panels
+- implement custom simulation speed control
+- adjust clock time display and units as dt is changed
 - position histogram requires more precision on x-axis and ruler
 - ruler is slightly off-center in all panels
+- enable/disable controls based on clock speed
+- make "beam" the only laser display option in fast mode
+- add description to About dialog
+- hide any unimplemented (red) controls
+- hide Molecular Motors module
+- add ruler icon next to "show ruler"
+
+HIGH PRIORITY:
+
+
+MEDIUM PRIORITY:
+- are there any cases where DNA strand's extension length exceeds contour length?
+- tune developer controls, pick appropriate defaults
 - add light grey draggable frame around laser controls, or make entire panel draggable
 - rail slider for laser ?
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
-- adjust clock time display and units as dt is changed
-- enable/disable controls based on clock speed
-- make "beam" the only laser display option in fast mode
 - dialogs don't repaint or close immediately when clock is running, thread priority?
 
 LOW PRIORITY:
-- add description to About dialog
 - DNA strand looks too straight initially, evolve a few times before displaying?
 - visible seams where symmetrical pieces of laser beam gradient are stitched together
 - show DNA strand as a double helix
