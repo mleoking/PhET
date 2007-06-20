@@ -60,6 +60,8 @@ MISSING INFO:
 
  
 DONE:
+6/20/07 - make Vector2DNode independent of Vector2D implementation
+6/20/07 - add PolarCartesianConverter utils so that I don't keep replicating these conversions
 6/20/07 - wire up stub view for E-field, connect to radio button controls for setting visibility
 6/20/07 - extract laser outline display as a separate node
 6/20/07 - improved look of laser beam so that seams in quadrants are not so obvious

@@ -27,7 +27,7 @@ public class TestVector2DNode extends JFrame {
         final Vector2D vector = new Vector2D.Polar( 100, 0 );
         final double referenceMagnitude = 100;
         final double referenceLength = 100;
-        final Vector2DNode vectorNode = new Vector2DNode( vector, referenceMagnitude, referenceLength );
+        final Vector2DNode vectorNode = new Vector2DNode( vector.getX(), vector.getY(), referenceMagnitude, referenceLength );
         vectorNode.setValueSpacing( 5 );
 
         PCanvas canvas = new PCanvas();
@@ -42,7 +42,7 @@ public class TestVector2DNode extends JFrame {
             public void stateChanged( ChangeEvent event ) {
                 double magnitude = magnitudeControl.getValue();
                 vector.setMagnitude( magnitude );
-                vectorNode.setVector( vector );
+                vectorNode.setXY( vector.getX(), vector.getY() );
             }
         });
         
@@ -53,7 +53,7 @@ public class TestVector2DNode extends JFrame {
             public void stateChanged( ChangeEvent event ) {
                 double angle = Math.toRadians( angleControl.getValue() );
                 vector.setAngle( angle );
-                vectorNode.setVector( vector );
+                vectorNode.setXY( vector.getX(), vector.getY() );
             }
         });
         

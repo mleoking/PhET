@@ -77,7 +77,7 @@ public abstract class AbstractForceNode extends PComposite {
      * Creates a Vector2DNode with common property values.
      */
     private static Vector2DNode createVectorNode( Paint fillPaint, double modelReferenceMagnitude, double viewReferenceMagnitude, String units ) {
-        Vector2DNode vectorNode = new Vector2DNode( new Vector2D(), modelReferenceMagnitude, viewReferenceMagnitude );
+        Vector2DNode vectorNode = new Vector2DNode( 0, 0, modelReferenceMagnitude, viewReferenceMagnitude );
         vectorNode.setUpdateEnabled( false );
         vectorNode.setHeadSize( VECTOR_HEAD_WIDTH, VECTOR_HEAD_HEIGHT );
         vectorNode.setTailWidth( VECTOR_TAIL_WIDTH );
@@ -108,9 +108,9 @@ public abstract class AbstractForceNode extends PComposite {
     }
     
     protected void setForce( Vector2D force ) {
-        _sumNode.setVector( force );
-        _xComponentNode.setVectorXY( force.getX(), 0 );
-        _yComponentNode.setVectorXY( 0, force.getY() );
+        _sumNode.setXY( force.getX(), force.getY() );
+        _xComponentNode.setXY( force.getX(), 0 );
+        _yComponentNode.setXY( 0, force.getY() );
     }
     
 }
