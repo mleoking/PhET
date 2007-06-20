@@ -22,12 +22,32 @@
             
         eval(get_code_to_create_variables_from_array($simulation));
         
+        $sim_no_mac_html = '';
+        
+        if ($sim_no_mac) {
+            $sim_no_mac_html = SIM_NO_MAC_IMAGE_HTML;
+        }
+        
+        $sim_crutch_html = '';
+        
+        if ($sim_crutch) {
+            $sim_crutch_html = SIM_CRUTCH_IMAGE_HTML;
+        }
+        
+        
+        // Gather sim_rating_html & sim_type_html information:
+        $sim_rating_html_image = $SIM_RATING_TO_IMAGE["$sim_rating"];
+        $sim_type_html_image   = $SIM_TYPE_TO_IMAGE["$sim_type"];
+
+        $sim_rating_html = "<img src=\"../images/sims/ratings/$sim_rating_html_image\" width=\"16\" height=\"16\" />";
+        $sim_type_html   = "<img src=\"../images/sims/ratings/$sim_type_html_image\"   width=\"32\" height=\"16\" />";
+        
         ?>
 
         <div>
             <?php                
                 if (isset($contributor_is_team_member) && $contributor_is_team_member == '1') {
-                    print "<h1 class=\"page-title\"><a href=\"../admin/edit-sim.php?sim_id=$sim_id\">$sim_name</a></h1>";  
+                    print "<h1 class=\"page-title\"><a href=\"../admin/edit-sim.php?sim_id=$sim_id\" title=\"Click here to edit the simulation\">$sim_name</a></h1>";  
                 } 
                 else {
                     print "<h1 class=\"page-title\">$sim_name</h1>";
@@ -36,32 +56,30 @@
         </div>
 
         <div class="container">
-            <?php
-            // Gather simrating & simtype information:
-            $simrating_image = $SIM_RATING_TO_IMAGE["$sim_rating"];
-            $simtype_image   = $SIM_TYPE_TO_IMAGE["$sim_type"];
-
-            $simrating = "<img src=\"../images/sims/ratings/$simrating_image\" width=\"16\" height=\"16\" />";
-            $simtype   = "<img src=\"../images/sims/ratings/$simtype_image\"   width=\"32\" height=\"16\" />";
-            
+            <?php            
             print <<<EOT
-                    
-            <a href="$sim_launch_url">
-                <img class="sim-large" src="../admin/get-upload.php?url=$sim_image_url" />
-            </a>
             
+
             <div class="simsummary">
                 $sim_desc
-                
-                <div>
-                     $simrating $simtype
-                </div>
-    
+
+                <table>
+                    <tr>
+                        <td>$sim_crutch_html</td>   <td>$sim_no_mac_html</td>     <td>$sim_rating_html</td> 
+                    </tr>
+                </table>
+
             </div>
+                
+            <div class="simpreview">    
+                <a href="$sim_launch_url">
+                    <img src="../admin/get-upload.php?url=$sim_image_url" alt="Sim preview image" title="Click here to launch the simulation" width="300"/>
+                </a>
         
-            <div class="size">
-                $sim_size KB
-            </div>       
+                <div class="size" title="The size of the simulation, in kilobytes">
+                    $sim_size KB
+                </div>
+            </div>
         </div>
 
         <div class="shortcuts">
@@ -178,6 +196,8 @@ EOT;
         <p><a href="#top"><img src="../images/top.gif" /></a></p>
 
         <h1 class="indi-sim" id="software">Software Requirements</h1>
+
+        <p>$sim_type_html</p>
 
         <div class="compact">
             <table>

@@ -30,6 +30,12 @@
         
     define("SIM_NO_MAC_IMAGE", '../images/sims/ratings/no-mac25x25.png');
     define("SIM_CRUTCH_IMAGE", '../images/sims/ratings/crutch25x25.png');
+    
+    define("SIM_NO_MAC_IMAGE_HTML", 
+            "<img src=\"".SIM_NO_MAC_IMAGE."\" alt=\"No Mac\" title=\"Not supported on Mac\"/>");
+            
+    define("SIM_CRUTCH_IMAGE_HTML", 
+        "<img src=\"".SIM_CRUTCH_IMAGE."\" alt=\"Not standalone\" title=\"Designed to be used with supplementary material\"/>");    
         
     define("SIMS_PER_PAGE", 9);
     
