@@ -39,9 +39,9 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
     private static final Stroke STROKE = null;
     private static final Paint STROKE_PAINT = Color.BLACK;
     
-    private static final double CROSSHAIRS_SIZE = 15;
-    private static final Stroke CROSSHAIRS_STROKE = new BasicStroke( 1f );
-    private static final Color CROSSHAIRS_COLOR = new Color( 0, 0, 0, 80 );
+    private static final double CROSSHAIR_SIZE = 15;
+    private static final Stroke CROSSHAIR_STROKE = new BasicStroke( 1f );
+    private static final Color CROSSHAIR_COLOR = new Color( 0, 0, 0, 80 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -86,7 +86,7 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
         setStrokePaint( STROKE_PAINT );
 
         // faint crosshair at the bead's center
-        addChild( new FineCrosshairNode( CROSSHAIRS_SIZE, CROSSHAIRS_STROKE, CROSSHAIRS_COLOR ) );
+        addChild( new FineCrosshairNode( CROSSHAIR_SIZE, CROSSHAIR_STROKE, CROSSHAIR_COLOR ) );
 
         _bead = bead;
         _bead.addObserver( this );
