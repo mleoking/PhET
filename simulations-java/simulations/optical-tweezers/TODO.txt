@@ -7,7 +7,6 @@ IN PROGRESS:
 AAPT:
 - E-field feature
 - when user drags bead, auto-release if DNA extension is 97% of contour length
-- reduce vertical spacing of control panels
 - implement custom simulation speed control
 - adjust clock time display and units as dt is changed
 - position histogram requires more precision on x-axis and ruler
@@ -15,7 +14,6 @@ AAPT:
 - enable/disable controls based on clock speed
 - make "beam" the only laser display option in fast mode
 - add description to About dialog
-- hide any unimplemented (red) controls
 
 HIGH PRIORITY:
 
@@ -29,6 +27,7 @@ MEDIUM PRIORITY:
 - dialogs don't repaint or close immediately when clock is running, thread priority?
 
 LOW PRIORITY:
+- reduce vertical spacing of control panels (if necessary, after features/layout has stabilized)
 - bug: beep sometimes occurs when selecting vacuum with fluid controls dialog open
 - DNA strand looks too straight initially, evolve a few times before displaying?
 - visible seams where symmetrical pieces of laser beam gradient are stitched together
@@ -61,6 +60,8 @@ MISSING INFO:
 
  
 DONE:
+6/19/07 - hide File>Save and Load menu items for AAPT
+6/19/07 - hide any unimplemented (red) controls for AAPT
 6/19/07 - hide "Show momentum model" checkbox for AAPT (in AdvancedControlPanel)
 6/19/07 - hide horizontal trap force controls for AAPT (in ForcesControlPanel)
 6/19/07 - hide 'Bead charge' panel for AAPT (in PhysicsControlPanel)
