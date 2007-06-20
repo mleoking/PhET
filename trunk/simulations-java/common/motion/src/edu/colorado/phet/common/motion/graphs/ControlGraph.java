@@ -36,7 +36,7 @@ public class ControlGraph extends PNode {
     private DynamicJFreeChartNode dynamicJFreeChartNode;
 
     private GraphTimeControlNode graphTimeControlNode;
-    private JFreeChartSliderNode JFreeChartSliderNode;
+    private JFreeChartSliderNode jFreeChartSliderNode;
     private ZoomSuiteNode zoomControl;
     private PNode titleLayer = new PNode();
 
@@ -70,7 +70,7 @@ public class ControlGraph extends PNode {
 
         graphTimeControlNode = new GraphTimeControlNode( timeSeriesModel );
         addSeries( title, color, abbr, simulationVariable );
-        JFreeChartSliderNode = new JFreeChartSliderNode( dynamicJFreeChartNode, thumb );
+        jFreeChartSliderNode = new JFreeChartSliderNode( dynamicJFreeChartNode, thumb );
         zoomControl = new ZoomSuiteNode();
         zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
@@ -92,19 +92,19 @@ public class ControlGraph extends PNode {
         } );
 
         addChild( graphTimeControlNode );
-        addChild( JFreeChartSliderNode );
+        addChild( jFreeChartSliderNode );
         addChild( dynamicJFreeChartNode );
         addChild( zoomControl );
         addChild( titleLayer );
 
         simulationVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
-                JFreeChartSliderNode.setValue( simulationVariable.getValue() );
+                jFreeChartSliderNode.setValue( simulationVariable.getValue() );
             }
         } );
-        JFreeChartSliderNode.addListener( new JFreeChartSliderNode.Listener() {
+        jFreeChartSliderNode.addListener( new JFreeChartSliderNode.Listener() {
             public void valueChanged() {
-                simulationVariable.setValue( JFreeChartSliderNode.getValue() );
+                simulationVariable.setValue( jFreeChartSliderNode.getValue() );
             }
 
             public void sliderThumbGrabbed() {
@@ -112,11 +112,6 @@ public class ControlGraph extends PNode {
             }
         } );
 
-        addInputEventListener( new PBasicInputEventHandler() {
-            public void mousePressed( PInputEvent event ) {
-                notifyListeners();
-            }
-        } );
         dynamicJFreeChartNode.updateChartRenderingInfo();
         relayout();
         updateZoomEnabled();
@@ -242,12 +237,11 @@ public class ControlGraph extends PNode {
         public void layout() {
             double dx = 5;
             graphTimeControlNode.setOffset( 0, 0 );
-            JFreeChartSliderNode.setOffset( graphTimeControlNode.getFullBounds().getMaxX() + dx, 0 );
+            jFreeChartSliderNode.setOffset( graphTimeControlNode.getFullBounds().getMaxX() + dx, 0 );
 
-//            jFreeChartNode.setBounds( chartSlider.getFullBounds().getMaxX(), 0, getBounds().getWidth() - zoomControl.getFullBounds().getWidth() - chartSlider.getFullBounds().getMaxX(), getBounds().getHeight() );
-            //todo: putting everything in setBounds fails, for some reason setOffset as a separate operation succeeds
-            dynamicJFreeChartNode.setBounds( 0, 0, getBounds().getWidth() - zoomControl.getFullBounds().getWidth() - JFreeChartSliderNode.getFullBounds().getMaxX(), getBounds().getHeight() );
-            dynamicJFreeChartNode.setOffset( JFreeChartSliderNode.getFullBounds().getMaxX(), 0 );
+            //putting everything in setBounds fails, for some reason setOffset as a separate operation succeeds
+            dynamicJFreeChartNode.setBounds( 0, 0, getBounds().getWidth() - zoomControl.getFullBounds().getWidth() - jFreeChartSliderNode.getFullBounds().getMaxX(), getBounds().getHeight() );
+            dynamicJFreeChartNode.setOffset( jFreeChartSliderNode.getFullBounds().getMaxX(), 0 );
             dynamicJFreeChartNode.updateChartRenderingInfo();
             zoomControl.setOffset( dynamicJFreeChartNode.getFullBounds().getMaxX(), dynamicJFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
             Rectangle2D d = dynamicJFreeChartNode.plotToNode( getDataArea() );
@@ -283,6 +277,7 @@ public class ControlGraph extends PNode {
         }
 
         public void layout() {
+            System.out.println( "ControlGraph$AlignedLayout.layout: "+ControlGraph.this );
             double dx = 5;
             graphTimeControlNode.setOffset( 0, 0 );
             LayoutFunction controlNodeMaxX = new LayoutFunction() {
@@ -293,7 +288,7 @@ public class ControlGraph extends PNode {
             if( getNumberMaximized() == 0 ) {
                 return;
             }
-            JFreeChartSliderNode.setOffset( max( getValues( controlNodeMaxX ) ) + dx, 0 );
+            jFreeChartSliderNode.setOffset( max( getValues( controlNodeMaxX ) ) + dx, 0 );
 
             //compact the jfreechart node in the x direction by distance from optimal.
 
@@ -306,9 +301,10 @@ public class ControlGraph extends PNode {
 //            System.out.println( "maxInset = " + maxInset );
             //todo: this layout code looks like it depends on layout getting called twice for each graph
             double diff = maxInset - getInsetX( getJFreeChartNode() );
-            //todo: putting everything in setBounds fails, for some reason setOffset as a separate operation succeeds
-            dynamicJFreeChartNode.setBounds( 0, 0, getBounds().getWidth() - zoomControl.getFullBounds().getWidth() - JFreeChartSliderNode.getFullBounds().getMaxX() - diff, getBounds().getHeight() );
-            dynamicJFreeChartNode.setOffset( JFreeChartSliderNode.getFullBounds().getMaxX() + diff, 0 );
+            
+            //putting everything in setBounds fails, for some reason setOffset as a separate operation succeeds
+            dynamicJFreeChartNode.setBounds( 0, 0, getBounds().getWidth() - zoomControl.getFullBounds().getWidth() - jFreeChartSliderNode.getFullBounds().getMaxX() - diff, getBounds().getHeight() );
+            dynamicJFreeChartNode.setOffset( jFreeChartSliderNode.getFullBounds().getMaxX() + diff, 0 );
             dynamicJFreeChartNode.updateChartRenderingInfo();
             zoomControl.setOffset( dynamicJFreeChartNode.getFullBounds().getMaxX(), dynamicJFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
             Rectangle2D d = dynamicJFreeChartNode.plotToNode( getDataArea() );
@@ -348,7 +344,7 @@ public class ControlGraph extends PNode {
         relayout();
     }
 
-    void relayout() {
+    public void relayout() {
         layout.layout();
     }
 
@@ -376,17 +372,14 @@ public class ControlGraph extends PNode {
     }
 
     public void setEditable( boolean editable ) {
-        JFreeChartSliderNode.setVisible( editable );
-        JFreeChartSliderNode.setPickable( editable );
-        JFreeChartSliderNode.setChildrenPickable( editable );
+        jFreeChartSliderNode.setVisible( editable );
+        jFreeChartSliderNode.setPickable( editable );
+        jFreeChartSliderNode.setChildrenPickable( editable );
 
         graphTimeControlNode.setEditable( editable );
     }
 
     public static interface Listener {
-        void mousePressed();
-
-        void valueChanged();
 
         //This method is called when the user makes an input event that indicates
         //that this component should be "in control" of the simulation
@@ -394,13 +387,6 @@ public class ControlGraph extends PNode {
     }
 
     public static class Adapter implements Listener {
-
-        public void mousePressed() {
-        }
-
-        public void valueChanged() {
-        }
-
         public void controlFocusGrabbed() {
         }
     }
@@ -409,10 +395,4 @@ public class ControlGraph extends PNode {
         listeners.add( listener );
     }
 
-    public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.mousePressed();
-        }
-    }
 }
