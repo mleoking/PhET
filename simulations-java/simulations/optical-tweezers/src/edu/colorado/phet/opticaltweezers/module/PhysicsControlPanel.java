@@ -123,7 +123,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     }
     
     public void closeAllDialogs() {
-        _advancedControlPanel.setFluidControlSelected( false );
+        _advancedControlPanel.setFluidControlsSelected( false );
     }
     
     //----------------------------------------------------------------------------

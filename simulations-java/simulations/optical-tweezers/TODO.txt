@@ -3,7 +3,6 @@
 ================================================================================
 
 IN PROGRESS:
-- bug: beep occurs when selecting vacuum with fluid controls dialog open
 
 AAPT:
 - E-field feature
@@ -32,6 +31,7 @@ MEDIUM PRIORITY:
 - dialogs don't repaint or close immediately when clock is running, thread priority?
 
 LOW PRIORITY:
+- bug: beep sometimes occurs when selecting vacuum with fluid controls dialog open
 - DNA strand looks too straight initially, evolve a few times before displaying?
 - visible seams where symmetrical pieces of laser beam gradient are stitched together
 - show DNA strand as a double helix
@@ -63,6 +63,7 @@ MISSING INFO:
 
  
 DONE:
+6/19/07 - fix bugs with restoring state of "Show fluid controls" checkbox
 6/19/07 - add developer control for acceleration scale in Verlet motion-in-vacuum algorithm
 6/19/07 - make units consistent in Verlet motion-in-vacuum algorithm, bead moves correctly
 6/18/07 - set velocity to zero when user grabs the bead
