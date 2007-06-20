@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JCheckBox;
+import javax.swing.*;
 
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
@@ -80,6 +80,12 @@ public class PhysicsControlPanel extends AbstractControlPanel {
                 handleRulerCheckBox();
             }
         });
+        Icon rulerIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_RULER ) );
+        JLabel rulerLabel = new JLabel( rulerIcon );
+        Box rulerPanel = new Box( BoxLayout.X_AXIS );
+        rulerPanel.add( _rulerCheckBox );
+        rulerPanel.add( Box.createHorizontalStrut( 5 ) );
+        rulerPanel.add( rulerLabel );
         
         // Layout
         {
@@ -93,7 +99,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             addSeparator();
             addControlFullWidth( _chartsControlPanel );
             addSeparator();
-            addControlFullWidth( _rulerCheckBox );
+            addControlFullWidth( rulerPanel );
             addSeparator();
             addControlFullWidth( _advancedControlPanel );
             addSeparator();
