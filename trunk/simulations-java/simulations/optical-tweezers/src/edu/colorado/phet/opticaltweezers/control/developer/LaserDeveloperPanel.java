@@ -41,7 +41,7 @@ public class LaserDeveloperPanel extends JPanel implements Observer {
         
         double min = laser.getTrapForceRatioRange().getMin();
         double max = laser.getTrapForceRatioRange().getMax();
-        _trapForceRatioControl = new LinearValueControl( min, max, "<html>F<sub>z</sub> ratio:</html>", "0.00", "" );
+        _trapForceRatioControl = new LinearValueControl( min, max, "<html>F<sub>z</sub>/F<sub>x</sub>&nbsp;=</html>", "0.00", "" );
         _trapForceRatioControl.setTextFieldColumns( 4 );
         _trapForceRatioControl.setFont( controlFont );
         _trapForceRatioControl.addChangeListener( new ChangeListener() {
