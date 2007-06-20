@@ -113,10 +113,10 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
         final double microscopeSlideCenterHeight = _modelViewTransform.modelToView( _microscopeSlide.getCenterHeight() );
         final double referenceMagnitude = vectorReferenceMagnitude;
         final double referenceLength = VELOCITY_VECTOR_MAX_TAIL_LENGTH;
-        Vector2D vector = new Vector2D.Polar( referenceMagnitude, 0 );
         _velocityVectorsParentNode = new PComposite();
         for ( int i = 0; i < NUMBER_OF_VELOCITY_VECTORS; i++ ) {
-            VelocityVectorNode vectorNode = new VelocityVectorNode( vector, referenceMagnitude, referenceLength );
+            // start with max vector size, so that offset can be set properly
+            VelocityVectorNode vectorNode = new VelocityVectorNode( referenceMagnitude, 0, referenceMagnitude, referenceLength );
             double x = VELOCITY_VECTOR_X_OFFSET;
             double y = ( i * microscopeSlideCenterHeight / NUMBER_OF_VELOCITY_VECTORS ) + ( VELOCITY_VECTOR_HEAD_HEIGHT / 2 );
             vectorNode.setOffset( x, y );
@@ -267,7 +267,7 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
                 Object nextChild = i.next();
                 if ( nextChild instanceof VelocityVectorNode ) {
                     VelocityVectorNode velocityVectorNode = (VelocityVectorNode) nextChild;
-                    velocityVectorNode.setVectorMagnitudeAngle( speed, direction );
+                    velocityVectorNode.setMagnitudeAngle( speed, direction );
                 }
             }
         }
@@ -281,8 +281,8 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
      * VelocityVectorNode encapsulates the "look" of a fluid velocity vector.
      */
     private class VelocityVectorNode extends Vector2DNode {
-        public VelocityVectorNode( Vector2D vector, double referenceMagnitude, double referenceLength ) {
-            super( vector, referenceMagnitude, referenceLength );
+        public VelocityVectorNode( double x, double y, double referenceMagnitude, double referenceLength ) {
+            super( x, y, referenceMagnitude, referenceLength );
             setHeadSize( VELOCITY_VECTOR_HEAD_WIDTH, VELOCITY_VECTOR_HEAD_HEIGHT );
             setTailWidth( VELOCITY_VECTOR_TAIL_WIDTH );
             setArrowFillPaint( VELOCITY_VECTOR_FILL_PAINT );

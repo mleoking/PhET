@@ -36,6 +36,7 @@ public class Vector2D {
     // Instance data
     //----------------------------------------------------------------------------
     
+    // Store both Polar and Cartesian coordinates for performance
     private double _magnitude; // magnitude
     private double _angle; // angle, in radians
     private double _x; // magnitude of the X component
@@ -79,8 +80,8 @@ public class Vector2D {
      * @param angle the angle, in radians
      */
     public void setMagnitudeAngle( double magnitude, double angle ) {
-        double x = Math.cos( angle ) * magnitude;
-        double y = Math.sin( angle ) * magnitude;
+        double x = magnitude * Math.cos( angle );
+        double y = magnitude * Math.sin( angle );
         setXY( x, y );
     }
     

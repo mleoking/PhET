@@ -8,6 +8,7 @@ import java.util.*;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.opticaltweezers.util.PolarCartesianConverter;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
@@ -329,7 +330,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         // angle (radians)
         final double xOffset = getTailPivot().getX() - x;
         final double yOffset = getTailPivot().getY() - y;
-        final double angle = Math.atan2( yOffset, xOffset );
+        final double angle = PolarCartesianConverter.getAngle( xOffset, yOffset );
         
         // magnitude (pN)
         final double extension = getExtension( x, y );
@@ -358,7 +359,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private double getExtension( double x, double y ) {
         final double dx = x - getTailX();
         final double dy = y - getTailY();
-        return Math.sqrt( ( dx * dx ) + ( dy * dy ) ); 
+        return PolarCartesianConverter.getRadius( dx, dy );
     }
 
     //----------------------------------------------------------------------------
@@ -459,8 +460,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 final double dyPrevious = currentPivot.getY() - previousPivot.getY();
                 final double dxNext = nextPivot.getX() - currentPivot.getX();
                 final double dyNext = nextPivot.getY() - currentPivot.getY();
-                final double distanceToPrevious = Math.sqrt( ( dxPrevious * dxPrevious ) + ( dyPrevious * dyPrevious ) );
-                final double distanceToNext = Math.sqrt( ( dxNext * dxNext ) + ( dyNext * dyNext ) );
+                final double distanceToPrevious = PolarCartesianConverter.getRadius( dxPrevious, dyPrevious );
+                final double distanceToNext = PolarCartesianConverter.getRadius( dxNext, dyNext );
                 
                 // scale down the spring's motion as the strand becomes stretched taut
                 final double stretchFactor = Math.min( 1, getExtension() / _contourLength );

@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.opticaltweezers.util.PolarCartesianConverter;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -19,8 +20,6 @@ import edu.umd.cs.piccolo.util.PBounds;
  * Vector2DNode is the visual representation of a 2D vector.
  * The vector is drawn as an arrow, with tail located at (0,0).
  * The magnitude of the vector determines the length of the arrow's tail.
- * The size of the arrow's head is constant, independent of the vector magnitude.
- * When the magnitude of the vector is zero, this node becomes invisible.
  * An optional value can be displayed at the tip of the arrow.
  * <p>
  * Note that this node has a lot of properties.  Rather than provide a 
@@ -60,7 +59,7 @@ public class Vector2DNode extends PhetPNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Vector2D _vector;
+    private double _x, _y;
     private final double _referenceMagnitude;
     private final double _referenceLength;
     private PPath _arrowNode;
@@ -79,22 +78,18 @@ public class Vector2DNode extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Vector2DNode( double x, double y, double referenceMagnitude, double referenceLength ) {
-        this( new Vector2D.Cartesian( x, y ), referenceMagnitude, referenceLength );
-    }
-    
     /**
      * Constructor.
      * <p>
      * Vector magnitude is scaled relative to referenceMagnitude and referenceLength. 
      * A magnitude of referenceMagnitude will be drawn with a tail length of referenceLength.
-     * Size of the arrow head is constant.
      * 
-     * @param vector
+     * @param x
+     * @param y
      * @param referenceMagnitude
      * @param referenceLength
      */
-    public Vector2DNode( Vector2D vector, double referenceMagnitude, double referenceLength ) {
+    public Vector2DNode( double x, double y, double referenceMagnitude, double referenceLength ) {
         super();
         
         assert( referenceMagnitude > 0 );
@@ -103,7 +98,8 @@ public class Vector2DNode extends PhetPNode {
         setPickable( false );
         setChildrenPickable( false );
         
-        _vector = new Vector2D( vector );
+        _x = x;
+        _y = y;
         _referenceMagnitude = referenceMagnitude;
         _referenceLength = referenceLength;
         
@@ -151,38 +147,29 @@ public class Vector2DNode extends PhetPNode {
     }
     
     /**
-     * Sets the vector that this node displays.
-     * 
-     * @param vector
-     */
-    public void setVector( Vector2D vector ) {
-        setVectorXY( vector.getX(), vector.getY() );
-    }
-    
-    /**
-     * Sets the vector via it's x & y components.
+     * Sets the x & y components.
      * 
      * @param x
      * @param y
      */
-    public void setVectorXY( double x, double y ) {
-        if ( x != _vector.getX() || y != _vector.getY() ) {
-            _vector.setXY( x, y );
+    public void setXY( double x, double y ) {
+        if ( x != _x || y != _y ) {
+            _x = x;
+            _y = y;
             update();
         }
     }
     
     /**
-     * Sets the vector via it's magnitude and angle.
+     * Sets the magnitude and angle.
      * 
      * @param magnitude
      * @param angle angle in radians
      */
-    public void setVectorMagnitudeAngle( double magnitude, double angle ) {
-        if ( magnitude != _vector.getMagnitude() || angle != _vector.getAngle() ) {
-            _vector.setMagnitudeAngle( magnitude, angle );
-            update();
-        }
+    public void setMagnitudeAngle( double magnitude, double angle ) {
+        double x = PolarCartesianConverter.getX( magnitude, angle );
+        double y = PolarCartesianConverter.getY( magnitude, angle );
+        setXY( x, y );
     }
     
     /**
@@ -327,7 +314,7 @@ public class Vector2DNode extends PhetPNode {
         
         if ( _updateEnabled ) {
             
-            final double magnitude = _vector.getMagnitude();
+            final double magnitude = PolarCartesianConverter.getRadius( _x, _y );
 
             if ( magnitude == 0 ) {
                 _arrowNode.setVisible( false );
@@ -338,8 +325,8 @@ public class Vector2DNode extends PhetPNode {
                 _valueNode.setVisible( _valueVisible );
                 
                 // update the arrow
-                final double xTip = _vector.getX() * ( _referenceLength / _referenceMagnitude );
-                final double yTip = _vector.getY() * ( _referenceLength / _referenceMagnitude );
+                final double xTip = _x * ( _referenceLength / _referenceMagnitude );
+                final double yTip = _y * ( _referenceLength / _referenceMagnitude );
                 Point2D tipPosition = new Point2D.Double( xTip, yTip );
                 Arrow arrow = new Arrow( TAIL_POSITION, tipPosition, _headHeight, _headWidth, _tailWidth, _fractionalHeadHeight, true /* scaleTailToo */ );
                 _arrowNode.setPathTo( arrow.getShape() );
@@ -371,7 +358,7 @@ public class Vector2DNode extends PhetPNode {
                     final double valueWidth = _valueNode.getFullBoundsReference().getWidth();
                     final double valueHeight = _valueNode.getFullBoundsReference().getHeight();
                     double frac = 0;
-                    double angle = Math.atan2( _vector.getY(), _vector.getX() );
+                    double angle = PolarCartesianConverter.getAngle( _y, _x );
                     if ( angle < 0 ) {
                         angle += ( 2 * Math.PI );
                     }
