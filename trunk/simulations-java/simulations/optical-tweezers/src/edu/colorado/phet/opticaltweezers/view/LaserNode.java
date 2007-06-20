@@ -39,13 +39,19 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean DEBUG_SHOW_ORIGIN = true;
+    private static final boolean SHOW_CENTER_CROSSHAIR = true;
+    
+    private static final boolean SHOW_BEAM_OUTLINE = true;
     
     private static final double HANDLE_WIDTH = 25; // view coordinates
     private static final Color HANDLE_COLOR = Color.LIGHT_GRAY;
     
     private static final double OBJECT_WIDTH_TO_BEAM_WIDTH_RATIO = 0.95; // (objective width)/(beam width)
     private static final double OBJECTIVE_WIDTH_TO_OBJECTIVE_HEIGHT_RATIO = 12.0; // (objective width)/(objective height)
+    
+    private static final Color CROSSHAIR_COLOR = new Color( 0, 0, 0, 80 );
+    private static final double CROSSHAIR_SIZE = 15;
+    private static final Stroke CROSSHAIR_STROKE = new BasicStroke( 1f );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -54,8 +60,13 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
     
+    private LaserOutlineNode _outlineNode;
     private LaserBeamNode _beamNode;
+    private LaserElectricFieldNode _electricFieldNode;
     private LaserControlPanel _controlPanel;
+    private PNode _centerCrosshair;
+    
+    private boolean _beamVisible, _electricFieldVisible;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -96,8 +107,19 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         horizontalReflection.scale( -1, 1 );
         rightSupportNode.setTransform( horizontalReflection );
         
-        // Laser beam
+        // Outline of beam shape
+        _outlineNode = new LaserOutlineNode( _laser, _modelViewTransform );
+        
+        // Beam
         _beamNode = new LaserBeamNode( _laser, _modelViewTransform );
+        _beamVisible = true;
+        
+        // E-field
+        _electricFieldNode = new LaserElectricFieldNode( _laser, _modelViewTransform );
+        _electricFieldVisible = true;
+        
+        // Crosshairs at center
+        _centerCrosshair = new FineCrosshairNode( CROSSHAIR_SIZE, CROSSHAIR_STROKE, CROSSHAIR_COLOR );
         
         // Handles
         double handleHeight = 0.8 * _controlPanel.getFullBounds().getHeight();
@@ -109,15 +131,21 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         addChild( leftSupportNode );
         addChild( rightSupportNode );
         addChild( _beamNode );
+        addChild( _electricFieldNode );
+        if ( SHOW_BEAM_OUTLINE ) {
+            addChild( _outlineNode );
+        }
         addChild( leftHandleNode );
         addChild( rightHandleNode );
         addChild( _controlPanel );
-        if ( DEBUG_SHOW_ORIGIN ) {
-            addChild( new FineCrosshairNode( new PDimension( 20, 20), new BasicStroke(1f), Color.BLACK ) );
+        if ( SHOW_CENTER_CROSSHAIR ) {
+            addChild( _centerCrosshair );
         }
         
         // Beam above objective
         _beamNode.setOffset( -_beamNode.getFullBounds().getWidth()/2, -distanceFromObjectiveToWaist );
+        _electricFieldNode.setOffset( _beamNode.getOffset().getX(), _beamNode.getOffset().getY() );
+        _outlineNode.setOffset( _beamNode.getOffset().getX(), _beamNode.getOffset().getY() );
         // Objective below beam
         objectiveNode.setOffset( 0, distanceFromObjectiveToWaist );
         // Control panel below beam
@@ -164,6 +192,24 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     }
     
     //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public void setBeamVisible( boolean visible ) {
+        _beamVisible = visible;
+        _beamNode.setVisible( visible );
+    }
+    
+    public void setElectricFieldVisible( boolean visible ) {
+        _electricFieldVisible = visible;
+        _electricFieldNode.setVisible( visible );
+    }
+    
+    public void setOutlineVisible( boolean visible ) {
+        _outlineNode.setVisible( visible );
+    }
+    
+    //----------------------------------------------------------------------------
     // Property change handlers
     //----------------------------------------------------------------------------
     
@@ -193,6 +239,9 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
             if ( arg == Laser.PROPERTY_POSITION ) {
                 updatePosition();
             }
+            else if ( arg == Laser.PROPERTY_RUNNING ) {
+                updateVisibility();
+            }
             else if ( arg == null ) {
                 throw new IllegalArgumentException( "LaserNode.update, arg=null" );
             }
@@ -203,11 +252,22 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     // Updaters
     //----------------------------------------------------------------------------
     
-    /**
+    /*
      * Updates the position to match the model.
      */
     private void updatePosition() {
         Point2D laserPosition = _modelViewTransform.modelToView( _laser.getPosition() );
         setOffset( laserPosition.getX(), laserPosition.getY() );
+    }
+    
+    /*
+     * Hides nodes when laser is turned off.
+     */
+    private void updateVisibility() {
+        boolean running = _laser.isRunning();
+        _beamNode.setVisible( running && _beamVisible );
+        _electricFieldNode.setVisible( running && _electricFieldVisible );
+        _outlineNode.setVisible( running );
+        _centerCrosshair.setVisible( running );
     }
 }
