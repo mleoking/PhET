@@ -148,9 +148,10 @@ public class ForcesControlPanel extends JPanel implements Observer {
         int row = 0;
         layout.addComponent( titleLabel, row++, 0, 2, 1 );
         layout.addComponent( _trapForceCheckBox, row++, 0, 2, 1 );
-        layout.addComponent( _horizontalTrapForceLabel, row++, 1 );
-        layout.addComponent( _wholeBeadRadioButton, row++, 1 );
-        layout.addComponent( _halfBeadRadioButton, row++, 1 );
+//XXX features disabled for AAPT
+//        layout.addComponent( _horizontalTrapForceLabel, row++, 1 );
+//        layout.addComponent( _wholeBeadRadioButton, row++, 1 );
+//        layout.addComponent( _halfBeadRadioButton, row++, 1 );
         layout.addComponent( _dragForceCheckBox, row++, 0, 2, 1 );
         if ( _dnaForceCheckBox != null ) {
             layout.addComponent( _dnaForceCheckBox, row++, 0, 2, 1 );

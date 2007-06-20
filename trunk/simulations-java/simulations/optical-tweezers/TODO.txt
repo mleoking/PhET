@@ -61,6 +61,9 @@ MISSING INFO:
 
  
 DONE:
+6/19/07 - hide "Show momentum model" checkbox for AAPT (in AdvancedControlPanel)
+6/19/07 - hide horizontal trap force controls for AAPT (in ForcesControlPanel)
+6/19/07 - hide 'Bead charge' panel for AAPT (in PhysicsControlPanel)
 6/19/07 - hide Molecular Motors module
 6/19/07 - add ruler icon next to "show ruler"
 6/19/07 - fix bugs with restoring state of "Show fluid controls" checkbox

@@ -120,7 +120,8 @@ public class AdvancedControlPanel extends JPanel implements Observer {
             int row = 0;
             layout.addComponent( _fluidVacuumPanel, row++, 0 );
             layout.addComponent( _fluidControlsCheckBox, row++, 0 );
-            layout.addComponent( _momemtumChangeCheckBox, row++, 0 );
+            //XXX feature disabled for AAPT
+//            layout.addComponent( _momemtumChangeCheckBox, row++, 0 );
         }
         
         // Layout
