@@ -110,9 +110,10 @@ public class OTApplication extends PiccoloPhetApplication {
                 loadItem.setEnabled( false );
             }
 
-            frame.addFileMenuItem( saveItem );
-            frame.addFileMenuItem( loadItem );
-            frame.addFileMenuSeparator();
+            //XXX feature hidden for AAPT
+//            frame.addFileMenuItem( saveItem );
+//            frame.addFileMenuItem( loadItem );
+//            frame.addFileMenuSeparator();
         }
         
         // Options menu
