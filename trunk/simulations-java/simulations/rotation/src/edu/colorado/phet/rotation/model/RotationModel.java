@@ -108,4 +108,9 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     public RotationBody getBody( int i ) {
         return getCurrentRotationModelState().getRotationBody( i );
     }
+
+    //Todo: handle derivative offsets for rotation-specific variables
+    public double getTime( SimulationVariable simulationVariable ) {
+        return super.getTime( simulationVariable );
+    }
 }

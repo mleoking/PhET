@@ -40,11 +40,12 @@ public class ControlGraph extends PNode {
     private ZoomSuiteNode zoomControl;
     private PNode titleLayer = new PNode();
 
-    private int minDomainValue = 1000;
+    private int maxDomainValue;
     private double ZOOM_FRACTION = 1.1;
     private Layout layout = new FlowLayout();
     private ArrayList series = new ArrayList();
     private ArrayList listeners = new ArrayList();
+    private SimulationVariable simulationVariable;
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable,
                          String abbr, String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
@@ -53,11 +54,18 @@ public class ControlGraph extends PNode {
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable,
                          String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel ) {
+        this( pSwingCanvas, simulationVariable, abbr, title, minY, maxY, color, thumb, timeSeriesModel, 1000 );
+    }
+
+    public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable,
+                         String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel, int maxDomainTime ) {
+        this.maxDomainValue = maxDomainTime;
+        this.simulationVariable = simulationVariable;
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
         jFreeChart = ChartFactory.createXYLineChart( title + ", " + abbr, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String)null );
         jFreeChart.getXYPlot().getRangeAxis().setRange( minY, maxY );
-        jFreeChart.getXYPlot().getDomainAxis().setRange( 0, minDomainValue );
+        jFreeChart.getXYPlot().getDomainAxis().setRange( 0, maxDomainValue );
         jFreeChart.setBackgroundPaint( null );
 
         dynamicJFreeChartNode = new DynamicJFreeChartNode( pSwingCanvas, jFreeChart );
@@ -169,8 +177,8 @@ public class ControlGraph extends PNode {
     private void zoomHorizontal( double v ) {
         double currentValue = jFreeChart.getXYPlot().getDomainAxis().getUpperBound();
         double newValue = currentValue * v;
-        if( newValue > minDomainValue ) {
-            newValue = minDomainValue;
+        if( newValue > maxDomainValue ) {
+            newValue = maxDomainValue;
         }
         jFreeChart.getXYPlot().getDomainAxis().setUpperBound( newValue );
         updateZoomEnabled();
@@ -185,7 +193,7 @@ public class ControlGraph extends PNode {
     }
 
     private void updateZoomEnabled() {
-        zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != minDomainValue );
+        zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDomainValue );
     }
 
     public void addSeries( String title, Color color, String abbr, SimulationVariable simulationVariable ) {
@@ -277,7 +285,7 @@ public class ControlGraph extends PNode {
         }
 
         public void layout() {
-            System.out.println( "ControlGraph$AlignedLayout.layout: "+ControlGraph.this );
+            System.out.println( "ControlGraph$AlignedLayout.layout: " + ControlGraph.this );
             double dx = 5;
             graphTimeControlNode.setOffset( 0, 0 );
             LayoutFunction controlNodeMaxX = new LayoutFunction() {
@@ -301,7 +309,7 @@ public class ControlGraph extends PNode {
 //            System.out.println( "maxInset = " + maxInset );
             //todo: this layout code looks like it depends on layout getting called twice for each graph
             double diff = maxInset - getInsetX( getJFreeChartNode() );
-            
+
             //putting everything in setBounds fails, for some reason setOffset as a separate operation succeeds
             dynamicJFreeChartNode.setBounds( 0, 0, getBounds().getWidth() - zoomControl.getFullBounds().getWidth() - jFreeChartSliderNode.getFullBounds().getMaxX() - diff, getBounds().getHeight() );
             dynamicJFreeChartNode.setOffset( jFreeChartSliderNode.getFullBounds().getMaxX() + diff, 0 );

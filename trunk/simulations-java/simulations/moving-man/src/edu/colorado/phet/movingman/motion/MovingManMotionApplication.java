@@ -1,5 +1,7 @@
 package edu.colorado.phet.movingman.motion;
 
+import bsh.EvalError;
+import bsh.Interpreter;
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -17,9 +19,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
-import bsh.Interpreter;
-import bsh.EvalError;
 
 /**
  * Author: Sam Reid
@@ -44,7 +43,7 @@ public class MovingManMotionApplication {
         frame.setContentPane( phetPCanvas );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         SwingClock swingClock = new SwingClock( 30, 1.0 );
-        final MotionModel motionModel = new MotionModel(swingClock );
+        final MotionModel motionModel = new MotionModel( swingClock );
 
         MovingManNode movingManNode = new MovingManNode( motionModel );
         movingManNode.scale( 50 );
@@ -62,13 +61,11 @@ public class MovingManMotionApplication {
         motionModel.setVelocityDriven();
         motionModel.setVelocity( 0.1 );
 
+        int MAX_T=200;
         GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
-                new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getXVariable(), SimStrings.get( "variables.position.abbreviation" ), SimStrings.get( "variables.position" ), -10, 10, Color.blue,
-                                                                          new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven() ) ),
-                new MinimizableControlGraph( SimStrings.get( "variables.velocity.abbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getVVariable(), SimStrings.get( "variables.velocity.abbreviation" ), SimStrings.get( "variables.velocity" ), -1, 1, Color.red,
-                                                                          new PImage( GraphSuiteSet.loadRedArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven() ) ),
-                new MinimizableControlGraph( SimStrings.get( "variables.acceleration.abbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getAVariable(), SimStrings.get( "variables.acceleration.abbreviation" ), SimStrings.get( "variables.acceleration" ), -0.01, 0.01, Color.green,
-                                                                          new PImage( GraphSuiteSet.loadGreenArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven() ) )
+                new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getXVariable(), SimStrings.get( "variables.position.abbreviation" ), SimStrings.get( "variables.position" ), -10, 10, Color.blue, new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(),MAX_T ) ),
+                new MinimizableControlGraph( SimStrings.get( "variables.velocity.abbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getVVariable(), SimStrings.get( "variables.velocity.abbreviation" ), SimStrings.get( "variables.velocity" ), -1, 1, Color.red, new PImage( GraphSuiteSet.loadRedArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(),MAX_T) ),
+                new MinimizableControlGraph( SimStrings.get( "variables.acceleration.abbreviation" ), new MotionControlGraph( phetPCanvas, motionModel.getAVariable(), SimStrings.get( "variables.acceleration.abbreviation" ), SimStrings.get( "variables.acceleration" ), -0.01, 0.01, Color.green, new PImage( GraphSuiteSet.loadGreenArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(),MAX_T ) )
         } ) ) );
         graphSetNode.setAlignedLayout();
         graphSetNode.setBounds( 0, 0, 800, 600 );
@@ -79,13 +76,13 @@ public class MovingManMotionApplication {
         phetPCanvas.addKeyListener( new KeyAdapter() {
             public void keyPressed( KeyEvent e ) {
                 System.out.println( "MovingManMotionApplication.keyPressed" );
-                if (e.getKeyCode()==KeyEvent.VK_B){
+                if( e.getKeyCode() == KeyEvent.VK_B ) {
                     System.out.println( "MovingManMotionApplication.keyPressed" );
-                    Interpreter interpreter=new Interpreter( );
+                    Interpreter interpreter = new Interpreter();
                     try {
 //                        System.out.println( "interpreter.eval( \"System.out.println(\\\"hello\\\"\") = " + interpreter.eval( "System.out.println(\"hello\"" ) );
-                        interpreter.eval( "System.out.println(3+4)");
-                        interpreter.eval( "System.out.println(\"hello\")");
+                        interpreter.eval( "System.out.println(3+4)" );
+                        interpreter.eval( "System.out.println(\"hello\")" );
                         System.out.println( "finished eval" );
                     }
                     catch( EvalError evalError ) {
