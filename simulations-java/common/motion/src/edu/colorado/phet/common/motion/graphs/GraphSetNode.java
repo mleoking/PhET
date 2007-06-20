@@ -90,7 +90,6 @@ public class GraphSetNode extends PNode {
             MinimizableControlGraph minimizableControlGraph = getGraphComponent( i );
             minimizableControlGraph.setOffset( 0, yOffset );
             if( numMaximized() > 0 ) {
-
                 minimizableControlGraph.setAvailableBounds( width, graphHeight );
             }
             yOffset += minimizableControlGraph.getFullBounds().getHeight() + yPad;
