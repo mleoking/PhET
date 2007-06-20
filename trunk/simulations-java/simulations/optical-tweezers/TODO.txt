@@ -3,9 +3,11 @@
 ================================================================================
 
 IN PROGRESS:
+- E-field feature
+- set color of E-field vector based on intensity as sample point
+- start with 9 rows of E-field vectors, with 5 across at waist
 
 AAPT:
-- E-field feature
 - when user drags bead, auto-release if DNA extension is 97% of contour length
 - implement custom simulation speed control
 - adjust clock time display and units as dt is changed
@@ -51,6 +53,12 @@ CLEANUP:
 - rescale image files to minimize file size
 - disable all debug output
 - optimize memory management by reusing mutable objects
+
+MIGRATE TO COMMON:
+- PolarCartesianConverter
+- Vector2DNode
+- ScaleAlphaImageOp
+- ColorUtils
 
 MISSING INFO:
 - spec for "Show change in momentum model" feature
