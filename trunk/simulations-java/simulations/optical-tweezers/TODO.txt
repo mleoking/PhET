@@ -60,7 +60,7 @@ MISSING INFO:
 
  
 DONE:
-********* version 0.00.13 (16020)
+********* version 0.00.13 (?)
 6/20/07 - set default trap force ratio to 0.179
 6/19/07 - hide File>Save and Load menu items for AAPT
 6/19/07 - hide any unimplemented (red) controls for AAPT
