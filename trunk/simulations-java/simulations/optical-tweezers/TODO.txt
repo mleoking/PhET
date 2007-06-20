@@ -16,7 +16,6 @@ AAPT:
 - make "beam" the only laser display option in fast mode
 - add description to About dialog
 - hide any unimplemented (red) controls
-- hide Molecular Motors module
 
 HIGH PRIORITY:
 
@@ -62,6 +61,7 @@ MISSING INFO:
 
  
 DONE:
+6/19/07 - hide Molecular Motors module
 6/19/07 - add ruler icon next to "show ruler"
 6/19/07 - fix bugs with restoring state of "Show fluid controls" checkbox
 6/19/07 - add developer control for acceleration scale in Verlet motion-in-vacuum algorithm

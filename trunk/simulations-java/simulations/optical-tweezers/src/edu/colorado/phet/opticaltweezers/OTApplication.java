@@ -72,7 +72,7 @@ public class OTApplication extends PiccoloPhetApplication {
         addModule( _dnaModule );
         
         _motorsModule = new MotorsModule();
-        addModule( _motorsModule );
+//        addModule( _motorsModule );
     }
     
     /*
