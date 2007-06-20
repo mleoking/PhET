@@ -17,7 +17,6 @@ AAPT:
 - add description to About dialog
 - hide any unimplemented (red) controls
 - hide Molecular Motors module
-- add ruler icon next to "show ruler"
 
 HIGH PRIORITY:
 
@@ -63,6 +62,7 @@ MISSING INFO:
 
  
 DONE:
+6/19/07 - add ruler icon next to "show ruler"
 6/19/07 - fix bugs with restoring state of "Show fluid controls" checkbox
 6/19/07 - add developer control for acceleration scale in Verlet motion-in-vacuum algorithm
 6/19/07 - make units consistent in Verlet motion-in-vacuum algorithm, bead moves correctly

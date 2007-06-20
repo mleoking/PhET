@@ -74,6 +74,7 @@ public class OTConstants {
     public static final String IMAGE_PUSHPIN = "pushpin.png";
     public static final String IMAGE_ON_BUTTON = "onButton.png";
     public static final String IMAGE_OFF_BUTTON = "offButton.png";
+    public static final String IMAGE_RULER = "rulerIcon.png";
     
     //----------------------------------------------------------------------------
     // Cursors
