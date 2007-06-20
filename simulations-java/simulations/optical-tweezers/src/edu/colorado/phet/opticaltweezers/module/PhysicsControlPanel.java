@@ -93,8 +93,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             addSeparator();
             addControlFullWidth( _laserDisplayControlPanel );
             addSeparator();
-            addControlFullWidth( _beadChargeControlPanel );
-            addSeparator();
+//XXX feature disabled for AAPT
+//            addControlFullWidth( _beadChargeControlPanel );
+//            addSeparator();
             addControlFullWidth( _forcesControlPanel );
             addSeparator();
             addControlFullWidth( _chartsControlPanel );
