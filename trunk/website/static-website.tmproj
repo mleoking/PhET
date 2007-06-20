@@ -3,18 +3,22 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>admin/web-utils.php</string>
+	<string>research/index.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>filename</key>
 			<string>index.php</string>
+			<key>lastUsed</key>
+			<date>2007-06-18T20:44:21Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>index.html</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>sponsors</string>
 			<key>regexFolderFilter</key>
@@ -37,6 +41,8 @@
 			<string>static-website.tmproj</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>tech_support</string>
 			<key>regexFolderFilter</key>
@@ -67,8 +73,6 @@
 			<string>images</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>js</string>
 			<key>regexFolderFilter</key>
@@ -77,24 +81,26 @@
 			<string>js</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>research</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
 			<key>sourceDirectory</key>
 			<string>research</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>contribute</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>contribute</string>
 		</dict>
 		<dict>
 			<key>expanded</key>
 			<true/>
+			<key>name</key>
+			<string>contribute</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>contribute</string>
+		</dict>
+		<dict>
 			<key>name</key>
 			<string>css</string>
 			<key>regexFolderFilter</key>
@@ -111,6 +117,8 @@
 			<string>get_phet</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>about</string>
 			<key>regexFolderFilter</key>
@@ -135,12 +143,46 @@
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
 			<key>sourceDirectory</key>
 			<string>admin</string>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>build.xml</string>
+			<key>lastUsed</key>
+			<date>2007-06-19T15:35:31Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>201</integer>
 	<key>metaData</key>
 	<dict>
+		<key>about/index.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>272</integer>
+				<key>line</key>
+				<integer>20</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>13</integer>
+		</dict>
+		<key>admin/authentication.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>46</integer>
+				<key>line</key>
+				<integer>39</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>25</integer>
+		</dict>
 		<key>admin/check-email.php</key>
 		<dict>
 			<key>caret</key>
@@ -174,42 +216,58 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>108</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>386</integer>
+				<integer>422</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>336</integer>
+			<integer>401</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>69</integer>
+				<key>line</key>
+				<integer>422</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>422</integer>
+			</dict>
 		</dict>
 		<key>admin/db-utils.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>4</integer>
 				<key>line</key>
 				<integer>104</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>85</integer>
+			<integer>93</integer>
 		</dict>
 		<key>admin/do-ajax-login.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>28</integer>
 				<key>line</key>
-				<integer>24</integer>
+				<integer>39</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>3</integer>
+			<integer>25</integer>
 		</dict>
 		<key>admin/download-archive.php</key>
 		<dict>
@@ -253,6 +311,20 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>admin/research-utils.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>23</integer>
+				<key>line</key>
+				<integer>129</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>18</integer>
+		</dict>
 		<key>admin/sim-utils.php</key>
 		<dict>
 			<key>caret</key>
@@ -272,14 +344,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>16</integer>
+				<integer>24</integer>
 				<key>line</key>
-				<integer>269</integer>
+				<integer>196</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>246</integer>
+			<integer>186</integer>
 		</dict>
 		<key>admin/sys-utils.php</key>
 		<dict>
@@ -314,14 +386,30 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>147</integer>
+				<integer>44</integer>
 				<key>line</key>
-				<integer>706</integer>
+				<integer>112</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>670</integer>
+			<integer>97</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>13</integer>
+				<key>line</key>
+				<integer>112</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>44</integer>
+				<key>line</key>
+				<integer>112</integer>
+			</dict>
 		</dict>
 		<key>admin/zip.lib.php</key>
 		<dict>
@@ -337,26 +425,68 @@
 			<key>firstVisibleLine</key>
 			<integer>154</integer>
 		</dict>
-		<key>css/main.css</key>
+		<key>build.xml</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>13</integer>
 				<key>line</key>
-				<integer>280</integer>
+				<integer>61</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>254</integer>
+			<integer>50</integer>
+		</dict>
+		<key>contribute/index.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>49</integer>
+				<key>line</key>
+				<integer>25</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>13</integer>
+		</dict>
+		<key>css/main.css</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>1161</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>1148</integer>
+		</dict>
+		<key>index.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>162</integer>
+				<key>line</key>
+				<integer>79</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>68</integer>
 		</dict>
 		<key>js/http.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>52</integer>
+				<integer>13</integer>
 				<key>line</key>
 				<integer>282</integer>
 			</dict>
@@ -379,19 +509,61 @@
 			<key>firstVisibleLine</key>
 			<integer>59</integer>
 		</dict>
+		<key>research/index.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>48</integer>
+				<key>line</key>
+				<integer>4</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>simulations/sims.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>22</integer>
+				<integer>12</integer>
 				<key>line</key>
-				<integer>58</integer>
+				<integer>173</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>36</integer>
+			<integer>162</integer>
+		</dict>
+		<key>simulations/submit-contribution.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>35</integer>
+				<key>line</key>
+				<integer>70</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>45</integer>
+		</dict>
+		<key>sponsors/index.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>116</integer>
+				<key>line</key>
+				<integer>36</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>23</integer>
 		</dict>
 		<key>teacher_ideas/add-comment.php</key>
 		<dict>
@@ -412,7 +584,7 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>28</integer>
+				<integer>8</integer>
 				<key>line</key>
 				<integer>160</integer>
 			</dict>
@@ -440,14 +612,28 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>47</integer>
+				<integer>8</integer>
 				<key>line</key>
-				<integer>126</integer>
+				<integer>51</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>96</integer>
+			<integer>47</integer>
+		</dict>
+		<key>teacher_ideas/login.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>20</integer>
+				<key>line</key>
+				<integer>19</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>4</integer>
 		</dict>
 		<key>teacher_ideas/manage-contributions.php</key>
 		<dict>
@@ -456,7 +642,7 @@
 				<key>column</key>
 				<integer>8</integer>
 				<key>line</key>
-				<integer>22</integer>
+				<integer>13</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -482,9 +668,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>2</integer>
 				<key>line</key>
-				<integer>129</integer>
+				<integer>20</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -510,7 +696,9 @@
 	<array>
 		<string>simulations/sims.php</string>
 		<string>teacher_ideas/edit-contribution.php</string>
+		<string>simulations/submit-contribution.php</string>
 		<string>css/main.css</string>
+		<string>admin/research-utils.php</string>
 		<string>teacher_ideas/referrer.php</string>
 		<string>admin/site-utils.php</string>
 		<string>admin/web-utils.php</string>
@@ -526,6 +714,14 @@
 		<string>teacher_ideas/add-comment.php</string>
 		<string>teacher_ideas/user-login.php</string>
 		<string>admin/do-ajax-login.php</string>
+		<string>build.xml</string>
+		<string>about/index.php</string>
+		<string>index.php</string>
+		<string>contribute/index.php</string>
+		<string>research/index.php</string>
+		<string>sponsors/index.php</string>
+		<string>admin/authentication.php</string>
+		<string>teacher_ideas/login.php</string>
 		<string>admin/check-email.php</string>
 		<string>admin/check-password.php</string>
 		<string>admin/remind-password.php</string>
@@ -538,6 +734,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{130, 118}, {1067, 578}}</string>
+	<string>{{291, 56}, {934, 603}}</string>
 </dict>
 </plist>
