@@ -33,10 +33,12 @@ public class TestGraphSetNode {
         TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new SwingClock( 30, 1 ) );
         MinimizableControlGraph minimizableControlGraphA = new MinimizableControlGraph( "labelA", new ControlGraph(
                 phetPCanvas, new SimulationVariable(), "abbrA", "titleA", 0, 10, timeSeriesModel ) );
-        MinimizableControlGraph minimizableControlGraphB = new MinimizableControlGraph( "labelB", new ControlGraph(
-                phetPCanvas, new SimulationVariable(), "abbrB", "titleB", 0, 10, timeSeriesModel ) );
+        MinimizableControlGraph minimizableControlGraphB = new MinimizableControlGraph( "Long labelB", new ControlGraph(
+                phetPCanvas, new SimulationVariable(), "Long abbrB", "Long titleB", 0, 10, timeSeriesModel ) );
+
 
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{minimizableControlGraphA, minimizableControlGraphB} ) ) );
+        graphSetNode.setAlignedLayout();
         phetPCanvas.addScreenChild( graphSetNode );
 
         phetPCanvas.addComponentListener( new ComponentAdapter() {

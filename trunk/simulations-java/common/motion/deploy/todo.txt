@@ -1,0 +1,18 @@
+################
+#     To Do
+################
+
+Time derivatives need a time-offset to match other series.
+
+When the time series is off-scale, dragging the slider doesn't immediately respond.
+    -Clicking on the slider thumb should set the current value, and allow immediate drags.
+
+When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.
+
+Performance optimization.
+    -Should cursors nodes use paint-immediately instead of creating a large repaint rectangle?  Or a different implementation for RepaintManager?
+    -Repaint rectangles are large during normal operation, due to moving arrows (could be in separate repaint region?)
+
+Maybe Views of recorded data should observe a Recorded Data Model from time series package.
+
+Bug: Timers for model & recording structures got out of sync.
