@@ -21,17 +21,17 @@
     
     $SIM_RATING_TO_IMAGE = 
         array(
-            SIM_RATING_BETA_MINUS   => 'beta-minus-rating.gif',
-            SIM_RATING_BETA_PLUS    => 'beta-plus-rating.gif',
-            SIM_RATING_BETA         => 'beta-rating.gif',
-            SIM_RATING_CHECK        => 'check_Icon.gif',
-            SIM_RATING_ALPHA        => 'alpha-rating.gif'
+            SIM_RATING_BETA_MINUS   => 'beta-minus25x25.png',
+            SIM_RATING_BETA_PLUS    => 'beta-plus25x25.png',
+            SIM_RATING_BETA         => 'beta25x25.png',
+            SIM_RATING_CHECK        => 'checkmark25x25.png',
+            SIM_RATING_ALPHA        => 'alpha25x25.png'
         );
         
+    define("SIM_NO_MAC_IMAGE", '../images/sims/ratings/no-mac25x25.png');
+    define("SIM_CRUTCH_IMAGE", '../images/sims/ratings/crutch25x25.png');
+        
     define("SIMS_PER_PAGE", 9);
-    
-    define("SIM_SYSTEM_REQ_ANY",    "0");
-    define("SIM_SYSTEM_REQ_NO_MAC", "1");
     
     define("SQL_SELECT_ALL_VISIBLE_CATEGORIES", 
            "SELECT * FROM `category` WHERE `cat_is_visible`='1' ORDER BY `cat_order` ASC ");

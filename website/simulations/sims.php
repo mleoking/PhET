@@ -36,31 +36,31 @@
         </div>
 
         <div class="container">
-            <p>
-                <?php
-                    print "<a href=\"$sim_launch_url\">";
-                    print "<img class=\"sim-large\" src=\"../admin/get-upload.php?url=$sim_image_url\"/>";
-                    print "</a>";
-                    print "$sim_desc";  
-                ?>
-            </p>
+            <?php
+            // Gather simrating & simtype information:
+            $simrating_image = $SIM_RATING_TO_IMAGE["$sim_rating"];
+            $simtype_image   = $SIM_TYPE_TO_IMAGE["$sim_type"];
 
-            <div>
-                        <?php
-                            $simrating_image = $SIM_RATING_TO_IMAGE["$sim_rating"];
-                            $simtype_image   = $SIM_TYPE_TO_IMAGE["$sim_type"];
-                        
-                            $simrating = "<img src=\"../images/sims/ratings/$simrating_image\" width=\"16\" height=\"16\" />";
-                            $simtype   = "<img src=\"../images/sims/ratings/$simtype_image\"   width=\"32\" height=\"16\" />";
-                        
-                            print "$simrating $simtype";
-                        ?>
+            $simrating = "<img src=\"../images/sims/ratings/$simrating_image\" width=\"16\" height=\"16\" />";
+            $simtype   = "<img src=\"../images/sims/ratings/$simtype_image\"   width=\"32\" height=\"16\" />";
+            
+            print <<<EOT
+                    
+            <a href="$sim_launch_url">
+                <img class="sim-large" src="../admin/get-upload.php?url=$sim_image_url" />
+            </a>
+            
+            <div class="simsummary">
+                $sim_desc
+                
+                <div>
+                     $simrating $simtype
+                </div>
+    
             </div>
         
             <div class="size">
-                <?php
-                    print "$sim_size KB";
-                ?>
+                $sim_size KB
             </div>       
         </div>
 
@@ -79,27 +79,29 @@
         <h1 class="indi-sim" id="topics">Topics</h1>
 
         <h2>Main Topics</h2>
-            
-        <?php
-            print_comma_list_as_bulleted_list($sim_main_topics);
-        ?>        
+EOT;
         
+        print_comma_list_as_bulleted_list($sim_main_topics);
+        
+        print <<<EOT
+                
         <h2>Subtopics</h2>
         
         <ul>
             <li>
-                <?php
-                    print convert_comma_list_into_linked_keyword_list($sim_keywords, true);
-                ?>
+EOT;
+                print convert_comma_list_into_linked_keyword_list($sim_keywords, true);
+                
+                print <<<EOT
             </li>
         </ul>      
         
         <h2>Sample Learning Goals</h2>
-        
-        <?php
-            print_comma_list_as_bulleted_list($sim_sample_goals);
-        ?>
+EOT;
 
+        print_comma_list_as_bulleted_list($sim_sample_goals);
+
+        print <<<EOT
         <p><a href="#top"><img src="../images/top.gif" /></a></p>
 
         <h1 class="indi-sim" id="ideas">Teaching Ideas</h1>
@@ -107,31 +109,27 @@
         <h2>Tips for Teachers</h2>
         
         <p class="indi-sim">
-            <?php
-                print "The <a href=\"../admin/get-upload.php?url=$sim_teachers_guide_url\">teacher's guide</a> contains tips for teachers created by the PhET team (PDF).";
-            ?>
+            The <a href="../admin/get-upload.php?url=$sim_teachers_guide_url">teacher's guide</a> contains tips for teachers created by the PhET team (PDF).
         </p>
-
 
         <h2>Ideas and Activities for this Sim</h2>   
         
         <div id="simcontribbrowser">
-        <?php
+EOT;
+
             global $contributor_id, $contributor_is_team_member;
             
             $content_only = true;
             
             include_once(SITE_ROOT."teacher_ideas/browse.php");
         
-        ?>
+        print <<<EOT
         </div>
     
         <h2>Contribute Your Ideas &amp; Activities</h2>
 
         <form id="quicksubmit" enctype="multipart/form-data" action="submit-contribution.php" method="post">    
-            <?php
-                print "<input type=\"hidden\" name=\"sim_id\"   value=\"$sim_id\" />";
-            ?>
+            <input type="hidden" name="sim_id"   value="$sim_id" />
 
             <div class="field">
                 <span class="label_content">
@@ -203,41 +201,43 @@
                     <tr>
                         <td>
                             Microsoft Windows 98SE/2000/XP
-            
-                            <?php
+EOT;
+                            
                                 if ($sim_type == '0') { 
                                     print "Sun Java 1.4.2_10 or later<br/>";
                                 }
                                 else if ($sim_type == '1') {
                                     print "Macromedia Flash 7 or later<br/>";
                                 }
-                            ?>
+                                
+                            print <<<EOT
                         </td>
             
 
                         <td>
                             OS 10.3.9 or later
-        
-            
-                            <?php
-                                if ($sim_type == '0') {
-                                    print "Apple Java 1.4.2_09 or later<br/>";
-                                }
-                                else if ($sim_type == '1') {
-                                    print "Macromedia Flash 7 or later<br/>";
-                                }
-                            ?>
+EOT;
+
+                            if ($sim_type == '0') {
+                                print "Apple Java 1.4.2_09 or later<br/>";
+                            }
+                            else if ($sim_type == '1') {
+                                print "Macromedia Flash 7 or later<br/>";
+                            }
+                                
+                            print <<<EOT
                         </td>
                     
                         <td>            
-                        <?php
+EOT;
                             if ($sim_type == '0') {
                                 print "Sun Java 1.4.2_10 or later<br/>";
                             }
                             else if ($sim_type == '1') {
                                 print "Macromedia Flash 7 or later<br/>";
                             }
-                        ?>
+
+                            print <<<EOT
                     
                         </td>
                     </tr>
@@ -277,28 +277,30 @@
                 <tbody>
                     <tr>
                         <td>
-                            <?php
-                                print_comma_list_as_bulleted_list($sim_design_team);
-                            ?>
+EOT;
+                            print_comma_list_as_bulleted_list($sim_design_team);
+                            
+                            print <<<EOT
                         </td>
                 
                         <td>
-                            <?php
-                                print_comma_list_as_bulleted_list($sim_libraries);
-                            ?>
+EOT;
+                            print_comma_list_as_bulleted_list($sim_libraries);
+                            
+                            print <<<EOT
                         </td>
                 
                         <td>
-                            <?php
-                                print_comma_list_as_bulleted_list($sim_thanks_to);
-                            ?>
+EOT;
+                            print_comma_list_as_bulleted_list($sim_thanks_to);
+                            
+                            print <<<EOT
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        
-        <?php
+EOT;
     }
 
     print_site_page('print_content', 2);

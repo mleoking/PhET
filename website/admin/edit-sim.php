@@ -51,13 +51,6 @@
 	    
         eval($sim_code);
 
-        if ($sim_system_req == SIM_SYSTEM_REQ_NO_MAC) { 
-            $mac_ch = "checked";
-        }
-        else {
-            $mac_ch = " ";
-        }
-
         $bmin_check  = generate_check_status(SIM_RATING_BETA_MINUS, $sim_rating);
         $b_check     = generate_check_status(SIM_RATING_BETA,       $sim_rating);
         $bplus_check = generate_check_status(SIM_RATING_BETA_PLUS,  $sim_rating);
@@ -85,17 +78,40 @@ EOT;
     <div>Please select a rating for this simulation</div>
                 <p>
                     <input name="sim_rating" type="radio" value="0" $bmin_check />
-                    <img src="../images/sims/ratings/beta-minus-rating.gif" width="16" height="16" />
+                    <img src="../images/sims/ratings/beta-minus25x25.png" />
                     <input name="sim_rating" type="radio" value="1" $bplus_check />
-                    <img src=../images/sims/ratings/beta-plus-rating.gif width="16" height="16" />
+                    <img src="../images/sims/ratings/beta-plus25x25.png" />
                     <input name="sim_rating" type="radio" value="2" $b_check />
-                    <img src=../images/sims/ratings/beta-rating.gif width="16" height="16" />
+                    <img src="../images/sims/ratings/beta25x25.png" />
                     <input name="sim_rating" type="radio" value="3" $star_check />
-                    <img src=../images/sims/ratings/check_Icon.gif width="16" height="16" />
+                    <img src="../images/sims/ratings/checkmark25x25.png" />
                     <input name="sim_rating" type="radio" value="4" $tri_check />
-                    <img src=../images/sims/ratings/alpha-rating.gif width="16" height="14" />
-                </p>
+                    <img src="../images/sims/ratings/alpha25x25.png" />
+                </p>    
+    
 EOT;
+
+        print "<div>";
+
+        print_checkbox(
+            "sim_no_mac", 
+            "<img src=\"".SIM_NO_MAC_IMAGE."\" alt=\"\" />".
+            "Check here if the simulation is <strong>not</strong> compatible with Mac", 
+            $sim_no_mac
+        );
+        
+        print "</div>";
+        
+        print "<div>";
+        
+        print_checkbox(
+            "sim_crutch", 
+            "<img src=\"".SIM_CRUTCH_IMAGE."\" alt=\"\" />".
+            "Check here if the simulation is <strong>not</strong> standalone", 
+            $sim_crutch
+        );
+        
+        print "</div>";
   
         print_captioned_editable_area("Simulation Description", "sim_desc", $sim_desc, "10");
         print_captioned_editable_area("Enter the keywords to associated with the simulation*", 
@@ -123,7 +139,7 @@ EOT;
             
             </form>
     
-            <div>*Separated by commas.</div>
+            <div>*Separated by commas or asterisks. Asterisk separation has precedence over comma separation.</div>
 EOT;
     }
     
