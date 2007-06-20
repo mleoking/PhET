@@ -36,12 +36,6 @@ public class LaserBeamNode extends PhetPNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean SHOW_OUTLINE = true;
-
-    private static final Color OUTLINE_COLOR = Color.GRAY;
-    public static final Stroke OUTLINE_STROKE = 
-        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
-    
     private static final int MAX_ALPHA_CHANNEL = 255; // 0-255
     
     //----------------------------------------------------------------------------
@@ -56,14 +50,14 @@ public class LaserBeamNode extends PhetPNode implements Observer {
     private BufferedImage _actualPowerGradientImage; // gradient for the actual power, created by scaling the alpha channel of _maxPowerGradientImage
 
     //----------------------------------------------------------------------------
-    // Constructor
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
      * Constructor.
      * 
      * @param laser
-     * @param height height in view coordinates
+     * @param modelViewTransform
      */
     public LaserBeamNode( Laser laser, ModelViewTransform modelViewTransform ) {
         super();
@@ -83,14 +77,7 @@ public class LaserBeamNode extends PhetPNode implements Observer {
         _gradientNode = new GradientNode( _maxPowerGradientImage, 0 /* horizontalOverlap */, 0.1 /* verticalOverlap */ );
         _gradientNode.setOffset( 0, -_modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToControlPanel() ) );
         addChild( _gradientNode );
-
-        // Outline of beam shape
-        if ( SHOW_OUTLINE ) {
-            PNode outlineNode = createOutlineNode();
-            addChild( outlineNode );
-        }
         
-        updateVisible();
         updateAlpha();
     }
     
@@ -107,19 +94,12 @@ public class LaserBeamNode extends PhetPNode implements Observer {
             if ( arg == Laser.PROPERTY_POWER ) {
                 updateAlpha();
             }
-            else if ( arg == Laser.PROPERTY_RUNNING ) {
-                updateVisible();
-            }
         }
     }
     
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
-    
-    private void updateVisible() {
-        setVisible( _laser.isRunning() );
-    }
     
     /*
      * Adjusts the alpha channel of the gradient image so that it corresponds
@@ -200,76 +180,7 @@ public class LaserBeamNode extends PhetPNode implements Observer {
         return scaledImage;
     }
 
-    /*
-     * Create the shape of the beam's outline.
-     * The shape is calculated in model coordinates, then transformed to view coordinates.
-     * The node returned has it's origin at its geometrical center.
-     */
-    private PNode createOutlineNode() {
-        
-        // Shape is symmetric, calculate points for one quarter of the outline, 1 point for each 1 nm
-        final int numberOfPoints = (int) _laser.getDistanceFromObjectiveToWaist();
-        Point2D[] points = new Point2D.Double[numberOfPoints];
-        for ( int y = 0; y < points.length; y++ ) {
-            double r = _laser.getRadius( y );
-            points[y] = new Point2D.Double( r, y );
-        }
 
-        int iFirst = 0;
-        int iLast = points.length - 1;
-        
-        // Right half
-        GeneralPath rightPath = new GeneralPath();
-        // upper-right quadrant
-        rightPath.moveTo( (float) points[iLast].getX(), -(float) points[iLast].getY() );
-        for ( int i = iLast - 1; i > iFirst; i-- ) {
-            rightPath.lineTo( (float) points[i].getX(), -(float) points[i].getY() );
-        }
-        // lower-right quadrant
-        for ( int i = iFirst; i < iLast; i++ ) {
-            rightPath.lineTo( (float) points[i].getX(), (float) points[i].getY() );
-        }
-        // portion coming into objective
-        rightPath.lineTo( (float) points[iLast].getX(),  (float)( points[iLast].getY() + _laser.getDistanceFromObjectiveToControlPanel() ) );
-        // transform to view coordinates
-        Shape rightShape = _modelViewTransform.createTransformedShapeModelToView( rightPath );
-        // node
-        PPath nRight = new PPath( rightShape );
-        nRight.setStroke( OUTLINE_STROKE );
-        nRight.setStrokePaint( OUTLINE_COLOR );
-        nRight.setPaint( null );
-        
-        // Left path
-        GeneralPath leftPath = new GeneralPath();
-        // upper-left quadrant
-        leftPath.moveTo( (float) -points[iLast].getX(), -(float) points[iLast].getY() );
-        for ( int i = iLast - 1; i > iFirst; i-- ) {
-            leftPath.lineTo( (float) -points[i].getX(), -(float) points[i].getY() );
-        }
-        // lower-left quadrant
-        for ( int i = iFirst; i < iLast; i++ ) {
-            leftPath.lineTo( (float) -points[i].getX(), (float) points[i].getY() );
-        }
-        // portion coming into objective
-        leftPath.lineTo( (float) -points[iLast].getX(),  (float)( points[iLast].getY() + _laser.getDistanceFromObjectiveToControlPanel() ) );
-        // transform to view coordinates
-        Shape leftShape = _modelViewTransform.createTransformedShapeModelToView( leftPath );
-        // node
-        PPath nLeft = new PPath( leftShape );
-        nLeft.setStroke( OUTLINE_STROKE );
-        nLeft.setStrokePaint( OUTLINE_COLOR );
-        nLeft.setPaint( null );
-        
-        PNode parentNode = new PComposite();
-        parentNode.addChild( nLeft );
-        parentNode.addChild( nRight );
-        
-        // move origin to center of trap
-        final double d = _modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToControlPanel() );
-        parentNode.setOffset( parentNode.getFullBounds().getWidth() / 2, ( parentNode.getFullBounds().getHeight() / 2 ) - ( d / 2 ) );
-        
-        return parentNode;
-    }
     
     //----------------------------------------------------------------------------
     // Inner classes
