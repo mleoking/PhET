@@ -80,7 +80,7 @@ public class LaserBeamNode extends PhetPNode implements Observer {
         _maxPowerGradientImage = createMaxPowerGradientImage();
         _actualPowerGradientImage = _imageOp.createCompatibleDestImage( _maxPowerGradientImage, _maxPowerGradientImage.getColorModel() );
         
-        _gradientNode = new GradientNode( _maxPowerGradientImage, 0.05 /* overlap */ );
+        _gradientNode = new GradientNode( _maxPowerGradientImage, 0 /* horizontalOverlap */, 0.1 /* verticalOverlap */ );
         _gradientNode.setOffset( 0, -_modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToControlPanel() ) );
         addChild( _gradientNode );
 
@@ -291,35 +291,35 @@ public class LaserBeamNode extends PhetPNode implements Observer {
         // one node for each quadrant
         private PImage _upperLeftNode, _upperRightNode, _lowerLeftNode, _lowerRightNode;
         
-        public GradientNode( Image image, double overlap ) {
+        public GradientNode( Image image, double horizontalOverlap, double verticalOverlap ) {
             
             _upperLeftNode = new PImage( image );
             _upperRightNode = new PImage( image );
             _lowerLeftNode = new PImage( image );
             _lowerRightNode = new PImage( image );
             
-            addChild( _upperLeftNode );
-            addChild( _upperRightNode );
             addChild( _lowerLeftNode );
             addChild( _lowerRightNode );
+            addChild( _upperLeftNode );
+            addChild( _upperRightNode );
             
             AffineTransform upperLeftTransform = new AffineTransform();
-            upperLeftTransform.translate( _upperLeftNode.getFullBounds().getWidth() + overlap, _upperLeftNode.getFullBounds().getHeight() + overlap );
+            upperLeftTransform.translate( _upperLeftNode.getFullBounds().getWidth() + horizontalOverlap, _upperLeftNode.getFullBounds().getHeight() + verticalOverlap );
             upperLeftTransform.scale( -1, -1 ); // reflection about both axis
             _upperLeftNode.setTransform( upperLeftTransform );
             
             AffineTransform upperRightTransform = new AffineTransform();
-            upperRightTransform.translate( _upperRightNode.getFullBounds().getWidth() - overlap, _upperRightNode.getFullBounds().getHeight() + overlap );
+            upperRightTransform.translate( _upperRightNode.getFullBounds().getWidth() - horizontalOverlap, _upperRightNode.getFullBounds().getHeight() + verticalOverlap );
             upperRightTransform.scale( 1, -1 ); // reflection about the x axis
             _upperRightNode.setTransform( upperRightTransform );
 
             AffineTransform lowerLeftTransform = new AffineTransform();
-            lowerLeftTransform.translate( _lowerLeftNode.getFullBounds().getWidth() + overlap, _lowerLeftNode.getFullBounds().getHeight() - overlap );
+            lowerLeftTransform.translate( _lowerLeftNode.getFullBounds().getWidth() + horizontalOverlap, _lowerLeftNode.getFullBounds().getHeight() - verticalOverlap );
             lowerLeftTransform.scale( -1, 1 ); // reflection about the y axis
             _lowerLeftNode.setTransform( lowerLeftTransform );
             
             AffineTransform lowerRightTransform = new AffineTransform();
-            lowerRightTransform.translate( _lowerRightNode.getFullBounds().getWidth() - overlap, _lowerRightNode.getFullBounds().getHeight() - overlap );
+            lowerRightTransform.translate( _lowerRightNode.getFullBounds().getWidth() - horizontalOverlap, _lowerRightNode.getFullBounds().getHeight() - verticalOverlap );
             lowerRightTransform.scale( 1, 1 ); // no reflection
             _lowerRightNode.setTransform( lowerRightTransform );
         }
