@@ -36,6 +36,10 @@ public class LaserOutlineNode extends PhetPNode {
     //----------------------------------------------------------------------------
     
     public LaserOutlineNode( Laser laser, ModelViewTransform modelViewTransform ) {
+        super();
+        setPickable( false );
+        setChildrenPickable( false );
+        
         PNode outlineNode = createOutlineNode( laser, modelViewTransform );
         addChild( outlineNode );
     }
@@ -43,7 +47,7 @@ public class LaserOutlineNode extends PhetPNode {
     /*
      * Create the shape of the beam's outline.
      * The shape is calculated in model coordinates, then transformed to view coordinates.
-     * The node returned has it's origin at its geometrical center.
+     * The node returned has it's origin at its geometric center.
      */
     private PNode createOutlineNode( Laser laser, ModelViewTransform modelViewTransform ) {
         
