@@ -32,7 +32,7 @@ public class AdvancedControlPanel extends JPanel implements Observer {
     
     private Fluid _fluid;
     private Frame _parentFrame;
-    private FluidControlDialog _fluidControlDialog;
+    private FluidControlDialog _fluidControlsDialog;
     
     private JButton _showHideButton;
     private JPanel _mainPanel;
@@ -61,7 +61,7 @@ public class AdvancedControlPanel extends JPanel implements Observer {
         _fluid = fluid;
         _fluid.addObserver( this );
         
-        _fluidControlDialog = null;
+        _fluidControlsDialog = null;
         
         _showHideButton = new JButton( OTResources.getString( "label.showAdvanced" ) );
         _showHideButton.setFont( titleFont );
@@ -87,7 +87,7 @@ public class AdvancedControlPanel extends JPanel implements Observer {
             }
         } );
         
-        _fluidControlsCheckBox = new JCheckBox( OTResources.getString( "label.controlFluidFlow" ) );
+        _fluidControlsCheckBox = new JCheckBox( OTResources.getString( "label.showFluidControls" ) );
         _fluidControlsCheckBox.setFont( controlFont );
         _fluidControlsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -153,6 +153,7 @@ public class AdvancedControlPanel extends JPanel implements Observer {
     
     public void cleanup() {
         _fluid.deleteObserver( this );
+        closeFluidControlsDialog();
     }
     
     //----------------------------------------------------------------------------
@@ -185,7 +186,7 @@ public class AdvancedControlPanel extends JPanel implements Observer {
         handleFluidOrVacuumChoice();
     }
     
-    public void setFluidControlSelected( boolean b ) {
+    public void setFluidControlsSelected( boolean b ) {
         _fluidControlsCheckBox.setSelected( b );
         handleFluidControlsCheckBox();
     }
@@ -218,44 +219,30 @@ public class AdvancedControlPanel extends JPanel implements Observer {
     }
     
     private void handleFluidOrVacuumChoice() {
+        
         _fluid.deleteObserver( this );
         _fluid.setEnabled( _fluidRadioButton.isSelected() );
         _fluid.addObserver( this );
         
         _fluidControlsCheckBox.setEnabled( _fluidRadioButton.isSelected() );
         
-        handleFluidControlsCheckBox();
-    }
-
-    private void handleFluidControlsCheckBox() {
-
-        final boolean selected = _fluidRadioButton.isSelected() && _fluidControlsCheckBox.isSelected();
-        
-        if ( !selected ) {
-            if ( _fluidControlDialog != null ) {
-                _fluidControlDialog.dispose();
-                _fluidControlDialog = null;
+        if ( _fluidRadioButton.isSelected() ) {
+            if ( _fluidControlsCheckBox.isSelected() ) {
+                openFluidControlsDialog();
             }
         }
         else {
-            _fluidControlDialog = new FluidControlDialog( _parentFrame, OTConstants.CONTROL_PANEL_CONTROL_FONT, _fluid );
-            _fluidControlDialog.addWindowListener( new WindowAdapter() {
+            closeFluidControlsDialog();
+        }
+    }
 
-                // called when the close button in the dialog's window dressing is clicked
-                public void windowClosing( WindowEvent e ) {
-                    _fluidControlDialog.dispose();
-                }
-
-                // called by JDialog.dispose
-                public void windowClosed( WindowEvent e ) {
-                    _fluidControlDialog = null;
-                    _fluidControlsCheckBox.setSelected( !( _fluidControlsCheckBox.isSelected() && _fluidRadioButton.isSelected() ) );
-                }
-            } );
-            // Position at the left-center of the main frame
-            Point p = _parentFrame.getLocationOnScreen();
-            _fluidControlDialog.setLocation( (int) p.getX() + 10, (int) p.getY() + ( ( _parentFrame.getHeight() - _fluidControlDialog.getHeight() ) / 2 ) );
-            _fluidControlDialog.show();
+    private void handleFluidControlsCheckBox() {
+        final boolean selected = _fluidRadioButton.isSelected() && _fluidControlsCheckBox.isSelected();
+        if ( selected ) {
+            openFluidControlsDialog();
+        }
+        else {
+            closeFluidControlsDialog();
         }
     }
     
@@ -264,6 +251,44 @@ public class AdvancedControlPanel extends JPanel implements Observer {
         //XXX
     }
 
+    //----------------------------------------------------------------------------
+    // Fluid controls dialog
+    //----------------------------------------------------------------------------
+    
+    private void openFluidControlsDialog() {
+        
+        closeFluidControlsDialog();
+        
+        _fluidControlsDialog = new FluidControlDialog( _parentFrame, OTConstants.CONTROL_PANEL_CONTROL_FONT, _fluid );
+        _fluidControlsDialog.addWindowListener( new WindowAdapter() {
+
+            // called when the close button in the dialog's window dressing is clicked
+            public void windowClosing( WindowEvent e ) {
+                _fluidControlsDialog.dispose();
+            }
+
+            // called by JDialog.dispose
+            public void windowClosed( WindowEvent e ) {
+                _fluidControlsDialog = null;
+                if ( _fluidRadioButton.isSelected() ) {
+                    _fluidControlsCheckBox.setSelected( false );
+                }
+            }
+        } );
+        
+        // Position at the left-center of the main frame
+        Point p = _parentFrame.getLocationOnScreen();
+        _fluidControlsDialog.setLocation( (int) p.getX() + 10, (int) p.getY() + ( ( _parentFrame.getHeight() - _fluidControlsDialog.getHeight() ) / 2 ) );
+        _fluidControlsDialog.show();
+    }
+    
+    private void closeFluidControlsDialog() {
+        if ( _fluidControlsDialog != null ) {
+            _fluidControlsDialog.dispose();
+            _fluidControlsDialog = null;
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
