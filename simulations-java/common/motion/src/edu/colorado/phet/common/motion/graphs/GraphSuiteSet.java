@@ -18,9 +18,6 @@ public class GraphSuiteSet {
         }
     };
 
-    public GraphSuiteSet() {
-    }
-
     public static BufferedImage loadRedArrow() {
         return loadArrow( "red-arrow.png" );
     }

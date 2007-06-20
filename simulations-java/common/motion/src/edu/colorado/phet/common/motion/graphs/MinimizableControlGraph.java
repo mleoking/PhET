@@ -119,7 +119,7 @@ public class MinimizableControlGraph extends PNode {
         relayout();
     }
 
-    public void relayout() {
+    private void relayout() {
         updateCloseButton();
         stubChild.setOffset( controlGraph.getFullBounds().getMaxX() - stubChild.getFullBounds().getWidth(), 0 );
 //        stubChild.setOffset( controlGraph.getJFreeChartNode().getDataArea().getMaxX() - stubChild.getFullBounds().getWidth(), controlGraph.getJFreeChartNode().getDataArea( ).getY() );
