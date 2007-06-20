@@ -79,6 +79,10 @@ public class Vector2DNode extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
+    public Vector2DNode( double x, double y, double referenceMagnitude, double referenceLength ) {
+        this( new Vector2D.Cartesian( x, y ), referenceMagnitude, referenceLength );
+    }
+    
     /**
      * Constructor.
      * <p>
