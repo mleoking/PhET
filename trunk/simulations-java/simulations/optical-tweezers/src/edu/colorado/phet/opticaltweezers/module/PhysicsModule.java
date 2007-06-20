@@ -128,7 +128,7 @@ public class PhysicsModule extends AbstractModule {
         // Control panel settings that are view-related
         {
             _controlPanel.getClockStepControlPanel().setClockStep( PhysicsDefaults.CLOCK_DT_RANGE.getDefault() );
-            _controlPanel.getLaserDisplayControlPanel().setChoice( PhysicsDefaults.LASER_DISPLAY_CHOICE );
+            _controlPanel.getLaserDisplayControlPanel().setDisplaySelection( PhysicsDefaults.LASER_BEAM_VISIBLE, PhysicsDefaults.LASER_ELECTRIC_FIELD_VISIBLE );
             _controlPanel.getBeadChargeControlPanel().setChoice( PhysicsDefaults.BEAD_CHARGE_CHOICE );
             _controlPanel.getForcesControlPanel().setTrapForceSelected( PhysicsDefaults.TRAP_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setHorizontalTrapForceChoice( PhysicsDefaults.HORIZONTAL_TRAP_FORCE_CHOICE );

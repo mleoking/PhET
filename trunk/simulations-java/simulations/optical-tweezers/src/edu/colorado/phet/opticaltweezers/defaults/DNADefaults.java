@@ -93,7 +93,8 @@ public class DNADefaults {
     public static final boolean DNA_EXTENSION_VISIBLE = false;
     
     // Control panel settings
-    public static final String LASER_DISPLAY_CHOICE = LaserDisplayControlPanel.CHOICE_BEAM;
+    public static final boolean LASER_BEAM_VISIBLE = true;
+    public static final boolean LASER_ELECTRIC_FIELD_VISIBLE = false;
     public static final boolean TRAP_FORCE_SELECTED = false;
     public static final String HORIZONTAL_TRAP_FORCE_CHOICE = ForcesControlPanel.CHOICE_WHOLE_BEAD;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;

@@ -80,7 +80,8 @@ public class PhysicsDefaults {
     public static final DoubleRange BEAD_VERLET_ACCELERATION_SCALE_RANGE = new DoubleRange( 1E-8, 1E-4, 1E-6 );
     
     // Control panel settings
-    public static final String LASER_DISPLAY_CHOICE = LaserDisplayControlPanel.CHOICE_BEAM;
+    public static final boolean LASER_BEAM_VISIBLE = true;
+    public static final boolean LASER_ELECTRIC_FIELD_VISIBLE = false;
     public static final String BEAD_CHARGE_CHOICE = BeadChargeControlPanel.CHOICE_HIDDEN;
     public static final boolean TRAP_FORCE_SELECTED = false;
     public static final String HORIZONTAL_TRAP_FORCE_CHOICE = ForcesControlPanel.CHOICE_WHOLE_BEAD;

@@ -109,6 +109,7 @@ public class DNACanvas extends PhetPCanvas {
         _laserDragBoundsNode = new PPath();
         _laserDragBoundsNode.setStroke( null );
         _laserNode = new LaserNode( laser, modelViewTransform, _laserDragBoundsNode );
+        _laserNode.setElectricFieldVisible( false );
         
         // DNA Strand
         _dnaStrandNode = new DNAStrandNode( dnaStrand, modelViewTransform );
