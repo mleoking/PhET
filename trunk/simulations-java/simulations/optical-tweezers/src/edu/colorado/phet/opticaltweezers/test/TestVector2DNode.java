@@ -29,6 +29,7 @@ public class TestVector2DNode extends JFrame {
         final double referenceLength = 100;
         final Vector2DNode vectorNode = new Vector2DNode( vector.getX(), vector.getY(), referenceMagnitude, referenceLength );
         vectorNode.setValueSpacing( 5 );
+        vectorNode.setValueVisible( true );
 
         PCanvas canvas = new PCanvas();
         canvas.setPreferredSize( new Dimension( 400, 300 ) );
