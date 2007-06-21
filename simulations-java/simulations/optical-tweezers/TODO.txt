@@ -3,11 +3,9 @@
 ================================================================================
 
 IN PROGRESS:
-- E-field feature
 - set color of E-field vector based on intensity as sample point
 - start with 9 rows of E-field vectors, with 5 across at waist
 - what units for E-field?
-- bug was introduced in positioning of values on vectors
 - add developer control to show efield vector values
 
 AAPT:
@@ -71,6 +69,7 @@ MISSING INFO:
 
  
 DONE:
+6/21/07 - bugfix in positioning of value on Vector2DNode, make value invisible by default
 6/21/07 - implement efield model
 6/21/07 - ElectricFieldVectorNode, subclass of Vector2DNode that stores model coordinates
 6/21/07 - remove bogus Laser.reset method

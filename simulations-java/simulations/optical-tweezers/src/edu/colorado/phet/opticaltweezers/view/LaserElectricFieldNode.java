@@ -78,7 +78,6 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
         {
             ElectricFieldVectorNode vectorNode = new ElectricFieldVectorNode( offsetFromLaser, 
                     xMagnitudeDefault, yMagnitudeDefault, referenceMagnitude.getMagnitude(), REFERENCE_LENGTH );
-            vectorNode.setValueVisible( false );
             _vectorNodes.add( vectorNode );
             addChild( vectorNode );
 
