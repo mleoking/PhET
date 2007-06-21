@@ -122,22 +122,30 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
     
     private void handleBrownianMotionScaleControl() {
         double value = _brownianMotionScaleControl.getValue();
+        _bead.deleteObserver( this );
         _bead.setBrownianMotionScale( value );
+        _bead.addObserver( this );
     }
     
     private void handleDtDubdivisionThresholdControl() {
         double value = _dtSubdivisionThresholdControl.getValue();
+        _bead.deleteObserver( this );
         _bead.setDtSubdivisionThreshold( value );
+        _bead.addObserver( this );
     }
     
     private void handleNumberOfDtDubdivisionsControl() {
         int value = (int) Math.round( _numberOfDtSubdivisions.getValue() );
+        _bead.deleteObserver( this );
         _bead.setNumberOfDtSubdivisions( value );
+        _bead.addObserver( this );
     }
     
     private void handleVerletAccelerationScaleControl() {
         double value = _verletMotionScaleControl.getValue();
+        _bead.deleteObserver( this );
         _bead.setVerletAccelerationScale( value );
+        _bead.addObserver( this );
     }
     
     //----------------------------------------------------------------------------
