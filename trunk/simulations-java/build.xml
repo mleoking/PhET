@@ -3,8 +3,8 @@
 This build file is specific to building phet simulation files, in particular building jars and jnlp files.
 PhET-team specific tasks are located in an auxiliary build file.  
 -->
-
 <project name="PhET Master Build Script" default="gui" basedir=".">
+
     <!-- Deployment properties -->
     <property name="dev.server.name"    value="spot.colorado.edu"/>
     <property name="prod.server.name"   value="tigercat.colorado.edu"/>
@@ -16,10 +16,12 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="prod.server.url"    value="http://phet.colorado.edu/sims/"/>
 
     <!--Do not modify: these properties define the codebase for java-implementation of ant tasks.-->
-    <property name="ant-output"         location="ant_output"/>
-    <property name="phetbuild-classes"  location="${ant-output}/phetbuild/classes"/>
-    <property name="proguard.jar"       location="build-tools/proguard3.8/lib/proguard.jar"/>
-    <property name="phetbuild-src"      location="build-tools/phet-build/src"/>
+    <property name="ant-output"             location="ant_output"/>
+    <property name="phetbuild-classes-dir"  location="${ant-output}/phetbuild/classes"/>
+    <property name="proguard.jar"           location="build-tools/proguard3.8/lib/proguard.jar"/>
+    <property name="phetbuild-src"          location="build-tools/phet-build/src"/>
+
+    <property name="imagetoico-src"         location="build-tools/image4j/src" />
 
     <property name="phet.version"           value=""/>
     <property name="phet.src.distribution"  value="${basedir}/deploy/phet-src.zip"/>
@@ -34,10 +36,12 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="phet-list-locales-classname"    value="edu.colorado.phet.build.PhetListLocalesTask"/>
     <property name="phet-build-gui-classname"       value="edu.colorado.phet.build.PhetBuildGUI"/>
 
+    <property name="imagetoico-classname"           value="net.sf.image4j.util.ImageToIcoTask"/>
+
     <!--Properties for the structure of the phet codebase.-->
     <property name="build-tools" value="build-tools"/>
     <property name="simulations-directory"          value="${basedir}/simulations"/>
-    <property name="phetbuild-dependencies"         value="${phetbuild-classes};${proguard.jar}"/>
+    <property name="phetbuild-classpath"            value="${phetbuild-classes-dir};${proguard.jar}"/>
     <property name="dir.build-tools"                value="${basedir}/build-tools/"/>
     
     <!-- Support jars -->
@@ -68,64 +72,65 @@ PhET-team specific tasks are located in an auxiliary build file.
     <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh"
              classpath="${build-tools}/maverick/lib/maverick-ant.jar"/>
 
+
     <target name="_clean-phet-build">
-        <delete dir="${phetbuild-classes}"/>
+        <delete dir="${phetbuild-classes-dir}"/>
     </target>
 
     <target name="_compile-phet-build">
-        <mkdir dir="${phetbuild-classes}"/>
-        <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes}" classpath="${proguard.jar}" debug="true"
-               debuglevel="lines,source"/>
+        <mkdir dir="${phetbuild-classes-dir}"/>
+        
+        <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes-dir}" classpath="${proguard.jar}" debug="true"
+               debuglevel="lines,source">
+            <src path="${phetbuild-src}" />
+            <src path="${imagetoico-src}" />
+        </javac>
     </target>
 
     <!--This task was rewritten to avoid recompilation of the phet-java ant task implementations.-->
-    <target name="_build-phet-build">
-        <if>
-            <not>
-                <isset property="init.complete"/>
-            </not>
-            <then>
-                <antcall target="_clean-phet-build"/>
-                <antcall target="_compile-phet-build"/>
-                <var name="init.complete" value="true"/>
-            </then>
-        </if>
-    </target>
-<!--Todo:
-this task looks like it is executing _build_phet-build Twice.
--->
-    <target name="_declare-phet-build-tasks" depends="_build-phet-build, _build-phet-build">
+    <target name="_build-phet-build" depends="_clean-phet-build, _compile-phet-build" />
+
+
+    <target name="_declare-phet-build-tasks" depends="_build-phet-build">
         <taskdef name="phet-build"
                  classname="${phetbuild-classname}"
-                 classpath="${phetbuild-dependencies}"/>
+                 classpath="${phetbuild-classpath}"/>
 
         <taskdef name="phet-clean"
                  classname="${phetclean-classname}"
-                 classpath="${phetbuild-dependencies}"/>
+                 classpath="${phetbuild-classpath}"/>
 
         <taskdef name="phet-jnlp"
                  classname="${phetjnlp-classname}"
-                 classpath="${phetbuild-dependencies}"/>
+                 classpath="${phetbuild-classpath}"/>
 
         <taskdef name="phet-display-stats"
                  classname="${phetdisplaystats-classname}"
-                 classpath="${phetbuild-dependencies}"/>
+                 classpath="${phetbuild-classpath}"/>
 
         <taskdef name="phet-list-sims"
                  classname="${phet-list-sims-classname}"
-                 classpath="${phetbuild-dependencies}"/>
+                 classpath="${phetbuild-classpath}"/>
 
         <taskdef name="phet-list-flavors"
                  classname="${phet-list-flavors-classname}"
-                 classpath="${phetbuild-dependencies}"/>
+                 classpath="${phetbuild-classpath}"/>
 
         <taskdef name="phet-list-locales"
                  classname="${phet-list-locales-classname}"
-                 classpath="${phetbuild-dependencies}"/>
+                 classpath="${phetbuild-classpath}"/>
 
         <taskdef name="phet-build-gui"
                  classname="${phet-build-gui-classname}"
-                 classpath="${phetbuild-dependencies}"/>
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="imagetoico"
+                 classname="${imagetoico-classname}"
+                 classpath="${phetbuild-classpath}"/>
+    </target>
+    
+    <target name="test-imagetoico" depends="_init">
+        <imagetoico inputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.jpg" />
     </target>
 
     <target name="_init" depends="_declare-phet-build-tasks"/>
