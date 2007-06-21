@@ -9,13 +9,14 @@
 
 package net.sf.image4j.codec.ico;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
-import java.io.IOException;
-import net.sf.image4j.codec.bmp.BMPConstants;
 import net.sf.image4j.codec.bmp.BMPDecoder;
 import net.sf.image4j.codec.bmp.ColorEntry;
 import net.sf.image4j.codec.bmp.InfoHeader;
+
+import javax.imageio.ImageReader;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
+import java.io.IOException;
 
 /**
  * Decodes images in ICO format.
@@ -28,7 +29,7 @@ public class ICODecoder {
   private static final int PNG_MAGIC2 = 0x0D0A1A0A;
   private static final int PNG_MAGIC2_LE = 0x0A1A0A0D;
   
-  //private java.util.List<BufferedImage> img;
+  //private java.util.List img;
   
   private ICODecoder() { }
   
@@ -38,7 +39,7 @@ public class ICODecoder {
    * @return the list of images decoded from the ICO data
    * @throws java.io.IOException if an error occurs
    */
-  public static java.util.List<BufferedImage> read(java.io.File file) throws IOException {
+  public static java.util.List read(java.io.File file) throws IOException {
     return read(new java.io.FileInputStream(file));
   }
   
@@ -50,22 +51,22 @@ public class ICODecoder {
    * @throws java.io.IOException if an error occurs
    * @since 0.7
    */
-  public static java.util.List<ICOImage> readExt(java.io.File file) throws IOException {
+  public static java.util.List readExt(java.io.File file) throws IOException {
     return readExt(new java.io.FileInputStream(file));
   }
   
   /**
    * Reads and decodes ICO data from the given source.
    * The returned list of images is in the order in which they appear in the source ICO data.
-   * @param is the source <tt>InputStream</tt> to read
+   * @param is the source InputStream</tt> to read
    * @return the list of images decoded from the ICO data
    * @throws java.io.IOException if an error occurs
    */
-  public static java.util.List<BufferedImage> read(java.io.InputStream is) throws IOException {
-    java.util.List<ICOImage> list = readExt(is);
-    java.util.List<BufferedImage> ret = new java.util.ArrayList<BufferedImage>(list.size());
+  public static java.util.List read(java.io.InputStream is) throws IOException {
+    java.util.List list = readExt(is);
+    java.util.List ret = new java.util.ArrayList(list.size());
     for (int i = 0; i < list.size(); i++) {
-      ICOImage icoImage = list.get(i);
+      ICOImage icoImage = (ICOImage)list.get(i);
       BufferedImage image = icoImage.getImage();
       ret.add(image);
     }
@@ -75,12 +76,12 @@ public class ICODecoder {
   /**
    * Reads and decodes ICO data from the given source, together with all metadata.
    * The returned list of images is in the order in which they appear in the source ICO data.
-   * @param is the source <tt>InputStream</tt> to read
+   * @param is the source InputStream</tt> to read
    * @return the list of images decoded from the ICO data
    * @throws java.io.IOException if an error occurs
    * @since 0.7
    */
-  public static java.util.List<ICOImage> readExt(java.io.InputStream is) throws IOException {
+  public static java.util.List readExt(java.io.InputStream is) throws IOException {
     //long t = System.currentTimeMillis();
     
     net.sf.image4j.io.LittleEndianInputStream in = new net.sf.image4j.io.LittleEndianInputStream(is);
@@ -100,7 +101,7 @@ public class ICODecoder {
     
     int i = 0;
     //images    list of bitmap structures in BMP format
-    java.util.List<ICOImage> ret = new java.util.ArrayList<ICOImage>(sCount);
+    java.util.List ret = new java.util.ArrayList(sCount);
     
     try {
       for (i = 0; i < sCount; i++) {
@@ -277,9 +278,9 @@ public class ICODecoder {
   
   private static javax.imageio.ImageReader getPNGImageReader() {
     javax.imageio.ImageReader ret = null;
-    java.util.Iterator<javax.imageio.ImageReader> itr = javax.imageio.ImageIO.getImageReadersByFormatName("png");
+    java.util.Iterator itr = javax.imageio.ImageIO.getImageReadersByFormatName("png");
     if (itr.hasNext()) {
-      ret = itr.next();
+      ret = (ImageReader)itr.next();
     }
     return ret;
   }
