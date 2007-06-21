@@ -134,6 +134,7 @@
                                  name="image_preview_$sim_id"
                                  width="130" height="97" 
                                  alt="View $sim_name Simulation"
+                                 title="Clear here to view the $sim_name simulation"
                              />
                         </a>
                     
