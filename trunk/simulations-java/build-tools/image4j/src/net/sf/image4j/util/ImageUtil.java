@@ -9,11 +9,9 @@
 
 package net.sf.image4j.util;
 
-import java.awt.AlphaComposite;
-import java.awt.Composite;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.IndexColorModel;
@@ -58,5 +56,17 @@ public class ImageUtil {
     //copy image    
     g.drawImage(scaled, 0, 0, null);
     return ret;        
-  }  
+  }
+
+    public static BufferedImage rescale( BufferedImage in, int width, int height ) {
+        BufferedImage newImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
+
+        Graphics2D g2 = newImage.createGraphics();
+        AffineTransform at = AffineTransform.getScaleInstance( (double)width/in.getWidth(), (double)height/in.getHeight() );
+        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+        g2.setRenderingHint( RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY );
+        g2.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY );
+        g2.drawRenderedImage( in, at );
+        return newImage;
+    }
 }
