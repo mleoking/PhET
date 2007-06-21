@@ -29,6 +29,8 @@ public class Laser extends MovableObject implements ModelElement {
     // fudge factor for potential energy model
     private static final double ALPHA = 1; // nm^2/sec
     
+    private static final double SPEED_OF_LIGHT = 3E17; // nm/sec
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -48,6 +50,7 @@ public class Laser extends MovableObject implements ModelElement {
     
     private DoubleRange _electricFieldScaleRange;
     private double _electricFieldScale;
+    private double _electricFieldTime;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,19 +84,12 @@ public class Laser extends MovableObject implements ModelElement {
         _wavelength = wavelength;
         _visibleWavelength = visibleWavelength;
         _powerRange = new DoubleRange( powerRange );
+        _power = _powerRange.getDefault();
         _trapForceRatioRange = trapForceRatioRange;
         _trapForceRatio = _trapForceRatioRange.getDefault();
         _electricFieldScaleRange = electricFieldScaleRange;
         _electricFieldScale = _electricFieldScaleRange.getDefault();
-        
-        reset();
-    }
-    
-    /**
-     * Resets the model to its initial state.
-     */
-    public void reset() {
-        setPower( _powerRange.getDefault() );
+        _electricFieldTime = 0;
     }
     
     //----------------------------------------------------------------------------
@@ -481,13 +477,22 @@ public class Laser extends MovableObject implements ModelElement {
     /**
      * Gets the electric field at a point relative to the laser's position.
      * 
+     * @param offset
+     */
+    public Vector2D getElectricField( Point2D offset ) {
+        return getElectricField( offset.getX(), offset.getY() );
+    }
+    
+    /**
+     * Gets the electric field at a point relative to the laser's position.
+     * 
      * @param xOffset
      * @param yOffset
      */
     public Vector2D getElectricField( double xOffset, double yOffset ) {
         final double intensity = getIntensity( getX() + xOffset, getY() + yOffset );
         Vector2D e0 = getInitialElectricField( xOffset, yOffset, intensity );
-        final double ex = e0.getX(); //XXX
+        final double ex = e0.getX() * Math.sin( ( ( 2 * Math.PI ) / _wavelength ) * ( yOffset - ( SPEED_OF_LIGHT * _electricFieldTime ) ) );
         final double ey = 0;
         return new Vector2D.Cartesian( ex, ey );
     }
@@ -518,6 +523,7 @@ public class Laser extends MovableObject implements ModelElement {
     
     public void stepInTime( double dt ) {
         if ( _running ) {
+            _electricFieldTime += dt;
             notifyObservers( PROPERTY_ELECTRIC_FIELD );
         }
     }

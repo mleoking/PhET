@@ -3,8 +3,7 @@
 package edu.colorado.phet.opticaltweezers.view;
 
 import java.awt.geom.Point2D;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.Laser;
@@ -26,15 +25,22 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     
     private static final double REFERENCE_LENGTH = 100; //XXX this should be based on # of vectors across laser waist
     
+    // layout of vectors
+    private static final double X_MARGIN = 20; // nm
+    private static final double Y_MARGIN = 20; // nm
+    private static final double X_SPACING = 10; // nm
+    private static final double Y_SPACING = 10; // nm
+    private static final int NUMBER_OF_VECTORS_AT_WAIST = 5;
+    private static final int NUMBER_OF_VECTOR_ROWS = 9;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Laser _laser;
-    private ModelViewTransform _modelViewTransform;
+    private final Laser _laser;
+    private final ModelViewTransform _modelViewTransform;
     
-    private Point2D[] _samplePoints; // sample points, relative to laser origin
-    private Vector2DNode[] _vectorNodes; // vector display for each element in _samplePoints
+    private final List _vectorNodes; // array of ElectricFieldVectorNode
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,28 +56,53 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
         
         _modelViewTransform = modelViewTransform;
         
-        _samplePoints = new Point2D.Double[ 1 ];
-        _samplePoints[0] = new Point2D.Double( 0, 0 );
+        _vectorNodes = new ArrayList();
         
-        final Vector2D maxElectricField = laser.getMaxElectricField();
-        System.out.println( "Emax.x=" + maxElectricField.getX() );//XXX
-        
-        _vectorNodes = new Vector2DNode[ _samplePoints.length ];
-        for ( int i = 0; i < _vectorNodes.length; i++ ) {
-            Vector2DNode vectorNode = new Vector2DNode( 0, 0, maxElectricField.getMagnitude(), REFERENCE_LENGTH );
-            _vectorNodes[i] = vectorNode;
-            Point2D samplePoint = _samplePoints[i];
-            addChild( vectorNode );
-            final double x = _modelViewTransform.modelToView( samplePoint.getX() + laser.getDiameterAtObjective() / 2 );
-            final double y = _modelViewTransform.modelToView( samplePoint.getY() + laser.getY() );
-            vectorNode.setOffset( x, y );
-        }
-        
+        initVectors();
         updateVectors();
     }
 
     public void cleanup() {
         _laser.deleteObserver( this );
+    }
+    
+    private void initVectors() {
+        
+        final Vector2D referenceMagnitude = _laser.getMaxElectricField();
+        final double xMagnitudeDefault = 0;
+        final double yMagnitudeDefault = 0;
+
+        Point2D offsetFromLaser = new Point2D.Double( 0, 0 );
+        
+        // create vectors at sample points distributed across laser shape
+        {
+            ElectricFieldVectorNode vectorNode = new ElectricFieldVectorNode( offsetFromLaser, 
+                    xMagnitudeDefault, yMagnitudeDefault, referenceMagnitude.getMagnitude(), REFERENCE_LENGTH );
+            vectorNode.setValueVisible( false );
+            _vectorNodes.add( vectorNode );
+            addChild( vectorNode );
+
+            final double xOffsetView = _modelViewTransform.modelToView( vectorNode.getXOffset() + _laser.getDiameterAtObjective() / 2 );
+            final double yOffsetView = _modelViewTransform.modelToView( vectorNode.getYOffset() + _laser.getY() );
+            vectorNode.setOffset( xOffsetView, yOffsetView );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Controls visibility of values on the electric field vectors.
+     * 
+     * @param visible
+     */
+    public void setValuesVisible( boolean visible ) {
+        Iterator i = _vectorNodes.iterator();
+        while ( i.hasNext() ) {
+            ElectricFieldVectorNode vectorNode = (ElectricFieldVectorNode) i.next();
+            vectorNode.setValueVisible( visible );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -109,12 +140,30 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     }
     
     private void updateVectors() {
-        
-        for ( int i = 0; i < _samplePoints.length; i++ ) {
-            Point2D samplePoint = _samplePoints[i];
-            Vector2D electricField = _laser.getElectricField( samplePoint.getX(), samplePoint.getY() );
-            Vector2DNode vectorNode = _vectorNodes[i];
+        Iterator i = _vectorNodes.iterator();
+        while ( i.hasNext() ) {
+            ElectricFieldVectorNode vectorNode = (ElectricFieldVectorNode) i.next();
+            Point2D offsetFromLaser = vectorNode.getOffsetFromLaser();
+            Vector2D electricField = _laser.getElectricField( offsetFromLaser );
             vectorNode.setXY( electricField.getX(), electricField.getY() );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    private static class ElectricFieldVectorNode extends Vector2DNode {
+        
+        private final Point2D _offsetFromLaser; // offset from laser origin, nm
+        
+        public ElectricFieldVectorNode( Point2D offsetFromLaser, double xMagnitude, double yMagnitude, double referenceMagnitude, double referenceLength ) {
+            super( xMagnitude, yMagnitude, referenceMagnitude, referenceLength );
+            _offsetFromLaser = new Point2D.Double( offsetFromLaser.getX(), offsetFromLaser.getY() );
+        }
+        
+        public Point2D getOffsetFromLaser() {
+            return _offsetFromLaser;
         }
     }
 }
