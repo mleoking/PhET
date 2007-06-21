@@ -190,32 +190,44 @@ public class DNAStrandDeveloperPanel extends JPanel implements Observer, Propert
     
     private void handleSpringConstantControl() {
         double value = _springConstantControl.getValue();
+        _dnaStrand.deleteObserver( this );
         _dnaStrand.setSpringConstant( value );
+        _dnaStrand.addObserver( this );
     }
     
     private void handleDampingConstantControl() {
         double value = _dragCoefficientControl.getValue();
+        _dnaStrand.deleteObserver( this );
         _dnaStrand.setDragCoefficient( value );
+        _dnaStrand.addObserver( this );
     }
     
     private void handleKickControl() {
         double value = _kickConstant.getValue();
+        _dnaStrand.deleteObserver( this );
         _dnaStrand.setKickConstant( value );
+        _dnaStrand.addObserver( this );
     }
     
     private void handleNumberOfEvolutionsPerClockTickControl() {
         int value = (int) Math.round( _numberOfEvolutionsPerClockTickControl.getValue() );
+        _dnaStrand.deleteObserver( this );
         _dnaStrand.setNumberOfEvolutionsPerClockTick( value );
+        _dnaStrand.addObserver( this );
     }
     
     private void handleEvolutionDtScaleControl() {
         double value = _evolutionDtControl.getValue();
+        _dnaStrand.deleteObserver( this );
         _dnaStrand.setEvolutionDt( value );
+        _dnaStrand.addObserver( this );
     }
     
     private void handleFluidDragCoefficientControl() {
         double value = _fluidDragCoefficientControl.getValue();
+        _dnaStrand.deleteObserver( this );
         _dnaStrand.setFluidDragCoefficient( value );
+        _dnaStrand.addObserver( this );
     }
 
     //----------------------------------------------------------------------------

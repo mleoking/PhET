@@ -23,6 +23,8 @@ public class Laser extends MovableObject implements ModelElement {
     public static final String PROPERTY_POWER = "power";
     public static final String PROPERTY_RUNNING = "running";
     public static final String PROPERTY_TRAP_FORCE_RATIO = "trapForceRatio";
+    public static final String PROPERTY_ELECTRIC_FIELD_SCALE = "electricFieldScale";
+    public static final String PROPERTY_ELECTRIC_FIELD = "electricField";
     
     // fudge factor for potential energy model
     private static final double ALPHA = 1; // nm^2/sec
@@ -44,6 +46,9 @@ public class Laser extends MovableObject implements ModelElement {
     private DoubleRange _trapForceRatioRange;
     private double _trapForceRatio; // determines ratio of x & y trap force components
     
+    private DoubleRange _electricFieldScaleRange;
+    private double _electricFieldScale;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -61,10 +66,11 @@ public class Laser extends MovableObject implements ModelElement {
      * @param visibleWavelength wavelength (nm) to use in views, since actual wavelength is likely IR
      * @param power power (mW)
      * @param trapForceRatioRange
+     * @param electricFieldScaleRange
      */
     public Laser( Point2D position, double orientation, 
             double diameterAtObjective, double diameterAtWaist, double distanceFromObjectiveToWaist, double distanceFromObjectiveToControlPanel,
-            double wavelength, double visibleWavelength, DoubleRange powerRange, DoubleRange trapForceRatioRange ) {
+            double wavelength, double visibleWavelength, DoubleRange powerRange, DoubleRange trapForceRatioRange, DoubleRange electricFieldScaleRange ) {
         super( position, orientation, 0 /* speed */ );
         
         _running = false;
@@ -77,6 +83,8 @@ public class Laser extends MovableObject implements ModelElement {
         _powerRange = new DoubleRange( powerRange );
         _trapForceRatioRange = trapForceRatioRange;
         _trapForceRatio = _trapForceRatioRange.getDefault();
+        _electricFieldScaleRange = electricFieldScaleRange;
+        _electricFieldScale = _electricFieldScaleRange.getDefault();
         
         reset();
     }
@@ -237,6 +245,23 @@ public class Laser extends MovableObject implements ModelElement {
      */
     public DoubleRange getTrapForceRatioRange() {
         return _trapForceRatioRange;
+    }
+    
+    public void setElectricFieldScale( double electricFieldScale ) {
+        if ( !_electricFieldScaleRange.contains( electricFieldScale ) ) {
+            throw new IllegalArgumentException( "electricFieldScale out of range: " + electricFieldScale );
+        }
+        if ( electricFieldScale != _electricFieldScale ) {
+            _electricFieldScale = electricFieldScale;
+            notifyObservers( PROPERTY_ELECTRIC_FIELD_SCALE );
+        }
+    }
+    public double getElectricFieldScale() {
+        return _electricFieldScale;
+    }
+    
+    public DoubleRange getElectricFieldScaleRange() {
+        return _electricFieldScaleRange;
     }
     
     //----------------------------------------------------------------------------
@@ -453,13 +478,47 @@ public class Laser extends MovableObject implements ModelElement {
     // E-field model
     //----------------------------------------------------------------------------
     
-    //XXX implement this model
+    /**
+     * Gets the electric field at a point relative to the laser's position.
+     * 
+     * @param xOffset
+     * @param yOffset
+     */
+    public Vector2D getElectricField( double xOffset, double yOffset ) {
+        final double intensity = getIntensity( getX() + xOffset, getY() + yOffset );
+        Vector2D e0 = getInitialElectricField( xOffset, yOffset, intensity );
+        final double ex = e0.getX(); //XXX
+        final double ey = 0;
+        return new Vector2D.Cartesian( ex, ey );
+    }
+    
+    /**
+     * Gets the maximum electric field, which is E0 at the center of the trap
+     * when the laser's power is at maximum intensity.
+     * 
+     * @return
+     */
+    public Vector2D getMaxElectricField() {
+        final double maxIntensity = getMaxIntensity();
+        return getInitialElectricField( 0, 0, maxIntensity );
+    }
+    
+    /*
+     * Gets the initial (t=0) electric field.
+     */
+    private Vector2D getInitialElectricField( double xOffset, double yOffset, double intensity ) {
+        final double xE0 = _electricFieldScale * intensity;
+        final double yE0 = 0;
+        return new Vector2D.Cartesian( xE0, yE0 );
+    }
 
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
     
     public void stepInTime( double dt ) {
-        // do nothing
+        if ( _running ) {
+            notifyObservers( PROPERTY_ELECTRIC_FIELD );
+        }
     }
 }

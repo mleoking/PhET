@@ -67,6 +67,7 @@ public class DNADefaults {
     public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500 ); // mW
     public static final boolean LASER_RUNNING = true;
     public static final DoubleRange LASER_TRAP_FORCE_RATIO = new DoubleRange( 0.1, 5, 0.179 );
+    public static final DoubleRange LASER_ELECTRIC_FIELD_SCALE_RANGE = new DoubleRange( 0.01, 10, 1 );
     
     // Bead model, local origin at center
     public static final Point2D BEAD_POSITION = new Point2D.Double( LASER_POSITION.getX(), LASER_POSITION.getY() ); // nm

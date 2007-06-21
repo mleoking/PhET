@@ -117,6 +117,7 @@ public class DNAModule extends AbstractModule {
             laser.setPower( DNADefaults.LASER_POWER_RANGE.getDefault() );
             laser.setRunning( DNADefaults.LASER_RUNNING );
             laser.setTrapForceRatio( DNADefaults.LASER_TRAP_FORCE_RATIO.getDefault() );
+            laser.setElectricFieldScale( DNADefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE.getDefault() );
             
             // Fluid
             Fluid fluid = _model.getFluid();

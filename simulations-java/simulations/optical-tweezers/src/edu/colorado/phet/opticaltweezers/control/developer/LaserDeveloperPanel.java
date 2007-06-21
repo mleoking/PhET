@@ -28,6 +28,7 @@ public class LaserDeveloperPanel extends JPanel implements Observer {
     private Laser _laser;
     
     private LinearValueControl _trapForceRatioControl;
+    private LinearValueControl _electricFieldScaleControl;
     
     public LaserDeveloperPanel( Font titleFont, Font controlFont, Laser laser ) {
         super();
@@ -41,12 +42,23 @@ public class LaserDeveloperPanel extends JPanel implements Observer {
         
         double min = laser.getTrapForceRatioRange().getMin();
         double max = laser.getTrapForceRatioRange().getMax();
-        _trapForceRatioControl = new LinearValueControl( min, max, "<html>F<sub>z</sub>/F<sub>x</sub>&nbsp;=</html>", "0.00", "" );
+        _trapForceRatioControl = new LinearValueControl( min, max, "<html>F<sub>z</sub>/F<sub>x</sub>&nbsp;=</html>", "0.000", "" );
         _trapForceRatioControl.setTextFieldColumns( 4 );
         _trapForceRatioControl.setFont( controlFont );
         _trapForceRatioControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleTrapForceRatioControl();
+            }
+        });
+        
+        min = laser.getElectricFieldScaleRange().getMin();
+        max = laser.getElectricFieldScaleRange().getMax();
+        _electricFieldScaleControl = new LinearValueControl( min, max, "E-field scale:", "0.00", "" );
+        _electricFieldScaleControl.setTextFieldColumns( 4 );
+        _electricFieldScaleControl.setFont( controlFont );
+        _electricFieldScaleControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleElectricFieldScaleControl();
             }
         });
         
@@ -57,9 +69,11 @@ public class LaserDeveloperPanel extends JPanel implements Observer {
         int row = 0;
         int column = 0;
         layout.addComponent( _trapForceRatioControl, row++, column );
+        layout.addComponent( _electricFieldScaleControl, row++, column );
         
         // Default state
         _trapForceRatioControl.setValue( _laser.getTrapForceRatio() );
+        _electricFieldScaleControl.setValue( _laser.getElectricFieldScale() );
     }
     
     public void cleanup() {
@@ -72,7 +86,16 @@ public class LaserDeveloperPanel extends JPanel implements Observer {
     
     private void handleTrapForceRatioControl() {
         final double value = _trapForceRatioControl.getValue();
+        _laser.deleteObserver( this );
         _laser.setTrapForceRatio( value );
+        _laser.addObserver( this );
+    }
+    
+    private void handleElectricFieldScaleControl() {
+        final double value = _electricFieldScaleControl.getValue();
+        _laser.deleteObserver( this );
+        _laser.setElectricFieldScale( value );
+        _laser.addObserver( this );
     }
 
     //----------------------------------------------------------------------------
@@ -82,9 +105,11 @@ public class LaserDeveloperPanel extends JPanel implements Observer {
     public void update( Observable o, Object arg ) {
         if ( o == _laser ) {
             if ( arg == Laser.PROPERTY_TRAP_FORCE_RATIO ) {
-                //XXX
+                _trapForceRatioControl.setValue( _laser.getTrapForceRatio() );
+            }
+            else if ( arg == Laser.PROPERTY_ELECTRIC_FIELD_SCALE ) {
+                _electricFieldScaleControl.setValue( _laser.getElectricFieldScale() );
             }
         }
-        
     }
 }
