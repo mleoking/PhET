@@ -35,6 +35,9 @@ p {
 a img {
 	border:none;
 }
+table thead tr td {
+	font-weight: bold;
+}
 td {
 	padding: 0.5ex;
 }
@@ -49,6 +52,12 @@ hr {
 	margin:5px 12px 0 0;
 	padding: 0;
 }
+#simratinglegend table {
+	border-collapse: collapse;
+}
+/*#simratinglegend table tbody tr td:first-child {
+	background-color: white;
+}*/
 
 #quicksearch {
 	float:		right;

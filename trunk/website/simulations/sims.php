@@ -16,7 +16,7 @@
     do_authentication(false);
     
     function print_content() {
-        global $SIM_RATING_TO_IMAGE, $SIM_TYPE_TO_IMAGE, $contributor_is_team_member;
+        global $SIM_RATING_TO_IMAGE_HTML, $SIM_TYPE_TO_IMAGE, $contributor_is_team_member;
         
         $simulation = sim_get_sim_by_id($_REQUEST['sim_id']);
             
@@ -36,11 +36,10 @@
         
         
         // Gather sim_rating_html & sim_type_html information:
-        $sim_rating_html_image = $SIM_RATING_TO_IMAGE["$sim_rating"];
-        $sim_type_html_image   = $SIM_TYPE_TO_IMAGE["$sim_type"];
+        $sim_rating_html = $SIM_RATING_TO_IMAGE_HTML["$sim_rating"];
 
-        $sim_rating_html = "<img src=\"../images/sims/ratings/$sim_rating_html_image\" width=\"16\" height=\"16\" />";
-        $sim_type_html   = "<img src=\"../images/sims/ratings/$sim_type_html_image\"   width=\"32\" height=\"16\" />";
+        $sim_type_html_image = $SIM_TYPE_TO_IMAGE["$sim_type"];
+        $sim_type_html       = "<img src=\"../images/sims/ratings/$sim_type_html_image\"   width=\"32\" height=\"16\" />";
         
         ?>
 

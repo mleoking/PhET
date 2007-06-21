@@ -28,14 +28,23 @@
             SIM_RATING_ALPHA        => 'alpha25x25.png'
         );
         
+    $SIM_RATING_TO_IMAGE_HTML = 
+        array(
+            SIM_RATING_BETA_MINUS   => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA_MINUS].'" alt="Beta minus rating" title="Beta minus" /></a>',
+            SIM_RATING_BETA_PLUS    => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA_PLUS].'" alt="Beta plus rating" title="Beta plus" /></a>',
+            SIM_RATING_BETA         => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA].'" alt="Beta rating" title="Beta rating" /></a>',
+            SIM_RATING_CHECK        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_CHECK].'" alt="Checkmark rating" title="Checkmark" /></a>',
+            SIM_RATING_ALPHA        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA_MINUS].'" alt="Alpha rating" title="Alpha" /></a>'
+        );        
+        
     define("SIM_NO_MAC_IMAGE", '../images/sims/ratings/no-mac25x25.png');
     define("SIM_CRUTCH_IMAGE", '../images/sims/ratings/crutch25x25.png');
     
     define("SIM_NO_MAC_IMAGE_HTML", 
-            "<img src=\"".SIM_NO_MAC_IMAGE."\" alt=\"No Mac\" title=\"Not supported on Mac\"/>");
+            "<a href=\"../about/legend.php\"><img src=\"".SIM_NO_MAC_IMAGE."\" alt=\"No Mac\" title=\"Not supported on Mac\"/></a>");
             
     define("SIM_CRUTCH_IMAGE_HTML", 
-        "<img src=\"".SIM_CRUTCH_IMAGE."\" alt=\"Not standalone\" title=\"Designed to be used with supplementary material\"/>");    
+        "<a href=\"../about/legend.php\"><img src=\"".SIM_CRUTCH_IMAGE."\" alt=\"Not standalone\" title=\"Designed to be used with supplementary material\"/></a>");    
         
     define("SIMS_PER_PAGE", 9);
     
