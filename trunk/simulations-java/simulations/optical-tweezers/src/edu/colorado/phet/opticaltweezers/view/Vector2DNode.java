@@ -113,6 +113,7 @@ public class Vector2DNode extends PhetPNode {
         _valueNode.setTextPaint( DEFAULT_VALUE_PAINT );
         _valueNode.setFont( DEFAULT_VALUE_FONT );
         addChild( _valueNode );
+        _valueNode.setVisible( false ); // value is NOT visible by default
         
         _headWidth = DEFAULT_ARROW_HEAD_WIDTH;
         _headHeight = DEFAULT_ARROW_HEAD_HEIGHT;
@@ -123,7 +124,7 @@ public class Vector2DNode extends PhetPNode {
         _valueFormat = DEFAULT_VALUE_FORMAT;
         _units = DEFAULT_UNITS;
         _updateEnabled = true;
-        _valueVisible = true;
+        _valueVisible = _valueNode.getVisible();
         
         update();
     }
@@ -358,7 +359,7 @@ public class Vector2DNode extends PhetPNode {
                     final double valueWidth = _valueNode.getFullBoundsReference().getWidth();
                     final double valueHeight = _valueNode.getFullBoundsReference().getHeight();
                     double frac = 0;
-                    double angle = PolarCartesianConverter.getAngle( _y, _x );
+                    double angle = PolarCartesianConverter.getAngle( _x, _y );
                     if ( angle < 0 ) {
                         angle += ( 2 * Math.PI );
                     }
