@@ -21,7 +21,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="proguard.jar"           location="build-tools/proguard3.8/lib/proguard.jar"/>
     <property name="phetbuild-src"          location="build-tools/phet-build/src"/>
 
-    <property name="imagetoico-src"         location="build-tools/image4j/src" />
+    <property name="imageio-src"         location="build-tools/image4j/src" />
 
     <property name="phet.version"           value=""/>
     <property name="phet.src.distribution"  value="${basedir}/deploy/phet-src.zip"/>
@@ -36,7 +36,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="phet-list-locales-classname"    value="edu.colorado.phet.build.PhetListLocalesTask"/>
     <property name="phet-build-gui-classname"       value="edu.colorado.phet.build.PhetBuildGUI"/>
 
-    <property name="imagetoico-classname"           value="net.sf.image4j.util.ImageToIcoTask"/>
+    <property name="imageio-classname"           value="net.sf.image4j.util.ImageIOTask"/>
 
     <!--Properties for the structure of the phet codebase.-->
     <property name="build-tools" value="build-tools"/>
@@ -83,7 +83,7 @@ PhET-team specific tasks are located in an auxiliary build file.
         <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes-dir}" classpath="${proguard.jar}" debug="true"
                debuglevel="lines,source">
             <src path="${phetbuild-src}" />
-            <src path="${imagetoico-src}" />
+            <src path="${imageio-src}" />
         </javac>
     </target>
 
@@ -124,13 +124,16 @@ PhET-team specific tasks are located in an auxiliary build file.
                  classname="${phet-build-gui-classname}"
                  classpath="${phetbuild-classpath}"/>
 
-        <taskdef name="imagetoico"
-                 classname="${imagetoico-classname}"
+        <taskdef name="imageio"
+                 classname="${imageio-classname}"
                  classpath="${phetbuild-classpath}"/>
     </target>
     
-    <target name="test-imagetoico" depends="_init">
-        <imagetoico inputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.jpg" />
+    <target name="test-imageio" depends="_init">
+        <imageio inputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.jpg" 
+                 outputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.png"
+                 outputwidth="64"
+                 outputheight="64"/>
     </target>
 
     <target name="_init" depends="_declare-phet-build-tasks"/>
@@ -451,5 +454,27 @@ PhET-team specific tasks are located in an auxiliary build file.
 
     <target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password, _list-sims" description="Builds and deploys all sims to the production server.">
         <foreach list="${phet.simlist}" target="build-and-deploy-prod" param="sim.name"/>
+    </target>
+    
+    <target name="build-installer" depends="_init, _verify-sim-name-specified">
+        <!-- Generate a Windows ico from the simulation screenshot -->
+        
+        
+        
+        <!-- Perform a replacement on the installer builder template XML file -->
+        
+        
+        
+        <!-- Execute the installer builder for each platform -->
+        
+        
+        <!-- Perform post-processing on Mac installer file (zip) -->
+        
+        
+        
+        
+        
+        
+        
     </target>
 </project>
