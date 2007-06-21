@@ -504,14 +504,14 @@ p.openingParagraph {
     /* overflow: 	hidden; */
 	float: 		left;
 	padding:	20px 20px 20px 20px;
-	font-size:	0.81em;
+	font-size:	9pt;
 }
 .productEntry p {
 	width:			120px;
 	padding-left:   	5%;
 	padding-right:  5%;
 	text-align: 	center;
-	margin-top:		-2px;
+	margin-top:		0;
 	line-height:	1.1em;
 }
 .productList a {
