@@ -71,7 +71,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         forceVectorNodes.add( _canvas.getDragForceNode() );
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
                 model.getBead(), model.getLaser(),
-                null /* dnaStrand */, null /* dnaStrandNode */, forceVectorNodes );
+                null /* dnaStrand */, null /* dnaStrandNode */, 
+                forceVectorNodes,  _canvas.getLaserNode() );
         
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
         _rulerCheckBox.setFont( CONTROL_FONT );

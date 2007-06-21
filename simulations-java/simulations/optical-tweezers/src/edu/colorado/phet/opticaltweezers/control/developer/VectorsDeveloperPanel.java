@@ -16,6 +16,8 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.view.AbstractForceNode;
+import edu.colorado.phet.opticaltweezers.view.LaserElectricFieldNode;
+import edu.colorado.phet.opticaltweezers.view.LaserNode;
 
 /**
  * VectorsControlPanel
@@ -25,14 +27,16 @@ import edu.colorado.phet.opticaltweezers.view.AbstractForceNode;
 public class VectorsDeveloperPanel extends JPanel {
     
     private List _forceVectorNodes; // list of AbstractForceNode
+    private LaserNode _laserNode;
     
     private JCheckBox _showValuesCheckBox;
     private JCheckBox _showComponentsCheckBox;
     
-    public VectorsDeveloperPanel( Font titleFont, Font controlFont, List forceVectorNodes ) {
+    public VectorsDeveloperPanel( Font titleFont, Font controlFont, List forceVectorNodes, LaserNode laserNode ) {
         super();
         
         _forceVectorNodes = new ArrayList( forceVectorNodes );
+        _laserNode = laserNode;
         
         TitledBorder border = new TitledBorder( "Vectors" );
         border.setTitleFont( titleFont );
@@ -80,6 +84,7 @@ public class VectorsDeveloperPanel extends JPanel {
             AbstractForceNode forceVectorNode = (AbstractForceNode) i.next();
             forceVectorNode.setValuesVisible( visible );
         }
+        _laserNode.setElectricFieldValuesVisible( visible );
     }
     
     private void handleShowComponentsCheckBox() {

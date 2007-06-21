@@ -6,7 +6,7 @@ IN PROGRESS:
 - set color of E-field vector based on intensity as sample point
 - start with 9 rows of E-field vectors, with 5 across at waist
 - what units for E-field?
-- add developer control to show efield vector values
+- why don't XY components of Vector2DNode ever have a negative sign?
 
 AAPT:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
@@ -69,6 +69,7 @@ MISSING INFO:
 
  
 DONE:
+6/21/07 - add developer control to show efield vector values
 6/21/07 - bugfix in positioning of value on Vector2DNode, make value invisible by default
 6/21/07 - implement efield model
 6/21/07 - ElectricFieldVectorNode, subclass of Vector2DNode that stores model coordinates

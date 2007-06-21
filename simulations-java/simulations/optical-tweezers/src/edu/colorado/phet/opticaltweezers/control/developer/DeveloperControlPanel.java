@@ -20,6 +20,7 @@ import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
+import edu.colorado.phet.opticaltweezers.view.LaserNode;
 
 /**
  * DeveloperControlPanel contains developer controls.
@@ -39,7 +40,7 @@ public class DeveloperControlPanel extends JPanel {
     public DeveloperControlPanel( Font titleFont, Font controlFont, Frame parentFrame, 
             Bead bead, Laser laser,
             DNAStrand dnaStrand, DNAStrandNode dnaStrandNode,
-            List forceVectorNodes ) {
+            List forceVectorNodes, LaserNode laserNode ) {
         super();
         
         _showHideButton = new JButton();
@@ -52,7 +53,7 @@ public class DeveloperControlPanel extends JPanel {
         
         _panel = new Box( BoxLayout.Y_AXIS );
         
-        _vectorsPanel = new VectorsDeveloperPanel( titleFont, controlFont, forceVectorNodes );
+        _vectorsPanel = new VectorsDeveloperPanel( titleFont, controlFont, forceVectorNodes, laserNode );
         _panel.add( _vectorsPanel );
         
         JPanel laserPanel = new LaserDeveloperPanel( titleFont, controlFont, laser );
