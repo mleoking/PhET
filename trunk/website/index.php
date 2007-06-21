@@ -96,7 +96,7 @@ EOT;
             <dl>
                 <dt><a href="teacher_ideas/index.php"><img src="images/get-materials.jpg" alt="" title="" /></a></dt>
 
-                <dd><a href="teacher_ideas/index.php">Search for lesson plans and activities that were created by teachers to use with the PhET simulations</a></dd>
+                <dd><a href="teacher_ideas/browse.php">Search for lesson plans and activities that were created by teachers to use with the PhET simulations</a></dd>
             </dl>
 
             <dl>

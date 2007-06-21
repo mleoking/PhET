@@ -43,6 +43,6 @@
         <?php
     }
 
-    print_site_page('print_content', 8);
+    print_site_page('print_content', -1);
 
 ?>
