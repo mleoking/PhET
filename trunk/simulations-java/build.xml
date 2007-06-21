@@ -460,6 +460,9 @@ PhET-team specific tasks are located in an auxiliary build file.
         <!-- Generate a Windows ico from the simulation screenshot -->
         
         
+        <!-- Generate a Linux png from the simulation screenshot -->
+        
+        
         
         <!-- Perform a replacement on the installer builder template XML file -->
         
