@@ -3,10 +3,10 @@
 ================================================================================
 
 IN PROGRESS:
-- set color of E-field vector based on intensity as sample point
 - start with 9 rows of E-field vectors, with 5 across at waist
 - what units for E-field?
-- why don't XY components of Vector2DNode ever have a negative sign?
+- show E-field as a blur above some simulation time setting
+- dev control for E-field vector color
 
 AAPT:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
@@ -69,6 +69,7 @@ MISSING INFO:
 
  
 DONE:
+6/22/07 - E-field vectors should be green outline with no fill color, alpha based on E-field magnitude
 6/21/07 - add developer control to show efield vector values
 6/21/07 - bugfix in positioning of value on Vector2DNode, make value invisible by default
 6/21/07 - implement efield model
@@ -476,6 +477,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+6/21/07 - why don't XY components of Vector2DNode ever have a negative sign? (because Vector2DNode always displays a magnitude)
 6/10/07 - instead of scaling termPrevious and termNext, investigate scaling _springConstant in DNAStrand.evolve (doesn't work right)
 6/7/07 - get model for Brownian force (delete "Show Brownian force" feature)
 6/5/07 - add close button to ruler (inappropriate, ugly, etc)
