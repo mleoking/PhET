@@ -291,11 +291,14 @@ public class PhetProject {
     }
 
     public String[] getAllMainClasses() {
-        ArrayList all = new ArrayList();
-        all.add( getMainClass() );
-        all.addAll( Arrays.asList( getKeepMains() ) );
-        all.addAll( Arrays.asList( getAllFlavorMainClasses() ) );//todo: remove duplicate class declarations
-        return (String[])all.toArray( new String[0] );
+        HashSet mainClasses=new HashSet( );
+        if (getMainClass()!=null){
+            mainClasses.add( getMainClass( ));
+        }
+        
+        mainClasses.addAll( Arrays.asList( getKeepMains() ) );
+        mainClasses.addAll( Arrays.asList( getAllFlavorMainClasses() ) );
+        return (String[])mainClasses.toArray( new String[0] );
     }
 
     /**
