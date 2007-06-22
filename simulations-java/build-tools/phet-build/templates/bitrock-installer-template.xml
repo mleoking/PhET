@@ -2,12 +2,12 @@
     <shortName>@FLAVORDIR@</shortName>
     <fullName>PhET</fullName>
     <version>@VERSION@</version>
-    <installerFilename>@FLAVOR@-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
+    <installerFilename>@FLAVORDIR@-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <licenseFile>@INSTALLER-DATA-DIR@license.txt</licenseFile>
     <wrapLicenseFileText>0</wrapLicenseFileText>
     <logoImage>@INSTALLER-DATA-DIR@phet-logo.png</logoImage>
     <splashImage>@INSTALLER-DATA-DIR@phet-logo.png</splashImage>
-    <cdromDirectory>@FLAVOR@-cdrom</cdromDirectory>
+    <cdromDirectory>@FLAVORDIR@-cdrom</cdromDirectory>
     <saveRelativePaths>1</saveRelativePaths>
     <componentList>
         <component>
@@ -72,7 +72,7 @@
                     <runInTerminal>0</runInTerminal>
                     <windowsExec>${java_executable}</windowsExec>
                     <windowsExecArgs>-cp @FLAVORDIR@.jar @CLASSNAME@ @ARGUMENTS@</windowsExecArgs>
-                    <windowsIcon>@FLAVORNAME@.ico</windowsIcon>
+                    <windowsIcon>@FLAVORDIR@.ico</windowsIcon>
                     <windowsPath>${installdir}</windowsPath>
                 </startMenuShortcut>
             </startMenuShortcutList>
@@ -83,7 +83,7 @@
             <name>installdir</name>
             <description>Installer.Parameter.installdir.description</description>
             <explanation>Installer.Parameter.installdir.explanation</explanation>
-            <value>${platform_install_prefix}/${product_fullname}/@FLAVOR@</value>
+            <value>${platform_install_prefix}/${product_fullname}/@FLAVORDIR@</value>
             <default>${platform_install_prefix}/${product_shortname}-${product_version}</default>
             <allowEmptyValue>0</allowEmptyValue>
             <ask>yes</ask>
