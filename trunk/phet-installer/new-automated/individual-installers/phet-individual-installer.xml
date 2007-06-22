@@ -1,8 +1,13 @@
 <project>
-    <shortName>FLAVORNAME</shortName>
-    <fullName>@USERNAME@</fullName>
+    <shortName>FLAVORDIR</shortName>
+    <fullName>PhET</fullName>
     <version>@VERSION@</version>
+    <installerFilename>@FLAVOR@-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
+    <licenseFile>license.txt</licenseFile>
+    <wrapLicenseFileText>0</wrapLicenseFileText>
     <logoImage>../Installer-Resources/phet-logo.png</logoImage>
+    <splashImage>../Installer-Resources/phet-logo.png</splashImage>
+    <cdromDirectory>@FLAVOR@-cdrom</cdromDirectory>
     <saveRelativePaths>1</saveRelativePaths>
     <componentList>
         <component>
@@ -19,15 +24,15 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>phet-individual-installer.xml</origin>
+                            <origin>../../../simulations-java/simulations/balloons/deploy/balloons.jar</origin>
                         </distributionFile>
                     </distributionFileList>
                     <shortcutList>
                         <shortcut>
-                            <comment>Uninstall</comment>
+                            <comment>Uninstall @FLAVOR@</comment>
                             <exec>${installdir}/${uninstallerName}</exec>
                             <icon></icon>
-                            <name>Uninstall ${product_fullname}</name>
+                            <name>Uninstall @FLAVOR@</name>
                             <path>${installdir}</path>
                             <platforms>all</platforms>
                             <runInTerminal>0</runInTerminal>
@@ -53,8 +58,8 @@
             </folderList>
             <startMenuShortcutList>
                 <startMenuShortcut>
-                    <comment>Uninstall ${product_fullname}</comment>
-                    <name>${product_fullname} Uninstaller</name>
+                    <comment>Uninstall @FLAVOR@</comment>
+                    <name>@FLAVOR@ Uninstaller</name>
                     <runInTerminal>0</runInTerminal>
                     <windowsExec>${installdir}/uninstall.exe</windowsExec>
                     <windowsExecArgs></windowsExecArgs>
@@ -62,12 +67,12 @@
                     <windowsPath>${installdir}/</windowsPath>
                 </startMenuShortcut>
                 <startMenuShortcut>
-                    <comment>Launch @USERNAME@</comment>
-                    <name>${product_fullname}</name>
+                    <comment>Launch @FLAVOR@</comment>
+                    <name>@FLAVOR@</name>
                     <runInTerminal>0</runInTerminal>
-                    <windowsExec>java</windowsExec>
-                    <windowsExecArgs>-cp @FLAVORNAME@.jar @CLASSNAME@ @ARGUMENTS@</windowsExecArgs>
-                    <windowsIcon></windowsIcon>
+                    <windowsExec>${java_executable}</windowsExec>
+                    <windowsExecArgs>-cp @FLAVORDIR@.jar @CLASSNAME@ @ARGUMENTS@</windowsExecArgs>
+                    <windowsIcon>@FLAVORNAME@.ico</windowsIcon>
                     <windowsPath>${installdir}</windowsPath>
                 </startMenuShortcut>
             </startMenuShortcutList>
@@ -78,7 +83,7 @@
             <name>installdir</name>
             <description>Installer.Parameter.installdir.description</description>
             <explanation>Installer.Parameter.installdir.explanation</explanation>
-            <value>${platform_install_prefix}/${product_shortname}-${product_version}</value>
+            <value>${platform_install_prefix}/${product_fullname}/@FLAVOR@</value>
             <default>${platform_install_prefix}/${product_shortname}-${product_version}</default>
             <allowEmptyValue>0</allowEmptyValue>
             <ask>yes</ask>
