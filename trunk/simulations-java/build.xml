@@ -480,18 +480,23 @@ PhET-team specific tasks are located in an auxiliary build file.
         
         <create-installer-build-file inputFile="${bitrock.buildfile.template}" outputfile="${sim.installer.buildfile}" project="${sim.name}"/>
         
-        <!-- Build the installers for this simulation/flavor: -->        
-        <exec executable="${bitrock.exe}">
-            <arg value="build" />
-            <arg value="${sim.installer.buildfile}" />
-        </exec>
+        <!-- Build the installers for this simulation/flavor: -->      
+        <exec executable="${bitrock.exe}">  <arg value="build" /><arg value="${sim.installer.buildfile}" /> <arg value="osx"/></exec>
+        <exec executable="${bitrock.exe}">  <arg value="build" /><arg value="${sim.installer.buildfile}" /> <arg value="windows"/></exec>
+        <exec executable="${bitrock.exe}">  <arg value="build" /><arg value="${sim.installer.buildfile}" /> <arg value="linux"/></exec>
+        <!-- Build Windows installer bundled with JRE-->
+        <!-- copy the installers from bitrock to ${sim.installer.dir} -->
+        
     </target>
     
-    <target name="_build-installer-for-flavor">
+    <!-- todo: make sure this build-jar in only called once, in the case of multiple flavors -->
+    <!-- todo: copy the jar file to the correct name, i.e. FLAVORDIR.jar -->
+    <target name="_build-installer-for-flavor" depends="build-jar">
          <!-- Generate a Windows ico from the simulation screenshot -->
 
 
-        <!-- Generate a Linux png from the simulation screenshot -->
+        <!-- Generate a Linux png from the simulation screenshot 
+        Work on linux icon is postponed since there is no direct support for command line args in shortcuts.-->
 
 
         <!-- Perform a replacement on the installer builder template XML file -->
@@ -505,6 +510,8 @@ PhET-team specific tasks are located in an auxiliary build file.
     </target>
     
     <target name="build-installer" depends="_init, _verify-sim-name-specified">
+        <!-- add the java auto-detect:
+        On Windows: if no java is available, and the JRE is bundled, must be installed -->
         <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
         
         <foreach list="${sim.flavors}" target="_build-installer-for-flavor" param="sim.flavor"/>        
