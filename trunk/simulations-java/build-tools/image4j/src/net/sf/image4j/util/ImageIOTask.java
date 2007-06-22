@@ -59,7 +59,6 @@ public class ImageIOTask extends Task {
     }
 
 
-
     public static void main( String[] args ) {
         ImageIOTask task = new ImageIOTask();
 

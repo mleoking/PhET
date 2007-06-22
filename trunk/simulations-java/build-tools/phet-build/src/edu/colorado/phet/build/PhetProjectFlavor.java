@@ -11,14 +11,14 @@ public class PhetProjectFlavor {
     private String[] args;
     private String mainclass;
     private File screenshot;
-    private String name;
+    private String title;
 
     public PhetProjectFlavor( String name, String description, String mainclass, String[] args, File screenshot ) {
         this.description = description;
         this.args = args;
         this.mainclass = mainclass;
         this.screenshot = screenshot;
-        this.name = name;
+        this.title = name;
     }
 
     public String getDescription() {
@@ -29,8 +29,8 @@ public class PhetProjectFlavor {
         return screenshot;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public String[] getArgs() {
@@ -42,6 +42,6 @@ public class PhetProjectFlavor {
     }
 
     public String toString() {
-        return "" + name + ": description=" + description + ", mainclass=" + mainclass + ", args=" + Arrays.asList( args ) + ", screenshot=" + screenshot;
+        return "" + title + ": description=" + description + ", mainclass=" + mainclass + ", args=" + Arrays.asList( args ) + ", screenshot=" + screenshot;
     }
 }
