@@ -68,7 +68,7 @@ public class ProguardCommand implements Command {
                 bufferedWriter.write( "-dontshrink" + newline );
             }
 
-            String text = FileUtils.loadFileAsString( config.getProguardOutputFile() );
+            String text = FileUtils.loadFileAsString( config.getProguardTemplate() );
             bufferedWriter.write( text );
 
         }
