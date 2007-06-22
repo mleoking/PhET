@@ -23,6 +23,7 @@ To Do:
 • Performance is terrible during playback on other planets.
 • On a track with high-friction, near the bottom of a local minimum, the skater gained energy and sped off.
     -I have had trouble reproducing this.
+    -Played with this for quite awhile and kept friction on, changed tracks, visited different planets etc.. and could not reproduce it. (version 2.02) 
 
 Interview Questions:
 • Should PE=0 line be visible in space?
