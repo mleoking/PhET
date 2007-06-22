@@ -76,6 +76,10 @@ public class ColorControl extends HorizontalLayoutPanel implements ColorChooserF
         add( _colorChip );
     }
     
+    //----------------------------------------------------------------------------
+    // 
+    //----------------------------------------------------------------------------
+    
     /**
      * Sets the color chip's color.
      * Subclasses can override this to add additional behavior.
