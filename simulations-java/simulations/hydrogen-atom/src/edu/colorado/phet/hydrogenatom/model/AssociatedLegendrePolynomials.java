@@ -33,7 +33,8 @@ public class AssociatedLegendrePolynomials {
 
         // validate arguments
         if ( l > 6 ) {
-            throw new IllegalArgumentException( "untested for l > 6" );
+            //For large L, the brute-force solution below encounters instabilities.
+            throw new IllegalArgumentException( "unstable for l > 6" );
         }
         if ( l < 0 ) {
             throw new IllegalArgumentException( "l out of bounds: " + l );
