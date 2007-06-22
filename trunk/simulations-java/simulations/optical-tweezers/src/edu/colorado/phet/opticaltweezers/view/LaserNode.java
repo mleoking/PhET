@@ -213,6 +213,14 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         _electricFieldNode.setValuesVisible( visible );
     }
     
+    public void setElectricFieldColor( Color color ) {
+        _electricFieldNode.setVectorColor( color );
+    }
+    
+    public Color getElectricFieldColor() {
+        return _electricFieldNode.getVectorColor();
+    }
+    
     //----------------------------------------------------------------------------
     // Property change handlers
     //----------------------------------------------------------------------------

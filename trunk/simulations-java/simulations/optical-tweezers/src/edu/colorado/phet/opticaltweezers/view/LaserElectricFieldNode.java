@@ -31,8 +31,8 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     private static final String ELECTRIC_FIELD_UNITS = "V/nm";
     
     // vector color and stroke
-    private static final Color VECTOR_STROKE_COLOR = Color.GREEN.darker();
-    private static final Stroke VECTOR_STROKE = new BasicStroke( 1f );
+    private static final Color DEFAULT_VECTOR_COLOR = Color.GREEN.darker();
+    private static final Stroke VECTOR_STROKE = new BasicStroke( 2f );
     
     // layout of vectors
     private static final double X_MARGIN = 20; // nm
@@ -50,6 +50,7 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     private final ModelViewTransform _modelViewTransform;
     
     private final List _vectorNodes; // array of ElectricFieldVectorNode
+    private Color _vectorColor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -66,6 +67,7 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
         _modelViewTransform = modelViewTransform;
         
         _vectorNodes = new ArrayList();
+        _vectorColor = DEFAULT_VECTOR_COLOR;
         
         initVectors();
         updateVectors();
@@ -113,6 +115,15 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
         }
     }
     
+    public void setVectorColor( Color vectorColor ) {
+        _vectorColor = vectorColor;
+        updateVectors();
+    }
+    
+    public Color getVectorColor() {
+        return _vectorColor;
+    }
+    
     //----------------------------------------------------------------------------
     // Superclass overrides
     //----------------------------------------------------------------------------
@@ -158,7 +169,7 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
             vectorNode.setXY( electricField.getX(), electricField.getY() );
             // set the vector's color
             int alpha = (int)( 255 * electricField.getMagnitude() / maxElectricField.getMagnitude() );
-            Color c = ColorUtils.addAlpha( VECTOR_STROKE_COLOR, alpha );
+            Color c = ColorUtils.addAlpha( _vectorColor, alpha );
             vectorNode.setArrowStrokePaint( c );
         }
     }
