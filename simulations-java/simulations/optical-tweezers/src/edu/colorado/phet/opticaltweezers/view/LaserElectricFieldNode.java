@@ -87,7 +87,6 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
         final double radiusAtWaist = _laser.getRadius( 0 );
         final double deltaX = ( radiusAtWaist - X_MARGIN ) / ( NUMBER_OF_VECTORS_AT_WAIST / 2 );
         final double referenceLength = _modelViewTransform.modelToView( deltaX - X_SPACING );
-        System.out.println( "initVectors: radiusAtWaist=" + radiusAtWaist + " referenceMagnitude=" + referenceMagnitude + " referenceLength=" + referenceLength );//XXX
         
         ElectricFieldVectorNode vectorNode = null;
         double xOffsetFromLaser = 0;
