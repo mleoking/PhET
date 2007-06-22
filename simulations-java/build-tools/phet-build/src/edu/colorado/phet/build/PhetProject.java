@@ -300,6 +300,7 @@ public class PhetProject {
 
     /**
      * Returns the key values [flavorname], not the titles for all flavors declared in this project.
+     * If no flavors are declared, the simulation name is returned as the sole flavor.
      *
      * @return
      */
@@ -329,21 +330,20 @@ public class PhetProject {
     /**
      * Return an array of all declared flavors for this project.
      *
-     * @param locale
      * @return
      */
-    public PhetProjectFlavor[] getFlavors( String locale ) {//todo: separate locale-specific from locale dependent?
+    public PhetProjectFlavor[] getFlavors() {//todo: separate locale-specific from locale dependent?
         String[] flavorNames = getFlavorNames();
         PhetProjectFlavor[] flavors = new PhetProjectFlavor[flavorNames.length];
         for( int i = 0; i < flavorNames.length; i++ ) {
-            flavors[i] = getFlavor( flavorNames[i], locale );
+            flavors[i] = getFlavor( flavorNames[i] );
         }
         return flavors;
     }
 
     private String[] getAllFlavorMainClasses() {
         ArrayList mainClasses = new ArrayList();
-        PhetProjectFlavor[] flavors = getFlavors( "en" );//see todo: in getFlavors(String)
+        PhetProjectFlavor[] flavors = getFlavors();//see todo: in getFlavors(String)
         for( int i = 0; i < flavors.length; i++ ) {
             PhetProjectFlavor flavor = flavors[i];
             if( !mainClasses.contains( flavor.getMainclass() ) ) {
@@ -356,8 +356,10 @@ public class PhetProject {
     /**
      * Load the flavor for associated with this project for the specified name and locale.
      * todo: better error handling for missing attributes (for sims that don't support flavors yet)
+     * @return
+     * @param flavorName
      */
-    public PhetProjectFlavor getFlavor( String flavorName, String locale ) {
+    public PhetProjectFlavor getFlavor( String flavorName ) {
         String mainclass = properties.getProperty( "project.flavor." + flavorName + ".mainclass" );
         if( mainclass == null ) {
             mainclass = properties.getProperty( "project.mainclass" );

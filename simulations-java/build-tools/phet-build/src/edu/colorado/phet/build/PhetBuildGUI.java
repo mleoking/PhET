@@ -214,10 +214,10 @@ public class PhetBuildGUI extends AbstractPhetTask {
 
         PhetProject phetProject = getSelectedProject();
         if( phetProject != null ) {
-            java.setClassname( phetProject.getFlavor( getSelectedSimulation().getFlavorName(), locale ).getMainclass() );
+            java.setClassname( phetProject.getFlavor( getSelectedSimulation().getFlavorName()).getMainclass() );
             java.setFork( true );
             String args="";
-            String[]a=phetProject.getFlavor( getSelectedSimulation().getFlavorName(), locale ).getArgs();
+            String[]a=phetProject.getFlavor( getSelectedSimulation().getFlavorName() ).getArgs();
             for( int i = 0; i < a.length; i++ ) {
                 String s = a[i];
                 args+=s+" ";

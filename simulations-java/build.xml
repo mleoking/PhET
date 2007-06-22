@@ -4,7 +4,11 @@ This build file is specific to building phet simulation files, in particular bui
 PhET-team specific tasks are located in an auxiliary build file.  
 -->
 <project name="PhET Master Build Script" default="gui" basedir=".">
-
+    <!--Properties for the structure of the phet codebase.-->
+    <property name="build-tools" value="build-tools"/>
+    <property name="simulations-directory"          value="${basedir}/simulations"/>
+    <property name="dir.build-tools"                value="${basedir}/build-tools/"/>
+    
     <!-- Deployment properties -->
     <property name="dev.server.name"    value="spot.colorado.edu"/>
     <property name="prod.server.name"   value="tigercat.colorado.edu"/>
@@ -18,16 +22,17 @@ PhET-team specific tasks are located in an auxiliary build file.
     <!--Do not modify: these properties define the codebase for java-implementation of ant tasks.-->
     <property name="ant-output"             location="ant_output"/>
     <property name="phetbuild-classes-dir"  location="${ant-output}/phetbuild/classes"/>
-    <property name="proguard.jar"           location="build-tools/proguard3.8/lib/proguard.jar"/>
-    <property name="phetbuild-src"          location="build-tools/phet-build/src"/>
+    <property name="proguard.jar"           location="${dir.build-tools}proguard3.8/lib/proguard.jar"/>
+    <property name="phetbuild-src"          location="${dir.build-tools}phet-build/src"/>
 
-    <property name="imageio-src"         location="build-tools/image4j/src" />
+    <property name="imageio-src"            location="${dir.build-tools}image4j/src" />
 
     <property name="phet.version"           value=""/>
     <property name="phet.src.distribution"  value="${basedir}/deploy/phet-src.zip"/>
 
     <!--Phet task implementations-->
     <property name="phetbuild-classname"            value="edu.colorado.phet.build.PhetBuildTask"/>
+    <property name="phetbuild-classpath"            value="${phetbuild-classes-dir};${proguard.jar}"/>
     <property name="phetdisplaystats-classname"     value="edu.colorado.phet.build.PhetDisplayStatsTask"/>
     <property name="phetclean-classname"            value="edu.colorado.phet.build.PhetCleanTask"/>
     <property name="phetjnlp-classname"             value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
@@ -35,19 +40,20 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="phet-list-flavors-classname"    value="edu.colorado.phet.build.PhetListFlavorsTask"/>
     <property name="phet-list-locales-classname"    value="edu.colorado.phet.build.PhetListLocalesTask"/>
     <property name="phet-build-gui-classname"       value="edu.colorado.phet.build.PhetBuildGUI"/>
+        <property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.installer.InstallerBuildfileCreatorTask"/>
+    
 
-    <property name="imageio-classname"           value="net.sf.image4j.util.ImageIOTask"/>
-
-    <!--Properties for the structure of the phet codebase.-->
-    <property name="build-tools" value="build-tools"/>
-    <property name="simulations-directory"          value="${basedir}/simulations"/>
-    <property name="phetbuild-classpath"            value="${phetbuild-classes-dir};${proguard.jar}"/>
-    <property name="dir.build-tools"                value="${basedir}/build-tools/"/>
+    <property name="imageio-classname"              value="net.sf.image4j.util.ImageIOTask"/>
     
     <!-- Support jars -->
     <property name="jar.ant-contrib"    value="${dir.build-tools}ant-contrib/ant-contrib-1.0b3.jar"/>
     <property name="jar.junit"          value="${dir.build-tools}junit3.8.2/junit.jar"/>
-    <property name="jar.antform"        value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"/>
+    <property name="jar.antform"        value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"/>    
+    
+    <!-- Installer builder properties -->
+    <property name="bitrock.exe"                value="${dir.build-tools}bitrock/bin/Builder.app/Contents/MacOS/installbuilder" />
+    <property name="bitrock.sim.buildfile.dir"  value="${ant-output}/projects/" />
+    <property name="bitrock.buildfile.template" value="${dir.build-tools}phet-build/templates/bitrock-installer-template.xml" />
 
     <!--
     The local.properties file encodes platform-specific and user-specific defaults for deployment and testing.
@@ -127,8 +133,11 @@ PhET-team specific tasks are located in an auxiliary build file.
         <taskdef name="imageio"
                  classname="${imageio-classname}"
                  classpath="${phetbuild-classpath}"/>
+                 
+                 <taskdef name="create-installer-build-file"
+                          classname="${create-installer-build-file-classname}"
+                          classpath="${phetbuild-classpath}"/>         
     </target>
-    
     <target name="test-imageio" depends="_init">
         <imageio inputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.jpg" 
                  outputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.png"
@@ -456,28 +465,48 @@ PhET-team specific tasks are located in an auxiliary build file.
         <foreach list="${phet.simlist}" target="build-and-deploy-prod" param="sim.name"/>
     </target>
     
-    <target name="build-installer" depends="_init, _verify-sim-name-specified">
-        <!-- Generate a Windows ico from the simulation screenshot -->
+    
+    
+    <!-- Assume sim.name and sim.flavor defined -->
+    <target name="_run-bitrock-installer-builder">
+        <!-- Create the directory where the buildfile & installers will be placed -->
+        <var name="sim.installer.dir"       value="${bitrock.sim.buildfile.dir}${sim.name}/${sim.flavor}/installer/" />
+        <var name="sim.installer.buildfile" value="${sim.installer.dir}${sim.flavor}-installer-buildfile.xml" />
+        
+        <mkdir dir="${sim.installer.dir}" />
         
         
+        <!-- Copy the template buildfile to the right location -->
+        
+        <create-installer-build-file inputFile="${bitrock.buildfile.template}" outputfile="${sim.installer.buildfile}" project="${sim.name}"/>
+        
+        <!-- Build the installers for this simulation/flavor: -->        
+        <exec executable="${bitrock.exe}">
+            <arg value="build" />
+            <arg value="${sim.installer.buildfile}" />
+        </exec>
+    </target>
+    
+    <target name="_build-installer-for-flavor">
+         <!-- Generate a Windows ico from the simulation screenshot -->
+
+
         <!-- Generate a Linux png from the simulation screenshot -->
-        
-        
-        
+
+
         <!-- Perform a replacement on the installer builder template XML file -->
-        
-        
-        
+
+
         <!-- Execute the installer builder for each platform -->
-        
-        
+        <antcall target="_run-bitrock-installer-builder" />
+
+
         <!-- Perform post-processing on Mac installer file (zip) -->
+    </target>
+    
+    <target name="build-installer" depends="_init, _verify-sim-name-specified">
+        <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
         
-        
-        
-        
-        
-        
-        
+        <foreach list="${sim.flavors}" target="_build-installer-for-flavor" param="sim.flavor"/>        
     </target>
 </project>
