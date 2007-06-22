@@ -304,6 +304,14 @@ public class Vector2DNode extends PhetPNode {
         }
     }
     
+    public double getReferenceMagnitude() {
+        return _referenceMagnitude;
+    }
+    
+    public double getReferenceLength() {
+        return _referenceLength;
+    }
+    
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
