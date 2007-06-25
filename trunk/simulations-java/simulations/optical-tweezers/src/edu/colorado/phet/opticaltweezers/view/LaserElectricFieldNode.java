@@ -13,6 +13,8 @@ import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.util.ColorUtils;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 /**
@@ -47,13 +49,21 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     private final Laser _laser;
     private final ModelViewTransform _modelViewTransform;
     
+    private final PNode _vectorNodesParent;
     private final List _vectorNodes; // array of ElectricFieldVectorNode
     private Color _vectorColor;
+    private boolean _valuesVisible;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor
+     * 
+     * @param laser
+     * @param modelViewTransform
+     */
     public LaserElectricFieldNode( Laser laser, ModelViewTransform modelViewTransform ) {
         super();
         setPickable( false );
@@ -64,13 +74,19 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
         
         _modelViewTransform = modelViewTransform;
         
+        _vectorNodesParent = new PComposite();
+        addChild( _vectorNodesParent );
+        
         _vectorNodes = new ArrayList();
         _vectorColor = DEFAULT_VECTOR_COLOR;
+        _valuesVisible = false;
         
         initVectors();
-        updateVectors();
     }
 
+    /**
+     * Calls this method before releasing all references to this object.
+     */
     public void cleanup() {
         _laser.deleteObserver( this );
     }
@@ -79,10 +95,17 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     // Vector initialization
     //----------------------------------------------------------------------------
     
+    /*
+     * Chooses sample points that are evenly distributed across the laser's beam,
+     * and initializes the vector nodes that represent the electric field at those
+     * sample points.
+     */
     private void initVectors() {
         
         assert( NUMBER_OF_VECTORS_AT_WAIST % 2 == 1 );
         assert( NUMBER_OF_VECTOR_ROWS % 2 == 1 );
+        
+        _vectorNodesParent.removeAllChildren();
         
         double xMax = _laser.getRadius( 0 ) - X_MARGIN;
         final double yMax = _laser.getDistanceFromObjectiveToWaist() - Y_MARGIN;
@@ -121,15 +144,30 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
             
             yOffsetFromLaser += dy;
         }
+        
+        updateVectors();
     }
     
+    /*
+     * Adds a vector node to represent the eletric field at a specific distance from the laser's origin.
+     * 
+     * @param xOffsetFromLaser
+     * @param yOffsetFromLaser
+     * @param referenceMagnitude
+     * @param referenceLength
+     */
     private void addElectricFieldVectorNode( double xOffsetFromLaser, double yOffsetFromLaser, double referenceMagnitude, double referenceLength ) {
         ElectricFieldVectorNode vectorNode = new ElectricFieldVectorNode( -xOffsetFromLaser, yOffsetFromLaser, referenceMagnitude, referenceLength );
         _vectorNodes.add( vectorNode );
-        addChild( vectorNode );
+        _vectorNodesParent.addChild( vectorNode );
         double xOffsetView = _modelViewTransform.modelToView( vectorNode.getXOffset() + ( _laser.getDiameterAtObjective() / 2 ) + xOffsetFromLaser );
         double yOffsetView = _modelViewTransform.modelToView( vectorNode.getYOffset() + _laser.getY() + yOffsetFromLaser );
         vectorNode.setOffset( xOffsetView, yOffsetView );
+        
+        // Show value for vector at center of laser only !!
+        if ( xOffsetFromLaser == 0 && yOffsetFromLaser == 0 ) {
+            vectorNode.setValueVisible( _valuesVisible );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -142,18 +180,27 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
      * @param visible
      */
     public void setValuesVisible( boolean visible ) {
-        Iterator i = _vectorNodes.iterator();
-        while ( i.hasNext() ) {
-            ElectricFieldVectorNode vectorNode = (ElectricFieldVectorNode) i.next();
-            vectorNode.setValueVisible( visible );
+        if ( visible != _valuesVisible ) {
+            _valuesVisible = visible;
+            initVectors();
         }
     }
     
+    /**
+     * Sets the color used for the vectors.
+     * 
+     * @param vectorColor
+     */
     public void setVectorColor( Color vectorColor ) {
         _vectorColor = vectorColor;
         updateVectors();
     }
     
+    /**
+     * Gets the color used for the vectors.
+     * 
+     * @return Color
+     */
     public Color getVectorColor() {
         return _vectorColor;
     }
@@ -184,14 +231,24 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     // Observer implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the view to match the model.
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _laser ) {
-            if ( arg == Laser.PROPERTY_ELECTRIC_FIELD ) {
+            if ( arg == Laser.PROPERTY_ELECTRIC_FIELD || arg == Laser.PROPERTY_POWER || arg == Laser.PROPERTY_RUNNING ) {
                 updateVectors();
+            }
+            else if ( arg == Laser.PROPERTY_ELECTRIC_FIELD_SCALE ) {
+                initVectors();
             }
         }
     }
     
+    /*
+     * Updates each vector to correspond to the electric field strength
+     * at the vector's location in the laser beam.
+     */
     private void updateVectors() {
         final Vector2D maxElectricField = _laser.getMaxElectricField();
         Iterator i = _vectorNodes.iterator();
@@ -215,6 +272,9 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     // Inner classes
     //----------------------------------------------------------------------------
     
+    /*
+     * Stores the sample point that the vector node represents, draws the vector.
+     */
     private static class ElectricFieldVectorNode extends Vector2DNode {
         
         private final Point2D _offsetFromLaser; // offset from laser origin, nm (model coordinates)
