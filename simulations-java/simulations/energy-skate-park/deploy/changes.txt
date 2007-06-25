@@ -1,3 +1,7 @@
+2.02.02 (6-25-2007)
+Added height and speed readouts to path readouts
+Added cursor hand to path points and readouts
+
 2.01.13 (6-9-2007)
 Fixed: If the skater is on the floor when gravity changes to 0.0, floor persists in space
 Fixed: Performance degradation during playback in space
