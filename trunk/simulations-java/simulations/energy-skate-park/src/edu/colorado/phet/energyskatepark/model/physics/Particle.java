@@ -124,6 +124,10 @@ public class Particle implements Serializable {
         return thermalEnergy;
     }
 
+    public double getHeightAboveZero(){
+        return y - zeroPointPotentialY;
+    }
+
     public double getPotentialEnergy() {
         return -mass * g * ( y - zeroPointPotentialY );//todo: should particle1d know about this as well?
     }

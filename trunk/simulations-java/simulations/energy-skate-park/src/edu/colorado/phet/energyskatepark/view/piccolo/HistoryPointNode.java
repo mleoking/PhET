@@ -69,11 +69,15 @@ public class HistoryPointNode extends PNode {
         setOffset( pt );
 
         String heatString = historyPoint.getThermalEnergy() != 0 ? "Thermal Energy=" + format( historyPoint.getThermalEnergy() ) + " J<br>" : "";
+//        String heightSpeedReadout="";
+        String heightSpeedReadout = "<br>Height=" + format( historyPoint.getHeightAboveZero() ) + " m<br>" +
+                                    "Speed=" + format( historyPoint.getSpeed() )+" m/s";
         String html = "<html>" +
                       "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
                       "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +
                       heatString +
                       "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
+                      heightSpeedReadout + "<br>" +
                       "</html>";
         if( historyPoint.isReadoutVisible() ) {
             htmlNode.setHtml( html );

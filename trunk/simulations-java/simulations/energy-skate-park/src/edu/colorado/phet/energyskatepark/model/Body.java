@@ -459,6 +459,10 @@ public class Body implements Serializable {
         return particle.getSpline() instanceof LinearFloorSpline2D;
     }
 
+    public double getHeightAboveZero() {
+        return particle.getHeightAboveZero();
+    }
+
     public static interface Listener {
         void thrustChanged();
 
