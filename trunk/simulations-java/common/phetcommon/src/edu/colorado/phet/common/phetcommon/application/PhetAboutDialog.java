@@ -113,14 +113,29 @@ public class PhetAboutDialog extends JDialog {
      */
     private JPanel createInfoPanel() {
 
+        VerticalLayoutPanel infoPanel = new VerticalLayoutPanel();
+        
         // Simulation title
         JLabel titleLabel = new JLabel( titleString );
         Font f = titleLabel.getFont();
         titleLabel.setFont( new Font( f.getFontName(), Font.BOLD, f.getSize() ) );
 
         // Simulation description
-        JLabel descriptionLabel = new JLabel( descriptionString );
-
+        JTextArea descriptionTextArea = new JTextArea( descriptionString );
+        FontMetrics fontMetrics = descriptionTextArea.getFontMetrics( descriptionTextArea.getFont() );
+        final int columns = 35;
+        descriptionTextArea.setColumns( columns );
+        // Swing's notion of a text "column" is weakly defined. Short of implementing our own word wrapping,
+        // using FontMetrics provides the closest approximation to the number of rows that we need.  
+        // Since we want a bit of space between the description and the stuff below it, having an 
+        // extra (blank) row is generally OK.
+        int rows = ( ( fontMetrics.stringWidth( descriptionString ) / fontMetrics.charWidth( 'm' ) ) / columns ) + 2;
+        descriptionTextArea.setRows( rows );
+        descriptionTextArea.setBackground( infoPanel.getBackground() );
+        descriptionTextArea.setEditable( false );
+        descriptionTextArea.setLineWrap( true );
+        descriptionTextArea.setWrapStyleWord( true );
+        
         // Simulation version
         String versionHeader = getLocalizedString( "Common.About.Version" ) + " ";
         JLabel versionLabel = new JLabel( versionHeader + versionString );
@@ -131,13 +146,12 @@ public class PhetAboutDialog extends JDialog {
 
         int xMargin = 10;
         int ySpacing = 10;
-        VerticalLayoutPanel infoPanel = new VerticalLayoutPanel();
         infoPanel.setInsets( new Insets( 0, xMargin, 0, xMargin ) ); // top,left,bottom,right
         infoPanel.add( Box.createVerticalStrut( ySpacing ) );
         infoPanel.add( titleLabel );
         infoPanel.add( Box.createVerticalStrut( ySpacing ) );
-        infoPanel.add( descriptionLabel );
-        infoPanel.add( Box.createVerticalStrut( ySpacing * 2 ) );
+        infoPanel.add( descriptionTextArea );
+        infoPanel.add( Box.createVerticalStrut( ySpacing ) );
         infoPanel.add( versionLabel );
         infoPanel.add( javaVersionLabel );
         infoPanel.add( Box.createVerticalStrut( ySpacing ) );
