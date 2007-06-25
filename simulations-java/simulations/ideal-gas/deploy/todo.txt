@@ -1,3 +1,15 @@
+-Bug Report (6-25-2007)
+I just found a new bug in Gas Properties.  If you pump in a bunch of molecules, say, more than 300, the number of molecules in the box fluctuates, and if you try to select the number of heavy molecules in the textbox to change it, the cursor automatically moves to the textbox for the number of light molecules, so you can't edit the number of heavy molecules.
+Balloons and Buoyancy has the same problem, but Reversible Reactions does not.
+In Version 3.02.02 and earlier, the number of molecules still fluctuates, but at least when you try to select the number the cursor remains in the same box, rather than moving to a different one. v3r25 seems to be the last version where the number of molecules doesn't fluctuate.
+
+-Bug Report (6-25-2007)
+Also, if I open the lid to let particles out, the number of particles in the textbox starts decreasing as particles leave the box, but then as soon as I close the lid, the number of particles jumps back up to a much higher number than it was the instant before when the lid was open.
+I've checked it out with low numbers of particles, and it looks like particles are actually suddenly appearing in the box when you close the lid.
+
+6-25-2007
+-demote from gold star to beta
+
 - Hot air balloon stove resets when reset button is hit
 - Changed color of wiggle me and help
 
