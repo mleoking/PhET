@@ -10,7 +10,7 @@
 			<key>filename</key>
 			<string>index.php</string>
 			<key>lastUsed</key>
-			<date>2007-06-18T20:44:21Z</date>
+			<date>2007-06-21T15:06:59Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -514,28 +514,28 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>13</integer>
 				<key>line</key>
-				<integer>56</integer>
+				<integer>506</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>41</integer>
+			<integer>491</integer>
 		</dict>
 		<key>index.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>162</integer>
+				<integer>49</integer>
 				<key>line</key>
-				<integer>79</integer>
+				<integer>98</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>68</integer>
+			<integer>82</integer>
 		</dict>
 		<key>js/http.js</key>
 		<dict>
@@ -579,19 +579,33 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>simulations/index.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>56</integer>
+				<key>line</key>
+				<integer>142</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>118</integer>
+		</dict>
 		<key>simulations/sims.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>29</integer>
+				<integer>53</integer>
 				<key>line</key>
-				<integer>37</integer>
+				<integer>131</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>27</integer>
+			<integer>142</integer>
 		</dict>
 		<key>simulations/submit-contribution.php</key>
 		<dict>
@@ -612,9 +626,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>116</integer>
+				<integer>39</integer>
 				<key>line</key>
-				<integer>36</integer>
+				<integer>45</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -676,6 +690,20 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>87</integer>
+		</dict>
+		<key>teacher_ideas/index.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>12</integer>
+				<key>line</key>
+				<integer>13</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>1</integer>
 		</dict>
 		<key>teacher_ideas/login.php</key>
 		<dict>
@@ -754,6 +782,7 @@
 		<string>teacher_ideas/edit-contribution.php</string>
 		<string>simulations/submit-contribution.php</string>
 		<string>css/main.css</string>
+		<string>simulations/index.php</string>
 		<string>about/legend.php</string>
 		<string>about/contact.php</string>
 		<string>about/licensing.php</string>
@@ -780,6 +809,7 @@
 		<string>contribute/index.php</string>
 		<string>research/index.php</string>
 		<string>sponsors/index.php</string>
+		<string>teacher_ideas/index.php</string>
 		<string>admin/authentication.php</string>
 		<string>teacher_ideas/login.php</string>
 		<string>admin/check-email.php</string>
@@ -794,6 +824,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{233, 334}, {934, 603}}</string>
+	<string>{{232, 378}, {934, 578}}</string>
 </dict>
 </plist>
