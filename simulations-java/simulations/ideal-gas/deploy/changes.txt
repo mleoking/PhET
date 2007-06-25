@@ -12,3 +12,11 @@ Fixes for the energy histogram: added scroll bars, made resizable, made it not e
 
 3.05.03 (6-5-2007)
 Fixed: Checking the energy histogram option doesn't do anything
+
+3/4/05
+Added Options menu with Advanced Options menu item
+Several old features are now only accessible if this option is selected
+Two new modules are provided with this option.
+Changes in localized strings
+MeasurementControlPanel.No_particle_interactions  no longer used. It is replaced with MeasurementControlPanel.Molecules-interact.
+Changed strings that label the x axes of histograms
