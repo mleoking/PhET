@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class MotionControlGraph extends ControlGraph {
     private ArrayList listeners = new ArrayList();
     private MotionModel motionModel;
+    private JFreeChartCursorNode jFreeChartCursorNode;
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
@@ -50,7 +51,7 @@ public class MotionControlGraph extends ControlGraph {
         } );
         setEditable( editable );
 
-        final JFreeChartCursorNode jFreeChartCursorNode = new JFreeChartCursorNode( getJFreeChartNode() );
+        jFreeChartCursorNode = new JFreeChartCursorNode( getJFreeChartNode() );
         addChild( jFreeChartCursorNode );
         timeSeriesModel.addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
             public void timeChanged() {
@@ -64,12 +65,12 @@ public class MotionControlGraph extends ControlGraph {
         } );
         motionModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
             public void modeChanged() {
-                updateCursorVisible( jFreeChartCursorNode, motionModel );
+                updateCursorVisible( );
             }
 
             public void pauseChanged() {
-                updateCursorLocation( jFreeChartCursorNode, motionModel );
-                updateCursorVisible( jFreeChartCursorNode, motionModel );
+                updateCursorLocation(  );
+                updateCursorVisible(  );
             }
         } );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
@@ -89,7 +90,7 @@ public class MotionControlGraph extends ControlGraph {
                 clear();
             }
         } );
-        updateCursorVisible( jFreeChartCursorNode, motionModel );
+        updateCursorVisible();
 
 //        motionModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
 //            public void dataSeriesChanged() {
@@ -121,11 +122,11 @@ public class MotionControlGraph extends ControlGraph {
         };
     }
 
-    private void updateCursorLocation( JFreeChartCursorNode jFreeChartCursorNode, MotionModel motionModel ) {
+    private void updateCursorLocation() {
         jFreeChartCursorNode.setTime( motionModel.getTimeSeriesModel().getTime() );
     }
 
-    private void updateCursorVisible( JFreeChartCursorNode jFreeChartCursorNode, MotionModel motionModel ) {
+    private void updateCursorVisible() {
         jFreeChartCursorNode.setVisible( motionModel.getTimeSeriesModel().isPlaybackMode() || motionModel.getTimeSeriesModel().isPaused() );
     }
 
