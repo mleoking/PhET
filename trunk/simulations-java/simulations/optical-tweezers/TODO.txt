@@ -3,7 +3,6 @@
 ================================================================================
 
 IN PROGRESS:
-- 9 rows of E-field vectors
 - what units for E-field?
 
 AAPT:
@@ -68,6 +67,7 @@ MISSING INFO:
 
  
 DONE:
+6/25/07 - complete layout of sample points and vectors for E-field representation of laser
 6/22/07 - get row of E-field vector across laser's waist working
 6/22/07 - dev control for E-field vector color
 6/22/07 - E-field vectors should be green outline with no fill color, alpha based on E-field magnitude

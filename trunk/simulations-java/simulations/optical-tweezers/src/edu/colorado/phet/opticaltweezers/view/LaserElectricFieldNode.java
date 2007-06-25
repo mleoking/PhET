@@ -38,7 +38,7 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     private static final double Y_MARGIN = 30; // nm
     private static final double X_SPACING = 10; // nm
     private static final int NUMBER_OF_VECTORS_AT_WAIST = 5; // must be an odd number for symmetry!
-    private static final int NUMBER_OF_VECTOR_ROWS = 9; // must be an odd number for symmetry!
+    private static final int NUMBER_OF_VECTOR_ROWS = 11; // must be an odd number for symmetry!
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -75,56 +75,61 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
         _laser.deleteObserver( this );
     }
     
+    //----------------------------------------------------------------------------
+    // Vector initialization
+    //----------------------------------------------------------------------------
+    
     private void initVectors() {
         
         assert( NUMBER_OF_VECTORS_AT_WAIST % 2 == 1 );
         assert( NUMBER_OF_VECTOR_ROWS % 2 == 1 );
         
-        final double referenceMagnitude = _laser.getMaxElectricField().getMagnitude();
-        final double xMagnitudeDefault = 0;
-        final double yMagnitudeDefault = 0;
-
-        final double radiusAtWaist = _laser.getRadius( 0 );
-        final double deltaX = ( radiusAtWaist - X_MARGIN ) / ( NUMBER_OF_VECTORS_AT_WAIST / 2 );
-        final double referenceLength = _modelViewTransform.modelToView( deltaX - X_SPACING );
+        double xMax = _laser.getRadius( 0 ) - X_MARGIN;
+        final double yMax = _laser.getDistanceFromObjectiveToWaist() - Y_MARGIN;
         
-        ElectricFieldVectorNode vectorNode = null;
+        final double dx = xMax / ( NUMBER_OF_VECTORS_AT_WAIST / 2 );
+        final double dy = yMax / ( NUMBER_OF_VECTOR_ROWS / 2 );
+        final double referenceMagnitude = _laser.getMaxElectricField().getMagnitude();
+        final double referenceLength = _modelViewTransform.modelToView( dx - X_SPACING );
+        
         double xOffsetFromLaser = 0;
         double yOffsetFromLaser = 0;
-        double xOffsetView = 0;
-        double yOffsetView = 0;
         
-        // row of sample points at waist
-        for ( int i = 0; i <= ( NUMBER_OF_VECTORS_AT_WAIST / 2 ); i++ ) {
+        while ( yOffsetFromLaser <= yMax ) {
             
-            xOffsetFromLaser = i * deltaX;
-            yOffsetFromLaser = 0;
+            xOffsetFromLaser = 0;
+            xMax = _laser.getRadius( yOffsetFromLaser ) - X_MARGIN;
             
-            // vector to the right of center
-            vectorNode = new ElectricFieldVectorNode( xOffsetFromLaser, yOffsetFromLaser,
-                    xMagnitudeDefault, yMagnitudeDefault, referenceMagnitude, referenceLength );
-            _vectorNodes.add( vectorNode );
-            addChild( vectorNode );
-            xOffsetView = _modelViewTransform.modelToView( vectorNode.getXOffset() + ( _laser.getDiameterAtObjective() / 2 ) + xOffsetFromLaser );
-            yOffsetView = _modelViewTransform.modelToView( vectorNode.getYOffset() + _laser.getY() );
-            vectorNode.setOffset( xOffsetView, yOffsetView );
-            
-            // vector to the left of center
-            if ( xOffsetFromLaser > 0 ) {
-                vectorNode = new ElectricFieldVectorNode( -xOffsetFromLaser, yOffsetFromLaser,
-                        xMagnitudeDefault, yMagnitudeDefault, referenceMagnitude, referenceLength );
-                _vectorNodes.add( vectorNode );
-                addChild( vectorNode );
-                xOffsetView = _modelViewTransform.modelToView( vectorNode.getXOffset() + ( _laser.getDiameterAtObjective() / 2 ) - xOffsetFromLaser );
-                yOffsetView = _modelViewTransform.modelToView( vectorNode.getYOffset() + _laser.getY() );
-                vectorNode.setOffset( xOffsetView, yOffsetView ); 
+            while ( xOffsetFromLaser <= xMax ) {
+
+                if ( xOffsetFromLaser == 0 && yOffsetFromLaser == 0 ) {
+                    addElectricFieldVectorNode( xOffsetFromLaser, yOffsetFromLaser, referenceMagnitude, referenceLength );
+                }
+                else if ( xOffsetFromLaser == 0 ) {
+                    addElectricFieldVectorNode( xOffsetFromLaser, yOffsetFromLaser, referenceMagnitude, referenceLength );
+                    addElectricFieldVectorNode( xOffsetFromLaser, -yOffsetFromLaser, referenceMagnitude, referenceLength );
+                }
+                else {
+                    addElectricFieldVectorNode( xOffsetFromLaser, yOffsetFromLaser, referenceMagnitude, referenceLength );
+                    addElectricFieldVectorNode( xOffsetFromLaser, -yOffsetFromLaser, referenceMagnitude, referenceLength );
+                    addElectricFieldVectorNode( -xOffsetFromLaser, yOffsetFromLaser, referenceMagnitude, referenceLength );
+                    addElectricFieldVectorNode( -xOffsetFromLaser, -yOffsetFromLaser, referenceMagnitude, referenceLength );
+                }
+
+                xOffsetFromLaser += dx;
             }
+            
+            yOffsetFromLaser += dy;
         }
-        
-        // rows above and below waist
-        {
-            //XXX implement
-        }
+    }
+    
+    private void addElectricFieldVectorNode( double xOffsetFromLaser, double yOffsetFromLaser, double referenceMagnitude, double referenceLength ) {
+        ElectricFieldVectorNode vectorNode = new ElectricFieldVectorNode( -xOffsetFromLaser, yOffsetFromLaser, referenceMagnitude, referenceLength );
+        _vectorNodes.add( vectorNode );
+        addChild( vectorNode );
+        double xOffsetView = _modelViewTransform.modelToView( vectorNode.getXOffset() + ( _laser.getDiameterAtObjective() / 2 ) + xOffsetFromLaser );
+        double yOffsetView = _modelViewTransform.modelToView( vectorNode.getYOffset() + _laser.getY() + yOffsetFromLaser );
+        vectorNode.setOffset( xOffsetView, yOffsetView );
     }
     
     //----------------------------------------------------------------------------
@@ -212,10 +217,10 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     
     private static class ElectricFieldVectorNode extends Vector2DNode {
         
-        private final Point2D _offsetFromLaser; // offset from laser origin, nm
+        private final Point2D _offsetFromLaser; // offset from laser origin, nm (model coordinates)
         
-        public ElectricFieldVectorNode( double xOffsetFromLaser, double yOffsetFromLaser, double xMagnitude, double yMagnitude, double referenceMagnitude, double referenceLength ) {
-            super( xMagnitude, yMagnitude, referenceMagnitude, referenceLength );
+        public ElectricFieldVectorNode( double xOffsetFromLaser, double yOffsetFromLaser, double referenceMagnitude, double referenceLength ) {
+            super( 0, 0, referenceMagnitude, referenceLength );
             _offsetFromLaser = new Point2D.Double( xOffsetFromLaser, yOffsetFromLaser );
             setArrowStroke( VECTOR_STROKE );
             setArrowFillPaint( null );
