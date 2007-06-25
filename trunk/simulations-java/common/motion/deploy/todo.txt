@@ -4,9 +4,6 @@
 
 Time derivatives need a time-offset to match other series.
 
-When the time series is off-scale, dragging the slider doesn't immediately respond.
-    -Clicking on the slider thumb should set the current value, and allow immediate drags.
-
 When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.
 
 Performance optimization.

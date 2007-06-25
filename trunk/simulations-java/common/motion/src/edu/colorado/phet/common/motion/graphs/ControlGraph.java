@@ -118,6 +118,7 @@ public class ControlGraph extends PNode {
             public void sliderThumbGrabbed() {
                 notifyControlGrabbed();
             }
+
         } );
 
         dynamicJFreeChartNode.updateChartRenderingInfo();

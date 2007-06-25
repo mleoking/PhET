@@ -42,7 +42,15 @@ public class JFreeChartSliderNode extends PNode {
 
             public void mousePressed( PInputEvent event ) {
                 initDragPoint = event.getPositionRelativeTo( sliderThumb.getParent() );
-                origY = value;
+                if( value < getMinRangeValue() ) {
+                    origY = getMinRangeValue();
+                }
+                else if( value > getMaxRangeValue() ) {
+                    origY = getMaxRangeValue();
+                }
+                else {
+                    origY = value;
+                }
                 notifySliderThumbGrabbed();
             }
 
