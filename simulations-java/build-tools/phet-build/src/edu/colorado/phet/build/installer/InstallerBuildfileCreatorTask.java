@@ -53,13 +53,25 @@ public class InstallerBuildfileCreatorTask extends AbstractPhetBuildTask {
         map.put( "FLAVORDIR", alphaNumeric(flavor) );
         map.put( "FLAVOR", projectFlavor.getTitle() );
         map.put( "DESCRIPTION", projectFlavor.getDescription() );
-        map.put( "JAR", phetProject.getJarFile().getAbsolutePath() );
+        map.put( "JAR", format( phetProject.getJarFile().getAbsolutePath()) );
         map.put( "CLASSNAME", projectFlavor.getMainclass() );
         map.put( "ARGUMENTS", getArgs( projectFlavor ) );
-        map.put( "INSTALLER-DATA-DIR", getProject().getBaseDir( )+"/build-tools/phet-build/installer-data/");
+//        System.out.println( "getProject().getBaseDir() = " + getProject().getBaseDir() );
+//        System.out.println( "getProject().getBaseDir().getAbsolutePath() = " + getProject().getBaseDir().getAbsolutePath() );
+        map.put( "INSTALLER-DATA-DIR", format(getProject().getBaseDir( ).getAbsolutePath())+"/build-tools/phet-build/installer-data/");
         //map.put( "PROJECT.PROPERTIES", getJNLPProperties() );
         //map.put( "PROJECT.DEPLOY.PATH", deployUrl );
         return map;
+    }
+
+    /*
+     * Paths are generated incorrectly when generating this under windows, for example:
+     *   <licenseFile>C:phetsubversiontrunksimulations-java/build-tools/phet-build/installer-data/license.txt</licenseFile>
+     *
+     * This solution is a workaround; I'm not sure what is the root of the problem.
+     */
+    private String format( String dir ) {
+        return dir.replace( '\\','/');
     }
 
     private String getArgs( PhetProjectFlavor projectFlavor ) {
@@ -72,5 +84,15 @@ public class InstallerBuildfileCreatorTask extends AbstractPhetBuildTask {
             }
         }
         return buffer.toString();
+    }
+
+    public static void main( String[] args ) throws IOException {
+        PhetProject phetProject=new PhetProject(new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations\\balloons") );
+        System.out.println( "phetProject = " + phetProject );
+
+        InstallerBuildfileCreatorTask installerBuildfileCreatorTask = new InstallerBuildfileCreatorTask();
+        installerBuildfileCreatorTask.setFlavor( "balloons");
+        HashMap map= installerBuildfileCreatorTask.createFilterMap( phetProject );
+        System.out.println( "map = " + map );
     }
 }
