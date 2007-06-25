@@ -84,6 +84,10 @@ public class MotionControlGraph extends ControlGraph {
                 jFreeChartCursorNode.setMaxDragTime( motionModel.getTimeSeriesModel().getRecordTime() );
                 System.out.println( "max record time=" + motionModel.getTimeSeriesModel().getRecordTime() );
             }
+
+            public void dataSeriesCleared() {
+                clear();
+            }
         } );
         updateCursorVisible( jFreeChartCursorNode, motionModel );
 
