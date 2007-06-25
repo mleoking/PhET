@@ -42,6 +42,9 @@
 
             <key>VMOptions</key>
             <string>-Xmx512m -Xms128m</string>
+            
+            <key>Arguments</key>
+            <string>@ARGUMENTS@</string>
 
             <key>Properties</key>
             <dict>
