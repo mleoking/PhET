@@ -67,6 +67,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.14 (?)
 6/25/07 - update E-field vectors when scale, power or run state of laser changes
 6/25/07 - only show value for E-field vector at center of trap
 6/25/07 - complete layout of sample points and vectors for E-field representation of laser
