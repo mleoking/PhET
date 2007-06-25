@@ -122,12 +122,7 @@ public class MovingManNode extends PNode {
 
         frame.setVisible( true );
 
-        swingClock.addClockListener( new ClockAdapter() {
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
-                rotationModel.stepInTime( clockEvent.getSimulationTimeChange() );
-            }
-        } );
-        swingClock.start();
+//        swingClock.start();
         rotationModel.setVelocityDriven();
         rotationModel.setVelocity( 0.1 );
     }
