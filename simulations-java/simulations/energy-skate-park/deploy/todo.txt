@@ -25,6 +25,7 @@ To Do:
     -I have had trouble reproducing this.
     -Played with this for quite awhile and kept friction on, changed tracks, visited different planets etc.. and could not reproduce it. (version 2.02)
 • When I zoom the E vs P graph, it clears
+• If you have checked PE reference and then Reset. The check mark stays, but the reference line is hid.
 
 Interview Questions:
 • Should PE=0 line be visible in space?
