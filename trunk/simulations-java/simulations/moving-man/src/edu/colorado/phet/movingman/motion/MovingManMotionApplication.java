@@ -52,11 +52,6 @@ public class MovingManMotionApplication {
 
         frame.setVisible( true );
 
-        swingClock.addClockListener( new ClockAdapter() {
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
-                motionModel.stepInTime( clockEvent.getSimulationTimeChange() );
-            }
-        } );
         swingClock.start();
         motionModel.setVelocityDriven();
         motionModel.setVelocity( 0.1 );

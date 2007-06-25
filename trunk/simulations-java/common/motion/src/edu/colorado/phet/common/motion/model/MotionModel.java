@@ -136,6 +136,7 @@ public class MotionModel implements IPositionDriven {
         currentState.setPosition( currentState.getMotionBody().getPosition() );
         updateStrategy.update( this, dt );
         currentState.stepInTime( dt );
+        System.out.println( "currentState.getTime() = " + currentState.getTime() );
 
         xVariable.setValue( getPosition() );
         vVariable.setValue( getVelocity() );
@@ -279,10 +280,6 @@ public class MotionModel implements IPositionDriven {
         }
     }
 
-    private double getTime() {
-        return currentState.getTime();
-    }
-
     public double getTime( SimulationVariable simulationVariable ) {
         if( isPositionDriven() ) {
             if( simulationVariable == xVariable ) {
@@ -300,10 +297,12 @@ public class MotionModel implements IPositionDriven {
             }
         }
         else if( isVelocityDriven() ) {
+            //todo: handle other cases for time offset
             System.out.println( "MotionModel.getTime: v" );
             return currentState.getTime();
         }
         else {
+            //todo: handle other cases for time offset
             System.out.println( "MotionModel.getTime, a" );
             return currentState.getTime();
         }
