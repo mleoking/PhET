@@ -25,6 +25,31 @@
 EOT;
     }
     
+    function generate_navigation_element($prefix, $selected_page, $link, $desc, $level) {
+        static $level_to_access_key = array();
+        
+        $html = '';
+
+        $this_element_is_selected = "$access_key" == "$selected_page";
+
+        if ($this_element_is_selected) {
+            $selected_status = "class=\"selected\"";
+        }
+        else {
+            $selected_status = '';
+        }
+
+        $html .= <<<EOT
+            <li $selected_status><a href="$prefix/$link">$desc</a></li>
+EOT;
+
+        if ($this_element_is_selected) {
+            $html .= $submenu_text;
+        }
+        
+        return $html;
+    }
+    
     function print_navigation_element($prefix, $selected_page, $link, $desc, $submenu_text) {
         static $access_key = 1;
         
@@ -194,6 +219,8 @@ EOT;
     }
     
     function print_site_page($content_printer, $selected_page = null) {
+        $request_uri = $_SERVER['REQUEST_URI'];
+        
         // Don't require authentication, but do it if the cookies are available:
         do_authentication(false);
         
@@ -466,6 +493,18 @@ EOT;
                             null, 'required_login_info_uid');                        
                     }
                     
+                    function string_ends_with(this_string, that_string) {
+                        return this_string.lastIndexOf(that_string) == this_string.length - that_string.length;
+                    }
+                    
+                    function select_current_navbar_category() {
+                        $("li a").each(function(a) {
+                            if (string_ends_with(this.href, "$request_uri")) {
+                                this.parentNode.className = 'selected';
+                            }
+                        });                        
+                    }
+                    
                     $(document).ready(
                         function() {
                             $('#contributor_name_uid').autocomplete('$prefix/admin/get-contributor-names.php',
@@ -475,6 +514,8 @@ EOT;
                                     }
                                 }
                             );
+                            
+                            select_current_navbar_category();
                         }
                     );
                     
