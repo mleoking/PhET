@@ -65,6 +65,7 @@
                 
                 foreach(research_get_all_by_category($category) as $research) {
                     print "<li>";
+                    
                     $research_id = $research['research_id'];
                     
                     research_print($research_id);

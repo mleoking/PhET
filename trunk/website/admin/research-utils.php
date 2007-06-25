@@ -153,30 +153,36 @@ EOT;
         return $array;
     }
     
-    function research_get_all_by_category($selected_cat) {
+    function research_get_publication_date($research) {
+        $year  = $research['research_publication_year'];
+        $month = $research['research_publication_month'];
+
+        if ($month == 'NA') {
+            $time_string = "January $year";
+        }
+        else {
+            $time_string = "$month $year";
+        }
+
+        return strtotime($time_string);
+    }
+    
+    function research_compare($research1, $research2) {
+        return research_get_publication_date($research1) - research_get_publication_date($research2);
+    }
+    
+    function research_get_all_by_category($selected_cat) {        
         $researches = array();
         
         foreach(research_get_all() as $research) {
             $current_cat = $research['research_category'];
             
             if (strtolower($current_cat) == strtolower($selected_cat)) {
-                $year  = $research['research_publication_year'];
-                $month = $research['research_publication_month'];
-
-                if ($month == 'NA') {
-                    $time_string = "January $year";
-                }
-                else {
-                    $time_string = "$month $year";
-                }
-
-                $time = strtotime($time_string);
-                
-                $researches[$time] = $research;
+                $researches[] = $research;
             }
         }
         
-        krsort($researches);
+        usort($researches, 'research_compare');
         
         return $researches;
     }
@@ -211,7 +217,11 @@ EOT;
                     <input type="text" name="research_category" value="$research_category" id="research_category_uid" size="25"/>
                     
                     <script type="text/javascript">
+                        /*<![CDATA[*/
+                        
                         $("#research_category_uid").autocompleteArray($cat_array);
+                        
+                        /*]]>*/
                     </script>
                 </span>
                 
