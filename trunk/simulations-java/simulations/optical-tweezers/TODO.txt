@@ -13,6 +13,7 @@ AAPT:
 - enable/disable controls based on clock speed
 - make "beam" the only laser display option in fast mode
 - add description to About dialog
+- make entire panel draggable, or add draggable frame around laser controls
 
 HIGH PRIORITY:
 
@@ -21,8 +22,7 @@ MEDIUM PRIORITY:
 - what units for E-field?
 - are there any cases where DNA strand's extension length exceeds contour length?
 - tune developer controls, pick appropriate defaults
-- add light grey draggable frame around laser controls, or make entire panel draggable
-- rail slider for laser ?
+- rail slider for laser?
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - dialogs don't repaint or close immediately when clock is running, thread priority?
 
