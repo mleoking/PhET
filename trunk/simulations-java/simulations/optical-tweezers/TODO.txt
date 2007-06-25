@@ -3,7 +3,6 @@
 ================================================================================
 
 IN PROGRESS:
-- what units for E-field?
 
 AAPT:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
@@ -19,6 +18,7 @@ HIGH PRIORITY:
 
 
 MEDIUM PRIORITY:
+- what units for E-field?
 - are there any cases where DNA strand's extension length exceeds contour length?
 - tune developer controls, pick appropriate defaults
 - add light grey draggable frame around laser controls, or make entire panel draggable
