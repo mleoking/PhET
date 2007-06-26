@@ -59,7 +59,13 @@ public class MotionModel implements IPositionDriven {
                 MotionModel.this.time = 0;
             }
         };
-        timeSeriesModel = new TimeSeriesModel( recordableModel, clock );
+        timeSeriesModel = new TimeSeriesModel( recordableModel, clock ){
+
+            public void setRecordMode() {
+                setPlaybackTime( getRecordTime());//todo: temporary workaround
+                super.setRecordMode();
+            }
+        };
         timeSeriesModel.setRecordMode();
 //        currentState = createModelState();
 
