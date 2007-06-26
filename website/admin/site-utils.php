@@ -469,11 +469,17 @@ EOT;
                     }
                     
                     function string_ends_with(this_string, that_string) {
-                        return this_string.lastIndexOf(that_string) == this_string.length - that_string.length;
+                        var index = this_string.lastIndexOf(that_string);
+                        
+                        if (index == -1) {
+                            return false;
+                        }
+                        
+                        return index == this_string.length - that_string.length;
                     }
                     
                     function select_current_navbar_category() {
-                        $("li a").each(function(a) {
+                        $("li a").each(function(i) {
                             if (string_ends_with(this.href, "$request_uri")) {
                                 this.parentNode.className = 'selected';
                             }
