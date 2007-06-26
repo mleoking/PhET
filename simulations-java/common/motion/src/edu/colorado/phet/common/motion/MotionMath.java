@@ -28,4 +28,12 @@ public class MotionMath {
         }
         return out.getComponent( 1 );
     }
+
+    public static double averageTime( TimeData[] datas ) {
+        double a = 0.0;
+        for( int i = 0; i < datas.length; i++ ) {
+            a += datas[i].getTime();
+        }
+        return a / datas.length;
+    }
 }

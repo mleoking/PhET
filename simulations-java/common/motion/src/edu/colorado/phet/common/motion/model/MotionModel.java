@@ -273,14 +273,6 @@ public class MotionModel implements IPositionDriven {
         return timeTimeSeries.getRecentData( numPrevSamples ).getValue();
     }
 
-    public void addVelocityPast( double v, int numPreviousSamples ) {
-        velocityTimeSeries.addValue( v, timeTimeSeries.getRecentData( numPreviousSamples ).getValue() );
-    }
-
-    public void addAccelerationPast( double accel, int numPreviousSamples ) {
-        accelerationTimeSeries.addValue( accel, timeTimeSeries.getRecentData( numPreviousSamples ).getValue() );
-    }
-
     public void setVelocity( double v ) {
         velocityTimeSeries.setValue( v );
     }
