@@ -26,15 +26,15 @@ public class TestDerivativeOffsets {
 
     private void showState( MotionModel motionModel ) {
 //        System.out.println( "t=" + motionModel.getTime() + ", x=" + motionModel.getPosition() + ", v=" + motionModel.getVelocity() + ", a=" + motionModel.getAcceleration() );
-        System.out.println( "x.t=" + motionModel.getTime() + ", x=" + motionModel.getPosition() +
-                            ", v.t=" + motionModel.getTime() + ", v=" + motionModel.getVelocity() +
-                            ", a.t=" + motionModel.getTime() + ", a=" + motionModel.getAcceleration() );
+        System.out.println( "x.t=" + motionModel.getTime() + ", x=" + motionModel.getMotionBody().getPosition() +
+                            ", v.t=" + motionModel.getTime() + ", v=" + motionModel.getMotionBody().getVelocity() +
+                            ", a.t=" + motionModel.getTime() + ", a=" + motionModel.getMotionBody().getAcceleration() );
     }
 
     private void start() {
         showState( motionModel );
         step( 100 );
-        motionModel.setPosition( 1.0 );
+        motionModel.getMotionBody().setPosition( 1.0 );
         step( 100 );
     }
 

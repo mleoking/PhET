@@ -32,10 +32,10 @@ public class TestVelocityDriven {
         rotationModel = new MotionModel( new SwingClock( 30, 1 ) );
         final VelocityDriven updateStrategy = new VelocityDriven();
         rotationModel.setUpdateStrategy( updateStrategy );
-        final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, rotationModel.getVelocity() );
+        final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, rotationModel.getMotionBody().getVelocity() );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                rotationModel.setVelocity( modelSlider.getValue() );
+                rotationModel.getMotionBody().setVelocity( modelSlider.getValue() );
             }
         } );
         timer = new Timer( 30, new ActionListener() {

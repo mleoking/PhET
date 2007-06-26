@@ -9,9 +9,8 @@ import java.util.List;
  * Author: Sam Reid
  * Jun 25, 2007, 11:31:28 PM
  */
-public class DefaultTimeSeries implements ITimeSeries, ISimulationVariable, ObservableTimeSeries {
+public class DefaultTimeSeries implements ITimeSeries, ObservableTimeSeries {
     private ArrayList data = new ArrayList();
-    private ArrayList simVarListeners = new ArrayList();
     private ArrayList obsListeners = new ArrayList();
 
     public DefaultTimeSeries() {
@@ -27,11 +26,6 @@ public class DefaultTimeSeries implements ITimeSeries, ISimulationVariable, Obse
 
     public void setValue( double value ) {
         getRecentData( 0 ).setValue( value );
-        notifyListeners();
-    }
-
-    public void addListener( Listener listener ) {
-        simVarListeners.add( listener );
     }
 
     public TimeData getData( int index ) {
@@ -58,7 +52,7 @@ public class DefaultTimeSeries implements ITimeSeries, ISimulationVariable, Obse
     public void addValue( double v, double time ) {
         TimeData o = new TimeData( v, time );
         data.add( o );
-        notifyListeners();
+//        notifyListeners();
         notifyObservers( o );
     }
 
@@ -69,11 +63,11 @@ public class DefaultTimeSeries implements ITimeSeries, ISimulationVariable, Obse
         }
     }
 
-    private void notifyListeners() {
-        for( int i = 0; i < simVarListeners.size(); i++ ) {
-            ( (Listener)simVarListeners.get( i ) ).valueChanged();
-        }
-    }
+//    private void notifyListeners() {
+//        for( int i = 0; i < simVarListeners.size(); i++ ) {
+//            ( (Listener)simVarListeners.get( i ) ).valueChanged();
+//        }
+//    }
 
     public double getTime() {
         return getRecentData( 0 ).getTime();
