@@ -24,15 +24,33 @@ public class TimeSeriesModel extends ClockAdapter {
     private Mode mode = live;//the current mode.
 
     private ArrayList listeners = new ArrayList();
+    private boolean paused;
 
-    public TimeSeriesModel( RecordableModel recordableModel, IClock clock ) {
+    public TimeSeriesModel( RecordableModel recordableModel, final IClock clock ) {
         this.recordableModel = recordableModel;
         this.clock = clock;
+        this.paused=clock.isPaused();
         this.mode = live;
+        clock.addClockListener( new ClockAdapter() {
+            public void clockStarted( ClockEvent clockEvent ) {
+                updatePauseStateFromClock();
+            }
+
+            public void clockPaused( ClockEvent clockEvent ) {
+                updatePauseStateFromClock();
+            }
+        } );
+    }
+
+    private void updatePauseStateFromClock() {
+        if (this.paused!=clock.isPaused()){
+            this.paused=clock.isPaused();
+            notifyPauseChanged();
+        }
     }
 
     public boolean isPaused() {
-        return clock.isPaused();
+        return paused;
     }
 
     public void addPlaybackTimeChangeListener( final PlaybackTimeListener playbackTimeListener ) {
@@ -74,7 +92,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void setPaused( boolean paused ) {
-        if( paused != clock.isPaused() ) {
+        if( this.paused != paused ) {
             if( paused ) {
                 clock.pause();
             }
@@ -177,7 +195,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public boolean isPlaybackMode( double speed ) {
-        return isPlaybackMode() && getSpeed()==speed;
+        return isPlaybackMode() && getSpeed() == speed;
     }
 
     public double getSpeed() {
