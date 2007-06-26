@@ -109,6 +109,9 @@ public class MotionModel implements IPositionDriven {
         time += dt;
         timeTimeSeries.addValue( time, time );
         updateStrategy.update( this, dt );
+        motionBody.setPosition( positionTimeSeries.getValue() );
+        motionBody.setVelocity( velocityTimeSeries.getValue() );
+        motionBody.setAcceleration( accelerationTimeSeries.getValue() );
 
         doStepInTime( dt );
         notifySteppedInTime();
