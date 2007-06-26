@@ -22,7 +22,7 @@ public class MotionBody implements Serializable {
         position = motionBody.position;
         velocity = motionBody.velocity;
         acceleration = motionBody.acceleration;
-        notifyAngleChanged( position - origPosition );
+        notifyPositionChanged( position - origPosition );
     }
 
     public void addListener( MotionBody.Listener listener ) {
@@ -34,10 +34,10 @@ public class MotionBody implements Serializable {
     }
 
     public void setPosition( double position ) {
-        double origAngle = this.position;
+        double origX = this.position;
         if( this.position != position ) {
             this.position = position;
-            notifyAngleChanged( position - origAngle );
+            notifyPositionChanged( position - origX );
         }
     }
 
@@ -62,13 +62,29 @@ public class MotionBody implements Serializable {
     }
 
     public static interface Listener {
-        void angleChanged( double dtheta );
+        void positionChanged( double dx );
+
+        void velocityChanged();
+
+        void accelerationChanged();
     }
 
-    public void notifyAngleChanged( double dtheta ) {
+    public static class Adapter implements Listener {
+
+        public void positionChanged( double dx ) {
+        }
+
+        public void velocityChanged() {
+        }
+
+        public void accelerationChanged() {
+        }
+    }
+
+    public void notifyPositionChanged( double dtheta ) {
         for( int i = 0; i < listeners.size(); i++ ) {
             MotionBody.Listener listener = (MotionBody.Listener)listeners.get( i );
-            listener.angleChanged( dtheta );
+            listener.positionChanged( dtheta );
         }
     }
 

@@ -4,6 +4,7 @@ import edu.colorado.phet.common.motion.model.MotionModelState;
 import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.DefaultSimulationVariable;
+import edu.colorado.phet.common.motion.graphs.ObservableTimeSeries;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 
@@ -54,8 +55,8 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
 
     protected MotionModelState createModelState() {
         RotationMotionModelState modelState = new RotationMotionModelState();
-        modelState.getMotionBody().addListener( new RotationPlatform.Listener() {//todo: memory leak
-            public void angleChanged( double dtheta ) {
+        modelState.getMotionBody().addListener( new RotationPlatform.Adapter() {//todo: memory leak
+            public void positionChanged( double dtheta ) {
                 getXPositionVariable().setValue( getCurrentState().getMotionBody().getPosition() );
             }
         } );

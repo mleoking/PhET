@@ -45,19 +45,18 @@ public class ControlGraph extends PNode {
     private Layout layout = new FlowLayout();
     private ArrayList series = new ArrayList();
     private ArrayList listeners = new ArrayList();
-//    private SimulationVariable simulationVariable;
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ObservableTimeSeries observableTimeSeries,
                          String abbr, String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, simulationVariable, abbr, title, minY, maxY, Color.black, new PText( "THUMB" ), timeSeriesModel );
+        this( pSwingCanvas, simulationVariable, observableTimeSeries, abbr, title, minY, maxY, Color.black, new PText( "THUMB" ), timeSeriesModel );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ObservableTimeSeries observableTimeSeries,
                          String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, simulationVariable, abbr, title, minY, maxY, color, thumb, timeSeriesModel, 1000 );
+        this( pSwingCanvas, simulationVariable, observableTimeSeries, abbr, title, minY, maxY, color, thumb, timeSeriesModel, 1000 );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ObservableTimeSeries observableTimeSeries,
                          String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel, int maxDomainTime ) {
         this.maxDomainValue = maxDomainTime;
 //        this.simulationVariable = simulationVariable;
@@ -77,7 +76,7 @@ public class ControlGraph extends PNode {
 //        dynamicJFreeChartNode.setBufferedImmediateSeries();
 
         graphTimeControlNode = new GraphTimeControlNode( timeSeriesModel );
-        addSeries( title, color, abbr, simulationVariable );
+        addSeries( title, color, abbr, simulationVariable, observableTimeSeries );
         jFreeChartSliderNode = new JFreeChartSliderNode( dynamicJFreeChartNode, thumb );
         zoomControl = new ZoomSuiteNode();
         zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {
@@ -197,7 +196,7 @@ public class ControlGraph extends PNode {
         zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDomainValue );
     }
 
-    public void addSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable ) {
+    public void addSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ObservableTimeSeries observableTimeSeries ) {
         series.add( simulationVariable );
         dynamicJFreeChartNode.addSeries( title, color );
 

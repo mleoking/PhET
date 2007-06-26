@@ -1,5 +1,6 @@
 package edu.colorado.phet.common.motion.model;
 
+import edu.colorado.phet.common.motion.graphs.ObservableTimeSeries;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -26,9 +27,9 @@ public class MotionModel implements IPositionDriven {
     private PositionDriven positionDriven = new PositionDriven();
     private VelocityDriven velocityDriven = new VelocityDriven();
     private AccelerationDriven accelDriven = new AccelerationDriven();
-
     private UpdateStrategy updateStrategy = positionDriven; //current strategy
 
+    private MotionBody motionBody = new MotionBody();
     private ArrayList listeners = new ArrayList();
 
     public MotionModel( IClock clock ) {
@@ -239,15 +240,49 @@ public class MotionModel implements IPositionDriven {
     }
 
     public ISimulationVariable getXVariable() {
-        return positionTimeSeries;
+        final DefaultSimulationVariable x = new DefaultSimulationVariable();
+        motionBody.addListener( new MotionBody.Adapter() {
+            public void positionChanged( double dx ) {
+                x.setValue( motionBody.getPosition() );
+            }
+        } );
+        x.addListener( new ISimulationVariable.Listener() {
+            public void valueChanged() {
+                motionBody.setPosition( x.getValue() );
+                positionTimeSeries.setValue( x.getValue() );//todo: this should only be used by user controllers, not during playback
+            }
+        } );
+        return x;
     }
 
     public ISimulationVariable getVVariable() {
-        return velocityTimeSeries;
+        final DefaultSimulationVariable v = new DefaultSimulationVariable();
+        motionBody.addListener( new MotionBody.Adapter() {
+            public void velocityChanged() {
+                v.setValue( motionBody.getVelocity() );
+            }
+        } );
+        v.addListener( new ISimulationVariable.Listener() {
+            public void valueChanged() {
+                motionBody.setVelocity( v.getValue() );
+            }
+        } );
+        return v;
     }
 
     public ISimulationVariable getAVariable() {
-        return accelerationTimeSeries;
+        final DefaultSimulationVariable a = new DefaultSimulationVariable();
+        motionBody.addListener( new MotionBody.Adapter() {
+            public void accelerationChanged() {
+                a.setValue( motionBody.getAcceleration() );
+            }
+        } );
+        a.addListener( new ISimulationVariable.Listener() {
+            public void valueChanged() {
+                motionBody.setAcceleration( a.getValue() );
+            }
+        } );
+        return a;
     }
 
     public static interface Listener {
@@ -269,4 +304,16 @@ public class MotionModel implements IPositionDriven {
         return time;
     }
 
+
+    public ObservableTimeSeries getXTimeSeries() {
+        return positionTimeSeries;
+    }
+
+    public ObservableTimeSeries getVTimeSeries() {
+        return velocityTimeSeries;
+    }
+
+    public ObservableTimeSeries getATimeSeries() {
+        return accelerationTimeSeries;
+    }
 }

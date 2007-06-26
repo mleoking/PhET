@@ -1,5 +1,7 @@
 package edu.colorado.phet.common.motion.model;
 
+import edu.colorado.phet.common.motion.graphs.ObservableTimeSeries;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +9,10 @@ import java.util.List;
  * Author: Sam Reid
  * Jun 25, 2007, 11:31:28 PM
  */
-public class DefaultTimeSeries implements ITimeSeries, ISimulationVariable {
+public class DefaultTimeSeries implements ITimeSeries, ISimulationVariable, ObservableTimeSeries {
     private ArrayList data = new ArrayList();
-    private ArrayList listeners = new ArrayList();
+    private ArrayList simVarListeners = new ArrayList();
+    private ArrayList obsListeners = new ArrayList();
 
     public DefaultTimeSeries() {
     }
@@ -28,7 +31,7 @@ public class DefaultTimeSeries implements ITimeSeries, ISimulationVariable {
     }
 
     public void addListener( Listener listener ) {
-        listeners.add( listener );
+        simVarListeners.add( listener );
     }
 
     public TimeData getData( int index ) {
@@ -53,13 +56,22 @@ public class DefaultTimeSeries implements ITimeSeries, ISimulationVariable {
     }
 
     public void addValue( double v, double time ) {
-        data.add( new TimeData( v, time ) );
+        TimeData o = new TimeData( v, time );
+        data.add( o );
         notifyListeners();
+        notifyObservers( o );
+    }
+
+    private void notifyObservers( TimeData o ) {
+        for( int i = 0; i < obsListeners.size(); i++ ) {
+            ObservableTimeSeries.ObservableTimeSeriesListener observableTimeSeriesListener = (ObservableTimeSeries.ObservableTimeSeriesListener)obsListeners.get( i );
+            observableTimeSeriesListener.dataAdded( o );
+        }
     }
 
     private void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).valueChanged();
+        for( int i = 0; i < simVarListeners.size(); i++ ) {
+            ( (Listener)simVarListeners.get( i ) ).valueChanged();
         }
     }
 
@@ -91,5 +103,9 @@ public class DefaultTimeSeries implements ITimeSeries, ISimulationVariable {
 //        System.out.println( "DefaultTimeSeries.getRecentSeries: numPts="+numPts+", sampleCount="+getSampleCount() );
         List subList = data.subList( data.size() - numPts, data.size() );
         return (TimeData[])subList.toArray( new TimeData[0] );
+    }
+
+    public void addListener( ObservableTimeSeries.ObservableTimeSeriesListener observableTimeSeriesListener ) {
+        obsListeners.add( observableTimeSeriesListener );
     }
 }
