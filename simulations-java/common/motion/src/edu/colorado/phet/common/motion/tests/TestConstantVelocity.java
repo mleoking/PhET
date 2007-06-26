@@ -16,13 +16,13 @@ public class TestConstantVelocity {
         PositionDriven updateRule = new PositionDriven();
         MotionModel model = new MotionModel( new SwingClock( 30, 1 ) );
         model.setUpdateStrategy( updateRule );
-        System.out.println( "init state=" + model.getLastState() );
+        System.out.println( "init state=" + model );
         for( int i = 0; i <= 100; i++ ) {
             model.stepInTime( 1.0 );
-            System.out.println( "i = " + i + ", state=" + model.getLastState() );
+            System.out.println( "i = " + i + ", state=" + model);
         }
 
-        TimeData[] timeData = model.getAccelerationTimeSeries( 5 );
+        TimeData[] timeData = model.getRecentAccelerationTimeSeries( 5 );
         for( int i = 0; i < timeData.length; i++ ) {
             TimeData data = timeData[i];
             System.out.println( "i = " + i + ", data=" + data );

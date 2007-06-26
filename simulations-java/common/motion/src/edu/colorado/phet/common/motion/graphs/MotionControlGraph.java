@@ -117,7 +117,7 @@ public class MotionControlGraph extends ControlGraph {
     private MotionModel.Listener getListener( final SimulationVariable simulationVariable ) {
         return new MotionModel.Listener() {
             public void steppedInTime() {
-                addValue( getSeriesIndex( simulationVariable ), motionModel.getTime( simulationVariable ), simulationVariable.getValue() );
+                addValue( getSeriesIndex( simulationVariable ), motionModel.getTime(simulationVariable), simulationVariable.getValue() );
             }
         };
     }
