@@ -25,7 +25,13 @@
 EOT;
     }
     
-    function print_navigation_element($prefix, $selected_page, $link, $desc, $submenu_text) {
+    function print_subnavigation_element($prefix, $link, $desc) {
+        print <<<EOT
+        <li class="sub"><span class="sub-nav"><a href="$prefix/$link">→ $desc</a></span></li>
+EOT;
+    }
+    
+    function print_navigation_element($prefix, $selected_page, $link, $desc, $submenus = array()) {
         static $access_key = 1;
         
         $this_element_is_selected = "$access_key" == "$selected_page";
@@ -42,30 +48,24 @@ EOT;
 EOT;
 
         if ($this_element_is_selected) {
-            print $submenu_text;
+            foreach($submenus as $key => $value) {
+                print_subnavigation_element($prefix, $key, $value);
+            }
         }
 
         $access_key = $access_key + 1;
     }
     
-    function get_sim_categories_html($prefix) {
-        global $connection;
-        
-        $categories = '';
+    function get_sim_categories_for_navbar($prefix) {
+        $categories = array();
 
-        // List all the categories:
-
-        // start selecting SIMULATION CATEGORIES from database table
-        $category_table = mysql_query(SQL_SELECT_ALL_VISIBLE_CATEGORIES, $connection);
-
-        while ($category = mysql_fetch_assoc($category_table)) {
+        foreach (sim_get_visible_categories() as $category) {
             $cat_id   = $category['cat_id'];
-            $cat_name = format_for_html($category['cat_name']);
+            $cat_name = $category['cat_name'];
 
-            $desc = "&rarr; $cat_name";
-            $link = sim_get_category_link_by_cat_id($cat_id, $desc);
+            $link = sim_get_category_url_by_cat_id($cat_id);
 
-            $categories .= "<li class=\"sub\"><span class=\"sub-nav\">$link</span></li>";          
+            $categories["$link"] = $cat_name;
         } 
         
         return $categories;
@@ -77,92 +77,110 @@ EOT;
                 <ul>
 EOT;
 
-        print_navigation_element($prefix, $selected_page, "index.php",                 "Home",
-            ''
+        print_navigation_element(
+            $prefix, 
+            $selected_page, 
+            "index.php", 
+            "Home"
         );
         
-        print_navigation_element($prefix, $selected_page, "simulations/index.php",      "Simulations",
-            get_sim_categories_html($prefix)
+        print_navigation_element(
+            $prefix, 
+            $selected_page, 
+            "simulations/index.php",
+            "Simulations",
+            get_sim_categories_for_navbar($prefix)
         );
 
-        $login_option = '';
-        $logout_option = '';
+        $teacher_ideas_subs = array();
         
         if (!isset($GLOBALS['contributor_authenticated']) || $GLOBALS['contributor_authenticated'] == false) {
-            $login_option = <<<EOT
-                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/login.php">→ Login</a></span></li>
-EOT;
-        }
-        else {
-            $logout_option = <<<EOT
-                <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/user-logout.php">→ Logout</a></span></li>
-EOT;
+            $teacher_ideas_subs['teacher_ideas/login.php'] = 'Login';
         }
         
-        print_navigation_element($prefix, $selected_page, "teacher_ideas/index.php",   "Teacher Ideas &amp; Activities",
-            <<<EOT
-            <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/browse.php">→ Browse</a></span></li>
-            
-            $login_option
-
-            <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/contribute.php">→ New Contribution</a></span></li>
-
-            <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/manage-contributions.php">→ Manage Contributions</a></span></li>  
-            
-            <li class="sub"><span class="sub-nav"><a href="$prefix/teacher_ideas/user-edit-profile.php">→ Edit Profile</a></span></li>                
-            
-            $logout_option
-EOT
+        $teacher_ideas_subs['teacher_ideas/browse.php']                 = 'Browse';
+        $teacher_ideas_subs['teacher_ideas/contribute.php']             = 'New Contribution';
+        $teacher_ideas_subs['teacher_ideas/manage-contributions.php']   = 'My Contributions';
+        $teacher_ideas_subs['teacher_ideas/user-edit-profile.php']      = 'My Profile';
+        
+        if (isset($GLOBALS['contributor_authenticated']) && $GLOBALS['contributor_authenticated'] == true) {
+            $teacher_ideas_subs['teacher_ideas/user-logout.php'] = 'Logout';
+        }
+        
+        print_navigation_element(
+            $prefix, 
+            $selected_page,
+            "teacher_ideas/index.php",
+            "Teacher Ideas &amp; Activities",
+            $teacher_ideas_subs
         );
         
-        print_navigation_element($prefix, $selected_page, "get_phet/index.php",        "Run our Simulations",
-            <<<EOT
-            <li class="sub"><span class="sub-nav"><a href="$prefix/get_phet/full_install.php">→ Full Install</a></span></li>
-
-            <li class="sub"><span class="sub-nav"><a href="$prefix/get_phet/simlauncher.php">→ Partial Install</a></span></li>
-EOT
+        print_navigation_element(
+            $prefix, $selected_page, 
+            "get_phet/index.php",        
+            "Run our Simulations",
+            array(
+                'get_phet/full_install.php' => 'Full Install',
+                'get_phet/simlauncher.php'  => 'Partial Install'
+            )
         );
         
-        print_navigation_element($prefix, $selected_page, "tech_support/index.php",    "Technical Support",
-            <<<EOT
-            <li class="sub"><span class="sub-nav"><a href="$prefix/tech_support/support-java.php">→ Java</a></span></li>
-
-            <li class="sub"><span class="sub-nav"><a href="$prefix/tech_support/support-flash.php">→ Flash</a></span></li>
-EOT
+        print_navigation_element(
+            $prefix, 
+            $selected_page, 
+            "tech_support/index.php",    
+            "Technical Support",
+            array(
+                'tech_support/support-java.php'     => 'Java',
+                'tech_support/support-flash.php'    => 'Flash'
+            )
         );
         
-        print_navigation_element($prefix, $selected_page, "contribute/index.php",      "Contribute",
-            ''
+        print_navigation_element(
+            $prefix, 
+            $selected_page, 
+            "contribute/index.php", 
+            "Contribute"
         );
         
-        print_navigation_element($prefix, $selected_page, "research/index.php",        "Research",
-            ''
+        print_navigation_element(
+            $prefix, 
+            $selected_page, 
+            "research/index.php", 
+            "Research"
         );
         
-        print_navigation_element($prefix, $selected_page, "about/index.php",           "About PhET",
-            <<<EOT
-            <li class="sub"><span class="sub-nav"><a href="$prefix/about/contact.php">→ Contact</a></span></li>
-
-            <li class="sub"><span class="sub-nav"><a href="$prefix/about/licensing.php">→ Licensing</a></span></li>
-EOT
+        print_navigation_element(
+            $prefix, 
+            $selected_page, 
+            "about/index.php",           
+            "About PhET",
+            array(
+                'about/contact.php'     => 'Contact',
+                'about/licensing.php'   => 'Licensing'
+            )
         );
         
         if (isset($GLOBALS['contributor_is_team_member']) && $GLOBALS['contributor_is_team_member'] == 1) {        
-            print_navigation_element($prefix, $selected_page, "admin/index.php",           "Administrative",
-                <<<EOT
-                <li class="sub"><span class="sub-nav"><a href="$prefix/admin/new-sim.php">→ Add Simulation</a></span></li>
+            print_navigation_element(
+                $prefix, 
+                $selected_page, 
+                "admin/index.php",           
+                "Administrative",
+                array(
+                    'admin/new-sim.php' => 'Add Simulation', 
 
-                <li class="sub"><span class="sub-nav"><a href="$prefix/admin/choose-sim.php">→ Edit Simulation</a></span></li>
+                    'admin/choose-sim.php' => 'Edit Simulation', 
             
-                <li class="sub"><span class="sub-nav"><a href="$prefix/admin/list-sims.php">→ List Simulations</a></span></li>
+                    'admin/list-sims.php' => 'List Simulations', 
             
-                <li class="sub"><span class="sub-nav"><a href="$prefix/admin/organize-cats.php">→ Organize Categories</a></span></li>
+                    'admin/organize-cats.php' => 'Organize Categories', 
             
-                <li class="sub"><span class="sub-nav"><a href="$prefix/admin/manage-contributors.php">→ Manage Contributors</a></span></li>
+                    'admin/manage-contributors.php' => 'Manage Contributors', 
                 
-                <li class="sub"><span class="sub-nav"><a href="$prefix/admin/compose-newsletter.php">→ Compose Newsletter</a></span></li>
-EOT
-            );        
+                    'admin/compose-newsletter.php' => 'Compose Newsletter'
+                )
+            );
         }
                     
         print <<<EOT

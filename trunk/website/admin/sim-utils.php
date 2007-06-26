@@ -89,10 +89,36 @@
         return $cats;
     }
     
+    function sim_get_visible_categories() {
+        $cats = array();
+        
+        $result = db_exec_query("SELECT * FROM `category` WHERE `cat_is_visible`='1' ORDER BY `cat_order` ASC ");
+        
+        while ($cat = mysql_fetch_assoc($result)) {
+            $encoded = web_encode_string($cat['cat_name']);
+            
+            $cats[$encoded] = $cat;
+        }
+        
+        return $cats;
+    }
+    
     function sim_get_category_names() {
         $names = array();
         
-        $cats = sim_get_cats();
+        $cats = sim_get_categories();
+        
+        foreach($cats as $key => $cat) {
+            $names[$key] = $cat['cat_name'];
+        }
+        
+        return $names;
+    }
+    
+    function sim_get_visible_category_names() {
+        $names = array();
+        
+        $cats = sim_get_visible_categories();
         
         foreach($cats as $key => $cat) {
             $names[$key] = $cat['cat_name'];
@@ -109,6 +135,15 @@
             $class_html = 'class="'.$class.'"';
         }
         return '<a '.$class_html.' href="../simulations/index.php?cat='.$cat_encoding.$extra_param.'">'.$desc.'</a>';
+    }
+    
+    function sim_get_category_url_by_cat_id($cat_id) {
+        $category = db_get_row_by_id('category', 'cat_id', $cat_id);
+        
+        $cat_name     = $category['cat_name'];
+        $cat_encoding = web_encode_string($cat_name);
+        
+        return "simulations/index.php?cat=$cat_encoding";
     }
     
     function sim_get_category_link_by_cat_id($cat_id, $desc, $extra_param = '', $class = '') {
