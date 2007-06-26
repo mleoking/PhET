@@ -327,6 +327,10 @@ public class MotionModel implements IPositionDriven {
         }
     }
 
+    public TimeData getVelocity( int index ) {
+        return velocityTimeSeries.getData( index );
+    }
+
     public static interface Listener {
         void steppedInTime();
     }
