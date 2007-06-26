@@ -7,8 +7,9 @@ import java.util.List;
  * Author: Sam Reid
  * Jun 25, 2007, 11:31:28 PM
  */
-public class DefaultTimeSeries implements ITimeSeries {
+public class DefaultTimeSeries implements ITimeSeries, ISimulationVariable {
     private ArrayList data = new ArrayList();
+    private ArrayList listeners = new ArrayList();
 
     public DefaultTimeSeries() {
     }
@@ -17,8 +18,17 @@ public class DefaultTimeSeries implements ITimeSeries {
         addValue( initValue, initTime );
     }
 
+    public TimeData getData() {
+        return getRecentData( 0 );
+    }
+
     public void setValue( double value ) {
         getRecentData( 0 ).setValue( value );
+        notifyListeners();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 
     public TimeData getData( int index ) {
@@ -44,6 +54,13 @@ public class DefaultTimeSeries implements ITimeSeries {
 
     public void addValue( double v, double time ) {
         data.add( new TimeData( v, time ) );
+        notifyListeners();
+    }
+
+    private void notifyListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener)listeners.get( i ) ).valueChanged();
+        }
     }
 
     public double getTime() {
