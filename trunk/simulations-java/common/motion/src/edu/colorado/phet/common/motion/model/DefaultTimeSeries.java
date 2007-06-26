@@ -37,6 +37,9 @@ public class DefaultTimeSeries implements ITimeSeries {
 
     public void clear() {
         data.clear();
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener)listeners.get( i )).dataCleared();
+        }
     }
 
     public double getValue() {

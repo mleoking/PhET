@@ -16,7 +16,6 @@ public class MotionBodySeries {
     private AccelerationDriven accelDriven = new AccelerationDriven();
     private UpdateStrategy updateStrategy = positionDriven; //current strategy
 
-
     public DefaultTimeSeries getXTimeSeries() {
         return positionTimeSeries;
     }
@@ -101,7 +100,6 @@ public class MotionBodySeries {
     }
 
     public void clear() {
-
         positionTimeSeries.clear();
         velocityTimeSeries.clear();
         accelerationTimeSeries.clear();
