@@ -201,6 +201,18 @@
         return $cleans;
     }
     
+    function sim_get_cat_by_cat_encoding($cat_encoding) {
+        $categories = sim_get_categories();
+        
+        return $categories[$cat_encoding];
+    }
+    
+    function sim_get_cat_id_by_cat_encoding($cat_encoding) {
+        $category = sim_get_cat_by_cat_encoding($cat_encoding);
+        
+        return $category['cat_id'];
+    }
+    
     function sim_get_all_sim_names() {
         $simulations = array();
         

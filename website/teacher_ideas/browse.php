@@ -391,6 +391,18 @@ EOT;
 EOT;
 
         print_content_only();
+        
+        if (isset($_REQUEST['cat'])) {
+            $cat_encoding = $_REQUEST['cat'];
+            
+            print <<<EOT
+                <div class="clear">
+                    <p>
+                        <a href="../simulations/index.php?cat=$cat_encoding">back to simulations</a>
+                    </p>
+                </div>
+EOT;
+        }
     }
     
     global $sort_by, $order, $next_order, $Types, $Simulations, $Levels;
@@ -423,21 +435,36 @@ EOT;
     
     $Simulations = array( 'all' );
     
-    if (isset($_REQUEST['Simulations'])) {
-        $Simulations = $_REQUEST['Simulations'];
+    if (isset($_REQUEST['cat'])) {
+        $Simulations = array();
+        
+        $cat_encoding = $_REQUEST['cat'];
+        
+        $cat_id = sim_get_cat_id_by_cat_encoding($cat_encoding);
+        
+        $sims = sim_get_sims_by_cat_id($cat_id);
+        
+        foreach($sims as $sim) {
+            $Simulations[] = $sim['sim_name'];
+        }
     }
     else {
-        if (isset($GLOBALS['sim_id'])) {
-            $sim_id = $GLOBALS['sim_id'];
+        if (isset($_REQUEST['Simulations'])) {
+            $Simulations = $_REQUEST['Simulations'];
         }
-        else if (isset($_REQUEST['sim_id'])) {
-            $sim_id = $_REQUEST['sim_id'];
-        }
+        else {
+            if (isset($GLOBALS['sim_id'])) {
+                $sim_id = $GLOBALS['sim_id'];
+            }
+            else if (isset($_REQUEST['sim_id'])) {
+                $sim_id = $_REQUEST['sim_id'];
+            }
         
-        if (isset($sim_id)) {            
-            $sim = sim_get_sim_by_id($sim_id);
+            if (isset($sim_id)) {            
+                $sim = sim_get_sim_by_id($sim_id);
             
-            $Simulations = array( $sim['sim_name'] );
+                $Simulations = array( $sim['sim_name'] );
+            }
         }
     }
     

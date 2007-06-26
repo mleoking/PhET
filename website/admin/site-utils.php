@@ -25,31 +25,6 @@
 EOT;
     }
     
-    function generate_navigation_element($prefix, $selected_page, $link, $desc, $level) {
-        static $level_to_access_key = array();
-        
-        $html = '';
-
-        $this_element_is_selected = "$access_key" == "$selected_page";
-
-        if ($this_element_is_selected) {
-            $selected_status = "class=\"selected\"";
-        }
-        else {
-            $selected_status = '';
-        }
-
-        $html .= <<<EOT
-            <li $selected_status><a href="$prefix/$link">$desc</a></li>
-EOT;
-
-        if ($this_element_is_selected) {
-            $html .= $submenu_text;
-        }
-        
-        return $html;
-    }
-    
     function print_navigation_element($prefix, $selected_page, $link, $desc, $submenu_text) {
         static $access_key = 1;
         
@@ -140,7 +115,7 @@ EOT;
 EOT
         );
         
-        print_navigation_element($prefix, $selected_page, "get_phet/index.php",        "Running our Simulations",
+        print_navigation_element($prefix, $selected_page, "get_phet/index.php",        "Run our Simulations",
             <<<EOT
             <li class="sub"><span class="sub-nav"><a href="$prefix/get_phet/full_install.php">→ Full Install</a></span></li>
 

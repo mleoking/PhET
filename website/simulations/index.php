@@ -11,14 +11,11 @@
         if (isset($_REQUEST['cat'])) {
             $cat_encoding = $_REQUEST['cat'];
             
-            $categories = sim_get_categories();
-            
-            $category = $categories[$cat_encoding];
-            
-            $cat_id = $category['cat_id'];
+            $cat_id = sim_get_cat_id_by_cat_encoding($cat_encoding);
         }
         else {
-            $cat_id = 1;
+            $cat_encoding = 'Top_Simulations';
+            $cat_id       = 1;
         }
 
         $select_category_st = "SELECT * FROM `category` WHERE `cat_id`='$cat_id'";
@@ -196,8 +193,16 @@ EOT;
                 print "<a href=\"sims.php?sim_id=$sim_id\">$sim_name</a><br />";
             }
             
-            print "</div>";                    
-        }
+            print "</div>";
+        }    
+            
+        print <<<EOT
+            <div class="clear">
+                <p>
+                    <a href="../teacher_ideas/browse.php?cat=$cat_encoding">view teacher ideas &amp; activities</a>
+                </p>
+            </div>
+EOT;
     }
 
     print_site_page('print_content', 2);

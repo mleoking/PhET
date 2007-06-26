@@ -785,7 +785,6 @@ ul.content-points li a:hover {
 }
 #get_phet {
 	width:		520px;
-	float:		left;
 	margin:		0px 0px 10px 0px;
 	padding:	0px 0px 0px 0px;
 	background:	none;
@@ -809,27 +808,27 @@ th.spec {
 	border-left:1px solid #C1DAD7;
 	border-top:0;
 	background:#fff url(../images/bullet1.gif) no-repeat;
-	font:bold 10px "arial",Verdana,Arial,Helvetica,sans-serif;
+	font:bold 10pt "arial",Verdana,Arial,Helvetica,sans-serif;
 }
 th.spec-none {
 	border-left:1px solid #C1DAD7;
 	border-top:0;
 	background:#133078;
-	font:bold 10px "arial",Verdana,Arial,Helvetica,sans-serif;
+	font:bold 10pt "arial",Verdana,Arial,Helvetica,sans-serif;
 	color:#fff;
 }
 th.specalt {
 	border-left:1px solid #C1DAD7;
 	border-top:0;
 	background:#f5fafa url(../images/bullet2.gif) no-repeat;
-	font:bold 10px "arial",Verdana,Arial,Helvetica,sans-serif;
+	font:bold 10pt "arial",Verdana,Arial,Helvetica,sans-serif;
 	color:#797268;
 }
 th.specalt-none {
 	border-left:1px solid #C1DAD7;
 	border-top:0;
 	background:#133078;
-	font:bold 10px "arial",Verdana,Arial,Helvetica,sans-serif;
+	font:bold 10pt "arial",Verdana,Arial,Helvetica,sans-serif;
 	color:#fff;
 }
 #hb {
@@ -955,25 +954,15 @@ h1.indi-sim {
 	margin: 0px 0 5px 15px;
 }
 /* list of people -- e.g. contacts page */
-ul.people {
+#people ul {
 	margin-top:10px;
 	font-size: larger;
 	padding:0;
 }
-ul.people li {
+#people ul li {
 	position:relative;
 	border-bottom:1px solid #E3E3E3;
 	clear: right;
-}
-ul.people li em {
-	margin-left:0px;
-}
-ul.people li span {
-	position:absolute;
-	right:0;
-}
-ul.people li span a {
-	margin-left:15px;
 }
 ul.people li.hewlett {
 	position:relative;
@@ -1033,7 +1022,12 @@ img.bordered_sponsors {
 .faq {
 	width: 500px;
 }
-
+#faq ul li {
+	margin-bottom: 1.5ex;
+}
+#faq ul li a {
+	font-size: 10pt;
+}
 .ac_results {
 	padding: 0px;
 	border: 1px solid WindowFrame;

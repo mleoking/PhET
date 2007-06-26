@@ -1,12 +1,13 @@
 <?php
 
     include_once("../admin/site-utils.php");
+    include_once("../admin/contrib-utils.php");
     
     function print_content() {
         ?>
         <h1>Contact Info</h1>
 
-        <div class="cellTwo">
+        <div>
             <h2 style="margin-bottom: -10px;">The PhET Project:</h2>
 
             <p style="margin-left:0px;">c/o Mindy Gratny<br />
@@ -37,10 +38,8 @@
             
             <h4>The PhET Team</h4>
             
-            <ul class="people">
+            <ul id="people">
                 <?php
-                
-                    include_once("../admin/contrib-utils.php");
                     
                     $team_members = contributor_get_team_members();
                     

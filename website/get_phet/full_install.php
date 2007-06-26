@@ -51,6 +51,8 @@
                     <th scope="row" abbr="" class="spec"><a href="/"><img src="../images/checkbox.jpg" />&nbsp;download (approx. 65MB)</a></th>
                 </tr>
             </table>
+            
+            <br/>
 
             <p>For instructions on creating your own installation CD, <a href="/"><u>click here</u></a>.</p>
 
