@@ -8,9 +8,9 @@
 
             <p>This page will help you solve some of the problems people commonly have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.</p>
 
-            <p>To run the Flashñbased simulations you must have Flash 7 (available free) or newer installed on your computer.</p><a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"><img src="../images/get-flash.gif" /></a>
+            <p>To run the Flash-based simulations you must have Flash 7 (available free) or newer installed on your computer.</p><a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"><img src="../images/get-flash.gif" /></a>
 
-            <p>If you get a blank window when you try to launch a flash simulation, you probably need a new version of the Flash player.</p>
+            <p>If you get a blank window when you try to launch a Flash simulation, you probably need a new version of the Flash player.</p>
 
             <p>Older versions of the Flash Player can cause problems. Updating your flash player is recommended if you receive an error similar to:<br />
             <br />
