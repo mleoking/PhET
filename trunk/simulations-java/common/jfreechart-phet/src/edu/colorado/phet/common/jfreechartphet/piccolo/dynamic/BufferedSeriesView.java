@@ -69,6 +69,9 @@ public class BufferedSeriesView extends SeriesView {
         }
     }
 
+    public void dataCleared() {
+    }
+
     private void drawPoint( int index ) {
         BufferedImage image = getDynamicJFreeChartNode().getBuffer();
         Graphics2D graphics2D = image.createGraphics();

@@ -40,6 +40,10 @@ public abstract class SeriesView {
         public void dataAdded() {
             SeriesView.this.dataAdded();
         }
+
+        public void dataCleared() {
+            SeriesView.this.dataCleared();
+        }
     };
 
     public SeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
@@ -48,7 +52,8 @@ public abstract class SeriesView {
     }
 
     public abstract void dataAdded();
-
+    public abstract void dataCleared();
+    
     public void uninstall() {
         seriesData.removeListener( listener );
     }
