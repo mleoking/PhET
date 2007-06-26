@@ -84,7 +84,7 @@ public class MovingManNode extends PNode {
 //                super.mouseDragged( event );
 //                manImage.setOffset( event.getPositionRelativeTo( manImage.getParent() ) );
                 motionModel.setPositionDriven();
-                motionModel.setPosition(event.getPositionRelativeTo( manImage.getParent( )).getX() );
+                motionModel.getMotionBody().setPosition(event.getPositionRelativeTo( manImage.getParent( )).getX() );
             }
         } );
 
@@ -99,7 +99,7 @@ public class MovingManNode extends PNode {
 
     private void updateObject( PNode object, MotionModel rotationModel ) {
 //        object.setOffset( rotationModel.getPosition() - object.getFullBounds().getWidth() / 2/object.getScale(), 2.0 - object.getFullBounds().getHeight()/object.getScale() );
-        object.setOffset( rotationModel.getPosition()-object.getFullBounds().getWidth()/2, 2.0-object.getFullBounds().getHeight() );
+        object.setOffset( rotationModel.getMotionBody().getPosition()-object.getFullBounds().getWidth()/2, 2.0-object.getFullBounds().getHeight() );
     }
 
     public static void main( String[] args ) {
@@ -122,6 +122,6 @@ public class MovingManNode extends PNode {
 
 //        swingClock.start();
         rotationModel.setVelocityDriven();
-        rotationModel.setVelocity( 0.1 );
+        rotationModel.getMotionBody().setVelocity( 0.1 );
     }
 }

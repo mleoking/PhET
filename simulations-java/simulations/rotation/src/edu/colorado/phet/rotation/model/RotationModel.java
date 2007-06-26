@@ -53,6 +53,10 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         }
     }
 
+    private MotionModelState getCurrentState() {
+        return null;//todo: fix this
+    }
+
     protected MotionModelState createModelState() {
         RotationMotionModelState modelState = new RotationMotionModelState();
         modelState.getMotionBody().addListener( new RotationPlatform.Adapter() {//todo: memory leak
@@ -96,7 +100,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     }
 
     private RotationMotionModelState getCurrentRotationModelState() {
-        return (RotationMotionModelState)super.getCurrentState();
+        return (RotationMotionModelState)getCurrentState();
     }
 
     public int getNumRotationBodies() {

@@ -25,7 +25,7 @@ public class TestPositionDrivenOffsets extends TestCase {
 
     private void showState( MotionModel motionModel ) {
 //        System.out.println( "t=" + motionModel.getTime() + ", x=" + motionModel.getPosition() + ", v=" + motionModel.getVelocity() + ", a=" + motionModel.getAcceleration() );
-        System.out.println( "x.t=" + motionModel.getTime() + ", x=" + motionModel.getPosition() + ", v=" + motionModel.getVelocity() + ", a=" + motionModel.getAcceleration() );
+        System.out.println( "x.t=" + motionModel.getTime() + ", x=" + motionModel.getMotionBody().getPosition() + ", v=" + motionModel.getMotionBody().getVelocity() + ", a=" + motionModel.getMotionBody().getAcceleration() );
     }
 
     public void testDerivativeOffsets() {
@@ -64,10 +64,10 @@ public class TestPositionDrivenOffsets extends TestCase {
         if( verbose ) {
             showState( motionModel );
         }
-        motionModel.setPosition( x0 );
+        motionModel.getMotionBody().setPosition( x0 );
         step( clock, motionModel, numStepsBefore );
         double t0 = motionModel.getTime();
-        motionModel.setPosition( xFinal );
+        motionModel.getMotionBody().setPosition( xFinal );
         step( clock, motionModel, 1 );
         double t1 = motionModel.getTime();
         step( clock, motionModel, numStepsAfter );
@@ -76,7 +76,6 @@ public class TestPositionDrivenOffsets extends TestCase {
         double timeForMaxVelocity = motionModel.getMaxVelocity().getTime();
         double zeroAccelTime = ( motionModel.getMaxAcceleration().getTime() + motionModel.getMinAcceleration().getTime() ) / 2.0;
 //        System.out.println( "timeXChanged=" + timeXChanged + ", timeForMaxVelocity=" + timeForMaxVelocity + ", zeroAccelTime=" + zeroAccelTime );
-        assertEquals( "Acceleration should have max and min centered on time position changes", timeXChanged, zeroAccelTime, tolerance );
 
         if( verbose ) {
             DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
@@ -86,6 +85,7 @@ public class TestPositionDrivenOffsets extends TestCase {
             System.out.println( "timeXChanged=" + timeXChanged + ", timeForMaxVelocity=" + timeForMaxVelocity );
         }
 //        System.out.println( "timeXChanged=" + timeXChanged + ", timeForMaxVelocity=" + timeForMaxVelocity );
+        assertEquals( "Acceleration should have max and min centered on time position changes", timeXChanged, zeroAccelTime, tolerance );
         assertEquals( "time X Changed should be same as when velocity peaks: dt=" + dt + ", x0=" + x0 + ", xF=" + xFinal + ", maxWindowSize=" + maxWindowSize, timeXChanged, timeForMaxVelocity, tolerance );
     }
 }

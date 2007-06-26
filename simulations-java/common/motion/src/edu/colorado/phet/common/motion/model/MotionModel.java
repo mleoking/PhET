@@ -18,10 +18,10 @@ import java.util.ArrayList;
 public class MotionModel implements IPositionDriven {
     private TimeSeriesModel timeSeriesModel;
     private double time = 0;
-    private DefaultTimeSeries timeTimeSeries = new DefaultTimeSeries( time, time );
-    private DefaultTimeSeries positionTimeSeries = new DefaultTimeSeries( 0, time );
-    private DefaultTimeSeries velocityTimeSeries = new DefaultTimeSeries( 0, time );
-    private DefaultTimeSeries accelerationTimeSeries = new DefaultTimeSeries( 0, time );
+    private DefaultTimeSeries timeTimeSeries = new DefaultTimeSeries();
+    private DefaultTimeSeries positionTimeSeries = new DefaultTimeSeries();
+    private DefaultTimeSeries velocityTimeSeries = new DefaultTimeSeries();
+    private DefaultTimeSeries accelerationTimeSeries = new DefaultTimeSeries();
 
     /*Different strategies for updating simulation variables*/
     private PositionDriven positionDriven = new PositionDriven();
@@ -157,21 +157,22 @@ public class MotionModel implements IPositionDriven {
         accelerationTimeSeries.clear();
     }
 
-    public void setPosition( double position ) {
-        positionTimeSeries.setValue( position );
-    }
+//    public void setPosition( double position ) {
+////        positionTimeSeries.setValue( position );
+//        motionBody.setPosition( position );
+//    }
 
-    public double getVelocity() {
-        return velocityTimeSeries.getValue();
-    }
-
-    public double getPosition() {
-        return positionTimeSeries.getValue();
-    }
-
-    public double getAcceleration() {
-        return accelerationTimeSeries.getValue();
-    }
+//    public double getVelocity() {
+//        return velocityTimeSeries.getValue();
+//    }
+//
+//    public double getPosition() {
+//        return motionBody.getPosition();
+//    }
+//
+//    public double getAcceleration() {
+//        return accelerationTimeSeries.getValue();
+//    }
 
     public TimeSeriesModel getTimeSeriesModel() {
         return timeSeriesModel;
@@ -181,13 +182,15 @@ public class MotionModel implements IPositionDriven {
         return timeTimeSeries.getRecentData( numPrevSamples ).getValue();
     }
 
-    public void setVelocity( double v ) {
-        velocityTimeSeries.setValue( v );
-    }
-
-    public void setAcceleration( double v ) {
-        accelerationTimeSeries.setValue( v );
-    }
+//    public void setVelocity( double v ) {
+////        velocityTimeSeries.setValue( v );
+//        motionBody.setVelocity( v );
+//    }
+//
+//    public void setAcceleration( double v ) {
+//        motionBody.setAcceleration(v);
+////        accelerationTimeSeries.setValue( v );
+//    }
 
     public TimeData getLastPosition() {
         return positionTimeSeries.getRecentData( 0 );
@@ -201,15 +204,15 @@ public class MotionModel implements IPositionDriven {
         return accelerationTimeSeries.getRecentData( 0 );
     }
 
-    //todo this is a workaround to temporarily accommodate RotationApplication 
-    public MotionModelState getCurrentState() {
-        MotionModelState modelState = new MotionModelState();
-        modelState.setAcceleration( getAcceleration() );
-        modelState.setVelocity( getVelocity() );
-        modelState.setPosition( getPosition() );
-        modelState.setTime( time );
-        return modelState;
-    }
+//    //todo this is a workaround to temporarily accommodate RotationApplication
+//    public MotionModelState getCurrentState() {
+//        MotionModelState modelState = new MotionModelState();
+//        modelState.setAcceleration( getAcceleration() );
+//        modelState.setVelocity( getVelocity() );
+//        modelState.setPosition( getPosition() );
+//        modelState.setTime( time );
+//        return modelState;
+//    }
 
     public void addPositionData( double position, double time ) {
         positionTimeSeries.addValue( position, time );
@@ -283,6 +286,10 @@ public class MotionModel implements IPositionDriven {
             }
         } );
         return a;
+    }
+
+    public MotionBody getMotionBody() {
+        return motionBody;
     }
 
     public static interface Listener {

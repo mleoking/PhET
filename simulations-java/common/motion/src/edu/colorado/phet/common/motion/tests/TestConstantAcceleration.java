@@ -15,18 +15,18 @@ import junit.framework.TestCase;
 public class TestConstantAcceleration extends TestCase {
     public void testConstantAcceleration() {
         MotionModel motionModel = new MotionModel( new SwingClock( 30, 1 ) );
-        assertEquals( motionModel.getPosition(), 0.0, 0.0 );
+        assertEquals( motionModel.getMotionBody().getPosition(), 0.0, 0.0 );
         motionModel.setAccelerationDriven();
-        motionModel.setAcceleration( 1.0 );
+        motionModel.getMotionBody().setAcceleration( 1.0 );
         motionModel.stepInTime( 1.0 );
-        assertEquals( motionModel.getVelocity(), 1.0, 1E-7 );
+        assertEquals( motionModel.getMotionBody().getVelocity(), 1.0, 1E-7 );
 //        assertEquals( motionModel.getPosition(),0,1E-7);//todo: what should the position be now?  Depends on integration scheme...
     }
 
     public static void main( String[] args ) {
         AccelerationDriven accelerationDriven = new AccelerationDriven();
         MotionModel model = new MotionModel( new SwingClock( 30, 1 ) );
-        model.setAcceleration( 1.0 );
+        model.getMotionBody().setAcceleration( 1.0 );
         model.setUpdateStrategy( accelerationDriven );
         System.out.println( "init state=" + model);
         for( int i = 0; i <= 100; i++ ) {
