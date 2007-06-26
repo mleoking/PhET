@@ -170,17 +170,11 @@ EOT;
                 "Administrative",
                 array(
                     'admin/new-sim.php'             => 'Add Simulation', 
-
-                    'admin/choose-sim.php'          => 'Edit Simulation', 
-            
-                    'admin/list-sims.php'           => 'List Simulations', 
-            
-                    'admin/organize-cats.php'       => 'Organize Categories', 
-                    
-                    'admin/organize-sims.php'       => 'Organize Simulations',
-            
-                    'admin/manage-contributors.php' => 'Manage Contributors', 
-                
+                    'admin/choose-sim.php'          => 'Edit Simulation',            
+                    'admin/list-sims.php'           => 'List Simulations',            
+                    'admin/organize-cats.php'       => 'Organize Categories',                   
+                    'admin/organize-sims.php'       => 'Organize Simulations',            
+                    'admin/manage-contributors.php' => 'Manage Contributors',                 
                     'admin/compose-newsletter.php'  => 'Compose Newsletter'
                 )
             );

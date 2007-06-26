@@ -1,9 +1,12 @@
 <?php
 
     include_once("../admin/site-utils.php");
+    include_once("../admin/sim-utils.php");    
     
     function print_content() {
-        ?>
+        $no_mac = SIM_NO_MAC_IMAGE_HTML;
+        
+        print <<<EOT
             <h1>Technical Support</h1>
 
             <p>This page will help you solve some of the problems people commonly have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu?Subject=Help"><span class="red">phethelp@colorado.edu</span></a>.</p>
@@ -43,16 +46,14 @@
             </div><br />
             <br />
 
-            <h3 id="q1" style="margin: 0px 0px -10px 0px;">Why can I run some of the simulations but not all?</h3>
+            <h3 id="q1" >Why can I run some of the simulations but not all?</h3>
 
-            <p><em>Java vs. Flash</em><br />
-            Some of our simulations are Java Web Start based applications and others use Macromediaís Flash player. Flash comes with most computers while Java Web Start is a free application that can be downloaded from Sun Microsystems. To run the Java-based simulations you must have Java version 1.4 or higher installed on your computer. <a href="#">Learn about Java installation and Troubleshooting here</a>.</p>
+            <p>Some of our simulations are Java Web Start based applications and others use Macromedia's Flash player. Flash comes with most computers while Java Web Start is a free application that can be downloaded from Sun Microsystems. To run the Java-based simulations you must have Java version 1.4.2 or higher installed on your computer. <a href="../tech_support/support-java.php">Learn about Java installation and Troubleshooting here</a>.</p>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q2" style="margin: 0px 0px -10px 0px;">What are the System Requirements for running PhET simulations?</h3>
+            <h3 id="q2" >What are the System Requirements for running PhET simulations?</h3>
 
-            <p><em>System Requirements</em><br />
             <strong>Windows Systems</strong><br />
             Intel Pentium processor<br />
             Microsoft Windows 98SE/2000/XP<br />
@@ -86,73 +87,107 @@
             Support Software<br />
             Some of our simulations use Java, and some use Flash. Both of these are available as free downloads, and our downloadable installer includes Java for those who need it.</p>
 
-            <p><strong>Note for Macintosh Users</strong><br />
-            Please note that some of our Java-based simulations will run slowly on Macintosh computer systems. Some simulations may not run correctly on Macintosh systems. These simulations can be identified by the tag below them. If you encounter further problems, please contact us with the relevant details. You should also check the minimum system requirements.</p>
+            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+
+            <h3 id="q3">I have a Macintosh and some of the Java-based simulations do not work as expected.</h3>
+
+            <p>Some PhET simulations will not run on Macintosh. These simulations are identified by the following icon:</p><p>$no_mac</p><p>If you are having problems running a Java simulation, check the <a href="#q2">System Requirements</a> to verify that you have the correct version of Mac OS, Java, and your web browser. Then use Software Update (accessible under the Apple menu at the far left of the Macintosh menubar) to install the latest versions of Mac OS, Java, and (if applicable) Safari. </p><p>If you encounter further problems, please <a href="mailto:phethelp@colorado.edu?Subject=Problems%20running%20PhET%20simulations">contact us</a> with the relevant details. </p>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
-            <p><strong>Note for Windows 2000 Users</strong><br />
-            Some Windows 2000 systems have been reported to lack part of the necessary Java configuration. These systems will typically start our Flash-based simulations reliably, but will appear to do nothing when launching our Java-based simulations.</p>
+            <h3 id="q4" >I use Internet Explorer and the simulations do not run on my computer.</h3>
+            
+            <p>We <strong>strongly</strong> recommend you use the latest version of Internet Explorer.</p>
 
-            <p><strong>To resolve this situation, please perform the following steps:</strong><br />
-            From the desktop or start menu, open "My Computer"<br />
-            Click on the "Folder Options" item in the "Tools" menu<br />
-            Click on the "File Types" tab at the top of the window that appears<br />
-            Locate "JNLP" in the "extensions" column, and click once on it to select the item<br />
-            Click on the "change" button<br />
-            When asked to choose which program to use to open JNLP files, select "Browse"<br />
-            Locate the program "javaws" or "javaws.exe" in your Java installation folder (typically "C:\Program Files\Java\j2re1.xxxx\javaws", where "xxxx" is a series of numbers indicating the software version; choose the latest version)<br />
-            Select the program file and then click "Open" to use the "javaws" program to open JNLP files.<br />
-            Java-based simulations should now function properly. Please contact us by email at phethelp@colorado.edu if you have any further difficulties.</p>
-
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
-
-            <h3 id="q3" style="margin: 0px 0px -10px 0px;">I have a Macintosh and some of the Java-based simulations do not work as expected.</h3>
-
-            <p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vehicula sodales dui. Integer feugiat augue id diam. Vivamus vitae ante id velit sagittis tincidunt. Aliquam sed orci. Maecenas nibh sapien, commodo vel, tristique in, sodales ut, quam. Sed dolor lorem, condimentum a, ultrices in, rhoncus eu, nisi. Donec nec ipsum et lectus volutpat mattis. Mauris eget dolor. Maecenas auctor, sem a sollicitudin bibendum, urna est fermentum nisi, id vehicula tortor augue at nibh. Donec pulvinar euismod justo. Nunc in turpis. Pellentesque eu purus quis enim pellentesque aliquam. Morbi scelerisque ipsum vel neque. Sed eget magna. Vestibulum dictum, nisi non auctor suscipit, enim sapien pulvinar tellus, sollicitudin cursus libero purus vitae mi. In hac habitasse platea dictumst. Donec vel eros. Maecenas interdum, magna non scelerisque cursus, mi massa sodales diam, a pulvinar magna diam vitae mi. Sed molestie lobortis urna.</p>
+            <p><strong>Internet Explorer Security Settings</strong></p>
+            
+            <p>Some installations of Internet Explorer, particularly under Windows XP SP2, have default security settings which can impede some aspects of how your locally installed PhET interface functions. For the best user experience while using our simulations installed on your computer, we recommend following the steps below:</p>
+            
+            <ol>
+                <li>In Internet Explorer on your local workstation, choose Tools > Internet Options.</li>
+                <li>Choose the Advanced tab, then scroll to the Security section.</li>
+                <li>Enable "Allow active content to run in files on my computer".</li>
+                <li>Choose OK.</li>
+            </ol>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q4" style="margin: 0px 0px -10px 0px;">I use Internet Explorer and the simulations do not run on my computer.</h3>
+            <h3 id="q5" >Why don't Flash simulations run on my computer?</h3>
 
-            <p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vehicula sodales dui. Integer feugiat augue id diam. Vivamus vitae ante id velit sagittis tincidunt. Aliquam sed orci. Maecenas nibh sapien, commodo vel, tristique in, sodales ut, quam. Sed dolor lorem, condimentum a, ultrices in, rhoncus eu, nisi. Donec nec ipsum et lectus volutpat mattis. Mauris eget dolor. Maecenas auctor, sem a sollicitudin bibendum, urna est fermentum nisi, id vehicula tortor augue at nibh. Donec pulvinar euismod justo. Nunc in turpis. Pellentesque eu purus quis enim pellentesque aliquam. Morbi scelerisque ipsum vel neque. Sed eget magna. Vestibulum dictum, nisi non auctor suscipit, enim sapien pulvinar tellus, sollicitudin cursus libero purus vitae mi. In hac habitasse platea dictumst. Donec vel eros. Maecenas interdum, magna non scelerisque cursus, mi massa sodales diam, a pulvinar magna diam vitae mi. Sed molestie lobortis urna.</p>
+            <p><strong>QuickTime™ and Flash™ compatibility</strong></p>
+            
+            <p>It has come to our attention that some of our users are unable to use our Flash-based simulations due to a compatibility issue between Apple Computer's QuickTime&trade; and the Flash&trade; player. Some users have reported that uninstalling QuickTime resolves the issue.
+            </p>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
-
-            <h3 id="q5" style="margin: 0px 0px -10px 0px;">Why donít Flash simulations run on my computer?</h3>
-
-            <p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vehicula sodales dui. Integer feugiat augue id diam. Vivamus vitae ante id velit sagittis tincidunt. Aliquam sed orci. Maecenas nibh sapien, commodo vel, tristique in, sodales ut, quam. Sed dolor lorem, condimentum a, ultrices in, rhoncus eu, nisi. Donec nec ipsum et lectus volutpat mattis. Mauris eget dolor. Maecenas auctor, sem a sollicitudin bibendum, urna est fermentum nisi, id vehicula tortor augue at nibh. Donec pulvinar euismod justo. Nunc in turpis. Pellentesque eu purus quis enim pellentesque aliquam. Morbi scelerisque ipsum vel neque. Sed eget magna. Vestibulum dictum, nisi non auctor suscipit, enim sapien pulvinar tellus, sollicitudin cursus libero purus vitae mi. In hac habitasse platea dictumst. Donec vel eros. Maecenas interdum, magna non scelerisque cursus, mi massa sodales diam, a pulvinar magna diam vitae mi. Sed molestie lobortis urna.</p>
-
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
-
-            <h3 id="q6" style="margin: 0px 0px -10px 0px;">What is the ideal screen resolution to run PhET simulations?</h3>
-
-            <p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vehicula sodales dui. Integer feugiat augue id diam. Vivamus vitae ante id velit sagittis tincidunt. Aliquam sed orci. Maecenas nibh sapien, commodo vel, tristique in, sodales ut, quam. Sed dolor lorem, condimentum a, ultrices in, rhoncus eu, nisi. Donec nec ipsum et lectus volutpat mattis. Mauris eget dolor. Maecenas auctor, sem a sollicitudin bibendum, urna est fermentum nisi, id vehicula tortor augue at nibh. Donec pulvinar euismod justo. Nunc in turpis. Pellentesque eu purus quis enim pellentesque aliquam. Morbi scelerisque ipsum vel neque. Sed eget magna. Vestibulum dictum, nisi non auctor suscipit, enim sapien pulvinar tellus, sollicitudin cursus libero purus vitae mi. In hac habitasse platea dictumst. Donec vel eros. Maecenas interdum, magna non scelerisque cursus, mi massa sodales diam, a pulvinar magna diam vitae mi. Sed molestie lobortis urna.</p>
+            <p>We are aware that this is not an acceptable solution and are working to resolve this issue. If you are experiencing this problem, please contact us at at <a href="mailto:phethelp@colorado.edu?Subject=Flash%20Simulations">phethelp@colorado.edu</a> and regularly check back here for more information.</p>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q7" style="margin: 0px 0px -10px 0px;">I have Windows 2000 and can run Flash simulations but the Java based simulations do not work.</h3>
+            <h3 id="q6" >What is the ideal screen resolution to run PhET simulations?</h3>
 
-            <p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vehicula sodales dui. Integer feugiat augue id diam. Vivamus vitae ante id velit sagittis tincidunt. Aliquam sed orci. Maecenas nibh sapien, commodo vel, tristique in, sodales ut, quam. Sed dolor lorem, condimentum a, ultrices in, rhoncus eu, nisi. Donec nec ipsum et lectus volutpat mattis. Mauris eget dolor. Maecenas auctor, sem a sollicitudin bibendum, urna est fermentum nisi, id vehicula tortor augue at nibh. Donec pulvinar euismod justo. Nunc in turpis. Pellentesque eu purus quis enim pellentesque aliquam. Morbi scelerisque ipsum vel neque. Sed eget magna. Vestibulum dictum, nisi non auctor suscipit, enim sapien pulvinar tellus, sollicitudin cursus libero purus vitae mi. In hac habitasse platea dictumst. Donec vel eros. Maecenas interdum, magna non scelerisque cursus, mi massa sodales diam, a pulvinar magna diam vitae mi. Sed molestie lobortis urna.</p>
+            <p>PhET simulations work best at a screen resolution of 1024 x 768 pixels. (Some of them are written so that they cannot be resized.) At lower resolution (e.g. 800 x 600), all the controls may not fit on your screen. At higher resolution (e.g. 1280 x 1024), you may not be able to make the simulation fill the whole screen, or if you do, it may slow down performance. To change your screen resolution, follow the directions below:</p>
+
+                <p><strong>Windows</strong></p>
+                
+                <ol>
+                    <li>From Start menu, click on “Control Panel.” </li>
+                    <li>Double click on “Display” icon. </li>
+                    <li>Select the “Settings” tab. </li>
+                    <li>Use the “Screen resolution” slider to select a resolution and click “OK.” </li>
+                </ol>
+
+                <p><strong>Macintosh</strong></p>
+                
+                <ol>
+                    <li>Open the System Preferences (either from the Dock or from the Apple menu). </li>
+                    <li>Open the Displays Panel and choose the Display tab. </li>
+                    <li>On the left of the Displays tab you can select one of the Resolutions from the list. </li>
+                    <li>Quit or close the System Preferences when done. </li>
+                </ol>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q8" style="margin: 0px 0px -10px 0px;">Why do PhET simulations run slower on my laptop than on a desktop?</h3>
+            <h3 id="q7" >I have Windows 2000 and can run Flash simulations but the Java based simulations do not work.</h3>
 
-            <p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vehicula sodales dui. Integer feugiat augue id diam. Vivamus vitae ante id velit sagittis tincidunt. Aliquam sed orci. Maecenas nibh sapien, commodo vel, tristique in, sodales ut, quam. Sed dolor lorem, condimentum a, ultrices in, rhoncus eu, nisi. Donec nec ipsum et lectus volutpat mattis. Mauris eget dolor. Maecenas auctor, sem a sollicitudin bibendum, urna est fermentum nisi, id vehicula tortor augue at nibh. Donec pulvinar euismod justo. Nunc in turpis. Pellentesque eu purus quis enim pellentesque aliquam. Morbi scelerisque ipsum vel neque. Sed eget magna. Vestibulum dictum, nisi non auctor suscipit, enim sapien pulvinar tellus, sollicitudin cursus libero purus vitae mi. In hac habitasse platea dictumst. Donec vel eros. Maecenas interdum, magna non scelerisque cursus, mi massa sodales diam, a pulvinar magna diam vitae mi. Sed molestie lobortis urna.</p>
+            <p>Some Windows 2000 systems have been reported to lack part of the necessary Java configuration. These systems will typically start our Flash-based simulations reliably, but will appear to do nothing when launching our Java-based simulations.</p>
+
+            <p><strong>To resolve this situation, please perform the following steps:</strong></p>
+            
+            <ol>
+                <li>From the desktop or start menu, open "My Computer"</li>
+                <li>Click on the "Folder Options" item in the "Tools" menu</li>
+                <li>Click on the "File Types" tab at the top of the window that appears</li>
+                <li>Locate "JNLP" in the "extensions" column, and click once on it to select the item</li>
+                <li>Click on the "change" button</li>
+                <li>When asked to choose which program to use to open JNLP files, select "Browse"</li>
+                <li>Locate the program "javaws" or "javaws.exe" in your Java installation folder (typically "C:\Program Files\Java\j2re1.xxxx\javaws", where "xxxx" is a series of numbers indicating the software version; choose the latest version)</li>
+                <li>Select the program file and then click "Open" to use the "javaws" program to open JNLP files.</li>
+            </ol>
+            
+            <p>Java-based simulations should now function properly.</p>
+            
+            <p>Please contact us by email at <a href="mailto:phethelp@colorado.edu?Subject=Windows%202000%20Issues">phethelp@colorado.edu</a> if you have any further difficulties.</p>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q9" style="margin: 0px 0px -10px 0px;">Why does my computer crash when I run one of the simulations that has sound?</h3>
+            <h3 id="q8" >Why do PhET simulations run slower on my laptop than on a desktop?</h3>
 
-            <p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vehicula sodales dui. Integer feugiat augue id diam. Vivamus vitae ante id velit sagittis tincidunt. Aliquam sed orci. Maecenas nibh sapien, commodo vel, tristique in, sodales ut, quam. Sed dolor lorem, condimentum a, ultrices in, rhoncus eu, nisi. Donec nec ipsum et lectus volutpat mattis. Mauris eget dolor. Maecenas auctor, sem a sollicitudin bibendum, urna est fermentum nisi, id vehicula tortor augue at nibh. Donec pulvinar euismod justo. Nunc in turpis. Pellentesque eu purus quis enim pellentesque aliquam. Morbi scelerisque ipsum vel neque. Sed eget magna. Vestibulum dictum, nisi non auctor suscipit, enim sapien pulvinar tellus, sollicitudin cursus libero purus vitae mi. In hac habitasse platea dictumst. Donec vel eros. Maecenas interdum, magna non scelerisque cursus, mi massa sodales diam, a pulvinar magna diam vitae mi. Sed molestie lobortis urna.</p>
+                <p>On some laptop computers, simulations may appear to run much slower than anticipated and/or exhibit unexpected graphics problems. This may be due to power management settings that affect how the computer's graphics system runs and can be corrected by either a) changing the computer's power management configuration, or b) using the laptop computer while plugged in to an AC power source.</p>
+
+                <p>Many laptop computers are configured to reduce the amount of battery power used by the graphics/video system while the computer is running on battery power. If you must use the laptop while it is not plugged in, we suggest changing your computer's power management settings to "maximize performance" while unplugged. This should ensure that the graphics system runs at its peak speed. The location of this setting varies from one manufacturer to the next and we suggest contacting your computer vendor if you have difficulty locating it. Please contact us at <a href="mailto:phethelp@colorado.edu?Subject=Laptop%20Performance%20Issues">phethelp@colorado.edu</a> if you continue to encounter problems.</p>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q10" style="margin: 0px 0px -10px 0px;">I would like to translate PhET Simulations into another Language. Can this be easily done?</h3>
+            <h3 id="q9" >Why does my computer crash when I run one of the simulations that has sound?</h3>
 
-            <p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vehicula sodales dui. Integer feugiat augue id diam. Vivamus vitae ante id velit sagittis tincidunt. Aliquam sed orci. Maecenas nibh sapien, commodo vel, tristique in, sodales ut, quam. Sed dolor lorem, condimentum a, ultrices in, rhoncus eu, nisi. Donec nec ipsum et lectus volutpat mattis. Mauris eget dolor. Maecenas auctor, sem a sollicitudin bibendum, urna est fermentum nisi, id vehicula tortor augue at nibh. Donec pulvinar euismod justo. Nunc in turpis. Pellentesque eu purus quis enim pellentesque aliquam. Morbi scelerisque ipsum vel neque. Sed eget magna. Vestibulum dictum, nisi non auctor suscipit, enim sapien pulvinar tellus, sollicitudin cursus libero purus vitae mi. In hac habitasse platea dictumst. Donec vel eros. Maecenas interdum, magna non scelerisque cursus, mi massa sodales diam, a pulvinar magna diam vitae mi. Sed molestie lobortis urna.</p>
-        <?php
+            <p>Simulations that use sound can be unstable when run on computers using old device driver software. If you are encountering crashes or other undesirable behavior with any of our simulations that use sound, we advise updating your sound drivers, as this may solve the problem. For assistance with updating your sound drivers, contact your computer vendor or audio hardware manufacturer. Contact us at <a href="mailto:phethelp@colorado.edu?Subject=Sound%20Issues">phethelp@colorado.edu</a> if you continue to encounter difficulty. </p>
+
+            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+
+            <h3 id="q10" >I would like to translate PhET Simulations into another Language. Can this be easily done?</h3>
+
+            <p>The PhET simulations have been written so that they are easily translated to languages other than English. Contact us at <a href="mailto:phethelp@colorado.edu?Subject=Simulation%20Translation">phethelp@colorado.edu</a> for more information.</p>
+EOT;
     }
 
     print_site_page('print_content', 5);
