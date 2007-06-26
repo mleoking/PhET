@@ -7,6 +7,7 @@ import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
 import java.util.ArrayList;
+import java.sql.CallableStatement;
 
 /**
  * User: Sam Reid
@@ -329,6 +330,18 @@ public class MotionModel implements IPositionDriven {
 
     public TimeData getVelocity( int index ) {
         return velocityTimeSeries.getData( index );
+    }
+
+    public TimeData getMaxVelocity() {
+        return velocityTimeSeries.getMax();
+    }
+
+    public TimeData getMaxAcceleration() {
+        return accelerationTimeSeries.getMax();
+    }
+
+    public TimeData getMinAcceleration() {
+        return accelerationTimeSeries.getMin();
     }
 
     public static interface Listener {

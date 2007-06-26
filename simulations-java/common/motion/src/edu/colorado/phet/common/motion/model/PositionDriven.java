@@ -29,7 +29,7 @@ public class PositionDriven implements UpdateStrategy {
 
         model.addPositionData( model.getPosition(), model.getTime() );
         model.addVelocityData( v, vt + dt );
-        model.addAccelerationData( a, at + dt );
+        model.addAccelerationData( a, at );
     }
 
     public double getAccelerationWindowSize() {
