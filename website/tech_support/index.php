@@ -48,44 +48,48 @@
 
             <h3 id="q1" >Why can I run some of the simulations but not all?</h3>
 
-            <p>Some of our simulations are Java Web Start based applications and others use Macromedia's Flash player. Flash comes with most computers while Java Web Start is a free application that can be downloaded from Sun Microsystems. To run the Java-based simulations you must have Java version 1.4.2 or higher installed on your computer. <a href="../tech_support/support-java.php">Learn about Java installation and Troubleshooting here</a>.</p>
+            <p>Some of our simulations are Java Web Start based applications and others use Macromedia's Flash player. Flash comes with most computers while Java Web Start is a free application that can be downloaded from Sun Microsystems. To run the Java-based simulations you must have Java version 1.4.2 or higher installed on your computer.</p>
+            
+            <p><a href="../tech_support/support-java.php">Learn about Java installation and Troubleshooting here</a>.</p>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q2" >What are the System Requirements for running PhET simulations?</h3>
 
-            <strong>Windows Systems</strong><br />
+            <p><strong>Windows Systems</strong><br />
             Intel Pentium processor<br />
             Microsoft Windows 98SE/2000/XP<br />
             256MB RAM minimum<br />
-            Approximately 50MB available disk space (for full installation)<br />
+            Approximately 60MB available disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
             Sun Java 1.4.2_10 or later<br />
             Macromedia Flash 7 or later<br />
-            Microsoft Internet Explorer 5.5 or later, Firefox 1.5 or later</p>
+            Microsoft Internet Explorer 6 or later, Firefox 2 or later</p>
 
             <p><strong>Macintosh Systems</strong><br />
             G3, G4, G5 or Intel processor<br />
-            OS 10.3.9 or later<br />
+            OS 10.4 or later<br />
             256MB RAM minimum<br />
             Approximately 40 MB available disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
             Apple Java 1.4.2_09 or later<br />
             Macromedia Flash 7 or later<br />
-            Safari 1.3 or later, Firefox 1.5 or later</p>
+            Safari 2 or later, Firefox 2 or later</p>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
-            <p><strong>Linux Systems</strong><br />
+            <p><strong>Linux Systems</strong>
             Intel Pentium processor<br />
             256MB RAM minimum<br />
             Approximately 40 MB disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
             Sun Java 1.4.2_10 or later<br />
             Macromedia Flash 7 or later<br />
-            Firefox 1.5 or later<br />
-            Support Software<br />
-            Some of our simulations use Java, and some use Flash. Both of these are available as free downloads, and our downloadable installer includes Java for those who need it.</p>
+            Firefox 2 or later<br /></p>
+            
+            <p><strong>Support Software</strong></p>
+            
+            <p>Some of our simulations use Java, and some use Flash. Both of these are available as free downloads, and our downloadable installer includes Java for those who need it.</p>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
