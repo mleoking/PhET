@@ -10,6 +10,32 @@
             die($message);
         }
     }
+    
+    function db_convert_condition_array_to_sql($condition, $fuzzy = false) {
+        $query = '';
+        
+        $is_first = true;
+        
+        foreach($condition as $key => $value) {
+            if ($is_first) {
+                $is_first = false;
+            }
+            else {
+                $query .= " AND ";
+            }
+            
+            $value = mysql_real_escape_string($value);
+            
+            if ($fuzzy) {
+                $query .= "`$key` LIKE '%$value%'";
+            }
+            else {
+                $query .= "`$key`='$value'";
+            }
+        }
+        
+        return $query;
+    }
 
     function db_exec_query($statement) {
         global $connection;
@@ -19,6 +45,10 @@
         db_verify_mysql_result($result, $statement);
     
         return $result;
+    }
+    
+    function db_get_all_rows($table_name) {
+        return db_get_rows_by_condition($table_name);
     }
     
     function db_get_rows_by_condition($table_name, $condition = array(), $fuzzy = false) {
@@ -66,9 +96,11 @@
         
         $rows = db_exec_query($query);
                 
-        if (!$rows) return FALSE;
+        if (!$rows) return false;
 
         $assoc = mysql_fetch_assoc($rows);
+        
+        if (!$assoc) return false;
         
         $cleaned = array();
         

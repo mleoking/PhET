@@ -50,22 +50,6 @@
     
     define("SQL_SELECT_ALL_VISIBLE_CATEGORIES", 
            "SELECT * FROM `category` WHERE `cat_is_visible`='1' ORDER BY `cat_order` ASC ");
-
-    function print_sim_categories($prefix = "") {
-        global $connection;
-        
-        // List all the categories:
-
-        // start selecting SIMULATION CATEGORIES from database table
-        $category_table = mysql_query(SQL_SELECT_ALL_VISIBLE_CATEGORIES, $connection);
-
-        while ($category = mysql_fetch_row($category_table)) {
-            $cat_id   = $category[0];
-            $cat_name = format_for_html($category[1]);
-        
-            print "<li class=\"sub\"><span class=\"sub-nav\"><a href=\"${prefix}index.php?cat=$cat_id\">&rarr; $cat_name</a></span></li>";          
-        } 
-    }
     
     function get_sorting_name($name) {
         $matches = array();
@@ -320,8 +304,28 @@
         return sim_update_sim($simulation);        
     }
     
-    function sim_get_select_sims_by_category_statement($cat) {
-        return "SELECT DISTINCT `simulation`.`sim_id` FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation`.`sim_sorting_name` ASC ";
+    function sim_get_sim_listing($sim_id, $cat_id) {
+        $result = db_exec_query(
+            "SELECT * FROM `simulation_listing` WHERE `sim_id`='$sim_id' AND `cat_id`='$cat_id' "
+        );
+        
+        if (!$result) {
+            return false;
+        }
+        
+        return mysql_fetch_assoc($result);
+    }
+    
+    function sim_get_sim_listings_by_cat_id($cat_id) {
+        return db_get_rows_by_condition('simulation_listing',
+            array(
+                'cat_id' => $cat_id
+            )
+        );
+    }
+    
+    function sim_get_select_sims_by_category_statement($cat_id) {
+        return "SELECT DISTINCT `simulation`.`sim_id` FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat_id' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation_listing`.`simulation_listing_order` ASC ";
     }
     
     function sim_get_image_previews($type, $field) {
