@@ -7,7 +7,7 @@ import java.util.List;
  * Author: Sam Reid
  * Jun 25, 2007, 11:31:28 PM
  */
-public class DefaultTimeSeries implements ITimeSeries{
+public class DefaultTimeSeries implements ITimeSeries {
     private ArrayList data = new ArrayList();
     private ArrayList listeners = new ArrayList();
 
@@ -46,7 +46,6 @@ public class DefaultTimeSeries implements ITimeSeries{
     public void addValue( double v, double time ) {
         TimeData o = new TimeData( v, time );
         data.add( o );
-//        notifyListeners();
         notifyObservers( o );
     }
 
@@ -56,12 +55,6 @@ public class DefaultTimeSeries implements ITimeSeries{
             observableTimeSeriesListener.dataAdded( o );
         }
     }
-
-//    private void notifyListeners() {
-//        for( int i = 0; i < simVarListeners.size(); i++ ) {
-//            ( (Listener)simVarListeners.get( i ) ).valueChanged();
-//        }
-//    }
 
     public double getTime() {
         return getRecentData( 0 ).getTime();
@@ -92,12 +85,22 @@ public class DefaultTimeSeries implements ITimeSeries{
     }
 
     public TimeData[] getRecentSeries( int numPts ) {
-//        System.out.println( "DefaultTimeSeries.getRecentSeries: numPts="+numPts+", sampleCount="+getSampleCount() );
         List subList = data.subList( data.size() - numPts, data.size() );
         return (TimeData[])subList.toArray( new TimeData[0] );
     }
 
-//    public void addListener( ObservableTimeSeries.ObservableTimeSeriesListener observableTimeSeriesListener ) {
-//        obsListeners.add( observableTimeSeriesListener );
-//    }
+    //todo: could interpolate
+    public double getValueForTime( double time ) {
+        return getDataForTime( time ).getValue();
+    }
+
+    private TimeData getDataForTime( double time ) {
+        TimeData closest = getData();
+        for( int i = 0; i < getSampleCount(); i++ ) {
+            if( Math.abs( getData( i ).getTime() - time ) < Math.abs( closest.getTime() - time ) ) {
+                closest = getData( i );
+            }
+        }
+        return closest;
+    }
 }
