@@ -5,13 +5,11 @@ package edu.colorado.phet.common.motion.model;
  * Jun 25, 2007, 11:31:03 PM
  */
 public interface ITimeSeries {
-    void setValue( double value ) ;
-
     TimeData[] getRecentSeries( int numPts );
 
-    TimeData getData(int index);
+    TimeData getData( int index );
 
-    TimeData getRecentData(int index);
+    TimeData getRecentData( int index );
 
     int getSampleCount();
 
@@ -19,10 +17,17 @@ public interface ITimeSeries {
 
     double getValue();
 
-    void addValue( double v, double time);
+    void addValue( double v, double time );
 
     double getTime();
 
     TimeData getMax();
+
     TimeData getMin();
+
+    void addListener( Listener observableTimeSeriesListener );
+
+    public static interface Listener {
+        void dataAdded( TimeData data );
+    }
 }

@@ -1,6 +1,5 @@
 package edu.colorado.phet.common.motion.model;
 
-import edu.colorado.phet.common.motion.graphs.ObservableTimeSeries;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -160,23 +159,6 @@ public class MotionModel implements IPositionDriven {
         accelerationTimeSeries.clear();
     }
 
-//    public void setPosition( double position ) {
-////        positionTimeSeries.setValue( position );
-//        motionBody.setPosition( position );
-//    }
-
-//    public double getVelocity() {
-//        return velocityTimeSeries.getValue();
-//    }
-//
-//    public double getPosition() {
-//        return motionBody.getPosition();
-//    }
-//
-//    public double getAcceleration() {
-//        return accelerationTimeSeries.getValue();
-//    }
-
     public TimeSeriesModel getTimeSeriesModel() {
         return timeSeriesModel;
     }
@@ -184,16 +166,6 @@ public class MotionModel implements IPositionDriven {
     public double getRecentTime( int numPrevSamples ) {
         return timeTimeSeries.getRecentData( numPrevSamples ).getValue();
     }
-
-//    public void setVelocity( double v ) {
-////        velocityTimeSeries.setValue( v );
-//        motionBody.setVelocity( v );
-//    }
-//
-//    public void setAcceleration( double v ) {
-//        motionBody.setAcceleration(v);
-////        accelerationTimeSeries.setValue( v );
-//    }
 
     public TimeData getLastPosition() {
         return positionTimeSeries.getRecentData( 0 );
@@ -206,16 +178,6 @@ public class MotionModel implements IPositionDriven {
     public TimeData getLastAcceleration() {
         return accelerationTimeSeries.getRecentData( 0 );
     }
-
-//    //todo this is a workaround to temporarily accommodate RotationApplication
-//    public MotionModelState getCurrentState() {
-//        MotionModelState modelState = new MotionModelState();
-//        modelState.setAcceleration( getAcceleration() );
-//        modelState.setVelocity( getVelocity() );
-//        modelState.setPosition( getPosition() );
-//        modelState.setTime( time );
-//        return modelState;
-//    }
 
     public void addPositionData( double position, double time ) {
         positionTimeSeries.addValue( position, time );
@@ -255,7 +217,6 @@ public class MotionModel implements IPositionDriven {
         x.addListener( new ISimulationVariable.Listener() {
             public void valueChanged() {
                 motionBody.setPosition( x.getValue() );
-                positionTimeSeries.setValue( x.getValue() );//todo: this should only be used by user controllers, not during playback
             }
         } );
         return x;
@@ -314,16 +275,15 @@ public class MotionModel implements IPositionDriven {
         return time;
     }
 
-
-    public ObservableTimeSeries getXTimeSeries() {
+    public ITimeSeries getXTimeSeries() {
         return positionTimeSeries;
     }
 
-    public ObservableTimeSeries getVTimeSeries() {
+    public ITimeSeries getVTimeSeries() {
         return velocityTimeSeries;
     }
 
-    public ObservableTimeSeries getATimeSeries() {
+    public ITimeSeries getATimeSeries() {
         return accelerationTimeSeries;
     }
 }
