@@ -39,6 +39,10 @@ public class JFreeChartSeriesView extends SeriesView {
         //painting happens automatically due to changes in the JFreeChart
     }
 
+    public void dataCleared() {
+        //handled automatically in the JFreeChart
+    }
+
     public void uninstall() {
         super.uninstall();
         XYSeriesCollection xySeriesCollection = (XYSeriesCollection)getDynamicJFreeChartNode().getChart().getXYPlot().getDataset();

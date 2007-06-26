@@ -92,6 +92,10 @@ public class PPathSeriesView extends SeriesView {
         }
     }
 
+    public void dataCleared() {
+        pathNode.getPathReference().reset();
+    }
+
     public void uninstall() {
         super.uninstall();
         super.getDynamicJFreeChartNode().removeChild( root );

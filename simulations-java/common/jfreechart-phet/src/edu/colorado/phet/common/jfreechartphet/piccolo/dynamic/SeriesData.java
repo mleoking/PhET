@@ -62,7 +62,7 @@ public class SeriesData {
 
     public void addValue( double time, double value ) {
         series.add( time, value );
-        notifyDataChanged();
+        notifyDataAdded();
     }
 
     public void removeListener( Listener listener ) {
@@ -71,21 +71,29 @@ public class SeriesData {
 
     public void clear() {
         series.clear();
-        notifyDataChanged();
+        notifyDataCleared();
+    }
+
+    private void notifyDataCleared() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener)listeners.get( i )).dataCleared();
+        }
+
     }
 
     public static interface Listener {
         void dataAdded();
+
+        void dataCleared();
     }
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
 
-    public void notifyDataChanged() {
+    public void notifyDataAdded() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.dataAdded();
+            ((Listener)listeners.get( i )).dataAdded();
         }
     }
 }

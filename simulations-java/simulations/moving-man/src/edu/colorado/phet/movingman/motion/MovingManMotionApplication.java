@@ -47,12 +47,12 @@ public class MovingManMotionApplication {
         int MAX_T = 200;
         System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() +" ispaused="+motionModel.getTimeSeriesModel().isPaused());
         GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
-                new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), new MotionControlGraph(
-                        phetPCanvas, motionModel.getXVariable(), motionModel.getXTimeSeries(), SimStrings.get( "variables.position.abbreviation" ), SimStrings.get( "variables.position" ), -10, 10, Color.blue, new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MAX_T ) ),
+//                new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), new MotionControlGraph(
+//                        phetPCanvas, motionModel.getXVariable(), motionModel.getXTimeSeries(), SimStrings.get( "variables.position.abbreviation" ), SimStrings.get( "variables.position" ), -10, 10, Color.blue, new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MAX_T ) ),
                 new MinimizableControlGraph( SimStrings.get( "variables.velocity.abbreviation" ), new MotionControlGraph(
                         phetPCanvas, motionModel.getVVariable(), motionModel.getVTimeSeries(), SimStrings.get( "variables.velocity.abbreviation" ), SimStrings.get( "variables.velocity" ), -1, 1, Color.red, new PImage( GraphSuiteSet.loadRedArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MAX_T ) ),
-                new MinimizableControlGraph( SimStrings.get( "variables.acceleration.abbreviation" ), new MotionControlGraph(
-                        phetPCanvas, motionModel.getAVariable(), motionModel.getATimeSeries(), SimStrings.get( "variables.acceleration.abbreviation" ), SimStrings.get( "variables.acceleration" ), -0.01, 0.01, Color.green, new PImage( GraphSuiteSet.loadGreenArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MAX_T ) )
+//                new MinimizableControlGraph( SimStrings.get( "variables.acceleration.abbreviation" ), new MotionControlGraph(
+//                        phetPCanvas, motionModel.getAVariable(), motionModel.getATimeSeries(), SimStrings.get( "variables.acceleration.abbreviation" ), SimStrings.get( "variables.acceleration" ), -0.01, 0.01, Color.green, new PImage( GraphSuiteSet.loadGreenArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MAX_T ) )
         } ) ) );
 
         graphSetNode.setAlignedLayout();
@@ -61,11 +61,11 @@ public class MovingManMotionApplication {
         phetPCanvas.addScreenChild( graphSetNode );
         phetPCanvas.requestFocus();
         phetPCanvas.addKeyListener( new PDebugKeyHandler() );
-        swingClock.addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent clockEvent ) {
-                System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() +" ispaused="+motionModel.getTimeSeriesModel().isPaused());
-            }
-        });
+//        swingClock.addClockListener( new ClockAdapter() {
+//            public void clockTicked( ClockEvent clockEvent ) {
+//                System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() +" ispaused="+motionModel.getTimeSeriesModel().isPaused());
+//            }
+//        });
     }
 
     private void start() {
