@@ -3,7 +3,6 @@ package edu.colorado.phet.movingman.plotdevice;
 
 import edu.colorado.phet.chart_movingman.BufferedLinePlot;
 import edu.colorado.phet.chart_movingman.DataSet;
-import edu.colorado.phet.common_movingman.util.DefaultDecimalFormat;
 import edu.colorado.phet.common_movingman.view.ApparatusPanel;
 import edu.colorado.phet.common_movingman.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;
@@ -12,6 +11,7 @@ import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 import java.awt.*;
 import java.util.Random;
