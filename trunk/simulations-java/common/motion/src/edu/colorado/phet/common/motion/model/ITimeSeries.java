@@ -22,4 +22,7 @@ public interface ITimeSeries {
     void addValue( double v, double time);
 
     double getTime();
+
+    TimeData getMax();
+    TimeData getMin();
 }

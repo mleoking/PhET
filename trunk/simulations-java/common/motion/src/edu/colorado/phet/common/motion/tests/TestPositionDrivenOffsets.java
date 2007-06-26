@@ -1,7 +1,6 @@
 package edu.colorado.phet.common.motion.tests;
 
 import edu.colorado.phet.common.motion.model.MotionModel;
-import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import junit.framework.TestCase;
@@ -12,7 +11,7 @@ import java.text.DecimalFormat;
  * Author: Sam Reid
  * Jun 20, 2007, 12:26:53 AM
  */
-public class TestVelocityOffset extends TestCase {
+public class TestPositionDrivenOffsets extends TestCase {
     boolean verbose = false;
 
     private void step( SwingClock clock, MotionModel motionModel, int i ) {
@@ -74,10 +73,13 @@ public class TestVelocityOffset extends TestCase {
         step( clock, motionModel, numStepsAfter );
 
         double timeXChanged = ( t1 + t0 ) / 2.0;
-        double timeForMaxVelocity = getTimeForMaxVelocity( motionModel );
+        double timeForMaxVelocity = motionModel.getMaxVelocity().getTime();
+        double zeroAccelTime = ( motionModel.getMaxAcceleration().getTime() + motionModel.getMinAcceleration().getTime() ) / 2.0;
+//        System.out.println( "timeXChanged=" + timeXChanged + ", timeForMaxVelocity=" + timeForMaxVelocity + ", zeroAccelTime=" + zeroAccelTime );
+        assertEquals( "Acceleration should have max and min centered on time position changes", timeXChanged, zeroAccelTime, tolerance );
 
         if( verbose ) {
-            DecimalFormat decimalFormat=new DefaultDecimalFormat( "0.00");
+            DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
             for( int i = 0; i < motionModel.getVelocitySampleCount(); i++ ) {
                 System.out.println( "motionModel.getVelocity( i) = " + motionModel.getVelocity( i ).toString( decimalFormat ) );
             }
@@ -85,17 +87,12 @@ public class TestVelocityOffset extends TestCase {
         }
 //        System.out.println( "timeXChanged=" + timeXChanged + ", timeForMaxVelocity=" + timeForMaxVelocity );
         assertEquals( "time X Changed should be same as when velocity peaks: dt=" + dt + ", x0=" + x0 + ", xF=" + xFinal + ", maxWindowSize=" + maxWindowSize, timeXChanged, timeForMaxVelocity, tolerance );
+
     }
 
-    private double getTimeForMaxVelocity( MotionModel motionModel ) {
-        TimeData timeData = new TimeData( Double.NEGATIVE_INFINITY, Double.NaN );
-        for( int i = 0; i < motionModel.getVelocitySampleCount(); i++ ) {
-            if( motionModel.getVelocity( i ).getValue() > timeData.getValue() ) {
-                timeData = motionModel.getVelocity( i );
-            }
-        }
-        return timeData.getTime();
-    }
+//    private double getTimeForMaxVelocity( MotionModel motionModel ) {
+//        return ;
+//    }
 
 
 }
