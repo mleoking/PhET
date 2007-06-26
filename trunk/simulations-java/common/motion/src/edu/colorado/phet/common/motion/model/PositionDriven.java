@@ -9,31 +9,34 @@ import edu.colorado.phet.common.motion.MotionMath;
  */
 
 public class PositionDriven implements UpdateStrategy {
-    private int velocityWindowSize = 10;
-    private int accelerationWindowSize = 10;
+    private int velocityWindowSize = 6;
+    private int accelerationWindowSize = 6;
 
     public int getVelocityWindowSize() {
         return velocityWindowSize;
     }
 
-    //todo: try 2nd order derivative directly from position data
+    //todo: try 2nd order derivative directly from position data?
     public void update( MotionModel model, double dt ) {
-        //todo: this should set the velocity windowSize/2 steps ago
-        model.addPositionData( model.getPosition(), model.getTime() );
 
         int velWindow = Math.min( velocityWindowSize, model.getVelocitySampleCount() );
         double v = MotionMath.estimateDerivative( model.getRecentPositionTimeSeries( velWindow ) );
-        double vt=MotionMath.averageTime(model.getRecentPositionTimeSeries( velWindow ));
-        System.out.println( "vt = " + vt );
-        model.addVelocityData( v, vt );
+        double vt = MotionMath.averageTime( model.getRecentPositionTimeSeries( velWindow ) );
 
         int accWindow = Math.min( accelerationWindowSize, model.getAccelerationSampleCount() );
         double a = MotionMath.estimateDerivative( model.getRecentVelocityTimeSeries( accWindow ) );
-        double at=MotionMath.averageTime( model.getRecentVelocityTimeSeries( accWindow ) );
-        model.addAccelerationData( a, at );
+        double at = MotionMath.averageTime( model.getRecentVelocityTimeSeries( accWindow ) );
+
+        model.addPositionData( model.getPosition(), model.getTime() );
+        model.addVelocityData( v, vt + dt );
+        model.addAccelerationData( a, at + dt );
     }
 
     public double getAccelerationWindowSize() {
         return accelerationWindowSize;
+    }
+
+    public void setVelocityWindowSize( int maxWindowSize ) {
+        this.velocityWindowSize = maxWindowSize;
     }
 }

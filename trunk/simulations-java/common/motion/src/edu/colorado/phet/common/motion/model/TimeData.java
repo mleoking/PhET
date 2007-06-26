@@ -1,5 +1,7 @@
 package edu.colorado.phet.common.motion.model;
 
+import java.text.DecimalFormat;
+
 /**
  * User: Sam Reid
  * Date: Dec 30, 2006
@@ -24,7 +26,11 @@ public class TimeData {
     }
 
     public String toString() {
-        return "value=" + value + ", time=" + time;
+        return "t="+time+", value="+value;
+//        return "value=" + value + ", time=" + time;
+    }
+    public String toString( DecimalFormat decimalFormat ){
+        return "t="+decimalFormat.format( time)+", value="+decimalFormat.format( value);
     }
 
     public void setValue( double value ) {
