@@ -19,7 +19,7 @@ public class TestConstantAcceleration extends TestCase {
         motionModel.setAccelerationDriven();
         motionModel.getMotionBody().setAcceleration( 1.0 );
         motionModel.stepInTime( 1.0 );
-        assertEquals( motionModel.getMotionBody().getVelocity(), 1.0, 1E-7 );
+        assertEquals( "Velocity should have increased to 1.0",1.0,motionModel.getMotionBody().getVelocity(), 1E-7 );
 //        assertEquals( motionModel.getPosition(),0,1E-7);//todo: what should the position be now?  Depends on integration scheme...
     }
 
