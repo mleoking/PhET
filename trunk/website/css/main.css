@@ -1175,6 +1175,11 @@ div.research .publication_htmllink {
 	margin:0;
 	padding: 3px 0 3px 18px
 }
+#localNav ul li.sub span.selected a span.sub-nav-desc,
+#localNav ul li.sub span a span.sub-nav-desc {
+	float: right;
+	width: 150px;
+}
 #localNav ul li.sub span.selected a {
 	color: #d36a04;
 }

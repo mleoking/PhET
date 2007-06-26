@@ -27,7 +27,7 @@ EOT;
     
     function print_subnavigation_element($prefix, $link, $desc) {
         print <<<EOT
-        <li class="sub"><span class="sub-nav"><a href="$prefix/$link">→ $desc</a></span></li>
+        <li class="sub"><span class="sub-nav"><a href="$prefix/$link">→<span class="sub-nav-desc">$desc</span></a></span></li>
 EOT;
     }
     
@@ -93,13 +93,14 @@ EOT;
         );
 
         $teacher_ideas_subs = array();
+
+        $teacher_ideas_subs['teacher_ideas/browse.php']                 = 'Browse';
         
         if (!isset($GLOBALS['contributor_authenticated']) || $GLOBALS['contributor_authenticated'] == false) {
             $teacher_ideas_subs['teacher_ideas/login.php'] = 'Login';
         }
         
-        $teacher_ideas_subs['teacher_ideas/browse.php']                 = 'Browse';
-        $teacher_ideas_subs['teacher_ideas/contribute.php']             = 'New Contribution';
+        $teacher_ideas_subs['teacher_ideas/contribute.php']             = 'Contribute';
         $teacher_ideas_subs['teacher_ideas/manage-contributions.php']   = 'My Contributions';
         $teacher_ideas_subs['teacher_ideas/user-edit-profile.php']      = 'My Profile';
         
