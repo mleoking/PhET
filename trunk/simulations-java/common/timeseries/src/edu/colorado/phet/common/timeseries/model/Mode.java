@@ -107,9 +107,9 @@ public abstract class Mode {
 //                getTimeSeriesModel().setPaused( true );
                 getTimeSeriesModel().setLiveMode();
             }
-            if( getTimeSeriesModel().numPlaybackStates() % 100 == 0 ) {
-                System.out.println( "getTimeSeriesModel().numPlaybackStates() = " + getTimeSeriesModel().numPlaybackStates() );
-            }
+//            if( getTimeSeriesModel().numPlaybackStates() % 100 == 0 ) {
+//                System.out.println( "getTimeSeriesModel().numPlaybackStates() = " + getTimeSeriesModel().numPlaybackStates() );
+//            }
         }
 
         public double getRecordTime() {

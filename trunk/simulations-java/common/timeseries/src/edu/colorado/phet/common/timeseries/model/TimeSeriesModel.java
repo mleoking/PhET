@@ -130,7 +130,7 @@ public class TimeSeriesModel extends ClockAdapter {
         if( !same ) {
             this.mode = mode;
             notifyModeChanged();
-            System.out.println( "Changed mode to: " + mode.getClass().getName() );
+//            System.out.println( "Changed mode to: " + mode.getClass().getName() );
         }
     }
 
