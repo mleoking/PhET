@@ -1,10 +1,7 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
-import edu.colorado.phet.common.motion.model.MotionModel;
-import edu.colorado.phet.common.motion.model.TimeData;
-import edu.colorado.phet.common.motion.model.UpdateStrategy;
+import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
@@ -24,19 +21,19 @@ public class MotionControlGraph extends ControlGraph {
     private MotionModel motionModel;
     private JFreeChartCursorNode jFreeChartCursorNode;
 
-    public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ObservableTimeSeries observableTimeSeries, String label, String title,
+    public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
                                boolean editable, TimeSeriesModel timeSeriesModel ) {
         this( pSwingCanvas, simulationVariable, observableTimeSeries, label, title, min, max, color, thumb, motionModel, editable, timeSeriesModel, null );
     }
 
-    public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ObservableTimeSeries observableTimeSeries, String label, String title,
+    public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
                                boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy ) {
         this( pSwingCanvas, simulationVariable, observableTimeSeries, label, title, min, max, color, thumb, motionModel, editable, timeSeriesModel, updateStrategy, 1000 );
     }
 
-    public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ObservableTimeSeries observableTimeSeries, String label, String title,
+    public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
                                boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, int maxDomainValue ) {
         super( pSwingCanvas, simulationVariable, observableTimeSeries, label, title, min, max, color, thumb, timeSeriesModel, maxDomainValue );
@@ -93,7 +90,7 @@ public class MotionControlGraph extends ControlGraph {
         } );
         updateCursorVisible();
 
-        observableTimeSeries.addListener( getListener( simulationVariable ) );
+        
         if( updateStrategy != null ) {
             addListener( new Adapter() {
                 public void controlFocusGrabbed() {
@@ -101,19 +98,6 @@ public class MotionControlGraph extends ControlGraph {
                 }
             } );
         }
-    }
-
-    private ObservableTimeSeries.ObservableTimeSeriesListener getListener( final ISimulationVariable simulationVariable ) {
-        return new ObservableTimeSeries.ObservableTimeSeriesListener() {
-            public void dataAdded( TimeData timeData ) {
-                addValue( getSeriesIndex( simulationVariable ), timeData.getTime(), timeData.getValue() );
-            }
-        };
-    }
-
-    public void addSeries( final String title, Color color, String abbr, final ISimulationVariable simulationVariable, ObservableTimeSeries observableTimeSeries ) {
-        super.addSeries( title, color, abbr, simulationVariable, observableTimeSeries );
-        observableTimeSeries.addListener( getListener( simulationVariable ) );
     }
 
     private void updateCursorLocation() {

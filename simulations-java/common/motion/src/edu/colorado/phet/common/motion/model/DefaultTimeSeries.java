@@ -1,7 +1,5 @@
 package edu.colorado.phet.common.motion.model;
 
-import edu.colorado.phet.common.motion.graphs.ObservableTimeSeries;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +7,9 @@ import java.util.List;
  * Author: Sam Reid
  * Jun 25, 2007, 11:31:28 PM
  */
-public class DefaultTimeSeries implements ITimeSeries, ObservableTimeSeries {
+public class DefaultTimeSeries implements ITimeSeries{
     private ArrayList data = new ArrayList();
-    private ArrayList obsListeners = new ArrayList();
+    private ArrayList listeners = new ArrayList();
 
     public DefaultTimeSeries() {
     }
@@ -22,10 +20,6 @@ public class DefaultTimeSeries implements ITimeSeries, ObservableTimeSeries {
 
     public TimeData getData() {
         return getRecentData( 0 );
-    }
-
-    public void setValue( double value ) {
-        getRecentData( 0 ).setValue( value );
     }
 
     public TimeData getData( int index ) {
@@ -57,8 +51,8 @@ public class DefaultTimeSeries implements ITimeSeries, ObservableTimeSeries {
     }
 
     private void notifyObservers( TimeData o ) {
-        for( int i = 0; i < obsListeners.size(); i++ ) {
-            ObservableTimeSeries.ObservableTimeSeriesListener observableTimeSeriesListener = (ObservableTimeSeries.ObservableTimeSeriesListener)obsListeners.get( i );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener observableTimeSeriesListener = (Listener)listeners.get( i );
             observableTimeSeriesListener.dataAdded( o );
         }
     }
@@ -93,13 +87,17 @@ public class DefaultTimeSeries implements ITimeSeries, ObservableTimeSeries {
         return min;
     }
 
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
     public TimeData[] getRecentSeries( int numPts ) {
 //        System.out.println( "DefaultTimeSeries.getRecentSeries: numPts="+numPts+", sampleCount="+getSampleCount() );
         List subList = data.subList( data.size() - numPts, data.size() );
         return (TimeData[])subList.toArray( new TimeData[0] );
     }
 
-    public void addListener( ObservableTimeSeries.ObservableTimeSeriesListener observableTimeSeriesListener ) {
-        obsListeners.add( observableTimeSeriesListener );
-    }
+//    public void addListener( ObservableTimeSeries.ObservableTimeSeriesListener observableTimeSeriesListener ) {
+//        obsListeners.add( observableTimeSeriesListener );
+//    }
 }

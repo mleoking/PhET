@@ -3,6 +3,8 @@ package edu.colorado.phet.common.motion.graphs;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
+import edu.colorado.phet.common.motion.model.ITimeSeries;
+import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -46,17 +48,17 @@ public class ControlGraph extends PNode {
     private ArrayList series = new ArrayList();
     private ArrayList listeners = new ArrayList();
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ObservableTimeSeries observableTimeSeries,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
                          String abbr, String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
         this( pSwingCanvas, simulationVariable, observableTimeSeries, abbr, title, minY, maxY, Color.black, new PText( "THUMB" ), timeSeriesModel );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ObservableTimeSeries observableTimeSeries,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
                          String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel ) {
         this( pSwingCanvas, simulationVariable, observableTimeSeries, abbr, title, minY, maxY, color, thumb, timeSeriesModel, 1000 );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ObservableTimeSeries observableTimeSeries,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
                          String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel, int maxDomainTime ) {
         this.maxDomainValue = maxDomainTime;
 //        this.simulationVariable = simulationVariable;
@@ -146,6 +148,15 @@ public class ControlGraph extends PNode {
                 event.getInputManager().setKeyboardFocus( event.getPath() );
             }
         } );
+        observableTimeSeries.addListener( getListener( simulationVariable ) );
+    }
+
+    private ITimeSeries.Listener getListener( final ISimulationVariable simulationVariable ) {
+        return new ITimeSeries.Listener() {
+            public void dataAdded( TimeData timeData ) {
+                addValue( getSeriesIndex( simulationVariable ), timeData.getTime(), timeData.getValue() );
+            }
+        };
     }
 
     public DynamicJFreeChartNode getDynamicJFreeChartNode() {
@@ -196,7 +207,7 @@ public class ControlGraph extends PNode {
         zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDomainValue );
     }
 
-    public void addSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ObservableTimeSeries observableTimeSeries ) {
+    public void addSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
         series.add( simulationVariable );
         dynamicJFreeChartNode.addSeries( title, color );
 
