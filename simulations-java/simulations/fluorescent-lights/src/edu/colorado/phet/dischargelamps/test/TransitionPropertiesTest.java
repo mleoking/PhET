@@ -12,6 +12,7 @@ package edu.colorado.phet.dischargelamps.test;/* Copyright 2003-2004, University
 import junit.framework.TestCase;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.model.NeonProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.LevelSpecificEnergyEmissionStrategy;
@@ -35,6 +36,7 @@ public class TransitionPropertiesTest {
         private DischargeLampAtom atom;
 
         protected void setUp() throws Exception {
+            SimStrings.setStrings( "fluorescent-lights/localization/fluorescent-lights-strings");
             properties = new HydrogenProperties();
             model = new LaserModel();
             atom = new DischargeLampAtom( model, properties, properties.getEnergyEmissionStrategy() );
