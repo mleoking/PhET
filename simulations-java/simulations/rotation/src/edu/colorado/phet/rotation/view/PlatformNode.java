@@ -85,8 +85,8 @@ public class PlatformNode extends PNode {
             }
         } );
         addInputEventListener( new CursorHandler() );
-        rotationPlatform.addListener( new RotationPlatform.Listener() {
-            public void angleChanged( double dtheta ) {
+        rotationPlatform.addListener( new RotationPlatform.Adapter() {
+            public void positionChanged( double dtheta ) {
                 setAngle( rotationPlatform.getPosition() );
             }
         } );

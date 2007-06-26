@@ -115,13 +115,19 @@ public class RotationBody implements Serializable {
             rotationPlatform.addListener( this );
         }
 
-        public void angleChanged( double dtheta ) {
+        public void positionChanged( double dtheta ) {
             Line2D segment = new Line2D.Double( getPosition(), Vector2D.Double.parseAngleAndMagnitude( 0.01, getOrientation() ).getDestination( getPosition() ) );
             setPosition( rotate( getPosition(), rotationPlatform.getCenter(), dtheta ) );
             Line2D rot = rotate( segment, rotationPlatform.getCenter(), dtheta );
 
             setOrientation( new Vector2D.Double( rot.getP1(), rot.getP2() ).getAngle() );
             notifyPositionChanged();
+        }
+
+        public void velocityChanged() {
+        }
+
+        public void accelerationChanged() {
         }
 
         public void detach() {

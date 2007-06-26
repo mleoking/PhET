@@ -26,4 +26,8 @@ public class DefaultSimulationVariable implements ISimulationVariable {
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
+
+    public double getValue() {
+        return value;
+    }
 }
