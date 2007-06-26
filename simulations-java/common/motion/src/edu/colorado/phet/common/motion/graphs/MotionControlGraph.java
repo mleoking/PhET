@@ -81,7 +81,7 @@ public class MotionControlGraph extends ControlGraph {
         motionModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
             public void dataSeriesChanged() {
                 jFreeChartCursorNode.setMaxDragTime( motionModel.getTimeSeriesModel().getRecordTime() );
-                System.out.println( "max record time=" + motionModel.getTimeSeriesModel().getRecordTime() );
+//                System.out.println( "max record time=" + motionModel.getTimeSeriesModel().getRecordTime() );
             }
 
             public void dataSeriesCleared() {

@@ -154,7 +154,12 @@ public class ControlGraph extends PNode {
     private ITimeSeries.Listener getListener( final ISimulationVariable simulationVariable ) {
         return new ITimeSeries.Listener() {
             public void dataAdded( TimeData timeData ) {
+//                System.out.println( "ControlGraph.dataAdded: timeData="+timeData );
                 addValue( getSeriesIndex( simulationVariable ), timeData.getTime(), timeData.getValue() );
+            }
+
+            public void dataCleared() {
+                clear();
             }
         };
     }

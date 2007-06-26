@@ -79,6 +79,7 @@ public class MotionModel implements IPositionDriven {
     public void clear() {
         time = 0;
         motionBody.clear();
+        timeSeriesModel.clear();
     }
 
     public double getTime() {
