@@ -16,6 +16,7 @@ public class VelocityDriven implements UpdateStrategy {
 //        model.setPosition( newAngle );
         model.addPositionData( newX, model.getTime() );
         model.addVelocityData( model.getVelocity(), model.getTime() );
-        model.addAccelerationPast( angularAcceleration, windowSize / 2 );
+
+        model.addAccelerationData( angularAcceleration, MotionMath.averageTime( model.getRecentVelocityTimeSeries( windowSize )) );
     }
 }
