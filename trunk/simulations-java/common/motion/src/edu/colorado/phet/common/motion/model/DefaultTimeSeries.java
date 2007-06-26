@@ -61,7 +61,7 @@ public class DefaultTimeSeries implements ITimeSeries {
     }
 
     public TimeData getMax() {
-        TimeData max = new TimeData( Double.NEGATIVE_INFINITY, Double.NaN );
+        TimeData max = new TimeData( Double.NEGATIVE_INFINITY, 0.0);
         for( int i = 0; i < getSampleCount(); i++ ) {
             if( getData( i ).getValue() > max.getValue() ) {
                 max = getData( i );
@@ -71,7 +71,7 @@ public class DefaultTimeSeries implements ITimeSeries {
     }
 
     public TimeData getMin() {
-        TimeData min = new TimeData( Double.POSITIVE_INFINITY, Double.NaN );
+        TimeData min = new TimeData( Double.POSITIVE_INFINITY, 0.0);
         for( int i = 0; i < getSampleCount(); i++ ) {
             if( getData( i ).getValue() < min.getValue() ) {
                 min = getData( i );

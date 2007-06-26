@@ -39,7 +39,7 @@ public class MotionMath {
 
     public static TimeData getDerivative( TimeData[] recentPositionTimeSeries ) {
         if( recentPositionTimeSeries.length == 0 ) {
-            System.out.println( "MotionMath.getDerivative" );
+//            System.out.println( "MotionMath.getDerivative, returning zero" );
             return new TimeData( 0, 0 );
         }
         return new TimeData( estimateDerivative( recentPositionTimeSeries ), averageTime( recentPositionTimeSeries ) );
