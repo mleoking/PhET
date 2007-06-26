@@ -1,9 +1,7 @@
 package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.motion.model.MotionModel;
-import edu.colorado.phet.common.motion.model.SimulationVariable;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -90,7 +88,7 @@ public class MovingManNode extends PNode {
             }
         } );
 
-        motionModel.getXVariable().addListener( new SimulationVariable.Listener() {
+        motionModel.getXVariable().addListener( new ISimulationVariable.Listener() {
             public void valueChanged() {
                 updateObject( manImage, motionModel );
             }

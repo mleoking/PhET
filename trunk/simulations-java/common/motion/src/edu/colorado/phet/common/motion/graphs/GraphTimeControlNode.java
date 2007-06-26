@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.motion.MotionResources;
-import edu.colorado.phet.common.motion.model.SimulationVariable;
+import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
@@ -42,17 +42,17 @@ public class GraphTimeControlNode extends PNode {
         relayout();
     }
 
-    public GraphTimeControlNode( String title, String abbr, SimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries ) {
+    public GraphTimeControlNode( String title, String abbr, ISimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries ) {
         this( title, abbr, simulationVariable, graphTimeSeries, Color.black );
     }
 
-    public GraphTimeControlNode( String title, String abbr, SimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries, Color color ) {
+    public GraphTimeControlNode( String title, String abbr, ISimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries, Color color ) {
         this( graphTimeSeries );
         addVariable( title, abbr, color, simulationVariable );
         relayout();
     }
 
-    public void addVariable( String title, String abbr, Color color, SimulationVariable simulationVariable ) {
+    public void addVariable( String title, String abbr, Color color, ISimulationVariable simulationVariable ) {
         SeriesNode seriesNode = new SeriesNode( title, abbr, color, simulationVariable );
         seriesNode.setEditable( editable );
         seriesNode.setOffset( 0, seriesLayer.getFullBounds().getHeight() + 5 );
@@ -65,7 +65,7 @@ public class GraphTimeControlNode extends PNode {
         private PSwing textBox;
         private TextBox box;
 
-        public SeriesNode( String title, String abbr, Color color, SimulationVariable simulationVariable ) {
+        public SeriesNode( String title, String abbr, Color color, ISimulationVariable simulationVariable ) {
             shadowPText = new ShadowPText( title );
             shadowPText.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
             shadowPText.setTextPaint( color );
@@ -186,16 +186,16 @@ public class GraphTimeControlNode extends PNode {
     static class TextBox extends JPanel {
         private JTextField textField;
         private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
-        private SimulationVariable simulationVariable;
+        private ISimulationVariable simulationVariable;
 
-        public TextBox( String valueAbbreviation, final SimulationVariable simulationVariable ) {
+        public TextBox( String valueAbbreviation, final ISimulationVariable simulationVariable ) {
             this.simulationVariable = simulationVariable;
             add( new JLabel( valueAbbreviation + " =" ) );
             textField = new JTextField( "0.0", 6 );
             textField.setHorizontalAlignment( JTextField.RIGHT );
             add( textField );
             setBorder( BorderFactory.createLineBorder( Color.black ) );
-            simulationVariable.addListener( new SimulationVariable.Listener() {
+            simulationVariable.addListener( new ISimulationVariable.Listener() {
                 public void valueChanged() {
                     update();
                 }
@@ -209,7 +209,7 @@ public class GraphTimeControlNode extends PNode {
         }
 
         private void update() {
-            textField.setText( decimalFormat.format( simulationVariable.getValue() ) );
+            textField.setText( decimalFormat.format( simulationVariable.getData().getValue() ) );
         }
 
         public void setEditable( boolean editable ) {

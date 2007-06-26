@@ -2,7 +2,8 @@ package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.motion.model.MotionModel;
-import edu.colorado.phet.common.motion.model.SimulationVariable;
+import edu.colorado.phet.common.motion.model.ISimulationVariable;
+import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
@@ -23,19 +24,19 @@ public class MotionControlGraph extends ControlGraph {
     private MotionModel motionModel;
     private JFreeChartCursorNode jFreeChartCursorNode;
 
-    public MotionControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String label, String title,
+    public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
                                boolean editable, TimeSeriesModel timeSeriesModel ) {
         this( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb, motionModel, editable, timeSeriesModel, null );
     }
 
-    public MotionControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String label, String title,
+    public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
                                boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy ) {
         this( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb, motionModel, editable, timeSeriesModel, updateStrategy, 1000 );
     }
 
-    public MotionControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable, String label, String title,
+    public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
                                boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, int maxDomainValue ) {
         super( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb, timeSeriesModel, maxDomainValue );
@@ -65,12 +66,12 @@ public class MotionControlGraph extends ControlGraph {
         } );
         motionModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
             public void modeChanged() {
-                updateCursorVisible( );
+                updateCursorVisible();
             }
 
             public void pauseChanged() {
-                updateCursorLocation(  );
-                updateCursorVisible(  );
+                updateCursorLocation();
+                updateCursorVisible();
             }
         } );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
@@ -107,17 +108,18 @@ public class MotionControlGraph extends ControlGraph {
         }
     }
 
-    public void addSeries( final String title, Color color, String abbr, final SimulationVariable simulationVariable ) {
+    public void addSeries( final String title, Color color, String abbr, final ISimulationVariable simulationVariable ) {
         super.addSeries( title, color, abbr, simulationVariable );
-        if( motionModel != null ) {//main series handled in our constructor, this is for additional series.
+        if( motionModel != null  ) {//main series handled in our constructor, this is for additional series.
             motionModel.addListener( getListener( simulationVariable ) );
         }
     }
 
-    private MotionModel.Listener getListener( final SimulationVariable simulationVariable ) {
+    private MotionModel.Listener getListener( final ISimulationVariable simulationVariable ) {
         return new MotionModel.Listener() {
             public void steppedInTime() {
-                addValue( getSeriesIndex( simulationVariable ), motionModel.getTime(simulationVariable), simulationVariable.getValue() );
+                TimeData timeData = simulationVariable.getData();
+                addValue( getSeriesIndex( simulationVariable ), timeData.getTime(), timeData.getValue() );
             }
         };
     }

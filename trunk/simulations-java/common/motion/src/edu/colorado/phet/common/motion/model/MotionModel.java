@@ -7,7 +7,6 @@ import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
 import java.util.ArrayList;
-import java.sql.CallableStatement;
 
 /**
  * User: Sam Reid
@@ -17,30 +16,23 @@ import java.sql.CallableStatement;
 
 public class MotionModel implements IPositionDriven {
     private TimeSeriesModel timeSeriesModel;
-    //    private MotionModelState currentState;
-    //    private ArrayList stateHistory = new ArrayList();//history is necessary for computing derivatives
     private double time = 0;
-    private ITimeSeries timeTimeSeries = new DefaultTimeSeries( time, time );
-    private ITimeSeries positionTimeSeries = new DefaultTimeSeries( 0, time );
-    private ITimeSeries velocityTimeSeries = new DefaultTimeSeries( 0, time );
-    private ITimeSeries accelerationTimeSeries = new DefaultTimeSeries( 0, time );
+    private DefaultTimeSeries timeTimeSeries = new DefaultTimeSeries( time, time );
+    private DefaultTimeSeries positionTimeSeries = new DefaultTimeSeries( 0, time );
+    private DefaultTimeSeries velocityTimeSeries = new DefaultTimeSeries( 0, time );
+    private DefaultTimeSeries accelerationTimeSeries = new DefaultTimeSeries( 0, time );
 
     /*Different strategies for updating simulation variables*/
     private PositionDriven positionDriven = new PositionDriven();
     private VelocityDriven velocityDriven = new VelocityDriven();
     private AccelerationDriven accelDriven = new AccelerationDriven();
 
-    private UpdateStrategy updateStrategy = positionDriven;
-
-    private SimulationVariable xVariable;
-    private SimulationVariable vVariable;
-    private SimulationVariable aVariable;
-    private RecordableModel recordableModel;
+    private UpdateStrategy updateStrategy = positionDriven; //current strategy
 
     private ArrayList listeners = new ArrayList();
 
     public MotionModel( IClock clock ) {
-        recordableModel = new RecordableModel() {
+        RecordableModel recordableModel = new RecordableModel() {
             public void stepInTime( double simulationTimeChange ) {
                 MotionModel.this.stepInTime( simulationTimeChange );
             }
@@ -70,31 +62,6 @@ public class MotionModel implements IPositionDriven {
         clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 timeSeriesModel.stepMode( clockEvent.getSimulationTimeChange() );
-            }
-        } );
-//        stateHistory.add( currentState.copy() );
-
-        xVariable = new SimulationVariable( positionTimeSeries.getValue() );
-        vVariable = new SimulationVariable( velocityTimeSeries.getValue() );
-        aVariable = new SimulationVariable( accelerationTimeSeries.getValue() );
-
-
-        xVariable.addListener( new SimulationVariable.Listener() {
-            public void valueChanged() {
-                positionTimeSeries.setValue( xVariable.getValue() );
-//                currentState.getMotionBody().setPosition( xVariable.getValue() );
-            }
-        } );
-        vVariable.addListener( new SimulationVariable.Listener() {
-            public void valueChanged() {
-                velocityTimeSeries.setValue( vVariable.getValue() );
-//                currentState.getMotionBody().setVelocity( vVariable.getValue() );
-            }
-        } );
-        aVariable.addListener( new SimulationVariable.Listener() {
-            public void valueChanged() {
-                accelerationTimeSeries.setValue( aVariable.getValue() );
-//                currentState.getMotionBody().setAcceleration( aVariable.getValue() );
             }
         } );
     }
@@ -137,22 +104,10 @@ public class MotionModel implements IPositionDriven {
         this.updateStrategy = updateStrategy;
     }
 
-//    public MotionModelState getLastState() {
-//        return (MotionModelState)stateHistory.get( stateHistory.size() - 1 );
-//    }
-
     public void stepInTime( double dt ) {
         time += dt;
         timeTimeSeries.addValue( time, time );
-//        stateHistory.add( currentState.copy() );
-//        currentState.setPosition( currentState.getMotionBody().getPosition() );
         updateStrategy.update( this, dt );
-//        currentState.stepInTime( dt );
-//        System.out.println( "currentState.getTime() = " + currentState.getTime() );
-
-        xVariable.setValue( getPosition() );
-        vVariable.setValue( getVelocity() );
-        aVariable.setValue( getAcceleration() );
 
         doStepInTime( dt );
         notifySteppedInTime();
@@ -163,14 +118,6 @@ public class MotionModel implements IPositionDriven {
      */
     protected void doStepInTime( double dt ) {
     }
-
-//    public MotionModelState getStateFromEnd( int i ) {
-//        return getState( stateHistory.size() - 1 - i );
-//    }
-//
-//    private MotionModelState getState( int index ) {
-//        return (MotionModelState)stateHistory.get( index );
-//    }
 
     /**
      * Returns values from the last numPts points of the acceleration time series.
@@ -190,10 +137,6 @@ public class MotionModel implements IPositionDriven {
         return positionTimeSeries.getRecentSeries( numPts );
     }
 
-//    private int getStateCount() {
-//        return stateHistory.size();
-//    }
-
     public int getAccelerationSampleCount() {
         return accelerationTimeSeries.getSampleCount();
     }
@@ -206,58 +149,21 @@ public class MotionModel implements IPositionDriven {
         return positionTimeSeries.getSampleCount();
     }
 
-//    public TimeData[] getAvailableAccelerationTimeSeries( int numPts ) {
-//        return getAccelerationTimeSeries( Math.min( numPts, accelerationTimeSeries.getSampleCount() ) );
-//    }
-//
-//    public TimeData[] getAvailableVelocityTimeSeries( int numPts ) {
-//        return getVelocityTimeSeries( Math.min( numPts, velocityTimeSeries.getSampleCount() ) );
-//    }
-//
-//    public TimeData[] getAvailablePositionTimeSeries( int numPts ) {
-//        return getPositionTimeSeries( Math.min( numPts, accelerationTimeSeries.getSampleCount() ) );
-//    }
-
-    public SimulationVariable getXVariable() {
-        return xVariable;
-    }
-
-    public SimulationVariable getVVariable() {
-        return vVariable;
-    }
-
-    public SimulationVariable getAVariable() {
-        return aVariable;
-    }
-
     public void clear() {
-        time=0;
+        time = 0;
         positionTimeSeries.clear();
         velocityTimeSeries.clear();
         accelerationTimeSeries.clear();
-//        MotionModelState state = getLastState().copy();
-//        state.setTime( 0.0 );
-//        stateHistory.clear();
-//        stateHistory.add( state );
-//        notifySteppedInTime();//todo: this looks like a hack
     }
 
     public void setPosition( double position ) {
         positionTimeSeries.setValue( position );
-//        currentState.setPosition( position );
     }
-
-//    public MotionBody getMotionBody() {
-//        return currentState.getMotionBody();
-//    }
-
-    //
 
     public double getVelocity() {
         return velocityTimeSeries.getValue();
     }
 
-    //
     public double getPosition() {
         return positionTimeSeries.getValue();
     }
@@ -316,18 +222,6 @@ public class MotionModel implements IPositionDriven {
         accelerationTimeSeries.addValue( accel, time );
     }
 
-    public double getTime( SimulationVariable simulationVariable ) {
-        if (simulationVariable==xVariable){
-            return positionTimeSeries.getTime();
-        }else if (simulationVariable==vVariable){
-            return velocityTimeSeries.getTime();
-        }else if (simulationVariable==aVariable){
-            return accelerationTimeSeries.getTime();
-        }else{
-            throw new RuntimeException( "unknown variable: "+simulationVariable);
-        }
-    }
-
     public TimeData getVelocity( int index ) {
         return velocityTimeSeries.getData( index );
     }
@@ -342,6 +236,18 @@ public class MotionModel implements IPositionDriven {
 
     public TimeData getMinAcceleration() {
         return accelerationTimeSeries.getMin();
+    }
+
+    public ISimulationVariable getXVariable() {
+        return positionTimeSeries;
+    }
+
+    public ISimulationVariable getVVariable() {
+        return velocityTimeSeries;
+    }
+
+    public ISimulationVariable getAVariable() {
+        return accelerationTimeSeries;
     }
 
     public static interface Listener {

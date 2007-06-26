@@ -2,7 +2,8 @@ package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.common.motion.model.MotionModelState;
 import edu.colorado.phet.common.motion.model.MotionModel;
-import edu.colorado.phet.common.motion.model.SimulationVariable;
+import edu.colorado.phet.common.motion.model.ISimulationVariable;
+import edu.colorado.phet.common.motion.model.DefaultSimulationVariable;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 
@@ -13,12 +14,12 @@ import java.awt.geom.Point2D;
  * May 22, 2007, 11:37:56 PM
  */
 public class RotationModel extends MotionModel implements RotationBodyNode.RotationBodyEnvironment {
-    private SimulationVariable xPositionVariable = new SimulationVariable();
-    private SimulationVariable yPositionVariable = new SimulationVariable();
-    private SimulationVariable speedVariable = new SimulationVariable();
-    private SimulationVariable xVelocityVariable = new SimulationVariable();
-    private SimulationVariable yVelocityVariable = new SimulationVariable();
-    private SimulationVariable centripetalAcceleration = new SimulationVariable();
+    private DefaultSimulationVariable xPositionVariable = new DefaultSimulationVariable();
+    private DefaultSimulationVariable yPositionVariable = new DefaultSimulationVariable();
+    private DefaultSimulationVariable speedVariable = new DefaultSimulationVariable();
+    private DefaultSimulationVariable xVelocityVariable = new DefaultSimulationVariable();
+    private DefaultSimulationVariable yVelocityVariable = new DefaultSimulationVariable();
+    private DefaultSimulationVariable centripetalAcceleration = new DefaultSimulationVariable();
 
     public RotationModel( IClock clock ) {
         super( clock );
@@ -61,27 +62,27 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         return modelState;
     }
 
-    public SimulationVariable getXPositionVariable() {
+    public ISimulationVariable getXPositionVariable() {
         return xPositionVariable;
     }
 
-    public SimulationVariable getYPositionVariable() {
+    public ISimulationVariable getYPositionVariable() {
         return yPositionVariable;
     }
 
-    public SimulationVariable getSpeedVariable() {
+    public ISimulationVariable getSpeedVariable() {
         return speedVariable;
     }
 
-    public SimulationVariable getXVelocityVariable() {
+    public ISimulationVariable getXVelocityVariable() {
         return xVelocityVariable;
     }
 
-    public SimulationVariable getYVelocityVariable() {
+    public ISimulationVariable getYVelocityVariable() {
         return yVelocityVariable;
     }
 
-    public SimulationVariable getCentripetalAcceleration() {
+    public ISimulationVariable getCentripetalAcceleration() {
         return centripetalAcceleration;
     }
 

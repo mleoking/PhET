@@ -2,7 +2,7 @@ package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
-import edu.colorado.phet.common.motion.model.SimulationVariable;
+import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -45,22 +45,22 @@ public class ControlGraph extends PNode {
     private Layout layout = new FlowLayout();
     private ArrayList series = new ArrayList();
     private ArrayList listeners = new ArrayList();
-    private SimulationVariable simulationVariable;
+//    private SimulationVariable simulationVariable;
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable,
                          String abbr, String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
         this( pSwingCanvas, simulationVariable, abbr, title, minY, maxY, Color.black, new PText( "THUMB" ), timeSeriesModel );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable,
                          String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel ) {
         this( pSwingCanvas, simulationVariable, abbr, title, minY, maxY, color, thumb, timeSeriesModel, 1000 );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final SimulationVariable simulationVariable,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable,
                          String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel, int maxDomainTime ) {
         this.maxDomainValue = maxDomainTime;
-        this.simulationVariable = simulationVariable;
+//        this.simulationVariable = simulationVariable;
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
         jFreeChart = ChartFactory.createXYLineChart( title + ", " + abbr, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String)null );
@@ -105,9 +105,9 @@ public class ControlGraph extends PNode {
         addChild( zoomControl );
         addChild( titleLayer );
 
-        simulationVariable.addListener( new SimulationVariable.Listener() {
+        simulationVariable.addListener( new ISimulationVariable.Listener() {
             public void valueChanged() {
-                jFreeChartSliderNode.setValue( simulationVariable.getValue() );
+                jFreeChartSliderNode.setValue( simulationVariable.getData().getValue() );
             }
         } );
         jFreeChartSliderNode.addListener( new JFreeChartSliderNode.Listener() {
@@ -197,7 +197,7 @@ public class ControlGraph extends PNode {
         zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDomainValue );
     }
 
-    public void addSeries( String title, Color color, String abbr, SimulationVariable simulationVariable ) {
+    public void addSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable ) {
         series.add( simulationVariable );
         dynamicJFreeChartNode.addSeries( title, color );
 
@@ -208,7 +208,7 @@ public class ControlGraph extends PNode {
         graphTimeControlNode.addVariable( title, abbr, color, simulationVariable );
     }
 
-    public int getSeriesIndex( SimulationVariable title ) {
+    public int getSeriesIndex( ISimulationVariable title ) {
         return series.indexOf( title );
     }
 
