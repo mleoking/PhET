@@ -12,17 +12,15 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
  * Time: 11:39:00 PM
  */
 
-public class MotionModel implements IPositionDriven{
+public class MotionModel implements IPositionDriven {
     private TimeSeriesModel timeSeriesModel;
 
     private double time = 0;
     private DefaultTimeSeries timeTimeSeries = new DefaultTimeSeries();
-
-    private MotionBodySeries motionBodySeries = new MotionBodySeries();
-    private MotionBodyState motionBodyState = new MotionBodyState();//current state
+    private MotionBody motionBody = new MotionBody();
 
     public MotionBodySeries getMotionBodySeries() {
-        return motionBodySeries;
+        return motionBody.getMotionBodySeries();
     }
 
     public MotionModel( IClock clock ) {
@@ -38,12 +36,7 @@ public class MotionModel implements IPositionDriven{
             public void setState( Object o ) {
                 //the setState paradigm is used to allow attachment of listeners to model substructure
                 //states are copied without listeners
-                MotionModel.this.time = ( (Double)o ).doubleValue();
-                System.out.println( "MotionModel.setState: time=" + MotionModel.this.time );
-                
-                motionBodyState.setPosition( motionBodySeries.getXTimeSeries().getValueForTime( time ) );
-                motionBodyState.setVelocity( motionBodySeries.getVTimeSeries().getValueForTime( time ) );
-                motionBodyState.setAcceleration( motionBodySeries.getATimeSeries().getValueForTime( time ) );
+                setTime( ( (Double)o ).doubleValue() );
             }
 
             public void resetTime() {
@@ -53,14 +46,15 @@ public class MotionModel implements IPositionDriven{
         timeSeriesModel = new TimeSeriesModel( recordableModel, clock ) {
 
             public void setRecordMode() {
-                double x = motionBodyState.getPosition();
-                double v = motionBodyState.getVelocity();
-                double a = motionBodyState.getAcceleration();
-                setPlaybackTime( getRecordTime() );//todo: temporary workaround
+                //todo: temporary workaround to resolve problems with offset in record/playback times
+                double x = motionBody.getMotionBodyState().getPosition();
+                double v = motionBody.getMotionBodyState().getVelocity();
+                double a = motionBody.getMotionBodyState().getAcceleration();
+                setPlaybackTime( getRecordTime() );
                 super.setRecordMode();
-                motionBodyState.setPosition( x );
-                motionBodyState.setVelocity( v );
-                motionBodyState.setAcceleration( a );
+                motionBody.getMotionBodyState().setPosition( x );
+                motionBody.getMotionBodyState().setVelocity( v );
+                motionBody.getMotionBodyState().setAcceleration( a );
             }
         };
         timeSeriesModel.setRecordMode();
@@ -71,28 +65,24 @@ public class MotionModel implements IPositionDriven{
         } );
     }
 
+    private void setTime( double time ) {
+        this.time = time;
+        motionBody.setTime( time );
+    }
+
     public void stepInTime( double dt ) {
         time += dt;
         timeTimeSeries.addValue( time, time );
-        
-        motionBodySeries.stepInTime(time,motionBodyState, dt);
-
-        motionBodyState.setPosition( motionBodySeries.getXTimeSeries().getValue() );
-        motionBodyState.setVelocity( motionBodySeries.getVTimeSeries().getValue() );
-        motionBodyState.setAcceleration( motionBodySeries.getATimeSeries().getValue() );
-
-        doStepInTime( dt );
-    }
-
-    /* Any other operations that must be completed before notifySteppedInTime is called should
-    be performed here.
-     */
-    protected void doStepInTime( double dt ) {
+        motionBody.stepInTime( time, dt );
     }
 
     public void clear() {
         time = 0;
-        motionBodySeries.clear();
+        motionBody.clear();
+    }
+
+    public double getTime() {
+        return time;
     }
 
     public TimeSeriesModel getTimeSeriesModel() {
@@ -100,56 +90,19 @@ public class MotionModel implements IPositionDriven{
     }
 
     public ISimulationVariable getXVariable() {
-        final DefaultSimulationVariable x = new DefaultSimulationVariable();
-        motionBodyState.addListener( new MotionBodyState.Adapter() {
-            public void positionChanged( double dx ) {
-                x.setValue( motionBodyState.getPosition() );
-            }
-        } );
-        x.addListener( new ISimulationVariable.Listener() {
-            public void valueChanged() {
-                motionBodyState.setPosition( x.getValue() );
-            }
-        } );
-        return x;
+        return motionBody.getXVariable();
     }
 
     public ISimulationVariable getVVariable() {
-        final DefaultSimulationVariable v = new DefaultSimulationVariable();
-        motionBodyState.addListener( new MotionBodyState.Adapter() {
-            public void velocityChanged() {
-                v.setValue( motionBodyState.getVelocity() );
-            }
-        } );
-        v.addListener( new ISimulationVariable.Listener() {
-            public void valueChanged() {
-                motionBodyState.setVelocity( v.getValue() );
-            }
-        } );
-        return v;
+        return motionBody.getVVariable();
     }
 
     public ISimulationVariable getAVariable() {
-        final DefaultSimulationVariable a = new DefaultSimulationVariable();
-        motionBodyState.addListener( new MotionBodyState.Adapter() {
-            public void accelerationChanged() {
-                a.setValue( motionBodyState.getAcceleration() );
-            }
-        } );
-        a.addListener( new ISimulationVariable.Listener() {
-            public void valueChanged() {
-                motionBodyState.setAcceleration( a.getValue() );
-            }
-        } );
-        return a;
+        return motionBody.getAVariable();
     }
 
     public MotionBodyState getMotionBody() {
-        return motionBodyState;
-    }
-
-    public double getTime() {
-        return time;
+        return motionBody.getMotionBodyState();
     }
 
     public void setPositionDriven() {
@@ -159,9 +112,11 @@ public class MotionModel implements IPositionDriven{
     public ITimeSeries getXTimeSeries() {
         return getMotionBodySeries().getXTimeSeries();
     }
+
     public ITimeSeries getVTimeSeries() {
         return getMotionBodySeries().getVTimeSeries();
     }
+
     public ITimeSeries getATimeSeries() {
         return getMotionBodySeries().getATimeSeries();
     }
@@ -169,9 +124,11 @@ public class MotionModel implements IPositionDriven{
     public UpdateStrategy getPositionDriven() {
         return getMotionBodySeries().getPositionDriven();
     }
+
     public UpdateStrategy getVelocityDriven() {
         return getMotionBodySeries().getVelocityDriven();
     }
+
     public UpdateStrategy getAccelDriven() {
         return getMotionBodySeries().getAccelDriven();
     }
@@ -179,6 +136,7 @@ public class MotionModel implements IPositionDriven{
     public void setAccelerationDriven() {
         getMotionBodySeries().setAccelerationDriven();
     }
+
     public void setVelocityDriven() {
         getMotionBodySeries().setVelocityDriven();
     }
