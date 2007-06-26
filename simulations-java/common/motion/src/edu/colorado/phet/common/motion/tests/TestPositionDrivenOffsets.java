@@ -58,7 +58,7 @@ public class TestPositionDrivenOffsets extends TestCase {
 
         SwingClock clock = new SwingClock( 30, dt );
         MotionModel motionModel = new MotionModel( clock );
-        motionModel.getPositionDriven().setVelocityWindowSize( maxWindowSize );
+        motionModel.getPositionDriven().setVelocityWindow( maxWindowSize );
         motionModel.setPositionDriven();
 
         if( verbose ) {
@@ -87,12 +87,5 @@ public class TestPositionDrivenOffsets extends TestCase {
         }
 //        System.out.println( "timeXChanged=" + timeXChanged + ", timeForMaxVelocity=" + timeForMaxVelocity );
         assertEquals( "time X Changed should be same as when velocity peaks: dt=" + dt + ", x0=" + x0 + ", xF=" + xFinal + ", maxWindowSize=" + maxWindowSize, timeXChanged, timeForMaxVelocity, tolerance );
-
     }
-
-//    private double getTimeForMaxVelocity( MotionModel motionModel ) {
-//        return ;
-//    }
-
-
 }

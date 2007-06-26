@@ -9,34 +9,28 @@ import edu.colorado.phet.common.motion.MotionMath;
  */
 
 public class PositionDriven implements UpdateStrategy {
-    private int velocityWindowSize = 6;
-    private int accelerationWindowSize = 6;
+    private int velocityWindow = 6;
+    private int accelerationWindow = 6;
 
-    public int getVelocityWindowSize() {
-        return velocityWindowSize;
+    public int getVelocityWindow() {
+        return velocityWindow;
     }
 
     //todo: try 2nd order derivative directly from position data?
     public void update( MotionModel model, double dt ) {
-
-        int velWindow = Math.min( velocityWindowSize, model.getVelocitySampleCount() );
-        double v = MotionMath.estimateDerivative( model.getRecentPositionTimeSeries( velWindow ) );
-        double vt = MotionMath.averageTime( model.getRecentPositionTimeSeries( velWindow ) );
-
-        int accWindow = Math.min( accelerationWindowSize, model.getAccelerationSampleCount() );
-        double a = MotionMath.estimateDerivative( model.getRecentVelocityTimeSeries( accWindow ) );
-        double at = MotionMath.averageTime( model.getRecentVelocityTimeSeries( accWindow ) );
+        TimeData v = MotionMath.getDerivative( model.getRecentPositionTimeSeries( Math.min( velocityWindow, model.getVelocitySampleCount() ) ) );
+        TimeData a = MotionMath.getDerivative( model.getRecentVelocityTimeSeries( Math.min( accelerationWindow, model.getAccelerationSampleCount() ) ) );
 
         model.addPositionData( model.getPosition(), model.getTime() );
-        model.addVelocityData( v, vt + dt );
-        model.addAccelerationData( a, at );
+        model.addVelocityData( v.getValue(), v.getTime() + dt );//todo: why is it necessary that velocity be offset by dt in order to be correct?
+        model.addAccelerationData( a.getValue(), a.getTime() );
     }
 
-    public double getAccelerationWindowSize() {
-        return accelerationWindowSize;
+    public double getAccelerationWindow() {
+        return accelerationWindow;
     }
 
-    public void setVelocityWindowSize( int maxWindowSize ) {
-        this.velocityWindowSize = maxWindowSize;
+    public void setVelocityWindow( int maxWindowSize ) {
+        this.velocityWindow = maxWindowSize;
     }
 }

@@ -36,4 +36,8 @@ public class MotionMath {
         }
         return a / datas.length;
     }
+
+    public static TimeData getDerivative( TimeData[] recentPositionTimeSeries ) {
+        return new TimeData( estimateDerivative( recentPositionTimeSeries ),averageTime( recentPositionTimeSeries ) );
+    }
 }
