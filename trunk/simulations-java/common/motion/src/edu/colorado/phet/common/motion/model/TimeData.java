@@ -26,4 +26,8 @@ public class TimeData {
     public String toString() {
         return "value=" + value + ", time=" + time;
     }
+
+    public void setValue( double value ) {
+        this.value=value;
+    }
 }

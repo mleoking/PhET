@@ -48,11 +48,11 @@ public class TimeSeriesPNode {
         this.color = color;
         this.justifyString = justifyString;
         series.addObserver( new TimeSeries.Observer() {
-            public void dataAdded( TimeSeries timeSeries ) {
+            public void dataAdded() {
                 TimeSeriesPNode.this.dataAdded();
             }
 
-            public void cleared( TimeSeries timeSeries ) {
+            public void cleared() {
                 reset();
             }
         } );

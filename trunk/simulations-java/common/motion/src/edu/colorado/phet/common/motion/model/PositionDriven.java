@@ -18,8 +18,12 @@ public class PositionDriven implements UpdateStrategy {
 
     //todo: try 2nd order derivative directly from position data
     public void update( MotionModel model, double dt ) {
-        model.setVelocity( MotionMath.estimateDerivative( model.getAvailablePositionTimeSeries( velocityWindowSize ) ) );
-        model.setAcceleration( MotionMath.estimateDerivative( model.getAvailableVelocityTimeSeries( accelerationWindowSize ) ) );
+        //todo: this should set the velocity windowSize/2 steps ago
+        int velWindow = Math.min( velocityWindowSize, model.getVelocitySampleCount() );
+        int accWindow = Math.min( accelerationWindowSize, model.getAccelerationSampleCount() );
+        model.addPositionData( model.getPosition(), model.getTime() );
+        model.addVelocityPast( MotionMath.estimateDerivative( model.getRecentPositionTimeSeries( velWindow ) ), velWindow / 2 );
+        model.addAccelerationPast( MotionMath.estimateDerivative( model.getRecentVelocityTimeSeries( accWindow ) ), velWindow / 2 + accWindow / 2 );
     }
 
     public double getAccelerationWindowSize() {

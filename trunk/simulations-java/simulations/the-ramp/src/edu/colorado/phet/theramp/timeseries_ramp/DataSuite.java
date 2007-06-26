@@ -32,7 +32,6 @@ public class DataSuite {
         double average = valSum / numPtsToAvg;
         double timeAverage = timeSum / numPtsToAvg;
         if( Double.isNaN( average ) ) {
-            average = 0;
             throw new RuntimeException( "NaN result for average." );
         }
 
@@ -41,11 +40,6 @@ public class DataSuite {
 
     public TimeSeries getSmoothedDataSeries() {
         return smoothedSeries;
-    }
-
-    public TimePoint getDerivative( double dt ) {
-        TimePoint timePoint = smoothedSeries.getLatestDerivative( dt );
-        return timePoint;
     }
 
     public void addPoint( double pt, double time ) {

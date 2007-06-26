@@ -10,9 +10,12 @@ import edu.colorado.phet.common.motion.MotionMath;
 
 public class VelocityDriven implements UpdateStrategy {
     public void update( MotionModel model, double dt ) {
-        double newAngle = model.getPosition() + model.getVelocity() * dt;
-        double angularAcceleration = MotionMath.estimateDerivative( model.getAvailableVelocityTimeSeries( 10 ) );
-        model.setPosition( newAngle );
-        model.setAcceleration( angularAcceleration );
+        double newX = model.getPosition() + model.getVelocity() * dt;
+        int windowSize = Math.min( 10, model.getVelocitySampleCount() );
+        double angularAcceleration = MotionMath.estimateDerivative( model.getRecentVelocityTimeSeries( windowSize ) );
+//        model.setPosition( newAngle );
+        model.addPositionData( newX, model.getTime() );
+        model.addVelocityData( model.getVelocity(), model.getTime() );
+        model.addAccelerationPast( angularAcceleration, windowSize / 2 );
     }
 }

@@ -53,8 +53,9 @@ public class MovingManMotionApplication {
         frame.setVisible( true );
 
         swingClock.start();
-        motionModel.setVelocityDriven();
-        motionModel.setVelocity( 0.1 );
+        motionModel.setPositionDriven();
+//        motionModel.setVelocityDriven();
+//        motionModel.setVelocity( 0.1 );
 
         int MAX_T=200;
         GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{

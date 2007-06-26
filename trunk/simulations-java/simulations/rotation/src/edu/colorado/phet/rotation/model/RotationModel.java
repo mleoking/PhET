@@ -94,7 +94,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     }
 
     private RotationMotionModelState getCurrentRotationModelState() {
-        return (RotationMotionModelState)getCurrentState();
+        return (RotationMotionModelState)super.getCurrentState();
     }
 
     public int getNumRotationBodies() {
@@ -109,8 +109,4 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         return getCurrentRotationModelState().getRotationBody( i );
     }
 
-    //Todo: handle derivative offsets for rotation-specific variables
-    public double getTime( SimulationVariable simulationVariable ) {
-        return super.getTime( simulationVariable );
-    }
 }
