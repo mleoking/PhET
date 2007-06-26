@@ -55,10 +55,24 @@ public class MotionBody implements Serializable {
 
     public void setVelocity( double velocity ) {
         this.velocity = velocity;
+        notifyVelocityChanged();
+    }
+
+    private void notifyVelocityChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener)listeners.get( i )).velocityChanged();
+        }
     }
 
     public void setAcceleration( double acceleration ) {
         this.acceleration = acceleration;
+        notifyAccelerationChanged();
+    }
+
+    private void notifyAccelerationChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener)listeners.get( i )).accelerationChanged();
+        }
     }
 
     public static interface Listener {

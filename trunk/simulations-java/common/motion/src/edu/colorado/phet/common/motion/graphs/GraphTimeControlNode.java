@@ -161,18 +161,18 @@ public class GraphTimeControlNode extends PNode {
                 }
             } );
             updateGoState();
-            Timer timer=new Timer( 30,new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    display( timeSeriesModel );
-                }
-            } );
-            timer.start();
-            display( timeSeriesModel );
+//            Timer timer=new Timer( 30,new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    display( timeSeriesModel );
+//                }
+//            } );
+//            timer.start();
+//            display( timeSeriesModel );
         }
 
-        private void display( TimeSeriesModel timeSeriesModel ) {
-            System.out.println( "GraphTimeControlNode$GoStopButton.actionPerformed: mode="+timeSeriesModel.getMode()+", paused="+timeSeriesModel.isPaused() );
-        }
+//        private void display( TimeSeriesModel timeSeriesModel ) {
+//            System.out.println( "GraphTimeControlNode$GoStopButton.actionPerformed: mode="+timeSeriesModel.getMode()+", paused="+timeSeriesModel.isPaused() );
+//        }
 
         private void updateGoState() {
             setGoButton( !timeSeriesModel.isRecording() );

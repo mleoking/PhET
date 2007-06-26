@@ -45,6 +45,10 @@ public class MotionModel implements IPositionDriven {
                 //the setState paradigm is used to allow attachment of listeners to model substructure
                 //states are copied without listeners
                 MotionModel.this.time = ( (Double)o ).doubleValue();
+                System.out.println( "MotionModel.setState: time="+MotionModel.this.time );
+                motionBody.setPosition( positionTimeSeries.getValueForTime(time));
+                motionBody.setVelocity( velocityTimeSeries.getValueForTime(time));
+                motionBody.setAcceleration( accelerationTimeSeries.getValueForTime(time));
 //                currentState.setState( (MotionModelState)o );
 //                xVariable.setValue( ( (MotionModelState)o ).getPosition() );
 //                vVariable.setValue( ( (MotionModelState)o ).getVelocity() );

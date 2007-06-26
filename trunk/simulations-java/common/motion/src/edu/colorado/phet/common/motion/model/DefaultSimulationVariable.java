@@ -7,9 +7,8 @@ import java.util.ArrayList;
  * Jun 26, 2007, 12:20:50 PM
  */
 public class DefaultSimulationVariable implements ISimulationVariable {
-
-    double value;
-    double time;
+    private double value;
+    private double time;
     private ArrayList listeners = new ArrayList();
 
     public TimeData getData() {
@@ -17,9 +16,11 @@ public class DefaultSimulationVariable implements ISimulationVariable {
     }
 
     public void setValue( double value ) {
-        this.value = value;
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).valueChanged();
+        if( this.value != value ) {
+            this.value = value;
+            for( int i = 0; i < listeners.size(); i++ ) {
+                ( (Listener)listeners.get( i ) ).valueChanged();
+            }
         }
     }
 
@@ -29,5 +30,9 @@ public class DefaultSimulationVariable implements ISimulationVariable {
 
     public double getValue() {
         return value;
+    }
+
+    public double getTime() {
+        return time;
     }
 }
