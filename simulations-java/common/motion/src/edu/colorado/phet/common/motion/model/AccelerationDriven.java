@@ -8,11 +8,11 @@ package edu.colorado.phet.common.motion.model;
 
 public class AccelerationDriven implements UpdateStrategy {
 
-    public void update( MotionModel model, double dt ) {
+    public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {
         //assume a constant acceleration model with the given acceleration.
-        double origAngVel = model.getMotionBody().getVelocity();
-        model.addAccelerationData( model.getMotionBody().getAcceleration(), model.getTime() );
-        model.addVelocityData( model.getMotionBody().getVelocity() + model.getMotionBody().getAcceleration() * dt, model.getTime() );
-        model.addPositionData( model.getMotionBody().getPosition() + ( model.getMotionBody().getVelocity() + origAngVel ) / 2.0 * dt, model.getTime() );
+        double origAngVel = state.getVelocity();
+        model.addAccelerationData( state.getAcceleration(),time );
+        model.addVelocityData( state.getVelocity() + state.getAcceleration() * dt, time);
+        model.addPositionData( state.getPosition() + ( state.getVelocity() + origAngVel ) / 2.0 * dt, time);
     }
 }

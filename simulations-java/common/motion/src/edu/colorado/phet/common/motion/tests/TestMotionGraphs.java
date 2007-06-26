@@ -92,9 +92,9 @@ public class TestMotionGraphs {
     private void step() {
         rotationModel.stepInTime( 1.0 );
 
-        xGraph.addValue( rotationModel.getLastPosition().getTime(), rotationModel.getLastPosition().getValue() );
-        vGraph.addValue( rotationModel.getLastVelocity().getTime(), rotationModel.getLastVelocity().getValue() );
-        vGraph.addValue( rotationModel.getLastAcceleration().getTime(), rotationModel.getLastAcceleration().getValue() );
+        xGraph.addValue( rotationModel.getMotionBodySeries().getLastPosition().getTime(), rotationModel.getMotionBodySeries().getLastPosition().getValue() );
+        vGraph.addValue( rotationModel.getMotionBodySeries().getLastVelocity().getTime(), rotationModel.getMotionBodySeries().getLastVelocity().getValue() );
+        vGraph.addValue( rotationModel.getMotionBodySeries().getLastAcceleration().getTime(), rotationModel.getMotionBodySeries().getLastAcceleration().getValue() );
 //        aGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAcceleration() );
     }
 

@@ -7,25 +7,25 @@ import java.util.ArrayList;
  * Author: Sam Reid
  * May 11, 2007, 3:41:07 AM
  */
-public class MotionBody implements Serializable {
+public class MotionBodyState implements Serializable {
     private transient ArrayList listeners = new ArrayList();
     private double position;
     private double velocity = 0.0;
     private double acceleration = 0.0;
 
-    public MotionBody() {
+    public MotionBodyState() {
     }
 
-    public void setState( MotionBody motionBody ) {
+    public void setState( MotionBodyState motionBodyState ) {
         double origPosition = position;
 
-        position = motionBody.position;
-        velocity = motionBody.velocity;
-        acceleration = motionBody.acceleration;
+        position = motionBodyState.position;
+        velocity = motionBodyState.velocity;
+        acceleration = motionBodyState.acceleration;
         notifyPositionChanged( position - origPosition );
     }
 
-    public void addListener( MotionBody.Listener listener ) {
+    public void addListener( MotionBodyState.Listener listener ) {
         listeners.add( listener );
     }
 
@@ -41,7 +41,7 @@ public class MotionBody implements Serializable {
         }
     }
 
-    public void removeListener( MotionBody.Listener listener ) {
+    public void removeListener( MotionBodyState.Listener listener ) {
         listeners.remove( listener );
     }
 
@@ -97,7 +97,7 @@ public class MotionBody implements Serializable {
 
     public void notifyPositionChanged( double dtheta ) {
         for( int i = 0; i < listeners.size(); i++ ) {
-            MotionBody.Listener listener = (MotionBody.Listener)listeners.get( i );
+            MotionBodyState.Listener listener = (MotionBodyState.Listener)listeners.get( i );
             listener.positionChanged( dtheta );
         }
     }

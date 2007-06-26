@@ -6,5 +6,5 @@ package edu.colorado.phet.common.motion.model;
  * Time: 11:36:26 PM
  */
 public interface UpdateStrategy {
-    void update( MotionModel model, double dt );
+    void update( MotionBodySeries model, double dt, MotionBodyState state, double time );
 }

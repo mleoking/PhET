@@ -10,19 +10,19 @@ import java.io.Serializable;
  */
 public class MotionModelState implements Serializable {
 
-    private MotionBody motionBody = new MotionBody();
+    private MotionBodyState motionBodyState = new MotionBodyState();
     private double time = 0.0;
 
     public MotionModelState() {
     }
 
-    protected void setMotionBody( MotionBody motionBody ) {
-        this.motionBody = motionBody;
+    protected void setMotionBody( MotionBodyState motionBodyState ) {
+        this.motionBodyState = motionBodyState;
     }
 
     public void setState( MotionModelState state ) {
         time = state.time;
-        motionBody.setState( state.motionBody );
+        motionBodyState.setState( state.motionBodyState );
     }
 
     public MotionModelState copy() {
@@ -36,11 +36,11 @@ public class MotionModelState implements Serializable {
     }
 
     public double getAcceleration() {
-        return motionBody.getAcceleration();
+        return motionBodyState.getAcceleration();
     }
 
-    public MotionBody getMotionBody() {
-        return motionBody;
+    public MotionBodyState getMotionBody() {
+        return motionBodyState;
     }
 
     public double getTime() {
@@ -48,11 +48,11 @@ public class MotionModelState implements Serializable {
     }
 
     public double getPosition() {
-        return motionBody.getPosition();
+        return motionBodyState.getPosition();
     }
 
     public double getVelocity() {
-        return motionBody.getVelocity();
+        return motionBodyState.getVelocity();
     }
 
     public void setTime( double time ) {
@@ -60,15 +60,15 @@ public class MotionModelState implements Serializable {
     }
 
     public void setPosition( double angle ) {
-        motionBody.setPosition( angle );
+        motionBodyState.setPosition( angle );
     }
 
     public void setVelocity( double angularVelocity ) {
-        motionBody.setVelocity( angularVelocity );
+        motionBodyState.setVelocity( angularVelocity );
     }
 
     public void setAcceleration( double angularAcceleration ) {
-        motionBody.setAcceleration( angularAcceleration );
+        motionBodyState.setAcceleration( angularAcceleration );
     }
 
     public void stepInTime( double dt ) {
@@ -76,6 +76,6 @@ public class MotionModelState implements Serializable {
     }
 
     public String toString() {
-        return super.toString() + " motionBody=" + motionBody.toString();
+        return super.toString() + " motionBody=" + motionBodyState.toString();
     }
 }
