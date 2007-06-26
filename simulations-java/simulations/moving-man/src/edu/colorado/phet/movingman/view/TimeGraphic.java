@@ -1,7 +1,6 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.common_movingman.util.DefaultDecimalFormat;
 import edu.colorado.phet.common_movingman.view.ApparatusPanel;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_movingman.view.util.GraphicsState;
@@ -9,6 +8,7 @@ import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.MMTimer;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;

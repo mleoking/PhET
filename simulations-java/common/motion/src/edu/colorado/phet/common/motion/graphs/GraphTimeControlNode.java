@@ -4,6 +4,7 @@ import edu.colorado.phet.common.motion.MotionResources;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -197,7 +198,7 @@ public class GraphTimeControlNode extends PNode {
 
     static class TextBox extends JPanel {
         private JTextField textField;
-        private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+        private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
         private ISimulationVariable simulationVariable;
 
         public TextBox( String valueAbbreviation, final ISimulationVariable simulationVariable ) {
