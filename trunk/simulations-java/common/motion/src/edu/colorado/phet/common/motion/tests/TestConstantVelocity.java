@@ -22,7 +22,7 @@ public class TestConstantVelocity {
             System.out.println( "i = " + i + ", state=" + model);
         }
 
-        TimeData[] timeData = model.getRecentAccelerationTimeSeries( 5 );
+        TimeData[] timeData = model.getMotionBodySeries().getRecentAccelerationTimeSeries( 5 );
         for( int i = 0; i < timeData.length; i++ ) {
             TimeData data = timeData[i];
             System.out.println( "i = " + i + ", data=" + data );

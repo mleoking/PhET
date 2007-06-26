@@ -25,8 +25,7 @@ public class MovingManMotionApplication {
     private SwingClock swingClock;
 
     public MovingManMotionApplication() {
-
-        frame = new JFrame( "Test Moving Man Node" );
+        frame = new JFrame( "Moving Man Motion Application" );
         frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height - 400 );
         PhetPCanvas phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setZoomEventHandler( new PZoomEventHandler() );

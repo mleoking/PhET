@@ -59,8 +59,8 @@ public class TestPositionDrivenOffsets extends TestCase {
 
         SwingClock clock = new SwingClock( 30, dt );
         MotionModel motionModel = new MotionModel( clock );
-        motionModel.getPositionDriven().setVelocityWindow( maxWindowSize );
-        motionModel.setPositionDriven();
+        motionModel.getMotionBodySeries().getPositionDriven().setVelocityWindow( maxWindowSize );
+        motionModel.getMotionBodySeries().setPositionDriven();
 
         if( verbose ) {
             showState( motionModel );
@@ -74,14 +74,14 @@ public class TestPositionDrivenOffsets extends TestCase {
         step( clock, motionModel, numStepsAfter );
 
         double timeXChanged = ( t1 + t0 ) / 2.0;
-        double timeForMaxVelocity = motionModel.getMaxVelocity().getTime();
-        double zeroAccelTime = ( motionModel.getMaxAcceleration().getTime() + motionModel.getMinAcceleration().getTime() ) / 2.0;
+        double timeForMaxVelocity = motionModel.getMotionBodySeries().getMaxVelocity().getTime();
+        double zeroAccelTime = ( motionModel.getMotionBodySeries().getMaxAcceleration().getTime() + motionModel.getMotionBodySeries().getMinAcceleration().getTime() ) / 2.0;
 //        System.out.println( "timeXChanged=" + timeXChanged + ", timeForMaxVelocity=" + timeForMaxVelocity + ", zeroAccelTime=" + zeroAccelTime );
 
         if( verbose ) {
             DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
-            for( int i = 0; i < motionModel.getVelocitySampleCount(); i++ ) {
-                System.out.println( "motionModel.getVelocity( i) = " + motionModel.getVelocity( i ).toString( decimalFormat ) );
+            for( int i = 0; i < motionModel.getMotionBodySeries().getVelocitySampleCount(); i++ ) {
+                System.out.println( "motionModel.getVelocity( i) = " + motionModel.getMotionBodySeries().getVelocity( i ).toString( decimalFormat ) );
             }
             System.out.println( "timeXChanged=" + timeXChanged + ", timeForMaxVelocity=" + timeForMaxVelocity );
         }

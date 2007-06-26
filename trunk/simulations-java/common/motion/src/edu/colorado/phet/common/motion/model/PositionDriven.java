@@ -13,11 +13,11 @@ public class PositionDriven implements UpdateStrategy {
     private int accelerationWindow = 6;
 
     //todo: try 2nd order derivative directly from position data?
-    public void update( MotionModel model, double dt ) {
+    public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {
         TimeData v = MotionMath.getDerivative( model.getRecentPositionTimeSeries( Math.min( velocityWindow, model.getVelocitySampleCount() ) ) );
         TimeData a = MotionMath.getDerivative( model.getRecentVelocityTimeSeries( Math.min( accelerationWindow, model.getAccelerationSampleCount() ) ) );
 
-        model.addPositionData( model.getMotionBody().getPosition(), model.getTime() );
+        model.addPositionData( state.getPosition(), time );
         model.addVelocityData( v.getValue(), v.getTime() );
         model.addAccelerationData( a.getValue(), a.getTime() );
     }

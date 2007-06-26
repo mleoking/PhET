@@ -1,13 +1,14 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.common.motion.model.MotionModelState;
-import edu.colorado.phet.common.motion.model.MotionModel;
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.DefaultSimulationVariable;
+import edu.colorado.phet.common.motion.model.ISimulationVariable;
+import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.MotionModelState;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
@@ -20,6 +21,9 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     private DefaultSimulationVariable xVelocityVariable = new DefaultSimulationVariable();
     private DefaultSimulationVariable yVelocityVariable = new DefaultSimulationVariable();
     private DefaultSimulationVariable centripetalAcceleration = new DefaultSimulationVariable();
+//    private MotionModelState currentState;
+    private ArrayList rotationBodies=new ArrayList( );
+    private RotationPlatform rotationPlatform;
 
     public RotationModel( IClock clock ) {
         super( clock );
@@ -43,7 +47,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
 
     public void dropBody( RotationBody rotationBody ) {
         Point2D loc = rotationBody.getPosition();
-        RotationPlatform platform = (RotationPlatform)getCurrentState().getMotionBody();//todo: strong typing
+        RotationPlatform platform = (RotationPlatform)getMotionBody();//todo: strong typing
         if( platform.containsPosition( loc ) ) {
             rotationBody.setOnPlatform( platform );
         }
@@ -52,19 +56,20 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         }
     }
 
-    private MotionModelState getCurrentState() {
-        return null;//todo: fix this
-    }
+//    private MotionModelState getCurrentState() {
+//        return null;//todo: fix this
+//    }
 
-    protected MotionModelState createModelState() {
-        RotationMotionModelState modelState = new RotationMotionModelState();
-        modelState.getMotionBody().addListener( new RotationPlatform.Adapter() {//todo: memory leak
-            public void positionChanged( double dtheta ) {
-                getXPositionVariable().setValue( getCurrentState().getMotionBody().getPosition() );
-            }
-        } );
-        return modelState;
-    }
+//    protected MotionModelState createModelState() {
+//        RotationMotionModelState modelState = new RotationMotionModelState();
+//        modelState.getMotionBody().addListener( new RotationPlatform.Adapter() {//todo: memory leak
+//
+//            public void positionChanged( double dtheta ) {
+//                getXPositionVariable().setValue( getCurrentState().getMotionBody().getPosition() );
+//            }
+//        } );
+//        return modelState;
+//    }
 
     public ISimulationVariable getXPositionVariable() {
         return xPositionVariable;
@@ -91,7 +96,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     }
 
     public RotationPlatform getRotationPlatform() {
-        return (RotationPlatform)getCurrentState().getMotionBody();
+        return rotationPlatform;
     }
 
     private void addRotationBody( RotationBody rotationBody ) {
@@ -99,7 +104,8 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     }
 
     private RotationMotionModelState getCurrentRotationModelState() {
-        return (RotationMotionModelState)getCurrentState();
+//        return (RotationMotionModelState)getCurrentState();
+        throw new RuntimeException( "not working yet");
     }
 
     public int getNumRotationBodies() {
