@@ -32,6 +32,9 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
     }
 
     public void mousePressed( PInputEvent event ) {
+        if ( boundingNode.getParent() == null ) {
+            System.err.println( "BoundedDragHandler.mouseDragged - did you forget to add boundingNode to the scenegraph?" );
+        }
         setRelativeClickPoint( event );
     }
 
