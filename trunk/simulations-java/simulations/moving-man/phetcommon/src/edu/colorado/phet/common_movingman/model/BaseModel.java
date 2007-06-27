@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.common_movingman.model;
 
-import edu.colorado.phet.common_movingman.model.clock.ClockTickListener;
 import edu.colorado.phet.common_movingman.model.clock.ClockTickEvent;
+import edu.colorado.phet.common_movingman.model.clock.ClockTickListener;
 
 /**
  * This class is encompasses all the model elements in a physical system. It provides
@@ -20,7 +20,7 @@ import edu.colorado.phet.common_movingman.model.clock.ClockTickEvent;
  * Typically, each Module in an application will have its own instance of this
  * class, or a subclass. The application's single ApplicationModel instance will
  * be told which BaseModel is active when Modules are activated.
- * 
+ *
  * @author ?
  * @version $Revision$
  */

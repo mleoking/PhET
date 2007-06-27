@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.common_movingman.view.components;
 
-import edu.colorado.phet.common_movingman.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_movingman.math.ModelViewTransform1D;
 import edu.colorado.phet.common_movingman.view.util.SwingUtils;
 
 import javax.swing.*;
@@ -36,7 +36,7 @@ import java.util.Set;
 public class ModelSlider extends JPanel {
     private JTextField textField;
     private JSlider slider;
-//    private Function modelViewTransform;//goes from model to view
+    //    private Function modelViewTransform;//goes from model to view
     private ModelViewTransform1D modelViewTransform;
     private String units;
     private NumberFormat formatter;

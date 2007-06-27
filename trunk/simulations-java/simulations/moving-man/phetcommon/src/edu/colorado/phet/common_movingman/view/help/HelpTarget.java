@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 9, 2005
  * Time: 9:21:11 AM
- *
  */
 public abstract class HelpTarget {
     private ArrayList listeners = new ArrayList();

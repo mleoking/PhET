@@ -318,7 +318,7 @@ public class PhetShapeGraphic extends PhetGraphic {
         }
         return false;
     }
-    
+
     public boolean contains( Point p ) {
         return contains( p.x, p.y );
     }

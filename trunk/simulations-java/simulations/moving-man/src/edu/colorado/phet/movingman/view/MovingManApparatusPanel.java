@@ -1,6 +1,7 @@
 /*  */
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.math.ImmutableVector2D;
 import edu.colorado.phet.common_movingman.model.CompositeModelElement;
 import edu.colorado.phet.common_movingman.model.clock.ClockTickEvent;
@@ -18,7 +19,6 @@ import edu.colorado.phet.movingman.common.WiggleMe;
 import edu.colorado.phet.movingman.model.TimeListenerAdapter;
 import edu.colorado.phet.movingman.plots.MMPlotSuite;
 import edu.colorado.phet.movingman.plots.PlotSet;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
@@ -34,7 +34,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Mar 23, 2005
  * Time: 1:39:13 AM
- *
  */
 public class MovingManApparatusPanel extends ApparatusPanel2 {
     private MovingManModule module;

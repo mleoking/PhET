@@ -2,7 +2,6 @@ package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
-import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.SeriesData;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.motion.model.TimeData;
@@ -22,8 +21,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.data.general.SeriesChangeListener;
-import org.jfree.data.general.SeriesChangeEvent;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

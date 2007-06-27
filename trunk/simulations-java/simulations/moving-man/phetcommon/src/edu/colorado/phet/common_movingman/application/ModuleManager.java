@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.common_movingman.application;
 
-import edu.colorado.phet.common_movingman.util.persistence.*;
 import edu.colorado.phet.common_movingman.util.EventChannel;
+import edu.colorado.phet.common_movingman.util.persistence.*;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetImageGraphic;
 
 import javax.swing.*;
@@ -108,7 +108,7 @@ public class ModuleManager {
     private void forceSetActiveModule( Module module ) {
         deactivate();
         activate( module );
-        moduleObserverProxy.activeModuleChanged(  new ModuleEvent( this, module ) );
+        moduleObserverProxy.activeModuleChanged( new ModuleEvent( this, module ) );
     }
 
     private void activate( Module module ) {
@@ -253,10 +253,11 @@ public class ModuleManager {
 
     /**
      * Returns the an array of the modules the module manager manages
+     *
      * @return
      */
     public Module[] getModules() {
-        Module[] moduleArray = new Module[ this.modules.size() ];
+        Module[] moduleArray = new Module[this.modules.size()];
         for( int i = 0; i < modules.size(); i++ ) {
             Module module = (Module)modules.get( i );
             moduleArray[i] = module;

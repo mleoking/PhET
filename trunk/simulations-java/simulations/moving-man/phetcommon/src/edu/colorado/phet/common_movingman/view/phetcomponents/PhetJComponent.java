@@ -18,7 +18,6 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Mar 8, 2005
  * Time: 9:06:36 PM
- *
  */
 
 public class PhetJComponent extends PhetGraphic {
@@ -373,7 +372,7 @@ public class PhetJComponent extends PhetGraphic {
             }
             else {//reuse the old buffered image.
                 Graphics2D g2 = image.createGraphics();
-                
+
                 // Clear the background with the component's color (which may contain alpha).
                 Composite saveComposite = g2.getComposite();
                 g2.setComposite( AlphaComposite.Clear );

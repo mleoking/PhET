@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.movingman.model;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
@@ -8,7 +7,6 @@ import edu.colorado.phet.movingman.MovingManModule;
  * User: Sam Reid
  * Date: Aug 15, 2004
  * Time: 7:42:04 PM
- *
  */
 public class RecordMode extends Mode {
     private MovingManModule module;

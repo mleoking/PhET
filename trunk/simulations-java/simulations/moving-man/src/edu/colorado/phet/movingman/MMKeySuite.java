@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.movingman;
 
 import java.awt.event.KeyEvent;
@@ -8,7 +7,6 @@ import java.awt.event.KeyListener;
  * User: Sam Reid
  * Date: Oct 31, 2004
  * Time: 12:41:21 PM
- *
  */
 public class MMKeySuite implements KeyListener {
     MovingManModule module;

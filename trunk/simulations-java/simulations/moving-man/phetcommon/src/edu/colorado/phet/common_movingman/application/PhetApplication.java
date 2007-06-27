@@ -11,8 +11,8 @@
 
 package edu.colorado.phet.common_movingman.application;
 
-import edu.colorado.phet.common_movingman.model.clock.ClockTickListener;
 import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
+import edu.colorado.phet.common_movingman.model.clock.ClockTickListener;
 import edu.colorado.phet.common_movingman.util.DebugMenu;
 import edu.colorado.phet.common_movingman.view.ApparatusPanel;
 import edu.colorado.phet.common_movingman.view.ApparatusPanel2;

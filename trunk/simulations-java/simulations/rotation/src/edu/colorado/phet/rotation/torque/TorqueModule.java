@@ -1,9 +1,9 @@
 package edu.colorado.phet.rotation.torque;
 
-import edu.colorado.phet.rotation.model.RotationModel;
-import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
-import edu.colorado.phet.rotation.AbstractRotationModule;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.rotation.AbstractRotationModule;
+import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
+import edu.colorado.phet.rotation.model.RotationModel;
 
 /**
  * Author: Sam Reid
@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
  */
 public class TorqueModule extends AbstractRotationModule {
     protected RotationModel createModel( IClock clock ) {
-        return new TorqueModel(clock );
+        return new TorqueModel( clock );
     }
 
     protected AbstractRotationSimulationPanel createSimulationPanel() {

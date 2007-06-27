@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.chart_movingman;
 
 import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
@@ -13,7 +12,6 @@ import java.text.NumberFormat;
  * User: Sam Reid
  * Date: Sep 21, 2004
  * Time: 6:21:43 AM
- *
  */
 public class Axis extends GraphicLayerSet {
     private Chart chart;

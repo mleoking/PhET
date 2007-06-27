@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_movingman.view.util.ImageLoader;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.TimeListenerAdapter;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Apr 5, 2005
  * Time: 5:03:07 AM
- *
  */
 
 public class GoPauseClearPanel extends VerticalLayoutPanel {
@@ -113,7 +112,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
             itsAGoButton = false;
         }
         else {
-            goPauseButton.setText( "      "+SimStrings.get( "plot.go" ) );
+            goPauseButton.setText( "      " + SimStrings.get( "plot.go" ) );
             goPauseButton.setIcon( goIcon );
             super.invalidate();
             super.validate();

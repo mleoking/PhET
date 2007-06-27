@@ -8,12 +8,11 @@ import edu.colorado.phet.movingman.plots.TimeSeries;
  * User: Sam Reid
  * Date: Jul 1, 2003
  * Time: 3:42:23 PM
- *
  */
 public class DataSuite {
     private TimeSeries timeSeries = new TimeSeries();
     private TimeSeries smoothedSeries = new TimeSeries();
-//    private DataSuite derivative;
+    //    private DataSuite derivative;
     private int numSmoothingPoints;
 
     public DataSuite( int numSmoothingPoints ) {

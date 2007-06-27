@@ -5,7 +5,6 @@ package edu.colorado.phet.common_movingman.view.phetgraphics;
  * User: Sam Reid
  * Date: Apr 6, 2005
  * Time: 11:23:02 PM
- *
  */
 public interface GraphicCriteria {
     public boolean isSatisfied( PhetGraphic phetGraphic );

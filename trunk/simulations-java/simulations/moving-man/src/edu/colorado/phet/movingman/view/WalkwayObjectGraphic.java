@@ -12,7 +12,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Apr 7, 2005
  * Time: 12:23:12 AM
- *
  */
 
 public class WalkwayObjectGraphic extends GraphicLayerSet {

@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.common_movingman.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
 import edu.colorado.phet.common_movingman.model.clock.ClockStateEvent;
 import edu.colorado.phet.common_movingman.model.clock.ClockStateListener;
 import edu.colorado.phet.common_movingman.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

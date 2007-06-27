@@ -10,17 +10,17 @@
  */
 package edu.colorado.phet.common_movingman.view.components.menu;
 
+import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.application.ModuleEvent;
 import edu.colorado.phet.common_movingman.application.ModuleManager;
 import edu.colorado.phet.common_movingman.application.ModuleObserver;
 import edu.colorado.phet.common_movingman.application.PhetApplication;
 import edu.colorado.phet.common_movingman.util.VersionUtils;
 import edu.colorado.phet.common_movingman.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -40,7 +40,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
     public HelpMenu( PhetApplication application, PhetFrame frame ) {
         this( application.getModuleManager(), application.getApplicationModel().getName(),
-              application.getApplicationModel().getDescription(), application.getApplicationModel().getVersion(),frame );
+              application.getApplicationModel().getDescription(), application.getApplicationModel().getVersion(), frame );
     }
 
     public HelpMenu( final ModuleManager moduleManager, final String title,
@@ -61,7 +61,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         } );
         onscreenHelp.setEnabled( moduleManager.getActiveModule() != null && moduleManager.getActiveModule().hasHelp() );
         add( onscreenHelp );
-        
+
         //----------------------------------------------------------------------
         // "MegaHelp" menu item
         final JMenuItem megaHelpItem = new JMenuItem( SimStrings.get( "Common.HelpMenu.MegaHelp" ) );
@@ -94,7 +94,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         //----------------------------------------------------------------------
         // Separator
         addSeparator();
-        
+
         //----------------------------------------------------------------------
         // "About" menu item
         final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
@@ -104,7 +104,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( "moving-man" ) );
-                new PhetAboutDialog(frame, new PhetAboutDialog.PhetApplicationConfigDialogConfig( phetApplicationConfig ) ).show( );
+                new PhetAboutDialog( frame, new PhetAboutDialog.PhetApplicationConfigDialogConfig( phetApplicationConfig ) ).show();
 //                JOptionPane.showMessageDialog( about, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + title, JOptionPane.INFORMATION_MESSAGE, icon );
             }
         } );

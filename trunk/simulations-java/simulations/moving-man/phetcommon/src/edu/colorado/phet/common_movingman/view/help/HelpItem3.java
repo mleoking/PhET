@@ -15,7 +15,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 6, 2005
  * Time: 6:32:33 PM
- *
  */
 
 public class HelpItem3 extends CompositePhetGraphic implements HelpTargetListener {

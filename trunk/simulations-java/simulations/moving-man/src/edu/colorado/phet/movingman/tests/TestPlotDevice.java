@@ -2,6 +2,7 @@
 package edu.colorado.phet.movingman.tests;
 
 import edu.colorado.phet.chart_movingman.Range2D;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
 import edu.colorado.phet.common_movingman.model.clock.ClockTickEvent;
 import edu.colorado.phet.common_movingman.model.clock.ClockTickListener;
@@ -13,7 +14,6 @@ import edu.colorado.phet.common_movingman.view.graphics.mousecontrols.Translatio
 import edu.colorado.phet.common_movingman.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.movingman.plotdevice.PlotDevice;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 
@@ -21,12 +21,11 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Mar 28, 2005
  * Time: 11:13:04 AM
- *
  */
 
 public class TestPlotDevice {
     public static void main( String[] args ) {
-        SimStrings.setStrings( "moving-man/localization/moving-man-strings");
+        SimStrings.setStrings( "moving-man/localization/moving-man-strings" );
         PhetLookAndFeel.setLookAndFeel();
         JFrame frame = new JFrame();
         frame.setSize( 800, 800 );

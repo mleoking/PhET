@@ -1,6 +1,7 @@
 /*  */
 package edu.colorado.phet.movingman.plots;
 
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common_movingman.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicCriteria;
 import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
@@ -14,7 +15,6 @@ import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
 import edu.colorado.phet.movingman.view.GoPauseClearPanel;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
 import edu.colorado.phet.movingman.view.MovingManLayout;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 4, 2005
  * Time: 9:28:16 PM
- *
  */
 
 public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.LayoutItem {

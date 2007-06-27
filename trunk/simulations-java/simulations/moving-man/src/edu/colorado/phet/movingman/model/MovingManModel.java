@@ -1,6 +1,6 @@
-
 package edu.colorado.phet.movingman.model;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.model.ModelElement;
 import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
 import edu.colorado.phet.common_movingman.view.components.VerticalLayoutPanel;
@@ -8,7 +8,6 @@ import edu.colorado.phet.common_movingman.view.util.SwingUtils;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -20,7 +19,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Oct 19, 2004
  * Time: 6:50:36 PM
- *
  */
 public class MovingManModel {
     private MovingManTimeModel timeModel;

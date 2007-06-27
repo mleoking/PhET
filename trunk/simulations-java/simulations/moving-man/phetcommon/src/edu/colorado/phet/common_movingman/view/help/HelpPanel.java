@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.common_movingman.view.help;
 
-import edu.colorado.phet.common_movingman.application.Module;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_movingman.application.Module;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,15 +73,17 @@ public class HelpPanel extends JPanel {
                                                         megaHelpBtn.getPreferredSize().getWidth() ),
                                          (int)( miniHelpBtn.getPreferredSize().getHeight()
                                                 + megaHelpBtn.getPreferredSize().getHeight() + padY * 2 ) ) );
-        GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,0,0,
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 0,0,0,0),0,0 );
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
         this.setLayout( new GridBagLayout() );
         add( miniHelpBtn, gbc );
         gbc.gridy = 1;
         add( megaHelpBtn, gbc );
-        if( true) return;
+        if( true ) {
+            return;
+        }
         this.invalidate();
         this.repaint();
 

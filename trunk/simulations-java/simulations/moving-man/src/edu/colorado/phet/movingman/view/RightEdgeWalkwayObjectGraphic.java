@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 11, 2005
  * Time: 9:17:33 PM
- *
  */
 
 public class RightEdgeWalkwayObjectGraphic extends WalkwayObjectGraphic {

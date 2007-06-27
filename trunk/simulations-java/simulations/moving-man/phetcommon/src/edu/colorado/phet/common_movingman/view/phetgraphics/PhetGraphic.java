@@ -44,7 +44,7 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private Point location = new Point();
     private Point registrationPoint = new Point();
     private AffineTransform transform = new AffineTransform();
@@ -77,7 +77,7 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructs a PhetGraphic on the specified component.
      *
@@ -93,11 +93,11 @@ public abstract class PhetGraphic {
     protected PhetGraphic() {
         //noop
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessor methods
     //----------------------------------------------------------------------------
-    
+
     /**
      * Returns the Component within which this PhetGraphic is contained.
      *
@@ -144,13 +144,13 @@ public abstract class PhetGraphic {
     public String getName() {
         return name;
     }
-    
+
     //----------------------------------------------------------------------------
     // Java Bean conformance for XML encoding
     //
     // Client applications should not call these methods!
     //----------------------------------------------------------------------------
-    
+
     public GraphicLayerSet getParent() {
         return parent;
     }
@@ -186,7 +186,7 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     // Graphics Context methods
     //----------------------------------------------------------------------------
-    
+
     /**
      * Saves the graphics context by pushing it onto a stack.
      *
@@ -251,27 +251,27 @@ public abstract class PhetGraphic {
     public RenderingHints getRenderingHints() {
         return renderingHints;
     }
-  
+
     public void setClip( Shape clip ) {
         this.clip = clip;
     }
-    
+
     public Shape getClip() {
         return clip;
     }
 
     /**
      * Updates the graphics state to include changes that are specific for this graphic.
-     * Subclasses should call this method in their paint method, immediately after 
+     * Subclasses should call this method in their paint method, immediately after
      * calling saveGraphicsState.
-     * 
+     *
      * @param g2
      */
     protected void updateGraphicsState( Graphics2D g2 ) {
         // Clipping
         if( clip != null ) {
             g2.setClip( clip );
-        } 
+        }
         // Rendering hints
         RenderingHints hints = getRenderingHints();
         if( hints != null ) {
@@ -282,7 +282,7 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     // Visibility methods
     //----------------------------------------------------------------------------
-   
+
     /**
      * Sets this graphic visible or invisible.
      *
@@ -335,11 +335,11 @@ public abstract class PhetGraphic {
     protected boolean getVisibilityFlag() {
         return visible;
     }
-    
+
     //----------------------------------------------------------------------------
     // Registration Point methods
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the graphic's registration point.
      * The registration point is the point about which transformations are applied.
@@ -383,7 +383,7 @@ public abstract class PhetGraphic {
     public Point getRegistrationPoint() {
         return new Point( registrationPoint );
     }
-    
+
     //----------------------------------------------------------------------------
     // Transform methods
     //----------------------------------------------------------------------------
@@ -484,7 +484,7 @@ public abstract class PhetGraphic {
      */
     public AffineTransform getNetTransform() {
         // Use preConcatenate, so that transforms are shown in the order that they will occur.
-        
+
         // Translate to registration point
 
         // todo: why are there minus signs on the parameters here?
@@ -507,7 +507,7 @@ public abstract class PhetGraphic {
 
         return netUtilTx;
     }
-    
+
     //----------------------------------------------------------------------------
     // Transform convenience methods.
     //
@@ -515,7 +515,7 @@ public abstract class PhetGraphic {
     // so that transforms will occur in the order that you call these methods.
     // Note that this is the opposite of how similar methods in Graphics2D behave.
     //----------------------------------------------------------------------------
-    
+
     /**
      * Pre-concatenates the current local transform with a translation transform.
      *
@@ -591,7 +591,7 @@ public abstract class PhetGraphic {
     public void clearTransform() {
         setTransform( new AffineTransform() );
     }
-    
+
     //----------------------------------------------------------------------------
     // Bounds methods
     //----------------------------------------------------------------------------
@@ -715,7 +715,7 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     // Location methods
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the location of this graphic.
      * <p/>
@@ -806,11 +806,11 @@ public abstract class PhetGraphic {
     public int getHeight() {
         return getBounds().height;
     }
-    
+
     //----------------------------------------------------------------------------
     // Change Notification methods
     //----------------------------------------------------------------------------
-    
+
     /**
      * Adds an Observer for changes in this PhetGraphic.
      *
@@ -829,11 +829,11 @@ public abstract class PhetGraphic {
             phetGraphicListener.phetGraphicChanged( this );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Translation interactivity methods
     //----------------------------------------------------------------------------
-    
+
     /**
      * Adds a listener for translations (dragging).
      *
@@ -842,7 +842,7 @@ public abstract class PhetGraphic {
     public void addTranslationListener( TranslationListener translationListener ) {
         addMouseInputListener( new TranslationHandler( translationListener ) );
     }
-    
+
     //----------------------------------------------------------------------------
     // Mouse Input interactivity methods
     //----------------------------------------------------------------------------
@@ -1045,7 +1045,7 @@ public abstract class PhetGraphic {
     public void removeCursor() {
         removeMouseInputListener( cursorControl );
     }
-    
+
     //----------------------------------------------------------------------------
     // Popup Menu methods
     //----------------------------------------------------------------------------
@@ -1073,7 +1073,7 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     // Paint related methods
     //----------------------------------------------------------------------------
-    
+
     /**
      * Paints the graphic. Subclasses must implement this method.
      * For a good example, see PhetShapeGraphic.paint.

@@ -10,14 +10,10 @@
  */
 package edu.colorado.phet.common_movingman.view.util;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-
-import javax.swing.ImageIcon;
 
 /**
  * BufferedImageUtils
@@ -52,7 +48,8 @@ public class BufferedImageUtils {
 //        BufferedImage out = ato.createCompatibleDestImage( in, in.getColorModel() );
 //        ato.filter( in, out );
 //        return out;
-//    }
+
+    //    }
     public static BufferedImage rescaleYMaintainAspectRatio( Component parent, BufferedImage im, int height ) {
         double iny = im.getHeight();
         double dy = height / iny;
@@ -155,7 +152,7 @@ public class BufferedImageUtils {
         tx.translate( -source.getWidth(), 0 );
         return tx;
     }
-    
+
     /**
      * Creates and returns a buffered image that is a rotated version of a specified
      * buffered image. The transform is done so that the image is not truncated, and
@@ -199,7 +196,7 @@ public class BufferedImageUtils {
         BufferedImage result = op.filter( bImage, null );
         return result;
     }
-    
+
     // This method returns true if the specified image has transparent pixels
     // Taken from The Java Developer's Almanac, 1.4
     public static boolean hasAlpha( Image image ) {
@@ -225,7 +222,7 @@ public class BufferedImageUtils {
 
     /**
      * Gets the transparency of an image.
-     * 
+     *
      * @param image the image
      * @return OPAQUE, BITMASK or TRANSLUCENT (see java.awt.Transparency)
      */
@@ -246,14 +243,14 @@ public class BufferedImageUtils {
 
         // Get the image's color model
         ColorModel cm = pg.getColorModel();
-        
+
         int transparency = Transparency.OPAQUE;
-        if ( cm != null ) {
+        if( cm != null ) {
             transparency = cm.getTransparency();
         }
         return transparency;
     }
-    
+
     // This method returns a buffered image with the contents of an image
     // Taken from The Java Developer's Almanac, 1.4
     public static BufferedImage toBufferedImage( Image image ) {

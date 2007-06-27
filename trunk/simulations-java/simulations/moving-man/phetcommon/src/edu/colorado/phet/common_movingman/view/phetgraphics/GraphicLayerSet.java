@@ -369,7 +369,7 @@ public class GraphicLayerSet extends PhetGraphic {
 
         PhetGraphic[] graphics = getGraphics();
         PhetGraphic result = null;
-        
+
         // For each graphic, working from foreground to background layer...
         for( int i = graphics.length - 1; result == null && i >= 0; i-- ) {
             PhetGraphic g = graphics[i];
@@ -388,7 +388,7 @@ public class GraphicLayerSet extends PhetGraphic {
                 }
             }
         }
-        
+
         // We picked a graphic with no mouse listener, 
         // and this GraphicLayerSet does have a mouse listener.
         // So let the GraphicLayerSet handle the event.

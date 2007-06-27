@@ -1,6 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.application.Module;
 import edu.colorado.phet.common_movingman.application.PhetApplication;
 import edu.colorado.phet.common_movingman.model.BaseModel;
@@ -21,7 +22,6 @@ import edu.colorado.phet.movingman.view.GoPauseClearPanel;
 import edu.colorado.phet.movingman.view.ManGraphic;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
 import edu.colorado.phet.movingman.view.WalkWayGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +36,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 30, 2003
  * Time: 12:19:49 AM
- *
  */
 public class MovingManModule extends Module {
     private PhetFrame frame;

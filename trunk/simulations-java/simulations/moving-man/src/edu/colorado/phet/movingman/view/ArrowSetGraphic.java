@@ -1,6 +1,6 @@
-
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.math.Vector2D;
 import edu.colorado.phet.common_movingman.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;
@@ -8,7 +8,6 @@ import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShadowTextGraphi
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.plots.MMPlotSuite;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -17,7 +16,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Nov 27, 2004
  * Time: 11:29:31 AM
- *
  */
 public class ArrowSetGraphic extends CompositePhetGraphic {
 

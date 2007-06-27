@@ -21,7 +21,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 30, 2003
  * Time: 12:25:37 AM
- *
  */
 public class ManGraphic extends PhetGraphic implements MouseInputListener {
     private BufferedImage standingMan;

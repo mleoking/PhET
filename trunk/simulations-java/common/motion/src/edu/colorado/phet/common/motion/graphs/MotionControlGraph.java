@@ -1,7 +1,10 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
-import edu.colorado.phet.common.motion.model.*;
+import edu.colorado.phet.common.motion.model.ISimulationVariable;
+import edu.colorado.phet.common.motion.model.ITimeSeries;
+import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
@@ -90,7 +93,7 @@ public class MotionControlGraph extends ControlGraph {
         } );
         updateCursorVisible();
 
-        
+
         if( updateStrategy != null ) {
             addListener( new Adapter() {
                 public void controlFocusGrabbed() {

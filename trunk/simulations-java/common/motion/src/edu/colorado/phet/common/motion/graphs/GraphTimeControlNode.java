@@ -2,9 +2,9 @@ package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.motion.MotionResources;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

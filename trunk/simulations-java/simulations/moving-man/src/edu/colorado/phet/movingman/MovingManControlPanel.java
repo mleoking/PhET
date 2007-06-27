@@ -1,8 +1,8 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common_movingman.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_movingman.view.components.VerticalLayoutPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 30, 2003
  * Time: 1:11:38 AM
- *
  */
 public class MovingManControlPanel extends JPanel {
     private MovingManModule module;

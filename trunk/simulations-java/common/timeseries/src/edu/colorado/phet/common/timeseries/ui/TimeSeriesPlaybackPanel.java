@@ -178,10 +178,10 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     private boolean lowRes() {
         return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024;
     }
-    
+
     private void updateButtons() {
         live.setEnabled( !timeSeriesModel.isLiveMode() || timeSeriesModel.isPaused() );
-        record.setEnabled( timeSeriesModel.isPaused() || timeSeriesModel.isLiveMode());//hidden during playback
+        record.setEnabled( timeSeriesModel.isPaused() || timeSeriesModel.isLiveMode() );//hidden during playback
         play.setEnabled( ( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isPlaybackMode( PLAYBACK_FULL ) ) || ( timeSeriesModel.isPlaybackMode() && timeSeriesModel.isPaused() ) );
         slowMotion.setEnabled( ( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isPlaybackMode( PLAYBACK_SLOW ) ) || ( timeSeriesModel.isPlaybackMode() && timeSeriesModel.isPaused() ) );
         pause.setEnabled( !timeSeriesModel.isPaused() );

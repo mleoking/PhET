@@ -12,7 +12,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 18, 2005
  * Time: 9:09:53 AM
- *
  */
 
 public class CursorHelpItem extends PlotDeviceListenerAdapter {

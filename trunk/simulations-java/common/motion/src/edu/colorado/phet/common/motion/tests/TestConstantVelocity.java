@@ -19,7 +19,7 @@ public class TestConstantVelocity {
         System.out.println( "init state=" + model );
         for( int i = 0; i <= 100; i++ ) {
             model.stepInTime( 1.0 );
-            System.out.println( "i = " + i + ", state=" + model);
+            System.out.println( "i = " + i + ", state=" + model );
         }
 
         TimeData[] timeData = model.getMotionBodySeries().getRecentAccelerationTimeSeries( 5 );

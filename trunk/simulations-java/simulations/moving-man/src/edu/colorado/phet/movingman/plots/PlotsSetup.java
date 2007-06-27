@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.movingman.MovingManModule;
@@ -7,7 +6,6 @@ import edu.colorado.phet.movingman.MovingManModule;
  * User: Sam Reid
  * Date: Sep 6, 2004
  * Time: 3:25:38 PM
- *
  */
 public class PlotsSetup {
     private double positionMagnitude;

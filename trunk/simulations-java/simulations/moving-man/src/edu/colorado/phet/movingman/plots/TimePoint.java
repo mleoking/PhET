@@ -5,7 +5,6 @@ package edu.colorado.phet.movingman.plots;
  * User: Sam Reid
  * Date: Apr 2, 2005
  * Time: 8:08:44 PM
- *
  */
 
 public class TimePoint {

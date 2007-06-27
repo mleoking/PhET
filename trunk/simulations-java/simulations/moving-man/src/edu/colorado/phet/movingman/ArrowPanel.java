@@ -1,8 +1,8 @@
 /*  */
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common_movingman.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_movingman.view.components.HorizontalLayoutPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: May 18, 2005
  * Time: 10:15:19 PM
- *
  */
 
 public class ArrowPanel extends HorizontalLayoutPanel {

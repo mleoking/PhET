@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.common_movingman.application;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.model.BaseModel;
 import edu.colorado.phet.common_movingman.model.ModelElement;
 import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
@@ -21,7 +22,6 @@ import edu.colorado.phet.common_movingman.view.ControlPanel;
 import edu.colorado.phet.common_movingman.view.help.HelpItem;
 import edu.colorado.phet.common_movingman.view.help.HelpManager;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 
@@ -45,7 +45,6 @@ public class Module implements ClockTickListener {
     HelpManager helpManager;
 
     /**
-     *
      * @param name
      * @param clock
      */
@@ -57,8 +56,8 @@ public class Module implements ClockTickListener {
     }
 
     /**
-     * @deprecated
      * @param name
+     * @deprecated
      */
     protected Module( String name ) {
         this( name, null );
@@ -243,6 +242,7 @@ public class Module implements ClockTickListener {
     /**
      * Any module that wants to do some graphics updating that isn't handled through
      * model element/observer mechanisms can overide this method
+     *
      * @param event
      */
     public void updateGraphics( ClockTickEvent event ) {
@@ -267,7 +267,6 @@ public class Module implements ClockTickListener {
     public BaseModel getModel() {
         return model;
     }
-
 
 //    public void setState( StateDescriptor stateDescriptor ) {
 //        stateDescriptor.setState( this );

@@ -8,7 +8,6 @@ package edu.colorado.phet.common.motion.tests;
  */
 
 import edu.colorado.phet.common.motion.graphs.GraphTimeControlNode;
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.DefaultSimulationVariable;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.chart_movingman.controllers;
 
 import edu.colorado.phet.chart_movingman.Chart;
@@ -23,7 +22,6 @@ import java.util.EventListener;
  * User: Sam Reid
  * Date: Oct 18, 2004
  * Time: 10:35:14 PM
- *
  */
 public class ChartSlider extends GraphicLayerSet {
     private Chart chart;

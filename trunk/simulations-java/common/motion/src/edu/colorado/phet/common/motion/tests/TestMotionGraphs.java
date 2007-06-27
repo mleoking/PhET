@@ -9,7 +9,6 @@ package edu.colorado.phet.common.motion.tests;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.model.MotionModel;
-import edu.colorado.phet.common.motion.model.DefaultTimeSeries;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;

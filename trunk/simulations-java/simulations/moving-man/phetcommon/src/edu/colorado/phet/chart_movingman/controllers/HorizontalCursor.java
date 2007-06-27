@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 1, 2003
  * Time: 9:02:00 AM
- *
  */
 public class HorizontalCursor extends PhetGraphic {
 
@@ -27,7 +26,7 @@ public class HorizontalCursor extends PhetGraphic {
     private Color fillColor;
     double modelX = 0;
     int width = 8;
-//    boolean visible = true;
+    //    boolean visible = true;
     private Stroke stroke = new BasicStroke( 1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 2, new float[]{6, 4}, 0 );
     private Rectangle shape = null;
 
@@ -87,7 +86,6 @@ public class HorizontalCursor extends PhetGraphic {
     public void setMaxX( double maxX ) {
         this.maxX = maxX;
     }
-
 
 //    public void setVisible( boolean visible ) {
 //        this.visible = visible;

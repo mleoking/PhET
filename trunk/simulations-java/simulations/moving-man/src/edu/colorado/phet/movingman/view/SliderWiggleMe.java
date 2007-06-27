@@ -12,7 +12,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 11, 2005
  * Time: 10:18:48 PM
- *
  */
 
 public class SliderWiggleMe extends Force1DWiggleMe implements MovingManModule.Listener {

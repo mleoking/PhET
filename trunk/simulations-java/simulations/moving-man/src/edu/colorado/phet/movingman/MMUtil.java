@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 19, 2005
  * Time: 7:43:34 AM
- *
  */
 
 public class MMUtil {

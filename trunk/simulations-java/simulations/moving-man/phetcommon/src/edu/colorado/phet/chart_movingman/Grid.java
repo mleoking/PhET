@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.chart_movingman;
 
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
@@ -10,7 +9,6 @@ import java.awt.geom.Line2D;
  * User: Sam Reid
  * Date: Sep 21, 2004
  * Time: 6:25:31 AM
- *
  */
 public class Grid extends AbstractGrid {
 

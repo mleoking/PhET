@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2005
  * Time: 11:00:14 AM
- *
  */
 
 public class MovingManTimeModel {
@@ -22,7 +21,7 @@ public class MovingManTimeModel {
     private RecordMode recordMode;
     private PlaybackMode playbackMode;
     private ModelElement mainModelElement;
-//    public static final double TIME_SCALE = 1.0 / 50.0;//for static model
+    //    public static final double TIME_SCALE = 1.0 / 50.0;//for static model
     public static double TIME_SCALE = 1.0;// for dynamic model.
     private int numSmoothingPoints;
     private boolean stopped = false;

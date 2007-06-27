@@ -8,7 +8,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 27, 2005
  * Time: 2:02:33 AM
- *
  */
 
 public class DottedLineBorder extends LineBorder {

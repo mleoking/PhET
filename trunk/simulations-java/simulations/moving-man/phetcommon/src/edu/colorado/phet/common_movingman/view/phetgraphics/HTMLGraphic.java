@@ -28,7 +28,7 @@ public class HTMLGraphic extends CompositePhetGraphic {
     public void setHTML( String html ) {
         setHtml( html );
     }
-    
+
     public void setHtml( String html ) {
         this.html = html;
         update();
@@ -60,10 +60,10 @@ public class HTMLGraphic extends CompositePhetGraphic {
             View htmlView = BasicHTML.createHTMLView( label, html );
 
             Dimension dim = label.getPreferredSize();
-            if ( dim.width == 0 || dim.height == 0 ) {
+            if( dim.width == 0 || dim.height == 0 ) {
                 return null;
             }
-            
+
             BufferedImage image = new BufferedImage( dim.width, dim.height, BufferedImage.TYPE_INT_ARGB );
             final Graphics2D g = image.createGraphics();
             g.setColor( new Color( 255, 255, 255, 0 ) );//transparent background

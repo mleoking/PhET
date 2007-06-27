@@ -60,7 +60,7 @@ public class MotionBodyState implements Serializable {
 
     private void notifyVelocityChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener)listeners.get( i )).velocityChanged();
+            ( (Listener)listeners.get( i ) ).velocityChanged();
         }
     }
 
@@ -71,7 +71,7 @@ public class MotionBodyState implements Serializable {
 
     private void notifyAccelerationChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener)listeners.get( i )).accelerationChanged();
+            ( (Listener)listeners.get( i ) ).accelerationChanged();
         }
     }
 
