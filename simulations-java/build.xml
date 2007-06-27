@@ -491,7 +491,7 @@ PhET-team specific tasks are located in an auxiliary build file.
         <echo message="set installer exe to: ${bitrock.exe}"/>
         <!-- Copy the template buildfile to the right location -->
         
-        <create-installer-build-file inputFile="${bitrock.buildfile.template}" outputfile="${sim.installer.buildfile}" project="${sim.name}"/>
+        <create-installer-build-file inputFile="${bitrock.buildfile.template}" outputfile="${sim.installer.buildfile}" project="${sim.name}" flavor="${sim.flavor}"/>
         
         <!-- Build the installers for this simulation/flavor: -->      
         <exec executable="${bitrock.exe}">  <arg value="build" /><arg value="${sim.installer.buildfile}" /> <arg value="osx"/></exec>
@@ -504,7 +504,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     
     <!-- todo: make sure this build-jar is only called once, in the case of multiple flavors -->
     <!-- todo: copy the jar file to the correct name, i.e. FLAVORDIR.jar -->
-    <target name="_build-installer-for-flavor" depends="build-jar">
+    <target name="_build-installer-for-flavor">
          <!-- Generate a Windows ico from the simulation screenshot -->
 
         <var name="flavor.screenshot.file" value="simulations/${sim.name}/deploy/${sim.flavor}-screenshot.png"/>
@@ -535,7 +535,7 @@ PhET-team specific tasks are located in an auxiliary build file.
         <!-- Perform post-processing on Mac installer file (zip) -->
     </target>
 
-    <target name="build-installer" depends="_init, _verify-sim-name-specified">
+    <target name="build-installer" depends="_init, _verify-sim-name-specified, build-jar">
         <!-- add the java auto-detect:
         On Windows: if no java is available, and the JRE is bundled, must be installed -->
         <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
