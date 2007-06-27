@@ -40,7 +40,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
 
     public void dropBody( RotationBody rotationBody ) {
         Point2D loc = rotationBody.getPosition();
-        RotationPlatform platform = (RotationPlatform)getMotionBody();//todo: strong typing
+        RotationPlatform platform = (RotationPlatform)getMotionBodyState();//todo: strong typing
         if( platform.containsPosition( loc ) ) {
             rotationBody.setOnPlatform( platform );
         }

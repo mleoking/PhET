@@ -26,7 +26,7 @@ public class TestPositionDrivenOffsets extends TestCase {
 
     private void showState( MotionModel motionModel ) {
 //        System.out.println( "t=" + motionModel.getTime() + ", x=" + motionModel.getPosition() + ", v=" + motionModel.getVelocity() + ", a=" + motionModel.getAcceleration() );
-        System.out.println( "x.t=" + motionModel.getTime() + ", x=" + motionModel.getMotionBody().getPosition() + ", v=" + motionModel.getMotionBody().getVelocity() + ", a=" + motionModel.getMotionBody().getAcceleration() );
+        System.out.println( "x.t=" + motionModel.getTime() + ", x=" + motionModel.getMotionBodyState().getPosition() + ", v=" + motionModel.getMotionBodyState().getVelocity() + ", a=" + motionModel.getMotionBodyState().getAcceleration() );
     }
 
     public void testDerivativeOffsets() {
@@ -65,10 +65,10 @@ public class TestPositionDrivenOffsets extends TestCase {
         if( verbose ) {
             showState( motionModel );
         }
-        motionModel.getMotionBody().setPosition( x0 );
+        motionModel.getMotionBodyState().setPosition( x0 );
         step( clock, motionModel, numStepsBefore );
         double t0 = motionModel.getTime();
-        motionModel.getMotionBody().setPosition( xFinal );
+        motionModel.getMotionBodyState().setPosition( xFinal );
         step( clock, motionModel, 1 );
         double t1 = motionModel.getTime();
         step( clock, motionModel, numStepsAfter );
