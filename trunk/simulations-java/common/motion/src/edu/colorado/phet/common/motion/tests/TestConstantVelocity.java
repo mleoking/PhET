@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.motion.tests;
 
-import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.motion.model.PositionDriven;
+import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
