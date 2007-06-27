@@ -16,7 +16,7 @@ import java.util.Hashtable;
 
 /**
  * Decorates ImageLoader with buffering.
- * 
+ *
  * @author ?
  * @version $Revision$
  */

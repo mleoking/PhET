@@ -19,7 +19,7 @@ public class TestConstantAcceleration extends TestCase {
         motionModel.setAccelerationDriven();
         motionModel.getMotionBody().setAcceleration( 1.0 );
         motionModel.stepInTime( 1.0 );
-        assertEquals( "Velocity should have increased to 1.0",1.0,motionModel.getMotionBody().getVelocity(), 1E-7 );
+        assertEquals( "Velocity should have increased to 1.0", 1.0, motionModel.getMotionBody().getVelocity(), 1E-7 );
 //        assertEquals( motionModel.getPosition(),0,1E-7);//todo: what should the position be now?  Depends on integration scheme...
     }
 
@@ -28,10 +28,10 @@ public class TestConstantAcceleration extends TestCase {
         MotionModel model = new MotionModel( new SwingClock( 30, 1 ) );
         model.getMotionBody().setAcceleration( 1.0 );
         model.setUpdateStrategy( accelerationDriven );
-        System.out.println( "init state=" + model);
+        System.out.println( "init state=" + model );
         for( int i = 0; i <= 100; i++ ) {
             model.stepInTime( 1.0 );
-            System.out.println( "i = " + i + ", state=" + model);
+            System.out.println( "i = " + i + ", state=" + model );
         }
 
         TimeData[] timeData = model.getMotionBodySeries().getRecentAccelerationTimeSeries( 5 );

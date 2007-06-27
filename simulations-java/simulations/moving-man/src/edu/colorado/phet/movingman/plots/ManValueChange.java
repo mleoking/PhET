@@ -8,7 +8,6 @@ import edu.colorado.phet.movingman.model.Man;
  * User: Sam Reid
  * Date: May 4, 2005
  * Time: 6:34:17 PM
- *
  */
 public abstract class ManValueChange {
     PlotSet plotSet;

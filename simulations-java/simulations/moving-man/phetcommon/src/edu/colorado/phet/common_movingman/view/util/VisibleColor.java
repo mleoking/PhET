@@ -315,5 +315,4 @@ public class VisibleColor extends Color {
 
 }
 
-
 /* end of file */

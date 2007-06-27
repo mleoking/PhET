@@ -13,7 +13,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 18, 2005
  * Time: 10:12:30 PM
- *
  */
 
 public class PlotBorderGraphic extends CompositePhetGraphic {

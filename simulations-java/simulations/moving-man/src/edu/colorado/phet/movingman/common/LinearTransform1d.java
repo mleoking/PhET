@@ -7,7 +7,6 @@ import edu.colorado.phet.common_movingman.math.Function;
  * User: Sam Reid
  * Date: Dec 12, 2004
  * Time: 9:26:59 PM
- *
  */
 
 public class LinearTransform1d extends Function.LinearFunction {

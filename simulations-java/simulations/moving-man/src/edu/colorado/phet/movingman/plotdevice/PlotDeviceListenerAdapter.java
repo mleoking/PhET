@@ -5,7 +5,6 @@ package edu.colorado.phet.movingman.plotdevice;
  * User: Sam Reid
  * Date: Apr 4, 2005
  * Time: 9:22:17 PM
- *
  */
 public class PlotDeviceListenerAdapter implements PlotDeviceListener {
     public void cursorDragged( double modelX ) {

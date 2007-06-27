@@ -1,11 +1,11 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.motion.graphs.GraphSelectionControl;
+import edu.colorado.phet.common.motion.graphs.GraphSetModel;
+import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.rotation.controls.ShowVectorsControl;
 import edu.colorado.phet.rotation.controls.SymbolKey;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
-import edu.colorado.phet.common.motion.graphs.GraphSetModel;
-import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +27,7 @@ public class RotationControlPanel extends JPanel {
 //        add( Box.createRigidArea( new Dimension( 50, 10 ) ), getConstraints( 1, 0 ) );
         add( symbolKey, getConstraints( 2, 0 ) );
         add( showVectorsControl, getConstraints( 0, 1 ) );
-        
+
     }
 
     private GridBagConstraints getConstraints( int gridX, int gridY ) {

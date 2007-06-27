@@ -1,14 +1,14 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.view.ApparatusPanel;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_movingman.view.util.GraphicsState;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.MMTimer;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -18,16 +18,15 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 30, 2003
  * Time: 12:46:15 AM
- *
  */
 public class TimeGraphic extends PhetGraphic {
     private String timeStr;
     private MovingManModule module;
-//    private MMTimer recordingMMTimer;
+    //    private MMTimer recordingMMTimer;
     private int x;
     private int y;
     private Font f = MMFontManager.getFontSet().getTimeFont();
-//    private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
+    //    private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
     private DefaultDecimalFormat decimalFormat = new DefaultDecimalFormat( "#0.00" );
     private FontRenderContext frc;
     private ApparatusPanel apparatusPanel;

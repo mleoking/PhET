@@ -23,7 +23,7 @@ import java.awt.geom.Point2D;
  */
 public class Force1DWiggleMe extends CompositePhetGraphic {
     private long t0 = System.currentTimeMillis();
-//    private double frequency = 0.0025;//in Hertz.
+    //    private double frequency = 0.0025;//in Hertz.
     private double frequency = 2.5;//in Hertz.
     private double amplitude = 30;//In pixels.
     private Vector2D.Double oscillationAxis;//axis along which the wiggle me moves.

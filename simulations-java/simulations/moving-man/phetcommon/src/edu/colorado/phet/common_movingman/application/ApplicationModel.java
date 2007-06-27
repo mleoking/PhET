@@ -11,10 +11,10 @@
 
 package edu.colorado.phet.common_movingman.application;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
 import edu.colorado.phet.common_movingman.util.VersionUtils;
 import edu.colorado.phet.common_movingman.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.io.IOException;
 

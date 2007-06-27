@@ -12,7 +12,6 @@ import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
  * User: Sam Reid
  * Date: Apr 18, 2005
  * Time: 9:41:17 PM
- *
  */
 
 public class SliderHelpItem extends HelpItem2 {

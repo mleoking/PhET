@@ -156,7 +156,7 @@ public class ZoomControl extends GraphicLayerSet {
          */
         public ZoomEvent( Object source, int zoomType ) {
             super( source );
-            assert( isValidZoomType( zoomType ) );
+            assert ( isValidZoomType( zoomType ) );
             _zoomType = zoomType;
         }
 
@@ -244,13 +244,13 @@ public class ZoomControl extends GraphicLayerSet {
 
         public void mousePressed( MouseEvent event ) {
             if( _inButton.getBounds().contains( event.getPoint() ) ) {
-                if( ! _inButtonPressed.isVisible() ) {
+                if( !_inButtonPressed.isVisible() ) {
                     _inButtonPressed.setVisible( true );
                     _inPressed = true;
                 }
             }
             else if( _outButton.getBounds().contains( event.getPoint() ) ) {
-                if( ! _outButtonPressed.isVisible() ) {
+                if( !_outButtonPressed.isVisible() ) {
                     _outButtonPressed.setVisible( true );
                     _outPressed = true;
                 }

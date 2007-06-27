@@ -13,7 +13,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 1, 2005
  * Time: 8:13:34 PM
- *
  */
 
 public class ScreenSizeHandlerFactory {

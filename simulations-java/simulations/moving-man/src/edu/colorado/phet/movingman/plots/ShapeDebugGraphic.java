@@ -13,7 +13,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 24, 2005
  * Time: 11:25:35 PM
- *
  */
 
 public class ShapeDebugGraphic extends CompositePhetGraphic implements ClockTickListener {

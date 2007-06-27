@@ -10,16 +10,12 @@
  */
 package edu.colorado.phet.common_movingman.view.util;
 
-import java.awt.Container;
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.Toolkit;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 
 /**
  * User: University of Colorado, PhET
@@ -31,7 +27,7 @@ import javax.swing.ImageIcon;
  * and the conversion mechanism.
  * <p/>
  * All combinations do not return the same results.
- * 
+ *
  * @author ?
  * @version $Revision$
  */

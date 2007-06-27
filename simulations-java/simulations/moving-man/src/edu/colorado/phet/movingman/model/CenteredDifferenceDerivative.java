@@ -8,7 +8,6 @@ import edu.colorado.phet.movingman.plots.TimeSeries;
  * User: Sam Reid
  * Date: Apr 27, 2005
  * Time: 4:46:37 PM
- *
  */
 
 public class CenteredDifferenceDerivative {

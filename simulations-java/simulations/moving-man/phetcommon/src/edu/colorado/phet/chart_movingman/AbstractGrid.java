@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.chart_movingman;
 
 import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;
@@ -10,14 +9,13 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 21, 2004
  * Time: 6:25:44 AM
- *
  */
 public abstract class AbstractGrid extends CompositePhetGraphic {
     private double[] lines;
     public final static int HORIZONTAL = 1;
     public final static int VERTICAL = 2;
 
-//    private boolean visible = true;
+    //    private boolean visible = true;
     private Chart chart;
     private int orientation;
     private Stroke stroke;

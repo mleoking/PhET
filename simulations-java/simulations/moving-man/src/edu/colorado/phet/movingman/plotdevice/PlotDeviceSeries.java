@@ -3,6 +3,7 @@ package edu.colorado.phet.movingman.plotdevice;
 
 import edu.colorado.phet.chart_movingman.BufferedLinePlot;
 import edu.colorado.phet.chart_movingman.DataSet;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common_movingman.view.ApparatusPanel;
 import edu.colorado.phet.common_movingman.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;
@@ -11,7 +12,6 @@ import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 import java.awt.*;
 import java.util.Random;
@@ -20,7 +20,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Apr 5, 2005
  * Time: 4:28:19 AM
- *
  */
 public class PlotDeviceSeries extends CompositePhetGraphic {
     private PlotDevice plotDevice;
@@ -33,7 +32,7 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
     private BufferedLinePlot bufferedLinePlot;
 
     static final Random debuggingRandom = new Random( 0 );
-//    private TimePoint lastPoint;
+    //    private TimePoint lastPoint;
     private PhetShadowTextGraphic readoutGraphic;
     private DefaultDecimalFormat decimalFormat = new DefaultDecimalFormat( "0.0" );
     private ShadowHTMLGraphic unitsGraphic;

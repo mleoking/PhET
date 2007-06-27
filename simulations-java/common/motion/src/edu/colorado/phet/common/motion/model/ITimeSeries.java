@@ -29,6 +29,7 @@ public interface ITimeSeries {
 
     public static interface Listener {
         void dataAdded( TimeData data );
+
         void dataCleared();
     }
 }

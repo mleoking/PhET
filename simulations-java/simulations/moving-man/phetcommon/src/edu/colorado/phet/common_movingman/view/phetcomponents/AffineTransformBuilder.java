@@ -9,7 +9,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Dec 15, 2004
  * Time: 9:00:36 AM
- *
  */
 
 public class AffineTransformBuilder {

@@ -3,8 +3,6 @@ package edu.colorado.phet.movingman.motion;
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -33,7 +31,7 @@ public class MovingManMotionApplication {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         swingClock = new SwingClock( 30, 1.0 );
         final MotionModel motionModel = new MotionModel( swingClock );
-        System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() +" ispaused="+motionModel.getTimeSeriesModel().isPaused());
+        System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() + " ispaused=" + motionModel.getTimeSeriesModel().isPaused() );
 
         MovingManNode movingManNode = new MovingManNode( motionModel );
         movingManNode.scale( 50 );
@@ -45,7 +43,7 @@ public class MovingManMotionApplication {
 //        motionModel.setVelocity( 0.1 );
 
         int MAX_T = 200;
-        System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() +" ispaused="+motionModel.getTimeSeriesModel().isPaused());
+        System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() + " ispaused=" + motionModel.getTimeSeriesModel().isPaused() );
         GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
 //                new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), new MotionControlGraph(
 //                        phetPCanvas, motionModel.getXVariable(), motionModel.getXTimeSeries(), SimStrings.get( "variables.position.abbreviation" ), SimStrings.get( "variables.position" ), -10, 10, Color.blue, new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MAX_T ) ),

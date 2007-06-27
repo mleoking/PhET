@@ -7,7 +7,6 @@ import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
  * User: Sam Reid
  * Date: Mar 28, 2005
  * Time: 11:20:07 AM
- *
  */
 
 public abstract class RelativeLocation {

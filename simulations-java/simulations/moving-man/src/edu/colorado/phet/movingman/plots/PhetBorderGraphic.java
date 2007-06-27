@@ -12,7 +12,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 18, 2005
  * Time: 4:31:51 PM
- *
  */
 
 public class PhetBorderGraphic extends CompositePhetGraphic {

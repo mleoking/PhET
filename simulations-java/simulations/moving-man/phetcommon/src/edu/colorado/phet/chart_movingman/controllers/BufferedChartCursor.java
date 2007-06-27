@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 1, 2003
  * Time: 9:02:00 AM
- *
  */
 public class BufferedChartCursor extends ChartCursor {
     private BufferedChart bufferedChart;

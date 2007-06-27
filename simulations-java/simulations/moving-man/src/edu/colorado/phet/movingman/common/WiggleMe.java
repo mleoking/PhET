@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.movingman.common;
 
 import edu.colorado.phet.common_movingman.math.AbstractVector2D;
@@ -18,7 +17,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 12, 2004
  * Time: 11:47:26 AM
- *
  */
 public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     private Sine sine;

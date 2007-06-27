@@ -7,11 +7,10 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 30, 2003
  * Time: 12:38:31 AM
- *
  */
 public class TimeSeries {
     private ArrayList pts = new ArrayList();
-//    private TreeMap timeToTimePointMap=new TreeMap( );
+    //    private TreeMap timeToTimePointMap=new TreeMap( );
     private ArrayList observers = new ArrayList();
 
     public TimeSeries() {
@@ -156,7 +155,8 @@ public class TimeSeries {
             return getLowerSample( time, midIndex, max, depth + 1 );
         }
     }
-//
+
+    //
     private TimePoint getUpperSample( double time, int min, int max, int depth ) {
 //        System.out.println( "LowerSample:recursive.depth=" + depth );
         if( depth > 1000 ) {

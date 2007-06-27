@@ -1,7 +1,5 @@
 package edu.colorado.phet.common.motion.model;
 
-import java.util.ArrayList;
-
 /**
  * User: Sam Reid
  * Date: Dec 29, 2006

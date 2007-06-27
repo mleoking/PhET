@@ -10,7 +10,6 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Apr 12, 2005
  * Time: 10:41:02 PM
- *
  */
 
 public class CollisionAudioEffects extends Man.Adapter {

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.chart_movingman;
 
 import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
@@ -14,7 +13,6 @@ import java.text.NumberFormat;
  * User: Sam Reid
  * Date: Oct 8, 2004
  * Time: 11:37:47 PM
- *
  */
 public abstract class AbstractTicks extends AbstractGrid {
     private int tickHeight = 6;

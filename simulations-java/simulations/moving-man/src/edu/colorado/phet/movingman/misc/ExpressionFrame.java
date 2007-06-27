@@ -135,7 +135,7 @@ public class ExpressionFrame extends JDialog {
 
             double x = 0;
             try {
-                Object value = interpreter.eval( "t="+timeString+"; y=" + equation );
+                Object value = interpreter.eval( "t=" + timeString + "; y=" + equation );
                 x = ( (Number)value ).doubleValue();
             }
             catch( EvalError evalError ) {

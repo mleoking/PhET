@@ -169,7 +169,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
 //        panelResizeHandler = new PanelResizeHandler();
 //        this.addComponentListener( panelResizeHandler );
 
-
         // Set the canvas size
         determineCanvasSize();
 
@@ -439,8 +438,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
         scaledComponentLayout.layoutSwingComponents( scale );
         repaint( 0, 0, getWidth(), getHeight() );
     }
-
-
 
     //-------------------------------------------------------------------------
     // Inner classes

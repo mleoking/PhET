@@ -17,7 +17,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 30, 2005
  * Time: 4:50:44 AM
- *
  */
 
 public class MMPlot extends PlotDevice {

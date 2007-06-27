@@ -7,6 +7,7 @@ import edu.colorado.phet.chart_movingman.Range2D;
 import edu.colorado.phet.chart_movingman.controllers.BufferedChartCursor;
 import edu.colorado.phet.chart_movingman.controllers.ChartCursor;
 import edu.colorado.phet.chart_movingman.controllers.ChartSlider;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.view.ApparatusPanel;
 import edu.colorado.phet.common_movingman.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
@@ -16,7 +17,6 @@ import edu.colorado.phet.common_movingman.view.util.ImageLoader;
 import edu.colorado.phet.movingman.common.ZoomControl;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +31,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 28, 2005
  * Time: 10:23:39 AM
- *
  */
 
 public class PlotDevice extends GraphicLayerSet {

@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common_movingman.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.application.PhetApplication;
 import edu.colorado.phet.common_movingman.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

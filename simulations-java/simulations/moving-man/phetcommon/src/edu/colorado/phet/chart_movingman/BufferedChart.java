@@ -13,7 +13,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 6, 2005
  * Time: 9:33:16 PM
- *
  */
 
 public class BufferedChart extends PhetImageGraphic {

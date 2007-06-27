@@ -10,7 +10,10 @@
  */
 package edu.colorado.phet.common_movingman.view;
 
-import edu.colorado.phet.common_movingman.application.*;
+import edu.colorado.phet.common_movingman.application.Module;
+import edu.colorado.phet.common_movingman.application.ModuleEvent;
+import edu.colorado.phet.common_movingman.application.ModuleObserver;
+import edu.colorado.phet.common_movingman.application.PhetApplication;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

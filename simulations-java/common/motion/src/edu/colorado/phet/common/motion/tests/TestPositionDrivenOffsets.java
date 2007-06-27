@@ -12,7 +12,7 @@ import java.text.DecimalFormat;
  * Jun 20, 2007, 12:26:53 AM
  */
 public class TestPositionDrivenOffsets extends TestCase {
-//    boolean verbose = true;
+    //    boolean verbose = true;
     boolean verbose = false;
 
     private void step( SwingClock clock, MotionModel motionModel, int i ) {

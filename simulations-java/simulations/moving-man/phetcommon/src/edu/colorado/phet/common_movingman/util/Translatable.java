@@ -12,8 +12,9 @@ package edu.colorado.phet.common_movingman.util;
 
 /**
  * Translatable
- * <p>
+ * <p/>
  * An interface provided primarilly so controllers can move model elements
+ *
  * @author Ron LeMaster
  * @version $Revision$
  */

@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.motion;
 
-import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
+import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -84,7 +84,7 @@ public class MovingManNode extends PNode {
 //                super.mouseDragged( event );
 //                manImage.setOffset( event.getPositionRelativeTo( manImage.getParent() ) );
                 motionModel.setPositionDriven();
-                motionModel.getMotionBody().setPosition(event.getPositionRelativeTo( manImage.getParent( )).getX() );
+                motionModel.getMotionBody().setPosition( event.getPositionRelativeTo( manImage.getParent() ).getX() );
             }
         } );
 
@@ -94,12 +94,12 @@ public class MovingManNode extends PNode {
             }
         } );
         updateObject( manImage, motionModel );
-        
+
     }
 
     private void updateObject( PNode object, MotionModel rotationModel ) {
 //        object.setOffset( rotationModel.getPosition() - object.getFullBounds().getWidth() / 2/object.getScale(), 2.0 - object.getFullBounds().getHeight()/object.getScale() );
-        object.setOffset( rotationModel.getMotionBody().getPosition()-object.getFullBounds().getWidth()/2, 2.0-object.getFullBounds().getHeight() );
+        object.setOffset( rotationModel.getMotionBody().getPosition() - object.getFullBounds().getWidth() / 2, 2.0 - object.getFullBounds().getHeight() );
     }
 
     public static void main( String[] args ) {
@@ -111,7 +111,7 @@ public class MovingManNode extends PNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         SwingClock swingClock = new SwingClock( 30, 1.0 );
-        final MotionModel rotationModel = new MotionModel(swingClock );
+        final MotionModel rotationModel = new MotionModel( swingClock );
 
         MovingManNode movingManNode = new MovingManNode( rotationModel );
         movingManNode.scale( 50 );

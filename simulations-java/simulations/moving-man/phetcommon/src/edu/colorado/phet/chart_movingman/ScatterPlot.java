@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.chart_movingman;
 
 import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
@@ -13,7 +12,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Sep 18, 2004
  * Time: 10:31:28 AM
- *
  */
 public class ScatterPlot extends DataSetGraphic {
     private GraphicLayerSet points;

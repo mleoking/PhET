@@ -22,7 +22,7 @@ import java.util.EventListener;
 public interface ModuleObserver extends EventListener {
     public void moduleAdded( ModuleEvent event );
 
-    public void activeModuleChanged(  ModuleEvent event );
+    public void activeModuleChanged( ModuleEvent event );
 
-    public void moduleRemoved(  ModuleEvent event );
+    public void moduleRemoved( ModuleEvent event );
 }
