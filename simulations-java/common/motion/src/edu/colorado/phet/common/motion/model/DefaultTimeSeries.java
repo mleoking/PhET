@@ -36,9 +36,11 @@ public class DefaultTimeSeries implements ITimeSeries {
     }
 
     public void clear() {
-        data.clear();
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener)listeners.get( i )).dataCleared();
+        if( data.size() > 0 ) {
+            data.clear();
+            for( int i = 0; i < listeners.size(); i++ ) {
+                ( (Listener)listeners.get( i ) ).dataCleared();
+            }
         }
     }
 
@@ -64,7 +66,7 @@ public class DefaultTimeSeries implements ITimeSeries {
     }
 
     public TimeData getMax() {
-        TimeData max = new TimeData( Double.NEGATIVE_INFINITY, 0.0);
+        TimeData max = new TimeData( Double.NEGATIVE_INFINITY, 0.0 );
         for( int i = 0; i < getSampleCount(); i++ ) {
             if( getData( i ).getValue() > max.getValue() ) {
                 max = getData( i );
@@ -74,7 +76,7 @@ public class DefaultTimeSeries implements ITimeSeries {
     }
 
     public TimeData getMin() {
-        TimeData min = new TimeData( Double.POSITIVE_INFINITY, 0.0);
+        TimeData min = new TimeData( Double.POSITIVE_INFINITY, 0.0 );
         for( int i = 0; i < getSampleCount(); i++ ) {
             if( getData( i ).getValue() < min.getValue() ) {
                 min = getData( i );

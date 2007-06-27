@@ -42,6 +42,10 @@ public class MotionModel implements IPositionDriven {
             public void resetTime() {
                 MotionModel.this.time = 0;
             }
+
+            public void clear() {
+                MotionModel.this.clear();
+            }
         };
         timeSeriesModel = new TimeSeriesModel( recordableModel, clock ) {
 

@@ -2,6 +2,7 @@ package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.SeriesData;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.motion.model.TimeData;
@@ -21,6 +22,8 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.data.general.SeriesChangeListener;
+import org.jfree.data.general.SeriesChangeEvent;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -156,6 +159,16 @@ public class ControlGraph extends PNode {
             public void dataAdded( TimeData timeData ) {
 //                System.out.println( "ControlGraph.dataAdded: timeData="+timeData );
                 addValue( getSeriesIndex( simulationVariable ), timeData.getTime(), timeData.getValue() );
+//                final SeriesData series=dynamicJFreeChartNode.getSeries( 0);
+//                series.getSeries().addChangeListener( new SeriesChangeListener() {
+//                    public void seriesChanged( SeriesChangeEvent event ) {
+//                        if (series.getSeries().getItemCount()==2){
+//                            System.out.println( "ControlGraph.seriesChanged, size="+series.getSeries().getItemCount() );
+//
+//                        }
+//                    }
+//                } );
+//                System.out.println( "series="+ControlGraph.this.toString(series.getSeries()) );
             }
 
             public void dataCleared() {
@@ -163,6 +176,15 @@ public class ControlGraph extends PNode {
             }
         };
     }
+
+//    private String toString( XYSeries series ) {
+//        ArrayList data=new ArrayList( );
+//        for (int i=0;i<series.getItemCount();i++){
+//            data.add( new Double(series.getX( i ).doubleValue( )));
+//        }
+//        return data.toString();
+////        return null;
+//    }
 
     public DynamicJFreeChartNode getDynamicJFreeChartNode() {
         return dynamicJFreeChartNode;
