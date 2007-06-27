@@ -35,7 +35,7 @@ public class SimulationSpeedSlider extends PNode {
     private static final Dimension BACKGROUND_SIZE = new Dimension( 400, 50 );
     private static final double SLOW_BACKGROUND_PERCENT = 0.4;
     private static final double FAST_BACKGROUND_PERCENT = 0.4;
-    private static final double TRACK_HEIGHT = 5;
+    private static final double TRACK_HEIGHT = 2;
     private static final Dimension KNOB_SIZE = new Dimension( 15, 40 );
     private static final double TICK_LENGTH = 10;
     
@@ -43,32 +43,32 @@ public class SimulationSpeedSlider extends PNode {
     private static final int SLOW_FAST_Y_SPACING = 5;
     private static final int TICK_LABEL_Y_SPACING = 2;
     
-    private static final Color TRACK_FILL_COLOR = Color.LIGHT_GRAY;
+    private static final Color TRACK_FILL_COLOR = Color.BLACK;
     private static final Color TRACK_STROKE_COLOR = Color.BLACK;
-    private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
+    private static final BasicStroke TRACK_STROKE = new BasicStroke( 1f );
     
     private static final Color KNOB_FILL_COLOR = Color.WHITE;
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
-    private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
+    private static final BasicStroke KNOB_STROKE = new BasicStroke( 1f );
     
     private static final Font SLOW_FONT = new PhetDefaultFont( FONT_SIZE );
     private static final Color SLOW_FONT_COLOR = Color.BLUE;
     private static final Color SLOW_FILL_COLOR = Color.BLUE;
     private static final Color SLOW_STROKE_COLOR = Color.BLACK;
-    private static final Stroke SLOW_STROKE = new BasicStroke( 1f );
+    private static final BasicStroke SLOW_STROKE = new BasicStroke( 1f );
     
     private static final Font FAST_FONT = new PhetDefaultFont( FONT_SIZE );
     private static final Color FAST_FONT_COLOR = Color.RED;
     private static final Color FAST_FILL_COLOR = Color.RED;
     private static final Color FAST_STROKE_COLOR = Color.BLACK;
-    private static final Stroke FAST_STROKE = new BasicStroke( 1f );
+    private static final BasicStroke FAST_STROKE = new BasicStroke( 1f );
     
     private static final Color BETWEEN_FILL_COLOR = Color.DARK_GRAY;
     private static final Color BETWEEN_STROKE_COLOR = Color.BLACK;
-    private static final Stroke BETWEEN_STROKE = new BasicStroke( 1f );
+    private static final BasicStroke BETWEEN_STROKE = new BasicStroke( 1f );
     
     private static final Color TICK_COLOR = Color.BLACK;
-    private static final Stroke TICK_STROKE = new BasicStroke( 1f );
+    private static final BasicStroke TICK_STROKE = new BasicStroke( 1f );
     private static final Font TICK_FONT = new PhetDefaultFont( FONT_SIZE );
     private static final DecimalFormat TICK_FORMAT = new DecimalFormat( "0E00" );
 
@@ -116,35 +116,34 @@ public class SimulationSpeedSlider extends PNode {
         fastTextNode.setFont( FAST_FONT );
         fastTextNode.setTextPaint( FAST_FONT_COLOR );
         
-        PPath slowBackgroundNode = new PPath();
-        Rectangle2D slowBackgroundPath = new Rectangle2D.Double( 0, 0, BACKGROUND_SIZE.getWidth() * SLOW_BACKGROUND_PERCENT, BACKGROUND_SIZE.getHeight() );
-        slowBackgroundNode.setPathTo( slowBackgroundPath );
+        double width = SLOW_BACKGROUND_PERCENT * ( BACKGROUND_SIZE.getWidth() - ( 2 * SLOW_STROKE.getLineWidth() ) );
+        double height = BACKGROUND_SIZE.getHeight() - ( 2 * SLOW_STROKE.getLineWidth() );
+        Rectangle2D slowBackgroundPath = new Rectangle2D.Double( 0, 0, width, height );
+        PPath slowBackgroundNode = new PPath( slowBackgroundPath);
         slowBackgroundNode.setPaint( SLOW_FILL_COLOR );
         slowBackgroundNode.setStroke( SLOW_STROKE );
         slowBackgroundNode.setStrokePaint( SLOW_STROKE_COLOR );
         
-        PPath fastBackgroundNode = new PPath();
-        Rectangle2D fastBackgroundPath = new Rectangle2D.Double( 0, 0, BACKGROUND_SIZE.getWidth() * FAST_BACKGROUND_PERCENT, BACKGROUND_SIZE.getHeight() );
-        fastBackgroundNode.setPathTo( fastBackgroundPath );
+        width = FAST_BACKGROUND_PERCENT * ( BACKGROUND_SIZE.getWidth() - ( 2 * SLOW_STROKE.getLineWidth() ) );
+        height = BACKGROUND_SIZE.getHeight() - ( 2 * FAST_STROKE.getLineWidth() );
+        Rectangle2D fastBackgroundPath = new Rectangle2D.Double( 0, 0, width, height );
+        PPath fastBackgroundNode = new PPath( fastBackgroundPath );
         fastBackgroundNode.setPaint( FAST_FILL_COLOR );
         fastBackgroundNode.setStroke( FAST_STROKE );
         fastBackgroundNode.setStrokePaint( FAST_STROKE_COLOR );
         
+        width = BACKGROUND_SIZE.getWidth() - slowBackgroundNode.getFullBounds().getWidth() - fastBackgroundNode.getFullBounds().getWidth();
+        height = BACKGROUND_SIZE.getHeight() - ( 2 * BETWEEN_STROKE.getLineWidth() );
         PPath betweenBackgroundNode = new PPath();
-        Rectangle2D betweenBackgroundPath = new Rectangle2D.Double( 0, 0, BACKGROUND_SIZE.getWidth() * ( 1 - FAST_BACKGROUND_PERCENT - SLOW_BACKGROUND_PERCENT ), BACKGROUND_SIZE.getHeight() );
+        Rectangle2D betweenBackgroundPath = new Rectangle2D.Double( 0, 0, width, height );
         betweenBackgroundNode.setPathTo( betweenBackgroundPath );
         betweenBackgroundNode.setPaint( BETWEEN_FILL_COLOR );
         betweenBackgroundNode.setStroke( BETWEEN_STROKE );
         betweenBackgroundNode.setStrokePaint( BETWEEN_STROKE_COLOR );
         
-        _trackNode = new PPath();
-        Rectangle2D trackBackgroundPath = new Rectangle2D.Double( 0, 0, BACKGROUND_SIZE.getWidth(), TRACK_HEIGHT );
-        _trackNode.setPathTo( trackBackgroundPath );
-        _trackNode.setPaint( TRACK_FILL_COLOR );
-        _trackNode.setStroke( TRACK_STROKE );
-        _trackNode.setStrokePaint( TRACK_STROKE_COLOR );
+        _trackNode = createTrackNode();
         
-        _knobNode = createKnob();
+        _knobNode = createKnobNode();
         
         // Tick marks
         PNode slowTickMarkMinNode = createTickMarkNode();
@@ -184,7 +183,7 @@ public class SimulationSpeedSlider extends PNode {
         y = slowBackgroundNode.getFullBounds().getMaxY();
         slowTickMarkMinNode.setOffset( x, y );
         x = slowBackgroundNode.getFullBounds().getMaxX();
-        y = slowTickMarkMinNode.getYOffset();
+        y = slowTickMarkMinNode.getYOffset() - slowTickMarkMaxNode.getFullBounds().getWidth();
         slowTickMarkMaxNode.setOffset( x, y );
         x = fastBackgroundNode.getXOffset();
         y = fastBackgroundNode.getFullBounds().getMaxY();
@@ -240,7 +239,18 @@ public class SimulationSpeedSlider extends PNode {
         fastTickLabelMaxNode.setPickable( false );
     }
     
-    private static PPath createKnob() {
+    private static PPath createTrackNode() {
+        double width = BACKGROUND_SIZE.getWidth() - ( 2 * TRACK_STROKE.getLineWidth() );
+        double height = TRACK_HEIGHT;
+        Rectangle2D trackPath = new Rectangle2D.Double( 0, 0, width, height );
+        PPath trackNode = new PPath( trackPath );
+        trackNode.setPaint( TRACK_FILL_COLOR );
+        trackNode.setStroke( TRACK_STROKE );
+        trackNode.setStrokePaint( TRACK_STROKE_COLOR );
+        return trackNode;
+    }
+    
+    private static PPath createKnobNode() {
         GeneralPath knobPath = new GeneralPath();
         knobPath.moveTo( 0f, 0f );
         knobPath.lineTo( (float) KNOB_SIZE.getWidth(), 0f );
@@ -249,8 +259,7 @@ public class SimulationSpeedSlider extends PNode {
         knobPath.lineTo( 0f, (float) ( 0.65 * KNOB_SIZE.getHeight() ) );
         knobPath.closePath();
         
-        PPath knob = new PPath();
-        knob.setPathTo( knobPath );
+        PPath knob = new PPath( knobPath );
         knob.setPaint( KNOB_FILL_COLOR );
         knob.setStroke( KNOB_STROKE );
         knob.setStrokePaint( KNOB_STROKE_COLOR );
@@ -259,8 +268,7 @@ public class SimulationSpeedSlider extends PNode {
     
     private static PPath createTickMarkNode() {
         Line2D tickPath = new Line2D.Double( 0, 0, 0, TICK_LENGTH );
-        PPath tickNode = new PPath();
-        tickNode.setPathTo( tickPath );
+        PPath tickNode = new PPath( tickPath );
         tickNode.setStroke( TICK_STROKE );
         tickNode.setStrokePaint( TICK_COLOR );
         return tickNode;
