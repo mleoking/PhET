@@ -45,6 +45,7 @@ public class MotionModel {
                 setPaused( true );//instead of e.g. switching to live mode
             }
 
+            //workaround for buggy state/time sequence: time is obtained from record mode before switching to playback mode
             public void rewind() {
                 setPlaybackMode();
                 super.rewind();
