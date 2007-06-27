@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation.model;
 import edu.colorado.phet.common.motion.model.MotionBodyState;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
+import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 
 import java.awt.geom.Point2D;
@@ -36,4 +37,5 @@ public class RotationPlatform extends MotionBody {
     public void setAngle( double angle ) {
         super.getMotionBodyState().setPosition( angle );
     }
+
 }
