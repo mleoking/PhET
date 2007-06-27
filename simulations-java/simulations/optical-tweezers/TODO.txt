@@ -67,6 +67,7 @@ MISSING INFO:
 
  
 DONE:
+6/27/07 - add SimulationSpeedSlider.isAdjusting so that clients can defer updates until drag is completed
 6/27/07 - add drag handler to knob in simulation speed slider
 6/27/07 - resolve roundoff problems in simulation speed slider by using integer precision for layout
 6/27/07 - first pass at custom slider for simulation speed, layout only

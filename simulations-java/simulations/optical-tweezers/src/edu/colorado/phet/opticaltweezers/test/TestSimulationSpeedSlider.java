@@ -39,7 +39,9 @@ public class TestSimulationSpeedSlider extends JFrame {
         _simulationSpeedControl = new SimulationSpeedSlider( SLOW_RANGE, FAST_RANGE, DEFAULT_VALUE );
         _simulationSpeedControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _valueDisplayNode.setText( _simulationSpeedControl.getFormattedValue() );
+                String text = _simulationSpeedControl.getFormattedValue();
+                System.out.println( "TestSimulationSpeedSlider.stateChanged value=" + text + " adjusting=" + _simulationSpeedControl.isAdjusting() );
+                _valueDisplayNode.setText( text );
             }
         } );
         
