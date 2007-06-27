@@ -4,7 +4,6 @@ package edu.colorado.phet.ehockey;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.ehockey.common.SwingUtils;
-import edu.colorado.phet.theramp.common.PhetAudioClip;
 
 import javax.swing.*;
 import java.applet.AudioClip;
