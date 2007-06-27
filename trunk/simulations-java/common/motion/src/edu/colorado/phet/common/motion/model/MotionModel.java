@@ -44,6 +44,11 @@ public class MotionModel {
             public void recordFinished() {
                 setPaused( true );//instead of e.g. switching to live mode
             }
+
+            public void rewind() {
+                setPlaybackMode();
+                super.rewind();
+            }
         };
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void modeChanged() {
