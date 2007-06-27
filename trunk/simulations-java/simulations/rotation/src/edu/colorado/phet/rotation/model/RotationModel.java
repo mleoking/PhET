@@ -22,6 +22,21 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
 //        updateSimulationVariables();
     }
 
+    protected void setTime( double time ) {
+        super.setTime( time );
+        rotationPlatform.setTime( time );
+    }
+
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+        rotationPlatform.stepInTime( getTime(), dt );
+    }
+
+    public void clear() {
+        super.clear();
+        rotationPlatform.clear();
+    }
+
 //    private void updateSimulationVariables() {
 //        xPositionVariable.setValue( getRotationBody( 0 ).getX() );
 //        yPositionVariable.setValue( getRotationBody( 0 ).getY() );
