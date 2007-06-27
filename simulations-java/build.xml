@@ -40,7 +40,8 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="phet-list-flavors-classname"    value="edu.colorado.phet.build.PhetListFlavorsTask"/>
     <property name="phet-list-locales-classname"    value="edu.colorado.phet.build.PhetListLocalesTask"/>
     <property name="phet-build-gui-classname"       value="edu.colorado.phet.build.PhetBuildGUI"/>
-        <property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.installer.InstallerBuildfileCreatorTask"/>
+    <property name="phet-file-exists-classname"       value="edu.colorado.phet.build.util.FileExistsCondition"/>
+    <property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.installer.InstallerBuildfileCreatorTask"/>
     
 
     <property name="imageio-classname"              value="net.sf.image4j.util.ImageIOTask"/>
@@ -134,9 +135,15 @@ PhET-team specific tasks are located in an auxiliary build file.
                  classname="${imageio-classname}"
                  classpath="${phetbuild-classpath}"/>
                  
-                 <taskdef name="create-installer-build-file"
-                          classname="${create-installer-build-file-classname}"
-                          classpath="${phetbuild-classpath}"/>         
+        <taskdef name="create-installer-build-file"
+                 classname="${create-installer-build-file-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <typedef
+                name="fileexists"
+                classname="${phet-file-exists-classname}"
+                classpath="${phetbuild-classpath}"/>
+
     </target>
     <target name="test-imageio" depends="_init">
         <imageio inputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.jpg" 
@@ -499,7 +506,17 @@ PhET-team specific tasks are located in an auxiliary build file.
     <!-- todo: copy the jar file to the correct name, i.e. FLAVORDIR.jar -->
     <target name="_build-installer-for-flavor" depends="build-jar">
          <!-- Generate a Windows ico from the simulation screenshot -->
-        <imageio inputfile="simulations/${sim.name}/deploy/${sim.flavor}-screenshot.png"
+
+        <var name="flavor.screenshot.file" value="simulations/${sim.name}/deploy/${sim.flavor}-screenshot.png"/>
+        <if>
+            <fileexists file="${flavor.screenshot.file}"/>
+            <then></then>
+            <else>
+                <var name="flavor.screenshot.file" value="build-tools/phet-build/installer-data/phet-logo.png"/>
+            </else>
+        </if>
+        <echo message="using image file: ${flavor.screenshot.file}"/>
+        <imageio inputfile="${flavor.screenshot.file}"
                  outputfile="${ant-output}/projects/${sim.name}/${sim.flavor}.ico"
                  outputwidth="64"
                  outputheight="64"/>
@@ -517,12 +534,21 @@ PhET-team specific tasks are located in an auxiliary build file.
 
         <!-- Perform post-processing on Mac installer file (zip) -->
     </target>
-    
+
     <target name="build-installer" depends="_init, _verify-sim-name-specified">
         <!-- add the java auto-detect:
         On Windows: if no java is available, and the JRE is bundled, must be installed -->
         <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
-        
-        <foreach list="${sim.flavors}" target="_build-installer-for-flavor" param="sim.flavor"/>        
+
+        <foreach list="${sim.flavors}" target="_build-installer-for-flavor" param="sim.flavor"/>
+    </target>
+
+    <target name="test-file-exists" depends="_init">
+        <if>
+            <fileexists file="C:\phet\subversion\trunk\simulations-java\build.xml"/>
+            <then>
+                <echo message="file does exist"/>
+            </then>
+        </if>
     </target>
 </project>
