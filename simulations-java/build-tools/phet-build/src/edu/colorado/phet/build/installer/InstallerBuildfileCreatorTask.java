@@ -56,6 +56,8 @@ public class InstallerBuildfileCreatorTask extends AbstractPhetBuildTask {
         map.put( "JAR", format( phetProject.getJarFile().getAbsolutePath()) );
         map.put( "CLASSNAME", projectFlavor.getMainclass() );
         map.put( "ARGUMENTS", getArgs( projectFlavor ) );
+//        map.put("WINDOWS_ICON_PATH",${ant-output}/projects/${sim.name}/${sim.flavor}.ico)
+        map.put( "WINDOWS_ICON_PATH", format( new File( getProject().getProperty( "ant-output" ) + "/projects/" + phetProject.getName() + "/" + flavor + ".ico" ).getAbsolutePath() ) );
 //        System.out.println( "getProject().getBaseDir() = " + getProject().getBaseDir() );
 //        System.out.println( "getProject().getBaseDir().getAbsolutePath() = " + getProject().getBaseDir().getAbsolutePath() );
         map.put( "INSTALLER-DATA-DIR", format(getProject().getBaseDir( ).getAbsolutePath())+"/build-tools/phet-build/installer-data/");

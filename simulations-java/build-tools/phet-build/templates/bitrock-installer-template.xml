@@ -72,7 +72,7 @@
                     <runInTerminal>0</runInTerminal>
                     <windowsExec>${java_executable}</windowsExec>
                     <windowsExecArgs>-cp @FLAVORDIR@.jar @CLASSNAME@ @ARGUMENTS@</windowsExecArgs>
-                    <windowsIcon>@FLAVORDIR@.ico</windowsIcon>
+                    <windowsIcon>@WINDOWS_ICON_PATH@</windowsIcon>
                     <windowsPath>${installdir}</windowsPath>
                 </startMenuShortcut>
             </startMenuShortcutList>
