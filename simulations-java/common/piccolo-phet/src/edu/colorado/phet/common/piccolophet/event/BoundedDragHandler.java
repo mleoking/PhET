@@ -32,8 +32,8 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
     }
 
     public void mousePressed( PInputEvent event ) {
-        if ( boundingNode.getParent() == null ) {
-            System.err.println( "BoundedDragHandler.mouseDragged - did you forget to add boundingNode to the scenegraph?" );
+        if ( boundingNode.getRoot() == null ) {
+            throw new IllegalStateException( "boundingNode has no root node. Did you forget to add boundingNode to the scenegraph?" );
         }
         setRelativeClickPoint( event );
     }
