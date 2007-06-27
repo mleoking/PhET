@@ -106,7 +106,7 @@ public class MotionModel implements IPositionDriven {
         return motionBody.getAVariable();
     }
 
-    public MotionBodyState getMotionBody() {
+    public MotionBodyState getMotionBodyState() {
         return motionBody.getMotionBodyState();
     }
 
