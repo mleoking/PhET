@@ -104,5 +104,12 @@
             </validVersionList>
         </autodetectJava>
     </preInstallationActionList>
+    <finalPageActionList>
+        <runProgram>
+            <program>${java_executable}</program>
+            <programArguments>-cp "${installdir}/@FLAVORDIR@.jar" @CLASSNAME@ @ARGUMENTS@</programArguments>
+            <progressText>Do you want to launch @FLAVOR@ now?</progressText>
+        </runProgram>
+    </finalPageActionList>
 </project>
 
