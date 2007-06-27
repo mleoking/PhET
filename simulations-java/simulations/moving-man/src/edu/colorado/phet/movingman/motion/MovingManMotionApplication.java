@@ -40,8 +40,6 @@ public class MovingManMotionApplication {
         phetPCanvas.addScreenChild( movingManNode );
 
         motionModel.setPositionDriven();
-//        motionModel.setVelocityDriven();
-//        motionModel.setVelocity( 0.1 );
 
         int MAX_T = 200;
         motionModel.setMaxAllowedRecordTime( MAX_T );
@@ -61,11 +59,6 @@ public class MovingManMotionApplication {
         phetPCanvas.addScreenChild( graphSetNode );
         phetPCanvas.requestFocus();
         phetPCanvas.addKeyListener( new PDebugKeyHandler() );
-//        swingClock.addClockListener( new ClockAdapter() {
-//            public void clockTicked( ClockEvent clockEvent ) {
-//                System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() +" ispaused="+motionModel.getTimeSeriesModel().isPaused());
-//            }
-//        });
     }
 
     private void start() {
