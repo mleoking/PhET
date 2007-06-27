@@ -461,7 +461,7 @@ EOT;
         $contribution_types     = contribution_get_type_names_for_contribution($contribution_id);
         
         if (!$contributor_authenticated) {
-            if (isset($_REQUEST['loginmethod']) && strtolower($_REQUEST['loginmethod']) == 'static') {
+            if (!isset($_REQUEST['loginmethod']) || strtolower($_REQUEST['loginmethod']) == 'static') {
                 if ($contribution_id == -1) {
                     print_contribute_login_form('../teacher_ideas/contribute.php', -1, $referrer);
                 }
@@ -478,12 +478,12 @@ EOT;
 EOT;
 
         if (!$contributor_authenticated) {
-            if (!isset($_REQUEST['loginmethod']) || strtolower($_REQUEST['loginmethod']) == 'dynamic') {
+            if (isset($_REQUEST['loginmethod']) && strtolower($_REQUEST['loginmethod']) == 'dynamic') {
                 contributor_print_quick_login();
                 
                 print <<<EOT
                         
-                            <hr/>   
+                            <hr/>
 EOT;
             }
         }
