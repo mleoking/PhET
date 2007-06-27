@@ -54,6 +54,7 @@ public class InstallerBuildfileCreatorTask extends AbstractPhetBuildTask {
         map.put( "FLAVOR", projectFlavor.getTitle() );
         map.put( "DESCRIPTION", projectFlavor.getDescription() );
         map.put( "JAR", format( phetProject.getJarFile().getAbsolutePath()) );
+        map.put( "JAR_FILENAME", phetProject.getJarFile().getName() );//JAR_FILENAME may contain dashes & spaces, unlike ${FLAVORDIR}.jar.  We may wish to rewwrite this to copy JAR_FILENAME to ${FLAVORDIR}.jar.
         map.put( "CLASSNAME", projectFlavor.getMainclass() );
         map.put( "ARGUMENTS", getArgs( projectFlavor ) );
 //        map.put("WINDOWS_ICON_PATH",${ant-output}/projects/${sim.name}/${sim.flavor}.ico)

@@ -71,7 +71,7 @@
                     <name>@FLAVOR@</name>
                     <runInTerminal>0</runInTerminal>
                     <windowsExec>${java_executable}</windowsExec>
-                    <windowsExecArgs>-cp @FLAVORDIR@.jar @CLASSNAME@ @ARGUMENTS@</windowsExecArgs>
+                    <windowsExecArgs>-cp @JAR_FILENAME@ @CLASSNAME@ @ARGUMENTS@</windowsExecArgs>
                     <windowsIcon>@WINDOWS_ICON_PATH@</windowsIcon>
                     <windowsPath>${installdir}</windowsPath>
                 </startMenuShortcut>
@@ -107,7 +107,7 @@
     <finalPageActionList>
         <runProgram>
             <program>${java_executable}</program>
-            <programArguments>-cp "${installdir}/@FLAVORDIR@.jar" @CLASSNAME@ @ARGUMENTS@</programArguments>
+            <programArguments>-cp "${installdir}/@JAR_FILENAME@" @CLASSNAME@ @ARGUMENTS@</programArguments>
             <progressText>Do you want to launch @FLAVOR@ now?</progressText>
         </runProgram>
     </finalPageActionList>
