@@ -51,7 +51,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="jar.antform"        value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"/>    
     
     <!-- Installer builder properties -->
-    <property name="bitrock.exe"                value="${dir.build-tools}bitrock/bin/Builder.app/Contents/MacOS/installbuilder" />
+    <property name="bitrock.bin.dir"                value="${dir.build-tools}bitrock/bin/" />
     <property name="bitrock.sim.buildfile.dir"  value="${ant-output}/projects/" />
     <property name="bitrock.buildfile.template" value="${dir.build-tools}phet-build/templates/bitrock-installer-template.xml" />
 
@@ -474,8 +474,14 @@ PhET-team specific tasks are located in an auxiliary build file.
         <var name="sim.installer.buildfile" value="${sim.installer.dir}${sim.flavor}-installer-buildfile.xml" />
         
         <mkdir dir="${sim.installer.dir}" />
-        
-        
+
+        <echo message="${os.name}"/>
+        <var name="bitrock.exe" value="${bitrock.bin.dir}Builder.app/Contents/MacOS/installbuilder"></var>
+        <if>
+            <equals arg1="${os.name}" arg2="Windows NT (unknown)"></equals>
+            <then> <var name="bitrock.exe" value="${bitrock.bin.dir}builder.exe"></var> </then>
+        </if>
+        <echo message="set installer exe to: ${bitrock.exe}"/>
         <!-- Copy the template buildfile to the right location -->
         
         <create-installer-build-file inputFile="${bitrock.buildfile.template}" outputfile="${sim.installer.buildfile}" project="${sim.name}"/>
