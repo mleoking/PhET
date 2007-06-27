@@ -1,10 +1,12 @@
 package edu.colorado.phet.common.motion.model;
 
+import edu.colorado.phet.common.motion.graphs.IUpdateStrategy;
+
 /**
  * Author: Sam Reid
  * Jun 26, 2007, 6:19:17 PM
  */
-public class MotionBody {
+public class MotionBody implements IUpdateStrategy {
 
     private MotionBodySeries motionBodySeries = new MotionBodySeries();
     private MotionBodyState motionBodyState = new MotionBodyState();//current state
@@ -49,8 +51,19 @@ public class MotionBody {
         return x;
     }
 
-    public ISimulationVariable getVVariable() {
+    public double getAcceleration() {
+        return motionBodyState.getAcceleration();
+    }
 
+    public double getVelocity() {
+        return motionBodyState.getVelocity();
+    }
+
+    public double getPosition() {
+        return motionBodyState.getPosition();
+    }
+
+    public ISimulationVariable getVVariable() {
         final DefaultSimulationVariable v = new DefaultSimulationVariable();
         motionBodyState.addListener( new MotionBodyState.Adapter() {
             public void velocityChanged() {
@@ -78,5 +91,21 @@ public class MotionBody {
             }
         } );
         return a;
+    }
+
+    public PositionDriven getPositionDriven() {
+        return motionBodySeries.getPositionDriven();
+    }
+
+    public ITimeSeries getXTimeSeries() {
+        return motionBodySeries.getXTimeSeries();
+    }
+
+    public void setPositionDriven() {
+        motionBodySeries.setPositionDriven();
+    }
+
+    public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
+        motionBodySeries.setUpdateStrategy( updateStrategy );
     }
 }

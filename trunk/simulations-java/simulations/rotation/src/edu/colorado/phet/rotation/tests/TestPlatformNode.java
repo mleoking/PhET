@@ -40,7 +40,7 @@ public class TestPlatformNode {
         final ModelSlider modelSlider = new ModelSlider( "angle", "radians", 0, Math.PI * 2 * 2, Math.PI * 2 );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                rotationPlatform.setPosition( modelSlider.getValue() );
+                rotationPlatform.getMotionBodyState().setPosition( modelSlider.getValue() );
             }
         } );
         PSwing pSwing = new PSwing( modelSlider );

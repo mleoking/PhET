@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.motion.model.IPositionDriven;
+import edu.colorado.phet.common.motion.model.MotionBodyState;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -75,7 +76,7 @@ public class PlatformNode extends PNode {
 
                 double angle = initAngle + angleDiff;
 //                System.out.println( "angleDiff=" + angleDiff + ", angle=" + angle );
-                rotationPlatform.setPosition( angle );
+                rotationPlatform.setAngle( angle );
                 resetDrag( angle, event );//have to reset drag in order to keep track of the winding number
             }
 
@@ -85,7 +86,7 @@ public class PlatformNode extends PNode {
             }
         } );
         addInputEventListener( new CursorHandler() );
-        rotationPlatform.addListener( new RotationPlatform.Adapter() {
+        rotationPlatform.getMotionBodyState().addListener( new MotionBodyState.Adapter() {
             public void positionChanged( double dtheta ) {
                 setAngle( rotationPlatform.getPosition() );
             }
