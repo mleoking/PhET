@@ -1,4 +1,4 @@
-package edu.colorado.phet.energyskatepark;
+package edu.colorado.phet.common.timeseries.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
@@ -9,10 +9,10 @@ import java.util.ArrayList;
  * Author: Sam Reid
  * Jun 2, 2007, 4:06:24 AM
  */
-public class EnergySkateParkClock extends SwingClock {
+public class TimeModelClock extends SwingClock {
     private ArrayList listeners = new ArrayList();
 
-    public EnergySkateParkClock( int delay, double dt ) {
+    public TimeModelClock( int delay, double dt ) {
         super( delay, dt );
     }
 

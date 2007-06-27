@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -40,7 +41,7 @@ import java.util.ArrayList;
 public class EnergyTimePlot {
     private EnergySkateParkModel model;
     private TimeSeriesModel timeSeriesModel;
-    private IClock clock;
+    private TimeModelClock clock;
 
     private JDialog dialog;
     private PhetPCanvas phetPCanvas;
@@ -62,7 +63,7 @@ public class EnergyTimePlot {
     private JDialog developerControlDialog;
 //    public static final double MAX_TIME = 5.0;
 
-    public EnergyTimePlot( EnergySkateParkModule module, JFrame parentFrame, Clock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
+    public EnergyTimePlot( EnergySkateParkModule module, JFrame parentFrame, TimeModelClock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
         this.clock = clock;
         this.timeSeriesModel = timeSeriesModel;
