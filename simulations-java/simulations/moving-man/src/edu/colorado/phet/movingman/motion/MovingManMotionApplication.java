@@ -7,6 +7,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
+import edu.colorado.phet.common.timeseries.ui.DefaultTimeModelControlPanel;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.colorado.phet.movingman.MovingManApplication;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -20,7 +22,7 @@ import java.awt.*;
  */
 public class MovingManMotionApplication {
     private JFrame frame;
-    private SwingClock swingClock;
+    private TimeModelClock clock;
 
     public MovingManMotionApplication() {
         frame = new JFrame( "Moving Man Motion Application" );
@@ -29,8 +31,8 @@ public class MovingManMotionApplication {
         phetPCanvas.setZoomEventHandler( new PZoomEventHandler() );
         frame.setContentPane( phetPCanvas );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        swingClock = new SwingClock( 30, 1.0 );
-        final SingleBodyMotionModel motionModel = new SingleBodyMotionModel( swingClock );
+        clock = new TimeModelClock( 30, 1.0 );
+        final SingleBodyMotionModel motionModel = new SingleBodyMotionModel( clock );
 
         System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() + " ispaused=" + motionModel.getTimeSeriesModel().isPaused() );
 
@@ -59,11 +61,16 @@ public class MovingManMotionApplication {
         phetPCanvas.addScreenChild( graphSetNode );
         phetPCanvas.requestFocus();
         phetPCanvas.addKeyListener( new PDebugKeyHandler() );
+
+        DefaultTimeModelControlPanel timeControlPanel = new DefaultTimeModelControlPanel( clock, motionModel.getTimeSeriesModel(),0.1,1.0 );
+        phetPCanvas.setLayout( null);
+        phetPCanvas.add( timeControlPanel);
+        timeControlPanel.setLocation( 0,0);
     }
 
     private void start() {
         frame.setVisible( true );
-        swingClock.start();
+        clock.start();
     }
 
     public static void main( String[] args ) {

@@ -1,4 +1,4 @@
-package edu.colorado.phet.energyskatepark.view.swing;
+package edu.colorado.phet.common.timeseries.ui;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
@@ -8,9 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
-import edu.colorado.phet.energyskatepark.EnergySkateParkClock;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -35,12 +33,12 @@ public class DefaultTimeModelControlPanel extends JPanel {
     protected static final Object KEY_REC = "rec";
     protected static final Object KEY_PAUSE_REC = "pause-rec";
 
-    public DefaultTimeModelControlPanel( final Clock clock, final TimeSeriesModel timeSeriesModel ) {
+    public DefaultTimeModelControlPanel( final TimeModelClock clock, final TimeSeriesModel timeSeriesModel,double minDT,double maxDT ) {
         this.clock = clock;
         this.timeSeriesModel = timeSeriesModel;
 
 
-        final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, "0.00", (EnergySkateParkClock)clock );
+        final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( minDT, maxDT, "0.00", clock );
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 clock.setTimingStrategy( new TimingStrategy.Constant( timeSpeedSlider.getValue() ) );
@@ -148,7 +146,7 @@ public class DefaultTimeModelControlPanel extends JPanel {
             }
         } );
 
-        rewindButton = new JButton( EnergySkateParkStrings.getString( "controls.playback.rewind" ), new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_REWIND ) ) );
+        rewindButton = new JButton( TimeseriesResources.getString( "rewind" ), new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_REWIND ) ) );
         rewindButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.rewind();

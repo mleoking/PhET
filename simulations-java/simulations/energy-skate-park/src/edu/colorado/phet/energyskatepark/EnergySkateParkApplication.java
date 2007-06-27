@@ -33,6 +33,7 @@ package edu.colorado.phet.energyskatepark;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkFrameSetup;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
@@ -56,7 +57,7 @@ public class EnergySkateParkApplication extends PhetApplication {
                PhetApplicationConfig.getVersion( "energy-skate-park" ).formatForTitleBar(),
 //               new EnergySkateParkDebugFrameSetup() );
 new EnergySkateParkFrameSetup() );
-        module = new EnergySkateParkModule( "Module", new EnergySkateParkClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
+        module = new EnergySkateParkModule( "Module", new TimeModelClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
         setModules( new Module[]{module} );
         getPhetFrame().addMenu( new EnergySkateParkOptionsMenu( module ) );
         getPhetFrame().addMenu( new EnergySkateParkTestMenu( this ) );
