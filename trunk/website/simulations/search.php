@@ -23,9 +23,11 @@
             
             foreach($sims as $sim) {
                 eval(get_code_to_create_variables_from_array($sim));
+                
+                $sim_url = sim_get_url_to_sim_page($sim_id);
             
                 print <<<EOT
-                    <li><a href="../simulations/sims.php?sim_id=$sim_id">$sim_name</a></li>
+                    <li><a href="$sim_url">$sim_name</a></li>
 EOT;
             }
         

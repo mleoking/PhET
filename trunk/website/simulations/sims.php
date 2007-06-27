@@ -18,7 +18,11 @@
     function print_content() {
         global $SIM_RATING_TO_IMAGE_HTML, $SIM_TYPE_TO_IMAGE, $contributor_is_team_member;
         
-        $simulation = sim_get_sim_by_id($_REQUEST['sim_id']);
+        $sim_encoding = $_REQUEST['sim'];
+        
+        $sim_id = sim_get_sim_id_by_sim_encoding($sim_encoding);
+        
+        $simulation = sim_get_sim_by_id($sim_id);
             
         eval(get_code_to_create_variables_from_array($simulation));
         

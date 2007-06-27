@@ -113,7 +113,9 @@
             
             $delete = "<input name=\"delete_simulation_contribution_id_${simulation_contribution_id}\" type=\"submit\" value=\"Delete\" />";
             
-            $simulations_html .= "<li>$delete <a href=\"".SITE_ROOT."simulations/sims.php?sim_id=$sim_id\">$sim_name</a></li>";
+            $sim_url = sim_get_url_to_sim_page($sim_id);
+            
+            $simulations_html .= "<li>$delete <a href=\"$sim_url\">$sim_name</a></li>";
         }
         
         $simulations_html .= "</ul>";
@@ -783,7 +785,9 @@ EOT;
                 $sim_list .= '<br/>';
             }
             
-            $sim_list .= '<a href="'.SITE_ROOT.'simulations/sims.php?sim_id='.$sim_id.'">'.$sim_name.'</a>';
+            $sim_url = sim_get_url_to_sim_page($sim_id);
+            
+            $sim_list .= '<a href="'.$sim_url.'">'.$sim_name.'</a>';
         }
         
         $contribution_authors = explode(',', $contribution_authors);
@@ -861,7 +865,7 @@ EOT;
                     $sim_list .= '<br/>';
                 }
                 
-                $sim_list .= '<a href="'.SITE_ROOT.'simulations/sims.php?sim_id='.$simulation['sim_id'].'">'.$simulation['sim_name'].'</a>';
+                $sim_list .= sim_get_link_to_sim_page($simulation['sim_id']);
             }
         }
         

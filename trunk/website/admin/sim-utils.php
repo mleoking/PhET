@@ -73,6 +73,56 @@
         return $cats;
     }
     
+    function sim_get_sim_encoding_by_sim_id($sim_id) {
+        $sim = sim_get_sim_by_id($sim_id);
+        
+        return web_encode_string($sim['sim_name']);
+    }
+    
+    function sim_get_sim_by_sim_encoding($sim_encoding) {
+        $map = sim_get_name_to_sim_map();
+        
+        foreach($map as $name => $sim) {
+            $encoding = web_encode_string($name);
+            
+            if ($encoding == $sim_encoding) {
+                return $sim;
+            }
+        }
+        
+        return false;
+    }
+    
+    function sim_get_sim_id_by_sim_encoding($sim_encoding) {
+        $sim = sim_get_sim_by_sim_encoding($sim_encoding);
+        
+        if (!$sim) return false;
+        
+        return $sim['sim_id'];
+    }
+    
+    function sim_get_url_to_sim_page($sim_id) {
+        $sim = sim_get_sim_by_id($sim_id);
+        
+        $sim_name = $sim['sim_name'];
+        
+        $sim_encoding = web_encode_string($sim_name);
+        
+        return "../simulations/sims.php?sim=$sim_encoding";
+    }
+    
+    function sim_get_link_to_sim_page($sim_id, $desc = null) {
+        $url = sim_get_url_to_sim_page($sim_id);
+        
+        if ($desc == null) {
+            $sim = sim_get_sim_by_id($sim_id);
+            
+            $desc = $sim['sim_name'];
+        }
+        
+        return "<a href=\"$url\">$desc</a>";
+    }
+    
     function sim_get_visible_categories() {
         $cats = array();
         
@@ -193,9 +243,9 @@
     function sim_get_all_sims() {
         $simulations = array();
         
-        $simulation_rows = db_exec_query("SELECT * FROM `simulation` ");
+        $simulation_rows = db_get_all_rows('simulation');
         
-        while($simulation = mysql_fetch_assoc($simulation_rows)) {
+        foreach($simulation_rows as $simulation) {
             $sim_id = $simulation['sim_id'];
             
             if (is_numeric($sim_id)) {                
@@ -204,6 +254,20 @@
         }
         
         return $simulations;        
+    }
+    
+    function sim_get_name_to_sim_map() {
+        $simulations = db_get_all_rows('simulation');
+        
+        $map = array();
+        
+        foreach($simulations as $simulation) {
+            $name = $simulation['sim_name'];
+            
+            $map[$name] = $simulation;
+        }
+        
+        return $map;
     }
     
     function sim_get_sims_by_cat_id($cat_id) {
