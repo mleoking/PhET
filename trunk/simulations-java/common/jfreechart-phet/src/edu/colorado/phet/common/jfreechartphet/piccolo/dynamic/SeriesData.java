@@ -70,8 +70,10 @@ public class SeriesData {
     }
 
     public void clear() {
+        if (series.getItemCount()>0){
         series.clear();
         notifyDataCleared();
+        }
     }
 
     private void notifyDataCleared() {

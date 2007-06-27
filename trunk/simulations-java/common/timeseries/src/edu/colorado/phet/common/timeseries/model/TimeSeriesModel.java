@@ -29,7 +29,7 @@ public class TimeSeriesModel extends ClockAdapter {
     public TimeSeriesModel( RecordableModel recordableModel, final IClock clock ) {
         this.recordableModel = recordableModel;
         this.clock = clock;
-        this.paused=clock.isPaused();
+        this.paused = clock.isPaused();
         this.mode = live;
         clock.addClockListener( new ClockAdapter() {
             public void clockStarted( ClockEvent clockEvent ) {
@@ -43,8 +43,8 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     private void updatePauseStateFromClock() {
-        if (this.paused!=clock.isPaused()){
-            this.paused=clock.isPaused();
+        if( this.paused != clock.isPaused() ) {
+            this.paused = clock.isPaused();
             notifyPauseChanged();
         }
     }
@@ -252,11 +252,13 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void clear() {
-        series.clear();
-        record.reset();
-        recordableModel.resetTime();
-        notifyDataSeriesChanged();
-        notifyDataSeriesCleared();
+        if( series.size() > 0 ) {
+            series.clear();
+            record.reset();
+            recordableModel.clear();
+            notifyDataSeriesChanged();
+            notifyDataSeriesCleared();
+        }
     }
 
     private void notifyDataSeriesCleared() {

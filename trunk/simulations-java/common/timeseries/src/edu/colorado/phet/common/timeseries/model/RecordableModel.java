@@ -12,4 +12,6 @@ public interface RecordableModel {
     void setState( Object o );
 
     void resetTime();
+
+    void clear();
 }

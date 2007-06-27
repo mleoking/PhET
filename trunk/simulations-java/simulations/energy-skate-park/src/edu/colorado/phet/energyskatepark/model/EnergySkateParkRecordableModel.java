@@ -30,4 +30,7 @@ public class EnergySkateParkRecordableModel implements RecordableModel {
 
     public void resetTime() {
     }
+
+    public void clear() {
+    }
 }

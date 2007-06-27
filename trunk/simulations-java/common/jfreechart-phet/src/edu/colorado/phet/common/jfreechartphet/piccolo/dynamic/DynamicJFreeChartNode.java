@@ -120,7 +120,8 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         updateAll();
     }
 
-    private SeriesData getSeries( int series ) {
+    //todo: this is public merely for purposes of debugging
+    public SeriesData getSeries( int series ) {
         return (SeriesData)seriesDataList.get( series );
     }
 

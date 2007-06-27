@@ -84,11 +84,15 @@ public class PPathSeriesView extends SeriesView {
 
     public void dataAdded() {
         int itemCount = getSeries().getItemCount();
+        float x = (float)getNodePoint( itemCount - 1 ).getX();
+        float y = (float)getNodePoint( itemCount - 1 ).getY();
+        System.out.println( "getSeriesData().getSeries().getX( itemCount-1) = " + getSeriesData().getSeries().getX( itemCount - 1 ) );
+        System.out.println( "x = " + x );
         if( pathNode.getPathReference().getCurrentPoint() == null ) {
-            pathNode.moveTo( (float)getNodePoint( itemCount - 1 ).getX(), (float)getNodePoint( itemCount - 1 ).getY() );
+            pathNode.moveTo( x, y );
         }
         else if( getSeries().getItemCount() >= 2 ) {
-            pathNode.lineTo( (float)getNodePoint( itemCount - 1 ).getX(), (float)getNodePoint( itemCount - 1 ).getY() );
+            pathNode.lineTo( x, y );
         }
     }
 
