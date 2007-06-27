@@ -5,13 +5,14 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.common.timeseries.model.TimeState;
 
 /**
  * Author: Sam Reid
  * Jun 26, 2007, 11:14:12 PM
  */
 public class BasicMotionModel {
-    protected MotionModelTimeSeriesModel timeSeriesModel;
+    protected TimeSeriesModel timeSeriesModel;
     protected double time = 0;
     private DefaultTimeSeries timeTimeSeries = new DefaultTimeSeries();
 
@@ -39,33 +40,24 @@ public class BasicMotionModel {
                 BasicMotionModel.this.clear();
             }
         };
-        timeSeriesModel = new MotionModelTimeSeriesModel( recordableModel, clock );
+        timeSeriesModel = new TimeSeriesModel( recordableModel, clock );
+        timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
+            public void modeChanged() {
+                if( timeSeriesModel.isRecordMode() ) {
+                    TimeState timeState = timeSeriesModel.getSeries().getLastPoint();
+                    if( timeState != null ) {
+                        Object o = timeState.getValue();
+                        setTime( ( (Double)o ).doubleValue() );
+                    }
+                }
+            }
+        } );
         timeSeriesModel.setRecordMode();
         clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 timeSeriesModel.stepMode( clockEvent.getSimulationTimeChange() );
             }
         } );
-    }
-
-    //todo: temporary workaround to resolve problems with offset in record/playback times
-    public class MotionModelTimeSeriesModel extends TimeSeriesModel {
-        public MotionModelTimeSeriesModel( RecordableModel recordableModel, IClock clock ) {
-            super( recordableModel, clock );
-        }
-
-        public void setRecordMode() {
-            BasicMotionModel.this.setRecordMode();
-        }
-
-        public void superSetRecordMode() {
-            super.setRecordMode();
-        }
-    }
-
-    //todo: temporary workaround to resolve problems with offset in record/playback times
-    protected void setRecordMode() {
-        timeSeriesModel.superSetRecordMode();
     }
 
     protected void setTime( double time ) {
@@ -86,7 +78,7 @@ public class BasicMotionModel {
         return time;
     }
 
-    public MotionModelTimeSeriesModel getTimeSeriesModel() {
+    public TimeSeriesModel getTimeSeriesModel() {
         return timeSeriesModel;
     }
 }

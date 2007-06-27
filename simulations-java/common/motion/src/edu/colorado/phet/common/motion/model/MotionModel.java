@@ -17,23 +17,6 @@ public class MotionModel extends BasicMotionModel implements IPositionDriven {
         motionBody = createMotionBody();
     }
 
-    //todo: temporary workaround to resolve problems with offset in record/playback times
-    protected void setRecordMode() {
-        if( motionBody != null ) {
-            double x = motionBody.getMotionBodyState().getPosition();
-            double v = motionBody.getMotionBodyState().getVelocity();
-            double a = motionBody.getMotionBodyState().getAcceleration();
-            getTimeSeriesModel().setPlaybackTime( getTimeSeriesModel().getRecordTime() );
-            getTimeSeriesModel().superSetRecordMode();
-            motionBody.getMotionBodyState().setPosition( x );
-            motionBody.getMotionBodyState().setVelocity( v );
-            motionBody.getMotionBodyState().setAcceleration( a );
-        }
-        else {
-            getTimeSeriesModel().superSetRecordMode();
-        }
-    }
-
     public MotionBodySeries getMotionBodySeries() {
         return motionBody.getMotionBodySeries();
     }
