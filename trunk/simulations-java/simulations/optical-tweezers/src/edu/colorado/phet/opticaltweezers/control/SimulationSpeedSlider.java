@@ -20,6 +20,8 @@ import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -94,6 +96,7 @@ public class SimulationSpeedSlider extends PNode {
     private PPath _trackNode;
     private PPath _knobNode;
     private EventListenerList _listenerList;
+    private boolean _isAdjusting;
     
     //----------------------------------------------------------------------------
     // Constructors & initializers
@@ -112,7 +115,7 @@ public class SimulationSpeedSlider extends PNode {
         _listenerList = new EventListenerList();
         
         initNodes();
-        initDragHandler();
+        initInteractivity();
     }
     
     private void initNodes() {
@@ -303,7 +306,7 @@ public class SimulationSpeedSlider extends PNode {
         return textNode;
     }
     
-    private void initDragHandler() {
+    private void initInteractivity() {
         
         // constrain knob to be dragged horizontally within the track
         double xMin = _trackNode.getFullBounds().getX() - ( _knobNode.getFullBounds().getWidth() / 2 );
@@ -322,8 +325,19 @@ public class SimulationSpeedSlider extends PNode {
         _knobNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-                    System.out.println( "knob transformed" );//XXX
+                    updateValue();
                 }
+            }
+        } );
+        
+        _knobNode.addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
+                _isAdjusting = true;
+            }
+
+            public void mouseReleased( PInputEvent event ) {
+                _isAdjusting = false;
+                fireChangeEvent( new ChangeEvent( this ) );
             }
         } );
     }
@@ -338,6 +352,7 @@ public class SimulationSpeedSlider extends PNode {
         }
         if ( value != _value ) {
             _value = value;
+            updateKnobPosition();
             fireChangeEvent( new ChangeEvent( this ) );
         }
     }
@@ -350,8 +365,25 @@ public class SimulationSpeedSlider extends PNode {
         return TICK_LABEL_FORMAT.format( _value );
     }
     
+    public boolean isAdjusting() {
+        return _isAdjusting;
+    }
+    
     private boolean isValidValue( double value ) {
         return ( _slowRange.contains( value ) || _fastRange.contains( value ) );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
+    private void updateValue() {
+        //XXX
+        fireChangeEvent( new ChangeEvent( this ) );
+    }
+    
+    private void updateKnobPosition() {
+        //XXX
     }
     
     //----------------------------------------------------------------------------
