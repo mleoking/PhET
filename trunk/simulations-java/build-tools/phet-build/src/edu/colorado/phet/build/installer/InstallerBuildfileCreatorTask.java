@@ -19,6 +19,7 @@ public class InstallerBuildfileCreatorTask extends AbstractPhetBuildTask {
     public void executeImpl( PhetProject project ) throws BuildException {
         if( flavor == null ) {
             flavor = project.getFlavorNames()[0];
+            echo( "Flavor was null, using default flavor: "+flavor);
         }
         if( inputFile == null || outputFile == null ) {
             throw new BuildException( "File not specified, inputFile=" + inputFile + ", outputFile=" + outputFile );
