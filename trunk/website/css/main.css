@@ -1172,7 +1172,10 @@ div.research .publication_htmllink {
 }
 #localNav ul li ul.subnav li {
 	margin:0;
-	padding: 3px 0 3px 18px
+	padding: 3px 0 3px 18px;
+}
+#localNav ul li.sub {
+	clear: right;
 }
 #localNav ul li.sub span.selected a span.sub-nav-desc,
 #localNav ul li.sub span a span.sub-nav-desc {
