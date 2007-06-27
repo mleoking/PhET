@@ -2,7 +2,7 @@ package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.common.motion.model.DefaultSimulationVariable;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
-import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Author: Sam Reid
  * May 22, 2007, 11:37:56 PM
  */
-public class RotationModel extends MotionModel implements RotationBodyNode.RotationBodyEnvironment {
+public class RotationModel extends SingleBodyMotionModel implements RotationBodyNode.RotationBodyEnvironment {
     private DefaultSimulationVariable xPositionVariable = new DefaultSimulationVariable();
     private DefaultSimulationVariable yPositionVariable = new DefaultSimulationVariable();
     private DefaultSimulationVariable speedVariable = new DefaultSimulationVariable();

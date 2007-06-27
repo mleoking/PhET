@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
-import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -25,7 +25,7 @@ import java.awt.geom.Rectangle2D;
  * May 22, 2007, 2:37:54 PM
  */
 public class MovingManNode extends PNode {
-    public MovingManNode( final MotionModel motionModel ) {
+    public MovingManNode( final SingleBodyMotionModel motionModel ) {
         Rectangle2D.Float skyRect = new Rectangle2D.Float( -20, 0, 40, 2 );
         GradientPaint skyPaint = new GradientPaint( skyRect.x, skyRect.y, new Color( 150, 120, 255 ), skyRect.x, skyRect.y + skyRect.height, Color.white );
         PhetPPath skyNode = new PhetPPath( skyRect, skyPaint );
@@ -97,7 +97,7 @@ public class MovingManNode extends PNode {
 
     }
 
-    private void updateObject( PNode object, MotionModel rotationModel ) {
+    private void updateObject( PNode object, SingleBodyMotionModel rotationModel ) {
 //        object.setOffset( rotationModel.getPosition() - object.getFullBounds().getWidth() / 2/object.getScale(), 2.0 - object.getFullBounds().getHeight()/object.getScale() );
         object.setOffset( rotationModel.getMotionBodyState().getPosition() - object.getFullBounds().getWidth() / 2, 2.0 - object.getFullBounds().getHeight() );
     }
@@ -111,7 +111,7 @@ public class MovingManNode extends PNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         SwingClock swingClock = new SwingClock( 30, 1.0 );
-        final MotionModel rotationModel = new MotionModel( swingClock );
+        final SingleBodyMotionModel rotationModel = new SingleBodyMotionModel( swingClock );
 
         MovingManNode movingManNode = new MovingManNode( rotationModel );
         movingManNode.scale( 50 );

@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.motion.tests;
 
-import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import junit.framework.TestCase;
@@ -15,7 +15,7 @@ public class TestPositionDrivenOffsets extends TestCase {
     //    boolean verbose = true;
     boolean verbose = false;
 
-    private void step( SwingClock clock, MotionModel motionModel, int i ) {
+    private void step( SwingClock clock, SingleBodyMotionModel motionModel, int i ) {
         for( int k = 0; k < i; k++ ) {
             clock.stepClockWhilePaused();
             if( verbose ) {
@@ -24,7 +24,7 @@ public class TestPositionDrivenOffsets extends TestCase {
         }
     }
 
-    private void showState( MotionModel motionModel ) {
+    private void showState( SingleBodyMotionModel motionModel ) {
 //        System.out.println( "t=" + motionModel.getTime() + ", x=" + motionModel.getPosition() + ", v=" + motionModel.getVelocity() + ", a=" + motionModel.getAcceleration() );
         System.out.println( "x.t=" + motionModel.getTime() + ", x=" + motionModel.getMotionBodyState().getPosition() + ", v=" + motionModel.getMotionBodyState().getVelocity() + ", a=" + motionModel.getMotionBodyState().getAcceleration() );
     }
@@ -58,7 +58,7 @@ public class TestPositionDrivenOffsets extends TestCase {
     public void testVelocityOffset( double dt, double x0, int numStepsBefore, double xFinal, int numStepsAfter, int maxWindowSize, double tolerance ) {
 
         SwingClock clock = new SwingClock( 30, dt );
-        MotionModel motionModel = new MotionModel( clock );
+        SingleBodyMotionModel motionModel = new SingleBodyMotionModel( clock );
         motionModel.getMotionBodySeries().getPositionDriven().setVelocityWindow( maxWindowSize );
         motionModel.getMotionBodySeries().setPositionDriven();
 

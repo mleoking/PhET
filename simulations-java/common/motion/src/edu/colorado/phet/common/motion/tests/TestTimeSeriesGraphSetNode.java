@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.motion.tests;
 
 import edu.colorado.phet.common.motion.graphs.*;
-import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -66,7 +66,7 @@ public class TestTimeSeriesGraphSetNode {
         }
     }
 
-    class TestMotionModel extends MotionModel {
+    class TestMotionModel extends SingleBodyMotionModel {
         public TestMotionModel( IClock clock ) {
             super( clock );
         }

@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.motion.graphs.*;
-import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
@@ -30,7 +30,7 @@ public class MovingManMotionApplication {
         frame.setContentPane( phetPCanvas );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         swingClock = new SwingClock( 30, 1.0 );
-        final MotionModel motionModel = new MotionModel( swingClock );
+        final SingleBodyMotionModel motionModel = new SingleBodyMotionModel( swingClock );
         System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() + " ispaused=" + motionModel.getTimeSeriesModel().isPaused() );
 
         MovingManNode movingManNode = new MovingManNode( motionModel );
