@@ -1,9 +1,4 @@
-This text license was automatically generated from the following web page:
-
-    http://creativecommons.org/licenses/by-nc/3.0/legalcode
-    
-
-                             [1]Creative Commons
+                             Creative Commons
 
 Creative Commons Legal Code
 
@@ -353,3 +348,6 @@ References
    1. http://creativecommons.org/
    2. http://creativecommons.org/
    3. http://creativecommons.org/licenses/by-nc/3.0/
+
+This text license was automatically generated from the following web page:
+http://creativecommons.org/licenses/by-nc/3.0/legalcode
