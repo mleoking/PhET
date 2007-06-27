@@ -3,10 +3,10 @@
 ================================================================================
 
 IN PROGRESS:
+- implement custom simulation speed control
 
 AAPT:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
-- implement custom simulation speed control
 - adjust clock time display and units as dt is changed
 - position histogram requires more precision on x-axis and ruler
 - ruler is slightly off-center in all panels
@@ -67,6 +67,7 @@ MISSING INFO:
 
  
 DONE:
+6/27/07 - add drag handler to knob in simulation speed slider
 6/27/07 - resolve roundoff problems in simulation speed slider by using integer precision for layout
 6/27/07 - first pass at custom slider for simulation speed, layout only
 ********* version 0.00.14 (16084)

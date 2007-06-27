@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import javax.swing.event.ChangeEvent;
@@ -14,6 +16,8 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -21,8 +25,14 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * SimulationSpeedSlider is a Piccolo-based slider for controlling simulation speed.
- * This control is very specific to the Optical Tweezers simulation, and is unlikely
- * to be reusable.
+ * The slider consists of 3 ranges, all of which are logarithmic.
+ * To the left is the "slow" range, to the right is the "fast" range.
+ * In between the slow and fast range is the "between" range.
+ * If the user releases the knob in the "between" range, it automatically snaps
+ * to slow.max or fast.min, whichever is closer.
+ * <p>
+ * This control is very specific to the Optical Tweezers simulation,
+ * and is unlikely to be reusable.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -102,6 +112,7 @@ public class SimulationSpeedSlider extends PNode {
         _listenerList = new EventListenerList();
         
         initNodes();
+        initDragHandler();
     }
     
     private void initNodes() {
@@ -290,6 +301,31 @@ public class SimulationSpeedSlider extends PNode {
         textNode.setFont( new PhetDefaultFont( TICK_LABEL_FONT_SIZE ) );
         textNode.setTextPaint( TICK_LABEL_COLOR );
         return textNode;
+    }
+    
+    private void initDragHandler() {
+        
+        // constrain knob to be dragged horizontally within the track
+        double xMin = _trackNode.getFullBounds().getX() - ( _knobNode.getFullBounds().getWidth() / 2 );
+        double xMax = _trackNode.getFullBounds().getMaxX() + ( _knobNode.getFullBounds().getWidth() / 2 );
+        double yMin = _trackNode.getFullBounds().getY() + ( _trackNode.getFullBounds().getHeight() / 2 ) - ( _knobNode.getFullBounds().getHeight() / 2 );
+        double yMax = _trackNode.getFullBounds().getY() + ( _trackNode.getFullBounds().getHeight() / 2 ) + ( _knobNode.getFullBounds().getHeight() / 2 );
+        Rectangle2D dragBounds = new Rectangle2D.Double( xMin, yMin, xMax - xMin, yMax - yMin );
+        
+        PPath dragBoundsNode = new PPath( dragBounds );
+        dragBoundsNode.setStroke( null );
+        addChild( dragBoundsNode );
+        
+        BoundedDragHandler dragHandler = new BoundedDragHandler( _knobNode, dragBoundsNode );
+        _knobNode.addInputEventListener( dragHandler );
+        _knobNode.addInputEventListener( new CursorHandler() );
+        _knobNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
+                    System.out.println( "knob transformed" );//XXX
+                }
+            }
+        } );
     }
     
     //----------------------------------------------------------------------------
