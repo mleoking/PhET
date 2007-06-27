@@ -543,6 +543,10 @@ PhET-team specific tasks are located in an auxiliary build file.
         <foreach list="${sim.flavors}" target="_build-installer-for-flavor" param="sim.flavor"/>
     </target>
 
+    <target name="build-all-sim-installers" depends="_init, _list-sims" description="Builds all single-sim installers.">
+        <foreach list="${phet.simlist}" target="build-installer" param="sim.name"/>
+    </target>
+
     <target name="test-file-exists" depends="_init">
         <if>
             <fileexists file="C:\phet\subversion\trunk\simulations-java\build.xml"/>
