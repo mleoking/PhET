@@ -8,12 +8,12 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.model.TimeState;
 
 /**
- * Author: Sam Reid
- * Jun 26, 2007, 11:14:12 PM
+ * Represents a base model which can be used for managing collections of MotionBody objects.
+ * See SingleBodyMotionModel as an example.
  */
 public class MotionModel {
-    protected TimeSeriesModel timeSeriesModel;
-    protected double time = 0;
+    private TimeSeriesModel timeSeriesModel;
+    private double time = 0;
     private DefaultTimeSeries timeTimeSeries = new DefaultTimeSeries();
 
     public MotionModel( IClock clock ) {

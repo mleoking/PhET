@@ -3,7 +3,7 @@ package edu.colorado.phet.common.motion.model;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 /**
- * This class contains a single MotionBody, and convenience methods for interacting with it. 
+ * This class contains a single MotionBody, and convenience methods for interacting with it.
  */
 public class SingleBodyMotionModel extends MotionModel implements IPositionDriven {
 
@@ -28,7 +28,7 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
         super.clear();
         motionBody.clear();
     }
-    
+
     public MotionBodySeries getMotionBodySeries() {
         return motionBody.getMotionBodySeries();
     }
