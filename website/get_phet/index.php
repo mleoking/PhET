@@ -6,96 +6,106 @@
         ?>
             <h1>Three Ways to Run Our Free Simulations</h1>
 
-            <table id="get_phet" cellspacing="0" summary="">
-                <tr>
-                    <th scope="row" abbr="" class="specalt-none"></th>
+            <div id="get_phet">
+                <table>
+                    
+                    <caption>
+                        If you would like to be notified when new versions of the PhET simulations are available, send us a note with the word "Subscribe" in the subject line: <a href="mailto:physphet@colorado.edu">physphet@colorado.edu</a>
+                    </caption>
+                    
+                    <tr>
+                        <th scope="row" abbr="" class="specalt-none"></th>
 
-                    <th scope="row" abbr="" class="specalt-none">
-                        <center>
-                            From the PhET Web Site<br />
-                            <a href="../simulations/index.php"><img src="../images/button-clickhere.jpg" /></a>
-                        </center>
-                    </th>
+                        <th scope="row" abbr="" class="specalt-none">
+                            <p>Use the PhET website while connected to the web</p>
+                        </th>
 
-                    <th scope="row" abbr="" class="specalt-none">
-                        <center>
-                            Full PhET Installation<br />
-                            <a href="full_install.php"><img src="../images/button-clickhere.jpg" /></a>
-                        </center>
-                    </th>
+                        <th scope="row" abbr="" class="specalt-none">
+                            <p>Download the <strong>entire</strong> website onto your computer, USB, or CD</p>
+                        </th>
 
-                    <th scope="row" abbr="" class="specalt-none">
-                        <center>
-                            Individual Sim Installers<br />
-                            <a href="simlauncher.php"><img src="../images/button-clickhere.jpg" /></a>
-                        </center>
-                    </th>
-                </tr>
+                        <th scope="row" abbr="" class="specalt-none">
+                            <p>Download <strong>one or more</strong> simulations to your computer, USB, or CD</p>
+                        </th>
+                    </tr>
+                
+                    <tr>
+                        <th scope="row" abbr="" class="specalt-none"></th>
 
-                <tr>
-                    <th scope="row" abbr="" class="spec-none">What simulations are installed?</th>
+                        <th scope="row" abbr="" class="specalt-none">
+                            <p><a href="../simulations/index.php"><img src="../images/button-clickhere.jpg" alt="Click here"/></a></p>
+                        </th>
 
-                    <th scope="row" abbr="" class="spec">None</th>
+                        <th scope="row" abbr="" class="specalt-none">
+                            <p><a href="../get_phet/full_install.php"><img src="../images/button-clickhere.jpg"  alt="Click here"/></a></p>
+                        </th>
 
-                    <th scope="row" abbr="" class="spec">All simulations</th>
+                        <th scope="row" abbr="" class="specalt-none">
+                            <p><a href="../get_phet/simlauncher.php"><img src="../images/button-clickhere.jpg"  alt="Click here"/></a></p>
+                        </th>
+                    </tr>
+                
+                    <tr>
+                        <th scope="row" abbr="" class="spec-none"><p>How do I get the simulations?</p></th>
 
-                    <th scope="row" abbr="" class="spec">Simulations selected by you</th>
-                </tr>
+                        <th scope="row" abbr="" class="specalt"><p>Click on the simulation icon on the web page of the simulation you want to run.</p></th>
 
-                <tr>
-                    <th scope="row" abbr="" class="specalt-none">How often are updates made available?</th>
+                        <th scope="row" abbr="" class="specalt"><p>Click here to download.</p></th>
 
-                    <th scope="row" abbr="" class="specalt">Whenever you visit the web site</th>
+                        <th scope="row" abbr="" class="specalt"><p>Click here to download.</p></th>
+                    </tr>
 
-                    <th scope="row" abbr="" class="specalt">Three or four times a year</th>
+                    <tr>
+                        <th scope="row" abbr="" class="spec-none"><p>What simulations are installed?</p></th>
 
-                    <th scope="row" abbr="" class="specalt">Any time you connect to the Internet, new or updated simulations are available</th>
-                </tr>
+                        <th scope="row" abbr="" class="spec"><p>The simulations you use are temporarily installed.</p></th>
 
-                <tr>
-                    <th scope="row" abbr="" class="spec-none">Size of download package</th>
+                        <th scope="row" abbr="" class="spec"><p>All simulations.</p></th>
 
-                    <th scope="row" abbr="" class="spec">No download required</th>
+                        <th scope="row" abbr="" class="spec"><p>Only the ones you want.</p></th>
+                    </tr>
 
-                    <th scope="row" abbr="" class="spec">37MB, 63MB with Java VM</th>
+                    <tr>
+                        <th scope="row" abbr="" class="spec-none"><p>How large is the download?</p></th>
 
-                    <th scope="row" abbr="" class="spec">2MB, 27MB with Java VM, plus the size of the individual simulations you install (typically 500KB to 1.5MB each)</th>
-                </tr>
+                        <th scope="row" abbr="" class="specalt"><p>Under 1.5 MB for each simulation.</p></th>
 
-                <tr>
-                    <th scope="row" abbr="" class="specalt-none">Internet connection required to run simulations?</th>
+                        <th scope="row" abbr="" class="specalt"><p>Approximately 40MB if you already have Java, or 65MB if you do not.</p></th>
 
-                    <th scope="row" abbr="" class="specalt">Yes</th>
+                        <th scope="row" abbr="" class="specalt"><p>Under 1.5 MB for each simulation.</p></th>
+                    </tr>
+                
+                    <tr>
+                        <th scope="row" abbr="" class="specalt-none"><p>How often are updates made available?</p></th>
 
-                    <th scope="row" abbr="" class="specalt">No</th>
+                        <th scope="row" abbr="" class="spec"><p>As soon as new or updated simulations are posted on the web site.</p></th>
 
-                    <th scope="row" abbr="" class="specalt">No</th>
-                </tr>
+                        <th scope="row" abbr="" class="spec"><p>Three or four times a year.</p></th>
 
-                <tr>
-                    <th scope="row" abbr="" class="spec-none">How to install?</th>
+                        <th scope="row" abbr="" class="spec"><p>If you connect to the Internet, new or updated simulations are available.</p></th>
+                    </tr>
 
-                    <th scope="row" abbr="" class="spec">No installation required</th>
+                    <tr>
+                        <th scope="row" abbr="" class="specalt-none"><p>Is an Internet connection required to run simulations?</p></th>
 
-                    <th scope="row" abbr="" class="spec">From PhET web site or CD</th>
+                        <th scope="row" abbr="" class="specalt"><p>Yes</p></th>
 
-                    <th scope="row" abbr="" class="spec">From PhET web site</th>
-                </tr>
+                        <th scope="row" abbr="" class="specalt"><p>No</p></th>
 
-                <tr>
-                    <th scope="row" abbr="" class="specalt-none">How to update simulations?</th>
-
-                    <th scope="row" abbr="" class="specalt">You always have access to the latest versions</th>
-
-                    <th scope="row" abbr="" class="specalt">Re-install the Full PhET Installation</th>
-
-                    <th scope="row" abbr="" class="specalt">Re-install when you have an Internet connection</th>
-                </tr>
-
-                <caption>
-                    If you would like to be notified when new versions of the PhET simulations are available, send us a note with the word "Subscribe" in the subject line: <a href="mailto:physphet@colorado.edu">physphet@colorado.edu</a>
-                </caption>
-            </table>
+                        <th scope="row" abbr="" class="specalt"><p>No</p></th>
+                    </tr>
+                
+                    <tr>
+                        <th scope="row" abbr="" class="spec-none"><p>Where can I save them to on my computer?</p></th>
+                    
+                        <th scope="row" abbr="" class="spec"><p>Flash applets cannot be saved. Java applications are automatically stored in your computer's WebStart cache, but cannot be moved.</p></th>
+                    
+                        <th scope="row" abbr="" class="spec"><p>CD, USB or hard drive.</p></th>
+                    
+                        <th scope="row" abbr="" class="spec"><p>CD, USB or hard drive.</p></th>
+                    </tr>
+                </table>
+            </div>
         <?php
     }
 
