@@ -176,14 +176,14 @@ EOT;
             
             <div class="field">                
                 <span class="label_content">
-                    <?php
+EOT;
 
-                        print_multiple_selection(
-                            contribution_get_all_template_level_names(),
-                            array()
-                        );
+                    print_multiple_selection(
+                        contribution_get_all_template_level_names(),
+                        array()
+                    );
 
-                    ?>
+                print <<<EOT
                 </span>
                 
                 <span class="label">
