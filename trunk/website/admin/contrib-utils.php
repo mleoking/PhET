@@ -307,9 +307,9 @@ EOT;
                                         </td>
                                     </div>
                                 </table>
-
-                                <input type="hidden" name="referrer"        value="$referrer"        />
-                                <input type="hidden" name="contribution_id" value="$contribution_id" />
+                                
+                                <input type="hidden" name="referrer"        value="$referrer"        class="always_enabled"/>
+                                <input type="hidden" name="contribution_id" value="$contribution_id" class="always_enabled"/>
                             </fieldset>
                         </form>
                     </td>
@@ -365,8 +365,8 @@ EOT;
                                     </div>
                                 </table>
 
-                                <input type="hidden" name="referrer"        value="$referrer"        />
-                                <input type="hidden" name="contribution_id" value="$contribution_id" />
+                                <input type="hidden" name="referrer"        value="$referrer"        class="always_enabled"/>
+                                <input type="hidden" name="contribution_id" value="$contribution_id" class="always_enabled"/>
                             </fieldset>
                         </form>
                     </td>
