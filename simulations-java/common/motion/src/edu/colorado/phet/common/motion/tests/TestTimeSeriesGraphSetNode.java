@@ -50,7 +50,7 @@ public class TestTimeSeriesGraphSetNode {
         private MinimizableControlGraph positionGraph;
 
         public TestGraphSet( PhetPCanvas pSwingCanvas, final TestMotionModel motionModel ) {
-            positionGraph = new MinimizableControlGraph( "x", new MotionControlGraph( pSwingCanvas, motionModel.getXVariable(), motionModel.getXTimeSeries(), "X", "Position", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), motionModel, true, motionModel.getTimeSeriesModel() ) );
+            positionGraph = new MinimizableControlGraph( "x", new MotionControlGraph( pSwingCanvas, motionModel.getXVariable(), motionModel.getXTimeSeries(), "X", "Position", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), motionModel, true, motionModel.getTimeSeriesModel() ,motionModel) );
             addGraphSuite( new GraphSuite( new MinimizableControlGraph[]{positionGraph} ) );
 
 //            motionModel.addListener( new MotionModel.Listener() {

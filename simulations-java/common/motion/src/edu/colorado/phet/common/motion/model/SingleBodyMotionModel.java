@@ -1,11 +1,12 @@
 package edu.colorado.phet.common.motion.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.motion.graphs.IUpdateStrategy;
 
 /**
  * This class contains a single MotionBody, and convenience methods for interacting with it.
  */
-public class SingleBodyMotionModel extends MotionModel implements IPositionDriven {
+public class SingleBodyMotionModel extends MotionModel implements IPositionDriven, IUpdateStrategy {
 
     private MotionBody motionBody;
 
@@ -21,7 +22,7 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        motionBody.stepInTime( time, dt );
+        motionBody.stepInTime( getTime(), dt );
     }
 
     public void clear() {

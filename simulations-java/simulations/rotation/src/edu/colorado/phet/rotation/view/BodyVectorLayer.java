@@ -30,7 +30,7 @@ public class BodyVectorLayer extends PNode {
         this.rotationBody = rotationBody;
         accelArrow = new VectorNode( "a", Color.blue, new VectorFunction() {
             public AbstractVector2D getVector() {
-                return new Vector2D.Double( rotationBody.getPosition(), rotationModel.getRotationPlatform().getCenter() ).getInstanceOfMagnitude( Math.abs( rotationModel.getRotationPlatform().getAcceleration() ) ).getScaledInstance( accelScale );
+                return new Vector2D.Double( rotationBody.getPosition(), rotationModel.getRotationPlatform().getCenter() ).getInstanceOfMagnitude( Math.abs( rotationModel.getRotationPlatform().getAcceleration( )) ).getScaledInstance( accelScale );
             }
         } );
         addChild( accelArrow );

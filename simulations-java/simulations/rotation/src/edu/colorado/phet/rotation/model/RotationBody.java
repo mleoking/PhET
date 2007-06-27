@@ -2,6 +2,7 @@ package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
+import edu.colorado.phet.common.motion.model.MotionBodyState;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -107,12 +108,12 @@ public class RotationBody implements Serializable {
         }
     }
 
-    private class OnPlatform extends UpdateStrategy implements RotationPlatform.Listener {
+    private class OnPlatform extends UpdateStrategy implements MotionBodyState.Listener {
         private RotationPlatform rotationPlatform;
 
         public OnPlatform( RotationPlatform rotationPlatform ) {
             this.rotationPlatform = rotationPlatform;
-            rotationPlatform.addListener( this );
+            rotationPlatform.getMotionBodyState().addListener( this );
         }
 
         public void positionChanged( double dtheta ) {
@@ -131,7 +132,7 @@ public class RotationBody implements Serializable {
         }
 
         public void detach() {
-            rotationPlatform.removeListener( this );
+            rotationPlatform.getMotionBodyState().removeListener( this );
         }
     }
 

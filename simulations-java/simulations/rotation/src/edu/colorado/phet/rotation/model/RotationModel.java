@@ -1,9 +1,6 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.common.motion.model.DefaultSimulationVariable;
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
-import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
-import edu.colorado.phet.common.motion.model.MotionBody;
+import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 
@@ -14,73 +11,60 @@ import java.util.ArrayList;
  * Author: Sam Reid
  * May 22, 2007, 11:37:56 PM
  */
-public class RotationModel extends SingleBodyMotionModel implements RotationBodyNode.RotationBodyEnvironment {
-    private DefaultSimulationVariable xPositionVariable = new DefaultSimulationVariable();
-    private DefaultSimulationVariable yPositionVariable = new DefaultSimulationVariable();
-    private DefaultSimulationVariable speedVariable = new DefaultSimulationVariable();
-    private DefaultSimulationVariable xVelocityVariable = new DefaultSimulationVariable();
-    private DefaultSimulationVariable yVelocityVariable = new DefaultSimulationVariable();
-    private DefaultSimulationVariable centripetalAcceleration = new DefaultSimulationVariable();
-    private ArrayList rotationBodies = new ArrayList();
+public class RotationModel extends MotionModel implements RotationBodyNode.RotationBodyEnvironment, IPositionDriven {
     private RotationPlatform rotationPlatform;
+    private ArrayList rotationBodies = new ArrayList();
 
     public RotationModel( IClock clock ) {
         super( clock );
-        rotationPlatform=new RotationPlatform();
+        rotationPlatform = new RotationPlatform();
         addRotationBody( new RotationBody() );
-        updateSimulationVariables();
+//        updateSimulationVariables();
     }
 
-    protected MotionBody createMotionBody() {
-        if (true){
-            throw new RuntimeException( "not written yet");
-        }
-        return new MotionBody();//todo: fix
-    }
-
-    private void updateSimulationVariables() {
-        xPositionVariable.setValue( getRotationBody( 0 ).getX() );
-        yPositionVariable.setValue( getRotationBody( 0 ).getY() );
-        speedVariable.setValue( getRotationBody( 0 ).getVelocity().getMagnitude() );
-        xVelocityVariable.setValue( getRotationBody( 0 ).getX() );
-        yVelocityVariable.setValue( getRotationBody( 0 ).getY() );
-        centripetalAcceleration.setValue( getRotationBody( 0 ).getAcceleration().getMagnitude() );
-    }
+//    private void updateSimulationVariables() {
+//        xPositionVariable.setValue( getRotationBody( 0 ).getX() );
+//        yPositionVariable.setValue( getRotationBody( 0 ).getY() );
+//        speedVariable.setValue( getRotationBody( 0 ).getVelocity().getMagnitude() );
+//        xVelocityVariable.setValue( getRotationBody( 0 ).getX() );
+//        yVelocityVariable.setValue( getRotationBody( 0 ).getY() );
+//        centripetalAcceleration.setValue( getRotationBody( 0 ).getAcceleration().getMagnitude() );
+//    }
 
     public void dropBody( RotationBody rotationBody ) {
         Point2D loc = rotationBody.getPosition();
-        RotationPlatform platform = (RotationPlatform)getMotionBodyState();//todo: strong typing
-        if( platform.containsPosition( loc ) ) {
-            rotationBody.setOnPlatform( platform );
+//        RotationPlatform platform = (RotationPlatform)getMotionBodyState();//todo: strong typing
+        if( rotationPlatform.containsPosition( loc ) ) {
+            rotationBody.setOnPlatform( rotationPlatform );
         }
         else {
             rotationBody.setOffPlatform();
         }
     }
 
-    public ISimulationVariable getXPositionVariable() {
-        return xPositionVariable;
-    }
-
-    public ISimulationVariable getYPositionVariable() {
-        return yPositionVariable;
-    }
-
-    public ISimulationVariable getSpeedVariable() {
-        return speedVariable;
-    }
-
-    public ISimulationVariable getXVelocityVariable() {
-        return xVelocityVariable;
-    }
-
-    public ISimulationVariable getYVelocityVariable() {
-        return yVelocityVariable;
-    }
-
-    public ISimulationVariable getCentripetalAcceleration() {
-        return centripetalAcceleration;
-    }
+//    public ISimulationVariable getXPositionVariable() {
+//        return xPositionVariable;
+//    }
+//
+//    public ISimulationVariable getYPositionVariable() {
+//        return yPositionVariable;
+//    }
+//
+//    public ISimulationVariable getSpeedVariable() {
+//        return speedVariable;
+//    }
+//
+//    public ISimulationVariable getXVelocityVariable() {
+//        return xVelocityVariable;
+//    }
+//
+//    public ISimulationVariable getYVelocityVariable() {
+//        return yVelocityVariable;
+//    }
+//
+//    public ISimulationVariable getCentripetalAcceleration() {
+//        return centripetalAcceleration;
+//    }
 
     public RotationPlatform getRotationPlatform() {
         return rotationPlatform;
@@ -102,4 +86,19 @@ public class RotationModel extends SingleBodyMotionModel implements RotationBody
         return getRotationBody( i );
     }
 
+    public void setPositionDriven() {
+        rotationPlatform.setPositionDriven();
+    }
+
+    public PositionDriven getPositionDriven() {
+        return rotationPlatform.getPositionDriven();
+    }
+
+    public ISimulationVariable getPlatformAngleVariable() {
+        return rotationPlatform.getXVariable();
+    }
+
+    public ITimeSeries getPlatformAngleTimeSeries() {
+        return rotationPlatform.getXTimeSeries();
+    }
 }
