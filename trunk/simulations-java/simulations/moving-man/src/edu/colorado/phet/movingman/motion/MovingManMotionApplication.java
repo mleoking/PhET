@@ -2,13 +2,12 @@ package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
-import edu.colorado.phet.common.timeseries.ui.DefaultTimeModelControlPanel;
 import edu.colorado.phet.common.timeseries.model.TimeModelClock;
+import edu.colorado.phet.common.timeseries.ui.DefaultTimeModelControlPanel;
 import edu.colorado.phet.movingman.MovingManApplication;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -29,7 +28,9 @@ public class MovingManMotionApplication {
         frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height - 400 );
         PhetPCanvas phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setZoomEventHandler( new PZoomEventHandler() );
-        frame.setContentPane( phetPCanvas );
+        JPanel contentPane = new JPanel( new BorderLayout() );
+        contentPane.add( phetPCanvas, BorderLayout.CENTER );
+        frame.setContentPane( contentPane );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         clock = new TimeModelClock( 30, 1.0 );
         final SingleBodyMotionModel motionModel = new SingleBodyMotionModel( clock );
@@ -62,10 +63,8 @@ public class MovingManMotionApplication {
         phetPCanvas.requestFocus();
         phetPCanvas.addKeyListener( new PDebugKeyHandler() );
 
-        DefaultTimeModelControlPanel timeControlPanel = new DefaultTimeModelControlPanel( clock, motionModel.getTimeSeriesModel(),0.1,1.0 );
-        phetPCanvas.setLayout( null);
-        phetPCanvas.add( timeControlPanel);
-        timeControlPanel.setLocation( 0,0);
+        DefaultTimeModelControlPanel timeControlPanel = new DefaultTimeModelControlPanel( clock, motionModel.getTimeSeriesModel(), 0.1, 1.0 );
+        contentPane.add(timeControlPanel,BorderLayout.SOUTH);
     }
 
     private void start() {
