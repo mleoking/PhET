@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation.model;
 import edu.colorado.phet.common.motion.model.DefaultSimulationVariable;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 
@@ -25,8 +26,16 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
 
     public RotationModel( IClock clock ) {
         super( clock );
+        rotationPlatform=new RotationPlatform();
         addRotationBody( new RotationBody() );
         updateSimulationVariables();
+    }
+
+    protected MotionBody createMotionBody() {
+        if (true){
+            throw new RuntimeException( "not written yet");
+        }
+        return new MotionBody();//todo: fix
     }
 
     private void updateSimulationVariables() {
