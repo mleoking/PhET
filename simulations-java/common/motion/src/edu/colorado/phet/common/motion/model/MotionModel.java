@@ -11,15 +11,15 @@ import edu.colorado.phet.common.timeseries.model.TimeState;
  * Author: Sam Reid
  * Jun 26, 2007, 11:14:12 PM
  */
-public class BasicMotionModel {
+public class MotionModel {
     protected TimeSeriesModel timeSeriesModel;
     protected double time = 0;
     private DefaultTimeSeries timeTimeSeries = new DefaultTimeSeries();
 
-    public BasicMotionModel( IClock clock ) {
+    public MotionModel( IClock clock ) {
         RecordableModel recordableModel = new RecordableModel() {
             public void stepInTime( double simulationTimeChange ) {
-                BasicMotionModel.this.stepInTime( simulationTimeChange );
+                MotionModel.this.stepInTime( simulationTimeChange );
             }
 
             public Object getState() {
@@ -33,11 +33,11 @@ public class BasicMotionModel {
             }
 
             public void resetTime() {
-                BasicMotionModel.this.time = 0;
+                MotionModel.this.time = 0;
             }
 
             public void clear() {
-                BasicMotionModel.this.clear();
+                MotionModel.this.clear();
             }
         };
         timeSeriesModel = new TimeSeriesModel( recordableModel, clock );

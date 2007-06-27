@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 /**
  * This class contains a single MotionBody, and convenience methods for interacting with it. 
  */
-public class SingleBodyMotionModel extends BasicMotionModel implements IPositionDriven {
+public class SingleBodyMotionModel extends MotionModel implements IPositionDriven {
 
     private MotionBody motionBody;
 
