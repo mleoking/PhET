@@ -67,6 +67,7 @@ MISSING INFO:
 
  
 DONE:
+6/27/07 - resolve roundoff problems in simulation speed slider by using integer precision for layout
 6/27/07 - first pass at custom slider for simulation speed, layout only
 ********* version 0.00.14 (16084)
 6/25/07 - update E-field vectors when scale, power or run state of laser changes
