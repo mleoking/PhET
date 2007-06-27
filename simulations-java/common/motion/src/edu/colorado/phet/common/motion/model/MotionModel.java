@@ -1,10 +1,6 @@
 package edu.colorado.phet.common.motion.model;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.timeseries.model.RecordableModel;
-import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
 /**
  * User: Sam Reid
@@ -12,86 +8,53 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
  * Time: 11:39:00 PM
  */
 
-public class MotionModel implements IPositionDriven {
-    private TimeSeriesModel timeSeriesModel;
+public class MotionModel extends BasicMotionModel implements IPositionDriven {
 
-    private double time = 0;
-    private DefaultTimeSeries timeTimeSeries = new DefaultTimeSeries();
-    private MotionBody motionBody = new MotionBody();
+    private MotionBody motionBody;
+
+    public MotionModel( IClock clock ) {
+        super( clock );
+        motionBody = createMotionBody();
+    }
+
+    //todo: temporary workaround to resolve problems with offset in record/playback times
+    protected void setRecordMode() {
+        if( motionBody != null ) {
+            double x = motionBody.getMotionBodyState().getPosition();
+            double v = motionBody.getMotionBodyState().getVelocity();
+            double a = motionBody.getMotionBodyState().getAcceleration();
+            getTimeSeriesModel().setPlaybackTime( getTimeSeriesModel().getRecordTime() );
+            getTimeSeriesModel().superSetRecordMode();
+            motionBody.getMotionBodyState().setPosition( x );
+            motionBody.getMotionBodyState().setVelocity( v );
+            motionBody.getMotionBodyState().setAcceleration( a );
+        }
+        else {
+            getTimeSeriesModel().superSetRecordMode();
+        }
+    }
 
     public MotionBodySeries getMotionBodySeries() {
         return motionBody.getMotionBodySeries();
     }
 
-    public MotionModel( IClock clock ) {
-        RecordableModel recordableModel = new RecordableModel() {
-            public void stepInTime( double simulationTimeChange ) {
-                MotionModel.this.stepInTime( simulationTimeChange );
-            }
-
-            public Object getState() {
-                return new Double( time );
-            }
-
-            public void setState( Object o ) {
-                //the setState paradigm is used to allow attachment of listeners to model substructure
-                //states are copied without listeners
-                setTime( ( (Double)o ).doubleValue() );
-            }
-
-            public void resetTime() {
-                MotionModel.this.time = 0;
-            }
-
-            public void clear() {
-                MotionModel.this.clear();
-            }
-        };
-        timeSeriesModel = new TimeSeriesModel( recordableModel, clock ) {
-
-            public void setRecordMode() {
-                //todo: temporary workaround to resolve problems with offset in record/playback times
-                double x = motionBody.getMotionBodyState().getPosition();
-                double v = motionBody.getMotionBodyState().getVelocity();
-                double a = motionBody.getMotionBodyState().getAcceleration();
-                setPlaybackTime( getRecordTime() );
-                super.setRecordMode();
-                motionBody.getMotionBodyState().setPosition( x );
-                motionBody.getMotionBodyState().setVelocity( v );
-                motionBody.getMotionBodyState().setAcceleration( a );
-            }
-        };
-        timeSeriesModel.setRecordMode();
-        clock.addClockListener( new ClockAdapter() {
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
-                timeSeriesModel.stepMode( clockEvent.getSimulationTimeChange() );
-            }
-        } );
-    }
-
-    private void setTime( double time ) {
-        this.time = time;
+    protected void setTime( double time ) {
+        super.setTime( time );
         motionBody.setTime( time );
     }
 
     public void stepInTime( double dt ) {
-        time += dt;
-        timeTimeSeries.addValue( time, time );
+        super.stepInTime( dt );
         motionBody.stepInTime( time, dt );
     }
 
     public void clear() {
-        time = 0;
+        super.clear();
         motionBody.clear();
-        timeSeriesModel.clear();
     }
 
-    public double getTime() {
-        return time;
-    }
-
-    public TimeSeriesModel getTimeSeriesModel() {
-        return timeSeriesModel;
+    protected MotionBody createMotionBody() {
+        return new MotionBody();
     }
 
     public ISimulationVariable getXVariable() {
