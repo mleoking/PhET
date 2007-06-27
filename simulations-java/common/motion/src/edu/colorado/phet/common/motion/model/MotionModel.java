@@ -40,7 +40,11 @@ public class MotionModel {
                 MotionModel.this.clear();
             }
         };
-        timeSeriesModel = new TimeSeriesModel( recordableModel, clock );
+        timeSeriesModel = new TimeSeriesModel( recordableModel, clock ){
+            public void recordFinished() {
+                setPaused( true );//instead of e.g. switching to live mode
+            }
+        };
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void modeChanged() {
                 if( timeSeriesModel.isRecordMode() ) {

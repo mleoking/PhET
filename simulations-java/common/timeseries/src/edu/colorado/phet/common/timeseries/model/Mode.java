@@ -104,12 +104,8 @@ public abstract class Mode {
             getTimeSeriesModel().updateModel( dt );
             getTimeSeriesModel().addSeriesPoint( getTimeSeriesModel().getModelState(), recordTime );
             if( newTime == getTimeSeriesModel().getMaxRecordTime() ) {
-//                getTimeSeriesModel().setPaused( true );
-                getTimeSeriesModel().setLiveMode();
+                getTimeSeriesModel().recordFinished();
             }
-//            if( getTimeSeriesModel().numPlaybackStates() % 100 == 0 ) {
-//                System.out.println( "getTimeSeriesModel().numPlaybackStates() = " + getTimeSeriesModel().numPlaybackStates() );
-//            }
         }
 
         public double getRecordTime() {

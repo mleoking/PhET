@@ -30,6 +30,10 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
         motionBody.clear();
     }
 
+    public void setMaxAllowedRecordTime( double maxAllowedRecordTime ) {
+        getTimeSeriesModel().setMaxAllowedRecordTime( maxAllowedRecordTime );
+    }
+
     public MotionBodySeries getMotionBodySeries() {
         return motionBody.getMotionBodySeries();
     }
@@ -89,4 +93,5 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
     public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
         getMotionBodySeries().setUpdateStrategy( updateStrategy );
     }
+
 }
