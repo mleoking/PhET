@@ -93,5 +93,16 @@
             <width>30</width>
         </directoryParameter>
     </parameterList>
+    <preInstallationActionList>
+        <autodetectJava>
+            <validVersionList>
+                <validVersion>
+                    <vendor>sun</vendor>
+                    <minVersion>1.4</minVersion>
+                    <maxVersion></maxVersion>
+                </validVersion>
+            </validVersionList>
+        </autodetectJava>
+    </preInstallationActionList>
 </project>
 
