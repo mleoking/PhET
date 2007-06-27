@@ -489,11 +489,14 @@ PhET-team specific tasks are located in an auxiliary build file.
         
     </target>
     
-    <!-- todo: make sure this build-jar in only called once, in the case of multiple flavors -->
+    <!-- todo: make sure this build-jar is only called once, in the case of multiple flavors -->
     <!-- todo: copy the jar file to the correct name, i.e. FLAVORDIR.jar -->
     <target name="_build-installer-for-flavor" depends="build-jar">
          <!-- Generate a Windows ico from the simulation screenshot -->
-
+        <imageio inputfile="simulations/${sim.name}/deploy/${sim.flavor}-screenshot.png"
+                 outputfile="${ant-output}/projects/${sim.name}/${sim.flavor}.ico"
+                 outputwidth="64"
+                 outputheight="64"/>
 
         <!-- Generate a Linux png from the simulation screenshot 
         Work on linux icon is postponed since there is no direct support for command line args in shortcuts.-->
