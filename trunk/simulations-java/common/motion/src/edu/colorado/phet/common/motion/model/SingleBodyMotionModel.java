@@ -3,22 +3,15 @@ package edu.colorado.phet.common.motion.model;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 /**
- * User: Sam Reid
- * Date: Dec 29, 2006
- * Time: 11:39:00 PM
+ * This class contains a single MotionBody, and convenience methods for interacting with it. 
  */
-
-public class MotionModel extends BasicMotionModel implements IPositionDriven {
+public class SingleBodyMotionModel extends BasicMotionModel implements IPositionDriven {
 
     private MotionBody motionBody;
 
-    public MotionModel( IClock clock ) {
+    public SingleBodyMotionModel( IClock clock ) {
         super( clock );
-        motionBody = createMotionBody();
-    }
-
-    public MotionBodySeries getMotionBodySeries() {
-        return motionBody.getMotionBodySeries();
+        motionBody = new MotionBody();
     }
 
     protected void setTime( double time ) {
@@ -35,9 +28,9 @@ public class MotionModel extends BasicMotionModel implements IPositionDriven {
         super.clear();
         motionBody.clear();
     }
-
-    protected MotionBody createMotionBody() {
-        return new MotionBody();
+    
+    public MotionBodySeries getMotionBodySeries() {
+        return motionBody.getMotionBodySeries();
     }
 
     public ISimulationVariable getXVariable() {

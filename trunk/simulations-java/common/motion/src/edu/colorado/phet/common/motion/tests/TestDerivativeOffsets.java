@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.motion.tests;
 
-import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
 /**
@@ -8,12 +8,12 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
  * Jun 20, 2007, 12:26:53 AM
  */
 public class TestDerivativeOffsets {
-    private MotionModel motionModel;
+    private SingleBodyMotionModel motionModel;
     private SwingClock clock;
 
     public TestDerivativeOffsets() {
         clock = new SwingClock( 30, 1 );
-        motionModel = new MotionModel( clock );
+        motionModel = new SingleBodyMotionModel( clock );
         motionModel.setPositionDriven();
     }
 
@@ -24,7 +24,7 @@ public class TestDerivativeOffsets {
         }
     }
 
-    private void showState( MotionModel motionModel ) {
+    private void showState( SingleBodyMotionModel motionModel ) {
 //        System.out.println( "t=" + motionModel.getTime() + ", x=" + motionModel.getPosition() + ", v=" + motionModel.getVelocity() + ", a=" + motionModel.getAcceleration() );
         System.out.println( "x.t=" + motionModel.getTime() + ", x=" + motionModel.getMotionBodyState().getPosition() +
                             ", v.t=" + motionModel.getTime() + ", v=" + motionModel.getMotionBodyState().getVelocity() +

@@ -7,7 +7,7 @@ package edu.colorado.phet.common.motion.tests;
  *
  */
 
-import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.motion.model.VelocityDriven;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
@@ -22,14 +22,14 @@ import java.text.DecimalFormat;
 public class TestVelocityDriven {
     private JFrame frame;
     private Timer timer;
-    private MotionModel rotationModel;
+    private SingleBodyMotionModel rotationModel;
 
     public TestVelocityDriven() {
         frame = new JFrame();
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        rotationModel = new MotionModel( new SwingClock( 30, 1 ) );
+        rotationModel = new SingleBodyMotionModel( new SwingClock( 30, 1 ) );
         final VelocityDriven updateStrategy = new VelocityDriven();
         rotationModel.getMotionBodySeries().setUpdateStrategy( updateStrategy );
         final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, rotationModel.getMotionBodyState().getVelocity() );
