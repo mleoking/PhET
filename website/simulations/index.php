@@ -111,7 +111,9 @@
                         <p><a href="/">Balloons &amp; Static</a><br /></p>
                     */
 
-                    $link_to_sim = "<a href=\"sims.php?sim_id=$sim_id\">";
+                    $sim_url = sim_get_url_to_sim_page($sim_id);
+
+                    $link_to_sim = "<a href=\"$sim_url\">";
                     
 
                     if ($sim_animated_image_url == "") {
@@ -119,7 +121,7 @@
                     }
                     
                     print <<<EOT
-                        <a href="sims.php?sim_id=$sim_id"
+                        <a href="$sim_url"
                         
                             onMouseOver="now = new Date();                                         document.images['image_preview_$sim_id'].src =                                       '../admin/get-upload.php?url=$sim_animated_image_url&amp;' + now.getTime();"
                             
@@ -190,7 +192,9 @@ EOT;
                     $last_printed_char = $cur_char;
                 }
                 
-                print "<a href=\"sims.php?sim_id=$sim_id\">$sim_name</a><br />";
+                $sim_url = sim_get_url_to_sim_page($sim_id);
+                
+                print "<a href=\"$sim_url\">$sim_name</a><br />";
             }
             
             print "</div>";
