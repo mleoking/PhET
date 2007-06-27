@@ -40,7 +40,7 @@ public class TestSimulationSpeedSlider extends JFrame {
         _simulationSpeedControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 String text = _simulationSpeedControl.getFormattedValue();
-                System.out.println( "TestSimulationSpeedSlider.stateChanged value=" + text + " adjusting=" + _simulationSpeedControl.isAdjusting() );
+//                System.out.println( "TestSimulationSpeedSlider.stateChanged value=" + text + " adjusting=" + _simulationSpeedControl.isAdjusting() );
                 _valueDisplayNode.setText( text );
             }
         } );
