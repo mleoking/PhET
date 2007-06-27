@@ -272,7 +272,7 @@ public class TimeSeriesModel extends ClockAdapter {
         return series.numPoints();
     }
 
-    public void setMaxRecordTime( double maxRecordTime ) {
+    public void setMaxAllowedRecordTime( double maxRecordTime ) {
         this.maxRecordTime = maxRecordTime;
     }
 
@@ -299,6 +299,10 @@ public class TimeSeriesModel extends ClockAdapter {
 
     public void stepClockWhilePaused() {
         clock.stepClockWhilePaused();
+    }
+
+    public void recordFinished() {
+        setLiveMode();    //Used in energy skate park
     }
 
     public interface PlaybackTimeListener {
