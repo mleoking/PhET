@@ -5,15 +5,16 @@
 IN PROGRESS:
 
 AAPT:
+- enable/disable controls based on clock speed
+- make "beam" the only laser display option in fast mode
 - when user drags bead, auto-release if DNA extension is 97% of contour length
 - adjust clock time display and units as dt is changed
 - position histogram requires more precision on x-axis and ruler
 - ruler is slightly off-center in all panels
-- enable/disable controls based on clock speed
-- make "beam" the only laser display option in fast mode
 - add description to About dialog
 - make entire panel draggable, or add draggable frame around laser controls
-- what are the correct ranges for slow and fast time modes?
+- set correct ranges for slow and fast time modes
+- set correct default values for everything, including developer controls
 
 HIGH PRIORITY:
 
