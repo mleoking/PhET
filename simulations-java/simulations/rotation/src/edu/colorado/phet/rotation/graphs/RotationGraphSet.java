@@ -3,7 +3,6 @@ package edu.colorado.phet.rotation.graphs;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.colorado.phet.rotation.model.RotationModel;
@@ -27,11 +26,12 @@ public class RotationGraphSet extends GraphSuiteSet {
         MinimizableControlGraph platformVelocityGraph = new MinimizableControlGraph( UnicodeUtil.OMEGA, new MotionControlGraph(
                 pSwingCanvas, rotationModel.getPlatformVelocityVariable(), rotationModel.getPlatformVelocityTimeSeries(), UnicodeUtil.OMEGA, "Angular Velocity", -0.1, 0.1, Color.red, new PImage( loadArrow( "red-arrow.png" ) ), rotationModel, true, rotationModel.getTimeSeriesModel(), rotationModel.getVelocityDriven(), rotationModel.getRotationPlatform() ) );
         MinimizableControlGraph platformAccelGraph = new MinimizableControlGraph( UnicodeUtil.ALPHA, new MotionControlGraph(
-                pSwingCanvas, rotationModel.getPlatformAccelVariable(), rotationModel.getPlatformAccelTimeSeries(), UnicodeUtil.ALPHA, "Angular Acceleration", -0.001, 0.001, Color.green, new PImage( loadArrow( "green-arrow.png" ) ), rotationModel, true, rotationModel.getTimeSeriesModel(), rotationModel.getAccelDriven() ,rotationModel.getRotationPlatform()) );
+                pSwingCanvas, rotationModel.getPlatformAccelVariable(), rotationModel.getPlatformAccelTimeSeries(), UnicodeUtil.ALPHA, "Angular Acceleration", -0.001, 0.001, Color.green, new PImage( loadArrow( "green-arrow.png" ) ), rotationModel, true, rotationModel.getTimeSeriesModel(), rotationModel.getAccelDriven(), rotationModel.getRotationPlatform() ) );
 //        //todo: add graph suites after series available
-//        MinimizableControlGraph linearPositionGraph = new MinimizableControlGraph( "x,y", new MotionControlGraph(
-//                pSwingCanvas, rotationModel.getXPositionVariable(), "x", "Position", 0, 500, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(),null) );
-//        linearPositionGraph.getControlGraph().addSeries( "Position", Color.red, "y", rotationModel.getYPositionVariable(), rotationModel.getYPositionTimeSeries());
+        MinimizableControlGraph linearPositionGraph = new MinimizableControlGraph( "x,y", new MotionControlGraph(
+                pSwingCanvas, rotationModel.getRotationBody( 0 ).getXPositionVariable(), rotationModel.getRotationBody( 0 ).getXPositionTimeSeries(), "x", "Position", 0, 500, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(), null ) );
+//        linearPositionGraph.getControlGraph().addSeries( "Position", Color.red, "y", rotationModel.getYPositionVariable(), rotationModel.getYPositionTimeSeries() );
+
 //        MinimizableControlGraph speedGraph = new MinimizableControlGraph( "vx, vy", new MotionControlGraph(
 //                pSwingCanvas, rotationModel.getSpeedVariable(), "|v|", "Linear Speed", 0, 0.1, Color.red, new PImage( loadArrow( "red-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(),null) );
 //        MinimizableControlGraph centripetalAccelGraph = new MinimizableControlGraph( "a", new MotionControlGraph(
@@ -44,7 +44,7 @@ public class RotationGraphSet extends GraphSuiteSet {
 //        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, centripetalAccelGraph} );
 //        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, accelGraph, linearPositionGraph, speedGraph, centripetalAccelGraph} );
 
-        addGraphSuite( new MinimizableControlGraph[]{platformAngleGraph, platformVelocityGraph, platformAccelGraph} );//todo: remove after testing
+        addGraphSuite( new MinimizableControlGraph[]{linearPositionGraph, platformAngleGraph, platformVelocityGraph, platformAccelGraph} );//todo: remove after testing
     }
 
     public static void main( String[] args ) {

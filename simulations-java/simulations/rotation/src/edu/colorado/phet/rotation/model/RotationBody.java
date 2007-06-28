@@ -1,8 +1,10 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
+import edu.colorado.phet.common.motion.model.ISimulationVariable;
+import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.MotionBodyState;
+import edu.colorado.phet.common.motion.model.ITimeSeries;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -13,24 +15,17 @@ import java.util.ArrayList;
  * Author: Sam Reid
  * May 11, 2007, 12:12:12 AM
  */
-public class RotationBody implements Serializable {
+public class RotationBody {
+    private MotionBody xBody;
+    private MotionBody yBody;
     private UpdateStrategy updateStrategy = new OffPlatform();
-    private double x = 10;
-    private double y = 10;
     private double orientation = 0.0;
 
     private transient ArrayList listeners = new ArrayList();
 
-    public void setState( RotationBody rotationBody ) {
-        try {
-            updateStrategy = (UpdateStrategy)PersistenceUtil.copy( rotationBody.updateStrategy );
-        }
-        catch( PersistenceUtil.CopyFailedException e ) {
-            e.printStackTrace();
-        }
-        x = rotationBody.x;
-        y = rotationBody.y;
-        orientation = rotationBody.orientation;
+    public RotationBody() {
+        xBody=new MotionBody();
+        yBody=new MotionBody();
     }
 
     public void setOffPlatform() {
@@ -58,22 +53,12 @@ public class RotationBody implements Serializable {
         return orientation;
     }
 
-    public RotationBody copy() {
-        try {
-            return (RotationBody)PersistenceUtil.copy( this );
-        }
-        catch( PersistenceUtil.CopyFailedException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
-    }
-
     public double getX() {
-        return x;
+        return xBody.getPosition();
     }
 
     public double getY() {
-        return y;
+        return yBody.getPosition();
     }
 
     public Vector2D getVelocity() {
@@ -86,6 +71,14 @@ public class RotationBody implements Serializable {
 
     public double getAngle( RotationPlatform rotationPlatform ) {
         return new Vector2D.Double( rotationPlatform.getCenter(), getPosition() ).getAngle();
+    }
+
+    public ISimulationVariable getXPositionVariable() {
+        return xBody.getXVariable();
+    }
+
+    public ITimeSeries getXPositionTimeSeries() {
+        return xBody.getXTimeSeries();
     }
 
     private static abstract class UpdateStrategy implements Serializable {
@@ -152,7 +145,7 @@ public class RotationBody implements Serializable {
     }
 
     public Point2D getPosition() {
-        return new Point2D.Double( x, y );
+        return new Point2D.Double( getX(), getY() );
     }
 
     public static interface Listener {
@@ -160,10 +153,9 @@ public class RotationBody implements Serializable {
     }
 
     public void setPosition( double x, double y ) {
-        if( this.x != x || this.y != y ) {
-            this.x = x;
-            this.y = y;
-//            System.out.println( "x = " + x );
+        if( this.getX() != x || this.getY() != y ) {
+            xBody.setPosition( x );
+            yBody.setPosition( y );
             notifyPositionChanged();
         }
     }
