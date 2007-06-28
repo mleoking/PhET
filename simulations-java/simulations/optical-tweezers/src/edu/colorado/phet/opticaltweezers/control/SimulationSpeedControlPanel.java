@@ -42,14 +42,17 @@ public class SimulationSpeedControlPanel extends JPanel {
                 handleSliderChange();
             }
         });
-        _slider.setOffset( 15, 25 );//HACK
         
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setBackground( getBackground() );
         canvas.setBorder( null );
         canvas.getLayer().addChild( _slider );
-        int w = (int) _slider.getFullBounds().getWidth() + 5; //HACK
-        int h = (int) _slider.getFullBounds().getHeight() + 8; //HACK
+        int margin = 2;
+        int xOffset = (int) -_slider.getFullBounds().getX() + margin;
+        int yOffset = (int) -_slider.getFullBounds().getY() + margin;
+        _slider.setOffset( xOffset, yOffset );
+        int w = (int) _slider.getFullBounds().getWidth() + ( 2 * margin );
+        int h = (int) _slider.getFullBounds().getHeight() + ( 2 * margin );
         canvas.setPreferredSize( new Dimension( w, h ) );
         
         _valueLabel = new JLabel( _slider.getFormattedValue() + " " + OTResources.getString( "units.time" ) );
