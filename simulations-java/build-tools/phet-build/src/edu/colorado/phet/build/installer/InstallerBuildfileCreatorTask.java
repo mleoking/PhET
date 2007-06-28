@@ -64,6 +64,7 @@ public class InstallerBuildfileCreatorTask extends AbstractPhetBuildTask {
 //        System.out.println( "getProject().getBaseDir() = " + getProject().getBaseDir() );
 //        System.out.println( "getProject().getBaseDir().getAbsolutePath() = " + getProject().getBaseDir().getAbsolutePath() );
         map.put( "INSTALLER-DATA-DIR", format(getProject().getBaseDir( ).getAbsolutePath())+"/build-tools/phet-build/installer-data/");
+        map.put( "OUTFILE", format(new File(phetProject.getDefaultDeployDir(),flavor+".exe").getAbsolutePath( )));
         //map.put( "PROJECT.PROPERTIES", getJNLPProperties() );
         //map.put( "PROJECT.DEPLOY.PATH", deployUrl );
         return map;

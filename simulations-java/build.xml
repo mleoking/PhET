@@ -95,7 +95,21 @@ PhET-team specific tasks are located in an auxiliary build file.
     </target>
 
     <!--This task was rewritten to avoid recompilation of the phet-java ant task implementations.-->
-    <target name="_build-phet-build" depends="_clean-phet-build, _compile-phet-build" />
+    <!--<target name="_build-phet-build" depends="_clean-phet-build, _compile-phet-build" />-->
+
+        <!--This task was rewritten to avoid recompilation of the phet-java ant task implementations.-->
+    <target name="_build-phet-build">
+        <if>
+            <not>
+                <isset property="init.complete"/>
+            </not>
+            <then>
+                <antcall target="_clean-phet-build"/>
+                <antcall target="_compile-phet-build"/>
+                <var name="init.complete" value="true"/>
+            </then>
+        </if>
+    </target>
 
 
     <target name="_declare-phet-build-tasks" depends="_build-phet-build">
@@ -554,5 +568,27 @@ PhET-team specific tasks are located in an auxiliary build file.
                 <echo message="file does exist"/>
             </then>
         </if>
+    </target>
+
+    <property name="launch4j.dir" location="C:\Program Files\Launch4j" />
+
+    <taskdef name="launch4j"
+        classname="net.sf.launch4j.ant.Launch4jTask"
+        classpath="${launch4j.dir}/launch4j.jar :${launch4j.dir}/lib/xstream.jar" />
+
+    <target name="_build-launch4j-for-flavor">
+        <var name="sim.installer.dir"       value="${bitrock.sim.buildfile.dir}${sim.name}/${sim.flavor}/installer/" />
+        <var name="sim.installer.buildfile" value="${sim.installer.dir}${sim.flavor}-launch4j-buildfile.xml" />
+        <create-installer-build-file inputFile="C:\phet\subversion\trunk\simulations-java\build-tools\phet-build\templates\launch4j-template.xml" outputfile="${sim.installer.buildfile}" project="${sim.name}" flavor="${sim.flavor}"/>
+        <launch4j configFile="${sim.installer.buildfile}"/> 
+    </target>
+
+    <target name="_build-launch4j" depends="_init, build-jar">
+        <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
+        <foreach list="${sim.flavors}" target="_build-launch4j-for-flavor" param="sim.flavor"/>
+    </target>
+
+    <target name="build-all-launch4j" depends="_init, _list-sims">
+        <foreach list="${phet.simlist}" target="_build-launch4j" param="sim.name"/>
     </target>
 </project>
