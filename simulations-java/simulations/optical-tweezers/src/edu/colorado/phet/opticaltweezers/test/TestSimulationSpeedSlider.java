@@ -4,6 +4,7 @@ package edu.colorado.phet.opticaltweezers.test;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.text.DecimalFormat;
 
 import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
@@ -29,37 +30,45 @@ public class TestSimulationSpeedSlider extends JFrame {
     private static final DoubleRange SLOW_RANGE = new DoubleRange( 1E-10, 1E-5, 1E-10 );
     private static final DoubleRange FAST_RANGE = new DoubleRange( 1E-3, 1E-1, 1E-3 );
     private static final double DEFAULT_VALUE = 1E-2;
+    private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0.0E00" );
 
-    private SimulationSpeedSlider _simulationSpeedControl;
-    private PText _valueDisplayNode;
+    private SimulationSpeedSlider _slider;
+    private PText _valueNode;
     
     public TestSimulationSpeedSlider() {
         super();
         
-        _simulationSpeedControl = new SimulationSpeedSlider( SLOW_RANGE, FAST_RANGE, DEFAULT_VALUE );
-        _simulationSpeedControl.addChangeListener( new ChangeListener() {
+        _slider = new SimulationSpeedSlider( SLOW_RANGE, FAST_RANGE, DEFAULT_VALUE );
+        _slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                String text = _simulationSpeedControl.getFormattedValue();
-//                System.out.println( "TestSimulationSpeedSlider.stateChanged value=" + text + " adjusting=" + _simulationSpeedControl.isAdjusting() );
-                _valueDisplayNode.setText( text );
+                updateValue();
             }
         } );
+        System.out.println( _slider.getValue() );//XXX
         
-        _valueDisplayNode = new PText();
-        _valueDisplayNode.setFont( new PhetDefaultFont( 24 ) );
-        _valueDisplayNode.setTextPaint( Color.BLACK );
-        _valueDisplayNode.setText( _simulationSpeedControl.getFormattedValue() );
+        _valueNode = new PText();
+        _valueNode.setFont( new PhetDefaultFont( 24 ) );
+        _valueNode.setTextPaint( Color.BLACK );
         
         PCanvas canvas = new PhetPCanvas();
-        canvas.getLayer().addChild( _simulationSpeedControl );
-        canvas.getLayer().addChild( _valueDisplayNode );
+        canvas.getLayer().addChild( _slider );
+        canvas.getLayer().addChild( _valueNode );
         
-        _simulationSpeedControl.setOffset( 50, 100 );
-        _valueDisplayNode.setOffset( 50, 30 );
+        _slider.setOffset( 50, 100 );
+        _valueNode.setOffset( 50, 30 );
+        
+        updateValue();
         
         setContentPane( canvas );
         setSize( FRAME_SIZE );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+    }
+    
+    private void updateValue() {
+        double value = _slider.getValue();
+        String text = VALUE_FORMAT.format(  value );
+//        System.out.println( "TestSimulationSpeedSlider.stateChanged value=" + text + " adjusting=" + _simulationSpeedControl.isAdjusting() );
+        _valueNode.setText( text );
     }
     
     public static void main( String[] args ) {
