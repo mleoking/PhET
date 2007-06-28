@@ -30,7 +30,7 @@ public class RotationGraphSet extends GraphSuiteSet {
 //        //todo: add graph suites after series available
         MinimizableControlGraph linearPositionGraph = new MinimizableControlGraph( "x,y", new MotionControlGraph(
                 pSwingCanvas, rotationModel.getRotationBody( 0 ).getXPositionVariable(), rotationModel.getRotationBody( 0 ).getXPositionTimeSeries(), "x", "Position", 0, 500, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(), null ) );
-//        linearPositionGraph.getControlGraph().addSeries( "Position", Color.red, "y", rotationModel.getYPositionVariable(), rotationModel.getYPositionTimeSeries() );
+        linearPositionGraph.getControlGraph().addSeries( "Position", Color.red, "y", rotationModel.getRotationBody( 0 ).getYPositionVariable(), rotationModel.getRotationBody( 0 ).getYPositionTimeSeries() );
 
 //        MinimizableControlGraph speedGraph = new MinimizableControlGraph( "vx, vy", new MotionControlGraph(
 //                pSwingCanvas, rotationModel.getSpeedVariable(), "|v|", "Linear Speed", 0, 0.1, Color.red, new PImage( loadArrow( "red-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(),null) );
