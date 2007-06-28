@@ -52,7 +52,7 @@ public class SimulationSpeedControlPanel extends JPanel {
         int h = (int) _slider.getFullBounds().getHeight() + 8; //HACK
         canvas.setPreferredSize( new Dimension( w, h ) );
         
-        _valueLabel = new JLabel( _slider.getFormattedValue() );
+        _valueLabel = new JLabel( _slider.getFormattedValue() + " " + OTResources.getString( "units.time" ) );
         _valueLabel.setFont( controlFont );
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -80,7 +80,7 @@ public class SimulationSpeedControlPanel extends JPanel {
     }
     
     private void handleSliderChange() {
-        _valueLabel.setText( _slider.getFormattedValue() );
+        _valueLabel.setText( _slider.getFormattedValue() + " " + OTResources.getString( "units.time" ) );
         _clock.setDt( _slider.getValue() );
     }
 }
