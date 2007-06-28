@@ -5,17 +5,15 @@
 IN PROGRESS:
 
 AAPT:
-- write ConstantDtClock
 - enable/disable controls based on clock speed
-- make "beam" the only laser display option in fast mode
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
 - when user drags bead, auto-release if DNA extension is 97% of contour length
 - adjust clock time display and units as dt is changed
-- position histogram requires more precision on x-axis and ruler
+- position histogram requires more precision for x-axis and ruler
 - ruler is slightly off-center in all panels
 - add description to About dialog
 - make entire panel draggable, or add draggable frame around laser controls
-- set correct ranges for slow and fast time modes
+- set correct ranges for slow and fast time scales
 - set correct default values for everything, including developer controls
 
 HIGH PRIORITY:
@@ -494,6 +492,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+6/28/07 - make "beam" the only laser display option in fast mode (better to just let it look like it's running crazy fast)
 6/22/07 - show E-field as a blur above some simulation time setting (only show beam view in "fast" mode)
 6/21/07 - why don't XY components of Vector2DNode ever have a negative sign? (because Vector2DNode always displays a magnitude)
 6/10/07 - instead of scaling termPrevious and termNext, investigate scaling _springConstant in DNAStrand.evolve (doesn't work right)
