@@ -10,17 +10,15 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
-import edu.colorado.phet.opticaltweezers.clock.ConstantDtClockDelegation.ConstantDtClockEvent;
-import edu.colorado.phet.opticaltweezers.clock.ConstantDtClockDelegation.ConstantDtClockListener;
 
 /**
- * ConstantDtClockInheritance is a clock with a constant dt.
+ * ConstantDtClock is a clock with a constant dt.
  * This implementation inherits most of its behavior from SwingClock.
  * Changes to delay and dt are handled via a new listener/event pair.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ConstantDtClockInheritance extends SwingClock {
+public class ConstantDtClock extends SwingClock {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -38,7 +36,7 @@ public class ConstantDtClockInheritance extends SwingClock {
      * @param delay desired wall time change between ticks
      * @param dt constant simulation time change between ticks
      */
-    public ConstantDtClockInheritance( int delay, double dt ) {
+    public ConstantDtClock( int delay, double dt ) {
         super( delay, dt );
     }
     
@@ -169,12 +167,12 @@ public class ConstantDtClockInheritance extends SwingClock {
      */
     public static class ConstantDtClockEvent extends EventObject {
 
-        public ConstantDtClockEvent( ConstantDtClockInheritance source ) {
+        public ConstantDtClockEvent( ConstantDtClock source ) {
             super( source );
         }
         
-        public ConstantDtClockDelegation getClock() {
-            return (ConstantDtClockDelegation) getSource();
+        public ConstantDtClock getClock() {
+            return (ConstantDtClock) getSource();
         }
     }
     
