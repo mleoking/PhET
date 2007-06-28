@@ -3,7 +3,6 @@
 ================================================================================
 
 IN PROGRESS:
-- implement custom simulation speed control
 
 AAPT:
 - when user drags bead, auto-release if DNA extension is 97% of contour length
@@ -68,6 +67,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.15 (?)
 6/27/07 - add editable textfield for simulation speed
 6/27/07 - add read-only value display to SimulationSpeedControlPanel
 6/27/07 - wire SimulationSpeedSlider into simulation control panels
