@@ -27,7 +27,7 @@ EOT;
     
     function print_subnavigation_element($prefix, $link, $desc) {
         print <<<EOT
-        <li class="sub"><span class="sub-nav"><a href="$prefix/$link">→<span class="sub-nav-desc">$desc</span></a></span></li>
+        <li><a href="$prefix/$link">$desc</a></li>
 EOT;
     }
     
@@ -44,16 +44,24 @@ EOT;
         }
         
         print <<<EOT
-            <li $selected_status><a href="$prefix/$link" accesskey="$access_key">$desc</a></li>
+            <li $selected_status><a href="$prefix/$link" accesskey="$access_key">$desc</a>
 EOT;
 
         if ($this_element_is_selected) {
-            foreach($submenus as $key => $value) {
-                print_subnavigation_element($prefix, $key, $value);
+            if (count($submenus) > 0) {
+                print "<ul>";
+            
+                foreach($submenus as $key => $value) {
+                    print_subnavigation_element($prefix, $key, $value);
+                }
+            
+                print "</ul>";
             }
         }
 
         $access_key = $access_key + 1;
+        
+        print "</li>";
     }
     
     function get_sim_categories_for_navbar($prefix) {
