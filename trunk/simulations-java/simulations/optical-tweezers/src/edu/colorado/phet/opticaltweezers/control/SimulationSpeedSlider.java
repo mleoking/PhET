@@ -49,10 +49,10 @@ public class SimulationSpeedSlider extends PNode {
     //----------------------------------------------------------------------------
     
     // Background
-    private static final int BACKGROUND_HEIGHT = 30;
-    private static final int SLOW_BACKGROUND_WIDTH = 80;
+    private static final int BACKGROUND_HEIGHT = 20;
+    private static final int SLOW_BACKGROUND_WIDTH = 65;
     private static final int BETWEEN_BACKGROUND_WIDTH = 40;
-    private static final int FAST_BACKGROUND_WIDTH = 80;
+    private static final int FAST_BACKGROUND_WIDTH = 65;
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final int BACKGROUND_STROKE_WIDTH = 1;
     private static final Color SLOW_FILL_COLOR = Color.GREEN;
@@ -73,7 +73,7 @@ public class SimulationSpeedSlider extends PNode {
     private static final int KNOB_STROKE_WIDTH = 1;
     
     // Labels
-    private static final int LABEL_FONT_SIZE = 14;
+    private static final int LABEL_FONT_SIZE = 12;
     private static final int LABEL_Y_SPACING = 5;
     private static final Color SLOW_LABEL_FONT_COLOR = Color.BLACK;
     private static final Color FAST_LABEL_FONT_COLOR = Color.BLACK;

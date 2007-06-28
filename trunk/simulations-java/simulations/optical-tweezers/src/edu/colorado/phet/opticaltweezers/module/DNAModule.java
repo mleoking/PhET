@@ -99,7 +99,7 @@ public class DNAModule extends AbstractModule {
             // Clock
             OTClock clock = _model.getClock();
             clock.setPaused( DNADefaults.CLOCK_PAUSED );
-            clock.setDt( DNADefaults.CLOCK_DT_RANGE.getDefault() );
+            clock.setDt( DNADefaults.DEFAULT_DT );
             
             // Bead
             Bead bead = _model.getBead();
@@ -147,7 +147,7 @@ public class DNAModule extends AbstractModule {
         
         // Control panel settings that are view-related
         {
-            _controlPanel.getClockStepControlPanel().setClockStep( DNADefaults.CLOCK_DT_RANGE.getDefault() );
+            _controlPanel.getSimulationSpeedControlPanel().setSimulationSpeed( DNADefaults.DEFAULT_DT );
             _controlPanel.getForcesControlPanel().setTrapForceSelected( DNADefaults.TRAP_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setHorizontalTrapForceChoice( DNADefaults.HORIZONTAL_TRAP_FORCE_CHOICE );
             _controlPanel.getForcesControlPanel().setDragForceSelected( DNADefaults.FLUID_DRAG_FORCE_SELECTED );

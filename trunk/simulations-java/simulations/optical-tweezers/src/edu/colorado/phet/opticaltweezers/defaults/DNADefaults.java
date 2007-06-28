@@ -33,10 +33,10 @@ public class DNADefaults {
     private static final int FRAME_RATE = 25; // fps, frames per second (wall time)
     private static final double MAX_DT = ( 1E-3 / FRAME_RATE );
     private static final double MIN_DT = 140E-16 * MAX_DT;
-    private static final double DEFAULT_DT = MAX_DT;
-    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( MIN_DT, MAX_DT, DEFAULT_DT );
-    public static final OTClock CLOCK = new OTClock( FRAME_RATE, CLOCK_DT_RANGE );
-    public static final String CLOCK_CONTROL_PATTERN = "0.0E0";
+    private static final DoubleRange SLOW_DT_RANGE = new DoubleRange( MIN_DT, 1E-11, MIN_DT );
+    private static final DoubleRange FAST_DT_RANGE = new DoubleRange( 1E-10, MAX_DT, MAX_DT );
+    public static final double DEFAULT_DT = MAX_DT;
+    public static final OTClock CLOCK = new OTClock( FRAME_RATE, SLOW_DT_RANGE, FAST_DT_RANGE, DEFAULT_DT );
     public static final String CLOCK_TIME_PATTERN = "0.0000000000000000000";
     public static final int CLOCK_TIME_COLUMNS = 15;
 
@@ -74,7 +74,7 @@ public class DNADefaults {
     public static final double BEAD_ORIENTATION = Math.toRadians( 0 );
     public static final double BEAD_DIAMETER = 200; // nm
     public static final double BEAD_DENSITY = 1.05E-21; // g/nm^3, polystyrene
-    public static final DoubleRange BEAD_DT_SUBDIVISION_THRESHOLD_RANGE = new DoubleRange( CLOCK_DT_RANGE.getMax() * 1E-2, CLOCK_DT_RANGE.getMax(), 1E-6 );
+    public static final DoubleRange BEAD_DT_SUBDIVISION_THRESHOLD_RANGE = new DoubleRange( FAST_DT_RANGE.getMax() * 1E-2, FAST_DT_RANGE.getMax(), 1E-6 );
     public static final IntegerRange BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE = new IntegerRange( 1, 1000, 10 );
     public static final DoubleRange BEAD_BROWNIAN_MOTION_SCALE_RANGE = new DoubleRange( 0, 5, 1 );
     public static final boolean BEAD_BROWNIAN_MOTION_ENABLED = true;

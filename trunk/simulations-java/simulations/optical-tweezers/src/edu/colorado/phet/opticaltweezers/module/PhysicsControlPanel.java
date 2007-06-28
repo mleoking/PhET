@@ -13,6 +13,7 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
+import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.PhysicsModel;
 
 /**
@@ -28,7 +29,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     private PhysicsCanvas _canvas;
     
-    private ClockStepControlPanel _clockStepControlPanel;
+    private SimulationSpeedControlPanel _simulationSpeedControlPanel;
     private LaserDisplayControlPanel _laserDisplayControlPanel;
     private BeadChargeControlPanel _beadChargeControlPanel;
     private ForcesControlPanel _forcesControlPanel;
@@ -58,7 +59,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Sub-panels
         PhysicsModel model = module.getPhysicsModel();
-        _clockStepControlPanel = new ClockStepControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
+        _simulationSpeedControlPanel = new SimulationSpeedControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
         _laserDisplayControlPanel = new LaserDisplayControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getLaserNode() );
         _beadChargeControlPanel = new BeadChargeControlPanel( TITLE_FONT, CONTROL_FONT );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
@@ -90,7 +91,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Layout
         {
-            addControlFullWidth( _clockStepControlPanel );
+            addControlFullWidth( _simulationSpeedControlPanel );
             addSeparator();
             addControlFullWidth( _laserDisplayControlPanel );
             addSeparator();
@@ -142,8 +143,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         return _developerControlPanel;
     }
     
-    public ClockStepControlPanel getClockStepControlPanel() {
-        return _clockStepControlPanel;
+    public SimulationSpeedControlPanel getSimulationSpeedControlPanel() {
+        return _simulationSpeedControlPanel;
     }
     
     public LaserDisplayControlPanel getLaserDisplayControlPanel() {
