@@ -48,6 +48,7 @@ public class FileUtils {
     }
 
     public static void writeBytes( File outputFile, byte[] bytes ) throws IOException {
+        outputFile.getParentFile().mkdirs();
         FileOutputStream outputStream = new FileOutputStream( outputFile );
         try {
             outputStream.write( bytes );
