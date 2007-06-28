@@ -1190,7 +1190,7 @@ div.research .publication_htmllink {
 #localNav ul li {
 	list-style:	none;
 	margin:		0;
-	padding: 	0.5ex 0 0.5x 0;
+	padding: 	0 0 0.5ex 0;
 }
 #localNav ul li a {
 	border-bottom:		none;
@@ -1205,7 +1205,7 @@ div.research .publication_htmllink {
 /* Settings for top-level selected categories in the navigation bar */
 #localNav > ul > li.selected {
 	margin:	0px 0px 0px -15px;
-	background:	url(../images/selectedArrow_Icon.gif) left 0.5ex no-repeat;
+	background:	url(../images/selectedArrow_Icon.gif) left 0.25ex no-repeat;
 }
 #localNav > ul > li.selected > a {
 	position: 	relative;
