@@ -13,8 +13,9 @@ package edu.colorado.phet.common.phetcommon.view.util;
 
 // JDK
 
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.JPanel;
 
 
 /**
@@ -264,7 +265,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param row       the row in the grid
      * @param column    the column in the grid
      */
-    public void addComponent( JComponent component, int row, int column ) {
+    public void addComponent( Component component, int row, int column ) {
         addComponent( component, row, column, _width, _height, _anchor, _fill, _insets );
     }
 
@@ -279,7 +280,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param width     the width
      * @param height    the height
      */
-    public void addComponent( JComponent component, int row, int column, int width, int height ) {
+    public void addComponent( Component component, int row, int column, int width, int height ) {
         addComponent( component, row, column, width, height, _anchor, _fill, _insets );
     }
 
@@ -295,7 +296,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param height    the height
      * @param anchor    the anchor
      */
-    public void addComponent( JComponent component, int row, int column, int width, int height, int anchor ) {
+    public void addComponent( Component component, int row, int column, int width, int height, int anchor ) {
         addComponent( component, row, column, width, height, anchor, _fill, _insets );
     }
 
@@ -312,7 +313,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param anchor    the anchor
      * @param fill      the fill
      */
-    public void addComponent( JComponent component, int row, int column, int width, int height, int anchor, int fill ) {
+    public void addComponent( Component component, int row, int column, int width, int height, int anchor, int fill ) {
         addComponent( component, row, column, width, height, _anchor, fill, _insets );
     }
 
@@ -330,7 +331,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param fill      the fill
      * @param insets    the insets
      */
-    public void addComponent( JComponent component, int row, int column, int width, int height, int anchor, int fill, Insets insets ) {
+    public void addComponent( Component component, int row, int column, int width, int height, int anchor, int fill, Insets insets ) {
         
         // Load the GridBagConstraints
         GridBagConstraints constraints = new GridBagConstraints();
@@ -394,7 +395,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param column    the column in the grid
      * @param anchor    the anchor
      */
-    public void addAnchoredComponent( JComponent component, int row, int column, int anchor ) {
+    public void addAnchoredComponent( Component component, int row, int column, int anchor ) {
         addComponent( component, row, column, _width, _height, anchor, _fill, _insets );
     }
 
@@ -410,7 +411,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param height    the height
      * @param anchor    the anchor
      */
-    public void addAnchoredComponent( JComponent component, int row, int column, int width, int height, int anchor ) {
+    public void addAnchoredComponent( Component component, int row, int column, int width, int height, int anchor ) {
         addComponent( component, row, column, width, height, anchor, _fill, _insets );
     }
 
@@ -428,7 +429,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param column    the column in the grid
      * @param fill      the fill
      */
-    public void addFilledComponent( JComponent component, int row, int column, int fill ) {
+    public void addFilledComponent( Component component, int row, int column, int fill ) {
         addComponent( component, row, column, _width, _height, _anchor, fill, _insets );
     }
 
@@ -444,7 +445,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param height    the height
      * @param fill      the fill
      */
-    public void addFilledComponent( JComponent component, int row, int column, int width, int height, int fill ) {
+    public void addFilledComponent( Component component, int row, int column, int width, int height, int fill ) {
         addComponent( component, row, column, width, height, _anchor, fill, _insets );
     }
 
