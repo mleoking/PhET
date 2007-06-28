@@ -203,7 +203,7 @@ EOT;
         print <<<EOT
             <div class="clear">
                 <p>
-                    <a href="../teacher_ideas/browse.php?cat=$cat_encoding">view teacher ideas &amp; activities for these simulations</a> 
+                    <a href="../teacher_ideas/browse.php?cat=$cat_encoding">related ideas &amp; activities</a> 
                 </p>
             </div>
 EOT;

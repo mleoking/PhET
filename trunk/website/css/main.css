@@ -592,6 +592,7 @@ span.sub {
 div.simpreview {
 	float:	left;
 	border:	none;
+	width:  300px;
 	margin:	0 1em 0 1em;
 }
 div.simpreview table {
@@ -768,6 +769,23 @@ ul.content-points li a:hover {
 #get_phet th.specalt-none p {
 	font:bold 10pt "arial",Verdana,Arial,Helvetica,sans-serif;
 	color:#fff;
+}
+
+div.simrunoptions table {
+	width:  300px;
+	clear: 	left;
+	border-collapse: collapse;
+}
+div.simrunoptions table tr td {
+	width: 150px;
+	margin: 0;
+	padding: 0;
+}
+div.simrunoptions table tr td:first-child {
+	text-align: left;
+}
+div.simrunoptions table tr td + td {
+	text-align: right;
 }
 
 
@@ -1150,67 +1168,85 @@ div.research .publication_htmllink {
 
 
 /******** =localNav ********/
+
+/* The navigation bar */
 #localNav {
-	background:none;
-	color:#727272;
-	float:left;
-	margin:0;
-	padding:25px 0 0 0;
-	width: 178px;
+	background:	none;
+	color:		#727272;
+	float:		left;
+	margin:		0;
+	padding:	25px 0 0 0;
+	width: 		178px;
 }
-/******** =localNav ********/
+
+/* Default settings for all lists in the navigation bar */
 #localNav ul {
-	background:none;
-	font-size:12px;
-	font-weight:bold;
-	margin:0 0 0px 0;
-	padding:0 0 8px 0;
+	background:		none;
+	font-size:		11pt;
+	font-weight:	bold;
+	margin:			0 0 0px 0;
+	padding:		0 0 1ex 0;
 }
 #localNav ul li {
-	list-style:none;
-	padding:3px 0 3px 2px
+	list-style:	none;
+	margin:		0;
+	padding: 	0.5ex 0 0.5x 0;
 }
-#localNav ul li a,
-#localNav ul.subnav li a {
-	border-bottom:none;
-	color:#727272;
-	display:block;
-	text-decoration:none;
-}
-#localNav ul li.last a {
-	border-bottom:none;
+#localNav ul li a {
+	border-bottom:		none;
+	color:				#727272;
+	display:			block;
+	text-decoration:	none;
 }
 #localNav ul li a:hover {
 	color:#d36a04;
 }
-#localNav ul li.selected {
-	background:url(../images/selectedArrow_Icon.gif) left 3px no-repeat;
+
+/* Settings for top-level selected categories in the navigation bar */
+#localNav > ul > li.selected {
+	margin:	0px 0px 0px -15px;
+	background:	url(../images/selectedArrow_Icon.gif) left 0.5ex no-repeat;
 }
-#localNav ul li.selected a {
-	color:#d36a04;
-	margin:0px 0px 0px 15px;
+#localNav > ul > li.selected > a {
+	position: 	relative;
+	left: 		15px;
+	color:		#d36a04;
 }
-#localNav ul li ul.subnav {
-	background:none;
-	font-weight:bold;
-	margin:0 0 0 5px;
-	padding:0;
+
+/* Settings for second-level categories in the navigation bar */
+
+/* The unordered list */
+#localNav > ul li ul {
+	background:		none;
+	font-weight:	bold;
+	margin:			0 0 0.5ex 20px;
+	padding:		0;
 }
-#localNav ul li ul.subnav li {
-	margin:0;
-	padding: 3px 0 3px 18px;
+/* The list items */
+#localNav > ul li ul li {
+	height: 		1em;
+	font-size: 		smaller;
+	margin:  		0;
+	padding: 		0;
+	margin-top:    	0.75ex;	
+	clear:   		right;
 }
-#localNav ul li.sub {
-	clear: right;
+#localNav > ul li ul li.selected {
+	background-repeat:   no-repeat;
+	background-position: left 0.5ex;
+	background-image:	 url(../images/arrow-right.gif);
 }
-#localNav ul li.sub span.selected a span.sub-nav-desc,
-#localNav ul li.sub span a span.sub-nav-desc {
-	float: right;
-	width: 150px;
+/* Links inside the list items */
+#localNav > ul li ul li a {
+	float: 	right;
+	width: 	162px;
 }
-#localNav ul li.sub span.selected a {
-	color: #d36a04;
+/* Link inside the current subcategory */
+#localNav > ul li ul li.selected a {
+	color: 		#d36a04;
 }
+
+
 /* -------- Related Links --------*/
 #localNav dl {
 	background:url(../images/relatedLinksBTTM_BG.gif) left bottom no-repeat;

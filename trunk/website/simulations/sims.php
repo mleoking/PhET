@@ -72,15 +72,31 @@
                     </tr>
                 </table>
 
+                <div class="size" title="The size of the simulation, in kilobytes">
+                    $sim_size KB
+                </div>
+
             </div>
                 
             <div class="simpreview">    
                 <a href="$sim_launch_url">
-                    <img src="../admin/get-upload.php?url=$sim_image_url" alt="Sim preview image" title="Click here to launch the simulation" width="300"/>
+                    <img src="../admin/get-upload.php?url=$sim_image_url" alt="Sim preview image" title="Click here to launch the simulation from your browser" width="300"/>
                 </a>
-        
-                <div class="size" title="The size of the simulation, in kilobytes">
-                    $sim_size KB
+                
+                
+
+                <div class="simrunoptions">
+                    <table>
+                        <tr>
+                            <td>
+                                <a href="$sim_launch_url" title="Click here to launch the simulation from your browser">Run Now</a>
+                            </td>
+                        
+                            <td>
+                                <a href="" title="Click here to download the simulation onto your computer">Run Later</a>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
