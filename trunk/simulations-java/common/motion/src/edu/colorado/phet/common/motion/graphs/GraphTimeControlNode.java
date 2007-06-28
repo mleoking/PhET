@@ -180,7 +180,7 @@ public class GraphTimeControlNode extends PNode {
         }
 
         private void setGoButton( boolean go ) {
-            System.out.println( "go = " + go );
+//            System.out.println( "go = " + go );
             this.goButton = go;
             setText( goButton ? "Go!" : "Stop" );
             try {
