@@ -69,6 +69,7 @@ MISSING INFO:
 
  
 DONE:
+6/28/07 - write ConstantDtClock, use in OTClock, test, migrate to phetcommon
 ********* version 0.00.15 (16200)
 6/27/07 - add editable textfield for simulation speed
 6/27/07 - add read-only value display to SimulationSpeedControlPanel
