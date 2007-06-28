@@ -6,13 +6,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTResources;
@@ -23,6 +23,7 @@ public class SimulationSpeedControlPanel extends JPanel {
 
     private OTClock _clock;
     private SimulationSpeedSlider _slider;
+    private JLabel _valueLabel;
     
     public SimulationSpeedControlPanel( Font titleFont, Font controlFont, OTClock clock ) {
         super();
@@ -51,14 +52,21 @@ public class SimulationSpeedControlPanel extends JPanel {
         int h = (int) _slider.getFullBounds().getHeight() + 8; //HACK
         canvas.setPreferredSize( new Dimension( w, h ) );
         
+        _valueLabel = new JLabel( _slider.getFormattedValue() );
+        _valueLabel.setFont( controlFont );
+        
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         this.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         layout.setFill( GridBagConstraints.HORIZONTAL );
         int row = 0;
         int column = 0;
-        layout.addComponent( titleLabel, row++, column );
-        layout.addComponent( canvas, row++, column );
+        layout.addComponent( titleLabel, row, column++ );
+        layout.addComponent( Box.createHorizontalStrut( 5 ), row, column++ );
+        layout.addComponent( _valueLabel, row, column++ );
+        row++;
+        column = 0;
+        layout.addComponent( canvas, row, column, 3, 1 );
         
     }
     
@@ -72,6 +80,7 @@ public class SimulationSpeedControlPanel extends JPanel {
     }
     
     private void handleSliderChange() {
+        _valueLabel.setText( _slider.getFormattedValue() );
         _clock.setDt( _slider.getValue() );
     }
 }
