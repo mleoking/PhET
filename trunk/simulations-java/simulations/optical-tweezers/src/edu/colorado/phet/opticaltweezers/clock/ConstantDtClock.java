@@ -38,6 +38,7 @@ public class ConstantDtClock extends SwingClock {
      */
     public ConstantDtClock( int delay, double dt ) {
         super( delay, dt );
+        listenerList = new EventListenerList();
     }
     
     //----------------------------------------------------------------------------

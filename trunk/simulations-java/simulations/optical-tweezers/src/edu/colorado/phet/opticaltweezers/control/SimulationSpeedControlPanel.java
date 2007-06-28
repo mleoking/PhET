@@ -20,10 +20,11 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.clock.ConstantDtClock.ConstantDtClockAdapter;
+import edu.colorado.phet.opticaltweezers.clock.ConstantDtClock.ConstantDtClockEvent;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 
 /**
@@ -57,8 +58,10 @@ public class SimulationSpeedControlPanel extends JPanel {
         super();
         
         _clock = clock;
-        _clock.addClockListener( new ClockAdapter() {
-            //XXX _slider.setValue when the clock's timing strategy (dt) is changed
+        _clock.addConstantDtClockListener( new ConstantDtClockAdapter() {
+            public void dtChanged( ConstantDtClockEvent event ) {
+                //XXX handle dt changes that are performed by someone else
+            };
         });
         
         // Title
