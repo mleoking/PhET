@@ -78,9 +78,6 @@ public class SimulationSpeedSlider extends PNode {
     private static final Color SLOW_LABEL_FONT_COLOR = Color.BLACK;
     private static final Color FAST_LABEL_FONT_COLOR = Color.BLACK;
     
-    // Value
-    private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0.0E00" );
-    
     // Tick marks
     private static final int TICK_MARK_LENGTH = 10;
     private static final Color TICK_MARK_COLOR = Color.BLACK;
@@ -103,7 +100,7 @@ public class SimulationSpeedSlider extends PNode {
     private PPath _trackNode;
     private PPath _knobNode;
     private EventListenerList _listenerList;
-    private boolean _isAdjusting;
+    private boolean _adjusting;
     
     private LogarithmicMappingStrategy _slowMappingStrategy;
     private LogarithmicMappingStrategy _fastMappingStrategy;
@@ -128,6 +125,7 @@ public class SimulationSpeedSlider extends PNode {
         _value = value;
         
         _listenerList = new EventListenerList();
+        _adjusting = false;
         
         // strategies for mapping between model and view coordinates
         _slowMappingStrategy = new LogarithmicMappingStrategy( _slowRange.getMin(), _slowRange.getMax(), 0, SLOW_BACKGROUND_WIDTH );
@@ -365,7 +363,7 @@ public class SimulationSpeedSlider extends PNode {
         // Update the value when the knob is moved.
         _knobNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
-                if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
+                if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) && _adjusting ) {
                     updateValue();
                 }
             }
@@ -374,11 +372,11 @@ public class SimulationSpeedSlider extends PNode {
         // Change the "adjusting" start on mouse press & release.
         _knobNode.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
-                _isAdjusting = true;
+                _adjusting = true;
             }
             public void mouseReleased( PInputEvent event ) {
-                _isAdjusting = false;
-                snapToRange();
+                _adjusting = false;
+                snapToClosest();
                 fireChangeEvent( new ChangeEvent( this ) );
             }
         } );
@@ -414,22 +412,13 @@ public class SimulationSpeedSlider extends PNode {
     }
     
     /**
-     * Gets the slider value, formatted as a string.
-     * 
-     * @return
-     */
-    public String getFormattedValue() {
-        return VALUE_FORMAT.format( _value );
-    }
-    
-    /**
      * Is the value currently being adjusted?
      * Returns true while the knob is being dragged. 
      * 
      * @return true or false
      */
     public boolean isAdjusting() {
-        return _isAdjusting;
+        return _adjusting;
     }
     
     /*
@@ -531,7 +520,7 @@ public class SimulationSpeedSlider extends PNode {
      * If the slider is in the range between "slow" and "fast",
      * snap it to the closest of slow.max or fast.min.
      */
-    private void snapToRange() {
+    private void snapToClosest() {
         int sliderValue = getSliderValue();
         if ( isKnobInBetweenRange( sliderValue ) ) {
             if ( ( sliderValue - SLOW_BACKGROUND_WIDTH < ( BETWEEN_BACKGROUND_WIDTH / 2 ) ) ) {

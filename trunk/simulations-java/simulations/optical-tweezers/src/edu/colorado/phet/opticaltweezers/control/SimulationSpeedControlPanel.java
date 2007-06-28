@@ -5,6 +5,7 @@ package edu.colorado.phet.opticaltweezers.control;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.text.DecimalFormat;
 
 import javax.swing.Box;
 import javax.swing.JLabel;
@@ -18,15 +19,25 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 
-
+/**
+ * SimulationSpeedControlPanel contains all the controls for simulation speed (dt).
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class SimulationSpeedControlPanel extends JPanel {
 
+    private static final String VALUE_PATTERN = "0.0E00";
+    private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( VALUE_PATTERN );
+    
     private OTClock _clock;
     private SimulationSpeedSlider _slider;
     private JLabel _valueLabel;
+    private String _units;
     
     public SimulationSpeedControlPanel( Font titleFont, Font controlFont, OTClock clock ) {
         super();
+        
+        _units = OTResources.getString( "units.time" );
         
         JLabel titleLabel = new JLabel( OTResources.getString( "label.simulationSpeed" ) );
         titleLabel.setFont( titleFont );
@@ -55,7 +66,7 @@ public class SimulationSpeedControlPanel extends JPanel {
         int h = (int) _slider.getFullBounds().getHeight() + ( 2 * margin );
         canvas.setPreferredSize( new Dimension( w, h ) );
         
-        _valueLabel = new JLabel( _slider.getFormattedValue() + " " + OTResources.getString( "units.time" ) );
+        _valueLabel = new JLabel();
         _valueLabel.setFont( controlFont );
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -71,6 +82,7 @@ public class SimulationSpeedControlPanel extends JPanel {
         column = 0;
         layout.addComponent( canvas, row, column, 3, 1 );
         
+        handleSliderChange();
     }
     
     public void setSimulationSpeed( double dt ) {
@@ -83,7 +95,8 @@ public class SimulationSpeedControlPanel extends JPanel {
     }
     
     private void handleSliderChange() {
-        _valueLabel.setText( _slider.getFormattedValue() + " " + OTResources.getString( "units.time" ) );
+        double value = _slider.getValue();
+        _valueLabel.setText( VALUE_FORMAT.format( value ) + " " + _units );
         _clock.setDt( _slider.getValue() );
     }
 }
