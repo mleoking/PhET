@@ -55,8 +55,8 @@ public class SimulationSpeedSlider extends PNode {
     private static final int FAST_BACKGROUND_WIDTH = 65;
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final int BACKGROUND_STROKE_WIDTH = 1;
-    private static final Color SLOW_FILL_COLOR = Color.GREEN;
-    private static final Color FAST_FILL_COLOR = Color.RED;
+    private static final Color SLOW_FILL_COLOR = new Color( 180, 255, 180 ); // light green
+    private static final Color FAST_FILL_COLOR = new Color( 50, 180, 50 ); // dark green
     private static final Color BETWEEN_FILL_COLOR = Color.DARK_GRAY;
     
     // Track
