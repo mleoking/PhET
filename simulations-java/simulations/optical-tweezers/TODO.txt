@@ -5,8 +5,10 @@
 IN PROGRESS:
 
 AAPT:
+- write ConstantDtClock
 - enable/disable controls based on clock speed
 - make "beam" the only laser display option in fast mode
+- when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
 - when user drags bead, auto-release if DNA extension is 97% of contour length
 - adjust clock time display and units as dt is changed
 - position histogram requires more precision on x-axis and ruler
