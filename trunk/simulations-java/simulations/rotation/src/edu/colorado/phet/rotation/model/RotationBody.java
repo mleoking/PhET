@@ -1,9 +1,9 @@
 package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
+import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.MotionBodyState;
-import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Line2D;
@@ -24,8 +24,8 @@ public class RotationBody {
     private ArrayList listeners = new ArrayList();
 
     public RotationBody() {
-        xBody=new MotionBody();
-        yBody=new MotionBody();
+        xBody = new MotionBody();
+        yBody = new MotionBody();
     }
 
     public void setOffPlatform() {
@@ -73,6 +73,11 @@ public class RotationBody {
         return new Vector2D.Double( rotationPlatform.getCenter(), getPosition() ).getAngle();
     }
 
+    public void stepInTime( double time, double dt ) {
+        xBody.stepInTime( time, dt );
+        yBody.stepInTime( time, dt );
+    }
+
     public ISimulationVariable getXPositionVariable() {
         return xBody.getXVariable();
     }
@@ -81,9 +86,12 @@ public class RotationBody {
         return xBody.getXTimeSeries();
     }
 
-    public void stepInTime( double time,double dt ) {
-        xBody.stepInTime( time,dt );
-        yBody.stepInTime( time,dt);
+    public ISimulationVariable getYPositionVariable() {
+        return yBody.getXVariable();
+    }
+
+    public ITimeSeries getYPositionTimeSeries() {
+        return yBody.getXTimeSeries();
     }
 
     private static abstract class UpdateStrategy implements Serializable {

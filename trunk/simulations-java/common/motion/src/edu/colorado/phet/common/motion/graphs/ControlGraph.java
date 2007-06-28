@@ -154,18 +154,7 @@ public class ControlGraph extends PNode {
     private ITimeSeries.Listener getListener( final ISimulationVariable simulationVariable ) {
         return new ITimeSeries.Listener() {
             public void dataAdded( TimeData timeData ) {
-//                System.out.println( "ControlGraph.dataAdded: timeData="+timeData );
                 addValue( getSeriesIndex( simulationVariable ), timeData.getTime(), timeData.getValue() );
-//                final SeriesData series=dynamicJFreeChartNode.getSeries( 0);
-//                series.getSeries().addChangeListener( new SeriesChangeListener() {
-//                    public void seriesChanged( SeriesChangeEvent event ) {
-//                        if (series.getSeries().getItemCount()==2){
-//                            System.out.println( "ControlGraph.seriesChanged, size="+series.getSeries().getItemCount() );
-//
-//                        }
-//                    }
-//                } );
-//                System.out.println( "series="+ControlGraph.this.toString(series.getSeries()) );
             }
 
             public void dataCleared() {
@@ -173,15 +162,6 @@ public class ControlGraph extends PNode {
             }
         };
     }
-
-//    private String toString( XYSeries series ) {
-//        ArrayList data=new ArrayList( );
-//        for (int i=0;i<series.getItemCount();i++){
-//            data.add( new Double(series.getX( i ).doubleValue( )));
-//        }
-//        return data.toString();
-////        return null;
-//    }
 
     public DynamicJFreeChartNode getDynamicJFreeChartNode() {
         return dynamicJFreeChartNode;
@@ -240,6 +220,7 @@ public class ControlGraph extends PNode {
         titleLayer.addChild( titleNode );
 
         graphTimeControlNode.addVariable( title, abbr, color, simulationVariable );
+        observableTimeSeries.addListener( getListener( simulationVariable ) );
     }
 
     public int getSeriesIndex( ISimulationVariable title ) {
@@ -320,7 +301,7 @@ public class ControlGraph extends PNode {
         }
 
         public void layout() {
-            System.out.println( "ControlGraph$AlignedLayout.layout: " + ControlGraph.this );
+//            System.out.println( "ControlGraph$AlignedLayout.layout: " + ControlGraph.this );
             double dx = 5;
             graphTimeControlNode.setOffset( 0, 0 );
             LayoutFunction controlNodeMaxX = new LayoutFunction() {

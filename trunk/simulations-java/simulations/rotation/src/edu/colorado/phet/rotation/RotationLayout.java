@@ -37,7 +37,7 @@ public class RotationLayout {
         double height = getHeight() - rotationControlPanelNode.getFullBounds().getHeight();
         double sy = height / platformNode.getFullBounds().getHeight();
         double scale = Math.min( sx, sy );
-        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
+//        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
         if( scale > 0 ) {
             rotationPlayAreaNode.scale( scale );
         }
