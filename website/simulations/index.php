@@ -131,7 +131,7 @@
                     
 EOT;
 
-                    print "<br/><p>$link_to_sim$sim_name</a></p>\n";
+                    print "<p>$link_to_sim$sim_name</a></p>\n";
 
                     // Close product:
                     print "</div>\n";
