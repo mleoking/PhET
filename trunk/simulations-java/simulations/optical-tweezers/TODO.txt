@@ -14,6 +14,7 @@ AAPT:
 - make "beam" the only laser display option in fast mode
 - add description to About dialog
 - make entire panel draggable, or add draggable frame around laser controls
+- what are the correct ranges for slow and fast time modes?
 
 HIGH PRIORITY:
 
