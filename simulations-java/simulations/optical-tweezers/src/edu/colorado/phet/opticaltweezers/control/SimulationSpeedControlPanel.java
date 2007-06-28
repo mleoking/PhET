@@ -5,11 +5,18 @@ package edu.colorado.phet.opticaltweezers.control;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 
-import javax.swing.Box;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -26,34 +33,45 @@ import edu.colorado.phet.opticaltweezers.model.OTClock;
  */
 public class SimulationSpeedControlPanel extends JPanel {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final String VALUE_PATTERN = "0.0E00";
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( VALUE_PATTERN );
+    private static final int VALUE_COLUMNS = VALUE_PATTERN.length();
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private OTClock _clock;
     private SimulationSpeedSlider _slider;
-    private JLabel _valueLabel;
-    private String _units;
+    private JFormattedTextField _textField;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public SimulationSpeedControlPanel( Font titleFont, Font controlFont, OTClock clock ) {
         super();
-        
-        _units = OTResources.getString( "units.time" );
-        
-        JLabel titleLabel = new JLabel( OTResources.getString( "label.simulationSpeed" ) );
-        titleLabel.setFont( titleFont );
         
         _clock = clock;
         _clock.addClockListener( new ClockAdapter() {
             //XXX _slider.setValue when the clock's timing strategy (dt) is changed
         });
         
+        // Title
+        JLabel titleLabel = new JLabel( OTResources.getString( "label.simulationSpeed" ) );
+        titleLabel.setFont( titleFont );
+        
+        // Slider
         _slider = new SimulationSpeedSlider( clock.getSlowRange(), clock.getFastRange(), clock.getDt() );
         _slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                handleSliderChange();
+                setSimulationSpeed( _slider.getValue() );
             }
         });
-        
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setBackground( getBackground() );
         canvas.setBorder( null );
@@ -66,8 +84,19 @@ public class SimulationSpeedControlPanel extends JPanel {
         int h = (int) _slider.getFullBounds().getHeight() + ( 2 * margin );
         canvas.setPreferredSize( new Dimension( w, h ) );
         
-        _valueLabel = new JLabel();
-        _valueLabel.setFont( controlFont );
+        // Textfield
+        _textField = new JFormattedTextField( VALUE_FORMAT );
+        _textField.setFont( controlFont );
+        _textField.setValue( new Double( _slider.getValue() ) );
+        _textField.setHorizontalAlignment( JTextField.RIGHT );
+        _textField.setColumns( VALUE_COLUMNS );
+        TextFieldListener textFieldListener = new TextFieldListener();
+        _textField.addActionListener( textFieldListener );
+        _textField.addFocusListener( textFieldListener );
+        
+        // Units
+        JLabel unitsLabel = new JLabel( OTResources.getString( "units.time" ) );
+        unitsLabel.setFont( controlFont );
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         this.setLayout( layout );
@@ -76,27 +105,80 @@ public class SimulationSpeedControlPanel extends JPanel {
         int row = 0;
         int column = 0;
         layout.addComponent( titleLabel, row, column++ );
-        layout.addComponent( Box.createHorizontalStrut( 5 ), row, column++ );
-        layout.addComponent( _valueLabel, row, column++ );
+        layout.addComponent( _textField, row, column++ );
+        layout.addComponent( unitsLabel, row, column++ );
         row++;
         column = 0;
         layout.addComponent( canvas, row, column, 3, 1 );
         
-        handleSliderChange();
+        setSimulationSpeed( clock.getDt() );
     }
     
-    public void setSimulationSpeed( double dt ) {
-        _slider.setValue( dt );
-        handleSliderChange();
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public void setSimulationSpeed( double value ) {
+        if ( value < _slider.getSlowRange().getMin() ) {
+            value = _slider.getSlowRange().getMin();
+            Toolkit.getDefaultToolkit().beep();
+        }
+        else if ( value > _slider.getFastRange().getMax() ) {
+            value = _slider.getFastRange().getMax();
+            Toolkit.getDefaultToolkit().beep();
+        }
+        _slider.setValue( value );
+        _textField.setValue( new Double( _slider.getValue() ) );
+        _clock.setDt( _slider.getValue() );
     }
     
     public double getSimulationSpeed() {
         return _slider.getValue();
     }
     
-    private void handleSliderChange() {
-        double value = _slider.getValue();
-        _valueLabel.setText( VALUE_FORMAT.format( value ) + " " + _units );
-        _clock.setDt( _slider.getValue() );
+    private double getTextFieldValue() {
+        String text = _textField.getText();
+        return Double.parseDouble( text );
     }
+    
+    /*
+     * Handles events related to the textfield.
+     */
+    private class TextFieldListener implements ActionListener, FocusListener {
+
+        /*
+         * User pressed enter in text field.
+         */
+        public void actionPerformed( ActionEvent e ) {
+            if ( e.getSource() == _textField ) {
+                setSimulationSpeed( getTextFieldValue() );
+            }
+        }
+
+        /*
+         * Selects the entire value text field when it gains focus.
+         */
+        public void focusGained( FocusEvent e ) {
+            if ( e.getSource() == _textField ) {
+                _textField.selectAll();
+            }
+        }
+
+        /*
+         * Processes the contents of the value text field when it loses focus.
+         */
+        public void focusLost( FocusEvent e ) {
+            if ( e.getSource() == _textField ) {
+                try {
+                    _textField.commitEdit();
+                    setSimulationSpeed( getTextFieldValue() );
+                }
+                catch ( ParseException pe ) {
+                    Toolkit.getDefaultToolkit().beep();
+                    setSimulationSpeed( _slider.getValue() );
+                }
+            }
+        }
+    }
+
 }

@@ -68,6 +68,7 @@ MISSING INFO:
 
  
 DONE:
+6/27/07 - add editable textfield for simulation speed
 6/27/07 - add read-only value display to SimulationSpeedControlPanel
 6/27/07 - wire SimulationSpeedSlider into simulation control panels
 6/27/07 - change OTClock model to have slowRange and fastRange for dt
