@@ -4,6 +4,7 @@ import edu.colorado.phet.common.motion.model.AccelerationDriven;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import junit.framework.TestCase;
 
 /**
@@ -14,7 +15,7 @@ import junit.framework.TestCase;
 
 public class TestConstantAcceleration extends TestCase {
     public void testConstantAcceleration() {
-        SingleBodyMotionModel motionModel = new SingleBodyMotionModel( new SwingClock( 30, 1 ) );
+        SingleBodyMotionModel motionModel = new SingleBodyMotionModel( new TimeModelClock( 30, 1 ) );
         assertEquals( motionModel.getMotionBodyState().getPosition(), 0.0, 0.0 );
         motionModel.setAccelerationDriven();
         motionModel.getMotionBodyState().setAcceleration( 1.0 );
@@ -25,7 +26,7 @@ public class TestConstantAcceleration extends TestCase {
 
     public static void main( String[] args ) {
         AccelerationDriven accelerationDriven = new AccelerationDriven();
-        SingleBodyMotionModel model = new SingleBodyMotionModel( new SwingClock( 30, 1 ) );
+        SingleBodyMotionModel model = new SingleBodyMotionModel( new TimeModelClock( 30, 1 ) );
         model.getMotionBodyState().setAcceleration( 1.0 );
         model.setUpdateStrategy( accelerationDriven );
         System.out.println( "init state=" + model );

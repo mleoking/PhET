@@ -11,6 +11,7 @@ import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.motion.model.VelocityDriven;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -29,7 +30,7 @@ public class TestVelocityDriven {
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        rotationModel = new SingleBodyMotionModel( new SwingClock( 30, 1 ) );
+        rotationModel = new SingleBodyMotionModel( new TimeModelClock( 30, 1 ) );
         final VelocityDriven updateStrategy = new VelocityDriven();
         rotationModel.getMotionBodySeries().setUpdateStrategy( updateStrategy );
         final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, rotationModel.getMotionBodyState().getVelocity() );

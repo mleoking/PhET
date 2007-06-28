@@ -14,7 +14,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 public class EnergySkateParkPlaybackPanel extends DefaultTimeModelControlPanel {
 
     public EnergySkateParkPlaybackPanel( final EnergySkateParkModule module, TimeSeriesModel timeSeriesModel, TimeModelClock clock ) {
-        super( clock, timeSeriesModel, EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0,EnergySkateParkApplication.SIMULATION_TIME_DT );
+        super( timeSeriesModel, EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0,EnergySkateParkApplication.SIMULATION_TIME_DT );
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void dataSeriesCleared() {
                 module.setRecordOrLiveMode();

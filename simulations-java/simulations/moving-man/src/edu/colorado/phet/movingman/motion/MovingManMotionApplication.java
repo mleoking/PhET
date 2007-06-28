@@ -63,7 +63,7 @@ public class MovingManMotionApplication {
         phetPCanvas.requestFocus();
         phetPCanvas.addKeyListener( new PDebugKeyHandler() );
 
-        DefaultTimeModelControlPanel timeControlPanel = new DefaultTimeModelControlPanel( clock, motionModel.getTimeSeriesModel(), 0.1, 1.0 );
+        DefaultTimeModelControlPanel timeControlPanel = new DefaultTimeModelControlPanel( motionModel.getTimeSeriesModel(), 0.1, 1.0 );
         contentPane.add(timeControlPanel,BorderLayout.SOUTH);
     }
 

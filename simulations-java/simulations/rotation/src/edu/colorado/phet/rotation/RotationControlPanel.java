@@ -24,10 +24,8 @@ public class RotationControlPanel extends JPanel {
         ShowVectorsControl showVectorsControl = new ShowVectorsControl( vectorViewModel );
 
         add( graphSelectionControl, getConstraints( 0, 0 ) );
-//        add( Box.createRigidArea( new Dimension( 50, 10 ) ), getConstraints( 1, 0 ) );
         add( symbolKey, getConstraints( 2, 0 ) );
         add( showVectorsControl, getConstraints( 0, 1 ) );
-
     }
 
     private GridBagConstraints getConstraints( int gridX, int gridY ) {

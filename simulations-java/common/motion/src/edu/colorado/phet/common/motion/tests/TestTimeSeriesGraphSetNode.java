@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
@@ -20,7 +21,7 @@ public class TestTimeSeriesGraphSetNode {
     private JFrame frame;
     private TimeSeriesGraphSetNode timeSeriesGraphSetNode;
     private PhetPCanvas pSwingCanvas;
-    private IClock clock;
+    private TimeModelClock clock;
 
     public TestTimeSeriesGraphSetNode() {
         frame = new JFrame();
@@ -29,7 +30,7 @@ public class TestTimeSeriesGraphSetNode {
 
         pSwingCanvas = new PhetPCanvas();
         frame.setContentPane( pSwingCanvas );
-        clock = new SwingClock( 30, 1 );
+        clock = new TimeModelClock( 30, 1 );
         final TestMotionModel testMotionModel = new TestMotionModel( clock );
         timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( new GraphSetModel( new TestGraphSet( pSwingCanvas, testMotionModel ).getGraphSuite( 0 ) ), new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), clock ) );
         pSwingCanvas.getLayer().addChild( timeSeriesGraphSetNode );
@@ -67,7 +68,7 @@ public class TestTimeSeriesGraphSetNode {
     }
 
     class TestMotionModel extends SingleBodyMotionModel {
-        public TestMotionModel( IClock clock ) {
+        public TestMotionModel( TimeModelClock clock ) {
             super( clock );
         }
     }
