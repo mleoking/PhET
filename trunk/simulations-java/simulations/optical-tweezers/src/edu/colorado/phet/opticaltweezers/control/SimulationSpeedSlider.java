@@ -386,18 +386,27 @@ public class SimulationSpeedSlider extends PNode {
     // Setters and getters
     //----------------------------------------------------------------------------
     
+    public DoubleRange getSlowRange() {
+        return _slowRange;
+    }
+    
+    public DoubleRange getFastRange() {
+        return _fastRange;
+    }
+    
     /**
      * Sets the slider value.
      * 
      * @param value the value, in model coordinates
      */
     public void setValue( double value ) {
-        if ( ! (_slowRange.contains( value ) || _fastRange.contains( value ) ) ) {
+        if ( value < _slowRange.getMin() || value > _fastRange.getMax() ) {
             throw new IllegalArgumentException( "value out of range: " + value );
         }
         if ( value != _value ) {
             _value = value;
             updateKnobPosition();
+            snapToClosest();
             fireChangeEvent( new ChangeEvent( this ) );
         }
     }
