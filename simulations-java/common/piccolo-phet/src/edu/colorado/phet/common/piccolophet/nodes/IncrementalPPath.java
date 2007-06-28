@@ -225,7 +225,7 @@ public class IncrementalPPath extends PPath {
                 x_var += 1;
                 y_var = 100 * (float)Math.sin( x_var / 30.0 ) + 150;
 //                y_var = 100;
-                System.out.println( "x = " + x_var + ", y=" + y_var );
+//                System.out.println( "x = " + x_var + ", y=" + y_var );
                 if( firstTime ) {
                     path.moveTo( x_var, y_var );
                     firstTime = false;
