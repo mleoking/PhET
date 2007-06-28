@@ -377,6 +377,7 @@ EOT;
             <script type="text/javascript">
                  /*<![CDATA[*/
             
+                // This code will disable everything on the page, except the login stuff
                 $(document).ready(
                     function() {
                         $('input').not('.always_enabled').disable();
