@@ -63,7 +63,7 @@ public class ConstantDtClockDelegation implements IClock {
     }
     
     public double getDt() {
-        return ((TimingStrategy.Constant) swingClock.getTimingStrategy()).getSimulationTimeChange( 0, 0 );
+        return ( (TimingStrategy.Constant) swingClock.getTimingStrategy() ).getSimulationTimeChange();
     }
     
     public void setRunning( boolean running ) {
@@ -90,7 +90,7 @@ public class ConstantDtClockDelegation implements IClock {
         public void dtChanged( ConstantDtClockEvent event );
     }
     
-    public static class ConstantDtClockAdapter implements ConstantDtClockListener {
+    public static abstract class ConstantDtClockAdapter implements ConstantDtClockListener {
         
         public void delayChanged( ConstantDtClockEvent event ) {};
         
