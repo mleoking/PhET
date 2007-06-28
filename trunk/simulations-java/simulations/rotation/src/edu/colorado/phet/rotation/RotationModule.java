@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.view.RotationSimulationPanel;
@@ -13,7 +14,7 @@ public class RotationModule extends AbstractRotationModule {
 
     private VectorViewModel vectorViewModel;
 
-    protected RotationModel createModel( IClock clock ) {
+    protected RotationModel createModel( TimeModelClock clock ) {
         return new RotationModel( clock );
     }
 

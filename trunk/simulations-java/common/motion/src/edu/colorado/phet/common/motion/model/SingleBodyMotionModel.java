@@ -2,6 +2,7 @@ package edu.colorado.phet.common.motion.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.motion.graphs.IUpdateStrategy;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 
 /**
  * This class contains a single MotionBody, and convenience methods for interacting with it.
@@ -10,7 +11,7 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
 
     private MotionBody motionBody;
 
-    public SingleBodyMotionModel( IClock clock ) {
+    public SingleBodyMotionModel( TimeModelClock clock ) {
         super( clock );
         motionBody = new MotionBody();
     }

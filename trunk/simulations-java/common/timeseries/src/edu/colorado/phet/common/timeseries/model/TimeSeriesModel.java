@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class TimeSeriesModel extends ClockAdapter {
     private RecordableModel recordableModel;
-    private IClock clock;
+    private TimeModelClock clock;
     private TimeStateSeries series = new TimeStateSeries();
     private double maxRecordTime = Double.POSITIVE_INFINITY;
 
@@ -26,7 +26,7 @@ public class TimeSeriesModel extends ClockAdapter {
     private ArrayList listeners = new ArrayList();
     private boolean paused;
 
-    public TimeSeriesModel( RecordableModel recordableModel, final IClock clock ) {
+    public TimeSeriesModel( RecordableModel recordableModel, final TimeModelClock clock ) {
         this.recordableModel = recordableModel;
         this.clock = clock;
         this.paused = clock.isPaused();
@@ -303,6 +303,10 @@ public class TimeSeriesModel extends ClockAdapter {
 
     public void recordFinished() {
         setLiveMode();    //Used in energy skate park
+    }
+
+    public TimeModelClock getTimeModelClock() {
+        return clock;
     }
 
     public interface PlaybackTimeListener {

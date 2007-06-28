@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.colorado.phet.rotation.model.RotationModel;
 
 /**
@@ -20,17 +21,17 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     private RotationModel rotationModel;
 
     public AbstractRotationModule() {
-        super( "Rotation", new SwingClock( 30, 1.0 ) );
+        super( "Rotation", new TimeModelClock( 30, 1.0 ) );
         setModel( new BaseModel() );
         setLogoPanel( null );
         setClockControlPanel( null );
-        rotationModel = createModel( getClock() );
+        rotationModel = createModel( (TimeModelClock)getClock() );
 
         rotationSimulationPanel = createSimulationPanel();
         setSimulationPanel( rotationSimulationPanel );
     }
 
-    protected abstract RotationModel createModel( IClock clock );
+    protected abstract RotationModel createModel( TimeModelClock clock );
 
     protected abstract AbstractRotationSimulationPanel createSimulationPanel();
 

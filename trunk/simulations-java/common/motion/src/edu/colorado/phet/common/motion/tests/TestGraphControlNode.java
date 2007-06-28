@@ -14,12 +14,13 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 
 import javax.swing.*;
 
 public class TestGraphControlNode {
     private JFrame frame;
-    private SwingClock swingClock;
+    private TimeModelClock swingClock;
 
     public TestGraphControlNode() {
         frame = new JFrame();
@@ -27,7 +28,7 @@ public class TestGraphControlNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetPCanvas phetPCanvas = new BufferedPhetPCanvas();
-        swingClock = new SwingClock( 30, 1.0 );
+        swingClock = new TimeModelClock( 30, 1.0 );
         TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), swingClock );
 
         swingClock.addClockListener( timeSeriesModel );

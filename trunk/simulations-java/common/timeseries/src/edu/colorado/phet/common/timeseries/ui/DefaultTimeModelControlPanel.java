@@ -23,7 +23,7 @@ import java.io.IOException;
  */
 public class DefaultTimeModelControlPanel extends JPanel {
     protected MultiStateButton recordButton;
-    protected Clock clock;
+    protected TimeModelClock clock;
     protected TimeSeriesModel timeSeriesModel;
     protected JButton rewindButton;
     protected MultiStateButton playbackButton;
@@ -33,8 +33,8 @@ public class DefaultTimeModelControlPanel extends JPanel {
     protected static final Object KEY_REC = "rec";
     protected static final Object KEY_PAUSE_REC = "pause-rec";
 
-    public DefaultTimeModelControlPanel( final TimeModelClock clock, final TimeSeriesModel timeSeriesModel,double minDT,double maxDT ) {
-        this.clock = clock;
+    public DefaultTimeModelControlPanel( final TimeSeriesModel timeSeriesModel,double minDT,double maxDT ) {
+        this.clock = timeSeriesModel.getTimeModelClock();
         this.timeSeriesModel = timeSeriesModel;
 
 

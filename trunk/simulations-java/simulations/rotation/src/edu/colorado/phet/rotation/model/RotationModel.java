@@ -2,6 +2,7 @@ package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 
 import java.awt.geom.Point2D;
@@ -15,7 +16,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     private RotationPlatform rotationPlatform;
     private ArrayList rotationBodies = new ArrayList();
 
-    public RotationModel( IClock clock ) {
+    public RotationModel( TimeModelClock clock ) {
         super( clock );
         rotationPlatform = new RotationPlatform();
         addRotationBody( new RotationBody() );

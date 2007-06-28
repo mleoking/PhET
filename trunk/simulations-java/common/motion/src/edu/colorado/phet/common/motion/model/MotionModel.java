@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.model.TimeState;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 
 /**
  * Represents a base model which can be used for managing collections of MotionBody objects.
@@ -16,7 +17,7 @@ public class MotionModel {
     private double time = 0;
     private DefaultTimeSeries timeTimeSeries = new DefaultTimeSeries();
 
-    public MotionModel( IClock clock ) {
+    public MotionModel( TimeModelClock clock ) {
         RecordableModel recordableModel = new RecordableModel() {
             public void stepInTime( double simulationTimeChange ) {
                 MotionModel.this.stepInTime( simulationTimeChange );

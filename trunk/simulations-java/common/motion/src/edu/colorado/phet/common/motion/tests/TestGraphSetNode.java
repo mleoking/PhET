@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
@@ -31,7 +32,7 @@ public class TestGraphSetNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 800, 600 );
 
-        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new SwingClock( 30, 1 ) );
+        TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new TimeModelClock( 30, 1 ) );
         MinimizableControlGraph minimizableControlGraphA = new MinimizableControlGraph( "labelA", new ControlGraph(
                 phetPCanvas, new DefaultSimulationVariable(), new DefaultTimeSeries(), "abbrA", "titleA", 0, 10, timeSeriesModel ) );
         MinimizableControlGraph minimizableControlGraphB = new MinimizableControlGraph( "Long labelB", new ControlGraph(

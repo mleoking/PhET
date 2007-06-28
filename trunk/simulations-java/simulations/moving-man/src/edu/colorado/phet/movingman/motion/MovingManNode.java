@@ -7,6 +7,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
+import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -110,7 +111,7 @@ public class MovingManNode extends PNode {
         frame.setContentPane( phetPCanvas );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        SwingClock swingClock = new SwingClock( 30, 1.0 );
+        TimeModelClock swingClock = new TimeModelClock( 30, 1.0 );
         final SingleBodyMotionModel rotationModel = new SingleBodyMotionModel( swingClock );
 
         MovingManNode movingManNode = new MovingManNode( rotationModel );
