@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>tech_support/index.php</string>
+	<string>admin/contrib-utils.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -276,30 +276,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>69</integer>
+				<integer>123</integer>
 				<key>line</key>
-				<integer>422</integer>
+				<integer>368</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>401</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>422</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>69</integer>
-				<key>line</key>
-				<integer>422</integer>
-			</dict>
+			<integer>353</integer>
 		</dict>
 		<key>admin/db-utils.php</key>
 		<dict>
@@ -504,14 +488,30 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>41</integer>
+				<integer>95</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
-			<integer>75</integer>
+			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>32</integer>
+			<integer>83</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>13</integer>
+				<key>line</key>
+				<integer>95</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>43</integer>
+				<key>line</key>
+				<integer>95</integer>
+			</dict>
 		</dict>
 		<key>admin/site-utils.php</key>
 		<dict>
@@ -630,14 +630,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>20</integer>
 				<key>line</key>
-				<integer>625</integer>
+				<integer>765</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>605</integer>
+			<integer>745</integer>
 		</dict>
 		<key>get_phet/full_install.php</key>
 		<dict>
@@ -658,14 +658,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>33</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>16</integer>
+				<integer>104</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
-			<integer>0</integer>
+			<integer>120</integer>
 			<key>firstVisibleLine</key>
-			<integer>39</integer>
+			<integer>80</integer>
 		</dict>
 		<key>index.php</key>
 		<dict>
@@ -728,42 +728,56 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>133</integer>
+				<integer>41</integer>
 				<key>line</key>
-				<integer>201</integer>
+				<integer>196</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>180</integer>
+			<integer>174</integer>
+		</dict>
+		<key>simulations/search.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>41</integer>
+				<key>line</key>
+				<integer>29</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>12</integer>
 		</dict>
 		<key>simulations/sims.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>36</integer>
+				<integer>38</integer>
 				<key>line</key>
-				<integer>184</integer>
+				<integer>194</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>290</integer>
+			<integer>184</integer>
 		</dict>
 		<key>simulations/submit-contribution.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>35</integer>
+				<integer>31</integer>
 				<key>line</key>
-				<integer>70</integer>
+				<integer>75</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>45</integer>
+			<integer>52</integer>
 		</dict>
 		<key>sponsors/index.php</key>
 		<dict>
@@ -826,14 +840,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>40</integer>
 				<key>line</key>
-				<integer>112</integer>
+				<integer>2</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>87</integer>
+			<integer>0</integer>
 		</dict>
 		<key>teacher_ideas/index.php</key>
 		<dict>
@@ -961,7 +975,7 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>74</integer>
+			<integer>83</integer>
 		</dict>
 		<key>tech_support/support-flash.php</key>
 		<dict>
@@ -1002,6 +1016,7 @@
 		<string>tech_support/support-java.php</string>
 		<string>tech_support/support-flash.php</string>
 		<string>simulations/index.php</string>
+		<string>simulations/search.php</string>
 		<string>about/legend.php</string>
 		<string>about/contact.php</string>
 		<string>about/licensing.php</string>
@@ -1053,6 +1068,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{253, 265}, {934, 578}}</string>
+	<string>{{257, 95}, {934, 578}}</string>
 </dict>
 </plist>
