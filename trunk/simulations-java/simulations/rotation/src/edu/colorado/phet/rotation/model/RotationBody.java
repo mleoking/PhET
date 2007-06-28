@@ -82,6 +82,20 @@ public class RotationBody {
         return xBody.getXVariable();
     }
 
+    public ISimulationVariable getXVelocityVariable(){
+        return xBody.getVVariable();
+    }
+    public ITimeSeries getXVelocityTimeSeries(){
+        return xBody.getVTimeSeries();
+    }
+    public ISimulationVariable getYVelocityVariable(){
+        return yBody.getVVariable();
+    }
+    public ITimeSeries getYVelocityTimeSeries(){
+        return yBody.getVTimeSeries();
+    }
+
+
     public ITimeSeries getXPositionTimeSeries() {
         return xBody.getXTimeSeries();
     }
