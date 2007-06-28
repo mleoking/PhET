@@ -32,14 +32,13 @@ LOW PRIORITY:
 - bug: beep sometimes occurs when selecting vacuum with fluid controls dialog open
 - DNA strand looks too straight initially, evolve a few times before displaying?
 - visible seams where symmetrical pieces of laser beam gradient are stitched together
-- show DNA strand as a double helix
+- show DNA strand as a double helix?
 - control panels have vertical scrollbars
 - make developer controls savable/loadable?
-- get rid of "Advanced" panel, there's only 1 control left in it ?
 - position histogram should make an observation every N seconds, not every clock tick (?)
 - when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
 - use TrigCache to improve performance?
-- save/load
+- save/load configurations
 - javadoc
 - package level javadoc
 - make laser danger sign look better
@@ -59,11 +58,11 @@ MIGRATE TO COMMON:
 - ScaleAlphaImageOp
 - ColorUtils
 - ColorControl
+- Vector2D
 
 MISSING INFO:
 - spec for "Show change in momentum model" feature
 - spec for "Show charge on bead" feature
-- spec for "Fun With DNA" panel
 - spec for "Molecular Motors" panel
 
  
