@@ -121,16 +121,8 @@
                     }
                     
                     print <<<EOT
-                        <a href="$sim_url"
-                        
-                            onMouseOver="now = new Date();                                         document.images['image_preview_$sim_id'].src =                                       '../admin/get-upload.php?url=$sim_animated_image_url&amp;' + now.getTime();"
-                            
-                            onMouseOut="document.images['image_preview_$sim_id'].src = '../admin/get-upload.php?url=$sim_image_url'; "
-                            
-                            >
-
+                        <a href="$sim_url">
                             <img src="../admin/get-upload.php?url=$sim_image_url" 
-                                 name="image_preview_$sim_id"
                                  width="130" height="97" 
                                  alt="View $sim_name Simulation"
                                  title="Clear here to view the $sim_name simulation"
@@ -145,11 +137,9 @@ EOT;
                     print "</div>\n";
                 }
             }
-            
-            print "</div>\n";
         }
         else {
-            $link = sim_get_category_link_by_cat_id($cat_id, "thumbnail view", "&amp;view_type=thumbs");
+            $link = sim_get_category_link_by_cat_id($cat_id, "thumbnail view", '&amp;view_type=thumbs');
                             
             print "<div id=\"listing_type\">$link</a></div>";
             
@@ -196,12 +186,13 @@ EOT;
                 
                 print "<a href=\"$sim_url\">$sim_name</a><br />";
             }
+        }        
             
-            print "</div>";
-        }    
+        print "</div>";
             
         print <<<EOT
             <div class="clear">
+                <br/>
                 <p>
                     <a href="../teacher_ideas/browse.php?cat=$cat_encoding">related ideas &amp; activities</a> 
                 </p>
