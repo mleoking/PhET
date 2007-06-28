@@ -131,7 +131,7 @@
         while ($cat = mysql_fetch_assoc($result)) {
             $encoded = web_encode_string($cat['cat_name']);
             
-            $cats[$encoded] = $cat;
+            $cats[$encoded] = format_for_html($cat);
         }
         
         return $cats;
