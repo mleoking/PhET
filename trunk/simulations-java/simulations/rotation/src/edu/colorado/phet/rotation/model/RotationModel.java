@@ -38,15 +38,6 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         rotationPlatform.clear();
     }
 
-//    private void updateSimulationVariables() {
-//        xPositionVariable.setValue( getRotationBody( 0 ).getX() );
-//        yPositionVariable.setValue( getRotationBody( 0 ).getY() );
-//        speedVariable.setValue( getRotationBody( 0 ).getVelocity().getMagnitude() );
-//        xVelocityVariable.setValue( getRotationBody( 0 ).getX() );
-//        yVelocityVariable.setValue( getRotationBody( 0 ).getY() );
-//        centripetalAcceleration.setValue( getRotationBody( 0 ).getAcceleration().getMagnitude() );
-//    }
-
     public void dropBody( RotationBody rotationBody ) {
         Point2D loc = rotationBody.getPosition();
 //        RotationPlatform platform = (RotationPlatform)getMotionBodyState();//todo: strong typing
@@ -57,30 +48,6 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
             rotationBody.setOffPlatform();
         }
     }
-
-//    public ISimulationVariable getXPositionVariable() {
-//        return xPositionVariable;
-//    }
-//
-//    public ISimulationVariable getYPositionVariable() {
-//        return yPositionVariable;
-//    }
-//
-//    public ISimulationVariable getSpeedVariable() {
-//        return speedVariable;
-//    }
-//
-//    public ISimulationVariable getXVelocityVariable() {
-//        return xVelocityVariable;
-//    }
-//
-//    public ISimulationVariable getYVelocityVariable() {
-//        return yVelocityVariable;
-//    }
-//
-//    public ISimulationVariable getCentripetalAcceleration() {
-//        return centripetalAcceleration;
-//    }
 
     public RotationPlatform getRotationPlatform() {
         return rotationPlatform;
@@ -141,4 +108,5 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     public UpdateStrategy getAccelDriven() {
         return rotationPlatform.getAccelDriven();
     }
+
 }

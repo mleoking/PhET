@@ -63,6 +63,10 @@ public class MotionBody implements IUpdateStrategy {
         return motionBodyState.getPosition();
     }
 
+    public void setPosition( double position ){
+        motionBodyState.setPosition( position);
+    }
+
     public ISimulationVariable getVVariable() {
         final DefaultSimulationVariable v = new DefaultSimulationVariable();
         motionBodyState.addListener( new MotionBodyState.Adapter() {
