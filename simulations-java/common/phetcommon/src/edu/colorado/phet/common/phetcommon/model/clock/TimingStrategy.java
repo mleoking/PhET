@@ -62,6 +62,10 @@ public interface TimingStrategy {
          * @return the simulation time change corresponding to the change in wall time
          */
         public double getSimulationTimeChange( long lastWallTime, long currentWallTime ) {
+            return getSimulationTimeChange();
+        }
+        
+        public double getSimulationTimeChange() {
             return simulationTimeChange;
         }
 
