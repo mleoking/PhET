@@ -21,7 +21,7 @@ public class RotationBody {
     private UpdateStrategy updateStrategy = new OffPlatform();
     private double orientation = 0.0;
 
-    private transient ArrayList listeners = new ArrayList();
+    private ArrayList listeners = new ArrayList();
 
     public RotationBody() {
         xBody=new MotionBody();
@@ -79,6 +79,11 @@ public class RotationBody {
 
     public ITimeSeries getXPositionTimeSeries() {
         return xBody.getXTimeSeries();
+    }
+
+    public void stepInTime( double time,double dt ) {
+        xBody.stepInTime( time,dt );
+        yBody.stepInTime( time,dt);
     }
 
     private static abstract class UpdateStrategy implements Serializable {
