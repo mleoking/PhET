@@ -20,11 +20,11 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockEvent;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.clock.ConstantDtClock.ConstantDtClockAdapter;
-import edu.colorado.phet.opticaltweezers.clock.ConstantDtClock.ConstantDtClockEvent;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 
 /**
