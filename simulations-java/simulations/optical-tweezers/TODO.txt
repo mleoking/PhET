@@ -67,6 +67,8 @@ MISSING INFO:
 
  
 DONE:
+6/27/07 - wire SimulationSpeedSlider into simulation control panels
+6/27/07 - change OTClock model to have slowRange and fastRange for dt
 6/27/07 - add log mapping strategies to convert simulation speed sliders value to model (time) values
 6/27/07 - add SimulationSpeedSlider.isAdjusting so that clients can defer updates until drag is completed
 6/27/07 - add drag handler to knob in simulation speed slider

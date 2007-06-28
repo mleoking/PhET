@@ -98,7 +98,7 @@ public class PhysicsModule extends AbstractModule {
             // Clock
             OTClock clock = _model.getClock();
             clock.setPaused( PhysicsDefaults.CLOCK_PAUSED );
-            clock.setDt( PhysicsDefaults.CLOCK_DT_RANGE.getDefault() );
+            clock.setDt( PhysicsDefaults.DEFAULT_DT );
             
             // Bead
             Bead bead = _model.getBead();
@@ -128,7 +128,7 @@ public class PhysicsModule extends AbstractModule {
         
         // Control panel settings that are view-related
         {
-            _controlPanel.getClockStepControlPanel().setClockStep( PhysicsDefaults.CLOCK_DT_RANGE.getDefault() );
+            _controlPanel.getSimulationSpeedControlPanel().setSimulationSpeed( PhysicsDefaults.DEFAULT_DT );
             _controlPanel.getLaserDisplayControlPanel().setDisplaySelection( PhysicsDefaults.LASER_BEAM_VISIBLE, PhysicsDefaults.LASER_ELECTRIC_FIELD_VISIBLE );
             _controlPanel.getBeadChargeControlPanel().setChoice( PhysicsDefaults.BEAD_CHARGE_CHOICE );
             _controlPanel.getForcesControlPanel().setTrapForceSelected( PhysicsDefaults.TRAP_FORCE_SELECTED );

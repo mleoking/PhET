@@ -12,8 +12,8 @@ import javax.swing.*;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.AdvancedControlPanel;
-import edu.colorado.phet.opticaltweezers.control.ClockStepControlPanel;
 import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
+import edu.colorado.phet.opticaltweezers.control.SimulationSpeedControlPanel;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.model.DNAModel;
 
@@ -30,7 +30,7 @@ public class DNAControlPanel extends AbstractControlPanel {
     
     private DNACanvas _canvas;
     
-    private ClockStepControlPanel _clockStepControlPanel;
+    private SimulationSpeedControlPanel _simulationSpeedControlPanel;
     private ForcesControlPanel _forcesControlPanel;
     private AdvancedControlPanel _advancedControlPanel;
     private DeveloperControlPanel _developerControlPanel;
@@ -57,7 +57,7 @@ public class DNAControlPanel extends AbstractControlPanel {
         
         // Sub-panels
         DNAModel model = module.getDNAModel();
-        _clockStepControlPanel = new ClockStepControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
+        _simulationSpeedControlPanel = new SimulationSpeedControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
                 model.getBead(), model.getFluid(),
                 _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getDNAForceNode() );
@@ -91,7 +91,7 @@ public class DNAControlPanel extends AbstractControlPanel {
         
         // Layout
         {
-            addControlFullWidth( _clockStepControlPanel );
+            addControlFullWidth( _simulationSpeedControlPanel );
             addSeparator();
             addControlFullWidth( _forcesControlPanel );
             addSeparator();
@@ -136,8 +136,8 @@ public class DNAControlPanel extends AbstractControlPanel {
         return _developerControlPanel;
     }
     
-    public ClockStepControlPanel getClockStepControlPanel() {
-        return _clockStepControlPanel;
+    public SimulationSpeedControlPanel getSimulationSpeedControlPanel() {
+        return _simulationSpeedControlPanel;
     }
     
     public ForcesControlPanel getForcesControlPanel() {

@@ -19,30 +19,44 @@ public class OTClock extends SwingClock {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final DoubleRange _dtRange;
+    private final DoubleRange _slowRange;
+    private final DoubleRange _fastRange;
     private double _dt;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public OTClock( int framesPerSecond, DoubleRange dtRange ) {
-        super( 1000 / framesPerSecond, dtRange.getDefault() );
-        _dtRange = dtRange;
-        _dt = dtRange.getDefault();
+    public OTClock( int framesPerSecond, DoubleRange slowRange, DoubleRange fastRange, double dt ) {
+        super( 1000 / framesPerSecond, dt );
+        
+        if ( slowRange.getMax() > fastRange.getMin() ) {
+            throw new IllegalArgumentException( "slowRange and fastRange overlap" );
+        }
+        if ( dt < slowRange.getMin() || dt > fastRange.getMax() ) {
+            throw new IllegalArgumentException( "dt out of range: " + dt );
+        }
+        
+        _slowRange = slowRange;
+        _fastRange = fastRange;
+        _dt = dt;
     }
     
     //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
     
-    public DoubleRange getDtRange() {
-        return _dtRange;
+    public DoubleRange getSlowRange() {
+        return _slowRange;
+    }
+    
+    public DoubleRange getFastRange() {
+        return _fastRange;
     }
     
     public void setDt( final double dt ) {
-        if ( dt < _dtRange.getMin() || dt > _dtRange.getMax() ) {
-            throw new IllegalArgumentException( "dt is out of range: " + dt );
+        if ( dt < _slowRange.getMin() || dt > _fastRange.getMax() ) {
+            throw new IllegalArgumentException( "dt out of range: " + dt );
         }
         if ( dt != _dt ) {
             _dt = dt;
