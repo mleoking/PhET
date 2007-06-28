@@ -1,7 +1,6 @@
 package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.common.motion.model.*;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 
@@ -31,6 +30,10 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
         rotationPlatform.stepInTime( getTime(), dt );
+        for( int i = 0; i < rotationBodies.size(); i++ ) {
+            RotationBody rotationBody = (RotationBody)rotationBodies.get( i );
+            rotationBody.stepInTime( getTime(), dt );
+        }
     }
 
     public void clear() {
