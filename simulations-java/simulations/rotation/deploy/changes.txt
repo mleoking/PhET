@@ -1,3 +1,10 @@
+0.00.13 (6-29-2007)
+Improvements from motion subproject
+    -improved handling for time series
+    -corrected physics for offset derivatives
+    -improved playback/record control panel
+Added multiple series for acceleration, velocity (x,y, and magnitude)
+
 0.00.12
 Fixed: Chart arrows not updating during playback.
 
