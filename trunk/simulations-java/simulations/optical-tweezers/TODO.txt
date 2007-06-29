@@ -3,6 +3,7 @@
 ================================================================================
 
 IN PROGRESS:
+- pull LaserPowerControl into LaserControlPanel so that the non-interactive parts of LaserPowerControl are draggable
 
 AAPT:
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
