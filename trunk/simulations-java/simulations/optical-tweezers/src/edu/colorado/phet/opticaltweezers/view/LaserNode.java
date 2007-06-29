@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -24,8 +23,6 @@ import edu.colorado.phet.opticaltweezers.control.LaserControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * LaserNode is the visual representation of the laser.
@@ -167,6 +164,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         rightHandleNode.addInputEventListener( new CursorHandler( cursor ) );
         leftSupportNode.addInputEventListener( new CursorHandler( cursor ) );
         rightSupportNode.addInputEventListener( new CursorHandler( cursor ) );
+        _controlPanel.initCursors( cursor );
         
         // Constrain dragging
         BoundedDragHandler dragHandler = new BoundedDragHandler( this, dragBoundsNode );
@@ -175,6 +173,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         rightHandleNode.addInputEventListener( dragHandler );
         leftSupportNode.addInputEventListener( dragHandler );
         rightSupportNode.addInputEventListener( dragHandler );
+        _controlPanel.initDragHandler( this, dragBoundsNode );
         
         // Update the model when this node is dragged.
         addPropertyChangeListener( this );

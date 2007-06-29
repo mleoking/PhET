@@ -18,11 +18,13 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -34,6 +36,29 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class LaserControlPanel extends PhetPNode implements Observer {
 
+    private class DragHandler extends BoundedDragHandler {
+
+        public DragHandler( PNode dragNode, PNode boundingNode ) {
+            super( dragNode, boundingNode );
+        }
+        
+        public void mouseDragged( PInputEvent event ) {
+            PNode pickedNode = event.getPickedNode();
+            if ( pickedNode != _startStopButtonWrapper && pickedNode != _powerControlWrapper ) {
+                super.mouseDragged( event );
+            }
+        }
+    }
+    
+    public void initDragHandler( PNode dragNode, PNode boundingNode ) {
+        addInputEventListener( new DragHandler( dragNode, boundingNode ) );
+    }
+    
+    public void initCursors( Cursor cursor ) {
+        _backgroundNode.addInputEventListener( new CursorHandler( cursor ) );
+        _signNode.addInputEventListener( new CursorHandler( cursor ) );
+    }
+    
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
@@ -58,7 +83,12 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     
     private JButton _startStopButton;
     private LaserPowerControl _powerControl;
+    private PNode _signNode;
+    private PPath _backgroundNode;
     private ChangeListener _powerControlListener;
+    
+    private PSwing _startStopButtonWrapper;
+    private PSwing _powerControlWrapper;
     
     private Icon _startIcon, _stopIcon;
     
@@ -81,7 +111,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _laser.addObserver( this );
         
         // Warning sign
-        PNode signNode = new PImage( OTResources.getImage( OTConstants.IMAGE_LASER_SIGN  ) );
+        _signNode = new PImage( OTResources.getImage( OTConstants.IMAGE_LASER_SIGN  ) );
         
         // Start/Stop button
         _startIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_OFF_BUTTON  ) );
@@ -95,7 +125,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
                 _startStopButton.setIcon( _laser.isRunning() ? _stopIcon : _startIcon );
             }
         } );
-        PSwing startStopButtonWrapper = new PSwing( _startStopButton );
+        _startStopButtonWrapper = new PSwing( _startStopButton );
         
         // Power control
         DoubleRange powerRange = _laser.getPowerRange();
@@ -112,47 +142,47 @@ public class LaserControlPanel extends PhetPNode implements Observer {
             }
         };
         _powerControl.addChangeListener( _powerControlListener );
-        PSwing powerControlWrapper = new PSwing( _powerControl );
+        _powerControlWrapper = new PSwing( _powerControl );
         
         // Panel background
         double xMargin = X_MARGIN;
-        double panelWidth = X_MARGIN + signNode.getWidth() + X_SPACING + startStopButtonWrapper.getFullBounds().getWidth() + 
-            X_SPACING + powerControlWrapper.getFullBounds().getWidth() + X_MARGIN;
+        double panelWidth = X_MARGIN + _signNode.getWidth() + X_SPACING + _startStopButtonWrapper.getFullBounds().getWidth() + 
+            X_SPACING + _powerControlWrapper.getFullBounds().getWidth() + X_MARGIN;
         if ( panelWidth < minPanelWidth ) {
             xMargin = ( minPanelWidth - panelWidth ) / 2;
             panelWidth = minPanelWidth;
         }
         double panelHeight = Y_MARGIN + 
-            Math.max( Math.max( signNode.getHeight(), startStopButtonWrapper.getFullBounds().getHeight() ), powerControlWrapper.getFullBounds().getHeight() ) +
+            Math.max( Math.max( _signNode.getHeight(), _startStopButtonWrapper.getFullBounds().getHeight() ), _powerControlWrapper.getFullBounds().getHeight() ) +
             Y_MARGIN;
-        PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, panelWidth, panelHeight ) );
-        backgroundNode.setStroke( PANEL_STROKE );
-        backgroundNode.setStrokePaint( PANEL_STROKE_COLOR );
-        backgroundNode.setPaint( PANEL_FILL_COLOR );
+        _backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, panelWidth, panelHeight ) );
+        _backgroundNode.setStroke( PANEL_STROKE );
+        _backgroundNode.setStrokePaint( PANEL_STROKE_COLOR );
+        _backgroundNode.setPaint( PANEL_FILL_COLOR );
         
         // Layering
-        addChild( backgroundNode );
-        addChild( signNode );
-        addChild( startStopButtonWrapper );
-        addChild( powerControlWrapper );
+        addChild( _backgroundNode );
+        addChild( _signNode );
+        addChild( _startStopButtonWrapper );
+        addChild( _powerControlWrapper );
         
-        // Cursors
-        startStopButtonWrapper.addInputEventListener( new CursorHandler() );
+        // Hand cursor on Swing controls
+        _startStopButtonWrapper.addInputEventListener( new CursorHandler() );
         
         // Positioning, all components vertically centered
-        final double bgHeight = backgroundNode.getFullBounds().getHeight();
+        final double bgHeight = _backgroundNode.getFullBounds().getHeight();
         double x = 0;
         double y = 0;
-        backgroundNode.setOffset( x, y );
+        _backgroundNode.setOffset( x, y );
         x += xMargin;
-        y = ( bgHeight - startStopButtonWrapper.getHeight() ) / 2;
-        startStopButtonWrapper.setOffset( x, y );
-        x += startStopButtonWrapper.getWidth() + X_SPACING;
-        y = ( bgHeight - powerControlWrapper.getFullBounds().getHeight() ) / 2;
-        powerControlWrapper.setOffset( x, y );
-        x += powerControlWrapper.getFullBounds().getWidth() + X_SPACING;
-        y = ( bgHeight - signNode.getFullBounds().getHeight() ) / 2;
-        signNode.setOffset( x, y );
+        y = ( bgHeight - _startStopButtonWrapper.getHeight() ) / 2;
+        _startStopButtonWrapper.setOffset( x, y );
+        x += _startStopButtonWrapper.getWidth() + X_SPACING;
+        y = ( bgHeight - _powerControlWrapper.getFullBounds().getHeight() ) / 2;
+        _powerControlWrapper.setOffset( x, y );
+        x += _powerControlWrapper.getFullBounds().getWidth() + X_SPACING;
+        y = ( bgHeight - _signNode.getFullBounds().getHeight() ) / 2;
+        _signNode.setOffset( x, y );
     }
     
     public void cleanup() {
