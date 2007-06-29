@@ -41,7 +41,7 @@ public class DefaultTimeModelControlPanel extends JPanel {
         final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( minDT, maxDT, "0.00", clock );
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                clock.setTimingStrategy( new TimingStrategy.Constant( timeSpeedSlider.getValue() ) );
+                clock.setDt( timeSpeedSlider.getValue() );
             }
         } );
         add( timeSpeedSlider );

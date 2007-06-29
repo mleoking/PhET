@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.timeseries.ui;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 
 import javax.swing.*;
@@ -22,8 +23,8 @@ public class TimeSpeedSlider extends LinearValueControl {
         table.put( new Double( max ), new JLabel( TimeseriesResources.getString( "time.normal" ) ) );
         setTickLabels( table );
         setValue( max );
-        defaultClock.addListener( new TimeModelClock.Listener() {
-            public void changed() {
+        defaultClock.addConstantDtClockListener( new ConstantDtClock.ConstantDtClockAdapter() {
+            public void dtChanged( ConstantDtClock.ConstantDtClockEvent event ) {
                 update( defaultClock );
             }
         } );
