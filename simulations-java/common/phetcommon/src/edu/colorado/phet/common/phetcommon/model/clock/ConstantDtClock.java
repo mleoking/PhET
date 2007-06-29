@@ -143,7 +143,7 @@ public class ConstantDtClock extends SwingClock {
     /**
      * Interface implemented by listeners who are interested in changes to delay or dt.
      */
-    public interface ConstantDtClockListener extends EventListener {
+    public static interface ConstantDtClockListener extends EventListener {
         
         public void delayChanged( ConstantDtClockEvent event );
         
