@@ -1,9 +1,6 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
-import edu.colorado.phet.common.motion.model.ITimeSeries;
-import edu.colorado.phet.common.motion.model.MotionBody;
-import edu.colorado.phet.common.motion.model.MotionBodyState;
+import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Line2D;
@@ -22,10 +19,14 @@ public class RotationBody {
     private double orientation = 0.0;
 
     private ArrayList listeners = new ArrayList();
+    private ISimulationVariable speedVariable;
+    private ITimeSeries speedSeries;
 
     public RotationBody() {
         xBody = new MotionBody();
         yBody = new MotionBody();
+        speedVariable = new DefaultSimulationVariable();
+        speedSeries = new DefaultTimeSeries();
     }
 
     public void setOffPlatform() {
@@ -61,14 +62,6 @@ public class RotationBody {
         return yBody.getPosition();
     }
 
-    public Vector2D getVelocity() {
-        return new Vector2D.Double();
-    }
-
-    public Vector2D getAcceleration() {
-        return new Vector2D.Double();
-    }
-
     public double getAngle( RotationPlatform rotationPlatform ) {
         return new Vector2D.Double( rotationPlatform.getCenter(), getPosition() ).getAngle();
     }
@@ -76,22 +69,31 @@ public class RotationBody {
     public void stepInTime( double time, double dt ) {
         xBody.stepInTime( time, dt );
         yBody.stepInTime( time, dt );
+        speedVariable.setValue( getVelocity().getMagnitude() );
+        speedSeries.addValue( getVelocity().getMagnitude(), time );
+    }
+
+    private Vector2D getVelocity() {
+        return new Vector2D.Double( xBody.getVelocity(), yBody.getVelocity() );
     }
 
     public ISimulationVariable getXPositionVariable() {
         return xBody.getXVariable();
     }
 
-    public ISimulationVariable getXVelocityVariable(){
+    public ISimulationVariable getXVelocityVariable() {
         return xBody.getVVariable();
     }
-    public ITimeSeries getXVelocityTimeSeries(){
+
+    public ITimeSeries getXVelocityTimeSeries() {
         return xBody.getVTimeSeries();
     }
-    public ISimulationVariable getYVelocityVariable(){
+
+    public ISimulationVariable getYVelocityVariable() {
         return yBody.getVVariable();
     }
-    public ITimeSeries getYVelocityTimeSeries(){
+
+    public ITimeSeries getYVelocityTimeSeries() {
         return yBody.getVTimeSeries();
     }
 
@@ -122,6 +124,14 @@ public class RotationBody {
 
     public ITimeSeries getYAccelTimeSeries() {
         return yBody.getATimeSeries();
+    }
+
+    public ISimulationVariable getSpeedVariable() {
+        return speedVariable;
+    }
+
+    public ITimeSeries getSpeedSeries() {
+        return speedSeries;
     }
 
     private static abstract class UpdateStrategy implements Serializable {
