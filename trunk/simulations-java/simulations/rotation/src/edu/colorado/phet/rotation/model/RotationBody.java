@@ -22,11 +22,18 @@ public class RotationBody {
     private ISimulationVariable speedVariable;
     private ITimeSeries speedSeries;
 
+    private ISimulationVariable accelMagnitudeVariable;
+    private ITimeSeries accelMagnitudeSeries;
+
     public RotationBody() {
         xBody = new MotionBody();
         yBody = new MotionBody();
+
         speedVariable = new DefaultSimulationVariable();
         speedSeries = new DefaultTimeSeries();
+
+        accelMagnitudeVariable = new DefaultSimulationVariable();
+        accelMagnitudeSeries = new DefaultTimeSeries();
     }
 
     public void setOffPlatform() {
@@ -71,6 +78,13 @@ public class RotationBody {
         yBody.stepInTime( time, dt );
         speedVariable.setValue( getVelocity().getMagnitude() );
         speedSeries.addValue( getVelocity().getMagnitude(), time );
+
+        accelMagnitudeVariable.setValue( getAcceleration().getMagnitude() );
+        accelMagnitudeSeries.addValue( getAcceleration().getMagnitude(), time );
+    }
+
+    private Vector2D getAcceleration() {
+        return new Vector2D.Double( xBody.getAcceleration(), yBody.getAcceleration() );
     }
 
     private Vector2D getVelocity() {
@@ -132,6 +146,14 @@ public class RotationBody {
 
     public ITimeSeries getSpeedSeries() {
         return speedSeries;
+    }
+
+    public ISimulationVariable getAccelMagnitudeVariable() {
+        return accelMagnitudeVariable;
+    }
+
+    public ITimeSeries getAccelMagnitudeSeries() {
+        return accelMagnitudeSeries;
     }
 
     private static abstract class UpdateStrategy implements Serializable {
