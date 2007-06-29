@@ -45,6 +45,7 @@ public class OTRulerNode extends RulerNode implements Observer {
     private ModelViewTransform _modelViewTransform;
     private PPath _dragBoundsNode;
     private Dimension2D _worldSize;
+    private double _xOffsetFudgeFactor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -76,6 +77,8 @@ public class OTRulerNode extends RulerNode implements Observer {
         addInputEventListener( new BoundedDragHandler( this, dragBoundsNode ) );
         
         _worldSize = new PDimension( DEFAULT_WORLD_SIZE );
+        _xOffsetFudgeFactor = 0;
+        
         updateWidth();
         updatePosition();
     }
@@ -101,6 +104,22 @@ public class OTRulerNode extends RulerNode implements Observer {
     public void setWorldSize( Dimension2D worldSize ) {
         _worldSize.setSize( worldSize );
         updateWidth();
+    }
+    
+    /**
+     * WORKAROUND for ruler alignment problems.
+     * This amount is added to the ruler's xoffset to make it line up correctly.
+     * I spent a lot of time trying to find the source the alignment problem,
+     * and resorted to this workaround because of cost. It's possible that the 
+     * laser view itself is slightly misaligned.
+     * 
+     * @param xOffsetFudgeFactor
+     */
+    public void setXOffsetFudgeFactor( double xOffsetFudgeFactor ) {
+        if ( xOffsetFudgeFactor != _xOffsetFudgeFactor ) {
+            _xOffsetFudgeFactor = xOffsetFudgeFactor;
+            updatePosition();
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -167,7 +186,7 @@ public class OTRulerNode extends RulerNode implements Observer {
         
         // horizontally align the ruler's center with the laser
         final double xModel = _laser.getPositionRef().getX();
-        final double xView = _modelViewTransform.modelToView( xModel ) - ( getFullBounds().getWidth() / 2 );
+        final double xView = _modelViewTransform.modelToView( xModel ) - ( getFullBounds().getWidth() / 2 ) + _xOffsetFudgeFactor;
         final double yView = getOffset().getY();
         setOffset( xView, yView );
 

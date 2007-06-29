@@ -140,6 +140,7 @@ public class DNACanvas extends PhetPCanvas {
         _rulerDragBoundsNode.setStroke( null );
         _rulerNode = new OTRulerNode( DNADefaults.RULER_MAJOR_TICK_INTERVAL, DNADefaults.RULER_MINOR_TICKS_BETWEEN_MAJORS,
                 laser, model.getModelViewTransform(), _rulerDragBoundsNode );
+        _rulerNode.setXOffsetFudgeFactor( 4 );
         
         // "Return Bead" button
         JButton returnBeadButton = new JButton( OTResources.getString( "button.returnBead" ) );
