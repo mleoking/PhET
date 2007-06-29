@@ -140,35 +140,82 @@ hr {
 }
 /******** =header ********/
 #header {
-	background:url(../images/header_BG.gif) left bottom repeat-x;
-	background-color:#2345a1;
-	margin:0 auto;
+	background:url(../images/header_BG.gif) left top repeat-x;
+	/*background-color:#2345a1;*/
+	height: 127px;
+	margin:0;
 	padding:0;
 }
 #header a {
-	color:#fff;
 	text-decoration:none;
 }
 #headerContainer {
-	color:#fff;
 	height:127px;
 	margin:0 auto;
 	width:765px;
 }
 #headerContainer div.images {
+	margin: 0;
+	padding: 0;
 	position:relative;
 	top: 0;
 }
+#headerContainer span {
+	margin: 0;
+	padding: 0;
+}
+#headerContainer img {
+	margin: 0;
+	padding: 0;
+}
 #headerContainer span.logo {
- position:absolute;
- top:0;
- left:0;
+	background:	url(../images/phet-logo.gif) left top no-repeat;	
+	width:  	242px;
+	height: 	127px;
+ 	position:	absolute;
+ 	top:		0;
+ 	left:		0;
 }
 #headerContainer span.title {
  position:absolute;
  top:0;
  right:0;
 }
+/* -------- mainNav -------- */
+#headerContainer div.mainNav {
+	background:url(../images/mainNavLeftTest_BG.gif) left top no-repeat;
+	background-color:#32386f;
+	float:right;
+	font-size:13px;
+	font-weight:bold;
+	position:absolute;
+	top:89px;
+	margin-left:420px;
+	padding:0;
+}
+#headerContainer div.mainNav ul {
+	background:url(../images/mainNavRightTest_BG.gif) right top no-repeat;
+	margin:0;
+	padding:6px 0;
+}
+#headerContainer div.mainNav ul li {
+	display:inline;
+	margin:0;
+	padding:10px;
+}
+#headerContainer div.mainNav ul li a {
+	color: white;
+	padding:0 0 18px 0;
+}
+#headerContainer div.mainNav ul li a:hover {
+	background:url(../images/mainNavArrow.gif) center bottom no-repeat;
+	color:#ffa025;
+}
+#headerContainer div.mainNav ul li.selected a {
+	background:url(../images/mainNavArrow.gif) center bottom no-repeat;
+	color: #ffa025;
+}
+
 /******** Login form *********/
 #loginform {
     width:400px;
@@ -642,40 +689,6 @@ div.simsummary {
 	text-decoration:none;
 	border-bottom: 1px dashed #2345a1;
 }
-/* -------- mainNav -------- */
-#headerContainer div.mainNav {
-	background:url(../images/mainNavLeftTest_BG.gif) left top no-repeat;
-	background-color:#32386f;
-	float:right;
-	font-size:13px;
-	font-weight:bold;
-	position:absolute;
-	top:89px;
-	margin-left:420px;
-	padding:0;
-}
-#headerContainer div.mainNav ul {
-	background:url(../images/mainNavRightTest_BG.gif) right top no-repeat;
-	margin:0;
-	padding:6px 0;
-}
-#headerContainer div.mainNav ul li {
-	display:inline;
-	margin:0;
-	padding:10px;
-}
-#headerContainer div.mainNav ul li a {
-	padding:0 0 18px 0;
-}
-#headerContainer div.mainNav ul li a:hover {
-	background:url(../images/mainNavArrow.gif) center bottom no-repeat;
-	color:#ffa025;
-}
-#headerContainer div.mainNav ul li.selected a {
-	background:url(../images/mainNavArrow.gif) center bottom no-repeat;
-	color: #ffa025;
-}
-
 
 span.size {
 	font-family:"Courier New","Times","Arial";
