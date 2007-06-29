@@ -41,11 +41,11 @@ EOT;
         <div id="headerContainer">
             <div class="images">
                 <span class="logo">
-                    <img src="images/phet-logo.gif" alt="" title="" />
+                    <!-- <img src="images/phet-logo.gif" alt="PhET Logo" title="PhET Logo" height="127"/> -->
                 </span>
                 
                 <span class="title">
-                    <img src="images/logo-title.jpg" alt="" title="" />
+                    <img src="images/logo-title.jpg" alt="Physics Education Technology - University of Colorado, Boulder" title="Physics Education Technology - University of Colorado, Boulder" />
                 </span>
             </div>
 
