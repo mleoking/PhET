@@ -60,9 +60,12 @@ hr {
 }*/
 
 #quicksearch {
-	float:		right;
-	font-size:  10px;
+	float:      right;
+	font-size:  9pt;
 	color: 		gray;
+	position:   relative;
+	top:        -1em;
+	right:       0;
 }
 #quicksearch fieldset {
 	margin:       0;
@@ -134,9 +137,9 @@ hr {
 }
 /******** =container ********/
 #container {
-	margin:0 auto;
-	padding:0;
-	width: 765px;
+	margin:	 0 auto;
+	padding: 0;
+	width:   765px;
 }
 /******** =header ********/
 #header {

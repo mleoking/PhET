@@ -567,17 +567,6 @@ EOT;
                         </div>
                     </div>
                 </div>
-                
-                <div id="quicksearch">
-                    <form method="post" action="../simulations/search.php">
-                        <fieldset>
-                            <span>Search</span>
-                            <input type="text" size="15" name="search_for" />
-                            <input type="submit" value="Go" />
-                            <input type="hidden" name="referrer" value="$referrer" />
-                        </fieldset>
-                    </form>
-                </div>
 
                 <div id="container">
 EOT;
@@ -586,6 +575,18 @@ EOT;
 
         print <<<EOT
                     <div id="content">  
+
+                        <div id="quicksearch">
+                            <form method="post" action="../simulations/search.php">
+                                <fieldset>
+                                    <span>Search</span>
+                                    <input type="text" size="15" name="search_for" />
+                                    <input type="submit" value="Go" />
+                                    <input type="hidden" name="referrer" value="$referrer" />
+                                </fieldset>
+                            </form>
+                        </div>
+                    
                         <div class="productList">
 EOT;
 
