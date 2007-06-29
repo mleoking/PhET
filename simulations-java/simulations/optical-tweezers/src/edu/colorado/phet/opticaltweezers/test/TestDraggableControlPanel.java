@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -105,6 +106,10 @@ public class TestDraggableControlPanel extends JFrame {
             };
             backgroundNode.addInputEventListener( dragHandler );
             labelWrapper.addInputEventListener( dragHandler );
+            
+            // Cursors
+            backgroundNode.addInputEventListener( new CursorHandler() );
+            labelWrapper.addInputEventListener( new CursorHandler() );
         }
     }
     
