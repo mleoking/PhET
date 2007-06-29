@@ -14,9 +14,7 @@ import edu.colorado.phet.rotation.model.RotationModel;
 
 public abstract class AbstractRotationModule extends PiccoloModule {
     private AbstractRotationSimulationPanel rotationSimulationPanel;
-
-    /*The Physical Model*/
-    private RotationModel rotationModel;
+    private RotationModel rotationModel;//The Physical Model
 
     public AbstractRotationModule() {
         super( "Rotation", new ConstantDtClock( 30, 1.0 ) );
