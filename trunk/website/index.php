@@ -41,7 +41,6 @@ EOT;
         <div id="headerContainer">
             <div class="images">
                 <span class="logo">
-                    <!-- <img src="images/phet-logo.gif" alt="PhET Logo" title="PhET Logo" height="127"/> -->
                 </span>
                 
                 <span class="title">
