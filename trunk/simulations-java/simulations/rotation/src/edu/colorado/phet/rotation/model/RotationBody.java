@@ -108,6 +108,22 @@ public class RotationBody {
         return yBody.getXTimeSeries();
     }
 
+    public ISimulationVariable getXAccelVariable() {
+        return xBody.getAVariable();
+    }
+
+    public ITimeSeries getXAccelTimeSeries() {
+        return xBody.getATimeSeries();
+    }
+
+    public ISimulationVariable getYAccelVariable() {
+        return yBody.getAVariable();
+    }
+
+    public ITimeSeries getYAccelTimeSeries() {
+        return yBody.getATimeSeries();
+    }
+
     private static abstract class UpdateStrategy implements Serializable {
         public abstract void detach();
     }

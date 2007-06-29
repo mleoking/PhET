@@ -32,21 +32,22 @@ public class RotationGraphSet extends GraphSuiteSet {
                 pSwingCanvas, rotationModel.getRotationBody( 0 ).getXPositionVariable(), rotationModel.getRotationBody( 0 ).getXPositionTimeSeries(), "x", "Position", 0, 500, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(), null ) );
         linearPositionGraph.getControlGraph().addSeries( "Position", Color.red, "y", rotationModel.getRotationBody( 0 ).getYPositionVariable(), rotationModel.getRotationBody( 0 ).getYPositionTimeSeries() );
 
-        MinimizableControlGraph speedGraph = new MinimizableControlGraph( "vx", new MotionControlGraph(
-                pSwingCanvas, rotationModel.getBody( 0 ).getXVelocityVariable(), rotationModel.getBody( 0 ).getXVelocityTimeSeries(), "vx", "Linear Speed (x)", -10, 10, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(), null ) );
-        speedGraph.getControlGraph().addSeries( "Linear Speed(y)", Color.red, "vy", rotationModel.getRotationBody( 0 ).getYVelocityVariable(), rotationModel.getRotationBody( 0 ).getYVelocityTimeSeries() );
-//        MinimizableControlGraph centripetalAccelGraph = new MinimizableControlGraph( "a", new MotionControlGraph(
-//                pSwingCanvas, rotationModel.getBody( 0).getCentripetalAcceleration(), "a", "Centripetal Acceleration", 0, 0.001, Color.green, new PImage( loadArrow( "green-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(),null) );
+        MinimizableControlGraph linearVelocityGraph = new MinimizableControlGraph( "vx", new MotionControlGraph(
+                pSwingCanvas, rotationModel.getBody( 0 ).getXVelocityVariable(), rotationModel.getBody( 0 ).getXVelocityTimeSeries(), "<html>vx</html>", "Velocity (x)", -10, 10, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(), null ) );
+        linearVelocityGraph.getControlGraph().addSeries( "Velocity (y)", Color.red, "vy", rotationModel.getRotationBody( 0 ).getYVelocityVariable(), rotationModel.getRotationBody( 0 ).getYVelocityTimeSeries() );
+
+        MinimizableControlGraph centripetalAccelGraph = new MinimizableControlGraph( "a", new MotionControlGraph(
+                pSwingCanvas, rotationModel.getBody( 0).getXAccelVariable(),rotationModel.getBody( 0).getXAccelTimeSeries(), "ax", "Acceleration (x)", -0.01, 0.01, Color.green, new PImage( loadArrow( "green-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(),null) );
+        centripetalAccelGraph.getControlGraph().addSeries( "Acceleration (y)", Color.red, "ay", rotationModel.getRotationBody( 0 ).getYAccelVariable(), rotationModel.getRotationBody( 0 ).getYAccelTimeSeries() );
 
         //new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),//todo: remove after testing
         addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, linearPositionGraph, accelGraph} );
         addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, accelGraph} );
-        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, speedGraph} );
-//        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, centripetalAccelGraph} );
-//        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, accelGraph, linearPositionGraph, speedGraph, centripetalAccelGraph} );
+        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, linearVelocityGraph} );
+        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, centripetalAccelGraph} );
+        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, accelGraph, linearPositionGraph, linearVelocityGraph, centripetalAccelGraph} );
 
-//        addGraphSuite( new MinimizableControlGraph[]{linearPositionGraph, platformAngleGraph, platformVelocityGraph, platformAccelGraph} );//todo: remove after testing
-        addGraphSuite( new MinimizableControlGraph[]{linearPositionGraph, angleGraph, speedGraph, velocityGraph, accelGraph} );//todo: remove after testing
+        addGraphSuite( new MinimizableControlGraph[]{linearPositionGraph, angleGraph, linearVelocityGraph, velocityGraph, accelGraph} );//todo: remove after testing
     }
 
     public static void main( String[] args ) {
