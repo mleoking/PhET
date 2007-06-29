@@ -39,7 +39,6 @@ LOW PRIORITY:
 - save/load configurations
 - javadoc
 - package level javadoc
-- make laser danger sign look better
 - Spanish translations
 - remove code for "Show change in momentum model" if we don't implement it 
 - improve startup performance
@@ -65,6 +64,7 @@ MISSING INFO:
 
  
 DONE:
+6/29/07 - make laser danger sign look better
 6/29/07 - make entire laser control panel draggable
 6/29/07 - demonstrate how to make a draggable Piccolo control panel that contains a JSlider
 6/29/07 - workaround for horizontal alignment problem with ruler
