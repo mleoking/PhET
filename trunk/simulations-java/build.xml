@@ -190,15 +190,12 @@ PhET-team specific tasks are located in an auxiliary build file.
         <foreach list="${phet.simlist}" target="build-jnlp" param="sim.name"/>
     </target>
 
-    <!--Cleans a single simulation's jar and jnlp files in the deploy directory-->
+    <!--Cleans a single simulation's jar, jnlp and exe files in the deploy directory-->
     <target name="clean-sim" depends="_init, _verify-sim-name-specified">
         <!--Delete the simulation jar file.-->
-        <delete file="${simulations-directory}/${sim.name}/deploy/${sim.name}.jar"/>
-
-        <!--Delete all jnlp files (one per flavor)
-        TODO: this only cleans existing flavors, if a flavor has been renamed, the old jnlp files will have to be deleted manually-->
-        <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
-        <foreach list="${sim.flavors}" target="clean-sim-jnlp" param="sim.flavor"/>
+        <delete dir="${simulations-directory}/${sim.name}/deploy/" includes="**/*.jar"/>
+        <delete dir="${simulations-directory}/${sim.name}/deploy/" includes="**/*.exe"/>
+        <delete dir="${simulations-directory}/${sim.name}/deploy/" includes="**/*.jnlp"/>
     </target>
 
     <target name="clean-sim-jnlp">
