@@ -1,7 +1,6 @@
 package edu.colorado.phet.common.timeseries.model;
 
-import edu.colorado.phet.common.phetcommon.model.clock.Clock;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.timeseries.ui.TimeSeriesPlaybackPanel;
 
 import javax.swing.*;
@@ -19,7 +18,7 @@ public class TestTimeSeries {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         RecordableModel recordableModel = new MyRecordableModel();
-        TimeModelClock clock = new TimeModelClock( 30, 1.0 );
+        ConstantDtClock clock = new ConstantDtClock( 30, 1.0 );
         TimeSeriesModel timeSeriesModel = new TimeSeriesModel( recordableModel, clock );
         frame.setContentPane( new TimeSeriesPlaybackPanel( timeSeriesModel ) );
 

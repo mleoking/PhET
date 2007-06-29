@@ -3,8 +3,8 @@ package edu.colorado.phet.rotation.graphs;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -37,7 +37,7 @@ public class RotationGraphSet extends GraphSuiteSet {
         linearVelocityGraph.getControlGraph().addSeries( "Velocity (y)", Color.red, "vy", rotationModel.getRotationBody( 0 ).getYVelocityVariable(), rotationModel.getRotationBody( 0 ).getYVelocityTimeSeries() );
 
         MinimizableControlGraph centripetalAccelGraph = new MinimizableControlGraph( "a", new MotionControlGraph(
-                pSwingCanvas, rotationModel.getBody( 0).getXAccelVariable(),rotationModel.getBody( 0).getXAccelTimeSeries(), "ax", "Acceleration (x)", -0.01, 0.01, Color.green, new PImage( loadArrow( "green-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(),null) );
+                pSwingCanvas, rotationModel.getBody( 0 ).getXAccelVariable(), rotationModel.getBody( 0 ).getXAccelTimeSeries(), "ax", "Acceleration (x)", -0.01, 0.01, Color.green, new PImage( loadArrow( "green-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(), null ) );
         centripetalAccelGraph.getControlGraph().addSeries( "Acceleration (y)", Color.red, "ay", rotationModel.getRotationBody( 0 ).getYAccelVariable(), rotationModel.getRotationBody( 0 ).getYAccelTimeSeries() );
 
         //new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),//todo: remove after testing
@@ -51,7 +51,7 @@ public class RotationGraphSet extends GraphSuiteSet {
     }
 
     public static void main( String[] args ) {
-        RotationGraphSet rotationGraphSet = new RotationGraphSet( new PhetPCanvas(), new RotationModel( new TimeModelClock( 30, 1 ) ) );
+        RotationGraphSet rotationGraphSet = new RotationGraphSet( new PhetPCanvas(), new RotationModel( new ConstantDtClock( 30, 1 ) ) );
         MinimizableControlGraph[] graphs = rotationGraphSet.getAllGraphs();
         System.out.println( "graphs.length = " + graphs.length );
         System.out.println( "Arrays.asList( graphs ) = " + Arrays.asList( graphs ) );

@@ -1,8 +1,6 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
-import edu.colorado.phet.common.timeseries.ui.TimeSeriesPlaybackPanel;
 import edu.colorado.phet.common.timeseries.ui.DefaultTimeModelControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;

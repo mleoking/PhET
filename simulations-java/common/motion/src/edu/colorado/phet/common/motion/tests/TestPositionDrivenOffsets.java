@@ -1,9 +1,9 @@
 package edu.colorado.phet.common.motion.tests;
 
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import junit.framework.TestCase;
 
 import java.text.DecimalFormat;
@@ -58,7 +58,7 @@ public class TestPositionDrivenOffsets extends TestCase {
 
     public void testVelocityOffset( double dt, double x0, int numStepsBefore, double xFinal, int numStepsAfter, int maxWindowSize, double tolerance ) {
 
-        TimeModelClock clock = new TimeModelClock( 30, dt );
+        ConstantDtClock clock = new ConstantDtClock( 30, dt );
         SingleBodyMotionModel motionModel = new SingleBodyMotionModel( clock );
         motionModel.getMotionBodySeries().getPositionDriven().setVelocityWindow( maxWindowSize );
         motionModel.getMotionBodySeries().setPositionDriven();

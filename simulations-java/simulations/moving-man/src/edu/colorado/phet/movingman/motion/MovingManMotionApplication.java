@@ -2,11 +2,11 @@ package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.colorado.phet.common.timeseries.ui.DefaultTimeModelControlPanel;
 import edu.colorado.phet.movingman.MovingManApplication;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
@@ -21,7 +21,7 @@ import java.awt.*;
  */
 public class MovingManMotionApplication {
     private JFrame frame;
-    private TimeModelClock clock;
+    private ConstantDtClock clock;
 
     public MovingManMotionApplication() {
         frame = new JFrame( "Moving Man Motion Application" );
@@ -32,7 +32,7 @@ public class MovingManMotionApplication {
         contentPane.add( phetPCanvas, BorderLayout.CENTER );
         frame.setContentPane( contentPane );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        clock = new TimeModelClock( 30, 1.0 );
+        clock = new ConstantDtClock( 30, 1.0 );
         final SingleBodyMotionModel motionModel = new SingleBodyMotionModel( clock );
 
         System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() + " ispaused=" + motionModel.getTimeSeriesModel().isPaused() );
@@ -64,7 +64,7 @@ public class MovingManMotionApplication {
         phetPCanvas.addKeyListener( new PDebugKeyHandler() );
 
         DefaultTimeModelControlPanel timeControlPanel = new DefaultTimeModelControlPanel( motionModel.getTimeSeriesModel(), 0.1, 1.0 );
-        contentPane.add(timeControlPanel,BorderLayout.SOUTH);
+        contentPane.add( timeControlPanel, BorderLayout.SOUTH );
     }
 
     private void start() {

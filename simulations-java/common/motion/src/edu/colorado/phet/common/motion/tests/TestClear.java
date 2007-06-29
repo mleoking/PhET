@@ -1,8 +1,7 @@
 package edu.colorado.phet.common.motion.tests;
 
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import junit.framework.TestCase;
 
 /**
@@ -11,7 +10,7 @@ import junit.framework.TestCase;
  */
 public class TestClear extends TestCase {
     public void testClear() {
-        TimeModelClock swingClock = new TimeModelClock( 30, 1 );
+        ConstantDtClock swingClock = new ConstantDtClock( 30, 1 );
         SingleBodyMotionModel motionModel = new SingleBodyMotionModel( swingClock );
         int NUM_INIT_SAMPLES = 3;
         for( int i = 0; i < NUM_INIT_SAMPLES; i++ ) {

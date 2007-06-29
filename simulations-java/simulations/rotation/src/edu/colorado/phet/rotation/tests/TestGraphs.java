@@ -4,11 +4,10 @@ import edu.colorado.phet.common.motion.graphs.GraphSelectionControl;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetNode;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
 
@@ -37,7 +36,7 @@ public class TestGraphs {
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
 
-        rotationModel = new RotationModel( new TimeModelClock( 30, 1 ) );
+        rotationModel = new RotationModel( new ConstantDtClock( 30, 1 ) );
 
         GraphSuiteSet rotationGraphSet = new RotationGraphSet( phetPCanvas, rotationModel );
         GraphSetModel graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );

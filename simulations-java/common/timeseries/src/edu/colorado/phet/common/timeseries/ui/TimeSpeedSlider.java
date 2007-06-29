@@ -2,7 +2,6 @@ package edu.colorado.phet.common.timeseries.ui;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 
 import javax.swing.*;
 import java.util.Hashtable;
@@ -12,9 +11,9 @@ import java.util.Hashtable;
  * Jun 1, 2007, 2:27:44 PM
  */
 public class TimeSpeedSlider extends LinearValueControl {
-    private TimeModelClock energySkateParkClock;
+    private ConstantDtClock energySkateParkClock;
 
-    public TimeSpeedSlider( double min, double max, String textFieldPattern, final TimeModelClock defaultClock ) {
+    public TimeSpeedSlider( double min, double max, String textFieldPattern, final ConstantDtClock defaultClock ) {
         super( min, max, "", textFieldPattern, "" );
         this.energySkateParkClock = defaultClock;
         setTextFieldVisible( false );
@@ -31,7 +30,7 @@ public class TimeSpeedSlider extends LinearValueControl {
         update( defaultClock );
     }
 
-    private void update( TimeModelClock defaultClock ) {
+    private void update( ConstantDtClock defaultClock ) {
         setValue( defaultClock.getTimingStrategy().getSimulationTimeChangeForPausedClock() );
     }
 }
