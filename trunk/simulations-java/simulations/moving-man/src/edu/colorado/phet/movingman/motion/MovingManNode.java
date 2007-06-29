@@ -2,12 +2,11 @@ package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -111,7 +110,7 @@ public class MovingManNode extends PNode {
         frame.setContentPane( phetPCanvas );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        TimeModelClock swingClock = new TimeModelClock( 30, 1.0 );
+        ConstantDtClock swingClock = new ConstantDtClock( 30, 1.0 );
         final SingleBodyMotionModel rotationModel = new SingleBodyMotionModel( swingClock );
 
         MovingManNode movingManNode = new MovingManNode( rotationModel );

@@ -3,8 +3,7 @@ package edu.colorado.phet.energyskatepark.plots;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNodeControlPanel;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
-import edu.colorado.phet.common.phetcommon.model.clock.Clock;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -13,7 +12,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -28,7 +26,6 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
@@ -41,7 +38,7 @@ import java.util.ArrayList;
 public class EnergyTimePlot {
     private EnergySkateParkModel model;
     private TimeSeriesModel timeSeriesModel;
-    private TimeModelClock clock;
+    private ConstantDtClock clock;
 
     private JDialog dialog;
     private PhetPCanvas phetPCanvas;
@@ -63,7 +60,7 @@ public class EnergyTimePlot {
     private JDialog developerControlDialog;
 //    public static final double MAX_TIME = 5.0;
 
-    public EnergyTimePlot( EnergySkateParkModule module, JFrame parentFrame, TimeModelClock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
+    public EnergyTimePlot( EnergySkateParkModule module, JFrame parentFrame, ConstantDtClock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
         this.clock = clock;
         this.timeSeriesModel = timeSeriesModel;

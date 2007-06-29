@@ -3,12 +3,8 @@ package edu.colorado.phet.common.timeseries.ui;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.model.clock.Clock;
-import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -23,7 +19,7 @@ import java.io.IOException;
  */
 public class DefaultTimeModelControlPanel extends JPanel {
     protected MultiStateButton recordButton;
-    protected TimeModelClock clock;
+    protected ConstantDtClock clock;
     protected TimeSeriesModel timeSeriesModel;
     protected JButton rewindButton;
     protected MultiStateButton playbackButton;

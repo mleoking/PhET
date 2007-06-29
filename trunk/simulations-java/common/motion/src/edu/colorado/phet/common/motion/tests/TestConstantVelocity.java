@@ -3,8 +3,7 @@ package edu.colorado.phet.common.motion.tests;
 import edu.colorado.phet.common.motion.model.PositionDriven;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.motion.model.TimeData;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
  * User: Sam Reid
@@ -15,7 +14,7 @@ import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 public class TestConstantVelocity {
     public static void main( String[] args ) {
         PositionDriven updateRule = new PositionDriven();
-        SingleBodyMotionModel model = new SingleBodyMotionModel( new TimeModelClock( 30, 1 ) );
+        SingleBodyMotionModel model = new SingleBodyMotionModel( new ConstantDtClock( 30, 1 ) );
         model.setUpdateStrategy( updateRule );
         System.out.println( "init state=" + model );
         for( int i = 0; i <= 100; i++ ) {

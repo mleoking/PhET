@@ -1,8 +1,7 @@
 package edu.colorado.phet.common.motion.tests;
 
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
  * Author: Sam Reid
@@ -10,10 +9,10 @@ import edu.colorado.phet.common.timeseries.model.TimeModelClock;
  */
 public class TestDerivativeOffsets {
     private SingleBodyMotionModel motionModel;
-    private TimeModelClock clock;
+    private ConstantDtClock clock;
 
     public TestDerivativeOffsets() {
-        clock = new TimeModelClock( 30, 1 );
+        clock = new ConstantDtClock( 30, 1 );
         motionModel = new SingleBodyMotionModel( clock );
         motionModel.setPositionDriven();
     }

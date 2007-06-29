@@ -9,12 +9,11 @@ package edu.colorado.phet.common.motion.tests;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,7 +39,7 @@ public class TestMotionGraphs {
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        rotationModel = new SingleBodyMotionModel( new TimeModelClock( 30, 1 ) );
+        rotationModel = new SingleBodyMotionModel( new ConstantDtClock( 30, 1 ) );
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
 

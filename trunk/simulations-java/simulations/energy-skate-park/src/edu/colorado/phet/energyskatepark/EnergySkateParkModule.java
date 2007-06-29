@@ -2,11 +2,10 @@
 package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
-import edu.colorado.phet.common.phetcommon.model.clock.Clock;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.timeseries.model.TimeModelClock;
 import edu.colorado.phet.energyskatepark.model.*;
 import edu.colorado.phet.energyskatepark.plots.BarGraphCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlot;
@@ -48,7 +47,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
 
-    public EnergySkateParkModule( String name, TimeModelClock clock, PhetFrame phetFrame, EnergySkateParkOptions options ) {
+    public EnergySkateParkModule( String name, ConstantDtClock clock, PhetFrame phetFrame, EnergySkateParkOptions options ) {
         super( name, clock );
         this.options = options;
         this.phetFrame = phetFrame;
