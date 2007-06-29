@@ -20,7 +20,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - enable/disable controls based on clock speed
 - what units for E-field?
-- are there any cases where DNA strand's extension length exceeds contour length?
 - tune developer controls, pick appropriate defaults
 - rail slider for laser?
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
@@ -66,6 +65,7 @@ MISSING INFO:
 
  
 DONE:
+6/29/07 - demonstrate how to make a draggable Piccolo control panel that contains a JSlider
 6/29/07 - workaround for horizontal alignment problem with ruler
 6/29/07 - verified that none of the controls visible for AAPT version needed to be disabled based on clock speed
 6/28/07 - write ConstantDtClock, use in OTClock, test, migrate to phetcommon
@@ -493,6 +493,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+6/29/07 - are there any cases where DNA strand's extension length exceeds contour length? (no, not after constraining drag)
 6/28/07 - make "beam" the only laser display option in fast mode (better to just let it look like it's running crazy fast)
 6/22/07 - show E-field as a blur above some simulation time setting (only show beam view in "fast" mode)
 6/21/07 - why don't XY components of Vector2DNode ever have a negative sign? (because Vector2DNode always displays a magnitude)
