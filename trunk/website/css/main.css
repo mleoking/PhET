@@ -60,18 +60,14 @@ hr {
 }*/
 
 #quicksearch {
-	float:      right;
-	font-size:  9pt;
+	width:      500px;
+	font-size:  8pt;
 	color: 		gray;
-	position:   relative;
-	top:        -1em;
-	right:       0;
 }
 #quicksearch fieldset {
+	float:        right;
 	margin:       0;
 	padding:      0;
-	padding-top:   1ex;
-	padding-right: 1ex;
 	border-style: none;
 }
 
@@ -1202,11 +1198,11 @@ div.research .publication_htmllink {
 }
 
 /* Settings for top-level selected categories in the navigation bar */
-#localNav > ul > li.selected {
+#localNav > ul > li.topnav-selected {
 	margin:	0px 0px 0px -15px;
 	background:	url(../images/selectedArrow_Icon.gif) left 0.25ex no-repeat;
 }
-#localNav > ul > li.selected > a {
+#localNav > ul > li.topnav-selected > a {
 	position: 	relative;
 	left: 		15px;
 	color:		#d36a04;

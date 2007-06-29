@@ -37,7 +37,7 @@ EOT;
         $this_element_is_selected = "$access_key" == "$selected_page";
         
         if ($this_element_is_selected) {
-            $selected_status = "class=\"selected\"";
+            $selected_status = "class=\"topnav-selected\"";
         }
         else {
             $selected_status = '';
@@ -580,8 +580,8 @@ EOT;
                             <form method="post" action="../simulations/search.php">
                                 <fieldset>
                                     <span>Search</span>
-                                    <input type="text" size="15" name="search_for" />
-                                    <input type="submit" value="Go" />
+                                    <input type="text" size="15" name="search_for" title="Enter the text to search for"/>
+                                    <input type="submit" value="Go" title="Click here to search the PhET website"/>
                                     <input type="hidden" name="referrer" value="$referrer" />
                                 </fieldset>
                             </form>
