@@ -164,7 +164,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         rightHandleNode.addInputEventListener( new CursorHandler( cursor ) );
         leftSupportNode.addInputEventListener( new CursorHandler( cursor ) );
         rightSupportNode.addInputEventListener( new CursorHandler( cursor ) );
-        _controlPanel.initCursors( cursor );
+        _controlPanel.initDragCursor( cursor );
         
         // Constrain dragging
         BoundedDragHandler dragHandler = new BoundedDragHandler( this, dragBoundsNode );
