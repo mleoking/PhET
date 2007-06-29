@@ -3,12 +3,11 @@
 ================================================================================
 
 IN PROGRESS:
-- pull LaserPowerControl into LaserControlPanel so that the non-interactive parts of LaserPowerControl are draggable
 
 AAPT:
+- adjust clock time display and units as dt is changed
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
 - when user drags bead, auto-release if DNA extension is 97% of contour length
-- adjust clock time display and units as dt is changed
 - position histogram requires more precision for x-axis and ruler
 - add description to About dialog
 - set correct ranges for slow and fast time scales
@@ -26,6 +25,7 @@ MEDIUM PRIORITY:
 - dialogs don't repaint or close immediately when clock is running, thread priority?
 
 LOW PRIORITY:
+- pull LaserPowerControl into LaserControlPanel so that the non-interactive parts of LaserPowerControl are draggable
 - reduce vertical spacing of control panels (if necessary, after features/layout has stabilized)
 - bug: beep sometimes occurs when selecting vacuum with fluid controls dialog open
 - DNA strand looks too straight initially, evolve a few times before displaying?
