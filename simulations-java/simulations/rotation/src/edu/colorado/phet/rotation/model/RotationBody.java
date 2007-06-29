@@ -24,8 +24,14 @@ public class RotationBody {
 
     private ISimulationVariable accelMagnitudeVariable;
     private ITimeSeries accelMagnitudeSeries;
+    private String imageName;
 
     public RotationBody() {
+        this("ladybug.gif");
+    }
+
+    public RotationBody(String imageName) {
+        this.imageName = imageName;
         xBody = new MotionBody();
         yBody = new MotionBody();
 
@@ -154,6 +160,10 @@ public class RotationBody {
 
     public ITimeSeries getAccelMagnitudeSeries() {
         return accelMagnitudeSeries;
+    }
+
+    public String getImageName() {
+        return imageName;
     }
 
     private static abstract class UpdateStrategy implements Serializable {

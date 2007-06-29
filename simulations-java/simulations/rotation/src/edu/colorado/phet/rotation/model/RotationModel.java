@@ -18,8 +18,8 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     public RotationModel( ConstantDtClock clock ) {
         super( clock );
         rotationPlatform = new RotationPlatform();
-        addRotationBody( new RotationBody() );
-//        updateSimulationVariables();
+        addRotationBody( new RotationBody("ladybug.gif") );
+        addRotationBody( new RotationBody("beetle.gif") );
     }
 
     protected void setTime( double time ) {
