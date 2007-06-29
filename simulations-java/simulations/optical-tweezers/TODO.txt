@@ -25,7 +25,7 @@ MEDIUM PRIORITY:
 - dialogs don't repaint or close immediately when clock is running, thread priority?
 
 LOW PRIORITY:
-- pull LaserPowerControl into LaserControlPanel so that the non-interactive parts of LaserPowerControl are draggable
+- make the non-interactive labels in LaserPowerControl draggable
 - reduce vertical spacing of control panels (if necessary, after features/layout has stabilized)
 - bug: beep sometimes occurs when selecting vacuum with fluid controls dialog open
 - DNA strand looks too straight initially, evolve a few times before displaying?
