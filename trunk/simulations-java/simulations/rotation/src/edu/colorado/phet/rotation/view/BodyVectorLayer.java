@@ -22,7 +22,7 @@ public class BodyVectorLayer extends PNode {
     private VectorNode accelArrow;
     private VectorNode velocityArrow;
     private double accelScale = 100000;
-    private double velScale = 1000;
+    private double velScale = 5000;
 
     //todo: factor out required interface to rotationmodel
     public BodyVectorLayer( final RotationModel rotationModel, final RotationBody rotationBody, final VectorViewModel vectorViewModel ) {
@@ -54,6 +54,9 @@ public class BodyVectorLayer extends PNode {
         } );
         update();
         updateVisibility( vectorViewModel );
+
+        setPickable( false );
+        setChildrenPickable( false );
     }
 
     private void updateVisibility( VectorViewModel vectorViewModel ) {

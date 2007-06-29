@@ -1,3 +1,7 @@
+0.00.14
+Added a second character.
+Bugfix: invisible velocity and acceleration arrows obscure mouse events
+
 0.00.13 (6-29-2007)
 Improvements from motion subproject
     -improved handling for time series

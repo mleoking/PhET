@@ -31,7 +31,7 @@ public class RotationBodyNode extends PhetPNode {
         PNode node = null;
         try {
             BufferedImage newImage = RotationResources.loadBufferedImage( rotationBody.getImageName() );
-            newImage= BufferedImageUtils.rescaleXMaintainAspectRatio( newImage, 100);
+            newImage= BufferedImageUtils.rescaleXMaintainAspectRatio( newImage, 75);
             node = new PImage( newImage );
         }
         catch( IOException e ) {
