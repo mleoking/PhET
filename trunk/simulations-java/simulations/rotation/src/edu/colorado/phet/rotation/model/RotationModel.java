@@ -68,10 +68,6 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         return (RotationBody)rotationBodies.get( i );
     }
 
-    public RotationBody getBody( int i ) {
-        return getRotationBody( i );
-    }
-
     public void setPositionDriven() {
         rotationPlatform.setPositionDriven();
     }
