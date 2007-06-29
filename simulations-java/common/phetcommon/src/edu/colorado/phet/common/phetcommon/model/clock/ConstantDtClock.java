@@ -108,7 +108,7 @@ public class ConstantDtClock extends SwingClock {
      * It is preferrable to call setDt.
      * 
      * @param timingStrategy
-     * @throws IllegalArgumentExeption if timingStrategy is not of type TimingStrategy.Constant
+     * @throws IllegalArgumentException if timingStrategy is not of type TimingStrategy.Constant
      */
     public void setTimingStrategy( TimingStrategy timingStrategy ) {
         if ( ! ( timingStrategy instanceof TimingStrategy.Constant ) ) {
@@ -155,9 +155,9 @@ public class ConstantDtClock extends SwingClock {
      */
     public static abstract class ConstantDtClockAdapter implements ConstantDtClockListener {
         
-        public void delayChanged( ConstantDtClockEvent event ) {};
+        public void delayChanged( ConstantDtClockEvent event ) {}
         
-        public void dtChanged( ConstantDtClockEvent event ) {};
+        public void dtChanged( ConstantDtClockEvent event ) {}
     }
     
     /**
