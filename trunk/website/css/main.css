@@ -155,18 +155,14 @@ hr {
 	width:765px;
 }
 #headerContainer div.images {
-	margin: 0;
-	padding: 0;
-	position:relative;
-	top: 0;
+	margin: 	0;
+	padding: 	0;
+	position:	relative;
+	top: 	 	0;
 }
 #headerContainer span {
-	margin: 0;
-	padding: 0;
-}
-#headerContainer img {
-	margin: 0;
-	padding: 0;
+	margin: 	0;
+	padding: 	0;
 }
 #headerContainer span.logo {
 	background:	url(../images/phet-logo.gif) left top no-repeat;	
@@ -177,9 +173,9 @@ hr {
  	left:		0;
 }
 #headerContainer span.title {
- position:absolute;
- top:0;
- right:0;
+ 	position:	absolute;
+	top:		0;
+	right:		0;
 }
 /* -------- mainNav -------- */
 #headerContainer div.mainNav {
