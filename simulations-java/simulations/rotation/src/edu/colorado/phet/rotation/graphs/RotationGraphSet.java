@@ -35,11 +35,12 @@ public class RotationGraphSet extends GraphSuiteSet {
         MinimizableControlGraph linearVelocityGraph = new MinimizableControlGraph( "vx", new MotionControlGraph(
                 pSwingCanvas, rotationModel.getBody( 0 ).getXVelocityVariable(), rotationModel.getBody( 0 ).getXVelocityTimeSeries(), "<html>vx</html>", "Velocity (x)", -10, 10, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(), null ) );
         linearVelocityGraph.getControlGraph().addSeries( "Velocity (y)", Color.red, "vy", rotationModel.getRotationBody( 0 ).getYVelocityVariable(), rotationModel.getRotationBody( 0 ).getYVelocityTimeSeries() );
-        linearVelocityGraph.getControlGraph().addSeries( "|Velocity|)", Color.green, "|v|", rotationModel.getRotationBody( 0 ).getSpeedVariable(), rotationModel.getRotationBody( 0 ).getSpeedSeries() );
+        linearVelocityGraph.getControlGraph().addSeries( "|Velocity|", Color.green, "|v|", rotationModel.getRotationBody( 0 ).getSpeedVariable(), rotationModel.getRotationBody( 0 ).getSpeedSeries() );
 
         MinimizableControlGraph centripetalAccelGraph = new MinimizableControlGraph( "a", new MotionControlGraph(
-                pSwingCanvas, rotationModel.getBody( 0 ).getXAccelVariable(), rotationModel.getBody( 0 ).getXAccelTimeSeries(), "ax", "Acceleration (x)", -0.01, 0.01, Color.green, new PImage( loadArrow( "green-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(), null ) );
+                pSwingCanvas, rotationModel.getBody( 0 ).getXAccelVariable(), rotationModel.getBody( 0 ).getXAccelTimeSeries(), "ax", "Acceleration (x)", -1, 1, Color.green, new PImage( loadArrow( "green-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(), null ) );
         centripetalAccelGraph.getControlGraph().addSeries( "Acceleration (y)", Color.red, "ay", rotationModel.getRotationBody( 0 ).getYAccelVariable(), rotationModel.getRotationBody( 0 ).getYAccelTimeSeries() );
+        centripetalAccelGraph.getControlGraph().addSeries( "|Acceleration|", Color.blue, "a", rotationModel.getRotationBody( 0 ).getAccelMagnitudeVariable(), rotationModel.getRotationBody( 0 ).getAccelMagnitudeSeries());
 
         //new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),//todo: remove after testing
         addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, linearPositionGraph, accelGraph} );
