@@ -35,29 +35,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class LaserControlPanel extends PhetPNode implements Observer {
-
-    private class DragHandler extends BoundedDragHandler {
-
-        public DragHandler( PNode dragNode, PNode boundingNode ) {
-            super( dragNode, boundingNode );
-        }
-        
-        public void mouseDragged( PInputEvent event ) {
-            PNode pickedNode = event.getPickedNode();
-            if ( pickedNode != _startStopButtonWrapper && pickedNode != _powerControlWrapper ) {
-                super.mouseDragged( event );
-            }
-        }
-    }
-    
-    public void initDragHandler( PNode dragNode, PNode boundingNode ) {
-        addInputEventListener( new DragHandler( dragNode, boundingNode ) );
-    }
-    
-    public void initCursors( Cursor cursor ) {
-        _backgroundNode.addInputEventListener( new CursorHandler( cursor ) );
-        _signNode.addInputEventListener( new CursorHandler( cursor ) );
-    }
     
     //----------------------------------------------------------------------------
     // Class data
@@ -93,7 +70,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     private Icon _startIcon, _stopIcon;
     
     //----------------------------------------------------------------------------
-    // Constructors
+    // Constructors & initializers
     //----------------------------------------------------------------------------
     
     /**
@@ -189,6 +166,27 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _laser.deleteObserver( this );
     }
     
+    /**
+     * Initializes a special drag handler that allows us to drag the 
+     * entire control panel while still getting drag events to Swing controls.
+     * 
+     * @param dragNode
+     * @param boundingNode
+     */
+    public void initDragHandler( PNode dragNode, PNode boundingNode ) {
+        addInputEventListener( new DragHandler( dragNode, boundingNode ) );
+    }
+    
+    /**
+     * Sets the cursor for parts of the control panel that are draggable.
+     * 
+     * @param cursor
+     */
+    public void initDragCursor( Cursor cursor ) {
+        _backgroundNode.addInputEventListener( new CursorHandler( cursor ) );
+        _signNode.addInputEventListener( new CursorHandler( cursor ) );
+    }
+    
     //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
@@ -215,6 +213,30 @@ public class LaserControlPanel extends PhetPNode implements Observer {
                 _powerControl.removeChangeListener( _powerControlListener );
                 _powerControl.setPower( (int) power );
                 _powerControl.addChangeListener( _powerControlListener );
+            }
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /**
+     * This drag handler short-circuits drags that occur when the 
+     * user grabs any of the Swing controls.  This ensures that the 
+     * Swing components behave as expected, while still allowing us
+     * to drag anything that isn't a Swing control.
+     */
+    private class DragHandler extends BoundedDragHandler {
+
+        public DragHandler( PNode dragNode, PNode boundingNode ) {
+            super( dragNode, boundingNode );
+        }
+        
+        public void mouseDragged( PInputEvent event ) {
+            PNode pickedNode = event.getPickedNode();
+            if ( pickedNode != _startStopButtonWrapper && pickedNode != _powerControlWrapper ) {
+                super.mouseDragged( event );
             }
         }
     }
