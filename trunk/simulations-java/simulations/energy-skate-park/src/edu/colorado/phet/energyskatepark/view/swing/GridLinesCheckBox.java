@@ -9,6 +9,8 @@ import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -28,6 +30,11 @@ public class GridLinesCheckBox extends VerticalLayoutPanel {
             }
         } );
         add( gridlines );
+        getRoot().addGridVisibilityChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                gridlines.setSelected( getRoot().isGridVisible() );
+            }
+        } );
     }
 
     private EnergySkateParkRootNode getRoot() {
