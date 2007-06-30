@@ -10,10 +10,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class VAScrolls extends JFrame implements ChangeListener {
-    private JSlider nPointsBar, nRadiusBar, nGroupBar, timeStepBar;
+    private JSlider nRadiusBar, nGroupBar, timeStepBar;
     private JSlider velFactorBar, accFactorBar;
-    private int nPoints, nRadius, nGroup, timeStep, velFactor, accFactor;
-    private Label label1, label2, label3, label4;
+    private int nRadius, nGroup, timeStep, velFactor, accFactor;
     private TextField field5, field6;
     private Motion2DAverages vaa;
     private Motion2DPanel myJP;

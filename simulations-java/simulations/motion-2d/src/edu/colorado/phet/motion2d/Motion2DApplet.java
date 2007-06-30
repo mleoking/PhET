@@ -2,6 +2,7 @@ package edu.colorado.phet.motion2d;
 
 //edu.colorado.phet.motion2d.Motion2DApplet.class 06/02/02 M.Dubson
 
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
@@ -13,12 +14,8 @@ public class Motion2DApplet extends JApplet {
 
     private Container myPane;
     private Motion2DPanel motion2DPanel;
-    Image ballImage, emptyImage;
+    private Image ballImage, emptyImage;
     Cursor hide, show;        //Invisible and visible mouse cursors
-
-    public Motion2DPanel getMotion2DPanel() {
-        return motion2DPanel;
-    }
 
     public void init() {
         String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.phet.locale", null );
@@ -28,8 +25,8 @@ public class Motion2DApplet extends JApplet {
         SimStrings.getInstance().addStrings( Motion2DApplication.localizedStringsPath );
 
         try {
-            ballImage = ImageLoaderSolo.loadBufferedImage( "motion-2d/images/ballsmall2.gif" );
-            emptyImage = ImageLoaderSolo.loadBufferedImage( "motion-2d/images/empty.gif" );
+            ballImage = ImageLoader.loadBufferedImage( "motion-2d/images/ballsmall2.gif" );
+            emptyImage = ImageLoader.loadBufferedImage( "motion-2d/images/empty.gif" );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -46,4 +43,7 @@ public class Motion2DApplet extends JApplet {
         myPane.add( motion2DPanel, BorderLayout.CENTER );
     }
 
+    public Image getBallImage() {
+        return ballImage;
+    }
 }

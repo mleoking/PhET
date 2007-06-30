@@ -181,10 +181,6 @@ public class Motion2DAverages {
         return this.avgXBefore;
     }
 
-    public int getNP() {
-        return this.nP;
-    }
-
     public int getNA() {
         return this.nA;
     }
