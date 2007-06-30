@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14677 $
+ * Date modified : $Date:2007-04-17 03:40:29 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.phetcommon.view;
 
@@ -112,6 +112,18 @@ public class AdvancedPanel extends VerticalLayoutPanel {
         parent.validate();
         parent.repaint();
 //        }
+    }
+
+    /**
+     * Sets whether the advanced controls should be displayed.
+     * @param visible true if the advanced controls should be displayed.
+     */
+    public void setAdvancedControlsVisible(boolean visible){
+        if( visible ) {
+            showAdvanced();
+        } else {
+            hideAdvanced();
+        }
     }
 
     protected void hideAdvanced() {
