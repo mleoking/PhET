@@ -1,3 +1,7 @@
+2.02.03 (6-29-2007)
+Made charts disappear on simulation reset
+Reset button also resets simulation speed
+
 2.02.02 (6-25-2007)
 Added height and speed readouts to path readouts
 Added cursor hand to path points and readouts

@@ -28,18 +28,25 @@ public class DefaultTimeModelControlPanel extends JPanel {
     protected static final String KEY_PAUSE = "pause";
     protected static final Object KEY_REC = "rec";
     protected static final Object KEY_PAUSE_REC = "pause-rec";
+    private TimeSpeedSlider timeSpeedSlider;
 
     public DefaultTimeModelControlPanel( final TimeSeriesModel timeSeriesModel,double minDT,double maxDT ) {
         this.clock = timeSeriesModel.getTimeModelClock();
         this.timeSeriesModel = timeSeriesModel;
 
-
-        final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( minDT, maxDT, "0.00", clock );
+        timeSpeedSlider = new TimeSpeedSlider( minDT, maxDT, "0.00", clock );
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 clock.setDt( timeSpeedSlider.getValue() );
             }
         } );
+        clock.addConstantDtClockListener( new ConstantDtClock.ConstantDtClockAdapter() {
+            public void dtChanged( ConstantDtClock.ConstantDtClockEvent event ) {
+                timeSpeedSlider.setValue( clock.getDt());
+            }
+        } );
+
+
         add( timeSpeedSlider );
         try {
 

@@ -58,6 +58,7 @@ public class EnergyTimePlot {
 //    public static final double MAX_TIME = 30.0;
     public static final double MAX_TIME = 20.0;
     private JDialog developerControlDialog;
+    private EnergySkateParkPlaybackPanel playbackPanel;
 //    public static final double MAX_TIME = 5.0;
 
     public EnergyTimePlot( EnergySkateParkModule module, JFrame parentFrame, ConstantDtClock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
@@ -130,7 +131,8 @@ public class EnergyTimePlot {
         dialog = new JDialog( parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
         JPanel contentPane = new JPanel( new BorderLayout() );
         contentPane.add( phetPCanvas, BorderLayout.CENTER );
-        contentPane.add( new EnergySkateParkPlaybackPanel( module, timeSeriesModel, clock ), BorderLayout.SOUTH );
+        playbackPanel = new EnergySkateParkPlaybackPanel( module, timeSeriesModel, clock );
+        contentPane.add( playbackPanel, BorderLayout.SOUTH );
         dialog.setContentPane( contentPane );
         dialog.setSize( 800, 400 );
         dialog.addComponentListener( new ComponentAdapter() {
@@ -270,6 +272,7 @@ public class EnergyTimePlot {
     public void reset() {
         dialog.setVisible( false );
         dynamicJFreeChartNode.clear();
+        playbackPanel.reset();
     }
 
     public static interface Listener {
