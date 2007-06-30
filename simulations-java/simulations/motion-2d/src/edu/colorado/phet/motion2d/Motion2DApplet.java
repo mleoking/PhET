@@ -1,7 +1,5 @@
 package edu.colorado.phet.motion2d;
 
-//edu.colorado.phet.motion2d.Motion2DApplet.class 06/02/02 M.Dubson
-
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 

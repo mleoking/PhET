@@ -5,21 +5,10 @@ import java.awt.*;
 public class Motion2DArrow {
 
     protected double L;      //length of arrow
-    protected int x0, y0;            //origin of arrow
-    protected int xFinal, yFinal;    //head of arrow
     protected double w;        //width of arrow
     protected double h;        //length of arrow head
     protected int[] xInt = new int[8];    //positions of arrow corners for polygon()
     protected int[] yInt = new int[8];
-
-
-    public Motion2DArrow() //default constructor
-    {
-        this.x0 = 0;
-        this.y0 = 0;
-        this.xFinal = 30;
-        this.yFinal = 30;
-    }
 
     //set arrow position arrow to head:(xFinal, yFinal), tail:(x0, y0)
 
@@ -28,11 +17,7 @@ public class Motion2DArrow {
         return ( Math.min( 6.0, this.L / 10.0 ) );
     }
 
-    public void setPosition( int x0, int y0, int xFinal, int yFinal ) {
-        this.x0 = x0;
-        this.y0 = y0;
-        this.xFinal = xFinal;
-        this.yFinal = yFinal;
+    public void setPosition( double x0, double y0, double xFinal, double yFinal ) {
         double x1 = xFinal - x0;      //x-component of arrow
         double y1 = yFinal - y0;    //y-component of arrow
         this.L = Math.pow( ( x1 * x1 + y1 * y1 ), 0.5 );
@@ -59,8 +44,8 @@ public class Motion2DArrow {
                 ( w / 2 ) * ( x1 / L )};
 
         for( int i = 0; i < x.length; i++ ) {
-            xInt[i] = x0 + (int)( x[i] );
-            yInt[i] = y0 + (int)( y[i] );
+            xInt[i] = (int)x0 + (int)( x[i] );
+            yInt[i] = (int)y0 + (int)( y[i] );
         }
 
     }//end of position()

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.motion2d;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
