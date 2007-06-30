@@ -33,7 +33,8 @@ public class Motion2DControlFrame extends JFrame implements ChangeListener {
         nGroupBar = new JSlider( JSlider.HORIZONTAL, 1, 36, vaa.getNumPointsAverage() );
         timeStepBar = new JSlider( JSlider.HORIZONTAL, 3, 50, myJP.getTimeStep() );
         velFactorBar = new JSlider( JSlider.HORIZONTAL, 1, 10, (int)myJP.getVelFactor() );
-        accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 36, (int)myJP.getAccFactor() );
+//        accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 36, (int)myJP.getAccFactor() );
+        accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 100, (int)myJP.getAccFactor() );
 
         String str5 = SimStrings.getInstance().getString( "VAScrolls.VelocityScaleLabel" ) + " "
                       + ( new Integer( (int)myJP.getVelFactor() ) ).toString()
@@ -84,37 +85,27 @@ public class Motion2DControlFrame extends JFrame implements ChangeListener {
     public void stateChanged( ChangeEvent e ) {
 
         if( e.getSource() == nRadiusBar ) {
-            //System.out.println("2");
             nRadius = nRadiusBar.getValue();
-            Integer i2 = new Integer( nRadius );
             vaa.setHalfWindowSize( nRadius );
         }
         else if( e.getSource() == nGroupBar ) {
-            //System.out.println("3");
             nGroup = nGroupBar.getValue();
-            Integer i3 = new Integer( nGroup );
             vaa.setNumPointsAverage( nGroup );
         }
         else if( e.getSource() == timeStepBar ) {
-            //System.out.println("4");
             timeStep = timeStepBar.getValue();
-            Integer i4 = new Integer( timeStep );
             myJP.setTimeStep( timeStep );
         }
         else if( e.getSource() == velFactorBar ) {
-            //System.out.println("5");
             velFactor = velFactorBar.getValue();
-            Integer i5 = new Integer( velFactor );
             field5.setText( SimStrings.getInstance().getString( "VAScrolls.VelocityScaleLabel" ) + " "
-                            + i5.toString() + SimStrings.getInstance().getString( "VAScrolls.ScaleSuffix" ) );
+                            + velFactor + SimStrings.getInstance().getString( "VAScrolls.ScaleSuffix" ) );
             myJP.setVelFactor( (double)velFactor );
         }
         else if( e.getSource() == accFactorBar ) {
-            //System.out.println("4");
             accFactor = accFactorBar.getValue();
-            Integer i6 = new Integer( accFactor );
             field6.setText( SimStrings.getInstance().getString( "VAScrolls.AccelerationScaleLabel" ) + " "
-                            + i6.toString() + SimStrings.getInstance().getString( "VAScrolls.ScaleSuffix" ) );
+                            + accFactor + SimStrings.getInstance().getString( "VAScrolls.ScaleSuffix" ) );
             myJP.setAccFactor( (double)accFactor );
         }
     }//end of stateChanged
