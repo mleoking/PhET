@@ -188,7 +188,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     private void addSkater() {
         Body body = module.createBody();
         energySkateParkModel.addBody( body );
-        module.reinitializeSkater(body);
+        module.reinitializeSkater( body );
     }
 
     private void printControlPoints() {
@@ -301,7 +301,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     public void reset() {
         rootNode.reset();
-        multiKeyHandler.clear();
+        setZeroPointVisible( false );
     }
 
     private void keyPressed( KeyEvent e ) {
@@ -347,7 +347,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     public void setPieChartVisible( boolean selected ) {
         rootNode.setPieChartVisible( selected );
         for( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener)listeners.get( i )).pieChartVisibilityChanged();
+            ( (Listener)listeners.get( i ) ).pieChartVisibilityChanged();
         }
     }
 
@@ -409,7 +409,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 //        Point2D center = d.getc
 //        System.out.println( "screenRect = " + screenRect +", center="+center);
 //        return screenRect.contains( d.getCenterX(),d.getCenterY());
-        return screenRect.contains(d);
+        return screenRect.contains( d );
     }
 
     public static interface Listener {

@@ -74,8 +74,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
                 new Rectangle( 50, 50 ), new Rectangle2D.Double( 0, 0, 50, 50 ) ),
                                            new Point2D.Double( 25, 25 ) );
         updateMapping();
-        measuringTape.setModelSrc( new Point2D.Double( 5, 5 ) );
-        measuringTape.setModelDst( new Point2D.Double( 7, 5 ) );
+        resetMeasuringTapeLocation();
 
         pauseIndicator = new PauseIndicatorNode( module );
         legend = new EnergySkateParkLegend( module );
@@ -190,6 +189,11 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         } );
     }
 
+    private void resetMeasuringTapeLocation() {
+        measuringTape.setModelSrc( new Point2D.Double( 5, 5 ) );
+        measuringTape.setModelDst( new Point2D.Double( 7, 5 ) );
+    }
+
     private void updateHouseAndMountainVisible() {
         houseNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH && getBackgroundScreenNode().getVisible() );
         mountainNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH && getBackgroundScreenNode().getVisible() );
@@ -240,8 +244,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
      */
     public void reset() {
         pieChartLayer.removeAllChildren();
-        setZeroPointVisible( false );
         setMeasuringTapeVisible( false );
+        resetMeasuringTapeLocation();
         panZoomControls.reset();
     }
 
@@ -352,8 +356,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     public void setMeasuringTapeVisible( boolean selected ) {
         measuringTape.setVisible( selected );
-        measuringTape.setPickable( selected );
-        measuringTape.setChildrenPickable( selected );
     }
 
     public boolean isPieChartVisible() {
@@ -401,7 +403,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public void setZeroPointVisible( boolean selected ) {
-        zeroPointPotentialNode.setVisible( selected );
+            zeroPointPotentialNode.setVisible( selected );
     }
 
     public boolean isZeroPointVisible() {
