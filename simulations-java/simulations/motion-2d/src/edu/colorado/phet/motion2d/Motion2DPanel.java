@@ -18,7 +18,6 @@ public class Motion2DPanel extends JPanel
     private int avgXMid, avgYMid;
     private int xVel, yVel;
     private int xAcc, yAcc;
-    private boolean mouseVisible;
     private Color myGreen;
     private int nAInit;        //position-averaging radius
     private int nGroupInit;    //# of avg-positions averaged in computing v, a
@@ -50,7 +49,6 @@ public class Motion2DPanel extends JPanel
         northPanel.setBackground( Color.orange );
         southPanel = new JPanel();
         southPanel.setBackground( Color.orange );
-        mouseVisible = false;
         nAInit = 10;
         nGroupInit = 5;
         timeStep = 10;
@@ -231,17 +229,6 @@ public class Motion2DPanel extends JPanel
         myGui.setCursor( myGui.show );
     }
 
-    public void hideOrShowCursor() {
-        if( mouseVisible ) {
-            myGui.setCursor( myGui.hide );
-            mouseVisible = false;
-        }
-        else {
-            myGui.setCursor( myGui.show );
-            mouseVisible = true;
-        }
-    }
-
     public void mouseMoved( MouseEvent e ) {
         Point pt = e.getPoint();
         Point cur = new Point( xNow, yNow );
@@ -260,10 +247,6 @@ public class Motion2DPanel extends JPanel
             this.yNow = yNow;
 //            repaint(getPlayRect());
         }
-    }
-
-    public void setButtonFlag( int flag ) {
-        this.buttonFlag = flag;
     }
 
     public int getTimeStep() {
