@@ -32,6 +32,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
     private EnergySkateParkModule module;
     private PieChartControlPanel piePanel;
     private PathRecordContol pathRecordContol;
+    private LocationControlPanel locationControlPanel;
 
 //    public static boolean PLANET_CENTERED = false;
 //    public static LocationControlPanel.PlanetButtonLayout PLANET_LAYOUT = new LocationControlPanel.TwoColumnLayout();
@@ -165,7 +166,8 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         chartPanel.add( timeChart );
 
         addControlFullWidth( chartPanel );
-        addControl( new LocationControlPanel( module, module.getOptions().getPlanetButtonLayout(), module.getOptions().getPlanetButtonsCentered() ) );
+        locationControlPanel = new LocationControlPanel( module, module.getOptions().getPlanetButtonLayout(), module.getOptions().getPlanetButtonsCentered() );
+        addControl( locationControlPanel );
 
         final FrictionControl frictionControl = new FrictionControl( module );
         addControl( new ClearHeatButton( module.getEnergySkateParkModel() ) );
@@ -233,5 +235,6 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 
     public void reset() {
         pathRecordContol.reset();
+        locationControlPanel.reset();
     }
 }
