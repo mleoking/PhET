@@ -108,6 +108,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     public void reset() {
         energyModel.reset();
         energySkateParkSimulationPanel.reset();
+        energySkateParkControlPanel.reset();
         timeSeriesModel.reset();
         timeSeriesModel.setLiveMode();
         timeSeriesModel.startLiveMode();

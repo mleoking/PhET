@@ -25,13 +25,9 @@ public class PathRecordContol extends HorizontalLayoutPanel {
         this.module = module;
         setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "controls.path" ) ) );
         recordPath = new JButton( EnergySkateParkStrings.getString( "controls.record-path" ) );
-
         recordPath.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                recording = !recording;
-                module.setRecordPath( recording );
-                updateButtons();
-                clearHistory.setEnabled( true );
+                setRecording( !recording );
             }
         } );
         clearHistory = new JButton( EnergySkateParkStrings.getString( "time.clear" ) );
@@ -54,5 +50,16 @@ public class PathRecordContol extends HorizontalLayoutPanel {
 
     private void updateButtons() {
         recordPath.setText( recording ? EnergySkateParkStrings.getString( "controls.stop-recording-path" ) : EnergySkateParkStrings.getString( "controls.record-path" ) );
+        clearHistory.setEnabled( module.getEnergySkateParkModel().getNumHistoryPoints() > 0 );
+    }
+
+    public void reset() {
+        setRecording( false );
+    }
+
+    private void setRecording( boolean b ) {
+        this.recording = b;
+        module.setRecordPath( recording );
+        updateButtons();
     }
 }
