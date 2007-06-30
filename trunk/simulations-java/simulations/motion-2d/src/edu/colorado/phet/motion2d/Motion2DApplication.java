@@ -7,6 +7,7 @@ package edu.colorado.phet.motion2d;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class Motion2DApplication {
     // Localization
-    public static final String version = "1.02";
+//    public static final String version = "1.02";
 
     public static final String localizedStringsPath = "motion-2d/localization/motion-2d-strings";
 
@@ -36,7 +37,7 @@ public class Motion2DApplication {
                     Motion2DApplet ja = new Motion2DApplet();
                     ja.init();
 
-                    JFrame f = new JFrame( SimStrings.getInstance().getString( "Motion2dApplication.title" ) + " (" + version + ")" );
+                    JFrame f = new JFrame( SimStrings.getInstance().getString( "Motion2dApplication.title" ) + " (" + PhetApplicationConfig.getVersion( "motion-2d").formatForTitleBar()+ ")" );
 
                     f.setContentPane( ja );
 
