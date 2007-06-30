@@ -5,6 +5,9 @@ Added grid reset feature
 Fixed: path record feature doesn't reset properly
 Fixed: pie chart "show with thermal" feature doesn't reset properly
 Fixed: "show background" feature doesn't reset properly
+Fixed: "stickiness" slider doesn't reset properly
+Fixed: "edit skater" advanced panel doesn't collapse on reset
+Fixed: "friction" advanced panel doesn't collapse on reset
 
 2.02.03 (6-29-2007)
 Made charts disappear on simulation reset
