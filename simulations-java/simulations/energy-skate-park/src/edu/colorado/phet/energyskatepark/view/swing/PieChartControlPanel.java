@@ -6,6 +6,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,6 +49,11 @@ public class PieChartControlPanel extends HorizontalLayoutPanel {
                 update();
             }
         } );
+        module.getEnergySkateParkSimulationPanel().addListener( new EnergySkateParkSimulationPanel.Adapter() {
+            public void pieChartVisibilityChanged() {
+                showPieChartCheckBox.setSelected( module.isPieChartVisible() );
+            }
+        });
         setAnchor( GridBagConstraints.WEST );
         showThermal.setEnabled( showPieChartCheckBox.isSelected() );
     }

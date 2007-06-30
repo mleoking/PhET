@@ -7,9 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.model.*;
-import edu.colorado.phet.energyskatepark.plots.BarGraphCanvas;
-import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlot;
-import edu.colorado.phet.energyskatepark.plots.EnergyTimePlot;
+import edu.colorado.phet.energyskatepark.plots.*;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
@@ -27,25 +25,26 @@ import java.awt.*;
 
 public class EnergySkateParkModule extends PiccoloModule {
     private EnergySkateParkModel energyModel;
-    private EnergySkateParkSimulationPanel energyCanvas;
+    private EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
     private EnergyLookAndFeel energyLookAndFeel = new EnergyLookAndFeel();
-    private JDialog barChartFrame;
+    private BarChartDialog barChartDialog;
     private double floorY = 0.0;
     private EnergySkateParkRecordableModel energyTimeSeriesModel;
     private SkaterCharacterSet skaterCharacterSet = new SkaterCharacterSet();
 
-    private JDialog energyPositionPlotFrame;
-    private EnergyPositionPlot energyPosition;
     private PhetFrame phetFrame;
 
-    private BarGraphCanvas barGraphCanvas;
     private EnergySkateParkControlPanel energySkateParkControlPanel;
     private TimeSeriesModel timeSeriesModel;
+
     private EnergyTimePlot energyTimePlot;
+    private EnergyPositionPlotDialog energyPositionPlotFrame;
+
     private EnergySkateParkOptions options;
 
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
+    private static final boolean DEFAULT_ENERGY_POSITION_PLOT_VISIBLE = false;
 
     public EnergySkateParkModule( String name, ConstantDtClock clock, PhetFrame phetFrame, EnergySkateParkOptions options ) {
         super( name, clock );
@@ -59,18 +58,15 @@ public class EnergySkateParkModule extends PiccoloModule {
         timeSeriesModel.setMaxAllowedRecordTime( EnergyTimePlot.MAX_TIME );
         clock.addClockListener( timeSeriesModel );
 
-        energyCanvas = new EnergySkateParkSimulationPanel( this );
-        setSimulationPanel( energyCanvas );
+        energySkateParkSimulationPanel = new EnergySkateParkSimulationPanel( this );
+        setSimulationPanel( energySkateParkSimulationPanel );
 
         energySkateParkControlPanel = new EnergySkateParkControlPanel( this );
         setControlPanel( energySkateParkControlPanel );
 
-        barChartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "plots.bar-graph" ), false );
-        barGraphCanvas = new BarGraphCanvas( this );
-        barChartFrame.setContentPane( barGraphCanvas );
-
-        barChartFrame.setSize( 200, 625 );
-        barChartFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - barChartFrame.getWidth(), 0 );
+        barChartDialog=new BarChartDialog(phetFrame,EnergySkateParkStrings.getString( "plots.bar-graph" ),false,this );
+        barChartDialog.setSize( 200, 625 );
+        barChartDialog.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - barChartDialog.getWidth(), 0 );
 
         energyTimePlot = new EnergyTimePlot( this, phetFrame, clock, energyModel, timeSeriesModel );
         energyTimePlot.addListener( new EnergyTimePlot.Listener() {
@@ -80,9 +76,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         } );
 
         addDefaultBody();
-        energyPositionPlotFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "plots.energy-vs-position" ), false );
-        energyPosition = new EnergyPositionPlot( this );
-        energyPositionPlotFrame.setContentPane( energyPosition );
+        energyPositionPlotFrame = new EnergyPositionPlotDialog( phetFrame, EnergySkateParkStrings.getString( "plots.energy-vs-position" ), false,this );
         energyPositionPlotFrame.setSize( 400, 400 );
 
         EnergySkateParkTimePanel timePanel = new EnergySkateParkTimePanel( this, clock );
@@ -96,6 +90,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     private void setDefaults() {
         setBarChartVisible( DEFAULT_BAR_CHARTS_VISIBLE );
         setEnergyTimePlotVisible( DEFAULT_PLOT_VISIBLE );
+        setEnergyPositionPlotVisible(DEFAULT_ENERGY_POSITION_PLOT_VISIBLE);
     }
 
     public EnergySkateParkModel getEnergySkateParkModel() {
@@ -107,18 +102,20 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public EnergySkateParkSimulationPanel getEnergySkateParkSimulationPanel() {
-        return energyCanvas;
+        return energySkateParkSimulationPanel;
     }
 
     public void reset() {
         energyModel.reset();
-        energyCanvas.reset();
+        energySkateParkSimulationPanel.reset();
         timeSeriesModel.reset();
         timeSeriesModel.setLiveMode();
         energyTimePlot.reset();
         timeSeriesModel.startLiveMode();
-        barGraphCanvas.reset();
+        barChartDialog.reset();
+        energyPositionPlotFrame.reset();
         addDefaultBody();
+        setPieChartVisible( false );
     }
 
     public void returnOrResetSkater() {
@@ -191,19 +188,19 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public boolean isMeasuringTapeVisible() {
-        return energyCanvas.isMeasuringTapeVisible();
+        return energySkateParkSimulationPanel.isMeasuringTapeVisible();
     }
 
     public void setMeasuringTapeVisible( boolean selected ) {
-        energyCanvas.setMeasuringTapeVisible( selected );
+        energySkateParkSimulationPanel.setMeasuringTapeVisible( selected );
     }
 
     public boolean isPieChartVisible() {
-        return energyCanvas.isPieChartVisible();
+        return energySkateParkSimulationPanel.isPieChartVisible();
     }
 
     public void setPieChartVisible( boolean selected ) {
-        energyCanvas.setPieChartVisible( selected );
+        energySkateParkSimulationPanel.setPieChartVisible( selected );
     }
 
     public void clearPaths() {
@@ -215,7 +212,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void setBarChartVisible( boolean b ) {
-        barChartFrame.setVisible( b );
+        barChartDialog.setVisible( b );
     }
 
     public void setCoefficientOfFriction( double value ) {
@@ -225,7 +222,6 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void setEnergyPositionPlotVisible( boolean b ) {
-        energyPosition.reset();
         energyPositionPlotFrame.setVisible( b );
     }
 
@@ -264,11 +260,11 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void setEnergyErrorVisible( boolean selected ) {
-        energyCanvas.setEnergyErrorVisible( selected );
+        energySkateParkSimulationPanel.setEnergyErrorVisible( selected );
     }
 
     public boolean isEnergyErrorVisible() {
-        return energyCanvas.isEnergyErrorVisible();
+        return energySkateParkSimulationPanel.isEnergyErrorVisible();
     }
 
     public void showNewEnergyVsTimePlot() {

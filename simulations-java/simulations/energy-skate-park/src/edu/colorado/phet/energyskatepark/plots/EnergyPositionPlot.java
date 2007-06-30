@@ -245,6 +245,7 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
             FadeDot fadeDot = (FadeDot)dataLayer.getChild( 0 );
             removeFadeDot( fadeDot );
         }
+
     }
 
     private void removeFadeDot( FadeDot fadeDot ) {

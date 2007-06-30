@@ -268,6 +268,7 @@ public class EnergyTimePlot {
     }
 
     public void reset() {
+        dialog.setVisible( false );
         dynamicJFreeChartNode.clear();
     }
 

@@ -346,6 +346,9 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     public void setPieChartVisible( boolean selected ) {
         rootNode.setPieChartVisible( selected );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener)listeners.get( i )).pieChartVisibilityChanged();
+        }
     }
 
     public EnergySkateParkRootNode getRootNode() {
@@ -413,6 +416,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         void zoomChanged();
 
         void zeroPointEnergyVisibilityChanged();
+
+        void pieChartVisibilityChanged();
     }
 
     public static class Adapter implements Listener {
@@ -421,6 +426,9 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         }
 
         public void zeroPointEnergyVisibilityChanged() {
+        }
+
+        public void pieChartVisibilityChanged() {
         }
     }
 
