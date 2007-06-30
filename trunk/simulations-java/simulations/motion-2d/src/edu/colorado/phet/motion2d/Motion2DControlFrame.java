@@ -29,8 +29,8 @@ public class Motion2DControlFrame extends JFrame implements ChangeListener {
 
         this.setSize( 400, 120 );
         //nPointsBar = new JSlider(JSlider.HORIZONTAL, vaa.getNP(), 1, 81);
-        nRadiusBar = new JSlider( JSlider.HORIZONTAL, 1, 21, vaa.getNA() );
-        nGroupBar = new JSlider( JSlider.HORIZONTAL, 1, 36, vaa.getNGroup() );
+        nRadiusBar = new JSlider( JSlider.HORIZONTAL, 1, 21, vaa.getHalfWindowSize() );
+        nGroupBar = new JSlider( JSlider.HORIZONTAL, 1, 36, vaa.getNumPointsAverage() );
         timeStepBar = new JSlider( JSlider.HORIZONTAL, 3, 50, myJP.getTimeStep() );
         velFactorBar = new JSlider( JSlider.HORIZONTAL, 1, 10, (int)myJP.getVelFactor() );
         accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 36, (int)myJP.getAccFactor() );
@@ -87,13 +87,13 @@ public class Motion2DControlFrame extends JFrame implements ChangeListener {
             //System.out.println("2");
             nRadius = nRadiusBar.getValue();
             Integer i2 = new Integer( nRadius );
-            vaa.setNA( nRadius );
+            vaa.setHalfWindowSize( nRadius );
         }
         else if( e.getSource() == nGroupBar ) {
             //System.out.println("3");
             nGroup = nGroupBar.getValue();
             Integer i3 = new Integer( nGroup );
-            vaa.setNGroup( nGroup );
+            vaa.setNumPointsAverage( nGroup );
         }
         else if( e.getSource() == timeStepBar ) {
             //System.out.println("4");
