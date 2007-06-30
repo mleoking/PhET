@@ -1,7 +1,6 @@
 package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
@@ -21,8 +20,8 @@ public class BodyVectorLayer extends PNode {
     private RotationBody rotationBody;
     private VectorNode accelArrow;
     private VectorNode velocityArrow;
-    private double accelScale = 250*0.8;
-    private double velScale = 10*0.8;
+    private double accelScale = 250 * 0.8;
+    private double velScale = 10 * 0.8;
 
     //todo: factor out required interface to rotationmodel
     public BodyVectorLayer( final RotationModel rotationModel, final RotationBody rotationBody, final VectorViewModel vectorViewModel ) {
@@ -30,18 +29,21 @@ public class BodyVectorLayer extends PNode {
         this.rotationBody = rotationBody;
         accelArrow = new VectorNode( "a", Color.blue, new VectorFunction() {
             public AbstractVector2D getVector() {
-                return new Vector2D.Double( rotationBody.getPosition(), rotationModel.getRotationPlatform().getCenter() )
-                        .getInstanceOfMagnitude( rotationBody.getAccelMagnitudeVariable().getValue() )
-                        .getScaledInstance( accelScale );
+                return rotationBody.getAcceleration().getScaledInstance( accelScale );
+//                return new Vector2D.Double( rotationBody.getPosition(), rotationModel.getRotationPlatform().getCenter() )
+//                        .getInstanceOfMagnitude( rotationBody.getAccelMagnitudeVariable().getValue() )
+//                        .getScaledInstance( accelScale );
             }
         } );
         addChild( accelArrow );
 
         velocityArrow = new VectorNode( "v", Color.red, new VectorFunction() {
             public AbstractVector2D getVector() {
-                return new Vector2D.Double( rotationBody.getPosition(), rotationModel.getRotationPlatform().getCenter() ).
-                        getInstanceOfMagnitude( rotationBody.getSpeedVariable().getValue( ) ).
-                        getScaledInstance( -velScale ).getRotatedInstance( Math.PI / 2 );
+                return rotationBody.getVelocity().getScaledInstance( velScale );
+//                return new Vector2D.Double( rot);
+//                return new Vector2D.Double( rotationBody.getPosition(), rotationModel.getRotationPlatform().getCenter() ).
+//                        getInstanceOfMagnitude( rotationBody.getSpeedVariable().getValue( ) ).
+//                        getScaledInstance( -velScale ).getRotatedInstance( Math.PI / 2 );
             }
         } );
         addChild( velocityArrow );
