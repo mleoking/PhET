@@ -17,14 +17,14 @@ import java.io.IOException;
  */
 
 public class PanZoomControl extends JPanel {
-    private EnergySkateParkSimulationPanel simulationPanel;
+    private EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
     private double zoomScale = 1.1;
     private int zoomOutCount = 0;
     private JButton zoomIn;
     private JButton zoomOut;
 
-    public PanZoomControl( EnergySkateParkSimulationPanel phetPCanvas ) {
-        this.simulationPanel = phetPCanvas;
+    public PanZoomControl( EnergySkateParkSimulationPanel energySkateParkSimulationPanel ) {
+        this.energySkateParkSimulationPanel = energySkateParkSimulationPanel;
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
         try {
             zoomOut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "energy-skate-park/images/icons/glass-20-minus.gif" ) ) );
@@ -64,34 +64,34 @@ public class PanZoomControl extends JPanel {
         double fractionToGround = getScreenFractionToGround();
 //        double fraction = 0.1;//or use fixed fraction
 
-        Point2D point = simulationPanel.getCamera().getBounds().getCenter2D();
-        simulationPanel.getCamera().localToGlobal( point );
-        simulationPanel.getPhetRootNode().globalToWorld( point );
-        simulationPanel.getPhetRootNode().scaleWorldAboutPoint( zoomScale, point );
+        Point2D point = energySkateParkSimulationPanel.getCamera().getBounds().getCenter2D();
+        energySkateParkSimulationPanel.getCamera().localToGlobal( point );
+        energySkateParkSimulationPanel.getPhetRootNode().globalToWorld( point );
+        energySkateParkSimulationPanel.getPhetRootNode().scaleWorldAboutPoint( zoomScale, point );
 
         //translate vertically so the ground is a fixed fraction of the way up the screen
         Point2D origin = new Point2D.Double( 0, 0 );
-        simulationPanel.getPhetRootNode().worldToScreen( origin );
+        energySkateParkSimulationPanel.getPhetRootNode().worldToScreen( origin );
 
         //desired screen y value
-        double desiredScreenY = simulationPanel.getHeight() * ( 1.0 - fractionToGround );
+        double desiredScreenY = energySkateParkSimulationPanel.getHeight() * ( 1.0 - fractionToGround );
         double screenDY = origin.getY() - desiredScreenY;
         translateWorld( screenDY );
 
-        simulationPanel.fireZoomEvent();
+        energySkateParkSimulationPanel.fireZoomEvent();
         zoomIn.setEnabled( zoomOutCount > 0 );
     }
 
     private void translateWorld( double screenDY ) {
         PDimension dy = new PDimension( 0, screenDY );
-        simulationPanel.getPhetRootNode().screenToWorld( dy );
-        simulationPanel.getPhetRootNode().translateWorld( dy.width, -dy.height );
+        energySkateParkSimulationPanel.getPhetRootNode().screenToWorld( dy );
+        energySkateParkSimulationPanel.getPhetRootNode().translateWorld( dy.width, -dy.height );
     }
 
     private double getScreenFractionToGround() {
         Point2D origin = new Point2D.Double( 0, 0 );
-        simulationPanel.getPhetRootNode().worldToScreen( origin );
-        return 1.0 - origin.getY() / simulationPanel.getHeight();
+        energySkateParkSimulationPanel.getPhetRootNode().worldToScreen( origin );
+        return 1.0 - origin.getY() / energySkateParkSimulationPanel.getHeight();
     }
 
     public void reset() {

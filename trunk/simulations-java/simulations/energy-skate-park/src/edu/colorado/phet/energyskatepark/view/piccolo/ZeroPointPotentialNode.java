@@ -26,11 +26,11 @@ import java.awt.geom.Point2D;
  */
 
 public class ZeroPointPotentialNode extends PhetPNode {
-    private EnergySkateParkSimulationPanel canvas;
+    private EnergySkateParkSimulationPanel panel;
     private EnergySkateParkModel model;
 
-    public ZeroPointPotentialNode( final EnergySkateParkSimulationPanel canvas, final EnergySkateParkModel model ) {
-        this.canvas = canvas;
+    public ZeroPointPotentialNode( final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, final EnergySkateParkModel model ) {
+        this.panel = energySkateParkSimulationPanel;
         this.model = model;
 
         PhetPPath background = new PhetPPath( new Line2D.Double( 0, 0, 5000, 0 ), new BasicStroke( 30, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 3 ), new Color( 0, 0, 0, 0 ) );
@@ -50,8 +50,8 @@ public class ZeroPointPotentialNode extends PhetPNode {
             public void mouseDragged( PInputEvent event ) {
                 double dy = event.getCanvasDelta().getHeight();
                 PDimension dim = new PDimension( 0, dy );
-                canvas.getPhetRootNode().screenToWorld( dim );
-                canvas.getEnergySkateParkModel().translateZeroPointPotentialY( dim.getHeight() );
+                energySkateParkSimulationPanel.getPhetRootNode().screenToWorld( dim );
+                energySkateParkSimulationPanel.getEnergySkateParkModel().translateZeroPointPotentialY( dim.getHeight() );
             }
         } );
         addInputEventListener( new CursorHandler() );
@@ -60,7 +60,7 @@ public class ZeroPointPotentialNode extends PhetPNode {
                 update();
             }
         } );
-        canvas.addComponentListener( new ComponentAdapter() {
+        energySkateParkSimulationPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 update();
             }
@@ -75,7 +75,7 @@ public class ZeroPointPotentialNode extends PhetPNode {
     private void update() {
         double y = model.getZeroPointPotentialY();
         Point2D.Double pt = new Point2D.Double( 0, y );
-        canvas.getPhetRootNode().worldToScreen( pt );
+        panel.getPhetRootNode().worldToScreen( pt );
         double viewY = pt.getY();
         setOffset( 0, viewY );
     }
