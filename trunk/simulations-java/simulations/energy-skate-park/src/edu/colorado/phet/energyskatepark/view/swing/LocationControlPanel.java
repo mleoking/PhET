@@ -74,6 +74,11 @@ public class LocationControlPanel extends VerticalLayoutPanel {
         new Planet.Earth().apply( module );
     }
 
+    public void reset() {
+        showBackgroundCheckbox.setSelected( true );//todo: convert to MVC pattern
+        synchronizePlanet();
+    }
+
     public static interface PlanetButtonLayout {
         JPanel getPlanetPanel( PlanetButton[] planets );
     }

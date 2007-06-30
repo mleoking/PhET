@@ -4,6 +4,7 @@ Fixed: zero-point potential checkbox doesn't reset properly
 Added grid reset feature
 Fixed: path record feature doesn't reset properly
 Fixed: pie chart "show with thermal" feature doesn't reset properly
+Fixed: "show background" feature doesn't reset properly
 
 2.02.03 (6-29-2007)
 Made charts disappear on simulation reset
