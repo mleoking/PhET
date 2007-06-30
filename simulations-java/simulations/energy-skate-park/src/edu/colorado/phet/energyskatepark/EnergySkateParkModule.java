@@ -38,7 +38,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     private TimeSeriesModel timeSeriesModel;
 
     private EnergyTimePlot energyTimePlot;
-    private EnergyPositionPlotDialog energyPositionPlotFrame;
+    private EnergyPositionPlotDialog energyPositionPlotDialog;
 
     private EnergySkateParkOptions options;
 
@@ -76,8 +76,8 @@ public class EnergySkateParkModule extends PiccoloModule {
         } );
 
         addDefaultBody();
-        energyPositionPlotFrame = new EnergyPositionPlotDialog( phetFrame, EnergySkateParkStrings.getString( "plots.energy-vs-position" ), false,this );
-        energyPositionPlotFrame.setSize( 400, 400 );
+        energyPositionPlotDialog = new EnergyPositionPlotDialog( phetFrame, EnergySkateParkStrings.getString( "plots.energy-vs-position" ), false,this );
+        energyPositionPlotDialog.setSize( 400, 400 );
 
         EnergySkateParkTimePanel timePanel = new EnergySkateParkTimePanel( this, clock );
         getModulePanel().setClockControlPanel( timePanel );
@@ -110,10 +110,10 @@ public class EnergySkateParkModule extends PiccoloModule {
         energySkateParkSimulationPanel.reset();
         timeSeriesModel.reset();
         timeSeriesModel.setLiveMode();
-        energyTimePlot.reset();
         timeSeriesModel.startLiveMode();
+        energyTimePlot.reset();
         barChartDialog.reset();
-        energyPositionPlotFrame.reset();
+        energyPositionPlotDialog.reset();
         addDefaultBody();
         setPieChartVisible( false );
     }
@@ -152,7 +152,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     private void addDefaultBody() {
-        final Body body = energyModel.createBody();
+        Body body = energyModel.createBody();
         energyModel.addBody( body );
         energyModel.addSplineSurface( createDefaultTrack() );
         initBodyOnTrack( body );
@@ -222,7 +222,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void setEnergyPositionPlotVisible( boolean b ) {
-        energyPositionPlotFrame.setVisible( b );
+        energyPositionPlotDialog.setVisible( b );
     }
 
     public void setBounciness( double bounciness ) {
