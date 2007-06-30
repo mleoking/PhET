@@ -80,8 +80,12 @@ public class RotationBody {
     }
 
     public void stepInTime( double time, double dt ) {
+        Point2D origPosition=getPosition();
         xBody.stepInTime( time, dt );
         yBody.stepInTime( time, dt );
+        if (getPosition().equals( origPosition )){//todo: integrate listener behavior into xBody and yBody?
+            notifyPositionChanged();
+        }
         speedVariable.setValue( getVelocity().getMagnitude() );
         speedSeries.addValue( getVelocity().getMagnitude(), time );
 
@@ -89,11 +93,11 @@ public class RotationBody {
         accelMagnitudeSeries.addValue( getAcceleration().getMagnitude(), time );
     }
 
-    private Vector2D getAcceleration() {
+    public Vector2D getAcceleration() {
         return new Vector2D.Double( xBody.getAcceleration(), yBody.getAcceleration() );
     }
 
-    private Vector2D getVelocity() {
+    public Vector2D getVelocity() {
         return new Vector2D.Double( xBody.getVelocity(), yBody.getVelocity() );
     }
 
@@ -116,7 +120,6 @@ public class RotationBody {
     public ITimeSeries getYVelocityTimeSeries() {
         return yBody.getVTimeSeries();
     }
-
 
     public ITimeSeries getXPositionTimeSeries() {
         return xBody.getXTimeSeries();
@@ -224,8 +227,7 @@ public class RotationBody {
 
     private void notifyPositionChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.positionChanged();
+            ((Listener)listeners.get( i )).positionChanged();
         }
     }
 
