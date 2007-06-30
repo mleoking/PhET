@@ -5,6 +5,7 @@ Questions:
 • Add horizontal zoom for Energy vs. Time plot?
 
 To Do:
+• Fix all reset issues
 • Bug: in one run, EnergySkateParkSimulationPanel.dragSplineSurface( PInputEvent event, EnergySkateParkSpline spline )  threw an exception, getting a null graphic for model object
 • Implement separate layers for time series graph (currently different series are interleaved).  How long would this take?
     To implement this without substantial loss of performance, path segments should be drawn that are longer than 1/2 the stroke width.
