@@ -1,4 +1,4 @@
-2.02.04
+2.02.04 (6-30-2007)
 Measuring tape location is reset properly
 Fixed: zero-point potential checkbox doesn't reset properly
 Added grid reset feature
