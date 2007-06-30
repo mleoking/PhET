@@ -373,10 +373,12 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public void setIgnoreThermal( boolean selected ) {
-        this.ignoreThermal = selected;
-        for( int i = 0; i < pieChartLayer.getChildrenCount(); i++ ) {
-            EnergySkateParkPieChartNode energySkateParkPieChartNode = (EnergySkateParkPieChartNode)pieChartLayer.getChild( i );
-            energySkateParkPieChartNode.setIgnoreThermal( ignoreThermal );
+        if( this.ignoreThermal != selected ) {
+            this.ignoreThermal = selected;
+            for( int i = 0; i < pieChartLayer.getChildrenCount(); i++ ) {
+                EnergySkateParkPieChartNode energySkateParkPieChartNode = (EnergySkateParkPieChartNode)pieChartLayer.getChild( i );
+                energySkateParkPieChartNode.setIgnoreThermal( ignoreThermal );
+            }
         }
     }
 
@@ -404,7 +406,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public void setZeroPointVisible( boolean selected ) {
-            zeroPointPotentialNode.setVisible( selected );
+        zeroPointPotentialNode.setVisible( selected );
     }
 
     public boolean isZeroPointVisible() {
@@ -419,7 +421,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         gridNode.setVisible( selected );
     }
 
-    public void addGridVisibilityChangeListener(PropertyChangeListener propertyChangeListener){
+    public void addGridVisibilityChangeListener( PropertyChangeListener propertyChangeListener ) {
         gridNode.addPropertyChangeListener( PNode.PROPERTY_VISIBLE, propertyChangeListener );
     }
 

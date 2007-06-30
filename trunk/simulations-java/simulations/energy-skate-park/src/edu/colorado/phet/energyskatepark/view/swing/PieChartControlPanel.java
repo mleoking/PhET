@@ -9,9 +9,13 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -31,7 +35,7 @@ public class PieChartControlPanel extends HorizontalLayoutPanel {
         showPieChartCheckBox = new JCheckBox( EnergySkateParkStrings.getString( "piechart.show" ), module.isPieChartVisible() );
         showPieChartCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                showThermal.setEnabled( showPieChartCheckBox.isSelected() );
+                updateShowThermalEnabled();
                 module.setPieChartVisible( showPieChartCheckBox.isSelected() );
             }
         } );
@@ -40,7 +44,12 @@ public class PieChartControlPanel extends HorizontalLayoutPanel {
         showThermal = new JCheckBox( EnergySkateParkStrings.getString( "piechart.show-thermal" ), !module.getEnergySkateParkSimulationPanel().getRootNode().getIgnoreThermal() );
         showThermal.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.getEnergySkateParkSimulationPanel().getRootNode().setIgnoreThermal( !showThermal.isSelected() );
+                module.getEnergySkateParkSimulationPanel().setIgnoreThermal( !showThermal.isSelected() );
+            }
+        } );
+        module.getEnergySkateParkSimulationPanel().addListener( new EnergySkateParkSimulationPanel.Adapter() {
+            public void ignoreThermalChanged() {
+                showThermal.setSelected( !module.getEnergySkateParkSimulationPanel().getIgnoreThermal() );
             }
         } );
         add( showThermal );
@@ -53,9 +62,24 @@ public class PieChartControlPanel extends HorizontalLayoutPanel {
             public void pieChartVisibilityChanged() {
                 showPieChartCheckBox.setSelected( module.isPieChartVisible() );
             }
-        });
+        } );
         setAnchor( GridBagConstraints.WEST );
-        showThermal.setEnabled( showPieChartCheckBox.isSelected() );
+        updateShowThermalEnabled();
+        showPieChartCheckBox.addPropertyChangeListener( "enabled", new PropertyChangeListener() {//todo: this there a way to do this without hard-coding string value 'enabled'?
+
+            public void propertyChange( PropertyChangeEvent evt ) {
+                updateShowThermalEnabled();
+            }
+        } );
+        showPieChartCheckBox.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                updateShowThermalEnabled();
+            }
+        } );
+    }
+
+    private void updateShowThermalEnabled() {
+        showThermal.setEnabled( showPieChartCheckBox.isEnabled() && showPieChartCheckBox.isSelected() );
     }
 
     private void update() {

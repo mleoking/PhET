@@ -302,6 +302,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     public void reset() {
         rootNode.reset();
         setZeroPointVisible( false );
+        setIgnoreThermal( true );
     }
 
     private void keyPressed( KeyEvent e ) {
@@ -412,12 +413,27 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         return screenRect.contains( d );
     }
 
+    public boolean getIgnoreThermal(){
+        return rootNode.getIgnoreThermal();
+    }
+    
+    public void setIgnoreThermal( boolean b ) {
+        if( rootNode.getIgnoreThermal() != b ) {
+            rootNode.setIgnoreThermal( b );
+            for( int i = 0; i < listeners.size(); i++ ) {
+                ((Listener)listeners.get( i )).ignoreThermalChanged();
+            }
+        }
+    }
+
     public static interface Listener {
         void zoomChanged();
 
         void zeroPointEnergyVisibilityChanged();
 
         void pieChartVisibilityChanged();
+
+        void ignoreThermalChanged();
     }
 
     public static class Adapter implements Listener {
@@ -429,6 +445,9 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         }
 
         public void pieChartVisibilityChanged() {
+        }
+
+        public void ignoreThermalChanged() {
         }
     }
 
