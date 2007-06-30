@@ -247,6 +247,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         setMeasuringTapeVisible( false );
         resetMeasuringTapeLocation();
         panZoomControls.reset();
+        setGridVisible( false );
     }
 
     public void addSkaterNode( SkaterNode skaterNode ) {
@@ -416,6 +417,10 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     public void setGridVisible( boolean selected ) {
         gridNode.setVisible( selected );
+    }
+
+    public void addGridVisibilityChangeListener(PropertyChangeListener propertyChangeListener){
+        gridNode.addPropertyChangeListener( PNode.PROPERTY_VISIBLE, propertyChangeListener );
     }
 
     public PNode getMeasuringTapeNode() {
