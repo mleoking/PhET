@@ -18,7 +18,7 @@ public class VelAccAvgTester {
             int x = x0 + v0 * t + (int)( ( 0.5 ) * acc * ( t * t ) );
             double vel = (double)x0 + acc * (double)t;
             vaa.addPoint( x, 0 );
-            vaa.updateAvgXYs();
+            vaa.updateAverageValues();
             double vXComputed = vaa.getXVel();
             double aXComputed = vaa.getXAcc();
             double xNow = vaa.getAvgXNow();

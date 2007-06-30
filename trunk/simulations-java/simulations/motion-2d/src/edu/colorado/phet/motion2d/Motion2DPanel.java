@@ -10,14 +10,12 @@ import java.awt.event.*;
 public class Motion2DPanel extends JPanel
         implements MouseMotionListener, ActionListener, MouseListener {
     private Motion2DApplet myGui;
-    private JPanel northPanel, southPanel;
     private MotionPanel motionPanel1;
     private int xNow;
     private int yNow;
 
     private int avgXMid, avgYMid;
     private int xVel, yVel;
-    private int xAcc, yAcc;
     private Color myGreen;
     private int nAInit;        //position-averaging radius
     private int nGroupInit;    //# of avg-positions averaged in computing v, a
@@ -33,8 +31,8 @@ public class Motion2DPanel extends JPanel
     public static final int SHOW_ACC = 2;
     public static final int SHOW_BOTH = 3;
     public static final int SHOW_NEITHER = 4;
-    private Motion2DAverages vaa;
-    private VAScrolls vaMenu;
+    private Motion2DAverages motion2DAverages;
+    private Motion2DControlFrame motion2DControlFrame;
     private Motion2DArrow motion2DArrow;
     private boolean antialias = true;
     private Timer timer;
@@ -45,9 +43,9 @@ public class Motion2DPanel extends JPanel
     public Motion2DPanel( Motion2DApplet myGui ) {
         this.myGui = myGui;
         myGreen = new Color( 0, 150, 0 );
-        northPanel = new JPanel();
+        JPanel northPanel = new JPanel();
         northPanel.setBackground( Color.orange );
-        southPanel = new JPanel();
+        JPanel southPanel = new JPanel();
         southPanel.setBackground( Color.orange );
         nAInit = 10;
         nGroupInit = 5;
@@ -57,16 +55,16 @@ public class Motion2DPanel extends JPanel
         xNow = 130;
         yNow = 100;
 
-        vaa = new Motion2DAverages( nAInit, nGroupInit );//, this);
-        vaMenu = new VAScrolls( vaa, this );
-        vaMenu.setVisible( false );
+        motion2DAverages = new Motion2DAverages( nAInit, nGroupInit );//, this);
+        motion2DControlFrame = new Motion2DControlFrame( motion2DAverages, this );
+        motion2DControlFrame.setVisible( false );
 
-        motionPanel1 = new MotionPanel( this, vaa, myGui.getWidth(), myGui.getHeight() );
+        motionPanel1 = new MotionPanel( this, motion2DAverages, myGui.getWidth(), myGui.getHeight() );
         motionPanel1.launchMotionPanel();
 
         motion2DArrow = new Motion2DArrow();
-        vaa.addPoint( xNow, yNow );
-        vaa.updateAvgXYs();
+        motion2DAverages.addPoint( xNow, yNow );
+        motion2DAverages.updateAverageValues();
 
         buttonFlag = SHOW_NEITHER;
         setBackground( Color.yellow );
@@ -108,14 +106,10 @@ public class Motion2DPanel extends JPanel
         //myPanelTimer = new Timer(timeStep, new PanelTimerHandler());
         addMouseMotionListener( this );
         addMouseListener( this );
-        //myPanelTimer.start();
 
-        final SystemRunner sr = new SystemRunner();
-//        myThread = new Thread( new SystemRunner() );
-//        myThread.start();
-        timer = new Timer( 25, new ActionListener() {
+        timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                sr.step();
+                stepInTime();
             }
         } );
 
@@ -136,6 +130,18 @@ public class Motion2DPanel extends JPanel
         wiggleMeTimer.start();
     }
 
+    private void stepInTime() {
+        if( motionPanel1.getMotionOnState() ) {
+            motionPanel1.nextPosition();
+            setXYNow( motionPanel1.getXNow(), motionPanel1.getYNow() );
+        }
+        boolean changed1 = motion2DAverages.addPoint( xNow, yNow );
+        boolean changed2 = motion2DAverages.updateAverageValues();
+        if( changed1 || changed2 ) {
+            repaint();
+        }
+    }
+
     private void setup( JRadioButton button ) {
         buttonGroup.add( button );
         button.setBackground( Color.orange );
@@ -147,13 +153,13 @@ public class Motion2DPanel extends JPanel
             g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         }
         super.paintComponent( g );
-        avgXMid = (int)vaa.getAvgXMid();
-        avgYMid = (int)vaa.getAvgYMid();
+        avgXMid = (int)motion2DAverages.getAvgXMid();
+        avgYMid = (int)motion2DAverages.getAvgYMid();
 
-        xVel = (int)( ( velFactor / 2 ) * ( vaa.getXVel() ) );
-        yVel = (int)( ( velFactor / 2 ) * ( vaa.getYVel() ) );
-        xAcc = (int)( accFactor * ( vaa.getXAcc() ) );
-        yAcc = (int)( accFactor * ( vaa.getYAcc() ) );
+        xVel = (int)( ( velFactor / 2 ) * ( motion2DAverages.getXVel() ) );
+        yVel = (int)( ( velFactor / 2 ) * ( motion2DAverages.getYVel() ) );
+        double xAcc = accFactor * ( motion2DAverages.getXAcc() );
+        double yAcc = accFactor * ( motion2DAverages.getYAcc() );
         g.drawImage( myGui.getBallImage(), avgXMid - radius, avgYMid - radius, 2 * radius, 2 * radius, this );
 
         if( buttonFlag == SHOW_NEITHER ) {
@@ -198,9 +204,9 @@ public class Motion2DPanel extends JPanel
             buttonFlag = SHOW_NEITHER;
         }
         else if( e.getSource() == moreButton ) {
-            vaMenu.setVisible( true );
+            motion2DControlFrame.setVisible( true );
             moreButton.setEnabled( false );
-            vaMenu.toFront();
+            motion2DControlFrame.toFront();
         }
 
     }//end of actionPerformed method
@@ -245,7 +251,6 @@ public class Motion2DPanel extends JPanel
         if( xNow != this.xNow || this.yNow != yNow ) {
             this.xNow = xNow;
             this.yNow = yNow;
-//            repaint(getPlayRect());
         }
     }
 
@@ -255,10 +260,8 @@ public class Motion2DPanel extends JPanel
 
     public void setTimeStep( int timeStep ) {
         this.timeStep = timeStep;
-        vaMenu.getTimeStepBar().setValue( timeStep );
+        motion2DControlFrame.getTimeStepBar().setValue( timeStep );
         timer.setDelay( timeStep );
-        //myPanelTimer.setDelay(timeStep);
-        //motionPanel1.setTimerStep();
     }
 
     public double getVelFactor() {
@@ -267,7 +270,7 @@ public class Motion2DPanel extends JPanel
 
     public void setVelFactor( double velFactor ) {
         this.velFactor = velFactor;
-        vaMenu.getVelFactorBar().setValue( (int)velFactor );
+        motion2DControlFrame.getVelFactorBar().setValue( (int)velFactor );
     }
 
     public double getAccFactor() {
@@ -276,7 +279,7 @@ public class Motion2DPanel extends JPanel
 
     public void setAccFactor( double accFactor ) {
         this.accFactor = accFactor;
-        vaMenu.getAccFactorBar().setValue( (int)accFactor );
+        motion2DControlFrame.getAccFactorBar().setValue( (int)accFactor );
     }
 
     public JButton getMoreButton() {
@@ -300,32 +303,6 @@ public class Motion2DPanel extends JPanel
 
     public void mouseReleased( MouseEvent e ) {
         showCursor();
-    }
-
-    class SystemRunner implements Runnable {
-        public void step() {
-            if( motionPanel1.getMotionOnState() ) {
-                motionPanel1.nextPosition();
-                setXYNow( motionPanel1.getXNow(), motionPanel1.getYNow() );
-            }
-            boolean changed1 = vaa.addPoint( xNow, yNow );
-            boolean changed2 = vaa.updateAvgXYs();
-            if( changed1 || changed2 ) {
-                repaint();
-            }
-//            repaint();
-        }
-
-        public void run() {
-            while( true ) {
-                step();
-                try {
-                    Thread.sleep( timeStep );
-                }
-                catch( InterruptedException ie ) {
-                }
-            }
-        }
     }
 
 }//end of public class

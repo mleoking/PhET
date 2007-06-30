@@ -105,7 +105,7 @@ public class Motion2DAverages {
         return false;
     }//end of addPoint() method
 
-    public boolean updateAvgXYs() {
+    public boolean updateAverageValues() {
         int nStack = nP - 2 * nA;		//# of points in averagePostion stacks
         double sumXBefore = 0;
         double sumYBefore = 0;

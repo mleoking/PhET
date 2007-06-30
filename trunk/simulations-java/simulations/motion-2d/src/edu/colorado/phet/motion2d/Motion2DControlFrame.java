@@ -8,8 +8,10 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.FocusEvent;
 
-public class VAScrolls extends JFrame implements ChangeListener {
+public class Motion2DControlFrame extends JFrame implements ChangeListener {
     private JSlider nRadiusBar, nGroupBar, timeStepBar;
     private JSlider velFactorBar, accFactorBar;
     private int nRadius, nGroup, timeStep, velFactor, accFactor;
@@ -18,7 +20,7 @@ public class VAScrolls extends JFrame implements ChangeListener {
     private Motion2DPanel myJP;
     private Container scrollPane;
 
-    public VAScrolls( Motion2DAverages vaa, Motion2DPanel myJP ) {
+    public Motion2DControlFrame( Motion2DAverages vaa, Motion2DPanel myJP ) {
         super( SimStrings.getInstance().getString( "VAScrolls.SliderControlTitle" ) );
         //setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         scrollPane = getContentPane();
@@ -66,8 +68,15 @@ public class VAScrolls extends JFrame implements ChangeListener {
         velFactorBar.addChangeListener( this );
         accFactorBar.addChangeListener( this );
         this.addWindowListener( new MyWindowAdapter() );
-        MyFocusListener myFocusListener = new MyFocusListener( this );
-        this.addFocusListener( myFocusListener );
+//        MyFocusListener myFocusListener = new MyFocusListener( this );
+        this.addFocusListener( new FocusListener() {
+            public void focusGained( FocusEvent e ) {
+            }
+
+            public void focusLost( FocusEvent e ) {
+                requestFocus();
+            }
+        } );
         this.setVisible( true );
         this.requestFocus();
     }//end of edu.colorado.phet.motion2d.VAScrolls() constructor

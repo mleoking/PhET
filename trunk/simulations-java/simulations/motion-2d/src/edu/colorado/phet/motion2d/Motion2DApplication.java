@@ -1,10 +1,5 @@
 package edu.colorado.phet.motion2d;
 
-//import phet.utils.ExitOnClose;
-
-//import edu.colorado.phet.common.view.util.GraphicsUtil;
-//import edu.colorado.phet.common.view.plaf.PlafUtil;
-
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
