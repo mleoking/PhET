@@ -1,10 +1,8 @@
 package edu.colorado.phet.motion2d;
 
-//edu.colorado.phet.motion2d.ArrowA.class  M.Dubson 5/30/02  Draws a nice arrow.
-
 import java.awt.*;
 
-public class ArrowA {
+public class Motion2DArrow {
 
     protected double L;      //length of arrow
     protected int x0, y0;            //origin of arrow
@@ -15,7 +13,7 @@ public class ArrowA {
     protected int[] yInt = new int[8];
 
 
-    public ArrowA() //default constructor
+    public Motion2DArrow() //default constructor
     {
         this.x0 = 0;
         this.y0 = 0;
@@ -28,13 +26,6 @@ public class ArrowA {
     //formula for width of arrow line
     public double computeWidth() {
         return ( Math.min( 6.0, this.L / 10.0 ) );
-    }
-
-    public double getLength() {
-        double x1 = xFinal - x0;      //x-component of arrow
-        double y1 = yFinal - y0;    //y-component of arrow
-        this.L = Math.pow( ( x1 * x1 + y1 * y1 ), 0.5 );
-        return this.L;
     }
 
     public void setPosition( int x0, int y0, int xFinal, int yFinal ) {

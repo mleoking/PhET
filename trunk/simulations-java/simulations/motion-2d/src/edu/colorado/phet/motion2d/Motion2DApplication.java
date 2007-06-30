@@ -6,6 +6,7 @@ package edu.colorado.phet.motion2d;
 //import edu.colorado.phet.common.view.plaf.PlafUtil;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +31,7 @@ public class Motion2DApplication {
                 public void run() {
 
                     SimStrings.getInstance().init( args, localizedStringsPath );
-                    new Motion2DLookAndFeel().initLookAndFeel();
+                    new PhetLookAndFeel().initLookAndFeel();
 
                     Motion2DApplet ja = new Motion2DApplet();
                     ja.init();

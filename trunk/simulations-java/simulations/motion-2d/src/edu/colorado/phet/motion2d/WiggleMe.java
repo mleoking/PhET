@@ -27,14 +27,12 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     private AbstractVector2D oscillationVector;
     private Point2D startPt;
     private PhetShadowTextGraphic textGraphic;
-    private String text;
     private PhetShapeGraphic arrowGraphic;
 
     public WiggleMe( Component parent, Point2D startPt, AbstractVector2D oscillationDir, double amplitude, double frequency, String text ) {
         super( parent );
         setVisible( false );
         this.startPt = startPt;
-        this.text = text;
         sine = new Sine( 1, frequency );
         oscillationVector = oscillationDir.getInstanceOfMagnitude( amplitude );
         current = new Point2D.Double( startPt.getX(), startPt.getY() );

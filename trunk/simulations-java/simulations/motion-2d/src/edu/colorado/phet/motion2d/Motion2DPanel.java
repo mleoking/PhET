@@ -29,7 +29,6 @@ public class Motion2DPanel extends JPanel
     JLabel btnLabel;
     JRadioButton vButton, aButton, bothButton, neitherButton;
     JButton moreButton;
-//    JButton hideMouseButton;
     private int buttonFlag;
     public static final int SHOW_VEL = 1;
     public static final int SHOW_ACC = 2;
@@ -37,20 +36,12 @@ public class Motion2DPanel extends JPanel
     public static final int SHOW_NEITHER = 4;
     private Motion2DAverages vaa;
     private VAScrolls vaMenu;
-    private ArrowA arrow;
+    private Motion2DArrow motion2DArrow;
     private boolean antialias = true;
     private Timer timer;
     private ButtonGroup buttonGroup;
     private WiggleMe wiggleMe;
     private Timer wiggleMeTimer;
-
-    public int getxNow() {
-        return xNow;
-    }
-
-    public int getyNow() {
-        return yNow;
-    }
 
     public Motion2DPanel( Motion2DApplet myGui ) {
         this.myGui = myGui;
@@ -75,7 +66,7 @@ public class Motion2DPanel extends JPanel
         motionPanel1 = new MotionPanel( this, vaa, myGui.getWidth(), myGui.getHeight() );
         motionPanel1.launchMotionPanel();
 
-        arrow = new ArrowA();
+        motion2DArrow = new Motion2DArrow();
         vaa.addPoint( xNow, yNow );
         vaa.updateAvgXYs();
 
@@ -165,27 +156,27 @@ public class Motion2DPanel extends JPanel
         yVel = (int)( ( velFactor / 2 ) * ( vaa.getYVel() ) );
         xAcc = (int)( accFactor * ( vaa.getXAcc() ) );
         yAcc = (int)( accFactor * ( vaa.getYAcc() ) );
-        g.drawImage( myGui.ballImage, avgXMid - radius, avgYMid - radius, 2 * radius, 2 * radius, this );
+        g.drawImage( myGui.getBallImage(), avgXMid - radius, avgYMid - radius, 2 * radius, 2 * radius, this );
 
         if( buttonFlag == SHOW_NEITHER ) {
         }
         else if( buttonFlag == SHOW_VEL ) {
             g.setColor( myGreen );
-            arrow.setPosition( avgXMid, avgYMid, avgXMid + xVel, avgYMid + yVel );
-            arrow.paint( g );
+            motion2DArrow.setPosition( avgXMid, avgYMid, avgXMid + xVel, avgYMid + yVel );
+            motion2DArrow.paint( g );
         }
         else if( buttonFlag == SHOW_ACC ) {
             g.setColor( Color.blue );
-            arrow.setPosition( avgXMid, avgYMid, avgXMid + xAcc, avgYMid + yAcc );
-            arrow.paint( g );
+            motion2DArrow.setPosition( avgXMid, avgYMid, avgXMid + xAcc, avgYMid + yAcc );
+            motion2DArrow.paint( g );
         }
         else if( buttonFlag == SHOW_BOTH ) {
             g.setColor( myGreen );
-            arrow.setPosition( avgXMid, avgYMid, avgXMid + xVel, avgYMid + yVel );
-            arrow.paint( g );
+            motion2DArrow.setPosition( avgXMid, avgYMid, avgXMid + xVel, avgYMid + yVel );
+            motion2DArrow.paint( g );
             g.setColor( Color.blue );
-            arrow.setPosition( avgXMid, avgYMid, avgXMid + xAcc, avgYMid + yAcc );
-            arrow.paint( g );
+            motion2DArrow.setPosition( avgXMid, avgYMid, avgXMid + xAcc, avgYMid + yAcc );
+            motion2DArrow.paint( g );
         }
         if( wiggleMe != null ) {
             wiggleMe.paint( g2 );
@@ -255,7 +246,7 @@ public class Motion2DPanel extends JPanel
         Point pt = e.getPoint();
         Point cur = new Point( xNow, yNow );
         double dist = pt.distance( cur );
-        if( dist < myGui.ballImage.getWidth( this ) / 2.0 ) {
+        if( dist < myGui.getBallImage().getWidth( this ) / 2.0 ) {
             myGui.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
         }
         else {
@@ -269,14 +260,6 @@ public class Motion2DPanel extends JPanel
             this.yNow = yNow;
 //            repaint(getPlayRect());
         }
-    }
-//
-//    private Rectangle getPlayRect() {
-//        return new Rectangle( 0,northPanel.getY()+northPanel.getHeight()+2,getWidth(),getHeight()-northPanel.getHeight()-southPanel.getHeight()-2);
-//    }
-
-    public int getButtonFlag() {
-        return this.buttonFlag;
     }
 
     public void setButtonFlag( int flag ) {
