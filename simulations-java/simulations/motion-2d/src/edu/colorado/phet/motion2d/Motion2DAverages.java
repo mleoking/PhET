@@ -6,9 +6,9 @@ import java.util.Arrays;
 //average position and double-averaged velocity and acceleration.
 
 public class Motion2DAverages {
-    private int nP;  	//Number of points in stack, must be odd
-    private int nA;		//averaging radius, #of pts averaged = (2*nA + 1)
-    private int nGroup;	//Number of points averaged for vel, acc
+    private int numPoints;  	//Number of points in stack, must be odd
+    private int halfWindowSize;		//averaging radius, #of pts averaged = (2*nA + 1)
+    private int numPtsAvg;	//Number of points averaged for vel, acc
     private double avgXNow;
     private double avgYNow;
     private double avgXMid;
@@ -18,22 +18,19 @@ public class Motion2DAverages {
     private int[] x, y;		//last nP x- and y-coordinates from mousemovements
     private double[] xAvg, yAvg;	//averaged position stacks
 
-    public Motion2DAverages( int nA, int nGroup ) {
+    public Motion2DAverages( int halfWindowSize, int numPtsAvg ) {
+        this.halfWindowSize = halfWindowSize;
+        this.numPtsAvg = numPtsAvg;
+        this.numPoints = 3 * numPtsAvg + 2 * halfWindowSize;
+        this.x = new int[numPoints];
+        this.y = new int[numPoints];
+        this.xAvg = new double[numPoints - 2 * halfWindowSize];
+        this.yAvg = new double[numPoints - 2 * halfWindowSize];
 
-        this.nA = nA;
-        this.nGroup = nGroup;
-        this.nP = 3 * nGroup + 2 * nA;
-        this.x = new int[nP];
-        this.y = new int[nP];
-        this.xAvg = new double[nP - 2 * nA];
-        this.yAvg = new double[nP - 2 * nA];
-
-        for( int i = 0; i < nP; i++ ) {
+        for( int i = 0; i < numPoints; i++ ) {
             x[i] = 100;
             y[i] = 100;
-            //System.out.println(" i="+i+" x[i]="+x[i]);
         }
-
     }
 
     static class CurrentState {
@@ -77,26 +74,24 @@ public class Motion2DAverages {
     public boolean addPoint( int xNow, int yNow ) {
         //update x and y-arrays
         CurrentState initialState = new CurrentState( x, y, xAvg, yAvg );
-        for( int i = 0; i < ( nP - 1 ); i++ ) {
+        for( int i = 0; i < ( numPoints - 1 ); i++ ) {
             x[i] = x[i + 1];
             y[i] = y[i + 1];
         }
-        x[nP - 1] = xNow;
-        y[nP - 1] = yNow;
-
-        //System.out.println("Got out of 1st update loop alive.");
+        x[numPoints - 1] = xNow;
+        y[numPoints - 1] = yNow;
 
         //update averagePosition arrays
-        for( int i = 0; i < ( nP - 2 * nA ); i++ ) {
+        for( int i = 0; i < ( numPoints - 2 * halfWindowSize ); i++ ) {
             xAvg[i] = 0;
             yAvg[i] = 0;  //reset to zero
-            for( int j = -nA; j <= +nA; j++ ) {
-                xAvg[i] += (double)x[i + nA + j];
-                yAvg[i] += (double)y[i + nA + j];
+            for( int j = -halfWindowSize; j <= +halfWindowSize; j++ ) {
+                xAvg[i] += (double)x[i + halfWindowSize + j];
+                yAvg[i] += (double)y[i + halfWindowSize + j];
             }
 
-            xAvg[i] = xAvg[i] / ( 2 * nA + 1 );
-            yAvg[i] = yAvg[i] / ( 2 * nA + 1 );
+            xAvg[i] = xAvg[i] / ( 2 * halfWindowSize + 1 );
+            yAvg[i] = yAvg[i] / ( 2 * halfWindowSize + 1 );
         }
         CurrentState finalState = new CurrentState( x, y, xAvg, yAvg );
         if( !initialState.equals( finalState ) ) {
@@ -106,7 +101,7 @@ public class Motion2DAverages {
     }//end of addPoint() method
 
     public boolean updateAverageValues() {
-        int nStack = nP - 2 * nA;		//# of points in averagePostion stacks
+        int nStack = numPoints - 2 * halfWindowSize;		//# of points in averagePostion stacks
         double sumXBefore = 0;
         double sumYBefore = 0;
         double sumXMid = 0;
@@ -115,54 +110,50 @@ public class Motion2DAverages {
         double sumYNow = 0;
 
         //Compute avgXBefore, avgYBefore
-        for( int i = 0; i <= ( nGroup - 1 ); i++ ) {
+        for( int i = 0; i <= ( numPtsAvg - 1 ); i++ ) {
             sumXBefore += xAvg[i];
             sumYBefore += yAvg[i];
         }
-        this.avgXBefore = sumXBefore / nGroup;
-        this.avgYBefore = sumYBefore / nGroup;
+        this.avgXBefore = sumXBefore / numPtsAvg;
+        this.avgYBefore = sumYBefore / numPtsAvg;
 
         //Compute avgXMid, avgYMid
-        for( int i = ( nStack - nGroup ) / 2; i <= ( nStack + nGroup - 2 ) / 2; i++ ) {
+        for( int i = ( nStack - numPtsAvg ) / 2; i <= ( nStack + numPtsAvg - 2 ) / 2; i++ ) {
             sumXMid += xAvg[i];
             sumYMid += yAvg[i];
         }
-        this.avgXMid = sumXMid / nGroup;
-        this.avgYMid = sumYMid / nGroup;
+        this.avgXMid = sumXMid / numPtsAvg;
+        this.avgYMid = sumYMid / numPtsAvg;
 
         //Compute avgXNow, avgYNow
-        for( int i = ( nStack - nGroup ); i <= ( nStack - 1 ); i++ ) {
+        for( int i = ( nStack - numPtsAvg ); i <= ( nStack - 1 ); i++ ) {
             sumXNow += xAvg[i];
             sumYNow += yAvg[i];
         }
-        double avgXNOW = sumXNow / nGroup;
-        double avgYNOW = sumYNow / nGroup;
+        double avgXNOW = sumXNow / numPtsAvg;
+        double avgYNOW = sumYNow / numPtsAvg;
         if( avgXNOW != this.avgXNow || avgYNOW != this.avgYNow ) {
-            this.avgXNow = sumXNow / nGroup;
-            this.avgYNow = sumYNow / nGroup;
+            this.avgXNow = sumXNow / numPtsAvg;
+            this.avgYNow = sumYNow / numPtsAvg;
             return true;
         }
         return false;
     }//updateAvgXYs() method
 
     public double getXVel() {
-        double velX = avgXNow - avgXBefore;
-        return velX;
+        return avgXNow - avgXBefore;
     }
 
     public double getYVel() {
-        double velY = avgYNow - avgYBefore;
-        return velY;
+        return avgYNow - avgYBefore;
     }
 
     public double getXAcc() {
-        double accX = avgXNow - 2 * avgXMid + avgXBefore;
-        return accX;
+        return avgXNow - 2 * avgXMid + avgXBefore;
     }
 
     public double getYAcc() {
-        double accY = avgYNow - 2 * avgYMid + avgYBefore;
-        return accY;
+        return avgYNow - 2 * avgYMid + avgYBefore;
     }
 
     public double getAvgXNow() {
@@ -181,31 +172,30 @@ public class Motion2DAverages {
         return this.avgXBefore;
     }
 
-    public int getNA() {
-        return this.nA;
+    public int getHalfWindowSize() {
+        return this.halfWindowSize;
     }
 
-    public void setNA( int nA ) {
-        //edu.colorado.phet.motion2d.Motion2DApplet.setButtonFlag(edu.colorado.phet.motion2d.Motion2DApplet.SHOW_NEITHER);
-        this.nA = nA;
-        this.nP = 3 * this.nGroup + 2 * this.nA;
-        this.x = new int[nP];
-        this.y = new int[nP];
-        this.xAvg = new double[nP - 2 * nA];
-        this.yAvg = new double[nP - 2 * nA];
+    public void setHalfWindowSize( int halfWindowSize ) {
+        this.halfWindowSize = halfWindowSize;
+        this.numPoints = 3 * this.numPtsAvg + 2 * this.halfWindowSize;
+        this.x = new int[numPoints];
+        this.y = new int[numPoints];
+        this.xAvg = new double[numPoints - 2 * halfWindowSize];
+        this.yAvg = new double[numPoints - 2 * halfWindowSize];
     }
 
-    public int getNGroup() {
-        return this.nGroup;
+    public int getNumPointsAverage() {
+        return this.numPtsAvg;
     }
 
-    public void setNGroup( int nGroup ) {
-        this.nGroup = nGroup;
-        this.nP = 3 * this.nGroup + 2 * this.nA;
-        this.x = new int[nP];
-        this.y = new int[nP];
-        this.xAvg = new double[nP - 2 * nA];
-        this.yAvg = new double[nP - 2 * nA];
+    public void setNumPointsAverage( int numPtsAvg ) {
+        this.numPtsAvg = numPtsAvg;
+        this.numPoints = 3 * this.numPtsAvg + 2 * this.halfWindowSize;
+        this.x = new int[numPoints];
+        this.y = new int[numPoints];
+        this.xAvg = new double[numPoints - 2 * halfWindowSize];
+        this.yAvg = new double[numPoints - 2 * halfWindowSize];
     }
 
 
