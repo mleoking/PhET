@@ -1,6 +1,8 @@
 2.02.04
 Measuring tape location is reset properly
 Fixed: zero-point potential checkbox doesn't reset properly
+Added grid reset feature
+Fixed: path record feature doesn't reset properly
 
 2.02.03 (6-29-2007)
 Made charts disappear on simulation reset

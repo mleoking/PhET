@@ -9,8 +9,6 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.IconComponent;
-import edu.colorado.phet.energyskatepark.model.Body;
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.swing.*;
 import edu.umd.cs.piccolo.PNode;
 
@@ -33,6 +31,7 @@ import java.text.DecimalFormat;
 public class EnergySkateParkControlPanel extends ControlPanel {
     private EnergySkateParkModule module;
     private PieChartControlPanel piePanel;
+    private PathRecordContol pathRecordContol;
 
 //    public static boolean PLANET_CENTERED = false;
 //    public static LocationControlPanel.PlanetButtonLayout PLANET_LAYOUT = new LocationControlPanel.TwoColumnLayout();
@@ -42,7 +41,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         JButton reset = new JButton( EnergySkateParkStrings.getString( "controls.reset" ) );
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                reset();
+                doReset();
             }
         } );
         addControl( reset );
@@ -128,7 +127,8 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         }
         addControlFullWidth( new IconComponent( zeroPointPotential, potentialIcon ) );
         addControlFullWidth( new GridLinesCheckBox( module ) );
-        addControlFullWidth( new PathRecordContol( module ) );
+        pathRecordContol = new PathRecordContol( module );
+        addControlFullWidth( pathRecordContol );
 
         piePanel = new PieChartControlPanel( module, this );
 
@@ -165,8 +165,6 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         chartPanel.add( timeChart );
 
         addControlFullWidth( chartPanel );
-//        addControl( new LocationControlPanel( module, new LocationControlPanel.VerticalPlanetButtonLayout() ) );
-//        addControl( new LocationControlPanel( module, new LocationControlPanel.TwoColumnLayout(),true ) );
         addControl( new LocationControlPanel( module, module.getOptions().getPlanetButtonLayout(), module.getOptions().getPlanetButtonsCentered() ) );
 
         final FrictionControl frictionControl = new FrictionControl( module );
@@ -229,8 +227,11 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         return module.getEnergySkateParkSimulationPanel().getRootNode().getMeasuringTapeNode();
     }
 
-    private void reset() {
+    private void doReset() {
         module.confirmAndReset();
     }
 
+    public void reset() {
+        pathRecordContol.reset();
+    }
 }
