@@ -222,7 +222,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     <!--Builds the jnlp file for a specific locale and flavor-->
     <target name="_build-jnlp-locale-flavor">
         <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" locale="${sim.locale}"
-                   deployurl="${sim.server.url}/${sim.name}/${sim.version}"/>
+                   deployurl="${sim.server.url}${sim.name}/${sim.version}"/>
     </target>
 
     <!--Builds jnlp files for all locales for a specific flavor, as well as the locale-less version.-->
@@ -231,7 +231,7 @@ PhET-team specific tasks are located in an auxiliary build file.
         <foreach list="${sim.locales}" target="_build-jnlp-locale-flavor" param="sim.locale" inheritall="true" inheritrefs="true"/>
 
         <!--And build a locale-less version-->
-        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${sim.server.url}/${sim.name}/${sim.version}"/>
+        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${sim.server.url}${sim.name}/${sim.version}"/>
     </target>
     
     <!-- *************************************BEGIN BUILD NUMBERS************************************* -->
@@ -342,7 +342,7 @@ PhET-team specific tasks are located in an auxiliary build file.
             </then>
         </if>
 
-        <var name="deployurl" value="${sim.server.url}/${sim.name}/${sim.version}"/>
+        <var name="deployurl" value="${sim.server.url}${sim.name}/${sim.version}"/>
 
         <foreach list="${sim.flavors}" target="_build-jnlp" param="sim.flavor" inheritall="true" inheritrefs="true"/>
     </target>
