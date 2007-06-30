@@ -33,8 +33,8 @@ public class Motion2DControlFrame extends JFrame implements ChangeListener {
         nGroupBar = new JSlider( JSlider.HORIZONTAL, 1, 36, vaa.getNumPointsAverage() );
         timeStepBar = new JSlider( JSlider.HORIZONTAL, 3, 50, myJP.getTimeStep() );
         velFactorBar = new JSlider( JSlider.HORIZONTAL, 1, 10, (int)myJP.getVelFactor() );
-//        accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 36, (int)myJP.getAccFactor() );
-        accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 100, (int)myJP.getAccFactor() );
+        accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 36, (int)myJP.getAccFactor() );
+//        accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 100, (int)myJP.getAccFactor() );
 
         String str5 = SimStrings.getInstance().getString( "VAScrolls.VelocityScaleLabel" ) + " "
                       + ( new Integer( (int)myJP.getVelFactor() ) ).toString()
