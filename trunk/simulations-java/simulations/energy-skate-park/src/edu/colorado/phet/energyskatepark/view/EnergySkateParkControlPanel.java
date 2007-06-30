@@ -33,6 +33,8 @@ public class EnergySkateParkControlPanel extends ControlPanel {
     private PieChartControlPanel piePanel;
     private PathRecordContol pathRecordContol;
     private LocationControlPanel locationControlPanel;
+    private AdvancedPanel advancedFrictionPanel;
+    private EditSkaterPanel editSkaterPanel;
 
 //    public static boolean PLANET_CENTERED = false;
 //    public static LocationControlPanel.PlanetButtonLayout PLANET_LAYOUT = new LocationControlPanel.TwoColumnLayout();
@@ -169,16 +171,17 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         locationControlPanel = new LocationControlPanel( module, module.getOptions().getPlanetButtonLayout(), module.getOptions().getPlanetButtonsCentered() );
         addControl( locationControlPanel );
 
-        final FrictionControl frictionControl = new FrictionControl( module );
+
         addControl( new ClearHeatButton( module.getEnergySkateParkModel() ) );
 
-        AdvancedPanel frictionPanel = new AdvancedPanel( EnergySkateParkStrings.getString( "controls.show-friction" ), EnergySkateParkStrings.getString( "controls.hide-friction" ) );
-        frictionPanel.addControl( frictionControl );
+        advancedFrictionPanel = new AdvancedPanel( EnergySkateParkStrings.getString( "controls.show-friction" ), EnergySkateParkStrings.getString( "controls.hide-friction" ) );
+        final FrictionControl frictionControl = new FrictionControl( module );
+        advancedFrictionPanel.addControl( frictionControl );
         frictionControl.getModelSlider().setBorder( null );
 
-        addControl( frictionPanel );
+        addControl( advancedFrictionPanel );
 
-        EditSkaterPanel editSkaterPanel = new EditSkaterPanel( module );
+        editSkaterPanel = new EditSkaterPanel( module );
         addControl( editSkaterPanel );
     }
 
@@ -236,5 +239,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
     public void reset() {
         pathRecordContol.reset();
         locationControlPanel.reset();
+        advancedFrictionPanel.setAdvancedControlsVisible( false );
+        editSkaterPanel.reset();
     }
 }

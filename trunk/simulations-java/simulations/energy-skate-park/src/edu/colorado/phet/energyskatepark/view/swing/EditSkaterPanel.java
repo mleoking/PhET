@@ -49,9 +49,7 @@ public class EditSkaterPanel extends AdvancedPanel {
         JButton revertToDefaults = new JButton( EnergySkateParkStrings.getString( "controls.skater.restore-defaults" ) );
         revertToDefaults.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setMass( module.getSkaterCharacter().getMass() );
-                module.setBounciness( Particle.DEFAULT_ELASTICITY );
-                setStickiness( Body.DEFAULT_STICKINESS );
+                restoreDefaults();
             }
         } );
 
@@ -80,6 +78,12 @@ public class EditSkaterPanel extends AdvancedPanel {
         addControl( revertToDefaults );
     }
 
+    private void restoreDefaults() {
+        setMass( module.getSkaterCharacter().getMass() );
+        module.setBounciness( Particle.DEFAULT_ELASTICITY );
+        setStickiness( Body.DEFAULT_STICKINESS );
+    }
+
     private boolean isKeepEnergyOnLanding() {
         EnergySkateParkModel model = module.getEnergySkateParkModel();
 
@@ -104,5 +108,10 @@ public class EditSkaterPanel extends AdvancedPanel {
             Body body = (Body)Body.particles.get( i );
             body.setStickiness( Body.staticSticky );
         }
+    }
+
+    public void reset() {
+        restoreDefaults();
+        setAdvancedControlsVisible( false );
     }
 }
