@@ -21,8 +21,8 @@ public class BodyVectorLayer extends PNode {
     private RotationBody rotationBody;
     private VectorNode accelArrow;
     private VectorNode velocityArrow;
-    private double accelScale = 100000;
-    private double velScale = 5000;
+    private double accelScale = 250*0.8;
+    private double velScale = 10*0.8;
 
     //todo: factor out required interface to rotationmodel
     public BodyVectorLayer( final RotationModel rotationModel, final RotationBody rotationBody, final VectorViewModel vectorViewModel ) {
@@ -30,14 +30,18 @@ public class BodyVectorLayer extends PNode {
         this.rotationBody = rotationBody;
         accelArrow = new VectorNode( "a", Color.blue, new VectorFunction() {
             public AbstractVector2D getVector() {
-                return new Vector2D.Double( rotationBody.getPosition(), rotationModel.getRotationPlatform().getCenter() ).getInstanceOfMagnitude( Math.abs( rotationModel.getRotationPlatform().getAcceleration( )) ).getScaledInstance( accelScale );
+                return new Vector2D.Double( rotationBody.getPosition(), rotationModel.getRotationPlatform().getCenter() )
+                        .getInstanceOfMagnitude( rotationBody.getAccelMagnitudeVariable().getValue() )
+                        .getScaledInstance( accelScale );
             }
         } );
         addChild( accelArrow );
 
         velocityArrow = new VectorNode( "v", Color.red, new VectorFunction() {
             public AbstractVector2D getVector() {
-                return new Vector2D.Double( rotationBody.getPosition(), rotationModel.getRotationPlatform().getCenter() ).getInstanceOfMagnitude( rotationModel.getRotationPlatform().getVelocity() ).getScaledInstance( -velScale ).getRotatedInstance( Math.PI / 2 );
+                return new Vector2D.Double( rotationBody.getPosition(), rotationModel.getRotationPlatform().getCenter() ).
+                        getInstanceOfMagnitude( rotationBody.getSpeedVariable().getValue( ) ).
+                        getScaledInstance( -velScale ).getRotatedInstance( Math.PI / 2 );
             }
         } );
         addChild( velocityArrow );

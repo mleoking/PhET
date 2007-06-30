@@ -8,9 +8,11 @@ package edu.colorado.phet.common.motion.model;
 
 public interface ISimulationVariable {
 
-    public TimeData getData();
+    TimeData getData();
 
-    public void setValue( double value );
+    void setValue( double value );
+
+    double getValue();
 
     public static interface Listener {
         void valueChanged();
