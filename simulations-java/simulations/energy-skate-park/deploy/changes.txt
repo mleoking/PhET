@@ -1,4 +1,4 @@
-2.02.05 (7-1-2007)
+2.02.07 (7-1-2007)
 Moved grid lines down to meet floor at y=0
 Added bold lines every 5 meters in grid node
 
