@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -15,7 +16,6 @@ import java.awt.geom.Line2D;
  */
 
 public class GridNode extends PhetPNode {
-    private static final String METERS = "0 meters";
     private PNode lines = new PNode();
     private PNode textLayer = new PNode();
     private Paint gridPaint = null;
@@ -28,10 +28,10 @@ public class GridNode extends PhetPNode {
             if( x % 2 == 0 ) {
                 String aText = "" + (int)x;
                 if( aText.equals( "0" ) ) {
-                    aText = METERS;
+                    aText = "0 " +EnergySkateParkStrings.getString( "units.meters");
                 }
                 PText text = new PText( aText );
-                text.setOffset( x + dx, minY + dy );
+                text.setOffset( x + dx + dx * 0.2, minY );
 
                 text.setScale( 0.03f );
                 text.getTransformReference( true ).scale( 1, -1 );
@@ -44,10 +44,10 @@ public class GridNode extends PhetPNode {
             if( y % 2 == 0 ) {
                 String aText = "" + (int)y;
                 if( aText.equals( "0" ) ) {
-                    aText = METERS;
+                    aText = "0 " +EnergySkateParkStrings.getString( "units.meters");
                 }
                 PText text = new PText( aText );
-                text.setOffset( 0 + dx, y + dy );
+                text.setOffset( dx + dx * 0.05, y + dy * 0.05 );
                 text.setScale( 0.03f );
                 text.getTransformReference( true ).scale( 1, -1 );
                 textLayer.addChild( text );
@@ -87,13 +87,21 @@ public class GridNode extends PhetPNode {
 
     private PNode createYLineNode( double minX, double maxX, double y ) {
         PPath child = new PPath( new Line2D.Double( minX, y, maxX, y ) );
-        child.setStroke( new BasicStroke( 0.01f * ( MathUtil.isApproxEqual( y, 1, 0.001 ) ? 3 : 1 ) ) );
+        boolean thickStroke = MathUtil.isApproxEqual( y, 0, 0.001 );
+        if ((int)y%5==0){
+            thickStroke=true;
+        }
+        child.setStroke( new BasicStroke( 0.01f * ( thickStroke ? 3 : 1 ) ) );
         return child;
     }
 
     private PNode createXLineNode( double minY, double maxY, double x ) {
         PPath child = new PPath( new Line2D.Double( x, minY, x, maxY ) );
-        child.setStroke( new BasicStroke( 0.01f * ( MathUtil.isApproxEqual( x, 1, 0.001 ) ? 3 : 1 ) ) );
+        boolean thickStroke = MathUtil.isApproxEqual( x, 1, 0.001 );
+//        if ((int)x%5==0){
+//            thickStroke=true;
+//        }
+        child.setStroke( new BasicStroke( 0.01f * ( thickStroke ? 3 : 1 ) ) );
         return child;
     }
 }
