@@ -14,6 +14,7 @@ LOW PRIORITY:
 
 
 DONE:
+7/2/07 - wrap the body of main in invokeLater
 6/15/07 - convert description properties to well-formed HTML
 6/12/07 - add Schmidt-Lee and Richardson to credits
 5/14/07 - replace QTClockControls with ClockControlPanelWithTimeDisplay
