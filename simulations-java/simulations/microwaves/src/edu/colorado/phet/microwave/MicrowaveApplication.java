@@ -19,6 +19,7 @@ import edu.colorado.phet.coreadditions_microwaves.components.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 
+import javax.swing.*;
 import java.util.logging.Logger;
 
 public class MicrowaveApplication {
@@ -34,7 +35,15 @@ public class MicrowaveApplication {
     // Localization
     public static final String localizedStringsPath = "microwaves/localization/microwaves-strings";
 
-    public static void main( String[] args ) {
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                runApplication( args );
+            }
+        } );
+    }
+
+    private static void runApplication( String[] args ) {
         SimStrings.getInstance().init( args, localizedStringsPath );
 
         // Get a logger; the logger is automatically created if
@@ -96,7 +105,6 @@ public class MicrowaveApplication {
 
 //        s_application.startApplication( manyMoleculesModule );
         s_application.startApplication( singleLineOfMoleculesModule2 );
-
     }
 
 }
