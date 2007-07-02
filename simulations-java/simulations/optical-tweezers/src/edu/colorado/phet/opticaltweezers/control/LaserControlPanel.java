@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Laser;
+import edu.colorado.phet.opticaltweezers.util.CursorUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -225,6 +226,10 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _labelWrapper.addInputEventListener( new CursorHandler( cursor ) );
         _unitsWrapper.addInputEventListener( new CursorHandler( cursor ) );
         _signNode.addInputEventListener( new CursorHandler( cursor ) );
+        
+        // Hand cursors
+        _sliderWrapper.addInputEventListener( new CursorHandler() );
+        _textFieldWrapper.addInputEventListener( new CursorHandler() );
     }
     
     //----------------------------------------------------------------------------
