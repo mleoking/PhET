@@ -59,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.16 (?)
 7/2/07 - adjust clock time display format when dt is changed
 7/2/07 - reset the clock time whenever dt is changed
 7/2/07 - make the non-interactive labels in LaserPowerControl draggable
