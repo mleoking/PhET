@@ -162,7 +162,8 @@ EOT;
         </div>
     
         <h2>Contribute Your Ideas &amp; Activities</h2>
-
+        
+        <div class="p-indentation">
         <form id="quicksubmit" enctype="multipart/form-data" action="submit-contribution.php" method="post">    
             <input type="hidden" name="sim_id"   value="$sim_id" />
 
@@ -209,6 +210,7 @@ EOT;
                 <input type="submit" value="Contribute"  />
             </div>
         </form>
+        </div>
 
         <p><a href="#top"><img src="../images/top.gif" /></a></p>
 
