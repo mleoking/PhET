@@ -59,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+7/2/07 - when "Return bead" button is pressed, set bead's velocity to zero
 ********* version 0.00.16 (16305)
 7/2/07 - adjust clock time display format when dt is changed
 7/2/07 - reset the clock time whenever dt is changed

@@ -326,12 +326,21 @@ public class PhysicsCanvas extends PhetPCanvas {
      * move the bead to the button's position and hide the button.
      */
     private void handleReturnBeadButton() {
+        
+        // Determine the button's coordinates
         Rectangle2D b = _returnBeadButtonWrapper.getFullBounds().getBounds();
         double x = b.getX() + ( b.getWidth() / 2 );
         double y = b.getY() + ( b.getHeight() / 2 );
         ModelViewTransform modelViewTransform = _model.getModelViewTransform();
         Point2D p = modelViewTransform.viewToModel( x, y );
-        _model.getBead().setPosition( p );
+        
+        // Move the bead to the button's position
+        Bead bead = _model.getBead();
+        bead.setMotionEnabled( false );
+        bead.setPosition( p );
+        bead.setMotionEnabled( true );
+        
+        // Hide the button
         _returnBeadButtonWrapper.setVisible( false );
         _returnBeadButtonWrapper.setPickable( false );
         _returnBeadButtonWrapper.setChildrenPickable( false );
