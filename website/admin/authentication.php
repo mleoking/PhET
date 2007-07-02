@@ -6,13 +6,17 @@
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."admin/contrib-utils.php");
     
-    function print_first_time_login_form() {      
+    function print_first_time_login_form() {   
+        print '<h1>Login</h1>';
+           
         print_login_form(null, 
             "<p>Please enter your email and password.</p>
             <p>If you don't have an account on the PhET website, please enter your email and desired password.</p>");
     }
 
     function print_retry_login_form() {        
+        print '<h1>Login Incorrect</h1>';
+        
         print_login_form(null, 
             "<p>The password you entered is incorrect. If you entered the correct email address, please check your email now for a password reminder.</p>
             <p>If you don't have an account on the PhET website, please enter your email and desired password.</p>",
@@ -20,12 +24,16 @@
     }
 
     function print_not_an_email_login_form() {        
+        print '<h1>Invalid Email</h1>';
+        
         print_login_form(null, 
             "<p>The email address you entered is not a valid email address.</p>
             <p>If you don't have an account on the PhET website, please enter your email and desired password.</p>");
     }    
 
     function print_empty_password_login_form() {
+        print '<h1>No Password Specified</h1>';
+        
         print_login_form(null, 
                          "<p>You forgot to specify a password for your new account.</p>
                          <p>Please specify a password now.</p>",

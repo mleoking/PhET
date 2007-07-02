@@ -13,11 +13,18 @@
             <form method="post" action="../teacher_ideas/user-edit-profile.php">
                 <fieldset>
                     <legend>Your Account</legend>
+                    
+                    <p>Please enter your name:</p>
+                    
+                    <div class="p-indentation">
 EOT;
 
-        contributor_print_quick_login();
+                        contributor_print_quick_login();
 
         print <<<EOT
+            
+                    </div>
+                
                 </fieldset>
             </form>
 EOT;
