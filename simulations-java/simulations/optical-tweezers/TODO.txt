@@ -39,6 +39,7 @@ LOW PRIORITY:
 - improve startup performance
 
 CLEANUP:
+- pull up duplicated stuff in packages "defaults" and "modules"
 - setPickable(false) on non-interactive nodes
 - rescale image files to minimize file size
 - disable all debug output
