@@ -501,7 +501,8 @@ div.horizontal_center {
 	text-decoration:underline;
 	font-weight:bold;
 }
-#content p {
+#content p,
+#content *.p-indentation {
 	padding-left: 	0;
 	padding-right:  0;
 	margin-left:   	2em;
