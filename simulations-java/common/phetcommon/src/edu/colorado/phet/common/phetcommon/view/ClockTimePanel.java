@@ -66,7 +66,7 @@ public class ClockTimePanel extends JPanel {
         timeTextField.setEditable( false );
         timeTextField.setHorizontalAlignment( JTextField.RIGHT );
 
-        unitsLabel = new JLabel();
+        unitsLabel = new JLabel( units );
 
         // Layout
         setLayout( new FlowLayout( FlowLayout.CENTER ) );
