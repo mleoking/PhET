@@ -82,8 +82,6 @@
                 <a href="$sim_launch_url">
                     <img src="../admin/get-upload.php?url=$sim_image_url" alt="Sim preview image" title="Click here to launch the simulation from your browser" width="300"/>
                 </a>
-                
-                
 
                 <div class="simrunoptions">
                     <table>
@@ -93,7 +91,7 @@
                             </td>
                         
                             <td>
-                                <a href="" title="Click here to download the simulation onto your computer">Run Later</a>
+                                <a href="" title="Click here to download the simulation onto your computer">Run Offline</a>
                             </td>
                         </tr>
                     </table>

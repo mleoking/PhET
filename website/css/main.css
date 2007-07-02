@@ -16,14 +16,10 @@ h1,h2,h3,h4,h5,h6 {
 h1 {
 	color:			#c60;
 	font-size:		18px;	
-	position: 		relative;
-	left:			-20px;
 }
 h2 {
 	color:		#15337f;
 	font-size:	16px;
-	position: 	relative;
-	left:		-10px;
 }
 p {
 	line-height:19px;
@@ -135,7 +131,7 @@ hr {
 #container {
 	margin:	 0 auto;
 	padding: 0;
-	width:   800px;
+	width:   818px;
 }
 /******** =header ********/
 #header {
@@ -494,9 +490,9 @@ div.horizontal_center {
 /******** =content ********/
 #content {
 	background:		url(../images/content_BG.gif) right bottom no-repeat;
-	width:  		518px;
-	margin:			0 0 0 220px;
-	padding: 		10px 30px 10px 30px;
+	width:  		578px;
+	margin:			0 0 100px 240px;
+	padding: 		10px 0px 10px 0px;
 }
 #content a {
 	color:				#900;
@@ -635,7 +631,8 @@ div.simpreview {
 	float:	left;
 	border:	none;
 	width:  300px;
-	margin:	0 1em 0 1em;
+	padding: 0;
+	margin:	 0 0 0 20px;
 }
 div.simpreview table {
 	width:				200px;
@@ -665,7 +662,7 @@ div.simsummary {
 	margin:  0;
 	padding: 0;
 	float: 	 right;
-	width: 	 200px;
+	width: 	 220px;
 }
 #content a.breadcrumbs {
 	margin:0px 20px 0px 0px;
@@ -868,8 +865,6 @@ p.indi-sim {
 	text-align: 	left;
 	text-transform: lowercase;
 	font-variant: 	small-caps;
-	position:       relative;
-	left:			-20px;
 }
 #content div.shortcuts span.burg {
 	background-image: 		url(../images/double-arrow.png);
@@ -902,6 +897,7 @@ h1.indi-sim {
 	font-family:	"arial",Verdana,Arial,Helvetica,sans-serif;
 	font-size:		15px;
 	color:			#c60;
+	margin:			0;
 	padding-top: 	5px;
 	border-top:		1px solid #c60;
 }
@@ -1062,42 +1058,6 @@ img.bordered_sponsors {
 	text-align:   		right;
 }
 
-#content #floatingkeywords .keywordlist {
-	width:          	300px;
-	margin: 			0;
-	padding: 			0;
-	margin-top: 		5px;		
-	float:          	right;
-}
-#content #floatingkeywords .keywordlist a {
-	position: 			relative;
-	margin-left:  		0px;
-	margin-right: 		10px;
-	color: 				rgb(120, 120, 120);	
-	font-size:  		9pt;
-	font-style: 		normal;
-	font-weight: 		normal;	
-	text-align:   		right;
-	text-decoration: 	none;
-}
-#content #floatingkeywords .keywordlist a:link {
-	font-style: 		normal;
-	color: 				rgb(120, 120, 120);
-}
-#content #floatingkeywords .keywordlist a:visited {
-	font-style: 		normal;
-	color: 				rgb(120, 120, 120);
-}
-#content #floatingkeywords .keywordlist a:hover {
-	font-style: 		normal;	
-	color: 				rgb(25, 25, 25);
-	text-decoration: 	underline;	
-}
-#content #floatingkeywords .keywordlist a:active {
-	color: 				black;
-	text-decoration: 	underline;	
-}
-
 #content .compact table {
 	background-color: 	transparent;
 	padding:			0;
@@ -1168,7 +1128,7 @@ div.research .publication_htmllink {
 	color:		#727272;
 	float:		left;
 	margin:		0 0 0 0;
-	padding:	25px 20px 0 0;
+	padding:	25px 40px 0 0;
 	width: 		200px;
 }
 
