@@ -1,10 +1,13 @@
-.section {
+.home-page {
 	background: url(../images/section_BG.gif) left bottom no-repeat;
-	margin:0 0 6px 0;
-	padding:20px 20px 10px 20px;
+	width:   766px;
+	margin:  0 0 1em 0;
+	padding: 0;
 }
 #container {
-	padding:15px 0 0 0;
+	padding: 15px 0 0 0;
+	margin:  0 auto;
+	width:   766px;
 }
 h1 {
 	color:#dc5e0a;
@@ -35,16 +38,15 @@ p.findOutMore {
 	 margin-top: 5px;
 }
 .mainImage {
-	 float:left;
-	 margin-top: 3px;
-	 margin-left:-20px;
-	 margin-right: 10px;
-	 padding: 0px 0px 0px 0px;
+	 float:   left;
+	 margin:  0 1em 0 0;
+	 padding: 0;
 }
 div.practices {
 	background: url(../images/practice_BG.gif) left bottom no-repeat;
+	width:   766px;
 	background-color:none;
-	margin:0 0 15px 0;
+	margin:	0 0 15px 0;
 	padding:0;
 }
 dl {
