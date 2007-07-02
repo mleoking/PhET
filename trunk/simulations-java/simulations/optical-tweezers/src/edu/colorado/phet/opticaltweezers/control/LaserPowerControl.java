@@ -100,10 +100,6 @@ public class LaserPowerControl  {
         _intensitySlider.setOpaque( false );
         _units.setOpaque( false );
         
-        // Cursors
-        _intensitySlider.setCursor( CursorUtils.HAND_CURSOR );
-        _formattedTextField.setCursor( CursorUtils.HAND_CURSOR );
-        
         // Default state
         _power = powerRange.getMin() - 1; // force an update
         setPower( powerRange.getDefault() );
