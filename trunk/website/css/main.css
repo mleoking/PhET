@@ -135,7 +135,7 @@ hr {
 #container {
 	margin:	 0 auto;
 	padding: 0;
-	width:   765px;
+	width:   800px;
 }
 /******** =header ********/
 #header {
@@ -494,13 +494,14 @@ div.horizontal_center {
 /******** =content ********/
 #content {
 	background:		url(../images/content_BG.gif) right bottom no-repeat;
-	margin-left:	178px;
-	padding:		20px 18px 39px 30px;
+	width:  		518px;
+	margin:			0 0 0 200px;
+	padding: 		10px 30px 10px 30px;
 }
 #content a {
-	color:#900;
-	text-decoration:none;
-	font-weight:bold;
+	color:				#900;
+	text-decoration:	none;
+	font-weight:		bold;
 }
 #content a:hover {
 	color:#666;
@@ -904,10 +905,7 @@ h1.indi-sim {
 	padding-top: 	5px;
 	border-top:		1px solid #c60;
 }
-#localNav a.current {
-	color:#d36a04;
-	font-weight:bold;
-}
+
 .cellTwo {
 	font-size:10px;
 	line-height:14px;
@@ -1169,9 +1167,9 @@ div.research .publication_htmllink {
 	background:	none;
 	color:		#727272;
 	float:		left;
-	margin:		0;
-	padding:	25px 0 0 0;
-	width: 		178px;
+	margin:		0 0 0 0;
+	padding:	25px 20px 0 0;
+	width: 		180px;
 }
 
 /* Default settings for all lists in the navigation bar */
@@ -1184,8 +1182,9 @@ div.research .publication_htmllink {
 }
 #localNav ul li {
 	list-style:	none;
-	margin:		0;
+	margin:		0 0 0 0;
 	padding: 	0 0 0.5ex 0;
+	clear:   	right;
 }
 #localNav ul li a {
 	border-bottom:		none;
@@ -1194,85 +1193,85 @@ div.research .publication_htmllink {
 	text-decoration:	none;
 }
 #localNav ul li a:hover {
+	color:	#d36a04;
+}
+#localNav a.topnav,
+#localNav a.topnav-selected {
+	padding: 0 0 0 15px;
+}
+#localNav a.topnav-selected {
+	background-image:		url(../images/selectedArrow_Icon.gif);
+	background-position: 	left 0.25ex;
+	background-repeat: 		no-repeat;
+	color:					#d36a04;
+
+}
+#localNav a.current {
 	color:#d36a04;
+	font-weight:bold;
 }
-
-/* Settings for top-level selected categories in the navigation bar */
-#localNav > ul > li.topnav-selected {
-	margin:	0px 0px 0px -15px;
-	background:	url(../images/selectedArrow_Icon.gif) left 0.25ex no-repeat;
-}
-#localNav > ul > li.topnav-selected > a {
-	position: 	relative;
-	left: 		15px;
-	color:		#d36a04;
-}
-
 /* Settings for second-level categories in the navigation bar */
 
 /* The unordered list */
-#localNav > ul li ul {
+#localNav ul.subnav {
 	background:		none;
 	font-weight:	bold;
 	margin:			0 0 0.5ex 20px;
 	padding:		0;
 }
 /* The list items */
-#localNav > ul li ul li {
-	height: 		1em;
+#localNav li.subnav,
+#localNav li.subnav-selected {
 	font-size: 		smaller;
-	margin:  		0;
-	padding: 		0;
-	margin-top:    	0.75ex;	
-	clear:   		right;
-}
-#localNav > ul li ul li.selected {
-	background-repeat:   no-repeat;
-	background-position: left 0.5ex;
-	background-image:	 url(../images/arrow-right.gif);
 }
 /* Links inside the list items */
-#localNav > ul li ul li a {
-	float: 	right;
-	width: 	162px;
+#localNav li.subnav a.subnav,
+#localNav li.subnav-selected a.subnav-selected {
+	padding: 0.75ex 0 0 10px;
 }
 /* Link inside the current subcategory */
-#localNav > ul li ul li.selected a {
-	color: 		#d36a04;
+#localNav li.subnav-selected a.subnav-selected {
+	color: 				 #d36a04;
+	background-repeat:   no-repeat;
+	background-position: left 1.1ex;
+	background-image:	 url(../images/arrow-right.gif);	
 }
 
 
+#sponsors {
+	width: 178px;
+}
 /* -------- Related Links --------*/
-#localNav dl {
+#sponsors dl {
 	background:url(../images/relatedLinksBTTM_BG.gif) left bottom no-repeat;
 	background-color:#d8eaf4;
 	font-size:.9em;
 	margin:0;
 	padding:0 8px;
 }
-#localNav dt,#localNav dd {
+#sponsors dt,#sponsors dd {
 	margin:0;
 	padding:0 0 4px 18px;
 }
-#localNav dt {
+#sponsors dt {
 	background:url(../images/circleArrow_Icon.gif) left 3px no-repeat;
 }
-#localNav dd {
+#sponsors dd {
 	border-bottom:solid 1px #ccc;
 	color:#313131;
 	line-height:1.2em;
 	margin-bottom:15px;
 	padding-bottom:15px;
 }
-#localNav dd.first {
+#sponsors dd.first {
 	border:none;
 }
-#localNav dt a,#localNav dd a {
+#sponsors dt a,#sponsors dd a {
 	color:#294ca8;
 	font-weight:bold;
 	text-decoration:underline;
 }
-#localNav h4 {
+#sponsors h4 {
 	background:url(../images/relatedLinks_BG.gif) left bottom no-repeat;
 	color:#0d2973;
 	margin:0;
