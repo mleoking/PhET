@@ -13,6 +13,8 @@ package edu.colorado.phet.faraday;
 
 import java.io.IOException;
 
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.faraday.control.menu.DeveloperMenu;
@@ -78,14 +80,27 @@ public class FaradayApplication extends PhetApplication {
      * 
      * @param args command line arguments
      */
-    public static void main( String[] args ) throws IOException {
+    public static void main( final String[] args ) throws IOException {
 
-        PhetApplicationConfig config = new PhetApplicationConfig( args,FaradayConstants.FRAME_SETUP, FaradayResources.getResourceLoader() );
-        
-        // Create the application.
-        PhetApplication app = new FaradayApplication( config );
-        
-        // Start the application.
-        app.startApplication();
+        /* 
+         * Wrap the body of main in invokeLater, so that all initialization occurs 
+         * in the event dispatch thread. Sun now recommends doing all Swing init in
+         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
+         * seem to cause startup deadlock problems if they aren't initialized in the 
+         * event dispatch thread. Since we don't have an easy way to separate Swing and 
+         * non-Swing init, we're stuck doing everything in invokeLater.
+         */
+        SwingUtilities.invokeLater( new Runnable() {
+
+            public void run() {
+                PhetApplicationConfig config = new PhetApplicationConfig( args, FaradayConstants.FRAME_SETUP, FaradayResources.getResourceLoader() );
+
+                // Create the application.
+                PhetApplication app = new FaradayApplication( config );
+
+                // Start the application.
+                app.startApplication();
+            }
+        } );
     }
 }
