@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 public class CursorUtils {
 
     public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
+    public static final Cursor HAND_CURSOR = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
     public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
     
     /* Not intended for instantiation */
