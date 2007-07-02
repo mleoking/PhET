@@ -11,6 +11,9 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * This command builds a PhET project, together with any dependencies.
@@ -20,6 +23,7 @@ public class PhetBuildCommand implements Command {
     private final AntTaskRunner antTaskRunner;
     private final boolean shrink;
     private final File outputJar;
+    public static final String FLAVOR_LAUNCHER = "edu.colorado.phet.common.phetcommon.view.util.FlavorLauncher";
 
     public PhetBuildCommand( PhetProject project, AntTaskRunner taskRunner, boolean shrink, File outputJar ) {
         this.project       = project;
@@ -30,7 +34,7 @@ public class PhetBuildCommand implements Command {
 
     public void execute() throws Exception {
         clean();
-        compile();        
+        compile();
         jar();
         proguard();
     }
@@ -42,9 +46,9 @@ public class PhetBuildCommand implements Command {
     private void compile() {
         File[] src = project.getAllSourceRoots();
         File[] classpath = project.getAllJarFiles();
-        
+
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + ".", getClass() );
-        
+
         Javac javac = new Javac();
         javac.setSource( "1.4" );
         javac.setSrcdir( new Path( antTaskRunner.getProject(), toString( src ) ) );
@@ -80,12 +84,49 @@ public class PhetBuildCommand implements Command {
         Manifest manifest = new Manifest();
 
         Manifest.Attribute attribute = new Manifest.Attribute();
+
+
+        //need to use flavor launcher if there are multiple flavors or if any flavor contains args
+        //for now, let's just use FlavorLauncher for all usages.
+
         attribute.setName( "Main-Class" );
-        attribute.setValue( project.getMainClass() );
+        //todo: support a main-class chooser & launcher
+        attribute.setValue( FLAVOR_LAUNCHER );
+
+        File flavorsProp = createFlavorFile();
+
+        FileSet flavorFileSet = new FileSet();
+        flavorFileSet.setFile( flavorsProp );
+        jar.addFileset( flavorFileSet );
+
         manifest.addConfiguredAttribute( attribute );
         jar.addConfiguredManifest( manifest );
 
         antTaskRunner.runTask( jar );
+    }
+
+    private File createFlavorFile() {
+        File flavorsProp = new File( project.getAntOutputDir(), "flavors.properties" );
+        Properties properties=new Properties( );
+        for (int i=0;i<project.getFlavors().length;i++){
+            PhetProjectFlavor flavor=project.getFlavors()[i];
+            properties.setProperty( "project.flavor."+flavor.getFlavorName()+".mainclass",flavor.getMainclass( ));
+            properties.setProperty( "project.flavor."+flavor.getFlavorName()+".title",flavor.getTitle( ));
+            String args="";
+            String []a=flavor.getArgs();
+            for( int j = 0; j < a.length; j++ ) {
+                args+=a[j]+" ";
+            }
+            properties.setProperty( "project.flavor."+flavor.getFlavorName()+".args",args.trim());
+        }
+        flavorsProp.getParentFile().mkdirs();
+        try {
+            properties.store( new FileOutputStream( flavorsProp),null );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        return flavorsProp;
     }
 
     private void proguard() throws Exception {

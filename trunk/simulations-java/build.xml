@@ -588,4 +588,26 @@ PhET-team specific tasks are located in an auxiliary build file.
     <!--<target name="build-all-launch4j" depends="_init, _list-sims">-->
         <!--<foreach list="${phet.simlist}" target="_build-launch4j" param="sim.name"/>-->
     <!--</target>-->
+
+    <target name="_build-jar-for-flavor">
+        <copy file="simulations/${sim.name}/deploy/${sim.name}_all.jar"
+              tofile="simulations/${sim.name}/deploy/${sim.flavor}.jar"/>
+        <mkdir dir="${ant-output}/projects/${sim.name}/launchable-jars/"/>
+        <echo message="main.flavor=${sim.flavor}"
+              file="${ant-output}/projects/${sim.name}/launchable-jars/main-flavor.properties"/>
+        <jar destfile="simulations/${sim.name}/deploy/${sim.flavor}.jar"
+             basedir="${ant-output}/projects/${sim.name}/launchable-jars/" update="true"/>
+    </target>
+
+    <target name="build-all-flavor-jars-for-sim" depends="_init,build-jar">
+        <!--ToDo: handle flavor/sim name clash better than this.-->
+        <copy file="simulations/${sim.name}/deploy/${sim.name}.jar"
+              tofile="simulations/${sim.name}/deploy/${sim.name}_all.jar"/>
+        <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
+        <foreach list="${sim.flavors}" target="_build-jar-for-flavor" param="sim.flavor"/>
+    </target>
+
+    <target name="build-all-flavor-jars" depends="_init,_list-sims">
+        <foreach list="${phet.simlist}" target="build-all-flavor-jars-for-sim" param="sim.name"/>
+    </target>
 </project>

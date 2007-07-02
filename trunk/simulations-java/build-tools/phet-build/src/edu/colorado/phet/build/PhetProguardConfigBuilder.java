@@ -5,6 +5,8 @@ import edu.colorado.phet.build.proguard.ProguardConfigBuilder;
 import edu.colorado.phet.build.proguard.ProguardConfig;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Builds a Proguard config for a Phet project.
@@ -26,7 +28,14 @@ public class PhetProguardConfigBuilder {
         builder.setProguardTemplate( new File( project.getAntBaseDir(), PROGUARD_TEMPLATE ) );
         builder.setInputJars( prepend( project.getAllJarFiles(), project.getJarFile() ) );
         builder.setProguardOutputFile( new File( project.getAntOutputDir(), project.getName() + ".pro" ) );
-        builder.setMainClasses( project.getAllMainClasses() );
+//        builder.setMainClasses( project.getAllMainClasses() );
+        builder.setMainClasses( getAllMainClasses(project ));
+    }
+
+    private String[] getAllMainClasses(PhetProject project) {
+        ArrayList list=new ArrayList( Arrays.asList( project.getAllMainClasses()));
+        list.add(PhetBuildCommand.FLAVOR_LAUNCHER );
+        return (String[])list.toArray( new String[0]);
     }
 
     public void setShrink( boolean shrink ) {
