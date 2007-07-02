@@ -382,10 +382,14 @@ EOT;
                                 $level_list                        
                             </td>
                         </tr>
+                        
+                        <tr>                    
+                            <td colspan="3">
+                                <input type="submit" name="Filter" value="Filter" />
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
-                
-                <input type="submit" name="Filter" value="Filter" />
                 
                 <div class="separator">
                 </div>
