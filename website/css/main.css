@@ -495,7 +495,7 @@ div.horizontal_center {
 #content {
 	background:		url(../images/content_BG.gif) right bottom no-repeat;
 	width:  		518px;
-	margin:			0 0 0 200px;
+	margin:			0 0 0 220px;
 	padding: 		10px 30px 10px 30px;
 }
 #content a {
@@ -1169,7 +1169,7 @@ div.research .publication_htmllink {
 	float:		left;
 	margin:		0 0 0 0;
 	padding:	25px 20px 0 0;
-	width: 		180px;
+	width: 		200px;
 }
 
 /* Default settings for all lists in the navigation bar */
