@@ -27,7 +27,7 @@ EOT;
 <style type="text/css">
 /*<![CDATA[*/
         @import url(css/main.css);
-        @import url(css/home.css);
+        @import url(css/home.css);        
 /*]]>*/
 </style>
 </head>
@@ -67,24 +67,29 @@ EOT;
     </div>
 
     <div id="container">
-        <div class="section">
-
-            <div class="mainImage">
-    
-                <?php
-                    print "<img width=\"350\" height=\"277\" src=\"random-thumbnail.php\" alt=\"\">";            
-                ?>
-            
+        <div class="home-page">
+            <div class="mainImage">    
+                <img width="300" src="random-thumbnail.php" alt="" />
             </div>
 
-            <h1 class="home-page">Interactive Physics Simulations</h1>
+            <h1>Interactive Physics Simulations</h1>
 
             <p class="openingParagraph">Fun, interactive simulations of physical phenomena from the Physics Education Technology project at the University of Colorado.</p>
 
-            <p class="findOutMore"><a href="simulations/index.php"><img src="images/findOutMore.gif" alt="Find out More" title="Find out More" /></a><br />
-            <br />
+            <p class="findOutMore">
+                <a href="simulations/index.php">
+                    <img src="images/findOutMore.gif" alt="Find out More" title="Find out More" />
+                </a>
+                
+                <br />
+                <br />
             
-            <img src="images/version_es.gif" /> <a class="espanol" href="http://translate.google.com/translate?hl=es&amp;sl=en&amp;u=http://phet.colorado.edu/new/index.php">Simulaciones en espa&ntilde;ol</a></p>
+                <img src="images/version_es.gif" /> 
+                
+                    <a class="espanol" href="http://translate.google.com/translate?hl=es&amp;sl=en&amp;u=http://phet.colorado.edu/new/index.php">Simulaciones en espa&ntilde;ol
+                    </a>
+            
+            </p>
 
             <div class="clear"></div>
         </div>
