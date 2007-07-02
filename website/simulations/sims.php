@@ -64,7 +64,7 @@
             
 
             <div class="simsummary">
-                $sim_desc
+                <p>$sim_desc</p>
 
                 <table>
                     <tr>

@@ -589,8 +589,9 @@ EOT;
                                 </fieldset>
                             </form>
                         </div>
+                        
+                        <div class="main">
                     
-                        <div class="productList">
 EOT;
 
         call_user_func($content_printer);

@@ -17,6 +17,9 @@ h1 {
 	color:			#c60;
 	font-size:		18px;	
 }
+h1:first-child {
+	margin-top: 2em;
+}
 h2 {
 	color:		#15337f;
 	font-size:	16px;
@@ -131,7 +134,7 @@ hr {
 #container {
 	margin:	 0 auto;
 	padding: 0;
-	width:   818px;
+	width:   900px;/* 818px; */
 }
 /******** =header ********/
 #header {
@@ -235,7 +238,7 @@ hr {
 #loginform input:focus,#loginform input:hover {
 	border:1px solid #333333;
 }
-#loginform .error{
+#loginform *.error{
     color:red;
     font-weight:bold;
 }
@@ -390,12 +393,12 @@ div.horizontal_center {
     border:			1px solid #999999;
     background:		#CCCCCC;
 }*/
-#contributioneditform .multiselector {
+#contributioneditform *.multiselector {
 	width:          500px;
     float:			right;
 	margin-top:     1em;
 }
-#contributioneditform .selector, #contributioneditform .inputcontainer {
+#contributioneditform *.selector, #contributioneditform *.inputcontainer {
 	width:          400px;
     float:			right;
 }
@@ -405,15 +408,15 @@ div.horizontal_center {
 	clear: right;
     margin: 15px 150px 15px 150px;    
 }
-#contributioneditform .error {
+#contributioneditform *.error {
     color:red;
     font-weight:bold;
 }
-#contributioneditform .required {
+#contributioneditform *.required {
     color:     #B22222;
     font-weight:bold;
 }
-#contributioneditform .required:hover {
+#contributioneditform *.required:hover {
     color:      red;
     font-weight:bold;
 }
@@ -445,7 +448,7 @@ div.horizontal_center {
 #userprofileform input:focus, #userprofileform input:hover {
 	border:1px solid #333333;
 }*/
-#userprofileform .error{
+#userprofileform *.error{
     color:			red;
     font-weight:	bold;
 }
@@ -457,24 +460,10 @@ div.horizontal_center {
 	margin:0 0 10px 0;
 	padding:0 0 0 18px;
 }
-/*#headerContainer div.globalNav ul {
-	background:url(../images/globalNavRight_BG.gif) right bottom no-repeat;
-	margin:		0;
-	padding:	3px 18px 5px 0;
+/******** =footer ********/
+#footer {
+	padding-bottom: 2em;
 }
-#headerContainer div.globalNav ul li {
-	display:inline;
-	margin:0;
-	padding:0 8px;
-}
-#headerContainer div.globalNav ul li.last {
-	background:url(../images/globalNavSeperator.gif) left top no-repeat;
-	padding-left:12px;
-}
-#headerContainer div.globalNav ul li a:hover {
-	text-decoration: underline;
-}
-*//******** =footer ********/
 #footer p {
 	color:		black;
 	font-size:	14px;
@@ -492,7 +481,7 @@ div.horizontal_center {
 	background:		url(../images/content_BG.gif) right bottom no-repeat;
 	width:  		578px;
 	margin:			0 0 100px 240px;
-	padding: 		10px 0px 10px 0px;
+	padding: 		10px 0 0 0;
 }
 #content a {
 	color:				#900;
@@ -503,6 +492,12 @@ div.horizontal_center {
 	color:#666;
 	text-decoration:underline;
 	font-weight:bold;
+}
+#content p {
+	padding-left: 	0;
+	padding-right:  0;
+	margin-left:   	2em;
+	margin-right: 	2em;
 }
 /*-------- color of openingParagraph changes based on page --------*/
 /******** =openingParagraph ********/
@@ -530,29 +525,48 @@ p.openingParagraph {
 	text-decoration:	underline;
 }
 
-/* Product Listings */
-.productList {
-	position:	relative;
-	width: 		100%;
-	float: 		left;
+#content div.main {
+	float: left;
 }
-.productEntry {
+
+#content div.full-width {
+	width: 			578px;
+	clear:			left;
+}
+
+/* Product Listings */
+#content div.productList {
+	width: 			510px;
+	float: 		 	left;
+	margin:			0 34px 0 34px;
+	padding:		0;
+	margin-bottom:	-35px;
+}
+#content div.offset-pane {
+	width: 			510px;
+	float: 		 	left;
+	margin:			0 34px 0 34px;
+	padding:		0;
+}
+#content div.productEntry {
 	width:      130px;
-	height: 	160px;
-    /* overflow: 	hidden; */
+	height: 	150px;
+    overflow: 	hidden; 
 	float: 		left;
+	margin:		0;
 	padding:	5px 20px 5px 20px;
 	font-size:	9pt;
 }
-.productEntry p {
+#content div.productEntry p {
 	width:			120px;
+	margin:         0;
+	padding:        0;
 	padding-left:   5%;
 	padding-right:  5%;
 	text-align: 	center;
-	margin-top:		0;
 	line-height:	1.1em;
 }
-.productList a {
+div.productList a {
 	color:#363531;
 }
 
@@ -608,10 +622,6 @@ span.highlight {
 	background:#ff6;
 	padding:3px;
 }
-img.sponsors {
-	float:left;
-	margin:0px 3px 0px 0px;
-}
 dl a:hover {
 	color:#c60;
 }
@@ -628,9 +638,9 @@ span.sub {
 	margin-left:14px;
 }
 div.simpreview {
-	float:	left;
-	border:	none;
-	width:  300px;
+	float:	 left;
+	border:	 none;
+	width:   300px;
 	padding: 0;
 	margin:	 0 0 0 20px;
 }
@@ -662,7 +672,11 @@ div.simsummary {
 	margin:  0;
 	padding: 0;
 	float: 	 right;
-	width: 	 220px;
+	width: 	 230px;
+}
+#container div.simsummary p {
+	padding: 0;
+	margin:  0;
 }
 #content a.breadcrumbs {
 	margin:0px 20px 0px 0px;
@@ -1027,12 +1041,12 @@ img.bordered_sponsors {
 	clear: 		right;
     margin: 	15px 150px 15px 150px;    
 }
-#quicksubmit .field div.button {
+#quicksubmit *.field div.button {
 	width:        578px;
 	float: 		  right;
 	margin-top:   1em;
 }
-#quicksubmit .field {
+#quicksubmit *.field {
 	margin-bottom: 1em;
 }
 #quicksubmit div.field .label_content {
@@ -1045,7 +1059,7 @@ img.bordered_sponsors {
 	left:         70%;
 }
 
-#content #keywords .keywordlist {
+#content #keywords *.keywordlist {
 	padding:        0;
 	margin: 		0;	
 }
@@ -1058,13 +1072,13 @@ img.bordered_sponsors {
 	text-align:   		right;
 }
 
-#content .compact table {
+#content *.compact table {
 	background-color: 	transparent;
 	padding:			0;
 	margin: 		  	5px 10px 20px 10px;
 	border-collapse:    collapse;
 }
-#content .compact table td {
+#content *.compact table td {
 	background-color: 	transparent;
 	padding: 		  	0.25ex 0 0.25ex 2ex;
 	margin:				0 0 0 0;
@@ -1072,14 +1086,14 @@ img.bordered_sponsors {
 	border-style:		none;
 	vertical-align: 	top;
 }
-#content .compact tbody td input {
+#content *.compact tbody td input {
 	margin-top:    2ex;
 }
-#content .compact table thead td {
+#content *.compact table thead td {
 	font-weight: 	bold;
 	border-bottom:  1px solid rgb(220, 220, 220);
 }
-#content .compact table tbody td ul {
+#content *.compact table tbody td ul {
 	padding: 0;
 	margin:  0.5ex 0.5ex 0.5ex 1.5em;
 }
@@ -1201,6 +1215,11 @@ div.research .publication_htmllink {
 #sponsors {
 	width: 178px;
 }
+img.sponsors {
+	float:left;
+	margin:0px 3px 0px 0px;
+}
+
 /* -------- Related Links --------*/
 #sponsors dl {
 	background:url(../images/relatedLinksBTTM_BG.gif) left bottom no-repeat;

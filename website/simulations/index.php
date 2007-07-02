@@ -23,14 +23,14 @@
         
         // Print the category header -- e.g. 'Top Sims':
         if (!$category_rows) {
-            print "<div class=\"productListHeader\"><h1>Invalid Category</h1></div>";
+            print "<h1>Invalid Category</h1>";
         }
         else {
             $category_row = mysql_fetch_assoc($category_rows);
             
             $cat_name = $category_row['cat_name'];
 
-            print "<div class=\"productListHeader\"><h1>$cat_name</h1></div>";
+            print "<h1>$cat_name</h1>";
         }
 
         $sim_limit = SIMS_PER_PAGE;
@@ -89,6 +89,7 @@
             }
 
             //--------------------------------------------------
+            
             print "<div class=\"productList\">";
 
             $sim_number = -1;
@@ -191,7 +192,7 @@ EOT;
         print "</div>";
             
         print <<<EOT
-            <div class="clear">
+            <div class="full-width">
                 <br/>
                 <p>
                     <a href="../teacher_ideas/browse.php?cat=$cat_encoding">related ideas &amp; activities</a> 
