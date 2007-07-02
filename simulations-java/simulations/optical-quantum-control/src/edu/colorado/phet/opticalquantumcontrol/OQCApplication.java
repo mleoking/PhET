@@ -17,6 +17,7 @@ import java.io.IOException;
 
 import javax.swing.JDialog;
 import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -36,10 +37,10 @@ public class OQCApplication extends PhetApplication {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private OQCModule _shaperModule;
     private JDialog _explanationDialog;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -52,11 +53,11 @@ public class OQCApplication extends PhetApplication {
         initModules();
         initMenubar();
     }
-    
+
     //----------------------------------------------------------------------------
     // Modules
     //----------------------------------------------------------------------------
-    
+
     /*
      * Initializes the modules.
      * 
@@ -66,35 +67,37 @@ public class OQCApplication extends PhetApplication {
         _shaperModule = new OQCModule();
         addModule( _shaperModule );
     }
-    
+
     //----------------------------------------------------------------------------
     // Menubar
     //----------------------------------------------------------------------------
-    
+
     /*
      * Initializes the menubar.
      */
     private void initMenubar() {
-        
+
         // Help menu extensions
         HelpMenu helpMenu = getPhetFrame().getHelpMenu();
         if ( helpMenu != null ) {
-            
+
             // Explanation...
             JMenuItem explanationItem = new JMenuItem( OQCResources.MENU_EXPLANATION );
             explanationItem.setMnemonic( OQCResources.MENU_EXPLANATION_MNEMONIC );
             explanationItem.addActionListener( new ActionListener() {
+
                 public void actionPerformed( ActionEvent e ) {
                     _explanationDialog = new ExplanationDialog( getPhetFrame() );
                     _explanationDialog.show();
                 }
             } );
             helpMenu.add( explanationItem );
-            
+
             // Cheat...
             JMenuItem cheatItem = new JMenuItem( OQCResources.MENU_CHEAT );
             cheatItem.setMnemonic( OQCResources.MENU_CHEAT_MNEMONIC );
             cheatItem.addActionListener( new ActionListener() {
+
                 public void actionPerformed( ActionEvent e ) {
                     _shaperModule.setCheatEnabled( true );
                 }
@@ -102,7 +105,7 @@ public class OQCApplication extends PhetApplication {
             helpMenu.add( cheatItem );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
@@ -112,14 +115,28 @@ public class OQCApplication extends PhetApplication {
      * 
      * @param args command line arguments
      */
-    public static void main( String[] args ) throws IOException {
+    public static void main( final String[] args ) throws IOException {
 
-        PhetApplicationConfig config = new PhetApplicationConfig( args, OQCConstants.FRAME_SETUP, OQCResources.getResourceLoader() );
-        
-        // Create the application.
-        OQCApplication app = new OQCApplication( config );
-        
-        // Start the application.
-        app.startApplication();
+        /* 
+         * Wrap the body of main in invokeLater, so that all initialization occurs 
+         * in the event dispatch thread. Sun now recommends doing all Swing init in
+         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
+         * seem to cause startup deadlock problems if they aren't initialized in the 
+         * event dispatch thread. Since we don't have an easy way to separate Swing and 
+         * non-Swing init, we're stuck doing everything in invokeLater.
+         */
+        SwingUtilities.invokeLater( new Runnable() {
+
+            public void run() {
+
+                PhetApplicationConfig config = new PhetApplicationConfig( args, OQCConstants.FRAME_SETUP, OQCResources.getResourceLoader() );
+
+                // Create the application.
+                OQCApplication app = new OQCApplication( config );
+
+                // Start the application.
+                app.startApplication();
+            }
+        } );
     }
 }
