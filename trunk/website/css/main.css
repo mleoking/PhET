@@ -712,11 +712,17 @@ span.size {
 	color:#000;
 	font-size:15px;
 }
+ul.content-points {
+	padding:      0;
+	margin-left:  1em;
+	margin-right: 1em;
+}
 ul.content-points li {
 	background:url(../images/icon-bullet.png) no-repeat 0px 2px;
 	list-style-type:none;
-	padding:0px 0px 0px 15px;
-	line-height:18px;
+	margin:			0;
+	padding:		0px 0px 0px 15px;
+	line-height:	18px;
 }
 ul.content-points li span.red {
 	color:#900;
