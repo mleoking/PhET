@@ -583,9 +583,9 @@ EOT;
                             <form method="post" action="../simulations/search.php">
                                 <fieldset>
                                     <span>Search</span>
-                                    <input type="text" size="15" name="search_for" title="Enter the text to search for"/>
-                                    <input type="submit" value="Go" title="Click here to search the PhET website"/>
-                                    <input type="hidden" name="referrer" value="$referrer" />
+                                    <input type="text" size="15" name="search_for" title="Enter the text to search for" class="always-enabled" />
+                                    <input type="submit" value="Go" title="Click here to search the PhET website" class="always-enabled" />
+                                    <input type="hidden" name="referrer" value="$referrer"  class="always-enabled" />
                                 </fieldset>
                             </form>
                         </div>

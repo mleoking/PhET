@@ -290,7 +290,7 @@ EOT;
                                             <td class="label">email</td>
 
                                             <td>
-                                                <input type="text" size="15" name="contributor_email"  class="always_enabled"/>
+                                                <input type="text" size="15" name="contributor_email"  class="always-enabled"/>
                                             </td>
                                         </tr>
 
@@ -298,7 +298,7 @@ EOT;
                                             <td class="label">password</td>
 
                                             <td>
-                                                <input type="password" size="15" name="contributor_password"  class="always_enabled"/>
+                                                <input type="password" size="15" name="contributor_password"  class="always-enabled"/>
                                             </td>
                                         </tr>
 
@@ -308,8 +308,8 @@ EOT;
                                     </div>
                                 </table>
                                 
-                                <input type="hidden" name="referrer"        value="$referrer"        class="always_enabled"/>
-                                <input type="hidden" name="contribution_id" value="$contribution_id" class="always_enabled"/>
+                                <input type="hidden" name="referrer"        value="$referrer"        class="always-enabled"/>
+                                <input type="hidden" name="contribution_id" value="$contribution_id" class="always-enabled"/>
                             </fieldset>
                         </form>
                     </td>
@@ -329,7 +329,7 @@ EOT;
                                             <td class="label">name</td>
 
                                             <td>
-                                                <input type="text" size="15" name="contributor_name"  class="always_enabled"/>
+                                                <input type="text" size="15" name="contributor_name"  class="always-enabled"/>
                                             </td>
                                         </tr>
 
@@ -337,7 +337,7 @@ EOT;
                                             <td class="label">email</td>
 
                                             <td>
-                                                <input type="text" size="15" name="contributor_email" class="always_enabled" />
+                                                <input type="text" size="15" name="contributor_email" class="always-enabled" />
                                             </td>
                                         </tr>
 
@@ -345,7 +345,7 @@ EOT;
                                             <td class="label">password</td>
 
                                             <td>
-                                                <input type="password" size="15" name="contributor_password"  class="always_enabled"/>
+                                                <input type="password" size="15" name="contributor_password"  class="always-enabled"/>
                                             </td>
                                         </tr>
 
@@ -353,7 +353,7 @@ EOT;
                                             <td class="label">organization</td>
 
                                             <td>
-                                                <input type="text" size="15" name="contributor_organization"  class="always_enabled"/>
+                                                <input type="text" size="15" name="contributor_organization"  class="always-enabled"/>
                                             </td>
                                         </tr>
 
@@ -365,8 +365,8 @@ EOT;
                                     </div>
                                 </table>
 
-                                <input type="hidden" name="referrer"        value="$referrer"        class="always_enabled"/>
-                                <input type="hidden" name="contribution_id" value="$contribution_id" class="always_enabled"/>
+                                <input type="hidden" name="referrer"        value="$referrer"        class="always-enabled"/>
+                                <input type="hidden" name="contribution_id" value="$contribution_id" class="always-enabled"/>
                             </fieldset>
                         </form>
                     </td>
@@ -380,8 +380,8 @@ EOT;
                 // This code will disable everything on the page, except the login stuff
                 $(document).ready(
                     function() {
-                        $('input').not('.always_enabled').disable();
-                        $('select').not('.always_enabled').disable();
+                        $('input').not('.always-enabled').disable();
+                        $('select').not('.always-enabled').disable();
                         $('input.button').enable();
                     }
                 );

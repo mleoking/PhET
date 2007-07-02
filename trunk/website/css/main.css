@@ -538,7 +538,7 @@ p.openingParagraph {
 #content div.productList {
 	width: 			510px;
 	float: 		 	left;
-	margin:			0 34px 0 34px;
+	margin:			0 auto 0 34px;
 	padding:		0;
 	margin-bottom:	-35px;
 }

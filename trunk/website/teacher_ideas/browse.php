@@ -306,6 +306,8 @@ EOT;
         $level_list = build_level_list($Levels);
                 
         print <<<EOT
+            <h1>Browse Contributions</h1>
+            
             <script type="text/javascript">
                 /* <![CDATA[ */
                     function browse_build_update_query(select_prefix) {                        
