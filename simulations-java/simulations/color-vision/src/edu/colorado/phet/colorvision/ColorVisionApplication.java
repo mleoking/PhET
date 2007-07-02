@@ -14,6 +14,8 @@ package edu.colorado.phet.colorvision;
 import java.awt.Color;
 import java.util.Properties;
 
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.colorvision.phetcommon.application.PhetApplication;
 import edu.colorado.phet.colorvision.phetcommon.util.PropertiesLoader;
 import edu.colorado.phet.colorvision.phetcommon.view.util.FrameSetup;
@@ -50,32 +52,45 @@ public class ColorVisionApplication extends PhetApplication {
      * 
      * @param args command line arguments
      */
-    public static void main( String[] args ) {
+    public static void main( final String[] args ) {
 
-        BoundsOutliner.setEnabled( BOUNDS_OUTLINE_ENABLED ); // DEBUG
+        /* 
+         * Wrap the body of main in invokeLater, so that all initialization occurs 
+         * in the event dispatch thread. Sun now recommends doing all Swing init in
+         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
+         * seem to cause startup deadlock problems if they aren't initialized in the 
+         * event dispatch thread. Since we don't have an easy way to separate Swing and 
+         * non-Swing init, we're stuck doing everything in invokeLater.
+         */
+        SwingUtilities.invokeLater( new Runnable() {
 
-        // Initialize localization.
-        SimStrings.getInstance().init( args, ColorVisionConstants.SIM_STRINGS_NAME );
-        SimStrings.getInstance().addStrings( ColorVisionConstants.COMMON_STRINGS_NAME );
+            public void run() {
+                BoundsOutliner.setEnabled( BOUNDS_OUTLINE_ENABLED ); // DEBUG
 
-        // Load simulation properties file
-        Properties simulationProperties = PropertiesLoader.loadProperties( ColorVisionConstants.SIM_PROPERTIES_NAME );
-        
-        // Get stuff needed to initialize the application model.
-        String title = SimStrings.get( "color-vision.name" );
-        String description = SimStrings.get( "color-vision.description" );
-        String version = PhetApplication.getVersionString( simulationProperties );
-        int width = ColorVisionConstants.APP_FRAME_WIDTH;
-        int height = ColorVisionConstants.APP_FRAME_HEIGHT;
-        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
+                // Initialize localization.
+                SimStrings.getInstance().init( args, ColorVisionConstants.SIM_STRINGS_NAME );
+                SimStrings.getInstance().addStrings( ColorVisionConstants.COMMON_STRINGS_NAME );
 
-        // Create the application model.
-        ColorVisionApplicationModel appModel = new ColorVisionApplicationModel( title, description, version, frameSetup );
-        
-        // Create and start the application.
-        PhetApplication app = new ColorVisionApplication( appModel );
-        app.setSimulationProperties( simulationProperties );
-        app.getApplicationView().getPhetFrame().setBackground( BACKGROUND );
-        app.startApplication();
+                // Load simulation properties file
+                Properties simulationProperties = PropertiesLoader.loadProperties( ColorVisionConstants.SIM_PROPERTIES_NAME );
+
+                // Get stuff needed to initialize the application model.
+                String title = SimStrings.get( "color-vision.name" );
+                String description = SimStrings.get( "color-vision.description" );
+                String version = PhetApplication.getVersionString( simulationProperties );
+                int width = ColorVisionConstants.APP_FRAME_WIDTH;
+                int height = ColorVisionConstants.APP_FRAME_HEIGHT;
+                FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
+
+                // Create the application model.
+                ColorVisionApplicationModel appModel = new ColorVisionApplicationModel( title, description, version, frameSetup );
+
+                // Create and start the application.
+                PhetApplication app = new ColorVisionApplication( appModel );
+                app.setSimulationProperties( simulationProperties );
+                app.getApplicationView().getPhetFrame().setBackground( BACKGROUND );
+                app.startApplication();
+            }
+        } );
     }
 }
