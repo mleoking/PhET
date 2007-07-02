@@ -3,7 +3,6 @@
 ================================================================================
 
 IN PROGRESS:
-- adjust clock time display as dt is changed
 
 AAPT:
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
@@ -62,6 +61,8 @@ MISSING INFO:
 
  
 DONE:
+7/2/07 - adjust clock time display format when dt is changed
+7/2/07 - reset the clock time whenever dt is changed
 7/2/07 - make the non-interactive labels in LaserPowerControl draggable
 6/29/07 - make laser danger sign look better
 6/29/07 - make entire laser control panel draggable

@@ -41,6 +41,20 @@ public class OTClock extends ConstantDtClock {
     }
     
     //----------------------------------------------------------------------------
+    // Superclass overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Reset the clock when dt is changed.
+     * 
+     * @param dt
+     */
+    public void setDt( double dt ) {
+        super.setDt( dt );
+        resetSimulationTime();
+    }
+    
+    //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
     

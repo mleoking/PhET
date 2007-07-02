@@ -4,6 +4,7 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
@@ -22,7 +23,7 @@ public class PhysicsModule extends AbstractModule {
     private PhysicsModel _model;
     private PhysicsCanvas _canvas;
     private PhysicsControlPanel _controlPanel;
-    private ClockControlPanelWithTimeDisplay _clockControlPanel;
+    private OTClockControlPanel _clockControlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -44,10 +45,8 @@ public class PhysicsModule extends AbstractModule {
         setControlPanel( _controlPanel );
         
         // Clock controls
-        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (OTClock) getClock() );
-        _clockControlPanel.setTimeFormat( PhysicsDefaults.CLOCK_TIME_PATTERN );
+        _clockControlPanel = new OTClockControlPanel( (OTClock) getClock() );
         _clockControlPanel.setTimeColumns( PhysicsDefaults.CLOCK_TIME_COLUMNS );
-        _clockControlPanel.setUnits( OTResources.getString( "units.time" ) );
         setClockControlPanel( _clockControlPanel );
         
         // Set initial state
