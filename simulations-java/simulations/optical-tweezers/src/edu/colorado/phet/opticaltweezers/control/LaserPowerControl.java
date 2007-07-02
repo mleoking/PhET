@@ -291,19 +291,26 @@ public class LaserPowerControl  {
             revertTextField();
         }
 
+        boolean textFieldDirty = false;
         if ( power < _minPower ) {
             Toolkit.getDefaultToolkit().beep();
             power = _minPower;
+            textFieldDirty = true;
         }
         else if ( power > _maxPower ) {
             Toolkit.getDefaultToolkit().beep();
             power = _maxPower;
+            textFieldDirty = true;
         }
         
         // Set the power
         _intensitySlider.removeChangeListener( _listener );
         setPower( power );
         _intensitySlider.addChangeListener( _listener );
+        
+        if ( textFieldDirty ) {
+            revertTextField();
+        }
     }
     
     private void handleSliderChanged() {
