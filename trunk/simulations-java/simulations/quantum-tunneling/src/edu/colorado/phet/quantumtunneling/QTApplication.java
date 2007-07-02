@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -212,12 +213,27 @@ public class QTApplication extends PhetApplication {
      */
     public static void main( final String[] args ) throws IOException {
 
-        PhetApplicationConfig config = new PhetApplicationConfig( args, QTConstants.FRAME_SETUP,  QTResources.getResourceLoader() );
-        
-        // Create the application.
-        QTApplication app = new QTApplication( config );
-        
-        // Start the application.
-        app.startApplication();
+        /* 
+         * Wrap the body of main in invokeLater, so that all initialization occurs 
+         * in the event dispatch thread. Sun now recommends doing all Swing init in
+         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
+         * seem to cause startup deadlock problems if they aren't initialized in the 
+         * event dispatch thread. Since we don't have an easy way to separate Swing and 
+         * non-Swing init, we're stuck doing everything in invokeLater.
+         */
+        SwingUtilities.invokeLater( new Runnable() {
+
+            public void run() {
+
+                // Config
+                PhetApplicationConfig config = new PhetApplicationConfig( args, QTConstants.FRAME_SETUP,  QTResources.getResourceLoader() );
+                
+                // Create the application.
+                QTApplication app = new QTApplication( config );
+                
+                // Start the application.
+                app.startApplication();
+            }
+        } );
     }
 }
