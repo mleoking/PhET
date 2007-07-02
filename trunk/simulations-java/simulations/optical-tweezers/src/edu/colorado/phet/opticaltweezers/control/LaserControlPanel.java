@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.media.jai.UntiledOpImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -43,6 +44,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     private static final int X_MARGIN = 10;
     private static final int Y_MARGIN = 10;
     private static final int X_SPACING = 20; // horizontal spacing between components, in pixels
+    private static final int X_SPACING_INTENSITY_CONTROL = 3; // spacing between parts of the intensity control
     
     private static final Stroke PANEL_STROKE = new BasicStroke( 1f );
     private static final Color PANEL_STROKE_COLOR = Color.BLACK;
@@ -60,14 +62,17 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     
     private JButton _startStopButton;
     private LaserPowerControl _powerControl;
-    private PNode _signNode;
+
     private PPath _backgroundNode;
-    private ChangeListener _powerControlListener;
-    
     private PSwing _startStopButtonWrapper;
-    private PSwing _powerControlWrapper;
+    private PSwing _labelWrapper;
+    private PSwing _sliderWrapper;
+    private PSwing _textFieldWrapper;
+    private PSwing _unitsWrapper;
+    private PNode _signNode;
     
     private Icon _startIcon, _stopIcon;
+    private ChangeListener _powerControlListener;
     
     //----------------------------------------------------------------------------
     // Constructors & initializers
@@ -119,19 +124,32 @@ public class LaserControlPanel extends PhetPNode implements Observer {
             }
         };
         _powerControl.addChangeListener( _powerControlListener );
-        _powerControlWrapper = new PSwing( _powerControl );
+        _labelWrapper = new PSwing( _powerControl.getLabel() );
+        _sliderWrapper = new PSwing( _powerControl.getSlider() );
+        _textFieldWrapper = new PSwing( _powerControl.getTextField() );
+        _unitsWrapper = new PSwing( _powerControl.getUnitsLabel() );
         
         // Panel background
         double xMargin = X_MARGIN;
-        double panelWidth = X_MARGIN + _signNode.getWidth() + X_SPACING + _startStopButtonWrapper.getFullBounds().getWidth() + 
-            X_SPACING + _powerControlWrapper.getFullBounds().getWidth() + X_MARGIN;
+        double panelWidth = X_MARGIN + 
+            _startStopButtonWrapper.getFullBounds().getWidth() + X_SPACING +
+            _labelWrapper.getFullBounds().getWidth() + X_SPACING_INTENSITY_CONTROL + 
+            _sliderWrapper.getFullBounds().getWidth() + X_SPACING_INTENSITY_CONTROL + 
+            _textFieldWrapper.getFullBounds().getWidth() + X_SPACING_INTENSITY_CONTROL + 
+            _unitsWrapper.getFullBounds().getWidth() + X_SPACING + 
+            _signNode.getWidth() + 
+            X_MARGIN;
         if ( panelWidth < minPanelWidth ) {
             xMargin = ( minPanelWidth - panelWidth ) / 2;
             panelWidth = minPanelWidth;
         }
-        double panelHeight = Y_MARGIN + 
-            Math.max( Math.max( _signNode.getHeight(), _startStopButtonWrapper.getFullBounds().getHeight() ), _powerControlWrapper.getFullBounds().getHeight() ) +
-            Y_MARGIN;
+        double maxComponentHeight = Math.max( _startStopButtonWrapper.getFullBounds().getHeight(), _labelWrapper.getFullBounds().getHeight() );
+        maxComponentHeight = Math.max( maxComponentHeight, _labelWrapper.getFullBounds().getHeight() );
+        maxComponentHeight = Math.max( maxComponentHeight, _sliderWrapper.getFullBounds().getHeight() );
+        maxComponentHeight = Math.max( maxComponentHeight, _textFieldWrapper.getFullBounds().getHeight() );
+        maxComponentHeight = Math.max( maxComponentHeight, _unitsWrapper.getFullBounds().getHeight() );
+        maxComponentHeight = Math.max( maxComponentHeight, _signNode.getFullBounds().getHeight() );
+        double panelHeight = Y_MARGIN + maxComponentHeight + Y_MARGIN;
         _backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, panelWidth, panelHeight ) );
         _backgroundNode.setStroke( PANEL_STROKE );
         _backgroundNode.setStrokePaint( PANEL_STROKE_COLOR );
@@ -139,27 +157,47 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         
         // Layering
         addChild( _backgroundNode );
-        addChild( _signNode );
         addChild( _startStopButtonWrapper );
-        addChild( _powerControlWrapper );
+        addChild( _labelWrapper );
+        addChild( _sliderWrapper );
+        addChild( _textFieldWrapper );
+        addChild( _unitsWrapper );
+        addChild( _signNode );
         
         // Hand cursor on Swing controls
         _startStopButtonWrapper.addInputEventListener( new CursorHandler() );
-        
+
         // Positioning, all components vertically centered
-        final double bgHeight = _backgroundNode.getFullBounds().getHeight();
-        double x = 0;
-        double y = 0;
-        _backgroundNode.setOffset( x, y );
-        x += xMargin;
-        y = ( bgHeight - _startStopButtonWrapper.getHeight() ) / 2;
-        _startStopButtonWrapper.setOffset( x, y );
-        x += _startStopButtonWrapper.getWidth() + X_SPACING;
-        y = ( bgHeight - _powerControlWrapper.getFullBounds().getHeight() ) / 2;
-        _powerControlWrapper.setOffset( x, y );
-        x += _powerControlWrapper.getFullBounds().getWidth() + X_SPACING;
-        y = ( bgHeight - _signNode.getFullBounds().getHeight() ) / 2;
-        _signNode.setOffset( x, y );
+        {
+            final double bgHeight = _backgroundNode.getFullBounds().getHeight();
+            double x = 0;
+            double y = 0;
+            _backgroundNode.setOffset( x, y );
+
+            x += xMargin;
+            y = ( bgHeight - _startStopButtonWrapper.getHeight() ) / 2;
+            _startStopButtonWrapper.setOffset( x, y );
+
+            x += _startStopButtonWrapper.getWidth() + X_SPACING;
+            y = ( bgHeight - _labelWrapper.getFullBounds().getHeight() ) / 2;
+            _labelWrapper.setOffset( x, y );
+
+            x += _labelWrapper.getFullBounds().getWidth() + X_SPACING_INTENSITY_CONTROL;
+            y = ( bgHeight - _sliderWrapper.getFullBounds().getHeight() ) / 2;
+            _sliderWrapper.setOffset( x, y );
+            
+            x += _sliderWrapper.getFullBounds().getWidth() + X_SPACING_INTENSITY_CONTROL;
+            y = ( bgHeight - _textFieldWrapper.getFullBounds().getHeight() ) / 2;
+            _textFieldWrapper.setOffset( x, y );
+            
+            x += _textFieldWrapper.getFullBounds().getWidth() + X_SPACING_INTENSITY_CONTROL;
+            y = ( bgHeight - _unitsWrapper.getFullBounds().getHeight() ) / 2;
+            _unitsWrapper.setOffset( x, y );
+            
+            x += _unitsWrapper.getFullBounds().getWidth() + X_SPACING;
+            y = ( bgHeight - _signNode.getFullBounds().getHeight() ) / 2;
+            _signNode.setOffset( x, y );
+        }
     }
     
     public void cleanup() {
@@ -184,6 +222,8 @@ public class LaserControlPanel extends PhetPNode implements Observer {
      */
     public void initDragCursor( Cursor cursor ) {
         _backgroundNode.addInputEventListener( new CursorHandler( cursor ) );
+        _labelWrapper.addInputEventListener( new CursorHandler( cursor ) );
+        _unitsWrapper.addInputEventListener( new CursorHandler( cursor ) );
         _signNode.addInputEventListener( new CursorHandler( cursor ) );
     }
     
@@ -235,7 +275,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         
         public void mouseDragged( PInputEvent event ) {
             PNode pickedNode = event.getPickedNode();
-            if ( pickedNode != _startStopButtonWrapper && pickedNode != _powerControlWrapper ) {
+            if ( pickedNode != _startStopButtonWrapper && pickedNode != _sliderWrapper && pickedNode != _textFieldWrapper ) {
                 super.mouseDragged( event );
             }
         }

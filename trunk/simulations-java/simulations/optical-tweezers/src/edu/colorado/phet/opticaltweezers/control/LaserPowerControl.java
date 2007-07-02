@@ -2,43 +2,51 @@
 
 package edu.colorado.phet.opticaltweezers.control;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
+import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.opticaltweezers.util.CursorUtils;
 
 /**
  * LaserPowerControl is a control for laser power.
  * It combines a ColorIntensitySlider and an editable text field.
+ * <p>
+ * NOTE! This control does not handle layout of its components.
+ * Layout is handled in LaserControlPanel, so that we can deal 
+ * with issues related to Piccolo dragging.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LaserPowerControl extends JPanel {
+public class LaserPowerControl  {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private double _minPower, _maxPower;
-    private double _power;
-    
     private JLabel _label;
     private ColorIntensitySlider _intensitySlider;
     private JFormattedTextField _formattedTextField;
-    private DecimalFormat _formatter;
     private JLabel _units;
+    
+    private double _minPower, _maxPower;
+    private double _power;
+    
+    private DecimalFormat _formatter;
     private EventHandler _listener;
     private EventListenerList _listenerList;
     
@@ -89,21 +97,12 @@ public class LaserPowerControl extends JPanel {
         _units.setFont( font );
         
         // Opacity
-        setOpaque( false );
         _intensitySlider.setOpaque( false );
         _units.setOpaque( false );
         
-        // Layout
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        layout.setInsets( new Insets( 0, 0, 0, 3 ) ); // top, left, bottom, right
-        this.setLayout( layout );
-        layout.setAnchor( GridBagConstraints.WEST );
-        int row = 0;
-        int col = 0;
-        layout.addComponent( _label, row, col++ );
-        layout.addComponent( _intensitySlider, row, col++ );
-        layout.addComponent( _formattedTextField, row, col++ );
-        layout.addComponent( _units, row, col++ );
+        // Cursors
+        _intensitySlider.setCursor( CursorUtils.HAND_CURSOR );
+        _formattedTextField.setCursor( CursorUtils.HAND_CURSOR );
         
         // Default state
         _power = powerRange.getMin() - 1; // force an update
@@ -113,6 +112,22 @@ public class LaserPowerControl extends JPanel {
     //----------------------------------------------------------------------------
     // Accessors and mutators
     //----------------------------------------------------------------------------
+    
+    public JComponent getLabel() {
+        return _label;
+    }
+    
+    public JComponent getSlider() {
+        return _intensitySlider;
+    }
+    
+    public JComponent getTextField() {
+        return _formattedTextField;
+    }
+    
+    public JComponent getUnitsLabel() {
+        return _units;
+    }
     
     public void setWavelength( double wavelength ) {
         Color color = VisibleColor.wavelengthToColor( wavelength );
