@@ -286,10 +286,6 @@ public class PhetProject {
         return properties.getProperty( "project.mainclass" );
     }
 
-    public String[] getMainClasses() {
-        return new String[]{getMainClass()};
-    }
-
     public String[] getAllMainClasses() {
         HashSet mainClasses=new HashSet( );
         if (getMainClass()!=null){
@@ -408,7 +404,7 @@ public class PhetProject {
                 }
             }
 
-            return new PhetProjectFlavor( title, description, mainclass, args, screenshot );
+            return new PhetProjectFlavor( flavorName, title, description, mainclass, args, screenshot );
         }
         catch( IOException e ) {
             e.printStackTrace();
