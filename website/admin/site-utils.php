@@ -27,7 +27,7 @@ EOT;
     
     function print_subnavigation_element($prefix, $link, $desc) {
         print <<<EOT
-        <li><a href="$prefix/$link">$desc</a></li>
+        <li class="subnav"><a href="$prefix/$link" class="subnav">$desc</a></li>
 EOT;
     }
     
@@ -37,19 +37,19 @@ EOT;
         $this_element_is_selected = "$access_key" == "$selected_page";
         
         if ($this_element_is_selected) {
-            $selected_status = "class=\"topnav-selected\"";
+            $selected_status = 'class="topnav-selected"';
         }
         else {
-            $selected_status = '';
+            $selected_status = 'class="topnav"';
         }
         
         print <<<EOT
-            <li $selected_status><a href="$prefix/$link" accesskey="$access_key">$desc</a>
+            <li $selected_status><a href="$prefix/$link" accesskey="$access_key" $selected_status>$desc</a>
 EOT;
 
         if ($this_element_is_selected) {
             if (count($submenus) > 0) {
-                print "<ul>";
+                print '<ul class="subnav">';
             
                 foreach($submenus as $key => $value) {
                     print_subnavigation_element($prefix, $key, $value);
@@ -82,7 +82,7 @@ EOT;
     function print_navigation_bar($selected_page = null, $prefix = "..") {    
         print <<<EOT
             <div id="localNav">
-                <ul>
+                <ul class="topnav">
 EOT;
 
         print_navigation_element(
@@ -191,27 +191,29 @@ EOT;
         print <<<EOT
                 </ul>
 
-                <h4><br />
-                Principle Sponsors</h4>
+                <div id="sponsors">
+                    <h4><br />
+                    Principle Sponsors</h4>
 
-                <dl>
-                    <dt><a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a></dt>
+                    <dl>
+                        <dt><a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a></dt>
 
-                    <dd><a href="http://www.hewlett.org/Default.htm">
-                    <img src="$prefix/images/hewlett-logo.jpg" alt="The Hewlett Logo"/></a><br />
+                        <dd><a href="http://www.hewlett.org/Default.htm">
+                        <img src="$prefix/images/hewlett-logo.jpg" alt="The Hewlett Logo"/></a><br />
                     
-                    <br />
-                    Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time.</dd>
+                        <br />
+                        Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time.</dd>
 
-                    <dt><a href="http://www.nsf.gov/">
-                    <img class="sponsors" src="$prefix/images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a></dt>
+                        <dt><a href="http://www.nsf.gov/">
+                        <img class="sponsors" src="$prefix/images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a></dt>
 
-                    <dd><br />
-                    An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
-                    <br />
-                    <a href="../sponsors/index.php">
-                    <img src="$prefix/images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
-                </dl>
+                        <dd><br />
+                        An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
+                        <br />
+                        <a href="../sponsors/index.php">
+                        <img src="$prefix/images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
+                    </dl>
+                </div>
             </div>
 EOT;
     }
@@ -509,9 +511,10 @@ EOT;
                     }
                     
                     function select_current_navbar_category() {
-                        $("li a").each(function(i) {
+                        $("li.subnav a").each(function(i) {
                             if (string_ends_with(this.href, "$request_uri")) {
-                                this.parentNode.className = 'selected';
+                                this.className            = 'subnav-selected';
+                                this.parentNode.className = 'subnav-selected';
                             }
                         });                        
                     }
