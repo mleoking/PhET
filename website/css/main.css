@@ -28,6 +28,9 @@ p {
 	line-height:19px;
 	color:#000;
 }
+fieldset {
+	margin: 1ex 2em 1ex 2em;
+}
 .clear {
 	clear:both;
 }
@@ -288,8 +291,13 @@ div.form_content {
 
 #browsefilter {
 	margin: 		auto;
-    padding:		0px 0px 25px 0px;	
+    padding:		0px 0px 0px 0px;	
 	border-style:	none;
+}
+#browsefilter table {
+	margin:		0;
+	padding:	0;
+	width: 		578px;
 }
 #browsefilter table, #browsefilter thead, #browsefilter tbody {
 	border-style: 	none;
@@ -304,13 +312,13 @@ div.form_content {
 	padding: 		0;
 }
 #browsefilter table td select.Simulations {
-	width: 225px;
+	width: 245px;
 }
 #browsefilter table td select.Types {
-	width: 130px;
+	width: 140px;
 }
 #browsefilter table td select.Levels {
-	width: 180px;
+	width: 193px;
 }
 #Simulations_uid, #Types_uid, #Levels_uid {
 	width: 100%;
@@ -526,12 +534,13 @@ p.openingParagraph {
 }
 
 #content div.main {
-	float: left;
+	width: 	578px;
+	float: 	left;
 }
 
 #content div.full-width {
-	width: 			578px;
-	clear:			left;
+	width: 	578px;
+	clear:	left;
 }
 
 /* Product Listings */
