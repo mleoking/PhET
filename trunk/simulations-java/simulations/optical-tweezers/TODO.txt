@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 AAPT:
+- do not update dt while simulation speed slider is adjusting?
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
 - when user drags bead, auto-release if DNA extension is 97% of contour length
 - histogram: open in its own non-resizable window
