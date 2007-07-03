@@ -2,10 +2,9 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.awt.image.WritableRaster;
@@ -14,13 +13,11 @@ import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.util.ScaleAlphaImageOp;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**

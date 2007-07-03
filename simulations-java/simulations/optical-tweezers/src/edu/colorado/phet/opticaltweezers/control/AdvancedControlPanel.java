@@ -17,7 +17,6 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.dialog.FluidControlDialog;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
-import edu.colorado.phet.opticaltweezers.model.MicroscopeSlide;
 
 /**
  * AdvancedControlPanel contains miscellaneous "advanced" controls.

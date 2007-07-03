@@ -12,11 +12,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.control.ColorControl;
 import edu.colorado.phet.opticaltweezers.view.AbstractForceNode;

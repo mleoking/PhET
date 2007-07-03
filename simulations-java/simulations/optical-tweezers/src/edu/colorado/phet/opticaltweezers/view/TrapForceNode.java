@@ -2,22 +2,16 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Stroke;
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
-import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * TrapForceNode displays the optical trap force acting on a bead.
