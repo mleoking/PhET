@@ -11,7 +11,6 @@ AAPT:
 - set default ruler position to centered in chart for histogram
 - add snapshot feature to histogram
 - add vertical dashed line in histogram and play area to indicate laser origin
-- reorganize Advanced controls
 - add description to About dialog
 - set correct ranges for slow and fast time scales
 - set correct default values for everything, including developer controls
@@ -65,6 +64,7 @@ MISSING INFO:
 
  
 DONE:
+7/3/07 - combine Advanced controls and ruler checkbox into MiscControlPanel
 7/3/07 - add charts & associated controls to DNA module
 7/3/07 - position Fluid Controls dialog at lower left of play area
 7/3/07 - create mockup of new position histogram

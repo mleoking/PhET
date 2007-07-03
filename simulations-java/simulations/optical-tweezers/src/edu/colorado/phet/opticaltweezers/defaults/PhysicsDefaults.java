@@ -87,7 +87,6 @@ public class PhysicsDefaults {
     public static final boolean POSITION_HISTOGRAM_SELECTED = false;
     public static final boolean POTENTIAL_ENERGY_CHART_SELECTED = false;
     public static final boolean RULER_SELECTED = false;
-    public static final boolean ADVANCED_VISIBLE = true;
     public static final boolean FLUID_CONTROLS_SELECTED = false;
     public static final boolean MOMENTUM_CHANGE_MODEL_SELECTED = false;
     public static final boolean VECTOR_VALUES_VISIBLE = false;

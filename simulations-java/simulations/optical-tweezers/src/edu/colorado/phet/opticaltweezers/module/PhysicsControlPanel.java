@@ -33,10 +33,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     private BeadChargeControlPanel _beadChargeControlPanel;
     private ForcesControlPanel _forcesControlPanel;
     private ChartsControlPanel _chartsControlPanel;
-    private AdvancedControlPanel _advancedControlPanel;
+    private MiscControlPanel _miscControlPanel;
     private DeveloperControlPanel _developerControlPanel;
-    
-    private JCheckBox _rulerCheckBox;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -65,7 +63,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
                 model.getBead(), model.getFluid(),
                 _canvas.getTrapForceNode(), _canvas.getDragForceNode(), null /* dnaForceNode */ );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getPositionHistogramChartNode(), _canvas.getPotentialEnergyChartNode() );
-        _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getFluid() );
+        _miscControlPanel = new MiscControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), _canvas.getRulerNode(), model.getFluid() );
         List forceVectorNodes = new ArrayList();
         forceVectorNodes.add( _canvas.getTrapForceNode() );
         forceVectorNodes.add( _canvas.getDragForceNode() );
@@ -73,20 +71,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
                 model.getBead(), model.getLaser(),
                 null /* dnaStrand */, null /* dnaStrandNode */, 
                 forceVectorNodes,  _canvas.getLaserNode() );
-        
-        _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
-        _rulerCheckBox.setFont( CONTROL_FONT );
-        _rulerCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleRulerCheckBox();
-            }
-        });
-        Icon rulerIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_RULER ) );
-        JLabel rulerLabel = new JLabel( rulerIcon );
-        Box rulerPanel = new Box( BoxLayout.X_AXIS );
-        rulerPanel.add( _rulerCheckBox );
-        rulerPanel.add( Box.createHorizontalStrut( 5 ) );
-        rulerPanel.add( rulerLabel );
         
         // Layout
         {
@@ -101,9 +85,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             addSeparator();
             addControlFullWidth( _chartsControlPanel );
             addSeparator();
-            addControlFullWidth( rulerPanel );
-            addSeparator();
-            addControlFullWidth( _advancedControlPanel );
+            addControlFullWidth( _miscControlPanel );
             addSeparator();
             if ( System.getProperty( OTConstants.PROPERTY_PHET_DEVELOPER ) != null ) {
                 addControlFullWidth( _developerControlPanel );
@@ -111,27 +93,14 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             }
             addResetButton();
         }
-        
-        // Default state
-        _rulerCheckBox.setSelected( false );
-        //XXX enable & disable controls based on clock speed
     }
     
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setRulerSelected( boolean b ) {
-        _rulerCheckBox.setSelected( b );
-        handleRulerCheckBox();
-    }
-    
-    public boolean isRulerSelected() {
-        return _rulerCheckBox.isSelected();
-    }
-    
     public void closeAllDialogs() {
-        _advancedControlPanel.setFluidControlsSelected( false );
+        _miscControlPanel.setFluidControlsSelected( false );
     }
     
     //----------------------------------------------------------------------------
@@ -162,16 +131,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         return _chartsControlPanel;
     }
     
-    public AdvancedControlPanel getAdvancedControlPanel() {
-        return _advancedControlPanel;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Event handlers
-    //----------------------------------------------------------------------------
-    
-    private void handleRulerCheckBox() {
-        final boolean selected = _rulerCheckBox.isSelected();
-        _canvas.getRulerNode().setVisible( selected );
+    public MiscControlPanel getMiscControlPanel() {
+        return _miscControlPanel;
     }
 }
