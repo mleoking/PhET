@@ -7,8 +7,8 @@ IN PROGRESS:
 AAPT:
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
 - when user drags bead, auto-release if DNA extension is 97% of contour length
-- position histogram requires more precision for x-axis and ruler
-- reorganize Advanced controls?
+- rewrite position histogram
+- reorganize Advanced controls
 - add description to About dialog
 - set correct ranges for slow and fast time scales
 - set correct default values for everything, including developer controls
@@ -62,6 +62,7 @@ MISSING INFO:
 
  
 DONE:
+7/3/07 - create mockup of new position histogram
 7/3/07 - fix memory leak in LaserElectricFieldNode._vectorNodes
 7/3/07 - fix error in model that causes e-field to propogate in wrong direction
 7/3/07 - change laser e-field color to dark red (rgb=230,57,5)
