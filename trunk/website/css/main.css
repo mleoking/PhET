@@ -57,6 +57,9 @@ hr {
 #simratinglegend table {
 	border-collapse: collapse;
 }
+#simratinglegend td {
+	padding-bottom: 2em;
+}
 /*#simratinglegend table tbody tr td:first-child {
 	background-color: white;
 }*/
@@ -1228,10 +1231,9 @@ div.research .publication_htmllink {
 #sponsors {
 }
 img.sponsors {
-	float:left;
-	margin:0px 3px 0px 0px;
+	float:	left;
+	margin:	0px 3px 0px 0px;
 }
-
 /* -------- Related Links --------*/
 #sponsors dl {
 	width:   			158px;
@@ -1248,7 +1250,7 @@ img.sponsors {
 	padding:	0 0 4px 18px;
 }
 #sponsors dt {
-	background:url(../images/circleArrow_Icon.gif) left 3px no-repeat;
+	background:	url(../images/circleArrow_Icon.gif) left 3px no-repeat;
 }
 #sponsors dd {
 	border-bottom:	solid 1px #ccc;
@@ -1260,7 +1262,8 @@ img.sponsors {
 #sponsors dd.first {
 	border:	none;
 }
-#sponsors dt a, #sponsors dd a {
+#sponsors dt a, 
+#sponsors dd a {
 	color:				#294ca8;
 	font-weight:		bold;
 	text-decoration:	underline;
