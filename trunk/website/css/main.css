@@ -1226,7 +1226,6 @@ div.research .publication_htmllink {
 
 
 #sponsors {
-	width: 178px;
 }
 img.sponsors {
 	float:left;
@@ -1235,37 +1234,45 @@ img.sponsors {
 
 /* -------- Related Links --------*/
 #sponsors dl {
-	background:url(../images/relatedLinksBTTM_BG.gif) left bottom no-repeat;
-	background-color:#d8eaf4;
-	font-size:.9em;
-	margin:0;
-	padding:0 8px;
+	width:   			158px;
+	background:			url(../images/relatedLinksBTTM_BG.gif) left bottom no-repeat;
+	background-color:	#d8eaf4;
+	font-size:			0.9em;
+	padding: 			0 10px 10px 10px;
+	margin:				0 auto;
+	border:				none;
 }
-#sponsors dt,#sponsors dd {
-	margin:0;
-	padding:0 0 4px 18px;
+#sponsors dt,
+#sponsors dd {
+	margin:		0;
+	padding:	0 0 4px 18px;
 }
 #sponsors dt {
 	background:url(../images/circleArrow_Icon.gif) left 3px no-repeat;
 }
 #sponsors dd {
-	border-bottom:solid 1px #ccc;
-	color:#313131;
-	line-height:1.2em;
-	margin-bottom:15px;
-	padding-bottom:15px;
+	border-bottom:	solid 1px #ccc;
+	color:			#313131;
+	line-height:	1.2em;
+	margin-bottom:	15px;
+	padding-bottom:	15px;
 }
 #sponsors dd.first {
-	border:none;
+	border:	none;
 }
-#sponsors dt a,#sponsors dd a {
-	color:#294ca8;
-	font-weight:bold;
-	text-decoration:underline;
+#sponsors dt a, #sponsors dd a {
+	color:				#294ca8;
+	font-weight:		bold;
+	text-decoration:	underline;
 }
 #sponsors h4 {
-	background:url(../images/relatedLinks_BG.gif) left bottom no-repeat;
-	color:#0d2973;
-	margin:0;
-	padding:0 0 15px 0;
+	color:		#0d2973;
+}
+#sponsors div.header {
+	width:   	178px;
+	height:		8px;
+	background:	url(../images/relatedLinks_BG.gif) left bottom no-repeat;	
+	padding: 	0;
+	margin:		0 auto;
+	border:		none;
 }
