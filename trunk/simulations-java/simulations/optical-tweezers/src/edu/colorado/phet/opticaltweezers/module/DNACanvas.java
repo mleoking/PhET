@@ -21,7 +21,6 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.charts.PositionHistogramChartNode;
 import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
-import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.view.*;
@@ -108,7 +107,7 @@ public class DNACanvas extends PhetPCanvas {
         addWorldChild( _rootNode );
         
         // Microscope slide
-        _microscopeSlideNode = new MicroscopeSlideNode( microscopeSlide, fluid, modelViewTransform, PhysicsDefaults.FLUID_SPEED_RANGE.getMax() );
+        _microscopeSlideNode = new MicroscopeSlideNode( microscopeSlide, fluid, modelViewTransform, DNADefaults.FLUID_SPEED_RANGE.getMax() );
         
         // Laser
         _laserDragBoundsNode = new PPath();
@@ -145,6 +144,7 @@ public class DNACanvas extends PhetPCanvas {
         _rulerDragBoundsNode.setStroke( null );
         _rulerNode = new OTRulerNode( DNADefaults.RULER_MAJOR_TICK_INTERVAL, DNADefaults.RULER_MINOR_TICKS_BETWEEN_MAJORS,
                 laser, model.getModelViewTransform(), _rulerDragBoundsNode );
+        _rulerNode.setOffset( 0, modelViewTransform.modelToView( DNADefaults.RULER_Y_POSITION ) );
         _rulerNode.setXOffsetFudgeFactor( 4 );
         
         // Position Histogram chart

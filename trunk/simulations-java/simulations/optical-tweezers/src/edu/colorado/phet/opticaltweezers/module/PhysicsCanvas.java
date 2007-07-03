@@ -20,7 +20,6 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.charts.PositionHistogramChartNode;
 import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
-import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.*;
@@ -127,7 +126,7 @@ public class PhysicsCanvas extends PhetPCanvas {
         // Force vectors, use same reference values so that scale is the same!
         {
             final double modelReferenceMagnitude = laser.getMaxTrapForce().getMagnitude();
-            final double viewReferenceLength = DNADefaults.FORCE_VECTOR_REFERENCE_LENGTH;
+            final double viewReferenceLength = PhysicsDefaults.FORCE_VECTOR_REFERENCE_LENGTH;
             _trapForceNode = new TrapForceNode( laser, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
             _dragForceNode = new DragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
         }
@@ -137,6 +136,7 @@ public class PhysicsCanvas extends PhetPCanvas {
         _rulerDragBoundsNode.setStroke( null );
         _rulerNode = new OTRulerNode( PhysicsDefaults.RULER_MAJOR_TICK_INTERVAL, PhysicsDefaults.RULER_MINOR_TICKS_BETWEEN_MAJORS,
                 laser, model.getModelViewTransform(), _rulerDragBoundsNode );
+        _rulerNode.setOffset( 0, modelViewTransform.modelToView( PhysicsDefaults.RULER_Y_POSITION ) );
         _rulerNode.setXOffsetFudgeFactor( 4 );
         
         // Position Histogram chart
