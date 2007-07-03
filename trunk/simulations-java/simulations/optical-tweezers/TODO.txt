@@ -62,6 +62,7 @@ MISSING INFO:
 
  
 DONE:
+7/3/07 - position Fluid Controls dialog at lower left of play area
 7/3/07 - create mockup of new position histogram
 7/3/07 - fix memory leak in LaserElectricFieldNode._vectorNodes
 7/3/07 - fix error in model that causes e-field to propogate in wrong direction
