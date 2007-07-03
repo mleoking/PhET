@@ -41,6 +41,7 @@ public class EnergySkateParkTrackMenu extends JMenu {
                 new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/fallthrough_test.esp", "Friction Parabola" ),
                 new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/jump.esp", "Jump" ),
                 new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/strack4.esp", "S-Curve" ),
+                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/fly-off.esp", "Fly Off (bug)" ),
         };
     }
 }
