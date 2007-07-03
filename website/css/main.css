@@ -535,27 +535,24 @@ p.openingParagraph {
 }
 
 #content div.main {
-	width: 	578px;
-	float: 	left;
+	width: 	 578px;
+	float: 	 left;
+	padding: 0;
+	margin:  0;
 }
 
 #content div.full-width {
-	width: 	578px;
-	clear:	left;
+	width: 	 578px;
+	clear:	 both;
+	padding: 0;
+	margin:  0;
 }
 
 /* Product Listings */
 #content div.productList {
-	width: 			510px;
+/*	width: 			510px;*/
 	float: 		 	left;
-	margin:			0 auto 0 34px;
-	padding:		0;
-	margin-bottom:	-35px;
-}
-#content div.offset-pane {
-	width: 			510px;
-	float: 		 	left;
-	margin:			0 34px 0 34px;
+	margin:			0 auto -25px 34px;
 	padding:		0;
 }
 #content div.productEntry {
