@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.opticaltweezers.control.BeadChargeControlPanel;
 import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
-import edu.colorado.phet.opticaltweezers.control.LaserDisplayControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 

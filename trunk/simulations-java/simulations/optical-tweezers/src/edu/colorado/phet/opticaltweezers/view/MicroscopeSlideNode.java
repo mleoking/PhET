@@ -17,7 +17,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.model.MicroscopeSlide;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
-import edu.colorado.phet.opticaltweezers.util.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;

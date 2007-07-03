@@ -2,7 +2,6 @@
 package edu.colorado.phet.opticaltweezers.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
 

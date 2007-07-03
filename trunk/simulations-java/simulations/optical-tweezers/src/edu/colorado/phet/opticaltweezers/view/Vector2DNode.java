@@ -11,10 +11,8 @@ import javax.swing.JLabel;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.util.PolarCartesianConverter;
-import edu.colorado.phet.opticaltweezers.util.Vector2D;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Vector2DNode is the visual representation of a 2D vector.

@@ -2,8 +2,9 @@
 
 package edu.colorado.phet.opticaltweezers.model;
 
-import java.awt.geom.Point2D;
-import java.util.*;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
