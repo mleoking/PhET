@@ -65,7 +65,7 @@ MISSING INFO:
 
  
 DONE:
-********* version 0.00.17 (?)
+********* version 0.00.17 (16349)
 7/3/07 - change fast clock range: 8E-7 to 4E-5
 7/3/07 - change slow clock range: 4E-18 to 5E-16
 7/3/07 - removed references to PhysicsDefaults in DNACanvas
