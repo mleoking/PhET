@@ -7,14 +7,17 @@ IN PROGRESS:
 AAPT:
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
 - when user drags bead, auto-release if DNA extension is 97% of contour length
-- rewrite position histogram
-- set default ruler position to centered in chart for histogram
-- add snapshot feature to histogram
-- add vertical dashed line in histogram and play area to indicate laser origin
+- histogram: open in its own non-resizable window
+- histogram: all buttons in toolbar
+- histogram: ruler, unconstrained drag, default position centered, sync labeling with x-axis range, ruler icon to show/hide
+- histogram: add horizontal zoom feature, range +-50 to +-300, increments of 100 nm
+- histogram: add snapshot feature
+- histogram: add vertical dashed line in histogram and play area to indicate laser origin
+- histogram: label x axis with "Position relative to laser"
+- change "force on bead" model in slow mode
 - add description to About dialog
 - set correct ranges for slow and fast time scales
 - set correct default values for everything, including developer controls
-- change "force on bead" model in slow mode
 
 HIGH PRIORITY:
 
