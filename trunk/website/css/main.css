@@ -56,6 +56,7 @@ hr {
 }
 #simratinglegend table {
 	border-collapse: collapse;
+	margin: 1ex 2em 1ex 2em;
 }
 #simratinglegend td {
 	padding-bottom: 2em;
