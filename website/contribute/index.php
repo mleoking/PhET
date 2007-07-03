@@ -20,11 +20,13 @@
 
             <p>The PhET simulations have been written so that they are easily translated to languages other than English. The process, which requires no programming skills, is described in these two documents:</p>
 
-            <ul class="content-points">
-                <li><a href="http://phet.colorado.edu/web-pages/publications/phet-translation.htm">Translating PhET Simulations (also in DOC format)</a></li>
+            <div class="p-indentation">
+                <ul class="content-points">
+                    <li><a href="http://phet.colorado.edu/web-pages/publications/phet-translation.htm">Translating PhET Simulations (also in DOC format)</a></li>
 
-                <li><a href="http://phet.colorado.edu/web-pages/publications/phet-translation-deployment.htm">Deploying Translated PhET Simulations (also in DOC format)</a></li>
-            </ul>
+                    <li><a href="http://phet.colorado.edu/web-pages/publications/phet-translation-deployment.htm">Deploying Translated PhET Simulations (also in DOC format)</a></li>
+                </ul>
+            </div>
         <?php
     }
 

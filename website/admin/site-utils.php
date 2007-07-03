@@ -192,9 +192,10 @@ EOT;
                 </ul>
 
                 <div id="sponsors">
-                    <h4><br />
-                    Principle Sponsors</h4>
-
+                    <h4>Principle Sponsors</h4>
+                    
+                    <div class="header">
+                    </div>
                     <dl>
                         <dt><a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a></dt>
 
