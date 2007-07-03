@@ -32,7 +32,7 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     private static final String ELECTRIC_FIELD_UNITS = "V/nm";
     
     // vector color and stroke
-    private static final Color DEFAULT_VECTOR_COLOR = Color.GREEN.darker();
+    private static final Color DEFAULT_VECTOR_COLOR = new Color( 230, 57, 5 ); // dark red
     private static final Stroke VECTOR_STROKE = new BasicStroke( 2f );
     
     // layout of vectors

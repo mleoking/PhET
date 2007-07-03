@@ -492,7 +492,7 @@ public class Laser extends MovableObject implements ModelElement {
     public Vector2D getElectricField( double xOffset, double yOffset ) {
         final double intensity = getIntensity( getX() + xOffset, getY() + yOffset );
         Vector2D e0 = getInitialElectricField( intensity );
-        final double ex = e0.getX() * Math.sin( ( ( 2 * Math.PI ) / _wavelength ) * ( yOffset - ( SPEED_OF_LIGHT * _electricFieldTime ) ) );
+        final double ex = e0.getX() * Math.sin( ( ( 2 * Math.PI ) / _wavelength ) * ( yOffset + ( SPEED_OF_LIGHT * _electricFieldTime ) ) );
         final double ey = 0;
         return new Vector2D.Cartesian( ex, ey );
     }
