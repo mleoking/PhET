@@ -34,7 +34,7 @@
             SIM_RATING_BETA_PLUS    => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA_PLUS].'" alt="Beta plus rating" title="Beta plus" /></a>',
             SIM_RATING_BETA         => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA].'" alt="Beta rating" title="Beta rating" /></a>',
             SIM_RATING_CHECK        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_CHECK].'" alt="Checkmark rating" title="Checkmark" /></a>',
-            SIM_RATING_ALPHA        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA_MINUS].'" alt="Alpha rating" title="Alpha" /></a>'
+            SIM_RATING_ALPHA        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_ALPHA].'" alt="Alpha rating" title="Alpha" /></a>'
         );        
         
     define("SIM_NO_MAC_IMAGE", '../images/sims/ratings/no-mac25x25.png');

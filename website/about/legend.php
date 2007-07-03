@@ -35,19 +35,19 @@
                             <td>$no_mac_html</td>   <td>This simulation is not supported on the Macintosh platform.</td>
                         </tr>
                         <tr>
-                            <td>$alpha_html</td>   <td>This simulation is an early preview version, and may not work correctly.</td>
+                            <td>$alpha_html</td>   <td>This simulation is an early preview version, and may have functional or usability bugs.</td>
                         </tr>
                         <tr>
-                            <td>$beta_minus_html</td>   <td>This simulation is an early release version.</td>
+                            <td>$beta_minus_html</td>   <td>This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing.</td>
                         </tr>
                         <tr>
-                            <td>$beta_html</td>   <td>This simulation is a mid-release version.</td>
+                            <td>$beta_html</td>   <td>This simulation has undergone moderate testing, but may not have been fully refined or subjected to extensive user testing.</td>
                         </tr>
                         <tr>
-                            <td>$beta_plus_html</td>   <td>This simulation is a late-release version.</td>
+                            <td>$beta_plus_html</td>   <td>This simulation has undergone thorough testing, but may not have been fully refined or subjected to extensive user testing.</td>
                         </tr>
                         <tr>
-                            <td>$check_html</td>   <td>This simulation has been extensively tested and refined, and is widely regarded by the teacher community and PhET team.</td>
+                            <td>$check_html</td>   <td>This simulation has been used and tested in the classroom, and on multiple computer platforms. The simulation has been refined based on that experience and on student interviews.</td>
                         </tr>
                     </tbody>
                 </table>
