@@ -105,7 +105,7 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
         assert( NUMBER_OF_VECTORS_AT_WAIST % 2 == 1 );
         assert( NUMBER_OF_VECTOR_ROWS % 2 == 1 );
         
-        _vectorNodesParent.removeAllChildren();
+        removeAllElectricFieldVectorNodes();
         
         double xMax = _laser.getRadius( 0 ) - X_MARGIN;
         final double yMax = _laser.getDistanceFromObjectiveToWaist() - Y_MARGIN;
@@ -168,6 +168,14 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
         if ( xOffsetFromLaser == 0 && yOffsetFromLaser == 0 ) {
             vectorNode.setValueVisible( _valuesVisible );
         }
+    }
+    
+    /*
+     * Removes all vector nodes.
+     */
+    private void removeAllElectricFieldVectorNodes() {
+        _vectorNodes.clear();
+        _vectorNodesParent.removeAllChildren();
     }
     
     //----------------------------------------------------------------------------
