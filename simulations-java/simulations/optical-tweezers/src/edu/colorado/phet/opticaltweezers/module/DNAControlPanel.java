@@ -12,6 +12,7 @@ import javax.swing.*;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.AdvancedControlPanel;
+import edu.colorado.phet.opticaltweezers.control.ChartsControlPanel;
 import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
 import edu.colorado.phet.opticaltweezers.control.SimulationSpeedControlPanel;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
@@ -32,6 +33,7 @@ public class DNAControlPanel extends AbstractControlPanel {
     
     private SimulationSpeedControlPanel _simulationSpeedControlPanel;
     private ForcesControlPanel _forcesControlPanel;
+    private ChartsControlPanel _chartsControlPanel;
     private AdvancedControlPanel _advancedControlPanel;
     private DeveloperControlPanel _developerControlPanel;
     
@@ -61,6 +63,7 @@ public class DNAControlPanel extends AbstractControlPanel {
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
                 model.getBead(), model.getFluid(),
                 _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getDNAForceNode() );
+        _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getPositionHistogramChartNode(), _canvas.getPotentialEnergyChartNode() );
         _advancedControlPanel = new AdvancedControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), model.getFluid() );
         List forceVectorNodes = new ArrayList();
         forceVectorNodes.add( _canvas.getTrapForceNode() );
@@ -94,6 +97,8 @@ public class DNAControlPanel extends AbstractControlPanel {
             addControlFullWidth( _simulationSpeedControlPanel );
             addSeparator();
             addControlFullWidth( _forcesControlPanel );
+            addSeparator();
+            addControlFullWidth( _chartsControlPanel );
             addSeparator();
             addControlFullWidth( rulerPanel );
             addSeparator();
@@ -142,6 +147,10 @@ public class DNAControlPanel extends AbstractControlPanel {
     
     public ForcesControlPanel getForcesControlPanel() {
         return _forcesControlPanel;
+    }
+    
+    public ChartsControlPanel getChartsControlPanel() {
+        return _chartsControlPanel;
     }
     
     public AdvancedControlPanel getAdvancedControlPanel() {

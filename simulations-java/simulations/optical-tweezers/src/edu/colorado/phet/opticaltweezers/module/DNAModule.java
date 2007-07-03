@@ -150,6 +150,8 @@ public class DNAModule extends AbstractModule {
             _controlPanel.getForcesControlPanel().setHorizontalTrapForceChoice( DNADefaults.HORIZONTAL_TRAP_FORCE_CHOICE );
             _controlPanel.getForcesControlPanel().setDragForceSelected( DNADefaults.FLUID_DRAG_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDNAForceSelected( DNADefaults.DNA_FORCE_SELECTED );
+            _controlPanel.getChartsControlPanel().setPositionHistogramSelected( DNADefaults.POSITION_HISTOGRAM_SELECTED );
+            _controlPanel.getChartsControlPanel().setPotentialEnergySelected( DNADefaults.POTENTIAL_ENERGY_CHART_SELECTED );
             _controlPanel.setRulerSelected( DNADefaults.RULER_SELECTED );
             _controlPanel.getAdvancedControlPanel().setAdvancedVisible( DNADefaults.ADVANCED_VISIBLE );
             _controlPanel.getAdvancedControlPanel().setFluidControlsSelected( DNADefaults.FLUID_CONTROLS_SELECTED );
