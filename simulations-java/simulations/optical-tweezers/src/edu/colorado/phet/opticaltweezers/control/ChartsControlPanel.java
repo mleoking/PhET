@@ -11,9 +11,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
@@ -33,9 +33,8 @@ public class ChartsControlPanel extends JPanel {
     private PNode _positionHistogramNode;
     private PNode _potentialEnergyNode;
 
-    private JRadioButton _noChartsRadioButton;
-    private JRadioButton _positionHistogramRadioButton;
-    private JRadioButton _potentialEnergyChartRadioButton;
+    private JCheckBox _positionHistogramCheckBox;
+    private JCheckBox _potentialEnergyChartCheckBox;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -58,45 +57,33 @@ public class ChartsControlPanel extends JPanel {
         JLabel titleLabel = new JLabel( OTResources.getString( "title.chartsControlPanel" ) );
         titleLabel.setFont( titleFont );
         
-        ActionListener actionListener = new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleChartChoice();
-            }
-        };
-
-        // "no charts" choice
-        _noChartsRadioButton = new JRadioButton( OTResources.getString( "choice.noCharts" ) );
-        _noChartsRadioButton.setFont( controlFont );
-        _noChartsRadioButton.addActionListener( actionListener );
-
         // Position Histogram
-        _positionHistogramRadioButton = new JRadioButton( OTResources.getString( "choice.positionHistogram" ) );
-        _positionHistogramRadioButton.setFont( controlFont );
-        _positionHistogramRadioButton.addActionListener( actionListener );
+        _positionHistogramCheckBox = new JCheckBox( OTResources.getString( "label.positionHistogram" ) );
+        _positionHistogramCheckBox.setFont( controlFont );
+        _positionHistogramCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handlePositionHistogramCheckBox();
+            }
+        });
         _positionHistogramNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
-                if ( !_positionHistogramNode.getVisible() && _positionHistogramRadioButton.isSelected() ) {
-                    _noChartsRadioButton.setSelected( true );
-                }
+                _positionHistogramCheckBox.setSelected( _positionHistogramNode.getVisible() );
             }
         } );
 
         // Potential Energy chart
-        _potentialEnergyChartRadioButton = new JRadioButton( OTResources.getString( "choice.potentialEnergyChart" ) );
-        _potentialEnergyChartRadioButton.setFont( controlFont );
-        _potentialEnergyChartRadioButton.addActionListener( actionListener );
+        _potentialEnergyChartCheckBox = new JCheckBox( OTResources.getString( "label.potentialEnergyChart" ) );
+        _potentialEnergyChartCheckBox.setFont( controlFont );
+        _potentialEnergyChartCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handlePotentialEnergyCheckBox();
+            }
+        });
         _potentialEnergyNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
-                if ( !_potentialEnergyNode.getVisible() && _potentialEnergyChartRadioButton.isSelected() ) {
-                    _noChartsRadioButton.setSelected( true );
-                }
+                _potentialEnergyChartCheckBox.setSelected( _potentialEnergyNode.getVisible() );
             }
         } );
-
-        ButtonGroup bg = new ButtonGroup();
-        bg.add( _noChartsRadioButton );
-        bg.add( _positionHistogramRadioButton );
-        bg.add( _potentialEnergyChartRadioButton );
 
         // Layout
         JPanel innerPanel = new JPanel();
@@ -107,53 +94,47 @@ public class ChartsControlPanel extends JPanel {
         layout.setMinimumWidth( 0, 20 );
         int row = 0;
         layout.addComponent( titleLabel, row++, 0 );
-        layout.addComponent( _noChartsRadioButton, row++, 0 );
-        layout.addComponent( _positionHistogramRadioButton, row++, 0 );
-        layout.addComponent( _potentialEnergyChartRadioButton, row++, 0 );
+        layout.addComponent( _positionHistogramCheckBox, row++, 0 );
+        layout.addComponent( _potentialEnergyChartCheckBox, row++, 0 );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
 
         // Default state
-        _noChartsRadioButton.setSelected( true );
+        _positionHistogramCheckBox.setSelected( _positionHistogramNode.getVisible() );
+        _potentialEnergyChartCheckBox.setSelected( _potentialEnergyNode.getVisible() );
     }
     
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public boolean isNoneSelected() {
-        return _noChartsRadioButton.isSelected();
-    }
-    
     public void setPositionHistogramSelected( boolean b ) {
-        _noChartsRadioButton.setSelected( !b );
-        _positionHistogramRadioButton.setSelected( b );
-        handleChartChoice();
+        _positionHistogramCheckBox.setSelected( b );
+        handlePositionHistogramCheckBox();
     }
     
     public boolean isPositionHistogramSelected() {
-        return _positionHistogramRadioButton.isSelected();
+        return _positionHistogramCheckBox.isSelected();
     }
     
     public void setPotentialEnergySelected( boolean b ) {
-        _noChartsRadioButton.setSelected( !b );
-        _potentialEnergyChartRadioButton.setSelected( b );
-        handleChartChoice();
+        _potentialEnergyChartCheckBox.setSelected( b );
+        handlePotentialEnergyCheckBox();
     }
     
     public boolean isPotentialChartSelected() {
-        return _potentialEnergyChartRadioButton.isSelected();
+        return _potentialEnergyChartCheckBox.isSelected();
     }
 
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
     
-    /*
-     * Sets the visibility of the charts to match the controls.
-     */
-    private void handleChartChoice() {
-        _positionHistogramNode.setVisible( _positionHistogramRadioButton.isSelected() );
-        _potentialEnergyNode.setVisible( _potentialEnergyChartRadioButton.isSelected() );
+    private void handlePositionHistogramCheckBox() {
+        _positionHistogramNode.setVisible( _positionHistogramCheckBox.isSelected() );
+    }
+    
+    private void handlePotentialEnergyCheckBox() {
+        _potentialEnergyNode.setVisible( _potentialEnergyChartCheckBox.isSelected() );
     }
 }

@@ -14,7 +14,6 @@ AAPT:
 - add description to About dialog
 - set correct ranges for slow and fast time scales
 - set correct default values for everything, including developer controls
-- E-field view freezes up after running for awhile
 - change "force on bead" model in slow mode
 
 HIGH PRIORITY:
@@ -64,6 +63,7 @@ MISSING INFO:
 
  
 DONE:
+7/3/07 - convert chart visibility controls from radio buttons to check boxes
 7/3/07 - combine Advanced controls and ruler checkbox into MiscControlPanel
 7/3/07 - add charts & associated controls to DNA module
 7/3/07 - position Fluid Controls dialog at lower left of play area
