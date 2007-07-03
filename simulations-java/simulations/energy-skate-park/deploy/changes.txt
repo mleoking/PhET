@@ -1,3 +1,8 @@
+2.02.09 (7-3-2007)
+Added a Test track "Fly Off (bug)"
+    -to display this error case, select it from the track menu then press return skater
+    -should fly off on 3rd oscillation
+
 2.02.07 (7-1-2007)
 Moved grid lines down to meet floor at y=0
 Added bold lines every 5 meters in grid node
