@@ -18,6 +18,8 @@ import javax.swing.JButton;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.charts.PositionHistogramChartNode;
+import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
@@ -59,6 +61,8 @@ public class DNACanvas extends PhetPCanvas {
     private PPath _laserDragBoundsNode;
     private OTRulerNode _rulerNode;
     private PPath _rulerDragBoundsNode;
+    private PositionHistogramChartNode _positionHistogramChartNode;
+    private PotentialEnergyChartNode _potentialEnergyChartNode;
     private TrapForceNode _trapForceNode;
     private DragForceNode _dragForceNode;
     private DNAForceNode _dnaForceNode;
@@ -79,6 +83,7 @@ public class DNACanvas extends PhetPCanvas {
         
         _model = model;
         
+        OTClock clock = model.getClock();
         Fluid fluid = model.getFluid();
         MicroscopeSlide microscopeSlide = model.getMicroscopeSlide();
         Laser laser = model.getLaser();
@@ -142,6 +147,12 @@ public class DNACanvas extends PhetPCanvas {
                 laser, model.getModelViewTransform(), _rulerDragBoundsNode );
         _rulerNode.setXOffsetFudgeFactor( 4 );
         
+        // Position Histogram chart
+        _positionHistogramChartNode = new PositionHistogramChartNode( clock, bead, modelViewTransform, DNADefaults.POSITION_HISTOGRAM_BIN_WIDTH );
+        
+        // Potential Energy chart
+        _potentialEnergyChartNode = new PotentialEnergyChartNode( bead, laser, modelViewTransform, DNADefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH );
+        
         // "Return Bead" button
         JButton returnBeadButton = new JButton( OTResources.getString( "button.returnBead" ) );
         Font font = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 18 );
@@ -164,6 +175,8 @@ public class DNACanvas extends PhetPCanvas {
         _rootNode.addChild( _trapForceNode );
         _rootNode.addChild( _dragForceNode );
         _rootNode.addChild( _dnaForceNode );
+        _rootNode.addChild( _positionHistogramChartNode );
+        _rootNode.addChild( _potentialEnergyChartNode );
         _rootNode.addChild( _rulerNode );
         _rootNode.addChild( _rulerDragBoundsNode );
         _rootNode.addChild( _returnBeadButtonWrapper );
@@ -187,6 +200,14 @@ public class DNACanvas extends PhetPCanvas {
     
     public LaserNode getLaserNode() {
         return _laserNode;
+    }
+    
+    public PositionHistogramChartNode getPositionHistogramChartNode() {
+        return _positionHistogramChartNode;
+    }
+    
+    public PotentialEnergyChartNode getPotentialEnergyChartNode() {
+        return _potentialEnergyChartNode;
     }
     
     public PSwing getReturnBeadButtonWrapper() {
@@ -238,6 +259,8 @@ public class DNACanvas extends PhetPCanvas {
         {
             _microscopeSlideNode.setWorldSize( worldSize );
             _rulerNode.setWorldSize( worldSize );
+            _positionHistogramChartNode.setChartSize( worldSize.getWidth(), PositionHistogramChartNode.DEFAULT_HEIGHT );
+            _potentialEnergyChartNode.setChartSize( worldSize.getWidth(), PotentialEnergyChartNode.DEFAULT_HEIGHT );
         }
 
         // Adjust drag bounds of bead, so it stays in the fluid

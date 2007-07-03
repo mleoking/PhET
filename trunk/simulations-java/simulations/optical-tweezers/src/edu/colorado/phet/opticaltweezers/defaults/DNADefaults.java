@@ -97,6 +97,8 @@ public class DNADefaults {
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
     public static final boolean DNA_FORCE_SELECTED = false;
     public static final boolean BROWNIAN_MOTION_ENABLED = true;
+    public static final boolean POSITION_HISTOGRAM_SELECTED = false;
+    public static final boolean POTENTIAL_ENERGY_CHART_SELECTED = false;
     public static final boolean RULER_SELECTED = false;
     public static final boolean ADVANCED_VISIBLE = true;
     public static final boolean FLUID_CONTROLS_SELECTED = false;
@@ -107,6 +109,12 @@ public class DNADefaults {
     // Ruler
     public static final int RULER_MAJOR_TICK_INTERVAL = 200; // nm
     public static final int RULER_MINOR_TICKS_BETWEEN_MAJORS = 3;
+    
+    // Position Histogram
+    public static final double POSITION_HISTOGRAM_BIN_WIDTH = 20; // nm
+    
+    // Potential Energy chart
+    public static final double POTENTIAL_ENERGY_SAMPLE_WIDTH = 5; // nm
     
     // View stuff
     public static final double FORCE_VECTOR_REFERENCE_LENGTH = 125; // pixels
