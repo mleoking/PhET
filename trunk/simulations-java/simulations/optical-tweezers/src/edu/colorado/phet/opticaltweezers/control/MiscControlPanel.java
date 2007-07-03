@@ -17,24 +17,25 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.dialog.FluidControlDialog;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
+import edu.umd.cs.piccolo.PNode;
 
 /**
- * AdvancedControlPanel contains miscellaneous "advanced" controls.
+ * MiscControlPanel contains miscellaneous controls.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class AdvancedControlPanel extends JPanel implements Observer {
+public class MiscControlPanel extends JPanel implements Observer {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
+    private PNode _rulerNode;
     private Fluid _fluid;
     private Frame _parentFrame;
     private FluidControlDialog _fluidControlsDialog;
     
-    private JButton _showHideButton;
-    private JPanel _mainPanel;
+    private JCheckBox _rulerCheckBox;
     private Box _fluidVacuumPanel;
     private JRadioButton _fluidRadioButton, _vacuumRadioButton;
     private JCheckBox _fluidControlsCheckBox;
@@ -52,39 +53,63 @@ public class AdvancedControlPanel extends JPanel implements Observer {
      * @param parentFrame
      * @param miscroscopeSlide
      */
-    public AdvancedControlPanel( Font titleFont, Font controlFont, Frame parentFrame, Fluid fluid ) {
+    public MiscControlPanel( Font titleFont, Font controlFont, Frame parentFrame, PNode rulerNode, Fluid fluid ) {
         super();
         
         _parentFrame = parentFrame;
+        
+        _rulerNode = rulerNode;
         
         _fluid = fluid;
         _fluid.addObserver( this );
         
         _fluidControlsDialog = null;
         
-        _showHideButton = new JButton( OTResources.getString( "label.showAdvanced" ) );
-        _showHideButton.setFont( titleFont );
-        _showHideButton.addActionListener( new ActionListener() {
+        _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
+        _rulerCheckBox.setFont( controlFont );
+        _rulerCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                handleShowHideButton();
+                handleRulerCheckBox();
             }
-        } );
+        });
+        Icon rulerIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_RULER ) );
+        JLabel rulerLabel = new JLabel( rulerIcon );
+        Box rulerPanel = new Box( BoxLayout.X_AXIS );
+        rulerPanel.add( _rulerCheckBox );
+        rulerPanel.add( Box.createHorizontalStrut( 5 ) );
+        rulerPanel.add( rulerLabel );
         
-        _fluidRadioButton = new JRadioButton( OTResources.getString( "choice.fluid" ) );
-        _fluidRadioButton.setFont( controlFont );
-        _fluidRadioButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleFluidOrVacuumChoice();
-            }
-        } );
-        
-        _vacuumRadioButton = new JRadioButton( OTResources.getString( "choice.vacuum" ) );
-        _vacuumRadioButton.setFont( controlFont );
-        _vacuumRadioButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleFluidOrVacuumChoice();
-            }
-        } );
+        // Fluid-vacuum choice
+        {
+            JLabel label = new JLabel( OTResources.getString( "label.beadIsIn" ) );
+            
+            _fluidRadioButton = new JRadioButton( OTResources.getString( "choice.fluid" ) );
+            _fluidRadioButton.setFont( controlFont );
+            _fluidRadioButton.addActionListener( new ActionListener() {
+
+                public void actionPerformed( ActionEvent event ) {
+                    handleFluidOrVacuumChoice();
+                }
+            } );
+
+            _vacuumRadioButton = new JRadioButton( OTResources.getString( "choice.vacuum" ) );
+            _vacuumRadioButton.setFont( controlFont );
+            _vacuumRadioButton.addActionListener( new ActionListener() {
+
+                public void actionPerformed( ActionEvent event ) {
+                    handleFluidOrVacuumChoice();
+                }
+            } );
+
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( _fluidRadioButton );
+            buttonGroup.add( _vacuumRadioButton );
+            
+            _fluidVacuumPanel = new Box( BoxLayout.X_AXIS );
+            _fluidVacuumPanel.add( label );
+            _fluidVacuumPanel.add( _fluidRadioButton );
+            _fluidVacuumPanel.add( _vacuumRadioButton );
+        }
         
         _fluidControlsCheckBox = new JCheckBox( OTResources.getString( "label.showFluidControls" ) );
         _fluidControlsCheckBox.setFont( controlFont );
@@ -102,42 +127,23 @@ public class AdvancedControlPanel extends JPanel implements Observer {
             }
         } );
         
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( _fluidRadioButton );
-        buttonGroup.add( _vacuumRadioButton );
-        _fluidVacuumPanel = new Box( BoxLayout.X_AXIS );
-        _fluidVacuumPanel.add( _fluidRadioButton );
-        _fluidVacuumPanel.add( _vacuumRadioButton );
-        
-        _mainPanel = new JPanel();
-        {
-            EasyGridBagLayout layout = new EasyGridBagLayout( _mainPanel );
-            _mainPanel.setLayout( layout );
-            layout.setAnchor( GridBagConstraints.WEST );
-            layout.setFill( GridBagConstraints.HORIZONTAL );
-            layout.setMinimumWidth( 0, 20 );
-            int row = 0;
-            layout.addComponent( _fluidVacuumPanel, row++, 0 );
-            layout.addComponent( _fluidControlsCheckBox, row++, 0 );
-            //XXX feature disabled for AAPT
-//            layout.addComponent( _momemtumChangeCheckBox, row++, 0 );
-        }
-        
         // Layout
         JPanel innerPanel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
         innerPanel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         layout.setFill( GridBagConstraints.HORIZONTAL );
-        layout.setMinimumWidth( 0, 0 );
+        layout.setMinimumWidth( 0, 20 );
         int row = 0;
-        layout.addComponent( _showHideButton, row++, 1 );
-        layout.addComponent( _mainPanel, row++, 1 );
+        layout.addComponent( rulerPanel, row++, 0 );
+        layout.addComponent( _fluidVacuumPanel, row++, 0 );
+        layout.addComponent( _fluidControlsCheckBox, row++, 0 );
+        //XXX feature disabled for AAPT
+//        layout.addComponent( _momemtumChangeCheckBox, row++, 0 );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
         
         // Default state
-        _mainPanel.setVisible( false );
         if ( _fluid.isEnabled() ) {
             _fluidRadioButton.setSelected( true );
         }
@@ -146,6 +152,7 @@ public class AdvancedControlPanel extends JPanel implements Observer {
         }
         _fluidControlsCheckBox.setSelected( false );
         _momemtumChangeCheckBox.setSelected( false );
+        _rulerCheckBox.setSelected( false );
         
         //XXX not implemented
         _momemtumChangeCheckBox.setForeground( Color.RED );
@@ -160,14 +167,13 @@ public class AdvancedControlPanel extends JPanel implements Observer {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setAdvancedVisible( boolean b ) {
-        if ( b ^ _mainPanel.isVisible() ) {
-            handleShowHideButton();
-        }
+    public void setRulerSelected( boolean b ) {
+        _rulerCheckBox.setSelected( b );
+        handleRulerCheckBox();
     }
     
-    public boolean isAdvancedVisible() {
-        return _showHideButton.isVisible();
+    public boolean isRulerSelected() {
+        return _rulerCheckBox.isSelected();
     }
     
     public void setFluidVacuumPanelVisible( boolean b ) {
@@ -208,14 +214,9 @@ public class AdvancedControlPanel extends JPanel implements Observer {
     // Event handlers
     //----------------------------------------------------------------------------
     
-    private void handleShowHideButton() {
-        _mainPanel.setVisible( !_mainPanel.isVisible() );
-        if ( _mainPanel.isVisible() ) {
-            _showHideButton.setText( OTResources.getString( "label.hideAdvanced" ) );
-        }
-        else {
-            _showHideButton.setText( OTResources.getString( "label.showAdvanced" ) );
-        }
+    private void handleRulerCheckBox() {
+        final boolean selected = _rulerCheckBox.isSelected();
+        _rulerNode.setVisible( selected );
     }
     
     private void handleFluidOrVacuumChoice() {
