@@ -93,6 +93,7 @@ public class PhysicsDefaults {
     public static final boolean VECTOR_COMPONENTS_VISIBLE = false;
 
     // Ruler
+    public static final double RULER_Y_POSITION = LASER_POSITION.getY() + ( BEAD_DIAMETER / 2 ) + 30; // nm, just below center of trap
     public static final int RULER_MAJOR_TICK_INTERVAL = 100; // nm
     public static final int RULER_MINOR_TICKS_BETWEEN_MAJORS = 9;
     

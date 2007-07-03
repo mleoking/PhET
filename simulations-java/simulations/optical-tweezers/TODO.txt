@@ -66,6 +66,9 @@ MISSING INFO:
 
  
 DONE:
+7/3/07 - removed references to PhysicsDefaults in DNACanvas
+7/3/07 - removed references to DNADefaults in PhysicsCanvas
+7/3/07 - set initial position of ruler to just below center of trap
 7/3/07 - convert chart visibility controls from radio buttons to check boxes
 7/3/07 - combine Advanced controls and ruler checkbox into MiscControlPanel
 7/3/07 - add charts & associated controls to DNA module
