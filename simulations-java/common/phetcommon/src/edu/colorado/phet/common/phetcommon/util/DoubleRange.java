@@ -24,6 +24,16 @@ public class DoubleRange {
     //----------------------------------------------------------------------------
     
     /**
+     * Constructs a DoubleRange where all decimal places are significant and the default value is the min.
+     * 
+     * @param min
+     * @param max
+     */
+    public DoubleRange( double min, double max ) {
+        this( min, max, min, Integer.MAX_VALUE );
+    }
+    
+    /**
      * Constructs a DoubleRange where all decimal places are significant.
      * 
      * @param min

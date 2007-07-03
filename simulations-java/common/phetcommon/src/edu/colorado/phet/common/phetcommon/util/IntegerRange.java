@@ -23,6 +23,16 @@ public class IntegerRange {
     //----------------------------------------------------------------------------
     
     /**
+     * Constructs an Integer range where the default is min.
+     * 
+     * @param min
+     * @param max
+     */
+    public IntegerRange( int min, int max ) {
+        this( min, max, min );
+    }
+    
+    /**
      * Constructor.
      * 
      * @param min
