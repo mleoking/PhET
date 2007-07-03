@@ -12,6 +12,8 @@ AAPT:
 - add description to About dialog
 - set correct ranges for slow and fast time scales
 - set correct default values for everything, including developer controls
+- E-field view freezes up after running for awhile
+- change "force on bead" model in slow mode
 
 HIGH PRIORITY:
 
