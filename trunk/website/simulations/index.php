@@ -90,7 +90,11 @@
 
             //--------------------------------------------------
             
-            print "<div class=\"productList\">";
+            print '<div class="full-width"></div>';
+            
+            // Setting the style to display: inline fixes an IE6 double-margin bug
+            // Source: http://www.positioniseverything.net/explorer/floatIndent.html
+            print '<div class="productList" style="display: inline;">';
 
             $sim_number = -1;
 
@@ -165,6 +169,8 @@ EOT;
             }
             
             print "</div>\n";
+            
+            print '<div class="full-width"></div>';
             
             print "<div class=\"productList\">";
             
