@@ -276,9 +276,9 @@ public class AdvancedControlPanel extends JPanel implements Observer {
             }
         } );
         
-        // Position at the left-center of the main frame
+        // Position at the lower-left of the main frame
         Point p = _parentFrame.getLocationOnScreen();
-        _fluidControlsDialog.setLocation( (int) p.getX() + 10, (int) p.getY() + ( ( _parentFrame.getHeight() - _fluidControlsDialog.getHeight() ) / 2 ) );
+        _fluidControlsDialog.setLocation( (int) p.getX() + 10, (int) p.getY() + ( _parentFrame.getHeight() - _fluidControlsDialog.getHeight() - 60 ) );
         _fluidControlsDialog.show();
     }
     
