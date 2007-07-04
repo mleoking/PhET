@@ -7,13 +7,11 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * User: Sam Reid
  * Date: Mar 21, 2006
  * Time: 10:52:38 PM
- *
  */
 
 public class WaveInterferenceApplication extends PiccoloPhetApplication {
@@ -22,29 +20,17 @@ public class WaveInterferenceApplication extends PiccoloPhetApplication {
 
     public WaveInterferenceApplication( String[] args ) {
         super( args, WIStrings.getString( "waveinterference.name" ), WIStrings.getString( "waveinterference.description" ), VERSION, new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 50, 50 ) ) );
-        try {
-            SwingUtilities.invokeAndWait( new Runnable() {
-                public void run() {
-                    WaveInterferenceMenu menu = new WaveInterferenceMenu();
-                    addModule( new WaterModule() );
-                    addModule( new SoundModule() );
-                    LightModule lightModule = new LightModule();
-                    addModule( lightModule );
-                    menu.add( new ColorizeCheckBoxMenuItem( lightModule ) );
-                    getPhetFrame().addMenu( menu );
-                    if( getModules().length > 1 ) {
-                        for( int i = 0; i < getModules().length; i++ ) {
-                            getModule( i ).setLogoPanelVisible( false );
-                        }
-                    }
-                }
-            } );
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-        }
-        catch( InvocationTargetException e ) {
-            e.printStackTrace();
+        WaveInterferenceMenu menu = new WaveInterferenceMenu();
+        addModule( new WaterModule() );
+        addModule( new SoundModule() );
+        LightModule lightModule = new LightModule();
+        addModule( lightModule );
+        menu.add( new ColorizeCheckBoxMenuItem( lightModule ) );
+        getPhetFrame().addMenu( menu );
+        if( getModules().length > 1 ) {
+            for( int i = 0; i < getModules().length; i++ ) {
+                getModule( i ).setLogoPanelVisible( false );
+            }
         }
     }
 
@@ -53,12 +39,16 @@ public class WaveInterferenceApplication extends PiccoloPhetApplication {
 //    }
 
     public static void main( final String[] args ) {
-        SimStrings.getInstance().init( args, LOCALIZATION_BUNDLE_BASENAME );
-        new WaveIntereferenceLookAndFeel().initLookAndFeel();
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                SimStrings.getInstance().init( args, LOCALIZATION_BUNDLE_BASENAME );
+                new WaveIntereferenceLookAndFeel().initLookAndFeel();
 //        if( Arrays.asList( args ).contains( "-smooth" ) ) {
 //            doSmooth();
 //        }
-        new WaveInterferenceApplication( args ).startApplication();
+                new WaveInterferenceApplication( args ).startApplication();
+            }
+        } );
     }
 
 //    private static void doSmooth() {
