@@ -402,10 +402,10 @@ EOT;
             $cat_encoding = $_REQUEST['cat'];
             
             print <<<EOT
-                <div class="clear">
-                    <p>
-                        <a href="../simulations/index.php?cat=$cat_encoding">back to simulations</a>
-                    </p>
+                <div class="full-width">                    
+                    <div class="rage_button_357660">
+                    	<a href="../simulations/index.php?cat=$cat_encoding">Back to Simulations</a>
+                    </div>
                 </div>
 EOT;
         }

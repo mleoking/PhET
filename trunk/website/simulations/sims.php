@@ -83,15 +83,19 @@
                     <img src="../admin/get-upload.php?url=$sim_image_url" alt="Sim preview image" title="Click here to launch the simulation from your browser" width="300"/>
                 </a>
 
-                <div class="simrunoptions">
+                <div id="simrunoptions">
                     <table>
                         <tr>
                             <td>
-                                <a href="$sim_launch_url" title="Click here to launch the simulation from your browser">Run Now</a>
+                                <div class="rage_button_358398">
+                                	<a href="$sim_launch_url" alt="Run Simulation">Run Now!</a>
+                                </div>
                             </td>
                         
                             <td>
-                                <a href="" title="Click here to download the simulation onto your computer">Run Offline</a>
+                                <div class="rage_button_928365">
+                                	<a href="$sim_launch_url">Run Offline</a>
+                                </div>
                             </td>
                         </tr>
                     </table>
