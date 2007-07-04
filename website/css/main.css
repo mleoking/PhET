@@ -807,23 +807,6 @@ ul.content-points li a:hover {
 	color:#fff;
 }
 
-div.simrunoptions table {
-	width:  300px;
-	clear: 	left;
-	border-collapse: collapse;
-}
-div.simrunoptions table tr td {
-	width: 150px;
-	margin: 0;
-	padding: 0;
-}
-div.simrunoptions table tr td:first-child {
-	text-align: left;
-}
-div.simrunoptions table tr td + td {
-	text-align: right;
-}
-
 
 #hb {
 	width:300px;
@@ -1279,4 +1262,160 @@ img.sponsors {
 	padding: 	0;
 	margin:		0 auto;
 	border:		none;
+}
+
+
+#simrunoptions table {
+	width:  300px;
+	clear: 	left;
+	border-collapse: collapse;
+}
+#simrunoptions table tr td {
+	width: 150px;
+	margin: 0;
+	padding: 0;
+}
+#simrunoptions div.rage_button_358398 {
+	float: left;
+	width: 80px;
+	height: 20px;
+}
+
+#simrunoptions div.rage_button_358398 a {
+	display: block;
+	margin: 0px;
+	overflow: hidden;
+	text-decoration: none;
+	height: 100%;
+	background: url('../images/run_now!.png') top left no-repeat;
+	color: #000000;
+	font-family: 'Verdana';
+	font-size:12px;
+	font-weight: bold;
+	line-height: 20px;
+	text-align: center;
+}
+
+#simrunoptions div.rage_button_358398 a:hover {
+	background-position: -80px 0;
+	color: #000000;
+}
+
+#simrunoptions div.rage_button_358398 a:active {
+	background-position: -160px 0;
+	color: #000000;
+}
+
+
+#simrunoptions div.rage_button_928365 {
+	float: right;
+	width: 90px;
+	height: 20px;
+}
+
+
+#simrunoptions div.rage_button_928365 a {
+	display: block;
+	margin: 0px;
+	overflow: hidden;
+	text-decoration: none;
+	height: 100%;
+	background: url('../images/run_offline.png') top left no-repeat;
+	color: #000000;
+	font-family: 'Verdana';
+	font-size:12px;
+	font-weight: bold;
+	line-height: 20px;
+	text-align: center;
+}
+
+
+#simrunoptions div.rage_button_928365 a:hover {
+	background-position: -90px 0;
+	color: #000000;
+}
+
+
+#simrunoptions div.rage_button_928365 a:active {
+	background-position: -180px 0;
+	color: #000000;
+}
+
+
+
+
+
+
+
+#content div.rage_button_357660 {
+	float: left;
+	width: 151px;
+	height: 20px;
+	padding: 1em;
+}
+
+
+#content div.rage_button_357660 a {
+	display: block;
+	margin: 0px;
+	overflow: hidden;
+	text-decoration: none;
+	height: 100%;
+	background: url('../images/back_to_simulations.png') top left no-repeat;
+	color: #000000;
+	font-family: 'Verdana';
+	font-size:12px;
+	font-weight: bold;
+	line-height: 20px;
+	text-align: center;
+}
+
+
+#content div.rage_button_357660 a:hover {
+	background-position: -151px 0;
+	color: #000000;
+}
+
+
+#content div.rage_button_357660 a:active {
+	background-position: -302px 0;
+	color: #000000;
+}
+
+
+
+
+#content div.rage_button_218928 {
+	float: left;
+	width: 197px;
+	height: 20px;
+	padding: 1em;
+}
+
+
+#content div.rage_button_218928 a {
+	display: block;
+	margin: 0px;
+	overflow: hidden;
+	text-decoration: none;
+	height: 100%;
+	background: url('../images/related_activities_&_ideas.png') top left no-repeat;
+	color: #000000;
+	font-family: 'Verdana';
+	font-size:12px;
+	font-weight: bold;
+	line-height: 20px;
+	text-align: center;
+}
+
+
+#content div.rage_button_218928 a:hover {
+	background-position: -197px 0;
+	color: #000000;
+}
+
+
+#content div.rage_button_218928 a:active {
+	background-position: -394px 0;
+	color: #000000;
 }

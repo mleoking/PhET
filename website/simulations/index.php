@@ -200,9 +200,10 @@ EOT;
         print <<<EOT
             <div class="full-width">
                 <br/>
-                <p>
-                    <a href="../teacher_ideas/browse.php?cat=$cat_encoding">related ideas &amp; activities</a> 
-                </p>
+                
+                <div class="rage_button_218928">
+                	<a href="../teacher_ideas/browse.php?cat=$cat_encoding">Related Activities & Ideas</a>
+                </div>
             </div>
 EOT;
     }
