@@ -383,11 +383,11 @@ public class Particle1D implements Serializable {
         double a1 = alpha + track.getFractionalDistance( alpha, epsilon / 2.0 );
         double d = track.evaluate( a0 ).distance( track.evaluate( a1 ) );
         double dTheta = ( track.getAngle( a0 ) - track.getAngle( a1 ) );
-        while(dTheta>Math.PI){
+        while(dTheta>Math.PI){//todo: these while loops look unsafe (rely on near-correct data from getAngle)
             System.out.println( "|dTheta| was more than Pi radians, rotated by 2Pi" );
             dTheta-=Math.PI*2;
         }
-        while(dTheta<-Math.PI){
+        while(dTheta<-Math.PI){//todo: these while loops look unsafe (rely on near-correct data from getAngle)
             System.out.println( "|dTheta| was more than Pi radians, rotated by 2Pi" );
             dTheta+=Math.PI*2;
         }
