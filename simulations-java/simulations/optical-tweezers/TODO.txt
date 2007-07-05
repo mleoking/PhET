@@ -66,6 +66,7 @@ MISSING INFO:
 
  
 DONE:
+7/5/07 - reduce width of "between" zone in simulation speed slide, change alignment of slow.max and fast.min tick labels
 ********* version 0.00.17 (16349)
 7/3/07 - change fast clock range: 8E-7 to 4E-5
 7/3/07 - change slow clock range: 4E-18 to 5E-16
