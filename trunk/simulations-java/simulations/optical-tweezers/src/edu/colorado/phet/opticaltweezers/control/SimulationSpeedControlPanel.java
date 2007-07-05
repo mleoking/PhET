@@ -122,6 +122,8 @@ public class SimulationSpeedControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     public void setSimulationSpeed( double value ) {
+        
+        // validate the value
         if ( value < _slider.getSlowRange().getMin() ) {
             value = _slider.getSlowRange().getMin();
             Toolkit.getDefaultToolkit().beep();
@@ -130,9 +132,16 @@ public class SimulationSpeedControlPanel extends JPanel {
             value = _slider.getFastRange().getMax();
             Toolkit.getDefaultToolkit().beep();
         }
+        
+        // sync the slider an text field
         _slider.setValue( value );
         _textField.setValue( new Double( _slider.getValue() ) );
-        _clock.setDt( _slider.getValue() );
+        
+        // Don't update the clock for values between the slow and fast ranges.
+        // model behavior is undefined for this range.
+        if ( !_slider.isInBetween() ) {
+            _clock.setDt( _slider.getValue() );
+        }
     }
     
     public double getSimulationSpeed() {

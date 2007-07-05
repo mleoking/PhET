@@ -398,6 +398,10 @@ public class SimulationSpeedSlider extends PNode {
         return _fastRange;
     }
     
+    public boolean isInBetween() {
+        return ( _value > _slowRange.getMax() && _value < _fastRange.getMin() );
+    }
+    
     /**
      * Sets the slider value.
      * 
