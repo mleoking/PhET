@@ -50,9 +50,9 @@ public class SimulationSpeedSlider extends PNode {
     
     // Background
     private static final int BACKGROUND_HEIGHT = 20;
-    private static final int SLOW_BACKGROUND_WIDTH = 65;
-    private static final int BETWEEN_BACKGROUND_WIDTH = 40;
-    private static final int FAST_BACKGROUND_WIDTH = 65;
+    private static final int SLOW_BACKGROUND_WIDTH = 75;
+    private static final int BETWEEN_BACKGROUND_WIDTH = 15;
+    private static final int FAST_BACKGROUND_WIDTH = 75;
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final int BACKGROUND_STROKE_WIDTH = 1;
     private static final Color SLOW_FILL_COLOR = new Color( 180, 255, 180 ); // light green
@@ -219,18 +219,22 @@ public class SimulationSpeedSlider extends PNode {
             x = fastBackgroundNode.getFullBounds().getMaxX() - fastTickMarkMaxNode.getFullBounds().getWidth();
             fastTickMarkMaxNode.setOffset( x, y );
             
+            // center aligned with tick mark
             x = slowTickMarkMinNode.getXOffset() - ( slowTickLabelMinNode.getFullBounds().getWidth() / 2 );
             y = slowTickMarkMinNode.getFullBounds().getMaxY() + TICK_LABEL_Y_SPACING;
             slowTickLabelMinNode.setOffset( x, y );
             
-            x = slowTickMarkMaxNode.getXOffset() - ( slowTickLabelMaxNode.getFullBounds().getWidth() / 2 );
+            // right aligned with tick mark
+            x = slowTickMarkMaxNode.getXOffset() - slowTickLabelMaxNode.getFullBounds().getWidth();
             y = slowTickMarkMaxNode.getFullBounds().getMaxY() + TICK_LABEL_Y_SPACING;
             slowTickLabelMaxNode.setOffset( x, y );
             
-            x = fastTickMarkMinNode.getXOffset() - ( fastTickLabelMinNode.getFullBounds().getWidth() / 2 );
+            // left aligned with tick mark
+            x = fastTickMarkMinNode.getXOffset();
             y = fastTickMarkMinNode.getFullBounds().getMaxY() + TICK_LABEL_Y_SPACING;
             fastTickLabelMinNode.setOffset( x, y );
             
+            // center aligned with tick mark
             x = fastTickMarkMaxNode.getXOffset() - ( fastTickLabelMaxNode.getFullBounds().getWidth() / 2 );
             y = fastTickMarkMaxNode.getFullBounds().getMaxY() + TICK_LABEL_Y_SPACING;
             fastTickLabelMaxNode.setOffset( x, y );
