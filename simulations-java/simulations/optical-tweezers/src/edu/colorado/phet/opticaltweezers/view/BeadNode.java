@@ -174,8 +174,22 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
     // Inner classes
     //----------------------------------------------------------------------------
     
+    /*
+     * Drag handler that does the following:
+     * 1. constrains dragging to the provided bounds (typically the microscope slide)
+     * 2. if the bead is attached to a DNA strand, prevents over-stretching of the strand
+     * 3. disabled the influence of Brownian and other forces while the bead is dragged
+     */
     private class DragHandler extends BoundedDragHandler {
 
+        /*
+         * Maximum that the DNA strand can be stretched, expressed as a percentage
+         * of the strand's contour length. As this value gets closer to 1, the 
+         * DNA force gets closer to infinity, increasing the likelihood that the 
+         * bead will rocket off the screen when it is released.
+         */
+        private static final double MAX_STRETCH = 0.95;
+        
         private Bead _bead;
         private boolean _ignoreDrag;
 
@@ -185,38 +199,50 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
             _ignoreDrag = false;
         }
 
+        /*
+         * Disables the bead's motion model when the drag starts.
+         */
         public void mousePressed( PInputEvent event ) {
             _bead.setMotionEnabled( false );
         }
 
+        /*
+         * After dragging, check the DNA strand's extension length.
+         * If it exceeds the contour length, then the strand is over-stretched,
+         * and we negate the drag operation by moving the bead back to where it
+         * was at the start of the drag.
+         */
         public void mouseDragged( PInputEvent event ) {
             DNAStrand dnaStrand = _bead.getDNAStrand();
             if ( dnaStrand == null ) {
                 super.mouseDragged( event );
             }
-            else {
-                final double maxExtension = .95 * dnaStrand.getContourLength();
-                // Release the bead when the DNA strand becomes fully stretched.
-                if ( !_ignoreDrag && dnaStrand.getExtension() <= maxExtension ) {
-                    Point2D beadPosition = _bead.getPosition();
-                    super.mouseDragged( event );
-                    if ( dnaStrand.getExtension() > maxExtension ) {
-                        _bead.setPosition( beadPosition );
-                        endDrag( event );
-                    }
-                }
-                else {
+            else if ( !_ignoreDrag ) {
+                Point2D beadPosition = _bead.getPosition();
+                super.mouseDragged( event );
+                if ( dnaStrand.getExtension() > ( MAX_STRETCH * dnaStrand.getContourLength() ) ) {
+                    // Release the bead when the DNA strand becomes fully stretched.
+                    _bead.setPosition( beadPosition );
                     endDrag( event );
                 }
             }
         }
         
+        /*
+         * End a drag before the user has released the mouse button.
+         * All subsequent drag events will be ignored until the user does
+         * release the mouse button.
+         */
         private void endDrag( PInputEvent event ) {
             super.mouseReleased( event );
             _ignoreDrag = true;
             _bead.setMotionEnabled( true );
         }
 
+        /*
+         * Enables the bead's motion model when the drag ends.
+         * Sets the flag indicating that it's OK to process drag events.
+         */
         public void mouseReleased( PInputEvent event ) {
             super.mouseReleased( event );
             _ignoreDrag = false;
