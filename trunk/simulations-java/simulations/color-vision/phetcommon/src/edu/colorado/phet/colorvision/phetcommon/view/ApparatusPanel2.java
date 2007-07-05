@@ -279,8 +279,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
         megarepaint( r.x, r.y, r.width, r.height );
     }
 
-    public void repaint() {
-    }
+// No idea why this was redefined to be a no-op, but it was causing refresh problems.
+//    public void repaint() {
+//    }
 
     public void repaint( int x, int y, int width, int height ) {
         megarepaint( x, y, width, height );

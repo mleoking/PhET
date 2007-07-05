@@ -19,6 +19,7 @@ LOW:
 
 
 DONE:
+7/5/07 - fixed repaint problem in ApparatusPanel2
 7/2/07 - wrap the body of main in invokeLater
 5/24/07 - add phetcommon strings to SimStrings
 5/?/07 - Sam Reid removed copy of SimStrings and used SimStrings from phetcommon trunk
