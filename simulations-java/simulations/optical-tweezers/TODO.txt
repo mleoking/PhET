@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 AAPT:
-- do not update dt while simulation speed slider is adjusting?
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
 - when user drags bead, auto-release if DNA extension is 97% of contour length
 - histogram: open in its own non-resizable window
@@ -66,6 +65,7 @@ MISSING INFO:
 
  
 DONE:
+7/5/07 - don't change clock's dt while dragging in "between" zone of simulation speed slider
 7/5/07 - reduce width of "between" zone in simulation speed slide, change alignment of slow.max and fast.min tick labels
 ********* version 0.00.17 (16349)
 7/3/07 - change fast clock range: 8E-7 to 4E-5
