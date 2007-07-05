@@ -443,7 +443,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     </target>
 
     <!-- This task builds and deploys; assumes all required properties have been previously defined -->
-    <target name="_build-and-deploy" depends="build-jar, build-jnlp, _deploy" />
+    <target name="_build-and-deploy" depends="build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
 
     <target name="build-and-deploy-dev" depends="_init, _read-username-and-password, _set-sim-revision-number, _inc-sim-dev-version-number, _define-sim-version">
         <antcall target="_build-and-deploy">
@@ -599,7 +599,7 @@ PhET-team specific tasks are located in an auxiliary build file.
              basedir="${ant-output}/projects/${sim.name}/launchable-jars/" update="true"/>
     </target>
 
-    <target name="build-all-flavor-jars-for-sim" depends="_init,build-jar">
+    <target name="_build-all-flavor-jars-for-sim" depends="_init">
         <!--ToDo: handle flavor/sim name clash better than this.-->
         <copy file="simulations/${sim.name}/deploy/${sim.name}.jar"
               tofile="simulations/${sim.name}/deploy/${sim.name}_all.jar"/>
