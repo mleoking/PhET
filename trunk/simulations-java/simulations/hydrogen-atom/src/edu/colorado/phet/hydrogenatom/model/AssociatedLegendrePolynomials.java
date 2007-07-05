@@ -22,6 +22,9 @@ public class AssociatedLegendrePolynomials {
      * When l > 6, this implemention starts to differ from Wolfram and "Numerical Recipes in C".
      * To compare with Mathematica online, use: x^2*(3)*( LegendreP[7,3,-0.99])
      * as the input to The Integrator at http://integrals.wolfram.com/index.jsp
+     * <p>
+     * For a description of why this doesn't work for l > 6, see
+     * http://www.nrbook.com/a/bookcpdf/c6-8.pdf
      * 
      * @param l electron's secondary state
      * @param m electron's tertiary state
