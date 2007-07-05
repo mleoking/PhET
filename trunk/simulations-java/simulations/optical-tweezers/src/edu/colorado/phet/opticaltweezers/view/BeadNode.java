@@ -97,34 +97,8 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
 
         addInputEventListener( new CursorHandler() );
 
-        _dragHandler = new BoundedDragHandler( this, dragBoundsNode ) {
-            public void mouseDragged( PInputEvent event ) {
-                DNAStrand dnaStrand = _bead.getDNAStrand();
-                if ( dnaStrand == null ) {
-                    super.mouseDragged( event );
-                }
-                else {
-                    // Release the bead when the DNA strand becomes fully stretched.
-                    if ( dnaStrand.getExtension() < dnaStrand.getContourLength() ) {
-                        super.mouseDragged( event );
-                    }
-                    else {
-                        mouseReleased( event );
-                    }
-                }
-            }
-        };
+        _dragHandler = new DragHandler( this, dragBoundsNode, bead );
         addInputEventListener( _dragHandler );
-        addInputEventListener( new PBasicInputEventHandler() {
-
-            public void mousePressed( PInputEvent event ) {
-                _bead.setMotionEnabled( false );
-            }
-
-            public void mouseReleased( PInputEvent event ) {
-                _bead.setMotionEnabled( true );
-            }
-        } );
 
         // Update the model when this node is dragged.
         addPropertyChangeListener( this );
@@ -194,6 +168,60 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
         setDiameter( diameter );
         Paint paint = new RoundGradientPaint( 0, diameter/6, HILITE_COLOR, new Point2D.Double( diameter/4, diameter/4 ), PRIMARY_COLOR );
         setPaint( paint );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    private class DragHandler extends BoundedDragHandler {
+
+        private Bead _bead;
+        private boolean _ignoreDrag;
+
+        public DragHandler( PNode dragNode, PNode boundingNode, Bead bead ) {
+            super( dragNode, boundingNode );
+            _bead = bead;
+            _ignoreDrag = false;
+        }
+
+        public void mousePressed( PInputEvent event ) {
+            _bead.setMotionEnabled( false );
+        }
+
+        public void mouseDragged( PInputEvent event ) {
+            DNAStrand dnaStrand = _bead.getDNAStrand();
+            if ( dnaStrand == null ) {
+                super.mouseDragged( event );
+            }
+            else {
+                final double maxExtension = .95 * dnaStrand.getContourLength();
+                // Release the bead when the DNA strand becomes fully stretched.
+                if ( !_ignoreDrag && dnaStrand.getExtension() <= maxExtension ) {
+                    Point2D beadPosition = _bead.getPosition();
+                    super.mouseDragged( event );
+                    if ( dnaStrand.getExtension() > maxExtension ) {
+                        _bead.setPosition( beadPosition );
+                        endDrag( event );
+                    }
+                }
+                else {
+                    endDrag( event );
+                }
+            }
+        }
+        
+        private void endDrag( PInputEvent event ) {
+            super.mouseReleased( event );
+            _ignoreDrag = true;
+            _bead.setMotionEnabled( true );
+        }
+
+        public void mouseReleased( PInputEvent event ) {
+            super.mouseReleased( event );
+            _ignoreDrag = false;
+            _bead.setMotionEnabled( true );
+        }
     }
     
 }
