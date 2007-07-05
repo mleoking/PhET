@@ -234,6 +234,15 @@ public class Bead extends MovableObject implements ModelElement {
     }
     
     /**
+     * Gets the DNA strand that the bead is attached to.
+     * 
+     * @return DNAStrand, null if bead is not attached to a DNA strand
+     */
+    public DNAStrand getDNAStrand() {
+        return _dnaStrand;
+    }
+    
+    /**
      * Gets the DNA force, if the bead is attached to a DNA strand.
      * 
      * @return Vector2D, zero if the bead is not attached to a DNA strand

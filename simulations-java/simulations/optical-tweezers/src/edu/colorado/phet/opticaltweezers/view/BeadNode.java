@@ -17,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.FineCrosshairNode;
 import edu.colorado.phet.opticaltweezers.model.Bead;
+import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -90,13 +91,29 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
 
         _bead = bead;
         _bead.addObserver( this );
-
+        
         _modelViewTransform = modelViewTransform;
         _pModel = new Point2D.Double();
 
         addInputEventListener( new CursorHandler() );
 
-        _dragHandler = new BoundedDragHandler( this, dragBoundsNode );
+        _dragHandler = new BoundedDragHandler( this, dragBoundsNode ) {
+            public void mouseDragged( PInputEvent event ) {
+                DNAStrand dnaStrand = _bead.getDNAStrand();
+                if ( dnaStrand == null ) {
+                    super.mouseDragged( event );
+                }
+                else {
+                    // Release the bead when the DNA strand becomes fully stretched.
+                    if ( dnaStrand.getExtension() < dnaStrand.getContourLength() ) {
+                        super.mouseDragged( event );
+                    }
+                    else {
+                        mouseReleased( event );
+                    }
+                }
+            }
+        };
         addInputEventListener( _dragHandler );
         addInputEventListener( new PBasicInputEventHandler() {
 
