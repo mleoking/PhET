@@ -6,7 +6,6 @@ IN PROGRESS:
 
 AAPT:
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
-- when user drags bead, auto-release if DNA extension is 97% of contour length
 - histogram: open in its own non-resizable window
 - histogram: all buttons in toolbar
 - histogram: ruler, unconstrained drag, default position centered, sync labeling with x-axis range, ruler icon to show/hide
