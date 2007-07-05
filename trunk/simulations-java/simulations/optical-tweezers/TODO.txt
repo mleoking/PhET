@@ -66,6 +66,7 @@ MISSING INFO:
 
  
 DONE:
+7/5/07 - first pass at constraining bead drag to prevent over-stretching DNA strand (not correct)
 7/5/07 - don't change clock's dt while dragging in "between" zone of simulation speed slider
 7/5/07 - reduce width of "between" zone in simulation speed slide, change alignment of slow.max and fast.min tick labels
 ********* version 0.00.17 (16349)
