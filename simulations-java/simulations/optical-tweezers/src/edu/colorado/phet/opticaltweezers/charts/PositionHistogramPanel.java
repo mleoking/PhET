@@ -28,6 +28,15 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 
 public class PositionHistogramPanel extends JPanel implements Observer {
+    
+    private static class ZoomSpec {
+        public final double range;
+        public final double binWidth;
+        public ZoomSpec( double range, double binWidth ) {
+            this.range = range;
+            this.binWidth = binWidth;
+        }
+    }
 
     //----------------------------------------------------------------------------
     // Class data
@@ -36,7 +45,15 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private static final Dimension CHART_SIZE = new Dimension( 700, 150 );
     private static final Color CHART_BACKGROUND_COLOR = Color.WHITE;
     
-    private static final DoubleRange POSITION_RANGE = new DoubleRange( -150, 150 );
+    private static final ZoomSpec[] ZOOM_SPECS = {
+        new ZoomSpec( 50, 0.25 ),
+        new ZoomSpec( 100, 0.5 ),
+        new ZoomSpec( 150, 0.75 ),
+        new ZoomSpec( 200, 1.0 ),
+        new ZoomSpec( 250, 1.5 ),
+        new ZoomSpec( 300, 2.0 )
+    };
+    private static final int DEFAULT_ZOOM_INDEX = 2;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -62,6 +79,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
 
     private boolean _isRunning;
     private int _numberOfMeasurements;
+    private int _zoomIndex;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -73,9 +91,8 @@ public class PositionHistogramPanel extends JPanel implements Observer {
      * @param font font to used for all controls
      * @param bead
      * @param laser
-     * @param binWidth
      */
-    public PositionHistogramPanel( Font font, IClock clock, Bead bead, Laser laser, double binWidth ) {
+    public PositionHistogramPanel( Font font, IClock clock, Bead bead, Laser laser ) {
         super();
 
         _clock = clock;
@@ -96,14 +113,17 @@ public class PositionHistogramPanel extends JPanel implements Observer {
 
         _isRunning = false;
         _numberOfMeasurements = 0;
+        _zoomIndex = DEFAULT_ZOOM_INDEX;
 
         JPanel toolPanel = createToolPanel( font );
 
-        JPanel chartPanel = createChartPanel( font, bead, laser, binWidth );
+        JPanel chartPanel = createChartPanel( font, bead, laser );
 
         setLayout( new BorderLayout() );
         add( toolPanel, BorderLayout.NORTH );
         add( chartPanel, BorderLayout.CENTER );
+        
+        updateRange();
     }
     
     public void cleanup() {
@@ -149,6 +169,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
                 handleZoomInButton();
             }
         } );
+        _zoomInButton.setEnabled( _zoomIndex != 0 );
         
         Icon zoomOutIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_ZOOM_OUT ) );
         _zoomOutButton = new JButton( zoomOutIcon );
@@ -157,6 +178,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
                 handleZoomOutButton();
             }
         } );
+        _zoomOutButton.setEnabled( _zoomIndex != ZOOM_SPECS.length - 1 );
 
         Icon cameraIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_CAMERA ) );
         _snapshotButton = new JButton( cameraIcon );
@@ -192,16 +214,19 @@ public class PositionHistogramPanel extends JPanel implements Observer {
             toolLayout.addComponent( _rulerButton, row, column++, 1, 1, GridBagConstraints.EAST );
         }
 
+        //XXX features not implemented
+        _snapshotButton.setEnabled( false );
+        _rulerButton.setEnabled( false );
+        
         return toolPanel;
     }
 
     /*
      * Creates the Piccolo panel that contains the chart, ruler, etc.
      */
-    private JPanel createChartPanel( Font font, Bead bead, Laser laser, double binWidth ) {
+    private JPanel createChartPanel( Font font, Bead bead, Laser laser ) {
 
-        _plot = new PositionHistogramPlot( binWidth );
-        _plot.setPositionRange( POSITION_RANGE.getMin(), POSITION_RANGE.getMax() );
+        _plot = new PositionHistogramPlot();
 
         JFreeChart chart = new JFreeChart( null /* title */, null /* titleFont */, _plot, false /* createLegend */);
         chart.setAntiAlias( true );
@@ -270,11 +295,21 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     }
 
     private void handleZoomInButton() {
-        System.out.println( "PositionHistogramPanel.handleZoomInButton" );//XXX
+        _zoomIndex--;
+        updateRange();
     }
     
     private void handleZoomOutButton() {
-        System.out.println( "PositionHistogramPanel.handleZoomOutButton" );//XXX
+        _zoomIndex++;
+        updateRange();
+    }
+    
+    private void updateRange() {
+        ZoomSpec zoomSpec = ZOOM_SPECS[ _zoomIndex ];
+        _plot.setPositionRange( -zoomSpec.range, zoomSpec.range, zoomSpec.binWidth );
+        _zoomInButton.setEnabled( _zoomIndex != 0 );
+        _zoomOutButton.setEnabled( _zoomIndex != ZOOM_SPECS.length - 1 );
+        clearMeasurements();
     }
     
     private void handleSnapshotButton() {

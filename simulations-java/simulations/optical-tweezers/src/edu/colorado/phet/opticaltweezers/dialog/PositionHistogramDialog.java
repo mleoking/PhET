@@ -32,7 +32,7 @@ public class PositionHistogramDialog extends JDialog {
      * @param laser
      * @param binWidth
      */
-    public PositionHistogramDialog( Frame owner, Font font, IClock clock, Bead bead, Laser laser, double binWidth ) {
+    public PositionHistogramDialog( Frame owner, Font font, IClock clock, Bead bead, Laser laser ) {
         super( owner );
         assert( owner != null );
         
@@ -40,7 +40,7 @@ public class PositionHistogramDialog extends JDialog {
         setModal( false );
         setTitle( OTResources.getString( "title.positionHistogram" ) );
         
-        _panel = new PositionHistogramPanel( font, clock, bead, laser, binWidth );
+        _panel = new PositionHistogramPanel( font, clock, bead, laser );
         getContentPane().add( _panel );
         pack();
     }

@@ -96,9 +96,6 @@ public class PhysicsDefaults {
     public static final int RULER_MAJOR_TICK_INTERVAL = 100; // nm
     public static final int RULER_MINOR_TICKS_BETWEEN_MAJORS = 9;
     
-    // Position Histogram
-    public static final double POSITION_HISTOGRAM_BIN_WIDTH = 2; // nm
-    
     // Potential Energy chart
     public static final double POTENTIAL_ENERGY_SAMPLE_WIDTH = 5; // nm
     

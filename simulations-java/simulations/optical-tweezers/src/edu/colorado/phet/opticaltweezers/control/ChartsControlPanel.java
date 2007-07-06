@@ -42,7 +42,6 @@ public class ChartsControlPanel extends JPanel {
     private IClock _clock;
     private Bead _bead;
     private Laser _laser;
-    private double _positionHistogramBinWidth;
     
     private JDialog _positionHistogramDialog;
     private PNode _potentialEnergyNode;
@@ -63,11 +62,10 @@ public class ChartsControlPanel extends JPanel {
      * @param clock
      * @param bead
      * @param laser
-     * @param positionHistogramBinWidth
      * @param potentialEnergyNode
      */
     public ChartsControlPanel( Font titleFont, Font controlFont, Frame parentFrame,
-            IClock clock, Bead bead, Laser laser, double positionHistogramBinWidth, 
+            IClock clock, Bead bead, Laser laser, 
             PNode potentialEnergyNode ) {
         super();
         
@@ -75,7 +73,6 @@ public class ChartsControlPanel extends JPanel {
         _clock = clock;
         _bead = bead;
         _laser = laser;
-        _positionHistogramBinWidth = positionHistogramBinWidth;
 
         _positionHistogramDialog = null;
         _potentialEnergyNode = potentialEnergyNode;
@@ -172,7 +169,7 @@ public class ChartsControlPanel extends JPanel {
         
         closePositionHistogramDialog();
         
-        _positionHistogramDialog = new PositionHistogramDialog( _parentFrame, OTConstants.CONTROL_PANEL_CONTROL_FONT, _clock, _bead, _laser, _positionHistogramBinWidth );
+        _positionHistogramDialog = new PositionHistogramDialog( _parentFrame, OTConstants.CONTROL_PANEL_CONTROL_FONT, _clock, _bead, _laser );
         _positionHistogramDialog.addWindowListener( new WindowAdapter() {
 
             // called when the close button in the dialog's window dressing is clicked

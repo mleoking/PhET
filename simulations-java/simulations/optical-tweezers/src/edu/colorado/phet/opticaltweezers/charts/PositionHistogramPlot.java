@@ -36,7 +36,7 @@ public class PositionHistogramPlot extends XYPlot {
     
     private static final String SERIES_KEY = "position";
     private static final Color BACKGROUND_COLOR = Color.WHITE;
-    private static final Color BAR_FILL_COLOR = Color.YELLOW;
+    private static final Color BAR_FILL_COLOR = Color.BLUE;
     private static final Color BAR_OUTLINE_COLOR = Color.BLACK;
     private static final int OBSERVATIONS_REQUIRED_TO_ENABLE_AUTORANGE = 10;
     
@@ -44,7 +44,7 @@ public class PositionHistogramPlot extends XYPlot {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final double _binWidth;
+//    private final double _binWidth;
     private PhetHistogramDataset _dataset;
     private PhetHistogramSeries _series;
     private NumberAxis _xAxis;
@@ -56,13 +56,9 @@ public class PositionHistogramPlot extends XYPlot {
     
     /**
      * Constructor.
-     * 
-     * @param binWidth
      */
-    public PositionHistogramPlot( double binWidth ) {
+    public PositionHistogramPlot() {
         super();
-        
-        _binWidth = binWidth;
         
         // dataset
         _dataset = new PhetHistogramDataset();
@@ -75,7 +71,7 @@ public class PositionHistogramPlot extends XYPlot {
         XYBarRenderer renderer = new PositionHistogramRenderer();
         renderer.setPaint( BAR_FILL_COLOR );
         renderer.setOutlinePaint( BAR_OUTLINE_COLOR );
-        renderer.setDrawBarOutline( true );
+        renderer.setDrawBarOutline( false );
         setRenderer( renderer );
         
         // x-axis, with labeled ticks
@@ -104,7 +100,7 @@ public class PositionHistogramPlot extends XYPlot {
         setInsets( new RectangleInsets( 0, 0, 0, 0 ) );
         
         // Default
-        setPositionRange( 0, binWidth );
+        setPositionRange( 0, 1, 1 );
     }
     
     //----------------------------------------------------------------------------
@@ -118,14 +114,15 @@ public class PositionHistogramPlot extends XYPlot {
      * 
      * @param minPosition
      * @param maxPosition
+     * @param binWidth
      */
-    public void setPositionRange( double minPosition, double maxPosition ) {
+    public void setPositionRange( double minPosition, double maxPosition, double binWidth ) {
         
         // set the range for the x axis
         _xAxis.setRange( minPosition, maxPosition );
         
         // set the range for the series
-        final int numberOfBins = (int) ( ( maxPosition - minPosition ) / _binWidth );
+        final int numberOfBins = (int) ( ( maxPosition - minPosition ) / binWidth );
         if ( _series != null ) {
             _dataset.removeSeries( _series );
         }
