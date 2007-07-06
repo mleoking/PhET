@@ -5,10 +5,14 @@ package edu.colorado.phet.opticaltweezers.charts;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import org.jfree.chart.JFreeChart;
 
@@ -17,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTConstants;
@@ -25,6 +28,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 public class PositionHistogramPanel extends JPanel implements Observer {
@@ -42,6 +46,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final boolean DEFAULT_IS_RUNNING = true;
     private static final Dimension CHART_SIZE = new Dimension( 700, 150 );
     private static final Color CHART_BACKGROUND_COLOR = Color.WHITE;
     
@@ -54,6 +59,8 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         new ZoomSpec( 300, 2.0 )
     };
     private static final int DEFAULT_ZOOM_INDEX = 2;
+    
+    private static final DecimalFormat BIN_WIDTH_FORMAT = new DecimalFormat( "0.0#" );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -64,7 +71,6 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private Bead _bead;
     private Laser _laser;
 
-    private JLabel _measurementsLabel;
     private JButton _startStopButton;
     private JButton _clearButton;
     private JButton _zoomInButton;
@@ -73,9 +79,12 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private JButton _rulerButton;
 
     private PositionHistogramPlot _plot;
+    private PText _measurementsNode;
+    private PText _binWidthNode;
 
     private String _measurementsString;
     private String _startString, _stopString;
+    private String _binWidthString;
 
     private boolean _isRunning;
     private int _numberOfMeasurements;
@@ -111,7 +120,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _laser = laser;
         _laser.addObserver( this );
 
-        _isRunning = false;
+        _isRunning = DEFAULT_IS_RUNNING;
         _numberOfMeasurements = 0;
         _zoomIndex = DEFAULT_ZOOM_INDEX;
 
@@ -127,7 +136,8 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     }
     
     public void cleanup() {
-        System.err.println( "implement PositionHistogramPanel.cleanup!" );//XXX
+        _clock.removeClockListener( _clockListener );
+        _laser.deleteObserver( this );
     }
 
     //----------------------------------------------------------------------------
@@ -142,9 +152,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _measurementsString = OTResources.getString( "label.measurements" );
         _startString = OTResources.getString( "button.start" );
         _stopString = OTResources.getString( "button.stop" );
-
-        _measurementsLabel = new JLabel( _measurementsString );
-        _measurementsLabel.setFont( font );
+        _binWidthString = OTResources.getString( "label.binWidth" );
 
         _startStopButton = new JButton( _isRunning ? _stopString : _startString );
         _startStopButton.setFont( font );
@@ -204,8 +212,6 @@ public class PositionHistogramPanel extends JPanel implements Observer {
             toolLayout.setFill( GridBagConstraints.HORIZONTAL );
             int row = 0;
             int column = 0;
-            toolLayout.addComponent( _measurementsLabel, row, column++, 1, 1, GridBagConstraints.WEST );
-            toolLayout.addComponent( Box.createHorizontalStrut( 75 ), row, column++, 1, 1, GridBagConstraints.WEST );
             toolLayout.addComponent( _startStopButton, row, column++, 1, 1, GridBagConstraints.EAST );
             toolLayout.addComponent( _clearButton, row, column++, 1, 1, GridBagConstraints.EAST );
             toolLayout.addComponent( _zoomInButton, row, column++, 1, 1, GridBagConstraints.EAST );
@@ -226,6 +232,11 @@ public class PositionHistogramPanel extends JPanel implements Observer {
      */
     private JPanel createChartPanel( Font font, Bead bead, Laser laser ) {
 
+        PhetPCanvas canvas = new PhetPCanvas();
+        canvas.setPreferredSize( CHART_SIZE );
+        PComposite parentNode = new PComposite();
+        canvas.getLayer().addChild( parentNode );
+        
         _plot = new PositionHistogramPlot();
 
         JFreeChart chart = new JFreeChart( null /* title */, null /* titleFont */, _plot, false /* createLegend */);
@@ -238,10 +249,16 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         chartNode.setChildrenPickable( false );
         chartNode.setBounds( 0, 0, CHART_SIZE.width, CHART_SIZE.height );
         chartNode.updateChartRenderingInfo();
-
-        PhetPCanvas canvas = new PhetPCanvas();
-        canvas.getLayer().addChild( chartNode );
-        canvas.setPreferredSize( CHART_SIZE );
+        parentNode.addChild( chartNode );
+        
+        _measurementsNode = new PText( "?" );
+        _measurementsNode.setOffset( 10, 10 );
+        setNumberOfMeasurements( _numberOfMeasurements );
+        parentNode.addChild( _measurementsNode );
+        
+        _binWidthNode = new PText();
+        _binWidthNode.setOffset( _measurementsNode.getXOffset(), _measurementsNode.getFullBounds().getMaxY() + 3 );
+        parentNode.addChild( _binWidthNode );
         
         JPanel panel = new JPanel();
         panel.add( canvas );
@@ -258,7 +275,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
      */
     private void setNumberOfMeasurements( int numberOfMeasurements ) {
         _numberOfMeasurements = numberOfMeasurements;
-        _measurementsLabel.setText( _measurementsString + " " + String.valueOf( _numberOfMeasurements ) );
+        _measurementsNode.setText( _measurementsString + " " + String.valueOf( _numberOfMeasurements ) );
     }
 
     /*
@@ -307,6 +324,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private void updateRange() {
         ZoomSpec zoomSpec = ZOOM_SPECS[ _zoomIndex ];
         _plot.setPositionRange( -zoomSpec.range, zoomSpec.range, zoomSpec.binWidth );
+        _binWidthNode.setText( _binWidthString + " " + BIN_WIDTH_FORMAT.format( zoomSpec.binWidth ) );
         _zoomInButton.setEnabled( _zoomIndex != 0 );
         _zoomOutButton.setEnabled( _zoomIndex != ZOOM_SPECS.length - 1 );
         clearMeasurements();
