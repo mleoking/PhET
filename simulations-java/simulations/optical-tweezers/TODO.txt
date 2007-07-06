@@ -5,15 +5,14 @@
 IN PROGRESS:
 
 AAPT:
-- when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
-- histogram: open in its own non-resizable window
-- histogram: all buttons in toolbar
+- histogram: fix layout of toolbar
 - histogram: ruler, unconstrained drag, default position centered, sync labeling with x-axis range, ruler icon to show/hide
 - histogram: add horizontal zoom feature, range +-50 to +-300, increments of 100 nm
 - histogram: add snapshot feature
 - histogram: add vertical dashed line in histogram and play area to indicate laser origin
-- histogram: label x axis with "Position relative to laser"
+- histogram: make min/max range labels readable
 - change "force on bead" model in slow mode
+- when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
 - add description to About dialog
 - set correct default values for everything, including developer controls
 - check insets on laser on/off button on Windows
@@ -65,6 +64,8 @@ MISSING INFO:
 
  
 DONE:
+7/6/07 - histogram: label x axis with "Position relative to laser"
+7/6/07 - histogram: connect chart to model, record observations, clear observations when laser moves
 7/6/07 - skeleton for new Position Histogram dialog, wired into control panels
 7/6/07 - fix zero-magnitude exception in Arrow call to AbstractVector2D.Double.getNormalizedInstance
 7/5/07 - cleanup and doc of bead drag handler

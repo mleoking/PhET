@@ -20,6 +20,7 @@ import org.jfree.ui.RectangleInsets;
 import edu.colorado.phet.common.jfreechartphet.PhetHistogramDataset;
 import edu.colorado.phet.common.jfreechartphet.PhetHistogramSeries;
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.OTResources;
 
 /**
  * PositionHistogramPlot is the plot for the position histogram chart.
@@ -34,7 +35,7 @@ public class PositionHistogramPlot extends XYPlot {
     //----------------------------------------------------------------------------
     
     private static final String SERIES_KEY = "position";
-    private static final Color BACKGROUND_COLOR = OTConstants.COLOR_TRANSPARENT;
+    private static final Color BACKGROUND_COLOR = Color.WHITE;
     private static final Color BAR_FILL_COLOR = Color.YELLOW;
     private static final Color BAR_OUTLINE_COLOR = Color.BLACK;
     private static final int OBSERVATIONS_REQUIRED_TO_ENABLE_AUTORANGE = 10;
@@ -77,13 +78,13 @@ public class PositionHistogramPlot extends XYPlot {
         renderer.setDrawBarOutline( true );
         setRenderer( renderer );
         
-        // x-axis, no label, no ticks
+        // x-axis, with labeled ticks
         // Range will be adjusted via setPositionRange.
         _xAxis = new NumberAxis();
-        _xAxis.setLabel( null );
-        _xAxis.setTickLabelsVisible( false );
-        _xAxis.setTickMarksVisible( false );
-        _xAxis.setVisible( false );
+        _xAxis.setLabel( OTResources.getString( "axis.relativePosition" ) );
+        _xAxis.setTickLabelsVisible( true );
+        _xAxis.setTickMarksVisible( true );
+        _xAxis.setVisible( true );
         setDomainAxis( _xAxis );
         
         // y-axis, no label, no ticks
@@ -142,6 +143,7 @@ public class PositionHistogramPlot extends XYPlot {
      * @param position
      */
     public void addPosition( double position ) {
+
         _series.addObservation( position );
         
         // When at least one bin reaches the top of the y-axis range,
