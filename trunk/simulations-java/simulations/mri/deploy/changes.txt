@@ -1,0 +1,1 @@
+7-5-2007: fixed a bug in the layout of the toggle add/remove tumor button in MRI module 
