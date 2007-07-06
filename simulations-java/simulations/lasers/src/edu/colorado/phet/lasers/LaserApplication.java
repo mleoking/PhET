@@ -23,6 +23,7 @@ import edu.colorado.phet.lasers.controller.PhotoWindow;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 import edu.colorado.phet.lasers.view.AtomGraphic;
+import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -159,6 +160,7 @@ public class LaserApplication extends PhetApplication {
      * @param args
      */
     public static void main( String[] args ) {
+        EnergyLevelGraphic.laserApplicationRunning=true;//todo: fix this awkward workaround for problem in EnergyLevelGraphic
         SimStrings.getInstance().init( args, LaserConfig.localizedStringsPath );
 
         String arch = System.getProperty( "os.name", "" );

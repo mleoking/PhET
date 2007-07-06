@@ -12,6 +12,7 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
@@ -134,7 +135,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             levelIcon.updateEnergy( event.getEnergy() );
         }
     }
-
+    public static boolean laserApplicationRunning=false;//todo: fix this awkward workaround for problem in EnergyLevelGraphic
     /**
      * Inner class that handles translation of the graphic
      */
@@ -151,7 +152,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
 
             // The following line was screwing things up for the configurable atom in Discharge Lamps when I
             // rebuilton 9/11/06
-//            newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy);
+            if (laserApplicationRunning){//todo: fix this awkward workaround for problem in EnergyLevelGraphic
+                newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy);
+            }
+            
             atomicState.setEnergyLevel( newEnergy );
             atomicState.determineEmittedPhotonWavelength();
 
