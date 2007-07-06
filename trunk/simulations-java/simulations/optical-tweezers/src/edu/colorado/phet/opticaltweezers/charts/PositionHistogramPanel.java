@@ -11,21 +11,20 @@ import java.util.Observer;
 import javax.swing.*;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
+import edu.umd.cs.piccolo.nodes.PText;
 
 
 public class PositionHistogramPanel extends JPanel implements Observer {
@@ -34,7 +33,10 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final Dimension CHART_SIZE = new Dimension( 700, 150 );
     private static final Color CHART_BACKGROUND_COLOR = Color.WHITE;
+    
+    private static final DoubleRange POSITION_RANGE = new DoubleRange( -150, 150 );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -175,35 +177,19 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         // Layout
         JPanel toolPanel = new JPanel();
         {
-            int row = 0;
-            int column = 0;
-
-            JPanel leftPanel = new JPanel();
-            EasyGridBagLayout leftLayout = new EasyGridBagLayout( leftPanel );
-            leftPanel.setLayout( leftLayout );
-            leftLayout.setAnchor( GridBagConstraints.WEST );
-            leftLayout.addComponent( _measurementsLabel, row, column++ );
-
-            JPanel rightPanel = new JPanel();
-            EasyGridBagLayout rightLayout = new EasyGridBagLayout( rightPanel );
-            rightPanel.setLayout( rightLayout );
-            rightLayout.setAnchor( GridBagConstraints.EAST );
-            row = 0;
-            column = 0;
-            rightLayout.addComponent( _startStopButton, row, column++ );
-            rightLayout.addComponent( _clearButton, row, column++ );
-            rightLayout.addComponent( _zoomInButton, row, column++ );
-            rightLayout.addComponent( _zoomOutButton, row, column++ );
-            rightLayout.addComponent( _snapshotButton, row, column++ );
-            rightLayout.addComponent( _rulerButton, row, column++ );
-
             EasyGridBagLayout toolLayout = new EasyGridBagLayout( toolPanel );
             toolPanel.setLayout( toolLayout );
             toolLayout.setFill( GridBagConstraints.HORIZONTAL );
-            row = 0;
-            column = 0;
-            toolLayout.addComponent( leftPanel, row, column++, 1, 1, GridBagConstraints.WEST );
-            toolLayout.addComponent( rightPanel, row, column++, 1, 1, GridBagConstraints.EAST );
+            int row = 0;
+            int column = 0;
+            toolLayout.addComponent( _measurementsLabel, row, column++, 1, 1, GridBagConstraints.WEST );
+            toolLayout.addComponent( Box.createHorizontalStrut( 75 ), row, column++, 1, 1, GridBagConstraints.WEST );
+            toolLayout.addComponent( _startStopButton, row, column++, 1, 1, GridBagConstraints.EAST );
+            toolLayout.addComponent( _clearButton, row, column++, 1, 1, GridBagConstraints.EAST );
+            toolLayout.addComponent( _zoomInButton, row, column++, 1, 1, GridBagConstraints.EAST );
+            toolLayout.addComponent( _zoomOutButton, row, column++, 1, 1, GridBagConstraints.EAST );
+            toolLayout.addComponent( _snapshotButton, row, column++, 1, 1, GridBagConstraints.EAST );
+            toolLayout.addComponent( _rulerButton, row, column++, 1, 1, GridBagConstraints.EAST );
         }
 
         return toolPanel;
@@ -215,21 +201,23 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private JPanel createChartPanel( Font font, Bead bead, Laser laser, double binWidth ) {
 
         _plot = new PositionHistogramPlot( binWidth );
+        _plot.setPositionRange( POSITION_RANGE.getMin(), POSITION_RANGE.getMax() );
 
         JFreeChart chart = new JFreeChart( null /* title */, null /* titleFont */, _plot, false /* createLegend */);
         chart.setAntiAlias( true );
-        chart.setBorderVisible( false );
+        chart.setBorderVisible( true );
         chart.setBackgroundPaint( CHART_BACKGROUND_COLOR );
-        chart.setPadding( new RectangleInsets( 0, 5, 5, 5 ) ); // top,left,bottom,right
         
         JFreeChartNode chartNode = new JFreeChartNode( chart );
         chartNode.setPickable( false );
         chartNode.setChildrenPickable( false );
+        chartNode.setBounds( 0, 0, CHART_SIZE.width, CHART_SIZE.height );
+        chartNode.updateChartRenderingInfo();
 
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.getLayer().addChild( chartNode );
-        canvas.setPreferredSize( new Dimension( 700, 150 ) );//XXX
-
+        canvas.setPreferredSize( CHART_SIZE );
+        
         JPanel panel = new JPanel();
         panel.add( canvas );
 
@@ -302,8 +290,8 @@ public class PositionHistogramPanel extends JPanel implements Observer {
      */
     private void handleClockEvent( ClockEvent event ) {
         setNumberOfMeasurements( _numberOfMeasurements + 1 );
-        double x = _bead.getPositionRef().getX();
-        _plot.addPosition( x );
+        double xOffset = _bead.getPositionRef().getX() - _laser.getPosition().getX();
+        _plot.addPosition( xOffset );
     }
 
     //----------------------------------------------------------------------------
