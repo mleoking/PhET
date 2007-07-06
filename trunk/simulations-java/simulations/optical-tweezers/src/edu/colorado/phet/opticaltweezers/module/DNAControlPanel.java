@@ -59,7 +59,7 @@ public class DNAControlPanel extends AbstractControlPanel {
                 model.getBead(), model.getFluid(),
                 _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getDNAForceNode() );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
-                model.getClock(), model.getBead(), model.getLaser(), DNADefaults.POSITION_HISTOGRAM_BIN_WIDTH,
+                model.getClock(), model.getBead(), model.getLaser(),
                 _canvas.getPotentialEnergyChartNode() );
         _miscControlPanel = new MiscControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), _canvas.getRulerNode(), model.getFluid() );
         List forceVectorNodes = new ArrayList();

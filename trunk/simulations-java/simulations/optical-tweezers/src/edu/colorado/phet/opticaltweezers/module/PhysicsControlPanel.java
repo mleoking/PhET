@@ -9,7 +9,6 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
-import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.PhysicsModel;
 
 /**
@@ -60,7 +59,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
                 model.getBead(), model.getFluid(),
                 _canvas.getTrapForceNode(), _canvas.getDragForceNode(), null /* dnaForceNode */ );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
-                model.getClock(), model.getBead(), model.getLaser(), PhysicsDefaults.POSITION_HISTOGRAM_BIN_WIDTH,
+                model.getClock(), model.getBead(), model.getLaser(),
                 _canvas.getPotentialEnergyChartNode() );
         _miscControlPanel = new MiscControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), _canvas.getRulerNode(), model.getFluid() );
         List forceVectorNodes = new ArrayList();

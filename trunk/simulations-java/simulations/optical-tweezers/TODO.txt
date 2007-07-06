@@ -7,7 +7,6 @@ IN PROGRESS:
 AAPT:
 - histogram: fix layout of toolbar
 - histogram: ruler, unconstrained drag, default position centered, sync labeling with x-axis range, ruler icon to show/hide
-- histogram: add horizontal zoom feature, range +-50 to +-300, increments of 100 nm
 - histogram: add snapshot feature
 - histogram: add vertical dashed line in histogram and play area to indicate laser origin
 - histogram: make min/max range labels readable
@@ -64,6 +63,8 @@ MISSING INFO:
 
  
 DONE:
+7/6/07 - histogram: vary bin width based on position range
+7/6/07 - histogram: add horizontal zoom feature, range +-50 to +-300, increments of 100 nm
 7/6/07 - histogram: label x axis with "Position relative to laser"
 7/6/07 - histogram: connect chart to model, record observations, clear observations when laser moves
 7/6/07 - skeleton for new Position Histogram dialog, wired into control panels
