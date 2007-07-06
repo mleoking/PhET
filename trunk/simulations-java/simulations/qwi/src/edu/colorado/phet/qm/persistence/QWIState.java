@@ -17,11 +17,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Jan 8, 2006
- * Time: 9:31:36 PM
- * To change this template use File | Settings | File Templates.
+ * Author: Sam Reid
+ * Jan 8, 2006, 9:31:36 PM
  */
 public class QWIState implements Serializable {
     private ArrayList detectorList = new ArrayList();
