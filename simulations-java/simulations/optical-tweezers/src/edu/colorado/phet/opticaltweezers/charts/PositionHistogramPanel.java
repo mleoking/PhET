@@ -15,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.Marker;
+import org.jfree.chart.plot.ValueMarker;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -61,6 +63,11 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private static final int DEFAULT_ZOOM_INDEX = 2;
     
     private static final DecimalFormat BIN_WIDTH_FORMAT = new DecimalFormat( "0.0#" );
+    
+    private static final Color ORIGIN_MARKER_COLOR = Color.BLACK;
+    public static final Stroke ORIGIN_MARKER_STROKE = 
+        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
+ 
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -85,6 +92,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private String _measurementsString;
     private String _startString, _stopString;
     private String _binWidthString;
+    private String _unitsString;
 
     private boolean _isRunning;
     private int _numberOfMeasurements;
@@ -153,6 +161,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _startString = OTResources.getString( "button.start" );
         _stopString = OTResources.getString( "button.stop" );
         _binWidthString = OTResources.getString( "label.binWidth" );
+        _unitsString = OTResources.getString( "units.position" );
 
         _startStopButton = new JButton( _isRunning ? _stopString : _startString );
         _startStopButton.setFont( font );
@@ -262,6 +271,13 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         
         JPanel panel = new JPanel();
         panel.add( canvas );
+        
+        // add a vertical marker at position=0
+        Marker originMarker = new ValueMarker( 0 );
+        originMarker.setLabel("");
+        originMarker.setPaint( ORIGIN_MARKER_COLOR );
+        originMarker.setStroke( ORIGIN_MARKER_STROKE );
+        _plot.addDomainMarker(originMarker);
 
         return panel;
     }
@@ -324,7 +340,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private void updateRange() {
         ZoomSpec zoomSpec = ZOOM_SPECS[ _zoomIndex ];
         _plot.setPositionRange( -zoomSpec.range, zoomSpec.range, zoomSpec.binWidth );
-        _binWidthNode.setText( _binWidthString + " " + BIN_WIDTH_FORMAT.format( zoomSpec.binWidth ) );
+        _binWidthNode.setText( _binWidthString + " " + BIN_WIDTH_FORMAT.format( zoomSpec.binWidth ) + " " + _unitsString );
         _zoomInButton.setEnabled( _zoomIndex != 0 );
         _zoomOutButton.setEnabled( _zoomIndex != ZOOM_SPECS.length - 1 );
         clearMeasurements();
