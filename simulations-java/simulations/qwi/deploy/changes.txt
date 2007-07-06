@@ -1,5 +1,7 @@
+(7-5-2007)
 Renamed 3rd tab from "Lasers" to "2 Lasers"
 Fixed: For massive particles, the label for “Wave function display” is missing the “y” at the end.
+Fixed: part of state cannot be saved/loaded
 
 1.05.01
 Removed dependence on OpenSourcePhysics FFT
