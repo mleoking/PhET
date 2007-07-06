@@ -70,6 +70,7 @@ public class OTConstants {
     // Images
     //----------------------------------------------------------------------------
     
+    public static final String IMAGE_CAMERA = "cameraIcon.png";
     public static final String IMAGE_LASER_SIGN = "laserDangerSign.png";
     public static final String IMAGE_PUSHPIN = "pushpin.png";
     public static final String IMAGE_ON_BUTTON = "onButton.png";

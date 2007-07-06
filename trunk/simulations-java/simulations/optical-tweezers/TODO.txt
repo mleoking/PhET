@@ -17,7 +17,6 @@ AAPT:
 - add description to About dialog
 - set correct default values for everything, including developer controls
 - check insets on laser on/off button on Windows
-- fix zero-magnitude exception in AbstractVector2D.Double.getNormalizedInstance
 
 HIGH PRIORITY:
 
@@ -66,6 +65,8 @@ MISSING INFO:
 
  
 DONE:
+7/6/07 - skeleton for new Position Histogram dialog, wired into control panels
+7/6/07 - fix zero-magnitude exception in Arrow call to AbstractVector2D.Double.getNormalizedInstance
 7/5/07 - cleanup and doc of bead drag handler
 7/5/07 - second pass at constraining bead drag, working nicely, needs cleanup and doc
 7/5/07 - first pass at constraining bead drag to prevent over-stretching DNA strand (not correct)
