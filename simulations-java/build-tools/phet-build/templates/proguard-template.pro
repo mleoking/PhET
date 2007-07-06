@@ -4,6 +4,21 @@
 -verbose
 -ignorewarnings
 
+-keep class * extends edu.colorado.phet.fourier.persistence.FourierSerializable {
+    <fields>;
+    <methods>;
+}
+
+-keep class * extends edu.colorado.phet.boundstates.persistence.BSSerializable {
+    <fields>;
+    <methods>;
+}
+
+-keep class * extends edu.colorado.phet.quantumtunneling.persistence.QTSerializable {
+    <fields>;
+    <methods>;
+}
+
 -keep class * extends javax.swing.plaf.ComponentUI {
     public static javax.swing.plaf.ComponentUI createUI(javax.swing.JComponent);
 }
