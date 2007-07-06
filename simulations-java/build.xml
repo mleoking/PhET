@@ -279,7 +279,7 @@ PhET-team specific tasks are located in an auxiliary build file.
         <echo message="Revision number is ${number.subversion.revision}" />
 
         <propertyfile file="${file.project.properties}">
-            <entry key="version.revision" type="int" operation="=" value="${number.subversion.revision}"/>
+            <entry key="version.revision" type="string" operation="=" value="${number.subversion.revision}"/>
         </propertyfile>
     </target>
     
