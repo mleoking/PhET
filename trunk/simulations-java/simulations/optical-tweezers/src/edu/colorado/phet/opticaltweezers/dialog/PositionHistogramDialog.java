@@ -21,7 +21,7 @@ import edu.colorado.phet.opticaltweezers.model.Laser;
  */
 public class PositionHistogramDialog extends JDialog {
     
-    private static final Dimension DIALOG_SIZE = new Dimension( 600, 150 );
+    private static final Dimension DIALOG_SIZE = new Dimension( 700, 200 );
     
     private PositionHistogramPanel _panel;
     

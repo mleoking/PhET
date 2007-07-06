@@ -76,6 +76,8 @@ public class OTConstants {
     public static final String IMAGE_ON_BUTTON = "onButton.png";
     public static final String IMAGE_OFF_BUTTON = "offButton.png";
     public static final String IMAGE_RULER = "rulerIcon.png";
+    public static final String IMAGE_ZOOM_IN = "zoomIn.png";   
+    public static final String IMAGE_ZOOM_OUT = "zoomOut.png";   
     
     //----------------------------------------------------------------------------
     // Cursors
