@@ -1,0 +1,1 @@
+7-5-2007: Fixed: Can move energy level up off the screen and lose it (in current version, it’s constrained to not move this far). 
