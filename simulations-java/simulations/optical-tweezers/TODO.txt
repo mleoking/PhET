@@ -17,6 +17,7 @@ AAPT:
 - add description to About dialog
 - set correct default values for everything, including developer controls
 - check insets on laser on/off button on Windows
+- fix zero-magnitude exception in AbstractVector2D.Double.getNormalizedInstance
 
 HIGH PRIORITY:
 
