@@ -29,6 +29,20 @@ public class QWIState implements Serializable {
     public QWIState() {
     }
 
+    public boolean equals( Object obj ) {
+        if( obj instanceof QWIState ) {
+            QWIState qwiState = (QWIState)obj;
+            return detectorList.equals( qwiState.detectorList ) &&
+                   rectBarrierList.equals( qwiState.rectBarrierList ) &&
+                   doubleSlitState.equals( qwiState.doubleSlitState ) &&
+                   doubleSlitEnabled == qwiState.doubleSlitEnabled;
+        }
+        else {
+            return false;
+        }
+
+    }
+
     public QWIState( QWIModule qwiModule ) {
         for( int i = 0; i < qwiModule.getQWIModel().getDetectorSet().numDetectors(); i++ ) {
             Detector detector = qwiModule.getQWIModel().getDetectorSet().detectorAt( i );
@@ -61,13 +75,26 @@ public class QWIState implements Serializable {
         this.doubleSlitEnabled = doubleSlitEnabled;
     }
 
-    public static class DoubleSlitState {
+    public static class DoubleSlitState implements Serializable {
         private double height;
         private double separation;
         private double size;
         private double y;
 
         public DoubleSlitState() {
+        }
+
+        public boolean equals( Object obj ) {
+            if( obj instanceof DoubleSlitState ) {
+                DoubleSlitState doubleSlitState = (DoubleSlitState)obj;
+                return height == doubleSlitState.height &&
+                       separation == doubleSlitState.separation &&
+                       size == doubleSlitState.size &&
+                       y == doubleSlitState.y;
+            }
+            else {
+                return false;
+            }
         }
 
         public DoubleSlitState( FractionalDoubleSlit doubleSlitPotential ) {
