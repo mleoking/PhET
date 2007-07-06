@@ -31,16 +31,23 @@ import java.io.IOException;
 public class QWIApplication extends PiccoloPhetApplication {
     public static String VERSION = "1.05";
     private IntensityModule intensityModule;
+    public SingleParticleModule singleParticleModule;
+    public MandelModule mandelModule;
 
     public QWIApplication( String[] args ) {
         super( args, QWIStrings.getString( "qwi.name" ), QWIStrings.getString( "qwi.description" ),
                VERSION, new QWIFrameSetup() );
 //        super.setPhetLookAndFeel( new QWILookAndFeel());
 
-        intensityModule = new IntensityModule( QWIApplication.this, createClock() );
+        intensityModule = new IntensityModule( this, createClock() );
         addModule( intensityModule );
-        addModule( new SingleParticleModule( QWIApplication.this, createClock() ) );
-        addModule( new MandelModule( QWIApplication.this, createClock() ) );
+
+        singleParticleModule = new SingleParticleModule( this, createClock() );
+        addModule( singleParticleModule );
+
+        mandelModule = new MandelModule( this, createClock() );
+        addModule( mandelModule );
+        
         JMenuItem save = new JMenuItem( QWIStrings.getString( "menus.save" ) );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -92,6 +99,18 @@ public class QWIApplication extends PiccoloPhetApplication {
                 System.out.println( "UIManager.getLookAndFeel() = " + UIManager.getLookAndFeel() );
             }
         } );
+    }
+
+    public IntensityModule getIntensityModule() {
+        return intensityModule;
+    }
+
+    public SingleParticleModule getSingleParticleModule() {
+        return singleParticleModule;
+    }
+
+    public MandelModule getMandelModule() {
+        return mandelModule;
     }
 
     private static void addWiggleMe( final QWIApplication QWIApplication ) {
