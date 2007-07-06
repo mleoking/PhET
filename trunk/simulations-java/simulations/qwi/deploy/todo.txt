@@ -1,6 +1,7 @@
 Bug Report 7-5-2007
 •	If you save a configuration of detectors and barriers, it only saves the configuration in the current panel.  If you load a configuration, it puts the barriers and detectors you saved in the current panel, even if the panel isn’t supposed to support the things you saved in another panel (i.e. detectors in High Intensity and 2 Lasers and barriers in 2 Lasers)
 •	When you add a detector on one of the slits in the High Intensity panel, it should gray out all wave function display options except magnitude, but it only grays out phase color.
+•	When loading a configuration, existing configuration becomes detached from model, but view components are still visible (i.e. draggable potential barrier graphic is still visible, but potential is zero under that part of the lattice)  
 
 
 ############################################
