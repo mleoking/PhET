@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.charts;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
@@ -23,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
@@ -50,6 +48,8 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private JLabel _measurementsLabel;
     private JButton _startStopButton;
     private JButton _clearButton;
+    private JButton _zoomInButton;
+    private JButton _zoomOutButton;
     private JButton _snapshotButton;
     private JButton _rulerButton;
 
@@ -99,12 +99,9 @@ public class PositionHistogramPanel extends JPanel implements Observer {
 
         JPanel chartPanel = createChartPanel( font, bead, laser, binWidth );
 
-        JPanel mainPanel = new VerticalLayoutPanel();
-        mainPanel.add( toolPanel );
-        mainPanel.add( new JSeparator() );
-        mainPanel.add( chartPanel );
-        
-        add( mainPanel );
+        setLayout( new BorderLayout() );
+        add( toolPanel, BorderLayout.NORTH );
+        add( chartPanel, BorderLayout.CENTER );
     }
     
     public void cleanup() {
@@ -127,9 +124,6 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _measurementsLabel = new JLabel( _measurementsString );
         _measurementsLabel.setFont( font );
 
-        JPanel leftPanel = new HorizontalLayoutPanel();
-        leftPanel.add( _measurementsLabel );
-
         _startStopButton = new JButton( _isRunning ? _stopString : _startString );
         _startStopButton.setFont( font );
         _startStopButton.addActionListener( new ActionListener() {
@@ -145,11 +139,25 @@ public class PositionHistogramPanel extends JPanel implements Observer {
                 clearMeasurements();
             }
         } );
+        
+        Icon zoomInIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_ZOOM_IN ) );
+        _zoomInButton = new JButton( zoomInIcon );
+        _zoomInButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleZoomInButton();
+            }
+        } );
+        
+        Icon zoomOutIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_ZOOM_OUT ) );
+        _zoomOutButton = new JButton( zoomOutIcon );
+        _zoomOutButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleZoomOutButton();
+            }
+        } );
 
         Icon cameraIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_CAMERA ) );
         _snapshotButton = new JButton( cameraIcon );
-        _snapshotButton.setOpaque( false );
-        _snapshotButton.setMargin( new Insets( 0, 0, 0, 0 ) );
         _snapshotButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleSnapshotButton();
@@ -158,24 +166,45 @@ public class PositionHistogramPanel extends JPanel implements Observer {
 
         Icon rulerIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_RULER ) );
         _rulerButton = new JButton( rulerIcon );
-        _rulerButton.setOpaque( false );
-        _rulerButton.setMargin( new Insets( 0, 0, 0, 0 ) );
         _rulerButton.addActionListener( new ActionListener() {
-
             public void actionPerformed( ActionEvent event ) {
                 handleRulerButton();
             }
         } );
+        
+        // Layout
+        JPanel toolPanel = new JPanel();
+        {
+            int row = 0;
+            int column = 0;
 
-        JPanel rightPanel = new HorizontalLayoutPanel();
-        rightPanel.add( _startStopButton );
-        rightPanel.add( _clearButton );
-        rightPanel.add( _snapshotButton );
-        rightPanel.add( _rulerButton );
+            JPanel leftPanel = new JPanel();
+            EasyGridBagLayout leftLayout = new EasyGridBagLayout( leftPanel );
+            leftPanel.setLayout( leftLayout );
+            leftLayout.setAnchor( GridBagConstraints.WEST );
+            leftLayout.addComponent( _measurementsLabel, row, column++ );
 
-        JPanel toolPanel = new JPanel( new BorderLayout() );
-        toolPanel.add( leftPanel, BorderLayout.WEST );
-        toolPanel.add( rightPanel, BorderLayout.EAST );
+            JPanel rightPanel = new JPanel();
+            EasyGridBagLayout rightLayout = new EasyGridBagLayout( rightPanel );
+            rightPanel.setLayout( rightLayout );
+            rightLayout.setAnchor( GridBagConstraints.EAST );
+            row = 0;
+            column = 0;
+            rightLayout.addComponent( _startStopButton, row, column++ );
+            rightLayout.addComponent( _clearButton, row, column++ );
+            rightLayout.addComponent( _zoomInButton, row, column++ );
+            rightLayout.addComponent( _zoomOutButton, row, column++ );
+            rightLayout.addComponent( _snapshotButton, row, column++ );
+            rightLayout.addComponent( _rulerButton, row, column++ );
+
+            EasyGridBagLayout toolLayout = new EasyGridBagLayout( toolPanel );
+            toolPanel.setLayout( toolLayout );
+            toolLayout.setFill( GridBagConstraints.HORIZONTAL );
+            row = 0;
+            column = 0;
+            toolLayout.addComponent( leftPanel, row, column++, 1, 1, GridBagConstraints.WEST );
+            toolLayout.addComponent( rightPanel, row, column++, 1, 1, GridBagConstraints.EAST );
+        }
 
         return toolPanel;
     }
@@ -192,12 +221,14 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         chart.setBorderVisible( false );
         chart.setBackgroundPaint( CHART_BACKGROUND_COLOR );
         chart.setPadding( new RectangleInsets( 0, 5, 5, 5 ) ); // top,left,bottom,right
+        
         JFreeChartNode chartNode = new JFreeChartNode( chart );
         chartNode.setPickable( false );
         chartNode.setChildrenPickable( false );
 
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.getLayer().addChild( chartNode );
+        canvas.setPreferredSize( new Dimension( 700, 150 ) );//XXX
 
         JPanel panel = new JPanel();
         panel.add( canvas );
@@ -250,6 +281,14 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         setRunning( !_isRunning );
     }
 
+    private void handleZoomInButton() {
+        System.out.println( "PositionHistogramPanel.handleZoomInButton" );//XXX
+    }
+    
+    private void handleZoomOutButton() {
+        System.out.println( "PositionHistogramPanel.handleZoomOutButton" );//XXX
+    }
+    
     private void handleSnapshotButton() {
         System.out.println( "PositionHistogramPanel.handleSnapshotButton" );//XXX
     }
