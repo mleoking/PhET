@@ -64,7 +64,8 @@ public class IntensityControlPanel extends QWIControlPanel {
 
         visualizationPanel = new VisualizationPanelContainer( photonVisualizationPanel, particleVisualizationPanel );
 //        addControl( particleVisualizationPanel );
-        addControl( visualizationPanel );
+//        addControl( visualizationPanel );
+        addControlFullWidth( visualizationPanel );
         new ComponentCenterer( resetButton, super.getContentPanel() ).start();
         ExpandableDoubleSlitPanel expandableDoubleSlitPanel = new ExpandableDoubleSlitPanel( intensityModule );
         setPreferredWidth( expandableDoubleSlitPanel.getControls().getPreferredSize().width + 10 );
