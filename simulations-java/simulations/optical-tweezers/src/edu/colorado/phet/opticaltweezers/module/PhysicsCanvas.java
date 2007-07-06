@@ -18,7 +18,6 @@ import javax.swing.JButton;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.charts.PositionHistogramChartNode;
 import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
@@ -59,7 +58,6 @@ public class PhysicsCanvas extends PhetPCanvas {
     private PPath _laserDragBoundsNode;
     private OTRulerNode _rulerNode;
     private PPath _rulerDragBoundsNode;
-    private PositionHistogramChartNode _positionHistogramChartNode;
     private PotentialEnergyChartNode _potentialEnergyChartNode;
     private TrapForceNode _trapForceNode;
     private DragForceNode _dragForceNode;
@@ -139,9 +137,6 @@ public class PhysicsCanvas extends PhetPCanvas {
         _rulerNode.setOffset( 0, modelViewTransform.modelToView( PhysicsDefaults.RULER_Y_POSITION ) );
         _rulerNode.setXOffsetFudgeFactor( 4 );
         
-        // Position Histogram chart
-        _positionHistogramChartNode = new PositionHistogramChartNode( clock, bead, modelViewTransform, PhysicsDefaults.POSITION_HISTOGRAM_BIN_WIDTH );
-        
         // Potential Energy chart
         _potentialEnergyChartNode = new PotentialEnergyChartNode( bead, laser, modelViewTransform, PhysicsDefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH );
         
@@ -165,7 +160,6 @@ public class PhysicsCanvas extends PhetPCanvas {
         _rootNode.addChild( _beadDragBoundsNode );
         _rootNode.addChild( _trapForceNode );
         _rootNode.addChild( _dragForceNode );
-        _rootNode.addChild( _positionHistogramChartNode );
         _rootNode.addChild( _potentialEnergyChartNode );
         _rootNode.addChild( _rulerNode );
         _rootNode.addChild( _rulerDragBoundsNode );
@@ -190,10 +184,6 @@ public class PhysicsCanvas extends PhetPCanvas {
     
     public LaserNode getLaserNode() {
         return _laserNode;
-    }
-    
-    public PositionHistogramChartNode getPositionHistogramChartNode() {
-        return _positionHistogramChartNode;
     }
     
     public PotentialEnergyChartNode getPotentialEnergyChartNode() {
@@ -241,7 +231,6 @@ public class PhysicsCanvas extends PhetPCanvas {
         {
             _microscopeSlideNode.setWorldSize( worldSize );
             _rulerNode.setWorldSize( worldSize );
-            _positionHistogramChartNode.setChartSize( worldSize.getWidth(), PositionHistogramChartNode.DEFAULT_HEIGHT );
             _potentialEnergyChartNode.setChartSize( worldSize.getWidth(), PotentialEnergyChartNode.DEFAULT_HEIGHT );
         }
 

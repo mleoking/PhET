@@ -4,19 +4,27 @@ package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.dialog.PositionHistogramDialog;
+import edu.colorado.phet.opticaltweezers.model.Bead;
+import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -30,7 +38,13 @@ public class ChartsControlPanel extends JPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PNode _positionHistogramNode;
+    private Frame _parentFrame;
+    private IClock _clock;
+    private Bead _bead;
+    private Laser _laser;
+    private double _positionHistogramBinWidth;
+    
+    private JDialog _positionHistogramDialog;
     private PNode _potentialEnergyNode;
 
     private JCheckBox _positionHistogramCheckBox;
@@ -45,13 +59,25 @@ public class ChartsControlPanel extends JPanel {
      * 
      * @param titleFont font used for the control panel's title
      * @param controlFont font used for the controls 
-     * @param positionHistogramNode
+     * @param parentFrame
+     * @param clock
+     * @param bead
+     * @param laser
+     * @param positionHistogramBinWidth
      * @param potentialEnergyNode
      */
-    public ChartsControlPanel( Font titleFont, Font controlFont, PNode positionHistogramNode, PNode potentialEnergyNode ) {
+    public ChartsControlPanel( Font titleFont, Font controlFont, Frame parentFrame,
+            IClock clock, Bead bead, Laser laser, double positionHistogramBinWidth, 
+            PNode potentialEnergyNode ) {
         super();
+        
+        _parentFrame = parentFrame;
+        _clock = clock;
+        _bead = bead;
+        _laser = laser;
+        _positionHistogramBinWidth = positionHistogramBinWidth;
 
-        _positionHistogramNode = positionHistogramNode;
+        _positionHistogramDialog = null;
         _potentialEnergyNode = potentialEnergyNode;
 
         JLabel titleLabel = new JLabel( OTResources.getString( "title.chartsControlPanel" ) );
@@ -65,11 +91,6 @@ public class ChartsControlPanel extends JPanel {
                 handlePositionHistogramCheckBox();
             }
         });
-        _positionHistogramNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                _positionHistogramCheckBox.setSelected( _positionHistogramNode.getVisible() );
-            }
-        } );
 
         // Potential Energy chart
         _potentialEnergyChartCheckBox = new JCheckBox( OTResources.getString( "label.potentialEnergyChart" ) );
@@ -100,7 +121,7 @@ public class ChartsControlPanel extends JPanel {
         add( innerPanel, BorderLayout.WEST );
 
         // Default state
-        _positionHistogramCheckBox.setSelected( _positionHistogramNode.getVisible() );
+        _positionHistogramCheckBox.setSelected( _positionHistogramDialog != null );
         _potentialEnergyChartCheckBox.setSelected( _potentialEnergyNode.getVisible() );
     }
     
@@ -131,10 +152,49 @@ public class ChartsControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     private void handlePositionHistogramCheckBox() {
-        _positionHistogramNode.setVisible( _positionHistogramCheckBox.isSelected() );
+        if ( _positionHistogramCheckBox.isSelected() ) {
+            openPositionHistogramDialog();
+        }
+        else {
+            closePositionHistogramDialog();
+        }
     }
     
     private void handlePotentialEnergyCheckBox() {
         _potentialEnergyNode.setVisible( _potentialEnergyChartCheckBox.isSelected() );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Position Histogram dialog
+    //----------------------------------------------------------------------------
+    
+    private void openPositionHistogramDialog() {
+        
+        closePositionHistogramDialog();
+        
+        _positionHistogramDialog = new PositionHistogramDialog( _parentFrame, OTConstants.CONTROL_PANEL_CONTROL_FONT, _clock, _bead, _laser, _positionHistogramBinWidth );
+        _positionHistogramDialog.addWindowListener( new WindowAdapter() {
+
+            // called when the close button in the dialog's window dressing is clicked
+            public void windowClosing( WindowEvent e ) {
+                _positionHistogramDialog.dispose();
+            }
+
+            // called by JDialog.dispose
+            public void windowClosed( WindowEvent e ) {
+                _positionHistogramDialog = null;
+                _positionHistogramCheckBox.setSelected( false );
+            }
+        } );
+        
+        // Position at the lower-left of the main frame
+        _positionHistogramDialog.show();
+    }
+    
+    private void closePositionHistogramDialog() {
+        if ( _positionHistogramDialog != null ) {
+            _positionHistogramDialog.dispose();
+            _positionHistogramDialog = null;
+        }
     }
 }
