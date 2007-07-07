@@ -64,7 +64,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     
     private static final DecimalFormat BIN_WIDTH_FORMAT = new DecimalFormat( "0.0#" );
     
-    private static final Color ORIGIN_MARKER_COLOR = Color.BLACK;
+    public static final Color ORIGIN_MARKER_COLOR = Color.BLACK;
     public static final Stroke ORIGIN_MARKER_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
  
