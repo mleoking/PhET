@@ -1,8 +1,9 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ModelSliderLayoutStrategy;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 
@@ -13,12 +14,15 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 8:24:25 PM
- *
  */
 
 public class FrequencyControl extends VerticalLayoutPanel {
     public FrequencyControl( final Oscillator oscillator ) {
-        final ModelSlider frequencySlider = new ModelSlider( WIStrings.getString( "controls.frequency" ), WIStrings.getString( "units.frequency" ), 0, 3, oscillator.getFrequency() );
+//        final LinearValueControl frequencySlider = new LinearValueControl( 0, 3, WIStrings.getString( "controls.frequency" ), "0.00", WIStrings.getString( "units.frequency" ) );
+        final LinearValueControl frequencySlider = new LinearValueControl( 0, 3, WIStrings.getString( "controls.frequency" ), "0.00",
+                                                                           null,//no units visible
+                                                                           new ModelSliderLayoutStrategy( ));//center the title
+        frequencySlider.setValue( oscillator.getFrequency() );
         frequencySlider.setBorder( null );
         frequencySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -26,8 +30,8 @@ public class FrequencyControl extends VerticalLayoutPanel {
             }
         } );
         frequencySlider.setTextFieldVisible( false );
-        frequencySlider.setPaintLabels( false );
-        frequencySlider.setPaintTicks( false );
+        frequencySlider.getSlider().setPaintLabels( false );
+        frequencySlider.getSlider().setPaintTicks( false );
         add( frequencySlider );
         oscillator.addListener( new Oscillator.Adapter() {
             public void frequencyChanged() {
