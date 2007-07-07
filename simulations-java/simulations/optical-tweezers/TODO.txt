@@ -12,7 +12,6 @@ AAPT:
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
 - add description to About dialog
 - set correct default values for everything, including developer controls
-- check insets on laser on/off button on Windows
 
 HIGH PRIORITY:
 
@@ -61,6 +60,7 @@ MISSING INFO:
 
  
 DONE:
+7/6/07 - show vertical dashed line through laser bead origin when histogram is open
 7/6/07 - histogram: add vertical marker (dashed line) at origin
 7/6/07 - histogram: display bin width
 7/6/07 - histogram: cleanup listeners and observers when dialog is closed

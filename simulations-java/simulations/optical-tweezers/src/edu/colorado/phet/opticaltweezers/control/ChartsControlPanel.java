@@ -25,6 +25,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.dialog.PositionHistogramDialog;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
+import edu.colorado.phet.opticaltweezers.view.LaserNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -42,9 +43,10 @@ public class ChartsControlPanel extends JPanel {
     private IClock _clock;
     private Bead _bead;
     private Laser _laser;
+    private PNode _potentialEnergyNode;
+    private LaserNode _laserNode;
     
     private JDialog _positionHistogramDialog;
-    private PNode _potentialEnergyNode;
 
     private JCheckBox _positionHistogramCheckBox;
     private JCheckBox _potentialEnergyChartCheckBox;
@@ -66,16 +68,17 @@ public class ChartsControlPanel extends JPanel {
      */
     public ChartsControlPanel( Font titleFont, Font controlFont, Frame parentFrame,
             IClock clock, Bead bead, Laser laser, 
-            PNode potentialEnergyNode ) {
+            PNode potentialEnergyNode, LaserNode laserNode ) {
         super();
         
         _parentFrame = parentFrame;
         _clock = clock;
         _bead = bead;
         _laser = laser;
-
-        _positionHistogramDialog = null;
         _potentialEnergyNode = potentialEnergyNode;
+        _laserNode = laserNode;
+        
+        _positionHistogramDialog = null;
 
         JLabel titleLabel = new JLabel( OTResources.getString( "title.chartsControlPanel" ) );
         titleLabel.setFont( titleFont );
@@ -181,8 +184,11 @@ public class ChartsControlPanel extends JPanel {
             public void windowClosed( WindowEvent e ) {
                 _positionHistogramDialog = null;
                 _positionHistogramCheckBox.setSelected( false );
+                _laserNode.setOriginMarkerVisible( false );
             }
         } );
+        
+        _laserNode.setOriginMarkerVisible( true );
         
         // Position at the lower-left of the main frame
         _positionHistogramDialog.show();

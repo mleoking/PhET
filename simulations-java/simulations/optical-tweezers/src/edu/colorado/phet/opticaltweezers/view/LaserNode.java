@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -19,10 +20,12 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.FineCrosshairNode;
 import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.charts.PositionHistogramPanel;
 import edu.colorado.phet.opticaltweezers.control.LaserControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * LaserNode is the visual representation of the laser.
@@ -62,6 +65,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     private LaserElectricFieldNode _electricFieldNode;
     private LaserControlPanel _controlPanel;
     private PNode _centerCrosshair;
+    private PPath _originMarkerNode;
     
     private boolean _beamVisible, _electricFieldVisible;
     
@@ -118,6 +122,15 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         // Crosshairs at center
         _centerCrosshair = new FineCrosshairNode( CROSSHAIR_SIZE, CROSSHAIR_STROKE, CROSSHAIR_COLOR );
         
+        // Origin marker
+        _originMarkerNode = new PPath();
+        Line2D originMarkerPath = new Line2D.Double( 0, -distanceFromObjectiveToWaist, 0, distanceFromObjectiveToWaist + distanceFromObjectiveToControlPanel );
+        _originMarkerNode.setPathTo( originMarkerPath );
+        _originMarkerNode.setPaint( null );
+        _originMarkerNode.setStrokePaint( PositionHistogramPanel.ORIGIN_MARKER_COLOR );
+        _originMarkerNode.setStroke( PositionHistogramPanel.ORIGIN_MARKER_STROKE );
+        _originMarkerNode.setVisible( false );
+        
         // Handles
         double handleHeight = 0.8 * _controlPanel.getFullBounds().getHeight();
         HandleNode leftHandleNode = new HandleNode( HANDLE_WIDTH, handleHeight, HANDLE_COLOR );
@@ -132,6 +145,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         if ( SHOW_BEAM_OUTLINE ) {
             addChild( _outlineNode );
         }
+        addChild( _originMarkerNode );
         addChild( leftHandleNode );
         addChild( rightHandleNode );
         addChild( _controlPanel );
@@ -218,6 +232,10 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     
     public Color getElectricFieldColor() {
         return _electricFieldNode.getVectorColor();
+    }
+    
+    public void setOriginMarkerVisible( boolean visible ) {
+        _originMarkerNode.setVisible( visible );
     }
     
     //----------------------------------------------------------------------------
