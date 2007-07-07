@@ -198,7 +198,11 @@ public class BufferedImageUtils {
     // This method returns a buffered image with the contents of an image
     // Taken from The Java Developer's Almanac, 1.4
     public static BufferedImage copyImage( BufferedImage image ) {
-        BufferedImage copy = new BufferedImage( image.getWidth( ), image.getHeight( ),image.getType() );
+        return copyImage( image, image.getType() );
+    }
+
+    public static BufferedImage copyImage( BufferedImage image, int type ) {
+        BufferedImage copy = new BufferedImage( image.getWidth(), image.getHeight(), type );
         Graphics2D graphics2D = copy.createGraphics();
         graphics2D.drawImage( image, 0, 0, null );
         graphics2D.dispose();

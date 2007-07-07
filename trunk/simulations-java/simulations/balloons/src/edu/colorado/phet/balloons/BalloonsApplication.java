@@ -12,9 +12,9 @@ import edu.colorado.phet.balloons.common.phys2d.Repaint;
 import edu.colorado.phet.balloons.common.phys2d.System2D;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +25,6 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
-import java.util.Locale;
 
 
 /**
@@ -100,10 +99,11 @@ public class BalloonsApplication extends JApplet implements IHelp {
 
         String blueBalloonIm = "balloon-blue.gif";
         String yellowBalloonIm = "balloon-yellow.gif";
-        BufferedImage balloon = BalloonsResources.getImage( "" + blueBalloonIm );
+        //require a deep copy so we can edit it independently of other reference
+        BufferedImage balloon = BufferedImageUtils.copyImage( BalloonsResources.getImage( "" + blueBalloonIm ),BufferedImage.TYPE_INT_ARGB );
         BufferedImage blueCharge = BalloonsResources.getImage( "" + blueBalloonIm );
 
-        BufferedImage yelBal = BalloonsResources.getImage( "" + yellowBalloonIm );
+        BufferedImage yelBal = BufferedImageUtils.copyImage(BalloonsResources.getImage( "" + yellowBalloonIm ),BufferedImage.TYPE_INT_ARGB );
         BufferedImage yelCharge = BalloonsResources.getImage( "" + yellowBalloonIm );
 
         paintCharge( yelCharge );
@@ -376,7 +376,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
         BalloonsApplication ba = new BalloonsApplication( args );
         ba.init( args );
 
-        JFrame frame = new JFrame( ba.phetApplicationConfig.getName() +" ("+ba.phetApplicationConfig.getVersion().formatForTitleBar()+")");
+        JFrame frame = new JFrame( ba.phetApplicationConfig.getName() + " (" + ba.phetApplicationConfig.getVersion().formatForTitleBar() + ")" );
         ba.setFrame( frame );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setContentPane( ba );
