@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14677 $
+ * Date modified : $Date:2007-04-17 03:40:29 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.phetcommon.view;
 
@@ -29,7 +29,7 @@ import java.util.*;
  * It also encapsulates a transform between view and model coordinates.
  *
  * @author Ron LeMaster
- * @version $Revision$
+ * @version $Revision:14677 $
  */
 public class ModelSlider extends JPanel {
     private JTextField textField;
@@ -53,6 +53,7 @@ public class ModelSlider extends JPanel {
     private JTextField unitsReadout;
     private String title;
     private JPanel textPanel;
+    private boolean settingSliderValue=false;
 
     //-----------------------------------------------------------------
     // Constructors and initialization
@@ -186,7 +187,9 @@ public class ModelSlider extends JPanel {
             public void stateChanged( ChangeEvent e ) {
                 int sliderValue = slider.getValue();
                 double modelValue = modelViewTransform.viewToModel( sliderValue );
+                if (!settingSliderValue){
                 setValue( modelValue );
+                }
             }
         } );
         int dMinor = SLIDER_MAX / ( numMinorTicks - 1 );
@@ -511,7 +514,9 @@ public class ModelSlider extends JPanel {
             textField.setText( string );
             int sliderValue = modelViewTransform.modelToView( value );
             if( sliderValue != slider.getValue() ) {
+                settingSliderValue=true;//disable recursive calls to this method
                 slider.setValue( sliderValue ); //this recursively changes values
+                settingSliderValue=false;
                 slider.revalidate();
                 slider.repaint();
             }
