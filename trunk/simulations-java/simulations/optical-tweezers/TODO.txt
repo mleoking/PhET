@@ -60,7 +60,7 @@ MISSING INFO:
 
  
 DONE:
-********* version 0.00.18 (?)
+********* version 0.00.18 (16414)
 7/6/07 - show vertical dashed line through laser bead origin when histogram is open
 7/6/07 - histogram: add vertical marker (dashed line) at origin
 7/6/07 - histogram: display bin width
