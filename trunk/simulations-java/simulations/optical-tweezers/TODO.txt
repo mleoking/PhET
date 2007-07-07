@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 AAPT:
+- histogram: initial position of dialog?
 - histogram: ruler, unconstrained drag, default position centered, sync labeling with x-axis range, ruler icon to show/hide
 - histogram: add snapshot feature
 - histogram: javadoc
