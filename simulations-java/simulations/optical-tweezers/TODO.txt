@@ -7,7 +7,7 @@ IN PROGRESS:
 AAPT:
 - histogram: ruler, unconstrained drag, default position centered, sync labeling with x-axis range, ruler icon to show/hide
 - histogram: add snapshot feature
-- histogram: add vertical dashed line in histogram and play area to indicate laser origin
+- histogram: javadoc
 - change "force on bead" model in slow mode
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
 - add description to About dialog
@@ -60,6 +60,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.18 (?)
 7/6/07 - show vertical dashed line through laser bead origin when histogram is open
 7/6/07 - histogram: add vertical marker (dashed line) at origin
 7/6/07 - histogram: display bin width
