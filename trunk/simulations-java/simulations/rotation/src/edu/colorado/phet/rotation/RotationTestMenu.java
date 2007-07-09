@@ -30,7 +30,7 @@ public class RotationTestMenu extends JMenu {
         } );
         addTest( "Platform Graphics", new Runnable() {
             public void run() {
-                TestPlatformNode.main( new String[0] );
+                TestRotationPlatformNode.main( new String[0] );
             }
         } );
         addTest( "Graphs", new Runnable() {

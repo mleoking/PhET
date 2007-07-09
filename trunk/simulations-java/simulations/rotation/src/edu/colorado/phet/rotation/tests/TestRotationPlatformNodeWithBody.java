@@ -10,8 +10,8 @@ package edu.colorado.phet.rotation.tests;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 
-public class TestPlatformNodeWithBody extends TestPlatformNode implements RotationBodyNode.RotationBodyEnvironment {
-    public TestPlatformNodeWithBody() {
+public class TestRotationPlatformNodeWithBody extends TestRotationPlatformNode implements RotationBodyNode.RotationBodyEnvironment {
+    public TestRotationPlatformNodeWithBody() {
         RotationBody body = new RotationBody();
         RotationBodyNode rotationBodyNode = new RotationBodyNode( this, body );
         getPhetPCanvas().addScreenChild( rotationBodyNode );
@@ -28,7 +28,7 @@ public class TestPlatformNodeWithBody extends TestPlatformNode implements Rotati
     }
 
     public static void main( String[] args ) {
-        new TestPlatformNodeWithBody().start();
+        new TestRotationPlatformNodeWithBody().start();
     }
 
     public void dropBody( RotationBody rotationBody ) {

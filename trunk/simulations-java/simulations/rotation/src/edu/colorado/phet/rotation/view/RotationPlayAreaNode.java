@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 
 public class RotationPlayAreaNode extends PNode {
-    private PlatformNode platformNode;
+    private RotationPlatformNode rotationPlatformNode;
     private PNode rotationBodyLayer = new PNode();
     private RotationModel rotationModel;
     private PNode vectorLayer = new PNode();
@@ -20,10 +20,10 @@ public class RotationPlayAreaNode extends PNode {
 
     public RotationPlayAreaNode( final RotationModel rotationModel, VectorViewModel vectiorViewModel ) {
         this.rotationModel = rotationModel;
-        platformNode = new PlatformNode( rotationModel, rotationModel.getRotationPlatform() );
+        rotationPlatformNode = new RotationPlatformNode( rotationModel, rotationModel.getRotationPlatform() );
         originNode = new RotationOriginNode( rotationModel.getRotationPlatform() );
 
-        addChild( platformNode );
+        addChild( rotationPlatformNode );
         addChild( rotationBodyLayer );
         addChild( vectorLayer );
         addChild( originNode );
@@ -40,8 +40,8 @@ public class RotationPlayAreaNode extends PNode {
         vectorLayer.addChild( new BodyVectorLayer( rotationModel, rotationBody, vectorViewModel ) );
     }
 
-    public PlatformNode getPlatformNode() {
-        return platformNode;
+    public RotationPlatformNode getPlatformNode() {
+        return rotationPlatformNode;
     }
 
     private void addRotationBodyNode( RotationBody rotationBody ) {

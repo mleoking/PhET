@@ -11,12 +11,13 @@ import javax.swing.*;
  * May 29, 2007, 1:02:17 AM
  */
 public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
+
     public TorqueSimulationPanel( TorqueModule torqueModule ) {
         super( torqueModule );
     }
 
     protected JComponent createControlPanel() {
-        return new TorqueControlPanel( getRotationGraphSet(), getGraphSetModel() );
+        return new TorqueControlPanel( getRotationGraphSet(), getGraphSetModel(), (TorqueModule)getAbstractRotationModule() );//todo: better typing
     }
 
     protected RotationPlayAreaNode createPlayAreaNode() {
