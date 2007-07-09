@@ -18,8 +18,16 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     public RotationModel( ConstantDtClock clock ) {
         super( clock );
         rotationPlatform = new RotationPlatform();
-        addRotationBody( new RotationBody("ladybug.gif") );
-        addRotationBody( new RotationBody("beetle.gif") );
+
+        RotationBody body1 = new RotationBody( "ladybug.gif" );
+        body1.setPosition( rotationPlatform.getCenter().getX()+rotationPlatform.getRadius()*Math.sqrt( 2)/2.0,
+                           rotationPlatform.getCenter().getY()+rotationPlatform.getRadius());
+        addRotationBody( body1 );
+        
+        RotationBody body2 = new RotationBody( "beetle.gif" );
+        body2.setPosition( rotationPlatform.getCenter().getX()-rotationPlatform.getRadius()*Math.sqrt( 2)/2.0,
+                           rotationPlatform.getCenter().getY()+rotationPlatform.getRadius());
+        addRotationBody( body2 );
     }
 
     protected void setTime( double time ) {
@@ -27,7 +35,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         rotationPlatform.setTime( time );
         for( int i = 0; i < rotationBodies.size(); i++ ) {
             RotationBody rotationBody = (RotationBody)rotationBodies.get( i );
-            rotationBody.setTime(time);
+            rotationBody.setTime( time );
         }
     }
 
