@@ -53,12 +53,12 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private static final Color CHART_BACKGROUND_COLOR = Color.WHITE;
     
     private static final ZoomSpec[] ZOOM_SPECS = {
-        new ZoomSpec( 50, 0.25 ),
-        new ZoomSpec( 100, 0.5 ),
-        new ZoomSpec( 150, 0.75 ),
-        new ZoomSpec( 200, 1.0 ),
-        new ZoomSpec( 250, 1.5 ),
-        new ZoomSpec( 300, 2.0 )
+        new ZoomSpec( 52, 0.25 ),
+        new ZoomSpec( 105, 0.5 ),
+        new ZoomSpec( 160, 0.75 ),
+        new ZoomSpec( 210, 1.0 ),
+        new ZoomSpec( 260, 1.5 ),
+        new ZoomSpec( 320, 2.0 )
     };
     private static final int DEFAULT_ZOOM_INDEX = 2;
     

@@ -61,6 +61,7 @@ MISSING INFO:
 
  
 DONE:
+7/8/07 - histogram: set zoom ranges a little bigger than desired so min/max tick labels are visible
 ********* version 0.00.18 (16414)
 7/6/07 - show vertical dashed line through laser bead origin when histogram is open
 7/6/07 - histogram: add vertical marker (dashed line) at origin
