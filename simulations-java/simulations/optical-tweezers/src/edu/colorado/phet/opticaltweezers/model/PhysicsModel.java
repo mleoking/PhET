@@ -66,7 +66,8 @@ public class PhysicsModel extends ClockAdapter {
                 PhysicsDefaults.LASER_VISIBLE_WAVELENGTH,
                 PhysicsDefaults.LASER_POWER_RANGE,
                 PhysicsDefaults.LASER_TRAP_FORCE_RATIO,
-                PhysicsDefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE );
+                PhysicsDefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE,
+                clock );
         _modelElements.add( _laser );
         
          _bead = new Bead( PhysicsDefaults.BEAD_POSITION, 
