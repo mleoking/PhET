@@ -39,16 +39,41 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * PositionHistogramPanel is a panel that displays a position histogram.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PositionHistogramPanel extends JPanel implements Observer {
     
-    private static class ZoomSpec {
+    /**
+     * ZoomSpec is a data structure that describes a zoom level.
+     * The zoom level affects the histogram's x-axis, the bin width, and the layout of the ruler.
+     */
+    private static class ZoomLevel {
+        
         public final double positionRange;
         public final double binWidth;
         public final int rulerMax;
         public final int rulerMajorTickSpacing;
         public final double rulerMinorTickSpacing;
-        public ZoomSpec( double positionRange, double binWidth, int rulerMax, int rulerMajorTickSpacing, double rulerMinorTickSpacing ) {
+        
+        public ZoomLevel( double positionRange, double binWidth, int rulerMax, int rulerMajorTickSpacing, double rulerMinorTickSpacing ) {
+            if ( ! ( positionRange > 0 ) ) {
+                throw new IllegalArgumentException( "positionRange must be > 0" );
+            }
+            if ( ! ( binWidth > 0 ) ) {
+                throw new IllegalArgumentException( "binWidth must be > 0" );
+            }
+            if ( rulerMax % rulerMajorTickSpacing != 0 ) {
+                throw new IllegalArgumentException( "rulerMax must be an integer multiple of rulerMajorTickSpacing" );
+            }
+            if ( ! (rulerMajorTickSpacing > rulerMinorTickSpacing ) ) {
+                throw new IllegalArgumentException( "rulerMajorTickSpacing must be > rulerMinorTickSpacing" );
+            }
+            if ( rulerMajorTickSpacing % rulerMinorTickSpacing != 0 ) {
+                throw new IllegalArgumentException( "rulerMajorTickSpacing must an integer multiple of rulerMinorTickSpacing" );
+            }
             this.positionRange = positionRange;
             this.binWidth = binWidth;
             this.rulerMax = rulerMax;
@@ -66,14 +91,14 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private static final Color CHART_BACKGROUND_COLOR = Color.WHITE;
     private static final Color SNAPSHOT_BACKGROUND_COLOR = new Color( 225, 225, 225 );  // light gray
     
-    private static final ZoomSpec[] ZOOM_SPECS = {
+    private static final ZoomLevel[] ZOOM_LEVELS = {
         // positionRange, binWidth, rulerMax, rulerMajorTickSpacing, rulerMinorTickSpacing
-        new ZoomSpec( 50, 0.25, 75, 5, 1 ),
-        new ZoomSpec( 100, 0.5, 150, 10, 5 ),
-        new ZoomSpec( 150, 0.75, 250, 50, 5),
-        new ZoomSpec( 200, 1.0, 300, 50, 10 ),
-        new ZoomSpec( 250, 1.5, 350, 50, 10 ),
-        new ZoomSpec( 300, 2.0, 400, 50, 10 )
+        new ZoomLevel( 50, 0.25, 75, 5, 1 ),
+        new ZoomLevel( 100, 0.5, 150, 10, 2 ),
+        new ZoomLevel( 150, 0.75, 225, 25, 5 ),
+        new ZoomLevel( 200, 1.0, 300, 25, 5 ),
+        new ZoomLevel( 250, 1.5, 375, 25, 5 ),
+        new ZoomLevel( 300, 2.0, 450, 50, 5 )
     };
     private static final int DEFAULT_ZOOM_INDEX = 2;
     
@@ -176,6 +201,9 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         setZoomIndex( DEFAULT_ZOOM_INDEX );
     }
     
+    /**
+     * Call this method before releasing all references to an object of this type.
+     */
     public void cleanup() {
         
         _clock.removeClockListener( _clockListener );
@@ -237,7 +265,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
                 handleZoomOutButton();
             }
         } );
-        _zoomOutButton.setEnabled( _zoomIndex != ZOOM_SPECS.length - 1 );
+        _zoomOutButton.setEnabled( _zoomIndex != ZOOM_LEVELS.length - 1 );
 
         Icon cameraIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_CAMERA ) );
         _snapshotButton = new JButton( cameraIcon );
@@ -350,18 +378,18 @@ public class PositionHistogramPanel extends JPanel implements Observer {
      * @param zoomIndex
      */
     public void setZoomIndex( int zoomIndex ) {
-        if ( zoomIndex < 0 || zoomIndex > ZOOM_SPECS.length - 1 ) {
+        if ( zoomIndex < 0 || zoomIndex > ZOOM_LEVELS.length - 1 ) {
             throw new IndexOutOfBoundsException( "zoomIndex out of bounds: " + zoomIndex );
         }
         _zoomIndex = zoomIndex;
-        ZoomSpec zoomSpec = ZOOM_SPECS[_zoomIndex];
+        ZoomLevel zoomLevel = ZOOM_LEVELS[_zoomIndex];
         // Update the histogram's x-axis range
-        _plot.setPositionRange( -zoomSpec.positionRange, zoomSpec.positionRange, zoomSpec.binWidth );
+        _plot.setPositionRange( -zoomLevel.positionRange, zoomLevel.positionRange, zoomLevel.binWidth );
         // Update the bin width display
-        _binWidthNode.setText( _binWidthString + " " + BIN_WIDTH_FORMAT.format( zoomSpec.binWidth ) + " " + _unitsString );
+        _binWidthNode.setText( _binWidthString + " " + BIN_WIDTH_FORMAT.format( zoomLevel.binWidth ) + " " + _unitsString );
         // Enable/disable zoom buttons
         _zoomInButton.setEnabled( _zoomIndex != 0 );
-        _zoomOutButton.setEnabled( _zoomIndex != ZOOM_SPECS.length - 1 );
+        _zoomOutButton.setEnabled( _zoomIndex != ZOOM_LEVELS.length - 1 );
         // Update the ruler
         updateRuler();
         // Set measurements to zero
@@ -487,14 +515,19 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         }
         
         // ruler length
-        ZoomSpec zoomSpec = ZOOM_SPECS[_zoomIndex];
-        double distanceBetweenFirstAndLastTick = getRulerNodeLength( zoomSpec.rulerMax ); 
+        ZoomLevel zoomLevel = ZOOM_LEVELS[_zoomIndex];
+        double distanceBetweenFirstAndLastTick = getRulerNodeLength( zoomLevel.rulerMax ); 
         
         // major tick labels
-        String[] majorTickLabels = { "0", String.valueOf( zoomSpec.rulerMax ) };
+        int numberOfMajorTickLabels = ( zoomLevel.rulerMax / zoomLevel.rulerMajorTickSpacing ) + 1;
+        int majorTickDelta = zoomLevel.rulerMax / ( numberOfMajorTickLabels - 1 );
+        String[] majorTickLabels = new String[ numberOfMajorTickLabels ];
+        for ( int i = 0; i < numberOfMajorTickLabels; i++ ) {
+            majorTickLabels[i] = String.valueOf( i * majorTickDelta );
+        }
         
         // minor ticks
-        int numMinorTicksBetweenMajors = (int)( zoomSpec.rulerMajorTickSpacing / zoomSpec.rulerMinorTickSpacing ) - 1;
+        int numMinorTicksBetweenMajors = (int)( zoomLevel.rulerMajorTickSpacing / zoomLevel.rulerMinorTickSpacing ) - 1;
         
         // create the ruler
         _rulerNode = new RulerNode( distanceBetweenFirstAndLastTick, RULER_HEIGHT, majorTickLabels, _unitsString, numMinorTicksBetweenMajors, RULER_FONT_SIZE );
