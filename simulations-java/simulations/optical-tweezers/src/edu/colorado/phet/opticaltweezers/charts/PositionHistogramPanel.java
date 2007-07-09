@@ -34,11 +34,10 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.dialog.PositionHistogramSnapshotDialog;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.util.ColorUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.nodes.PComposite;
+import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
  * PositionHistogramPanel is a panel that displays a histogram of the bead's position.
@@ -150,7 +149,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private PositionHistogramPlot _plot;
     private PText _measurementsNode;  // displays the number of measurements
     private PText _binWidthNode; // displays the bin width
-    private PNode _snapshotNode; // all children of this node are included in snapshots
+    private PClip _snapshotClipNode; // all children of this node are included in snapshots
     private JFreeChart _chart;
     private JFreeChartNode _chartNode;
 
@@ -336,11 +335,11 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( CHART_SIZE );
         
-        _snapshotNode = new PComposite();
-        _snapshotNode.setPickable( false );
-        _snapshotNode.setChildrenPickable( false );
-        _snapshotNode.setOffset( 0, 0 );
-        canvas.getLayer().addChild( _snapshotNode );
+        _snapshotClipNode = new PClip();
+        _snapshotClipNode.setPathTo( new Rectangle2D.Double( 0, 0, CHART_SIZE.width, CHART_SIZE.height ) );
+        _snapshotClipNode.setPaint( null );
+        _snapshotClipNode.setStroke( null );
+        _snapshotClipNode.setOffset( 0, 0 );
         
         _plot = new PositionHistogramPlot();
         _plot.setBackgroundPaint( CHART_BACKGROUND_COLOR );
@@ -363,20 +362,25 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _chartNode.setOffset( 0, 0 );
         _chartNode.setBounds( 0, 0, CHART_SIZE.width, CHART_SIZE.height );
         _chartNode.updateChartRenderingInfo();
-        _snapshotNode.addChild( _chartNode );
         
         _measurementsNode = new PText( "?" );
         _measurementsNode.setOffset( 10, 10 );
+        _measurementsNode.setPickable( false );
         setNumberOfMeasurements( _numberOfMeasurements );
-        _snapshotNode.addChild( _measurementsNode );
         
         _binWidthNode = new PText();
         _binWidthNode.setOffset( _measurementsNode.getXOffset(), _measurementsNode.getFullBounds().getMaxY() + 3 );
-        _snapshotNode.addChild( _binWidthNode );
+        _binWidthNode.setPickable( false );
         
         _rulerParentNode = new PNode();
         _rulerParentNode.setOffset( 0, 0 );
-        canvas.getLayer().addChild( _rulerParentNode );
+
+        // Layering
+        _snapshotClipNode.addChild( _chartNode );
+        _snapshotClipNode.addChild( _measurementsNode );
+        _snapshotClipNode.addChild( _binWidthNode );
+        _snapshotClipNode.addChild( _rulerParentNode );
+        canvas.getLayer().addChild( _snapshotClipNode );
         
         JPanel panel = new JPanel();
         panel.add( canvas );
@@ -395,7 +399,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
      * @return Image
      */
     public Image getSnapshotImage() {
-        return _snapshotNode.toImage();
+        return _snapshotClipNode.toImage();
     }
     
     /**
@@ -566,10 +570,10 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         
         // constraint the ruler's drag bounds
         final int minPixelsVisible = 20;
-        double x = _snapshotNode.getFullBounds().getX() - _rulerNode.getFullBounds().getWidth() + minPixelsVisible;
-        double y = _snapshotNode.getFullBounds().getY();
-        double w = _snapshotNode.getFullBounds().getWidth() + ( 2 * _rulerNode.getFullBounds().getWidth() ) - ( 2 * minPixelsVisible );
-        double h = _snapshotNode.getFullBounds().getHeight();
+        double x = _snapshotClipNode.getFullBounds().getX() - _rulerNode.getFullBounds().getWidth() + minPixelsVisible;
+        double y = _snapshotClipNode.getFullBounds().getY();
+        double w = _snapshotClipNode.getFullBounds().getWidth() + ( 2 * _rulerNode.getFullBounds().getWidth() ) - ( 2 * minPixelsVisible );
+        double h = _snapshotClipNode.getFullBounds().getHeight();
         _rulerDragBoundsNode = new PPath( new Rectangle2D.Double( x, y, w,h ) );
         _rulerParentNode.addChild( _rulerDragBoundsNode );
         _rulerNode.addInputEventListener( new BoundedDragHandler( _rulerNode, _rulerDragBoundsNode ) );
