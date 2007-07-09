@@ -1,3 +1,6 @@
+0.00.17
+Added improved initial locations for characters.
+
 0.00.16 (7-9-2007)
 Added exact motion model for specified angular acceleration. 
 
