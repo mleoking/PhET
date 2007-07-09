@@ -1,8 +1,8 @@
 package edu.colorado.phet.rotation.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.umd.cs.piccolo.PNode;
@@ -31,7 +31,7 @@ public class RotationBodyNode extends PhetPNode {
         PNode node = null;
         try {
             BufferedImage newImage = RotationResources.loadBufferedImage( rotationBody.getImageName() );
-            newImage= BufferedImageUtils.rescaleXMaintainAspectRatio( newImage, 75);
+            newImage = BufferedImageUtils.rescaleXMaintainAspectRatio( newImage, 75 );
             node = new PImage( newImage );
         }
         catch( IOException e ) {

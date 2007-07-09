@@ -46,7 +46,6 @@ public class RotationPlatformNode extends PNode {
         addRingNode( 0.005, Color.white );
 
 
-
         verticalCrossHair = new PhetPPath( getVerticalCrossHairPath(), new BasicStroke( 2 ), Color.black );
         contentNode.addChild( verticalCrossHair );
 

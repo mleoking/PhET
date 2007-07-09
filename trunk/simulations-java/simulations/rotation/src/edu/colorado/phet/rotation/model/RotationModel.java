@@ -20,13 +20,13 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         rotationPlatform = new RotationPlatform();
 
         RotationBody body1 = new RotationBody( "ladybug.gif" );
-        body1.setPosition( rotationPlatform.getCenter().getX()+rotationPlatform.getRadius()*Math.sqrt( 2)/2.0,
-                           rotationPlatform.getCenter().getY()+rotationPlatform.getRadius());
+        body1.setPosition( rotationPlatform.getCenter().getX() + rotationPlatform.getRadius() * Math.sqrt( 2 ) / 2.0,
+                           rotationPlatform.getCenter().getY() + rotationPlatform.getRadius() );
         addRotationBody( body1 );
-        
+
         RotationBody body2 = new RotationBody( "beetle.gif" );
-        body2.setPosition( rotationPlatform.getCenter().getX()-rotationPlatform.getRadius()*Math.sqrt( 2)/2.0,
-                           rotationPlatform.getCenter().getY()+rotationPlatform.getRadius());
+        body2.setPosition( rotationPlatform.getCenter().getX() - rotationPlatform.getRadius() * Math.sqrt( 2 ) / 2.0,
+                           rotationPlatform.getCenter().getY() + rotationPlatform.getRadius() );
         addRotationBody( body2 );
     }
 
