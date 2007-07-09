@@ -9,6 +9,8 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 /**
@@ -16,8 +18,11 @@ import java.awt.*;
  * May 29, 2007, 1:48:07 AM
  */
 public class TorqueControlPanel extends JPanel {
-    public TorqueControlPanel( GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel ) {
+    private TorqueModule torqueModule;
+
+    public TorqueControlPanel( GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final TorqueModule torqueModule ) {
         super( new GridBagLayout() );
+        this.torqueModule = torqueModule;
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
         setBorder( BorderFactory.createTitledBorder( "Controls" ) );
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -25,11 +30,17 @@ public class TorqueControlPanel extends JPanel {
         gridBagConstraints.gridy = GridBagConstraints.RELATIVE;
         JPanel sliderPanel = new JPanel( new GridBagLayout() );
 
+        final TorqueSlider outerRadiusSlider = new TorqueSlider( 0, 200, torqueModule.getRotationModel().getRotationPlatform().getRadius(), "R=Outer Radius", "0.00", "m" );
+        outerRadiusSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                torqueModule.getRotationModel().getRotationPlatform().setRadius( outerRadiusSlider.getValue() );
+            }
+        } );
         TorqueSlider[] sliders = new TorqueSlider[]{
-                new TorqueSlider( 0, 1, "R=Outer Radius", "0.00", "m" ),
-                new TorqueSlider( 0, 1, "r=Inner Radius", "0.00", "m" ),
-                new TorqueSlider( 0, 1, "Mass", "0.00", "kg" ),
-                new TorqueSlider( 0, 1, "Force of Brake", "0.00", "N" )
+                outerRadiusSlider,
+                new TorqueSlider( 0, 1,0.5, "r=Inner Radius", "0.00", "m" ),
+                new TorqueSlider( 0, 1,0.5, "Mass", "0.00", "kg" ),
+                new TorqueSlider( 0, 1,0.5, "Force of Brake", "0.00", "N" )
         };
         for( int i = 0; i < sliders.length; i++ ) {
             sliderPanel.add( sliders[i], gridBagConstraints );
@@ -46,11 +57,12 @@ public class TorqueControlPanel extends JPanel {
     }
 
     public static class TorqueSlider extends LinearValueControl {
-        public TorqueSlider( double min, double max, String label, String textFieldPattern, String units ) {
+        public TorqueSlider( double min, double max, double initialValue, String label, String textFieldPattern, String units ) {
             super( min, max, label, textFieldPattern, units, new TorqueSliderLayout() );
-            setMinorTickSpacing( (max-min)/20.0);
-            setMajorTickSpacing( (max-min)/5.0);
-            setPaintLabels(false);
+            setValue( initialValue );
+            setMinorTickSpacing( ( max - min ) / 20.0 );
+            setMajorTickSpacing( ( max - min ) / 5.0 );
+            setPaintLabels( false );
 //            clearTickLabels();
 //            setMinorTicksVisible( false );
 //            setMajorTicksVisible( false );

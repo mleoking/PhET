@@ -1,12 +1,10 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.common.motion.model.MotionBodyState;
 import edu.colorado.phet.common.motion.model.MotionBody;
-import edu.colorado.phet.common.motion.model.ITimeSeries;
-import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
@@ -32,4 +30,30 @@ public class RotationPlatform extends MotionBody {
         super.getMotionBodyState().setPosition( angle );
     }
 
+    public void setRadius( double radius ) {
+        if( this.radius != radius ) {
+            this.radius = radius;
+            notifyRadiusChanged();
+        }
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public static interface Listener {
+        void radiusChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    private void notifyRadiusChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener)listeners.get( i ) ).radiusChanged();
+        }
+    }
 }

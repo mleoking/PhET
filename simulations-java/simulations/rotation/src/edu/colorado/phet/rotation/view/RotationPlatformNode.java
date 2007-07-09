@@ -23,31 +23,30 @@ import java.awt.geom.Rectangle2D;
  * Time: 2:44:08 PM
  */
 
-public class PlatformNode extends PNode {
-    private double ringRadius;
+public class RotationPlatformNode extends PNode {
     private PNode contentNode;
     private double angle = 0.0;
     private RotationPlatform rotationPlatform;
 
-    public PlatformNode( final IPositionDriven environment, final RotationPlatform rotationPlatform ) {
+    public RotationPlatformNode( final IPositionDriven environment, final RotationPlatform rotationPlatform ) {
         this.rotationPlatform = rotationPlatform;
-        ringRadius = rotationPlatform.getRadius();
         contentNode = new PNode();
-        addRingNode( ringRadius * 2.0 / 2.0, Color.green );
-        addRingNode( ringRadius * 1.5 / 2.0, Color.yellow );
-        addRingNode( ringRadius * 1.0 / 2.0, Color.magenta );
-        addRingNode( ringRadius * 0.5 / 2.0, Color.white );
-        addRingNode( ringRadius * 0.01 / 2.0, Color.white );
 
-        PhetPPath verticalCrossHair = new PhetPPath( new Line2D.Double( ringRadius, 0, ringRadius, ringRadius * 2 ), new BasicStroke( 2 ), Color.black );
+        addRingNode( getRadius() * 2.0 / 2.0, Color.green );
+        addRingNode( getRadius() * 1.5 / 2.0, Color.yellow );
+        addRingNode( getRadius() * 1.0 / 2.0, Color.magenta );
+        addRingNode( getRadius() * 0.5 / 2.0, Color.white );
+        addRingNode( getRadius() * 0.01 / 2.0, Color.white );
+
+        PhetPPath verticalCrossHair = new PhetPPath( new Line2D.Double( getRadius(), 0, getRadius(), getRadius() * 2 ), new BasicStroke( 2 ), Color.black );
         contentNode.addChild( verticalCrossHair );
 
-        PhetPPath horizontalCrossHair = new PhetPPath( new Line2D.Double( 0, ringRadius, ringRadius * 2, ringRadius ), new BasicStroke( 2 ), Color.black );
+        PhetPPath horizontalCrossHair = new PhetPPath( new Line2D.Double( 0, getRadius(), getRadius() * 2, getRadius() ), new BasicStroke( 2 ), Color.black );
         contentNode.addChild( horizontalCrossHair );
 
         double handleWidth = 10;
         double handleHeight = 10;
-        PhetPPath handleNode = new PhetPPath( new Rectangle2D.Double( ringRadius * 2, ringRadius - handleHeight / 2, handleWidth, handleHeight ), Color.blue, new BasicStroke( 1 ), Color.black );
+        PhetPPath handleNode = new PhetPPath( new Rectangle2D.Double( getRadius() * 2, getRadius() - handleHeight / 2, handleWidth, handleHeight ), Color.blue, new BasicStroke( 1 ), Color.black );
         contentNode.addChild( handleNode );
 
         addChild( contentNode );
@@ -65,7 +64,7 @@ public class PlatformNode extends PNode {
             }
 
             public void mouseDragged( PInputEvent event ) {
-                Point2D loc = event.getPositionRelativeTo( PlatformNode.this );
+                Point2D loc = event.getPositionRelativeTo( RotationPlatformNode.this );
                 Point2D center = rotationPlatform.getCenter();
                 Vector2D.Double a = new Vector2D.Double( center, initLoc );
                 Vector2D.Double b = new Vector2D.Double( center, loc );
@@ -82,7 +81,7 @@ public class PlatformNode extends PNode {
 
             private void resetDrag( double angle, PInputEvent event ) {
                 initAngle = angle;
-                initLoc = event.getPositionRelativeTo( PlatformNode.this );
+                initLoc = event.getPositionRelativeTo( RotationPlatformNode.this );
             }
         } );
         addInputEventListener( new CursorHandler() );
@@ -92,11 +91,29 @@ public class PlatformNode extends PNode {
             }
         } );
         setAngle( rotationPlatform.getPosition() );
+        rotationPlatform.addListener( new RotationPlatform.Listener() {
+            public void radiusChanged() {
+                updateRadius();
+            }
+        } );
+    }
+
+    private void updateRadius() {
+        for( int i = 0; i < contentNode.getChildrenCount(); i++ ) {
+            PNode child = contentNode.getChild( i );
+            if( child instanceof RingNode ) {
+                RingNode node = (RingNode)child;
+                node.setRadius( rotationPlatform.getRadius() );
+            }
+        }
+    }
+
+    private double getRadius() {
+        return rotationPlatform.getRadius();
     }
 
     private void addRingNode( double radius, Color color ) {
-        RingNode ringNode = new RingNode( ringRadius, ringRadius, radius, color );
-        contentNode.addChild( ringNode );
+        contentNode.addChild( new RingNode( getRadius(), getRadius(), radius, color ) );
     }
 
     private void setAngle( double angle ) {
@@ -104,7 +121,7 @@ public class PlatformNode extends PNode {
             this.angle = angle;
             contentNode.setRotation( 0 );
             contentNode.setOffset( 0, 0 );
-            contentNode.translate( rotationPlatform.getCenter().getX() - ringRadius, rotationPlatform.getCenter().getY() - ringRadius );
+            contentNode.translate( rotationPlatform.getCenter().getX() - getRadius(), rotationPlatform.getCenter().getY() - getRadius() );
             contentNode.rotateAboutPoint( angle, rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() );
         }
     }
@@ -114,9 +131,26 @@ public class PlatformNode extends PNode {
     }
 
     class RingNode extends PNode {
+        private PhetPPath path;
+        private double x;
+        private double y;
+        private double radius;
+
         public RingNode( double x, double y, double radius, Color color ) {
-            PhetPPath path = new PhetPPath( new Ellipse2D.Double( x - radius, y - radius, radius * 2, radius * 2 ), color, new BasicStroke( 1 ), Color.black );
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            path = new PhetPPath( createPath(), color, new BasicStroke( 1 ), Color.black );
             addChild( path );
+        }
+
+        private Ellipse2D.Double createPath() {
+            return new Ellipse2D.Double( x - radius, y - radius, radius * 2, radius * 2 );
+        }
+
+        public void setRadius( double radius ) {
+            this.radius = radius;
+            path.setPathTo( createPath() );
         }
     }
 }
