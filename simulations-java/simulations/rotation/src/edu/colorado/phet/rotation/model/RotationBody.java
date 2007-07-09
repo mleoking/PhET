@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.model;
 
 import edu.colorado.phet.common.motion.model.*;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Line2D;
@@ -25,12 +26,13 @@ public class RotationBody {
     private ISimulationVariable accelMagnitudeVariable;
     private ITimeSeries accelMagnitudeSeries;
     private String imageName;
+    private RotationPlatform rotationPlatform;
 
     public RotationBody() {
-        this("ladybug.gif");
+        this( "ladybug.gif" );
     }
 
-    public RotationBody(String imageName) {
+    public RotationBody( String imageName ) {
         this.imageName = imageName;
         xBody = new MotionBody();
         yBody = new MotionBody();
@@ -44,6 +46,8 @@ public class RotationBody {
 
     public void setOffPlatform() {
         setUpdateStrategy( new OffPlatform() );
+        xBody.setUpdateStrategy( new PositionDriven() );
+        yBody.setUpdateStrategy( new PositionDriven() );
     }
 
     private void setUpdateStrategy( UpdateStrategy updateStrategy ) {
@@ -51,8 +55,44 @@ public class RotationBody {
         this.updateStrategy = updateStrategy;
     }
 
+//    class OnPlatformUpdateStrategy implements edu.colorado.phet.common.motion.model.UpdateStrategy {
+//        private RotationPlatform rotationPlatform;
+//        private boolean x;
+//
+//        public OnPlatformUpdateStrategy( RotationPlatform rotationPlatform, boolean x ) {
+//            this.rotationPlatform = rotationPlatform;
+//            this.x = x;
+//        }
+//
+//        public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {
+//            //say angular velocity is set for now
+//            double omega = rotationPlatform.getVelocity();
+//            //v=r*omega
+//            double r = rotationPlatform.getRadius();//todo fix this to be body-r
+//            AbstractVector2D vec = new Vector2D.Double( getPosition(), rotationPlatform.getCenter() ).getInstanceOfMagnitude( r * omega );
+//            double newVelocitycomponent = x ? vec.getX() : vec.getY();//todo: factor out to RotationBody update method
+//
+//            double newTheta = getAngle( rotationPlatform ) + omega * dt;
+//            AbstractVector2D newLocation = Vector2D.Double.parseAngleAndMagnitude( r, newTheta );
+//            double newPositionComponent = x ? newLocation.getX() : newLocation.getY();
+//            model.addPositionData( newPositionComponent, time );
+//            model.addVelocityData( newVelocitycomponent, time );
+//
+////            double newX = state.getPosition() + state.getVelocity() * dt;
+////            TimeData a = MotionMath.getDerivative( model.getRecentVelocityTimeSeries( Math.min( velWindow, model.getAccelerationSampleCount() ) ) );
+////
+////            model.addPositionData( newX, time );
+////            model.addVelocityData( state.getVelocity(), time );
+////            model.addAccelerationData( a.getValue(), a.getTime() + dt );//todo: why is it necessary that velocity be offset by dt in order to be correct?
+//
+//        }
+//    }
+
     public void setOnPlatform( RotationPlatform rotationPlatform ) {
         setUpdateStrategy( new OnPlatform( rotationPlatform ) );
+        this.rotationPlatform = rotationPlatform;
+//        xBody.setUpdateStrategy( new OnPlatformUpdateStrategy( rotationPlatform, true ) );
+//        yBody.setUpdateStrategy( new OnPlatformUpdateStrategy( rotationPlatform, false ) );
     }
 
     public void addListener( Listener listener ) {
@@ -80,10 +120,15 @@ public class RotationBody {
     }
 
     public void stepInTime( double time, double dt ) {
-        Point2D origPosition=getPosition();
-        xBody.stepInTime( time, dt );
-        yBody.stepInTime( time, dt );
-        if (getPosition().equals( origPosition )){//todo: integrate listener behavior into xBody and yBody?
+        Point2D origPosition = getPosition();
+        if( updateStrategy instanceof OffPlatform ) {
+            xBody.stepInTime( time, dt );
+            yBody.stepInTime( time, dt );
+        }
+        else {
+            updateBodyOnPlatform( time, dt );
+        }
+        if( !getPosition().equals( origPosition ) ) {//todo: integrate listener behavior into xBody and yBody?
             notifyPositionChanged();
         }
         speedVariable.setValue( getVelocity().getMagnitude() );
@@ -91,6 +136,44 @@ public class RotationBody {
 
         accelMagnitudeVariable.setValue( getAcceleration().getMagnitude() );
         accelMagnitudeSeries.addValue( getAcceleration().getMagnitude(), time );
+    }
+
+    //todo: handle position and acceleration driven motion
+    private void updateBodyOnPlatform( double time, double dt ) {
+        double omega = rotationPlatform.getVelocity();
+        //v=r*omega
+        double r = getPosition().distance( rotationPlatform.getCenter() );
+
+        double newTheta = getAngle( rotationPlatform ) + omega * dt;
+        Point2D newLocation = Vector2D.Double.parseAngleAndMagnitude( r, newTheta ).getDestination( rotationPlatform.getCenter() );
+        AbstractVector2D newVelocity = new Vector2D.Double( newLocation, rotationPlatform.getCenter() ).getInstanceOfMagnitude( r * omega ).getNormalVector();
+        AbstractVector2D newAccel = new Vector2D.Double( newLocation, rotationPlatform.getCenter() ).getInstanceOfMagnitude( r * omega * omega );
+
+        addPositionData( newLocation, time );
+        addVelocityData( newVelocity, time );
+        addAccelerationData( newAccel, time );
+
+        updateXYStateFromSeries();
+    }
+
+    private void updateXYStateFromSeries() {
+        xBody.updateStateFromSeries();
+        yBody.updateStateFromSeries();
+    }
+
+    private void addAccelerationData( AbstractVector2D newAccel, double time ) {
+        xBody.getMotionBodySeries().addAccelerationData( newAccel.getX(), time );
+        yBody.getMotionBodySeries().addAccelerationData( newAccel.getY(), time );
+    }
+
+    private void addVelocityData( AbstractVector2D newVelocity, double time ) {
+        xBody.getMotionBodySeries().addVelocityData( newVelocity.getX(), time );
+        yBody.getMotionBodySeries().addVelocityData( newVelocity.getY(), time );
+    }
+
+    private void addPositionData( Point2D newLocation, double time ) {
+        xBody.getMotionBodySeries().addPositionData( newLocation.getX(), time );
+        yBody.getMotionBodySeries().addPositionData( newLocation.getY(), time );
     }
 
     public Vector2D getAcceleration() {
@@ -227,7 +310,7 @@ public class RotationBody {
 
     private void notifyPositionChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener)listeners.get( i )).positionChanged();
+            ( (Listener)listeners.get( i ) ).positionChanged();
         }
     }
 
