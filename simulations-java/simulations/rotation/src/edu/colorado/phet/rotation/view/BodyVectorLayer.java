@@ -30,9 +30,6 @@ public class BodyVectorLayer extends PNode {
         accelArrow = new VectorNode( "a", Color.blue, new VectorFunction() {
             public AbstractVector2D getVector() {
                 return rotationBody.getAcceleration().getScaledInstance( accelScale );
-//                return new Vector2D.Double( rotationBody.getPosition(), rotationModel.getRotationPlatform().getCenter() )
-//                        .getInstanceOfMagnitude( rotationBody.getAccelMagnitudeVariable().getValue() )
-//                        .getScaledInstance( accelScale );
             }
         } );
         addChild( accelArrow );
@@ -40,16 +37,16 @@ public class BodyVectorLayer extends PNode {
         velocityArrow = new VectorNode( "v", Color.red, new VectorFunction() {
             public AbstractVector2D getVector() {
                 return rotationBody.getVelocity().getScaledInstance( velScale );
-//                return new Vector2D.Double( rot);
-//                return new Vector2D.Double( rotationBody.getPosition(), rotationModel.getRotationPlatform().getCenter() ).
-//                        getInstanceOfMagnitude( rotationBody.getSpeedVariable().getValue( ) ).
-//                        getScaledInstance( -velScale ).getRotatedInstance( Math.PI / 2 );
             }
         } );
         addChild( velocityArrow );
 
         rotationBody.addListener( new RotationBody.Listener() {
             public void positionChanged() {
+                update();
+            }
+
+            public void speedAndAccelerationUpdated() {
                 update();
             }
         } );
