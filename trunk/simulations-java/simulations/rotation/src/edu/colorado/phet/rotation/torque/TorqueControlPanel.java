@@ -36,11 +36,17 @@ public class TorqueControlPanel extends JPanel {
                 torqueModule.getRotationModel().getRotationPlatform().setRadius( outerRadiusSlider.getValue() );
             }
         } );
+        final TorqueSlider innerRadiusSlider = new TorqueSlider( 0, 200, 0.5, "r=Inner Radius", "0.00", "m" );
+        innerRadiusSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                torqueModule.getRotationModel().getRotationPlatform().setInnerRadius( innerRadiusSlider.getValue() );
+            }
+        } );
         TorqueSlider[] sliders = new TorqueSlider[]{
                 outerRadiusSlider,
-                new TorqueSlider( 0, 1,0.5, "r=Inner Radius", "0.00", "m" ),
-                new TorqueSlider( 0, 1,0.5, "Mass", "0.00", "kg" ),
-                new TorqueSlider( 0, 1,0.5, "Force of Brake", "0.00", "N" )
+                innerRadiusSlider,
+                new TorqueSlider( 0, 1, 0.5, "Mass", "0.00", "kg" ),
+                new TorqueSlider( 0, 1, 0.5, "Force of Brake", "0.00", "N" )
         };
         for( int i = 0; i < sliders.length; i++ ) {
             sliderPanel.add( sliders[i], gridBagConstraints );

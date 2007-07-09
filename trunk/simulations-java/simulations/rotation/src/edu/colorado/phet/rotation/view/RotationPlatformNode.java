@@ -29,6 +29,7 @@ public class RotationPlatformNode extends PNode {
     private RotationPlatform rotationPlatform;
     private PhetPPath verticalCrossHair;
     private PhetPPath horizontalCrossHair;
+    private PhetPPath innerRadiusNode;//cover up with background color for simplicity
 
     private double handleWidth = 10;
     private double handleHeight = 10;
@@ -44,11 +45,16 @@ public class RotationPlatformNode extends PNode {
         addRingNode( 0.25, Color.white );
         addRingNode( 0.005, Color.white );
 
+
+
         verticalCrossHair = new PhetPPath( getVerticalCrossHairPath(), new BasicStroke( 2 ), Color.black );
         contentNode.addChild( verticalCrossHair );
 
         horizontalCrossHair = new PhetPPath( getHorizontalCrossHairPath(), new BasicStroke( 2 ), Color.black );
         contentNode.addChild( horizontalCrossHair );
+
+        innerRadiusNode = new PhetPPath( new RotationLookAndFeel().getBackgroundColor(), new BasicStroke( 1 ), Color.black );
+        contentNode.addChild( innerRadiusNode );
 
         handleNode = new PhetPPath( createHandlePath(), Color.blue, new BasicStroke( 1 ), Color.black );
         contentNode.addChild( handleNode );
@@ -99,8 +105,19 @@ public class RotationPlatformNode extends PNode {
             public void radiusChanged() {
                 updateRadius();
             }
+
+            public void innerRadiusChanged() {
+                updateInnerRadius();
+            }
         } );
         updateRadius();
+        updateInnerRadius();
+    }
+
+    private void updateInnerRadius() {
+        double r = rotationPlatform.getInnerRadius();
+        innerRadiusNode.setPathTo( new Ellipse2D.Double( rotationPlatform.getCenter().getX() - r, rotationPlatform.getCenter().getY() - r, r * 2, r * 2 ) );
+        updateAngle();
     }
 
     private Rectangle2D.Double createHandlePath() {
