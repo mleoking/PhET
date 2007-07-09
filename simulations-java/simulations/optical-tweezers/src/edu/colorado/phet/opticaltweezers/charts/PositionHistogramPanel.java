@@ -5,6 +5,7 @@ package edu.colorado.phet.opticaltweezers.charts;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -42,14 +43,20 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class PositionHistogramPanel extends JPanel implements Observer {
     
     private static class ZoomSpec {
-        public final double range;
+        public final double positionRange;
         public final double binWidth;
-        public ZoomSpec( double range, double binWidth ) {
-            this.range = range;
+        public final int rulerMax;
+        public final int rulerMajorTickSpacing;
+        public final double rulerMinorTickSpacing;
+        public ZoomSpec( double positionRange, double binWidth, int rulerMax, int rulerMajorTickSpacing, double rulerMinorTickSpacing ) {
+            this.positionRange = positionRange;
             this.binWidth = binWidth;
+            this.rulerMax = rulerMax;
+            this.rulerMajorTickSpacing = rulerMajorTickSpacing;
+            this.rulerMinorTickSpacing = rulerMinorTickSpacing;
         }
     }
-
+    
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
@@ -59,12 +66,13 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private static final Color CHART_BACKGROUND_COLOR = Color.WHITE;
     
     private static final ZoomSpec[] ZOOM_SPECS = {
-        new ZoomSpec( 52, 0.25 ),
-        new ZoomSpec( 105, 0.5 ),
-        new ZoomSpec( 160, 0.75 ),
-        new ZoomSpec( 210, 1.0 ),
-        new ZoomSpec( 260, 1.5 ),
-        new ZoomSpec( 320, 2.0 )
+        // positionRange, binWidth, rulerMax, rulerMajorTickSpacing, rulerMinorTickSpacing
+        new ZoomSpec( 50, 0.25, 75, 5, 1 ),
+        new ZoomSpec( 100, 0.5, 150, 10, 5 ),
+        new ZoomSpec( 150, 0.75, 250, 50, 5),
+        new ZoomSpec( 200, 1.0, 300, 50, 10 ),
+        new ZoomSpec( 250, 1.5, 350, 50, 10 ),
+        new ZoomSpec( 300, 2.0, 400, 50, 10 )
     };
     private static final int DEFAULT_ZOOM_INDEX = 2;
     
@@ -99,6 +107,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private PText _measurementsNode;
     private PText _binWidthNode;
     private PNode _snapshotNode;
+    private JFreeChartNode _chartNode;
 
     private String _measurementsString;
     private String _startString, _stopString;
@@ -274,6 +283,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _snapshotNode = new PComposite();
         _snapshotNode.setPickable( false );
         _snapshotNode.setChildrenPickable( false );
+        _snapshotNode.setOffset( 0, 0 );
         canvas.getLayer().addChild( _snapshotNode );
         
         _plot = new PositionHistogramPlot();
@@ -290,12 +300,13 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         chart.setBorderVisible( true );
         chart.setBackgroundPaint( CHART_BACKGROUND_COLOR );
         
-        JFreeChartNode chartNode = new JFreeChartNode( chart );
-        chartNode.setPickable( false );
-        chartNode.setChildrenPickable( false );
-        chartNode.setBounds( 0, 0, CHART_SIZE.width, CHART_SIZE.height );
-        chartNode.updateChartRenderingInfo();
-        _snapshotNode.addChild( chartNode );
+        _chartNode = new JFreeChartNode( chart );
+        _chartNode.setPickable( false );
+        _chartNode.setChildrenPickable( false );
+        _chartNode.setOffset( 0, 0 );
+        _chartNode.setBounds( 0, 0, CHART_SIZE.width, CHART_SIZE.height );
+        _chartNode.updateChartRenderingInfo();
+        _snapshotNode.addChild( _chartNode );
         
         _measurementsNode = new PText( "?" );
         _measurementsNode.setOffset( 10, 10 );
@@ -307,6 +318,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _snapshotNode.addChild( _binWidthNode );
         
         _rulerParentNode = new PNode();
+        _rulerParentNode.setOffset( 0, 0 );
         canvas.getLayer().addChild( _rulerParentNode );
         
         JPanel panel = new JPanel();
@@ -341,12 +353,14 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _zoomIndex = zoomIndex;
         ZoomSpec zoomSpec = ZOOM_SPECS[_zoomIndex];
         // Update the histogram's x-axis range
-        _plot.setPositionRange( -zoomSpec.range, zoomSpec.range, zoomSpec.binWidth );
+        _plot.setPositionRange( -zoomSpec.positionRange, zoomSpec.positionRange, zoomSpec.binWidth );
         // Update the bin width display
         _binWidthNode.setText( _binWidthString + " " + BIN_WIDTH_FORMAT.format( zoomSpec.binWidth ) + " " + _unitsString );
         // Enable/disable zoom buttons
         _zoomInButton.setEnabled( _zoomIndex != 0 );
         _zoomOutButton.setEnabled( _zoomIndex != ZOOM_SPECS.length - 1 );
+        // Update the ruler
+        updateRuler();
         // Set measurements to zero
         clearMeasurements();
     }
@@ -358,6 +372,25 @@ public class PositionHistogramPanel extends JPanel implements Observer {
      */
     public int getZoomIndex() {
         return _zoomIndex;
+    }
+    
+    /**
+     * Sets the visibility of the ruler.
+     * 
+     * @param visible
+     */
+    public void setRulerVisible( boolean visible ) {
+        updateRuler();
+        _rulerNode.setVisible( visible );
+    }
+    
+    /**
+     * Is the ruler visible?
+     * 
+     * @return true or false
+     */
+    public boolean isRulerVisible() {
+        return ( _rulerNode != null && _rulerNode.isVisible() );
     }
     
     //----------------------------------------------------------------------------
@@ -430,35 +463,64 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     }
 
     private void handleRulerButton() {
-        System.out.println( "PositionHistogramPanel.handleRulerButton" );//XXX
-        if ( _rulerNode == null ) {
-            
-            // Create the ruler
-            double distanceBetweenFirstAndLastTick = 400; 
-            String[] majorTickLabels = { "0", "50", "100", "150" };
-            String units = "nm";
-            int numMinorTicksBetweenMajors = 4;
-            _rulerNode = new RulerNode( distanceBetweenFirstAndLastTick, RULER_HEIGHT, majorTickLabels, units, numMinorTicksBetweenMajors, RULER_FONT_SIZE );
-            _rulerParentNode.addChild( _rulerNode );
-            _rulerNode.setOffset( 20, 20 );
-            _rulerNode.addInputEventListener( new CursorHandler() );
-            
-            // Constraint the ruler's drag bounds
-            final int minPixelsVisible = 20;
-            double x = _snapshotNode.getFullBounds().getX() - _rulerNode.getFullBounds().getWidth() + minPixelsVisible;
-            double y = _snapshotNode.getFullBounds().getY();
-            double w = _snapshotNode.getFullBounds().getWidth() + ( 2 * _rulerNode.getFullBounds().getWidth() ) - ( 2 * minPixelsVisible );
-            double h = _snapshotNode.getFullBounds().getHeight();
-            _rulerDragBoundsNode = new PPath( new Rectangle2D.Double( x, y, w,h ) );
-            _rulerParentNode.addChild( _rulerDragBoundsNode );
-            _rulerNode.addInputEventListener( new BoundedDragHandler( _rulerNode, _rulerDragBoundsNode ) );
-        }
-        else {
-            // delete the ruler
+        _rulerNode.setVisible( !_rulerNode.isVisible() );
+    }
+    
+    private void updateRuler() {
+        
+        // delete current ruler
+        boolean rulerVisible = false;
+        if ( _rulerNode != null ) {
+            rulerVisible = _rulerNode.isVisible();
             _rulerParentNode.removeAllChildren();
             _rulerNode = null;
             _rulerDragBoundsNode = null;
         }
+        
+        // ruler length
+        ZoomSpec zoomSpec = ZOOM_SPECS[_zoomIndex];
+        double distanceBetweenFirstAndLastTick = getRulerNodeLength( zoomSpec.rulerMax ); 
+        
+        // major tick labels
+        String[] majorTickLabels = { "0", String.valueOf( zoomSpec.rulerMax ) };
+        
+        // minor ticks
+        int numMinorTicksBetweenMajors = (int)( zoomSpec.rulerMajorTickSpacing / zoomSpec.rulerMinorTickSpacing ) - 1;
+        
+        // create the ruler
+        _rulerNode = new RulerNode( distanceBetweenFirstAndLastTick, RULER_HEIGHT, majorTickLabels, _unitsString, numMinorTicksBetweenMajors, RULER_FONT_SIZE );
+        _rulerParentNode.addChild( _rulerNode );
+        _rulerNode.addInputEventListener( new CursorHandler() );
+        
+        // constraint the ruler's drag bounds
+        final int minPixelsVisible = 20;
+        double x = _snapshotNode.getFullBounds().getX() - _rulerNode.getFullBounds().getWidth() + minPixelsVisible;
+        double y = _snapshotNode.getFullBounds().getY();
+        double w = _snapshotNode.getFullBounds().getWidth() + ( 2 * _rulerNode.getFullBounds().getWidth() ) - ( 2 * minPixelsVisible );
+        double h = _snapshotNode.getFullBounds().getHeight();
+        _rulerDragBoundsNode = new PPath( new Rectangle2D.Double( x, y, w,h ) );
+        _rulerParentNode.addChild( _rulerDragBoundsNode );
+        _rulerNode.addInputEventListener( new BoundedDragHandler( _rulerNode, _rulerDragBoundsNode ) );
+        
+        // Center the ruler
+        double xOffset = ( _chartNode.getFullBounds().getWidth() - _rulerNode.getFullBounds().getWidth() ) / 2;
+        double yOffset = ( _chartNode.getFullBounds().getHeight() - _rulerNode.getFullBounds().getHeight() ) / 2;
+        _rulerNode.setOffset( xOffset, yOffset );
+        
+        _rulerNode.setVisible( rulerVisible );
+    }
+    
+    private double getRulerNodeLength( double rulerModelLength ) {
+        // chart coordinates
+        Point2D cp0 = _chartNode.plotToNode( new Point2D.Double( 0, 0 ) );
+        Point2D cpMax = _chartNode.plotToNode( new Point2D.Double( rulerModelLength, 0 ) );
+        // global coordinates
+        Point2D gp0 = _chartNode.localToGlobal( cp0 );
+        Point2D gpMax = _chartNode.localToGlobal( cpMax );
+        // ruler coordinates
+        Point2D rp0 = _rulerParentNode.globalToLocal( gp0 );
+        Point2D rpMax = _rulerParentNode.globalToLocal( gpMax );
+        return rpMax.getX() - rp0.getX();
     }
 
     /*

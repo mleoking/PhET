@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 AAPT:
-- histogram: ruler, unconstrained drag, default position centered, sync labeling with x-axis range, ruler icon to show/hide
+- histogram: sync ruler labeling with x-axis range
 - histogram: javadoc
 - change "force on bead" model in slow mode
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
@@ -59,6 +59,9 @@ MISSING INFO:
 
  
 DONE:
+7/9/07 - histogram: sync ruler scale with plot scale
+7/9/07 - histogram: restore ruler visibility and position when reopening the dialog
+7/9/07 - histogram: set ruler's default position to center of chart
 7/9/07 - histogram: add ruler, constrain dragging to chart area (tick marks are wrong)
 7/9/07 - histogram: restore zoom index when dialog is reopened
 7/9/07 - histogram: initial position of main dialog and snapshots
