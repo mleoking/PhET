@@ -46,8 +46,6 @@ public class RotationBody {
 
     public void setOffPlatform() {
         setUpdateStrategy( new OffPlatform() );
-        xBody.setUpdateStrategy( new PositionDriven() );
-        yBody.setUpdateStrategy( new PositionDriven() );
     }
 
     private void setUpdateStrategy( UpdateStrategy updateStrategy ) {
@@ -117,17 +115,7 @@ public class RotationBody {
         double omega = rotationPlatform.getVelocity();
         double r = getPosition().distance( rotationPlatform.getCenter() );
 
-        double newTheta;
-        if( rotationPlatform.isPositionDriven() ) {
-            newTheta = getAngleOnPlatform();
-        }
-        else if( rotationPlatform.isVelocityDriven() ) {
-            newTheta = getAngleOnPlatform() + omega * dt;
-        }
-        else {
-            newTheta = getAngleOnPlatform() + omega * dt + 0.5 * rotationPlatform.getAcceleration() * dt * dt;
-        }
-        Point2D newX = Vector2D.Double.parseAngleAndMagnitude( r, newTheta ).getDestination( rotationPlatform.getCenter() );
+        Point2D newX = Vector2D.Double.parseAngleAndMagnitude( r, getAngleOnPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
         AbstractVector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         AbstractVector2D newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
