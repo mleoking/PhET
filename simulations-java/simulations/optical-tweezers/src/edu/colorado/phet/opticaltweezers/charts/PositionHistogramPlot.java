@@ -35,7 +35,6 @@ public class PositionHistogramPlot extends XYPlot {
     //----------------------------------------------------------------------------
     
     private static final String SERIES_KEY = "position";
-    private static final Color BACKGROUND_COLOR = Color.WHITE;
     private static final Color BAR_FILL_COLOR = Color.BLUE;
     private static final Color BAR_OUTLINE_COLOR = Color.BLACK;
     private static final int OBSERVATIONS_REQUIRED_TO_ENABLE_AUTORANGE = 10;
@@ -94,7 +93,6 @@ public class PositionHistogramPlot extends XYPlot {
 
         // plot configuration
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
-        setBackgroundPaint( BACKGROUND_COLOR );
         setDomainGridlinesVisible( false );
         setRangeGridlinesVisible( false );
         setInsets( new RectangleInsets( 0, 0, 0, 0 ) );
