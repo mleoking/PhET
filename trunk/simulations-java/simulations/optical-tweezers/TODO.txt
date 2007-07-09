@@ -9,6 +9,7 @@ AAPT:
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
 - add description to About dialog
 - set correct default values for everything, including developer controls
+- dialogs don't repaint or close immediately when clock is running under Java 1.5, AWT thread priority?
 
 HIGH PRIORITY:
 
@@ -17,7 +18,6 @@ MEDIUM PRIORITY:
 - enable/disable controls based on clock speed
 - what units for E-field?
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
-- dialogs don't repaint or close immediately when clock is running under Java 1.5, AWT thread priority?
 
 LOW PRIORITY:
 - reduce vertical spacing of control panels (if necessary, after features/layout has stabilized)
