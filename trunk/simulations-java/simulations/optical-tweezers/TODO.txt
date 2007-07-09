@@ -57,7 +57,7 @@ MISSING INFO:
 
  
 DONE:
-********* version 0.00.19 (?)
+********* version 0.00.19 (16448)
 7/9/07 - histogram: javadoc
 7/9/07 - histogram: set zoom ranges a little bigger than desired so min/max tick labels are visible (again)
 7/9/07 - histogram: tweak ruler's major/minor ticks for each zoom level
