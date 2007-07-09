@@ -18,21 +18,11 @@ public class TorqueApplication extends PiccoloPhetApplication {
     private TorqueModule rotationModule;
 
     public TorqueApplication( String[] args ) {
-        super( new PhetApplicationConfig( args, createFrameSetup(), RotationResources.getInstance() ) );
+        super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance() ) );
         rotationModule = new TorqueModule();
         addModule( rotationModule );
 
         getPhetFrame().addMenu( new RotationTestMenu() );
-    }
-
-    private static FrameSetup createFrameSetup() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        if( screenSize.height <= 768 ) {
-            return new FrameSetup.MaxExtent( new FrameSetup.TopCenter( screenSize.width, 700 ) );
-        }
-        else {
-            return new FrameSetup.TopCenter( screenSize.width, screenSize.height - 100 );
-        }
     }
 
     public static void main( final String[] args ) {
