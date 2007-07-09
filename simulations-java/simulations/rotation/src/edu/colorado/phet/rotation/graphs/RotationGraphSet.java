@@ -22,7 +22,7 @@ import java.util.Arrays;
 public class RotationGraphSet extends GraphSuiteSet {
 
     public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel rotationModel ) {
-        int maxDomainValue=1000;
+        int maxDomainValue=500;
         MinimizableControlGraph angleGraph = new MinimizableControlGraph( UnicodeUtil.THETA, new MotionControlGraph(
                 pSwingCanvas, rotationModel.getPlatformAngleVariable(), rotationModel.getPlatformAngleTimeSeries(),
                 UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ),
