@@ -70,7 +70,8 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     public static final Stroke ORIGIN_MARKER_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
  
-
+    private static final int SNAPSOT_DIALOG_OFFEST = 10; // pixels
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -102,6 +103,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private int _numberOfMeasurements;
     private int _zoomIndex;
 
+    private Dialog _snapshotDialogOwner;
     private ArrayList _snapshotDialogs;
     private int _numberOfSnapshots;
     
@@ -116,12 +118,13 @@ public class PositionHistogramPanel extends JPanel implements Observer {
      * @param bead
      * @param laser
      */
-    public PositionHistogramPanel( Font font, IClock clock, Bead bead, Laser laser ) {
+    public PositionHistogramPanel( Dialog snapshotDialogOwner, Font font, IClock clock, Bead bead, Laser laser ) {
         super();
+        
+        _snapshotDialogOwner = snapshotDialogOwner;
 
         _clock = clock;
         _clockListener = new ClockAdapter() {
-
             public void clockTicked( ClockEvent event ) {
                 if ( _isRunning ) {
                     handleClockEvent( event );
@@ -137,7 +140,6 @@ public class PositionHistogramPanel extends JPanel implements Observer {
 
         _isRunning = DEFAULT_IS_RUNNING;
         _numberOfMeasurements = 0;
-        _zoomIndex = DEFAULT_ZOOM_INDEX;
         _snapshotDialogs =  new ArrayList();
         _numberOfSnapshots = 0;
 
@@ -149,7 +151,8 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         add( toolPanel, BorderLayout.NORTH );
         add( chartPanel, BorderLayout.CENTER );
         
-        updateRange();
+        _zoomIndex = -1; // force an update
+        setZoomIndex( DEFAULT_ZOOM_INDEX );
     }
     
     public void cleanup() {
@@ -300,8 +303,47 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     // Setters and getters
     //----------------------------------------------------------------------------
 
+    /**
+     * Converts the histogram chart to an image.
+     * This is used to create snapshots of the histogram.
+     * 
+     * @return Image
+     */
     public Image getSnapshotImage() {
         return _snapshotNode.toImage();
+    }
+    
+    /**
+     * Sets the zoom index.
+     * 
+     * @param zoomIndex
+     */
+    public void setZoomIndex( int zoomIndex ) {
+        if ( zoomIndex < 0 || zoomIndex > ZOOM_SPECS.length - 1 ) {
+            throw new IndexOutOfBoundsException( "zoomIndex out of bounds: " + zoomIndex );
+        }
+        if ( zoomIndex != _zoomIndex ) {
+            _zoomIndex = zoomIndex;
+            ZoomSpec zoomSpec = ZOOM_SPECS[_zoomIndex];
+            // Update the histogram's x-axis range
+            _plot.setPositionRange( -zoomSpec.range, zoomSpec.range, zoomSpec.binWidth );
+            // Update the bin width display
+            _binWidthNode.setText( _binWidthString + " " + BIN_WIDTH_FORMAT.format( zoomSpec.binWidth ) + " " + _unitsString );
+            // Enable/disable zoom buttons
+            _zoomInButton.setEnabled( _zoomIndex != 0 );
+            _zoomOutButton.setEnabled( _zoomIndex != ZOOM_SPECS.length - 1 );
+            // Set measurements to zero
+            clearMeasurements();
+        }
+    }
+    
+    /**
+     * Gets the zoom index.
+     * 
+     * @return int
+     */
+    public int getZoomIndex() {
+        return _zoomIndex;
     }
     
     //----------------------------------------------------------------------------
@@ -340,7 +382,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
             setNumberOfMeasurements( 0 );
         }
     }
-
+    
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
@@ -350,28 +392,26 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     }
 
     private void handleZoomInButton() {
-        _zoomIndex--;
-        updateRange();
+        int newZoomIndex = _zoomIndex - 1;
+        setZoomIndex( newZoomIndex );
     }
     
     private void handleZoomOutButton() {
-        _zoomIndex++;
-        updateRange();
-    }
-    
-    private void updateRange() {
-        ZoomSpec zoomSpec = ZOOM_SPECS[ _zoomIndex ];
-        _plot.setPositionRange( -zoomSpec.range, zoomSpec.range, zoomSpec.binWidth );
-        _binWidthNode.setText( _binWidthString + " " + BIN_WIDTH_FORMAT.format( zoomSpec.binWidth ) + " " + _unitsString );
-        _zoomInButton.setEnabled( _zoomIndex != 0 );
-        _zoomOutButton.setEnabled( _zoomIndex != ZOOM_SPECS.length - 1 );
-        clearMeasurements();
+        int newZoomIndex = _zoomIndex + 1;
+        setZoomIndex( newZoomIndex );
     }
     
     private void handleSnapshotButton() {
+        // Create a snapshot dialog and add it to the list
         String title = _positionHistogramSnapshotTitle + " " + (++_numberOfSnapshots);
-        JDialog snapshotDialog = new PositionHistogramSnapshotDialog( PhetApplication.instance().getPhetFrame(), title, this );
+        JDialog snapshotDialog = new PositionHistogramSnapshotDialog( _snapshotDialogOwner, title, this );
         _snapshotDialogs.add( snapshotDialog );
+        // Position the dialog below the main histogram dialog
+        final int offset = ( _numberOfSnapshots * SNAPSOT_DIALOG_OFFEST ) % 200;
+        int x = (int)_snapshotDialogOwner.getLocation().getX() + offset;
+        int y = (int)_snapshotDialogOwner.getLocation().getY() + (int)_snapshotDialogOwner.getHeight() + offset;
+        snapshotDialog.setLocation( x, y );
+        // Show the dialog
         snapshotDialog.show();
     }
 
