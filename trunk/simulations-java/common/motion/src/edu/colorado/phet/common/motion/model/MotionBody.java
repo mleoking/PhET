@@ -27,6 +27,10 @@ public class MotionBody implements IUpdateStrategy {
 
     public void stepInTime( double time, double dt ) {
         motionBodySeries.stepInTime( time, motionBodyState, dt );
+        updateStateFromSeries();
+    }
+
+    public void updateStateFromSeries() {
         motionBodyState.setPosition( motionBodySeries.getXTimeSeries().getValue() );
         motionBodyState.setVelocity( motionBodySeries.getVTimeSeries().getValue() );
         motionBodyState.setAcceleration( motionBodySeries.getATimeSeries().getValue() );
