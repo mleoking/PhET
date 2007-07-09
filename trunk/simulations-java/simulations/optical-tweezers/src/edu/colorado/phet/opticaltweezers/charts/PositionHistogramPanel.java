@@ -6,19 +6,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.ValueMarker;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
@@ -27,8 +27,10 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.dialog.PositionHistogramSnapshotDialog;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -88,16 +90,21 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private PositionHistogramPlot _plot;
     private PText _measurementsNode;
     private PText _binWidthNode;
+    private PNode _snapshotNode;
 
     private String _measurementsString;
     private String _startString, _stopString;
     private String _binWidthString;
     private String _unitsString;
+    private String _positionHistogramSnapshotTitle;
 
     private boolean _isRunning;
     private int _numberOfMeasurements;
     private int _zoomIndex;
 
+    private ArrayList _snapshotDialogs;
+    private int _numberOfSnapshots;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -131,6 +138,8 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _isRunning = DEFAULT_IS_RUNNING;
         _numberOfMeasurements = 0;
         _zoomIndex = DEFAULT_ZOOM_INDEX;
+        _snapshotDialogs =  new ArrayList();
+        _numberOfSnapshots = 0;
 
         JPanel toolPanel = createToolPanel( font );
 
@@ -144,8 +153,16 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     }
     
     public void cleanup() {
+        
         _clock.removeClockListener( _clockListener );
         _laser.deleteObserver( this );
+        
+        // Close all snapshot dialogs
+        Iterator i = _snapshotDialogs.iterator();
+        while ( i.hasNext() ) {
+            ((JDialog)i.next()).dispose();
+        }
+        _snapshotDialogs.clear();
     }
 
     //----------------------------------------------------------------------------
@@ -162,6 +179,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _stopString = OTResources.getString( "button.stop" );
         _binWidthString = OTResources.getString( "label.binWidth" );
         _unitsString = OTResources.getString( "units.position" );
+        _positionHistogramSnapshotTitle = OTResources.getString( "title.positionHistogramSnapshot" );
 
         _startStopButton = new JButton( _isRunning ? _stopString : _startString );
         _startStopButton.setFont( font );
@@ -229,10 +247,6 @@ public class PositionHistogramPanel extends JPanel implements Observer {
             toolLayout.addComponent( _rulerButton, row, column++, 1, 1, GridBagConstraints.EAST );
         }
 
-        //XXX features not implemented
-        _snapshotButton.setEnabled( false );
-        _rulerButton.setEnabled( false );
-        
         return toolPanel;
     }
 
@@ -243,8 +257,8 @@ public class PositionHistogramPanel extends JPanel implements Observer {
 
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( CHART_SIZE );
-        PComposite parentNode = new PComposite();
-        canvas.getLayer().addChild( parentNode );
+        _snapshotNode = new PComposite();
+        canvas.getLayer().addChild( _snapshotNode );
         
         _plot = new PositionHistogramPlot();
 
@@ -258,16 +272,16 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         chartNode.setChildrenPickable( false );
         chartNode.setBounds( 0, 0, CHART_SIZE.width, CHART_SIZE.height );
         chartNode.updateChartRenderingInfo();
-        parentNode.addChild( chartNode );
+        _snapshotNode.addChild( chartNode );
         
         _measurementsNode = new PText( "?" );
         _measurementsNode.setOffset( 10, 10 );
         setNumberOfMeasurements( _numberOfMeasurements );
-        parentNode.addChild( _measurementsNode );
+        _snapshotNode.addChild( _measurementsNode );
         
         _binWidthNode = new PText();
         _binWidthNode.setOffset( _measurementsNode.getXOffset(), _measurementsNode.getFullBounds().getMaxY() + 3 );
-        parentNode.addChild( _binWidthNode );
+        _snapshotNode.addChild( _binWidthNode );
         
         JPanel panel = new JPanel();
         panel.add( canvas );
@@ -282,6 +296,14 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         return panel;
     }
 
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+
+    public Image getSnapshotImage() {
+        return _snapshotNode.toImage();
+    }
+    
     //----------------------------------------------------------------------------
     // private setters
     //----------------------------------------------------------------------------
@@ -347,7 +369,10 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     }
     
     private void handleSnapshotButton() {
-        System.out.println( "PositionHistogramPanel.handleSnapshotButton" );//XXX
+        String title = _positionHistogramSnapshotTitle + " " + (++_numberOfSnapshots);
+        JDialog snapshotDialog = new PositionHistogramSnapshotDialog( PhetApplication.instance().getPhetFrame(), title, this );
+        _snapshotDialogs.add( snapshotDialog );
+        snapshotDialog.show();
     }
 
     private void handleRulerButton() {
