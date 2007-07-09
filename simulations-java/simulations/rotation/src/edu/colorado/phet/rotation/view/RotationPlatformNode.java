@@ -27,6 +27,12 @@ public class RotationPlatformNode extends PNode {
     private PNode contentNode;
     private double angle = 0.0;
     private RotationPlatform rotationPlatform;
+    private PhetPPath verticalCrossHair;
+    private PhetPPath horizontalCrossHair;
+
+    private double handleWidth = 10;
+    private double handleHeight = 10;
+    private PhetPPath handleNode;
 
     public RotationPlatformNode( final IPositionDriven environment, final RotationPlatform rotationPlatform ) {
         this.rotationPlatform = rotationPlatform;
@@ -38,15 +44,13 @@ public class RotationPlatformNode extends PNode {
         addRingNode( getRadius() * 0.5 / 2.0, Color.white );
         addRingNode( getRadius() * 0.01 / 2.0, Color.white );
 
-        PhetPPath verticalCrossHair = new PhetPPath( new Line2D.Double( getRadius(), 0, getRadius(), getRadius() * 2 ), new BasicStroke( 2 ), Color.black );
+        verticalCrossHair = new PhetPPath( getVerticalCrossHairPath(), new BasicStroke( 2 ), Color.black );
         contentNode.addChild( verticalCrossHair );
 
-        PhetPPath horizontalCrossHair = new PhetPPath( new Line2D.Double( 0, getRadius(), getRadius() * 2, getRadius() ), new BasicStroke( 2 ), Color.black );
+        horizontalCrossHair = new PhetPPath( getHorizontalCrossHairPath(), new BasicStroke( 2 ), Color.black );
         contentNode.addChild( horizontalCrossHair );
 
-        double handleWidth = 10;
-        double handleHeight = 10;
-        PhetPPath handleNode = new PhetPPath( new Rectangle2D.Double( getRadius() * 2, getRadius() - handleHeight / 2, handleWidth, handleHeight ), Color.blue, new BasicStroke( 1 ), Color.black );
+        handleNode = new PhetPPath( createHandlePath(), Color.blue, new BasicStroke( 1 ), Color.black );
         contentNode.addChild( handleNode );
 
         addChild( contentNode );
@@ -98,14 +102,32 @@ public class RotationPlatformNode extends PNode {
         } );
     }
 
+    private Rectangle2D.Double createHandlePath() {
+        return new Rectangle2D.Double( getRadius() * 2, getRadius() - handleHeight / 2, handleWidth, handleHeight );
+    }
+
+    private Line2D.Double getHorizontalCrossHairPath() {
+        return new Line2D.Double( rotationPlatform.getCenter().getX()-getRadius(), rotationPlatform.getCenter().getY(),
+                                  rotationPlatform.getCenter().getX()+getRadius(), rotationPlatform.getCenter().getY());
+    }
+
+    private Line2D.Double getVerticalCrossHairPath() {
+        return new Line2D.Double( rotationPlatform.getCenter().getX(),rotationPlatform.getCenter().getY()-getRadius(),
+                                  rotationPlatform.getCenter().getX(),rotationPlatform.getCenter().getY()+getRadius());
+    }
+
     private void updateRadius() {
         for( int i = 0; i < contentNode.getChildrenCount(); i++ ) {
             PNode child = contentNode.getChild( i );
             if( child instanceof RingNode ) {
                 RingNode node = (RingNode)child;
-                node.setRadius( rotationPlatform.getRadius() );
+                node.setState( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), rotationPlatform.getRadius() );
             }
         }
+        verticalCrossHair.setPathTo( getVerticalCrossHairPath() );
+        horizontalCrossHair.setPathTo( getHorizontalCrossHairPath() );
+        handleNode.setPathTo( createHandlePath() );
+        updateAngle();
     }
 
     private double getRadius() {
@@ -113,17 +135,20 @@ public class RotationPlatformNode extends PNode {
     }
 
     private void addRingNode( double radius, Color color ) {
-        contentNode.addChild( new RingNode( getRadius(), getRadius(), radius, color ) );
+        contentNode.addChild( new RingNode( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), radius, color ) );
     }
 
     private void setAngle( double angle ) {
         if( this.angle != angle ) {
             this.angle = angle;
-            contentNode.setRotation( 0 );
-            contentNode.setOffset( 0, 0 );
-            contentNode.translate( rotationPlatform.getCenter().getX() - getRadius(), rotationPlatform.getCenter().getY() - getRadius() );
-            contentNode.rotateAboutPoint( angle, rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() );
+            updateAngle();
         }
+    }
+
+    private void updateAngle() {
+        contentNode.setRotation( 0 );
+        contentNode.setOffset( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY());
+        contentNode.rotateAboutPoint( angle, rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() );
     }
 
     public double getAngle() {
@@ -137,19 +162,23 @@ public class RotationPlatformNode extends PNode {
         private double radius;
 
         public RingNode( double x, double y, double radius, Color color ) {
-            this.x = x;
-            this.y = y;
-            this.radius = radius;
-            path = new PhetPPath( createPath(), color, new BasicStroke( 1 ), Color.black );
+            path = new PhetPPath( null, color, new BasicStroke( 1 ), Color.black );
             addChild( path );
+            setState( x, y, radius );
         }
 
         private Ellipse2D.Double createPath() {
             return new Ellipse2D.Double( x - radius, y - radius, radius * 2, radius * 2 );
         }
 
-        public void setRadius( double radius ) {
+        public void setState( double x, double y, double radius ) {
+            this.x = x;
+            this.y = y;
             this.radius = radius;
+            updatePath();
+        }
+
+        private void updatePath() {
             path.setPathTo( createPath() );
         }
     }
