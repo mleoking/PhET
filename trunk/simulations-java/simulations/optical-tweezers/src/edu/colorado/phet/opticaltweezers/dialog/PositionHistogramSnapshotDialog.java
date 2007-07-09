@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.dialog;
 
-import java.awt.Frame;
+import java.awt.Dialog;
 import java.awt.Image;
 
 import javax.swing.Icon;
@@ -25,7 +25,7 @@ public class PositionHistogramSnapshotDialog extends JDialog {
      * @param owner parent of this dialog
      * @param positionHistogramPanel
      */
-    public PositionHistogramSnapshotDialog( Frame owner, String title, PositionHistogramPanel positionHistogramPanel ) {
+    public PositionHistogramSnapshotDialog( Dialog owner, String title, PositionHistogramPanel positionHistogramPanel ) {
         super( owner );
         assert( owner != null );
         

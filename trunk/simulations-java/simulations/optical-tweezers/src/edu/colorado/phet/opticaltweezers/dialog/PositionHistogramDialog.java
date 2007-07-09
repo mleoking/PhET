@@ -40,9 +40,12 @@ public class PositionHistogramDialog extends JDialog {
         setModal( false );
         setTitle( OTResources.getString( "title.positionHistogram" ) );
         
-        _panel = new PositionHistogramPanel( font, clock, bead, laser );
+        _panel = new PositionHistogramPanel( this, font, clock, bead, laser );
         getContentPane().add( _panel );
         pack();
+        
+        // Place the dialog at the upper-left corner of the parent frame
+        setLocation( owner.getLocation() );
     }
     
     /**
@@ -51,5 +54,9 @@ public class PositionHistogramDialog extends JDialog {
     public void dispose() {
         _panel.cleanup();
         super.dispose();
+    }
+    
+    public int getZoomIndex() {
+        return _panel.getZoomIndex();
     }
 }

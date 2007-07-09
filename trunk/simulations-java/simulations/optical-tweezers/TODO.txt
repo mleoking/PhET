@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 AAPT:
-- histogram: initial position of dialog
-- histogram: initial position of snapshots
 - histogram: ruler, unconstrained drag, default position centered, sync labeling with x-axis range, ruler icon to show/hide
 - histogram: javadoc
 - change "force on bead" model in slow mode
@@ -61,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+7/9/07 - histogram: initial position of main dialog and snapshots
 7/8/07 - histogram: add snapshot feature
 7/8/07 - histogram: set zoom ranges a little bigger than desired so min/max tick labels are visible
 ********* version 0.00.18 (16414)
