@@ -45,12 +45,15 @@ public class TorqueControlPanel extends JPanel {
         return new GridBagConstraints( gridX, gridY, gridWidth, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets( 10, 10, 10, 10 ), 0, 0 );
     }
 
-    static class TorqueSlider extends LinearValueControl {
-
+    public static class TorqueSlider extends LinearValueControl {
         public TorqueSlider( double min, double max, String label, String textFieldPattern, String units ) {
             super( min, max, label, textFieldPattern, units, new TorqueSliderLayout() );
-            setMinorTicksVisible( false );
-            setMajorTicksVisible( false );
+            setMinorTickSpacing( (max-min)/20.0);
+            setMajorTickSpacing( (max-min)/5.0);
+            setPaintLabels(false);
+//            clearTickLabels();
+//            setMinorTicksVisible( false );
+//            setMajorTicksVisible( false );
         }
     }
 

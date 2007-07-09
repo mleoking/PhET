@@ -73,6 +73,7 @@ public abstract class AbstractValueControl extends JPanel {
     private TextFieldListener _textFieldListener; // handles events related to textfield
     private SliderListener _sliderListener; // handles events related to the slider
     private boolean _initialized; // true when the constructor has completed
+    private boolean paintLabels=true;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -442,6 +443,15 @@ public abstract class AbstractValueControl extends JPanel {
     }
 
     /**
+     * Sets whether the labels should be painted.  This is also determined by whether _minorTicksVisible and _majorTicksVisible are true.
+     * @param paintLabels true if the labels should be visible.
+     */
+    public void setPaintLabels(boolean paintLabels){
+        this.paintLabels=paintLabels;
+        updateTickLabels();
+    }
+
+    /**
      * Sets the spacing between minor tick marks.
      * 
      * @param tickSpacing in model coordinates
@@ -582,7 +592,7 @@ public abstract class AbstractValueControl extends JPanel {
             _slider.setMinorTickSpacing( _slider.modelToSlider( min + _minorTickSpacing ) );
         }
         _slider.setPaintTicks( _minorTicksVisible || _majorTicksVisible );
-        _slider.setPaintLabels( _minorTicksVisible || _majorTicksVisible );
+        _slider.setPaintLabels( ( _minorTicksVisible || _majorTicksVisible ) && paintLabels );
         
         if ( _labelTable != null ) {
             // Use the labels provided via addTickLabel.
