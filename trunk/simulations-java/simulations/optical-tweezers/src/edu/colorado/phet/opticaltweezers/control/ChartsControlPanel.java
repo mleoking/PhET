@@ -47,6 +47,7 @@ public class ChartsControlPanel extends JPanel {
     
     private PositionHistogramDialog _positionHistogramDialog;
     private int _positionHistogramZoomIndex;
+    private boolean _positionHistogramRulerVisible;
 
     private JCheckBox _positionHistogramCheckBox;
     private JCheckBox _potentialEnergyChartCheckBox;
@@ -80,6 +81,7 @@ public class ChartsControlPanel extends JPanel {
         
         _positionHistogramDialog = null;
         _positionHistogramZoomIndex = -1; // force an update
+        _positionHistogramRulerVisible = false;
 
         JLabel titleLabel = new JLabel( OTResources.getString( "title.chartsControlPanel" ) );
         titleLabel.setFont( titleFont );
@@ -184,6 +186,7 @@ public class ChartsControlPanel extends JPanel {
             // called by JDialog.dispose
             public void windowClosed( WindowEvent e ) {
                 _positionHistogramZoomIndex = _positionHistogramDialog.getPanel().getZoomIndex();
+                _positionHistogramRulerVisible = _positionHistogramDialog.getPanel().isRulerVisible();
                 _positionHistogramDialog = null;
                 _positionHistogramCheckBox.setSelected( false );
                 _laserNode.setOriginMarkerVisible( false );
@@ -197,6 +200,9 @@ public class ChartsControlPanel extends JPanel {
             _positionHistogramDialog.getPanel().setZoomIndex( _positionHistogramZoomIndex );
         }
         
+        // Restore the ruler visibility
+        _positionHistogramDialog.getPanel().setRulerVisible( _positionHistogramRulerVisible );
+        
         // Position at the lower-left of the main frame
         _positionHistogramDialog.show();
     }
@@ -204,6 +210,7 @@ public class ChartsControlPanel extends JPanel {
     private void closePositionHistogramDialog() {
         if ( _positionHistogramDialog != null ) {
             _positionHistogramZoomIndex = _positionHistogramDialog.getPanel().getZoomIndex();
+            _positionHistogramRulerVisible = _positionHistogramDialog.getPanel().isRulerVisible();
             _positionHistogramDialog.dispose();
             _positionHistogramDialog = null;
         }
