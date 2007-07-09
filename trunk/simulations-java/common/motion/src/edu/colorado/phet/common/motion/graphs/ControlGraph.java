@@ -72,10 +72,10 @@ public class ControlGraph extends PNode {
         dynamicJFreeChartNode = new DynamicJFreeChartNode( pSwingCanvas, jFreeChart );
         dynamicJFreeChartNode.setBuffered( true );
         dynamicJFreeChartNode.setBounds( 0, 0, 300, 400 );
-        dynamicJFreeChartNode.setPiccoloSeries();
+//        dynamicJFreeChartNode.setPiccoloSeries();
 //        dynamicJFreeChartNode.setJFreeChartSeries();
 //        dynamicJFreeChartNode.setBufferedSeries();
-//        dynamicJFreeChartNode.setBufferedImmediateSeries();
+        dynamicJFreeChartNode.setBufferedImmediateSeries();
 
         graphTimeControlNode = new GraphTimeControlNode( timeSeriesModel );
         addSeries( title, color, abbr, simulationVariable, observableTimeSeries );
