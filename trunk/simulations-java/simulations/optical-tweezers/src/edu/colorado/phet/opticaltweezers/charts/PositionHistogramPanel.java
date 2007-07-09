@@ -34,6 +34,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.dialog.PositionHistogramSnapshotDialog;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
+import edu.colorado.phet.opticaltweezers.util.ColorUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -126,6 +127,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     // Ruler properties
     private static final double RULER_HEIGHT = 30;
     private static final int RULER_FONT_SIZE = 10;
+    private static final Color RULER_COLOR = new Color( 236, 225, 113, 150 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -560,6 +562,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _rulerNode = new RulerNode( distanceBetweenFirstAndLastTick, RULER_HEIGHT, majorTickLabels, _unitsString, numMinorTicksBetweenMajors, RULER_FONT_SIZE );
         _rulerParentNode.addChild( _rulerNode );
         _rulerNode.addInputEventListener( new CursorHandler() );
+        _rulerNode.setBackgroundPaint( RULER_COLOR );
         
         // constraint the ruler's drag bounds
         final int minPixelsVisible = 20;
