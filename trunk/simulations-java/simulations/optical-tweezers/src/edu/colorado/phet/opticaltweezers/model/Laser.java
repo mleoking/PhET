@@ -51,6 +51,7 @@ public class Laser extends MovableObject implements ModelElement {
     private DoubleRange _electricFieldScaleRange;
     private double _electricFieldScale;
     private double _electricFieldTime;
+    private OTClock _clock;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -70,10 +71,12 @@ public class Laser extends MovableObject implements ModelElement {
      * @param power power (mW)
      * @param trapForceRatioRange
      * @param electricFieldScaleRange
+     * @param clock
      */
     public Laser( Point2D position, double orientation, 
             double diameterAtObjective, double diameterAtWaist, double distanceFromObjectiveToWaist, double distanceFromObjectiveToControlPanel,
-            double wavelength, double visibleWavelength, DoubleRange powerRange, DoubleRange trapForceRatioRange, DoubleRange electricFieldScaleRange ) {
+            double wavelength, double visibleWavelength, DoubleRange powerRange, DoubleRange trapForceRatioRange, DoubleRange electricFieldScaleRange,
+            OTClock clock ) {
         super( position, orientation, 0 /* speed */ );
         
         _running = false;
@@ -90,6 +93,7 @@ public class Laser extends MovableObject implements ModelElement {
         _electricFieldScaleRange = electricFieldScaleRange;
         _electricFieldScale = _electricFieldScaleRange.getDefault();
         _electricFieldTime = 0;
+        _clock = clock;
     }
     
     //----------------------------------------------------------------------------
@@ -523,7 +527,19 @@ public class Laser extends MovableObject implements ModelElement {
     
     public void stepInTime( double dt ) {
         if ( _running ) {
-            _electricFieldTime += dt;
+            
+            /*
+             * The E-field model only applies when the clock dt is in the "slow" range.
+             * When dt is in the "fast" range, run the model at the fastest speed, so
+             * that we get a field that looks crazy.
+             */
+            if ( dt <= _clock.getSlowRange().getMax() ) {
+                _electricFieldTime += dt;
+            }
+            else {
+                _electricFieldTime += _clock.getFastRange().getMax();
+            }
+            
             notifyObservers( PROPERTY_ELECTRIC_FIELD );
         }
     }

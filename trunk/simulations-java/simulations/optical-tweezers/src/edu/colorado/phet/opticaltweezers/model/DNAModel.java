@@ -67,7 +67,8 @@ public class DNAModel extends ClockAdapter {
                 DNADefaults.LASER_VISIBLE_WAVELENGTH,
                 DNADefaults.LASER_POWER_RANGE,
                 DNADefaults.LASER_TRAP_FORCE_RATIO,
-                DNADefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE );
+                DNADefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE,
+                clock );
         _modelElements.add( _laser );
         
         _bead = new Bead( DNADefaults.BEAD_POSITION, 
