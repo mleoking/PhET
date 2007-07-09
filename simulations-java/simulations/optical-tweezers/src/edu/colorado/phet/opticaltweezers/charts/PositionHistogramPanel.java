@@ -151,7 +151,6 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         add( toolPanel, BorderLayout.NORTH );
         add( chartPanel, BorderLayout.CENTER );
         
-        _zoomIndex = -1; // force an update
         setZoomIndex( DEFAULT_ZOOM_INDEX );
     }
     
@@ -322,19 +321,17 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         if ( zoomIndex < 0 || zoomIndex > ZOOM_SPECS.length - 1 ) {
             throw new IndexOutOfBoundsException( "zoomIndex out of bounds: " + zoomIndex );
         }
-        if ( zoomIndex != _zoomIndex ) {
-            _zoomIndex = zoomIndex;
-            ZoomSpec zoomSpec = ZOOM_SPECS[_zoomIndex];
-            // Update the histogram's x-axis range
-            _plot.setPositionRange( -zoomSpec.range, zoomSpec.range, zoomSpec.binWidth );
-            // Update the bin width display
-            _binWidthNode.setText( _binWidthString + " " + BIN_WIDTH_FORMAT.format( zoomSpec.binWidth ) + " " + _unitsString );
-            // Enable/disable zoom buttons
-            _zoomInButton.setEnabled( _zoomIndex != 0 );
-            _zoomOutButton.setEnabled( _zoomIndex != ZOOM_SPECS.length - 1 );
-            // Set measurements to zero
-            clearMeasurements();
-        }
+        _zoomIndex = zoomIndex;
+        ZoomSpec zoomSpec = ZOOM_SPECS[_zoomIndex];
+        // Update the histogram's x-axis range
+        _plot.setPositionRange( -zoomSpec.range, zoomSpec.range, zoomSpec.binWidth );
+        // Update the bin width display
+        _binWidthNode.setText( _binWidthString + " " + BIN_WIDTH_FORMAT.format( zoomSpec.binWidth ) + " " + _unitsString );
+        // Enable/disable zoom buttons
+        _zoomInButton.setEnabled( _zoomIndex != 0 );
+        _zoomOutButton.setEnabled( _zoomIndex != ZOOM_SPECS.length - 1 );
+        // Set measurements to zero
+        clearMeasurements();
     }
     
     /**

@@ -59,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+7/9/07 - histogram: restore zoom index when dialog is reopened
 7/9/07 - histogram: initial position of main dialog and snapshots
 7/8/07 - histogram: add snapshot feature
 7/8/07 - histogram: set zoom ranges a little bigger than desired so min/max tick labels are visible

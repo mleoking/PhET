@@ -14,7 +14,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -46,7 +45,8 @@ public class ChartsControlPanel extends JPanel {
     private PNode _potentialEnergyNode;
     private LaserNode _laserNode;
     
-    private JDialog _positionHistogramDialog;
+    private PositionHistogramDialog _positionHistogramDialog;
+    private int _positionHistogramZoomIndex;
 
     private JCheckBox _positionHistogramCheckBox;
     private JCheckBox _potentialEnergyChartCheckBox;
@@ -79,6 +79,7 @@ public class ChartsControlPanel extends JPanel {
         _laserNode = laserNode;
         
         _positionHistogramDialog = null;
+        _positionHistogramZoomIndex = -1; // force an update
 
         JLabel titleLabel = new JLabel( OTResources.getString( "title.chartsControlPanel" ) );
         titleLabel.setFont( titleFont );
@@ -182,6 +183,7 @@ public class ChartsControlPanel extends JPanel {
 
             // called by JDialog.dispose
             public void windowClosed( WindowEvent e ) {
+                _positionHistogramZoomIndex = _positionHistogramDialog.getPanel().getZoomIndex();
                 _positionHistogramDialog = null;
                 _positionHistogramCheckBox.setSelected( false );
                 _laserNode.setOriginMarkerVisible( false );
@@ -190,12 +192,18 @@ public class ChartsControlPanel extends JPanel {
         
         _laserNode.setOriginMarkerVisible( true );
         
+        // Restore the zoom index
+        if ( _positionHistogramZoomIndex >= 0 ) {
+            _positionHistogramDialog.getPanel().setZoomIndex( _positionHistogramZoomIndex );
+        }
+        
         // Position at the lower-left of the main frame
         _positionHistogramDialog.show();
     }
     
     private void closePositionHistogramDialog() {
         if ( _positionHistogramDialog != null ) {
+            _positionHistogramZoomIndex = _positionHistogramDialog.getPanel().getZoomIndex();
             _positionHistogramDialog.dispose();
             _positionHistogramDialog = null;
         }
