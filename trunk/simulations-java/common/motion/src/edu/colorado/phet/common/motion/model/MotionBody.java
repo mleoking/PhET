@@ -67,8 +67,8 @@ public class MotionBody implements IUpdateStrategy {
         return motionBodyState.getPosition();
     }
 
-    public void setPosition( double position ){
-        motionBodyState.setPosition( position);
+    public void setPosition( double position ) {
+        motionBodyState.setPosition( position );
     }
 
     public ISimulationVariable getVVariable() {
@@ -117,7 +117,7 @@ public class MotionBody implements IUpdateStrategy {
         motionBodySeries.setUpdateStrategy( updateStrategy );
     }
 
-    public UpdateStrategy getUpdateStrategy(){
+    public UpdateStrategy getUpdateStrategy() {
         return motionBodySeries.getUpdateStrategy();
     }
 
@@ -132,7 +132,20 @@ public class MotionBody implements IUpdateStrategy {
     public VelocityDriven getVelocityDriven() {
         return motionBodySeries.getVelocityDriven();
     }
-    public AccelerationDriven getAccelDriven(){
+
+    public AccelerationDriven getAccelDriven() {
         return motionBodySeries.getAccelDriven();
+    }
+
+    public boolean isPositionDriven() {
+        return motionBodySeries.isPositionDriven();
+    }
+
+    public boolean isVelocityDriven() {
+        return motionBodySeries.isVelocityDriven();
+    }
+
+    public boolean isAccelerationDriven() {
+        return motionBodySeries.isAccelerationDriven();
     }
 }
