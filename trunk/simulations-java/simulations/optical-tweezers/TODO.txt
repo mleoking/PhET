@@ -58,6 +58,8 @@ MISSING INFO:
 
  
 DONE:
+7/9/07 - histogram: set zoom ranges a little bigger than desired so min/max tick labels are visible (again)
+7/9/07 - histogram: tweak ruler's major/minor ticks for each zoom level
 7/9/07 - histogram: sync ruler labeling with x-axis range
 7/9/07 - histogram: use light gray background color for snapshots
 7/9/07 - histogram: sync ruler scale with plot scale
