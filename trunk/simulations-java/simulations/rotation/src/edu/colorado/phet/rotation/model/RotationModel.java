@@ -25,6 +25,10 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     protected void setTime( double time ) {
         super.setTime( time );
         rotationPlatform.setTime( time );
+        for( int i = 0; i < rotationBodies.size(); i++ ) {
+            RotationBody rotationBody = (RotationBody)rotationBodies.get( i );
+            rotationBody.setTime(time);
+        }
     }
 
     public void stepInTime( double dt ) {

@@ -102,10 +102,10 @@ public class RotationBody {
         accelMagnitudeVariable.setValue( getAcceleration().getMagnitude() );
         accelMagnitudeSeries.addValue( getAcceleration().getMagnitude(), time );
 
-        notifySpeedAndAccelUpdated();
+        notifyVectorsUpdated();
     }
 
-    private void notifySpeedAndAccelUpdated() {
+    private void notifyVectorsUpdated() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.speedAndAccelerationUpdated();
@@ -142,7 +142,7 @@ public class RotationBody {
     }
 
     public void checkCentripetalAccel() {
-        if (rotationPlatform==null){
+        if( rotationPlatform == null ) {
             return;
         }
         Vector2D.Double cv = new Vector2D.Double( getPosition(), rotationPlatform.getCenter() );
@@ -150,8 +150,8 @@ public class RotationBody {
         //these should be colinear
         double angle = cv.getAngle() - av.getAngle();
 
-        if (Math.abs(angle)>1E-2&av.getMagnitude()>1E-9){
-            System.out.println( "RotationBody.updateBodyOnPlatform, angle="+angle );
+        if( Math.abs( angle ) > 1E-2 & av.getMagnitude() > 1E-9 ) {
+//            System.out.println( "RotationBody.updateBodyOnPlatform, angle="+angle );
         }
     }
 
@@ -249,6 +249,15 @@ public class RotationBody {
 
     public String getImageName() {
         return imageName;
+    }
+
+    public void setTime( double time ) {
+        xBody.setTime( time );
+        yBody.setTime( time );
+        accelMagnitudeVariable.setValue( accelMagnitudeSeries.getValueForTime( time ) );
+        speedVariable.setValue( speedSeries.getValueForTime( time ) );
+        notifyVectorsUpdated();
+        notifyPositionChanged();
     }
 
     private static abstract class UpdateStrategy implements Serializable {

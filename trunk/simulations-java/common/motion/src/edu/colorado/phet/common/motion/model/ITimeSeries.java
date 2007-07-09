@@ -25,6 +25,8 @@ public interface ITimeSeries {
 
     TimeData getMin();
 
+    double getValueForTime( double time );
+
     void addListener( Listener observableTimeSeriesListener );
 
     public static interface Listener {
