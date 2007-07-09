@@ -7,7 +7,6 @@ IN PROGRESS:
 AAPT:
 - histogram: don't clear histogram when zooming, keep observations and refill bins
 - histogram: ask JFreeChart to put 4 minor ticks between each major tick
-- histogram: add ruler to snapshot
 - histogram: throws an exception when changing modules
 - change "force on bead" model in slow mode
 - add description to About dialog
@@ -60,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+7/9/07 - histogram: add ruler to snapshot
 7/9/07 - histogram: make ruler translucent
 7/9/07 - when dt > slow.max, run E-field model using dt=fast.max
 ********* version 0.00.19 (16448)
