@@ -136,7 +136,7 @@ public class RotationPlatformNode extends PNode {
     }
 
     private void addRingNode( double fractionalRadius, Color color ) {
-        contentNode.addChild( new RingNode( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), fractionalRadius, color ) );
+        contentNode.addChild( new RingNode( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), fractionalRadius * getRadius(), color ) );
     }
 
     private void setAngle( double angle ) {
@@ -160,26 +160,21 @@ public class RotationPlatformNode extends PNode {
         private PhetPPath path;
         private double x;
         private double y;
-        private double fractionalRadius;
+        private double radius;
 
-        public RingNode( double x, double y, double fractionalRadius, Color color ) {
+        public RingNode( double x, double y, double radius, Color color ) {
             this.x = x;
             this.y = y;
-            this.fractionalRadius = fractionalRadius;
+            this.radius = radius;
             path = new PhetPPath( null, color, new BasicStroke( 1 ), Color.black );
             addChild( path );
             updatePath();
         }
 
         private Ellipse2D.Double createPath() {
-            double r = getRadius() * fractionalRadius;
+            double r = radius;
             return new Ellipse2D.Double( x - r, y - r, r * 2, r * 2 );
         }
-
-//        public void setState( double fractionalRadius ) {
-//            this.fractionalRadius = fractionalRadius;
-//            updatePath();
-//        }
 
         public void updatePath() {
             path.setPathTo( createPath() );
