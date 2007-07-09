@@ -43,7 +43,6 @@ public class PositionHistogramPlot extends XYPlot {
     // Instance data
     //----------------------------------------------------------------------------
     
-//    private final double _binWidth;
     private PhetHistogramDataset _dataset;
     private PhetHistogramSeries _series;
     private NumberAxis _xAxis;
