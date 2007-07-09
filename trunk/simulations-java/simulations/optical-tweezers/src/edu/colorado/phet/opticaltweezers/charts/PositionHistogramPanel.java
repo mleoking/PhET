@@ -64,6 +64,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private static final boolean DEFAULT_IS_RUNNING = true;
     private static final Dimension CHART_SIZE = new Dimension( 700, 150 );
     private static final Color CHART_BACKGROUND_COLOR = Color.WHITE;
+    private static final Color SNAPSHOT_BACKGROUND_COLOR = new Color( 225, 225, 225 );  // light gray
     
     private static final ZoomSpec[] ZOOM_SPECS = {
         // positionRange, binWidth, rulerMax, rulerMajorTickSpacing, rulerMinorTickSpacing
@@ -107,6 +108,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private PText _measurementsNode;
     private PText _binWidthNode;
     private PNode _snapshotNode;
+    private JFreeChart _chart;
     private JFreeChartNode _chartNode;
 
     private String _measurementsString;
@@ -287,6 +289,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         canvas.getLayer().addChild( _snapshotNode );
         
         _plot = new PositionHistogramPlot();
+        _plot.setBackgroundPaint( CHART_BACKGROUND_COLOR );
         
         // add a vertical marker at position=0
         Marker originMarker = new ValueMarker( 0 );
@@ -295,12 +298,12 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         originMarker.setStroke( ORIGIN_MARKER_STROKE );
         _plot.addDomainMarker(originMarker);
         
-        JFreeChart chart = new JFreeChart( null /* title */, null /* titleFont */, _plot, false /* createLegend */);
-        chart.setAntiAlias( true );
-        chart.setBorderVisible( true );
-        chart.setBackgroundPaint( CHART_BACKGROUND_COLOR );
+        _chart = new JFreeChart( null /* title */, null /* titleFont */, _plot, false /* createLegend */);
+        _chart.setAntiAlias( true );
+        _chart.setBorderVisible( true );
+        _chart.setBackgroundPaint( CHART_BACKGROUND_COLOR );
         
-        _chartNode = new JFreeChartNode( chart );
+        _chartNode = new JFreeChartNode( _chart );
         _chartNode.setPickable( false );
         _chartNode.setChildrenPickable( false );
         _chartNode.setOffset( 0, 0 );
@@ -449,6 +452,9 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     }
     
     private void handleSnapshotButton() {
+        // Change the background color for the snapshot
+        _plot.setBackgroundPaint( SNAPSHOT_BACKGROUND_COLOR );
+        _chart.setBackgroundPaint( SNAPSHOT_BACKGROUND_COLOR );
         // Create a snapshot dialog and add it to the list
         String title = _positionHistogramSnapshotTitle + " " + (++_numberOfSnapshots);
         JDialog snapshotDialog = new PositionHistogramSnapshotDialog( _snapshotDialogOwner, title, this );
@@ -460,6 +466,9 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         snapshotDialog.setLocation( x, y );
         // Show the dialog
         snapshotDialog.show();
+        // Restore the background color
+        _plot.setBackgroundPaint( CHART_BACKGROUND_COLOR );
+        _chart.setBackgroundPaint( CHART_BACKGROUND_COLOR );
     }
 
     private void handleRulerButton() {

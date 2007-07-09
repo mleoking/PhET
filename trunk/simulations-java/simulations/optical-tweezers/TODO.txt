@@ -59,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+7/9/07 - histogram: use light gray background color for snapshots
 7/9/07 - histogram: sync ruler scale with plot scale
 7/9/07 - histogram: restore ruler visibility and position when reopening the dialog
 7/9/07 - histogram: set ruler's default position to center of chart
