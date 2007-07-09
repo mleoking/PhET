@@ -122,7 +122,7 @@ public class RotationPlatformNode extends PNode {
             PNode child = contentNode.getChild( i );
             if( child instanceof RingNode ) {
                 RingNode node = (RingNode)child;
-                node.updatePath();
+                node.setRadius( Math.min( node.getMaxRadius(), getRadius() ) );
             }
         }
         verticalCrossHair.setPathTo( getVerticalCrossHairPath() );
@@ -161,11 +161,13 @@ public class RotationPlatformNode extends PNode {
         private double x;
         private double y;
         private double radius;
+        private double maxRadius;
 
         public RingNode( double x, double y, double radius, Color color ) {
             this.x = x;
             this.y = y;
             this.radius = radius;
+            this.maxRadius = radius;
             path = new PhetPPath( null, color, new BasicStroke( 1 ), Color.black );
             addChild( path );
             updatePath();
@@ -176,7 +178,16 @@ public class RotationPlatformNode extends PNode {
             return new Ellipse2D.Double( x - r, y - r, r * 2, r * 2 );
         }
 
-        public void updatePath() {
+        public double getMaxRadius() {
+            return maxRadius;
+        }
+
+        public void setRadius( double radius ) {
+            this.radius = radius;
+            updatePath();
+        }
+
+        private void updatePath() {
             path.setPathTo( createPath() );
         }
     }
