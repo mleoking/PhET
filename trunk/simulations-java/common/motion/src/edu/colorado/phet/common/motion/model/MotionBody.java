@@ -117,6 +117,10 @@ public class MotionBody implements IUpdateStrategy {
         motionBodySeries.setUpdateStrategy( updateStrategy );
     }
 
+    public UpdateStrategy getUpdateStrategy(){
+        return motionBodySeries.getUpdateStrategy();
+    }
+
     public ITimeSeries getVTimeSeries() {
         return motionBodySeries.getVTimeSeries();
     }

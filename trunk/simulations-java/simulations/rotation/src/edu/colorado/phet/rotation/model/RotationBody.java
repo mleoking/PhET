@@ -26,7 +26,7 @@ public class RotationBody {
     private ISimulationVariable accelMagnitudeVariable;
     private ITimeSeries accelMagnitudeSeries;
     private String imageName;
-    private RotationPlatform rotationPlatform;
+    private RotationPlatform rotationPlatform;//the platform this body is riding on, or null if not on a platform
 
     public RotationBody() {
         this( "ladybug.gif" );
@@ -55,44 +55,9 @@ public class RotationBody {
         this.updateStrategy = updateStrategy;
     }
 
-//    class OnPlatformUpdateStrategy implements edu.colorado.phet.common.motion.model.UpdateStrategy {
-//        private RotationPlatform rotationPlatform;
-//        private boolean x;
-//
-//        public OnPlatformUpdateStrategy( RotationPlatform rotationPlatform, boolean x ) {
-//            this.rotationPlatform = rotationPlatform;
-//            this.x = x;
-//        }
-//
-//        public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {
-//            //say angular velocity is set for now
-//            double omega = rotationPlatform.getVelocity();
-//            //v=r*omega
-//            double r = rotationPlatform.getRadius();//todo fix this to be body-r
-//            AbstractVector2D vec = new Vector2D.Double( getPosition(), rotationPlatform.getCenter() ).getInstanceOfMagnitude( r * omega );
-//            double newVelocitycomponent = x ? vec.getX() : vec.getY();//todo: factor out to RotationBody update method
-//
-//            double newTheta = getAngle( rotationPlatform ) + omega * dt;
-//            AbstractVector2D newLocation = Vector2D.Double.parseAngleAndMagnitude( r, newTheta );
-//            double newPositionComponent = x ? newLocation.getX() : newLocation.getY();
-//            model.addPositionData( newPositionComponent, time );
-//            model.addVelocityData( newVelocitycomponent, time );
-//
-////            double newX = state.getPosition() + state.getVelocity() * dt;
-////            TimeData a = MotionMath.getDerivative( model.getRecentVelocityTimeSeries( Math.min( velWindow, model.getAccelerationSampleCount() ) ) );
-////
-////            model.addPositionData( newX, time );
-////            model.addVelocityData( state.getVelocity(), time );
-////            model.addAccelerationData( a.getValue(), a.getTime() + dt );//todo: why is it necessary that velocity be offset by dt in order to be correct?
-//
-//        }
-//    }
-
     public void setOnPlatform( RotationPlatform rotationPlatform ) {
         setUpdateStrategy( new OnPlatform( rotationPlatform ) );
         this.rotationPlatform = rotationPlatform;
-//        xBody.setUpdateStrategy( new OnPlatformUpdateStrategy( rotationPlatform, true ) );
-//        yBody.setUpdateStrategy( new OnPlatformUpdateStrategy( rotationPlatform, false ) );
     }
 
     public void addListener( Listener listener ) {
@@ -136,6 +101,15 @@ public class RotationBody {
 
         accelMagnitudeVariable.setValue( getAcceleration().getMagnitude() );
         accelMagnitudeSeries.addValue( getAcceleration().getMagnitude(), time );
+
+        notifySpeedAndAccelUpdated();
+    }
+
+    private void notifySpeedAndAccelUpdated() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.speedAndAccelerationUpdated();
+        }
     }
 
     //todo: handle position and acceleration driven motion
@@ -320,6 +294,8 @@ public class RotationBody {
 
     public static interface Listener {
         void positionChanged();
+
+        void speedAndAccelerationUpdated();
     }
 
     public void setPosition( double x, double y ) {

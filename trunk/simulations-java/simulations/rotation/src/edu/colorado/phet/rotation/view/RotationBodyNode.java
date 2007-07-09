@@ -58,6 +58,9 @@ public class RotationBodyNode extends PhetPNode {
             public void positionChanged() {
                 update();
             }
+
+            public void speedAndAccelerationUpdated() {
+            }
         } );
         update();
     }

@@ -143,4 +143,20 @@ public class MotionBodySeries {
     public void stepInTime( double time, MotionBodyState motionBodyState, double dt ) {
         updateStrategy.update( this, dt, motionBodyState, time );
     }
+
+    public UpdateStrategy getUpdateStrategy() {
+        return updateStrategy;
+    }
+
+    public boolean isPositionDriven() {
+        return updateStrategy == getPositionDriven();
+    }
+
+    public boolean isVelocityDriven() {
+        return updateStrategy == getVelocityDriven();
+    }
+
+    public boolean isAccelerationDriven() {
+        return updateStrategy == getAccelDriven();
+    }
 }
