@@ -1,8 +1,7 @@
 <?php
     include_once("sys-utils.php");
-    include_once("contrib-utils.php");
     
-    function web_create_random_password() {
+    function web_create_random_password($length = 7) {
         $chars = "abcdefghijkmnopqrstuvwxyz023456789";
         
         srand((double)microtime()*1000000);
@@ -10,7 +9,7 @@
         $i    = 0;
         $pass = '';
 
-        while ($i <= 7) {
+        while ($i <= $length) {
             $num  = rand() % 33;
             $tmp  = substr($chars, $num, 1);
             $pass = $pass . $tmp;
