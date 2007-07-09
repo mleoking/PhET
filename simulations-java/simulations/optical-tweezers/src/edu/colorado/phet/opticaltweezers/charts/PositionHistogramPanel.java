@@ -5,6 +5,7 @@ package edu.colorado.phet.opticaltweezers.charts;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,19 +19,22 @@ import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.ValueMarker;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.dialog.PositionHistogramSnapshotDialog;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -72,6 +76,9 @@ public class PositionHistogramPanel extends JPanel implements Observer {
  
     private static final int SNAPSOT_DIALOG_OFFEST = 10; // pixels
     
+    private static final double RULER_HEIGHT = 30;
+    private static final int RULER_FONT_SIZE = 10;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -106,6 +113,10 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private Dialog _snapshotDialogOwner;
     private ArrayList _snapshotDialogs;
     private int _numberOfSnapshots;
+    
+    private RulerNode _rulerNode;
+    private PNode _rulerParentNode;
+    private PNode _rulerDragBoundsNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -259,11 +270,21 @@ public class PositionHistogramPanel extends JPanel implements Observer {
 
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( CHART_SIZE );
+        
         _snapshotNode = new PComposite();
+        _snapshotNode.setPickable( false );
+        _snapshotNode.setChildrenPickable( false );
         canvas.getLayer().addChild( _snapshotNode );
         
         _plot = new PositionHistogramPlot();
-
+        
+        // add a vertical marker at position=0
+        Marker originMarker = new ValueMarker( 0 );
+        originMarker.setLabel("");
+        originMarker.setPaint( ORIGIN_MARKER_COLOR );
+        originMarker.setStroke( ORIGIN_MARKER_STROKE );
+        _plot.addDomainMarker(originMarker);
+        
         JFreeChart chart = new JFreeChart( null /* title */, null /* titleFont */, _plot, false /* createLegend */);
         chart.setAntiAlias( true );
         chart.setBorderVisible( true );
@@ -285,15 +306,11 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _binWidthNode.setOffset( _measurementsNode.getXOffset(), _measurementsNode.getFullBounds().getMaxY() + 3 );
         _snapshotNode.addChild( _binWidthNode );
         
+        _rulerParentNode = new PNode();
+        canvas.getLayer().addChild( _rulerParentNode );
+        
         JPanel panel = new JPanel();
         panel.add( canvas );
-        
-        // add a vertical marker at position=0
-        Marker originMarker = new ValueMarker( 0 );
-        originMarker.setLabel("");
-        originMarker.setPaint( ORIGIN_MARKER_COLOR );
-        originMarker.setStroke( ORIGIN_MARKER_STROKE );
-        _plot.addDomainMarker(originMarker);
 
         return panel;
     }
@@ -414,6 +431,34 @@ public class PositionHistogramPanel extends JPanel implements Observer {
 
     private void handleRulerButton() {
         System.out.println( "PositionHistogramPanel.handleRulerButton" );//XXX
+        if ( _rulerNode == null ) {
+            
+            // Create the ruler
+            double distanceBetweenFirstAndLastTick = 400; 
+            String[] majorTickLabels = { "0", "50", "100", "150" };
+            String units = "nm";
+            int numMinorTicksBetweenMajors = 4;
+            _rulerNode = new RulerNode( distanceBetweenFirstAndLastTick, RULER_HEIGHT, majorTickLabels, units, numMinorTicksBetweenMajors, RULER_FONT_SIZE );
+            _rulerParentNode.addChild( _rulerNode );
+            _rulerNode.setOffset( 20, 20 );
+            _rulerNode.addInputEventListener( new CursorHandler() );
+            
+            // Constraint the ruler's drag bounds
+            final int minPixelsVisible = 20;
+            double x = _snapshotNode.getFullBounds().getX() - _rulerNode.getFullBounds().getWidth() + minPixelsVisible;
+            double y = _snapshotNode.getFullBounds().getY();
+            double w = _snapshotNode.getFullBounds().getWidth() + ( 2 * _rulerNode.getFullBounds().getWidth() ) - ( 2 * minPixelsVisible );
+            double h = _snapshotNode.getFullBounds().getHeight();
+            _rulerDragBoundsNode = new PPath( new Rectangle2D.Double( x, y, w,h ) );
+            _rulerParentNode.addChild( _rulerDragBoundsNode );
+            _rulerNode.addInputEventListener( new BoundedDragHandler( _rulerNode, _rulerDragBoundsNode ) );
+        }
+        else {
+            // delete the ruler
+            _rulerParentNode.removeAllChildren();
+            _rulerNode = null;
+            _rulerDragBoundsNode = null;
+        }
     }
 
     /*
