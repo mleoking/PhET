@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 AAPT:
-- histogram: javadoc
 - change "force on bead" model in slow mode
 - when not in slow clock mode, always run E-field model using a dt that makes the field look like it's moving too fast to make sense of
 - add description to About dialog
@@ -58,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+7/9/07 - histogram: javadoc
 7/9/07 - histogram: set zoom ranges a little bigger than desired so min/max tick labels are visible (again)
 7/9/07 - histogram: tweak ruler's major/minor ticks for each zoom level
 7/9/07 - histogram: sync ruler labeling with x-axis range

@@ -40,14 +40,19 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * PositionHistogramPanel is a panel that displays a position histogram.
+ * PositionHistogramPanel is a panel that displays a histogram of the bead's position.
+ * The top panel contains control buttons.
+ * The bottom panel contains a histogram, ruler, and various display values.
+ * While running, the histogram makes observations of the bead's position,
+ * relative to the laser's position.
+ * When the laser is moved, the histogram data is cleared.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PositionHistogramPanel extends JPanel implements Observer {
     
-    /**
-     * ZoomSpec is a data structure that describes a zoom level.
+    /*
+     * ZoomLevel is a data structure that describes a zoom level.
      * The zoom level affects the histogram's x-axis, the bin width, and the layout of the ruler.
      */
     private static class ZoomLevel {
@@ -86,11 +91,16 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
+    // determines whether the chart is making observations when it's created
     private static final boolean DEFAULT_IS_RUNNING = true;
+    // size of the chart
     private static final Dimension CHART_SIZE = new Dimension( 700, 150 );
+    // normal background color for the chart and plot
     private static final Color CHART_BACKGROUND_COLOR = Color.WHITE;
+    // background color used for snapshots
     private static final Color SNAPSHOT_BACKGROUND_COLOR = new Color( 225, 225, 225 );  // light gray
     
+    // The zoom levels available using the zoom buttons
     private static final ZoomLevel[] ZOOM_LEVELS = {
         // positionRange, binWidth, rulerMax, rulerMajorTickSpacing, rulerMinorTickSpacing
         new ZoomLevel( 52, 0.25, 75, 5, 1 ),
@@ -102,14 +112,18 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     };
     private static final int DEFAULT_ZOOM_INDEX = 2;
     
+    // Format of the bin width display
     private static final DecimalFormat BIN_WIDTH_FORMAT = new DecimalFormat( "0.0#" );
     
+    // Properties for the "origin marker", vertical dashed line at x=0
     public static final Color ORIGIN_MARKER_COLOR = Color.BLACK;
     public static final Stroke ORIGIN_MARKER_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
  
+    // How far to offset each snapshot dialog when setting the dialog's position
     private static final int SNAPSOT_DIALOG_OFFEST = 10; // pixels
     
+    // Ruler properties
     private static final double RULER_HEIGHT = 30;
     private static final int RULER_FONT_SIZE = 10;
     
@@ -117,11 +131,12 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private IClock _clock;
-    private ClockListener _clockListener;
-    private Bead _bead;
-    private Laser _laser;
+    private IClock _clock; // an observation is made each time this clock ticks
+    private ClockListener _clockListener; // listens for clock ticks
+    private Bead _bead; // bead whose positiom we're observing
+    private Laser _laser; // histogram is reset whenever the laser moves
 
+    // control buttons that appear in the tool (upper) panel
     private JButton _startStopButton;
     private JButton _clearButton;
     private JButton _zoomInButton;
@@ -129,30 +144,32 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     private JButton _snapshotButton;
     private JButton _rulerButton;
 
+    // stuff that appears in the chart (lower) panel
     private PositionHistogramPlot _plot;
-    private PText _measurementsNode;
-    private PText _binWidthNode;
-    private PNode _snapshotNode;
+    private PText _measurementsNode;  // displays the number of measurements
+    private PText _binWidthNode; // displays the bin width
+    private PNode _snapshotNode; // all children of this node are included in snapshots
     private JFreeChart _chart;
     private JFreeChartNode _chartNode;
 
+    // localized strings
     private String _measurementsString;
     private String _startString, _stopString;
     private String _binWidthString;
     private String _unitsString;
     private String _positionHistogramSnapshotTitle;
 
-    private boolean _isRunning;
+    private boolean _isRunning; // is the histogram making observations?
     private int _numberOfMeasurements;
-    private int _zoomIndex;
+    private int _zoomIndex; // the current index into ZOOM_LEVELS
 
-    private Dialog _snapshotDialogOwner;
-    private ArrayList _snapshotDialogs;
-    private int _numberOfSnapshots;
+    private Dialog _snapshotDialogOwner; // owner of the snapshot dialogs
+    private ArrayList _snapshotDialogs; // list of PositionHistogramSnapshotDialog
+    private int _numberOfSnapshots; // number of snapshots, used to number the snapshots
     
-    private RulerNode _rulerNode;
-    private PNode _rulerParentNode;
-    private PNode _rulerDragBoundsNode;
+    private RulerNode _rulerNode; // the ruler
+    private PNode _rulerParentNode; // the ruler's parent
+    private PNode _rulerDragBoundsNode; // defines the ruler's drag bounds
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -189,6 +206,8 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _numberOfMeasurements = 0;
         _snapshotDialogs =  new ArrayList();
         _numberOfSnapshots = 0;
+        
+        initStrings();
 
         JPanel toolPanel = createToolPanel( font );
 
@@ -222,16 +241,21 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     //----------------------------------------------------------------------------
     
     /*
-     * Creates the tool panel that appears at the top of the dialog.
+     * Initialize localized strings.
      */
-    private JPanel createToolPanel( Font font ) {
-
+    private void initStrings() {
         _measurementsString = OTResources.getString( "label.measurements" );
         _startString = OTResources.getString( "button.start" );
         _stopString = OTResources.getString( "button.stop" );
         _binWidthString = OTResources.getString( "label.binWidth" );
         _unitsString = OTResources.getString( "units.position" );
         _positionHistogramSnapshotTitle = OTResources.getString( "title.positionHistogramSnapshot" );
+    }
+    
+    /*
+     * Creates the tool panel that appears at the top of the dialog.
+     */
+    private JPanel createToolPanel( Font font ) {
 
         _startStopButton = new JButton( _isRunning ? _stopString : _startString );
         _startStopButton.setFont( font );
@@ -303,7 +327,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     }
 
     /*
-     * Creates the Piccolo panel that contains the chart, ruler, etc.
+     * Creates the Piccolo panel that contains the histogram, ruler, etc.
      */
     private JPanel createChartPanel( Font font, Bead bead, Laser laser ) {
 
@@ -503,6 +527,9 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _rulerNode.setVisible( !_rulerNode.isVisible() );
     }
     
+    /*
+     * Updates the ruler to match the current zoom level.
+     */
     private void updateRuler() {
         
         // delete current ruler
@@ -552,6 +579,10 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _rulerNode.setVisible( rulerVisible );
     }
     
+    /*
+     * Given a ruler length in model coordinates,
+     * gets the ruler length in view (Piccolo) coordinates.
+     */
     private double getRulerNodeLength( double rulerModelLength ) {
         // chart coordinates
         Point2D cp0 = _chartNode.plotToNode( new Point2D.Double( 0, 0 ) );
@@ -578,6 +609,9 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     // Observer implementation
     //----------------------------------------------------------------------------
 
+    /**
+     * Clears the histogram when the laser is moved.
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _laser && arg == Laser.PROPERTY_POSITION ) {
             clearMeasurements();
