@@ -110,7 +110,6 @@ public class RotationBody {
         }
     }
 
-    //todo: this could be rewritten as a strategy that is switched when the rotationplatform strategy is changed
     private void updateBodyOnPlatform( double time, double dt ) {
         double omega = rotationPlatform.getVelocity();
         double r = getPosition().distance( rotationPlatform.getCenter() );
