@@ -422,8 +422,6 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _zoomOutButton.setEnabled( _zoomIndex != ZOOM_LEVELS.length - 1 );
         // Update the ruler
         updateRuler();
-        // Set measurements to zero
-        clearMeasurements();
     }
     
     /**

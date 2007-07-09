@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 AAPT:
-- histogram: don't clear histogram when zooming, keep observations and refill bins
-- histogram: ask JFreeChart to put 4 minor ticks between each major tick
 - histogram: throws an exception when changing modules
 - change "force on bead" model in slow mode
 - add description to About dialog
@@ -59,6 +57,8 @@ MISSING INFO:
 
  
 DONE:
+7/9/07 - histogram: set max size of observations cache to 10,000
+7/9/07 - histogram: don't clear histogram when zooming, cache observations and refill bins
 7/9/07 - histogram: add ruler to snapshot
 7/9/07 - histogram: make ruler translucent
 7/9/07 - when dt > slow.max, run E-field model using dt=fast.max
@@ -541,6 +541,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+7/9/07 - histogram: ask JFreeChart to put 4 minor ticks between each major tick (JFreeChart does not support minor ticks)
 7/2/07 - show DNA strand as a double helix (no one has asked for this)
 7/2/07 - DNA strand looks too straight initially, evolve a few times before displaying (no one has noticed this)
 7/2/07 - put wheels on laser control panel, make it slide horizontally on train tracks (made entire control panel draggable, added left-right cursor)
