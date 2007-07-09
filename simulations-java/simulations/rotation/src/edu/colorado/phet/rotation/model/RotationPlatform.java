@@ -13,9 +13,10 @@ import java.util.ArrayList;
 public class RotationPlatform extends MotionBody {
     private SerializablePoint2D center = new SerializablePoint2D( 200, 200 );
     private double radius = 200.0;
+    private double innerRadius = 0.0;
 
     public boolean containsPosition( Point2D loc ) {
-        return loc.distance( center ) < radius;
+        return loc.distance( center ) < radius&&loc.distance( center )>=innerRadius;
     }
 
     public Point2D getCenter() {
@@ -39,8 +40,28 @@ public class RotationPlatform extends MotionBody {
 
     private ArrayList listeners = new ArrayList();
 
+    public void setInnerRadius( double innerRadius ) {
+        if( this.innerRadius != innerRadius ) {
+            this.innerRadius = innerRadius;
+            notifyInnerRadiusChanged();
+        }
+    }
+
+    private void notifyInnerRadiusChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.innerRadiusChanged();
+        }
+    }
+
+    public double getInnerRadius() {
+        return innerRadius;
+    }
+
     public static interface Listener {
         void radiusChanged();
+
+        void innerRadiusChanged();
     }
 
     public void addListener( Listener listener ) {
