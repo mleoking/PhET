@@ -1,5 +1,5 @@
 <?php
-    include_once("db.inc");
+
     include_once("web-utils.php");
     
     function db_verify_mysql_result($result, $statement) {
@@ -38,9 +38,7 @@
     }
 
     function db_exec_query($statement) {
-        global $connection;
-    
-        $result = mysql_query($statement, $connection);
+        $result = mysql_query($statement);
     
         db_verify_mysql_result($result, $statement);
     
@@ -51,7 +49,15 @@
         return db_get_rows_by_condition($table_name);
     }
     
-    function db_get_rows_by_condition($table_name, $condition = array(), $fuzzy = false) {
+    function db_get_row_by_condition($table_name, $condition = array(), $fuzzy = false) {
+        $rows = db_get_rows_by_condition($table_name, $condition, $fuzzy);
+        
+        if (!$rows || count($rows) == 0) return false;
+        
+        return $rows[0];
+    }
+    
+    function db_get_rows_by_condition($table_name, $condition = array(), $fuzzy = false, $reformat = true) {
         $query = "SELECT * FROM `$table_name` ";
         
         $is_first = true;
@@ -85,7 +91,12 @@
         $rows = array();
         
         while ($row = mysql_fetch_assoc($result)) {
-            $rows[] = format_for_html($row);
+            if ($reformat) {
+                $rows[] = format_for_html($row);
+            }
+            else {
+                $rows[] = $row;
+            }
         }
         
         return $rows;
