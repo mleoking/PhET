@@ -1,4 +1,5 @@
-7-8-2007: Added exact motion model for specified angular acceleration. 
+0.00.16 (7-9-2007)
+Added exact motion model for specified angular acceleration. 
 
 0.00.14 (7-3-2007)
 Added a second character.
