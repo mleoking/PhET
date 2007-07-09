@@ -223,7 +223,7 @@ public class PhetHistogramSeries extends Series {
     private PhetHistogramBin getBin( int binIndex ) {
         return (PhetHistogramBin) bins.get( binIndex );
     }
-    
+   
     /**
      * Adds an observation to the proper bin.
      * Notifies all SeriesChangedListeners.
@@ -232,6 +232,17 @@ public class PhetHistogramSeries extends Series {
      * @throws IllegalArgumentException if the observation is out of range and getIgnoreOutOfRangeObservations if false
      */
     public void addObservation( double observation ) {
+        addObservation( observation, true );
+    }
+    
+    /**
+     * Adds an observation to the proper bin.
+     * 
+     * @param observation
+     * @param notifyListeners whether to notify all SeriesChangeListeners
+     * @throws IllegalArgumentException if the observation is out of range and getIgnoreOutOfRangeObservations if false
+     */
+    public void addObservation( double observation, boolean notifyListeners ) {
         if ( observation >= minimum && observation <= maximum ) {
             final int numberOfBins = getNumberOfBins();
             double fraction = ( observation - minimum ) / ( maximum - minimum );
@@ -245,7 +256,9 @@ public class PhetHistogramSeries extends Series {
             }
             getBin( binIndex ).increment();
             numberOfObservations++;
-            fireSeriesChanged();
+            if ( notifyListeners ) {
+                fireSeriesChanged();
+            }
         }
         else if ( !ignoreOutOfRangeObservations ) {
             throw new IllegalArgumentException( "series " + getKey() + " observation is out of range: " + observation );
