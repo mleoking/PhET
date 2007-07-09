@@ -80,7 +80,7 @@ public class RotationBody {
         return yBody.getPosition();
     }
 
-    public double getAngle( RotationPlatform rotationPlatform ) {
+    public double getAngleOnPlatform() {
         return new Vector2D.Double( rotationPlatform.getCenter(), getPosition() ).getAngle();
     }
 
@@ -112,20 +112,29 @@ public class RotationBody {
         }
     }
 
-    //todo: handle position and acceleration driven motion
+    //todo: could be strategies switched when the rotationplatform strategy is changed
     private void updateBodyOnPlatform( double time, double dt ) {
         double omega = rotationPlatform.getVelocity();
-        //v=r*omega
         double r = getPosition().distance( rotationPlatform.getCenter() );
 
-        double newTheta = getAngle( rotationPlatform ) + omega * dt;
-        Point2D newLocation = Vector2D.Double.parseAngleAndMagnitude( r, newTheta ).getDestination( rotationPlatform.getCenter() );
-        AbstractVector2D newVelocity = new Vector2D.Double( newLocation, rotationPlatform.getCenter() ).getInstanceOfMagnitude( r * omega ).getNormalVector();
-        AbstractVector2D newAccel = new Vector2D.Double( newLocation, rotationPlatform.getCenter() ).getInstanceOfMagnitude( r * omega * omega );
+        double newTheta;
+        if( rotationPlatform.isPositionDriven() ) {
+            newTheta = getAngleOnPlatform();
+        }
+        else if( rotationPlatform.isVelocityDriven() ) {
+            newTheta = getAngleOnPlatform() + omega * dt;
+        }
+        else {
+            newTheta = getAngleOnPlatform() + omega * dt + 0.5 * rotationPlatform.getAcceleration() * dt * dt;
+        }
+        Point2D newX = Vector2D.Double.parseAngleAndMagnitude( r, newTheta ).getDestination( rotationPlatform.getCenter() );
+        Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
+        AbstractVector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
+        AbstractVector2D newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
 
-        addPositionData( newLocation, time );
-        addVelocityData( newVelocity, time );
-        addAccelerationData( newAccel, time );
+        addPositionData( newX, time );
+        addVelocityData( newV, time );
+        addAccelerationData( newA, time );
 
         updateXYStateFromSeries();
     }
@@ -141,6 +150,7 @@ public class RotationBody {
     }
 
     private void addVelocityData( AbstractVector2D newVelocity, double time ) {
+        System.out.println( "newVelocity = " + newVelocity );
         xBody.getMotionBodySeries().addVelocityData( newVelocity.getX(), time );
         yBody.getMotionBodySeries().addVelocityData( newVelocity.getY(), time );
     }
