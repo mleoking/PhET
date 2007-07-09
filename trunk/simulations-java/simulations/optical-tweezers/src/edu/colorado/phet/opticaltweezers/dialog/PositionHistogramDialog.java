@@ -56,7 +56,7 @@ public class PositionHistogramDialog extends JDialog {
         super.dispose();
     }
     
-    public int getZoomIndex() {
-        return _panel.getZoomIndex();
+    public PositionHistogramPanel getPanel() {
+        return _panel;
     }
 }
