@@ -21,7 +21,7 @@ public class GraphSuite {
     }
 
     public String getLabel() {
-        String str = "";
+        String str = "<html>";
         for( int i = 0; i < minimizableControlGraphs.length; i++ ) {
             MinimizableControlGraph minimizableControl = minimizableControlGraphs[i];
             str += minimizableControl.getLabel();
@@ -29,6 +29,6 @@ public class GraphSuite {
                 str += ",";
             }
         }
-        return str;
+        return str+"</html>";
     }
 }
