@@ -5,6 +5,9 @@ package edu.colorado.phet.opticaltweezers.charts;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
@@ -19,7 +22,6 @@ import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.common.jfreechartphet.PhetHistogramDataset;
 import edu.colorado.phet.common.jfreechartphet.PhetHistogramSeries;
-import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 
 /**
@@ -38,6 +40,7 @@ public class PositionHistogramPlot extends XYPlot {
     private static final Color BAR_FILL_COLOR = Color.BLUE;
     private static final Color BAR_OUTLINE_COLOR = Color.BLACK;
     private static final int OBSERVATIONS_REQUIRED_TO_ENABLE_AUTORANGE = 10;
+    private static final int MAX_OBSERVATIONS_CACHE_SIZE = 10000;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -47,6 +50,8 @@ public class PositionHistogramPlot extends XYPlot {
     private PhetHistogramSeries _series;
     private NumberAxis _xAxis;
     private NumberAxis _yAxis;
+    
+    private List _observationsCache;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,6 +69,8 @@ public class PositionHistogramPlot extends XYPlot {
         
         // series will be create when setPositionRange is called
         _series = null;
+        
+        _observationsCache = new ArrayList();
 
         // renderer
         XYBarRenderer renderer = new PositionHistogramRenderer();
@@ -125,6 +132,19 @@ public class PositionHistogramPlot extends XYPlot {
         }
         _series = new PhetHistogramSeries( SERIES_KEY, minPosition, maxPosition, numberOfBins );
         _dataset.addSeries( _series );
+        
+        // populate the series with cached observations
+        int numberOfObservations = _observationsCache.size();
+        if ( numberOfObservations > 0 ) {
+            int lastIndex = numberOfObservations - 1;
+            double observation;
+            for ( int i = 0; i < lastIndex - 1; i++ ) {
+                observation = ( (Double) _observationsCache.get( i ) ).doubleValue();
+                _series.addObservation( observation, false /* notifyListeners */);
+            }
+            observation = ( (Double) _observationsCache.get( lastIndex ) ).doubleValue();
+            _series.addObservation( observation, true /* notifyListeners */);
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -140,6 +160,13 @@ public class PositionHistogramPlot extends XYPlot {
 
         _series.addObservation( position );
         
+        _observationsCache.add( new Double( position ) );
+        
+        // If the cache has reached max size, remove oldest observations.
+        while ( _observationsCache.size() > MAX_OBSERVATIONS_CACHE_SIZE ) {
+            _observationsCache.remove( 0 );
+        }
+        
         // When at least one bin reaches the top of the y-axis range,
         // adjust the range to fit data, so data appears normalized.
         if ( !_yAxis.isAutoRange() && _series.getMaxObservations() > OBSERVATIONS_REQUIRED_TO_ENABLE_AUTORANGE ) {
@@ -152,6 +179,7 @@ public class PositionHistogramPlot extends XYPlot {
      */
     public void clear() {
         _series.clear();
+        _observationsCache.clear();
         _yAxis.setAutoRange( false );
         _yAxis.setRange( 0, OBSERVATIONS_REQUIRED_TO_ENABLE_AUTORANGE );
     }
