@@ -30,10 +30,7 @@
  */
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -223,6 +220,24 @@ public class RulerNode extends PhetPNode {
     public void setUnitsAssociatedMajorTickLabel( String majorTickLabel ) {
         this.unitsMajorTickLabel = majorTickLabel;
         update();
+    }
+    
+    /**
+     * Sets the background paint.
+     * 
+     * @param paint
+     */
+    public void setBackgroundPaint( Paint paint ) {
+        backgroundNode.setPaint( paint );
+    }
+    
+    /**
+     * Gets the background paint.
+     * 
+     * @return
+     */
+    public Paint getBackGroundPaint() {
+        return backgroundNode.getPaint();
     }
     
     //----------------------------------------------------------------------------
