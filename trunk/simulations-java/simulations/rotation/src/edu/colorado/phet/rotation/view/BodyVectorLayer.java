@@ -43,7 +43,7 @@ public class BodyVectorLayer extends PNode {
 
         rotationBody.addListener( new RotationBody.Listener() {
             public void positionChanged() {
-                update();
+//                update();//todo: this call was causing acceleration to be non-centripetal during circular motion
             }
 
             public void speedAndAccelerationUpdated() {
@@ -111,5 +111,6 @@ public class BodyVectorLayer extends PNode {
     private void update() {
         accelArrow.update();
         velocityArrow.update();
+        rotationBody.checkCentripetalAccel();
     }
 }

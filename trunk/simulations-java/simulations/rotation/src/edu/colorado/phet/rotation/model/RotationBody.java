@@ -112,7 +112,7 @@ public class RotationBody {
         }
     }
 
-    //todo: could be strategies switched when the rotationplatform strategy is changed
+    //todo: this could be rewritten as a strategy that is switched when the rotationplatform strategy is changed
     private void updateBodyOnPlatform( double time, double dt ) {
         double omega = rotationPlatform.getVelocity();
         double r = getPosition().distance( rotationPlatform.getCenter() );
@@ -137,6 +137,22 @@ public class RotationBody {
         addAccelerationData( newA, time );
 
         updateXYStateFromSeries();
+
+        checkCentripetalAccel();
+    }
+
+    public void checkCentripetalAccel() {
+        if (rotationPlatform==null){
+            return;
+        }
+        Vector2D.Double cv = new Vector2D.Double( getPosition(), rotationPlatform.getCenter() );
+        Vector2D av = getAcceleration();
+        //these should be colinear
+        double angle = cv.getAngle() - av.getAngle();
+
+        if (Math.abs(angle)>1E-2&av.getMagnitude()>1E-9){
+            System.out.println( "RotationBody.updateBodyOnPlatform, angle="+angle );
+        }
     }
 
     private void updateXYStateFromSeries() {
@@ -150,7 +166,6 @@ public class RotationBody {
     }
 
     private void addVelocityData( AbstractVector2D newVelocity, double time ) {
-        System.out.println( "newVelocity = " + newVelocity );
         xBody.getMotionBodySeries().addVelocityData( newVelocity.getX(), time );
         yBody.getMotionBodySeries().addVelocityData( newVelocity.getY(), time );
     }
