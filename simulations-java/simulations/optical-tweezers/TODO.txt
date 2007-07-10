@@ -18,7 +18,7 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - enable/disable controls based on clock speed
 - what units for E-field?
-- vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
+- vertical laser toggle button, like http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - save/load configurations
 
 LOW PRIORITY:
@@ -57,6 +57,8 @@ MISSING INFO:
 
  
 DONE:
+7/10/07 - update force vector nodes only when visible
+7/10/07 - rename DragForceNode to FluidDragForceNode
 7/10/07 - update ruler position only when the ruler is visible
 7/10/07 - phetcommon bugfix: all modules were active when sim started, modules weren't deactivated until visited once
 7/10/07 - update potential energy chart before making it visible
