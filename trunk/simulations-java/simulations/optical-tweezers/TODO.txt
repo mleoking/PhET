@@ -9,6 +9,7 @@ AAPT:
 - add description to About dialog
 - set correct default values for everything, including developer controls
 - dialogs don't repaint or close immediately when clock is running under Java 1.5, AWT thread priority?
+- E-field stops for Kathy below dt=2.7E-17
 
 HIGH PRIORITY:
 
@@ -56,6 +57,8 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.20 (?)
+7/9/07 - histogram: change bin widths per Kathy's specification
 7/9/07 - histogram: let client set dialog's location
 7/9/07 - histogram: fix exception thrown when changing modules
 7/9/07 - histogram: set max size of observations cache to 10,000
