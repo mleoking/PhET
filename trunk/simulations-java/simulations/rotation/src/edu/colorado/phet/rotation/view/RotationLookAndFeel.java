@@ -18,19 +18,19 @@ public class RotationLookAndFeel extends PhetLookAndFeel {
     }
 
     public static Font getControlPanelTitleFont() {
-        return new PhetDefaultFont( 20, true );
+        return new PhetDefaultFont( 16, true );
     }
 
     public static Font getLegendItemFont() {
-        return new PhetDefaultFont( 18, false );
+        return new PhetDefaultFont( 14, false );
     }
 
     public static Font getCheckBoxFont() {
-        return new PhetDefaultFont( 18, false );
+        return new PhetDefaultFont( 14, false );
     }
 
     public static Font getGraphSelectionItemFont() {
-        return new PhetDefaultFont( 18, false );
+        return new PhetDefaultFont( 14, false );
     }
 
 }

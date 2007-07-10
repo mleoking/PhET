@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation;
 
 import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.rotation.view.RotationOriginNode;
 
 import javax.swing.*;
 import java.awt.geom.Rectangle2D;
@@ -16,6 +17,7 @@ public class RotationLayout {
     private PNode rotationControlPanelNode;
     private PNode timeSeriesGraphSetNode;
     private PNode platformNode;
+    private double playAreaPadY=50;
 
     public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, PNode platformNode ) {
         this.parent = parent;
@@ -29,22 +31,26 @@ public class RotationLayout {
         rotationPlayAreaNode.setOffset( 0, 0 );
         rotationPlayAreaNode.setScale( 1.0 );
         rotationControlPanelNode.setOffset( 0, getHeight() - rotationControlPanelNode.getFullBounds().getHeight() );
-        double maxX = Math.max( rotationPlayAreaNode.getFullBounds().getMaxX(), rotationControlPanelNode.getFullBounds().getMaxX() );
 
         double width = rotationControlPanelNode.getFullBounds().getWidth();
-        double sx = width / platformNode.getFullBounds().getWidth();
+        double sx = width / (platformNode.getFullBounds().getWidth()+ RotationOriginNode.AXIS_LENGTH);
 
         double height = getHeight() - rotationControlPanelNode.getFullBounds().getHeight();
-        double sy = height / platformNode.getFullBounds().getHeight();
+        double sy = height / (platformNode.getFullBounds().getHeight()+playAreaPadY);
         double scale = Math.min( sx, sy );
 //        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
         if( scale > 0 ) {
             rotationPlayAreaNode.scale( scale );
         }
 
-        Rectangle2D bounds = new Rectangle2D.Double( maxX, 0, getWidth() - maxX, getHeight() );
+
+        Rectangle2D bounds = new Rectangle2D.Double( getMaxXPlayAreaAndControlPanel(), 0, getWidth() - getMaxXPlayAreaAndControlPanel(), getHeight() );
 //        System.out.println( "RSP::bounds = " + bounds );
         timeSeriesGraphSetNode.setBounds( bounds );
+    }
+
+    private double getMaxXPlayAreaAndControlPanel() {
+        return Math.max( rotationPlayAreaNode.getFullBounds().getMaxX(), rotationControlPanelNode.getFullBounds().getMaxX() );
     }
 
     private double getWidth() {

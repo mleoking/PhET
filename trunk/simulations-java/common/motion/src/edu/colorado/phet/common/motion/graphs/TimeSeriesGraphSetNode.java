@@ -51,9 +51,10 @@ public class TimeSeriesGraphSetNode extends PNode {
     private void relayout() {
         if( constructed ) {
             Rectangle2D bounds = getBounds();
-//            System.out.println( "TSGSN::bounds = " + bounds );
+            System.out.println( "TSGSN::bounds = " + bounds );
             graphSetNode.setBounds( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() - timeSeriesControlPanelNode.getFullBounds().getHeight() );
             timeSeriesControlPanelNode.setOffset( bounds.getX() + bounds.getWidth() / 2.0 - timeSeriesControlPanelNode.getFullBounds().getWidth() / 2.0, graphSetNode.getFullBounds().getMaxY() );
+            System.out.println( "bounds.getMaxY() = " + bounds.getMaxY()+", tscpn.getmaxy="+timeSeriesControlPanelNode.getFullBounds().getMaxY() );
         }
     }
 

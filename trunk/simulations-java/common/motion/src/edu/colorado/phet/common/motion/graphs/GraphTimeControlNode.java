@@ -68,7 +68,7 @@ public class GraphTimeControlNode extends PNode {
 
         public SeriesNode( String title, String abbr, Color color, ISimulationVariable simulationVariable ) {
             shadowPText = new ShadowPText( title );
-            shadowPText.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
+            shadowPText.setFont( new Font( "Lucida Sans", Font.BOLD, 14) );
             shadowPText.setTextPaint( color );
             shadowPText.setShadowColor( Color.black );
             addChild( shadowPText );
