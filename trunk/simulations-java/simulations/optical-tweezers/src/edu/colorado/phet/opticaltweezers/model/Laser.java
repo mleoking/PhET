@@ -419,10 +419,19 @@ public class Laser extends MovableObject implements ModelElement {
         final double intensity = getIntensityOnRadius( xOffset, ry, power ); // intensity at radius, mW/nm^2
         
         // x component
-        final double fx = -1 * K * ( xOffset / ( ry * ry ) ) * intensity;
+        double fx = -1 * K * ( xOffset / ( ry * ry ) ) * intensity;
 
         // y component
-        final double fy = -1 * K * ( yOffset / ( ry * ry ) ) * intensity * _trapForceRatio * ( 1 - ( ( 2 * xOffset * xOffset ) / ( ry * ry ) ) );
+        double fy = -1 * K * ( yOffset / ( ry * ry ) ) * intensity * _trapForceRatio * ( 1 - ( ( 2 * xOffset * xOffset ) / ( ry * ry ) ) );
+        
+        // In "slow" clock mode, the trap force should be shrinking and growing,
+        // so that it's zero when the E-field is zero, and a maximum when the 
+        // E-field is strongest.
+        if ( _clock.getDt() <= _clock.getSlowRange().getMax() ) {
+            double m = Math.sqrt( 2 ) * Math.abs( Math.sin( ( ( 2 * Math.PI ) / _wavelength ) * ( yOffset + ( SPEED_OF_LIGHT * _electricFieldTime ) ) ) );
+            fx *= m;
+            fy *= m;
+        }
 
         return new Vector2D.Cartesian( fx, fy );
     }
