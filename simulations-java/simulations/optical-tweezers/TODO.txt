@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 AAPT:
-- bug: all modules are running when the sim first comes up
 - bug: histogram bars are sometimes drawn wrong (sitting way above x-axis) when zooming in slow mode
 - performance profiling
 - test performance of position histogram when observation cache is full
@@ -58,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+7/10/07 - update ruler position only when the ruler is visible
 7/10/07 - phetcommon bugfix: all modules were active when sim started, modules weren't deactivated until visited once
 7/10/07 - update potential energy chart before making it visible
 7/10/07 - optimize potential energy chart, do finer granularity updates

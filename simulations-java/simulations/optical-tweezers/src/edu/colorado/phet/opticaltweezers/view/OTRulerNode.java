@@ -125,6 +125,24 @@ public class OTRulerNode extends RulerNode implements Observer {
     }
     
     //----------------------------------------------------------------------------
+    // Superclass overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the ruler's position when it's made visible.
+     * 
+     * @param visible
+     */
+    public void setVisible( boolean visible ) {
+        if ( visible != isVisible() ) {
+            if ( visible ) {
+                updatePosition();
+            }
+            super.setVisible( visible );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
     
@@ -135,9 +153,11 @@ public class OTRulerNode extends RulerNode implements Observer {
      * @param arg
      */
     public void update( Observable o, Object arg ) {
-        if ( o == _laser ) {
-            if ( arg == Laser.PROPERTY_POSITION ) {
-                updatePosition();
+        if ( isVisible() ) {
+            if ( o == _laser ) {
+                if ( arg == Laser.PROPERTY_POSITION ) {
+                    updatePosition();
+                }
             }
         }
     }
