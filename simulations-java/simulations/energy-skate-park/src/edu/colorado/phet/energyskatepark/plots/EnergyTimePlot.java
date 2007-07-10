@@ -166,7 +166,7 @@ public class EnergyTimePlot {
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void dataSeriesChanged() {
                 if( timeSeriesModel.numPlaybackStates() == 0 ) {
-                    reset();
+                    clear();
                 }
             }
 
@@ -271,6 +271,10 @@ public class EnergyTimePlot {
 
     public void reset() {
         dialog.setVisible( false );
+        clear();
+    }
+
+    private void clear() {
         dynamicJFreeChartNode.clear();
         playbackPanel.reset();
     }
