@@ -14,7 +14,8 @@ public class RotationPlatform extends MotionBody {
     private SerializablePoint2D center = new SerializablePoint2D( 200, 200 );
     private double radius = 200.0;
     private double innerRadius = 0.0;
-    private double momentOfInertia = 2.0;
+    private double mass = 1.0 / ( ( innerRadius * innerRadius + radius * radius ) / 2.0 );//by default torque equals angular acceleration
+    private ArrayList listeners = new ArrayList();
 
     public boolean containsPosition( Point2D loc ) {
         return loc.distance( center ) < radius && loc.distance( center ) >= innerRadius;
@@ -39,7 +40,6 @@ public class RotationPlatform extends MotionBody {
         }
     }
 
-    private ArrayList listeners = new ArrayList();
 
     public void setInnerRadius( double innerRadius ) {
         if( this.innerRadius != innerRadius ) {
@@ -60,7 +60,15 @@ public class RotationPlatform extends MotionBody {
     }
 
     public double getMomentOfInertia() {
-        return momentOfInertia;
+        return 0.5 * mass * ( innerRadius * innerRadius + radius * radius );//http://en.wikipedia.org/wiki/List_of_moments_of_inertia
+    }
+
+    public double getMass() {
+        return mass;
+    }
+
+    public void setMass( double mass ) {
+        this.mass = mass;
     }
 
     public static interface Listener {
