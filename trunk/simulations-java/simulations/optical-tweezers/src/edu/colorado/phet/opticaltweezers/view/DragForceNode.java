@@ -34,6 +34,7 @@ public class DragForceNode extends AbstractForceNode implements Observer {
     private Fluid _fluid;
     private Bead _bead;
     private ModelViewTransform _modelViewTransform;
+    private Point2D _pModel; // reusable point
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -49,6 +50,7 @@ public class DragForceNode extends AbstractForceNode implements Observer {
         _bead.addObserver( this );
         
         _modelViewTransform = modelViewTransform;
+        _pModel = new Point2D.Double();
         
         updatePosition();
         updateVectors();
@@ -78,8 +80,8 @@ public class DragForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     private void updatePosition() {
-        Point2D position = _modelViewTransform.modelToView( _bead.getPositionReference() );
-        setOffset( position.getX(), position.getY() );
+        _modelViewTransform.modelToView( _bead.getPositionReference(), _pModel );
+        setOffset( _pModel );
     }
     
     private void updateVectors() {
