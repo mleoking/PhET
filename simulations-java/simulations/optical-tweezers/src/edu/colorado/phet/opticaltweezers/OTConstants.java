@@ -23,8 +23,8 @@ public class OTConstants {
     // Debugging
     //----------------------------------------------------------------------------
     
-    // System property to enable developer-only features
-    public static final String PROPERTY_PHET_DEVELOPER = "javaws.phet.developer";
+    // Command line argument to enable developer-only features.
+    public static final String DEVELOPER_ARG = "-dev";
     
     //----------------------------------------------------------------------------
     // Application

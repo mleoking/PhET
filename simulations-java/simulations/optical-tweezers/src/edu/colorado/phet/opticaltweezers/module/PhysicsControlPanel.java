@@ -7,6 +7,7 @@ import java.util.List;
 
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
 import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.model.PhysicsModel;
@@ -85,7 +86,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             addSeparator();
             addControlFullWidth( _miscControlPanel );
             addSeparator();
-            if ( System.getProperty( OTConstants.PROPERTY_PHET_DEVELOPER ) != null ) {
+            if ( OpticalTweezersApplication.isDeveloperControlsEnabled() ) {
                 addControlFullWidth( _developerControlPanel );
                 addSeparator();
             }
