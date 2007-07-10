@@ -159,8 +159,8 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
     //----------------------------------------------------------------------------
     
     private void updatePosition() {
-        Point2D position = _modelViewTransform.modelToView( _bead.getPositionReference() );
-        setOffset( position.getX(), position.getY() );
+        _modelViewTransform.modelToView( _bead.getPositionReference(), _pModel );
+        setOffset( _pModel );
     }
     
     private void updateDiameter() {
