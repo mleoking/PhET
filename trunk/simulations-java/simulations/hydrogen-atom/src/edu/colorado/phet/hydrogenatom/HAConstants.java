@@ -37,6 +37,9 @@ public class HAConstants {
     // Debugging
     //----------------------------------------------------------------------------
     
+    // Command line argument to enable developer-only features.
+    public static final String DEVELOPER_ARG = "-dev";
+    
     public static final boolean SHOW_ORIGIN_NODES = false; // set to true for debugging
     
     //----------------------------------------------------------------------------
