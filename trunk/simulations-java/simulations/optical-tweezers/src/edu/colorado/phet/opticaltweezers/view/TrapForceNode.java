@@ -62,16 +62,32 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     }
     
     //----------------------------------------------------------------------------
+    // Superclass overrides
+    //----------------------------------------------------------------------------
+    
+    public void setVisible( boolean visible ) {
+        if ( visible != isVisible() ) {
+            if ( visible ) {
+                updatePosition();
+                updateVectors();
+            }
+            super.setVisible( visible );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _laser ) {
-            updateVectors();
-        }
-        else if ( o == _bead ) {
-            updatePosition();
-            updateVectors();
+        if ( isVisible() ) {
+            if ( o == _laser ) {
+                updateVectors();
+            }
+            else if ( o == _bead ) {
+                updatePosition();
+                updateVectors();
+            }
         }
     }
     

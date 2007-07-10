@@ -14,11 +14,11 @@ import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
- * DragForceNode displays the fluid drag force acting on a bead.
+ * FluidDragForceNode displays the fluid drag force acting on a bead.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DragForceNode extends AbstractForceNode implements Observer {
+public class FluidDragForceNode extends AbstractForceNode implements Observer {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -40,7 +40,7 @@ public class DragForceNode extends AbstractForceNode implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DragForceNode( Fluid fluid, Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
+    public FluidDragForceNode( Fluid fluid, Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
         super( modelReferenceMagnitude, viewReferenceLength, UNITS, COLOR );
         
         _fluid = fluid;
@@ -62,16 +62,32 @@ public class DragForceNode extends AbstractForceNode implements Observer {
     }
     
     //----------------------------------------------------------------------------
+    // Superclass overrides
+    //----------------------------------------------------------------------------
+    
+    public void setVisible( boolean visible ) {
+        if ( visible != isVisible() ) {
+            if ( visible ) {
+                updatePosition();
+                updateVectors();
+            }
+            super.setVisible( visible );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _fluid ) {
-            updateVectors();
-        }
-        else if ( o == _bead ) {
-            updatePosition();
-            updateVectors();
+        if ( isVisible() ) {
+            if ( o == _fluid ) {
+                updateVectors();
+            }
+            else if ( o == _bead ) {
+                updatePosition();
+                updateVectors();
+            }
         }
     }
     

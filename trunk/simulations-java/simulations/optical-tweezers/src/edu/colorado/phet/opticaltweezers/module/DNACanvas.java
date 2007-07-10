@@ -62,7 +62,7 @@ public class DNACanvas extends PhetPCanvas {
     private PPath _rulerDragBoundsNode;
     private PotentialEnergyChartNode _potentialEnergyChartNode;
     private TrapForceNode _trapForceNode;
-    private DragForceNode _dragForceNode;
+    private FluidDragForceNode _dragForceNode;
     private DNAForceNode _dnaForceNode;
     
     // Control
@@ -134,7 +134,7 @@ public class DNACanvas extends PhetPCanvas {
             final double modelReferenceMagnitude = laser.getMaxTrapForce().getMagnitude();
             final double viewReferenceLength = DNADefaults.FORCE_VECTOR_REFERENCE_LENGTH;
             _trapForceNode = new TrapForceNode( laser, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
-            _dragForceNode = new DragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
+            _dragForceNode = new FluidDragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
             _dnaForceNode = new DNAForceNode( bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
         }
         
@@ -213,7 +213,7 @@ public class DNACanvas extends PhetPCanvas {
         return _trapForceNode;
     }
     
-    public DragForceNode getDragForceNode() {
+    public FluidDragForceNode getDragForceNode() {
         return _dragForceNode;
     }
     

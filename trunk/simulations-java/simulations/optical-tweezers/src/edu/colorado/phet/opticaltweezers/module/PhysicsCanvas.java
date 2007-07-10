@@ -61,7 +61,7 @@ public class PhysicsCanvas extends PhetPCanvas {
     private PPath _rulerDragBoundsNode;
     private PotentialEnergyChartNode _potentialEnergyChartNode;
     private TrapForceNode _trapForceNode;
-    private DragForceNode _dragForceNode;
+    private FluidDragForceNode _dragForceNode;
     
     // Control
     private PSwing _returnBeadButtonWrapper;
@@ -127,7 +127,7 @@ public class PhysicsCanvas extends PhetPCanvas {
             final double modelReferenceMagnitude = laser.getMaxTrapForce().getMagnitude();
             final double viewReferenceLength = PhysicsDefaults.FORCE_VECTOR_REFERENCE_LENGTH;
             _trapForceNode = new TrapForceNode( laser, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
-            _dragForceNode = new DragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
+            _dragForceNode = new FluidDragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
         }
         
         // Ruler
@@ -203,7 +203,7 @@ public class PhysicsCanvas extends PhetPCanvas {
         return _trapForceNode;
     }
     
-    public DragForceNode getDragForceNode() {
+    public FluidDragForceNode getDragForceNode() {
         return _dragForceNode;
     }
 

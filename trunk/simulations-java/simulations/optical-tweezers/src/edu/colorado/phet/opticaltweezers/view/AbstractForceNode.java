@@ -8,15 +8,15 @@ import java.awt.Paint;
 import java.awt.Stroke;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * AbstractForceNode is the base class for all nodes that display a force vector.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractForceNode extends PComposite {
+public abstract class AbstractForceNode extends PhetPNode {
     
     //----------------------------------------------------------------------------
     // Class data
