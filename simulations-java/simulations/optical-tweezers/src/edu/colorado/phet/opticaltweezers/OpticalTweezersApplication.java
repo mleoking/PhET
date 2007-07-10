@@ -23,11 +23,11 @@ import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTPersistenceManager;
 
 /**
- * OTApplication is the main application for this simulation.
+ * OpticalTweezersApplication is the main application for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OTApplication extends PiccoloPhetApplication {
+public class OpticalTweezersApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -49,7 +49,7 @@ public class OTApplication extends PiccoloPhetApplication {
      * 
      * @param args command line arguments
      */
-    public OTApplication( PhetApplicationConfig config )
+    public OpticalTweezersApplication( PhetApplicationConfig config )
     {
         super( config );
         initModules();
@@ -191,7 +191,7 @@ public class OTApplication extends PiccoloPhetApplication {
                 PhetApplicationConfig config = new PhetApplicationConfig( args, OTConstants.FRAME_SETUP, OTResources.getResourceLoader() );
                 
                 // Create the application.
-                OTApplication app = new OTApplication( config );
+                OpticalTweezersApplication app = new OpticalTweezersApplication( config );
 
                 // Start the application.
                 app.startApplication();
