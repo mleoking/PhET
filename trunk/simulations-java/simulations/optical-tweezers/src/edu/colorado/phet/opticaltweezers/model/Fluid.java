@@ -106,7 +106,24 @@ public class Fluid extends OTObservable implements ModelElement {
      * @return Vector2D
      */
     public Vector2D getVelocity() {
-        return new Vector2D.Polar( getSpeed(), _direction );
+        return getVelocity( null );
+    }
+    
+    /**
+     * Gets the fluid velocity, putting it in a provided vector.
+     * If a vector is not provides, one will be allocated.
+     * This method is provided for clients who need to reduce allocation of Vector2D objects.
+     * 
+     * @param velocityVector
+     * @return Vector2D
+     */
+    public Vector2D getVelocity( Vector2D velocityVector ) {
+        Vector2D v = velocityVector;
+        if ( v == null ) {
+            v = new Vector2D();
+        }
+        v.setMagnitudeAngle( getSpeed(), _direction );
+        return v;
     }
     
     /**
