@@ -17,6 +17,12 @@ o	Handling multiple objects on a single graph
 o	Handling multiple series on a single graph
 o	Side view/projections?
 
+Getting the correct colors for each object/variable
+
+How about putting a small icon for the character at the tip of the series data as a way to differentiate?
+
+Rotation platform should be centered or expanded at high resolution
+
 Consolidate MovingMan, Forces1D, Ramp, Rotation, Torque into a single codebase.
 
 ################
