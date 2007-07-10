@@ -18,6 +18,12 @@ public class TorqueModel extends RotationModel {
     private ITimeSeries forceTimeSeries = new DefaultTimeSeries();
     private UpdateStrategy forceDriven = new ForceDriven();
 
+    private ISimulationVariable momentOfInertiaVariable = new DefaultSimulationVariable();
+    private ITimeSeries momentOfInertiaTimeSeries = new DefaultTimeSeries();
+    
+    private ISimulationVariable angularMomentumVariable = new DefaultSimulationVariable();
+    private ITimeSeries angularMomentumTimeSeries = new DefaultTimeSeries();
+
     public TorqueModel( ConstantDtClock clock ) {
         super( clock );
     }
@@ -50,6 +56,22 @@ public class TorqueModel extends RotationModel {
 
     public UpdateStrategy getForceDriven() {
         return forceDriven;
+    }
+
+    public ISimulationVariable getMomentOfInertiaVariable() {
+        return momentOfInertiaVariable;
+    }
+
+    public ITimeSeries getMomentOfInertiaTimeSeries() {
+        return momentOfInertiaTimeSeries;
+    }
+
+    public ISimulationVariable getAngularMomentumVariable() {
+        return angularMomentumVariable;
+    }
+
+    public ITimeSeries getAngularMomentumTimeSeries() {
+        return angularMomentumTimeSeries;
     }
 
     public class TorqueDriven implements UpdateStrategy {
