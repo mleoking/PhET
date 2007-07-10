@@ -27,6 +27,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -255,8 +256,9 @@ public class PhysicsCanvas extends PhetPCanvas {
         // "Return Bead" button
         {
             // center on canvas
-            x = ( worldSize.getWidth() - _returnBeadButtonWrapper.getFullBounds().getWidth() ) / 2;
-            y = ( worldSize.getHeight() - _returnBeadButtonWrapper.getFullBounds().getHeight() ) / 2;
+            PBounds returnButtonBounds = _returnBeadButtonWrapper.getFullBoundsReference();
+            x = ( worldSize.getWidth() - returnButtonBounds.getWidth() ) / 2;
+            y = ( worldSize.getHeight() - returnButtonBounds.getHeight() ) / 2;
             _returnBeadButtonWrapper.setOffset( x, y );
         }
         
@@ -279,7 +281,7 @@ public class PhysicsCanvas extends PhetPCanvas {
             // If laser is not visible, move it to center of canvas
             Laser laser = _model.getLaser();
             Rectangle2D worldBounds = new Rectangle2D.Double( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
-            Rectangle2D laserBounds = _laserNode.getFullBounds();
+            Rectangle2D laserBounds = _laserNode.getFullBoundsReference();
             if ( !worldBounds.intersects( laserBounds ) ) {
                 ModelViewTransform modelViewTransform = _model.getModelViewTransform();
                 double xModel = modelViewTransform.viewToModel( worldSize.getWidth() / 2 );
@@ -300,7 +302,7 @@ public class PhysicsCanvas extends PhetPCanvas {
         
         Dimension2D worldSize = getWorldSize();
         Rectangle2D worldBounds = new Rectangle2D.Double( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
-        Rectangle2D beadBounds = _beadNode.getFullBounds();
+        Rectangle2D beadBounds = _beadNode.getFullBoundsReference();
         
         //XXX using intersects is a little dodgy since the bead is a circle
         _returnBeadButtonWrapper.setVisible( !worldBounds.intersects( beadBounds ) );
@@ -315,7 +317,7 @@ public class PhysicsCanvas extends PhetPCanvas {
     private void handleReturnBeadButton() {
         
         // Determine the button's coordinates
-        Rectangle2D b = _returnBeadButtonWrapper.getFullBounds().getBounds();
+        PBounds b = _returnBeadButtonWrapper.getFullBoundsReference();
         double x = b.getX() + ( b.getWidth() / 2 );
         double y = b.getY() + ( b.getHeight() / 2 );
         ModelViewTransform modelViewTransform = _model.getModelViewTransform();
