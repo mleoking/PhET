@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 AAPT:
-- histogram: throws an exception when changing modules
 - change "force on bead" model in slow mode
 - add description to About dialog
 - set correct default values for everything, including developer controls
@@ -57,6 +56,8 @@ MISSING INFO:
 
  
 DONE:
+7/9/07 - histogram: let client set dialog's location
+7/9/07 - histogram: fix exception thrown when changing modules
 7/9/07 - histogram: set max size of observations cache to 10,000
 7/9/07 - histogram: don't clear histogram when zooming, cache observations and refill bins
 7/9/07 - histogram: add ruler to snapshot
