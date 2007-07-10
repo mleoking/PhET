@@ -15,6 +15,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+7/10/07 - use -dev commandline arg to enable developer controls instead of javaws.phet.developer property
 6/15/07 - convert description properties to well-formed HTML
 ***** 1.04.00 (15867)
 6/13/07 - use property javaws.phet.developer to enable developer controls

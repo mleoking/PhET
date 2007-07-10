@@ -22,6 +22,7 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
@@ -40,13 +41,6 @@ import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
  */
 public class HAApplication extends PiccoloPhetApplication {
 
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // property to enable developer-only features.
-    private static final String DEVELOPER_PROPERTY = "javaws.phet.developer";
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -97,7 +91,7 @@ public class HAApplication extends PiccoloPhetApplication {
         }
 
         // Developer menu
-        if ( System.getProperty( DEVELOPER_PROPERTY ) != null ) {
+        if ( CommandLineUtils.contains( args, HAConstants.DEVELOPER_ARG ) ) {
             DeveloperMenu developerMenu = new DeveloperMenu( _module );
             getPhetFrame().addMenu( developerMenu );
         }
