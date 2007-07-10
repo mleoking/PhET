@@ -78,7 +78,7 @@ public class DragForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     private void updatePosition() {
-        Point2D position = _modelViewTransform.modelToView( _bead.getPositionRef() );
+        Point2D position = _modelViewTransform.modelToView( _bead.getPositionReference() );
         setOffset( position.getX(), position.getY() );
     }
     

@@ -301,7 +301,7 @@ public class DNACanvas extends PhetPCanvas {
             if ( !worldBounds.intersects( laserBounds ) ) {
                 ModelViewTransform modelViewTransform = _model.getModelViewTransform();
                 double xModel = modelViewTransform.viewToModel( worldSize.getWidth() / 2 );
-                double yModel = laser.getPositionRef().getY();
+                double yModel = laser.getPositionReference().getY();
                 laser.setPosition( xModel, yModel );
             }
         }

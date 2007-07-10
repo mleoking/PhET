@@ -73,7 +73,7 @@ public class FixedObject extends OTObservable {
      * 
      * @return a reference to the Point2D that contains the position
      */
-    public Point2D getPositionRef() {
+    public Point2D getPositionReference() {
         return _position;
     }
 
