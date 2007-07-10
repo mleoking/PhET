@@ -13,6 +13,7 @@
     // define('NEW_DB_PASSWORD', 'tester');
     // define('NEW_DB_NAME',     'phet_production');
 
+
     $old = mysql_connect(OLD_DB_HOSTNAME, OLD_DB_USERNAME, OLD_DB_PASSWORD);
     $new = mysql_connect(NEW_DB_HOSTNAME, NEW_DB_USERNAME, NEW_DB_PASSWORD);
     
@@ -309,7 +310,7 @@
                 'contribution_file_url'      => '',
                 'contribution_file_size'     => $old_size,
                 'contribution_file_name'     => $old_name,
-                'contribution_file_contents' => base64_encode($old_data);
+                'contribution_file_contents' => base64_encode($old_data),
                 'contribution_id'            => $new_contribution_id
             )
         );
