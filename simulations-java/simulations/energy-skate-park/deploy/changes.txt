@@ -1,6 +1,7 @@
-7-10-2007 Fixed: In the Energy vs. Time graph, the "Clear" button actually closes the graph, rather than just clearing the graph.
-7-10-2007 Fixed: In the Energy vs. Time graph, the zoom feature does not work properly.  It appears to zoom in and out on the graph, but the scale of the energy does not change (the numbers don't change).
-7-10-2007 Fixed: The PE=0 line doesn't properly change with the scale of the play area, so if you zoom in and out on the play area, it may cause the PE=0 line to go above or below where it was before in relation to the character.  If the red dot goes below the PE=0 line when zooming out, then the pie chart doesn't disappear, even though it appears that the PE should be negative.
+2.02.13 (7-10-2007)
+Fixed: In the Energy vs. Time graph, the "Clear" button actually closes the graph, rather than just clearing the graph.
+Fixed: In the Energy vs. Time graph, the zoom feature does not work properly.  It appears to zoom in and out on the graph, but the scale of the energy does not change (the numbers don't change).
+Fixed: The PE=0 line doesn't properly change with the scale of the play area, so if you zoom in and out on the play area, it may cause the PE=0 line to go above or below where it was before in relation to the character.  If the red dot goes below the PE=0 line when zooming out, then the pie chart doesn't disappear, even though it appears that the PE should be negative.
 
 2.01.11 (7-3-2007)
 Fixed screenshot for dev page.
