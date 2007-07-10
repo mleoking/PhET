@@ -69,6 +69,11 @@ public class ZeroPointPotentialNode extends PhetPNode {
                 update();
             }
         } );
+        energySkateParkSimulationPanel.addListener( new EnergySkateParkSimulationPanel.Adapter() {
+            public void zoomChanged() {
+                update();
+            }
+        } );
         update();
     }
 
