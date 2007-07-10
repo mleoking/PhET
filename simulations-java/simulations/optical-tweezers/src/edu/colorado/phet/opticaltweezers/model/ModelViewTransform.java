@@ -134,7 +134,7 @@ public class ModelViewTransform {
      * 
      * @param pView point in view coordinates
      * @param pModel point in model coordinates, possibly null
-     * @return point in view coordinates
+     * @return point in model coordinates
      */
     public Point2D viewToModel( Point2D pView, Point2D pModel ) {
         return _viewToModelTransform.transform( pView, pModel );
