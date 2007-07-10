@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractVa
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.rotation.model.RotationPlatform;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -30,22 +31,29 @@ public class TorqueControlPanel extends JPanel {
         gridBagConstraints.gridy = GridBagConstraints.RELATIVE;
         JPanel sliderPanel = new JPanel( new GridBagLayout() );
 
-        final TorqueSlider outerRadiusSlider = new TorqueSlider( 0, 200, torqueModule.getRotationModel().getRotationPlatform().getRadius(), "R=Outer Radius", "0.00", "m" );
+        final RotationPlatform rp = torqueModule.getRotationModel().getRotationPlatform();
+        final TorqueSlider outerRadiusSlider = new TorqueSlider( 0, 200, rp.getRadius(), "R=Outer Radius", "0.00", "m" );
         outerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                torqueModule.getRotationModel().getRotationPlatform().setRadius( outerRadiusSlider.getValue() );
+                rp.setRadius( outerRadiusSlider.getValue() );
             }
         } );
         final TorqueSlider innerRadiusSlider = new TorqueSlider( 0, 200, 0.5, "r=Inner Radius", "0.00", "m" );
         innerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                torqueModule.getRotationModel().getRotationPlatform().setInnerRadius( innerRadiusSlider.getValue() );
+                rp.setInnerRadius( innerRadiusSlider.getValue() );
+            }
+        } );
+        final TorqueSlider massSlider = new TorqueSlider( rp.getMass() / 10.0, rp.getMass() * 2, rp.getMass(), "Mass", "0.00", "kg" );
+        massSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                rp.setMass( massSlider.getValue() );
             }
         } );
         TorqueSlider[] sliders = new TorqueSlider[]{
                 outerRadiusSlider,
                 innerRadiusSlider,
-                new TorqueSlider( 0, 1, 0.5, "Mass", "0.00", "kg" ),
+                massSlider,
                 new TorqueSlider( 0, 1, 0.5, "Force of Brake", "0.00", "N" )
         };
         for( int i = 0; i < sliders.length; i++ ) {
