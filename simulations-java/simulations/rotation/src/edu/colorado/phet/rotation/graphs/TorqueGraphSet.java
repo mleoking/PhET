@@ -49,7 +49,7 @@ public class TorqueGraphSet extends GraphSuiteSet {
 
         MinimizableControlGraph momentOfInertiaGraph = new MinimizableControlGraph( "I", new MotionControlGraph(
                 pSwingCanvas, tm.getMomentOfInertiaVariable(), tm.getMomentOfInertiaTimeSeries(),
-                "I", "Moment of Inertia", -0.001 / 200.0, 0.001 / 200.0, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
+                "I", "Moment of Inertia", -5, 5, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
                 tm, true, tm.getTimeSeriesModel(), null, maxDomainValue, tm.getRotationPlatform() ) );
 
         MinimizableControlGraph angularMomentumGraph = new MinimizableControlGraph( "L", new MotionControlGraph(
