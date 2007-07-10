@@ -64,6 +64,7 @@ public class OTRulerNode extends RulerNode implements Observer {
         super( DEFAULT_WORLD_SIZE.getWidth(), HEIGHT, null, OTResources.getString( "units.position" ), minorTicksBetweenMajors, FONT_SIZE );
         
         setUnitsAssociatedMajorTickLabel( "0" ); // attach units to the tick mark labeled "0"
+        setBackgroundPaint( OTConstants.RULER_COLOR );
         
         _majorTickInterval = majorTickInterval;
         

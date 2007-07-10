@@ -66,6 +66,9 @@ public class OTConstants {
     // Generic transparent color
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
     
+    // Ruler color
+    public static final Color RULER_COLOR = new Color( 236, 225, 113, 150 ); // transparent yellow
+    
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------
