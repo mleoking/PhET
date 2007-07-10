@@ -16,6 +16,7 @@ MEDIUM PRIORITY:
 - enable/disable controls based on clock speed
 - what units for E-field?
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
+- save/load configurations
 
 LOW PRIORITY:
 - reduce vertical spacing of control panels (if necessary, after features/layout has stabilized)
@@ -23,10 +24,8 @@ LOW PRIORITY:
 - visible seams where symmetrical pieces of laser beam gradient are stitched together
 - control panels have vertical scrollbars
 - save/load developer controls
-- position histogram should make an observation every N seconds, not every clock tick (?)
 - when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
 - use TrigCache to improve performance?
-- save/load configurations
 - javadoc
 - package level javadoc
 - Spanish translations
@@ -546,6 +545,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+7/9/07 - histogram should make an observation every N seconds, not every clock tick (every clock tick is correct behavior)
 7/9/07 - histogram: ask JFreeChart to put 4 minor ticks between each major tick (JFreeChart does not support minor ticks)
 7/2/07 - show DNA strand as a double helix (no one has asked for this)
 7/2/07 - DNA strand looks too straight initially, evolve a few times before displaying (no one has noticed this)
