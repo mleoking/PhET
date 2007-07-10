@@ -447,6 +447,7 @@ PhET-team specific tasks are located in an auxiliary build file.
 
     <target name="build-and-deploy-dev" depends="_init, _read-username-and-password, _set-sim-revision-number, _inc-sim-dev-version-number, _define-sim-version">
         <antcall target="_build-and-deploy">
+            <param name="deploy.to.dev"         value="true"/>
             <param name="sim.server.url"        value="${dev.server.url}"/>
             <param name="sim.server.path"       value="${dev.server.path}"/>
             <param name="sim.deploy.dir.parent" value="${dev.server.path}${sim.name}" />
