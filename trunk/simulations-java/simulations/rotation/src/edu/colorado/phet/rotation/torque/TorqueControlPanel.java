@@ -68,7 +68,7 @@ public class TorqueControlPanel extends JPanel {
             setValue( initialValue );
             setMinorTickSpacing( ( max - min ) / 20.0 );
             setMajorTickSpacing( ( max - min ) / 5.0 );
-            setPaintLabels( false );
+            setPaintTickLabels( false );
 //            clearTickLabels();
 //            setMinorTicksVisible( false );
 //            setMajorTicksVisible( false );
