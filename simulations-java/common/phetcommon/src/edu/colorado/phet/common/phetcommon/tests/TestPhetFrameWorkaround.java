@@ -21,21 +21,32 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
  * This class is an attempt to demonstrate the problem for which PhetFrameWorkaround is a workaround.
- * This version works correctly (i.e. doesn't exhibit the desired problem) on Windows Vista on 2.6 GHz x 2 Athlon processors.
- *
+ * This version works correctly (i.e. doesn't exhibit the problem) on Windows Vista on 2.6 GHz x 2 Athlon processors
+ * <p>
+ * NOTE! Set USE_WORKAROUND to compare behavior with and without the workaround.
  */
 public class TestPhetFrameWorkaround {
+    
+    // true = use a PhetFrameWorkaround
+    // false = use a PhetFrame
+    private static final boolean USE_WORKAROUND = true;
+    
     public static void main(final String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 final PhetApplication phetApplication = new PhetApplication(new PhetApplicationConfig(args, new FrameSetup.CenteredWithSize(800, 600), PhetResources.forProject("phetcommon"))) {
                     protected PhetFrame createPhetFrame() {
-                        return new PhetFrame(this);
-//                        return new PhetFrameWorkaround(this);
+                        if ( USE_WORKAROUND ) {
+                            return new PhetFrameWorkaround(this); 
+                        }
+                        else {
+                            return new PhetFrame(this);    
+                        }
                     }
                 };
                 final TestModule module = new TestModule("test", new SwingClock(30, 1));
