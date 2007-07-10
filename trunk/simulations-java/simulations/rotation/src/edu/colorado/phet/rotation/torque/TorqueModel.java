@@ -32,7 +32,11 @@ public class TorqueModel extends RotationModel {
         super.stepInTime( dt );
         momentOfInertiaVariable.setValue( getRotationPlatform().getMomentOfInertia() );
         momentOfInertiaTimeSeries.addValue( momentOfInertiaVariable.getValue(), getTime() );
-        
+
+        double angularMomentum = getRotationPlatform().getMomentOfInertia() * getRotationPlatform().getVelocity();
+        angularMomentumVariable.setValue( angularMomentum );
+        angularMomentumTimeSeries.addValue( angularMomentum, getTime() );
+
         torqueSeries.addValue( torqueVariable.getValue(), getTime() );
         forceTimeSeries.addValue( forceVariable.getValue(), getTime() );
     }
