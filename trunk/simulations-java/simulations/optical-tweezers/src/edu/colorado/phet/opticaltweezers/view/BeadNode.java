@@ -218,11 +218,14 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
                 super.mouseDragged( event );
             }
             else if ( !_ignoreDrag ) {
-                Point2D beadPosition = _bead.getPosition();
+                // Save the bead's position before the drag
+                double beadX = _bead.getX();
+                double beadY = _bead.getY();
+                // Do the drag
                 super.mouseDragged( event );
                 if ( dnaStrand.getExtension() > ( MAX_STRETCH * dnaStrand.getContourLength() ) ) {
                     // Release the bead when the DNA strand becomes fully stretched.
-                    _bead.setPosition( beadPosition );
+                    _bead.setPosition( beadX, beadY );
                     endDrag( event );
                 }
             }
