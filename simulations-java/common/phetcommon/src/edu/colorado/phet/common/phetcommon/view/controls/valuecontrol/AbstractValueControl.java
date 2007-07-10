@@ -73,7 +73,7 @@ public abstract class AbstractValueControl extends JPanel {
     private TextFieldListener _textFieldListener; // handles events related to textfield
     private SliderListener _sliderListener; // handles events related to the slider
     private boolean _initialized; // true when the constructor has completed
-    private boolean paintLabels=true;
+    private boolean _paintTickLabels;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -104,6 +104,7 @@ public abstract class AbstractValueControl extends JPanel {
         _majorTicksVisible = true; // major tick labels visible
         _minorTicksVisible = false; // minor tick labels are typically not visible
         _labelTable = null; // instantiated when addTickLabel is called
+        _paintTickLabels = true;
         
         _notifyWhileAdjusting = true; // provide change notification while slider is dragging
         _isAdjusting = false;
@@ -443,12 +444,16 @@ public abstract class AbstractValueControl extends JPanel {
     }
 
     /**
-     * Sets whether the labels should be painted.  This is also determined by whether _minorTicksVisible and _majorTicksVisible are true.
-     * @param paintLabels true if the labels should be visible.
+     * Sets whether the tick labels should be painted.
+     * This is also determined by whether _minorTicksVisible and _majorTicksVisible are true.
+     * 
+     * @param paintTickLabels true if the labels should be visible.
      */
-    public void setPaintLabels(boolean paintLabels){
-        this.paintLabels=paintLabels;
-        updateTickLabels();
+    public void setPaintTickLabels( boolean paintTickLabels ) {
+        if ( paintTickLabels != _paintTickLabels ) {
+            _paintTickLabels = paintTickLabels;
+            updateTickLabels();
+        }
     }
 
     /**
@@ -592,7 +597,7 @@ public abstract class AbstractValueControl extends JPanel {
             _slider.setMinorTickSpacing( _slider.modelToSlider( min + _minorTickSpacing ) );
         }
         _slider.setPaintTicks( _minorTicksVisible || _majorTicksVisible );
-        _slider.setPaintLabels( ( _minorTicksVisible || _majorTicksVisible ) && paintLabels );
+        _slider.setPaintLabels( ( _minorTicksVisible || _majorTicksVisible ) && _paintTickLabels );
         
         if ( _labelTable != null ) {
             // Use the labels provided via addTickLabel.
