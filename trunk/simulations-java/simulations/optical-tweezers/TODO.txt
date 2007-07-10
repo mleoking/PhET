@@ -7,7 +7,6 @@ IN PROGRESS:
 AAPT:
 - add description to About dialog
 - set correct default values for everything, including developer controls
-- dialogs don't repaint or close immediately when clock is running under Java 1.5, AWT thread priority?
 - E-field stops for Kathy below dt=2.7E-17
 
 HIGH PRIORITY:
@@ -56,6 +55,7 @@ MISSING INFO:
 
  
 DONE:
+7/9/07 - add PhetFrameWorkaround to address AWT thread priority problem
 7/9/07 - change trap force model in slow mode, shrink & grow with E-field
 ********* version 0.00.20 (16480)
 7/9/07 - histogram: change bin widths per Kathy's specification

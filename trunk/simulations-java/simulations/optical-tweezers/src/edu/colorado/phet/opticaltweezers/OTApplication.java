@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.opticaltweezers.menu.DeveloperMenu;
@@ -157,6 +158,18 @@ public class OTApplication extends PiccoloPhetApplication {
     public void load( OTConfig appConfig ) {
         
         GlobalConfig config = appConfig.getGlobalConfig();
+    }
+
+    //----------------------------------------------------------------------------
+    // Superclass overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Workaround for AWT thread priority problem.
+     * See javadoc for PhetFrameWorkaround.
+     */
+    protected PhetFrame createPhetFrame() {
+        return new PhetFrameWorkaround( this );
     }
     
     //----------------------------------------------------------------------------
