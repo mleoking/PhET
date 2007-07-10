@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
+import java.awt.*;
 
 import javax.swing.JLabel;
 
@@ -53,6 +51,10 @@ public class OTConstants {
     // Strokes
     //----------------------------------------------------------------------------
 
+    // Vertical dashed line that appears in position histogram and play area to denote laser origin
+    public static final Stroke ORIGIN_MARKER_STROKE = 
+        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
+
     //----------------------------------------------------------------------------
     // Paints
     //----------------------------------------------------------------------------
@@ -68,6 +70,9 @@ public class OTConstants {
     
     // Ruler color
     public static final Color RULER_COLOR = new Color( 236, 225, 113, 150 ); // transparent yellow
+    
+    // Color of the origin marker that appears in position histogram and play area
+    public static final Color ORIGIN_MARKER_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Images
