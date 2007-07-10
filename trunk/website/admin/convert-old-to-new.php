@@ -84,14 +84,19 @@
         return $row['contributor_id'];
     }
     
-    function compare_sim_to_name($sim1, $name2) {
-        $name1 = strtolower($sim1['sim_name']);
-        
+    function compare_sim_names($name1, $name2) {
         if ($name1 == $name2) return 0;
         
         if (strpos($name1, $name2) || strpos($name2, $name1)) return 1;
         
-        return 2;
+        // Strip out common words and non-characters:
+        $name1 = preg_replace('/\b(the)|(a)|(\W)|(\d)|(\s)\b/i', '', $name1);
+        $name2 = preg_replace('/\b(the)|(a)|(\W)|(\d)|(\s)\b/i', '', $name2);
+        
+        // Compare again:
+        if (strpos($name1, $name2) || strpos($name2, $name1)) return 2;
+        
+        return 3 + abs(strlen($name1) - strlen($name2));
     }
     
     function get_sim_id_by_sim_name($name) {
@@ -103,7 +108,7 @@
         $best_score     = 9999999;
         
         foreach($sims as $sim) {
-            $score = compare_sim_to_name($sim, $name);
+            $score = compare_sim_names(strtolower($sim['sim_name']), $name);
             
             if ($score < $best_score) {
                 $best_score     = $score;
