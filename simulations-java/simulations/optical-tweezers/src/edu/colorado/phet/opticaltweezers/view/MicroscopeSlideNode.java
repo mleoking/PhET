@@ -211,7 +211,7 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
         _centerNode.setOffset( 0, -( centerHeight / 2 ) );
         _bottomEdgeNode.setOffset( 0, +( centerHeight / 2 ) );
         _velocityVectorsParentNode.setOffset( 0, 
-                _centerNode.getOffset().getY() + ( ( _centerNode.getFullBounds().getHeight() - _velocityVectorsParentNode.getFullBounds().getHeight() ) / 2 ) );
+                _centerNode.getOffset().getY() + ( ( _centerNode.getFullBoundsReference().getHeight() - _velocityVectorsParentNode.getFullBoundsReference().getHeight() ) / 2 ) );
         
         setOffset( 0, y );
     }

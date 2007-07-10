@@ -14,6 +14,7 @@ import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -110,7 +111,8 @@ public class LaserOutlineNode extends PhetPNode {
         
         // move origin to center of trap
         final double d = modelViewTransform.modelToView( laser.getDistanceFromObjectiveToControlPanel() );
-        parentNode.setOffset( parentNode.getFullBounds().getWidth() / 2, ( parentNode.getFullBounds().getHeight() / 2 ) - ( d / 2 ) );
+        PBounds parentBounds = parentNode.getFullBoundsReference();
+        parentNode.setOffset( parentBounds.getWidth() / 2, ( parentBounds.getHeight() / 2 ) - ( d / 2 ) );
         
         return parentNode;
     }

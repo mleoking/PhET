@@ -17,6 +17,7 @@ import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -147,8 +148,9 @@ public class DNAStrandNode extends PNode implements Observer {
         double viewTailY = _modelViewTransform.modelToView( _dnaStrand.getTailY() );
         
         // pushpin at the tail
-        double xOffset = viewTailX - _pushpinNode.getFullBounds().getWidth();
-        double yOffset = viewTailY - _pushpinNode.getFullBounds().getHeight();
+        PBounds pushpinBounds = _pushpinNode.getFullBoundsReference();
+        double xOffset = viewTailX - pushpinBounds.getWidth();
+        double yOffset = viewTailY - pushpinBounds.getHeight();
         _pushpinNode.setOffset( xOffset, yOffset );
         
         // Draw the extension, a straight line from tail to head
