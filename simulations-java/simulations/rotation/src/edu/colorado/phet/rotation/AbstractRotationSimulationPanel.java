@@ -36,7 +36,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
     public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule ) {
         this.rotationModule = rotationModule;
         setBackground( new RotationLookAndFeel().getBackgroundColor() );
-        rotationGraphSet = new RotationGraphSet( this, rotationModule.getRotationModel() );
+        rotationGraphSet = createRotationGraphSet();
         graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
         rotationPlayAreaNode = createPlayAreaNode();
@@ -100,6 +100,10 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
             }
         } );
         setAlignedLayout();
+    }
+
+    protected GraphSuiteSet createRotationGraphSet() {
+        return new RotationGraphSet( this, rotationModule.getRotationModel() );
     }
 
     public GraphSuiteSet getRotationGraphSet() {

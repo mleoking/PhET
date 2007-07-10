@@ -14,6 +14,7 @@ public class RotationPlatform extends MotionBody {
     private SerializablePoint2D center = new SerializablePoint2D( 200, 200 );
     private double radius = 200.0;
     private double innerRadius = 0.0;
+    private double momentOfInertia = 2.0;
 
     public boolean containsPosition( Point2D loc ) {
         return loc.distance( center ) < radius && loc.distance( center ) >= innerRadius;
@@ -56,6 +57,10 @@ public class RotationPlatform extends MotionBody {
 
     public double getInnerRadius() {
         return innerRadius;
+    }
+
+    public double getMomentOfInertia() {
+        return momentOfInertia;
     }
 
     public static interface Listener {
