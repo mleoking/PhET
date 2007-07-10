@@ -20,7 +20,7 @@ public class TorqueModel extends RotationModel {
 
     private ISimulationVariable momentOfInertiaVariable = new DefaultSimulationVariable();
     private ITimeSeries momentOfInertiaTimeSeries = new DefaultTimeSeries();
-    
+
     private ISimulationVariable angularMomentumVariable = new DefaultSimulationVariable();
     private ITimeSeries angularMomentumTimeSeries = new DefaultTimeSeries();
 
@@ -30,6 +30,9 @@ public class TorqueModel extends RotationModel {
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
+        momentOfInertiaVariable.setValue( getRotationPlatform().getMomentOfInertia() );
+        momentOfInertiaTimeSeries.addValue( momentOfInertiaVariable.getValue(), getTime() );
+        
         torqueSeries.addValue( torqueVariable.getValue(), getTime() );
         forceTimeSeries.addValue( forceVariable.getValue(), getTime() );
     }
