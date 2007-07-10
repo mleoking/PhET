@@ -3,6 +3,8 @@ package edu.colorado.phet.build;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 //todo: needs better error handling for loading flavors
 //todo: test support for deploying with online url
 
@@ -44,13 +46,21 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         map.put( "PROJECT.JAR", phetProject.getJarFile().getName() );
         map.put( "PROJECT.SCREENSHOT", "http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg" );//todo: map this to correct sim-specific (possibly online) URL
         map.put( "PROJECT.MAINCLASS", flavor.getMainclass() );
-        map.put( "PROJECT.ARGS", toJNLPArgs( flavor.getArgs() ) );
+        map.put( "PROJECT.ARGS", toJNLPArgs( getArgs(flavor ) ) );
         map.put( "PROJECT.PROPERTIES", getJNLPProperties() );
         map.put( "PROJECT.DEPLOY.PATH", deployUrl );
         return map;
     }
 
-        private String getJNLPProperties() {//todo: locale support
+    private String[] getArgs( PhetProjectFlavor flavor ) {
+        ArrayList args=new ArrayList( Arrays.asList( flavor.getArgs()));
+        if (getOwningTarget().getProject().getProperty( "deploy.to.dev").equalsIgnoreCase( "true")){
+            args.add("-dev");
+        }
+        return (String[])args.toArray(new String[0]);
+    }
+
+    private String getJNLPProperties() {//todo: locale support
         String properties = "";
         if( locale != null && !locale.equals( "en" ) ) {
             properties += "<property name=\"javaws.phet.locale\" value=\"" + locale + "\" />";
