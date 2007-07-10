@@ -9,6 +9,8 @@ Do we want to calculate the angular velocity of bug if user is manually moving i
 
 Graphs for Angular Velocity and Angular Position should be attached to the object (not the rotational platform)?
 
+In one run, character positions weren't updated during playback.
+
 o	Minor UI fixes
 o	Minor bugfixes
 o	Handling multiple objects on a single graph
