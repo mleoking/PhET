@@ -1,4 +1,5 @@
 7-10-2007 Fixed: In the Energy vs. Time graph, the "Clear" button actually closes the graph, rather than just clearing the graph.
+7-10-2007 Fixed: 2.  In the Energy vs. Time graph, the zoom feature does not work properly.  It appears to zoom in and out on the graph, but the scale of the energy does not change (the numbers don't change).
 
 2.01.11 (7-3-2007)
 Fixed screenshot for dev page.
