@@ -7,6 +7,8 @@ High Priority:
         (requirements for different parts of the build task (e.g. which strings must be in localization files))
         -visit each sim to standardize
     Clean all needs to clean ant-output, not just deploy. (This looks like it is being done in the java side).
+    
+    Preserve order and formatting of project properties file when setting values of version properties.
 
 Medium Priority:
     Add accessor for available localization files, and a loop to generate locale-specific jnlp files.
