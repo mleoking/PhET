@@ -15,6 +15,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -187,12 +188,13 @@ public class OTRulerNode extends RulerNode implements Observer {
         
         // horizontally align the ruler's center with the laser
         final double xModel = _laser.getPositionReference().getX();
-        final double xView = _modelViewTransform.modelToView( xModel ) - ( getFullBounds().getWidth() / 2 ) + _xOffsetFudgeFactor;
+        final double xView = _modelViewTransform.modelToView( xModel ) - ( getFullBoundsReference().getWidth() / 2 ) + _xOffsetFudgeFactor;
         final double yView = getOffset().getY();
         setOffset( xView, yView );
 
         // adjust the drag bound for the new horizontal position
-        Rectangle2D dragBounds = new Rectangle2D.Double( getFullBounds().getX(), 0, getFullBounds().getWidth(), _worldSize.getHeight() );
+        PBounds bounds = getFullBoundsReference();
+        Rectangle2D dragBounds = new Rectangle2D.Double( bounds.getX(), 0, bounds.getWidth(), _worldSize.getHeight() );
         _dragBoundsNode.setPathTo( dragBounds );
     }
 }

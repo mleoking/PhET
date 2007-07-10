@@ -20,12 +20,12 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.FineCrosshairNode;
 import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.charts.PositionHistogramPanel;
 import edu.colorado.phet.opticaltweezers.control.LaserControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * LaserNode is the visual representation of the laser.
@@ -99,9 +99,10 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         
         // Control panel
         _controlPanel = new LaserControlPanel( laser, OTConstants.PLAY_AREA_CONTROL_FONT, objectiveWidth );
+        final double controlPanelHeight = _controlPanel.getFullBoundsReference().getHeight();
         
         // Supports for the objective
-        final double supportHeight = distanceFromObjectiveToControlPanel + _controlPanel.getFullBounds().getHeight();
+        final double supportHeight = distanceFromObjectiveToControlPanel + controlPanelHeight;
         ObjectiveSupportNode leftSupportNode = new ObjectiveSupportNode( supportHeight );
         ObjectiveSupportNode rightSupportNode = new ObjectiveSupportNode( supportHeight );
         AffineTransform horizontalReflection = new AffineTransform();
@@ -132,7 +133,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         _originMarkerNode.setVisible( false );
         
         // Handles
-        double handleHeight = 0.8 * _controlPanel.getFullBounds().getHeight();
+        double handleHeight = 0.8 * controlPanelHeight;
         HandleNode leftHandleNode = new HandleNode( HANDLE_WIDTH, handleHeight, HANDLE_COLOR );
         HandleNode rightHandleNode = new HandleNode( HANDLE_WIDTH, handleHeight, HANDLE_COLOR );
         
@@ -154,22 +155,28 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         }
         
         // Beam above objective
-        _beamNode.setOffset( -_beamNode.getFullBounds().getWidth()/2, -distanceFromObjectiveToWaist );
-        _electricFieldNode.setOffset( _beamNode.getOffset().getX(), _beamNode.getOffset().getY() );
-        _outlineNode.setOffset( _beamNode.getOffset().getX(), _beamNode.getOffset().getY() );
+        double xOffset = -_beamNode.getFullBoundsReference().getWidth() / 2;
+        double yOffset = -distanceFromObjectiveToWaist;
+        _beamNode.setOffset( xOffset, yOffset );
+        _electricFieldNode.setOffset( xOffset, yOffset );
+        _outlineNode.setOffset( xOffset, yOffset );
         // Objective below beam
         objectiveNode.setOffset( 0, distanceFromObjectiveToWaist );
+        PBounds objectiveBounds = objectiveNode.getFullBoundsReference();
         // Control panel below beam
-        _controlPanel.setOffset( -_controlPanel.getFullBounds().getWidth()/2, distanceFromObjectiveToWaist + distanceFromObjectiveToControlPanel );
+        _controlPanel.setOffset( -_controlPanel.getFullBoundsReference().getWidth()/2, distanceFromObjectiveToWaist + distanceFromObjectiveToControlPanel );
+        PBounds controlPanelBounds = _controlPanel.getFullBoundsReference();
         // Support beams
-        leftSupportNode.setOffset( objectiveNode.getFullBounds().getX(), objectiveNode.getOffset().getY() - ( leftSupportNode.getHeadHeight() / 2 ) );
-        rightSupportNode.setOffset( objectiveNode.getFullBounds().getMaxX(), objectiveNode.getOffset().getY() - ( rightSupportNode.getHeadHeight() / 2 ) );
+        leftSupportNode.setOffset( objectiveBounds.getX(), distanceFromObjectiveToWaist - ( leftSupportNode.getHeadHeight() / 2 ) );
+        rightSupportNode.setOffset( objectiveBounds.getMaxX(), distanceFromObjectiveToWaist - ( rightSupportNode.getHeadHeight() / 2 ) );
         // Handles
-        leftHandleNode.setOffset( _controlPanel.getFullBounds().getX() - leftHandleNode.getFullBounds().getWidth() + 2, 
-                _controlPanel.getFullBounds().getY() + ( ( _controlPanel.getFullBounds().getHeight() - leftHandleNode.getFullBounds().getHeight() ) / 2 ) );
+        PBounds leftHandleBounds = leftHandleNode.getFullBoundsReference();
+        leftHandleNode.setOffset( controlPanelBounds.getX() - leftHandleBounds.getWidth() + 2, 
+                controlPanelBounds.getY() + ( ( controlPanelBounds.getHeight() - leftHandleBounds.getHeight() ) / 2 ) );
+        PBounds rightHandleBounds = rightHandleNode.getFullBoundsReference();
         rightHandleNode.rotate( Math.toRadians( 180 ) );
-        rightHandleNode.setOffset( _controlPanel.getFullBounds().getMaxX() + rightHandleNode.getFullBounds().getWidth() - 2, 
-                _controlPanel.getFullBounds().getMaxY() - ( ( _controlPanel.getFullBounds().getHeight() - rightHandleNode.getFullBounds().getHeight() ) / 2 ) );
+        rightHandleNode.setOffset( controlPanelBounds.getMaxX() + rightHandleBounds.getWidth() - 2, 
+                controlPanelBounds.getMaxY() - ( ( controlPanelBounds.getHeight() - rightHandleBounds.getHeight() ) / 2 ) );
         
         // Put hand cursor on parts that are interactive
         Cursor cursor = OTConstants.LEFT_RIGHT_CURSOR;

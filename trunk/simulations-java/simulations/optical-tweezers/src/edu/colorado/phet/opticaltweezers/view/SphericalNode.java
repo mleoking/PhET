@@ -10,6 +10,7 @@ import java.awt.geom.Ellipse2D;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * SphericalNode draws a sphere, with origin at the center of the sphere.
@@ -85,7 +86,7 @@ public class SphericalNode extends PhetPNode {
     //----------------------------------------------------------------------------
     
     public double getDiameter() {
-        return getFullBounds().getWidth();
+        return getFullBoundsReference().getWidth();
     }
 
     public void setDiameter( double diameter ) {
@@ -117,7 +118,8 @@ public class SphericalNode extends PhetPNode {
         if ( _convertToImage ) {
             _imageNode.setImage( _pathNode.toImage() );
             // Move origin to center
-            _imageNode.setOffset( -_imageNode.getFullBounds().getWidth() / 2, -_imageNode.getFullBounds().getHeight() / 2 );
+            PBounds imageBounds = _imageNode.getFullBoundsReference();
+            _imageNode.setOffset( -imageBounds.getWidth() / 2, -imageBounds.getHeight() / 2 );
         }
     }
 }

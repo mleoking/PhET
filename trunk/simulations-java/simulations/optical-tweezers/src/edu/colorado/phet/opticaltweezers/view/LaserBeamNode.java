@@ -18,6 +18,7 @@ import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.util.ScaleAlphaImageOp;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -211,23 +212,27 @@ public class LaserBeamNode extends PhetPNode implements Observer {
             addChild( _upperLeftNode );
             addChild( _upperRightNode );
             
+            PBounds upperLeftBounds = _upperLeftNode.getFullBoundsReference();
             AffineTransform upperLeftTransform = new AffineTransform();
-            upperLeftTransform.translate( _upperLeftNode.getFullBounds().getWidth() + horizontalOverlap, _upperLeftNode.getFullBounds().getHeight() + verticalOverlap );
+            upperLeftTransform.translate( upperLeftBounds.getWidth() + horizontalOverlap, upperLeftBounds.getHeight() + verticalOverlap );
             upperLeftTransform.scale( -1, -1 ); // reflection about both axis
             _upperLeftNode.setTransform( upperLeftTransform );
             
+            PBounds upperRightBounds = _upperRightNode.getFullBoundsReference();
             AffineTransform upperRightTransform = new AffineTransform();
-            upperRightTransform.translate( _upperRightNode.getFullBounds().getWidth() - horizontalOverlap, _upperRightNode.getFullBounds().getHeight() + verticalOverlap );
+            upperRightTransform.translate( upperRightBounds.getWidth() - horizontalOverlap, upperRightBounds.getHeight() + verticalOverlap );
             upperRightTransform.scale( 1, -1 ); // reflection about the x axis
             _upperRightNode.setTransform( upperRightTransform );
 
+            PBounds lowerLeftBounds = _lowerLeftNode.getFullBoundsReference();
             AffineTransform lowerLeftTransform = new AffineTransform();
-            lowerLeftTransform.translate( _lowerLeftNode.getFullBounds().getWidth() + horizontalOverlap, _lowerLeftNode.getFullBounds().getHeight() - verticalOverlap );
+            lowerLeftTransform.translate( lowerLeftBounds.getWidth() + horizontalOverlap, lowerLeftBounds.getHeight() - verticalOverlap );
             lowerLeftTransform.scale( -1, 1 ); // reflection about the y axis
             _lowerLeftNode.setTransform( lowerLeftTransform );
             
+            PBounds lowerRightBounds = _lowerRightNode.getFullBoundsReference();
             AffineTransform lowerRightTransform = new AffineTransform();
-            lowerRightTransform.translate( _lowerRightNode.getFullBounds().getWidth() - horizontalOverlap, _lowerRightNode.getFullBounds().getHeight() - verticalOverlap );
+            lowerRightTransform.translate( lowerRightBounds.getWidth() - horizontalOverlap, lowerRightBounds.getHeight() - verticalOverlap );
             lowerRightTransform.scale( 1, 1 ); // no reflection
             _lowerRightNode.setTransform( lowerRightTransform );
         }
