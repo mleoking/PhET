@@ -42,14 +42,24 @@ public class TorqueGraphSet extends GraphSuiteSet {
                 UnicodeUtil.TAU, "torque", -0.001, 0.001, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
                 tm, true, tm.getTimeSeriesModel(), tm.getTorqueDriven(), maxDomainValue, tm.getRotationPlatform() ) );
 
-        MinimizableControlGraph forceGraph = new MinimizableControlGraph( "Force", new MotionControlGraph(
+        MinimizableControlGraph forceGraph = new MinimizableControlGraph( "F", new MotionControlGraph(
                 pSwingCanvas, tm.getForceVariable(), tm.getForceTimeSeries(),
-                "F", "force", -0.001/200.0, 0.001/200.0, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
+                "F", "force", -0.001 / 200.0, 0.001 / 200.0, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
                 tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), maxDomainValue, tm.getRotationPlatform() ) );
+
+        MinimizableControlGraph momentOfInertiaGraph = new MinimizableControlGraph( "I", new MotionControlGraph(
+                pSwingCanvas, tm.getMomentOfInertiaVariable(), tm.getMomentOfInertiaTimeSeries(),
+                "I", "Moment of Inertia", -0.001 / 200.0, 0.001 / 200.0, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
+                tm, true, tm.getTimeSeriesModel(), null, maxDomainValue, tm.getRotationPlatform() ) );
+
+        MinimizableControlGraph angularMomentumGraph = new MinimizableControlGraph( "L", new MotionControlGraph(
+                pSwingCanvas, tm.getAngularMomentumVariable(), tm.getAngularMomentumTimeSeries(),
+                "L", "Angular Momentum", -0.001 / 200.0, 0.001 / 200.0, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
+                tm, true, tm.getTimeSeriesModel(), null, maxDomainValue, tm.getRotationPlatform() ) );
 
         addGraphSuite( new MinimizableControlGraph[]{forceGraph, torqueGraph} );
         addGraphSuite( new MinimizableControlGraph[]{torqueGraph, accelGraph, velocityGraph, angleGraph} );
-//        addGraphSuite( new MinimizableControlGraph[]{velocityGraph, momentOfInertiaGraph, angularMomentumGraph} );
+        addGraphSuite( new MinimizableControlGraph[]{velocityGraph, momentOfInertiaGraph, angularMomentumGraph} );
 
     }
 
