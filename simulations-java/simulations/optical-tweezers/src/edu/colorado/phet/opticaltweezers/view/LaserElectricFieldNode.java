@@ -265,7 +265,7 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
             ElectricFieldVectorNode vectorNode = (ElectricFieldVectorNode) i.next();
 
             // magnitude
-            Point2D offsetFromLaser = vectorNode.getOffsetFromLaser();
+            Point2D offsetFromLaser = vectorNode.getOffsetFromLaserReference();
             Vector2D electricField = _laser.getElectricField( offsetFromLaser );
             vectorNode.setXY( electricField.getX(), electricField.getY() );
 
@@ -295,7 +295,7 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
             setUnits( ELECTRIC_FIELD_UNITS );
         }
         
-        public Point2D getOffsetFromLaser() {
+        public Point2D getOffsetFromLaserReference() {
             return _offsetFromLaser;
         }
     }

@@ -72,6 +72,8 @@ public class Vector2DNode extends PhetPNode {
     private boolean _updateEnabled;
     private boolean _valueVisible;
     
+    private Point2D _somePoint; // reusable point
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -123,6 +125,8 @@ public class Vector2DNode extends PhetPNode {
         _units = DEFAULT_UNITS;
         _updateEnabled = true;
         _valueVisible = _valueNode.getVisible();
+        
+        _somePoint = new Point2D.Double();
         
         update();
     }
@@ -334,8 +338,8 @@ public class Vector2DNode extends PhetPNode {
                 // update the arrow
                 final double xTip = _x * ( _referenceLength / _referenceMagnitude );
                 final double yTip = _y * ( _referenceLength / _referenceMagnitude );
-                Point2D tipPosition = new Point2D.Double( xTip, yTip );
-                Arrow arrow = new Arrow( TAIL_POSITION, tipPosition, _headHeight, _headWidth, _tailWidth, _fractionalHeadHeight, true /* scaleTailToo */ );
+                _somePoint.setLocation( xTip, yTip );
+                Arrow arrow = new Arrow( TAIL_POSITION, _somePoint, _headHeight, _headWidth, _tailWidth, _fractionalHeadHeight, true /* scaleTailToo */ );
                 _arrowNode.setPathTo( arrow.getShape() );
 
                 // update the text

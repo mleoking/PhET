@@ -60,6 +60,8 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
     
+    private Point2D _pModel; // reusable point
+    
     private LaserOutlineNode _outlineNode;
     private LaserBeamNode _beamNode;
     private LaserElectricFieldNode _electricFieldNode;
@@ -87,6 +89,8 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         _laser.addObserver( this );
         
         _modelViewTransform = modelViewTransform;
+        
+        _pModel = new Point2D.Double();
         
         final double laserWidth = _modelViewTransform.modelToView( _laser.getDiameterAtObjective() );
         final double distanceFromObjectiveToWaist = _modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToWaist() );
@@ -292,8 +296,8 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
      * Updates the position to match the model.
      */
     private void updatePosition() {
-        Point2D laserPosition = _modelViewTransform.modelToView( _laser.getPosition() );
-        setOffset( laserPosition.getX(), laserPosition.getY() );
+        _modelViewTransform.modelToView( _laser.getPosition(), _pModel );
+        setOffset( _pModel );
     }
     
     /*
