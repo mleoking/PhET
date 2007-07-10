@@ -37,6 +37,7 @@ import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
@@ -562,17 +563,20 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         
         // constraint the ruler's drag bounds
         final int minPixelsVisible = 20;
-        double x = _snapshotClipNode.getFullBounds().getX() - _rulerNode.getFullBounds().getWidth() + minPixelsVisible;
-        double y = _snapshotClipNode.getFullBounds().getY();
-        double w = _snapshotClipNode.getFullBounds().getWidth() + ( 2 * _rulerNode.getFullBounds().getWidth() ) - ( 2 * minPixelsVisible );
-        double h = _snapshotClipNode.getFullBounds().getHeight();
+        PBounds snapshotBounds = _snapshotClipNode.getFullBoundsReference();
+        PBounds rulerBounds = _rulerNode.getFullBoundsReference();
+        double x = snapshotBounds.getX() - rulerBounds.getWidth() + minPixelsVisible;
+        double y = snapshotBounds.getY();
+        double w = snapshotBounds.getWidth() + ( 2 * rulerBounds.getWidth() ) - ( 2 * minPixelsVisible );
+        double h = snapshotBounds.getHeight();
         _rulerDragBoundsNode = new PPath( new Rectangle2D.Double( x, y, w,h ) );
         _rulerParentNode.addChild( _rulerDragBoundsNode );
         _rulerNode.addInputEventListener( new BoundedDragHandler( _rulerNode, _rulerDragBoundsNode ) );
         
         // Center the ruler
-        double xOffset = ( _chartNode.getFullBounds().getWidth() - _rulerNode.getFullBounds().getWidth() ) / 2;
-        double yOffset = ( _chartNode.getFullBounds().getHeight() - _rulerNode.getFullBounds().getHeight() ) / 2;
+        PBounds chartBounds = _chartNode.getFullBoundsReference();
+        double xOffset = ( chartBounds.getWidth() - rulerBounds.getWidth() ) / 2;
+        double yOffset = ( chartBounds.getHeight() - rulerBounds.getHeight() ) / 2;
         _rulerNode.setOffset( xOffset, yOffset );
         
         _rulerNode.setVisible( rulerVisible );
@@ -600,7 +604,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
      */
     private void handleClockEvent( ClockEvent event ) {
         setNumberOfMeasurements( _numberOfMeasurements + 1 );
-        double xOffset = _bead.getPositionRef().getX() - _laser.getPosition().getX();
+        double xOffset = _bead.getPositionRef().getX() - _laser.getPositionRef().getX();
         _plot.addPosition( xOffset );
     }
 

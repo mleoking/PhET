@@ -24,6 +24,7 @@ import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.view.BeadNode;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * PotentialEnergyChartNode is the Piccolo node that draws the potential energy chart.
@@ -209,8 +210,11 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
         final double horizMargin = 15;
         final double vertMargin = 15;
         
-        final double maxWidth = _chartWrapper.getFullBounds().getWidth();
-        double maxHeight = _closeButtonNode.getFullBounds().getHeight() + vertMargin;
+        PBounds chartBounds = _chartWrapper.getFullBoundsReference();
+        PBounds closeButtonBounds = _closeButtonNode.getFullBoundsReference();
+        
+        final double maxWidth = chartBounds.getWidth();
+        double maxHeight = closeButtonBounds.getHeight() + vertMargin;
         
         double x = 0;
         double y = 0;
@@ -221,8 +225,8 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
         _chartWrapper.setOffset( x, y );
         
         // close button: right edge, vertically centered
-        x = maxWidth - horizMargin - _closeButtonNode.getFullBounds().getWidth();
-        y = ( maxHeight - _closeButtonNode.getFullBounds().getHeight() ) / 2;
+        x = maxWidth - horizMargin - closeButtonBounds.getWidth();
+        y = ( maxHeight - closeButtonBounds.getHeight() ) / 2;
         _closeButtonNode.setOffset( x, y );
     }
     
