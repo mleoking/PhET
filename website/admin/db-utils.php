@@ -58,6 +58,8 @@
     }
     
     function db_get_rows_by_condition($table_name, $condition = array(), $fuzzy = false, $reformat = true) {
+        if (!is_array($condition)) return array();
+        
         $query = "SELECT * FROM `$table_name` ";
         
         $is_first = true;

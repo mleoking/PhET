@@ -65,7 +65,7 @@
         
         if (!$email || $email == '') return -1;
         
-        $row = db_get_row_by_condition('contributor', 'contributor_email', $email);
+        $row = db_get_row_by_condition('contributor', array('contributor_email', $email) );
         
         if (!$row) {
             if (!isset($contributor['contributor_password'])) {
