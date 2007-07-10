@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 AAPT:
-- change "force on bead" model in slow mode
 - add description to About dialog
 - set correct default values for everything, including developer controls
 - dialogs don't repaint or close immediately when clock is running under Java 1.5, AWT thread priority?
@@ -57,6 +56,7 @@ MISSING INFO:
 
  
 DONE:
+7/9/07 - change trap force model in slow mode, shrink & grow with E-field
 ********* version 0.00.20 (16480)
 7/9/07 - histogram: change bin widths per Kathy's specification
 7/9/07 - histogram: let client set dialog's location
