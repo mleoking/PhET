@@ -54,6 +54,7 @@ MISSING INFO:
 
  
 DONE:
+7/10/07 - rename FixedObject.getPositionRef to getPositionReference
 7/10/07 - use PNode.getFullBoundsReference instead of getFullBounds
 7/10/07 - use -dev commandline arg to enable developer controls instead of javaws.phet.developer property
 7/9/07 - remove PhetFrameWorkaround, didn't solve the problem

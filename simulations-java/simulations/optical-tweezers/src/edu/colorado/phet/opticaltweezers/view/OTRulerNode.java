@@ -186,7 +186,7 @@ public class OTRulerNode extends RulerNode implements Observer {
     private void updatePosition() {
         
         // horizontally align the ruler's center with the laser
-        final double xModel = _laser.getPositionRef().getX();
+        final double xModel = _laser.getPositionReference().getX();
         final double xView = _modelViewTransform.modelToView( xModel ) - ( getFullBounds().getWidth() / 2 ) + _xOffsetFudgeFactor;
         final double yView = getOffset().getY();
         setOffset( xView, yView );

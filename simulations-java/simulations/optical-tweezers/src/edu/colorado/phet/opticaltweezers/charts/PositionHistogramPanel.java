@@ -604,7 +604,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
      */
     private void handleClockEvent( ClockEvent event ) {
         setNumberOfMeasurements( _numberOfMeasurements + 1 );
-        double xOffset = _bead.getPositionRef().getX() - _laser.getPositionRef().getX();
+        double xOffset = _bead.getPositionReference().getX() - _laser.getPositionReference().getX();
         _plot.addPosition( xOffset );
     }
 
