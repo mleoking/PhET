@@ -120,6 +120,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
     
         updateLayout();
         updateCurve();
+        updateBeadPosition();
     }
     
     //----------------------------------------------------------------------------
@@ -132,9 +133,12 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
      * @param visible true or false
      */
     public void setVisible( boolean visible ) {
-        super.setVisible( visible );
-        if ( visible ) {
-            updateCurve();
+        if ( visible != isVisible() ) {
+            if ( visible ) {
+                updateCurve();
+                updateBeadPosition();
+            }
+            super.setVisible( visible );
         }
     }
 
@@ -157,6 +161,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
         _plot.setPositionRange( minPosition, maxPosition );
         // update chart
         updateCurve();
+        updateBeadPosition();
     }
     
     /**

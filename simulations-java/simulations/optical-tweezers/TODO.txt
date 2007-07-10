@@ -57,7 +57,9 @@ MISSING INFO:
 
  
 DONE:
-7/10/07 - optimize potential enegy chart, do finer granularity updates
+7/10/07 - update potential energy chart before making it visible
+7/10/07 - optimize potential energy chart, do finer granularity updates
+7/10/07 - only update potential energy chart when it's visible
 7/10/07 - optimize DNStrand.evolve by reusing a vector for fluid velocity
 7/10/07 - finish memory optimization of Rectangle2D, Point2D and Vector2D
 7/10/07 - reuse Point2D objects when doing model-view transforms
