@@ -3,15 +3,15 @@
     include_once('db-utils.php');
     include_once('web-utils.php');
 
-    define('OLD_DB_HOSTNAME', 'localhost');
-    define('OLD_DB_USERNAME', 'tester');
-    define('OLD_DB_PASSWORD', 'tester');
-    define('OLD_DB_NAME',     'phet_test');
-    
-    define('NEW_DB_HOSTNAME', 'localhost');
-    define('NEW_DB_USERNAME', 'tester');
-    define('NEW_DB_PASSWORD', 'tester');
-    define('NEW_DB_NAME',     'phet_production');
+    // define('OLD_DB_HOSTNAME', 'localhost');
+    // define('OLD_DB_USERNAME', 'tester');
+    // define('OLD_DB_PASSWORD', 'tester');
+    // define('OLD_DB_NAME',     'phet_test');
+    // 
+    // define('NEW_DB_HOSTNAME', 'localhost');
+    // define('NEW_DB_USERNAME', 'tester');
+    // define('NEW_DB_PASSWORD', 'tester');
+    // define('NEW_DB_NAME',     'phet_production');
 
     $old = mysql_connect(OLD_DB_HOSTNAME, OLD_DB_USERNAME, OLD_DB_PASSWORD);
     $new = mysql_connect(NEW_DB_HOSTNAME, NEW_DB_USERNAME, NEW_DB_PASSWORD);
@@ -89,7 +89,7 @@
         
         if ($name1 == $name2) return 0;
         
-        if (strstr($name1, $name2) > 0 || strstr($name2, $name1) > 0) return 1;
+        if (strpos($name1, $name2) || strpos($name2, $name1)) return 1;
         
         return 2;
     }
@@ -113,7 +113,7 @@
         
         switch_to_old();
         
-        return $sim['sim_id'];
+        return $best_match_sim['sim_id'];
     }
     
     function convert_old_simulation_listings($old_contrib, $new_contribution_id) {

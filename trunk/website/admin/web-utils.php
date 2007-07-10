@@ -712,7 +712,12 @@ EOT;
         $list_id = "${name}_list_uid";
         
         foreach($selections_array as $text) {
-            $identifier = $text_to_identifier["$text"];
+            if (isset($text_to_identifier["$text"])) {
+                $identifier = $text_to_identifier["$text"];
+            }
+            else {
+                $identifier = "$text";
+            }
             
             $child_id = "child_${name}_${child_id_index}";
             
