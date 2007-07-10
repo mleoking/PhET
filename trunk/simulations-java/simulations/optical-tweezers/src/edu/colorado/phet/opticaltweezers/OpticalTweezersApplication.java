@@ -10,6 +10,7 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -29,6 +30,12 @@ import edu.colorado.phet.opticaltweezers.persistence.OTPersistenceManager;
  */
 public class OpticalTweezersApplication extends PiccoloPhetApplication {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static boolean DEVELOPER_CONTROLS_ENABLED;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -52,6 +59,7 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
     public OpticalTweezersApplication( PhetApplicationConfig config )
     {
         super( config );
+        DEVELOPER_CONTROLS_ENABLED = CommandLineUtils.contains( config.getCommandLineArgs(), OTConstants.DEVELOPER_ARG );
         initModules();
         initMenubar( config.getCommandLineArgs() );
     }
@@ -103,12 +111,6 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
                 }
             } );
             
-            //XXX feature not implemented
-            {
-                saveItem.setEnabled( false );
-                loadItem.setEnabled( false );
-            }
-
             //XXX feature hidden for AAPT
 //            frame.addFileMenuItem( saveItem );
 //            frame.addFileMenuItem( loadItem );
@@ -123,7 +125,7 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
 
         // Developer menu
         DeveloperMenu developerMenu = new DeveloperMenu();
-        if ( optionsMenu.getMenuComponentCount() > 0 && System.getProperty( OTConstants.PROPERTY_PHET_DEVELOPER ) != null ) {
+        if ( optionsMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
             frame.addMenu( developerMenu );
         }
         
@@ -131,6 +133,14 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
         {
 //            HelpMenu helpMenu = frame.getHelpMenu();
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Setters & getters
+    //----------------------------------------------------------------------------
+    
+    public static boolean isDeveloperControlsEnabled() {
+        return DEVELOPER_CONTROLS_ENABLED;
     }
     
     //----------------------------------------------------------------------------
