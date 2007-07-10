@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
-import edu.colorado.phet.opticaltweezers.OTApplication;
+import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 
@@ -35,7 +35,7 @@ public class OTPersistenceManager {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private OTApplication _app; // the application whose configuration we are managing
+    private OpticalTweezersApplication _app; // the application whose configuration we are managing
     private String _directoryName; // the most recent directory visited in a file chooser
     private boolean _useJNLP; // whether to use JNLP services
     
@@ -48,7 +48,7 @@ public class OTPersistenceManager {
      * 
      * @param app
      */
-    public OTPersistenceManager( OTApplication app ) {
+    public OTPersistenceManager( OpticalTweezersApplication app ) {
         _app = app;
         _useJNLP = wasWebStarted();
     }
