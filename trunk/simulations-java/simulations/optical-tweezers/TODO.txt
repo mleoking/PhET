@@ -57,7 +57,7 @@ MISSING INFO:
 
  
 DONE:
-********* version 0.00.20 (?)
+********* version 0.00.20 (16480)
 7/9/07 - histogram: change bin widths per Kathy's specification
 7/9/07 - histogram: let client set dialog's location
 7/9/07 - histogram: fix exception thrown when changing modules
