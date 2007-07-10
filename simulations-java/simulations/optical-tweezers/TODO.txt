@@ -5,6 +5,9 @@
 IN PROGRESS:
 
 AAPT:
+- bug: histogram bars are sometimes drawn wrong (sitting way above x-axis) when zooming in slow mode
+- performance profiling
+- test performance of position histogram when observation cache is full
 - add description to About dialog
 - set correct default values for everything, including developer controls
 - E-field stops for Kathy below dt=2.7E-17
@@ -54,6 +57,8 @@ MISSING INFO:
 
  
 DONE:
+7/10/07 - finish memory optimization of Rectangle2D, Point2D and Vector2D
+7/10/07 - reuse Point2D objects when doing model-view transforms
 7/10/07 - reduce number of Point2D allocated by bead drag handler
 7/10/07 - rename FixedObject.getPositionRef to getPositionReference
 7/10/07 - use PNode.getFullBoundsReference instead of getFullBounds
