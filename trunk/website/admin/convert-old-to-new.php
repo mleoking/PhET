@@ -84,22 +84,63 @@
         return $row['contributor_id'];
     }
     
+    function get_shorthand($string) {
+        // Strip out common words and non-characters:
+        $string = preg_replace('/(\(.+\))/i', '', $string);
+        $string = preg_replace('/\b(the)|(a)|(\W)|(\d)|(\s)\b/i', '', $string);
+        
+        return $string;
+    }
+    
     function compare_sim_names($name1, $name2) {
+        $name1 = strtolower($name1);
+        $name2 = strtolower($name2);
+        
         if ($name1 == $name2) return 0;
         
         if (strpos($name1, $name2) || strpos($name2, $name1)) return 1;
         
-        // Strip out common words and non-characters:
-        $name1 = preg_replace('/\b(the)|(a)|(\W)|(\d)|(\s)\b/i', '', $name1);
-        $name2 = preg_replace('/\b(the)|(a)|(\W)|(\d)|(\s)\b/i', '', $name2);
+        $name1 = get_shorthand($name1);
+        $name2 = get_shorthand($name2);
         
         // Compare again:
         if (strpos($name1, $name2) || strpos($name2, $name1)) return 2;
         
-        return 3 + abs(strlen($name1) - strlen($name2));
+        // Still failed. Count number of different characters:
+        $name1_to_count = count_chars($name1);
+        $name2_to_count = count_chars($name2);
+        
+        $diff_count = 0;
+        
+        foreach($name1_to_count as $char => $count) {
+            if (!isset($name2_to_count[$char])) {
+                // The second name doesn't have this character:
+                $diff_count += $count;
+            }
+            else {
+                // The second name DOES have this character:
+                $that_count = $name2_to_count[$char];
+                
+                $diff_count += abs($count - $that_count);
+            }
+        }
+        
+        foreach($name2_to_count as $char => $count) {
+            if (!isset($name1_to_count[$char])) {
+                // The first name doesn't have this character:
+                $diff_count += $count;
+            }
+            else {
+                // The first name DOES have this character -- already counted.
+            }
+        }
+        
+        return 3 + $diff_count;
     }
     
-    function get_sim_id_by_sim_name($name) {
+    function get_sim_id_by_sim_name($name1) {
+        $name1 = strtolower($name1);
+        
         switch_to_new();
         
         $sims = db_get_all_rows('simulation');
@@ -108,7 +149,11 @@
         $best_score     = 9999999;
         
         foreach($sims as $sim) {
-            $score = compare_sim_names(strtolower($sim['sim_name']), $name);
+            $name2 = strtolower($sim['sim_name']);
+            
+            $score = compare_sim_names($name1, $name2);
+            
+            print "Compared sim names: $name1, $name2  -- $score <br/>";
             
             if ($score < $best_score) {
                 $best_score     = $score;
@@ -255,25 +300,17 @@
         }
     }
     
-    function convert_old_contribution_file($new_contribution_id, $old_name, $old_data, $old_size) {
-        $new_name = "php".web_create_random_password(6)."_$old_name";
-        
-        $new_url = "admin/uploads/contributions/$new_name";
-        
-        $dest_pathname_abs = "../$new_url";
-        
-        if (!file_put_contents($dest_pathname_abs, $old_data)) {
-            return false;
-        }
-        
+    function convert_old_contribution_file($new_contribution_id, $old_name, $old_data, $old_size) {    
         switch_to_new();
         
         $id = db_insert_row(
             'contribution_file', 
             array(
-                'contribution_file_url'  => $new_url,
-                'contribution_file_size' => $old_size,
-                'contribution_id'        => $new_contribution_id
+                'contribution_file_url'      => '',
+                'contribution_file_size'     => $old_size,
+                'contribution_file_name'     => $old_name,
+                'contribution_file_contents' => base64_encode($old_data);
+                'contribution_id'            => $new_contribution_id
             )
         );
         
@@ -365,7 +402,7 @@
     $cur_sim_num = 1;
     
     foreach($all_old_contribs as $old_contrib) {
-        print "Converting simulation $cur_sim_num of ".count($all_old_contribs)."...<br/>";
+        print "Converting simulation contribution $cur_sim_num of ".count($all_old_contribs)."...<br/>";
         
         flush();
         
