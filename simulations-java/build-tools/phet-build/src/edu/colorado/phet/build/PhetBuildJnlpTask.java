@@ -54,7 +54,10 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
 
     private String[] getArgs( PhetProjectFlavor flavor ) {
         ArrayList args=new ArrayList( Arrays.asList( flavor.getArgs()));
-        if (getOwningTarget().getProject().getProperty( "deploy.to.dev").equalsIgnoreCase( "true")){
+
+        //optionally add a -dev parameter if this simulation is deployed to dev directory 
+        String property = getOwningTarget().getProject().getProperty( "deploy.to.dev" );
+        if ( property!=null&&property.equalsIgnoreCase( "true")){
             args.add("-dev");
         }
         return (String[])args.toArray(new String[0]);
