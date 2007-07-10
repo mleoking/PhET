@@ -126,7 +126,6 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     // Ruler properties
     private static final double RULER_HEIGHT = 30;
     private static final int RULER_FONT_SIZE = 10;
-    private static final Color RULER_COLOR = new Color( 236, 225, 113, 150 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -564,7 +563,7 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         _rulerNode = new RulerNode( distanceBetweenFirstAndLastTick, RULER_HEIGHT, majorTickLabels, _unitsString, numMinorTicksBetweenMajors, RULER_FONT_SIZE );
         _rulerParentNode.addChild( _rulerNode );
         _rulerNode.addInputEventListener( new CursorHandler() );
-        _rulerNode.setBackgroundPaint( RULER_COLOR );
+        _rulerNode.setBackgroundPaint( OTConstants.RULER_COLOR );
         
         // constraint the ruler's drag bounds
         final int minPixelsVisible = 20;
