@@ -186,14 +186,16 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
      * @param arg
      */
     public void update( Observable o, Object arg ) {
-        if ( o == _laser ) {
-            if ( arg == Laser.PROPERTY_POSITION ) {
-                updateCurve();
+        if ( isVisible() ) {
+            if ( o == _laser ) {
+                if ( arg == Laser.PROPERTY_POSITION || arg == Laser.PROPERTY_POWER || arg == Laser.PROPERTY_RUNNING ) {
+                    updateCurve();
+                }
             }
-        }
-        else if ( o == _bead ) {
-            if ( arg == Bead.PROPERTY_POSITION ) {
-                updateCurve();
+            else if ( o == _bead ) {
+                if ( arg == Bead.PROPERTY_POSITION ) {
+                    updateBeadPosition();
+                }
             }
         }
     }
@@ -247,9 +249,6 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
             _plot.addData( x, potentialEnergy );
             x += _sampleWidth;
         }
-        
-        // move the bead to a point on the curve
-        updateBeadPosition();
     }
     
     /*
