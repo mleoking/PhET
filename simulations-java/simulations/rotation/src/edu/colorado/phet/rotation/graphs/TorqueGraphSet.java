@@ -41,27 +41,15 @@ public class TorqueGraphSet extends GraphSuiteSet {
                 pSwingCanvas, tm.getTorqueVariable(), tm.getTorqueTimeSeries(),
                 UnicodeUtil.TAU, "torque", -0.001, 0.001, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
                 tm, true, tm.getTimeSeriesModel(), tm.getTorqueDriven(), maxDomainValue, tm.getRotationPlatform() ) );
-//        RotationBody b = tm.getRotationBody( 0 );
-//        MinimizableControlGraph linearPositionGraph = new MinimizableControlGraph( "x,y", new MotionControlGraph(
-//                pSwingCanvas, b.getXPositionVariable(), b.getXPositionTimeSeries(), "x", "Position", 0, 500, Color.blue,
-//                new PImage( loadArrow( "blue-arrow.png" ) ), tm, false, tm.getTimeSeriesModel(), null, maxDomainValue, null ) );
-//        linearPositionGraph.getControlGraph().addSeries( "Position", Color.red, "y", b.getYPositionVariable(), b.getYPositionTimeSeries() );
-//
-//        MinimizableControlGraph forceGraph = new MinimizableControlGraph( "v<sub>x</sub>,v<sub>y</sub>", new MotionControlGraph(
-//                pSwingCanvas, b.getXVelocityVariable(), b.getXVelocityTimeSeries(), "vx", "Velocity (x)", -10, 10, Color.blue,
-//                new PImage( loadArrow( "blue-arrow.png" ) ), tm, false, tm.getTimeSeriesModel(), null, maxDomainValue, null ) );
-//        forceGraph.getControlGraph().addSeries( "Velocity (y)", Color.red, "vy", b.getYVelocityVariable(), b.getYVelocityTimeSeries() );
-//        forceGraph.getControlGraph().addSeries( "|Velocity|", Color.green, "|v|", b.getSpeedVariable(), b.getSpeedSeries() );
-//
-//        MinimizableControlGraph centripetalAccelGraph = new MinimizableControlGraph( "a<sub>x</sub>,a<sub>y</sub>", new MotionControlGraph(
-//                pSwingCanvas, b.getXAccelVariable(), b.getXAccelTimeSeries(), "ax", "Acceleration (x)", -1, 1, Color.green,
-//                new PImage( loadArrow( "green-arrow.png" ) ), tm, false, tm.getTimeSeriesModel(), null, maxDomainValue, null ) );
-//        centripetalAccelGraph.getControlGraph().addSeries( "Acceleration (y)", Color.red, "ay", b.getYAccelVariable(), b.getYAccelTimeSeries() );
-//        centripetalAccelGraph.getControlGraph().addSeries( "|Acceleration|", Color.blue, "a", b.getAccelMagnitudeVariable(), b.getAccelMagnitudeSeries() );
 
-//        addGraphSuite(new MinimizableControlGraph[]{forceGraph,torqueGraph});
-        addGraphSuite(new MinimizableControlGraph[]{torqueGraph,accelGraph,velocityGraph,angleGraph});
-//        addGraphSuite(new MinimizableControlGraph[]{velocityGraph,momentOfInertiaGraph,angularMomentumGraph});
+        MinimizableControlGraph forceGraph = new MinimizableControlGraph( "Force", new MotionControlGraph(
+                pSwingCanvas, tm.getForceVariable(), tm.getForceTimeSeries(),
+                "F", "force", -0.001/200.0, 0.001/200.0, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
+                tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), maxDomainValue, tm.getRotationPlatform() ) );
+
+        addGraphSuite( new MinimizableControlGraph[]{forceGraph, torqueGraph} );
+        addGraphSuite( new MinimizableControlGraph[]{torqueGraph, accelGraph, velocityGraph, angleGraph} );
+//        addGraphSuite( new MinimizableControlGraph[]{velocityGraph, momentOfInertiaGraph, angularMomentumGraph} );
 
     }
 
