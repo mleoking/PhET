@@ -74,6 +74,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private double _fluidDragCoefficient;
     
     private Random _kickRandom;
+    
+    private Vector2D _someVector; // reusable vector
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -128,6 +130,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _fluidDragCoefficient = _fluidDragCoefficientRange.getDefault();
         
         _kickRandom = new Random();
+        _someVector = new Vector2D();
         
         initializeStrand();
     }
@@ -473,8 +476,9 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 final double termNext = 1 - ( springMotionScale * maxSpringLength / distanceToNext );
                 
                 // fluid drag force
-                final double xFluidDrag = _fluidDragCoefficient * _fluid.getVelocity().getX();
-                final double yFluidDrag = _fluidDragCoefficient * _fluid.getVelocity().getY();
+                _fluid.getVelocity( _someVector );
+                final double xFluidDrag = _fluidDragCoefficient * _someVector.getX();
+                final double yFluidDrag = _fluidDragCoefficient * _someVector.getY();
                 assert( yFluidDrag == 0 );
                     
                 // acceleration

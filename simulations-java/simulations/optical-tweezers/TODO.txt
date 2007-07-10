@@ -57,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+7/10/07 - optimize DNStrand.evolve by reusing a vector for fluid velocity
 7/10/07 - finish memory optimization of Rectangle2D, Point2D and Vector2D
 7/10/07 - reuse Point2D objects when doing model-view transforms
 7/10/07 - reduce number of Point2D allocated by bead drag handler
