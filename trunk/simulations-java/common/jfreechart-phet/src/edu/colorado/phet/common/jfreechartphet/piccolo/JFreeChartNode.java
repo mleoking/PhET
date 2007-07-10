@@ -171,6 +171,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     protected void updateAll() {
         rebuildBuffer( );
         updateChartRenderingInfo();
+        repaint();
     }
 
     //----------------------------------------------------------------------------
