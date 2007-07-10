@@ -7,7 +7,6 @@ Questions:
 To Do:
 
 7-10-2007:
-1.  First of all, in the Energy vs. Time graph, the "Clear" button actually closes the graph, rather than just clearing the graph.
 2.  Also in the Energy vs. Time graph, the zoom feature does not work properly.  It appears to zoom in and out on the graph, but the scale of the energy does not change (the numbers don't change).
 3.  The PE=0 line doesn't properly change with the scale of the play area, so if you zoom in and out on the play area, it may cause the PE=0 line to go above or below where it was before in relation to the character.  If the red dot goes below the PE=0 line when zooming out, then the pie chart doesn't disappear, even though it appears that the PE should be negative.
 4.  During both the interview on Thursday and the one I did the week before, the simulation froze after about 30 minutes or so of use.  I haven't been able to reproduce this, but both times it happened when the E vs. time graph was open and the interviewee tried to close it.  Sam, I can talk to you more about this tomorrow if you want, since it may be easier to explain in person.

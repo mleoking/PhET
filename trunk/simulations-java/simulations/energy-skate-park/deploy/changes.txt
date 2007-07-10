@@ -1,3 +1,5 @@
+7-10-2007 Fixed: In the Energy vs. Time graph, the "Clear" button actually closes the graph, rather than just clearing the graph.
+
 2.01.11 (7-3-2007)
 Fixed screenshot for dev page.
 
