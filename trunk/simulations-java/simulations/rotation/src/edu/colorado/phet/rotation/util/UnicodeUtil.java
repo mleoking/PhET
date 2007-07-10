@@ -20,8 +20,10 @@ public class UnicodeUtil {
     public static final char C_SMALL_SIGMA = '\u03c3';
     public static final char C_OMEGA_LOWER = '\u03c9';
     public static final char C_ALPHA_LOWER = '\u03B1';
+    public static final char C_TAU_LOWER = '\u03C4';
 
     public static final String THETA = "" + C_THETA_LOWER;
     public static final String OMEGA = "" + C_OMEGA_LOWER;
     public static final String ALPHA = "" + C_ALPHA_LOWER;
+    public static final String TAU = "" + C_TAU_LOWER;
 }
