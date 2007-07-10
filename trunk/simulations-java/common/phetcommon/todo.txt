@@ -2,10 +2,6 @@
 "To Do" list for phetcommon
 ===============================================================================
 
-6/8/07 (cmalley/sreid) :
-Create ConstantClock extension of SwingClock to handle the common case 
-of a constant TimingStrategy, and making it easy to set/get dt.
-
 6/4/07 (cmalley) :
 Consider using PhetFrameWorkaround to address AWT redraw priority problem on slower machines. 
 This is noticeable with all sims that I've tried with Java 1.5.  
