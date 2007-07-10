@@ -103,12 +103,12 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     // The zoom levels available using the zoom buttons
     private static final ZoomLevel[] ZOOM_LEVELS = {
         // positionRange, binWidth, rulerMax, rulerMajorTickSpacing, rulerMinorTickSpacing
-        new ZoomLevel( 52, 0.25, 75, 5, 1 ),
-        new ZoomLevel( 105, 0.5, 150, 10, 2 ),
-        new ZoomLevel( 160, 0.75, 225, 25, 5 ),
-        new ZoomLevel( 210, 1.0, 300, 25, 5 ),
-        new ZoomLevel( 260, 1.5, 375, 25, 5 ),
-        new ZoomLevel( 320, 2.0, 450, 50, 5 )
+        new ZoomLevel( 52, 1, 75, 5, 1 ),
+        new ZoomLevel( 105, 2, 150, 10, 2 ),
+        new ZoomLevel( 160, 3, 225, 25, 5 ),
+        new ZoomLevel( 210, 5, 300, 25, 5 ),
+        new ZoomLevel( 260, 5, 375, 25, 5 ),
+        new ZoomLevel( 320, 7.5, 450, 50, 5 )
     };
     private static final int DEFAULT_ZOOM_INDEX = 2;
     
