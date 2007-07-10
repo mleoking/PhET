@@ -180,13 +180,11 @@ public class ChartsControlPanel extends JPanel {
 
             // called when the close button in the dialog's window dressing is clicked
             public void windowClosing( WindowEvent e ) {
-                _positionHistogramDialog.dispose();
+                closePositionHistogramDialog();
             }
 
             // called by JDialog.dispose
             public void windowClosed( WindowEvent e ) {
-                _positionHistogramZoomIndex = _positionHistogramDialog.getPanel().getZoomIndex();
-                _positionHistogramRulerVisible = _positionHistogramDialog.getPanel().isRulerVisible();
                 _positionHistogramDialog = null;
                 _positionHistogramCheckBox.setSelected( false );
                 _laserNode.setOriginMarkerVisible( false );
@@ -203,7 +201,8 @@ public class ChartsControlPanel extends JPanel {
         // Restore the ruler visibility
         _positionHistogramDialog.getPanel().setRulerVisible( _positionHistogramRulerVisible );
         
-        // Position at the lower-left of the main frame
+        // Place the dialog at the upper-left corner of the parent frame
+        _positionHistogramDialog.setLocation( (int) _parentFrame.getLocation().getX() + 15, (int) _parentFrame.getLocation().getY() + 80 );
         _positionHistogramDialog.show();
     }
     

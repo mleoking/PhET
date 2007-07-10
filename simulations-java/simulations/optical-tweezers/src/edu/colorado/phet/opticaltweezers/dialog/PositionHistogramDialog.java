@@ -43,9 +43,6 @@ public class PositionHistogramDialog extends JDialog {
         _panel = new PositionHistogramPanel( this, font, clock, bead, laser );
         getContentPane().add( _panel );
         pack();
-        
-        // Place the dialog at the upper-left corner of the parent frame
-        setLocation( owner.getLocation() );
     }
     
     /**
