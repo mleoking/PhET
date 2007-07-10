@@ -127,8 +127,8 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         Line2D originMarkerPath = new Line2D.Double( 0, -distanceFromObjectiveToWaist, 0, distanceFromObjectiveToWaist + distanceFromObjectiveToControlPanel );
         _originMarkerNode.setPathTo( originMarkerPath );
         _originMarkerNode.setPaint( null );
-        _originMarkerNode.setStrokePaint( PositionHistogramPanel.ORIGIN_MARKER_COLOR );
-        _originMarkerNode.setStroke( PositionHistogramPanel.ORIGIN_MARKER_STROKE );
+        _originMarkerNode.setStrokePaint( OTConstants.ORIGIN_MARKER_COLOR );
+        _originMarkerNode.setStroke( OTConstants.ORIGIN_MARKER_STROKE );
         _originMarkerNode.setVisible( false );
         
         // Handles

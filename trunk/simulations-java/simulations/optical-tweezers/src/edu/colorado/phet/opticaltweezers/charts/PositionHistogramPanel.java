@@ -115,11 +115,6 @@ public class PositionHistogramPanel extends JPanel implements Observer {
     // Format of the bin width display
     private static final DecimalFormat BIN_WIDTH_FORMAT = new DecimalFormat( "0.0#" );
     
-    // Properties for the "origin marker", vertical dashed line at x=0
-    public static final Color ORIGIN_MARKER_COLOR = Color.BLACK;
-    public static final Stroke ORIGIN_MARKER_STROKE = 
-        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
- 
     // How far to offset each snapshot dialog when setting the dialog's position
     private static final int SNAPSOT_DIALOG_OFFEST = 10; // pixels
     
@@ -346,8 +341,8 @@ public class PositionHistogramPanel extends JPanel implements Observer {
         // add a vertical marker at position=0
         Marker originMarker = new ValueMarker( 0 );
         originMarker.setLabel("");
-        originMarker.setPaint( ORIGIN_MARKER_COLOR );
-        originMarker.setStroke( ORIGIN_MARKER_STROKE );
+        originMarker.setPaint( OTConstants.ORIGIN_MARKER_COLOR );
+        originMarker.setStroke( OTConstants.ORIGIN_MARKER_STROKE );
         _plot.addDomainMarker(originMarker);
         
         _chart = new JFreeChart( null /* title */, null /* titleFont */, _plot, false /* createLegend */);
