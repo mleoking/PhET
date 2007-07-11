@@ -48,10 +48,8 @@
 
         contribution_unassociate_contribution_with_all_simulations($contribution_id);
         
-        $files_to_keep = array();
-        
         // Establish multiselect associations (level, subject, type):
-        contribution_establish_multiselect_associations_from_script_params($contribution_id);
+        $files_to_keep = contribution_establish_multiselect_associations_from_script_params($contribution_id);
         
         $standards_compliance = generate_encoded_checkbox_string('standards');
         

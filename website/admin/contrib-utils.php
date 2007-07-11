@@ -65,16 +65,6 @@
         return db_delete_row('contribution_comment_id', array( 'contribution_comment_id' => $contribution_comment_id ) );
     }
     
-    function contribution_extract_original_file_name($contribution_file_url) {
-        $basename = basename($contribution_file_url);
-        
-        $matches = array();
-        
-        preg_match('/php.*_(.+)/i', $basename, $matches);
-        
-        return $matches[1];
-    }
-    
     function contribution_get_files_listing_html($contribution_id) {
         $files_html = '<p>No files</p>';
         
@@ -84,13 +74,15 @@
             $files_html = '<ul>';
         
             foreach($files as $file) {
-                eval(get_code_to_create_variables_from_array($file));
-            
-                $name = contribution_extract_original_file_name($contribution_file_url);
-            
+                $contribution_file_id   = $file['contribution_file_id'];
+                $contribution_file_name = $file['contribution_file_name'];
+                $contribution_file_size = $file['contribution_file_size'];
+                
                 $kb = ceil($contribution_file_size / 1024);
-            
-                $files_html .= "<li><a href=\"".SITE_ROOT."$contribution_file_url\">$name</a> - $kb KB</li>";
+                    
+                $files_html .= "<li><a href=\"../admin/get-upload.php?contribution_file_id=$contribution_file_id\">".
+                               "$contribution_file_name</a>".
+                               " - $kb KB</li>";
             }
         
             $files_html .= "</ul>";
@@ -392,6 +384,8 @@ EOT;
     }
     
     function contribution_establish_multiselect_associations_from_script_params($contribution_id) {
+        $files_to_keep = array();
+        
         // Now have to process multiselect controls:
         foreach($_REQUEST as $key => $value) {
             $matches = array();
@@ -411,6 +405,8 @@ EOT;
                 contribution_associate_contribution_with_simulation($contribution_id, $sim_id);
             }
         }
+        
+        return $files_to_keep;
     }
     
     function contribution_print_full_edit_form($contribution_id, $script, $referrer, $button_name = 'Update') {
@@ -947,9 +943,7 @@ EOT;
         foreach($contribution_files as $contribution_file) {
             $name = create_deletable_item_control_name('contribution_file_url', $contribution_file['contribution_file_id']);
             
-            $original_file_name = contribution_extract_original_file_name($contribution_file['contribution_file_url']);
-            
-            $contribution_file_names[$name] = $original_file_name;
+            $contribution_file_names[$name] = $contribution_file['contribution_file_name'];
         }
         
         return $contribution_file_names;
@@ -1141,35 +1135,44 @@ EOT;
         return $contribution_id;
     }
     
-    function contribution_add_new_file_to_contribution($contribution_id, $file_tmp_name, $file_user_name) {
-        $this_dir = dirname(__FILE__);
-
-        $new_file_dir_rel = "admin/uploads/contributions";        
-        $new_file_dir_abs = "$this_dir/uploads/contributions";
+    function contribution_get_contribution_file_by_id($contribution_file_id) {
+        return db_get_row_by_id('contribution_file', 'contribution_file_id', $contribution_file_id);
+    }
+    
+    function contribution_get_contribution_file_name($contribution_file_id) {
+        eval(get_code_to_create_variables_from_array(contribution_get_contribution_file_by_id($contribution_file_id)));
         
-        mkdirs($new_file_dir_abs);
+        return $contribution_file_name;
+    }
+    
+    function contribution_get_contribution_file_contents($contribution_file_id) {
+        eval(get_code_to_create_variables_from_array(contribution_get_contribution_file_by_id($contribution_file_id)));
         
-        $new_name = basename($file_tmp_name)."_$file_user_name";
+        if ($contribution_file_contents != '') {
+            return base64_decode($contribution_file_contents);
+        }
         
-        $new_file_path_rel = "$new_file_dir_rel/$new_name";
-        $new_file_path_abs = "$new_file_dir_abs/$new_name";
+        return file_get_contents(SITE_ROOT.$contribution_file_url);
+    }
+    
+    function contribution_get_contribution_file_link($contribution_file_id) {
         
+    }
+    
+    function contribution_add_new_file_to_contribution($contribution_id, $file_tmp_name, $file_user_name) {    
         $file_size = filesize($file_tmp_name);
         
-        if (move_uploaded_file($file_tmp_name, $new_file_path_abs)) {
-            $contribution_file_id = db_insert_row(
+        $contribution_file_id = db_insert_row(
                 'contribution_file',
                 array(
-                    'contribution_id'        => $contribution_id,
-                    'contribution_file_url'  => $new_file_path_rel,
-                    'contribution_file_size' => $file_size
+                    'contribution_id'            => $contribution_id,
+                    'contribution_file_name'     => $file_user_name,
+                    'contribution_file_contents' => base64_encode(file_get_contents($file_tmp_name)),
+                    'contribution_file_size'     => $file_size
                 )
             );
             
-            return $contribution_file_id;
-        }
-        
-        return FALSE;
+        return $contribution_file_id;
     }
     
     function contribution_unassociate_contribution_with_all_simulations($contribution_id) {

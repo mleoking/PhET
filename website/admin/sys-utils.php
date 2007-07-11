@@ -140,19 +140,25 @@
 
     /**
      * This rather complicated function is designed to retrieve the mime-type 
-     * of the specified file path. The file may be local or a URL to a network-
-     * accessible file. The function operates by ripping the contents of the
-     * file to a local temporary file, then running the Linux command 'file' 
-     * on the temporary file, to extract the mime-type.
+     * of the specified file. The file may be local or a URL to a network-
+     * accessible file or a byte array containing the file contents. The 
+     * function operates by running the Linux command 'file' on the file
+     * contents, to extract the mime-type.
      *
-     * @param $file_path    The path to the file.
+     * @param $file     The path to the file or a file array.
      */
-    function auto_detect_mime_type($file_path) {
+    function auto_detect_mime_type($file, $file_is_contents = true) {
         $tmpfname = tempnam("/tmp", "mime_type_file");
 
         $handle = fopen($tmpfname, "w");
         
-        fwrite($handle, file_get_contents($file_path));
+        if (!$file_is_contents) {
+            fwrite($handle, file_get_contents($file));
+        }
+        else {
+            fwrite($handle, $file);
+        }        
+        
         fflush($handle);
         fclose($handle);
         
@@ -182,8 +188,12 @@
         
     }
     
-    function send_file_to_browser($file_path, $opt_mime_type = null, $send_mode = "inline") {
+    function send_file_to_browser($file_path, $file_contents = null, $opt_mime_type = null, $send_mode = "inline") {
         ini_set("zlib.output_compression", "Off");
+        
+        if ($file_contents == null) {
+            $file_contents = file_get_contents($file_path);
+        }
 
         if ($opt_mime_type == null) {
             // Hand-coding for some file types:
@@ -195,7 +205,7 @@
             }
             else {
                 // Auto-detection of mime-type:
-               $mime_type = auto_detect_mime_type($file_path);
+               $mime_type = auto_detect_mime_type($file_contents);
             }
         }
         else {
@@ -205,12 +215,11 @@
         // Set the content type and length:
         // header("Content-Type: $mime_type");
         // header("Content-Length: $size");
-        $name = basename($file_path);
-        
-        if (($file_contents = file_get_contents($file_path)) == FALSE) {
-            print("Error reading $file_path");
-            
-            return false;
+        if (strpos($file_path, '/')) {
+            $name = basename($file_path);
+        }
+        else {
+            $name = $file_path;
         }
         
         $file_size = strlen($file_contents);

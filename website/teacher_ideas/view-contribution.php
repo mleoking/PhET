@@ -28,8 +28,7 @@
         
         $type_list    = convert_array_to_comma_list($type_names);
         $subject_list = convert_array_to_comma_list($subject_names);
-        $level_list   = convert_array_to_comma_list($level_names);
-        
+        $level_list   = convert_array_to_comma_list($level_names);        
 
         $files_html = contribution_get_files_listing_html($contribution_id);
         
