@@ -136,14 +136,14 @@ public class PositionHistogramPlot extends XYPlot {
         // populate the series with cached observations
         int numberOfObservations = _observationsCache.size();
         if ( numberOfObservations > 0 ) {
-            int lastIndex = numberOfObservations - 1;
             double observation;
-            for ( int i = 0; i < lastIndex - 1; i++ ) {
+            for ( int i = 0; i < numberOfObservations - 1; i++ ) {
                 observation = ( (Double) _observationsCache.get( i ) ).doubleValue();
-                _series.addObservation( observation, false /* notifyListeners */);
+                if ( observation >= minPosition && observation <= maxPosition ) {
+                    _series.addObservation( observation, false /* notifyListeners */);
+                }
             }
-            observation = ( (Double) _observationsCache.get( lastIndex ) ).doubleValue();
-            _series.addObservation( observation, true /* notifyListeners */);
+            _series.fireSeriesChanged();
         }
     }
     
