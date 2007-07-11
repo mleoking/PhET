@@ -161,7 +161,37 @@ class ModuleManager {
             deactivateCurrentModule();
             activate( module );
             notifyActiveModuleChanged( new ModuleEvent( getPhetApplication(), module ) );
+            verifyActiveState();
         }
+    }
+
+    /**
+     * Prints an exception stack trace if the number of running clocks or active modules is not exactly 1.
+     */
+    private void verifyActiveState() {
+        if (getNumClocksRunning()!=1||getNumActiveModules()!=1){
+            new RuntimeException("multiple clocks or modules running: running clocks="+getNumClocksRunning()+", active modules="+getNumActiveModules()).printStackTrace( );
+        }
+    }
+
+    private int getNumActiveModules() {
+        int count=0;
+        for( int i = 0; i < modules.size(); i++ ) {
+            if (((Module)modules.get( i )).isActive() ){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int getNumClocksRunning() {
+        int count=0;
+        for( int i = 0; i < modules.size(); i++ ) {
+            if (((Module)modules.get( i )).getClock().isRunning() ){
+                count++;
+            }
+        }
+        return count;
     }
 
     void addModuleObserver( ModuleObserver observer ) {
