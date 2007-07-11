@@ -113,4 +113,14 @@ public abstract class AbstractForceNode extends PhetPNode {
         _yComponentNode.setXY( 0, force.getY() );
     }
     
+    public void setArrowFillPaint( Paint paint ) {
+        _sumNode.setArrowFillPaint( paint );
+        _xComponentNode.setArrowFillPaint( paint );
+        _yComponentNode.setArrowFillPaint( paint );
+    }
+    
+    public Paint getArrowFillPaint() {
+        return _sumNode.getArrowFillPaint();
+    }
+    
 }

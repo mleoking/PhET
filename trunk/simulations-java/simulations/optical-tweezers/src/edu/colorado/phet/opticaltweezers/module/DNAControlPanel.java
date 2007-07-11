@@ -58,19 +58,19 @@ public class DNAControlPanel extends AbstractControlPanel {
         _simulationSpeedControlPanel = new SimulationSpeedControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
                 model.getBead(), model.getFluid(),
-                _canvas.getTrapForceNode(), _canvas.getDragForceNode(), _canvas.getDNAForceNode() );
+                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode() );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
                 model.getClock(), model.getBead(), model.getLaser(),
                 _canvas.getPotentialEnergyChartNode(), _canvas.getLaserNode() );
         _miscControlPanel = new MiscControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), _canvas.getRulerNode(), model.getFluid() );
         List forceVectorNodes = new ArrayList();
         forceVectorNodes.add( _canvas.getTrapForceNode() );
-        forceVectorNodes.add( _canvas.getDragForceNode() );
+        forceVectorNodes.add( _canvas.getFluidDragForceNode() );
         forceVectorNodes.add( _canvas.getDNAForceNode() );
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
                 model.getBead(), model.getLaser(), 
                 model.getDNAStrand(), _canvas.getDNAStrandNode(),
-                forceVectorNodes, _canvas.getLaserNode() );
+                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode(), null /* electricFieldNode */ );
         
         // Turn off some features
         _forcesControlPanel.setBrownianMotionCheckBoxVisible( false );

@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 AAPT:
-- developer control for trap force vector color
 - E-field freezes on Windows for dt values in slow range
 - improve performance of e-field display (22% in Arrow.computeArrow)
 - add description to About dialog
@@ -56,6 +55,7 @@ MISSING INFO:
 
  
 DONE:
+7/11/07 - developer controls for setting all vector colors
 7/11/07 - developer control for setting the background color of the control panel & clock panel
 7/11/07 - developer control for setting the color of Piccolo tabs
 7/11/07 - add Developer>DeveloperControls menu item and associated dialog

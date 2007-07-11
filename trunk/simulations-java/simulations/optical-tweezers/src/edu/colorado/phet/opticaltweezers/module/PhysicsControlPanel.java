@@ -58,18 +58,18 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _beadChargeControlPanel = new BeadChargeControlPanel( TITLE_FONT, CONTROL_FONT );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
                 model.getBead(), model.getFluid(),
-                _canvas.getTrapForceNode(), _canvas.getDragForceNode(), null /* dnaForceNode */ );
+                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), null /* dnaForceNode */ );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
                 model.getClock(), model.getBead(), model.getLaser(),
                 _canvas.getPotentialEnergyChartNode(), _canvas.getLaserNode() );
         _miscControlPanel = new MiscControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), _canvas.getRulerNode(), model.getFluid() );
         List forceVectorNodes = new ArrayList();
         forceVectorNodes.add( _canvas.getTrapForceNode() );
-        forceVectorNodes.add( _canvas.getDragForceNode() );
+        forceVectorNodes.add( _canvas.getFluidDragForceNode() );
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
                 model.getBead(), model.getLaser(),
                 null /* dnaStrand */, null /* dnaStrandNode */, 
-                forceVectorNodes,  _canvas.getLaserNode() );
+                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), null /* dnaForceNode */, _canvas.getLaserNode().getElectricFieldNode() );
         
         // Layout
         {
