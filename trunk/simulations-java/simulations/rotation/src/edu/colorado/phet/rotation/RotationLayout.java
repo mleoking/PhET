@@ -1,9 +1,10 @@
 package edu.colorado.phet.rotation;
 
-import edu.umd.cs.piccolo.PNode;
 import edu.colorado.phet.rotation.view.RotationOriginNode;
+import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -17,7 +18,8 @@ public class RotationLayout {
     private PNode rotationControlPanelNode;
     private PNode timeSeriesGraphSetNode;
     private PNode platformNode;
-    private double playAreaPadY=50;
+    private double playAreaPadY = 50;
+    private static final double MIN_SCREEN_FRACTION_FOR_PLAY_AREA = 1.0/3.0;
 
     public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, PNode platformNode ) {
         this.parent = parent;
@@ -32,11 +34,13 @@ public class RotationLayout {
         rotationPlayAreaNode.setScale( 1.0 );
         rotationControlPanelNode.setOffset( 0, getHeight() - rotationControlPanelNode.getFullBounds().getHeight() );
 
-        double width = rotationControlPanelNode.getFullBounds().getWidth();
-        double sx = width / (platformNode.getFullBounds().getWidth()+ RotationOriginNode.AXIS_LENGTH);
+        double availWidth = rotationControlPanelNode.getFullBounds().getWidth();
+        availWidth = Math.max( Toolkit.getDefaultToolkit().getScreenSize().width *MIN_SCREEN_FRACTION_FOR_PLAY_AREA, availWidth );
+        double sx = availWidth / ( platformNode.getFullBounds().getWidth() + RotationOriginNode.AXIS_LENGTH );
+//        double minimumPlayAreaWidthBasedOnScreenFraction = Toolkit.getDefaultToolkit().getScreenSize().width / 4.0;
 
-        double height = getHeight() - rotationControlPanelNode.getFullBounds().getHeight();
-        double sy = height / (platformNode.getFullBounds().getHeight()+playAreaPadY);
+        double availHeight = getHeight() - rotationControlPanelNode.getFullBounds().getHeight();
+        double sy = availHeight / ( platformNode.getFullBounds().getHeight() + playAreaPadY );
         double scale = Math.min( sx, sy );
 //        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
         if( scale > 0 ) {
