@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
@@ -18,8 +19,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.opticaltweezers.menu.DeveloperMenu;
 import edu.colorado.phet.opticaltweezers.menu.OptionsMenu;
+import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 import edu.colorado.phet.opticaltweezers.module.DNAModule;
-import edu.colorado.phet.opticaltweezers.module.MotorsModule;
 import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 import edu.colorado.phet.opticaltweezers.persistence.GlobalConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
@@ -44,23 +45,16 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
     
     private PhysicsModule _physicsModule;
     private DNAModule _dnaModule;
-    private MotorsModule _motorsModule;
+//    private MotorsModule _motorsModule;
     
     // PersistanceManager handles loading/saving application configurations.
     private OTPersistenceManager _persistenceManager;
     
+    private static TabbedModulePanePiccolo _tabbedModulePane;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
-    // Create our own pane so we can set the tab color
-    public static final TabbedPaneType PHET_TABBED_PANE = new TabbedPaneType(){
-        public ITabbedModulePane createTabbedPane() {
-            TabbedModulePanePiccolo pane = new TabbedModulePanePiccolo();
-            pane.setSelectedTabColor( OTLookAndFeel.BACKGROUND_COLOR );
-            return pane;
-        }
-    };
     
     /**
      * Sole constructor.
@@ -69,8 +63,9 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
      */
     public OpticalTweezersApplication( PhetApplicationConfig config )
     {
-        super( config, PHET_TABBED_PANE );
+        super( config );
         DEVELOPER_CONTROLS_ENABLED = CommandLineUtils.contains( config.getCommandLineArgs(), OTConstants.DEVELOPER_ARG );
+        initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
     }
@@ -78,6 +73,22 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // Initialization
     //----------------------------------------------------------------------------
+    
+    /*
+     * Initializes the tabbed pane.
+     */
+    private void initTabbedPane() {
+        
+        // Create our own tabbed pane type so we can set the tab color
+        TabbedPaneType tabbedPaneType = new TabbedPaneType(){
+            public ITabbedModulePane createTabbedPane() {
+                _tabbedModulePane = new TabbedModulePanePiccolo();
+                _tabbedModulePane.setSelectedTabColor( OTConstants.SELECTED_TAB_COLOR );
+                return _tabbedModulePane;
+            }
+        };
+        setTabbedPaneType( tabbedPaneType );
+    }
     
     /*
      * Initializes the modules.
@@ -89,8 +100,11 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
         _dnaModule = new DNAModule();
         addModule( _dnaModule );
         
-        _motorsModule = new MotorsModule();
+        //XXX feature disabled for AAPT
+//        _motorsModule = new MotorsModule();
 //        addModule( _motorsModule );
+        
+        setControlPanelBackground( OTConstants.CONTROL_PANEL_COLOR );
     }
     
     /*
@@ -154,6 +168,24 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
         return DEVELOPER_CONTROLS_ENABLED;
     }
     
+    public void setSelectedTabColor( Color color ) {
+        _tabbedModulePane.setSelectedTabColor( color );
+    }
+    
+    public Color getSelectedTabColor() {
+        return _tabbedModulePane.getSelectedTabColor();
+    }
+    
+    public void setControlPanelBackground( Color color ) {
+        Module[] modules = getModules();
+        for ( int i = 0; i < modules.length; i++ ) {
+            if ( modules[i] instanceof AbstractModule ) {
+                AbstractModule module = (AbstractModule) modules[i]; 
+                module.setControlPanelBackground( color );
+            }
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------
@@ -205,10 +237,6 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
 
             public void run() {
                 
-                // Initialize look-and-feel
-                final OTLookAndFeel laf = new OTLookAndFeel();
-                laf.initLookAndFeel();
-
                 PhetApplicationConfig config = new PhetApplicationConfig( args, OTConstants.FRAME_SETUP, OTResources.getResourceLoader() );
                 
                 // Create the application.
