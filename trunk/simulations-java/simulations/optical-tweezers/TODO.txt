@@ -6,8 +6,6 @@ IN PROGRESS:
 
 AAPT:
 - developer control for trap force vector color
-- developer control for setting a color for the control panel & clock panel
-- set color of Piccolo tabs
 - E-field freezes on Windows for dt values in slow range
 - improve performance of e-field display (22% in Arrow.computeArrow)
 - add description to About dialog
@@ -58,6 +56,9 @@ MISSING INFO:
 
  
 DONE:
+7/11/07 - developer control for setting the background color of the control panel & clock panel
+7/11/07 - developer control for setting the color of Piccolo tabs
+7/11/07 - add Developer>DeveloperControls menu item and associated dialog
 7/11/07 - add support for setting color of selected module tab
 7/11/07 - add support for setting background color of control panel and clock control panel
 7/11/07 - bugfix: fluid temperature control not initialized to fluid's temperature

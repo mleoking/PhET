@@ -4,16 +4,14 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 
-import javax.swing.AbstractButton;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 
@@ -102,14 +100,14 @@ public abstract class AbstractModule extends PiccoloModule {
      */
     public void setControlPanelBackground( Color color ) {
         
-        Class[] excludedClasses = { JTextField.class };
-        boolean processChildrenOfExcludedContainers = false;
+        Class[] excludedClasses = { JTextComponent.class };
+        boolean processContentsOfExcludedContainers = false;
         
         Component controlPanel = getControlPanel();
-        setComponentTreeColor( controlPanel, color, excludedClasses, processChildrenOfExcludedContainers );
+        SwingUtils.setBackgroundDeep( controlPanel, color, excludedClasses, processContentsOfExcludedContainers );
         
         Component clockControlPanel = getClockControlPanel();
-        setComponentTreeColor( clockControlPanel, color, excludedClasses, processChildrenOfExcludedContainers );
+        SwingUtils.setBackgroundDeep( clockControlPanel, color, excludedClasses, processContentsOfExcludedContainers );
     }
     
     /**
@@ -120,46 +118,5 @@ public abstract class AbstractModule extends PiccoloModule {
     public Color getControlPanelBackground() {
         Component controlPanel = getControlPanel();
         return controlPanel.getBackground();
-    }
-    
-    /*
-     * Sets the background of all components in a container hierachy.
-     * Any component that is an instance of one of the classes in 
-     * excludedClasses will not have its background color changed.
-     * The children of excluded containers will be processed based
-     * on the value of processChildrenOfExcludedContainers.
-     * 
-     * @param component
-     * @param color
-     * @param excludeClasses
-     * @param processChildrenOfExcludedContainers
-     */
-    private void setComponentTreeColor( Component component, Color color, Class[] excludedClasses, boolean processChildrenOfExcludedContainers ) {
-
-        // If this component one that should be excluded?
-        boolean excluded = false;
-        if ( excludedClasses != null ) {
-            for ( int i = 0; i < excludedClasses.length && !excluded; i++ ) {
-                if ( excludedClasses[i].isInstance( component ) ) {
-                    excluded = true;
-                }
-            }
-        }
-
-        // If not exluded, set the component's background.
-        if ( !excluded ) {
-            component.setBackground( color );
-        }
-        
-        // Recursively process the contents of containers.
-        if ( ( !excluded || processChildrenOfExcludedContainers ) && ( component instanceof Container ) ) {
-            Container container = (Container) component;
-            Component[] children = container.getComponents();
-            if ( children != null ) {
-                for ( int i = 0; i < children.length; i++ ) {
-                    setComponentTreeColor( children[i], color, excludedClasses, processChildrenOfExcludedContainers );
-                }
-            }
-        }
     }
 }

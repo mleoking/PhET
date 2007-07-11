@@ -149,8 +149,8 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
         }
 
         // Developer menu
-        DeveloperMenu developerMenu = new DeveloperMenu();
-        if ( optionsMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
+        DeveloperMenu developerMenu = new DeveloperMenu( this );
+        if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
             frame.addMenu( developerMenu );
         }
         
@@ -184,6 +184,10 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
                 module.setControlPanelBackground( color );
             }
         }
+    }
+    
+    public Color getControlPanelBackground() {
+        return ( (AbstractModule) getModule( 0 ) ).getControlPanelBackground();
     }
     
     //----------------------------------------------------------------------------

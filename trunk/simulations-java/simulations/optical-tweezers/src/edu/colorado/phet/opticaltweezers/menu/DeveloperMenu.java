@@ -2,10 +2,19 @@
 
 package edu.colorado.phet.opticaltweezers.menu;
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
 import javax.swing.JMenu;
+
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
+import edu.colorado.phet.opticaltweezers.dialog.DeveloperControlsDialog;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.
@@ -15,11 +24,42 @@ import javax.swing.JMenu;
  */
 public class DeveloperMenu extends JMenu implements ActionListener {
     
-    public DeveloperMenu() {
+    private OpticalTweezersApplication _app;
+    private JCheckBoxMenuItem _developerControlsItem;
+    private JDialog _developerControlsDialog;
+    
+    public DeveloperMenu( OpticalTweezersApplication app ) {
         super( "Developer" );
+        
+        _app = app;
+        
+        _developerControlsItem = new JCheckBoxMenuItem( "Developer Controls..." );
+        add( _developerControlsItem );
+        _developerControlsItem.addActionListener( this );
     }
 
     public void actionPerformed( ActionEvent event ) {
-        //XXX
+        if ( event.getSource() == _developerControlsItem ) {
+            if ( _developerControlsItem.isSelected() ) {
+                Frame owner = PhetApplication.instance().getPhetFrame();
+                _developerControlsDialog = new DeveloperControlsDialog( owner, _app );
+                _developerControlsDialog.show();
+                _developerControlsDialog.addWindowListener( new WindowAdapter() {
+                    public void windowClosed( WindowEvent e ) {
+                        cleanup();
+                    }
+                    public void windowClosing( WindowEvent e ) {
+                        cleanup();
+                    }
+                    private void cleanup() {
+                        _developerControlsItem.setSelected( false );
+                        _developerControlsDialog = null; 
+                    }
+                } );
+            }
+            else {
+                _developerControlsDialog.dispose();
+            }
+        }
     }
 }
