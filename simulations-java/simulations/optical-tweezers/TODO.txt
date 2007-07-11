@@ -55,6 +55,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.22 (?)
 7/11/07 - developer controls for setting all vector colors
 7/11/07 - developer control for setting the background color of the control panel & clock panel
 7/11/07 - developer control for setting the color of Piccolo tabs
