@@ -141,7 +141,7 @@ public class QTModule extends AbstractModule implements Observer {
      * Sole constructor.
      */
     public QTModule() {
-        super( QTResources.getString( "title.quantumTunneling" ), new QTClock(), true /* startsPaused */ );
+        super( QTResources.getString( "title.quantumTunneling" ), new QTClock(), false /* startsPaused */ );
 
         setLogoPanel( null );
         
@@ -391,7 +391,6 @@ public class QTModule extends AbstractModule implements Observer {
         reset();
         updateCanvasLayout();
         _canvas.addComponentListener( listener );
-        getClock().start();
     }
     
     //----------------------------------------------------------------------------
@@ -625,11 +624,13 @@ public class QTModule extends AbstractModule implements Observer {
         QTModuleConfig config = appConfig.getModuleConfig();
         
         // Clock
-        if ( config.isClockRunning() ) {
-            getClock().start();
-        }
-        else {
-            getClock().pause();
+        if ( isActive() ) {
+            if ( config.isClockRunning() ) {
+                getClock().start();
+            }
+            else {
+                getClock().pause();
+            }
         }
         
         // Model
