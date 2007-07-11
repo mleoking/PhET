@@ -425,12 +425,11 @@ public class Laser extends MovableObject implements ModelElement {
         double fy = -1 * K * ( yOffset / ( ry * ry ) ) * intensity * _trapForceRatio * ( 1 - ( ( 2 * xOffset * xOffset ) / ( ry * ry ) ) );
         
         // In "slow" clock mode, the trap force should be shrinking and growing,
-        // so that it's zero when the E-field is zero, and a maximum when the 
-        // E-field is strongest.
+        // so that it's zero when the E-field is zero, and a maximum when the E-field is strongest.
         if ( _clock.getDt() <= _clock.getSlowRange().getMax() ) {
-            double m = Math.sqrt( 2 ) * Math.abs( Math.sin( ( ( 2 * Math.PI ) / _wavelength ) * ( yOffset + ( SPEED_OF_LIGHT * _electricFieldTime ) ) ) );
-            fx *= m;
-            fy *= m;
+            double scale = getElectricFieldScale( yOffset );
+            fx *= scale;
+            fy *= scale;
         }
 
         return new Vector2D.Cartesian( fx, fy );
@@ -496,8 +495,17 @@ public class Laser extends MovableObject implements ModelElement {
     public double getElectricFieldX( Point2D offset ) {
         final double intensity = getIntensity( getX() + offset.getX(), getY() + offset.getY() );
         final double e0 = getInitialElectricFieldX( intensity );
-        final double ex = e0 * Math.sin( ( ( 2 * Math.PI ) / _wavelength ) * ( offset.getY() + ( SPEED_OF_LIGHT * _electricFieldTime ) ) );
+        final double ex = e0 * getElectricFieldScale( offset.getY() );
         return ex;
+    }
+    
+    /*
+     * Gets the scale of the electric field at some vertical offset from the laser.
+     * 
+     * @param yOffset
+     */
+    private double getElectricFieldScale( double yOffset ) {
+        return Math.sin( ( ( 2 * Math.PI ) / _wavelength ) * ( yOffset + ( SPEED_OF_LIGHT * _electricFieldTime ) ) );
     }
     
     /**
