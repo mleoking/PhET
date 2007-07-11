@@ -4,6 +4,7 @@ import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.model.RotationModel;
 
 /**
@@ -43,4 +44,7 @@ public abstract class AbstractRotationModule extends PiccoloModule {
         return rotationSimulationPanel;
     }
 
+    public RulerNode getRulerNode() {
+        return rotationSimulationPanel.getRulerNode();
+    }
 }

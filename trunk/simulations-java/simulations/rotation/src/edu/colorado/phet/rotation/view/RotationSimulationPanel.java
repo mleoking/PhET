@@ -4,6 +4,7 @@ import edu.colorado.phet.rotation.AbstractRotationModule;
 import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
 import edu.colorado.phet.rotation.RotationControlPanel;
 import edu.colorado.phet.rotation.RotationModule;
+import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 
 import javax.swing.*;
 
@@ -16,8 +17,8 @@ public class RotationSimulationPanel extends AbstractRotationSimulationPanel {
         super( rotationModule );
     }
 
-    protected JComponent createControlPanel() {
-        return new RotationControlPanel( getRotationGraphSet(), getGraphSetModel(), ( (RotationModule)getAbstractRotationModule() ).getVectorViewModel() );
+    protected JComponent createControlPanel( RulerNode rulerNode) {
+        return new RotationControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), ( (RotationModule)getAbstractRotationModule() ).getVectorViewModel() );
     }
 
     protected RotationPlayAreaNode createPlayAreaNode() {
