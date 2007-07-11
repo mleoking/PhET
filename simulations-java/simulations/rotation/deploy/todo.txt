@@ -2,6 +2,32 @@
 #     To Do
 ################
 
+Rotation
+•	Add horizontal ruler
+•	White dot in the middle of bug to represent center of motion
+•	Performance bug (temporarily reduced by “clear”)
+•	Angular velocity graph should go from -0.15 to 0.15
+•	Bugs are not grabbable when out of the play area
+•	Wheel should be proportionately bigger on high resolution.
+•	Symbol key should be a button that pops up a dialog
+•	Graphs should accurately show time axis values
+•	Time axis should be longer (take longer to fill a chart)
+•	Less tick marks on vertical axis
+•	Ladybug should not be able to be taken off the wheel.
+•	When Second Bug is added to the platform, charts should show series data for it.
+•	Second Bug’s data series should be dotted lines
+•	Rotation platform colors should be muted, attention should be on the bug.
+•	Rotation platform colors should alternate (same on diagonal)
+•	Use colors from the color chart (from Wendy)
+•	Check boxes (like in Force1D) for adding/removing series (applies to both characters)
+•	Checkbox to remove/add second bug.
+•	Shadow projections should be considered after AAPT.
+•	Possible interview question: bug icon at tip of graph to improve conceptual connection
+•	No graphs or values should be shown for platform
+•	For X,V,A graphs, readouts should be on-graph, no text-boxes on left hand side
+•	Velocity(x) should be written X-Velocity, get rid of (vx) on charts
+
+
 Should be able to "spin" the wheel (i.e. drag, let go, and have it continue to spin, at least in friction mode)
 
 Do we want to calculate the angular velocity of bug if user is manually moving it around?
