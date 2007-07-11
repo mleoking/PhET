@@ -31,7 +31,7 @@ public class PhetFrame extends JFrame {
     private boolean paused;
 
     public PhetFrame(final ApplicationModel appDescriptor) {
-        super(appDescriptor.getWindowTitle());
+        super(appDescriptor.getWindowTitle() + " (" + appDescriptor.getVersion() + ")" );
         this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         this.addWindowListener(new WindowAdapter() {
             
