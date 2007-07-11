@@ -38,6 +38,15 @@
             print_category_checkbox($cat_id, $cat_name, $cat_is_visible);
         }
     }
+    
+    function print_rating_checkbox($rating, $selected) {
+        global $SIM_RATING_TO_IMAGE_HTML;
+        
+        $image_html   = $SIM_RATING_TO_IMAGE_HTML[$rating];
+        $check_status = generate_check_status($rating, $selected);
+        
+        print "<input name=\"sim_rating\" type=\"radio\" value=\"$rating\" $check_status /> $image_html";
+    }
 	
 	function print_site_content() {
 	    $simulation = sim_get_sim_by_id($_REQUEST['sim_id']);
@@ -47,15 +56,7 @@
 	        return;
 	    }
 	    
-	    $sim_code = get_code_to_create_variables_from_array($simulation);
-	    
-        eval($sim_code);
-
-        $bmin_check  = generate_check_status(SIM_RATING_BETA_MINUS, $sim_rating);
-        $b_check     = generate_check_status(SIM_RATING_BETA,       $sim_rating);
-        $bplus_check = generate_check_status(SIM_RATING_BETA_PLUS,  $sim_rating);
-        $star_check  = generate_check_status(SIM_RATING_CHECK,      $sim_rating);
-        $tri_check   = generate_check_status(SIM_RATING_ALPHA,      $sim_rating);
+	    eval(get_code_to_create_variables_from_array($simulation));
     
         print <<<EOT
             <h1>Edit Simulation Parameters</h1>
@@ -77,16 +78,15 @@ EOT;
         print <<<EOT
     <div>Please select a rating for this simulation</div>
                 <p>
-                    <input name="sim_rating" type="radio" value="0" $bmin_check />
-                    <img src="../images/sims/ratings/beta-minus25x25.png" />
-                    <input name="sim_rating" type="radio" value="1" $bplus_check />
-                    <img src="../images/sims/ratings/beta-plus25x25.png" />
-                    <input name="sim_rating" type="radio" value="2" $b_check />
-                    <img src="../images/sims/ratings/beta25x25.png" />
-                    <input name="sim_rating" type="radio" value="3" $star_check />
-                    <img src="../images/sims/ratings/checkmark25x25.png" />
-                    <input name="sim_rating" type="radio" value="4" $tri_check />
-                    <img src="../images/sims/ratings/alpha25x25.png" />
+EOT;
+
+        print_rating_checkbox(SIM_RATING_ALPHA,         $sim_rating);
+        print_rating_checkbox(SIM_RATING_BETA_MINUS,    $sim_rating);
+        print_rating_checkbox(SIM_RATING_BETA,          $sim_rating);
+        print_rating_checkbox(SIM_RATING_BETA_PLUS,     $sim_rating);
+        print_rating_checkbox(SIM_RATING_CHECK,         $sim_rating);
+
+print <<<EOT
                 </p>    
     
 EOT;
