@@ -233,20 +233,12 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         _outlineNode.setVisible( visible );
     }
     
-    public void setElectricFieldValuesVisible( boolean visible ) {
-        _electricFieldNode.setValuesVisible( visible );
-    }
-    
-    public void setElectricFieldColor( Color color ) {
-        _electricFieldNode.setVectorColor( color );
-    }
-    
-    public Color getElectricFieldColor() {
-        return _electricFieldNode.getVectorColor();
-    }
-    
     public void setOriginMarkerVisible( boolean visible ) {
         _originMarkerNode.setVisible( visible );
+    }
+    
+    public LaserElectricFieldNode getElectricFieldNode() { 
+        return _electricFieldNode;
     }
     
     //----------------------------------------------------------------------------

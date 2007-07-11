@@ -213,7 +213,7 @@ public class DNACanvas extends PhetPCanvas {
         return _trapForceNode;
     }
     
-    public FluidDragForceNode getDragForceNode() {
+    public FluidDragForceNode getFluidDragForceNode() {
         return _dragForceNode;
     }
     

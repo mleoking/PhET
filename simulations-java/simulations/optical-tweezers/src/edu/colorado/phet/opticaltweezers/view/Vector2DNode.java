@@ -242,6 +242,15 @@ public class Vector2DNode extends PhetPNode {
     }
     
     /**
+     * Gets the paint used to fill the interior of the arrow.
+     * 
+     * @return Paint
+     */
+    public Paint getArrowFillPaint() {
+        return _arrowNode.getPaint();
+    }
+    
+    /**
      * Sets the paint used to draw the value that appears at the arrow tip.
      * 
      * @param paint
