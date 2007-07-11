@@ -484,50 +484,38 @@ public class Laser extends MovableObject implements ModelElement {
     }
     
     //----------------------------------------------------------------------------
-    // E-field model
+    // E-field model (x component only)
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the electric field at a point relative to the laser's position.
+     * Gets the x component of the electric field at a point relative to the laser's position.
      * 
      * @param offset
+     * @return x component of the electric field
      */
-    public Vector2D getElectricField( Point2D offset ) {
-        return getElectricField( offset.getX(), offset.getY() );
+    public double getElectricFieldX( Point2D offset ) {
+        final double intensity = getIntensity( getX() + offset.getX(), getY() + offset.getY() );
+        final double e0 = getInitialElectricFieldX( intensity );
+        final double ex = e0 * Math.sin( ( ( 2 * Math.PI ) / _wavelength ) * ( offset.getY() + ( SPEED_OF_LIGHT * _electricFieldTime ) ) );
+        return ex;
     }
     
     /**
-     * Gets the electric field at a point relative to the laser's position.
-     * 
-     * @param xOffset
-     * @param yOffset
-     */
-    public Vector2D getElectricField( double xOffset, double yOffset ) {
-        final double intensity = getIntensity( getX() + xOffset, getY() + yOffset );
-        Vector2D e0 = getInitialElectricField( intensity );
-        final double ex = e0.getX() * Math.sin( ( ( 2 * Math.PI ) / _wavelength ) * ( yOffset + ( SPEED_OF_LIGHT * _electricFieldTime ) ) );
-        final double ey = 0;
-        return new Vector2D.Cartesian( ex, ey );
-    }
-    
-    /**
-     * Gets the maximum electric field, which is E0 at the center of the trap
-     * when the laser's power is at maximum intensity.
+     * Gets the x component of the maximum electric field, 
+     * which is E0 at the center of the trap when the laser's power is at maximum intensity.
      * 
      * @return
      */
-    public Vector2D getMaxElectricField() {
+    public double getMaxElectricFieldX() {
         final double maxIntensity = getMaxIntensity();
-        return getInitialElectricField( maxIntensity );
+        return getInitialElectricFieldX( maxIntensity );
     }
     
     /*
-     * Gets the initial (t=0) electric field.
+     * Gets the initial (t=0) x component of the electric field.
      */
-    private Vector2D getInitialElectricField( double intensity ) {
-        final double xE0 = _electricFieldScale * intensity;
-        final double yE0 = 0;
-        return new Vector2D.Cartesian( xE0, yE0 );
+    private double getInitialElectricFieldX( double intensity ) {
+        return _electricFieldScale * intensity;
     }
 
     //----------------------------------------------------------------------------
