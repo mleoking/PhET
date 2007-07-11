@@ -7,8 +7,8 @@
     include_once(SITE_ROOT."admin/contrib-utils.php");
     include_once(SITE_ROOT."admin/web-utils.php");
     
-    function do_update() {
-        eval(get_code_to_create_variables_from_array($_REQUEST));
+    function do_update() { 
+        $contributor_id = $_REQUEST['contributor_id'];
         
         contributor_update_contributor_from_script_parameters($contributor_id);
     }
@@ -16,8 +16,8 @@
     function do_new() {
         $contributor_id = contributor_add_new_blank_contributor();
         
-        $GLOBALS['contributor_id']       = "$contributor_id";
-        $GLOBALS['contributor_password'] = web_create_random_password();
+        $_REQUEST['contributor_id']       = "$contributor_id";
+        $_REQUEST['contributor_password'] = web_create_random_password();
         
         do_update();
     }

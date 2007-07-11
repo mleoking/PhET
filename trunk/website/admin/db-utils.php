@@ -254,8 +254,8 @@
             $footer_st = '';
         }
             
-        db_exec_query($heading_st.$content_st.$footer_st);
-        
-        return true;
+        $query = $heading_st.$content_st.$footer_st;
+            
+        return db_exec_query($query);
     }
 ?>
