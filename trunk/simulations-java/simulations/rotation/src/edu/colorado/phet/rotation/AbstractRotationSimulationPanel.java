@@ -34,7 +34,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
 
     private GraphSetModel graphSetModel;
 
-    public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule ) {
+    public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule, JFrame phetFrame ) {
         this.rotationModule = rotationModule;
         setBackground( new RotationLookAndFeel().getBackgroundColor() );
         rotationGraphSet = createRotationGraphSet();
@@ -52,7 +52,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         } );
         timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( graphSetModel, timeSeriesModel );
 
-        rotationControlPanelNode = new PSwing( createControlPanel( getRulerNode() ) );
+        rotationControlPanelNode = new PSwing( createControlPanel( getRulerNode() ,phetFrame) );
 
         addScreenChild( rotationControlPanelNode );
         addScreenChild( timeSeriesGraphSetNode );
@@ -111,7 +111,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         return rotationGraphSet;
     }
 
-    protected abstract JComponent createControlPanel( RulerNode rulerNode);
+    protected abstract JComponent createControlPanel( RulerNode rulerNode,JFrame parentFrame);
 
     protected abstract RotationPlayAreaNode createPlayAreaNode();
 

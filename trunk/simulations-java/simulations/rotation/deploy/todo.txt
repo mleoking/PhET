@@ -6,7 +6,6 @@ Rotation
 •	Add horizontal ruler
     -Synchronize ruler coordinates with play area
 •	Performance bug (temporarily reduced by “clear”)
-•	Symbol key should be a button that pops up a dialog
 •	Graphs should accurately show time axis values
 •	Time axis should be longer (take longer to fill a chart)
 •	Less tick marks on vertical axis

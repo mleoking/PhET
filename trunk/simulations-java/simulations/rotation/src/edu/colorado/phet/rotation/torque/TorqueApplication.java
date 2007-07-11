@@ -17,7 +17,7 @@ public class TorqueApplication extends PiccoloPhetApplication {
 
     public TorqueApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance(),"torque" ) );
-        rotationModule = new TorqueModule();
+        rotationModule = new TorqueModule(getPhetFrame( ));
         addModule( rotationModule );
 
         getPhetFrame().addMenu( new RotationTestMenu() );
