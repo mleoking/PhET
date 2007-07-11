@@ -6,9 +6,8 @@ IN PROGRESS:
 
 AAPT:
 - E-field freezes on Windows for dt values in slow range
-- improve performance of e-field display (22% in Arrow.computeArrow)
 - add description to About dialog
-- screen snapsot
+- screenshot
 
 HIGH PRIORITY:
 
@@ -20,6 +19,7 @@ MEDIUM PRIORITY:
 - save/load configurations
 
 LOW PRIORITY:
+- improve performance of e-field display (22% in Arrow.computeArrow)
 - reduce vertical spacing of control panels (if necessary, after features/layout has stabilized)
 - bug: beep sometimes occurs when selecting vacuum with fluid controls dialog open
 - visible seams where symmetrical pieces of laser beam gradient are stitched together
