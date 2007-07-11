@@ -30,7 +30,7 @@ public class RotationGraphSet extends GraphSuiteSet {
 
         MinimizableControlGraph velocityGraph = new MinimizableControlGraph( UnicodeUtil.OMEGA, new MotionControlGraph(
                 pSwingCanvas, rotationModel.getPlatformVelocityVariable(), rotationModel.getPlatformVelocityTimeSeries(),
-                UnicodeUtil.OMEGA, "Angular Velocity", -0.1, 0.1, Color.red, new PImage( loadArrow( "red-arrow.png" ) ),
+                UnicodeUtil.OMEGA, "Angular Velocity", -0.15, 0.15, Color.red, new PImage( loadArrow( "red-arrow.png" ) ),
                 rotationModel, true, rotationModel.getTimeSeriesModel(), rotationModel.getVelocityDriven(), maxDomainValue, rotationModel.getRotationPlatform() ) );
 
         MinimizableControlGraph accelGraph = new MinimizableControlGraph( UnicodeUtil.ALPHA, new MotionControlGraph(
