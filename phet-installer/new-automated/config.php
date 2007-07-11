@@ -47,6 +47,7 @@ define("RIPPED_WEBSITE_TOP",  cleanup_local_filename(RIPPED_WEBSITE_ROOT."phet.c
 // The Windows and Linux executables:
 define("RIPPER_EXE_LINUX",   "httrack");
 define("RIPPER_EXE_WINNT",   "httrack.exe");
+define("RIPPER_EXE_Darwin",  "httrack");
 
 define("RIPPER_DIR",  GET_OS_BOUND_REL_PATH(RIPPER_DIR_NAME));
 define("RIPPER_EXE",  RIPPER_DIR.GET_OS_BOUND_NAME("RIPPER_EXE")); 
