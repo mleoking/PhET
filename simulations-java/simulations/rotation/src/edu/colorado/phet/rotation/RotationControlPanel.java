@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation;
 import edu.colorado.phet.common.motion.graphs.GraphSelectionControl;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
+import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.controls.ShowVectorsControl;
 import edu.colorado.phet.rotation.controls.SymbolKey;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
@@ -17,14 +18,17 @@ import java.awt.*;
  */
 
 public class RotationControlPanel extends JPanel {
-    public RotationControlPanel( GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, VectorViewModel vectorViewModel ) {
+    public RotationControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, VectorViewModel vectorViewModel ) {
         super( new GridBagLayout() );
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
         SymbolKey symbolKey = new SymbolKey();
         ShowVectorsControl showVectorsControl = new ShowVectorsControl( vectorViewModel );
 
+        RulerButton rulerButton = new RulerButton( rulerNode );
+
         add( graphSelectionControl, getConstraints( 0, 0 ) );
         add( symbolKey, getConstraints( 2, 0 ) );
+        add( rulerButton, getConstraints( 2, 1 ) );
         add( showVectorsControl, getConstraints( 0, 1 ) );
     }
 

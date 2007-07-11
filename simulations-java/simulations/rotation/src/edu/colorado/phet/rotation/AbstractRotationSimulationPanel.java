@@ -6,6 +6,7 @@ import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.motion.graphs.TimeSeriesGraphSetNode;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
+import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
@@ -51,7 +52,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         } );
         timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( graphSetModel, timeSeriesModel );
 
-        rotationControlPanelNode = new PSwing( createControlPanel() );
+        rotationControlPanelNode = new PSwing( createControlPanel( getRulerNode() ) );
 
         addScreenChild( rotationPlayAreaNode );
         addScreenChild( rotationControlPanelNode );
@@ -110,7 +111,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         return rotationGraphSet;
     }
 
-    protected abstract JComponent createControlPanel();
+    protected abstract JComponent createControlPanel( RulerNode rulerNode);
 
     protected abstract RotationPlayAreaNode createPlayAreaNode();
 
@@ -141,5 +142,9 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
 
     public RotationModel getRotationModel() {
         return rotationModule.getRotationModel();
+    }
+
+    public RulerNode getRulerNode() {
+        return rotationPlayAreaNode.getRulerNode();
     }
 }
