@@ -219,4 +219,63 @@ public class SwingUtils {
         int maxHeight = (int)Math.max( playSize.getHeight(), pauseSize.getHeight() );
         return new Dimension( maxWidth, maxHeight );
     }
+    
+    /**
+     * Sets the background of all components in a container hierachy.
+     * The contants of contains are processed recursively.
+     * 
+     * @param component
+     * @param color
+     */
+    public static void setBackgroundDeep( Component component, Color color ) {
+        setBackgroundDeep( component, color, null, true );
+    }
+    
+    /**
+     * Sets the background of all components in a container hierachy.
+     * The contents of containers are processed recursively.
+     * Any component that is an instance of one of the classes in excludedClasses will not have its background color set.
+     * The contents of excluded containers will be processed based on the value of processContentsOfExcludedContainers.
+     * <p>
+     * Sample use:
+     * <code>
+     *    JPanel controlPanel = new JPanel();
+     *    // then add a bunch of controls and subpanels ...
+     *    Class[] excludedClasses = { JTextComponent.class };
+     *    SwingUtils.setBackgroundDeep( controlPanel, Color.RED, excludedClasses, false );
+     * </code>
+     * 
+     * @param component
+     * @param color
+     * @param excludedClasses
+     * @param processContentsOfExcludedContainers
+     */
+    public static void setBackgroundDeep( Component component, Color color, Class[] excludedClasses, boolean processContentsOfExcludedContainers ) {
+
+        // If this component one that should be excluded?
+        boolean excluded = false;
+        if ( excludedClasses != null ) {
+            for ( int i = 0; i < excludedClasses.length && !excluded; i++ ) {
+                if ( excludedClasses[i].isInstance( component ) ) {
+                    excluded = true;
+                }
+            }
+        }
+
+        // If not exluded, set the component's background.
+        if ( !excluded ) {
+            component.setBackground( color );
+        }
+        
+        // Recursively process the contents of containers.
+        if ( ( !excluded || processContentsOfExcludedContainers ) && ( component instanceof Container ) ) {
+            Container container = (Container) component;
+            Component[] children = container.getComponents();
+            if ( children != null ) {
+                for ( int i = 0; i < children.length; i++ ) {
+                    setBackgroundDeep( children[i], color, excludedClasses, processContentsOfExcludedContainers );
+                }
+            }
+        }
+    }
 }
