@@ -4,6 +4,7 @@
 
 Rotation
 •	Add horizontal ruler
+    -Synchronize ruler coordinates with play area
 •	Performance bug (temporarily reduced by “clear”)
 •	Angular velocity graph should go from -0.15 to 0.15
 •	Bugs are not grabbable when out of the play area
