@@ -58,6 +58,8 @@ MISSING INFO:
 
  
 DONE:
+7/11/07 - add support for setting color of selected module tab
+7/11/07 - add support for setting background color of control panel and clock control panel
 7/11/07 - bugfix: fluid temperature control not initialized to fluid's temperature
 7/11/07 - change default fluid temperature to 298
 7/11/07 - change default Brownian motion scale to 1.3
