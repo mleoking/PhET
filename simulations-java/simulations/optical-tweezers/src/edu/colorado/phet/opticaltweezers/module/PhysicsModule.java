@@ -95,8 +95,10 @@ public class PhysicsModule extends AbstractModule {
         {
             // Clock
             OTClock clock = _model.getClock();
-            clock.setPaused( PhysicsDefaults.CLOCK_PAUSED );
             clock.setDt( PhysicsDefaults.DEFAULT_DT );
+            if ( isActive() ) {
+                clock.setPaused( PhysicsDefaults.CLOCK_PAUSED );
+            }
             
             // Bead
             Bead bead = _model.getBead();

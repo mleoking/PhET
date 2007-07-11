@@ -57,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+7/10/07 - module's resetAll method should set the clock run state only if the module is active
 7/10/07 - update force vector nodes only when visible
 7/10/07 - rename DragForceNode to FluidDragForceNode
 7/10/07 - update ruler position only when the ruler is visible

@@ -96,8 +96,10 @@ public class DNAModule extends AbstractModule {
         {
             // Clock
             OTClock clock = _model.getClock();
-            clock.setPaused( DNADefaults.CLOCK_PAUSED );
             clock.setDt( DNADefaults.DEFAULT_DT );
+            if ( isActive() ) {
+                clock.setPaused( DNADefaults.CLOCK_PAUSED );
+            }
             
             // Bead
             Bead bead = _model.getBead();
