@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
@@ -11,9 +12,10 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
+import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.opticaltweezers.menu.DeveloperMenu;
 import edu.colorado.phet.opticaltweezers.menu.OptionsMenu;
 import edu.colorado.phet.opticaltweezers.module.DNAModule;
@@ -51,6 +53,15 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
     // Constructors
     //----------------------------------------------------------------------------
     
+    // Create our own pane so we can set the tab color
+    public static final TabbedPaneType PHET_TABBED_PANE = new TabbedPaneType(){
+        public ITabbedModulePane createTabbedPane() {
+            TabbedModulePanePiccolo pane = new TabbedModulePanePiccolo();
+            pane.setSelectedTabColor( OTLookAndFeel.BACKGROUND_COLOR );
+            return pane;
+        }
+    };
+    
     /**
      * Sole constructor.
      * 
@@ -58,7 +69,7 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
      */
     public OpticalTweezersApplication( PhetApplicationConfig config )
     {
-        super( config );
+        super( config, PHET_TABBED_PANE );
         DEVELOPER_CONTROLS_ENABLED = CommandLineUtils.contains( config.getCommandLineArgs(), OTConstants.DEVELOPER_ARG );
         initModules();
         initMenubar( config.getCommandLineArgs() );
@@ -195,7 +206,7 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
             public void run() {
                 
                 // Initialize look-and-feel
-                PhetLookAndFeel laf = new PhetLookAndFeel();
+                final OTLookAndFeel laf = new OTLookAndFeel();
                 laf.initLookAndFeel();
 
                 PhetApplicationConfig config = new PhetApplicationConfig( args, OTConstants.FRAME_SETUP, OTResources.getResourceLoader() );
