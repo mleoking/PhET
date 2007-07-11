@@ -54,9 +54,9 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
 
         rotationControlPanelNode = new PSwing( createControlPanel( getRulerNode() ) );
 
-        addScreenChild( rotationPlayAreaNode );
         addScreenChild( rotationControlPanelNode );
         addScreenChild( timeSeriesGraphSetNode );
+        addScreenChild( rotationPlayAreaNode );
 
         relayout();
         addComponentListener( new ComponentListener() {
