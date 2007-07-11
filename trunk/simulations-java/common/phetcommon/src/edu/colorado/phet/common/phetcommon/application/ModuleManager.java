@@ -74,7 +74,6 @@ class ModuleManager {
      */
     void addModule( Module module ) {
         modules.add( module );
-        module.deactivate();
         notifyModuleAdded( new ModuleEvent( getPhetApplication(), module ) );
     }
 
