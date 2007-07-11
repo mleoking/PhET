@@ -2,17 +2,7 @@
 
     include_once('db-utils.php');
     include_once('web-utils.php');
-
-    // define('OLD_DB_HOSTNAME', 'localhost');
-    // define('OLD_DB_USERNAME', 'tester');
-    // define('OLD_DB_PASSWORD', 'tester');
-    // define('OLD_DB_NAME',     'phet_test');
-    // 
-    // define('NEW_DB_HOSTNAME', 'localhost');
-    // define('NEW_DB_USERNAME', 'tester');
-    // define('NEW_DB_PASSWORD', 'tester');
-    // define('NEW_DB_NAME',     'phet_production');
-
+    include_once('login-info.php');
 
     $old = mysql_connect(OLD_DB_HOSTNAME, OLD_DB_USERNAME, OLD_DB_PASSWORD);
     $new = mysql_connect(NEW_DB_HOSTNAME, NEW_DB_USERNAME, NEW_DB_PASSWORD);

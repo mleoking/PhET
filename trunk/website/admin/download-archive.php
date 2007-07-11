@@ -10,31 +10,18 @@
     
     $contribution_id = $_REQUEST['contribution_id'];
     
-    $files = contribution_get_contribution_files($contribution_id);
+    $contribution = contribution_get_contribution_by_id($contribution_id);
+    $contribution_title = $contribution['contribution_title'];
     
-    $first_file_name = null;
+    $files = contribution_get_contribution_files($contribution_id);
     
     foreach($files as $file) {
         eval(get_code_to_create_variables_from_array($file));
         
-        $file_name = contribution_extract_original_file_name($contribution_file_url);
+        $decoded_file_contents = base64_decode($contribution_file_contents);
         
-        if ($first_file_name == null) {
-            $first_file_name = remove_file_extension($file_name);
-        }
-        
-        $file_contents = file_get_contents(SITE_ROOT.$contribution_file_url);
-        
-        $zipfile->add_file($file_contents, $file_name);
+        $zipfile->add_file($decoded_file_contents, $contribution_file_name);
     }
     
-    if ($first_file_name == null) {
-        $first_file_name = 'empty.zip';
-    }
-
-    $temp_file_name = $zipfile->write_to_temp_file($first_file_name);
-
-    send_file_to_browser($temp_file_name, 'application/zip');
-    
-    unlink($temp_file_name);
+    send_file_to_browser("${contribution_title}.zip", $zipfile->build_zipped_file(), 'application/zip');
 ?>
