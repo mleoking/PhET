@@ -40,7 +40,7 @@ public class PositionHistogramPlot extends XYPlot {
     private static final Color BAR_FILL_COLOR = Color.BLUE;
     private static final Color BAR_OUTLINE_COLOR = Color.BLACK;
     private static final int OBSERVATIONS_REQUIRED_TO_ENABLE_AUTORANGE = 10;
-    private static final int MAX_OBSERVATIONS_CACHE_SIZE = 10000;
+    private static final int MAX_OBSERVATIONS_CACHE_SIZE = 30000;
     
     //----------------------------------------------------------------------------
     // Instance data

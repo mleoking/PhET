@@ -5,9 +5,9 @@
 IN PROGRESS:
 
 AAPT:
+- improve performance of e-field display
 - bug: histogram bars are sometimes drawn wrong (sitting way above x-axis) when zooming in slow mode
 - performance profiling
-- test performance of position histogram when observation cache is full
 - add description to About dialog
 - set correct default values for everything, including developer controls
 - E-field stops for Kathy below dt=2.7E-17
@@ -57,6 +57,8 @@ MISSING INFO:
 
  
 DONE:
+7/10/07 - increased histogram cache size to 30,000 observations (~30 minutes of data at fastest dt)
+7/10/07 - tested behavior of histogram observation cache when it gets full
 7/10/07 - module's resetAll method should set the clock run state only if the module is active
 7/10/07 - update force vector nodes only when visible
 7/10/07 - rename DragForceNode to FluidDragForceNode
