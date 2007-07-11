@@ -157,7 +157,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
      */
     public BSAbstractModule( String title, BSAbstractModuleSpec moduleSpec ) {
         
-        super( title, new BSClock(), true /* startsPaused */ );
+        super( title, new BSClock(), false /* startsPaused */ );
         
         if ( moduleSpec.isSuperpositionControlsSupported() && moduleSpec.isAverageProbabilityDensitySupported() ) {
             throw new UnsupportedOperationException( 
@@ -852,11 +852,13 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         closeAllDialogs();
         
         // Clock
-        if ( config.isClockRunning() ) {
-            getClock().start();
-        }
-        else {
-            getClock().pause();
+        if ( isActive() ) {
+            if ( config.isClockRunning() ) {
+                getClock().start();
+            }
+            else {
+                getClock().pause();
+            }
         }
         _clockControls.setClockIndex( config.getClockIndex() );
     
