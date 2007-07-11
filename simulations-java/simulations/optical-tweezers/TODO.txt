@@ -5,15 +5,13 @@
 IN PROGRESS:
 
 AAPT:
-- improve performance of e-field display (22% in Arrow.computeArrow)
-- performance profiling
-- add description to About dialog
-- set correct default values for everything, including developer controls
-- E-field stops for Kathy below dt=2.7E-17 (cannot reproduce)
 - developer control for trap force vector color
-- screen snapsot
 - developer control for setting a color for the control panel & clock panel
-- set color of piccolo tabs
+- set color of Piccolo tabs
+- E-field freezes on Windows for dt values in slow range
+- improve performance of e-field display (22% in Arrow.computeArrow)
+- add description to About dialog
+- screen snapsot
 
 HIGH PRIORITY:
 
