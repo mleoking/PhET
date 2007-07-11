@@ -112,7 +112,7 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
         
         final double dx = xMax / ( NUMBER_OF_VECTORS_AT_WAIST / 2 );
         final double dy = yMax / ( NUMBER_OF_VECTOR_ROWS / 2 );
-        final double referenceMagnitude = _laser.getMaxElectricField().getMagnitude();
+        final double referenceMagnitude = _laser.getMaxElectricFieldX();
         final double referenceLength = _modelViewTransform.modelToView( dx - X_SPACING );
         
         double xOffsetFromLaser = 0;
@@ -223,15 +223,11 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
      * @param visible
      */
     public void setVisible( boolean visible ) {
-        if ( visible != getVisible() ) {
-            super.setVisible( visible );
+        if ( visible != isVisible() ) {
             if ( visible ) {
-                _laser.addObserver( this );
-                updateVectors();
+                initVectors();
             }
-            else {
-                _laser.deleteObserver( this );
-            }
+            super.setVisible( visible );
         }
     }
     
@@ -243,12 +239,14 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
      * Updates the view to match the model.
      */
     public void update( Observable o, Object arg ) {
-        if ( o == _laser ) {
-            if ( arg == Laser.PROPERTY_ELECTRIC_FIELD || arg == Laser.PROPERTY_POWER || arg == Laser.PROPERTY_RUNNING ) {
-                updateVectors();
-            }
-            else if ( arg == Laser.PROPERTY_ELECTRIC_FIELD_SCALE ) {
-                initVectors();
+        if ( isVisible() ) {
+            if ( o == _laser ) {
+                if ( arg == Laser.PROPERTY_ELECTRIC_FIELD || arg == Laser.PROPERTY_POWER || arg == Laser.PROPERTY_RUNNING ) {
+                    updateVectors();
+                }
+                else if ( arg == Laser.PROPERTY_ELECTRIC_FIELD_SCALE ) {
+                    initVectors();
+                }
             }
         }
     }
@@ -258,19 +256,19 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
      * at the vector's location in the laser beam.
      */
     private void updateVectors() {
-        final Vector2D maxElectricField = _laser.getMaxElectricField();
+        final double maxElectricFieldX = _laser.getMaxElectricFieldX();
         Iterator i = _vectorNodes.iterator();
         while ( i.hasNext() ) {
             
             ElectricFieldVectorNode vectorNode = (ElectricFieldVectorNode) i.next();
 
-            // magnitude
+            // electric field's x component
             Point2D offsetFromLaser = vectorNode.getOffsetFromLaserReference();
-            Vector2D electricField = _laser.getElectricField( offsetFromLaser );
-            vectorNode.setXY( electricField.getX(), electricField.getY() );
+            double electricFieldX = _laser.getElectricFieldX( offsetFromLaser );
+            vectorNode.setXY( electricFieldX, 0 );
 
             // color, alpha component based on field strength
-            int alpha = (int)( 255 * electricField.getMagnitude() / maxElectricField.getMagnitude() );
+            int alpha = (int)( 255 * Math.abs( electricFieldX / maxElectricFieldX ) );
             Color c = ColorUtils.addAlpha( _vectorColor, alpha );
             vectorNode.setArrowStrokePaint( c );
         }

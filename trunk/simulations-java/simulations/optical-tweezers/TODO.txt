@@ -57,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+7/10/07 - optimize e-field model for x-component, since we don't care about (and don't have a model for) y component
 7/10/07 - increased histogram cache size to 30,000 observations (~30 minutes of data at fastest dt)
 7/10/07 - tested behavior of histogram observation cache when it gets full, zoom performance is good
 7/10/07 - module's resetAll method should set the clock run state only if the module is active
