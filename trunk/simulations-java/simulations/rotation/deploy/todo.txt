@@ -4,7 +4,6 @@
 
 Rotation
 •	Add horizontal ruler
-•	White dot in the middle of bug to represent center of motion
 •	Performance bug (temporarily reduced by “clear”)
 •	Angular velocity graph should go from -0.15 to 0.15
 •	Bugs are not grabbable when out of the play area

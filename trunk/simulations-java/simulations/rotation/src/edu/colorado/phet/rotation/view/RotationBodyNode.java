@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation.view;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.umd.cs.piccolo.PNode;
@@ -11,6 +12,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -21,6 +24,10 @@ import java.io.IOException;
  */
 public class RotationBodyNode extends PhetPNode {
     private RotationBody rotationBody;
+    private PNode centerIndicatorNode;
+    private PNode imageNode;
+
+    private static final double CENTER_NODE_WIDTH=10;
 
     public interface RotationBodyEnvironment {
         void dropBody( RotationBody rotationBody );
@@ -28,17 +35,16 @@ public class RotationBodyNode extends PhetPNode {
 
     public RotationBodyNode( final RotationBodyEnvironment model, final RotationBody rotationBody ) {
         this.rotationBody = rotationBody;
-        PNode node = null;
         try {
             BufferedImage newImage = RotationResources.loadBufferedImage( rotationBody.getImageName() );
             newImage = BufferedImageUtils.rescaleXMaintainAspectRatio( newImage, 75 );
-            node = new PImage( newImage );
+            imageNode = new PImage( newImage );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        node.translate( -node.getFullBounds().getWidth() / 2, -node.getFullBounds().getHeight() / 2 );
-        addChild( node );
+        imageNode.translate( -imageNode.getFullBounds().getWidth() / 2, -imageNode.getFullBounds().getHeight() / 2 );
+        addChild( imageNode );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
@@ -62,6 +68,8 @@ public class RotationBodyNode extends PhetPNode {
             public void speedAndAccelerationUpdated() {
             }
         } );
+        centerIndicatorNode = new PhetPPath( new Ellipse2D.Double( -CENTER_NODE_WIDTH/2, -CENTER_NODE_WIDTH/2, CENTER_NODE_WIDTH, CENTER_NODE_WIDTH ), Color.white, new BasicStroke( 1 ), Color.black );
+        addChild( centerIndicatorNode );
         update();
     }
 
