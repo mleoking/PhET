@@ -16,11 +16,11 @@ import javax.swing.*;
  */
 public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
 
-    public TorqueSimulationPanel( TorqueModule torqueModule ) {
-        super( torqueModule );
+    public TorqueSimulationPanel( TorqueModule torqueModule,JFrame parentFrame ) {
+        super( torqueModule,parentFrame );
     }
 
-    protected JComponent createControlPanel( RulerNode rulerNode) {
+    protected JComponent createControlPanel( RulerNode rulerNode,JFrame parentFrame) {
         return new TorqueControlPanel( getRotationGraphSet(), getGraphSetModel(), (TorqueModule)getAbstractRotationModule() );//todo: better typing
     }
 

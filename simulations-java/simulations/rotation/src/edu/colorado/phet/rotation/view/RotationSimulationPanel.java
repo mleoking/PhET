@@ -13,12 +13,12 @@ import javax.swing.*;
  * May 29, 2007, 1:13:21 AM
  */
 public class RotationSimulationPanel extends AbstractRotationSimulationPanel {
-    public RotationSimulationPanel( AbstractRotationModule rotationModule ) {
-        super( rotationModule );
+    public RotationSimulationPanel( AbstractRotationModule rotationModule,JFrame parentFrame ) {
+        super( rotationModule,parentFrame );
     }
 
-    protected JComponent createControlPanel( RulerNode rulerNode) {
-        return new RotationControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), ( (RotationModule)getAbstractRotationModule() ).getVectorViewModel() );
+    protected JComponent createControlPanel( RulerNode rulerNode,JFrame parentFrame) {
+        return new RotationControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), ( (RotationModule)getAbstractRotationModule() ).getVectorViewModel(),parentFrame );
     }
 
     protected RotationPlayAreaNode createPlayAreaNode() {

@@ -18,10 +18,10 @@ import java.awt.*;
  */
 
 public class RotationControlPanel extends JPanel {
-    public RotationControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, VectorViewModel vectorViewModel ) {
+    public RotationControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, VectorViewModel vectorViewModel, JFrame parentFrame ) {
         super( new GridBagLayout() );
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
-        SymbolKey symbolKey = new SymbolKey();
+        SymbolKeyButton symbolKey = new SymbolKeyButton(parentFrame);
         ShowVectorsControl showVectorsControl = new ShowVectorsControl( vectorViewModel );
 
         RulerButton rulerButton = new RulerButton( rulerNode );

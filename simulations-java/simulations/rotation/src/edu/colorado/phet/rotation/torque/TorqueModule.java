@@ -5,16 +5,22 @@ import edu.colorado.phet.rotation.AbstractRotationModule;
 import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
 import edu.colorado.phet.rotation.model.RotationModel;
 
+import javax.swing.*;
+
 /**
  * Author: Sam Reid
  * May 29, 2007, 12:57:07 AM
  */
 public class TorqueModule extends AbstractRotationModule {
+    public TorqueModule( JFrame parentFrame ) {
+        super( parentFrame );
+    }
+
     protected RotationModel createModel( ConstantDtClock clock ) {
         return new TorqueModel( clock );
     }
 
-    protected AbstractRotationSimulationPanel createSimulationPanel() {
-        return new TorqueSimulationPanel( this );
+    protected AbstractRotationSimulationPanel createSimulationPanel( JFrame parentFrame) {
+        return new TorqueSimulationPanel( this,parentFrame );
     }
 }

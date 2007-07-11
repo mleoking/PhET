@@ -3,6 +3,7 @@ Added white dot in the middle of bug to represent center of motion
 Fixed: Angular velocity graph should go from -0.15 to 0.15
 Fixed: Bugs are not grabbable when out of the play area
 Fixed: Wheel should be proportionately bigger on high resolution.
+Fixed: Symbol key should be a button that pops up a dialog
 
 0.00.17
 Added improved initial locations for characters.
