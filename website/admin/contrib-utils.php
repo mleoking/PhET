@@ -1715,11 +1715,14 @@ EOT;
     }
     
     function contributor_add_new_blank_contributor($is_team_member = false) {
-        $team_member_field = $is_team_member ? '1' : '0';
+        $contributor_is_team_member = $is_team_member ? '1' : '0';
         
-        db_exec_query("INSERT INTO `contributor` (`contributor_is_team_member`) VALUES ('$team_member_field') ");
-        
-        return mysql_insert_id();
+        return db_insert_row(
+            'contributor',
+            array(
+                'contributor_is_team_member' => $contributor_is_team_member
+            )
+        );
     }
     
     function contributor_add_new_contributor($username, $password, $is_team_member = false) {
@@ -1735,13 +1738,7 @@ EOT;
     }
     
     function contributor_get_contributor_by_id($contributor_id) {
-        $result = db_exec_query("SELECT * FROM `contributor` WHERE `contributor_id`='$contributor_id' ");
-
-        if (!$result) {
-            return false;
-        }
-        
-        return format_for_html(mysql_fetch_assoc($result));
+        return db_get_row_by_id('contributor', 'contributor_id', $contributor_id);
     }
     
     function contributor_get_contributor_by_name($contributor_name) {
@@ -1916,9 +1913,11 @@ EOT;
     }
     
     function contributor_delete_contributor($contributor_id) {
-        db_exec_query("DELETE FROM `contributor` WHERE `contributor_id`='$contributor_id' ");
-        
-        return true;
+        return db_delete_row('contributor', 
+            array(
+                'contributor_id' => $contributor_id
+            )
+        );
     }
     
     function contributor_update_contributor($contributor_id, $update_array) {
@@ -1926,15 +1925,7 @@ EOT;
     }
     
     function contributor_update_contributor_from_script_parameters($contributor_id) {
-        $params = array();
-        
-        foreach($_REQUEST as $key => $value) {
-            if ("$key" !== "contributor_id" && "$key" !== "contributor_email") {
-                if (preg_match('/contributor_.*/', "$key") == 1) {
-                    $params["$key"] = mysql_real_escape_string("$value");
-                }
-            }
-        }
+        $params = gather_script_params_into_array('contributor_');
         
         contributor_update_contributor($contributor_id, $params);
     }

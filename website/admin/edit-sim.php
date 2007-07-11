@@ -66,7 +66,11 @@
                 <input type="hidden" name="sim_id" value="$sim_id" />
 EOT;
     
-        print_captioned_editable_area("Specify the name of the simulation",             "sim_name",         $sim_name,       "1");
+        print_captioned_editable_area("Specify the name of the simulation", "sim_name", $sim_name, "1");
+        
+        print_captioned_editable_area("Specify the <em>dir-name</em> of the simulation", "sim_dirname", $sim_dirname, "1");
+            
+        print_captioned_editable_area("Specify the <em>flavor-name</em> of the simulation", "sim_flavorname", $sim_flavorname,      "1");
     
         print_captioned_editable_area("Specify the URL that launches the simulation",   "sim_launch_url",   $sim_launch_url, "1");
     

@@ -6,14 +6,12 @@
         
         srand((double)microtime()*1000000);
         
-        $i    = 0;
         $pass = '';
 
-        while ($i <= $length) {
+        for ($i = 0; $i < $length; $i++) {
             $num  = rand() % 33;
             $tmp  = substr($chars, $num, 1);
             $pass = $pass . $tmp;
-            $i++;
         }
 
         return $pass;
