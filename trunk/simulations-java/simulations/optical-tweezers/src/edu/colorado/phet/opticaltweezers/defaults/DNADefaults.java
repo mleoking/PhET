@@ -48,7 +48,7 @@ public class DNADefaults {
     public static final double FLUID_DIRECTION = Math.toRadians( 0 ); // left-to-right flow direction
     public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 0, 1000000, 0 ); // nm/sec, min must be >0
     public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 1E-4, 1E-2, Fluid.WATER_VISCOSITY ); // Pa*s
-    public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 200 ); // Kelvin
+    public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 298 ); // Kelvin
 
     // Laser model, local origin at center of objective
     public static final double LASER_DIAMETER_AT_OBJECTIVE = 1800; // nm, chosen so that beam shape is similar to PhysicsDefaults
@@ -71,7 +71,7 @@ public class DNADefaults {
     public static final double BEAD_DENSITY = 1.05E-21; // g/nm^3, polystyrene
     public static final DoubleRange BEAD_DT_SUBDIVISION_THRESHOLD_RANGE = new DoubleRange( FAST_DT_RANGE.getMax() * 1E-2, FAST_DT_RANGE.getMax(), 1E-6 );
     public static final IntegerRange BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE = new IntegerRange( 1, 1000, 10 );
-    public static final DoubleRange BEAD_BROWNIAN_MOTION_SCALE_RANGE = new DoubleRange( 0, 5, 1 );
+    public static final DoubleRange BEAD_BROWNIAN_MOTION_SCALE_RANGE = new DoubleRange( 0, 5, 1.3 );
     public static final boolean BEAD_BROWNIAN_MOTION_ENABLED = true;
     public static final DoubleRange BEAD_VERLET_ACCELERATION_SCALE_RANGE = new DoubleRange( 1E-8, 1E-4, 1E-6 );
     
