@@ -197,6 +197,15 @@ public class PhetTabbedPane extends JPanel {
         this.selectedTabColor = color;
         tabPane.setSelectedTabColor( color );
     }
+    
+    /**
+     * Gets the base foreground color for selected tabs.
+     * 
+     * @return Color
+     */
+    public Color getSelectedTabColor() {
+        return selectedTabColor;
+    }
 
     /**
      * Adds the text or HTML label as a tab for the specified component.  If this is the first tab, it becomes selected.
