@@ -165,12 +165,25 @@ class ModuleManager {
         }
     }
 
-    /**
-     * Prints an exception stack trace if the number of running clocks or active modules is not exactly 1.
+    /*
+     * Prints an exception stack trace if the collection of modules 
+     * being managed don't have the correct activation and clock states.
+     * A valid state is:
+     * - exactly one module should be active
+     * - at most one clock should be running
+     * - if there is a running clock, it must belong to the active module
      */
     private void verifyActiveState() {
-        if (getNumClocksRunning()!=1||getNumActiveModules()!=1){
-            new RuntimeException("multiple clocks or modules running: running clocks="+getNumClocksRunning()+", active modules="+getNumActiveModules()).printStackTrace( );
+        int numActiveModules = getNumActiveModules();
+        int numClocksRunning = getNumClocksRunning();
+        if ( numActiveModules != 1 ) {
+            new IllegalStateException( "multiple modules are running: active modules=" + numActiveModules ).printStackTrace();
+        }
+        if ( numClocksRunning > 1 ) {
+            new IllegalStateException( "multiple clocks are running: running clocks=" + numClocksRunning ).printStackTrace();
+        }
+        if ( numClocksRunning == 1 && !activeModule.getClock().isRunning() ) {
+            new IllegalStateException( "a clock is running that does not belong to the active module" ).printStackTrace();
         }
     }
 
