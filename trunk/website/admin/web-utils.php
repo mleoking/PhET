@@ -451,7 +451,7 @@ EOT;
         
         $is_first = true;
         
-        foreach(preg_split('/( +)|( *, *)/i', $list) as $keyword) {
+        foreach(preg_split('/( *, *)/i', $list) as $keyword) {
             $keyword = trim($keyword);
             
             if ($is_first) {
