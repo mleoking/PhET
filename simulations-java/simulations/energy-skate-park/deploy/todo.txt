@@ -7,6 +7,7 @@ Questions:
 To Do:
 • 7-10-2007: During both the interview on Thursday and the one I did the week before, the simulation froze after about 30 minutes or so of use.  I haven't been able to reproduce this, but both times it happened when the E vs. time graph was open and the interviewee tried to close it.  Sam, I can talk to you more about this tomorrow if you want, since it may be easier to explain in person.
 • 7-10-2007: During the interview I did on Thursday, the bar graph would not work.  I tried several times to have the interviewee push the Bar Graph button, but the bar graph never came up.  I haven't been able to reproduce this, either.
+• 7-11-2007: In two of Mindy’s tests, Energy Skate Park track graphics became dissociated from underlying model.
 • Bug: in one run, EnergySkateParkSimulationPanel.dragSplineSurface( PInputEvent event, EnergySkateParkSpline spline )  threw an exception, getting a null graphic for model object
 • Implement separate layers for time series graph (currently different series are interleaved).  How long would this take?
     To implement this without substantial loss of performance, path segments should be drawn that are longer than 1/2 the stroke width.
