@@ -13,6 +13,7 @@ LOW PRIORITY:
 
 
 DONE:
+7/10/07 - fix modules so that they don't explictly change the clock's run state unless the module is active
 6/15/07 - convert description properties to well-formed HTML
 4/23/07 - replace SliderControl with LinearValueControl from phetcommon
 4/12/07 - merge test-src into src

@@ -232,11 +232,13 @@ public class PlumPuddingAtomModule extends AbstractModule {
         
         _controlPanel.setTracesEnabled( RSConstants.TRACES_ENABLED );
 
-        if ( RSConstants.CLOCK_PAUSED ) {
-            clock.pause();
-        }
-        else {
-            clock.start();
+        if ( isActive() ) {
+            if ( RSConstants.CLOCK_PAUSED ) {
+                clock.pause();
+            }
+            else {
+                clock.start();
+            }
         }
     }
     
