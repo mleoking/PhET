@@ -56,6 +56,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.21 (?)
 7/10/07 - simplify implementation of PositionHistogramPlot.setPositionRange
 7/10/07 - histogram: workaround renderer bug by not adding observations to a series unless they're in the series range
 7/10/07 - update Vector2DNode value display only if it's visible
