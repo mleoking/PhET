@@ -102,6 +102,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         valuePattern = FLUID_TEMPERATURE_DISPLAY_PATTERN;
         units = OTResources.getString( "units.fluidTemperature" );
         _temperatureControl = new LinearValueControl( min, max, label, valuePattern, units );
+        _temperatureControl.setValue( value );
         _temperatureControl.setTextFieldEditable( true );
         _temperatureControl.setFont( font );
         _temperatureControl.setUpDownArrowDelta( 1 );
