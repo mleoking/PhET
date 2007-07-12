@@ -2,7 +2,6 @@ package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
-import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 
 import java.awt.*;
@@ -16,7 +15,7 @@ public class RotationRulerNode extends RulerNode {
         super( distanceBetweenFirstAndLastTick, height, majorTickLabels, units, numMinorTicksBetweenMajors, fontSize );
         setBackgroundPaint( new Color( 236, 225, 113, 150 ) );
 
-        addInputEventListener( new CursorHandler( OTConstants.UP_DOWN_CURSOR ) );
+        addInputEventListener( new CursorHandler() );
 //        addInputEventListener( new BoundedDragHandler( this, null ) );
         addInputEventListener( new PDragEventHandler() );
     }
