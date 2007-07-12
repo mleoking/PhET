@@ -7,6 +7,7 @@ Fixed: Symbol key should be a button that pops up a dialog
 Fixed: Graphs should accurately show time axis values
 Fixed: Time axis should be longer (take longer to fill a chart)
     -changed from 15 seconds to 30 seconds
+Ladybug is initialized on the rotation platform
 
 0.00.17
 Added improved initial locations for characters.
