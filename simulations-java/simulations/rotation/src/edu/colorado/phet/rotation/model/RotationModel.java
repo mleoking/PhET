@@ -19,7 +19,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         super( clock );
         rotationPlatform = new RotationPlatform();
 
-        RotationBody body1 = new RotationBody( "ladybug.gif" );
+        RotationBody body1 = new RotationBody( "ladybug.gif",true );
         body1.setPosition( rotationPlatform.getCenter().getX() + rotationPlatform.getRadius() / 2,
                            rotationPlatform.getCenter().getY() );
         body1.setOnPlatform( rotationPlatform );
