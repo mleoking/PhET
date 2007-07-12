@@ -11,6 +11,7 @@ Ladybug is initialized on the rotation platform
 Fixed: Ladybug should not be able to be taken off the wheel.
 Fixed: Less tick marks on vertical axis
 Fixed: Rotation platform colors should alternate (same on diagonal)
+Fixed: Rotation platform colors should be muted, attention should be on the bug.
 
 0.00.17
 Added improved initial locations for characters.
