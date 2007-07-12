@@ -16,12 +16,13 @@ Rotation
 •	Rotation platform colors should alternate (same on diagonal)
 •	Use colors from the color chart (from Wendy)
 •	Check boxes (like in Force1D) for adding/removing series (applies to both characters)
-•	Checkbox to remove/add second bug.
+•	Checkbox to remove/add second bug. (Just remove/add dashed line in graph, not hide/show bug itself)
 •	Shadow projections should be considered after AAPT.
 •	Possible interview question: bug icon at tip of graph to improve conceptual connection
 •	No graphs or values should be shown for platform
 •	For X,V,A graphs, readouts should be on-graph, no text-boxes on left hand side
 •	Velocity(x) should be written X-Velocity, get rid of (vx) on charts
+•	Add a vertical axis label on these graphs as in force 1 D. 
 
 
 Should be able to "spin" the wheel (i.e. drag, let go, and have it continue to spin, at least in friction mode)
