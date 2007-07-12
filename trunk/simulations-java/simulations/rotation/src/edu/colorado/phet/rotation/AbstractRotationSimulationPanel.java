@@ -68,6 +68,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
 
             public void componentResized( ComponentEvent e ) {
                 relayout();
+                timeSeriesGraphSetNode.forceRepaintGraphs();
             }
 
             public void componentShown( ComponentEvent e ) {
@@ -146,5 +147,9 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
 
     public RulerNode getRulerNode() {
         return rotationPlayAreaNode.getRulerNode();
+    }
+
+    public void startApplication() {
+        timeSeriesGraphSetNode.forceRepaintGraphs();
     }
 }
