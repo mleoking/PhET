@@ -11,9 +11,8 @@
     <splashImage></splashImage>
     <defaultLanguage>en</defaultLanguage>
     <allowLanguageSelection>0</allowLanguageSelection>
-    <postInstallationScript>${java_executable}</postInstallationScript>
-    <postInstallationScriptArguments>-classpath "${installdir}/jnlpmod.jar;${installdir}/jdom.jar;${installdir}/xerces.jar" edu.colorado.phet.jnlphacker.JnlpHacker "${installdir}/simulations" "${installdir}/simulations"</postInstallationScriptArguments>
-    <showPostInstallationScriptResult>1</showPostInstallationScriptResult>
+    <postInstallationScript></postInstallationScript>
+    <postInstallationScriptArguments></postInstallationScriptArguments>
     <preUninstallationScript></preUninstallationScript>
     <preUninstallationScriptArguments></preUninstallationScriptArguments>
     <allowedLanguages></allowedLanguages>
@@ -21,7 +20,7 @@
     <defaultInstallationMode></defaultInstallationMode>
     <defaultUnixDirectoryPermissions>755</defaultUnixDirectoryPermissions>
     <defaultUnixFilePermissions>644</defaultUnixFilePermissions>
-    <description>One-line description of your software</description>
+    <description>The PhET Website Mirror</description>
     <outputDirectory>${installbuilder_install_root}/output</outputDirectory>
     <projectSchemaVersion>1.2</projectSchemaVersion>
     <saveRelativePaths>1</saveRelativePaths>
@@ -29,11 +28,11 @@
     <slideShowTiming>5</slideShowTiming>
     <startMenuGroupName>${product_fullname}</startMenuGroupName>
     <style>standard</style>
-    <summary>Place here a detailed description of your software</summary>
+    <summary>The PhET Website Mirror is an offline copy of the PhET website, containing a complete copy of all the simulations on the website.</summary>
     <uninstallerDirectory>${installdir}</uninstallerDirectory>
     <uninstallerName></uninstallerName>
     <validatorProgram></validatorProgram>
-    <vendor>Name of your company</vendor>
+    <vendor>PhET</vendor>
     <componentList>
         <component>
             <name>default</name>
@@ -63,15 +62,6 @@
                         <distributionDirectory>
                             <origin>../temp/website/phet.colorado.edu/Design</origin>
                         </distributionDirectory>
-                        <distributionFile>
-                            <origin>../Installer-Resources/Install-Path/xerces.jar</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../Installer-Resources/Install-Path/jdom.jar</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../Installer-Resources/Install-Path/jnlpmod.jar</origin>
-                        </distributionFile>
                         <distributionFile>
                             <origin>../Installer-Resources/Install-Path/Phet-logo-48x48.gif</origin>
                         </distributionFile>
@@ -103,6 +93,16 @@
                             <windowsIcon>${installdir}/Phet-logo-48x48.ico</windowsIcon>
                         </fileShortcut>
                     </shortcutList>
+                    
+                    <substitute>
+                        <files>*/*.jnlp</files>
+                        <substitutionList>
+                            <substitution>
+                                <pattern>@@INSTALLDIR@@</pattern>
+                                <value>${installdir}</value>
+                            </substitution>
+                        </substitutionList>
+                   </substitute>
                 </folder>
                 <folder>
                     <description>Program Files</description>
@@ -117,7 +117,7 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../Installer-Resources/Install-Path/jre-1_5_0_11-windows-i586-p.exe</origin>
+                            <origin>../Installer-Resources/Install-Path/jre-windows.exe</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
@@ -170,6 +170,7 @@
     </parameterList>
     <platformOptionsList/>
     <postInstallationActionList>
+        <!--Detect Java, but don't abort on error (yet) -->
         <autodetectJava>
             <promptUser>0</promptUser>
             <validVersionList>
@@ -179,6 +180,44 @@
                     <vendor></vendor>
                 </validVersion>
             </validVersionList>
+            <abortOnError>0</abortOnError>
+        </autodetectJava>
+        
+        <actionGroup>
+            <actionList>
+                <ruleEvaluationLogic>and</ruleEvaluationLogic>
+            
+                <ruleList>
+                    <!-- If the platform type is windows... -->
+                    <platformHost>
+                        <type>windows</text>
+                    </platformHost>
+                    
+                    <!-- AND Java was not detected on the user's machine... -->
+                    <fileTest>
+                        <path>${java_executable}</path>
+                        <condition>not_exists</condition>
+                    </fileTest>
+                 </ruleList>
+             
+                 <runProgram>
+                     <!-- THEN run the bundles Windows JRE installer... --->
+                     <program>${installdir}/jre-windows.exe</program>
+                 </runProgram>
+            </actionList>
+        </actionGroup>
+        
+        <!-- Detect Java again -- this time ABORT on error: -->
+        <autodetectJava>
+            <promptUser>0</promptUser>
+            <validVersionList>
+                <validVersion>
+                    <maxVersion></maxVersion>
+                    <minVersion>1.4.2</minVersion>
+                    <vendor></vendor>
+                </validVersion>
+            </validVersionList>
+            <abortOnError>1</abortOnError>
         </autodetectJava>
     </postInstallationActionList>
     <postUninstallationActionList/>

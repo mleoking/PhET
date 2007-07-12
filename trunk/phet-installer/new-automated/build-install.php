@@ -73,6 +73,9 @@
 			foreach ($missing_resources as $missing_resource) {
 				$jnlp = jnlp_remove_resource_link($jnlp, $missing_resource);
 			}
+			
+			// Replace the codebase with a macro which can be replaced during the install process:
+			$jnlp = jnlp_replace_codebase_with_local_file_macro($jnlp, PHET_ROOT_URL);
         
 			// Output the new JNLP file:
 	        file_put_contents($jnlp_filename, $jnlp);
