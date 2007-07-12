@@ -1,5 +1,5 @@
 <project>
-    <shortName>FLAVORDIR</shortName>
+    <shortName>@FLAVORDIR@</shortName>
     <fullName>PhET</fullName>
     <version>@VERSION@</version>
     <installerFilename>@FLAVOR@-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
