@@ -80,6 +80,10 @@ public class OTClockControlPanel extends ClockControlPanelWithTimeDisplay {
     public void setUnitsFont( Font font ) {
         _timePanel.setUnitsFont( font );
     }
+    
+    public void setTimeColumns( int columns ) {
+        _timePanel.setTimeColumns( columns );
+    }
 
     //----------------------------------------------------------------------------
     // Inner classes
