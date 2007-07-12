@@ -54,7 +54,7 @@ MISSING INFO:
 
  
 DONE:
-********* version 0.00.24 (?)
+********* version 0.00.24 (16647)
 7/12/07 - fixed machine epsilon problem in Laser.stepInTime's accumulation of time
 7/12/07 - add subpackages for each module
 7/12/07 - move defaults into package with modules, since they are default for modules
