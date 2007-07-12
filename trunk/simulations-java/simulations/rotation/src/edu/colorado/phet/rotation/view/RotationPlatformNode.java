@@ -39,10 +39,11 @@ public class RotationPlatformNode extends PNode {
         this.rotationPlatform = rotationPlatform;
         contentNode = new PNode();
 
-        addRingNode( 1.0, Color.green, true );
-        addRingNode( 0.75, Color.yellow, false );
-        addRingNode( 0.50, Color.magenta, false );
-        addRingNode( 0.25, Color.white, false );
+//        addRingNode( 1.0, Color.green.brighter(), true );
+        addRingNode( 1.0, new Color( 255,215,215), true );
+        addRingNode( 0.75, new Color( 215,255,215), false );
+        addRingNode( 0.50, new Color( 215,215,255), false );
+        addRingNode( 0.25, Color.white.brighter(), false );
 //        addRingNode( 0.005, Color.white );
 
 
