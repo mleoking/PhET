@@ -22,37 +22,37 @@ public class TorqueGraphSet extends GraphSuiteSet {
 
     public TorqueGraphSet( PhetPCanvas pSwingCanvas, final TorqueModel tm ) {
         int maxDomainValue = 500;
-        MinimizableControlGraph angleGraph = new MinimizableControlGraph( UnicodeUtil.THETA, new MotionControlGraph(
+        MinimizableControlGraph angleGraph = new MinimizableControlGraph( UnicodeUtil.THETA, new RotationGraph(
                 pSwingCanvas, tm.getPlatformAngleVariable(), tm.getPlatformAngleTimeSeries(),
                 UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ),
                 tm, true, tm.getTimeSeriesModel(), tm.getPositionDriven(), maxDomainValue, tm.getRotationPlatform() ) );
 
-        MinimizableControlGraph velocityGraph = new MinimizableControlGraph( UnicodeUtil.OMEGA, new MotionControlGraph(
+        MinimizableControlGraph velocityGraph = new MinimizableControlGraph( UnicodeUtil.OMEGA, new RotationGraph(
                 pSwingCanvas, tm.getPlatformVelocityVariable(), tm.getPlatformVelocityTimeSeries(),
                 UnicodeUtil.OMEGA, "Angular Velocity", -0.1, 0.1, Color.red, new PImage( loadArrow( "red-arrow.png" ) ),
                 tm, true, tm.getTimeSeriesModel(), tm.getVelocityDriven(), maxDomainValue, tm.getRotationPlatform() ) );
 
-        MinimizableControlGraph accelGraph = new MinimizableControlGraph( UnicodeUtil.ALPHA, new MotionControlGraph(
+        MinimizableControlGraph accelGraph = new MinimizableControlGraph( UnicodeUtil.ALPHA, new RotationGraph(
                 pSwingCanvas, tm.getPlatformAccelVariable(), tm.getPlatformAccelTimeSeries(),
                 UnicodeUtil.ALPHA, "Angular Acceleration", -0.001, 0.001, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
                 tm, true, tm.getTimeSeriesModel(), tm.getAccelDriven(), maxDomainValue, tm.getRotationPlatform() ) );
 
-        MinimizableControlGraph torqueGraph = new MinimizableControlGraph( UnicodeUtil.TAU, new MotionControlGraph(
+        MinimizableControlGraph torqueGraph = new MinimizableControlGraph( UnicodeUtil.TAU, new RotationGraph(
                 pSwingCanvas, tm.getTorqueVariable(), tm.getTorqueTimeSeries(),
                 UnicodeUtil.TAU, "torque", -0.001, 0.001, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
                 tm, true, tm.getTimeSeriesModel(), tm.getTorqueDriven(), maxDomainValue, tm.getRotationPlatform() ) );
 
-        MinimizableControlGraph forceGraph = new MinimizableControlGraph( "F", new MotionControlGraph(
+        MinimizableControlGraph forceGraph = new MinimizableControlGraph( "F", new RotationGraph(
                 pSwingCanvas, tm.getForceVariable(), tm.getForceTimeSeries(),
                 "F", "force", -0.001 / 200.0, 0.001 / 200.0, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
                 tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), maxDomainValue, tm.getRotationPlatform() ) );
 
-        MinimizableControlGraph momentOfInertiaGraph = new MinimizableControlGraph( "I", new MotionControlGraph(
+        MinimizableControlGraph momentOfInertiaGraph = new MinimizableControlGraph( "I", new RotationGraph(
                 pSwingCanvas, tm.getMomentOfInertiaVariable(), tm.getMomentOfInertiaTimeSeries(),
                 "I", "Moment of Inertia", -5, 5, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
                 tm, false, tm.getTimeSeriesModel(), null, maxDomainValue, tm.getRotationPlatform() ) );
 
-        MinimizableControlGraph angularMomentumGraph = new MinimizableControlGraph( "L", new MotionControlGraph(
+        MinimizableControlGraph angularMomentumGraph = new MinimizableControlGraph( "L", new RotationGraph(
                 pSwingCanvas, tm.getAngularMomentumVariable(), tm.getAngularMomentumTimeSeries(),
                 "L", "Angular Momentum", -0.1, 0.1, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
                 tm, false, tm.getTimeSeriesModel(), null, maxDomainValue, tm.getRotationPlatform() ) );

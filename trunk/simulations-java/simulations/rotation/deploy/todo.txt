@@ -9,8 +9,6 @@ Rotation
     -Profiling for:
         1. Buffered Chart Series
         2. Remove antialias from parts of the sim?
-•	Less tick marks on vertical axis
-•   Mouse gets disassociated from ladybug character after trying to drag out of bounds.
 •	Rotation platform colors should be muted, attention should be on the bug.
 •	Rotation platform colors should alternate (same on diagonal)
 •	Use colors from the color chart (from Wendy)
@@ -22,8 +20,10 @@ Rotation
 •	When Second Bug is added to the platform, charts should show series data for it.
 •	Second Bug’s data series should be dotted lines
 •	Checkbox to remove/add second bug. (Just remove/add dashed line in graph, not hide/show bug itself)
+•   Mouse gets disassociated from ladybug character after trying to drag out of bounds.
 •	Shadow projections should be considered after AAPT.
 •	Possible interview question: bug icon at tip of graph to improve conceptual connection
+•	Fix: sun.dc.pr.PRException: endPath: bad path
 
 Should be able to "spin" the wheel (i.e. drag, let go, and have it continue to spin, at least in friction mode)
 
