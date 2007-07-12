@@ -1,6 +1,7 @@
 <?php
 
 	require_once("file-util.php");
+	require_once("string-util.php");
 
 	function autorun_create_autorun_file($dest_dir, $icon_file, $open_file) {
 	    /*

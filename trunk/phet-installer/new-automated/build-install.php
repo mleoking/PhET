@@ -61,7 +61,7 @@
 	                }
 	            }
 	            else {
-	                flushing_echo("Could not find resource: $absolute_url. Removing element $tag from JNLP file...\n");
+	                flushing_echo("Could not find resource: $absolute_url. Removing element $href from JNLP file...\n");
                 
 	                $missing_resources[] = $href;
 	            }
@@ -75,7 +75,7 @@
 			}
 			
 			// Replace the codebase with a macro which can be replaced during the install process:
-			$jnlp = jnlp_replace_codebase_with_local_file_macro($jnlp, PHET_ROOT_URL);
+			$jnlp = jnlp_replace_codebase_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN);
         
 			// Output the new JNLP file:
 	        file_put_contents($jnlp_filename, $jnlp);

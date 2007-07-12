@@ -27,12 +27,13 @@
 
 	// *****************************************************************************
 	// PhET Website Configuration
-	define("PHET_VERSION",              "1.0");
-	define("PHET_ROOT_URL",             "http://phet.colorado.edu/");
-	define("PHET_WEBSITE_URL",          PHET_ROOT_URL."web-pages/");
-	define("PHET_RIPPER_FILTER",        '"+*phet.colorado.edu/web-pages*" "+*phet.colorado.edu/simulations*"');
-	define("PHET_WEBSITE_ROOT_PATTERN", '/.+colorado\.edu/');
-	define("PHET_AUTORUN_ICON",         file_cleanup_local_filename(ROOT_DIR."Installer-Resources/Install-Path/Phet-logo-48x48.ico"));
+	define("PHET_VERSION",              		"1.0");
+	define("PHET_ROOT_URL",             		"http://phet.colorado.edu/");
+	define("PHET_WEBSITE_URL",          		PHET_ROOT_URL."web-pages/");
+	define("PHET_RIPPER_FILTER",        		'"+*phet.colorado.edu/web-pages*" "+*phet.colorado.edu/simulations*"');
+	define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
+	define("PHET_WEBSITE_ROOT_PATTERN", 		'/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
+	define("PHET_AUTORUN_ICON",         		file_cleanup_local_filename(ROOT_DIR."Installer-Resources/Install-Path/Phet-logo-48x48.ico"));
 
 	// *****************************************************************************
 	// Website Ripper Configuration
@@ -77,7 +78,7 @@
 	define("BITROCK_DIST_Linux",  file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DIST_PREFIX."linux".BITROCK_DIST_POSTFIX."bin"));
 	define("BITROCK_DIST_Darwin", file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DIST_PREFIX."osx".BITROCK_DIST_POSTFIX."app"));
 
-	$g_bitrock_dists = array("windows" => BITROCK_DIST_WINNT, "linux" => BITROCK_DIST_LINUX, "osx" => BITROCK_DIST_DARWIN);
+	$g_bitrock_dists = array("windows" => BITROCK_DIST_WINNT, "linux" => BITROCK_DIST_Linux, "osx" => BITROCK_DIST_Darwin);
 
 	define("BITROCK_PRE_ARGS",    " build ");
 

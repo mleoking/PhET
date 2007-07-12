@@ -31,14 +31,20 @@
 	    $return_var = 0;
     
 	    $cwd = getcwd();
-    
+
+    	$exe_dir = file_with_local_separator(BITROCK_EXE_DIR);
+
 	    // Change working directory to location of EXE:
-	    chdir(file_with_local_separator(BITROCK_EXE_DIR));
+	    chdir($exe_dir);
+	
+		print exec('pwd')."\n";
     
 	    foreach ($g_bitrock_dists as $platform => $distfile) {
-	        $cmd_line = BITROCK_EXE.BITROCK_PRE_ARGS.'"'."$new_buildfile".'" '.$platform;
+	        $cmd_line = $exe_dir.BITROCK_EXE.BITROCK_PRE_ARGS.'"'."$new_buildfile".'" '.$platform;
         
 	        $cmd_line = file_with_local_separator($cmd_line);
+	
+			flushing_echo("Executing $cmd_line");
         
 	        system($cmd_line, $return_var);
         
