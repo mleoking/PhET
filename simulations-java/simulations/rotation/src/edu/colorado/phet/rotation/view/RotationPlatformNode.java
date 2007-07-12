@@ -12,10 +12,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 
 /**
  * User: Sam Reid
@@ -40,11 +37,10 @@ public class RotationPlatformNode extends PNode {
         contentNode = new PNode();
 
 //        addRingNode( 1.0, Color.green.brighter(), true );
-        addRingNode( 1.0, new Color( 255,215,215), true );
-//        addRingNode( 0.75, new Color( 215,255,215), false );
-        addRingNode( 0.75, new Color( 140,255,140), false );
-        addRingNode( 0.50, new Color( 215,215,255), false );
-        addRingNode( 0.25, Color.white.brighter(), false );
+        addRingNode( 1.0, new Color( 255, 215, 215 ), new Color( 255, 240, 240 ), true );
+        addRingNode( 0.75, new Color( 140, 255, 140 ), new Color( 200, 255, 200 ), false );
+        addRingNode( 0.50, new Color( 215, 215, 255 ), new Color( 240, 240, 255 ), false );
+        addRingNode( 0.25, Color.white, Color.lightGray, false );
 //        addRingNode( 0.005, Color.white );
 
 
@@ -153,8 +149,8 @@ public class RotationPlatformNode extends PNode {
         return rotationPlatform.getRadius();
     }
 
-    private void addRingNode( double fractionalRadius, Color color, boolean showBorder ) {
-        contentNode.addChild( new RingNode( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), fractionalRadius * getRadius(), color, showBorder ) );
+    private void addRingNode( double fractionalRadius, Color color1, Color color2, boolean showBorder ) {
+        contentNode.addChild( new RingNode( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), fractionalRadius * getRadius(), color1, color2, showBorder ) );
     }
 
     private void setAngle( double angle ) {
@@ -175,25 +171,50 @@ public class RotationPlatformNode extends PNode {
     }
 
     class RingNode extends PNode {
-        private PhetPPath path;
+
         private double x;
         private double y;
         private double radius;
         private double maxRadius;
 
-        public RingNode( double x, double y, double radius, Color color, boolean showBorder ) {
+        private RingPath path1;
+        private RingPath path2;
+        private RingPath path3;
+        private RingPath path4;
+
+        public RingNode( double x, double y, double radius, Color color1, Color color2, boolean showBorder ) {
             this.x = x;
             this.y = y;
             this.radius = radius;
             this.maxRadius = radius;
-            path = new PhetPPath( null, color, showBorder ? new BasicStroke( 1 ) : null, Color.black );
-            addChild( path );
-            updatePath();
+            path1 = addPath( color1, showBorder, 90 * 0, 90 * 1 );
+            path2 = addPath( color2, showBorder, 90 * 1, 90 * 2 );
+            path3 = addPath( color1, showBorder, 90 * 2, 90 * 3 );
+            path4 = addPath( color2, showBorder, 90 * 3, 90 * 4 );
+
+            update();
         }
 
-        private Ellipse2D.Double createPath() {
-            double r = radius;
-            return new Ellipse2D.Double( x - r, y - r, r * 2, r * 2 );
+        private RingPath addPath( Color color, boolean showBorder, double minArcDegrees, double maxArcDegrees ) {
+            RingPath pPath = new RingPath( null, color, showBorder ? new BasicStroke( 1 ) : null, Color.black, minArcDegrees, maxArcDegrees );
+            addChild( pPath );
+            return pPath;
+        }
+
+        class RingPath extends PhetPPath {
+            private double minArcDegrees;
+            private double maxArcDegrees;
+
+            public RingPath( Shape shape, Paint fill, Stroke stroke, Paint strokePaint, double minArcDegrees, double maxArcDegrees ) {
+                super( shape, fill, stroke, strokePaint );
+                this.minArcDegrees = minArcDegrees;
+                this.maxArcDegrees = maxArcDegrees;
+            }
+
+            public void update() {
+                Arc2D.Double arc = new Arc2D.Double( getEllipseBounds(), minArcDegrees, maxArcDegrees-minArcDegrees, Arc2D.Double.PIE );
+                setPathTo( arc );
+            }
         }
 
         public double getMaxRadius() {
@@ -202,11 +223,19 @@ public class RotationPlatformNode extends PNode {
 
         public void setRadius( double radius ) {
             this.radius = radius;
-            updatePath();
+            update();
         }
 
-        private void updatePath() {
-            path.setPathTo( createPath() );
+        private void update() {
+            path1.update();
+            path2.update();
+            path3.update();
+            path4.update();
+        }
+
+        private Rectangle2D.Double getEllipseBounds() {
+            double r = radius;
+            return new Rectangle2D.Double( x - r, y - r, r * 2, r * 2 );
         }
     }
 }

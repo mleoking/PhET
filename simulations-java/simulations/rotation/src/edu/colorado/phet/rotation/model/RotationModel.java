@@ -29,7 +29,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         body2.setPosition( rotationPlatform.getCenter().getX() - rotationPlatform.getRadius() * Math.sqrt( 2 ) / 2.0,
                            rotationPlatform.getCenter().getY() + rotationPlatform.getRadius() );
         addRotationBody( body2 );
-        setVelocityDriven( 5 );
+//        setVelocityDriven( 5 );
     }
 
     private void setVelocityDriven( double value ) {
