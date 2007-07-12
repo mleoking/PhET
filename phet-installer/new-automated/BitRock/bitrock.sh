@@ -5,4 +5,5 @@ if [ `uname` = "Darwin" ]; then
     
 else
     # Linux
+	echo "Linux not yet supported"
 fi

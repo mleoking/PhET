@@ -2,6 +2,22 @@
 
 	define('FILE_SEPARATOR', PHP_OS == 'WINNT' ? '\\' : '/');
 
+	if (!function_exists('file_put_contents')) {
+		function file_put_contents($n, $d, $flag = false) {
+		    $mode = ($flag == FILE_APPEND || strtoupper($flag) == 'FILE_APPEND') ? 'a' : 'w';
+		    $f = @fopen($n, $mode);
+		    if ($f === false) {
+		        return 0;
+		    } 
+			else {
+		        if (is_array($d)) $d = implode($d);
+		        $bytes_written = fwrite($f, $d);
+		        fclose($f);
+		        return $bytes_written;
+		    }
+		}
+	}
+
 	function file_detect_encoding($contents) {
 		$encoding = mb_detect_encoding($contents);
 		
