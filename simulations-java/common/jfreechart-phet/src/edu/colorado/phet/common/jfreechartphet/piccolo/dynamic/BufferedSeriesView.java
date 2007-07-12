@@ -41,6 +41,7 @@ import java.beans.PropertyChangeListener;
 public class BufferedSeriesView extends SeriesView {
     private BasicStroke stroke = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
     private PhetPPath debugRegion = new PhetPPath( new BasicStroke( 3 ), Color.blue );
+    private boolean updateAllEnabled = false;
 
     public void visibilityChanged() {
         paintAll();
@@ -123,6 +124,22 @@ public class BufferedSeriesView extends SeriesView {
                                    super.getNodePoint( i ).getY() - getDY() );
     }
 
+    protected void forceRepaintAll() {
+        BufferedImage image = getDynamicJFreeChartNode().getBuffer();
+        if( image != null ) {
+            Graphics2D graphics2D = image.createGraphics();
+            graphics2D.setPaint( getSeriesData().getColor() );
+            graphics2D.setStroke( stroke );
+            setupRenderingHints( graphics2D );
+            graphics2D.clip( getDataArea() );
+            if( getSeriesData().isVisible() ) {
+                graphics2D.draw( translateDown( toGeneralPath() ) );//toGeneralPath calls our overriden getNodePoint
+            }
+            //todo: the following line seems unnecessary in Rotation, and slows performance
+//            repaintPanel( translateDown( new Rectangle2D.Double( 0, 0, getDynamicJFreeChartNode().getPhetPCanvas().getWidth(), getDynamicJFreeChartNode().getPhetPCanvas().getHeight() ) ) );
+        }
+    }
+
     private void setupRenderingHints( Graphics2D graphics2D ) {
         graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
     }
@@ -137,17 +154,8 @@ public class BufferedSeriesView extends SeriesView {
     }
 
     private void paintAll() {
-        BufferedImage image = getDynamicJFreeChartNode().getBuffer();
-        if( image != null ) {
-            Graphics2D graphics2D = image.createGraphics();
-            graphics2D.setPaint( getSeriesData().getColor() );
-            graphics2D.setStroke( stroke );
-            setupRenderingHints( graphics2D );
-            graphics2D.clip( getDataArea() );
-            if( getSeriesData().isVisible() ) {
-                graphics2D.draw( translateDown( toGeneralPath() ) );//toGeneralPath calls our overriden getNodePoint
-            }
-            repaintPanel( translateDown( new Rectangle2D.Double( 0, 0, getDynamicJFreeChartNode().getPhetPCanvas().getWidth(), getDynamicJFreeChartNode().getPhetPCanvas().getHeight() ) ) );
+        if( updateAllEnabled ) {
+            forceRepaintAll();
         }
     }
 

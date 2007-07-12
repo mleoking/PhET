@@ -28,6 +28,7 @@ import org.jfree.chart.JFreeChart;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
@@ -64,16 +65,41 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     //The default SeriesView is JFreeChart rendering.
     private SeriesViewFactory viewFactory = RENDERER_JFREECHART;
-
-    public void updateAll() {
-        super.updateAll();
-    }
+    private boolean updateEnabled = false;//require user to force repaints to reduce redundant calls
 
     public DynamicJFreeChartNode( PhetPCanvas phetPCanvas, JFreeChart chart ) {
         super( chart );
         this.phetPCanvas = phetPCanvas;
 //        debugBufferRegion = new PhetPPath( new BasicStroke( 1.0f ), Color.green );
 //        addChild( debugBufferRegion );//this can destroy the bounds of the graph, use with care
+    }
+
+    public void forceUpdateAll() {
+        this.updateEnabled = true;
+        updateAll();
+        this.updateEnabled = false;
+        for( int i = 0; i < seriesViewList.size(); i++ ) {
+            SeriesView seriesView = (SeriesView)seriesViewList.get( i );
+            seriesView.forceRepaintAll();
+        }
+    }
+
+    public void updateAll() {
+        if( updateEnabled ) {
+            super.updateAll();
+        }
+    }
+
+    /*
+     * This update overriden here doesn't seem to do anything in the Rotation sim except to extend startup time by about 25%
+     * todo: investigate this issue
+     */
+    protected void addPNodeUpdateHandler() {
+        addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+//                updateAll();
+            }
+        } );
     }
 
     /**
@@ -265,8 +291,8 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     };
 
-    public void setSeriesVisible( String title,boolean visible ) {
-        getSeriesData( title ).setVisible(visible);
+    public void setSeriesVisible( String title, boolean visible ) {
+        getSeriesData( title ).setVisible( visible );
         updateSeriesViews();
     }
 }

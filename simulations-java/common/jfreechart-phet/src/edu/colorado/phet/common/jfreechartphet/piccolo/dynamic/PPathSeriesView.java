@@ -120,6 +120,10 @@ public class PPathSeriesView extends SeriesView {
         updateAll();
     }
 
+    protected void forceRepaintAll() {
+        updateAll();
+    }
+
     private void updateAll() {
         updateClip();
         updatePath();

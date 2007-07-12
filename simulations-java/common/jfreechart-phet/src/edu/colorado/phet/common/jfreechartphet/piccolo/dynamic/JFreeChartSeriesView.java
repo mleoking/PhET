@@ -59,4 +59,7 @@ public class JFreeChartSeriesView extends SeriesView {
         XYSeriesCollection xySeriesCollection = (XYSeriesCollection)getDynamicJFreeChartNode().getChart().getXYPlot().getDataset();
         xySeriesCollection.addSeries( getSeriesData().getSeries() );
     }
+
+    protected void forceRepaintAll() {
+    }
 }
