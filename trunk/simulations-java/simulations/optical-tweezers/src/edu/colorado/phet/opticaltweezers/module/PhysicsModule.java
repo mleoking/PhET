@@ -4,8 +4,6 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
-import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
-import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 
