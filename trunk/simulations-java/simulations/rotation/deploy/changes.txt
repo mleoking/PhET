@@ -14,6 +14,7 @@ Fixed: Rotation platform colors should alternate (same on diagonal)
 Fixed: Rotation platform colors should be muted, attention should be on the bug.
 Added: a vertical axis label on these graphs as in force 1 D.
 Fixed: No graphs or values should be shown for platform
+Removed "Go/Pause" and "Clear" buttons for non-editable graphs
 
 0.00.17
 Added improved initial locations for characters.
