@@ -102,4 +102,6 @@ public abstract class SeriesView {
         }
         return path;
     }
+
+    protected abstract void forceRepaintAll();
 }
