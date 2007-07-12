@@ -19,8 +19,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
-import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
-import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.view.*;

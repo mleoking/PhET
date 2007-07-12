@@ -13,7 +13,6 @@ import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
 import edu.colorado.phet.opticaltweezers.control.MiscControlPanel;
 import edu.colorado.phet.opticaltweezers.control.SimulationSpeedControlPanel;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
-import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.model.DNAModel;
 
 /**
