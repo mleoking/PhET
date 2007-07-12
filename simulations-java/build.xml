@@ -183,11 +183,11 @@ PhET-team specific tasks are located in an auxiliary build file.
     </target>
 
     <target name="build-all-jars" depends="_init, _list-sims">
-        <foreach list="${phet.simlist}" target="build-jar" param="sim.name"/>
+        <foreach list="${phet.simlist}" target="build-jar" param="sim.name" inheritall="true"/>
     </target>
 
     <target name="build-all-jnlp" depends="_init, _list-sims">
-        <foreach list="${phet.simlist}" target="build-jnlp" param="sim.name"/>
+        <foreach list="${phet.simlist}" target="build-jnlp" param="sim.name" inheritall="true"/>
     </target>
 
     <!--Cleans a single simulation's jar, jnlp and exe files in the deploy directory-->
@@ -207,7 +207,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     <!--Cleans deploy directories of jar and jnlp files-->
     <target name="clean-all" depends="_init,_list-sims">
         <delete file="${phet.src.distribution}"/>
-        <foreach list="${phet.simlist}" target="clean-sim" param="sim.name"/>
+        <foreach list="${phet.simlist}" target="clean-sim" param="sim.name" inheritall="true"/>
         <!--<delete dir="${ant-output}" excludes="${phetbuild-classes}"/>-->
     </target>
 
@@ -372,7 +372,7 @@ PhET-team specific tasks are located in an auxiliary build file.
         <copy file="${basedir}/docs/translation-readme.txt" tofile="${ant-output}/translation/readme.txt"/>
         <copy file="${basedir}/phet-license.txt" todir="${ant-output}/translation/"/>
         <copy file="${basedir}/LICENSE.txt" todir="${ant-output}/translation/"/>
-        <foreach list="${phet.simlist}" target="_build-translatable-sim" param="sim.name"/>
+        <foreach list="${phet.simlist}" target="_build-translatable-sim" param="sim.name" inheritall="true"/>
     </target>
 
     <!--These tasks are still under consideration, and may be changed, moved or deleted.-->
@@ -456,7 +456,7 @@ PhET-team specific tasks are located in an auxiliary build file.
         </antcall>
     </target>
     
-    <target name="_build-and-deploy-only-prod" depends="_define-sim-version, build-jar, build-jnlp">
+    <target name="_build-and-deploy-only-prod" depends="_set-sim-revision-number, _define-sim-version, build-jar, build-jnlp">
         <!-- Deploy production version -->
         <antcall target="_deploy">
             <param name="sim.server.url"        value="${prod.server.url}"/>
@@ -467,7 +467,7 @@ PhET-team specific tasks are located in an auxiliary build file.
         </antcall>
     </target>
 
-    <target name="build-and-deploy-prod" depends="_init, _read-username-and-password, _set-sim-revision-number, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
+    <target name="build-and-deploy-prod" depends="_init, _read-username-and-password, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
         <!-- Deploy development version -->
         <antcall target="_deploy">
             <param name="sim.server.url"        value="${dev.server.url}"/>
@@ -481,11 +481,11 @@ PhET-team specific tasks are located in an auxiliary build file.
     <target name="build-and-deploy-prod-no-change" depends="_init, _read-username-and-password, _build-and-deploy-only-prod" />
     
     <target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password, _list-sims" description="Builds and deploys all sims to the development server.">
-        <foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name"/>
+        <foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name" inheritall="true"/>
     </target>
 
     <target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password, _list-sims" description="Builds and deploys all sims to the production server.">
-        <foreach list="${phet.simlist}" target="build-and-deploy-prod-no-change" param="sim.name"/>
+        <foreach list="${phet.simlist}" target="build-and-deploy-prod-no-change" param="sim.name" inheritall="true"/>
     </target>
     
     
@@ -556,11 +556,11 @@ PhET-team specific tasks are located in an auxiliary build file.
         On Windows: if no java is available, and the JRE is bundled, must be installed -->
         <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
 
-        <foreach list="${sim.flavors}" target="_build-installer-for-flavor" param="sim.flavor"/>
+        <foreach list="${sim.flavors}" target="_build-installer-for-flavor" param="sim.flavor" inheritall="true"/>
     </target>
 
     <target name="build-all-sim-installers" depends="_init, _list-sims" description="Builds all single-sim installers.">
-        <foreach list="${phet.simlist}" target="build-installer" param="sim.name"/>
+        <foreach list="${phet.simlist}" target="build-installer" param="sim.name" inheritall="true"/>
     </target>
 
     <target name="test-file-exists" depends="_init">
@@ -587,11 +587,11 @@ PhET-team specific tasks are located in an auxiliary build file.
 
     <!--<target name="_build-launch4j" depends="_init, build-jar">-->
         <!--<phet-list-flavors property="sim.flavors" project="${sim.name}"/>-->
-        <!--<foreach list="${sim.flavors}" target="_build-launch4j-for-flavor" param="sim.flavor"/>-->
+        <!--<foreach list="${sim.flavors}" target="_build-launch4j-for-flavor" param="sim.flavor" inheritall="true"/>-->
     <!--</target>-->
 
     <!--<target name="build-all-launch4j" depends="_init, _list-sims">-->
-        <!--<foreach list="${phet.simlist}" target="_build-launch4j" param="sim.name"/>-->
+        <!--<foreach list="${phet.simlist}" target="_build-launch4j" param="sim.name" inheritall="true"/>-->
     <!--</target>-->
 
     <target name="_build-jar-for-flavor">
@@ -609,10 +609,10 @@ PhET-team specific tasks are located in an auxiliary build file.
         <copy file="simulations/${sim.name}/deploy/${sim.name}.jar"
               tofile="simulations/${sim.name}/deploy/${sim.name}_all.jar"/>
         <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
-        <foreach list="${sim.flavors}" target="_build-jar-for-flavor" param="sim.flavor"/>
+        <foreach list="${sim.flavors}" target="_build-jar-for-flavor" param="sim.flavor" inheritall="true"/>
     </target>
 
     <target name="build-all-flavor-jars" depends="_init,_list-sims">
-        <foreach list="${phet.simlist}" target="build-all-flavor-jars-for-sim" param="sim.name"/>
+        <foreach list="${phet.simlist}" target="build-all-flavor-jars-for-sim" param="sim.name" inheritall="true"/>
     </target>
 </project>
