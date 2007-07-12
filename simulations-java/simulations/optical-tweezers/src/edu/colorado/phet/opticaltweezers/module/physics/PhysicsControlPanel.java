@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.module;
+package edu.colorado.phet.opticaltweezers.module.physics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,27 +8,27 @@ import java.util.List;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
-import edu.colorado.phet.opticaltweezers.control.ChartsControlPanel;
-import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
-import edu.colorado.phet.opticaltweezers.control.MiscControlPanel;
-import edu.colorado.phet.opticaltweezers.control.SimulationSpeedControlPanel;
+import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
-import edu.colorado.phet.opticaltweezers.model.DNAModel;
+import edu.colorado.phet.opticaltweezers.model.PhysicsModel;
+import edu.colorado.phet.opticaltweezers.module.AbstractControlPanel;
 
 /**
- * DNAControlPanel is the control panel for DNAModule.
+ * PhysicsControlPanel is the control panel for PhysicsModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DNAControlPanel extends AbstractControlPanel {
+public class PhysicsControlPanel extends AbstractControlPanel {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private DNACanvas _canvas;
+    private PhysicsCanvas _canvas;
     
     private SimulationSpeedControlPanel _simulationSpeedControlPanel;
+    private LaserDisplayControlPanel _laserDisplayControlPanel;
+    private BeadChargeControlPanel _beadChargeControlPanel;
     private ForcesControlPanel _forcesControlPanel;
     private ChartsControlPanel _chartsControlPanel;
     private MiscControlPanel _miscControlPanel;
@@ -43,21 +43,23 @@ public class DNAControlPanel extends AbstractControlPanel {
      * 
      * @param module
      */
-    public DNAControlPanel( DNAModule module) {
+    public PhysicsControlPanel( PhysicsModule module) {
         super( module );
-
-        _canvas = module.getDNACanvas();
+        
+        _canvas = module.getPhysicsCanvas();
 
         // Set the control panel's minimum width.
         int minimumWidth = OTResources.getInt( "int.minControlPanelWidth", 215 );
         setMinumumWidth( minimumWidth );
         
         // Sub-panels
-        DNAModel model = module.getDNAModel();
+        PhysicsModel model = module.getPhysicsModel();
         _simulationSpeedControlPanel = new SimulationSpeedControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
+        _laserDisplayControlPanel = new LaserDisplayControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getLaserNode() );
+        _beadChargeControlPanel = new BeadChargeControlPanel( TITLE_FONT, CONTROL_FONT );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
                 model.getBead(), model.getFluid(),
-                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode() );
+                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), null /* dnaForceNode */ );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
                 model.getClock(), model.getBead(), model.getLaser(),
                 _canvas.getPotentialEnergyChartNode(), _canvas.getLaserNode() );
@@ -65,20 +67,20 @@ public class DNAControlPanel extends AbstractControlPanel {
         List forceVectorNodes = new ArrayList();
         forceVectorNodes.add( _canvas.getTrapForceNode() );
         forceVectorNodes.add( _canvas.getFluidDragForceNode() );
-        forceVectorNodes.add( _canvas.getDNAForceNode() );
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
-                model.getBead(), model.getLaser(), 
-                model.getDNAStrand(), _canvas.getDNAStrandNode(),
-                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode(), null /* electricFieldNode */ );
-        
-        // Turn off some features
-        _forcesControlPanel.setBrownianMotionCheckBoxVisible( false );
-        _miscControlPanel.setFluidVacuumPanelVisible( false );
+                model.getBead(), model.getLaser(),
+                null /* dnaStrand */, null /* dnaStrandNode */, 
+                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), null /* dnaForceNode */, _canvas.getLaserNode().getElectricFieldNode() );
         
         // Layout
         {
             addControlFullWidth( _simulationSpeedControlPanel );
             addSeparator();
+            addControlFullWidth( _laserDisplayControlPanel );
+            addSeparator();
+//XXX feature disabled for AAPT
+//            addControlFullWidth( _beadChargeControlPanel );
+//            addSeparator();
             addControlFullWidth( _forcesControlPanel );
             addSeparator();
             addControlFullWidth( _chartsControlPanel );
@@ -105,13 +107,21 @@ public class DNAControlPanel extends AbstractControlPanel {
     //----------------------------------------------------------------------------
     // Access to subpanels
     //----------------------------------------------------------------------------
-    
+
     public DeveloperControlPanel getDeveloperControlPanel() {
         return _developerControlPanel;
     }
     
     public SimulationSpeedControlPanel getSimulationSpeedControlPanel() {
         return _simulationSpeedControlPanel;
+    }
+    
+    public LaserDisplayControlPanel getLaserDisplayControlPanel() {
+        return _laserDisplayControlPanel;
+    }
+    
+    public BeadChargeControlPanel getBeadChargeControlPanel() {
+        return _beadChargeControlPanel;
     }
     
     public ForcesControlPanel getForcesControlPanel() {

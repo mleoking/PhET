@@ -56,6 +56,8 @@ MISSING INFO:
 
  
 DONE:
+7/12/07 - add subpackages for each module
+7/12/07 - move defaults into package with modules, since they are default for modules
 7/12/07 - add E-field units to localization file
 7/12/07 - refactor often-changed Colors into OTConstants
 7/12/07 - refactor common model default values into GlobalDefaults

@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.opticaltweezers.module.GlobalDefaults;
-import edu.colorado.phet.opticaltweezers.module.PhysicsDefaults;
+import edu.colorado.phet.opticaltweezers.module.physics.PhysicsDefaults;
 
 /**
  * PhysicsModel is the model used in PhysicsModule.

@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.module;
+package edu.colorado.phet.opticaltweezers.module.dna;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
+import edu.colorado.phet.opticaltweezers.module.GlobalDefaults;
 
 
 /**
