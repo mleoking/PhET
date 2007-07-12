@@ -8,6 +8,7 @@ Fixed: Graphs should accurately show time axis values
 Fixed: Time axis should be longer (take longer to fill a chart)
     -changed from 15 seconds to 30 seconds
 Ladybug is initialized on the rotation platform
+Fixed: Ladybug should not be able to be taken off the wheel.
 
 0.00.17
 Added improved initial locations for characters.

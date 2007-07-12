@@ -17,16 +17,6 @@ public class TestRotationPlatformNodeWithBody extends TestRotationPlatformNode i
         getPhetPCanvas().addScreenChild( rotationBodyNode );
     }
 
-    public Object clone() {
-        try {
-            return super.clone();
-        }
-        catch( CloneNotSupportedException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
-    }
-
     public static void main( String[] args ) {
         new TestRotationPlatformNodeWithBody().start();
     }
@@ -38,5 +28,9 @@ public class TestRotationPlatformNodeWithBody extends TestRotationPlatformNode i
         else {
             rotationBody.setOffPlatform();
         }
+    }
+
+    public boolean platformContains( double x, double y ) {
+        return true;
     }
 }

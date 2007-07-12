@@ -10,7 +10,7 @@ Rotation
         1. Buffered Chart Series
         2. Remove antialias from parts of the sim?
 •	Less tick marks on vertical axis
-•	Ladybug should not be able to be taken off the wheel.
+•   Mouse gets disassociated from ladybug character after trying to drag out of bounds.
 •	When Second Bug is added to the platform, charts should show series data for it.
 •	Second Bug’s data series should be dotted lines
 •	Rotation platform colors should be muted, attention should be on the bug.

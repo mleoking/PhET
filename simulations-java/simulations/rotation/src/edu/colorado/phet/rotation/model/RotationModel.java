@@ -71,6 +71,10 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         }
     }
 
+    public boolean platformContains( double x, double y ) {
+        return rotationPlatform.containsPosition( new Point2D.Double( x,y) );
+    }
+
     public RotationPlatform getRotationPlatform() {
         return rotationPlatform;
     }
