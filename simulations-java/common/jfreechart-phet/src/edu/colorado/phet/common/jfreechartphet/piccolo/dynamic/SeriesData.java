@@ -39,7 +39,7 @@ public class SeriesData {
     private static int index = 0;
 
     public SeriesData( String title, Color color ) {
-        this( title, color, new XYSeries( title + " " + ( index++ ) ) );
+        this( title, color, new XYSeries( title + " " + ( index++ ),false,true ) );
     }
 
     public SeriesData( String title, Color color, XYSeries series ) {
