@@ -1,7 +1,6 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
-import edu.colorado.phet.opticaltweezers.OTResources;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +20,7 @@ public class RulerButton extends Box {
     public RulerButton( RulerNode rulerNode ) {
         super( BoxLayout.X_AXIS );
         this.rulerNode = rulerNode;
-        checkBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
+        checkBox = new JCheckBox( "Show Ruler" );
 //        checkBox.setFont( new PhetDefaultFont( ));
         checkBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {

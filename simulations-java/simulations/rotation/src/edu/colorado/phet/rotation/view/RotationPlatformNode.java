@@ -39,11 +39,11 @@ public class RotationPlatformNode extends PNode {
         this.rotationPlatform = rotationPlatform;
         contentNode = new PNode();
 
-        addRingNode( 1.0, Color.green );
-        addRingNode( 0.75, Color.yellow );
-        addRingNode( 0.50, Color.magenta );
-        addRingNode( 0.25, Color.white );
-        addRingNode( 0.005, Color.white );
+        addRingNode( 1.0, Color.green,true );
+        addRingNode( 0.75, Color.yellow,false );
+        addRingNode( 0.50, Color.magenta,false );
+        addRingNode( 0.25, Color.white,false );
+//        addRingNode( 0.005, Color.white );
 
 
         verticalCrossHair = new PhetPPath( getVerticalCrossHairPath(), new BasicStroke( 2 ), Color.black );
@@ -151,8 +151,8 @@ public class RotationPlatformNode extends PNode {
         return rotationPlatform.getRadius();
     }
 
-    private void addRingNode( double fractionalRadius, Color color ) {
-        contentNode.addChild( new RingNode( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), fractionalRadius * getRadius(), color ) );
+    private void addRingNode( double fractionalRadius, Color color, boolean showBorder ) {
+        contentNode.addChild( new RingNode( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), fractionalRadius * getRadius(), color ,showBorder) );
     }
 
     private void setAngle( double angle ) {
@@ -179,12 +179,12 @@ public class RotationPlatformNode extends PNode {
         private double radius;
         private double maxRadius;
 
-        public RingNode( double x, double y, double radius, Color color ) {
+        public RingNode( double x, double y, double radius, Color color, boolean showBorder ) {
             this.x = x;
             this.y = y;
             this.radius = radius;
             this.maxRadius = radius;
-            path = new PhetPPath( null, color, new BasicStroke( 1 ), Color.black );
+            path = new PhetPPath( null, color, showBorder?new BasicStroke( 1 ):null, Color.black );
             addChild( path );
             updatePath();
         }
