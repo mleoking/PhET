@@ -10,6 +10,7 @@ Fixed: Time axis should be longer (take longer to fill a chart)
 Ladybug is initialized on the rotation platform
 Fixed: Ladybug should not be able to be taken off the wheel.
 Fixed: Less tick marks on vertical axis
+Fixed: Rotation platform colors should alternate (same on diagonal)
 
 0.00.17
 Added improved initial locations for characters.
