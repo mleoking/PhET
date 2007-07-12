@@ -10,6 +10,8 @@
 	define("OS_MAC",     "Darwin");
 	define("OS_LINUX",   "Linux");
 	define("OS_SUN",     "SunOS");
+	
+	define("WEBSITE_PAGES_PATTERN", '*.htm*, *.php');
 
 	define("ROOT_DIR", file_cleanup_local_filename(dirname(__FILE__)."/"));
 	define("TEMP_DIR", file_cleanup_local_filename(ROOT_DIR."temp/"));
@@ -19,7 +21,7 @@
 	}
 
 	function GET_OS_BOUND_NAME($constantPrefix) {
-	    return constant("${constantPrefix}_".strtoupper(PHP_OS));
+	    return constant("${constantPrefix}_".PHP_OS);
 	}
 
 
@@ -62,8 +64,9 @@
 	define("BITROCK_BUILDFILE_DIR", file_cleanup_local_filename(BITROCK_DIR."projects/"));
 	define("BITROCK_BUILDFILE",     file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."phet-installer-buildfile.xml"));
 	define("BITROCK_EXE_DIR",       file_cleanup_local_filename(BITROCK_DIR));
-	define("BITROCK_EXE_LINUX",     "bitrock.sh");
+	define("BITROCK_EXE_Linux",     "bitrock.sh");
 	define("BITROCK_EXE_WINNT",     "bitrock.bat");
+	define("BITROCK_EXE_Darwin",    "bitrock.sh");	
 	define("BITROCK_EXE",           GET_OS_BOUND_NAME("BITROCK_EXE"));
 
 	define("BITROCK_DIST_DIR",      file_cleanup_local_filename(BITROCK_DIR."output/"));
@@ -72,8 +75,8 @@
 	define("BITROCK_DIST_POSTFIX", "-installer.");
 
 	define("BITROCK_DIST_WINNT",  file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DIST_PREFIX."windows".BITROCK_DIST_POSTFIX."exe"));
-	define("BITROCK_DIST_LINUX",  file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DIST_PREFIX."linux".BITROCK_DIST_POSTFIX."bin"));
-	define("BITROCK_DIST_DARWIN", file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DIST_PREFIX."osx".BITROCK_DIST_POSTFIX."app"));
+	define("BITROCK_DIST_Linux",  file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DIST_PREFIX."linux".BITROCK_DIST_POSTFIX."bin"));
+	define("BITROCK_DIST_Darwin", file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DIST_PREFIX."osx".BITROCK_DIST_POSTFIX."app"));
 
 	$g_bitrock_dists = array("windows" => BITROCK_DIST_WINNT, "linux" => BITROCK_DIST_LINUX, "osx" => BITROCK_DIST_DARWIN);
 

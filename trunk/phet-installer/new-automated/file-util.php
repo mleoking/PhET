@@ -94,30 +94,32 @@
 	    unlink($file_source);
 	}
 
-	function file_list_in_directory($directory, $pattern = "*") {
+	function file_list_in_directory($directory, $all_patterns = "*") {
 	    $results = array();
     
-	    if (is_dir($directory)) {
-	        $glob_pattern = "$directory/$pattern";
+		foreach (preg_split('/ *, */', $all_patterns) as $pattern) {
+		    if (is_dir($directory)) {
+		        $glob_pattern = "$directory/$pattern";
         
-	        // Grab all files matching pattern:
-	        foreach (glob($glob_pattern) as $filename) {
-	            $fullpath = "$filename";
+		        // Grab all files matching pattern:
+		        foreach (glob($glob_pattern) as $filename) {
+		            $fullpath = "$filename";
             
-	            if (!is_dir($filename)) {
-	                $results[] = file_cleanup_local_filename($fullpath);
-	            }
-	        }
+		            if (!is_dir($filename)) {
+		                $results[] = file_cleanup_local_filename($fullpath);
+		            }
+		        }
         
-	        // Recursively peak into any subdirs:
-	        foreach (glob("$directory/*", GLOB_ONLYDIR) as $dirname) {
-	            $fullpath = "$dirname";
+		        // Recursively peak into any subdirs:
+		        foreach (glob("$directory/*", GLOB_ONLYDIR) as $dirname) {
+		            $fullpath = "$dirname";
             
-	            foreach (file_list_in_directory($fullpath, $pattern) as $nested_file) {
-	                $results[] = $nested_file;
-	            }
-	        }        
-	    }
+		            foreach (file_list_in_directory($fullpath, $pattern) as $nested_file) {
+		                $results[] = $nested_file;
+		            }
+		        }        
+		    }
+		}
     
 	    return $results;
 	}
