@@ -107,8 +107,17 @@ public class GraphTimeControlNode extends PNode {
             SeriesNode child = (SeriesNode)seriesLayer.getChild( i );
             child.setEditable( editable );
         }
-        goStopButton.setVisible( editable );
-        clearButton.setVisible( editable );
+        setHasChild( goStopButton, editable );
+        setHasChild( clearButton, editable );
+    }
+
+    private void setHasChild( PNode child, boolean addChild ) {
+        if( addChild && !getChildrenReference().contains( child ) ) {
+            addChild( child );
+        }
+        else if( !addChild && getChildrenReference().contains( child ) ) {
+            removeChild( child );
+        }
     }
 
     public static class ClearButton extends JButton {

@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation.graphs;
 
+import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -9,6 +10,9 @@ import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.Arrays;
 
@@ -45,11 +49,25 @@ public class RotationGraphSet extends GraphSuiteSet {
                 new PImage( loadArrow( "blue-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(), null, maxDomainValue, null ) );
         linearPositionGraph.getControlGraph().addSeries( "Position", Color.red, "y", b.getYPositionVariable(), b.getYPositionTimeSeries() );
 
-        MinimizableControlGraph linearVelocityGraph = new MinimizableControlGraph( "v<sub>x</sub>,v<sub>y</sub>", new RotationGraph(
-                pSwingCanvas, b.getXVelocityVariable(), b.getXVelocityTimeSeries(), "vx", "Velocity (x)", "m/s", -10 / 0.03 * 3, 10 / 0.03 * 3, Color.blue,
+        final MinimizableControlGraph linearVelocityGraph = new MinimizableControlGraph( "v<sub>x</sub>,v<sub>y</sub>", new RotationGraph(
+                pSwingCanvas, b.getXVelocityVariable(), b.getXVelocityTimeSeries(), "vx", "X-Velocity", "m/s", -10 / 0.03 * 3, 10 / 0.03 * 3, Color.blue,
                 new PImage( loadArrow( "blue-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(), null, maxDomainValue, null ) );
-        linearVelocityGraph.getControlGraph().addSeries( "Velocity (y)", Color.red, "vy", b.getYVelocityVariable(), b.getYVelocityTimeSeries() );
-        linearVelocityGraph.getControlGraph().addSeries( "|Velocity|", Color.green, "|v|", b.getSpeedVariable(), b.getSpeedSeries() );
+        final ControlGraph.ControlGraphSeries yvel0 = new ControlGraph.ControlGraphSeries( "Y-Velocity", Color.red, "vy", b.getYVelocityVariable(), b.getYVelocityTimeSeries() );
+        linearVelocityGraph.getControlGraph().addSeries( yvel0 );
+        linearVelocityGraph.getControlGraph().addSeries( new ControlGraph.ControlGraphSeries( "Speed", Color.green, "|v|", b.getSpeedVariable(), b.getSpeedSeries() ) );
+
+        JPanel linearVelocitySeriesSelectionPanel = new JPanel();
+        linearVelocitySeriesSelectionPanel.setLayout( new BoxLayout( linearVelocitySeriesSelectionPanel, BoxLayout.Y_AXIS ) );
+        final JCheckBox jCheckBox = new JCheckBox( "Y-Velocity", true );
+        jCheckBox.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                linearVelocityGraph.getControlGraph().setSeriesVisible( yvel0,jCheckBox.isSelected() );
+            }
+        } );
+        linearVelocitySeriesSelectionPanel.add( jCheckBox );
+        linearVelocitySeriesSelectionPanel.add( new JCheckBox( "X-Velocity", true ) );
+        linearVelocitySeriesSelectionPanel.add( new JCheckBox( "Speed", true ) );
+        linearVelocityGraph.addControl( linearVelocitySeriesSelectionPanel );
 
         MinimizableControlGraph centripetalAccelGraph = new MinimizableControlGraph( "a<sub>x</sub>,a<sub>y</sub>", new RotationGraph(
                 pSwingCanvas, b.getXAccelVariable(), b.getXAccelTimeSeries(), "ax", "Acceleration (x)", "m/s^2", -1 / 0.03 / 0.03, 1 / 0.03 / 0.03, Color.green,

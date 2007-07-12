@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -22,6 +23,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
@@ -47,6 +49,7 @@ public class ControlGraph extends PNode {
     private Layout layout = new FlowLayout();
     private ArrayList series = new ArrayList();
     private ArrayList listeners = new ArrayList();
+    private PNode additionalControls;
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
                          String abbr, String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
@@ -78,6 +81,8 @@ public class ControlGraph extends PNode {
         dynamicJFreeChartNode.setBufferedImmediateSeries();
 
         graphTimeControlNode = new GraphTimeControlNode( timeSeriesModel );
+        additionalControls = new PNode();
+
         addSeries( title, color, abbr, simulationVariable, observableTimeSeries );
         jFreeChartSliderNode = new JFreeChartSliderNode( dynamicJFreeChartNode, thumb );
         zoomControl = new ZoomSuiteNode();
@@ -101,6 +106,7 @@ public class ControlGraph extends PNode {
         } );
 
         addChild( graphTimeControlNode );
+        addChild( additionalControls );
         addChild( jFreeChartSliderNode );
         addChild( dynamicJFreeChartNode );
         addChild( zoomControl );
@@ -178,6 +184,11 @@ public class ControlGraph extends PNode {
         zoomControl.addHorizontalZoomListener( zoomListener );
     }
 
+    //Todo: current implementation only supports one additional control
+    public void addControl( JComponent component ) {
+        additionalControls.addChild( new PSwing( component ) );
+    }
+
     static class TitleNode extends PNode {
 
         public TitleNode( String title, String abbr, Color color ) {
@@ -212,15 +223,59 @@ public class ControlGraph extends PNode {
     }
 
     public void addSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
-        series.add( simulationVariable );
-        dynamicJFreeChartNode.addSeries( title, color );
+        addSeries( new ControlGraphSeries( title, color, abbr, simulationVariable, observableTimeSeries ) );
+    }
 
-        TitleNode titleNode = new TitleNode( title, abbr, color );
+    public void addSeries( ControlGraphSeries series ) {
+        this.series.add( series.getSimulationVariable() );
+        dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor() );
+
+        TitleNode titleNode = new TitleNode( series.getTitle(), series.getAbbr(), series.getColor() );
         titleNode.setOffset( titleLayer.getFullBounds().getWidth(), 0 );
         titleLayer.addChild( titleNode );
 
-        graphTimeControlNode.addVariable( title, abbr, color, simulationVariable );
-        observableTimeSeries.addListener( getListener( simulationVariable ) );
+        graphTimeControlNode.addVariable( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() );
+        series.getObservableTimeSeries().addListener( getListener( series.getSimulationVariable() ) );
+    }
+
+    public void setSeriesVisible( ControlGraph.ControlGraphSeries series, boolean visible ) {
+        dynamicJFreeChartNode.setSeriesVisible( series.getTitle(),visible );
+    }
+
+    public static class ControlGraphSeries {
+        private String title;
+        private Color color;
+        private String abbr;
+        private ISimulationVariable simulationVariable;
+        private ITimeSeries observableTimeSeries;
+
+        public ControlGraphSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
+            this.title = title;
+            this.color = color;
+            this.abbr = abbr;
+            this.simulationVariable = simulationVariable;
+            this.observableTimeSeries = observableTimeSeries;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public String getAbbr() {
+            return abbr;
+        }
+
+        public ISimulationVariable getSimulationVariable() {
+            return simulationVariable;
+        }
+
+        public ITimeSeries getObservableTimeSeries() {
+            return observableTimeSeries;
+        }
     }
 
     public int getSeriesIndex( ISimulationVariable title ) {
@@ -261,6 +316,7 @@ public class ControlGraph extends PNode {
         public void layout() {
             double dx = 5;
             graphTimeControlNode.setOffset( 0, 0 );
+            additionalControls.setOffset( 0, graphTimeControlNode.getFullBounds().getMaxY() );
             jFreeChartSliderNode.setOffset( graphTimeControlNode.getFullBounds().getMaxX() + dx, 0 );
 
             //putting everything in setBounds fails, for some reason setOffset as a separate operation succeeds
@@ -304,6 +360,7 @@ public class ControlGraph extends PNode {
 //            System.out.println( "ControlGraph$AlignedLayout.layout: " + ControlGraph.this );
             double dx = 5;
             graphTimeControlNode.setOffset( 0, 0 );
+            additionalControls.setOffset( 0, graphTimeControlNode.getFullBounds().getMaxY() );
             LayoutFunction controlNodeMaxX = new LayoutFunction() {
                 public double getValue( MinimizableControlGraph minimizableControlGraph ) {
                     return minimizableControlGraph.getControlGraph().graphTimeControlNode.getFullBounds().getWidth();
