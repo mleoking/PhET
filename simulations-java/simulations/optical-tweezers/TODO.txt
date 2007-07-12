@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 AAPT:
+- move most default values into GlobalDefaults
 - E-field freezes on Windows for dt values in slow range
 - add description to About dialog
 - screenshot
@@ -55,6 +56,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.23 (?)
 7/12/07 - increase fastest dt to 4E-4
 7/12/07 - increase dt subdivisions for bead motion model to 1000
 ********* version 0.00.22 (16594)
