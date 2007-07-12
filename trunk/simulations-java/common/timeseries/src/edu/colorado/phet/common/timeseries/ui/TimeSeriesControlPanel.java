@@ -17,7 +17,7 @@ import java.io.IOException;
  * Author: Sam Reid
  * Jun 27, 2007, 10:05:59 AM
  */
-public class DefaultTimeModelControlPanel extends JPanel {
+public class TimeSeriesControlPanel extends JPanel {
     protected MultiStateButton recordButton;
     protected ConstantDtClock clock;
     protected TimeSeriesModel timeSeriesModel;
@@ -30,7 +30,7 @@ public class DefaultTimeModelControlPanel extends JPanel {
     protected static final Object KEY_PAUSE_REC = "pause-rec";
     private TimeSpeedSlider timeSpeedSlider;
 
-    public DefaultTimeModelControlPanel( final TimeSeriesModel timeSeriesModel,double minDT,double maxDT ) {
+    public TimeSeriesControlPanel( final TimeSeriesModel timeSeriesModel,double minDT,double maxDT ) {
         this.clock = timeSeriesModel.getTimeModelClock();
         this.timeSeriesModel = timeSeriesModel;
 

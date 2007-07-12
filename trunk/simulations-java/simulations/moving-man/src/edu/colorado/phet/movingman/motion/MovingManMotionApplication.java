@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
-import edu.colorado.phet.common.timeseries.ui.DefaultTimeModelControlPanel;
+import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
 import edu.colorado.phet.movingman.MovingManApplication;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -63,7 +63,7 @@ public class MovingManMotionApplication {
         phetPCanvas.requestFocus();
         phetPCanvas.addKeyListener( new PDebugKeyHandler() );
 
-        DefaultTimeModelControlPanel timeControlPanel = new DefaultTimeModelControlPanel( motionModel.getTimeSeriesModel(), 0.1, 1.0 );
+        TimeSeriesControlPanel timeControlPanel = new TimeSeriesControlPanel( motionModel.getTimeSeriesModel(), 0.1, 1.0 );
         contentPane.add( timeControlPanel, BorderLayout.SOUTH );
     }
 
