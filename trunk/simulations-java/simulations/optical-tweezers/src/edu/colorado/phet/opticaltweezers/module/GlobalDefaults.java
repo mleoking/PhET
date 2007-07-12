@@ -11,7 +11,7 @@ import edu.colorado.phet.opticaltweezers.model.OTClock;
 
 
 /**
- * GlobalDefaults contains global default settings.
+ * GlobalDefaults contains global default settings, common to all modules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
