@@ -5,6 +5,8 @@ package edu.colorado.phet.opticaltweezers.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockEvent;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
@@ -93,7 +95,15 @@ public class Laser extends MovableObject implements ModelElement {
         _electricFieldScaleRange = electricFieldScaleRange;
         _electricFieldScale = _electricFieldScaleRange.getDefault();
         _electricFieldTime = 0;
+        
         _clock = clock;
+        _clock.addConstantDtClockListener( new ConstantDtClockAdapter() {
+            // Reset time when dt changes. 
+            // This prevents problems when accumulating time with dt values that are smaller than the machine epsilon.
+            public void dtChanged( ConstantDtClockEvent event ) {
+                _electricFieldTime = 0;//_electricFieldTime % _clock.getDt();
+            }
+        });
     }
     
     //----------------------------------------------------------------------------
@@ -525,13 +535,15 @@ public class Laser extends MovableObject implements ModelElement {
     private double getInitialElectricFieldX( double intensity ) {
         return _electricFieldScale * intensity;
     }
-
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
     
     public void stepInTime( double dt ) {
         if ( _running ) {
+            
+            double tPrevious = _electricFieldTime;
             
             /*
              * The E-field model only applies when the clock dt is in the "slow" range.
@@ -543,6 +555,29 @@ public class Laser extends MovableObject implements ModelElement {
             }
             else {
                 _electricFieldTime += _clock.getFastRange().getMax();
+            }
+            
+            /*
+             * WORKAROUND for machine epsilon problem.
+             * 
+             * If _electricFieldTime gets sufficiently large, then adding a very small dt will
+             * not change the value of _electricFieldTime. This will cause the electric field 
+             * display to appear to "freeze", since the value of _electricFieldTime is not changing.
+             * 
+             * The workaround is to set _electricFieldTime to zero if we see that it hasn't changed.
+             * Since our constructor adds a ConstantDtClockListener that sets _electricFieldTime=0
+             * whenever the clock's dt changes, this should happen only after running the simulation
+             * for a very very long time, and it's unlikely that anyone will every observe the 
+             * jump in the electric field display when this happens.
+             * 
+             * See http://en.wikipedia.org/wiki/Machine_epsilon or Google "machine epsilon"
+             * for further information on this general problem.
+             * 
+             * See also MathUtil.getMachineEpsilonDouble for code that computes machine epsilon.
+             */
+            if ( _electricFieldTime == tPrevious ) {
+                System.out.println( "Laser.stepInTime: resetting t, t got big enough that t+dt=t: t=" + _electricFieldTime + " dt=" + dt );//XXX
+                _electricFieldTime = 0;
             }
             
             notifyObservers( PROPERTY_ELECTRIC_FIELD );
