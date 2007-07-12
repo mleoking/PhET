@@ -2,11 +2,11 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
@@ -19,13 +19,6 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TrapForceNode extends AbstractForceNode implements Observer {
-    
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final String UNITS = OTResources.getString( "units.force" );
-    private static final Color COLOR = Color.RED;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -41,7 +34,7 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     public TrapForceNode( Laser laser, Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
-        super( modelReferenceMagnitude, viewReferenceLength, UNITS, COLOR );
+        super( modelReferenceMagnitude, viewReferenceLength, OTResources.getString( "units.force" ), OTConstants.TRAP_FORCE_COLOR );
         
         _laser = laser;
         _laser.addObserver( this );

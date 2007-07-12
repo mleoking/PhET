@@ -4,6 +4,7 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
 import edu.colorado.phet.opticaltweezers.model.MotorsModel;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
@@ -30,7 +31,7 @@ public class MotorsModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public MotorsModule() {
-        super( OTResources.getString( "title.molecularMotors" ), MotorsDefaults.CLOCK, MotorsDefaults.CLOCK_PAUSED );
+        super( OTResources.getString( "title.molecularMotors" ), MotorsDefaults.CLOCK, GlobalDefaults.CLOCK_PAUSED );
         
         _model = new MotorsModel();
         

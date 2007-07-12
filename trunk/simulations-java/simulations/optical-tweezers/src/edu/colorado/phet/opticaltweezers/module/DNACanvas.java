@@ -20,6 +20,7 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
+import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.view.*;
@@ -106,7 +107,7 @@ public class DNACanvas extends PhetPCanvas {
         addWorldChild( _rootNode );
         
         // Microscope slide
-        _microscopeSlideNode = new MicroscopeSlideNode( microscopeSlide, fluid, modelViewTransform, DNADefaults.FLUID_SPEED_RANGE.getMax() );
+        _microscopeSlideNode = new MicroscopeSlideNode( microscopeSlide, fluid, modelViewTransform, GlobalDefaults.FLUID_SPEED_RANGE.getMax() );
         
         // Laser
         _laserDragBoundsNode = new PPath();
@@ -132,7 +133,7 @@ public class DNACanvas extends PhetPCanvas {
         // Force vectors, use same reference values so that scale is the same!
         {
             final double modelReferenceMagnitude = laser.getMaxTrapForce().getMagnitude();
-            final double viewReferenceLength = DNADefaults.FORCE_VECTOR_REFERENCE_LENGTH;
+            final double viewReferenceLength = GlobalDefaults.FORCE_VECTOR_REFERENCE_LENGTH;
             _trapForceNode = new TrapForceNode( laser, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
             _dragForceNode = new FluidDragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
             _dnaForceNode = new DNAForceNode( bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
@@ -147,7 +148,7 @@ public class DNACanvas extends PhetPCanvas {
         _rulerNode.setXOffsetFudgeFactor( 4 );
         
         // Potential Energy chart
-        _potentialEnergyChartNode = new PotentialEnergyChartNode( bead, laser, modelViewTransform, DNADefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH );
+        _potentialEnergyChartNode = new PotentialEnergyChartNode( bead, laser, modelViewTransform, GlobalDefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH );
         
         // "Return Bead" button
         JButton returnBeadButton = new JButton( OTResources.getString( "button.returnBead" ) );

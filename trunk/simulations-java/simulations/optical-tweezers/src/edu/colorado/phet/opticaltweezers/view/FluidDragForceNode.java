@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
@@ -19,13 +20,6 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class FluidDragForceNode extends AbstractForceNode implements Observer {
-    
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final String UNITS = OTResources.getString( "units.force" );
-    private static final Color COLOR = new Color( 76, 255, 252 ); // blue
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -41,7 +35,7 @@ public class FluidDragForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     public FluidDragForceNode( Fluid fluid, Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
-        super( modelReferenceMagnitude, viewReferenceLength, UNITS, COLOR );
+        super( modelReferenceMagnitude, viewReferenceLength, OTResources.getString( "units.force" ), OTConstants.FLUID_DRAG_FORCE_COLOR );
         
         _fluid = fluid;
         _fluid.addObserver( this );
