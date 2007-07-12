@@ -1,11 +1,13 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.module;
+package edu.colorado.phet.opticaltweezers.module.motors;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.MotorsModel;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
+import edu.colorado.phet.opticaltweezers.module.AbstractModule;
+import edu.colorado.phet.opticaltweezers.module.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 
 /**

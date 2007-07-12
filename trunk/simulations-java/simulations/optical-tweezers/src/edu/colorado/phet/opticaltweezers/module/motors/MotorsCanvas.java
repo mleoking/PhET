@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.module;
+package edu.colorado.phet.opticaltweezers.module.motors;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.model.MotorsModel;
