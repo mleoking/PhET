@@ -3,11 +3,11 @@
     <fullName>PhET</fullName>
     <version>1.0</version>
     <installerFilename>${product_shortname}-${product_version}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
-    <readmeFile>../Installer-Resources/Install-Path/readme.txt</readmeFile>
-    <licenseFile>../Installer-Resources/Install-Path/license.txt</licenseFile>
+    <readmeFile>../../Installer-Resources/Install-Path/readme.txt</readmeFile>
+    <licenseFile>../../Installer-Resources/Install-Path/license.txt</licenseFile>
     <wrapLicenseFileText>1</wrapLicenseFileText>
     <leftImage></leftImage>
-    <logoImage>../Installer-Resources/Install-Path/Phet-logo-48x48.gif</logoImage>
+    <logoImage>../../Installer-Resources/Install-Path/Phet-logo-48x48.gif</logoImage>
     <splashImage></splashImage>
     <defaultLanguage>en</defaultLanguage>
     <allowLanguageSelection>0</allowLanguageSelection>
@@ -51,22 +51,22 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../temp/website/phet.colorado.edu/web-pages</origin>
+                            <origin>../../temp/website/phet.colorado.edu/web-pages</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../temp/website/phet.colorado.edu/simulations</origin>
+                            <origin>../../temp/website/phet.colorado.edu/simulations</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../temp/website/phet.colorado.edu/physics</origin>
+                            <origin>../../temp/website/phet.colorado.edu/physics</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../temp/website/phet.colorado.edu/Design</origin>
+                            <origin>../../temp/website/phet.colorado.edu/Design</origin>
                         </distributionDirectory>
                         <distributionFile>
-                            <origin>../Installer-Resources/Install-Path/Phet-logo-48x48.gif</origin>
+                            <origin>../../Installer-Resources/Install-Path/Phet-logo-48x48.gif</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Installer-Resources/Install-Path/Phet-logo-48x48.ico</origin>
+                            <origin>../../Installer-Resources/Install-Path/Phet-logo-48x48.ico</origin>
                         </distributionFile>
                     </distributionFileList>
                     <shortcutList>
@@ -119,7 +119,7 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../Installer-Resources/Install-Path/jre-windows.exe</origin>
+                            <origin>../../Installer-Resources/Install-Path/jre-windows.exe</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
