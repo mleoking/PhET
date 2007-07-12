@@ -1,12 +1,11 @@
 package edu.colorado.phet.rotation.torque;
 
-import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
-import edu.colorado.phet.rotation.AbstractRotationModule;
-import edu.colorado.phet.rotation.graphs.TorqueGraphSet;
-import edu.colorado.phet.rotation.controls.VectorViewModel;
-import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
+import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
+import edu.colorado.phet.rotation.controls.VectorViewModel;
+import edu.colorado.phet.rotation.graphs.TorqueGraphSet;
+import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 
 import javax.swing.*;
 
@@ -16,16 +15,16 @@ import javax.swing.*;
  */
 public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
 
-    public TorqueSimulationPanel( TorqueModule torqueModule,JFrame parentFrame ) {
-        super( torqueModule,parentFrame );
+    public TorqueSimulationPanel( TorqueModule torqueModule, JFrame parentFrame ) {
+        super( torqueModule, parentFrame );
     }
 
-    protected JComponent createControlPanel( RulerNode rulerNode,JFrame parentFrame) {
+    protected JComponent createControlPanel( RulerNode rulerNode, JFrame parentFrame ) {
         return new TorqueControlPanel( getRotationGraphSet(), getGraphSetModel(), (TorqueModule)getAbstractRotationModule() );//todo: better typing
     }
 
     protected GraphSuiteSet createRotationGraphSet() {
-        return new TorqueGraphSet(this, (TorqueModel)getRotationModel() );
+        return new TorqueGraphSet( this, (TorqueModel)getRotationModel() );
     }
 
     protected RotationPlayAreaNode createPlayAreaNode() {

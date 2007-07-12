@@ -23,7 +23,7 @@ public class RotationModule extends AbstractRotationModule {
         return new RotationModel( clock );
     }
 
-    protected AbstractRotationSimulationPanel createSimulationPanel( JFrame parentFrame) {
+    protected AbstractRotationSimulationPanel createSimulationPanel( JFrame parentFrame ) {
         return new RotationSimulationPanel( this, parentFrame );
     }
 

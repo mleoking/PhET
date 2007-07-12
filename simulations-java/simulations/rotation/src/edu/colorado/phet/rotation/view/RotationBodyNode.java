@@ -27,7 +27,7 @@ public class RotationBodyNode extends PhetPNode {
     private PNode centerIndicatorNode;
     private PNode imageNode;
 
-    private static final double CENTER_NODE_WIDTH=10;
+    private static final double CENTER_NODE_WIDTH = 10;
 
     public interface RotationBodyEnvironment {
         void dropBody( RotationBody rotationBody );
@@ -68,7 +68,7 @@ public class RotationBodyNode extends PhetPNode {
             public void speedAndAccelerationUpdated() {
             }
         } );
-        centerIndicatorNode = new PhetPPath( new Ellipse2D.Double( -CENTER_NODE_WIDTH/2, -CENTER_NODE_WIDTH/2, CENTER_NODE_WIDTH, CENTER_NODE_WIDTH ), Color.white, new BasicStroke( 1 ), Color.black );
+        centerIndicatorNode = new PhetPPath( new Ellipse2D.Double( -CENTER_NODE_WIDTH / 2, -CENTER_NODE_WIDTH / 2, CENTER_NODE_WIDTH, CENTER_NODE_WIDTH ), Color.white, new BasicStroke( 1 ), Color.black );
         addChild( centerIndicatorNode );
         update();
     }

@@ -1,7 +1,7 @@
 package edu.colorado.phet.rotation.torque;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.motion.model.*;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.model.RotationModel;
 
 /**
