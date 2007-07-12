@@ -161,7 +161,11 @@ public class MinimizableControlGraph extends PNode {
     }
 
     public void addControl( JComponent component ) {
-        controlGraph.addControl(component);
+        controlGraph.addControl( component );
+    }
+
+    public void forceUpdate() {
+        controlGraph.getDynamicJFreeChartNode().forceUpdateAll();
     }
 
     public static interface Listener {

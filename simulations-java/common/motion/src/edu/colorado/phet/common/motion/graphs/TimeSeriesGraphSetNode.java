@@ -65,4 +65,8 @@ public class TimeSeriesGraphSetNode extends PNode {
     public void setAlignedLayout() {
         graphSetNode.setAlignedLayout();
     }
+
+    public void forceRepaintGraphs() {
+        graphSetNode.forceRepaintGraphs();
+    }
 }

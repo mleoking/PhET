@@ -44,6 +44,15 @@ public class GraphSetNode extends PNode {
         updateGraphSuite();
     }
 
+    public void forceRepaintGraphs() {
+        for( int i = 0; i < graphComponents.size(); i++ ) {
+            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph)graphComponents.get( i );
+            if (minimizableControlGraph.getVisible() &&!minimizableControlGraph.isMinimized()){
+                minimizableControlGraph.forceUpdate();
+            }
+        }
+    }
+
     static interface Layout {
         void update();
     }
@@ -95,6 +104,8 @@ public class GraphSetNode extends PNode {
             yOffset += minimizableControlGraph.getFullBounds().getHeight() + yPad;
         }
         relayoutControlGraphs();
+        
+        forceRepaintGraphs();
     }
 
     private int numMaximized() {
