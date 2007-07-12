@@ -12,6 +12,7 @@ Fixed: Ladybug should not be able to be taken off the wheel.
 Fixed: Less tick marks on vertical axis
 Fixed: Rotation platform colors should alternate (same on diagonal)
 Fixed: Rotation platform colors should be muted, attention should be on the bug.
+Added: a vertical axis label on these graphs as in force 1 D.
 
 0.00.17
 Added improved initial locations for characters.
