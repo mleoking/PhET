@@ -3,12 +3,8 @@
 ################
 
 Rotation
-•	Add horizontal ruler
-    -Synchronize ruler coordinates with play area
-•	Performance bug (temporarily reduced by “clear”)
-    -Profiling for:
-        1. Buffered Chart Series
-        2. Remove antialias from parts of the sim?
+•   Synchronize ruler coordinates with play area
+•	Improve performance
 •	Use colors from the color chart (from Wendy)
 •	Check boxes (like in Force1D) for adding/removing series (applies to both characters)
 •	For X,V,A graphs, readouts should be on-graph, no text-boxes on left hand side
