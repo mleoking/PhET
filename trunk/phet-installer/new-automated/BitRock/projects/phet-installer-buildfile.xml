@@ -28,7 +28,7 @@
     <slideShowTiming>5</slideShowTiming>
     <startMenuGroupName>${product_fullname}</startMenuGroupName>
     <style>standard</style>
-    <summary>The PhET Website Mirror is an offline copy of the PhET website, containing a complete copy of all the simulations on the website.</summary>
+    <summary>The PhET Website Mirror is an offline copy of the PhET website, containing all the simulations on the website.</summary>
     <uninstallerDirectory>${installdir}</uninstallerDirectory>
     <uninstallerName></uninstallerName>
     <validatorProgram></validatorProgram>
