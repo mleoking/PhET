@@ -56,6 +56,7 @@ MISSING INFO:
 
  
 DONE:
+7/12/07 - increase number of columns in time display to 10
 ********* version 0.00.23 (16616)
 7/12/07 - increase fastest dt to 4E-4
 7/12/07 - increase dt subdivisions for bead motion model to 1000

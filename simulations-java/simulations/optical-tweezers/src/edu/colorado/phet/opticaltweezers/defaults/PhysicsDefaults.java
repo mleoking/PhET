@@ -34,7 +34,7 @@ public class PhysicsDefaults {
     private static final DoubleRange FAST_DT_RANGE = new DoubleRange( 8E-7, 4E-4 );
     public static final double DEFAULT_DT = FAST_DT_RANGE.getMax();
     public static final OTClock CLOCK = new OTClock( FRAME_RATE, SLOW_DT_RANGE, FAST_DT_RANGE, DEFAULT_DT );
-    public static final int CLOCK_TIME_COLUMNS = 8;
+    public static final int CLOCK_TIME_COLUMNS = 10;
     
     // Microscope Slide model, local origin at slide's geometric center
     public static final double MICROSCOPE_SLIDE_CENTER_HEIGHT = 1000; // nm
