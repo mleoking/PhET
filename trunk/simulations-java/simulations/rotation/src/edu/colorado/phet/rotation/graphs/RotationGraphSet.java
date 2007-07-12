@@ -22,7 +22,7 @@ import java.util.Arrays;
 public class RotationGraphSet extends GraphSuiteSet {
 
     public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel rotationModel ) {
-        int maxDomainValue = 500;
+        double maxDomainValue = 30.0;
         MinimizableControlGraph angleGraph = new MinimizableControlGraph( UnicodeUtil.THETA, new MotionControlGraph(
                 pSwingCanvas, rotationModel.getPlatformAngleVariable(), rotationModel.getPlatformAngleTimeSeries(),
                 UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ),
@@ -30,12 +30,12 @@ public class RotationGraphSet extends GraphSuiteSet {
 
         MinimizableControlGraph velocityGraph = new MinimizableControlGraph( UnicodeUtil.OMEGA, new MotionControlGraph(
                 pSwingCanvas, rotationModel.getPlatformVelocityVariable(), rotationModel.getPlatformVelocityTimeSeries(),
-                UnicodeUtil.OMEGA, "Angular Velocity", -0.15, 0.15, Color.red, new PImage( loadArrow( "red-arrow.png" ) ),
+                UnicodeUtil.OMEGA, "Angular Velocity", -5, 5, Color.red, new PImage( loadArrow( "red-arrow.png" ) ),
                 rotationModel, true, rotationModel.getTimeSeriesModel(), rotationModel.getVelocityDriven(), maxDomainValue, rotationModel.getRotationPlatform() ) );
 
         MinimizableControlGraph accelGraph = new MinimizableControlGraph( UnicodeUtil.ALPHA, new MotionControlGraph(
                 pSwingCanvas, rotationModel.getPlatformAccelVariable(), rotationModel.getPlatformAccelTimeSeries(),
-                UnicodeUtil.ALPHA, "Angular Acceleration", -0.001, 0.001, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
+                UnicodeUtil.ALPHA, "Angular Acceleration", -0.001/0.03/0.03, 0.001/0.03/0.03, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
                 rotationModel, true, rotationModel.getTimeSeriesModel(), rotationModel.getAccelDriven(), maxDomainValue, rotationModel.getRotationPlatform() ) );
 
         RotationBody b = rotationModel.getRotationBody( 0 );
@@ -45,13 +45,13 @@ public class RotationGraphSet extends GraphSuiteSet {
         linearPositionGraph.getControlGraph().addSeries( "Position", Color.red, "y", b.getYPositionVariable(), b.getYPositionTimeSeries() );
 
         MinimizableControlGraph linearVelocityGraph = new MinimizableControlGraph( "v<sub>x</sub>,v<sub>y</sub>", new MotionControlGraph(
-                pSwingCanvas, b.getXVelocityVariable(), b.getXVelocityTimeSeries(), "vx", "Velocity (x)", -10, 10, Color.blue,
+                pSwingCanvas, b.getXVelocityVariable(), b.getXVelocityTimeSeries(), "vx", "Velocity (x)", -10/0.03*3, 10/0.03*3, Color.blue,
                 new PImage( loadArrow( "blue-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(), null, maxDomainValue, null ) );
         linearVelocityGraph.getControlGraph().addSeries( "Velocity (y)", Color.red, "vy", b.getYVelocityVariable(), b.getYVelocityTimeSeries() );
         linearVelocityGraph.getControlGraph().addSeries( "|Velocity|", Color.green, "|v|", b.getSpeedVariable(), b.getSpeedSeries() );
 
         MinimizableControlGraph centripetalAccelGraph = new MinimizableControlGraph( "a<sub>x</sub>,a<sub>y</sub>", new MotionControlGraph(
-                pSwingCanvas, b.getXAccelVariable(), b.getXAccelTimeSeries(), "ax", "Acceleration (x)", -1, 1, Color.green,
+                pSwingCanvas, b.getXAccelVariable(), b.getXAccelTimeSeries(), "ax", "Acceleration (x)", -1/0.03/0.03, 1/0.03/0.03, Color.green,
                 new PImage( loadArrow( "green-arrow.png" ) ), rotationModel, false, rotationModel.getTimeSeriesModel(), null, maxDomainValue, null ) );
         centripetalAccelGraph.getControlGraph().addSeries( "Acceleration (y)", Color.red, "ay", b.getYAccelVariable(), b.getYAccelTimeSeries() );
         centripetalAccelGraph.getControlGraph().addSeries( "|Acceleration|", Color.blue, "a", b.getAccelMagnitudeVariable(), b.getAccelMagnitudeSeries() );
