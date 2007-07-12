@@ -26,6 +26,7 @@ public class RotationBody {
     private ISimulationVariable accelMagnitudeVariable;
     private ITimeSeries accelMagnitudeSeries;
     private String imageName;
+    private boolean constrained;
     private RotationPlatform rotationPlatform;//the platform this body is riding on, or null if not on a platform
 
     public RotationBody() {
@@ -33,7 +34,12 @@ public class RotationBody {
     }
 
     public RotationBody( String imageName ) {
+        this(imageName,false);
+    }
+
+    public RotationBody( String imageName, boolean constrained ) {
         this.imageName = imageName;
+        this.constrained = constrained;
         xBody = new MotionBody();
         yBody = new MotionBody();
 
@@ -245,6 +251,10 @@ public class RotationBody {
         speedVariable.setValue( speedSeries.getValueForTime( time ) );
         notifyVectorsUpdated();
         notifyPositionChanged();
+    }
+
+    public boolean isConstrained() {
+        return constrained;
     }
 
     private static abstract class UpdateStrategy implements Serializable {
