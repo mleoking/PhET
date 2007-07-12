@@ -54,6 +54,7 @@ MISSING INFO:
 
  
 DONE:
+7/12/07 - create preliminiary screenshots
 ********* version 0.00.24 (16647)
 7/12/07 - fixed machine epsilon problem in Laser.stepInTime's accumulation of time
 7/12/07 - add subpackages for each module
