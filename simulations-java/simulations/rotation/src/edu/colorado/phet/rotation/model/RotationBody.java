@@ -79,7 +79,8 @@ public class RotationBody {
     public void setOnPlatform( RotationPlatform rotationPlatform ) {
         setUpdateStrategy( new OnPlatform( rotationPlatform ) );
         this.rotationPlatform = rotationPlatform;
-        this.initialAngleOnPlatform = getAngleOnPlatform();
+        //use the rotation platform to compute angle since it has the correct winding number
+        this.initialAngleOnPlatform = getAngleOverPlatform()-rotationPlatform.getPosition();
     }
 
     public void addListener( Listener listener ) {
@@ -102,7 +103,7 @@ public class RotationBody {
         return yBody.getPosition();
     }
 
-    public double getAngleOnPlatform() {
+    public double getAngleOverPlatform() {
         return new Vector2D.Double( rotationPlatform.getCenter(), getPosition() ).getAngle();
     }
 
@@ -147,7 +148,7 @@ public class RotationBody {
         double omega = rotationPlatform.getVelocity();
         double r = getPosition().distance( rotationPlatform.getCenter() );
 
-        Point2D newX = Vector2D.Double.parseAngleAndMagnitude( r, getAngleOnPlatform() ).getDestination( rotationPlatform.getCenter() );
+        Point2D newX = Vector2D.Double.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
         AbstractVector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         AbstractVector2D newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
@@ -156,6 +157,7 @@ public class RotationBody {
         addVelocityData( newV, time );
         addAccelerationData( newA, time );
 
+        //use the rotation platform to compute angle since it has the correct winding number
         angleVariable.setValue( rotationPlatform.getPosition() + initialAngleOnPlatform );
         angleTimeSeries.addValue( rotationPlatform.getPosition() + initialAngleOnPlatform, time );
 
