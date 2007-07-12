@@ -31,6 +31,8 @@ public class RotationBodyNode extends PhetPNode {
 
     public interface RotationBodyEnvironment {
         void dropBody( RotationBody rotationBody );
+
+        boolean platformContains( double x, double y );
     }
 
     public RotationBodyNode( final RotationBodyEnvironment model, final RotationBody rotationBody ) {
@@ -54,6 +56,9 @@ public class RotationBodyNode extends PhetPNode {
             public void mouseDragged( PInputEvent event ) {
                 PDimension d = event.getDeltaRelativeTo( RotationBodyNode.this.getParent() );
                 rotationBody.translate( d.width, d.height );
+                if( !model.platformContains( rotationBody.getX(), rotationBody.getY() ) ) {
+                    rotationBody.translate( -d.width, -d.height );
+                }
             }
 
             public void mouseReleased( PInputEvent event ) {
