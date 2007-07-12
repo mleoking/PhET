@@ -1,6 +1,10 @@
 <?php
 
-	define('FILE_SEPARATOR', PHP_OS == 'WINNT' ? '\\' : '/');
+	define('FILE_SEPARATOR_WINNT',  '\\');
+	define('FILE_SEPARATOR_Linux',  '/');
+	define('FILE_SEPARATOR_Darwin', '/');
+	
+	define('FILE_SEPARATOR', PHP_OS == 'WINNT' ? FILE_SEPARATOR_WINNT : FILE_SEPARATOR_Linux);
 
 	if (!function_exists('file_put_contents')) {
 		function file_put_contents($n, $d, $flag = false) {
@@ -28,8 +32,12 @@
 		return $encoding;
 	}
 
+	function file_with_separator($filename, $separator) {
+	    return str_replace('/', $separator, $filename);
+	}
+
 	function file_with_local_separator($filename) {
-	    return str_replace('/', FILE_SEPARATOR, $filename);
+	    return file_with_separator($filename, FILE_SEPARATOR);
 	}
 
 	function file_mkdirs($dir, $mode = 0777) {

@@ -93,16 +93,18 @@
                             <windowsIcon>${installdir}/Phet-logo-48x48.ico</windowsIcon>
                         </fileShortcut>
                     </shortcutList>
-                    
-                    <substitute>
-                        <files>*/*.jnlp</files>
-                        <substitutionList>
-                            <substitution>
-                                <pattern>@@INSTALLDIR@@</pattern>
-                                <value>${installdir}</value>
-                            </substitution>
-                        </substitutionList>
-                   </substitute>
+
+                    <actionList>
+                        <substitute>
+                            <files>*/*.jnlp</files>
+                            <substitutionList>
+                                <substitution>
+                                    <pattern>@@INSTALLDIR@@</pattern>
+                                    <value>${installdir}</value>
+                                </substitution>
+                            </substitutionList>
+                       </substitute>
+                    </actionList>
                 </folder>
                 <folder>
                     <description>Program Files</description>
@@ -184,30 +186,25 @@
         </autodetectJava>
         
         <actionGroup>
-            <actionList>
-                <ruleEvaluationLogic>and</ruleEvaluationLogic>
-            
-                <ruleList>
-                    <!-- If the platform type is windows... -->
-                    <platformHost>
-                        <type>windows</text>
-                    </platformHost>
-                    
-                    <!-- AND Java was not detected on the user's machine... -->
-                    <fileTest>
-                        <path>${java_executable}</path>
-                        <condition>not_exists</condition>
-                    </fileTest>
-                 </ruleList>
-             
+            <actionList>          
                  <runProgram>
-                     <!-- THEN run the bundles Windows JRE installer... --->
                      <program>${installdir}/jre-windows.exe</program>
                  </runProgram>
             </actionList>
+            
+             <ruleList>
+                 <platformTest>
+                     <type>windows</type>
+                 </platformTest>
+
+                 <fileTest>
+                     <path>${java_executable}</path>
+                     <condition>not_exists</condition>
+                 </fileTest>
+              </ruleList>
         </actionGroup>
         
-        <!-- Detect Java again -- this time ABORT on error: -->
+        <!-- Detect Java again; this time ABORT on error: -->
         <autodetectJava>
             <promptUser>0</promptUser>
             <validVersionList>
