@@ -455,17 +455,8 @@ PhET-team specific tasks are located in an auxiliary build file.
             <param name="ssh-host"              value="${dev.server.name}"/>
         </antcall>
     </target>
-
-    <target name="build-and-deploy-prod" depends="_init, _read-username-and-password, _set-sim-revision-number, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _define-sim-version, build-jar, build-jnlp">
-        <!-- Deploy development version -->
-        <antcall target="_deploy">
-            <param name="sim.server.url"        value="${dev.server.url}"/>
-            <param name="sim.server.path"       value="${dev.server.path}"/>
-            <param name="sim.deploy.dir.parent" value="${dev.server.path}${sim.name}" />
-            <param name="sim.deploy.dir"        value="${dev.server.path}${sim.name}/${sim.version}" />          
-            <param name="ssh-host"              value="${dev.server.name}"/>
-        </antcall>
-        
+    
+    <target name="_build-and-deploy-only-prod" depends="_define-sim-version, build-jar, build-jnlp">
         <!-- Deploy production version -->
         <antcall target="_deploy">
             <param name="sim.server.url"        value="${prod.server.url}"/>
@@ -475,13 +466,26 @@ PhET-team specific tasks are located in an auxiliary build file.
             <param name="ssh-host"              value="${prod.server.name}"/>
         </antcall>
     </target>
+
+    <target name="build-and-deploy-prod" depends="_init, _read-username-and-password, _set-sim-revision-number, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
+        <!-- Deploy development version -->
+        <antcall target="_deploy">
+            <param name="sim.server.url"        value="${dev.server.url}"/>
+            <param name="sim.server.path"       value="${dev.server.path}"/>
+            <param name="sim.deploy.dir.parent" value="${dev.server.path}${sim.name}" />
+            <param name="sim.deploy.dir"        value="${dev.server.path}${sim.name}/${sim.version}" />          
+            <param name="ssh-host"              value="${dev.server.name}"/>
+        </antcall>
+    </target>
+    
+    <target name="build-and-deploy-prod-no-change" depends="_init, _read-username-and-password, _build-and-deploy-only-prod" />
     
     <target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password, _list-sims" description="Builds and deploys all sims to the development server.">
         <foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name"/>
     </target>
 
     <target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password, _list-sims" description="Builds and deploys all sims to the production server.">
-        <foreach list="${phet.simlist}" target="build-and-deploy-prod" param="sim.name"/>
+        <foreach list="${phet.simlist}" target="build-and-deploy-prod-no-change" param="sim.name"/>
     </target>
     
     
