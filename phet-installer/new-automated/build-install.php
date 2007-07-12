@@ -9,16 +9,18 @@
 	require_once("ia.php");
 	require_once("xml-util.php");
 
-	function rip_website() {
-	    flushing_echo("Ripping website...");
-    
-	    exec(RIPPER_EXE." ".RIPPER_ARGS);
+	function builder_rip_website() {
+	    flushing_echo("Ripping website with ".RIPPER_EXE);
+
+    	$result = exec(RIPPER_EXE." ".RIPPER_ARGS);
+
+		flushing_echo($result);
 	}
 
-	function download_simulations() {  
+	function builder_download_sims() {  
 	    // Here we have to find and parse all jnlp files, and download all the
 	    // resources referenced in the codebase.
-	    flushing_echo("Downloading simulations and their resources...");
+	    flushing_echo("Downloading all simulations and their resources...");
 
     	$jnlp_files = jnlp_get_all_in_directory(RIPPED_WEBSITE_TOP);
 
@@ -29,13 +31,16 @@
 			
 			$codebase = jnlp_get_codebase($jnlp);
 			
+			// This array will store any resources we can't find, due to programmer error
+			// in constructing the JNLP file. These missing resources don't cause a problem
+			// for webstart when run from the web, but do when running locally.
 			$missing_resources = array();
 			
 			$resource_num = 1;
 
 			$hrefs = jnlp_get_all_resource_links($jnlp);
 			
-			// Loop through each resource, downloading them to the ripped website directory:
+			// Loop through each resource, downloading it to the ripped website directory:
 			foreach ($hrefs as $href) {
 				flushing_echo("Downloading resource $resource_num of ".count($hrefs)."...");
 				
@@ -64,24 +69,25 @@
 				++$resource_num;
 			}
 			
-			// Strip out any missing resources:
+			// Strip out any missing resources from the JNLP file:
 			foreach ($missing_resources as $missing_resource) {
 				$jnlp = jnlp_remove_resource_link($jnlp, $missing_resource);
 			}
         
+			// Output the new JNLP file:
 	        file_put_contents($jnlp_filename, $jnlp);
 	
 			++$file_num;
 	    }
 	}
 
-	function download_installer_webpages() {
+	function builder_download_installer_webpages() {
 	    // Here we download all the '-installer' versions of webpages, which are 
 	    // not linked into the website and therefore not ripped.
 	    flushing_echo("Downloading installer versions of webpages...");
     
 	    // Loop through all ripped webpages:
-	    foreach (file_list_in_directory(RIPPED_WEBSITE_TOP, "*.htm*") as $local_name) {
+	    foreach (file_list_in_directory(RIPPED_WEBSITE_TOP, WEBSITE_PAGES_PATTERN) as $local_name) {
 	        // Form the URL: [PhET Website]/[Webpage Name]-installer.htm
 	        $extension = file_get_extension($local_name);
         
@@ -97,7 +103,7 @@
 	    }
 	}
 
-	function perform_macro_substitutions() {
+	function builder_perform_macro_substitutions() {
 	    // This function performs a macro substitution in all HTML files. For 
 	    // example, $DATE$ is replaced by the current date.
 	    flushing_echo("Performing macro substitutions...");
@@ -110,12 +116,12 @@
 	        flushing_echo("\$$key\$ = $value");
 	    }
     
-	    foreach (file_list_in_directory(RIPPED_WEBSITE_TOP, "*.htm*") as $filename) {
+	    foreach (file_list_in_directory(RIPPED_WEBSITE_TOP, WEBSITE_PAGES_PATTERN) as $filename) {
 	        file_replace_macros_in_file($filename, $macro_map);
 	    }
 	}
 
-	function build_all_installers() {
+	function builder_build_all() {
 	    flushing_echo("Building all installers for all configurations...");
     
 	    installer_build_installers("all");
@@ -124,18 +130,18 @@
 	    autorun_create_autorun_file(BITROCK_DIST_DIR, PHET_AUTORUN_ICON, BITROCK_DIST_WINNT);
 	}
 
-	function deploy_all_installers() {
+	function builder_deploy_all() {
 	    flushing_echo("Deploying all installers for all configurations...");
 	}
 
 	function print_help() {
 	    flushing_echo("Usage: build-install [--full]\n".
-	                  "                     [--rip_website]\n".
-	                  "                     [--download_simulations]\n".
-	                  "                     [--download_installer_webpages]\n".
-	                  "                     [--perform_macro_substitutions]\n".
-	                  "                     [--build_all_installers]\n".
-	                  "                     [--deploy_all_installers]\n".
+	                  "                     [--rip-website]\n".
+	                  "                     [--download-sims]\n".
+	                  "                     [--download-installer-webpages]\n".
+	                  "                     [--perform-macro-substitutions]\n".
+	                  "                     [--build-all]\n".
+	                  "                     [--deploy-all]\n".
 	                  "                     [--help]\n");
                   
 	}
@@ -157,23 +163,23 @@
 	    }
 	    else {    
 	        if (file_lock("install-builder")) {
-	            if (is_checked('rip_website'))
-	                rip_website();
+	            if (is_checked('rip-website'))
+	                builder_rip_website();
             
-	            if (is_checked('download_simulations'))
-	                download_simulations();
+	            if (is_checked('download-sims'))
+	                builder_download_sims();
             
-	            if (is_checked('download_installer_webpages'))
-	                download_installer_webpages();
+	            if (is_checked('download-installer-webpages'))
+	                builder_download_installer_webpages();
             
-	            if (is_checked('perform_macro_substitutions'))
-	                perform_macro_substitutions();
+	            if (is_checked('perform-macro-substitutions'))
+	                builder_perform_macro_substitutions();
             
-	            if (is_checked('build_all_installers'))
-	                build_all_installers();
+	            if (is_checked('build-all'))
+	                builder_build_all();
             
-	            if (is_checked('deploy_all_installers'))
-	                deploy_all_installers();
+	            if (is_checked('deploy-all'))
+	                builder_deploy_all();
             
 	            flushing_echo("All done!");
 	        }
