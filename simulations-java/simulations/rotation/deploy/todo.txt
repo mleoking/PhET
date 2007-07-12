@@ -5,7 +5,7 @@
 Rotation
 •   Synchronize ruler coordinates with play area
 •	Improve performance
-•	Use colors from the color chart (from Wendy)
+•	Use colors from the color chart
 •	Check boxes (like in Force1D) for adding/removing series (applies to both characters)
 •	For X,V,A graphs, readouts should be on-graph, no text-boxes on left hand side
 •	Velocity(x) should be written X-Velocity, get rid of (vx) on charts
