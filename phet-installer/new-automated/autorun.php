@@ -19,8 +19,8 @@
     
 	    if (($wh = fopen("${dest_dir}autorun.inf", 'wt')) !== false) {
 	        fwrite($wh, "[autorun]\n");
-	        fwrite($wh, "open=".file_with_local_separator("$open_file")."\n");
-	        fwrite($wh, "icon=".file_with_local_separator("$icon_file")."\n");
+	        fwrite($wh, "open=".file_with_separator("$open_file", FILE_SEPARATOR_WINNT)."\n");
+	        fwrite($wh, "icon=".file_with_separator("$icon_file", FILE_SEPARATOR_WINNT)."\n");
 	        fflush($wh);
 	        fclose($wh);
 	    }

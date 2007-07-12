@@ -1,7 +1,7 @@
 #!/bin/sh
 if [ `uname` = "Darwin" ]; then
     # Mac
-    ./bin/Builder.app/Contents/MacOS/installbuilder build $1 $2 $3
+    ./bin/Builder.app/Contents/MacOS/installbuilder $1 $2 $3
     
 else
     # Linux
