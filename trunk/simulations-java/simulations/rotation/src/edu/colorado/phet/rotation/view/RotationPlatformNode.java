@@ -147,7 +147,7 @@ public class RotationPlatformNode extends PNode {
         updateAngle();
     }
 
-    private double getRadius() {
+    public double getRadius() {
         return rotationPlatform.getRadius();
     }
 
