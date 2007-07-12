@@ -25,16 +25,22 @@ public class RotationBody {
 
     private ISimulationVariable accelMagnitudeVariable;
     private ITimeSeries accelMagnitudeSeries;
+
+    private ISimulationVariable angleVariable = new DefaultSimulationVariable();
+    private ITimeSeries angleTimeSeries = new DefaultTimeSeries();
+
     private String imageName;
     private boolean constrained;
     private RotationPlatform rotationPlatform;//the platform this body is riding on, or null if not on a platform
+    private edu.colorado.phet.common.motion.model.UpdateStrategy angleDriven;
+    private double initialAngleOnPlatform;
 
     public RotationBody() {
         this( "ladybug.gif" );
     }
 
     public RotationBody( String imageName ) {
-        this(imageName,false);
+        this( imageName, false );
     }
 
     public RotationBody( String imageName, boolean constrained ) {
@@ -48,6 +54,17 @@ public class RotationBody {
 
         accelMagnitudeVariable = new DefaultSimulationVariable();
         accelMagnitudeSeries = new DefaultTimeSeries();
+
+        angleVariable = new DefaultSimulationVariable();
+        angleTimeSeries = new DefaultTimeSeries();
+
+        angleDriven = new AngleDriven();
+    }
+
+    private class AngleDriven implements edu.colorado.phet.common.motion.model.UpdateStrategy {
+
+        public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {
+        }
     }
 
     public void setOffPlatform() {
@@ -62,6 +79,7 @@ public class RotationBody {
     public void setOnPlatform( RotationPlatform rotationPlatform ) {
         setUpdateStrategy( new OnPlatform( rotationPlatform ) );
         this.rotationPlatform = rotationPlatform;
+        this.initialAngleOnPlatform = getAngleOnPlatform();
     }
 
     public void addListener( Listener listener ) {
@@ -90,7 +108,7 @@ public class RotationBody {
 
     public void stepInTime( double time, double dt ) {
         Point2D origPosition = getPosition();
-        if( updateStrategy instanceof OffPlatform ) {
+        if( isOffPlatform() ) {
             xBody.stepInTime( time, dt );
             yBody.stepInTime( time, dt );
         }
@@ -106,7 +124,16 @@ public class RotationBody {
         accelMagnitudeVariable.setValue( getAcceleration().getMagnitude() );
         accelMagnitudeSeries.addValue( getAcceleration().getMagnitude(), time );
 
+
         notifyVectorsUpdated();
+    }
+
+    private boolean isOnPlatform() {
+        return !isOffPlatform();
+    }
+
+    private boolean isOffPlatform() {
+        return updateStrategy instanceof OffPlatform;
     }
 
     private void notifyVectorsUpdated() {
@@ -128,6 +155,9 @@ public class RotationBody {
         addPositionData( newX, time );
         addVelocityData( newV, time );
         addAccelerationData( newA, time );
+
+        angleVariable.setValue( rotationPlatform.getPosition() + initialAngleOnPlatform );
+        angleTimeSeries.addValue( rotationPlatform.getPosition() + initialAngleOnPlatform, time );
 
         updateXYStateFromSeries();
 
@@ -255,6 +285,18 @@ public class RotationBody {
 
     public boolean isConstrained() {
         return constrained;
+    }
+
+    public ISimulationVariable getAngleVariable() {
+        return angleVariable;
+    }
+
+    public ITimeSeries getAngleTimeSeries() {
+        return angleTimeSeries;
+    }
+
+    public edu.colorado.phet.common.motion.model.UpdateStrategy getAngleDriven() {
+        return angleDriven;
     }
 
     private static abstract class UpdateStrategy implements Serializable {
