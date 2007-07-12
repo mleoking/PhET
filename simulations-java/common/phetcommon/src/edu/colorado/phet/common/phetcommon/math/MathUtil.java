@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14677 $
+ * Date modified : $Date:2007-04-17 03:40:29 -0500 (Tue, 17 Apr 2007) $
  */
 
 package edu.colorado.phet.common.phetcommon.math;
@@ -20,7 +20,7 @@ import java.util.Random;
  * A class of static general purpose math utilities.
  *
  * @author Ron LeMaster
- * @version $Revision$
+ * @version $Revision:14677 $
  */
 public class MathUtil {
     private static final Random random = new Random( System.currentTimeMillis() );
@@ -624,5 +624,29 @@ public class MathUtil {
             }
         }
         return nFactorial;
+    }
+
+    public static double getMachineEpsilonFloat() {
+        int iterations = 0;
+        for( float epsilon = 1.0f; epsilon >= 0.0; epsilon /= 2 ) {
+            if( 1.0f + epsilon / 2 == 1.0f ) {
+                System.out.println( "solution found in iterations=" + iterations );
+                return epsilon;
+            }
+            iterations++;
+        }
+        throw new RuntimeException( "No machine epsilon found" );
+    }
+
+    public static double getMachineEpsilonDouble() {
+        int iterations = 0;
+        for( double epsilon = 1.0; epsilon >= 0.0; epsilon /= 2 ) {
+            if( 1.0 + epsilon / 2 == 1.0 ) {
+                System.out.println( "solution found in iterations=" + iterations );
+                return epsilon;
+            }
+            iterations++;
+        }
+        throw new RuntimeException( "No machine epsilon found" );
     }
 }
