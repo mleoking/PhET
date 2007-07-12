@@ -52,4 +52,8 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     public RulerNode getRulerNode() {
         return rotationSimulationPanel.getRulerNode();
     }
+
+    public void startApplication() {
+        rotationSimulationPanel.startApplication();
+    }
 }

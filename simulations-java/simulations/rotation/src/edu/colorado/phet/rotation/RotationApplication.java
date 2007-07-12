@@ -2,6 +2,7 @@ package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.rotation.torque.RotationFrameSetup;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 
@@ -27,13 +28,16 @@ public class RotationApplication extends PhetApplication {
     public void startApplication() {
         super.startApplication();
         rotationModule.getRotationSimulationPanel().requestFocus();
+        rotationModule.startApplication();
     }
 
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
+                QuickProfiler appStartTime=new QuickProfiler( );
                 new RotationLookAndFeel().initLookAndFeel();
                 new RotationApplication( args ).startApplication();
+                System.out.println( "appStartTime = " + appStartTime );
             }
         } );
     }

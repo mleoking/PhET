@@ -62,6 +62,7 @@ public class RotationGraphSet extends GraphSuiteSet {
         jCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 linearVelocityGraph.getControlGraph().setSeriesVisible( yvel0,jCheckBox.isSelected() );
+                linearVelocityGraph.getControlGraph().getDynamicJFreeChartNode().forceUpdateAll();
             }
         } );
         linearVelocitySeriesSelectionPanel.add( jCheckBox );
