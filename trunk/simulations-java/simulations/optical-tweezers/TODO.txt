@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 AAPT:
-- move most default values into GlobalDefaults
-- E-field freezes on Windows for dt values in slow range
 - add description to About dialog
 - screenshot
 
@@ -56,6 +54,7 @@ MISSING INFO:
 
  
 DONE:
+7/12/07 - fixed machine epsilon problem in Laser.stepInTime's accumulation of time
 7/12/07 - add subpackages for each module
 7/12/07 - move defaults into package with modules, since they are default for modules
 7/12/07 - add E-field units to localization file

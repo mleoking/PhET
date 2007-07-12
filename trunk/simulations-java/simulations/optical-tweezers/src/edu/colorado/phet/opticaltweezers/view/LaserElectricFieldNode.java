@@ -264,9 +264,6 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
             // electric field's x component
             Point2D offsetFromLaser = vectorNode.getOffsetFromLaserReference();
             double electricFieldX = _laser.getElectricFieldX( offsetFromLaser );
-//            if ( electricFieldX == vectorNode.getX() ) {
-//                System.out.println( "no change to e-field at " + vectorNode.getOffsetFromLaserReference() + " " + electricFieldX + "=" + vectorNode.getX() );//XXX
-//            }
             vectorNode.setXY( electricFieldX, 0 );
 
             // color, alpha component based on field strength
@@ -283,7 +280,7 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     /*
      * Stores the sample point that the vector node represents, draws the vector.
      */
-    private static class ElectricFieldVectorNode extends Vector2DNode {
+    private class ElectricFieldVectorNode extends Vector2DNode {
         
         private final Point2D _offsetFromLaser; // offset from laser origin, nm (model coordinates)
         
