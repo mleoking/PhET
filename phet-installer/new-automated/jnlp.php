@@ -3,6 +3,8 @@
 	require_once("file-util.php");
 	require_once("string-util.php");
 	
+	define('JNLP_CODEBASE_PATTERN', '/codebase *= *"([^"]+)"/i');
+	
 	$test_jnlp = <<<EOT
 		<?xml version="1.0" encoding="utf-16"?>
 
@@ -74,7 +76,7 @@ EOT;
 	function jnlp_get_codebase($jnlp_file) {
 		$matches = array();
 		
-		if (preg_match('/codebase *= *"([^"]+)"/i', $jnlp_file, $matches)) {
+		if (preg_match(JNLP_CODEBASE_PATTERN, $jnlp_file, $matches)) {
 			$codebase = $matches[1];
 			
 			if (!string_ends_with($codebase, '/')) {
@@ -86,6 +88,10 @@ EOT;
 		else {
 			return false;
 		}
+	}
+	
+	function jnlp_replace_codebase_with_local_file_macro($jnlp_file, $root_url, $macro_name = '@@INSTALLDIR@@') {	
+		return preg_replace('/codebase *= *"'.preg_quote($root_url, '/').'/', 'codebase="file:///'.$macro_name, $jnlp_file);
 	}
 	
 	function jnlp_get_all_resource_links($jnlp_file) {

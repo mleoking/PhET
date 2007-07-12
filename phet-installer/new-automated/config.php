@@ -17,7 +17,7 @@
 	define("TEMP_DIR", file_cleanup_local_filename(ROOT_DIR."temp/"));
 
 	function GET_OS_BOUND_REL_PATH($constantPrefix) {
-	    return file_cleanup_local_filename(ROOT_DIR."${constantPrefix}/".strtoupper(PHP_OS)."/");
+	    return file_cleanup_local_filename(ROOT_DIR."${constantPrefix}/".PHP_OS."/");
 	}
 
 	function GET_OS_BOUND_NAME($constantPrefix) {
@@ -32,7 +32,6 @@
 	define("PHET_WEBSITE_URL",          PHET_ROOT_URL."web-pages/");
 	define("PHET_RIPPER_FILTER",        '"+*phet.colorado.edu/web-pages*" "+*phet.colorado.edu/simulations*"');
 	define("PHET_WEBSITE_ROOT_PATTERN", '/.+colorado\.edu/');
-	define("PHET_CODEBASE_MACRO",       'file:///$CODEBASE$/');
 	define("PHET_AUTORUN_ICON",         file_cleanup_local_filename(ROOT_DIR."Installer-Resources/Install-Path/Phet-logo-48x48.ico"));
 
 	// *****************************************************************************
