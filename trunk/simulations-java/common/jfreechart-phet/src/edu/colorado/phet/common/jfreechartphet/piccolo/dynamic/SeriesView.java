@@ -44,7 +44,13 @@ public abstract class SeriesView {
         public void dataCleared() {
             SeriesView.this.dataCleared();
         }
+
+        public void visibilityChanged() {
+            SeriesView.this.visibilityChanged();
+        }
     };
+
+    public abstract void visibilityChanged();
 
     public SeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
         this.dynamicJFreeChartNode = dynamicJFreeChartNode;

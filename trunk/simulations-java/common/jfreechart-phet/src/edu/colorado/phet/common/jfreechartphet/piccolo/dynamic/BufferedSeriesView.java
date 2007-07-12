@@ -42,6 +42,10 @@ public class BufferedSeriesView extends SeriesView {
     private BasicStroke stroke = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
     private PhetPPath debugRegion = new PhetPPath( new BasicStroke( 3 ), Color.blue );
 
+    public void visibilityChanged() {
+        paintAll();
+    }
+
     public BufferedSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
         super( dynamicJFreeChartNode, seriesData );
         dynamicJFreeChartNode.addBufferedImagePropertyChangeListener( new PropertyChangeListener() {
@@ -60,7 +64,7 @@ public class BufferedSeriesView extends SeriesView {
     public void dataAdded() {
         if( getSeries().getItemCount() >= 2 ) {
             BufferedImage image = getDynamicJFreeChartNode().getBuffer();
-            if( image != null ) {
+            if( image != null && getSeriesData().isVisible() ) {
                 drawPoint( 0 );
 //                for( int i = 0; i < Math.min( 50,getSeries().getItemCount() - 1); i++ ) {
 //                    drawPoint( i );
@@ -140,7 +144,9 @@ public class BufferedSeriesView extends SeriesView {
             graphics2D.setStroke( stroke );
             setupRenderingHints( graphics2D );
             graphics2D.clip( getDataArea() );
-            graphics2D.draw( translateDown( toGeneralPath() ) );//toGeneralPath calls our overriden getNodePoint
+            if( getSeriesData().isVisible() ) {
+                graphics2D.draw( translateDown( toGeneralPath() ) );//toGeneralPath calls our overriden getNodePoint
+            }
             repaintPanel( translateDown( new Rectangle2D.Double( 0, 0, getDynamicJFreeChartNode().getPhetPCanvas().getWidth(), getDynamicJFreeChartNode().getPhetPCanvas().getHeight() ) ) );
         }
     }

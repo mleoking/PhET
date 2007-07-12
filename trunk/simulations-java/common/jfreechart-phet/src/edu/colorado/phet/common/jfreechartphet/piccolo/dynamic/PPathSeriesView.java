@@ -45,6 +45,10 @@ public class PPathSeriesView extends SeriesView {
 
     private PropertyChangeListener listener;
 
+    public void visibilityChanged() {
+        updateAll();
+    }
+
     public PPathSeriesView( final DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
         super( dynamicJFreeChartNode, seriesData );
 

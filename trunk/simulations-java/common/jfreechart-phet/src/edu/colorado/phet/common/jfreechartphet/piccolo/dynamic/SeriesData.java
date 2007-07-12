@@ -37,9 +37,10 @@ public class SeriesData {
     private XYSeries series;
     private ArrayList listeners = new ArrayList();
     private static int index = 0;
+    private boolean visible = true;
 
     public SeriesData( String title, Color color ) {
-        this( title, color, new XYSeries( title + " " + ( index++ ),false,true ) );
+        this( title, color, new XYSeries( title + " " + ( index++ ), false, true ) );
     }
 
     public SeriesData( String title, Color color, XYSeries series ) {
@@ -70,23 +71,41 @@ public class SeriesData {
     }
 
     public void clear() {
-        if (series.getItemCount()>0){
-        series.clear();
-        notifyDataCleared();
+        if( series.getItemCount() > 0 ) {
+            series.clear();
+            notifyDataCleared();
         }
     }
 
     private void notifyDataCleared() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener)listeners.get( i )).dataCleared();
+            ( (Listener)listeners.get( i ) ).dataCleared();
         }
+    }
 
+    public void setVisible( boolean visible ) {
+        if( this.visible != visible ) {
+            this.visible = visible;
+            notifyVisibilityChanged();
+        }
+    }
+
+    private void notifyVisibilityChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener)listeners.get( i )).visibilityChanged();
+        }
+    }
+
+    public boolean isVisible() {
+        return visible;
     }
 
     public static interface Listener {
         void dataAdded();
 
         void dataCleared();
+
+        void visibilityChanged();
     }
 
     public void addListener( Listener listener ) {
@@ -95,7 +114,7 @@ public class SeriesData {
 
     public void notifyDataAdded() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener)listeners.get( i )).dataAdded();
+            ( (Listener)listeners.get( i ) ).dataAdded();
         }
     }
 }

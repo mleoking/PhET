@@ -31,6 +31,11 @@ import org.jfree.data.xy.XYSeriesCollection;
  */
 public class JFreeChartSeriesView extends SeriesView {
 
+    //todo: provide support for invisible jfreechart series view  
+    public void visibilityChanged() {
+
+    }
+
     public JFreeChartSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
         super( dynamicJFreeChartNode, seriesData );
     }

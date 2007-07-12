@@ -160,6 +160,10 @@ public class MinimizableControlGraph extends PNode {
         controlGraph.relayout();
     }
 
+    public void addControl( JComponent component ) {
+        controlGraph.addControl(component);
+    }
+
     public static interface Listener {
         void minimizeStateChanged();
     }

@@ -104,9 +104,29 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
      * @param color the series' color
      */
     public void addSeries( String title, Color color ) {
-        SeriesData seriesData = new SeriesData( title, color );
-        seriesDataList.add( seriesData );
+        seriesDataList.add( new SeriesData( title, color ) );
         updateSeriesViews();
+    }
+
+    public void removeSeries( String title ) {
+        seriesDataList.remove( getSeriesData( title ) );
+        updateSeriesViews();
+    }
+
+    /**
+     * Looks up the series data object for the specified title; returns the first found, or null if none found.
+     *
+     * @param title
+     * @return the first found, or null if none found.
+     */
+    private SeriesData getSeriesData( String title ) {
+        for( int i = 0; i < seriesDataList.size(); i++ ) {
+            SeriesData seriesData = (SeriesData)seriesDataList.get( i );
+            if( seriesData.getTitle().equals( title ) ) {
+                return seriesData;
+            }
+        }
+        return null;
     }
 
     /**
@@ -244,4 +264,9 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             return new BoundedPPathSeriesView( dynamicJFreeChartNode, seriesData );
         }
     };
+
+    public void setSeriesVisible( String title,boolean visible ) {
+        getSeriesData( title ).setVisible(visible);
+        updateSeriesViews();
+    }
 }
