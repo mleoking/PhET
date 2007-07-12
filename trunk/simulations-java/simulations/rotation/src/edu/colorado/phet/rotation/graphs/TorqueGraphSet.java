@@ -3,10 +3,10 @@ package edu.colorado.phet.rotation.graphs;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.rotation.util.UnicodeUtil;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.torque.TorqueModel;
+import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;

@@ -20,7 +20,7 @@ public class TorqueModule extends AbstractRotationModule {
         return new TorqueModel( clock );
     }
 
-    protected AbstractRotationSimulationPanel createSimulationPanel( JFrame parentFrame) {
-        return new TorqueSimulationPanel( this,parentFrame );
+    protected AbstractRotationSimulationPanel createSimulationPanel( JFrame parentFrame ) {
+        return new TorqueSimulationPanel( this, parentFrame );
     }
 }

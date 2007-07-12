@@ -39,10 +39,10 @@ public class RotationPlatformNode extends PNode {
         this.rotationPlatform = rotationPlatform;
         contentNode = new PNode();
 
-        addRingNode( 1.0, Color.green,true );
-        addRingNode( 0.75, Color.yellow,false );
-        addRingNode( 0.50, Color.magenta,false );
-        addRingNode( 0.25, Color.white,false );
+        addRingNode( 1.0, Color.green, true );
+        addRingNode( 0.75, Color.yellow, false );
+        addRingNode( 0.50, Color.magenta, false );
+        addRingNode( 0.25, Color.white, false );
 //        addRingNode( 0.005, Color.white );
 
 
@@ -152,7 +152,7 @@ public class RotationPlatformNode extends PNode {
     }
 
     private void addRingNode( double fractionalRadius, Color color, boolean showBorder ) {
-        contentNode.addChild( new RingNode( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), fractionalRadius * getRadius(), color ,showBorder) );
+        contentNode.addChild( new RingNode( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), fractionalRadius * getRadius(), color, showBorder ) );
     }
 
     private void setAngle( double angle ) {
@@ -184,7 +184,7 @@ public class RotationPlatformNode extends PNode {
             this.y = y;
             this.radius = radius;
             this.maxRadius = radius;
-            path = new PhetPPath( null, color, showBorder?new BasicStroke( 1 ):null, Color.black );
+            path = new PhetPPath( null, color, showBorder ? new BasicStroke( 1 ) : null, Color.black );
             addChild( path );
             updatePath();
         }
