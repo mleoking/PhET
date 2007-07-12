@@ -18,7 +18,7 @@ public class RotationPlatform extends MotionBody {
     private ArrayList listeners = new ArrayList();
 
     public boolean containsPosition( Point2D loc ) {
-        return loc.distance( center ) < radius && loc.distance( center ) >= innerRadius;
+        return loc.distance( center ) <= radius && loc.distance( center ) >= innerRadius;
     }
 
     public Point2D getCenter() {
