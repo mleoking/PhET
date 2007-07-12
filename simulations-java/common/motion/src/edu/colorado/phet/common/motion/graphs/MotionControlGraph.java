@@ -35,7 +35,7 @@ public class MotionControlGraph extends ControlGraph {
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
-                               boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, int maxDomainValue, final IUpdateStrategy iPositionDriven ) {
+                               boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final IUpdateStrategy iPositionDriven ) {
         super( pSwingCanvas, simulationVariable, observableTimeSeries, label, title, min, max, color, thumb, timeSeriesModel, maxDomainValue );
         this.motionModel = motionModel;
         addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {

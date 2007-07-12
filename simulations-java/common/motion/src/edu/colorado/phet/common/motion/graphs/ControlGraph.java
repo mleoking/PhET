@@ -42,7 +42,7 @@ public class ControlGraph extends PNode {
     private ZoomSuiteNode zoomControl;
     private PNode titleLayer = new PNode();
 
-    private int maxDomainValue;
+    private double maxDomainValue;
     private double ZOOM_FRACTION = 1.1;
     private Layout layout = new FlowLayout();
     private ArrayList series = new ArrayList();
@@ -59,7 +59,7 @@ public class ControlGraph extends PNode {
     }
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
-                         String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel, int maxDomainTime ) {
+                         String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
         this.maxDomainValue = maxDomainTime;
 //        this.simulationVariable = simulationVariable;
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );

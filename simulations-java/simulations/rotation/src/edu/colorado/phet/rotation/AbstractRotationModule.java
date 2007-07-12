@@ -20,8 +20,8 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     private RotationModel rotationModel;//The Physical Model
     private static final double SPEED_SCALE = 30;
 
-    public AbstractRotationModule( JFrame parentFrame ) {
-        super( "Rotation", new ConstantDtClock( 30, 1.0 ) );
+    public AbstractRotationModule( JFrame parentFrame ) {//30millis = 0.03 sec
+        super( "Rotation", new ConstantDtClock( 30, 30.0 / 1000.0 ) );
 //        super( "Rotation", new ConstantDtClock( (int)( 30/SPEED_SCALE ), 1.0/SPEED_SCALE ) );
 //        super( "Rotation", new ConstantDtClock( 0, 1.0/SPEED_SCALE ) );
         setModel( new BaseModel() );

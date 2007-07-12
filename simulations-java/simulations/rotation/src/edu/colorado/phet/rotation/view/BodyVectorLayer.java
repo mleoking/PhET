@@ -20,8 +20,8 @@ public class BodyVectorLayer extends PNode {
     private RotationBody rotationBody;
     private VectorNode accelArrow;
     private VectorNode velocityArrow;
-    private double accelScale = 250 * 0.8;
-    private double velScale = 10 * 0.8;
+    private double accelScale = 250 * 0.8*0.03*0.03/2.0;
+    private double velScale = 10 * 0.8*0.03;
 
     //todo: factor out required interface to rotationmodel
     public BodyVectorLayer( final RotationModel rotationModel, final RotationBody rotationBody, final VectorViewModel vectorViewModel ) {
