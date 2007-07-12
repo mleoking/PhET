@@ -9,7 +9,6 @@ Rotation
     -Profiling for:
         1. Buffered Chart Series
         2. Remove antialias from parts of the sim?
-•	Time axis should be longer (take longer to fill a chart)
 •	Less tick marks on vertical axis
 •	Ladybug should not be able to be taken off the wheel.
 •	When Second Bug is added to the platform, charts should show series data for it.

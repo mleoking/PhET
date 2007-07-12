@@ -5,6 +5,8 @@ Fixed: Bugs are not grabbable when out of the play area
 Fixed: Wheel should be proportionately bigger on high resolution.
 Fixed: Symbol key should be a button that pops up a dialog
 Fixed: Graphs should accurately show time axis values
+Fixed: Time axis should be longer (take longer to fill a chart)
+    -changed from 15 seconds to 30 seconds
 
 0.00.17
 Added improved initial locations for characters.
