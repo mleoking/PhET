@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
@@ -21,13 +22,6 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
 public class DNAForceNode extends AbstractForceNode implements Observer {
     
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final String UNITS = OTResources.getString( "units.force" );
-    private static final Color COLOR = Color.GREEN;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -40,7 +34,7 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     public DNAForceNode( Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
-        super( modelReferenceMagnitude, viewReferenceLength, UNITS, COLOR );
+        super( modelReferenceMagnitude, viewReferenceLength, OTResources.getString( "units.force" ), OTConstants.DNA_FORCE_COLOR );
         
         _bead = bead;
         _bead.addObserver( this );

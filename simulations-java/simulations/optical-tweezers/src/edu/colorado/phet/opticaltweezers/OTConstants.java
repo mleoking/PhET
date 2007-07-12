@@ -80,6 +80,12 @@ public class OTConstants {
     // Color of the origin marker that appears in position histogram and play area
     public static final Color ORIGIN_MARKER_COLOR = Color.BLACK;
     
+    // Colors of various vectors
+    public static final Color TRAP_FORCE_COLOR = Color.RED;
+    public static final Color FLUID_DRAG_FORCE_COLOR = new Color( 76, 255, 252 ); // blue
+    public static final Color DNA_FORCE_COLOR = Color.GREEN;
+    public static final Color ELECTRIC_FIELD_COLOR = new Color( 230, 57, 5 ); // dark red
+    
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------

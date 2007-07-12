@@ -9,10 +9,11 @@ import java.awt.geom.Point2D;
 import java.util.*;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.util.ColorUtils;
-import edu.colorado.phet.opticaltweezers.util.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -29,10 +30,8 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String ELECTRIC_FIELD_UNITS = "V/nm";
+    private static final String UNITS = OTResources.getString( "units.electricField");
     
-    // vector color and stroke
-    private static final Color DEFAULT_VECTOR_COLOR = new Color( 230, 57, 5 ); // dark red
     private static final Stroke VECTOR_STROKE = new BasicStroke( 2f );
     
     // layout of vectors
@@ -78,7 +77,7 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
         addChild( _vectorNodesParent );
         
         _vectorNodes = new ArrayList();
-        _vectorColor = DEFAULT_VECTOR_COLOR;
+        _vectorColor = OTConstants.ELECTRIC_FIELD_COLOR;
         _valuesVisible = false;
         
         initVectors();
@@ -265,6 +264,9 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
             // electric field's x component
             Point2D offsetFromLaser = vectorNode.getOffsetFromLaserReference();
             double electricFieldX = _laser.getElectricFieldX( offsetFromLaser );
+//            if ( electricFieldX == vectorNode.getX() ) {
+//                System.out.println( "no change to e-field at " + vectorNode.getOffsetFromLaserReference() + " " + electricFieldX + "=" + vectorNode.getX() );//XXX
+//            }
             vectorNode.setXY( electricFieldX, 0 );
 
             // color, alpha component based on field strength
@@ -290,7 +292,7 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
             _offsetFromLaser = new Point2D.Double( xOffsetFromLaser, yOffsetFromLaser );
             setArrowStroke( VECTOR_STROKE );
             setArrowFillPaint( null );
-            setUnits( ELECTRIC_FIELD_UNITS );
+            setUnits( UNITS );
         }
         
         public Point2D getOffsetFromLaserReference() {

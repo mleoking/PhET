@@ -4,6 +4,7 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
+import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
@@ -29,7 +30,7 @@ public class PhysicsModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public PhysicsModule() {
-        super( OTResources.getString( "title.physicsOfTweezers" ), PhysicsDefaults.CLOCK, PhysicsDefaults.CLOCK_PAUSED );
+        super( OTResources.getString( "title.physicsOfTweezers" ), PhysicsDefaults.CLOCK, GlobalDefaults.CLOCK_PAUSED );
 
         // Model
         OTClock clock = (OTClock) getClock();
@@ -45,7 +46,7 @@ public class PhysicsModule extends AbstractModule {
         
         // Clock controls
         _clockControlPanel = new OTClockControlPanel( (OTClock) getClock() );
-        _clockControlPanel.setTimeColumns( PhysicsDefaults.CLOCK_TIME_COLUMNS );
+        _clockControlPanel.setTimeColumns( GlobalDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
         
         // Set initial state
@@ -95,40 +96,40 @@ public class PhysicsModule extends AbstractModule {
         {
             // Clock
             OTClock clock = _model.getClock();
-            clock.setDt( PhysicsDefaults.DEFAULT_DT );
+            clock.setDt( GlobalDefaults.DEFAULT_DT );
             if ( isActive() ) {
-                clock.setPaused( PhysicsDefaults.CLOCK_PAUSED );
+                clock.setPaused( GlobalDefaults.CLOCK_PAUSED );
             }
             
             // Bead
             Bead bead = _model.getBead();
             bead.setPosition( PhysicsDefaults.BEAD_POSITION );
-            bead.setOrientation( PhysicsDefaults.BEAD_ORIENTATION );
-            bead.setDtSubdivisionThreshold( PhysicsDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
-            bead.setNumberOfDtSubdivisions( PhysicsDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
-            bead.setBrownianMotionScale( PhysicsDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE.getDefault() );
-            bead.setBrownianMotionEnabled( PhysicsDefaults.BEAD_BROWNIAN_MOTION_ENABLED );
-            bead.setVerletAccelerationScale( PhysicsDefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE.getDefault() );
+            bead.setOrientation( GlobalDefaults.BEAD_ORIENTATION );
+            bead.setDtSubdivisionThreshold( GlobalDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
+            bead.setNumberOfDtSubdivisions( GlobalDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
+            bead.setBrownianMotionScale( GlobalDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE.getDefault() );
+            bead.setBrownianMotionEnabled( GlobalDefaults.BEAD_BROWNIAN_MOTION_ENABLED );
+            bead.setVerletAccelerationScale( GlobalDefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE.getDefault() );
             
             // Laser
             Laser laser = _model.getLaser();
             laser.setPosition( PhysicsDefaults.LASER_POSITION );
-            laser.setPower( PhysicsDefaults.LASER_POWER_RANGE.getDefault() );
-            laser.setRunning( PhysicsDefaults.LASER_RUNNING );
-            laser.setTrapForceRatio( PhysicsDefaults.LASER_TRAP_FORCE_RATIO.getDefault() );
-            laser.setElectricFieldScale( PhysicsDefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE.getDefault() );
+            laser.setPower( GlobalDefaults.LASER_POWER_RANGE.getDefault() );
+            laser.setRunning( GlobalDefaults.LASER_RUNNING );
+            laser.setTrapForceRatio( GlobalDefaults.LASER_TRAP_FORCE_RATIO.getDefault() );
+            laser.setElectricFieldScale( GlobalDefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE.getDefault() );
             
             // Fluid
             Fluid fluid = _model.getFluid();
-            fluid.setEnabled( PhysicsDefaults.FLUID_ENABLED );
-            fluid.setSpeed( PhysicsDefaults.FLUID_SPEED_RANGE.getDefault() );
-            fluid.setViscosity( PhysicsDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
-            fluid.setTemperature( PhysicsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
+            fluid.setEnabled( GlobalDefaults.FLUID_ENABLED );
+            fluid.setSpeed( GlobalDefaults.FLUID_SPEED_RANGE.getDefault() );
+            fluid.setViscosity( GlobalDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
+            fluid.setTemperature( GlobalDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
         }
         
         // Control panel settings that are view-related
         {
-            _controlPanel.getSimulationSpeedControlPanel().setSimulationSpeed( PhysicsDefaults.DEFAULT_DT );
+            _controlPanel.getSimulationSpeedControlPanel().setSimulationSpeed( GlobalDefaults.DEFAULT_DT );
             _controlPanel.getLaserDisplayControlPanel().setDisplaySelection( PhysicsDefaults.LASER_BEAM_VISIBLE, PhysicsDefaults.LASER_ELECTRIC_FIELD_VISIBLE );
             _controlPanel.getBeadChargeControlPanel().setChoice( PhysicsDefaults.BEAD_CHARGE_CHOICE );
             _controlPanel.getForcesControlPanel().setTrapForceSelected( PhysicsDefaults.TRAP_FORCE_SELECTED );

@@ -23,13 +23,6 @@ public class MotorsDefaults {
     public static final double MODEL_TO_VIEW_SCALE = 0.5;
     
     // Clock
-    public static final boolean CLOCK_PAUSED = false;
-    private static final int FRAME_RATE = 25; // fps, frames per second (wall time)
-    private static final double MAX_DT = ( 1E-3 / FRAME_RATE );
-    private static final DoubleRange SLOW_DT_RANGE = new DoubleRange( 1E-18, 1E-11, 1E-18 );
-    private static final DoubleRange FAST_DT_RANGE = new DoubleRange( 1E-10, MAX_DT, MAX_DT );
-    public static final double DEFAULT_DT = MAX_DT;
-    public static final OTClock CLOCK = new OTClock( FRAME_RATE, SLOW_DT_RANGE, FAST_DT_RANGE, DEFAULT_DT );
-    public static final String CLOCK_TIME_PATTERN = "0.0000000000000000000";
-    public static final int CLOCK_TIME_COLUMNS = 15;
+    public static final OTClock CLOCK = new OTClock( GlobalDefaults.FRAME_RATE, 
+            GlobalDefaults.SLOW_DT_RANGE, GlobalDefaults.FAST_DT_RANGE, GlobalDefaults.DEFAULT_DT );
 }
