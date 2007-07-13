@@ -3,6 +3,7 @@
 ################
 
 •   Synchronize ruler coordinates with play area
+•   Full vertical titles go off the page in 1024x768 at default font
 •	Use colors from the color chart
 •	Check boxes (like in Force1D) for adding/removing series (applies to both characters)
 •	For X,V,A graphs, readouts should be on-graph, no text-boxes on left hand side
@@ -13,6 +14,7 @@
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
 •	Improve performance
 •	Support for "missing values" in the series data (for when characters don't have values for angular data series)
+•	Factor MotionBodyState and MotionBodySeries into a single object
 •	Shadow projections should be considered after AAPT.
 •	Possible interview question: bug icon at tip of graph to improve conceptual connection
 •	Bug: sun.dc.pr.PRException: endPath: bad path
