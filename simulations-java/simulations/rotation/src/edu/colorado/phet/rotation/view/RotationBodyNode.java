@@ -65,12 +65,9 @@ public class RotationBodyNode extends PhetPNode {
                 model.dropBody( rotationBody );
             }
         } );
-        rotationBody.addListener( new RotationBody.Listener() {
+        rotationBody.addListener( new RotationBody.Adapter() {
             public void positionChanged() {
                 update();
-            }
-
-            public void speedAndAccelerationUpdated() {
             }
         } );
         centerIndicatorNode = new PhetPPath( new Ellipse2D.Double( -CENTER_NODE_WIDTH / 2, -CENTER_NODE_WIDTH / 2, CENTER_NODE_WIDTH, CENTER_NODE_WIDTH ), Color.white, new BasicStroke( 1 ), Color.black );

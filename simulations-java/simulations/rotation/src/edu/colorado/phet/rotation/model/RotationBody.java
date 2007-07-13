@@ -84,6 +84,13 @@ public class RotationBody {
 
     public void setOffPlatform() {
         setUpdateStrategy( new OffPlatform() );
+        notifyMovedOffPlatform();
+    }
+
+    private void notifyMovedOffPlatform() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener)listeners.get( i )).movedOffPlatform();
+        }
     }
 
     private void setUpdateStrategy( UpdateStrategy updateStrategy ) {
@@ -96,6 +103,13 @@ public class RotationBody {
         this.rotationPlatform = rotationPlatform;
         //use the rotation platform to compute angle since it has the correct winding number
         this.initialAngleOnPlatform = getAngleOverPlatform() - rotationPlatform.getPosition();
+        notifyMovedOnPlatform();
+    }
+
+    private void notifyMovedOnPlatform() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener)listeners.get( i )).movedOntoPlatform();
+        }
     }
 
     //workaround for controlling the platform angle via the character angle
@@ -392,6 +406,25 @@ public class RotationBody {
         void positionChanged();
 
         void speedAndAccelerationUpdated();
+
+        void movedOffPlatform();
+
+        void movedOntoPlatform();
+    }
+
+    public static class Adapter implements Listener{
+
+        public void positionChanged() {
+        }
+
+        public void speedAndAccelerationUpdated() {
+        }
+
+        public void movedOffPlatform() {
+        }
+
+        public void movedOntoPlatform() {
+        }
     }
 
     public void setPosition( double x, double y ) {
