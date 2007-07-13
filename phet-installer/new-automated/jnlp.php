@@ -90,7 +90,7 @@ EOT;
 		}
 	}
 	
-	function jnlp_replace_codebase_with_local_file_macro($jnlp_file, $codebase_pattern, $macro_name = '@@INSTALLDIR@@') {	
+	function jnlp_replace_codebase_with_local_file_macro($jnlp_file, $codebase_pattern, $macro_name) {	
 		return preg_replace('/codebase *= *"'.$codebase_pattern.'/', 'codebase="file:///'.$macro_name, $jnlp_file);
 	}
 	

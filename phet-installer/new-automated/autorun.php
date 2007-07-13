@@ -1,9 +1,9 @@
 <?php
-
+	require_once("config.php");
 	require_once("file-util.php");
 	require_once("string-util.php");
 
-	function autorun_create_autorun_file($dest_dir, $icon_file, $open_file) {
+	function autorun_create_autorun_file($file_to_open) {
 	    /*
 	     [autorun]
 	     open=InstData\Windows\VM\install.exe
@@ -11,16 +11,12 @@
 	    */
     
 	    // Copy the icon file to the distribution directory:
-	    copy($icon_file, $dest_dir.basename(PHET_AUTORUN_ICON));
+	    copy(AUTORUN_ICON_SRC, AUTORUN_ICON_DEST);
     
-	    $open_file = str_ireplace($dest_dir, "", $open_file);
-    
-	    $icon_file = basename($icon_file);
-    
-	    if (($wh = fopen("${dest_dir}autorun.inf", 'wt')) !== false) {
-	        fwrite($wh, "[autorun]\n");
-	        fwrite($wh, "open=".file_with_separator("$open_file", FILE_SEPARATOR_WINNT)."\n");
-	        fwrite($wh, "icon=".file_with_separator("$icon_file", FILE_SEPARATOR_WINNT)."\n");
+	    if (($wh = fopen(AUTORUN_FILE_DEST, 'wt')) !== false) {
+	        fwrite($wh, "[autorun]\r\n");
+	        fwrite($wh, "open=".file_with_separator("$file_to_open",   FILE_SEPARATOR_WINNT)."\r\n");
+	        fwrite($wh, "icon=".file_with_separator(AUTORUN_ICON_NAME, FILE_SEPARATOR_WINNT)."\r\n");
 	        fflush($wh);
 	        fclose($wh);
 	    }

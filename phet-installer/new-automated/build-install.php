@@ -75,7 +75,7 @@
 			}
 			
 			// Replace the codebase with a macro which can be replaced during the install process:
-			$jnlp = jnlp_replace_codebase_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN);
+			$jnlp = jnlp_replace_codebase_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_INSTALLDIR_MACRO);
         
 			// Output the new JNLP file:
 	        file_put_contents($jnlp_filename, $jnlp);
@@ -130,7 +130,7 @@
 	    installer_build_installers("all");
     
 	    // Make the autorun file for Windows CD-ROM:
-	    autorun_create_autorun_file(BITROCK_DIST_DIR, PHET_AUTORUN_ICON, BITROCK_DIST_WINNT);
+	    autorun_create_autorun_file(basename(BITROCK_DIST_WINNT));
 	}
 
 	function builder_deploy_all() {
