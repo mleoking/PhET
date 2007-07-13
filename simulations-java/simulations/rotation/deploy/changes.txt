@@ -17,6 +17,8 @@ Fixed: No graphs or values should be shown for platform
 Removed "Go/Pause" and "Clear" buttons for non-editable graphs
 Performance improvements
 Fixed: Character Angle should be user settable via the graph
+Fixed: Synchronize ruler coordinates with play area
+Fixed: Full vertical titles go off the page in 1024x768 at default font
 
 0.00.17
 Added improved initial locations for characters.

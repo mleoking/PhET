@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
+import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.umd.cs.piccolo.nodes.PImage;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
@@ -39,7 +40,7 @@ public class RotationGraph extends MotionControlGraph {
     public static class RotationGraphNumberAxis extends NumberAxis {
         public RotationGraphNumberAxis( String title ) {
             super( title );
-            setLabelFont( new PhetDefaultFont( 14, true ) );
+            setLabelFont( RotationLookAndFeel.getGraphVerticalAxisLabelFont() );
         }
 
         protected void selectVerticalAutoTickUnit( Graphics2D g2,

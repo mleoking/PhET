@@ -26,7 +26,7 @@ public class RotationBodyNode extends PhetPNode {
     private PNode centerIndicatorNode;
     private PNode imageNode;
 
-    private static final double CENTER_NODE_WIDTH = 10;
+    private static final double CENTER_NODE_WIDTH = 20;
     private double modelSizeMeters = 1;
 
     public interface RotationBodyEnvironment {
