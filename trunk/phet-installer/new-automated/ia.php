@@ -75,6 +75,10 @@
 		// Now move everything in the BitRock directory to the output directory:		
 		file_copy(BITROCK_DIST_DIR, OUTPUT_DIR);
 		
+	    return true;
+	}
+	
+	function installer_build_cd_rom_distribution() {
 		flushing_echo("Creating CD-ROM distribution ".CDROM_FILE_DEST);
 		
 		// Now make CD-ROM bundle:
@@ -85,8 +89,6 @@
 		$cd_rom->add(AUTORUN_FILE_DEST);
 		
 		$cd_rom->write_to_file(CDROM_FILE_DEST);
-		
-	    return true;
 	}
 
 ?>
