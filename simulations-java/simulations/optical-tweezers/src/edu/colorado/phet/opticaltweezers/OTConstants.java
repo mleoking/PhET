@@ -5,6 +5,7 @@ package edu.colorado.phet.opticaltweezers;
 import java.awt.*;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
@@ -69,10 +70,10 @@ public class OTConstants {
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
     
     // Default color for module tabs
-    public static final Color SELECTED_TAB_COLOR = new Color( 215, 229, 255 );
+    public static final Color SELECTED_TAB_COLOR = new Color( 150, 150, 255 ); // royal blue
     
     // Colors for the control panel & clock control panel backgrounds
-    public static final Color CONTROL_PANEL_COLOR = new Color( 215, 229, 255 );
+    public static final Color CONTROL_PANEL_COLOR = new JPanel().getBackground(); // default panel background
     
     // Ruler color
     public static final Color RULER_COLOR = new Color( 236, 225, 113, 150 ); // transparent yellow
@@ -81,7 +82,7 @@ public class OTConstants {
     public static final Color ORIGIN_MARKER_COLOR = Color.BLACK;
     
     // Colors of various vectors
-    public static final Color TRAP_FORCE_COLOR = Color.RED;
+    public static final Color TRAP_FORCE_COLOR = new Color( 255, 175, 0 ); // orange
     public static final Color FLUID_DRAG_FORCE_COLOR = new Color( 76, 255, 252 ); // blue
     public static final Color DNA_FORCE_COLOR = Color.GREEN;
     public static final Color ELECTRIC_FIELD_COLOR = new Color( 230, 57, 5 ); // dark red

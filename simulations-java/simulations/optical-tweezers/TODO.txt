@@ -55,6 +55,8 @@ MISSING INFO:
 
  
 DONE:
+7/13/07 - use default tab color (royal blue) for module tabs
+7/13/07 - use default panel background color (grey) for control/clock panels
 7/13/07 - add "Verlet subdivision threshold" model parameter and developer control
 7/13/07 - add "Verlet # dt subdivisions" model parameter and developer control
 7/13/07 - reduce dt subdivisions default to 100 since dt fast.max was reduced by 10x
