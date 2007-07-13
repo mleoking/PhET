@@ -6,11 +6,10 @@
 
 •	For X,V,A graphs, readouts should be on-graph, no text-boxes on left hand side
 
-•	Check boxes (like in Force1D) for adding/removing series (applies to both characters)
-
 •	When Second Bug is added to the platform, charts should show series data for it.
 •	Second Bug’s data series should be dotted lines
 •	Checkbox to remove/add second bug. (Just remove/add dashed line in graph, not hide/show bug itself)
+•	Check boxes (like in Force1D) for adding/removing series (applies to both characters)
 
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
 •	Improve performance
