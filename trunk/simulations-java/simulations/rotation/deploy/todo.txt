@@ -2,7 +2,7 @@
 #     To Do
 ################
 
-•	Add support for graphs with no series, so all 'addseries' methods can be consolidated?
+•	only show one checkbox for both characters, and have it apply to both characters; need to pair up the series pairs to facilitate this.               
 •	Use colors from the color chart
 •	Web version has centripetal acceleration arrow missing the center on user drag
 •	During playback, sometimes off-platform character spins in place (looks like on-platform vs. off-platform state is not being recorded and restored properly) 

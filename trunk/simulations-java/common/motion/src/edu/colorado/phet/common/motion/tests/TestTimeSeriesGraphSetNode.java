@@ -11,7 +11,6 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -49,7 +48,7 @@ public class TestTimeSeriesGraphSetNode {
         private MinimizableControlGraph positionGraph;
 
         public TestGraphSet( PhetPCanvas pSwingCanvas, final TestMotionModel motionModel ) {
-            positionGraph = new MinimizableControlGraph( "x", new MotionControlGraph( pSwingCanvas, motionModel.getXVariable(), motionModel.getXTimeSeries(), "X", "Position", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel ) );
+            positionGraph = new MinimizableControlGraph( "x", new MotionControlGraph( pSwingCanvas, motionModel.getXVariable(), "X", "Position", -Math.PI * 3, Math.PI * 3, new PImage( loadArrow( "blue-arrow.png" ) ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel ) );
             addGraphSuite( new GraphSuite( new MinimizableControlGraph[]{positionGraph} ) );
 
 //            motionModel.addListener( new MotionModel.Listener() {

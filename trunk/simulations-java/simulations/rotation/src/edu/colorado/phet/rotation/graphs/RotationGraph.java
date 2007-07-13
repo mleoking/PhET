@@ -25,12 +25,12 @@ import java.util.ArrayList;
  * Jul 12, 2007, 9:43:17 AM
  */
 public class RotationGraph extends MotionControlGraph {
-    public RotationGraph( PhetPCanvas pSwingCanvas, ISimulationVariable simulationVariable, ITimeSeries timeSeries,
-                          String label, String title, String units, double min, double max, Color color, Stroke stroke, PImage thumb,
+    public RotationGraph( PhetPCanvas pSwingCanvas, ISimulationVariable simulationVariable,
+                          String label, String title, String units, double min, double max, PImage thumb,
                           RotationModel motionModel, boolean editable, TimeSeriesModel timeSeriesModel,
                           UpdateStrategy updateStrategy, double maxDomainValue, RotationPlatform iPositionDriven ) {
-        super( pSwingCanvas, simulationVariable, timeSeries,
-               label, title, min, max, color, stroke, thumb,
+        super( pSwingCanvas, simulationVariable,
+               label, title, min, max, thumb,
                motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         super.getDynamicJFreeChartNode().setAutoUpdateAll( false );
         ValueAxis oldRangeAxis = getJFreeChartNode().getChart().getXYPlot().getRangeAxis();
