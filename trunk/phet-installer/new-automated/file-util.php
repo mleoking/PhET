@@ -163,5 +163,96 @@
     
 	    return $strName; 
 	}
+	
+	function file_remove_all($dirname) {
+		if (!is_dir($dirname)) {
+			unlink($dirname);
+		}
+	    else if ($dirHandle = opendir($dirname)) {
+			$old_cwd = getcwd();
+			chdir($dirname);
+
+			while ($file = readdir($dirHandle)) {
+				if ($file == '.' || $file == '..') continue;
+
+				if (is_dir($file)) {
+					if (!file_remove_all($file)) 
+						return false;
+				}
+				else {
+					if (!unlink($file)) 
+						return false;
+				}
+			}
+
+			closedir($dirHandle);
+			chdir($old_cwd);
+		
+			if (!rmdir($dirname)) 
+				return false;
+
+			return true;
+	    }
+	    else {
+	        return false;
+        }
+    }
+
+	function file_copy($srcdir, $dstdir, $verbose = false) {
+		if (is_file($srcdir)) {
+			copy($srcdir, $dstdir);
+			
+			return 1;
+		}
+		else {
+			$num = 0;
+			
+			if (!is_dir($dstdir)) {
+				file_mkdirs($dstdir);
+			}
+			if ($curdir = opendir($srcdir)) {
+				while($file = readdir($curdir)) {
+					if($file != '.' && $file != '..') {
+						$srcfile = $srcdir.FILE_SEPARATOR.$file;
+						$dstfile = $dstdir.FILE_SEPARATOR.$file;
+						
+						if (is_file($srcfile)) {
+							if(is_file($dstfile)) {
+								$ow = filemtime($srcfile) - filemtime($dstfile);
+							} 
+							else {
+								$ow = 1;
+							}
+							
+							if ($ow > 0) {
+								if ($verbose) {
+									echo "Copying '$srcfile' to '$dstfile'...";
+								}
+								if (copy($srcfile, $dstfile)) {
+									touch($dstfile, filemtime($srcfile)); 
+									
+									$num++;
+									
+									if ($verbose) {
+										echo "OK\n";
+									}
+								}
+								else {
+									echo "Error: File '$srcfile' could not be copied!\n";
+								}
+							}                   
+						}
+						else if (is_dir($srcfile)) {
+							$num += dircopy($srcfile, $dstfile, $verbose);
+						}
+					}
+				}
+				
+				closedir($curdir);
+			}
+			
+			return $num;
+		}
+	}
 
 ?>
