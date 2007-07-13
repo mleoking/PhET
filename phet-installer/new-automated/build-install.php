@@ -127,10 +127,14 @@
 	function builder_build_all() {
 	    flushing_echo("Building all installers for all configurations...");
     
-	    installer_build_installers("all");
-    
-	    // Make the autorun file for Windows CD-ROM:
+	    // Make the autorun file for Windows CD-ROM (this copies installer stuff):
 	    autorun_create_autorun_file(basename(BITROCK_DIST_WINNT));
+    
+		// Build Windows, Linux, Mac installers:
+	    installer_build_installers("all");
+	
+		// Build CD-ROM distribution:
+		installer_build_cd_rom_distribution();
 	}
 
 	function builder_deploy_all() {
