@@ -54,6 +54,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.27 (?)
 7/13/07 - change defaults: Verlet scale to 4E-3, Verlet dt subdivisions to 10
 7/13/07 - bugfix: Brownian motion checkbox does not get reset properly with Reset All
 ********* version 0.00.26 (16699)
