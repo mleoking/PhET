@@ -54,6 +54,7 @@ MISSING INFO:
 
  
 DONE:
+7/13/07 - revert dt fast.max to 4E-5, DNA strand evolves too slowly at 4E-5 when fast.max is 4E-4
 7/13/07 - fixed "slow mode" trap force bug introduced when refactoring Laser.getElectricFieldScale on 7/12
 7/12/07 - create preliminiary screenshots
 ********* version 0.00.24 (16647)
