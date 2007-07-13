@@ -30,6 +30,7 @@ public class RotationGraph extends MotionControlGraph {
         super( pSwingCanvas, simulationVariable, timeSeries,
                label, title, min, max, color, thumb,
                motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
+        super.getDynamicJFreeChartNode().setAutoUpdateAll( false );
         ValueAxis oldRangeAxis = getJFreeChartNode().getChart().getXYPlot().getRangeAxis();
         RotationGraphNumberAxis verticalAxis = new RotationGraphNumberAxis( title + " (" + units + ")" );
         verticalAxis.setRange( oldRangeAxis.getRange() );
