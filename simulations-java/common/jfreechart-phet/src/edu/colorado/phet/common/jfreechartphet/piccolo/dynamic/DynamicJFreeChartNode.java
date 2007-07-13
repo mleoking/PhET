@@ -223,6 +223,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     public void setViewFactory( SeriesViewFactory factory ) {
         viewFactory = factory;
         updateSeriesViews();
+        forceUpdateAll();
     }
 
     private void updateSeriesViews() {
