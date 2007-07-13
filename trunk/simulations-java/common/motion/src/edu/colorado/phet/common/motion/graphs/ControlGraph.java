@@ -236,8 +236,16 @@ public class ControlGraph extends PNode {
         addSeries( new ControlGraphSeries( title, color, abbr, simulationVariable, observableTimeSeries ) );
     }
 
+    public ControlGraphSeries getControlGraphSeries( int i ) {
+        return (ControlGraphSeries)series.get( i );
+    }
+
+    public int getSeriesCount() {
+        return this.series.size();
+    }
+
     public void addSeries( ControlGraphSeries series ) {
-        this.series.add( series.getSimulationVariable() );
+        this.series.add( series );
         dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor() );
 
         TitleNode titleNode = new TitleNode( series.getTitle(), series.getAbbr(), series.getColor() );
@@ -249,7 +257,11 @@ public class ControlGraph extends PNode {
     }
 
     public void setSeriesVisible( ControlGraph.ControlGraphSeries series, boolean visible ) {
-        dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), visible );
+        if( series.isVisible() != visible ) {
+            series.setVisible( visible );
+            dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), visible );
+            getDynamicJFreeChartNode().forceUpdateAll();
+        }
     }
 
     public static class ControlGraphSeries {
@@ -258,6 +270,7 @@ public class ControlGraph extends PNode {
         private String abbr;
         private ISimulationVariable simulationVariable;
         private ITimeSeries observableTimeSeries;
+        private boolean visible = true;
 
         public ControlGraphSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
             this.title = title;
@@ -286,10 +299,23 @@ public class ControlGraph extends PNode {
         public ITimeSeries getObservableTimeSeries() {
             return observableTimeSeries;
         }
+
+        public boolean isVisible() {
+            return visible;
+        }
+
+        public void setVisible( boolean visible ) {
+            this.visible = visible;
+        }
     }
 
-    public int getSeriesIndex( ISimulationVariable title ) {
-        return series.indexOf( title );
+    public int getSeriesIndex( ISimulationVariable simulationVariable ) {
+        for( int i = 0; i < getSeriesCount(); i++ ) {
+            if( getControlGraphSeries( i ).getSimulationVariable() == simulationVariable ) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public double getMaxDataX() {

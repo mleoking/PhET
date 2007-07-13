@@ -20,6 +20,7 @@ Fixed: Character Angle should be user settable via the graph
 Fixed: Synchronize ruler coordinates with play area
 Fixed: Full vertical titles go off the page in 1024x768 at default font
 Fixed: Vector arrow labels are no longer centered (bug introduced when adding model coordinates)
+Added: checkboxes for selecting series data on multi-series charts
 
 0.00.17
 Added improved initial locations for characters.
