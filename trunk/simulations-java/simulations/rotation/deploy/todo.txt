@@ -5,6 +5,7 @@
 •	Bug: Zoom change doesn't repaint graphs, should use dynamicjfreechartnode.forceupdate
 •	Add support for graphs with no series, so all 'addseries' methods can be consolidated?
 •	Use colors from the color chart
+•	Web version has centripetal acceleration arrow missing the center on user drag
 •	During playback, sometimes off-platform character spins in place (looks like on-platform vs. off-platform state is not being recorded and restored properly) 
 •	For X,V,A graphs, readouts should be on-graph, no text-boxes on left hand side
 •	When Second Bug is added to the platform, charts should show series data for it.
