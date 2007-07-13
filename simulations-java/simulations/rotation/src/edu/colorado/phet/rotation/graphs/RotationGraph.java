@@ -37,6 +37,12 @@ public class RotationGraph extends MotionControlGraph {
         RotationGraphNumberAxis verticalAxis = new RotationGraphNumberAxis( title + " (" + units + ")" );
         verticalAxis.setRange( oldRangeAxis.getRange() );
         getJFreeChartNode().getChart().getXYPlot().setRangeAxis( verticalAxis );
+
+        addListener( new Adapter() {
+            public void zoomChanged() {
+                getDynamicJFreeChartNode().forceUpdateAll();
+            }
+        } );
     }
 
     private ArrayList secondarySeries = new ArrayList();//keep track of series for the 2nd bug so we can show/hide them together

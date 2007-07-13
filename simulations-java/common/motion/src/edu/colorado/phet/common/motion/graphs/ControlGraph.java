@@ -223,8 +223,14 @@ public class ControlGraph extends PNode {
         if( newValue > maxDomainValue ) {
             newValue = maxDomainValue;
         }
-        jFreeChart.getXYPlot().getDomainAxis().setUpperBound( newValue );
-        updateZoomEnabled();
+        setDomainUpperBound( newValue );
+    }
+
+    private void notifyZoomChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.zoomChanged();
+        }
     }
 
     private void zoomVertical( double v ) {
@@ -233,6 +239,7 @@ public class ControlGraph extends PNode {
         double diff = newRange - currentRange;
         jFreeChart.getXYPlot().getRangeAxis().setRange( jFreeChart.getXYPlot().getRangeAxis().getLowerBound() - diff / 2, jFreeChart.getXYPlot().getRangeAxis().getUpperBound() + diff / 2 );
         updateZoomEnabled();
+        notifyZoomChanged();
     }
 
     private void updateZoomEnabled() {
@@ -291,8 +298,11 @@ public class ControlGraph extends PNode {
     }
 
     public void setDomainUpperBound( double maxDataX ) {
-        jFreeChart.getXYPlot().getDomainAxis().setUpperBound( maxDataX );
-        updateZoomEnabled();
+        if( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDataX ) {
+            jFreeChart.getXYPlot().getDomainAxis().setUpperBound( maxDataX );
+            updateZoomEnabled();
+            notifyZoomChanged();
+        }
     }
 
     public void setFlowLayout() {
@@ -469,10 +479,15 @@ public class ControlGraph extends PNode {
         //This method is called when the user makes an input event that indicates
         //that this component should be "in control" of the simulation
         void controlFocusGrabbed();
+
+        void zoomChanged();
     }
 
     public static class Adapter implements Listener {
         public void controlFocusGrabbed() {
+        }
+
+        public void zoomChanged() {
         }
     }
 
