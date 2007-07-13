@@ -83,13 +83,15 @@ public class RotationBody {
 //    }
 
     public void setOffPlatform() {
-        setUpdateStrategy( new OffPlatform() );
-        notifyMovedOffPlatform();
+        if( !isOffPlatform() ) {
+            setUpdateStrategy( new OffPlatform() );
+            notifyPlatformStateChanged();
+        }
     }
 
-    private void notifyMovedOffPlatform() {
+    private void notifyPlatformStateChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener)listeners.get( i )).movedOffPlatform();
+            ( (Listener)listeners.get( i ) ).platformStateChanged();
         }
     }
 
@@ -99,16 +101,12 @@ public class RotationBody {
     }
 
     public void setOnPlatform( RotationPlatform rotationPlatform ) {
-        setUpdateStrategy( new OnPlatform( rotationPlatform ) );
-        this.rotationPlatform = rotationPlatform;
-        //use the rotation platform to compute angle since it has the correct winding number
-        this.initialAngleOnPlatform = getAngleOverPlatform() - rotationPlatform.getPosition();
-        notifyMovedOnPlatform();
-    }
-
-    private void notifyMovedOnPlatform() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener)listeners.get( i )).movedOntoPlatform();
+        if( !isOnPlatform( rotationPlatform ) ) {
+            setUpdateStrategy( new OnPlatform( rotationPlatform ) );
+            this.rotationPlatform = rotationPlatform;
+            //use the rotation platform to compute angle since it has the correct winding number
+            this.initialAngleOnPlatform = getAngleOverPlatform() - rotationPlatform.getPosition();
+            notifyPlatformStateChanged();
         }
     }
 
@@ -163,8 +161,18 @@ public class RotationBody {
         notifyVectorsUpdated();
     }
 
-    private boolean isOnPlatform() {
-        return !isOffPlatform();
+    public boolean isOnPlatform() {
+        return updateStrategy instanceof OnPlatform;
+    }
+
+    private boolean isOnPlatform( RotationPlatform rotationPlatform ) {
+        if( updateStrategy instanceof OnPlatform ) {
+            OnPlatform onPlatform = (OnPlatform)updateStrategy;
+            return onPlatform.rotationPlatform == rotationPlatform;
+        }
+        else {
+            return false;
+        }
     }
 
     private boolean isOffPlatform() {
@@ -407,12 +415,11 @@ public class RotationBody {
 
         void speedAndAccelerationUpdated();
 
-        void movedOffPlatform();
+        void platformStateChanged();
 
-        void movedOntoPlatform();
     }
 
-    public static class Adapter implements Listener{
+    public static class Adapter implements Listener {
 
         public void positionChanged() {
         }
@@ -420,11 +427,9 @@ public class RotationBody {
         public void speedAndAccelerationUpdated() {
         }
 
-        public void movedOffPlatform() {
+        public void platformStateChanged() {
         }
 
-        public void movedOntoPlatform() {
-        }
     }
 
     public void setPosition( double x, double y ) {

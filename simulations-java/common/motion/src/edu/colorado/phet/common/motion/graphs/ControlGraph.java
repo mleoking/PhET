@@ -53,18 +53,18 @@ public class ControlGraph extends PNode {
     private PNode additionalControls;
     private ISimulationVariable simulationVariable;
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
-                         String abbr, String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, simulationVariable, observableTimeSeries, abbr, title, minY, maxY, Color.black, new PText( "THUMB" ), timeSeriesModel );
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable,
+                         String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
+        this( pSwingCanvas, simulationVariable, title, minY, maxY, new PText( "THUMB" ), timeSeriesModel );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
-                         String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, simulationVariable, observableTimeSeries, abbr, title, minY, maxY, color, BufferedSeriesView.DEFAULT_STROKE, thumb, timeSeriesModel, 1000 );
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable,
+                         String title, double minY, final double maxY, PNode thumb, TimeSeriesModel timeSeriesModel ) {
+        this( pSwingCanvas, simulationVariable, title, minY, maxY, thumb, timeSeriesModel, 1000 );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
-                         String abbr, String title, double minY, final double maxY, Color color, Stroke stroke, PNode thumb,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable,
+                         String title, double minY, final double maxY, PNode thumb,
                          TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
         this.simulationVariable = simulationVariable;
         this.maxDomainValue = maxDomainTime;
@@ -86,7 +86,7 @@ public class ControlGraph extends PNode {
         graphTimeControlNode = new GraphTimeControlNode( timeSeriesModel );
         additionalControls = new PNode();
 
-        addSeries( title, color, abbr, simulationVariable, observableTimeSeries, stroke );
+//        addSeries( title, color, abbr, simulationVariable, observableTimeSeries, stroke );
         jFreeChartSliderNode = new JFreeChartSliderNode( dynamicJFreeChartNode, thumb );
         zoomControl = new ZoomSuiteNode();
         zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {
