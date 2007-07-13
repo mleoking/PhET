@@ -4,6 +4,8 @@ import JSci.maths.LinearMath;
 import JSci.maths.vectors.AbstractDoubleVector;
 import edu.colorado.phet.common.motion.model.TimeData;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Dec 30, 2006
@@ -44,4 +46,30 @@ public class MotionMath {
         }
         return new TimeData( estimateDerivative( recentPositionTimeSeries ), averageTime( recentPositionTimeSeries ) );
     }
+
+    public static TimeData getSecondDerivative( TimeData[] x ) {
+        if( x.length == 0 ) {
+//            System.out.println( "MotionMath.getDerivative, returning zero" );
+            return new TimeData( 0, 0 );
+        }
+        double sum = 0.0;
+        int count = 0;
+        for( int i = 1; i < x.length - 1; i++ ) {
+            sum += getSecondDerivative( x[i - 1], x[i], x[i + 1] );
+            count++;
+        }
+        if( count == 0 ) {
+            return new TimeData( 0.0, averageTime( x ) );
+        }
+        return new TimeData( sum / count, averageTime( x ) );
+    }
+
+    private static double getSecondDerivative( TimeData a, TimeData b, TimeData c ) {
+        double num = a.getValue() - 2 * b.getValue() + c.getValue();
+        double h1 = c.getTime() - b.getTime();
+        double h2 = b.getTime() - a.getTime();
+        double h = ( h1 + h2 ) / 2.0;
+        return num / ( h * h );
+    }
+
 }
