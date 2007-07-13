@@ -54,6 +54,7 @@ MISSING INFO:
 
  
 DONE:
+7/13/07 - fixed "slow mode" trap force bug introduced when refactoring Laser.getElectricFieldScale on 7/12
 7/12/07 - create preliminiary screenshots
 ********* version 0.00.24 (16647)
 7/12/07 - fixed machine epsilon problem in Laser.stepInTime's accumulation of time
@@ -67,6 +68,7 @@ DONE:
 ********* version 0.00.23 (16616)
 7/12/07 - increase fastest dt to 4E-4
 7/12/07 - increase dt subdivisions for bead motion model to 1000
+7/12/07 - refactor common code into Laser.getElectricFieldScale
 ********* version 0.00.22 (16594)
 7/11/07 - developer controls for setting all vector colors
 7/11/07 - developer control for setting the background color of the control panel & clock panel

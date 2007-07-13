@@ -437,7 +437,7 @@ public class Laser extends MovableObject implements ModelElement {
         // In "slow" clock mode, the trap force should be shrinking and growing,
         // so that it's zero when the E-field is zero, and a maximum when the E-field is strongest.
         if ( _clock.getDt() <= _clock.getSlowRange().getMax() ) {
-            double scale = getElectricFieldScale( yOffset );
+            double scale = Math.sqrt( 2 ) * Math.abs( getElectricFieldScale( yOffset ) );
             fx *= scale;
             fy *= scale;
         }
