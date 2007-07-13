@@ -53,6 +53,11 @@ public class ControlGraph extends PNode {
     private PNode additionalControls;
     private ISimulationVariable simulationVariable;
 
+//    private void handleVisibilityChanged() {
+//        dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), visible );
+//        getDynamicJFreeChartNode().forceUpdateAll();
+//    }
+
     public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
                          String abbr, String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
         this( pSwingCanvas, simulationVariable, observableTimeSeries, abbr, title, minY, maxY, Color.black, new PText( "THUMB" ), timeSeriesModel );
@@ -250,7 +255,13 @@ public class ControlGraph extends PNode {
         return this.series.size();
     }
 
-    public void addSeries( ControlGraphSeries series ) {
+    public void addSeries( final ControlGraphSeries series ) {
+        series.addListener( new ControlGraphSeries.Listener() {
+            public void visibilityChanged() {
+                dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), series.isVisible() );
+                getDynamicJFreeChartNode().forceUpdateAll();
+            }
+        } );
         this.series.add( series );
         dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
 
@@ -260,69 +271,6 @@ public class ControlGraph extends PNode {
 
         graphTimeControlNode.addVariable( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() );
         series.getObservableTimeSeries().addListener( getListener( series.getSimulationVariable() ) );
-    }
-
-    public void setSeriesVisible( ControlGraph.ControlGraphSeries series, boolean visible ) {
-        if( series.isVisible() != visible ) {
-            series.setVisible( visible );
-            dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), visible );
-            getDynamicJFreeChartNode().forceUpdateAll();
-        }
-    }
-
-    public static class ControlGraphSeries {
-        private String title;
-        private Color color;
-        private String abbr;
-        private ISimulationVariable simulationVariable;
-        private ITimeSeries observableTimeSeries;
-        private boolean visible = true;
-        private Stroke stroke;
-
-        public ControlGraphSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
-            this( title, color, abbr, simulationVariable, observableTimeSeries ,BufferedSeriesView.DEFAULT_STROKE );
-        }
-
-        public ControlGraphSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
-            this.stroke = stroke;
-            this.title = title;
-            this.color = color;
-            this.abbr = abbr;
-            this.simulationVariable = simulationVariable;
-            this.observableTimeSeries = observableTimeSeries;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public Color getColor() {
-            return color;
-        }
-
-        public String getAbbr() {
-            return abbr;
-        }
-
-        public ISimulationVariable getSimulationVariable() {
-            return simulationVariable;
-        }
-
-        public ITimeSeries getObservableTimeSeries() {
-            return observableTimeSeries;
-        }
-
-        public boolean isVisible() {
-            return visible;
-        }
-
-        public void setVisible( boolean visible ) {
-            this.visible = visible;
-        }
-
-        public Stroke getStroke() {
-            return stroke;
-        }
     }
 
     public int getSeriesIndex( ISimulationVariable simulationVariable ) {
