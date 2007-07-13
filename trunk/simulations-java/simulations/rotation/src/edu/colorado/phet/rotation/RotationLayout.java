@@ -59,7 +59,7 @@ public class RotationLayout {
         rotationPlayAreaNode.setOffset( scale * platformNode.getRotationPlatform().getRadius(), scale * platformNode.getRotationPlatform().getRadius() );
 
         double originNodeWidth = originNode.getGlobalFullBounds().getWidth();
-        Rectangle2D bounds = new Rectangle2D.Double( getMaxXPlayAreaAndControlPanel() + padX + originNodeWidth, 0, getWidth() - getMaxXPlayAreaAndControlPanel() - padX, getHeight() );
+        Rectangle2D bounds = new Rectangle2D.Double( getMaxXPlayAreaAndControlPanel() + padX + originNodeWidth, 0, getWidth() - getMaxXPlayAreaAndControlPanel() - padX - originNodeWidth, getHeight() );
         System.out.println( "RSP::bounds = " + bounds );
         timeSeriesGraphSetNode.setBounds( bounds );
     }
