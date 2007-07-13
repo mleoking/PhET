@@ -39,9 +39,12 @@ import java.beans.PropertyChangeListener;
  * @author Sam Reid
  */
 public class BufferedSeriesView extends SeriesView {
-    private BasicStroke stroke = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
+    public static final BasicStroke DEFAULT_STROKE = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
+//    private BasicStroke DEFAULT_STROKE = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f, new float[]{10, 10}, 0 );
+
     private PhetPPath debugRegion = new PhetPPath( new BasicStroke( 3 ), Color.blue );
     private boolean updateAllEnabled = false;
+    private double lastLineLength = 0;
 
     public void visibilityChanged() {
         paintAll();
@@ -78,23 +81,37 @@ public class BufferedSeriesView extends SeriesView {
     }
 
     private void drawPoint( int index ) {
+        updateStroke();
         BufferedImage image = getDynamicJFreeChartNode().getBuffer();
         Graphics2D graphics2D = image.createGraphics();
         graphics2D.setPaint( getSeriesData().getColor() );
 
-        graphics2D.setStroke( stroke );
+        graphics2D.setStroke( getSeriesData().getStroke() );
         int itemCount = getSeries().getItemCount();
         Line2D.Double viewLine = new Line2D.Double( getNodePoint( itemCount - 2 - index ), getNodePoint( itemCount - 1 - index ) );
+        lastLineLength = viewLine.getP1().distance( viewLine.getP2() );
         setupRenderingHints( graphics2D );
 
         graphics2D.clip( translateDataArea() );
         graphics2D.draw( viewLine );
 
-        Shape sh = stroke.createStrokedShape( viewLine );
+        Shape sh = getSeriesData().getStroke().createStrokedShape( viewLine );
         Rectangle2D bounds = sh.getBounds2D();
         getDynamicJFreeChartNode().localToGlobal( bounds );
         getDynamicJFreeChartNode().getPhetPCanvas().getPhetRootNode().globalToScreen( bounds );
         repaintPanel( translateDown( bounds ) );
+    }
+
+    private void updateStroke() {
+//        System.out.println( "DEFAULT_STROKE.getDashArray() = " + DEFAULT_STROKE.getDashArray().length );
+        Stroke stroke = getSeriesData().getStroke();
+        if( stroke instanceof BasicStroke ) {
+            BasicStroke basicStroke = (BasicStroke)stroke;
+            if( basicStroke.getDashArray() != null ) {
+                getSeriesData().setStroke( new BasicStroke( basicStroke.getLineWidth(), basicStroke.getEndCap(), basicStroke.getLineJoin(), basicStroke.getMiterLimit(),
+                                                            basicStroke.getDashArray(), (float)( basicStroke.getDashPhase() + lastLineLength ) ) );
+            }
+        }
     }
 
     private Rectangle2D translateDown( Rectangle2D d ) {
@@ -129,7 +146,7 @@ public class BufferedSeriesView extends SeriesView {
         if( image != null ) {
             Graphics2D graphics2D = image.createGraphics();
             graphics2D.setPaint( getSeriesData().getColor() );
-            graphics2D.setStroke( stroke );
+            graphics2D.setStroke( getSeriesData().getStroke() );
             setupRenderingHints( graphics2D );
             graphics2D.clip( getDataArea() );
             if( getSeriesData().isVisible() ) {

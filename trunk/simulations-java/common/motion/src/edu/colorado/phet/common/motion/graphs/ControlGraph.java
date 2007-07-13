@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
@@ -85,7 +86,7 @@ public class ControlGraph extends PNode {
         graphTimeControlNode = new GraphTimeControlNode( timeSeriesModel );
         additionalControls = new PNode();
 
-        addSeries( title, color, abbr, simulationVariable, observableTimeSeries );
+        addSeries( title, color, abbr, simulationVariable, observableTimeSeries, BufferedSeriesView.DEFAULT_STROKE );
         jFreeChartSliderNode = new JFreeChartSliderNode( dynamicJFreeChartNode, thumb );
         zoomControl = new ZoomSuiteNode();
         zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {
@@ -234,7 +235,11 @@ public class ControlGraph extends PNode {
     }
 
     public void addSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
-        addSeries( new ControlGraphSeries( title, color, abbr, simulationVariable, observableTimeSeries ) );
+        addSeries( title, color, abbr, simulationVariable, observableTimeSeries, BufferedSeriesView.DEFAULT_STROKE );
+    }
+
+    public void addSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
+        addSeries( new ControlGraphSeries( title, color, abbr, simulationVariable, observableTimeSeries, stroke ) );
     }
 
     public ControlGraphSeries getControlGraphSeries( int i ) {
@@ -247,7 +252,7 @@ public class ControlGraph extends PNode {
 
     public void addSeries( ControlGraphSeries series ) {
         this.series.add( series );
-        dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor() );
+        dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
 
         TitleNode titleNode = new TitleNode( series.getTitle(), series.getAbbr(), series.getColor() );
         titleNode.setOffset( titleLayer.getFullBounds().getWidth(), 0 );
@@ -272,8 +277,14 @@ public class ControlGraph extends PNode {
         private ISimulationVariable simulationVariable;
         private ITimeSeries observableTimeSeries;
         private boolean visible = true;
+        private Stroke stroke;
 
         public ControlGraphSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
+            this( title, color, abbr, simulationVariable, observableTimeSeries ,BufferedSeriesView.DEFAULT_STROKE );
+        }
+
+        public ControlGraphSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
+            this.stroke = stroke;
             this.title = title;
             this.color = color;
             this.abbr = abbr;
@@ -307,6 +318,10 @@ public class ControlGraph extends PNode {
 
         public void setVisible( boolean visible ) {
             this.visible = visible;
+        }
+
+        public Stroke getStroke() {
+            return stroke;
         }
     }
 

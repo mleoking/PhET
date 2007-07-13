@@ -34,19 +34,21 @@ import java.util.ArrayList;
 public class SeriesData {
     private String title;
     private Color color;
+    private Stroke stroke;
     private XYSeries series;
     private ArrayList listeners = new ArrayList();
     private static int index = 0;
     private boolean visible = true;
 
-    public SeriesData( String title, Color color ) {
-        this( title, color, new XYSeries( title + " " + ( index++ ), false, true ) );
+    public SeriesData( String title, Color color,Stroke stroke ) {
+        this( title, color, new XYSeries( title + " " + ( index++ ), false, true ),stroke );
     }
 
-    public SeriesData( String title, Color color, XYSeries series ) {
+    public SeriesData( String title, Color color, XYSeries series,Stroke stroke ) {
         this.title = title;
         this.color = color;
         this.series = series;
+        this.stroke = stroke;
     }
 
     public String getTitle() {
@@ -55,6 +57,10 @@ public class SeriesData {
 
     public Color getColor() {
         return color;
+    }
+
+    public Stroke getStroke() {
+        return stroke;
     }
 
     public XYSeries getSeries() {
@@ -98,6 +104,10 @@ public class SeriesData {
 
     public boolean isVisible() {
         return visible;
+    }
+
+    public void setStroke( Stroke stroke ) {
+        this.stroke=stroke;
     }
 
     public static interface Listener {
