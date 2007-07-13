@@ -21,16 +21,18 @@ import java.util.Arrays;
  */
 
 public class RotationGraphSet extends GraphSuiteSet {
+    private Stroke body0Stroke = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
+    private Stroke body1Stroke = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f, new float[]{10, 10}, 0 );
 
     public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel model ) {
-        double maxDomainValue = 30.0;
+        double maxTime = 30.0;
         final RotationBody b = model.getRotationBody( 0 );
 
         MinimizableControlGraph angleGraph = new MinimizableControlGraph( UnicodeUtil.THETA, new RotationGraph(
                 pSwingCanvas, b.getAngleVariable(), b.getAngleTimeSeries(),
                 UnicodeUtil.THETA, "Angular Position", "radians", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ),
                 model, true, model.getTimeSeriesModel(), null,
-                maxDomainValue, model.getRotationPlatform() ) {
+                maxTime, model.getRotationPlatform() ) {
 
             //workaround for controlling the platform angle via the character angle
             protected void handleControlFocusGrabbed() {
@@ -48,33 +50,31 @@ public class RotationGraphSet extends GraphSuiteSet {
         MinimizableControlGraph velocityGraph = new MinimizableControlGraph( UnicodeUtil.OMEGA, new RotationGraph(
                 pSwingCanvas, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(),
                 UnicodeUtil.OMEGA, "Angular Velocity", "radians/sec", -5, 5, Color.red, new PImage( loadArrow( "red-arrow.png" ) ),
-                model, true, model.getTimeSeriesModel(), model.getVelocityDriven(), maxDomainValue, model.getRotationPlatform() ) );
+                model, true, model.getTimeSeriesModel(), model.getVelocityDriven(), maxTime, model.getRotationPlatform() ) );
 
         MinimizableControlGraph accelGraph = new MinimizableControlGraph( UnicodeUtil.ALPHA, new RotationGraph(
                 pSwingCanvas, model.getPlatformAccelVariable(), model.getPlatformAccelTimeSeries(),
                 UnicodeUtil.ALPHA, "Angular Acceleration", "radians/sec^2", -1.1, 1.1, Color.green, new PImage( loadArrow( "green-arrow.png" ) ),
-                model, true, model.getTimeSeriesModel(), model.getAccelDriven(), maxDomainValue, model.getRotationPlatform() ) );
+                model, true, model.getTimeSeriesModel(), model.getAccelDriven(), maxTime, model.getRotationPlatform() ) );
 
 
         MinimizableControlGraph linearPositionGraph = new MinimizableControlGraph( "x,y", new RotationGraph(
                 pSwingCanvas, b.getXPositionVariable(), b.getXPositionTimeSeries(), "x", "X-Position", "m", -5, 5, Color.blue,
-                new PImage( loadArrow( "blue-arrow.png" ) ), model, false, model.getTimeSeriesModel(), null, maxDomainValue, null ) );
-        linearPositionGraph.getControlGraph().addSeries( "Y-Position", Color.red, "y", b.getYPositionVariable(), b.getYPositionTimeSeries() );
+                new PImage( loadArrow( "blue-arrow.png" ) ), model, false, model.getTimeSeriesModel(), null, maxTime, null ) );
+        linearPositionGraph.getControlGraph().addSeries( "Y-Position", Color.red, "y", b.getYPositionVariable(), b.getYPositionTimeSeries(), body0Stroke );
 
         final MinimizableControlGraph linearVelocityGraph = new MinimizableControlGraph( "v<sub>x</sub>,v<sub>y</sub>", new RotationGraph(
                 pSwingCanvas, b.getXVelocityVariable(), b.getXVelocityTimeSeries(), "vx", "X-Velocity", "m/s", -15, +15, Color.blue,
-                new PImage( loadArrow( "blue-arrow.png" ) ), model, false, model.getTimeSeriesModel(), null, maxDomainValue, null ) );
-        final ControlGraph.ControlGraphSeries yvel0 = new ControlGraph.ControlGraphSeries( "Y-Velocity", Color.red, "vy", b.getYVelocityVariable(), b.getYVelocityTimeSeries() );
-        linearVelocityGraph.getControlGraph().addSeries( yvel0 );
-        final ControlGraph.ControlGraphSeries speedSeries = new ControlGraph.ControlGraphSeries( "Speed", Color.green, "|v|", b.getSpeedVariable(), b.getSpeedSeries() );
-        linearVelocityGraph.getControlGraph().addSeries( speedSeries );
+                new PImage( loadArrow( "blue-arrow.png" ) ), model, false, model.getTimeSeriesModel(), null, maxTime, null ) );
+        linearVelocityGraph.getControlGraph().addSeries( new ControlGraph.ControlGraphSeries( "Y-Velocity", Color.red, "vy", b.getYVelocityVariable(), b.getYVelocityTimeSeries() ,body0Stroke ) );
+        linearVelocityGraph.getControlGraph().addSeries( new ControlGraph.ControlGraphSeries( "Speed", Color.green, "|v|", b.getSpeedVariable(), b.getSpeedSeries() ,body0Stroke ) );
 
 
         MinimizableControlGraph centripetalAccelGraph = new MinimizableControlGraph( "a<sub>x</sub>,a<sub>y</sub>", new RotationGraph(
                 pSwingCanvas, b.getXAccelVariable(), b.getXAccelTimeSeries(), "ax", "Acceleration (x)", "m/s^2", -1 / 0.03 / 0.03 * 3.0 / 200.0, 1 / 0.03 / 0.03 * 3.0 / 200.0, Color.green,
-                new PImage( loadArrow( "green-arrow.png" ) ), model, false, model.getTimeSeriesModel(), null, maxDomainValue, null ) );
-        centripetalAccelGraph.getControlGraph().addSeries( "Acceleration (y)", Color.red, "ay", b.getYAccelVariable(), b.getYAccelTimeSeries() );
-        centripetalAccelGraph.getControlGraph().addSeries( "|Acceleration|", Color.blue, "a", b.getAccelMagnitudeVariable(), b.getAccelMagnitudeSeries() );
+                new PImage( loadArrow( "green-arrow.png" ) ), model, false, model.getTimeSeriesModel(), null, maxTime, null ) );
+        centripetalAccelGraph.getControlGraph().addSeries( "Acceleration (y)", Color.red, "ay", b.getYAccelVariable(), b.getYAccelTimeSeries(),body0Stroke );
+        centripetalAccelGraph.getControlGraph().addSeries( "|Acceleration|", Color.blue, "a", b.getAccelMagnitudeVariable(), b.getAccelMagnitudeSeries(),body0Stroke );
 
 //The following graph suites are for testing only
 //        addGraphSuite( new MinimizableControlGraph[]{angleGraph, velocityGraph, accelGraph, linearPositionGraph, linearVelocityGraph, centripetalAccelGraph} );
