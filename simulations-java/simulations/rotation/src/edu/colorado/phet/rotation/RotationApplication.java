@@ -34,7 +34,7 @@ public class RotationApplication extends PhetApplication {
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                QuickProfiler appStartTime=new QuickProfiler( );
+                QuickProfiler appStartTime = new QuickProfiler();
                 new RotationLookAndFeel().initLookAndFeel();
                 new RotationApplication( args ).startApplication();
                 System.out.println( "appStartTime = " + appStartTime );

@@ -110,7 +110,7 @@ public class BodyVectorLayer extends PNode {
     }
 
     private static Stroke getStroke() {
-        return new BasicStroke( (float)( 1 * RotationPlayAreaNode.SCALE) );
+        return new BasicStroke( (float)( 1 * RotationPlayAreaNode.SCALE ) );
     }
 
     private void update() {

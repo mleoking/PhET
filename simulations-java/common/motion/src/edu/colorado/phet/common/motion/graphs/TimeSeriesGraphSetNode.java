@@ -25,7 +25,7 @@ public class TimeSeriesGraphSetNode extends PNode {
         graphSetNode = new GraphSetNode( graphSetModel );
 //        TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel );
 //        TimeSeriesPlaybackPanel timeSeriesControlPanel = new TimeSeriesPlaybackPanel( timeSeriesModel );
-        TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel,0.01,1.0 );
+        TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel, 0.01, 1.0 );
         timeSeriesControlPanelNode = new PSwing( timeSeriesControlPanel );
 
         addChild( graphSetNode );
@@ -54,7 +54,7 @@ public class TimeSeriesGraphSetNode extends PNode {
             System.out.println( "TSGSN::bounds = " + bounds );
             graphSetNode.setBounds( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() - timeSeriesControlPanelNode.getFullBounds().getHeight() );
             timeSeriesControlPanelNode.setOffset( bounds.getX() + bounds.getWidth() / 2.0 - timeSeriesControlPanelNode.getFullBounds().getWidth() / 2.0, graphSetNode.getFullBounds().getMaxY() );
-            System.out.println( "bounds.getMaxY() = " + bounds.getMaxY()+", tscpn.getmaxy="+timeSeriesControlPanelNode.getFullBounds().getMaxY() );
+            System.out.println( "bounds.getMaxY() = " + bounds.getMaxY() + ", tscpn.getmaxy=" + timeSeriesControlPanelNode.getFullBounds().getMaxY() );
         }
     }
 

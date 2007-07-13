@@ -4,8 +4,6 @@ import JSci.maths.LinearMath;
 import JSci.maths.vectors.AbstractDoubleVector;
 import edu.colorado.phet.common.motion.model.TimeData;
 
-import java.util.ArrayList;
-
 /**
  * User: Sam Reid
  * Date: Dec 30, 2006
