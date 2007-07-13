@@ -114,6 +114,18 @@ public class BufferedSeriesView extends SeriesView {
         }
     }
 
+    private void resetStrokePhase() {
+//        System.out.println( "DEFAULT_STROKE.getDashArray() = " + DEFAULT_STROKE.getDashArray().length );
+        Stroke stroke = getSeriesData().getStroke();
+        if( stroke instanceof BasicStroke ) {
+            BasicStroke basicStroke = (BasicStroke)stroke;
+            if( basicStroke.getDashArray() != null ) {
+                getSeriesData().setStroke( new BasicStroke( basicStroke.getLineWidth(), basicStroke.getEndCap(), basicStroke.getLineJoin(), basicStroke.getMiterLimit(),
+                                                            basicStroke.getDashArray(), 0.0f ) );
+            }
+        }
+    }
+
     private Rectangle2D translateDown( Rectangle2D d ) {
         return new Rectangle2D.Double( d.getX() + getDX(),
                                        d.getY() + getDY(),
@@ -144,6 +156,10 @@ public class BufferedSeriesView extends SeriesView {
     protected void forceRepaintAll() {
         BufferedImage image = getDynamicJFreeChartNode().getBuffer();
         if( image != null ) {
+            lastLineLength = 0;
+            updateStroke();
+            resetStrokePhase();
+
             Graphics2D graphics2D = image.createGraphics();
             graphics2D.setPaint( getSeriesData().getColor() );
             graphics2D.setStroke( getSeriesData().getStroke() );

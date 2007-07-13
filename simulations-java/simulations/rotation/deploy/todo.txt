@@ -2,6 +2,8 @@
 #     To Do
 ################
 
+•	Bug: Zoom change doesn't repaint graphs, should use dynamicjfreechartnode.forceupdate
+•	Add support for graphs with no series, so all 'addseries' methods can be consolidated
 •	Space should be reserved in the play area for the origin node.
 •	Use colors from the color chart
 •	For X,V,A graphs, readouts should be on-graph, no text-boxes on left hand side

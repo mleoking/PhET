@@ -46,6 +46,7 @@ public class RotationGraphSet extends GraphSuiteSet {
                 model.getRotationPlatform().setAngle( getSliderValue() - b.getInitialAngleOnPlatform() );
             }
         } );
+        angleGraph.getControlGraph().addSeries( "Angular Position (2)", Color.blue, "body2", model.getRotationBody( 1 ).getAngleVariable(), model.getRotationBody( 1 ).getAngleTimeSeries(), body1Stroke );
 
         MinimizableControlGraph velocityGraph = new MinimizableControlGraph( UnicodeUtil.OMEGA, new RotationGraph(
                 pSwingCanvas, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(),
