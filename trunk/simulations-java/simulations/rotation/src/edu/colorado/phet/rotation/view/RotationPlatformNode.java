@@ -28,9 +28,12 @@ public class RotationPlatformNode extends PNode {
     private PhetPPath horizontalCrossHair;
     private PhetPPath innerRadiusNode;//cover up with background color for simplicity
 
-    private double handleWidth = 10;
-    private double handleHeight = 10;
+//    private final float STROKE_SCALE = 1.0f / 200.0f;
+
+    private double handleWidth = 10 * RotationPlayAreaNode.SCALE;
+    private double handleHeight = 10 * RotationPlayAreaNode.SCALE;
     private PhetPPath handleNode;
+
 
     public RotationPlatformNode( final IPositionDriven environment, final RotationPlatform rotationPlatform ) {
         this.rotationPlatform = rotationPlatform;
@@ -44,16 +47,16 @@ public class RotationPlatformNode extends PNode {
 //        addRingNode( 0.005, Color.white );
 
 
-        verticalCrossHair = new PhetPPath( getVerticalCrossHairPath(), new BasicStroke( 2 ), Color.black );
+        verticalCrossHair = new PhetPPath( getVerticalCrossHairPath(), new BasicStroke( (float)( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
         contentNode.addChild( verticalCrossHair );
 
-        horizontalCrossHair = new PhetPPath( getHorizontalCrossHairPath(), new BasicStroke( 2 ), Color.black );
+        horizontalCrossHair = new PhetPPath( getHorizontalCrossHairPath(), new BasicStroke( (float)( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
         contentNode.addChild( horizontalCrossHair );
 
-        innerRadiusNode = new PhetPPath( new RotationLookAndFeel().getBackgroundColor(), new BasicStroke( 1 ), Color.black );
+        innerRadiusNode = new PhetPPath( new RotationLookAndFeel().getBackgroundColor(), new BasicStroke( (float)( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
         contentNode.addChild( innerRadiusNode );
 
-        handleNode = new PhetPPath( createHandlePath(), Color.blue, new BasicStroke( 1 ), Color.black );
+        handleNode = new PhetPPath( createHandlePath(), Color.blue, new BasicStroke( (float)( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
         contentNode.addChild( handleNode );
 
         addChild( contentNode );
@@ -109,6 +112,10 @@ public class RotationPlatformNode extends PNode {
         } );
         updateRadius();
         updateInnerRadius();
+    }
+
+    public RotationPlatform getRotationPlatform() {
+        return rotationPlatform;
     }
 
     private void updateInnerRadius() {
@@ -196,7 +203,7 @@ public class RotationPlatformNode extends PNode {
         }
 
         private RingPath addPath( Color color, boolean showBorder, double minArcDegrees, double maxArcDegrees ) {
-            RingPath pPath = new RingPath( null, color, showBorder ? new BasicStroke( 1 ) : null, Color.black, minArcDegrees, maxArcDegrees );
+            RingPath pPath = new RingPath( null, color, showBorder ? new BasicStroke( (float)( 1 * RotationPlayAreaNode.SCALE ) ) : null, Color.black, minArcDegrees, maxArcDegrees );
             addChild( pPath );
             return pPath;
         }
@@ -212,7 +219,7 @@ public class RotationPlatformNode extends PNode {
             }
 
             public void update() {
-                Arc2D.Double arc = new Arc2D.Double( getEllipseBounds(), minArcDegrees, maxArcDegrees-minArcDegrees, Arc2D.Double.PIE );
+                Arc2D.Double arc = new Arc2D.Double( getEllipseBounds(), minArcDegrees, maxArcDegrees - minArcDegrees, Arc2D.Double.PIE );
                 setPathTo( arc );
             }
         }

@@ -1,6 +1,5 @@
 package edu.colorado.phet.rotation.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -28,6 +27,7 @@ public class RotationBodyNode extends PhetPNode {
     private PNode imageNode;
 
     private static final double CENTER_NODE_WIDTH = 10;
+    private double modelSizeMeters = 1;
 
     public interface RotationBodyEnvironment {
         void dropBody( RotationBody rotationBody );
@@ -39,7 +39,7 @@ public class RotationBodyNode extends PhetPNode {
         this.rotationBody = rotationBody;
         try {
             BufferedImage newImage = RotationResources.loadBufferedImage( rotationBody.getImageName() );
-            newImage = BufferedImageUtils.rescaleXMaintainAspectRatio( newImage, 75 );
+//            newImage = BufferedImageUtils.rescaleXMaintainAspectRatio( newImage, 5);
             imageNode = new PImage( newImage );
         }
         catch( IOException e ) {
@@ -56,7 +56,7 @@ public class RotationBodyNode extends PhetPNode {
             public void mouseDragged( PInputEvent event ) {
                 PDimension d = event.getDeltaRelativeTo( RotationBodyNode.this.getParent() );
                 rotationBody.translate( d.width, d.height );
-                if( rotationBody.isConstrained()&&!model.platformContains( rotationBody.getX(), rotationBody.getY() ) ) {
+                if( rotationBody.isConstrained() && !model.platformContains( rotationBody.getX(), rotationBody.getY() ) ) {
                     rotationBody.translate( -d.width, -d.height );
                 }
             }
@@ -81,6 +81,8 @@ public class RotationBodyNode extends PhetPNode {
     private void update() {
         setOffset( 0, 0 );
         setRotation( 0 );
+        setScale( 1.0 );
+        scale( modelSizeMeters / imageNode.getWidth() );
 
         Point2D center = getFullBounds().getCenter2D();
         rotateAboutPoint( rotationBody.getOrientation(), center );

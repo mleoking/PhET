@@ -59,7 +59,7 @@ public class RotationGraphSet extends GraphSuiteSet {
 
 
         MinimizableControlGraph linearPositionGraph = new MinimizableControlGraph( "x,y", new RotationGraph(
-                pSwingCanvas, b.getXPositionVariable(), b.getXPositionTimeSeries(), "x", "Position", "m", 0, 500, Color.blue,
+                pSwingCanvas, b.getXPositionVariable(), b.getXPositionTimeSeries(), "x", "Position", "m", -5, 5, Color.blue,
                 new PImage( loadArrow( "blue-arrow.png" ) ), model, false, model.getTimeSeriesModel(), null, maxDomainValue, null ) );
         linearPositionGraph.getControlGraph().addSeries( "Position", Color.red, "y", b.getYPositionVariable(), b.getYPositionTimeSeries() );
 

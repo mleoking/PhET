@@ -15,15 +15,17 @@ import java.awt.geom.Line2D;
  * May 27, 2007, 12:56:07 AM
  */
 public class RotationOriginNode extends PNode {
-    public static final double AXIS_LENGTH = 30;
+
+    public static final double AXIS_LENGTH = 30 * RotationPlayAreaNode.SCALE;
 
     public RotationOriginNode( RotationPlatform rotationPlatform ) {
-        PhetPPath path = new PhetPPath( new Line2D.Double( 0, 0, AXIS_LENGTH, 0 ), new BasicStroke( 2.0f ), Color.black );
-        double offsetX = 20;
+        PhetPPath path = new PhetPPath( new Line2D.Double( 0, 0, AXIS_LENGTH, 0 ), new BasicStroke( (float)( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
+        double offsetX = 20 * RotationPlayAreaNode.SCALE;
         addChild( path );
 
         HTMLNode htmlNode = new HTMLNode( "<html>" + UnicodeUtil.THETA + "=0<sup>o</sup></html>" );
         htmlNode.setFont( new PhetDefaultFont( 16, true ) );
+        htmlNode.scale( RotationPlayAreaNode.SCALE );
         addChild( htmlNode );
 
         translate( rotationPlatform.getCenter().getX() + rotationPlatform.getRadius() + offsetX, rotationPlatform.getCenter().getY() );
