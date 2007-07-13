@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation.graphs;
 
+import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
@@ -48,8 +49,7 @@ public class RotationGraph extends MotionControlGraph {
 
     public void setSecondarySeriesVisible( boolean visible ) {
         for( int i = 0; i < secondarySeries.size(); i++ ) {
-            ControlGraphSeries controlGraphSeries = (ControlGraphSeries)secondarySeries.get( i );
-            setSeriesVisible( controlGraphSeries, visible );
+            ( (ControlGraphSeries)secondarySeries.get( i ) ).setVisible( visible );
         }
     }
 

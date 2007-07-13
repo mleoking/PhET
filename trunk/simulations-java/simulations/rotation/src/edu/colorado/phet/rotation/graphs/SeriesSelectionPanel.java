@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
+import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -13,13 +14,12 @@ import javax.swing.event.ChangeListener;
 public class SeriesSelectionPanel extends JPanel {
     public SeriesSelectionPanel( final ControlGraph controlGraph ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-
         for( int i = 0; i < controlGraph.getSeriesCount(); i++ ) {
-            final ControlGraph.ControlGraphSeries series = controlGraph.getControlGraphSeries( i );
+            final ControlGraphSeries series = controlGraph.getControlGraphSeries( i );
             final JCheckBox jCheckBox = new JCheckBox( series.getTitle(), series.isVisible() );
             jCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    controlGraph.setSeriesVisible( series, jCheckBox.isSelected() );
+                    series.setVisible( jCheckBox.isSelected() );
                 }
             } );
             add( jCheckBox );
