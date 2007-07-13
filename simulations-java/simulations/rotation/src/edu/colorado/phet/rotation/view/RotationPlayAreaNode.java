@@ -61,4 +61,8 @@ public class RotationPlayAreaNode extends PNode {
     public RulerNode getRulerNode() {
         return rulerNode;
     }
+
+    public PNode getOriginNode() {
+        return originNode;
+    }
 }
