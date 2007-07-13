@@ -4,6 +4,8 @@ import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.model.TimeData;
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Dec 30, 2006
@@ -42,5 +44,18 @@ public class TestTimeDerivative extends TestCase {
             timeData[i] = new TimeData( y[i], x[i] );
         }
         return timeData;
+    }
+
+    public void testSecondDerivative() {
+        ArrayList data = new ArrayList();
+        for( int i = 0; i < 100; i++ ) {
+            double x = i / 100.0;
+            TimeData timeData = new TimeData( x * x, x );
+            data.add( timeData );
+        }
+        for( int i = 10; i < data.size(); i++ ) {
+            TimeData derivative = MotionMath.getSecondDerivative( (TimeData[])data.subList( i - 10, i ).toArray( new TimeData[0] ) );
+            assertEquals( 2.0, derivative.getValue(), 1E-6 );
+        }
     }
 }
