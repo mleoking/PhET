@@ -6,11 +6,10 @@ IN PROGRESS:
 
 AAPT:
 - add description to About dialog
-- change Verlet scale to 4E-3
-- change Verlet dt subdivisions to 10
 
 HIGH PRIORITY:
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
+- decide what to do for Verlet motion in vacuum at dt=fast.max, too fast to see according to Wendy
 
 MEDIUM PRIORITY:
 - enable/disable controls based on clock speed
@@ -55,6 +54,7 @@ MISSING INFO:
 
  
 DONE:
+7/13/07 - change defaults: Verlet scale to 4E-3, Verlet dt subdivisions to 10
 7/13/07 - bugfix: Brownian motion checkbox does not get reset properly with Reset All
 ********* version 0.00.26 (16699)
 7/13/07 - rename Laser.getElectricFieldScale to getElectricFieldComponent to prevent confusion with _electricFieldScale
