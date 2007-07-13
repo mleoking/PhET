@@ -59,22 +59,29 @@ public class RotationBody {
         angleVariable = new DefaultSimulationVariable();
         angleTimeSeries = new DefaultTimeSeries();
 
-        angleDriven = new AngleDriven();
     }
 
-    private class AngleDriven implements edu.colorado.phet.common.motion.model.UpdateStrategy {
-
-        public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {
-            int velocityWindow = 6;
-            int accelerationWindow = 6;
-            TimeData v = MotionMath.getDerivative( model.getRecentPositionTimeSeries( Math.min( velocityWindow, model.getVelocitySampleCount() ) ) );
-            TimeData a = MotionMath.getDerivative( model.getRecentVelocityTimeSeries( Math.min( accelerationWindow, model.getAccelerationSampleCount() ) ) );
-
-            model.addPositionData( state.getPosition(), time );
-            model.addVelocityData( v.getValue(), v.getTime() );
-            model.addAccelerationData( a.getValue(), a.getTime() );
-        }
-    }
+//    private class AngleDriven implements edu.colorado.phet.common.motion.model.UpdateStrategy {
+//        private RotationModel model;
+//
+//        public AngleDriven( RotationModel model ) {
+//            this.model = model;
+//        }
+//
+//        public void update( MotionBodySeries motionBodySeries, double dt, MotionBodyState state, double time ) {
+//            int velocityWindow = 6;
+//            int accelerationWindow = 6;
+//
+//            TimeData v = MotionMath.getDerivative( model.getRotationPlatform().getMotionBodySeries().getRecentPositionTimeSeries( Math.min( velocityWindow, model.getRotationPlatform().getMotionBodySeries().getVelocitySampleCount() ) ) );
+//            TimeData a = MotionMath.getDerivative( model.getRotationPlatform().getMotionBodySeries().getRecentVelocityTimeSeries( Math.min( accelerationWindow, model.getRotationPlatform().getMotionBodySeries().getAccelerationSampleCount() ) ) );
+//
+//            this.model.getRotationPlatform().getMotionBodySeries().addPositionData( state.getPosition(), time );
+//            this.model.getRotationPlatform().getMotionBodyState().setPosition( state.getPosition() );
+//
+//            this.model.getRotationPlatform().getMotionBodySeries().addVelocityData( v.getValue(), v.getTime() );
+//            this.model.getRotationPlatform().getMotionBodySeries().addAccelerationData( a.getValue(), a.getTime() );
+//        }
+//    }
 
     public void setOffPlatform() {
         setUpdateStrategy( new OffPlatform() );
@@ -167,6 +174,7 @@ public class RotationBody {
         addAccelerationData( newA, time );
 
         //use the rotation platform to compute angle since it has the correct winding number
+//        System.out.println( "rotationPlatform.getPosition() = " + rotationPlatform.getPosition() );
         angleVariable.setValue( rotationPlatform.getPosition() + initialAngleOnPlatform );
         angleTimeSeries.addValue( rotationPlatform.getPosition() + initialAngleOnPlatform, time );
 
@@ -306,9 +314,9 @@ public class RotationBody {
         return angleTimeSeries;
     }
 
-    public edu.colorado.phet.common.motion.model.UpdateStrategy getAngleDriven() {
-        return angleDriven;
-    }
+//    public edu.colorado.phet.common.motion.model.UpdateStrategy getAngleDriven( RotationModel model ) {
+//        return new AngleDriven( model );
+//    }
 
     private static abstract class UpdateStrategy implements Serializable {
         public abstract void detach();
