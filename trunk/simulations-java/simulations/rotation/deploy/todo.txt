@@ -3,8 +3,8 @@
 ################
 
 Rotation
+•   Bug Angle should be user settable via the graph
 •   Synchronize ruler coordinates with play area
-•	Improve performance
 •	Use colors from the color chart
 •	Check boxes (like in Force1D) for adding/removing series (applies to both characters)
 •	For X,V,A graphs, readouts should be on-graph, no text-boxes on left hand side
@@ -13,6 +13,7 @@ Rotation
 •	Second Bug’s data series should be dotted lines
 •	Checkbox to remove/add second bug. (Just remove/add dashed line in graph, not hide/show bug itself)
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
+•	Improve performance
 •	Shadow projections should be considered after AAPT.
 •	Possible interview question: bug icon at tip of graph to improve conceptual connection
 •	Bug: sun.dc.pr.PRException: endPath: bad path
