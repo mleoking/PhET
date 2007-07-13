@@ -9,7 +9,7 @@ AAPT:
 - screenshot
 
 HIGH PRIORITY:
-- when dt changes, make E-field continue propogation for where it's at, rather than resetting
+- when dt changes, make E-field continue propogation from where it's at, rather than resetting
 - make DNA strand behave the same at dt=4E-5 regardless of what fast.max is
 
 MEDIUM PRIORITY:
@@ -55,6 +55,7 @@ MISSING INFO:
 
  
 DONE:
+7/13/07 - change screenshots to reflect new color scheme
 ********* version 0.00.25 (16687)
 7/13/07 - click on ruler icon to toggle state of ruler check box in control panel
 7/13/07 - change trap force vector back to red
