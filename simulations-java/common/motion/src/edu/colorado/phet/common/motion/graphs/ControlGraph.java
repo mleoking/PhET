@@ -60,11 +60,11 @@ public class ControlGraph extends PNode {
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
                          String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, simulationVariable, observableTimeSeries, abbr, title, minY, maxY, color, thumb, timeSeriesModel, 1000 );
+        this( pSwingCanvas, simulationVariable, observableTimeSeries, abbr, title, minY, maxY, color, BufferedSeriesView.DEFAULT_STROKE, thumb, timeSeriesModel, 1000 );
     }
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
-                         String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
+                         String abbr, String title, double minY, final double maxY, Color color, Stroke stroke, PNode thumb, TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
         this.simulationVariable = simulationVariable;
         this.maxDomainValue = maxDomainTime;
 //        this.simulationVariable = simulationVariable;
@@ -86,7 +86,7 @@ public class ControlGraph extends PNode {
         graphTimeControlNode = new GraphTimeControlNode( timeSeriesModel );
         additionalControls = new PNode();
 
-        addSeries( title, color, abbr, simulationVariable, observableTimeSeries, BufferedSeriesView.DEFAULT_STROKE );
+        addSeries( title, color, abbr, simulationVariable, observableTimeSeries, stroke );
         jFreeChartSliderNode = new JFreeChartSliderNode( dynamicJFreeChartNode, thumb );
         zoomControl = new ZoomSuiteNode();
         zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {

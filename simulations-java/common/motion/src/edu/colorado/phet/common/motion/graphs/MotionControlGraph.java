@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.motion.model.MotionModel;
@@ -35,13 +36,13 @@ public class MotionControlGraph extends ControlGraph {
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
                                boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, IUpdateStrategy iPositionDriven ) {
-        this( pSwingCanvas, simulationVariable, observableTimeSeries, label, title, min, max, color, thumb, motionModel, editable, timeSeriesModel, updateStrategy, 1000, iPositionDriven );
+        this( pSwingCanvas, simulationVariable, observableTimeSeries, label, title, min, max, color, BufferedSeriesView.DEFAULT_STROKE, thumb, motionModel, editable, timeSeriesModel, updateStrategy, 1000, iPositionDriven );
     }
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, String label, String title,
-                               double min, double max, Color color, PNode thumb, final MotionModel motionModel,
+                               double min, double max, Color color, Stroke stroke, PNode thumb, final MotionModel motionModel,
                                boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final IUpdateStrategy iPositionDriven ) {
-        super( pSwingCanvas, simulationVariable, observableTimeSeries, label, title, min, max, color, thumb, timeSeriesModel, maxDomainValue );
+        super( pSwingCanvas, simulationVariable, observableTimeSeries, label, title, min, max, color, stroke, thumb, timeSeriesModel, maxDomainValue );
         this.iPositionDriven = iPositionDriven;
         this.motionModel = motionModel;
         this.updateStrategy = updateStrategy;

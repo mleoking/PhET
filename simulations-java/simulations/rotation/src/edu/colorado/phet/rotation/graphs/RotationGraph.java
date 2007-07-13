@@ -6,6 +6,7 @@ import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
@@ -24,11 +25,11 @@ import java.awt.geom.Rectangle2D;
  */
 public class RotationGraph extends MotionControlGraph {
     public RotationGraph( PhetPCanvas pSwingCanvas, ISimulationVariable simulationVariable, ITimeSeries timeSeries,
-                          String label, String title, String units, double min, double max, Color color, PImage thumb,
+                          String label, String title, String units, double min, double max, Color color, Stroke stroke, PImage thumb,
                           RotationModel motionModel, boolean editable, TimeSeriesModel timeSeriesModel,
                           UpdateStrategy updateStrategy, double maxDomainValue, RotationPlatform iPositionDriven ) {
         super( pSwingCanvas, simulationVariable, timeSeries,
-               label, title, min, max, color, thumb,
+               label, title, min, max, color, stroke, thumb,
                motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         super.getDynamicJFreeChartNode().setAutoUpdateAll( false );
         ValueAxis oldRangeAxis = getJFreeChartNode().getChart().getXYPlot().getRangeAxis();
