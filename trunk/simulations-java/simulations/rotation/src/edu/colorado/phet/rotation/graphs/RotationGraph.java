@@ -4,7 +4,6 @@ import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.rotation.model.RotationModel;
@@ -32,7 +31,7 @@ public class RotationGraph extends MotionControlGraph {
                label, title, min, max, color, thumb,
                motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         ValueAxis oldRangeAxis = getJFreeChartNode().getChart().getXYPlot().getRangeAxis();
-        RotationGraphNumberAxis verticalAxis = new RotationGraphNumberAxis( title+" ("+units+")" );
+        RotationGraphNumberAxis verticalAxis = new RotationGraphNumberAxis( title + " (" + units + ")" );
         verticalAxis.setRange( oldRangeAxis.getRange() );
         getJFreeChartNode().getChart().getXYPlot().setRangeAxis( verticalAxis );
     }

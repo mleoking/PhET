@@ -4,8 +4,8 @@ import edu.colorado.phet.rotation.view.RotationPlatformNode;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Author: Sam Reid

@@ -29,6 +29,6 @@ public class GraphSuite {
                 str += ",";
             }
         }
-        return str+"</html>";
+        return str + "</html>";
     }
 }

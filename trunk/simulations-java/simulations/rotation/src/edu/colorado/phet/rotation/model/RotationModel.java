@@ -19,7 +19,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         super( clock );
         rotationPlatform = new RotationPlatform();
 
-        RotationBody body1 = new RotationBody( "ladybug.gif",true );
+        RotationBody body1 = new RotationBody( "ladybug.gif", true );
         body1.setPosition( rotationPlatform.getCenter().getX() + rotationPlatform.getRadius() / 2,
                            rotationPlatform.getCenter().getY() );
         body1.setOnPlatform( rotationPlatform );
@@ -72,7 +72,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     }
 
     public boolean platformContains( double x, double y ) {
-        return rotationPlatform.containsPosition( new Point2D.Double( x,y) );
+        return rotationPlatform.containsPosition( new Point2D.Double( x, y ) );
     }
 
     public RotationPlatform getRotationPlatform() {

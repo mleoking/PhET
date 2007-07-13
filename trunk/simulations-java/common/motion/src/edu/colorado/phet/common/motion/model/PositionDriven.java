@@ -14,8 +14,8 @@ public class PositionDriven implements UpdateStrategy {
 
     //todo: try 2nd order derivative directly from position data?
     public void update( MotionBodySeries motionBodySeries, double dt, MotionBodyState state, double time ) {
-        TimeData v = MotionMath.getDerivative( motionBodySeries.getRecentPositionTimeSeries( Math.min( velocityWindow, motionBodySeries.getPositionSampleCount( )) ) );
-        TimeData a = MotionMath.getDerivative( motionBodySeries.getRecentVelocityTimeSeries( Math.min( accelerationWindow, motionBodySeries.getVelocitySampleCount( ) ) ) );
+        TimeData v = MotionMath.getDerivative( motionBodySeries.getRecentPositionTimeSeries( Math.min( velocityWindow, motionBodySeries.getPositionSampleCount() ) ) );
+        TimeData a = MotionMath.getDerivative( motionBodySeries.getRecentVelocityTimeSeries( Math.min( accelerationWindow, motionBodySeries.getVelocitySampleCount() ) ) );
         //TimeData a = MotionMath.getSecondDerivative( motionBodySeries.getRecentPositionTimeSeries( Math.min( accelerationWindow, motionBodySeries.getPositionSampleCount() ) ) );
 
         motionBodySeries.addPositionData( state.getPosition(), time );
