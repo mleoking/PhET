@@ -202,7 +202,8 @@ public class ControlGraph extends PNode {
     static class TitleNode extends PNode {
 
         public TitleNode( String title, String abbr, Color color ) {
-            ShadowPText titlePText = new ShadowPText( title + ", " + abbr );
+//            ShadowPText titlePText = new ShadowPText( title + ", " + abbr );
+            ShadowPText titlePText = new ShadowPText( title );
             titlePText.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
             titlePText.setTextPaint( color );
             addChild( new PhetPPath( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ), Color.white, new BasicStroke(), Color.black ) );

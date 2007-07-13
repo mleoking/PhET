@@ -3,15 +3,18 @@
 ################
 
 •	Use colors from the color chart
-•	Check boxes (like in Force1D) for adding/removing series (applies to both characters)
+
 •	For X,V,A graphs, readouts should be on-graph, no text-boxes on left hand side
-•	Velocity(x) should be written X-Velocity, get rid of (vx) on charts
+
+•	Check boxes (like in Force1D) for adding/removing series (applies to both characters)
+
 •	When Second Bug is added to the platform, charts should show series data for it.
 •	Second Bug’s data series should be dotted lines
 •	Checkbox to remove/add second bug. (Just remove/add dashed line in graph, not hide/show bug itself)
+
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
 •	Improve performance
-•	Support for "missing values" in the series data (for when characters don't have values for angular data series)
+•	Support for "missing values" in the series data (for when characters are being dragged by the user and don't have values for angular data series)
 •	Factor MotionBodyState and MotionBodySeries into a single object
 •	Implementation for setting platform angle by setting character angle is fragile 
 •	Shadow projections should be considered after AAPT.
@@ -21,6 +24,11 @@
 •	Torque mode: Should be able to "spin" the wheel (i.e. drag, let go, and have it continue to spin, at least in friction mode)
 •	Consolidate MovingMan, Forces1D, Ramp, Rotation, Torque into a single codebase.
 •	Symbol key should appear near the mouse when "show symbol key" pressed
+
+################
+#           Questions:
+################
+•	Got rid of abbreviations like (vx) on charts, do we want to show abbreviations for other series?
 
 ################
 #           Postponed:
