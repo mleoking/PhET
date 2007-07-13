@@ -256,21 +256,25 @@ public class ControlGraph extends PNode {
     }
 
     public void addSeries( final ControlGraphSeries series ) {
-        series.addListener( new ControlGraphSeries.Listener() {
-            public void visibilityChanged() {
-                dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), series.isVisible() );
-                getDynamicJFreeChartNode().forceUpdateAll();
-            }
-        } );
+
         this.series.add( series );
         dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
 
-        TitleNode titleNode = new TitleNode( series.getTitle(), series.getAbbr(), series.getColor() );
+        final TitleNode titleNode = new TitleNode( series.getTitle(), series.getAbbr(), series.getColor() );
         titleNode.setOffset( titleLayer.getFullBounds().getWidth(), 0 );
         titleLayer.addChild( titleNode );
 
-        graphTimeControlNode.addVariable( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() );
+        final GraphTimeControlNode.SeriesNode seriesNode = graphTimeControlNode.addVariable( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() );
         series.getObservableTimeSeries().addListener( getListener( series.getSimulationVariable() ) );
+
+        series.addListener( new ControlGraphSeries.Listener() {
+            public void visibilityChanged() {
+                dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), series.isVisible() );
+                titleNode.setVisible( series.isVisible() );
+                seriesNode.setVisible( series.isVisible() );
+                getDynamicJFreeChartNode().forceUpdateAll();
+            }
+        } );
     }
 
     public int getSeriesIndex( ISimulationVariable simulationVariable ) {

@@ -53,15 +53,16 @@ public class GraphTimeControlNode extends PNode {
         relayout();
     }
 
-    public void addVariable( String title, String abbr, Color color, ISimulationVariable simulationVariable ) {
+    public SeriesNode addVariable( String title, String abbr, Color color, ISimulationVariable simulationVariable ) {
         SeriesNode seriesNode = new SeriesNode( title, abbr, color, simulationVariable );
         seriesNode.setEditable( editable );
         seriesNode.setOffset( 0, seriesLayer.getFullBounds().getHeight() + 5 );
         seriesLayer.addChild( seriesNode );
         relayout();
+        return seriesNode;
     }
 
-    static class SeriesNode extends PNode {
+    public static class SeriesNode extends PNode {
         private ShadowPText shadowPText;
         private PSwing textBox;
         private TextBox box;
