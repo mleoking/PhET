@@ -10,6 +10,9 @@ The difficulty in manually lining up plots is worth the trouble to avoid jfreech
 For more, please see the test cases in:
 trunk\simulations-java\simulations\rotation\src\edu\colorado\phet\rotation\tests\combined
 
+Do we want to calculate the angular velocity of bug if user is manually moving it around?
+    No.  Just don’t update it when user is manipulating bug.
+
 Sam Reid
 PhET
 5-22-2007
