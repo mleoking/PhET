@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -31,9 +32,11 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
     
     private Bead _bead;
 
+    private LinearValueControl _brownianMotionScaleControl;
     private LogarithmicValueControl _dtSubdivisionThresholdControl;
     private LinearValueControl _numberOfDtSubdivisions;
-    private LinearValueControl _brownianMotionScaleControl;
+    private LogarithmicValueControl _verletDtSubdivisionThresholdControl;
+    private LinearValueControl _verletNumberOfDtSubdivisions;
     private LogarithmicValueControl _verletMotionScaleControl;
     
     //----------------------------------------------------------------------------
@@ -50,9 +53,22 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
         border.setTitleFont( titleFont );
         this.setBorder( border );
         
-        double min = bead.getDtSubdivisionThresholdRange().getMin();
-        double max = bead.getDtSubdivisionThresholdRange().getMax();
-        _dtSubdivisionThresholdControl = new LogarithmicValueControl( min, max, "dt threshold:", "0.0E0", "" );
+        double min, max;
+        
+        min = bead.getBrownianMotionScaleRange().getMin();
+        max = bead.getBrownianMotionScaleRange().getMax();
+        _brownianMotionScaleControl = new LinearValueControl( min, max, "Brownian scale:", "0.0", "" );
+        _brownianMotionScaleControl.setUpDownArrowDelta( 0.1 );
+        _brownianMotionScaleControl.setFont( controlFont );
+        _brownianMotionScaleControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleBrownianMotionScaleControl();
+            }
+        });
+        
+        min = bead.getDtSubdivisionThresholdRange().getMin();
+        max = bead.getDtSubdivisionThresholdRange().getMax();
+        _dtSubdivisionThresholdControl = new LogarithmicValueControl( min, max, "subdivision threshold:", "0.0E0", "" );
         _dtSubdivisionThresholdControl.setTextFieldColumns( 4 );
         _dtSubdivisionThresholdControl.setFont( controlFont );
         _dtSubdivisionThresholdControl.addChangeListener( new ChangeListener() {
@@ -63,7 +79,7 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
         
         min = bead.getNumberOfDtSubdivisionsRange().getMin();
         max = bead.getNumberOfDtSubdivisionsRange().getMax();
-        _numberOfDtSubdivisions = new LinearValueControl( min, max, "# subdivisions:", "###0", "" );
+        _numberOfDtSubdivisions = new LinearValueControl( min, max, "# dt subdivisions:", "###0", "" );
         _numberOfDtSubdivisions.setUpDownArrowDelta( 1 );
         _numberOfDtSubdivisions.setFont( controlFont );
         _numberOfDtSubdivisions.addChangeListener( new ChangeListener() {
@@ -71,15 +87,26 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
                 handleNumberOfDtDubdivisionsControl();
             }
         });
-        
-        min = bead.getBrownianMotionScaleRange().getMin();
-        max = bead.getBrownianMotionScaleRange().getMax();
-        _brownianMotionScaleControl = new LinearValueControl( min, max, "Brownian scale:", "0.0", "" );
-        _brownianMotionScaleControl.setUpDownArrowDelta( 0.1 );
-        _brownianMotionScaleControl.setFont( controlFont );
-        _brownianMotionScaleControl.addChangeListener( new ChangeListener() {
+
+        min = bead.getVerletDtSubdivisionThresholdRange().getMin();
+        max = bead.getVerletDtSubdivisionThresholdRange().getMax();
+        _verletDtSubdivisionThresholdControl = new LogarithmicValueControl( min, max, "Verlet subdivision threshold:", "0.0E0", "" );
+        _verletDtSubdivisionThresholdControl.setTextFieldColumns( 4 );
+        _verletDtSubdivisionThresholdControl.setFont( controlFont );
+        _verletDtSubdivisionThresholdControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                handleBrownianMotionScaleControl();
+                handleVerletDtDubdivisionThresholdControl();
+            }
+        });
+        
+        min = bead.getVerletNumberOfDtSubdivisionsRange().getMin();
+        max = bead.getVerletNumberOfDtSubdivisionsRange().getMax();
+        _verletNumberOfDtSubdivisions = new LinearValueControl( min, max, "Verlet # dt subdivisions:", "###0", "" );
+        _verletNumberOfDtSubdivisions.setUpDownArrowDelta( 1 );
+        _verletNumberOfDtSubdivisions.setFont( controlFont );
+        _verletNumberOfDtSubdivisions.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleVerletNumberOfDtDubdivisionsControl();
             }
         });
         
@@ -100,15 +127,19 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
         this.setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( _dtSubdivisionThresholdControl, row++, column );
-        layout.addComponent( _numberOfDtSubdivisions, row++, column );
         layout.addComponent( _brownianMotionScaleControl, row++, column );
+        layout.addComponent( _numberOfDtSubdivisions, row++, column );
+        layout.addComponent( _dtSubdivisionThresholdControl, row++, column );
+        layout.addComponent( _verletNumberOfDtSubdivisions, row++, column );
+        layout.addComponent( _verletDtSubdivisionThresholdControl, row++, column );
         layout.addComponent( _verletMotionScaleControl, row++, column );
         
         // Default state
+        _brownianMotionScaleControl.setValue( _bead.getBrownianMotionScale() );
         _dtSubdivisionThresholdControl.setValue( _bead.getDtSubdivisionThreshold() );
         _numberOfDtSubdivisions.setValue( _bead.getNumberOfDtSubdivisions() );
-        _brownianMotionScaleControl.setValue( _bead.getBrownianMotionScale() );
+        _verletDtSubdivisionThresholdControl.setValue( _bead.getVerletDtSubdivisionThreshold() );
+        _verletNumberOfDtSubdivisions.setValue( _bead.getVerletNumberOfDtSubdivisions() );
         _verletMotionScaleControl.setValue( _bead.getVerletAccelerationScale() );
     }
     
@@ -141,6 +172,20 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
         _bead.addObserver( this );
     }
     
+    private void handleVerletDtDubdivisionThresholdControl() {
+        double value = _verletDtSubdivisionThresholdControl.getValue();
+        _bead.deleteObserver( this );
+        _bead.setVerletDtSubdivisionThreshold( value );
+        _bead.addObserver( this );
+    }
+    
+    private void handleVerletNumberOfDtDubdivisionsControl() {
+        int value = (int) Math.round( _verletNumberOfDtSubdivisions.getValue() );
+        _bead.deleteObserver( this );
+        _bead.setVerletNumberOfDtSubdivisions( value );
+        _bead.addObserver( this );
+    }
+    
     private void handleVerletAccelerationScaleControl() {
         double value = _verletMotionScaleControl.getValue();
         _bead.deleteObserver( this );
@@ -154,14 +199,20 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
     
     public void update( Observable o, Object arg ) {
         if ( o == _bead ) {
-            if ( arg == Bead.PROPERTY_DT_SUBDIVISION_THRESHOLD ) {
+            if ( arg == Bead.PROPERTY_BROWNIAN_MOTION_SCALE ) {
+                _brownianMotionScaleControl.setValue( _bead.getBrownianMotionScale() );
+            }
+            else if ( arg == Bead.PROPERTY_DT_SUBDIVISION_THRESHOLD ) {
                 _dtSubdivisionThresholdControl.setValue( _bead.getDtSubdivisionThreshold() );
             }
-            else if ( arg == Bead.PROPERTY_NUMBER_OF_DT_SUBDIVISION ) {
+            else if ( arg == Bead.PROPERTY_NUMBER_OF_DT_SUBDIVISIONS ) {
                 _numberOfDtSubdivisions.setValue( _bead.getNumberOfDtSubdivisions() );
             }
-            else if ( arg == Bead.PROPERTY_BROWNIAN_MOTION_SCALE ) {
-                _brownianMotionScaleControl.setValue( _bead.getBrownianMotionScale() );
+            else if ( arg == Bead.PROPERTY_VERLET_DT_SUBDIVISION_THRESHOLD ) {
+                _verletDtSubdivisionThresholdControl.setValue( _bead.getVerletDtSubdivisionThreshold() );
+            }
+            else if ( arg == Bead.PROPERTY_VERLET_NUMBER_OF_DT_SUBDIVISIONS ) {
+                _verletNumberOfDtSubdivisions.setValue( _bead.getVerletNumberOfDtSubdivisions() );
             }
             else if ( arg == Bead.PROPERTY_VERLET_ACCELERATION_SCALE ) {
                 _verletMotionScaleControl.setValue( _bead.getVerletAccelerationScale() );

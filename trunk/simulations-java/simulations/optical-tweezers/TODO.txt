@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 AAPT:
-- add "Verlet dt threshold" model parameter and developer control
-- add "Verlet # subdivisions" model parameter and developer control
 - add description to About dialog
 - screenshot
 
@@ -57,6 +55,9 @@ MISSING INFO:
 
  
 DONE:
+7/13/07 - add "Verlet subdivision threshold" model parameter and developer control
+7/13/07 - add "Verlet # dt subdivisions" model parameter and developer control
+7/13/07 - reduce dt subdivisions default to 100 since dt fast.max was reduced by 10x
 7/13/07 - increase max for Verlet scale to 1E-1
 7/13/07 - revert dt fast.max to 4E-5, DNA strand evolves too slowly at 4E-5 when fast.max is 4E-4
 7/13/07 - fixed "slow mode" trap force bug introduced when refactoring Laser.getElectricFieldScale on 7/12

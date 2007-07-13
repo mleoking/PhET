@@ -23,9 +23,11 @@ public class Bead extends MovableObject implements ModelElement {
     
     public static final String PROPERTY_DIAMETER = "diameter";
     public static final String PROPERTY_DT_SUBDIVISION_THRESHOLD = "dtSubdivisionThreshold";
-    public static final String PROPERTY_NUMBER_OF_DT_SUBDIVISION = "numberOfDtSubdivisions";
+    public static final String PROPERTY_NUMBER_OF_DT_SUBDIVISIONS = "numberOfDtSubdivisions";
     public static final String PROPERTY_BROWNIAN_MOTION_SCALE = "brownianMotionScale";
     public static final String PROPERTY_VERLET_ACCELERATION_SCALE = "verletAccelerationScale";
+    public static final String PROPERTY_VERLET_DT_SUBDIVISION_THRESHOLD = "verletDtSubdivisionThreshold";
+    public static final String PROPERTY_VERLET_NUMBER_OF_DT_SUBDIVISIONS = "verletNumberOfDtSubdivisions";
     
     //----------------------------------------------------------------------------
     // Private class data
@@ -54,14 +56,18 @@ public class Bead extends MovableObject implements ModelElement {
     private final Vector2D _velocity; // nm/sec
     private DNAStrand _dnaStrand;
     
+    private final DoubleRange _brownianMotionScaleRange;
     private final DoubleRange _dtSubdivisionThresholdRange;
     private final IntegerRange _numberOfDtSubdivisionsRange;
-    private final DoubleRange _brownianMotionScaleRange;
+    private final DoubleRange _verletDtSubdivisionThresholdRange;
+    private final IntegerRange _verletNumberOfDtSubdivisionsRange;
     private final DoubleRange _verletAccelerationScaleRange;
     
+    private double _brownianMotionScale;
     private double _dtSubdivisionThreshold;
     private int _numberOfDtSubdivisions;
-    private double _brownianMotionScale;
+    private double _verletDtSubdivisionThreshold;
+    private int _verletNumberOfDtSubdivisions;
     private double _verletAccelerationScale;
     
     //----------------------------------------------------------------------------
@@ -75,9 +81,11 @@ public class Bead extends MovableObject implements ModelElement {
      * @param orientation radians
      * @param diameter nm
      * @param density g/nm^3
+     * @param brownianMotionScaleRange
      * @param dtSubdivisionThresholdRange
      * @param numberOfDtSubdivisionsRange
-     * @param brownianMotionScaleRange
+     * @param verletDtSubdivisionThresholdRange
+     * @param verletNumberOfDtSubdivisionsRange
      * @param verletAccelerationScaleRange
      * @param fluid
      * @param microscopeSlide
@@ -87,9 +95,11 @@ public class Bead extends MovableObject implements ModelElement {
             double orientation, 
             double diameter, 
             double density,
+            DoubleRange brownianMotionScaleRange,
             DoubleRange dtSubdivisionThresholdRange,
             IntegerRange numberOfDtSubdivisionsRange,
-            DoubleRange brownianMotionScaleRange,
+            DoubleRange verletDtSubdivisionThresholdRange,
+            IntegerRange verletNumberOfDtSubdivisionsRange,
             DoubleRange verletAccelerationScaleRange,
             Fluid fluid,
             MicroscopeSlide microscopeSlide,
@@ -120,11 +130,15 @@ public class Bead extends MovableObject implements ModelElement {
         _brownianMotionScaleRange = brownianMotionScaleRange;
         _dtSubdivisionThresholdRange = dtSubdivisionThresholdRange;
         _numberOfDtSubdivisionsRange = numberOfDtSubdivisionsRange;
+        _verletDtSubdivisionThresholdRange = verletDtSubdivisionThresholdRange;
+        _verletNumberOfDtSubdivisionsRange = verletNumberOfDtSubdivisionsRange;
         _verletAccelerationScaleRange = verletAccelerationScaleRange;
         
         _brownianMotionScale = brownianMotionScaleRange.getDefault();
         _dtSubdivisionThreshold = dtSubdivisionThresholdRange.getDefault();
         _numberOfDtSubdivisions = numberOfDtSubdivisionsRange.getDefault();
+        _verletDtSubdivisionThreshold = verletDtSubdivisionThresholdRange.getDefault();
+        _verletNumberOfDtSubdivisions = verletNumberOfDtSubdivisionsRange.getDefault();
         _verletAccelerationScale = verletAccelerationScaleRange.getDefault();
     }
     
@@ -258,6 +272,10 @@ public class Bead extends MovableObject implements ModelElement {
         return dnaForce;
     }
     
+    //----------------------------------------------------------------------------
+    // Developer controls
+    //----------------------------------------------------------------------------
+    
     /**
      * Sets the scaling factor used to calculate Brownian motion.
      * Bigger values cause bigger motion.
@@ -274,11 +292,6 @@ public class Bead extends MovableObject implements ModelElement {
         }
     }
     
-    /**
-     * Gets the scaling factor used to calculate Brownian motion.
-     * 
-     * @return double
-     */
     public double getBrownianMotionScale() {
         return _brownianMotionScale;
     }
@@ -288,11 +301,10 @@ public class Bead extends MovableObject implements ModelElement {
     }
     
     /**
-     * Sets the subdivision threshold for the clock step.
-     * Clock steps above this value will be subdivided as specified by
-     * setNumberOfDtSubdivisions.
+     * Sets the dt subdivision threshold for the bead-in-fluid motion algorithm.
+     * Clock steps above this value will be subdivided as specified by setVerletNumberOfDtSubdivisions.
      * 
-     * @param dtSubdivisionThreshold
+     * @param verletDtSubdivisionThreshold
      */
     public void setDtSubdivisionThreshold( double dtSubdivisionThreshold ) {
         if ( !_dtSubdivisionThresholdRange.contains( dtSubdivisionThreshold ) ) {
@@ -304,11 +316,6 @@ public class Bead extends MovableObject implements ModelElement {
         }
     }
     
-    /**
-     * Gets the subdivision threshold for the clock step.
-     * 
-     * @return threshold
-     */
     public double getDtSubdivisionThreshold() {
         return _dtSubdivisionThreshold;
     }
@@ -318,9 +325,8 @@ public class Bead extends MovableObject implements ModelElement {
     }
     
     /**
-     * Sets the number of subdivisions for the clock step.
-     * This determines how many times the motion algorithm is run
-     * each time the clock ticks.
+     * Sets the number of dt subdivisions for the bead-in-fluid motion algorithm.
+     * This determines how many times the motion algorithm is run each time the clock ticks.
      * 
      * @param numberOfDtSubdivisions
      */
@@ -330,15 +336,10 @@ public class Bead extends MovableObject implements ModelElement {
         }
         if ( numberOfDtSubdivisions != _numberOfDtSubdivisions ) {
             _numberOfDtSubdivisions = numberOfDtSubdivisions;
-            notifyObservers( PROPERTY_NUMBER_OF_DT_SUBDIVISION );
+            notifyObservers( PROPERTY_NUMBER_OF_DT_SUBDIVISIONS );
         }
     }
     
-    /**
-     * Gets the number of subdivisions for the clock step.
-     * 
-     * @retun number of subdivisions
-     */
     public int getNumberOfDtSubdivisions() {
         return _numberOfDtSubdivisions;
     }
@@ -348,8 +349,7 @@ public class Bead extends MovableObject implements ModelElement {
     }
     
     /**
-     * Sets the acceleration scaling factor used in the Verlet algorithm for 
-     * bead motion in a vacuum.
+     * Sets the acceleration scaling factor used in the Verlet (vacuum) motion algorithm.
      * 
      * @param verletAccelerationScale
      */
@@ -369,6 +369,54 @@ public class Bead extends MovableObject implements ModelElement {
     
     public DoubleRange getVerletAccelerationScaleRange() {
         return _verletAccelerationScaleRange;
+    }
+    
+    /**
+     * Sets the dt subdivision threshold for Verlet (vacuum) motion algorithm.
+     * Clock steps above this value will be subdivided as specified by setVerletNumberOfDtSubdivisions.
+     * 
+     * @param verletDtSubdivisionThreshold
+     */
+    public void setVerletDtSubdivisionThreshold( double verletDtSubdivisionThreshold ) {
+        if ( !_verletDtSubdivisionThresholdRange.contains( verletDtSubdivisionThreshold ) ) {
+            throw new IllegalArgumentException( "verletDtSubdivisionThreshold out of range: " + verletDtSubdivisionThreshold );
+        }
+        if ( verletDtSubdivisionThreshold != _verletDtSubdivisionThreshold ) {
+            _verletDtSubdivisionThreshold = verletDtSubdivisionThreshold;
+            notifyObservers( PROPERTY_VERLET_DT_SUBDIVISION_THRESHOLD );
+        }
+    }
+    
+    public double getVerletDtSubdivisionThreshold() {
+        return _verletDtSubdivisionThreshold;
+    }
+    
+    public DoubleRange getVerletDtSubdivisionThresholdRange() {
+        return _verletDtSubdivisionThresholdRange;
+    }
+    
+    /**
+     * Sets the number of dt subdivisions for the Verlet (vacuum) motion algorithm.
+     * This determines how many times the motion algorithm is run each time the clock ticks.
+     * 
+     * @param verletNumberOfDtSubdivisions
+     */
+    public void setVerletNumberOfDtSubdivisions( int verletNumberOfDtSubdivisions ) {
+        if ( !_verletNumberOfDtSubdivisionsRange.contains( verletNumberOfDtSubdivisions ) ) {
+            throw new IllegalArgumentException( "verletNumberOfDtSubdivisions out of range: " + verletNumberOfDtSubdivisions );
+        }
+        if ( verletNumberOfDtSubdivisions != _verletNumberOfDtSubdivisions ) {
+            _verletNumberOfDtSubdivisions = verletNumberOfDtSubdivisions;
+            notifyObservers( PROPERTY_VERLET_NUMBER_OF_DT_SUBDIVISIONS );
+        }
+    }
+    
+    public int getVerletNumberOfDtSubdivisions() {
+        return _verletNumberOfDtSubdivisions;
+    }
+    
+    public IntegerRange getVerletNumberOfDtSubdivisionsRange() {
+        return _verletNumberOfDtSubdivisionsRange;
     }
     
     //----------------------------------------------------------------------------
@@ -419,9 +467,9 @@ public class Bead extends MovableObject implements ModelElement {
         // Subdivide the clock step into N equals pieces
         double dt = clockDt;
         int loops = 1;
-        if ( clockDt > ( 1.001 * _dtSubdivisionThreshold ) ) {
-            dt = clockDt / _numberOfDtSubdivisions;
-            loops = _numberOfDtSubdivisions;
+        if ( clockDt > ( 1.001 * _verletDtSubdivisionThreshold ) ) {
+            dt = clockDt / _verletNumberOfDtSubdivisions;
+            loops = _verletNumberOfDtSubdivisions;
         }
         
         final double mass = getMass() / G_PER_KG; // kg
