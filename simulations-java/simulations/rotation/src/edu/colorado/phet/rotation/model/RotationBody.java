@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation.model;
 
+import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -64,6 +65,14 @@ public class RotationBody {
     private class AngleDriven implements edu.colorado.phet.common.motion.model.UpdateStrategy {
 
         public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {
+            int velocityWindow = 6;
+            int accelerationWindow = 6;
+            TimeData v = MotionMath.getDerivative( model.getRecentPositionTimeSeries( Math.min( velocityWindow, model.getVelocitySampleCount() ) ) );
+            TimeData a = MotionMath.getDerivative( model.getRecentVelocityTimeSeries( Math.min( accelerationWindow, model.getAccelerationSampleCount() ) ) );
+
+            model.addPositionData( state.getPosition(), time );
+            model.addVelocityData( v.getValue(), v.getTime() );
+            model.addAccelerationData( a.getValue(), a.getTime() );
         }
     }
 
@@ -80,7 +89,7 @@ public class RotationBody {
         setUpdateStrategy( new OnPlatform( rotationPlatform ) );
         this.rotationPlatform = rotationPlatform;
         //use the rotation platform to compute angle since it has the correct winding number
-        this.initialAngleOnPlatform = getAngleOverPlatform()-rotationPlatform.getPosition();
+        this.initialAngleOnPlatform = getAngleOverPlatform() - rotationPlatform.getPosition();
     }
 
     public void addListener( Listener listener ) {

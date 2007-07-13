@@ -86,6 +86,7 @@ public class MotionControlGraph extends ControlGraph {
 
             public void dataSeriesCleared() {
                 clear();
+                getDynamicJFreeChartNode().forceUpdateAll();
             }
         } );
         updateCursorVisible();
