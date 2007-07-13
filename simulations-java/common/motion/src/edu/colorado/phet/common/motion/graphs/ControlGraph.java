@@ -53,11 +53,6 @@ public class ControlGraph extends PNode {
     private PNode additionalControls;
     private ISimulationVariable simulationVariable;
 
-//    private void handleVisibilityChanged() {
-//        dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), visible );
-//        getDynamicJFreeChartNode().forceUpdateAll();
-//    }
-
     public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
                          String abbr, String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
         this( pSwingCanvas, simulationVariable, observableTimeSeries, abbr, title, minY, maxY, Color.black, new PText( "THUMB" ), timeSeriesModel );
@@ -69,12 +64,12 @@ public class ControlGraph extends PNode {
     }
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
-                         String abbr, String title, double minY, final double maxY, Color color, Stroke stroke, PNode thumb, TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
+                         String abbr, String title, double minY, final double maxY, Color color, Stroke stroke, PNode thumb,
+                         TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
         this.simulationVariable = simulationVariable;
         this.maxDomainValue = maxDomainTime;
-//        this.simulationVariable = simulationVariable;
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
-        jFreeChart = ChartFactory.createXYLineChart( title + ", " + abbr, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
+        jFreeChart = ChartFactory.createXYLineChart( title, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String)null );
         jFreeChart.getXYPlot().getRangeAxis().setRange( minY, maxY );
         jFreeChart.getXYPlot().getDomainAxis().setRange( 0, maxDomainValue );
@@ -162,7 +157,7 @@ public class ControlGraph extends PNode {
                 event.getInputManager().setKeyboardFocus( event.getPath() );
             }
         } );
-        observableTimeSeries.addListener( getListener( simulationVariable ) );
+
     }
 
     protected void handleValueChanged() {
@@ -273,7 +268,7 @@ public class ControlGraph extends PNode {
 
         final GraphTimeControlNode.SeriesNode seriesNode = graphTimeControlNode.addVariable( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() );
         series.getObservableTimeSeries().addListener( getListener( series.getSimulationVariable() ) );
-
+        
         series.addListener( new ControlGraphSeries.Listener() {
             public void visibilityChanged() {
                 dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), series.isVisible() );
