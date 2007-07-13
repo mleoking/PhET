@@ -41,8 +41,9 @@ public class RotationGraphSet extends GraphSuiteSet {
 
             //workaround for controlling the platform angle via the character angle
             protected void handleValueChanged() {
-//                super.handleValueChanged();
-                model.getRotationPlatform().setAngle( getSliderValue()-b.getInitialAngleOnPlatform() );
+                //this is very fragile;if the wrong value is set here, it will cause the angular velocity & angle to quickly blow up
+                //since there is a bidirectional causality between bug and platform 
+                model.getRotationPlatform().setAngle( getSliderValue() - b.getInitialAngleOnPlatform() );
             }
         } );
 
