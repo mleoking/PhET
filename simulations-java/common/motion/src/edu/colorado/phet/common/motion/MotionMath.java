@@ -45,6 +45,12 @@ public class MotionMath {
         return new TimeData( estimateDerivative( recentPositionTimeSeries ), averageTime( recentPositionTimeSeries ) );
     }
 
+    /**
+     * Gets the second derivative of the given time series data using the central difference formula
+     * See: http://mathews.ecs.fullerton.edu/n2003/NumericalDiffMod.html
+     * @param x
+     * @return
+     */
     public static TimeData getSecondDerivative( TimeData[] x ) {
         if( x.length == 0 ) {
 //            System.out.println( "MotionMath.getDerivative, returning zero" );
