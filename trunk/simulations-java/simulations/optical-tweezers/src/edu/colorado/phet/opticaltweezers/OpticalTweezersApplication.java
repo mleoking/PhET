@@ -104,6 +104,8 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
 //        _motorsModule = new MotorsModule();
 //        addModule( _motorsModule );
         
+        System.out.println( getControlPanelBackground() );//XXX
+        
         setControlPanelBackground( OTConstants.CONTROL_PANEL_COLOR );
     }
     
