@@ -20,9 +20,8 @@ public class BodyVectorLayer extends PNode {
     private RotationBody rotationBody;
     private VectorNode accelArrow;
     private VectorNode velocityArrow;
-    private double accelScale = 250 * 0.8 * 0.03 * 0.03 / 2.0;
-    private double velScale = 10 * 0.8 * 0.03;
-//    private static final double SCALE = 1.0 / 200.0 * 3.0;
+    private double accelScale = 0.09;
+    private double velScale = 0.24;
 
     //todo: factor out required interface to rotationmodel
 
@@ -45,7 +44,8 @@ public class BodyVectorLayer extends PNode {
 
         rotationBody.addListener( new RotationBody.Listener() {
             public void positionChanged() {
-//                update();//todo: this call was causing acceleration to be non-centripetal during circular motion
+                //todo: this call was causing acceleration to be non-centripetal during circular motion
+                update();
             }
 
             public void speedAndAccelerationUpdated() {
@@ -87,17 +87,16 @@ public class BodyVectorLayer extends PNode {
 
         public void update() {
             arrowNode.setPathTo( new Arrow( rotationBody.getPosition(), vectorFunction.getVector(), 20 * RotationPlayAreaNode.SCALE, 20 * RotationPlayAreaNode.SCALE, 3 * RotationPlayAreaNode.SCALE, 0.75, true ).getShape() );
-            labelNode.setScale( 1.0 );
-            labelNode.scale( 1.0 * RotationPlayAreaNode.SCALE );
-            labelNode.setOffset( increase( vectorFunction.getVector(), 20 * RotationPlayAreaNode.SCALE ).getDestination( rotationBody.getPosition() ) );
-            labelNode.translate( -labelNode.getFullBounds().getWidth() / 2, -labelNode.getFullBounds().getHeight() / 2 );
             labelNode.setVisible( vectorFunction.getVector().getMagnitude() > VISIBLE_THRESHOLD );
-
+            if( labelNode.getVisible() ) {
+                labelNode.setScale( 1.0 * RotationPlayAreaNode.SCALE );
+                labelNode.setOffset( increase( vectorFunction.getVector(), 20 * RotationPlayAreaNode.SCALE ).getDestination( rotationBody.getPosition() ) );
+                labelNode.translate( -labelNode.getFullBounds().getWidth() / 2 / RotationPlayAreaNode.SCALE, -labelNode.getFullBounds().getHeight() / 2 / RotationPlayAreaNode.SCALE );
+            }
         }
 
         private AbstractVector2D increase( AbstractVector2D orig, double dx ) {
-            double mag = orig.getMagnitude();
-            return Math.abs( mag ) < VISIBLE_THRESHOLD ? orig : orig.getInstanceOfMagnitude( mag + dx );
+            return Math.abs( orig.getMagnitude() ) < VISIBLE_THRESHOLD ? orig : orig.getInstanceOfMagnitude( orig.getMagnitude() + dx );
         }
     }
 
