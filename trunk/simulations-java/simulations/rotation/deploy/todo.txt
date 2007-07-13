@@ -3,7 +3,6 @@
 ################
 
 •	Use colors from the color chart
-•	Vector arrow labels are no longer centered (bug introduced when adding model coordinates) 
 •	Check boxes (like in Force1D) for adding/removing series (applies to both characters)
 •	For X,V,A graphs, readouts should be on-graph, no text-boxes on left hand side
 •	Velocity(x) should be written X-Velocity, get rid of (vx) on charts
