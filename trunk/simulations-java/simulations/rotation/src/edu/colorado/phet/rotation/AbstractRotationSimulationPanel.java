@@ -126,7 +126,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
 
     private void relayout() {
         new RotationLayout( this, rotationPlayAreaNode, rotationControlPanelNode,
-                            timeSeriesGraphSetNode, rotationPlayAreaNode.getPlatformNode() ).layout();
+                            timeSeriesGraphSetNode, rotationPlayAreaNode.getPlatformNode(),rotationPlayAreaNode.getOriginNode() ).layout();
     }
 
     public GraphSuite getGraphSuite( int i ) {

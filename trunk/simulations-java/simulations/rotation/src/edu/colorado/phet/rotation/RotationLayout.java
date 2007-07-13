@@ -18,15 +18,17 @@ public class RotationLayout {
     private PNode rotationControlPanelNode;
     private PNode timeSeriesGraphSetNode;
     private RotationPlatformNode platformNode;
+    private PNode originNode;
     private double playAreaPadY = 50;
     private static final double MIN_SCREEN_FRACTION_FOR_PLAY_AREA = 1.0 / 3.0;
 
-    public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, RotationPlatformNode platformNode ) {
+    public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, RotationPlatformNode platformNode, PNode originNode ) {
         this.parent = parent;
         this.rotationPlayAreaNode = rotationPlayAreaNode;
         this.rotationControlPanelNode = rotationControlPanelNode;
         this.timeSeriesGraphSetNode = timeSeriesGraphSetNode;
         this.platformNode = platformNode;
+        this.originNode = originNode;
     }
 
     public void layout() {
@@ -40,8 +42,12 @@ public class RotationLayout {
 
 //        rotationPlayAreaNode.setOffset( 200, 200 );
         rotationPlayAreaNode.setScale( 1.0 );
+
+        //determine the radius in pixels of the rotation play area node
         availHeight -= padY * 2;
         availWidth -= padX * 2;
+
+//        availWidth-=50;//for the origin node
 
         double sx = availWidth / ( platformNode.getFullBounds().getWidth() );
         double sy = availHeight / ( platformNode.getFullBounds().getHeight() );
@@ -52,7 +58,8 @@ public class RotationLayout {
         }
         rotationPlayAreaNode.setOffset( scale * platformNode.getRotationPlatform().getRadius(), scale * platformNode.getRotationPlatform().getRadius() );
 
-        Rectangle2D bounds = new Rectangle2D.Double( getMaxXPlayAreaAndControlPanel() + padX, 0, getWidth() - getMaxXPlayAreaAndControlPanel() - padX, getHeight() );
+        double originNodeWidth = originNode.getGlobalFullBounds().getWidth();
+        Rectangle2D bounds = new Rectangle2D.Double( getMaxXPlayAreaAndControlPanel() + padX + originNodeWidth, 0, getWidth() - getMaxXPlayAreaAndControlPanel() - padX, getHeight() );
         System.out.println( "RSP::bounds = " + bounds );
         timeSeriesGraphSetNode.setBounds( bounds );
     }
