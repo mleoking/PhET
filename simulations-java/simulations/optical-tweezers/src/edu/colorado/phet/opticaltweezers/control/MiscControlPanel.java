@@ -3,10 +3,7 @@
 package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -74,6 +71,13 @@ public class MiscControlPanel extends JPanel implements Observer {
         });
         Icon rulerIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_RULER ) );
         JLabel rulerLabel = new JLabel( rulerIcon );
+        rulerLabel.addMouseListener( new MouseAdapter() {
+            // clicking on the ruler toggles the state of the ruler check box
+            public void mouseReleased(MouseEvent e) {
+                _rulerCheckBox.setSelected( !_rulerCheckBox.isSelected() );
+                handleRulerCheckBox();
+            }
+        });
         Box rulerPanel = new Box( BoxLayout.X_AXIS );
         rulerPanel.add( _rulerCheckBox );
         rulerPanel.add( Box.createHorizontalStrut( 5 ) );
