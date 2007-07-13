@@ -22,7 +22,7 @@ import java.util.Arrays;
 
 public class RotationGraphSet extends GraphSuiteSet {
     private Stroke body0Stroke = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
-    private Stroke body1Stroke = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f, new float[]{10, 10}, 0 );
+    private Stroke body1Stroke = new BasicStroke( 4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f, new float[]{10, 10}, 0 );
 
     public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel model ) {
         double maxTime = 30.0;
@@ -52,6 +52,7 @@ public class RotationGraphSet extends GraphSuiteSet {
                 pSwingCanvas, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(),
                 UnicodeUtil.OMEGA, "Angular Velocity", "radians/sec", -5, 5, Color.red, body0Stroke, new PImage( loadArrow( "red-arrow.png" ) ),
                 model, true, model.getTimeSeriesModel(), model.getVelocityDriven(), maxTime, model.getRotationPlatform() ) );
+        velocityGraph.getControlGraph().addSeries( "Angular Velocity (2)",Color.red, "w",model.getPlatformVelocityVariable(),model.getPlatformVelocityTimeSeries(),body1Stroke );
 
         MinimizableControlGraph accelGraph = new MinimizableControlGraph( UnicodeUtil.ALPHA, new RotationGraph(
                 pSwingCanvas, model.getPlatformAccelVariable(), model.getPlatformAccelTimeSeries(),
