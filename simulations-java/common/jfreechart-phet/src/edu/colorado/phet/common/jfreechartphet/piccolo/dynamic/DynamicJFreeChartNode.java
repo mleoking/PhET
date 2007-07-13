@@ -123,14 +123,19 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         getSeries( series ).addValue( x, y );
     }
 
+    public void addSeries( String title, Color color) {
+        addSeries( title, color,BufferedSeriesView.DEFAULT_STROKE );
+    }
+
     /**
      * Adds a new series to this chart for plotting, with the given name and color.
      *
      * @param title the title for the series
      * @param color the series' color
+     * @param stroke
      */
-    public void addSeries( String title, Color color ) {
-        seriesDataList.add( new SeriesData( title, color ) );
+    public void addSeries( String title, Color color,Stroke stroke ) {
+        seriesDataList.add( new SeriesData( title, color ,stroke) );
         updateSeriesViews();
     }
 
