@@ -33,4 +33,13 @@ public class RotationLookAndFeel extends PhetLookAndFeel {
         return new PhetDefaultFont( 14, false );
     }
 
+    public static boolean isLowResolutionY() {
+        return Toolkit.getDefaultToolkit().getScreenSize().getHeight() <= 768;
+    }
+
+    public static Font getGraphVerticalAxisLabelFont() {
+        return new PhetDefaultFont( isLowResolutionY() ? 9 : 14,
+                                    true );
+    }
+
 }

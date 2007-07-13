@@ -2,8 +2,6 @@
 #     To Do
 ################
 
-•   Synchronize ruler coordinates with play area
-•   Full vertical titles go off the page in 1024x768 at default font
 •	Use colors from the color chart
 •	Symbol key should appear near the mouse
 •	Check boxes (like in Force1D) for adding/removing series (applies to both characters)
@@ -22,9 +20,6 @@
 •	Bug: sun.dc.pr.PRException: endPath: bad path
 •	RotationBody should have internal representation for angular velocity and angular acceleration instead of relying on RotationPlatform's instance?
 •	Torque mode: Should be able to "spin" the wheel (i.e. drag, let go, and have it continue to spin, at least in friction mode)
-•	Minor UI fixes
-•	Minor bugfixes
-•	Side view/projections?
 •	Consolidate MovingMan, Forces1D, Ramp, Rotation, Torque into a single codebase.
 
 ################
