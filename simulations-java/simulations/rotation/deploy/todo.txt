@@ -12,6 +12,7 @@
 •	Checkbox to remove/add second bug. (Just remove/add dashed line in graph, not hide/show bug itself)
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
 •	Improve performance
+•	Support for "missing values" in the series data (for when characters don't have values for angular data series)
 •	Shadow projections should be considered after AAPT.
 •	Possible interview question: bug icon at tip of graph to improve conceptual connection
 •	Bug: sun.dc.pr.PRException: endPath: bad path
