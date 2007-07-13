@@ -1,8 +1,9 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.controls;
 
-import edu.colorado.phet.rotation.controls.SymbolKey;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,9 +16,10 @@ public class SymbolKeyButton extends JPanel {
 
     public SymbolKeyButton( JFrame parentFrame ) {
         dialog = new JDialog( parentFrame, "Symbol Key", false );
-        JButton button = new JButton( "Show Symbol Key" );
+        final JButton button = new JButton( "Show Symbol Key" );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                SwingUtils.centerDialogInParent( dialog );
                 dialog.show();
             }
         } );
