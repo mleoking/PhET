@@ -24,7 +24,7 @@ public class GlobalDefaults {
     public static final boolean CLOCK_PAUSED = false;
     public static final int FRAME_RATE = 25; // fps, frames per second (wall time)
     public static final DoubleRange SLOW_DT_RANGE = new DoubleRange( 4E-18, 5E-16 );
-    public static final DoubleRange FAST_DT_RANGE = new DoubleRange( 8E-7, 4E-4 );
+    public static final DoubleRange FAST_DT_RANGE = new DoubleRange( 8E-7, 4E-5 );
     public static final double DEFAULT_DT = FAST_DT_RANGE.getMax();
     public static final int CLOCK_TIME_COLUMNS = 10;
     
