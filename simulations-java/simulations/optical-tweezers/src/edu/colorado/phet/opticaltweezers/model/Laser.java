@@ -47,12 +47,13 @@ public class Laser extends MovableObject implements ModelElement {
     private double _power; // mW
     private final DoubleRange _powerRange; // mW
     
+    private double _trapForceRatio; // developer control, determines ratio of x & y trap force components
     private DoubleRange _trapForceRatioRange;
-    private double _trapForceRatio; // determines ratio of x & y trap force components
     
+    private double _electricFieldTime; // accumulated time, used to compute time-based e-field
+    private double _electricFieldScale; // developer control, used to scale the e-field
     private DoubleRange _electricFieldScaleRange;
-    private double _electricFieldScale;
-    private double _electricFieldTime;
+    
     private OTClock _clock;
     
     //----------------------------------------------------------------------------
@@ -98,10 +99,9 @@ public class Laser extends MovableObject implements ModelElement {
         
         _clock = clock;
         _clock.addConstantDtClockListener( new ConstantDtClockAdapter() {
-            // Reset time when dt changes. 
-            // This prevents problems when accumulating time with dt values that are smaller than the machine epsilon.
+            // When dt changes, reset the accumulated electric field time.
             public void dtChanged( ConstantDtClockEvent event ) {
-                _electricFieldTime = 0;//_electricFieldTime % _clock.getDt();
+                resetElectricFieldTime();
             }
         });
     }
@@ -437,7 +437,8 @@ public class Laser extends MovableObject implements ModelElement {
         // In "slow" clock mode, the trap force should be shrinking and growing,
         // so that it's zero when the E-field is zero, and a maximum when the E-field is strongest.
         if ( _clock.getDt() <= _clock.getSlowRange().getMax() ) {
-            double scale = Math.sqrt( 2 ) * Math.abs( getElectricFieldScale( yOffset ) );
+            final double electricFieldComponent = getElectricFieldComponent( yOffset );
+            final double scale = Math.sqrt( 2 ) * Math.abs( electricFieldComponent );
             fx *= scale;
             fy *= scale;
         }
@@ -505,16 +506,16 @@ public class Laser extends MovableObject implements ModelElement {
     public double getElectricFieldX( Point2D offset ) {
         final double intensity = getIntensity( getX() + offset.getX(), getY() + offset.getY() );
         final double e0 = getInitialElectricFieldX( intensity );
-        final double ex = e0 * getElectricFieldScale( offset.getY() );
+        final double ex = e0 * getElectricFieldComponent( offset.getY() );
         return ex;
     }
     
     /*
-     * Gets the scale of the electric field at some vertical offset from the laser.
+     * Gets the main component of the electric field at some vertical offset from the laser.
      * 
      * @param yOffset
      */
-    private double getElectricFieldScale( double yOffset ) {
+    private double getElectricFieldComponent( double yOffset ) {
         return Math.sin( ( ( 2 * Math.PI ) / _wavelength ) * ( yOffset + ( SPEED_OF_LIGHT * _electricFieldTime ) ) );
     }
     
@@ -536,6 +537,19 @@ public class Laser extends MovableObject implements ModelElement {
         return _electricFieldScale * intensity;
     }
     
+    /*
+     * Resets the electric field time by keeping only the portion of the time
+     * that represents an unfinished cycle in its periodic motion.
+     * This prevents the e-field from looking jerky at dt is changed.
+     */
+    private void resetElectricFieldTime() {
+        final double period = _wavelength / SPEED_OF_LIGHT;
+        final int numberOfCompletePeriods = (int) ( _electricFieldTime / period );
+        if ( numberOfCompletePeriods > 0 ) {
+            _electricFieldScale -= ( numberOfCompletePeriods * period );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -543,7 +557,7 @@ public class Laser extends MovableObject implements ModelElement {
     public void stepInTime( double dt ) {
         if ( _running ) {
             
-            double tPrevious = _electricFieldTime;
+            final double tPrevious = _electricFieldTime;
             
             /*
              * The E-field model only applies when the clock dt is in the "slow" range.
