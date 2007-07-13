@@ -65,7 +65,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     //The default SeriesView is JFreeChart rendering.
     private SeriesViewFactory viewFactory = RENDERER_JFREECHART;
-    private boolean updateEnabled = false;//require user to force repaints to reduce redundant calls
+    private boolean autoUpdateAll = true;//require user to force repaints to reduce redundant calls
 
     public DynamicJFreeChartNode( PhetPCanvas phetPCanvas, JFreeChart chart ) {
         super( chart );
@@ -74,10 +74,17 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 //        addChild( debugBufferRegion );//this can destroy the bounds of the graph, use with care
     }
 
+    /**
+     * Sets whether updateAll should have the normal effect or be a no-op.  This should only be set to false in the case of performance issues due to redundant
+     * work or calls to updateAll.
+     * @param autoUpdateAll false if the client application will manually call forceUpdateAll
+     */
+    public void setAutoUpdateAll( boolean autoUpdateAll ) {
+        this.autoUpdateAll = autoUpdateAll;
+    }
+
     public void forceUpdateAll() {
-        this.updateEnabled = true;
-        updateAll();
-        this.updateEnabled = false;
+        super.updateAll();
         for( int i = 0; i < seriesViewList.size(); i++ ) {
             SeriesView seriesView = (SeriesView)seriesViewList.get( i );
             seriesView.forceRepaintAll();
@@ -85,7 +92,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     }
 
     public void updateAll() {
-        if( updateEnabled ) {
+        if( autoUpdateAll ) {
             super.updateAll();
         }
     }
