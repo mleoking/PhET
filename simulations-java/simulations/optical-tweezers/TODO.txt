@@ -53,6 +53,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.26 (?)
 7/15/07 - rename Laser.getElectricFieldScale to getElectricFieldComponent to prevent confusion with _electricFieldScale
 7/13/07 - when dt changes, make E-field continue propogation from where it's at, rather than resetting
 7/13/07 - change screenshots to reflect new color scheme
