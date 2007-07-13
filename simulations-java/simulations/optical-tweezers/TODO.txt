@@ -8,7 +8,7 @@ AAPT:
 - add description to About dialog
 
 HIGH PRIORITY:
-- make DNA strand behave the same at dt=4E-5 regardless of what fast.max is
+- make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 
 MEDIUM PRIORITY:
 - enable/disable controls based on clock speed
