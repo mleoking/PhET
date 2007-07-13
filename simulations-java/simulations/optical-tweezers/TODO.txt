@@ -55,6 +55,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.25 (?)
 7/13/07 - click on ruler icon to toggle state of ruler check box in control panel
 7/13/07 - change trap force vector back to red
 7/13/07 - change trap force vector color to HSB=(41,100,100)
