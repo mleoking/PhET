@@ -50,6 +50,7 @@ public class ControlGraph extends PNode {
     private ArrayList series = new ArrayList();
     private ArrayList listeners = new ArrayList();
     private PNode additionalControls;
+    private ISimulationVariable simulationVariable;
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
                          String abbr, String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
@@ -63,6 +64,7 @@ public class ControlGraph extends PNode {
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries,
                          String abbr, String title, double minY, final double maxY, Color color, PNode thumb, TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
+        this.simulationVariable = simulationVariable;
         this.maxDomainValue = maxDomainTime;
 //        this.simulationVariable = simulationVariable;
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
@@ -119,7 +121,7 @@ public class ControlGraph extends PNode {
         } );
         jFreeChartSliderNode.addListener( new JFreeChartSliderNode.Listener() {
             public void valueChanged() {
-                simulationVariable.setValue( jFreeChartSliderNode.getValue() );
+                handleValueChanged();
             }
 
             public void sliderThumbGrabbed() {
@@ -155,6 +157,14 @@ public class ControlGraph extends PNode {
             }
         } );
         observableTimeSeries.addListener( getListener( simulationVariable ) );
+    }
+
+    protected void handleValueChanged() {
+        simulationVariable.setValue( getSliderValue() );
+    }
+
+    protected double getSliderValue() {
+        return jFreeChartSliderNode.getValue();
     }
 
     private ITimeSeries.Listener getListener( final ISimulationVariable simulationVariable ) {
@@ -239,7 +249,7 @@ public class ControlGraph extends PNode {
     }
 
     public void setSeriesVisible( ControlGraph.ControlGraphSeries series, boolean visible ) {
-        dynamicJFreeChartNode.setSeriesVisible( series.getTitle(),visible );
+        dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), visible );
     }
 
     public static class ControlGraphSeries {

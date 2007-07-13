@@ -16,6 +16,7 @@ Added: a vertical axis label on these graphs as in force 1 D.
 Fixed: No graphs or values should be shown for platform
 Removed "Go/Pause" and "Clear" buttons for non-editable graphs
 Performance improvements
+Fixed: Character Angle should be user settable via the graph
 
 0.00.17
 Added improved initial locations for characters.

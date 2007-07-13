@@ -26,13 +26,25 @@ public class RotationGraphSet extends GraphSuiteSet {
 
     public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel model ) {
         double maxDomainValue = 30.0;
-        RotationBody b = model.getRotationBody( 0 );
+        final RotationBody b = model.getRotationBody( 0 );
 
         MinimizableControlGraph angleGraph = new MinimizableControlGraph( UnicodeUtil.THETA, new RotationGraph(
                 pSwingCanvas, b.getAngleVariable(), b.getAngleTimeSeries(),
                 UnicodeUtil.THETA, "Angular Position", "radians", -Math.PI * 3, Math.PI * 3, Color.blue, new PImage( loadArrow( "blue-arrow.png" ) ),
                 model, true, model.getTimeSeriesModel(), null,
-                maxDomainValue, model.getRotationPlatform() ) );
+                maxDomainValue, model.getRotationPlatform() ) {
+
+            //workaround for controlling the platform angle via the character angle
+            protected void handleControlFocusGrabbed() {
+                model.setPositionDriven();
+            }
+
+            //workaround for controlling the platform angle via the character angle
+            protected void handleValueChanged() {
+//                super.handleValueChanged();
+                model.getRotationPlatform().setAngle( getSliderValue()-b.getInitialAngleOnPlatform() );
+            }
+        } );
 
         MinimizableControlGraph velocityGraph = new MinimizableControlGraph( UnicodeUtil.OMEGA, new RotationGraph(
                 pSwingCanvas, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(),

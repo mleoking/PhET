@@ -1,7 +1,10 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
-import edu.colorado.phet.common.motion.model.*;
+import edu.colorado.phet.common.motion.model.ISimulationVariable;
+import edu.colorado.phet.common.motion.model.ITimeSeries;
+import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
@@ -20,24 +23,28 @@ public class MotionControlGraph extends ControlGraph {
     private ArrayList listeners = new ArrayList();
     private MotionModel motionModel;
     private JFreeChartCursorNode jFreeChartCursorNode;
+    private IUpdateStrategy iPositionDriven;
+    private UpdateStrategy updateStrategy;
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
-                               boolean editable, TimeSeriesModel timeSeriesModel,IUpdateStrategy iPositionDriven ) {
-        this( pSwingCanvas, simulationVariable, observableTimeSeries, label, title, min, max, color, thumb, motionModel, editable, timeSeriesModel, null,iPositionDriven );
+                               boolean editable, TimeSeriesModel timeSeriesModel, IUpdateStrategy iPositionDriven ) {
+        this( pSwingCanvas, simulationVariable, observableTimeSeries, label, title, min, max, color, thumb, motionModel, editable, timeSeriesModel, null, iPositionDriven );
     }
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
-                               boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy,IUpdateStrategy iPositionDriven ) {
-        this( pSwingCanvas, simulationVariable, observableTimeSeries, label, title, min, max, color, thumb, motionModel, editable, timeSeriesModel, updateStrategy, 1000,iPositionDriven );
+                               boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, IUpdateStrategy iPositionDriven ) {
+        this( pSwingCanvas, simulationVariable, observableTimeSeries, label, title, min, max, color, thumb, motionModel, editable, timeSeriesModel, updateStrategy, 1000, iPositionDriven );
     }
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, String label, String title,
                                double min, double max, Color color, PNode thumb, final MotionModel motionModel,
                                boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final IUpdateStrategy iPositionDriven ) {
         super( pSwingCanvas, simulationVariable, observableTimeSeries, label, title, min, max, color, thumb, timeSeriesModel, maxDomainValue );
+        this.iPositionDriven = iPositionDriven;
         this.motionModel = motionModel;
+        this.updateStrategy = updateStrategy;
         addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
                 notifyZoomChanged();
@@ -91,12 +98,16 @@ public class MotionControlGraph extends ControlGraph {
         } );
         updateCursorVisible();
 
+        addListener( new Adapter() {
+            public void controlFocusGrabbed() {
+                handleControlFocusGrabbed();
+            }
+        } );
+    }
+
+    protected void handleControlFocusGrabbed() {
         if( updateStrategy != null ) {
-            addListener( new Adapter() {
-                public void controlFocusGrabbed() {
-                    iPositionDriven.setUpdateStrategy( updateStrategy );
-                }
-            } );
+            iPositionDriven.setUpdateStrategy( updateStrategy );
         }
     }
 

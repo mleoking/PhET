@@ -1,6 +1,5 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -97,6 +96,11 @@ public class RotationBody {
         this.rotationPlatform = rotationPlatform;
         //use the rotation platform to compute angle since it has the correct winding number
         this.initialAngleOnPlatform = getAngleOverPlatform() - rotationPlatform.getPosition();
+    }
+
+    //workaround for controlling the platform angle via the character angle
+    public double getInitialAngleOnPlatform() {
+        return initialAngleOnPlatform;
     }
 
     public void addListener( Listener listener ) {
