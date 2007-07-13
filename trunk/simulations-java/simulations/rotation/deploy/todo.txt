@@ -2,7 +2,6 @@
 #     To Do
 ################
 
-•   Bug Angle should be user settable via the graph
 •   Synchronize ruler coordinates with play area
 •	Use colors from the color chart
 •	Check boxes (like in Force1D) for adding/removing series (applies to both characters)
