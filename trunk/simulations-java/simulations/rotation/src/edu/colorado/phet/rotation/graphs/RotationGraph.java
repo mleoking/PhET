@@ -6,7 +6,6 @@ import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
@@ -18,6 +17,7 @@ import org.jfree.ui.RectangleEdge;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
@@ -36,6 +36,21 @@ public class RotationGraph extends MotionControlGraph {
         RotationGraphNumberAxis verticalAxis = new RotationGraphNumberAxis( title + " (" + units + ")" );
         verticalAxis.setRange( oldRangeAxis.getRange() );
         getJFreeChartNode().getChart().getXYPlot().setRangeAxis( verticalAxis );
+    }
+
+    private ArrayList secondarySeries = new ArrayList();//keep track of series for the 2nd bug so we can show/hide them together
+
+    public void addSecondarySeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries timeSeries, Stroke stroke ) {
+        ControlGraphSeries graphSeries = new ControlGraphSeries( title, color, abbr, simulationVariable, timeSeries, stroke );
+        secondarySeries.add( graphSeries );
+        super.addSeries( graphSeries );
+    }
+
+    public void setSecondarySeriesVisible( boolean visible ) {
+        for( int i = 0; i < secondarySeries.size(); i++ ) {
+            ControlGraphSeries controlGraphSeries = (ControlGraphSeries)secondarySeries.get( i );
+            setSeriesVisible( controlGraphSeries, visible );
+        }
     }
 
     public static class RotationGraphNumberAxis extends NumberAxis {

@@ -28,7 +28,8 @@ public class RotationGraphSet extends GraphSuiteSet {
         double maxTime = 30.0;
         final RotationBody b = model.getRotationBody( 0 );
 
-        MinimizableControlGraph angleGraph = new MinimizableControlGraph( UnicodeUtil.THETA, new RotationGraph(
+
+        final MinimizableControlGraph angleGraph = new MinimizableControlGraph( UnicodeUtil.THETA, new RotationGraph(
                 pSwingCanvas, b.getAngleVariable(), b.getAngleTimeSeries(),
                 UnicodeUtil.THETA, "Angular Position", "radians", -Math.PI * 3, Math.PI * 3, Color.blue, body0Stroke, new PImage( loadArrow( "blue-arrow.png" ) ),
                 model, true, model.getTimeSeriesModel(), null,
@@ -46,13 +47,23 @@ public class RotationGraphSet extends GraphSuiteSet {
                 model.getRotationPlatform().setAngle( getSliderValue() - b.getInitialAngleOnPlatform() );
             }
         } );
-        angleGraph.getControlGraph().addSeries( "Angular Position (2)", Color.blue, "body2", model.getRotationBody( 1 ).getAngleVariable(), model.getRotationBody( 1 ).getAngleTimeSeries(), body1Stroke );
+
+        ( (RotationGraph)angleGraph.getControlGraph() ).addSecondarySeries( "Angular Position (2)", Color.blue, "body2", model.getRotationBody( 1 ).getAngleVariable(), model.getRotationBody( 1 ).getAngleTimeSeries(), body1Stroke );
+        model.getRotationBody( 1 ).addListener( new RotationBody.Adapter() {
+            public void movedOffPlatform() {
+                ( (RotationGraph)angleGraph.getControlGraph() ).setSecondarySeriesVisible( false );
+            }
+
+            public void movedOntoPlatform() {
+                ( (RotationGraph)angleGraph.getControlGraph() ).setSecondarySeriesVisible( true );
+            }
+        } );
 
         MinimizableControlGraph velocityGraph = new MinimizableControlGraph( UnicodeUtil.OMEGA, new RotationGraph(
                 pSwingCanvas, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(),
                 UnicodeUtil.OMEGA, "Angular Velocity", "radians/sec", -5, 5, Color.red, body0Stroke, new PImage( loadArrow( "red-arrow.png" ) ),
                 model, true, model.getTimeSeriesModel(), model.getVelocityDriven(), maxTime, model.getRotationPlatform() ) );
-        velocityGraph.getControlGraph().addSeries( "Angular Velocity (2)",Color.red, "w",model.getPlatformVelocityVariable(),model.getPlatformVelocityTimeSeries(),body1Stroke );
+        ( (RotationGraph)velocityGraph.getControlGraph() ).addSecondarySeries( "Angular Velocity (2)", Color.red, "w", model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), body1Stroke );
 
         MinimizableControlGraph accelGraph = new MinimizableControlGraph( UnicodeUtil.ALPHA, new RotationGraph(
                 pSwingCanvas, model.getPlatformAccelVariable(), model.getPlatformAccelTimeSeries(),
