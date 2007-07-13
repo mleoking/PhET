@@ -6,6 +6,8 @@ IN PROGRESS:
 
 AAPT:
 - add description to About dialog
+- change Verlet scale to 4E-3
+- change Verlet dt subdivisions to 10
 
 HIGH PRIORITY:
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
@@ -53,8 +55,9 @@ MISSING INFO:
 
  
 DONE:
+7/13/07 - bugfix: Brownian motion checkbox does not get reset properly with Reset All
 ********* version 0.00.26 (16699)
-7/15/07 - rename Laser.getElectricFieldScale to getElectricFieldComponent to prevent confusion with _electricFieldScale
+7/13/07 - rename Laser.getElectricFieldScale to getElectricFieldComponent to prevent confusion with _electricFieldScale
 7/13/07 - when dt changes, make E-field continue propogation from where it's at, rather than resetting
 7/13/07 - change screenshots to reflect new color scheme
 ********* version 0.00.25 (16687)

@@ -25,6 +25,7 @@ public class Bead extends MovableObject implements ModelElement {
     public static final String PROPERTY_DT_SUBDIVISION_THRESHOLD = "dtSubdivisionThreshold";
     public static final String PROPERTY_NUMBER_OF_DT_SUBDIVISIONS = "numberOfDtSubdivisions";
     public static final String PROPERTY_BROWNIAN_MOTION_SCALE = "brownianMotionScale";
+    public static final String PROPERTY_BROWNIAN_MOTION_ENABLED = "brownianMotionEnabled";
     public static final String PROPERTY_VERLET_ACCELERATION_SCALE = "verletAccelerationScale";
     public static final String PROPERTY_VERLET_DT_SUBDIVISION_THRESHOLD = "verletDtSubdivisionThreshold";
     public static final String PROPERTY_VERLET_NUMBER_OF_DT_SUBDIVISIONS = "verletNumberOfDtSubdivisions";
@@ -195,7 +196,10 @@ public class Bead extends MovableObject implements ModelElement {
     }
     
     public void setBrownianMotionEnabled( boolean enabled ) {
-        _brownianMotionEnabled = enabled;
+        if ( enabled != _brownianMotionEnabled ) {
+            _brownianMotionEnabled = enabled;
+            notifyObservers( PROPERTY_BROWNIAN_MOTION_ENABLED );
+        }
     }
     
     public boolean isBrownianMotionEnabled() {
