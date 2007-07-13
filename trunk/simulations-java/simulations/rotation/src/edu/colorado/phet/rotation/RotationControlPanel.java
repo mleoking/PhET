@@ -6,6 +6,7 @@ import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.controls.ShowVectorsControl;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
+import edu.colorado.phet.rotation.controls.SymbolKeyButton;
 
 import javax.swing.*;
 import java.awt.*;
