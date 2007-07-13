@@ -82,6 +82,9 @@ public class RulerNode extends PhetPNode {
     private int numMinorTicksBetweenMajors;
     private double majorTickHeight;
     private double minorTickHeight;
+    private Stroke tickStroke=TICK_STROKE;
+    private double unitsSpacing=UNITS_SPACING;
+    private double fontScale=1.0;
 
     private PNode parentNode;
     private PPath backgroundNode;
@@ -231,6 +234,29 @@ public class RulerNode extends PhetPNode {
         backgroundNode.setPaint( paint );
     }
     
+    public void setBackgroundStroke(Stroke stroke){
+        backgroundNode.setStroke( stroke );
+    }
+
+    public void setTickStroke(Stroke tickStroke){
+        this.tickStroke=tickStroke;
+        update();
+    }
+
+    public void setUnitsSpacing(double unitsSpacing){
+        this.unitsSpacing=unitsSpacing;
+        update();
+    }
+
+    /**
+     * Sets an optional scale for the fonts used in this ruler (default scale is 1.0).  This is useful when embedding the ruler in model coordinates.
+     * @param fontScale
+     */
+    public void setFontScale(double fontScale){
+        this.fontScale=fontScale;
+        update();
+    }
+
     /**
      * Gets the background paint.
      * 
@@ -280,6 +306,7 @@ public class RulerNode extends PhetPNode {
                 String majorTickLabel = majorTickLabels[i];
                 PText majorTickLabelNode = new PText( majorTickLabel );
                 majorTickLabelNode.setFont( majorTickFont );
+                majorTickLabelNode.setScale( fontScale );
                 double xVal = ( distBetweenMajorReadings * i ) + insetWidth;
                 double yVal = height / 2 - majorTickLabelNode.getFullBounds().getHeight() / 2;
                 majorTickLabelNode.setOffset( xVal - majorTickLabelNode.getFullBounds().getWidth() / 2, yVal );
@@ -287,7 +314,7 @@ public class RulerNode extends PhetPNode {
 
                 // Major tick mark
                 DoubleGeneralPath tickPath = createTickMark( xVal, height, majorTickHeight );
-                PPath majorTickNode = new PPath( tickPath.getGeneralPath(), TICK_STROKE );
+                PPath majorTickNode = new PPath( tickPath.getGeneralPath(), tickStroke );
                 majorTickNode.setStrokePaint( TICK_COLOR );
                 parentNode.addChild( majorTickNode );
 
@@ -295,7 +322,7 @@ public class RulerNode extends PhetPNode {
                 if( i < majorTickLabels.length - 1 ) {
                     for ( int k = 1; k <= numMinorTicksBetweenMajors; k++ ) {
                         DoubleGeneralPath pair = createTickMark( xVal + k * distBetweenMinor, height, minorTickHeight );
-                        PPath minorTickNode = new PPath( pair.getGeneralPath(), TICK_STROKE );
+                        PPath minorTickNode = new PPath( pair.getGeneralPath(), tickStroke );
                         minorTickNode.setStrokePaint( TICK_COLOR );
                         parentNode.addChild( minorTickNode );
                     }
@@ -324,6 +351,7 @@ public class RulerNode extends PhetPNode {
                     
                     if ( unitsNode != null ) {
                         unitsNode.setFont( unitsFont );
+                        unitsNode.setScale( fontScale );
                         parentNode.addChild( unitsNode );
                         // To the right of the major tick label, baselines aligned
                         double xOffset = majorTickLabelNode.getOffset().getX() + majorTickLabelNode.getFullBounds().getWidth() + UNITS_SPACING;
@@ -334,11 +362,11 @@ public class RulerNode extends PhetPNode {
             }
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Static utility methods
     //----------------------------------------------------------------------------
-    
+
     /*
      * Creates a tick mark at a specific x location.
      * Each tick is marked at the top and bottom of the ruler.
