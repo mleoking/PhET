@@ -1,11 +1,11 @@
 package edu.colorado.phet.rotation;
 
-import edu.colorado.phet.rotation.view.RotationOriginNode;
+import edu.colorado.phet.rotation.view.RotationPlatformNode;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.*;
 
 /**
  * Author: Sam Reid
@@ -17,11 +17,11 @@ public class RotationLayout {
     private PNode rotationPlayAreaNode;
     private PNode rotationControlPanelNode;
     private PNode timeSeriesGraphSetNode;
-    private PNode platformNode;
+    private RotationPlatformNode platformNode;
     private double playAreaPadY = 50;
     private static final double MIN_SCREEN_FRACTION_FOR_PLAY_AREA = 1.0 / 3.0;
 
-    public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, PNode platformNode ) {
+    public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, RotationPlatformNode platformNode ) {
         this.parent = parent;
         this.rotationPlayAreaNode = rotationPlayAreaNode;
         this.rotationControlPanelNode = rotationControlPanelNode;
@@ -30,31 +30,35 @@ public class RotationLayout {
     }
 
     public void layout() {
-        rotationPlayAreaNode.setOffset( 0, 0 );
-        rotationPlayAreaNode.setScale( 1.0 );
+        int padX = 10;
+        int padY = 10;
         rotationControlPanelNode.setOffset( 0, getHeight() - rotationControlPanelNode.getFullBounds().getHeight() );
-
         double availWidth = rotationControlPanelNode.getFullBounds().getWidth();
-        availWidth = Math.max( Toolkit.getDefaultToolkit().getScreenSize().width * MIN_SCREEN_FRACTION_FOR_PLAY_AREA, availWidth );
-        double sx = availWidth / ( platformNode.getFullBounds().getWidth() + RotationOriginNode.AXIS_LENGTH );
-//        double minimumPlayAreaWidthBasedOnScreenFraction = Toolkit.getDefaultToolkit().getScreenSize().width / 4.0;
-
         double availHeight = getHeight() - rotationControlPanelNode.getFullBounds().getHeight();
-        double sy = availHeight / ( platformNode.getFullBounds().getHeight() + playAreaPadY );
+
+        availWidth = Math.max( Toolkit.getDefaultToolkit().getScreenSize().width * MIN_SCREEN_FRACTION_FOR_PLAY_AREA, availWidth );
+
+//        rotationPlayAreaNode.setOffset( 200, 200 );
+        rotationPlayAreaNode.setScale( 1.0 );
+        availHeight -= padY * 2;
+        availWidth -= padX * 2;
+
+        double sx = availWidth / ( platformNode.getFullBounds().getWidth() );
+        double sy = availHeight / ( platformNode.getFullBounds().getHeight() );
         double scale = Math.min( sx, sy );
-//        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
+        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
         if( scale > 0 ) {
             rotationPlayAreaNode.scale( scale );
         }
+        rotationPlayAreaNode.setOffset( scale * platformNode.getRotationPlatform().getRadius(), scale * platformNode.getRotationPlatform().getRadius() );
 
-
-        Rectangle2D bounds = new Rectangle2D.Double( getMaxXPlayAreaAndControlPanel(), 0, getWidth() - getMaxXPlayAreaAndControlPanel(), getHeight() );
-//        System.out.println( "RSP::bounds = " + bounds );
+        Rectangle2D bounds = new Rectangle2D.Double( getMaxXPlayAreaAndControlPanel() + padX, 0, getWidth() - getMaxXPlayAreaAndControlPanel() - padX, getHeight() );
+        System.out.println( "RSP::bounds = " + bounds );
         timeSeriesGraphSetNode.setBounds( bounds );
     }
 
     private double getMaxXPlayAreaAndControlPanel() {
-        return Math.max( rotationPlayAreaNode.getFullBounds().getMaxX(), rotationControlPanelNode.getFullBounds().getMaxX() );
+        return Math.max( platformNode.getGlobalFullBounds().getMaxX(), platformNode.getGlobalFullBounds().getMaxX() );
     }
 
     private double getWidth() {

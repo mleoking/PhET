@@ -11,12 +11,14 @@ import java.util.ArrayList;
  * May 11, 2007, 3:41:07 AM
  */
 public class RotationPlatform extends MotionBody {
-    private SerializablePoint2D center = new SerializablePoint2D( 200, 200 );
-    private double radius = 200.0;
-//    private double radius = 50.0;
+    private SerializablePoint2D center = new SerializablePoint2D( 0, 0 );
+    private double radius = MAX_RADIUS;
+    //    private double radius = 50.0;
     private double innerRadius = 0.0;
     private double mass = 1.0 / ( ( innerRadius * innerRadius + radius * radius ) / 2.0 );//by default torque equals angular acceleration
-    private ArrayList listeners = new ArrayList();
+    private transient ArrayList listeners = new ArrayList();
+
+    private static final double MAX_RADIUS = 3.0;
 
     public boolean containsPosition( Point2D loc ) {
         return loc.distance( center ) <= radius && loc.distance( center ) >= innerRadius;

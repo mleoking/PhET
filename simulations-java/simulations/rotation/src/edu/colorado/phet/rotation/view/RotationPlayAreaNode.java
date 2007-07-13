@@ -13,6 +13,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 
 public class RotationPlayAreaNode extends PNode {
+
     private RotationPlatformNode rotationPlatformNode;
     private PNode rotationBodyLayer = new PNode();
     private RotationModel rotationModel;
@@ -20,11 +21,13 @@ public class RotationPlayAreaNode extends PNode {
     private RotationOriginNode originNode;
     private RotationRulerNode rulerNode;
 
+    public static final double SCALE = 3.0 / 200.0;
+
     public RotationPlayAreaNode( final RotationModel rotationModel, VectorViewModel vectiorViewModel ) {
         this.rotationModel = rotationModel;
         rotationPlatformNode = new RotationPlatformNode( rotationModel, rotationModel.getRotationPlatform() );
         originNode = new RotationOriginNode( rotationModel.getRotationPlatform() );
-        rulerNode = new RotationRulerNode( rotationPlatformNode.getRadius()*2, 50, new String[]{"0", "1", "2"}, "m", 3, 14 );
+        rulerNode = new RotationRulerNode( rotationPlatformNode.getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6"}, "m", 3, 14 );
         rulerNode.setVisible( false );
 
 //        addChild( new PImage(rotationPlatformNode.toImage( )));
@@ -40,6 +43,7 @@ public class RotationPlayAreaNode extends PNode {
         for( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
             addVectorNode( rotationModel.getRotationBody( i ), vectiorViewModel );
         }
+
     }
 
     private void addVectorNode( RotationBody rotationBody, VectorViewModel vectorViewModel ) {
