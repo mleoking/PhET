@@ -24,6 +24,7 @@ Added: checkboxes for selecting series data on multi-series charts
 Fixed: Velocity(x) should be written X-Velocity, get rid of (vx) on charts
 Fixed: Stroke phase changes on refresh
 Fixed: Space should be reserved in the play area for the origin node.
+Fixed: Zoom change doesn't repaint graphs
 
 0.00.17
 Added improved initial locations for characters.
