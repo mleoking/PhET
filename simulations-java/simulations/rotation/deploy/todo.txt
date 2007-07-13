@@ -2,7 +2,6 @@
 #     To Do
 ################
 
-•	Bug: Zoom change doesn't repaint graphs, should use dynamicjfreechartnode.forceupdate
 •	Add support for graphs with no series, so all 'addseries' methods can be consolidated?
 •	Use colors from the color chart
 •	Web version has centripetal acceleration arrow missing the center on user drag
