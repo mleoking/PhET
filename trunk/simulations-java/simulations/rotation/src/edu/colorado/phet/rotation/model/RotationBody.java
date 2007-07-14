@@ -34,6 +34,7 @@ public class RotationBody {
     private RotationPlatform rotationPlatform;//the platform this body is riding on, or null if not on a platform
     private edu.colorado.phet.common.motion.model.UpdateStrategy angleDriven;
     private double initialAngleOnPlatform;
+    private boolean displayGraph = true;
 
     public RotationBody() {
         this( "ladybug.gif" );
@@ -358,6 +359,19 @@ public class RotationBody {
         return angleTimeSeries;
     }
 
+    public void setDisplayGraph( boolean selected ) {
+        if (this.displayGraph!=selected){
+        this.displayGraph = selected;
+            for( int i = 0; i < listeners.size(); i++ ) {
+                ((Listener)listeners.get( i )).displayGraphChanged();
+            }
+        }
+    }
+
+    public boolean getDisplayGraph() {
+        return displayGraph;
+    }
+
     private static abstract class UpdateStrategy implements Serializable {
         public abstract void detach();
     }
@@ -432,6 +446,7 @@ public class RotationBody {
 
         void platformStateChanged();
 
+        void displayGraphChanged();
     }
 
     public static class Adapter implements Listener {
@@ -443,6 +458,9 @@ public class RotationBody {
         }
 
         public void platformStateChanged() {
+        }
+
+        public void displayGraphChanged() {
         }
 
     }

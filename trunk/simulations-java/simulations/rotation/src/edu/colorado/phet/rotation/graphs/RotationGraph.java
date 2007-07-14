@@ -95,6 +95,10 @@ public class RotationGraph extends MotionControlGraph {
                 public void platformStateChanged() {
                     updateVisibility();
                 }
+
+                public void displayGraphChanged() {
+                    updateVisibility();
+                }
             } );
             b.addListener( new ControlGraphSeries.Listener() {
                 public void visibilityChanged() {
@@ -105,7 +109,7 @@ public class RotationGraph extends MotionControlGraph {
 
         private void updateVisibility() {
             a.setVisible( visible );
-            b.setVisible( visible && body1.isOnPlatform() );
+            b.setVisible( visible && body1.isOnPlatform() && body1.getDisplayGraph() );
         }
 
         public String getName() {
