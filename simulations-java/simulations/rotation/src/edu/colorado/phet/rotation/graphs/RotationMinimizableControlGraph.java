@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation.graphs;
 
+import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
@@ -20,5 +21,17 @@ public class RotationMinimizableControlGraph extends MinimizableControlGraph {
 
     public void addSeries2( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries timeSeries, Stroke stroke ) {
         controlGraph.addSecondarySeries( title, color, abbr, simulationVariable, timeSeries, stroke );
+    }
+
+    public void addSeries2( ControlGraphSeries controlGraphSeries ) {
+        controlGraph.addSecondarySeries( controlGraphSeries );
+    }
+
+    public void addSeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b ) {
+        controlGraph.addSeriesPair(name,a,b);
+    }
+
+    public RotationGraph getRotationControlGraph() {
+        return controlGraph;
     }
 }
