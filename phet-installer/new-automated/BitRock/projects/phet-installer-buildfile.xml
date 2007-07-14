@@ -88,7 +88,7 @@
                         </shortcut>
                         <fileShortcut>
                             <comment>Launches the local mirror of the PhET website, containing all the PhET simulations.</comment>
-                            <filePath>${installdir}/web-pages/index.html</filePath>
+                            <filePath>${installdir}/new/index.html</filePath>
                             <icon>${installdir}/Phet-logo-48x48.gif</icon>
                             <name>PhET Simulations</name>
                             <platforms>all</platforms>
