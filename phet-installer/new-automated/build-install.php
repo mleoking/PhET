@@ -126,6 +126,13 @@
 
 	function builder_build_all() {
 	    flushing_echo("Building all installers for all configurations...");
+	
+		// Create directories mentioned in the build file:
+		file_mkdirs(RIPPED_WEBSITE_TOP."sims");
+		file_mkdirs(RIPPED_WEBSITE_TOP."simulations");
+		file_mkdirs(RIPPED_WEBSITE_TOP."new");
+		file_mkdirs(RIPPED_WEBSITE_TOP."physics");
+		file_mkdirs(RIPPED_WEBSITE_TOP."Design");
     
 	    // Make the autorun file for Windows CD-ROM (this copies installer stuff):
 	    autorun_create_autorun_file(basename(BITROCK_DIST_WINNT));
@@ -135,6 +142,9 @@
 	
 		// Build CD-ROM distribution:
 		installer_build_cd_rom_distribution();
+		
+		// Clean up autorun files:
+		autorun_cleanup_files();
 	}
 
 	function builder_deploy_all() {

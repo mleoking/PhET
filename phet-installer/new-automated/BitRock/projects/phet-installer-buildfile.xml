@@ -51,10 +51,13 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet.colorado.edu/web-pages</origin>
+                            <origin>../../temp/website/phet.colorado.edu/new</origin>
                         </distributionDirectory>
                         <distributionDirectory>
                             <origin>../../temp/website/phet.colorado.edu/simulations</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phet.colorado.edu/sims</origin>
                         </distributionDirectory>
                         <distributionDirectory>
                             <origin>../../temp/website/phet.colorado.edu/physics</origin>
