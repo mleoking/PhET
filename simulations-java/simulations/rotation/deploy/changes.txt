@@ -31,6 +31,7 @@ Fixed: When Second Bug is added to the platform, charts should show series data 
 Fixed: Check boxes (like in Force1D) for adding/removing series (applies to both characters)
     -Only show one checkbox for both characters, and have it apply to both characters; 
 Fixed: Second Bug’s data series should be dotted lines
+Fixed: Checkbox to remove/add second bug's dashed line data in graph. Bug itself should remain visible.
 
 0.00.17
 Added improved initial locations for characters.
