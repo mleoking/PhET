@@ -6,6 +6,7 @@ import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChart
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.motion.model.TimeData;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -28,6 +29,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -189,7 +191,6 @@ public class ControlGraph extends PNode {
     }
 
     static class TitleNode extends PNode {
-
         public TitleNode( String title, String abbr, Color color ) {
 //            ShadowPText titlePText = new ShadowPText( title + ", " + abbr );
             ShadowPText titlePText = new ShadowPText( title );
@@ -197,6 +198,40 @@ public class ControlGraph extends PNode {
             titlePText.setTextPaint( color );
             addChild( new PhetPPath( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ), Color.white, new BasicStroke(), Color.black ) );
             addChild( titlePText );
+        }
+    }
+
+    static class ReadoutTitleNode extends PNode {
+        private ShadowPText titlePText;
+        private String title;
+        private String abbr;
+        private ISimulationVariable simulationVariable;
+        private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
+        private PhetPPath background;
+
+        public ReadoutTitleNode( String title, String abbr, Color color, ISimulationVariable simulationVariable ) {
+            this.title = title;
+            this.abbr = abbr;
+            this.simulationVariable = simulationVariable;
+            titlePText = new ShadowPText();
+            titlePText.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+            titlePText.setTextPaint( color );
+            background = new PhetPPath( null, Color.white, new BasicStroke(), Color.black );
+            addChild( background );
+            addChild( titlePText );
+            simulationVariable.addListener( new ISimulationVariable.Listener() {
+                public void valueChanged() {
+                    updateText();
+                }
+            } );
+            updateText();
+        }
+
+        private void updateText() {
+//            titlePText.setText( title + ", " + abbr + " = " + decimalFormat.format( simulationVariable.getValue() ) );
+//            titlePText.setText( abbr + " = " + decimalFormat.format( simulationVariable.getValue() ) );
+            titlePText.setText( title + " " + decimalFormat.format( simulationVariable.getValue() ) );
+            background.setPathTo( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ) );//todo: avoid setting identical shapes here for performance considerations
         }
     }
 
@@ -249,7 +284,7 @@ public class ControlGraph extends PNode {
         this.series.add( series );
         dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
 
-        final TitleNode titleNode = new TitleNode( series.getTitle(), series.getAbbr(), series.getColor() );
+        final ReadoutTitleNode titleNode = new ReadoutTitleNode( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() );
         titleNode.setOffset( titleLayer.getFullBounds().getWidth(), 0 );
         titleLayer.addChild( titleNode );
 
