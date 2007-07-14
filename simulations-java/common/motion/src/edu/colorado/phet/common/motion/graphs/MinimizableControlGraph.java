@@ -170,6 +170,10 @@ public class MinimizableControlGraph extends PNode {
         controlGraph.getDynamicJFreeChartNode().forceUpdateAll();
     }
 
+    public void addSeries( ControlGraphSeries controlGraphSeries ) {
+        controlGraph.addSeries( controlGraphSeries );
+    }
+
     public static interface Listener {
         void minimizeStateChanged();
     }

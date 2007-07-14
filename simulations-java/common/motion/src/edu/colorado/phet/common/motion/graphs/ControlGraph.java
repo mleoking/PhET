@@ -168,18 +168,6 @@ public class ControlGraph extends PNode {
         return jFreeChartSliderNode.getValue();
     }
 
-    private ITimeSeries.Listener getListener( final ISimulationVariable simulationVariable ) {
-        return new ITimeSeries.Listener() {
-            public void dataAdded( TimeData timeData ) {
-                addValue( getSeriesIndex( simulationVariable ), timeData.getTime(), timeData.getValue() );
-            }
-
-            public void dataCleared() {
-                clear();
-            }
-        };
-    }
-
     public DynamicJFreeChartNode getDynamicJFreeChartNode() {
         return dynamicJFreeChartNode;
     }
@@ -258,7 +246,6 @@ public class ControlGraph extends PNode {
     }
 
     public void addSeries( final ControlGraphSeries series ) {
-
         this.series.add( series );
         dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
 
@@ -267,7 +254,15 @@ public class ControlGraph extends PNode {
         titleLayer.addChild( titleNode );
 
         final GraphTimeControlNode.SeriesNode seriesNode = graphTimeControlNode.addVariable( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() );
-        series.getObservableTimeSeries().addListener( getListener( series.getSimulationVariable() ) );
+        series.getObservableTimeSeries().addListener( new ITimeSeries.Listener() {
+            public void dataAdded( TimeData timeData ) {
+                addValue( getSeriesIndex( series.getSimulationVariable( ) ), timeData.getTime(), timeData.getValue() );
+            }
+
+            public void dataCleared() {
+                clear();
+            }
+        } );
         
         series.addListener( new ControlGraphSeries.Listener() {
             public void visibilityChanged() {
