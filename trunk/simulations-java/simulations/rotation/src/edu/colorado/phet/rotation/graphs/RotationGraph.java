@@ -49,6 +49,10 @@ public class RotationGraph extends MotionControlGraph {
 
     public void addSecondarySeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries timeSeries, Stroke stroke ) {
         ControlGraphSeries graphSeries = new ControlGraphSeries( title, color, abbr, simulationVariable, timeSeries, stroke );
+        addSecondarySeries( graphSeries );
+    }
+
+    public void addSecondarySeries( ControlGraphSeries graphSeries ) {
         secondarySeries.add( graphSeries );
         super.addSeries( graphSeries );
     }
@@ -56,6 +60,57 @@ public class RotationGraph extends MotionControlGraph {
     public void setSecondarySeriesVisible( boolean visible ) {
         for( int i = 0; i < secondarySeries.size(); i++ ) {
             ( (ControlGraphSeries)secondarySeries.get( i ) ).setVisible( visible );
+        }
+    }
+
+    private ArrayList seriesPairs = new ArrayList();
+
+    public void addSeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b ) {
+        seriesPairs.add( new SeriesPair( name, a, b ) );
+        addSeries( a );
+        addSecondarySeries( b );
+    }
+
+    public int getSeriesPairCount() {
+        return seriesPairs.size();
+    }
+
+    public SeriesPair getSeriesPair( int i ) {
+        return (SeriesPair)seriesPairs.get( i );
+    }
+
+    public static class SeriesPair {
+        private String name;
+        private ControlGraphSeries a;
+        private ControlGraphSeries b;
+        private boolean visible;
+
+        public SeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b ) {
+            this.name = name;
+            this.a = a;
+            this.b = b;
+            this.visible=a.isVisible()||b.isVisible();
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public ControlGraphSeries getA() {
+            return a;
+        }
+
+        public ControlGraphSeries getB() {
+            return b;
+        }
+
+        public boolean isVisible() {
+            return visible;
+        }
+
+        public void setVisible( boolean selected ) {
+            a.setVisible( selected );
+            b.setVisible( selected );
         }
     }
 
