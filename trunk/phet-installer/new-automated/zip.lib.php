@@ -81,10 +81,14 @@ class zipfile
                 ($timearray['hours'] << 11) | ($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
     } // end of the 'unix2DosTime()' method
 
+	/**
+	 * Adds a file or directory to the zip archive.
+	 *
+	 * @param file_or_dir 	The file or directory.
+	 *
+	 */
 	function add($file_or_dir) {
-		if (is_file($file_or_dir)) {
-			print ("Getting contents of $file_or_dir \n");
-			
+		if (is_file($file_or_dir)) {			
 			$contents = file_get_contents($file_or_dir);
 			
 			$this->add_file($contents, basename($file_or_dir));
@@ -106,13 +110,9 @@ class zipfile
 	 *
 	 */
 	function add_dir($dir, $time = 0, $rootdir = null) {		
-		print ("Adding dir $dir \n");
-		
 		if (is_dir($dir)) {
 			if ($rootdir == null) {
 				$rootdir = dirname($dir);
-				
-				print ("Root dir is $rootdir \n");
 			}
 			
 		    if ($dh = opendir($dir)) {
@@ -158,8 +158,6 @@ class zipfile
     function add_file($data, $name, $time = 0)
     {
         $name     = str_replace('\\', '/', $name);
-
-		print ("Adding file with $name \n");
 
         $dtime    = dechex($this->unix2DosTime($time));
         $hexdtime = '\x' . $dtime[6] . $dtime[7]

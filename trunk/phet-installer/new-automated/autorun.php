@@ -21,5 +21,10 @@
 	        fclose($wh);
 	    }
 	}
+	
+	function autorun_cleanup_files() {
+		unlink(AUTORUN_ICON_DEST);
+		unlink(AUTORUN_FILE_DEST);
+	}
 
 ?>

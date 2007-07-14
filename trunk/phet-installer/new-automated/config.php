@@ -29,8 +29,8 @@
 	// PhET Website Configuration
 	define("PHET_VERSION",              		"1.0");
 	define("PHET_ROOT_URL",             		"http://phet.colorado.edu/");
-	define("PHET_WEBSITE_URL",          		PHET_ROOT_URL."web-pages/");
-	define("PHET_RIPPER_FILTER",        		'"+*phet.colorado.edu/web-pages*" "+*phet.colorado.edu/simulations*"');
+	define("PHET_WEBSITE_URL",          		PHET_ROOT_URL."new/");
+	define("PHET_RIPPER_FILTER",        		'"+*phet.colorado.edu/new*" "+*phet.colorado.edu/Design*" "+*phet.colorado.edu/physics*" "+*phet.colorado.edu/simulations*" "+*phet.colorado.edu/sims*" "-*admin/get-upload.php?contribution_file_id=*" "-*teacher_ideas/view-contribution.php*" "-*admin/download-archive.php*" "-*translate.google.com*" "-*simulations/search.php*" ');
 	define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
 	define("PHET_WEBSITE_ROOT_PATTERN", 		'/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
 
