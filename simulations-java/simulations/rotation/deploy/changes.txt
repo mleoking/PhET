@@ -27,6 +27,7 @@ Fixed: Space should be reserved in the play area for the origin node.
 Fixed: Zoom change doesn't repaint graphs
 Added: support for graphs with no series, to improve interface to adding multiple series
 Fixed: Web version has centripetal acceleration arrow missing the center on user drag
+Fixed: Only show one checkbox for both characters, and have it apply to both characters
 
 0.00.17
 Added improved initial locations for characters.
