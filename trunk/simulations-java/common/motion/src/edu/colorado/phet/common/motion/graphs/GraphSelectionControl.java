@@ -18,7 +18,7 @@ public class GraphSelectionControl extends JPanel {
     public GraphSelectionControl( GraphSuiteSet rotationGraphSet, final GraphSetModel graphSetModel ) {
         setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        JLabel label = new JLabel( "Show graphs for:" );
+        JLabel label = new JLabel( "Show graphs:" );
         label.setFont( new Font( "Lucida Sans", Font.PLAIN, 16 ) );
         add( label, gridBagConstraints );
         for( int i = 0; i < rotationGraphSet.getNumGraphSuites(); i++ ) {
