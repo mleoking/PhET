@@ -266,6 +266,36 @@
         
         return $str;
     }
+
+    function get_abbreviation($table_name, $text) {
+        $result = db_exec_query("SELECT * FROM `$table_name` WHERE `${table_name}_desc`='$text' AND `${table_name}_is_template`='1' ");
+        
+        if (!$result) {
+            return abbreviate($text);
+        }
+        
+        $first_row = mysql_fetch_assoc($result);
+        
+        if (!$first_row) {
+            return abbreviate($text);
+        }
+        
+        $abbrev = $first_row["${table_name}_desc_abbrev"];
+        
+        if ($abbrev == '') {
+            $abbrev = abbreviate($text);
+        }
+        
+        return $abbrev;
+    }
+
+	function L($string) {
+		return strtolower($string);
+	}
+	
+	function seq($s1, $s2) {
+		return L($s1) == L($s2);
+	}
     
     function convert_old_contribution_type($old_contrib, $new_contribution_id) {
         $id = $old_contrib['id'];
@@ -276,13 +306,23 @@
             $old_activity = db_get_row_by_id('LU_activity', 'id', $old_activity_template['activity']);
             
             $type = $old_activity['type'];
+
+			if (seq($type, 'In-class activity/Lab')) {
+				$type = "Lab";
+			}
+			else if (seq($type, 'In-class demonstration')) {
+				$type = "Demonstration";
+			}
+			else if (seq($type, 'In-class concept question')) {
+				$type = "Concept Questions";
+			}
             
             switch_to_new();
             
             db_insert_row('contribution_type',
                 array(
                     'contribution_type_desc'        => $type,
-                    'contribution_type_desc_abbrev' => abbreviate($type),
+                    'contribution_type_desc_abbrev' => get_abbreviation('contribution_type', $type),
                     'contribution_id'               => $new_contribution_id 
                 )
             );
@@ -345,13 +385,29 @@
             $level = db_get_row_by_id('LU_course_level', 'id', $level_id);
             
             $desc = $level['level'];
+
+			if (seq($desc, '3-5')) {
+				$desc = "K-5";
+			}
+			else if (string_starts_with($desc, 'High School')) {
+				$desc = 'High School';
+			}
+			else if (strpos(L($desc), L('Upper level')) || strpos(L($desc), L('Upper-level'))) {
+				$desc = 'Undergraduate - Advanced';
+			}
+			else if (string_starts_with($desc, 'College')) {
+				$desc = 'Undergraduate - Intro';
+			}
+			else if (seq('Graduate School')) {
+				$desc = 'Graduate';
+			}
             
             switch_to_new();
             
             db_insert_row('contribution_level',
                 array(
                     'contribution_level_desc'        => $desc,
-                    'contribution_level_desc_abbrev' => abbreviate($desc),
+                    'contribution_level_desc_abbrev' => get_abbreviation('contribution_level', $desc),
                     'contribution_id'                => $new_contribution_id 
                 )
             );
@@ -363,21 +419,31 @@
     function convert_old_contribution_topic($old_contrib, $new_contribution_id) {
         $old_contrib_id = $old_contrib['id'];
         
-        $topic_templates = db_get_rows_by_condition('contribution_topic', array( 'contribution' => $old_contrib_id ));
+        $topic_templates = db_get_rows_by_condition('course', array( 'contribution' => $old_contrib_id ));
         
         foreach($topic_templates as $topic_template) {
-            $topic_id = $topic_template['topic']; // $topic_template['area'] // -- ????????????????????
+            $topic_id = $topic_template['course_description'];
             
-            $topic = db_get_row_by_id('LU_topic', 'id', $topic_id);
+            $topic = db_get_row_by_id('LU_course_description', 'id', $topic_id);
             
-            $desc = $topic['topic'];
+            $desc = $topic['description'];
+
+			if (seq($desc, 'General Science')) {
+				$desc = 'Other';
+			}
+			else if (seq($desc, 'Physical Science')) {
+				$desc = 'Physics';
+			}
+			else if (seq($desc, 'Math')) {
+				$desc = 'Mathematics';
+			}
             
             switch_to_new();
             
             db_insert_row('contribution_subject',
                 array(
                     'contribution_subject_desc'        => $desc,
-                    'contribution_subject_desc_abbrev' => abbreviate($desc),
+                    'contribution_subject_desc_abbrev' => get_abbreviation('contribution_subject', $desc),
                     'contribution_id'                  => $new_contribution_id 
                 )
             );
@@ -459,23 +525,75 @@
             $new_contrib['contribution_authors'] .= ', '.$old_contrib['coauthors'];
         }
         
-        $contribution_time_id = db_get_row_by_id('contribution_time', 'contribution', $old_contrib_id);
+		// 'contribution_duration'
+		$contribution_time_row = db_get_row_by_id('contribution_time', 'contribution', $old_contrib_id);
+		
+		if ($contribution_time_row) {
+	        $contribution_time_id = $contribution_time_row['time'];
         
-        if ($contribution_time_id) {
             $contribution_time = db_get_row_by_id('LU_time', 'id', $contribution_time_id);
-            
+           
             if ($contribution_time) {
-                $time_in_secs = strtotime($contribution_time['time'], 0);
-            
-                $time = $time_in_secs / 60;
-            
+				$time_text = $contribution_time['time'];
+			
+				if (substr($time_text, '15')) {
+					$time = 30;
+				}
+				else if (substr($time_text, '5')) {
+					$time = 30;
+				}
+				else if (substr($time_text, '30')) {
+					$time = 30;
+				}
+				else if (substr($time_text, '60')) {
+					$time = 60;
+				}
+				else if (substr($time_text, '120')) {
+					$time = 120;
+				}
+				else if (substr($time_text, '2')) {
+					$time = 120;
+				}
+				else if (seq($time_text, 'Multi-day')) {
+					$time = 120;
+				}
+				else if (substr($time_text, 'N/A')) {
+					$time = -1;
+				}
+				else {
+                	$time_in_secs = strtotime($time_text, 0);
+           
+                	$time = $time_in_secs / 60;
+				}
+           
                 $new_contrib['contribution_duration'] = $time;
             }
-        }
+		}
         
         $contribution_standards_compliance = convert_old_standards_compliance($old_contrib);
         
         $new_contrib['contribution_standards_compliance'] = $contribution_standards_compliance;
+
+		// 'contribution_keywords'
+		$contribution_topics = db_get_rows_by_condition('contribution_topic', array('contribution' => $old_contrib_id) );
+		
+		if ($contribution_topics) {			
+			foreach ($contribution_topics as $contribution_topic) {
+				$lu_topic_id = $contribution_topic['topic'];
+				
+				$lu_topic = db_get_row_by_id('LU_topic', 'id', $lu_topic_id);
+			
+				if ($lu_topic) {
+					$topic_text = $lu_topic['topic'];
+					$topic_text = str_replace('&amp;', ',', $topic_text);
+					$topic_text = str_replace('&',     ',', $topic_text);
+					$topic_text = preg_replace('/(\bthe\b)|(\ba\b)|(\([^)]+\))/i', '', $topic_text);
+					$topic_text = trim($topic_text);
+					
+					$new_contrib['contribution_keywords'] = $topic_text;
+				}
+			}
+		}
         
         switch_to_new();
         

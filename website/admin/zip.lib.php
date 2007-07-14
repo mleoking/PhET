@@ -79,7 +79,6 @@ class zipfile
                 ($timearray['hours'] << 11) | ($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
     } // end of the 'unix2DosTime()' method
 
-
     /**
      * Adds "file" to archive
      *
@@ -185,7 +184,7 @@ class zipfile
     } // end of the 'file()' method
     
 	
-	function write_to_temp_file($file_name) {
+	function write_to_file($file_name) {
 	    $zip_file = $this->build_zipped_file();
 	    
 	    $handle = fopen($file_name, 'wb');
