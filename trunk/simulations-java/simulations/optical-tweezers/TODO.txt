@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 AAPT:
-- add description to About dialog
 
 HIGH PRIORITY:
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
@@ -54,6 +53,8 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.28 (?)
+7/14/07 - add description to About dialog
 ********* version 0.00.27 (16704)
 7/13/07 - change defaults: Verlet scale to 4E-3, Verlet dt subdivisions to 10
 7/13/07 - bugfix: Brownian motion checkbox does not get reset properly with Reset All
