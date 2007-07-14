@@ -11,11 +11,11 @@
             </p>
 
 			<ul>
-				<li><a href="../../phet-dist/PhET-1.0-windows.exe">Download installer for Windows</a> - 55 MB</li>
+				<li><a href="../../phet-dist/PhET-1.0-windows-installer.exe">Download installer for Windows</a> - 55 MB</li>
 				
-				<li><a href="../../phet-dist/PhET-1.0-osx.zip">Download installer for Mac OS X</a> - 39 MB</li>
+				<li><a href="../../phet-dist/PhET-1.0-osx-installer.zip">Download installer for Mac OS X</a> - 39 MB</li>
 				
-				<li><a href="../../phet-dist/PhET-1.0-linux.bin">Download installer for Linux</a> - 39 MB</li>
+				<li><a href="../../phet-dist/PhET-1.0-linux-installer.bin">Download installer for Linux</a> - 39 MB</li>
 			</ul>
             
             <hr/>
