@@ -186,6 +186,24 @@ public class RotationBody {
         }
     }
 
+    //when position changes, we have to update the current vectors as well to make sure they are tangential and centripetal
+    //todo: this code duplicates much work done in updateBodyOnPlatform
+    private void updateVectorsOnPlatform() {
+        double omega = rotationPlatform.getVelocity();
+        double r = getPosition().distance( rotationPlatform.getCenter() );
+
+        Point2D newX = Vector2D.Double.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
+        Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
+        AbstractVector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
+        AbstractVector2D newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
+
+        xBody.getVVariable().setValue( newV.getX() );
+        yBody.getVVariable().setValue( newV.getY() );
+
+        xBody.getAVariable().setValue( newA.getX() );
+        yBody.getAVariable().setValue( newA.getY() );
+    }
+
     private void updateBodyOnPlatform( double time, double dt ) {
         double omega = rotationPlatform.getVelocity();
         double r = getPosition().distance( rotationPlatform.getCenter() );
@@ -340,10 +358,6 @@ public class RotationBody {
         return angleTimeSeries;
     }
 
-//    public edu.colorado.phet.common.motion.model.UpdateStrategy getAngleDriven( RotationModel model ) {
-//        return new AngleDriven( model );
-//    }
-
     private static abstract class UpdateStrategy implements Serializable {
         public abstract void detach();
     }
@@ -378,6 +392,7 @@ public class RotationBody {
             Line2D rot = rotate( segment, rotationPlatform.getCenter(), dtheta );
 
             setOrientation( new Vector2D.Double( rot.getP1(), rot.getP2() ).getAngle() );
+            updateVectorsOnPlatform();
             notifyPositionChanged();
         }
 
