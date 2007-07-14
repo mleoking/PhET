@@ -53,7 +53,7 @@ MISSING INFO:
 
  
 DONE:
-********* version 0.00.28 (?)
+********* version 0.00.28 (16736)
 7/14/07 - add description to About dialog
 ********* version 0.00.27 (16704)
 7/13/07 - change defaults: Verlet scale to 4E-3, Verlet dt subdivisions to 10
