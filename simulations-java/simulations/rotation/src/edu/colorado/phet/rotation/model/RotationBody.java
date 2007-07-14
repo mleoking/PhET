@@ -29,12 +29,15 @@ public class RotationBody {
     private ISimulationVariable angleVariable = new DefaultSimulationVariable();
     private ITimeSeries angleTimeSeries = new DefaultTimeSeries();
 
+    private ITimeSeries orientationSeries = new DefaultTimeSeries();
+
     private String imageName;
     private boolean constrained;
     private RotationPlatform rotationPlatform;//the platform this body is riding on, or null if not on a platform
     private edu.colorado.phet.common.motion.model.UpdateStrategy angleDriven;
     private double initialAngleOnPlatform;
     private boolean displayGraph = true;
+
 
     public RotationBody() {
         this( "ladybug.gif" );
@@ -58,30 +61,7 @@ public class RotationBody {
 
         angleVariable = new DefaultSimulationVariable();
         angleTimeSeries = new DefaultTimeSeries();
-
     }
-
-//    private class AngleDriven implements edu.colorado.phet.common.motion.model.UpdateStrategy {
-//        private RotationModel model;
-//
-//        public AngleDriven( RotationModel model ) {
-//            this.model = model;
-//        }
-//
-//        public void update( MotionBodySeries motionBodySeries, double dt, MotionBodyState state, double time ) {
-//            int velocityWindow = 6;
-//            int accelerationWindow = 6;
-//
-//            TimeData v = MotionMath.getDerivative( model.getRotationPlatform().getMotionBodySeries().getRecentPositionTimeSeries( Math.min( velocityWindow, model.getRotationPlatform().getMotionBodySeries().getVelocitySampleCount() ) ) );
-//            TimeData a = MotionMath.getDerivative( model.getRotationPlatform().getMotionBodySeries().getRecentVelocityTimeSeries( Math.min( accelerationWindow, model.getRotationPlatform().getMotionBodySeries().getAccelerationSampleCount() ) ) );
-//
-//            this.model.getRotationPlatform().getMotionBodySeries().addPositionData( state.getPosition(), time );
-//            this.model.getRotationPlatform().getMotionBodyState().setPosition( state.getPosition() );
-//
-//            this.model.getRotationPlatform().getMotionBodySeries().addVelocityData( v.getValue(), v.getTime() );
-//            this.model.getRotationPlatform().getMotionBodySeries().addAccelerationData( a.getValue(), a.getTime() );
-//        }
-//    }
 
     public void setOffPlatform() {
         if( !isOffPlatform() ) {
@@ -157,6 +137,8 @@ public class RotationBody {
 
         accelMagnitudeVariable.setValue( getAcceleration().getMagnitude() );
         accelMagnitudeSeries.addValue( getAcceleration().getMagnitude(), time );
+
+        orientationSeries.addValue( getOrientation(), time );
 
 
         notifyVectorsUpdated();
@@ -343,6 +325,7 @@ public class RotationBody {
         yBody.setTime( time );
         accelMagnitudeVariable.setValue( accelMagnitudeSeries.getValueForTime( time ) );
         speedVariable.setValue( speedSeries.getValueForTime( time ) );
+        setOrientation( orientationSeries.getValueForTime( time ) );
         notifyVectorsUpdated();
         notifyPositionChanged();
     }
@@ -360,10 +343,10 @@ public class RotationBody {
     }
 
     public void setDisplayGraph( boolean selected ) {
-        if (this.displayGraph!=selected){
-        this.displayGraph = selected;
+        if( this.displayGraph != selected ) {
+            this.displayGraph = selected;
             for( int i = 0; i < listeners.size(); i++ ) {
-                ((Listener)listeners.get( i )).displayGraphChanged();
+                ( (Listener)listeners.get( i ) ).displayGraphChanged();
             }
         }
     }
