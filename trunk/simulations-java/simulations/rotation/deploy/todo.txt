@@ -3,11 +3,11 @@
 ################################
               
 •	For X,V,A graphs (or noneditable series in general), readouts should be on-graph, no text-boxes on left hand side
+•	Bug: Beetle graph appears empty before beetle is on the platform 
+•	Invert coordinate frame so that +x and +y are in 1st quadrant
 •	Improve performance
 •   Symbol key takes a long time before initial paint, appears gray.
 
-•	Support for "missing values" in the series data (for when characters are being dragged by the user and don't have values for angular data series)
-    -Current implementation linearly interpolates between previous and subsequent values
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
 •	Shadow projections should be considered after AAPT.
 •	Possible interview question: bug icon at tip of graph to improve conceptual connection
@@ -32,6 +32,9 @@
         o x and y components are other main colors (red, green, blue)
         o second body is same as above but darker
 •   Time should stop at the end of available graphing space (if any graphs maximized)?  What did we do in Moving Man, Energy Skate Park, etc?
+•	Support for "missing values" in the series data (for when characters are being dragged by the user and don't have values for angular data series)
+    -Current implementation linearly interpolates between previous and subsequent values
+    -It would be fairly difficult to add a "missing value" feature
 
 ################################################
 #           Postponed:
