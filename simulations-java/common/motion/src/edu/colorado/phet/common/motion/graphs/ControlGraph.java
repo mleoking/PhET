@@ -253,22 +253,28 @@ public class ControlGraph extends PNode {
         titleNode.setOffset( titleLayer.getFullBounds().getWidth(), 0 );
         titleLayer.addChild( titleNode );
 
-        final GraphTimeControlNode.SeriesNode seriesNode = graphTimeControlNode.addVariable( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() );
+        GraphTimeControlNode.SeriesNode seriesNode = null;
+        if( series.isEditable() ) {
+            seriesNode = graphTimeControlNode.addVariable( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() );
+        }
         series.getObservableTimeSeries().addListener( new ITimeSeries.Listener() {
             public void dataAdded( TimeData timeData ) {
-                addValue( getSeriesIndex( series.getSimulationVariable( ) ), timeData.getTime(), timeData.getValue() );
+                addValue( getSeriesIndex( series.getSimulationVariable() ), timeData.getTime(), timeData.getValue() );
             }
 
             public void dataCleared() {
                 clear();
             }
         } );
-        
+
+        final GraphTimeControlNode.SeriesNode seriesNodeTemp = seriesNode;
         series.addListener( new ControlGraphSeries.Listener() {
             public void visibilityChanged() {
                 dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), series.isVisible() );
                 titleNode.setVisible( series.isVisible() );
-                seriesNode.setVisible( series.isVisible() );
+                if( seriesNodeTemp != null ) {
+                    seriesNodeTemp.setVisible( series.isVisible() );
+                }
                 getDynamicJFreeChartNode().forceUpdateAll();
             }
         } );
