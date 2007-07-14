@@ -1,34 +1,40 @@
-################
+################################################
 #     To Do
-################
+################################
               
-•	During playback, sometimes off-platform character spins in place (looks like on-platform vs. off-platform state is not being recorded and restored properly)
-•	For X,V,A graphs, readouts should be on-graph, no text-boxes on left hand side
-•   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
+•	For X,V,A graphs (or noneditable series in general), readouts should be on-graph, no text-boxes on left hand side
 •	Improve performance
-•   Symbol key takes a long time before initial paint.
+•   Symbol key takes a long time before initial paint, appears gray.
+
 •	Support for "missing values" in the series data (for when characters are being dragged by the user and don't have values for angular data series)
-•	Factor MotionBodyState and MotionBodySeries into a single object
-•	Implementation for setting platform angle by setting character angle is fragile 
+    -Current implementation linearly interpolates between previous and subsequent values
+•   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
 •	Shadow projections should be considered after AAPT.
 •	Possible interview question: bug icon at tip of graph to improve conceptual connection
-•	RotationBody should have internal representation for angular velocity and angular acceleration instead of relying on RotationPlatform's instance?
 •	Torque mode: Should be able to "spin" the wheel (i.e. drag, let go, and have it continue to spin, at least in friction mode)
 •	Consolidate MovingMan, Forces1D, Ramp, Rotation, Torque into a single codebase.
 •	Symbol key should appear near the mouse when "show symbol key" pressed
 
-################
+################################################
+#           Implementation issues
+################################
+•	Factor MotionBodyState and MotionBodySeries into a single object
+•	Implementation for setting platform angle by setting character angle is fragile
+•	RotationBody should have internal representation for angular velocity and angular acceleration instead of relying on RotationPlatform's instance?
+
+################################################
 #           Questions:
-################
-•	Got rid of abbreviations like (vx) on charts, do we want to show abbreviations for other series?
+################################
+•	Got rid of abbreviations like (vx) on charts, do we want to show abbreviations (e.g. symbol for theta) for other series?
 •	Use colors from the color chart: how to handle components and multiple bodies?
     -Current implementation uses:
         o vector magnitude for 1st character = color from Moving Man
         o x and y components are other main colors (red, green, blue)
-        o second body is same as above but darker 
+        o second body is same as above but darker
+•   Time should stop at the end of available graphing space (if any graphs maximized)?  What did we do in Moving Man, Energy Skate Park, etc?
 
-################
+################################################
 #           Postponed:
-################
+################################
 •	Investigate acceleration model from Motion2D simulation as a possibility for replacing the implementation in rotation. 
 
