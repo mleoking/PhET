@@ -19,6 +19,7 @@ public class ControlGraphSeries {
     private ITimeSeries observableTimeSeries;
     private boolean visible = true;
     private Stroke stroke;
+    private boolean editable;
 
     private ArrayList listeners = new ArrayList();
 
@@ -27,6 +28,11 @@ public class ControlGraphSeries {
     }
 
     public ControlGraphSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
+        this( title, color, abbr, simulationVariable, observableTimeSeries, stroke, false );
+    }
+
+    public ControlGraphSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke, boolean editable ) {
+        this.editable = editable;
         this.stroke = stroke;
         this.title = title;
         this.color = color;
@@ -64,6 +70,10 @@ public class ControlGraphSeries {
             this.visible = visible;
             notifyVisibilityChanged();
         }
+    }
+
+    public boolean isEditable() {
+        return editable;
     }
 
     public static interface Listener {

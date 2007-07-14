@@ -50,8 +50,8 @@ public class RotationGraphSet extends GraphSuiteSet {
             }
         } );
         angleGraph.addSeriesPair( "Angular Position",
-                                  new ControlGraphSeries( "Angular Position", RotationColorScheme.ANGLE_COLOR, "body1", b0.getAngleVariable(), b0.getAngleTimeSeries(), body0Stroke ),
-                                  new ControlGraphSeries( "Angular Position (2)", darken( RotationColorScheme.ANGLE_COLOR ), "body2", b1.getAngleVariable(), b1.getAngleTimeSeries(), body1Stroke ),
+                                  new ControlGraphSeries( "Angular Position", RotationColorScheme.ANGLE_COLOR, UnicodeUtil.THETA, b0.getAngleVariable(), b0.getAngleTimeSeries(), body0Stroke,true ),
+                                  new ControlGraphSeries( "Angular Position (2)", darken( RotationColorScheme.ANGLE_COLOR ), UnicodeUtil.THETA, b1.getAngleVariable(), b1.getAngleTimeSeries(), body1Stroke ),
                                   b1 );
 
         RotationMinimizableControlGraph velocityGraph = new RotationMinimizableControlGraph( UnicodeUtil.OMEGA, new RotationGraph(
@@ -59,8 +59,8 @@ public class RotationGraphSet extends GraphSuiteSet {
                 UnicodeUtil.OMEGA, "Angular Velocity", "radians/sec", -5, 5, new PImage( loadArrow( "red-arrow.png" ) ),
                 model, true, model.getTimeSeriesModel(), model.getVelocityDriven(), maxTime, model.getRotationPlatform() ) );
         velocityGraph.addSeriesPair( "Angular Velocity",
-                                     new ControlGraphSeries( "Angular Velocity", RotationColorScheme.ANGULAR_VELOCITY_COLOR, "w", model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), body0Stroke ),
-                                     new ControlGraphSeries( "Angular Velocity (2)", darken( RotationColorScheme.ANGULAR_VELOCITY_COLOR ), "w", model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), body1Stroke ),
+                                     new ControlGraphSeries( "Angular Velocity", RotationColorScheme.ANGULAR_VELOCITY_COLOR, UnicodeUtil.OMEGA, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), body0Stroke ,true),
+                                     new ControlGraphSeries( "Angular Velocity (2)", darken( RotationColorScheme.ANGULAR_VELOCITY_COLOR ), UnicodeUtil.OMEGA, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), body1Stroke ),
                                      b1 );
 
         RotationMinimizableControlGraph accelGraph = new RotationMinimizableControlGraph( UnicodeUtil.ALPHA, new RotationGraph(
@@ -68,7 +68,7 @@ public class RotationGraphSet extends GraphSuiteSet {
                 UnicodeUtil.ALPHA, "Angular Acceleration", "radians/sec^2", -1.1, 1.1, new PImage( loadArrow( "green-arrow.png" ) ),
                 model, true, model.getTimeSeriesModel(), model.getAccelDriven(), maxTime, model.getRotationPlatform() ) );
         accelGraph.addSeriesPair( "Angular Acceleration",
-                                  new ControlGraphSeries( "Angular Acceleration", RotationColorScheme.ANGULAR_ACCELERATION_COLOR, UnicodeUtil.ALPHA, model.getPlatformAccelVariable(), model.getPlatformAccelTimeSeries(), body0Stroke ),
+                                  new ControlGraphSeries( "Angular Acceleration", RotationColorScheme.ANGULAR_ACCELERATION_COLOR, UnicodeUtil.ALPHA, model.getPlatformAccelVariable(), model.getPlatformAccelTimeSeries(), body0Stroke,true ),
                                   new ControlGraphSeries( "Angular Acceleration (2) ", darken( RotationColorScheme.ANGULAR_ACCELERATION_COLOR ), UnicodeUtil.ALPHA, model.getPlatformAccelVariable(), model.getPlatformAccelTimeSeries(), body1Stroke ), b1 );
 
         RotationMinimizableControlGraph linearPositionGraph = new RotationMinimizableControlGraph( "x,y", new RotationGraph(
