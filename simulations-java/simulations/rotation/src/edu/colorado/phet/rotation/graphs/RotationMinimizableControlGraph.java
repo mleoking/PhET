@@ -4,6 +4,7 @@ import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
+import edu.colorado.phet.rotation.model.RotationBody;
 
 import java.awt.*;
 
@@ -27,8 +28,8 @@ public class RotationMinimizableControlGraph extends MinimizableControlGraph {
         controlGraph.addSecondarySeries( controlGraphSeries );
     }
 
-    public void addSeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b ) {
-        controlGraph.addSeriesPair(name,a,b);
+    public void addSeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b, RotationBody bodyB ) {
+        controlGraph.addSeriesPair(name,a,b,bodyB );
     }
 
     public RotationGraph getRotationControlGraph() {

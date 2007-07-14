@@ -7,6 +7,7 @@ import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
@@ -25,6 +26,9 @@ import java.util.ArrayList;
  * Jul 12, 2007, 9:43:17 AM
  */
 public class RotationGraph extends MotionControlGraph {
+    private ArrayList secondarySeries = new ArrayList();//keep track of series for the 2nd bug so we can show/hide them together
+    private ArrayList seriesPairs = new ArrayList();
+
     public RotationGraph( PhetPCanvas pSwingCanvas, ISimulationVariable simulationVariable,
                           String label, String title, String units, double min, double max, PImage thumb,
                           RotationModel motionModel, boolean editable, TimeSeriesModel timeSeriesModel,
@@ -45,11 +49,8 @@ public class RotationGraph extends MotionControlGraph {
         } );
     }
 
-    private ArrayList secondarySeries = new ArrayList();//keep track of series for the 2nd bug so we can show/hide them together
-
     public void addSecondarySeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries timeSeries, Stroke stroke ) {
-        ControlGraphSeries graphSeries = new ControlGraphSeries( title, color, abbr, simulationVariable, timeSeries, stroke );
-        addSecondarySeries( graphSeries );
+        addSecondarySeries( new ControlGraphSeries( title, color, abbr, simulationVariable, timeSeries, stroke ) );
     }
 
     public void addSecondarySeries( ControlGraphSeries graphSeries ) {
@@ -63,10 +64,8 @@ public class RotationGraph extends MotionControlGraph {
         }
     }
 
-    private ArrayList seriesPairs = new ArrayList();
-
-    public void addSeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b ) {
-        seriesPairs.add( new SeriesPair( name, a, b ) );
+    public void addSeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b, RotationBody bodyB ) {
+        seriesPairs.add( new SeriesPair( name, a, b, bodyB ) );
         addSeries( a );
         addSecondarySeries( b );
     }
@@ -83,13 +82,30 @@ public class RotationGraph extends MotionControlGraph {
         private String name;
         private ControlGraphSeries a;
         private ControlGraphSeries b;
+        private RotationBody body1;
         private boolean visible;
 
-        public SeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b ) {
+        public SeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b, RotationBody body1 ) {
             this.name = name;
             this.a = a;
             this.b = b;
-            this.visible=a.isVisible()||b.isVisible();
+            this.body1 = body1;
+            this.visible = a.isVisible();
+            body1.addListener( new RotationBody.Adapter() {
+                public void platformStateChanged() {
+                    updateVisibility();
+                }
+            } );
+            b.addListener( new ControlGraphSeries.Listener() {
+                public void visibilityChanged() {
+                    updateVisibility();//todo this is a workaround to overwrite values set by other calls to setVisible(true)
+                }
+            } );
+        }
+
+        private void updateVisibility() {
+            a.setVisible( visible );
+            b.setVisible( visible && body1.isOnPlatform() );
         }
 
         public String getName() {
@@ -109,8 +125,10 @@ public class RotationGraph extends MotionControlGraph {
         }
 
         public void setVisible( boolean selected ) {
-            a.setVisible( selected );
-            b.setVisible( selected );
+            if( visible != selected ) {
+                this.visible = selected;
+                updateVisibility();
+            }
         }
     }
 
