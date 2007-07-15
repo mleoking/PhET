@@ -3,6 +3,7 @@
 ################################
               
 •	For X,V,A graphs (or noneditable series in general), readouts should be on-graph, no text-boxes on left hand side
+•	On test laptop, Java 1.5, during user interaction clock is not able to tick
 •	Bug: Beetle graph appears empty before beetle is on the platform 
 •	Invert coordinate frame so that +x and +y are in 1st quadrant
 •	Improve performance
