@@ -15,7 +15,7 @@ import javax.swing.*;
  */
 
 public class RotationApplication extends PhetApplication {
-    private AbstractRotationModule rotationModule;
+    private RotationModule rotationModule;
 
     public RotationApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance() ) );
@@ -23,6 +23,7 @@ public class RotationApplication extends PhetApplication {
         addModule( rotationModule );
 
         getPhetFrame().addMenu( new RotationTestMenu() );
+        getPhetFrame().addMenu( new RotationDevMenu( this ) );
     }
 
     public void startApplication() {
@@ -42,4 +43,7 @@ public class RotationApplication extends PhetApplication {
         } );
     }
 
+    public RotationModule getRotationModule() {
+        return rotationModule;
+    }
 }

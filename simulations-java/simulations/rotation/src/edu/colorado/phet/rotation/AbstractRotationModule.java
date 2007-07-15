@@ -56,4 +56,5 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     public void startApplication() {
         rotationSimulationPanel.startApplication();
     }
+
 }

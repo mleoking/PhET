@@ -54,8 +54,10 @@ public class MotionBodyState implements Serializable {
     }
 
     public void setVelocity( double velocity ) {
-        this.velocity = velocity;
-        notifyVelocityChanged();
+        if( this.velocity != velocity ) {
+            this.velocity = velocity;
+            notifyVelocityChanged();
+        }
     }
 
     private void notifyVelocityChanged() {
@@ -65,8 +67,10 @@ public class MotionBodyState implements Serializable {
     }
 
     public void setAcceleration( double acceleration ) {
-        this.acceleration = acceleration;
-        notifyAccelerationChanged();
+        if( this.acceleration != acceleration ) {
+            this.acceleration = acceleration;
+            notifyAccelerationChanged();
+        }
     }
 
     private void notifyAccelerationChanged() {
