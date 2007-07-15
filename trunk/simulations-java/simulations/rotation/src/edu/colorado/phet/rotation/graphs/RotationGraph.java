@@ -42,6 +42,9 @@ public class RotationGraph extends MotionControlGraph {
         verticalAxis.setRange( oldRangeAxis.getRange() );
         getJFreeChartNode().getChart().getXYPlot().setRangeAxis( verticalAxis );
 
+        getDynamicJFreeChartNode().setBufferedSeries();
+//        dynamicJFreeChartNode.setBufferedImmediateSeries();
+
         addListener( new Adapter() {
             public void zoomChanged() {
                 getDynamicJFreeChartNode().forceUpdateAll();

@@ -1,9 +1,6 @@
 package edu.colorado.phet.rotation;
 
-import edu.colorado.phet.common.motion.graphs.GraphSetModel;
-import edu.colorado.phet.common.motion.graphs.GraphSuite;
-import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
-import edu.colorado.phet.common.motion.graphs.TimeSeriesGraphSetNode;
+import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -126,7 +123,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
 
     private void relayout() {
         new RotationLayout( this, rotationPlayAreaNode, rotationControlPanelNode,
-                            timeSeriesGraphSetNode, rotationPlayAreaNode.getPlatformNode(),rotationPlayAreaNode.getOriginNode() ).layout();
+                            timeSeriesGraphSetNode, rotationPlayAreaNode.getPlatformNode(), rotationPlayAreaNode.getOriginNode() ).layout();
     }
 
     public GraphSuite getGraphSuite( int i ) {
@@ -151,5 +148,26 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
 
     public void startApplication() {
         timeSeriesGraphSetNode.forceRepaintGraphs();
+    }
+
+    public void setGraphsBufferedImmediateSeries() {
+        MinimizableControlGraph[] graphs = rotationGraphSet.getAllGraphs();
+        for( int i = 0; i < graphs.length; i++ ) {
+            graphs[i].getControlGraph().getDynamicJFreeChartNode().setBufferedImmediateSeries();
+        }
+    }
+
+    public void setGraphsBufferedSeries(){
+        MinimizableControlGraph[] graphs = rotationGraphSet.getAllGraphs();
+        for( int i = 0; i < graphs.length; i++ ) {
+            graphs[i].getControlGraph().getDynamicJFreeChartNode().setBufferedSeries();
+        }
+    }
+
+    public void setGraphsPiccoloSeries(){
+        MinimizableControlGraph[] graphs = rotationGraphSet.getAllGraphs();
+        for( int i = 0; i < graphs.length; i++ ) {
+            graphs[i].getControlGraph().getDynamicJFreeChartNode().setPiccoloSeries();
+        }
     }
 }
