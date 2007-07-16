@@ -1,3 +1,4 @@
+0.00.30 (7-16-2007)
 Added initial support for ruler
 Added white dot in the middle of bug to represent center of motion
 Fixed: Angular velocity graph should go from -0.15 to 0.15
