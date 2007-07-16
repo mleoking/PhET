@@ -7,7 +7,7 @@
 •	Bug: Beetle graph appears empty before beetle is on the platform 
 •	Invert coordinate frame so that +x and +y are in 1st quadrant
 •	Improve performance
-•   Symbol key takes a long time before initial paint, appears gray.
+•   Transparency is not being used correctly on Mac.
 
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
 •	Shadow projections should be considered after AAPT.
