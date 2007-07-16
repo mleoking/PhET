@@ -1,0 +1,2 @@
+7-16-2007
+o improved performance of application inner loop
