@@ -1,6 +1,12 @@
-After reviewing the version of CCK on the website, it looks like it does a much better job of handling the values shown when editing capacitance, inductance, and voltage, and also of resizing, than the latest version.
-  In the web version, the circuit stays centered in the same place when you resize it, instead of jumping all over the screen.  Staying in the same place seems preferable.  Also, I don't have the problem of the voltage meter not working after resizing in the web version.  So in my opinion, these issues should be fixed before posting the new version.
+After reviewing the version of CCK on the website,
+it looks like it does a much better job of handling the values shown
+when editing capacitance, inductance, and voltage, and also of resizing,
+than the latest version.
 
+  In the web version, the circuit stays centered in the same place when you resize it,
+  instead of jumping all over the screen.  Staying in the same place seems preferable.
+  Also, I don't have the problem of the voltage meter not working after resizing in the web version.
+  So in my opinion, these issues should be fixed before posting the new version.
 
 Thanks for this bug report.  Save/Load appears to work only if the user specifies the file to end with ".cck"
 
@@ -24,16 +30,22 @@ Do you have any ideas how I might overcome this problem.*
 >Thanks!
 
 Dear PhET team-
-   I was using the Circuit Construction kit with my students today, and had them testing the items in the grab bag. Several of them pointed out that the pencil did not behave as they expected. We had done a lab early where they used pencils as electrodes for electrolysis, using only 3 volts.  Thus, they were surprised that the pencil does not appreciably conduct at low voltage. Why is that?
-
-
+   I was using the Circuit Construction kit with my students today, and had them testing the items in the grab bag.
+   Several of them pointed out that the pencil did not behave as they expected.
+   We had done a lab early where they used pencils as electrodes for electrolysis, using only 3 volts.
+   Thus, they were surprised that the pencil does not appreciably conduct at low voltage. Why is that?
 
 ################################################
 #To Do
 #######################
 
 (not fully pruned)
-·	I think that I have found a problem with the capacitors in your AC/DC simulator.     The values that I obtain are high by a factor of more than 17.  My procedure is to charge a capacitor (0.02 F) with 27.1 V.  The switch on the battery side of the circuit is opened the capacitor discharges through a 100 ohm resistor.  Measuring the time for the voltage to drop to 10 V should yield the time constant RC (100 ohm x 0.02 F = 2 s) for the capacitor/resistor pair.  I get a time constant of >35 s.   
+·	I think that I have found a problem with the capacitors in your AC/DC simulator.
+The values that I obtain are high by a factor of more than 17.
+My procedure is to charge a capacitor (0.02 F) with 27.1 V.
+The switch on the battery side of the circuit is opened the capacitor discharges through a 100 ohm resistor.
+Measuring the time for the voltage to drop to 10 V should yield the time constant RC (100 ohm x 0.02 F = 2 s) for the capacitor/resistor pair.
+I get a time constant of >35 s.   
 
 Chris's bugs.
 -Bug 12: Not worried about this for short term.
