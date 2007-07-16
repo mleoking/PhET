@@ -3,7 +3,6 @@ package edu.colorado.phet.rotation.controls;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,6 +20,10 @@ public class SymbolKeyButton extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 SwingUtils.centerDialogInParent( dialog );
                 dialog.show();
+                if( dialog.getContentPane() instanceof JComponent ) {
+                    JComponent jComponent = (JComponent)dialog.getContentPane();
+                    jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
+                }
             }
         } );
         dialog.setContentPane( new SymbolKey() );
