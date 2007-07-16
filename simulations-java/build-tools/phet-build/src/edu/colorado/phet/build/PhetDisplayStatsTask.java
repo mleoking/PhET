@@ -25,7 +25,7 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
             try {
                 File projectParentDir = PhetBuildUtils.resolveProject( baseDir, simName );
                 PhetProject phetProject = new PhetProject( projectParentDir, simName );
-                System.out.println( phetProject.getName() + ": " + Arrays.asList( phetProject.getFlavorNames() ) + " locales: " + Arrays.asList( phetProject.getLocales() ) + " non-clash-data=" + isNonClashData( phetProject )+", user-readable-names="+Arrays.asList( getUserReadableFlavorNames(phetProject)) );
+                System.out.println( phetProject.getName() + ": " + Arrays.asList( phetProject.getFlavorNames() ) + " locales: " + Arrays.asList( phetProject.getLocales() ) + " non-clash-data=" + isNonClashData( phetProject )+", user-readable-names="+Arrays.asList( getUserReadableFlavorNames(phetProject))+" version="+phetProject.getVersionString() );
                 numStandardized+= isNonClashData( phetProject )?1:0;
                 flavorCount += phetProject.getFlavorNames().length;
                 for( int j = 0; j < phetProject.getLocales().length; j++ ) {

@@ -442,4 +442,16 @@ public class PhetProject {
         String suffix = locale.equals( "en" ) || locale.equals( "" ) ? "" : "_" + locale;
         return new File( getLocalizationDir(), getName() + "-strings" + suffix + ".properties" );
     }
+
+    //Can't reuse the property loading code from phetcommon since the build process currently is GPL only. 
+    public String getVersionString() {
+        Properties prop=new Properties( );
+        try {
+            prop.load( new FileInputStream( new File( getDir(), "data/"+getName()+"/"+getName()+".properties") ));
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        return prop.getProperty( "version.major")+"."+prop.getProperty( "version.minor")+"."+prop.getProperty( "version.dev");
+    }
 }
