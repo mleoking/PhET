@@ -36,6 +36,7 @@ Fixed: During playback, sometimes off-platform character spins in place (looks l
     -character orientation is now saved and restored
 Removed: text boxes on the left side of graphs for uneditable series
 Fixed: Symbol key takes a long time before initial paint, appears gray.
+Fixed: For X,V,A graphs (or noneditable series in general), readouts should be on-graph, no text-boxes on left hand side
 
 0.00.17
 Added improved initial locations for characters.
