@@ -1,3 +1,9 @@
+Notes from Sam Reid 7-16-2007:
+o There is a delay on bringing out the 1st component from the toolbox.
+o When measuring the voltage across a battery with the voltmeter, and proposing a match from a wire, voltmeter temporarily reads out infinite voltage.
+o Switch handle should give a different mouse cursor to signify that the switch can be thrown.
+o Example at http://www.physics.uoguelph.ca/tutorials/ohm/Q.ohm.example.parallel.html is handled correctly.
+
 After reviewing the version of CCK on the website,
 it looks like it does a much better job of handling the values shown
 when editing capacitance, inductance, and voltage, and also of resizing,
