@@ -3,6 +3,7 @@ package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
@@ -29,14 +30,14 @@ import java.io.IOException;
  */
 
 public class QWIApplication extends PiccoloPhetApplication {
-    public static String VERSION = "1.05";
+//    public static String VERSION = "1.05";
     private IntensityModule intensityModule;
     public SingleParticleModule singleParticleModule;
     public MandelModule mandelModule;
 
     public QWIApplication( String[] args ) {
         super( args, QWIStrings.getString( "qwi.name" ), QWIStrings.getString( "qwi.description" ),
-               VERSION, new QWIFrameSetup() );
+               getQWIVersion(), new QWIFrameSetup() );
 //        super.setPhetLookAndFeel( new QWILookAndFeel());
 
         intensityModule = new IntensityModule( this, createClock() );
@@ -76,6 +77,10 @@ public class QWIApplication extends PiccoloPhetApplication {
         getPhetFrame().addFileMenuItem( load );
         getPhetFrame().addFileMenuSeparator();
 
+    }
+
+    private static String getQWIVersion() {
+        return PhetApplicationConfig.getVersion( "qwi").formatForTitleBar();
     }
 
     private QWIModule getActiveSchrodingerModule() {
