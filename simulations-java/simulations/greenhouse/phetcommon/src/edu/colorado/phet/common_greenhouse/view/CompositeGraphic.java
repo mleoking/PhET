@@ -125,15 +125,10 @@ public class CompositeGraphic implements InteractiveGraphic {
      */
     private List getElementsInOrder() {
         ArrayList elements = new ArrayList();
-        synchronized( graphicLayers ) {
             Collection layers = graphicLayers.values();
             for( Iterator layerIt = layers.iterator(); layerIt.hasNext(); ) {
-                Collection layer = (Collection)layerIt.next();
-                for( Iterator graphicIt = layer.iterator(); graphicIt.hasNext(); ) {
-                    elements.add( graphicIt.next() );
-                }
+                elements.addAll( (ArrayList)layerIt.next() );
             }
-        }
         return elements;
     }
 
