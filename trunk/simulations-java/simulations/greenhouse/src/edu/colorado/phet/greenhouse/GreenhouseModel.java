@@ -66,10 +66,10 @@ public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener
         super.addModelElement( aps );
     }
 
-    ArrayList pl = new ArrayList( );
+//    ArrayList pl = new ArrayList( );
 
     public void removeModelElement( ModelElement m ) {
-        pl.add( m );
+//        pl.add( m );
 
         super.removeModelElement( m );
     }
