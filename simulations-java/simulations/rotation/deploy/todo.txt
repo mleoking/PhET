@@ -2,13 +2,14 @@
 #     To Do
 ################################
               
-•	For X,V,A graphs (or noneditable series in general), readouts should be on-graph, no text-boxes on left hand side
-•	On test laptop, Java 1.5, during user interaction clock is not able to tick
-•	Bug: Beetle graph appears empty before beetle is on the platform 
+•	Bug: On test laptop, Java 1.5, during user interaction with the platform, clock is not able to tick
+•	Bug: Beetle graph appears empty before beetle is on the platform
+•   Bug: Transparency is not being used correctly on Mac.
 •	Invert coordinate frame so that +x and +y are in 1st quadrant
 •	Improve performance
-•   Transparency is not being used correctly on Mac.
+•   On graph readouts should have a better (fixed) layout.
 
+Lower Priority:
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
 •	Shadow projections should be considered after AAPT.
 •	Possible interview question: bug icon at tip of graph to improve conceptual connection
