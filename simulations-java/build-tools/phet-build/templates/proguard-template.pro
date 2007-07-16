@@ -19,6 +19,10 @@
     <methods>;
 }
 
+-keep public class edu.colorado.phet.qm.persistence.**{
+    public protected *;
+}
+
 -keep class * extends javax.swing.plaf.ComponentUI {
     public static javax.swing.plaf.ComponentUI createUI(javax.swing.JComponent);
 }
