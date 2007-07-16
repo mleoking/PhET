@@ -22,6 +22,7 @@ import edu.colorado.phet.common_semiconductor.view.graphics.mousecontrols.Transl
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_semiconductor.view.util.AspectRatioLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common_semiconductor.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common_semiconductor.view.util.graphics.HashedImageLoader;
 import edu.colorado.phet.common_semiconductor.view.util.graphics.ImageLoader;
@@ -64,7 +65,7 @@ import java.util.ArrayList;
 public class SemiconductorApplication extends Module implements Graphic {
     // Localization
     public static final String localizedStringsPath = "semiconductor/localization/semiconductor-strings";
-    private static final String VERSION = "1.00";
+    private static final String VERSION = PhetApplicationConfig.getVersion( "semiconductor").formatForTitleBar();
 
     CircuitSection circuitSection;
     EnergySection energySection;
@@ -284,7 +285,7 @@ public class SemiconductorApplication extends Module implements Graphic {
         FrameSetup fs = new TopOfScreen();
         ApplicationDescriptor ad = new ApplicationDescriptor( SimStrings.get( "SemiconductorApplication.title" ) + " " + VERSION,
                                                               SimStrings.get( "SemiconductorApplication.description" ),
-                                                              SimStrings.get( "SemiconductorApplication.version" ), fs );
+                                                              VERSION, fs );
         ad.setName( "semiconductor" );
         SwingTimerClock clock = new SwingTimerClock( 1, 45, true );
         SemiconductorApplication application = new SemiconductorApplication( clock );

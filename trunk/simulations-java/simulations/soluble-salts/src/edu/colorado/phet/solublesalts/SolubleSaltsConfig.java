@@ -13,6 +13,7 @@ package edu.colorado.phet.solublesalts;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -29,7 +30,7 @@ public class SolubleSaltsConfig {
     // Descriptive information
     public static final String TITLE = SimStrings.getInstance().getString( "soluble-salts.name" );
     public static final String DESCRIPTION = SimStrings.getInstance().getString("soluble-salts.description");
-    public static final String VERSION = "1.01";
+    public static final String VERSION = PhetApplicationConfig.getVersion( "soluble-salts").formatForTitleBar();
 
     // Clock parameters
     public static final double DT = 1;

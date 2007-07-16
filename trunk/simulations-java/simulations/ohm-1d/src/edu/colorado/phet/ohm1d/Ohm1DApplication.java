@@ -1,6 +1,7 @@
 package edu.colorado.phet.ohm1d;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.ohm1d.collisions.Collider;
 import edu.colorado.phet.ohm1d.collisions.DefaultCollisionEvent;
 import edu.colorado.phet.ohm1d.common.math.functions.Transform;
@@ -58,6 +59,7 @@ import java.util.Random;
 public class Ohm1DApplication extends JApplet {
     // Localization
     public static final String localizedStringsPath = "ohm-1d/localization/ohm-1d-strings";
+    private static final String VERSION = PhetApplicationConfig.getVersion( "ohm-1d").formatForTitleBar();
 
     public Ohm1DApplication() {
         //System.err.println("HI");
@@ -356,7 +358,7 @@ public class Ohm1DApplication extends JApplet {
         sys.addLaw( current ); //Uncomment this to show the actual current.
         sys.addLaw( new Repaint( pp ) );
 
-        JFrame f = new JFrame( SimStrings.get( "Ohm1dApplication.title" ) );
+        JFrame f = new JFrame( SimStrings.get( "Ohm1dApplication.title" )+" ("+VERSION+")" );
         f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         pp.setBackground( new Color( 235, 230, 240 ) );
         JPanel mainPanel = new JPanel();

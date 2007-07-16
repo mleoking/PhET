@@ -17,6 +17,7 @@ import edu.colorado.phet.coreadditions_microwaves.clock.DynamicClockModel;
 import edu.colorado.phet.coreadditions_microwaves.clock.SwingTimerClock;
 import edu.colorado.phet.coreadditions_microwaves.components.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 
 import javax.swing.*;
@@ -34,6 +35,7 @@ public class MicrowaveApplication {
 
     // Localization
     public static final String localizedStringsPath = "microwaves/localization/microwaves-strings";
+    private static final String VERSION = PhetApplicationConfig.getVersion( "microwaves").formatForTitleBar();
 
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
@@ -89,12 +91,12 @@ public class MicrowaveApplication {
                 coffeeModule
         };
         ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
-                new String( SimStrings.get( "MicrowavesApplication.title")
-                                            + " ("
-                                            + SimStrings.get( "MicrowavesApplication.version" )
-                                            + ")" ),
+                SimStrings.get( "MicrowavesApplication.title" )
+                + " ("
+                + VERSION
+                + ")",
                 MessageFormatter.format( SimStrings.get( "MicrowavesApplication.description" ) ),
-                SimStrings.get( "MicrowavesApplication.version" ), 1024, 768 );
+                VERSION, 1024, 768 );
         s_application = new PhetApplication( appDescriptor, modules,
                                              new SwingTimerClock( new DynamicClockModel( 20, 50 ) ) );
         PhetFrame frame = s_application.getApplicationView().getPhetFrame();

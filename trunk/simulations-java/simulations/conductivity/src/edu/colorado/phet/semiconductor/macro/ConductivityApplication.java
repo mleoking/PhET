@@ -20,6 +20,7 @@ import edu.colorado.phet.common.conductivity.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.conductivity.view.util.AspectRatioLayout;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -71,7 +72,6 @@ public class ConductivityApplication extends Module {
     Hashtable photonGraphicTable;
 
     public static final String localizedStringsPath = "conductivity/localization/conductivity-strings";
-    private static String version = "1.00";
 
     public AbstractClock getClock() {
         return clock;
@@ -273,6 +273,7 @@ public class ConductivityApplication extends Module {
 
         SwingTimerClock swingtimerclock = new SwingTimerClock( 1.0D, 30, true );
         final ConductivityApplication module = new ConductivityApplication( swingtimerclock );
+        String version = PhetApplicationConfig.getVersion( "conductivity" ).formatForTitleBar();
         ApplicationDescriptor ad = new ApplicationDescriptor(
                 SimStrings.get( "ConductivityApplication.title" ) + " " + version,
                 SimStrings.get( "ConductivityApplication.description" ), version,

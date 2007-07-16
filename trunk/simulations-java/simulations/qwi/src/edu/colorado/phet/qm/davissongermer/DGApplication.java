@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.TabbedModulePane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.qm.QWIFrameSetup;
 import edu.colorado.phet.qm.QWIPhetLookAndFeel;
+import edu.colorado.phet.qm.QWIApplication;
 
 import java.text.MessageFormat;
 
@@ -22,7 +23,7 @@ import java.text.MessageFormat;
  */
 
 public class DGApplication extends PiccoloPhetApplication {
-    public static String VERSION = "1.00";
+//    public static String VERSION = "1.00";
     static{
         QWIStrings.init(new String[]{} );
     }
@@ -30,7 +31,7 @@ public class DGApplication extends PiccoloPhetApplication {
     public static String DESCRIPTION = MessageFormat.format( QWIStrings.getString( "qwi-dg.description" ), new Object[0] );
 
     public DGApplication( String[] args ) {
-        super( args, TITLE, DESCRIPTION, VERSION, new QWIFrameSetup() );
+        super( args, TITLE, DESCRIPTION, QWIApplication.getQWIVersion(), new QWIFrameSetup() );
         addModule( new DGModule( this, createClock() ) );
     }
 

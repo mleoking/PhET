@@ -3,6 +3,7 @@ package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -18,7 +19,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 
 public class TheRampApplication extends PhetApplication {
-    private static final String VERSION = "1.01";
+    private static final String VERSION = PhetApplicationConfig.getVersion( "the-ramp").formatForTitleBar();
     public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
 
     private RampModule simpleRampModule;

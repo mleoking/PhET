@@ -8,6 +8,7 @@ package edu.colorado.phet.sound;
 
 import edu.colorado.phet.sound.view.SoundApparatusPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 import java.awt.*;
 
@@ -26,7 +27,7 @@ public class SoundConfig {
     }
 
     // Version
-    public static final String VERSION = "2.06";
+    public static final String VERSION = PhetApplicationConfig.getVersion( "sound").formatForTitleBar();
 
     // Localization
     public static final String localizedStringsPath = "sound/localization/sound-strings";

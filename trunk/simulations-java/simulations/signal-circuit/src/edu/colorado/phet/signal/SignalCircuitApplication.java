@@ -7,6 +7,7 @@
 package edu.colorado.phet.signal;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.phys2d.laws.Validate;
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ public class SignalCircuitApplication extends JApplet {
 
     // Localization
     public static final String localizedStringsPath = "signal-circuit/localization/signal-circuit-strings";
+    private static final String VERSION = PhetApplicationConfig.getVersion( "signal-circuit").formatForTitleBar();
 
     public SignalCircuitApplication() {
         int width = 600;
@@ -63,7 +65,7 @@ public class SignalCircuitApplication extends JApplet {
         SimStrings.getInstance().init( args, localizedStringsPath );
         
         applet = false;
-        JFrame f = new JFrame( SimStrings.getInstance().getString( "SignalCircuitApplication.title" ));
+        JFrame f = new JFrame( SimStrings.getInstance().getString( "SignalCircuitApplication.title" )+" ("+VERSION+")");
         f.setContentPane( new SignalCircuitApplication() );
         f.setSize( new Dimension( 850, 435 ) );
         f.setVisible( true );

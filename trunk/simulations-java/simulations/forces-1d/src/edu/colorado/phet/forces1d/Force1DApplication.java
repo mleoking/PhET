@@ -18,6 +18,7 @@ import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.view.Force1DLookAndFeel;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,7 +47,7 @@ public class Force1DApplication extends Module {
     private Force1DLookAndFeel force1DLookAndFeel = new Force1DLookAndFeel();
     private int objectIndex;
     private IForceControl currentControlPanel;
-    private static final String VERSION = "1.01.15";
+    private static final String VERSION = PhetApplicationConfig.getVersion( "forces-1d").formatForTitleBar();
 
     public Force1DApplication( AbstractClock clock, PhetLookAndFeel phetLookAndFeel ) throws IOException {
         this( clock, SimStrings.get( "Force1DModule.moduleName" ), phetLookAndFeel );
