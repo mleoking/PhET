@@ -12,6 +12,7 @@ package edu.colorado.phet.lasers;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.quantum.model.AtomicState;
@@ -54,12 +55,13 @@ public class LaserApplication extends PhetApplication {
     IClock multipleAtomModuleClock = new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT );
 
     private JDialog photoDlg;
+    private static final String VERSION = PhetApplicationConfig.getVersion( "lasers").formatForTitleBar();
 
     public LaserApplication( String[] args ) {
         super( args,
-               SimStrings.getInstance().getString( "LasersApplication.title" ),
+               SimStrings.getInstance().getString( "LasersApplication.title" ) ,
                SimStrings.getInstance().getString( "LasersApplication.description" ),
-               LaserConfig.VERSION,
+               VERSION,
                new FrameSetup.CenteredWithSize( 1024, 750 ) );
 
         // Because we have JComponents on the apparatus panel, don't let the user resize the frame

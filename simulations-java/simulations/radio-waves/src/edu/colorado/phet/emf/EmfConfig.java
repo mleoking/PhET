@@ -6,12 +6,15 @@
  */
 package edu.colorado.phet.emf;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+
 import java.awt.*;
 
 public class EmfConfig {
 
     // Version
-    public static final String VERSION = "1.04";
+//    public static final String VERSION = "1.04";
+    public static final String VERSION = PhetApplicationConfig.getVersion( "radio-waves").formatForTitleBar();
     // Parameters
     public static double SINGLE_VECTOR_ROW_OFFSET = 0.5;
 

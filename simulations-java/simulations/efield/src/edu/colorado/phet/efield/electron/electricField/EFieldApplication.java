@@ -152,9 +152,9 @@ public class EFieldApplication extends JApplet {
         pp.add( wally );
 
         int numFieldDots = 6;
-        if( args.length > 0 ) {
-            numFieldDots = Integer.parseInt( args[0] );
-        }
+//        if( args.length > 0 ) {
+//            numFieldDots = Integer.parseInt( args[0] );
+//        }
 
         VectorPainter vp2 = new DefaultVectorPainter( Color.blue, new BasicStroke( 2 ), Math.PI / 8, 4 );
         ElectricFieldPainter electricFieldPainter = new ElectricFieldPainter( x, y, width, height, numFieldDots, numFieldDots, vp2 );

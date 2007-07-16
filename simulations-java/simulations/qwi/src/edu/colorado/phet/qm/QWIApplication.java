@@ -79,7 +79,7 @@ public class QWIApplication extends PiccoloPhetApplication {
 
     }
 
-    private static String getQWIVersion() {
+    public static String getQWIVersion() {
         return PhetApplicationConfig.getVersion( "qwi").formatForTitleBar();
     }
 

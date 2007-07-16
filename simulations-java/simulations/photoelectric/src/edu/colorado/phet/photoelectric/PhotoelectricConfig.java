@@ -11,6 +11,7 @@
 package edu.colorado.phet.photoelectric;
 
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -26,8 +27,9 @@ public class PhotoelectricConfig {
     public static final String PROJECT_NAME = "photoelectric";
     
     // Version
-    public static final String VERSION = "1.05.00, 15065";
-    
+//    public static final String VERSION = "1.05.00, 15065";
+    public static final String VERSION = PhetApplicationConfig.getVersion( "photoelectric").formatForTitleBar();
+
     public static final String LOCALIZATION_RESOURCE_NAME = PROJECT_NAME + "/localization/" + PROJECT_NAME + "-strings";
 
     // Images

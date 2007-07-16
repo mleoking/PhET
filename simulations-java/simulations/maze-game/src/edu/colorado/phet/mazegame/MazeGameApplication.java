@@ -2,6 +2,7 @@ package edu.colorado.phet.mazegame;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 
 public class MazeGameApplication {
-    public static final String version = "1.01";
+    public static final String version = PhetApplicationConfig.getVersion( "maze-game").formatForTitleBar();
     public static final String localizedStringsPath = "maze-game/localization/maze-game-strings";
 
     private static void centerFrameOnScreen( JFrame f ) {

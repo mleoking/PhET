@@ -3,6 +3,7 @@ package edu.colorado.phet.ehockey;
 //Mediator applet for Electric edu.colorado.phet.ehockey.HockeyModule
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.ehockey.common.SwingUtils;
 
 import javax.swing.*;
@@ -99,7 +100,7 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
 
         isApplet = false;
 
-        JFrame frame = new JFrame( SimStrings.getInstance().getString( "HockeyApplication.Title" ) );
+        JFrame frame = new JFrame( SimStrings.getInstance().getString( "HockeyApplication.Title" ) +" ("+ PhetApplicationConfig.getVersion( "electric-hockey").formatForTitleBar()+")" );
         ElectricHockeyApplication electricHockeyApplication = new ElectricHockeyApplication();
         frame.setContentPane( electricHockeyApplication );
         frame.setSize( 800, 750 );

@@ -13,6 +13,7 @@ package edu.colorado.phet.mri;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.mri.model.DipoleOrientationAgent;
 import edu.colorado.phet.mri.model.SampleMaterial;
 import edu.colorado.phet.mri.view.MonitorPanel;
@@ -34,7 +35,7 @@ public class MriConfig {
     // Descriptive information
     public static final String TITLE = SimStrings.getInstance().getString( "mri.name" );
     public static final String DESCRIPTION = SimStrings.getInstance().getString( "mri.description" );
-    public static final String VERSION = "1.03.00, 14975";
+    public static final String VERSION = PhetApplicationConfig.getVersion( "mri").formatForTitleBar();
 
     public final static double scale = 1;
 
