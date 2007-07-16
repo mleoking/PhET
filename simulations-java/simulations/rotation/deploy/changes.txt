@@ -35,6 +35,7 @@ Fixed: Checkbox to remove/add second bug's dashed line data in graph. Bug itself
 Fixed: During playback, sometimes off-platform character spins in place (looks like on-platform vs. off-platform state is not being recorded and restored properly)
     -character orientation is now saved and restored
 Removed: text boxes on the left side of graphs for uneditable series
+Fixed: Symbol key takes a long time before initial paint, appears gray.
 
 0.00.17
 Added improved initial locations for characters.
