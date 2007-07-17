@@ -56,7 +56,7 @@ public class Motion2DPanel extends JPanel
         yNow = 100;
 
         motion2DModel = new Motion2DModel( nAInit, nGroupInit );//, this);
-        motion2DControlFrame = new Motion2DControlFrame( motion2DModel, this );
+        motion2DControlFrame = new Motion2DControlFrame( this );
         motion2DControlFrame.setVisible( false );
 
         motionPanel1 = new MotionPanel( this, motion2DModel, myGui.getWidth(), myGui.getHeight() );
@@ -135,11 +135,9 @@ public class Motion2DPanel extends JPanel
             motionPanel1.nextPosition();
             setXYNow( motionPanel1.getXNow(), motionPanel1.getYNow() );
         }
-        boolean changed1 = motion2DModel.addPoint( xNow, yNow );
-        boolean changed2 = motion2DModel.updateAverageValues();
-        if( changed1 || changed2 ) {
-            repaint();
-        }
+        motion2DModel.addPoint( xNow, yNow );
+        motion2DModel.updateAverageValues();
+        repaint();
     }
 
     private void setup( JRadioButton button ) {

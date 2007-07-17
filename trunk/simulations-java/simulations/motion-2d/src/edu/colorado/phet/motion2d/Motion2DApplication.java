@@ -17,7 +17,6 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class Motion2DApplication {
     // Localization
-//    public static final String version = "1.02";
 
     public static final String localizedStringsPath = "motion-2d/localization/motion-2d-strings";
 
