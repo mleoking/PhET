@@ -16,8 +16,7 @@ public class TestMotion2DModel {
         for( int t = 0; t < 25; t++ ) {
             int x = x0 + v0 * t + (int)( ( 0.5 ) * acc * ( t * t ) );
             double vel = (double)x0 + acc * (double)t;
-            motion2DModel.addPoint( x, 0 );
-            motion2DModel.updateAverageValues();
+            motion2DModel.addPointAndUpdate( x, 0 );
             double vXComputed = motion2DModel.getXVel();
             double aXComputed = motion2DModel.getXAcc();
             double xNow = motion2DModel.getAvgXNow();

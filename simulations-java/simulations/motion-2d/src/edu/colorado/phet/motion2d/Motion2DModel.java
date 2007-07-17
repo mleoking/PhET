@@ -13,15 +13,10 @@ public class Motion2DModel {
     }
 
     //add new point to position arrays, update averagePosition arrays
-    public void addPoint( int xNow, int yNow ) {
-        x.addPoint( xNow );
-        y.addPoint( yNow );
+    public void addPointAndUpdate( int xNow, int yNow ) {
+        x.addPointAndUpdate( xNow );
+        y.addPointAndUpdate( yNow );
     }//end of addPoint() method
-
-    public void updateAverageValues() {
-        x.updateAverages();
-        y.updateAverages();
-    }//updateAvgXYs() method
 
     public double getXVel() {
         return x.getVelocity();
@@ -144,6 +139,11 @@ public class Motion2DModel {
 
         public double getAvgBefore() {
             return avgBefore;
+        }
+
+        public void addPointAndUpdate( int val ) {
+            addPoint( val );
+            updateAverages();
         }
     }
 
