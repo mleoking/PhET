@@ -78,7 +78,7 @@ public class RotationGraphSet extends GraphSuiteSet {
                                   new ControlGraphSeries( "Angular Acceleration (2) ", darken( RotationColorScheme.ANGULAR_ACCELERATION_COLOR ), UnicodeUtil.ALPHA, ANG_ACC_UNITS,model.getPlatformAccelVariable(), model.getPlatformAccelTimeSeries(), body1Stroke ), b1 );
 
         RotationMinimizableControlGraph linearPositionGraph = new RotationMinimizableControlGraph( "x,y", new RotationGraph(
-                pSwingCanvas, b0.getXPositionVariable(), "x", "X-Position", POSITION_UNITS, -5, 5,
+                pSwingCanvas, b0.getXPositionVariable(), "x", "Position", POSITION_UNITS, -5, 5,
                 new PImage( loadArrow( "blue-arrow.png" ) ), model, false, model.getTimeSeriesModel(), null, maxTime, null ) );
         linearPositionGraph.addSeriesPair( "X-Position",
                                            new ControlGraphSeries( "X-Position", RotationColorScheme.X_COLOR, "x", POSITION_UNITS,b0.getXPositionVariable(), b0.getXPositionTimeSeries(), body0Stroke ),
@@ -90,7 +90,7 @@ public class RotationGraphSet extends GraphSuiteSet {
                                            b1 );
 
         final RotationMinimizableControlGraph linearVelocityGraph = new RotationMinimizableControlGraph( "v<sub>x</sub>,v<sub>y</sub>", new RotationGraph(
-                pSwingCanvas, b0.getXVelocityVariable(), "vx", "X-Velocity", VELOCITY_UNITS, -15, +15,
+                pSwingCanvas, b0.getXVelocityVariable(), "vx", "Velocity", VELOCITY_UNITS, -15, +15,
                 new PImage( loadArrow( "blue-arrow.png" ) ), model, false, model.getTimeSeriesModel(), null, maxTime, null ) );
         linearVelocityGraph.addSeriesPair( "X-Velocity",
                                            new ControlGraphSeries( "X-Velocity", RotationColorScheme.VX_COLOR, "vx", VELOCITY_UNITS,b0.getXVelocityVariable(), b0.getXVelocityTimeSeries(), body0Stroke ),
@@ -105,7 +105,7 @@ public class RotationGraphSet extends GraphSuiteSet {
                                            new ControlGraphSeries( "Speed(2)", darken( RotationColorScheme.VM_COLOR ), "|v|", VELOCITY_UNITS,b1.getSpeedVariable(), b1.getSpeedSeries(), body1Stroke ), b1 );
 
         RotationMinimizableControlGraph centripetalAccelGraph = new RotationMinimizableControlGraph( "a<sub>x</sub>,a<sub>y</sub>", new RotationGraph(
-                pSwingCanvas, b0.getXAccelVariable(), "ax", "Acceleration (x)", ACCEL_UNITS, -1 / 0.03 / 0.03 * 3.0 / 200.0, 1 / 0.03 / 0.03 * 3.0 / 200.0,
+                pSwingCanvas, b0.getXAccelVariable(), "ax", "Acceleration", ACCEL_UNITS, -1 / 0.03 / 0.03 * 3.0 / 200.0, 1 / 0.03 / 0.03 * 3.0 / 200.0,
                 new PImage( loadArrow( "green-arrow.png" ) ), model, false, model.getTimeSeriesModel(), null, maxTime, null ) );
         centripetalAccelGraph.addSeriesPair( "X-Acceleration",
                                              new ControlGraphSeries( "X-Acceleration", RotationColorScheme.AX_COLOR, "ax", ACCEL_UNITS,b0.getXAccelVariable(), b0.getXAccelTimeSeries(), body0Stroke ),
