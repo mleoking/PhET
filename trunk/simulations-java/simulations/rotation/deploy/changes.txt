@@ -1,5 +1,6 @@
 Added units to in-graph readouts
 Calibrated time scale slider
+“Show symbol key” button switches to “Hide symbol key” if symbol key is showing.
 
 0.00.30 (7-16-2007)
 Added initial support for ruler
