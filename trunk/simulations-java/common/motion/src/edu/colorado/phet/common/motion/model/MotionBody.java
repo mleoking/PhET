@@ -148,4 +148,11 @@ public class MotionBody implements IUpdateStrategy {
     public boolean isAccelerationDriven() {
         return motionBodySeries.isAccelerationDriven();
     }
+
+    public void reset() {
+        clear();
+        getXVariable().setValue( 0.0 );
+        getVVariable().setValue( 0.0 );
+        getAVariable().setValue( 0.0 );
+    }
 }

@@ -408,8 +408,16 @@ public class RotationBody {
         setPosition( point2D.getX(), point2D.getY() );
     }
 
-    private void setOrientation( double orientation ) {
+    //todo: add notify
+    public void setOrientation( double orientation ) {
         this.orientation = orientation;
+        notifyOrientationChanged();
+    }
+
+    private void notifyOrientationChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener)listeners.get( i ) ).orientationChanged();
+        }
     }
 
     private void notifyPositionChanged() {
@@ -430,6 +438,8 @@ public class RotationBody {
         void platformStateChanged();
 
         void displayGraphChanged();
+
+        void orientationChanged();
     }
 
     public static class Adapter implements Listener {
@@ -444,6 +454,9 @@ public class RotationBody {
         }
 
         public void displayGraphChanged() {
+        }
+
+        public void orientationChanged() {
         }
 
     }

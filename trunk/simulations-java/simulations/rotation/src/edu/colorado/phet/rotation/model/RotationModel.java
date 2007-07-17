@@ -20,16 +20,34 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         rotationPlatform = new RotationPlatform();
 
         RotationBody body1 = new RotationBody( "ladybug.gif", true );
-        body1.setPosition( rotationPlatform.getCenter().getX() + rotationPlatform.getRadius() / 2,
-                           rotationPlatform.getCenter().getY() );
-        body1.setOnPlatform( rotationPlatform );
         addRotationBody( body1 );
 
         RotationBody body2 = new RotationBody( "beetle.gif" );
-        body2.setPosition( rotationPlatform.getCenter().getX() - rotationPlatform.getRadius() * Math.sqrt( 2 ) / 2.0,
-                           rotationPlatform.getCenter().getY() + rotationPlatform.getRadius() );
         addRotationBody( body2 );
-//        setVelocityDriven( 5 );
+
+        resetAll();
+    }
+
+    private void resetBody2( RotationBody body ) {
+        body.setPosition( rotationPlatform.getCenter().getX() - rotationPlatform.getRadius() * Math.sqrt( 2 ) / 2.0,
+                          rotationPlatform.getCenter().getY() + rotationPlatform.getRadius() );
+        body.setOffPlatform();
+        body.setOrientation( 0.0 );
+    }
+
+    private void resetBody1( RotationBody body ) {
+        body.setPosition( rotationPlatform.getCenter().getX() + rotationPlatform.getRadius() / 2,
+                          rotationPlatform.getCenter().getY() );
+        body.setOnPlatform( rotationPlatform );
+        body.setOrientation( 0.0 );
+    }
+
+    public void resetAll() {
+        super.resetAll();
+        rotationPlatform.reset();//has to be reset before bodies
+
+        resetBody1( getRotationBody( 0 ) );
+        resetBody2( getRotationBody( 1 ) );
     }
 
     private void setVelocityDriven( double value ) {
