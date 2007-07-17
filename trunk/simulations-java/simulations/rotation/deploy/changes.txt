@@ -3,6 +3,7 @@ Calibrated time scale slider
 “Show symbol key” button switches to “Hide symbol key” if symbol key is showing.
 On Position, V and A graphs, removed "X" from title label.
 Changed the checkboxes to read e.g. “Show X-position” instead of just "X-Position"
+Switched from 3 subtick marks on ruler to 4 so they would be at 1.2, 1.4, 1.6, 1.8
 
 0.00.30 (7-16-2007)
 Added initial support for ruler
