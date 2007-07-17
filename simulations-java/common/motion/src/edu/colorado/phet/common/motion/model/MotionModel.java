@@ -91,4 +91,8 @@ public class MotionModel {
     public TimeSeriesModel getTimeSeriesModel() {
         return timeSeriesModel;
     }
+
+    public void resetAll() {
+        clear();
+    }
 }

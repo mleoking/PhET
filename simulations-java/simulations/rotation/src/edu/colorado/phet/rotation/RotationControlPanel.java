@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
  */
 
 public class RotationControlPanel extends JPanel {
-    public RotationControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, VectorViewModel vectorViewModel, JFrame parentFrame, final RotationBody beetle) {
+    public RotationControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, VectorViewModel vectorViewModel, JFrame parentFrame, final RotationBody beetle,AbstractRotationModule module) {
         super( new GridBagLayout() );
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
         SymbolKeyButton symbolKey = new SymbolKeyButton( parentFrame );
@@ -39,6 +39,9 @@ public class RotationControlPanel extends JPanel {
             }
         } );
         box.add( beetleGraph );
+
+        ResetButton resetButton=new ResetButton(module );
+        box.add(resetButton);
 
         add( graphSelectionControl, getConstraints( 0, 0 ) );
         add( box, getConstraints( 2, 0 ) );

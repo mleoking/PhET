@@ -101,6 +101,12 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         setAlignedLayout();
     }
 
+    public void resetAll() {
+        rotationGraphSet.clear();
+        rotationGraphSet.forceUpdateAll();
+        graphSetModel.setGraphSuite( rotationGraphSet.getGraphSuite( 0 ) );
+    }
+
     protected GraphSuiteSet createRotationGraphSet() {
         return new RotationGraphSet( this, rotationModule.getRotationModel() );
     }
@@ -171,4 +177,5 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
             graphs[i].getControlGraph().getDynamicJFreeChartNode().setPiccoloSeries();
         }
     }
+
 }

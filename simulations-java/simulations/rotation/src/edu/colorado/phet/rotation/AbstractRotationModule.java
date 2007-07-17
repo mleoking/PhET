@@ -17,16 +17,13 @@ import javax.swing.*;
 
 public abstract class AbstractRotationModule extends PiccoloModule {
     private AbstractRotationSimulationPanel rotationSimulationPanel;
-    private RotationModel rotationModel;//The Physical Model
+    private RotationModel rotationModel;
 
     public static final int DEFAULT_DELAY = 30;
     public static final double DEFAULT_CLOCK_DT = DEFAULT_DELAY / 1000.0;
-//    private static final double SPEED_SCALE = 30;
 
     public AbstractRotationModule( JFrame parentFrame ) {//30millis = 0.03 sec
         super( "Rotation", new ConstantDtClock( DEFAULT_DELAY, DEFAULT_CLOCK_DT ) );
-//        super( "Rotation", new ConstantDtClock( (int)( 30/SPEED_SCALE ), 1.0/SPEED_SCALE ) );
-//        super( "Rotation", new ConstantDtClock( 0, 1.0/SPEED_SCALE ) );
         setModel( new BaseModel() );
         setLogoPanel( null );
         setClockControlPanel( null );
@@ -60,4 +57,8 @@ public abstract class AbstractRotationModule extends PiccoloModule {
         rotationSimulationPanel.startApplication();
     }
 
+    public void resetAll() {
+        rotationModel.resetAll();
+        rotationSimulationPanel.resetAll();
+    }
 }

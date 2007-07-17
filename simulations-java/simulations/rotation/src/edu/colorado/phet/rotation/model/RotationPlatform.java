@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class RotationPlatform extends MotionBody {
     private SerializablePoint2D center = new SerializablePoint2D( 0, 0 );
     private double radius = MAX_RADIUS;
-    //    private double radius = 50.0;
     private double innerRadius = 0.0;
     private double mass = 1.0 / ( ( innerRadius * innerRadius + radius * radius ) / 2.0 );//by default torque equals angular acceleration
     private transient ArrayList listeners = new ArrayList();
