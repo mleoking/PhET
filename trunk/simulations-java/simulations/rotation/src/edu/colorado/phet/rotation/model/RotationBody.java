@@ -1,13 +1,16 @@
 package edu.colorado.phet.rotation.model;
 
+import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.rotation.tests.CircularRegression;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Author: Sam Reid
@@ -37,6 +40,7 @@ public class RotationBody {
     private edu.colorado.phet.common.motion.model.UpdateStrategy angleDriven;
     private double initialAngleOnPlatform;
     private boolean displayGraph = true;
+    private CircularRegression.Circle circle;
 
 
     public RotationBody() {
@@ -123,8 +127,7 @@ public class RotationBody {
     public void stepInTime( double time, double dt ) {
         Point2D origPosition = getPosition();
         if( isOffPlatform() ) {
-            xBody.stepInTime( time, dt );
-            yBody.stepInTime( time, dt );
+            updateOffPlatform( time, dt );
         }
         else {
             updateBodyOnPlatform( time, dt );
@@ -142,6 +145,50 @@ public class RotationBody {
 
 
         notifyVectorsUpdated();
+    }
+
+    CircularRegression circularRegression = new CircularRegression();
+
+    private void updateOffPlatform( double time, double dt ) {
+        AbstractVector2D origAccel = getAcceleration();
+        xBody.getXTimeSeries().addValue( xBody.getPosition(), time );
+        yBody.getXTimeSeries().addValue( yBody.getPosition(), time );
+
+        int velocityWindow = 6;
+        TimeData vx = MotionMath.getDerivative( xBody.getMotionBodySeries().getRecentPositionTimeSeries( Math.min( velocityWindow, xBody.getMotionBodySeries().getPositionSampleCount() ) ) );
+        xBody.getMotionBodySeries().addVelocityData( vx.getValue(), vx.getTime() );
+
+        TimeData vy = MotionMath.getDerivative( yBody.getMotionBodySeries().getRecentPositionTimeSeries( Math.min( velocityWindow, yBody.getMotionBodySeries().getPositionSampleCount() ) ) );
+        yBody.getMotionBodySeries().addVelocityData( vy.getValue(), vy.getTime() );
+
+        Point2D[] pointHistory = getPointHistory( 25 );
+        circle = circularRegression.getCircle( pointHistory, 50, circle );
+//        System.out.println( "circle = " + circle );
+        AbstractVector2D accelVector = new Vector2D.Double( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
+                                                            circle.getCenter2D() );
+        accelVector = accelVector.getScaledInstance( 10 );
+        accelVector = origAccel.getAddedInstance( accelVector ).getScaledInstance( 0.5 );
+        xBody.getMotionBodySeries().addAccelerationData( accelVector.getX(), time );
+        yBody.getMotionBodySeries().addAccelerationData( accelVector.getY(), time );
+        updateXYStateFromSeries();
+    }
+
+    public CircularRegression.Circle getCircle() {
+        return circle;
+    }
+
+    public Point2D[] getPointHistory( int maxPts ) {
+        ArrayList list = new ArrayList( maxPts );
+        for( int i = 0; i < xBody.getXTimeSeries().getSampleCount() && i < maxPts; i++ ) {
+            list.add( new Point2D.Double( xBody.getXTimeSeries().getRecentData( i ).getValue(), yBody.getXTimeSeries().getRecentData( i ).getValue() ) );
+        }
+        Collections.reverse( list );
+        return (Point2D[])list.toArray( new Point2D.Double[0] );
+    }
+
+    private void updateOffPlatformORIG( double time, double dt ) {
+        xBody.stepInTime( time, dt );
+        yBody.stepInTime( time, dt );
     }
 
     public boolean isOnPlatform() {

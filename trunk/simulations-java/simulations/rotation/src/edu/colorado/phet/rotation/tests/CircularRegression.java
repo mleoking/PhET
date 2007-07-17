@@ -59,7 +59,7 @@ public class CircularRegression {
         updateCircle();
     }
 
-    static class Circle {
+    public static class Circle {
         double x;
         double y;
         double r;
@@ -73,19 +73,24 @@ public class CircularRegression {
         public Shape toEllipse() {
             return new Ellipse2D.Double( x - r, y - r, r * 2, r * 2 );
         }
+
+        public Point2D.Double getCenter2D() {
+            return new Point2D.Double( x, y );
+        }
+
+        public String toString() {
+            return "Circle x=" + x + ", y=" + y + " r=" + r;
+        }
     }
 
-    int time = 0;
+//    int time = 0;
 
-    private void updateCircle() {
+    private Circle updateCircle() {
         //To change body of created methods use File | Settings | File Templates.
 //        lastCircle=getCircle( getPoints(), 50);
-        lastCircle = getCircle( getPoints(), 30 );
+        lastCircle = getCircle( getPoints(), 30, lastCircle );
         circlePath.setPathTo( lastCircle.toEllipse() );
-//        if( timer != null ) {
-//            timer.stop();
-//            timer = null;
-//        }
+        return lastCircle;
 //        time = 100;
 //        timer = new Timer( 5, new ActionListener() {
 //            public void actionPerformed( ActionEvent e ) {
@@ -102,19 +107,15 @@ public class CircularRegression {
 //        timer.start();
     }
 
-    private Circle getCircle( Point2D[] points, int numIt ) {
-//        Circle initialState = new Circle(points[points.length-1].getX(), points[points.length-1].getY(), 50);
-//        double[] state = new double[]{points[points.length - 1].getX(), points[points.length - 1].getY(), 50};
-//        double[] state = new double[]{avgX( points ), avgY( points ), lastCircle==null?50:lastCircle.r};// points[points.length - 1].getY(), 50};
+    public Circle getCircle( Point2D[] points, int numIt, Circle lastCircle ) {
         double[] state = new double[]{
                 lastCircle == null ? avgX( points ) : lastCircle.x,
                 lastCircle == null ? avgY( points ) : lastCircle.y,
-                lastCircle == null ? 50 : lastCircle.r};// points[points.length - 1].getY(), 50};
+                lastCircle == null ? 1 : lastCircle.r};// points[points.length - 1].getY(), 50};
         for( int i = 0; i < numIt; i++ ) {
             state = update( state, points );
         }
         return new Circle( state[0], state[1], state[2] );
-//        return initialState;
     }
 
     private static double avgX( Point2D[] points ) {
@@ -145,7 +146,7 @@ public class CircularRegression {
         return state2;
     }
 
-    static double alpha = 0.02;
+    static double alpha = 0.01;
     private static double epsilon = 1E-5;
 
     private static double numgrad( int index, double[] state, Point2D[] points ) {
