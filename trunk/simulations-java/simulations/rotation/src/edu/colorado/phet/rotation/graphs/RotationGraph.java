@@ -52,8 +52,8 @@ public class RotationGraph extends MotionControlGraph {
         } );
     }
 
-    public void addSecondarySeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries timeSeries, Stroke stroke ) {
-        addSecondarySeries( new ControlGraphSeries( title, color, abbr, simulationVariable, timeSeries, stroke ) );
+    public void addSecondarySeries( String title, Color color, String abbr, String units,ISimulationVariable simulationVariable, ITimeSeries timeSeries, Stroke stroke ) {
+        addSecondarySeries( new ControlGraphSeries( title, color, abbr, units, simulationVariable, timeSeries, stroke ) );
     }
 
     public void addSecondarySeries( ControlGraphSeries graphSeries ) {

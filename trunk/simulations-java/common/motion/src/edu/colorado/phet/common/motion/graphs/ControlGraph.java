@@ -206,13 +206,15 @@ public class ControlGraph extends PNode {
         private String title;
         private String abbr;
         private ISimulationVariable simulationVariable;
+        private String units;
         private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
         private PhetPPath background;
 
-        public ReadoutTitleNode( String title, String abbr, Color color, ISimulationVariable simulationVariable ) {
+        public ReadoutTitleNode( String title, String abbr, Color color, ISimulationVariable simulationVariable,String units ) {
             this.title = title;
             this.abbr = abbr;
             this.simulationVariable = simulationVariable;
+            this.units = units;
             titlePText = new ShadowPText();
             titlePText.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
             titlePText.setTextPaint( color );
@@ -230,7 +232,7 @@ public class ControlGraph extends PNode {
         private void updateText() {
 //            titlePText.setText( title + ", " + abbr + " = " + decimalFormat.format( simulationVariable.getValue() ) );
 //            titlePText.setText( abbr + " = " + decimalFormat.format( simulationVariable.getValue() ) );
-            titlePText.setText( title + " " + decimalFormat.format( simulationVariable.getValue() ) );
+            titlePText.setText( title + " " + decimalFormat.format( simulationVariable.getValue() )+" "+units );
             background.setPathTo( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ) );//todo: avoid setting identical shapes here for performance considerations
         }
     }
@@ -264,12 +266,12 @@ public class ControlGraph extends PNode {
         zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDomainValue );
     }
 
-    public void addSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
-        addSeries( title, color, abbr, simulationVariable, observableTimeSeries, BufferedSeriesView.DEFAULT_STROKE );
+    public void addSeries( String title, Color color, String abbr, String units,ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
+        addSeries( title, color, abbr, units, simulationVariable, observableTimeSeries, BufferedSeriesView.DEFAULT_STROKE );
     }
 
-    public void addSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
-        addSeries( new ControlGraphSeries( title, color, abbr, simulationVariable, observableTimeSeries, stroke ) );
+    public void addSeries( String title, Color color, String abbr, String units,ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
+        addSeries( new ControlGraphSeries( title, color, abbr, units, simulationVariable, observableTimeSeries, stroke ) );
     }
 
     public ControlGraphSeries getControlGraphSeries( int i ) {
@@ -284,7 +286,7 @@ public class ControlGraph extends PNode {
         this.series.add( series );
         dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
 
-        final ReadoutTitleNode titleNode = new ReadoutTitleNode( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() );
+        final ReadoutTitleNode titleNode = new ReadoutTitleNode( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() ,series.getUnits());
         titleNode.setOffset( titleLayer.getFullBounds().getWidth(), 0 );
         titleLayer.addChild( titleNode );
 

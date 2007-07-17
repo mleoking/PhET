@@ -15,6 +15,7 @@ public class ControlGraphSeries {
     private String title;
     private Color color;
     private String abbr;
+    private String units;
     private ISimulationVariable simulationVariable;
     private ITimeSeries observableTimeSeries;
     private boolean visible = true;
@@ -23,15 +24,17 @@ public class ControlGraphSeries {
 
     private ArrayList listeners = new ArrayList();
 
-    public ControlGraphSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
-        this( title, color, abbr, simulationVariable, observableTimeSeries, BufferedSeriesView.DEFAULT_STROKE );
+
+    public ControlGraphSeries( String title, Color color, String abbr, String units,ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
+        this( title, color, abbr, units, simulationVariable, observableTimeSeries, BufferedSeriesView.DEFAULT_STROKE );
     }
 
-    public ControlGraphSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
-        this( title, color, abbr, simulationVariable, observableTimeSeries, stroke, false );
+    public ControlGraphSeries( String title, Color color, String abbr, String units,ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
+        this( title, color, abbr, units, simulationVariable, observableTimeSeries, stroke, false );
     }
 
-    public ControlGraphSeries( String title, Color color, String abbr, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke, boolean editable ) {
+    public ControlGraphSeries( String title, Color color, String abbr, String units,ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke, boolean editable ) {
+        this.units = units;
         this.editable = editable;
         this.stroke = stroke;
         this.title = title;
@@ -74,6 +77,10 @@ public class ControlGraphSeries {
 
     public boolean isEditable() {
         return editable;
+    }
+
+    public String getUnits() {
+        return units;
     }
 
     public static interface Listener {
