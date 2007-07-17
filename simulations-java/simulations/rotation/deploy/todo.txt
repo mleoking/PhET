@@ -5,8 +5,6 @@
 •	Add Reset All
 •	At start up, graphs do not reliably come up with x-axes aligned so now cursor and tick marks for 3rd graph do not align.
         If I resize in x this will fix itself.
-•	On X-position graph, please change label to just read “Position (m)” If space, can you have the check boxes read
-        “Show X-position” OR put a “Show:” just above the 2 check boxes. (Same comment about velocity graph)
 •	Note this sim has redraw problems if I switch to word and then back, a good fraction of the screen will remain grey
         until I resize or something else.
 •	I think I would prefer 4 subtick marks on ruler so they would be at 1.2, 1.4, 1.6, 1.8, … instead of 3.
