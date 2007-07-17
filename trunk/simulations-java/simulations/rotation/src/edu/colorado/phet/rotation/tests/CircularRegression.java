@@ -6,10 +6,7 @@ import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
@@ -30,16 +27,29 @@ public class CircularRegression {
         pane.getLayer().addChild( pointLayer );
         pane.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-                Point pt = e.getPoint();
-                PhetPPath path = new PhetPPath( new Ellipse2D.Double( pt.getX() - 2, pt.getY() - 2,
-                                                                      4, 4 ), Color.blue, new BasicStroke( 1 ), Color.black );
-                pointLayer.addChild( path );
+                addPoint( e.getPoint() );
+            }
+
+            public void mouseReleased( MouseEvent e ) {
+                pointLayer.removeAllChildren();
                 updateCircle();
+            }
+        } );
+        pane.addMouseMotionListener( new MouseMotionAdapter() {
+            public void mouseDragged( MouseEvent e ) {
+                addPoint( e.getPoint() );
             }
         } );
         frame.setContentPane( pane );
         circlePath = new PhetPPath( new BasicStroke( 2 ), Color.red );
         pane.getLayer().addChild( circlePath );
+    }
+
+    private void addPoint( Point pt ) {
+        PhetPPath path = new PhetPPath( new Ellipse2D.Double( pt.getX() - 2, pt.getY() - 2,
+                                                              4, 4 ), Color.blue, new BasicStroke( 1 ), Color.black );
+        pointLayer.addChild( path );
+        updateCircle();
     }
 
     static class Circle {
