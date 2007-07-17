@@ -7,6 +7,10 @@ import edu.colorado.phet.rotation.torque.RotationFrameSetup;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 
 import javax.swing.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowEvent;
 
 /**
  * PhET's Rotation simulation.
@@ -24,6 +28,20 @@ public class RotationApplication extends PhetApplication {
 
         getPhetFrame().addMenu( new RotationTestMenu() );
         getPhetFrame().addMenu( new RotationDevMenu( this ) );
+
+        //trial workaround for getting the window to paint when gray, this is a problem due performance constraints of this application. 
+        getPhetFrame().addWindowFocusListener( new WindowFocusListener() {
+            public void windowGainedFocus( WindowEvent e ) {
+                System.out.println( "RotationApplication.windowGainedFocus" );
+                if( getPhetFrame().getContentPane() instanceof JComponent ) {
+                    JComponent jComponent = (JComponent)getPhetFrame().getContentPane();
+                    jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
+                }
+            }
+
+            public void windowLostFocus( WindowEvent e ) {
+            }
+        } );
     }
 
     public void startApplication() {
