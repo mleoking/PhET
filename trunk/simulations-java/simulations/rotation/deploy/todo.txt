@@ -1,7 +1,31 @@
 ################################################
 #     To Do
 ################################
-              
+
+•	Add Reset All
+•	At start up, graphs do not reliably come up with x-axes aligned so now cursor and tick marks for 3rd graph do not align.
+        If I resize in x this will fix itself.
+•	I think it would be nice if “Show symbol key” button would switch to “Hide symbol key” if symbol key is showing.
+•	On X-position graph, please change label to just read “Position (m)” If space, can you have the check boxes read
+        “Show X-position” OR put a “Show:” just above the 2 check boxes. (Same comment about velocity graph)
+•	Note this sim has redraw problems if I switch to word and then back, a good fraction of the screen will remain grey
+        until I resize or something else.
+•	I think I would prefer 4 subtick marks on ruler so they would be at 1.2, 1.4, 1.6, 1.8, … instead of 3.
+        This would be consistent with tweezers, and more consistent with metric markings?
+•	When “Show beatle 2 graph” checked, the labels overlap. Maybe it would be good to show corresponding values just below values for lady bug?
+•	When you set angular position by hand … currently only lady-bug position affected… should we make similar change
+        in theta to 2nd bug if he is on graph? So if ladybug is at 100 rads and other bug is at 110 rads,
+        then set rads to 0, end up with ladybug at 0 rads and other but at 10 rads??? NOT sure about this?
+•	There is still a very large delay on the v and a vectors when dragging the bugs around on my machine …
+        it makes it look like the arrows are pointing outwards for acceleration, not inwards when I move in a circle by hand.
+•	Its pretty easy to get a discontinuity in the drawing of the lines for the wheel which makes it look odd. 
+•	There is still a performance leak. After about 10-15 minutes it is now crawling.
+•	Weird bug: If I run it as below … so stationary with bug at one x,y, but then I pause,
+        grab cursor and move back in time, but will move instead of be stationary.
+        (NOTE: I’ve now seen other instances of incorrect playback of what is on the graphs as well).
+        (CLUE??? It looks like it might be playing back POSITION from start of time, but playing back v and a vectors,
+        etc., from start of graph?)
+
 •	Bug: On test laptop, Java 1.5, during user interaction with the platform, clock is not able to tick
 •	Bug: Beetle graph appears empty before beetle is on the platform
 •   Bug: Transparency is not being used correctly on Mac.
