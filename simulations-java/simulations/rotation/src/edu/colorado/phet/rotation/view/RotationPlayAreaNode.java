@@ -38,13 +38,14 @@ public class RotationPlayAreaNode extends PNode {
         addChild( originNode );
         addChild( rulerNode );
 
+
         for( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
             addRotationBodyNode( rotationModel.getRotationBody( i ) );
         }
         for( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
             addVectorNode( rotationModel.getRotationBody( i ), vectiorViewModel );
         }
-
+        addChild( new CircleNode(rotationModel));
     }
 
     private void addVectorNode( RotationBody rotationBody, VectorViewModel vectorViewModel ) {
