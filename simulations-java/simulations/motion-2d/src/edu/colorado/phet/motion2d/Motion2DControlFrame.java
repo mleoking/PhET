@@ -12,29 +12,21 @@ import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
 
 public class Motion2DControlFrame extends JFrame implements ChangeListener {
-    private JSlider nRadiusBar, nGroupBar, timeStepBar;
+    private JSlider timeStepBar;
     private JSlider velFactorBar, accFactorBar;
-    private int nRadius, nGroup, timeStep, velFactor, accFactor;
     private TextField field5, field6;
-    private Motion2DModel vaa;
     private Motion2DPanel myJP;
-    private Container scrollPane;
 
-    public Motion2DControlFrame( Motion2DModel vaa, Motion2DPanel myJP ) {
+    public Motion2DControlFrame( Motion2DPanel myJP ) {
         super( SimStrings.getInstance().getString( "VAScrolls.SliderControlTitle" ) );
         //setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        scrollPane = getContentPane();
-        this.vaa = vaa;
+        Container scrollPane = getContentPane();
         this.myJP = myJP;
 
         this.setSize( 400, 120 );
-        //nPointsBar = new JSlider(JSlider.HORIZONTAL, vaa.getNP(), 1, 81);
-        nRadiusBar = new JSlider( JSlider.HORIZONTAL, 1, 21, vaa.getHalfWindowSize() );
-        nGroupBar = new JSlider( JSlider.HORIZONTAL, 1, 36, vaa.getNumPointsAverage() );
         timeStepBar = new JSlider( JSlider.HORIZONTAL, 3, 50, myJP.getTimeStep() );
         velFactorBar = new JSlider( JSlider.HORIZONTAL, 1, 10, (int)myJP.getVelFactor() );
         accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 36, (int)myJP.getAccFactor() );
-//        accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 100, (int)myJP.getAccFactor() );
 
         String str5 = SimStrings.getInstance().getString( "VAScrolls.VelocityScaleLabel" ) + " "
                       + ( new Integer( (int)myJP.getVelFactor() ) ).toString()
@@ -63,13 +55,10 @@ public class Motion2DControlFrame extends JFrame implements ChangeListener {
         scrollPane.add( accFactorBar );
         scrollPane.add( field6 );
 
-        nRadiusBar.addChangeListener( this );
-        nGroupBar.addChangeListener( this );
         timeStepBar.addChangeListener( this );
         velFactorBar.addChangeListener( this );
         accFactorBar.addChangeListener( this );
         this.addWindowListener( new MyWindowAdapter() );
-//        MyFocusListener myFocusListener = new MyFocusListener( this );
         this.addFocusListener( new FocusListener() {
             public void focusGained( FocusEvent e ) {
             }
@@ -84,26 +73,18 @@ public class Motion2DControlFrame extends JFrame implements ChangeListener {
 
     public void stateChanged( ChangeEvent e ) {
 
-        if( e.getSource() == nRadiusBar ) {
-            nRadius = nRadiusBar.getValue();
-            vaa.setHalfWindowSize( nRadius );
-        }
-        else if( e.getSource() == nGroupBar ) {
-            nGroup = nGroupBar.getValue();
-            vaa.setNumPointsAverage( nGroup );
-        }
-        else if( e.getSource() == timeStepBar ) {
-            timeStep = timeStepBar.getValue();
+        if( e.getSource() == timeStepBar ) {
+            int timeStep = timeStepBar.getValue();
             myJP.setTimeStep( timeStep );
         }
         else if( e.getSource() == velFactorBar ) {
-            velFactor = velFactorBar.getValue();
+            int velFactor = velFactorBar.getValue();
             field5.setText( SimStrings.getInstance().getString( "VAScrolls.VelocityScaleLabel" ) + " "
                             + velFactor + SimStrings.getInstance().getString( "VAScrolls.ScaleSuffix" ) );
             myJP.setVelFactor( (double)velFactor );
         }
         else if( e.getSource() == accFactorBar ) {
-            accFactor = accFactorBar.getValue();
+            int accFactor = accFactorBar.getValue();
             field6.setText( SimStrings.getInstance().getString( "VAScrolls.AccelerationScaleLabel" ) + " "
                             + accFactor + SimStrings.getInstance().getString( "VAScrolls.ScaleSuffix" ) );
             myJP.setAccFactor( (double)accFactor );
