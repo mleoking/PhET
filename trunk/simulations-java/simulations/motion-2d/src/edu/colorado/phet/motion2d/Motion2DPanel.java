@@ -63,8 +63,7 @@ public class Motion2DPanel extends JPanel
         motionPanel1.launchMotionPanel();
 
         motion2DArrow = new Motion2DArrow();
-        motion2DModel.addPoint( xNow, yNow );
-        motion2DModel.updateAverageValues();
+        motion2DModel.addPointAndUpdate( xNow, yNow );
 
         buttonFlag = SHOW_NEITHER;
         setBackground( Color.yellow );
@@ -135,8 +134,7 @@ public class Motion2DPanel extends JPanel
             motionPanel1.nextPosition();
             setXYNow( motionPanel1.getXNow(), motionPanel1.getYNow() );
         }
-        motion2DModel.addPoint( xNow, yNow );
-        motion2DModel.updateAverageValues();
+        motion2DModel.addPointAndUpdate( xNow, yNow );
         repaint();
     }
 
