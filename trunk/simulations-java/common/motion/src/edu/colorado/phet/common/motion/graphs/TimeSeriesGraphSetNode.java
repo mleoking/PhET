@@ -20,12 +20,12 @@ public class TimeSeriesGraphSetNode extends PNode {
     private PSwing timeSeriesControlPanelNode;
     private boolean constructed = false;
 
-    public TimeSeriesGraphSetNode( GraphSetModel graphSetModel, TimeSeriesModel timeSeriesModel ) {
+    public TimeSeriesGraphSetNode( GraphSetModel graphSetModel, TimeSeriesModel timeSeriesModel, double minDT, double maxDT ) {
         setBounds( 0, 0, 800, 600 );
         graphSetNode = new GraphSetNode( graphSetModel );
 //        TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel );
 //        TimeSeriesPlaybackPanel timeSeriesControlPanel = new TimeSeriesPlaybackPanel( timeSeriesModel );
-        TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel, 0.01, 1.0 );
+        TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel, minDT, maxDT );
         timeSeriesControlPanelNode = new PSwing( timeSeriesControlPanel );
 
         addChild( graphSetNode );

@@ -47,7 +47,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
                 }
             }
         } );
-        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( graphSetModel, timeSeriesModel );
+        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( graphSetModel, timeSeriesModel, AbstractRotationModule.DEFAULT_CLOCK_DT / 4.0, AbstractRotationModule.DEFAULT_CLOCK_DT );
 
         rotationControlPanelNode = new PSwing( createControlPanel( getRulerNode(), phetFrame ) );
 
@@ -157,14 +157,14 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         }
     }
 
-    public void setGraphsBufferedSeries(){
+    public void setGraphsBufferedSeries() {
         MinimizableControlGraph[] graphs = rotationGraphSet.getAllGraphs();
         for( int i = 0; i < graphs.length; i++ ) {
             graphs[i].getControlGraph().getDynamicJFreeChartNode().setBufferedSeries();
         }
     }
 
-    public void setGraphsPiccoloSeries(){
+    public void setGraphsPiccoloSeries() {
         MinimizableControlGraph[] graphs = rotationGraphSet.getAllGraphs();
         for( int i = 0; i < graphs.length; i++ ) {
             graphs[i].getControlGraph().getDynamicJFreeChartNode().setPiccoloSeries();
