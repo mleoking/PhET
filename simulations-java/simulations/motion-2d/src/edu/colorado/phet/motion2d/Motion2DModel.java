@@ -59,11 +59,12 @@ public class Motion2DModel {
         private int halfWindowSize;
         private int numPtsAvg;
 
-        public Motion2DValue(
-                int numPoints//Number of points in stack, must be odd
-                , int halfWindowSize//averaging radius, #of pts averaged = (2*nA + 1)
-                , int numPtsAvg//Number of points averaged for vel, acc
-        ) {
+        /**
+         * @param numPoints      Number of points in stack, must be odd
+         * @param halfWindowSize averaging radius, #of pts averaged = (2*nA + 1)
+         * @param numPtsAvg      Number of points averaged for vel, acc
+         */
+        public Motion2DValue( int numPoints, int halfWindowSize, int numPtsAvg ) {
             this.halfWindowSize = halfWindowSize;
             this.numPtsAvg = numPtsAvg;
             this.value = new double[numPoints];
@@ -115,10 +116,7 @@ public class Motion2DModel {
             for( int i = ( nStack - numPtsAvg ); i <= ( nStack - 1 ); i++ ) {
                 sumXNow += avg[i];
             }
-            double avgXNOW = sumXNow / numPtsAvg;
-            if( avgXNOW != this.avgNow ) {
-                this.avgNow = sumXNow / numPtsAvg;
-            }
+            this.avgNow = sumXNow / numPtsAvg;
         }
 
         public double getVelocity() {
