@@ -5,7 +5,7 @@ import java.util.Arrays;
 //Helper Class for Velocity-Acceleration GUI.  This class computes
 //average position and double-averaged velocity and acceleration.
 
-public class Motion2DAverages {
+public class Motion2DModel {
     private int numPoints;  	//Number of points in stack, must be odd
     private int halfWindowSize;		//averaging radius, #of pts averaged = (2*nA + 1)
     private int numPtsAvg;	//Number of points averaged for vel, acc
@@ -18,7 +18,7 @@ public class Motion2DAverages {
     private int[] x, y;		//last nP x- and y-coordinates from mousemovements
     private double[] xAvg, yAvg;	//averaged position stacks
 
-    public Motion2DAverages( int halfWindowSize, int numPtsAvg ) {
+    public Motion2DModel( int halfWindowSize, int numPtsAvg ) {
         this.halfWindowSize = halfWindowSize;
         this.numPtsAvg = numPtsAvg;
         this.numPoints = 3 * numPtsAvg + 2 * halfWindowSize;

@@ -16,11 +16,11 @@ public class Motion2DControlFrame extends JFrame implements ChangeListener {
     private JSlider velFactorBar, accFactorBar;
     private int nRadius, nGroup, timeStep, velFactor, accFactor;
     private TextField field5, field6;
-    private Motion2DAverages vaa;
+    private Motion2DModel vaa;
     private Motion2DPanel myJP;
     private Container scrollPane;
 
-    public Motion2DControlFrame( Motion2DAverages vaa, Motion2DPanel myJP ) {
+    public Motion2DControlFrame( Motion2DModel vaa, Motion2DPanel myJP ) {
         super( SimStrings.getInstance().getString( "VAScrolls.SliderControlTitle" ) );
         //setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         scrollPane = getContentPane();

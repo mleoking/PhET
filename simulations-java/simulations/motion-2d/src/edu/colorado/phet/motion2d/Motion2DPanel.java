@@ -31,7 +31,7 @@ public class Motion2DPanel extends JPanel
     public static final int SHOW_ACC = 2;
     public static final int SHOW_BOTH = 3;
     public static final int SHOW_NEITHER = 4;
-    private Motion2DAverages motion2DAverages;
+    private Motion2DModel motion2DModel;
     private Motion2DControlFrame motion2DControlFrame;
     private Motion2DArrow motion2DArrow;
     private boolean antialias = true;
@@ -55,16 +55,16 @@ public class Motion2DPanel extends JPanel
         xNow = 130;
         yNow = 100;
 
-        motion2DAverages = new Motion2DAverages( nAInit, nGroupInit );//, this);
-        motion2DControlFrame = new Motion2DControlFrame( motion2DAverages, this );
+        motion2DModel = new Motion2DModel( nAInit, nGroupInit );//, this);
+        motion2DControlFrame = new Motion2DControlFrame( motion2DModel, this );
         motion2DControlFrame.setVisible( false );
 
-        motionPanel1 = new MotionPanel( this, motion2DAverages, myGui.getWidth(), myGui.getHeight() );
+        motionPanel1 = new MotionPanel( this, motion2DModel, myGui.getWidth(), myGui.getHeight() );
         motionPanel1.launchMotionPanel();
 
         motion2DArrow = new Motion2DArrow();
-        motion2DAverages.addPoint( xNow, yNow );
-        motion2DAverages.updateAverageValues();
+        motion2DModel.addPoint( xNow, yNow );
+        motion2DModel.updateAverageValues();
 
         buttonFlag = SHOW_NEITHER;
         setBackground( Color.yellow );
@@ -135,8 +135,8 @@ public class Motion2DPanel extends JPanel
             motionPanel1.nextPosition();
             setXYNow( motionPanel1.getXNow(), motionPanel1.getYNow() );
         }
-        boolean changed1 = motion2DAverages.addPoint( xNow, yNow );
-        boolean changed2 = motion2DAverages.updateAverageValues();
+        boolean changed1 = motion2DModel.addPoint( xNow, yNow );
+        boolean changed2 = motion2DModel.updateAverageValues();
         if( changed1 || changed2 ) {
             repaint();
         }
@@ -153,13 +153,13 @@ public class Motion2DPanel extends JPanel
             g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         }
         super.paintComponent( g );
-        avgXMid = (int)motion2DAverages.getAvgXMid();
-        avgYMid = (int)motion2DAverages.getAvgYMid();
+        avgXMid = (int)motion2DModel.getAvgXMid();
+        avgYMid = (int)motion2DModel.getAvgYMid();
 
-        xVel = (int)( ( velFactor / 2 ) * ( motion2DAverages.getXVel() ) );
-        yVel = (int)( ( velFactor / 2 ) * ( motion2DAverages.getYVel() ) );
-        double xAcc = accFactor * ( motion2DAverages.getXAcc() );
-        double yAcc = accFactor * ( motion2DAverages.getYAcc() );
+        xVel = (int)( ( velFactor / 2 ) * ( motion2DModel.getXVel() ) );
+        yVel = (int)( ( velFactor / 2 ) * ( motion2DModel.getYVel() ) );
+        double xAcc = accFactor * ( motion2DModel.getXAcc() );
+        double yAcc = accFactor * ( motion2DModel.getYAcc() );
         g.drawImage( myGui.getBallImage(), avgXMid - radius, avgYMid - radius, 2 * radius, 2 * radius, this );
 
         if( buttonFlag == SHOW_NEITHER ) {
