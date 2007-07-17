@@ -5,7 +5,6 @@
 •	Add Reset All
 •	At start up, graphs do not reliably come up with x-axes aligned so now cursor and tick marks for 3rd graph do not align.
         If I resize in x this will fix itself.
-•	I think it would be nice if “Show symbol key” button would switch to “Hide symbol key” if symbol key is showing.
 •	On X-position graph, please change label to just read “Position (m)” If space, can you have the check boxes read
         “Show X-position” OR put a “Show:” just above the 2 check boxes. (Same comment about velocity graph)
 •	Note this sim has redraw problems if I switch to word and then back, a good fraction of the screen will remain grey
@@ -32,6 +31,7 @@
 •	Invert coordinate frame so that +x and +y are in 1st quadrant
 •	Improve performance
 •   On graph readouts should have a better (fixed) layout.
+•   Time ticks for last chart are shown differently than top charts.
 
 Lower Priority:
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
