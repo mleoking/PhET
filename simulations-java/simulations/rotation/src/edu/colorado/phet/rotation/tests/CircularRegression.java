@@ -6,7 +6,9 @@ import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
@@ -19,6 +21,7 @@ public class CircularRegression {
     private PhetPPath circlePath;
     private PNode pointLayer = new PNode();
     private Timer timer;
+    private Circle lastCircle;
 
 
     public CircularRegression() {
@@ -28,16 +31,20 @@ public class CircularRegression {
         pane.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 addPoint( e.getPoint() );
+                if( e.isControlDown() ) {
+                    pointLayer.removeAllChildren();
+                    updateCircle();
+                }
             }
 
-            public void mouseReleased( MouseEvent e ) {
-                pointLayer.removeAllChildren();
-                updateCircle();
-            }
         } );
         pane.addMouseMotionListener( new MouseMotionAdapter() {
             public void mouseDragged( MouseEvent e ) {
                 addPoint( e.getPoint() );
+                while( pointLayer.getChildrenCount() > 100 ) {
+                    pointLayer.removeChild( 0 );
+                }
+                updateCircle();
             }
         } );
         frame.setContentPane( pane );
@@ -72,29 +79,37 @@ public class CircularRegression {
 
     private void updateCircle() {
         //To change body of created methods use File | Settings | File Templates.
-        if( timer != null ) {
-            timer.stop();
-            timer = null;
-        }
-        time = 0;
-        timer = new Timer( 5, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                Circle circle = CircularRegression.getCircle( getPoints(), time );
-                circlePath.setPathTo( circle.toEllipse() );
-                time++;
-                if( time >= 10000 ) {
-                    timer.stop();
-                    timer = null;
-                }
-            }
-        } );
-        timer.start();
+//        lastCircle=getCircle( getPoints(), 50);
+        lastCircle = getCircle( getPoints(), 30 );
+        circlePath.setPathTo( lastCircle.toEllipse() );
+//        if( timer != null ) {
+//            timer.stop();
+//            timer = null;
+//        }
+//        time = 100;
+//        timer = new Timer( 5, new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                Circle circle = getCircle( getPoints(), time );
+//                lastCircle=circle;
+//                circlePath.setPathTo( circle.toEllipse() );
+//                time+=100;
+//                if( time >= 10000 ) {
+//                    timer.stop();
+//                    timer = null;
+//                }
+//            }
+//        } );
+//        timer.start();
     }
 
-    private static Circle getCircle( Point2D[] points, int numIt ) {
+    private Circle getCircle( Point2D[] points, int numIt ) {
 //        Circle initialState = new Circle(points[points.length-1].getX(), points[points.length-1].getY(), 50);
 //        double[] state = new double[]{points[points.length - 1].getX(), points[points.length - 1].getY(), 50};
-        double[] state = new double[]{avgX( points ), avgY( points ), 100};// points[points.length - 1].getY(), 50};
+//        double[] state = new double[]{avgX( points ), avgY( points ), lastCircle==null?50:lastCircle.r};// points[points.length - 1].getY(), 50};
+        double[] state = new double[]{
+                lastCircle == null ? avgX( points ) : lastCircle.x,
+                lastCircle == null ? avgY( points ) : lastCircle.y,
+                lastCircle == null ? 50 : lastCircle.r};// points[points.length - 1].getY(), 50};
         for( int i = 0; i < numIt; i++ ) {
             state = update( state, points );
         }
@@ -130,8 +145,8 @@ public class CircularRegression {
         return state2;
     }
 
-    static double alpha = 0.01;
-    private static double epsilon = 1E-4;
+    static double alpha = 0.02;
+    private static double epsilon = 1E-5;
 
     private static double numgrad( int index, double[] state, Point2D[] points ) {
         state[index] += epsilon;
@@ -145,18 +160,19 @@ public class CircularRegression {
     private static double getError( double[] state, Point2D[] points ) {
         double sum = 0;
         for( int i = 0; i < points.length; i++ ) {
-            sum += distance(state,points[i]);
+            sum += distance( state, points[i] );
         }
         return sum;
-        
+
     }
 
     private static double distance( double[] state, Point2D point ) {
         double distToCenter = point.distance( state[0], state[1] );
-        if ( distToCenter >state[2]){
-            return distToCenter-state[2];
-        }else{
-            return state[2]-distToCenter;
+        if( distToCenter > state[2] ) {
+            return distToCenter - state[2];
+        }
+        else {
+            return state[2] - distToCenter;
         }
     }
 
