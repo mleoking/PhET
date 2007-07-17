@@ -147,6 +147,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
     }
 
     public void startApplication() {
+        timeSeriesGraphSetNode.forceRelayout();
         timeSeriesGraphSetNode.forceRepaintGraphs();
     }
 
