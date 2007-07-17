@@ -31,7 +31,7 @@ public class MotionPanel extends JPanel implements ActionListener //, Runnable
     private int width = -1;// = edu.colorado.phet.motion2d.Motion2DApplet.width;
     private int height = -1;// = edu.colorado.phet.motion2d.Motion2DApplet.height;
 
-    public MotionPanel( final Motion2DPanel myJP, Motion2DAverages vaa, int width, int height ) {
+    public MotionPanel( final Motion2DPanel myJP, Motion2DModel vaa, int width, int height ) {
         this.width = width;
         this.height = height;
         this.myJP = myJP;
