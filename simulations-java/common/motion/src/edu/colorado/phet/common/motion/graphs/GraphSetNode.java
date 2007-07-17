@@ -83,6 +83,10 @@ public class GraphSetNode extends PNode {
         updateLayout();
     }
 
+    public void forceRelayout() {
+        relayout();
+    }
+
     private void relayout() {
         double yPad = 5;
         double availableY = height;
