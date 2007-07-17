@@ -1,4 +1,5 @@
-Added units to in-graph readouts.
+Added units to in-graph readouts
+Calibrated time scale slider
 
 0.00.30 (7-16-2007)
 Added initial support for ruler
