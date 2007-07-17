@@ -22,5 +22,6 @@ public class BufferedPhetPCanvas extends PhetPCanvas {
         bufferedGraphics.setClip( g.getClipBounds() );//todo is this correct?
         super.paintComponent( bufferedGraphics );
         ( (Graphics2D)g ).drawRenderedImage( bufferedImage, new AffineTransform() );
+        bufferedGraphics.dispose();
     }
 }
