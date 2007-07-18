@@ -55,6 +55,14 @@ public class RotationDevMenu extends JMenu {
         } );
 
         add( circleNodeVisible );
+
+        final JCheckBoxMenuItem synchronousPaint = new JCheckBoxMenuItem( "Synchronous Paint", rotationApplication.getRotationModule().getRotationSimulationPanel().isSynchronousPaint() );
+        synchronousPaint.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                rotationApplication.getRotationModule().getRotationSimulationPanel().setSynchronousPaint( synchronousPaint.isSelected() );
+            }
+        } );
+        add( synchronousPaint );
     }
 
     private PNode getCircleNode() {

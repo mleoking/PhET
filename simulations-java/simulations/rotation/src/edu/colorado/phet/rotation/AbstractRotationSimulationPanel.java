@@ -1,6 +1,8 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.motion.graphs.*;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -99,6 +101,24 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
             }
         } );
         setAlignedLayout();
+        //todo: should be after clock finished tick, not in line with other tick handlers
+        rotationModule.getClock().addClockListener( new ClockAdapter() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                if( synchronousPaint ) {
+                    paintImmediately( 0, 0, getWidth(), getHeight() );
+                }
+            }
+        } );
+    }
+
+    private boolean synchronousPaint = true;
+
+    public boolean isSynchronousPaint() {
+        return synchronousPaint;
+    }
+
+    public void setSynchronousPaint( boolean synchronousPaint ) {
+        this.synchronousPaint = synchronousPaint;
     }
 
     public void resetAll() {
@@ -178,8 +198,17 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         }
     }
 
-
     public RotationPlayAreaNode getRotationPlayAreaNode() {
         return rotationPlayAreaNode;
     }
+
+    public void repaint( long tm, int x, int y, int width, int height ) {
+        if( rotationModule != null && rotationModule.getClock() != null && rotationModule.getClock().isRunning() && synchronousPaint ) {
+            //wait for synchronous paint
+        }
+        else {
+            super.repaint( tm, x, y, width, height );
+        }
+    }
+
 }
