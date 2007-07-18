@@ -17,6 +17,7 @@ public class BufferedPhetPCanvas extends PhetPCanvas {
     public void paintComponent( Graphics g ) {
         if( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) {
 //            bufferedImage = new BufferedImage( getWidth(), getHeight(),  );
+            //todo: consider getting a hardware-accelerated offscreen buffer through createImage
             bufferedImage = new BufferedImage( getWidth(), getHeight(), getBufferedImageType() );
         }
 
