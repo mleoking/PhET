@@ -1,6 +1,7 @@
 0.00.36
 Windows XP
 Java 1.5
+7-18-2007
 
 some pswing components are fuzzy
 reset all doesn't reset Angle readouts
