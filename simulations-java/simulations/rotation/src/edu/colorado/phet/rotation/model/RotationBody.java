@@ -1,5 +1,7 @@
 package edu.colorado.phet.rotation.model;
 
+import JSci.maths.LinearMath;
+import JSci.maths.vectors.AbstractDoubleVector;
 import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -170,8 +172,11 @@ public class RotationBody {
         double circularMotionMSE = 0.01;
         double noncircularMotionMSE = 0.15;
         double thresholdMSE = ( noncircularMotionMSE + circularMotionMSE ) / 2.0;
+
+        double linearRegressionMSE = getLinearRegressionMSE( pointHistory );
+//        System.out.println( "linearRegressionMSE = " + linearRegressionMSE );
 //        System.out.println( "MSE=" + circle.getMeanSquaredError( pointHistory ) + ", circle.getRadius() = " + circle.getRadius() );
-        if( circle.getRadius() >= 0.5 && circle.getRadius() <= 5.0 && circle.getMeanSquaredError( pointHistory ) < thresholdMSE ) {
+        if( circle.getRadius() >= 0.5 && circle.getRadius() <= 5.0 && circle.getMeanSquaredError( pointHistory ) < thresholdMSE && linearRegressionMSE > 0.01 ) {
             AbstractVector2D accelVector = new Vector2D.Double( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
                                                                 circle.getCenter2D() );
             double aMag = ( vx.getValue() * vx.getValue() + vy.getValue() * vy.getValue() ) / circle.getRadius();
@@ -195,6 +200,30 @@ public class RotationBody {
         }
 
         updateXYStateFromSeries();
+    }
+
+    private double getLinearRegressionMSE( Point2D[] pointHistory ) {
+        double[][] pts = new double[2][pointHistory.length];
+//        pts[0]=new double[pointHistory.length];
+//        pts[1]=new double[pointHistory.length];
+        for( int i = 0; i < pts[0].length; i++ ) {
+
+            pts[0][i] = pointHistory[i].getX();
+            pts[1][i] = pointHistory[i].getY();
+        }
+        AbstractDoubleVector result = LinearMath.linearRegression( pts );
+        double offset = result.getComponent( 0 );
+        double slope = result.getComponent( 1 );
+//        System.out.println( "slope = " + slope + ", offset=" + offset );
+
+        double sumSq = 0;
+        for( int i = 0; i < pointHistory.length; i++ ) {
+            Point2D point2D = pointHistory[i];
+            double proposedY = offset + slope * point2D.getX();
+            double actualY = point2D.getY();
+            sumSq += ( proposedY - actualY ) * ( proposedY - actualY );
+        }
+        return sumSq / pointHistory.length;
     }
 
     public CircularRegression.Circle getCircle() {
