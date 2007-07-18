@@ -47,7 +47,7 @@ public class RotationDevMenu extends JMenu {
             add( bim );
         }
         addSeparator();
-        final JCheckBox circleNodeVisible = new JCheckBox( "Show Circular Regression", getCircleNode().getVisible() );
+        final JCheckBoxMenuItem circleNodeVisible = new JCheckBoxMenuItem( "Show Circular Regression", getCircleNode().getVisible() );
         circleNodeVisible.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getCircleNode().setVisible( circleNodeVisible.isSelected() );
