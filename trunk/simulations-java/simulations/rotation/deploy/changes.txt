@@ -7,6 +7,8 @@ Fixed: Time ticks for bottom chart are shown differently than top charts.
 Fixed: Label time axis "time (s)"
 Fixed: Angular position readouts doesn't update during arrow drag when paused
 Fixed: Transparency is not being used correctly on Mac.
+Changed the max record time from 30 sec to 20 sec.
+Fixed: Recording should stop after time is up
 
 0.00.36 (7-18-2007)
 Fixed: Angular Position readouts aren't updating during playback

@@ -14,9 +14,11 @@ import java.util.ArrayList;
 public class RotationModel extends MotionModel implements RotationBodyNode.RotationBodyEnvironment, IPositionDriven {
     private RotationPlatform rotationPlatform;
     private ArrayList rotationBodies = new ArrayList();
+    public static final double MAX_TIME = 20.0;
 
     public RotationModel( ConstantDtClock clock ) {
         super( clock );
+        setMaxAllowedRecordTime( MAX_TIME );
         rotationPlatform = new RotationPlatform();
 
         RotationBody body1 = new RotationBody( "ladybug.gif", true );

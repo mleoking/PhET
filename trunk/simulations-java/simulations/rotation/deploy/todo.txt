@@ -5,7 +5,7 @@
 Performance:
 •	Improve performance
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
-        -Should stop recording after a certain number of points
+        
 
 Lower Priority:
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
