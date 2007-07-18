@@ -11,12 +11,10 @@
 •   Reset all doesn't reset Angle readouts
     -can't reproduce this
 •   Label time axis "time (s)"
-angular position readouts not updating during arrow drag when paused
-typing in a box without pressing enter should work
+•   angular position readouts not updating during arrow drag when paused
 
-how should update mode be set based on typing in text boxes?
-maybe "angular acceleration" graph should be called "angle"
-typing in the value for ang. accel, then pressing "go" reset the value to 0.0
+•   how should update mode be set based on typing in text boxes?
+•   typing in the value for ang. accel, then pressing "go" reset the value to 0.0
 
 Performance:
 •	Improve performance
@@ -35,6 +33,8 @@ Lower Priority:
 •   On graph readouts should have a better (fixed) layout. (numbers could be aligned)
 •   some pswing components are fuzzy
     -can't reproduce this on development machine
+•   typing in a box without pressing enter should work
+    -can't solve this in general, since we don't know when the user has finished entering input
 
 ################################################
 #           Implementation issues
