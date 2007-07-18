@@ -80,7 +80,7 @@ public class MotionControlGraph extends ControlGraph {
             public void cursorTimeChanged() {
                 motionModel.getTimeSeriesModel().setPlaybackMode();
                 motionModel.getTimeSeriesModel().setPlaybackTime( jFreeChartCursorNode.getTime() );
-                System.out.println( "playback time=" + jFreeChartCursorNode.getTime() );
+//                System.out.println( "playback time=" + jFreeChartCursorNode.getTime() );
             }
         } );
         motionModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
