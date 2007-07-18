@@ -1,3 +1,4 @@
+0.00.31 (7-18-2007)
 Added units to in-graph readouts
 Calibrated time scale slider
 “Show symbol key” button switches to “Hide symbol key” if symbol key is showing.
@@ -6,6 +7,7 @@ Changed the checkboxes to read e.g. “Show X-position” instead of just "X-Positio
 Switched from 3 subtick marks on ruler to 4 so they would be at 1.2, 1.4, 1.6, 1.8
 Added "Reset All" button
 Improved layout for in-graph readouts for one and two-character cases
+Bugfixes
 
 0.00.30 (7-16-2007)
 Added initial support for ruler
