@@ -5,6 +5,7 @@ import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.rotation.model.RotationBody;
@@ -14,7 +15,6 @@ import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.umd.cs.piccolo.nodes.PImage;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
-import org.jfree.chart.axis.ValueAxis;
 import org.jfree.ui.RectangleEdge;
 
 import java.awt.*;
@@ -37,13 +37,18 @@ public class RotationGraph extends MotionControlGraph {
                label, title, min, max, thumb,
                motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         super.getDynamicJFreeChartNode().setAutoUpdateAll( false );
-        ValueAxis oldRangeAxis = getJFreeChartNode().getChart().getXYPlot().getRangeAxis();
+
         RotationGraphNumberAxis verticalAxis = new RotationGraphNumberAxis( title + " (" + units + ")" );
-        verticalAxis.setRange( oldRangeAxis.getRange() );
+        verticalAxis.setRange( getJFreeChartNode().getChart().getXYPlot().getRangeAxis().getRange() );
         getJFreeChartNode().getChart().getXYPlot().setRangeAxis( verticalAxis );
 
+        NumberAxis domainAxis = new NumberAxis( "time (s)" );
+        domainAxis.setLabelFont( new PhetDefaultFont( 12 ) );
+        domainAxis.setRange( getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getRange() );
+        domainAxis.setTickUnit( new NumberTickUnit( 2.5 ) );
+        getJFreeChartNode().getChart().getXYPlot().setDomainAxis( domainAxis );
+
         getDynamicJFreeChartNode().setBufferedSeries();
-//        dynamicJFreeChartNode.setBufferedImmediateSeries();
 
         addListener( new Adapter() {
             public void zoomChanged() {
