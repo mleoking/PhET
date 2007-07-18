@@ -9,10 +9,11 @@
 •	Its pretty easy to get a discontinuity in the drawing of the lines for the wheel which makes it look odd. 
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
 •	Weird bug: If I run it as below … so stationary with bug at one x,y, but then I pause,
-        grab cursor and move back in time, but will move instead of be stationary.
+        grab cursor and move back in time, bug will move instead of be stationary.
         (NOTE: I’ve now seen other instances of incorrect playback of what is on the graphs as well).
         (CLUE??? It looks like it might be playing back POSITION from start of time, but playing back v and a vectors,
         etc., from start of graph?)
+            >>Perhaps this is due to the interpolation between pick-up and drop angles when bug is user dragged?
 
 •	At start up, graphs do not reliably come up with x-axes aligned so now cursor and tick marks for 3rd graph do not align.
         If I resize in x this will fix itself.
