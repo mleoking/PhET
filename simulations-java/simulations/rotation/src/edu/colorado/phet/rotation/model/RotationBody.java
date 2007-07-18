@@ -164,6 +164,8 @@ public class RotationBody {
         accelMagnitudeVariable.setValue( 0.0 );
         accelMagnitudeSeries.clear();
 
+        angleTimeSeries.clear();
+
         orientationSeries.clear();
     }
 

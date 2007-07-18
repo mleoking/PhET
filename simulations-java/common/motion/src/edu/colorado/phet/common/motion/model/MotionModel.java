@@ -82,6 +82,7 @@ public class MotionModel {
     public void clear() {
         time = 0;
         timeSeriesModel.clear();
+        timeTimeSeries.clear();
     }
 
     public double getTime() {
