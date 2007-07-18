@@ -2,7 +2,6 @@
 #     To Do
 ################################
 
-•	Add Reset All
 •	When “Show beetle 2 graph” checked, the labels overlap. Maybe it would be good to show corresponding values just below values for lady bug?
 •	There is still a very large delay on the v and a vectors when dragging the bugs around on my machine …
         it makes it look like the arrows are pointing outwards for acceleration, not inwards when I move in a circle by hand.

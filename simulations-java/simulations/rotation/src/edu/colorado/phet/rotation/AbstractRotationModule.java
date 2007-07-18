@@ -64,6 +64,10 @@ public abstract class AbstractRotationModule extends PiccoloModule {
         rotationModel.resetAll();
         rotationSimulationPanel.resetAll();
         vectorViewModel.resetAll();
+        if( getClock() instanceof ConstantDtClock ) {
+            ConstantDtClock constantDtClock = (ConstantDtClock)getClock();
+            constantDtClock.setDt( DEFAULT_CLOCK_DT );
+        }
     }
 
     public VectorViewModel getVectorViewModel() {
