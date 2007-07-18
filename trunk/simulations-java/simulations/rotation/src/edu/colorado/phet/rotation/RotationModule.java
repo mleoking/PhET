@@ -13,7 +13,7 @@ import javax.swing.*;
  */
 public class RotationModule extends AbstractRotationModule {
 
-    private VectorViewModel vectorViewModel;
+
 
     public RotationModule( JFrame parentFrame ) {
         super( parentFrame );
@@ -27,11 +27,5 @@ public class RotationModule extends AbstractRotationModule {
         return new RotationSimulationPanel( this, parentFrame );
     }
 
-    public VectorViewModel getVectorViewModel() {
-        if( vectorViewModel == null ) {//state is constructed lazily outside of constructor for use in template method
-            vectorViewModel = new VectorViewModel();
-        }
-        return vectorViewModel;
-    }
 
 }

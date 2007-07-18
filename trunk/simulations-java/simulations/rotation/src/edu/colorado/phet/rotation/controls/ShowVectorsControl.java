@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
  */
 
 public class ShowVectorsControl extends JPanel {
-    VectorViewModel vectorViewModel;
+    private VectorViewModel vectorViewModel;
 
     public ShowVectorsControl( final VectorViewModel vectorViewModel ) {
         this.vectorViewModel = vectorViewModel;

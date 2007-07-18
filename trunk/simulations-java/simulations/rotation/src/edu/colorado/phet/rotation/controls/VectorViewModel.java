@@ -13,6 +13,10 @@ public class VectorViewModel {
     private boolean accelerationVisible = true;
     private ArrayList listeners = new ArrayList();
 
+    public VectorViewModel() {
+        resetAll();
+    }
+
     public boolean isVelocityVisible() {
         return velocityVisible;
     }
@@ -33,6 +37,11 @@ public class VectorViewModel {
             this.accelerationVisible = visible;
             notifyListeners();
         }
+    }
+
+    public void resetAll() {
+        setAccelerationVisible( true );
+        setVelocityVisible( true );
     }
 
     public static interface Listener {
