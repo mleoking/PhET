@@ -4,7 +4,6 @@
 
 •   Angular position readouts not updating during arrow drag when paused
 •   Bug: Transparency is not being used correctly on Mac.
-•   Time ticks for bottom chart are shown differently than top charts.
 •   Label time axis "time (s)"?
 
 Performance:
