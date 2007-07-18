@@ -1,5 +1,6 @@
-0.00.33
-
+0.00.35 (7-18-2007)
+Added alternative rendering strategy for experimentation
+Added condition to avoid the expense of circular regression if possible
 
 0.00.31 (7-18-2007)
 Added units to in-graph readouts
