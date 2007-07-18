@@ -13,6 +13,8 @@
         (CLUE??? It looks like it might be playing back POSITION from start of time, but playing back v and a vectors,
         etc., from start of graph?)
             >>Perhaps this is due to the interpolation between pick-up and drop angles when bug is user dragged?
+            >>To fix this, we should consider computing the angular values during user drag.
+//todo: iterating over the entire parent hierarchy every time step for every visible series may be too expensive
 
 •	At start up, graphs do not reliably come up with x-axes aligned so now cursor and tick marks for 3rd graph do not align.
         If I resize in x this will fix itself.
