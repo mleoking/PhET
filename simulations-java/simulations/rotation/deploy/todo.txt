@@ -2,16 +2,18 @@
 #     To Do
 ################################
 
-•	Its pretty easy to get a discontinuity in the drawing of the lines for the wheel which makes it look odd.
-•	Bug: On test laptop, Java 1.5, during user interaction with the platform, clock is not able to tick
-•	Bug: Beetle graph appears empty before beetle is on the platform
+•	Bug: Beetle graph appears empty before beetle is on the platform, why isn't this interpolating like the other graphs?
 •   Bug: Transparency is not being used correctly on Mac.
 •	Invert coordinate frame so that +x and +y are in 1st quadrant
-•	Improve performance
-•	There is still a performance leak. After about 10-15 minutes it is now crawling.
-        -Should stop recording after a certain number of points
 •   Time ticks for bottom chart are shown differently than top charts.
 •   Angular Position readouts aren't updating during playback
+
+Performance:
+•	Improve performance
+•	Bug: On test laptop, Java 1.5, during user interaction with the platform, clock is not able to tick
+•	Its pretty easy to get a discontinuity in the drawing of the lines for the wheel which makes it look odd.
+•	There is still a performance leak. After about 10-15 minutes it is now crawling.
+        -Should stop recording after a certain number of points
 
 Lower Priority:
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
