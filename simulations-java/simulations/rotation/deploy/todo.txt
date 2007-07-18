@@ -3,6 +3,7 @@
 ################################
 
 •	Bug: Beetle graph appears empty before beetle is on the platform, why isn't this interpolating like the other graphs?
+    -values for RotationBody's angleSeries aren't set while off platform
 •   Bug: Transparency is not being used correctly on Mac.
 •	Invert coordinate frame so that +x and +y are in 1st quadrant
 •   Time ticks for bottom chart are shown differently than top charts.
