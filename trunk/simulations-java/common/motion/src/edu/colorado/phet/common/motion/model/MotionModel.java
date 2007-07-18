@@ -95,4 +95,8 @@ public class MotionModel {
     public void resetAll() {
         clear();
     }
+
+    public void setMaxAllowedRecordTime( double maxAllowedRecordTime ) {
+        getTimeSeriesModel().setMaxAllowedRecordTime( maxAllowedRecordTime );
+    }
 }
