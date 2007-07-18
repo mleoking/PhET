@@ -2,13 +2,12 @@
 #     To Do
 ################################
 
-Performance:
 •	Improve performance
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
-        
 
 Lower Priority:
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
+•   Improve correspondence of graph time scale with wall-time clock speed
 •	Shadow projections should be considered after AAPT.
 •	Possible interview question: bug icon at tip of graph to improve conceptual connection
 •	Torque mode: Should be able to "spin" the wheel (i.e. drag, let go, and have it continue to spin, at least in friction mode)
