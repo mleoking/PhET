@@ -11,10 +11,15 @@ public class DefaultTimeSeries implements ITimeSeries {
     private ArrayList data = new ArrayList();
     private ArrayList listeners = new ArrayList();
 
+    //todo: debugging only; should be removed, possible GC prevention 
+    public static final ArrayList instances = new ArrayList();
+
     public DefaultTimeSeries() {
+        instances.add( this );
     }
 
     public DefaultTimeSeries( double initValue, double initTime ) {
+        this();
         addValue( initValue, initTime );
     }
 
@@ -107,5 +112,12 @@ public class DefaultTimeSeries implements ITimeSeries {
             }
         }
         return closest;
+    }
+
+    public static void verifySeriesCleared() {
+        for( int i = 0; i < instances.size(); i++ ) {
+            DefaultTimeSeries defaultTimeSeries = (DefaultTimeSeries)instances.get( i );
+            System.out.println( "defaultTimeSeries = " + defaultTimeSeries + ", dataSize=" + defaultTimeSeries.getSampleCount() );
+        }
     }
 }

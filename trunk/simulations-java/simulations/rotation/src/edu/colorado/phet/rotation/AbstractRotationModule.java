@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
+import edu.colorado.phet.common.motion.model.DefaultTimeSeries;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -68,6 +69,7 @@ public abstract class AbstractRotationModule extends PiccoloModule {
             ConstantDtClock constantDtClock = (ConstantDtClock)getClock();
             constantDtClock.setDt( DEFAULT_CLOCK_DT );
         }
+        DefaultTimeSeries.verifySeriesCleared();
     }
 
     public VectorViewModel getVectorViewModel() {
