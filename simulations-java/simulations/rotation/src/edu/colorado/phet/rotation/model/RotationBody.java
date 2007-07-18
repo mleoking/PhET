@@ -163,22 +163,37 @@ public class RotationBody {
 
         Point2D[] pointHistory = getPointHistory( 25 );
         circle = circularRegression.getCircle( pointHistory, 50, circle );
-//        System.out.println( "circle = " + circle );
-        AbstractVector2D accelVector = new Vector2D.Double( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
-                                                            circle.getCenter2D() );
-        double aMag = 1.0;//todo: fix acceleration when circular regression is bogus
-        if( circle.getRadius() > 0.1 ) {
-            aMag = ( vx.getValue() * vx.getValue() + vy.getValue() * vy.getValue() ) / circle.getRadius();
+        if( circle.getRadius() > 5.0 ) {
+            //assume something went wrong in nonlinear regression
+            circle = circularRegression.getCircle( pointHistory, 50, null );
+        }
+        double circularMotionMSE = 0.01;
+        double noncircularMotionMSE = 0.15;
+        double thresholdMSE = ( noncircularMotionMSE + circularMotionMSE ) / 2.0;
+//        System.out.println( "MSE=" + circle.getMeanSquaredError( pointHistory ) + ", circle.getRadius() = " + circle.getRadius() );
+        if( circle.getRadius() >= 0.5 && circle.getRadius() <= 5.0 && circle.getMeanSquaredError( pointHistory ) < thresholdMSE ) {
+            AbstractVector2D accelVector = new Vector2D.Double( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
+                                                                circle.getCenter2D() );
+            double aMag = ( vx.getValue() * vx.getValue() + vy.getValue() * vy.getValue() ) / circle.getRadius();
+
+
+            if( accelVector.getMagnitude() < 0.1 ) {
+                accelVector = new Vector2D.Double( 0.1, 0.1 );//todo: remove this dummy test value
+            }
+            accelVector = accelVector.getInstanceOfMagnitude( aMag );
+            accelVector = origAccel.getAddedInstance( accelVector ).getScaledInstance( 0.5 );
+            xBody.getMotionBodySeries().addAccelerationData( accelVector.getX(), time );
+            yBody.getMotionBodySeries().addAccelerationData( accelVector.getY(), time );
+        }
+        else {
+//            System.out.println( "RotationBody.updateOffPlatform: Linear" );
+            TimeData ax = MotionMath.getDerivative( xBody.getMotionBodySeries().getRecentVelocityTimeSeries( Math.min( velocityWindow, xBody.getMotionBodySeries().getVelocitySampleCount() ) ) );
+            xBody.getMotionBodySeries().addAccelerationData( ax.getValue(), ax.getTime() );
+
+            TimeData ay = MotionMath.getDerivative( yBody.getMotionBodySeries().getRecentVelocityTimeSeries( Math.min( velocityWindow, yBody.getMotionBodySeries().getVelocitySampleCount() ) ) );
+            yBody.getMotionBodySeries().addAccelerationData( ay.getValue(), ay.getTime() );
         }
 
-//        System.out.println( "aMag = " + aMag );
-        if( accelVector.getMagnitude() < 0.1 ) {
-            accelVector = new Vector2D.Double( 0.1, 0.1 );//todo: remove this dummy test value
-        }
-        accelVector = accelVector.getInstanceOfMagnitude( aMag );
-        accelVector = origAccel.getAddedInstance( accelVector ).getScaledInstance( 0.5 );
-        xBody.getMotionBodySeries().addAccelerationData( accelVector.getX(), time );
-        yBody.getMotionBodySeries().addAccelerationData( accelVector.getY(), time );
         updateXYStateFromSeries();
     }
 
