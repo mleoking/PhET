@@ -65,7 +65,7 @@ public class RotationGraph extends MotionControlGraph {
             if( isSecondarySeries( titleNode.getSeries() ) ) {
                 ControlGraphSeries primarySeries = getPrimarySeries( titleNode.getSeries() );
                 ReadoutTitleNode primaryNode = super.getReadoutNode( primarySeries );
-                titleNode.setOffset( primaryNode.getOffset().getX(), primaryNode.getOffset().getY()+primaryNode.getFullBounds().getHeight()+3);
+                titleNode.setOffset( primaryNode.getOffset().getX(), primaryNode.getOffset().getY() + primaryNode.getFullBounds().getHeight() + 3 );
             }
             else {
                 titleNode.setOffset( getFullBounds().getWidth(), 0 );

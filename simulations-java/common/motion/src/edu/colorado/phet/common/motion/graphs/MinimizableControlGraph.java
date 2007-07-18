@@ -189,7 +189,7 @@ public class MinimizableControlGraph extends PNode {
         }
     }
 
-    public void addSeries( String title, Color color, String abbr, String units,ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
+    public void addSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
         controlGraph.addSeries( title, color, abbr, units, simulationVariable, observableTimeSeries, stroke );
     }
 }
