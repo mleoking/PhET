@@ -67,12 +67,10 @@ public class BufferedSeriesView extends SeriesView {
 
     public void dataAdded() {
         if( getSeries().getItemCount() >= 2 ) {
-            BufferedImage image = getDynamicJFreeChartNode().getBuffer();
-            if( image != null && getSeriesData().isVisible() ) {
+            //require that the chart is onscreen before expending effort
+            //todo: iterating over the entire parent hierarchy every time step for every visible series may be too expensive
+            if( getDynamicJFreeChartNode().getBuffer() != null && getSeriesData().isVisible() && getDynamicJFreeChartNode().getVisible() && getDynamicJFreeChartNode().isDescendentOfRoot() ) {
                 drawPoint( 0 );
-//                for( int i = 0; i < Math.min( 50,getSeries().getItemCount() - 1); i++ ) {
-//                    drawPoint( i );
-//                }
             }
         }
     }
