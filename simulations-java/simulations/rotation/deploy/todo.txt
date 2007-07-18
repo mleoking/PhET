@@ -2,7 +2,6 @@
 #     To Do
 ################################
 
-•	When “Show beetle 2 graph” checked, the labels overlap. Maybe it would be good to show corresponding values just below values for lady bug?
 •	There is still a very large delay on the v and a vectors when dragging the bugs around on my machine …
         it makes it look like the arrows are pointing outwards for acceleration, not inwards when I move in a circle by hand.
 •	Its pretty easy to get a discontinuity in the drawing of the lines for the wheel which makes it look odd. 
@@ -33,7 +32,6 @@
 •   Bug: Transparency is not being used correctly on Mac.
 •	Invert coordinate frame so that +x and +y are in 1st quadrant
 •	Improve performance
-•   On graph readouts should have a better (fixed) layout.
 •   Time ticks for last chart are shown differently than top charts.
 
 Lower Priority:
@@ -43,6 +41,7 @@ Lower Priority:
 •	Torque mode: Should be able to "spin" the wheel (i.e. drag, let go, and have it continue to spin, at least in friction mode)
 •	Consolidate MovingMan, Forces1D, Ramp, Rotation, Torque into a single codebase.
 •	Symbol key should appear near the mouse when "show symbol key" pressed
+•   On graph readouts should have a better (fixed) layout. (numbers could be aligned)
 
 ################################################
 #           Implementation issues
