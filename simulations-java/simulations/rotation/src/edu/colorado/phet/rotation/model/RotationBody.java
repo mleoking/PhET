@@ -147,7 +147,7 @@ public class RotationBody {
         notifyVectorsUpdated();
     }
 
-    CircularRegression circularRegression = new CircularRegression();
+    private CircularRegression circularRegression = new CircularRegression();
 
     private void updateOffPlatform( double time, double dt ) {
         AbstractVector2D origAccel = getAcceleration();
@@ -166,7 +166,16 @@ public class RotationBody {
 //        System.out.println( "circle = " + circle );
         AbstractVector2D accelVector = new Vector2D.Double( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
                                                             circle.getCenter2D() );
-        accelVector = accelVector.getScaledInstance( 10 );
+        double aMag = 1.0;//todo: fix acceleration when circular regression is bogus
+        if( circle.getRadius() > 0.1 ) {
+            aMag = ( vx.getValue() * vx.getValue() + vy.getValue() * vy.getValue() ) / circle.getRadius();
+        }
+
+//        System.out.println( "aMag = " + aMag );
+        if( accelVector.getMagnitude() < 0.1 ) {
+            accelVector = new Vector2D.Double( 0.1, 0.1 );//todo: remove this dummy test value
+        }
+        accelVector = accelVector.getInstanceOfMagnitude( aMag );
         accelVector = origAccel.getAddedInstance( accelVector ).getScaledInstance( 0.5 );
         xBody.getMotionBodySeries().addAccelerationData( accelVector.getX(), time );
         yBody.getMotionBodySeries().addAccelerationData( accelVector.getY(), time );

@@ -81,6 +81,10 @@ public class CircularRegression {
         public String toString() {
             return "Circle x=" + x + ", y=" + y + " r=" + r;
         }
+
+        public double getRadius() {
+            return r;
+        }
     }
 
 //    int time = 0;
