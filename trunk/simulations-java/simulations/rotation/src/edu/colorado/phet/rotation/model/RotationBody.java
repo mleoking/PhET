@@ -462,8 +462,9 @@ public class RotationBody {
         accelMagnitudeVariable.setValue( accelMagnitudeSeries.getValueForTime( time ) );
         speedVariable.setValue( speedSeries.getValueForTime( time ) );
         setOrientation( orientationSeries.getValueForTime( time ) );
-
-//        debugSeries();
+        if( angleTimeSeries.getSampleCount() > 0 ) {
+            angleVariable.setValue( angleTimeSeries.getValueForTime( time ) );
+        }
 
         notifyVectorsUpdated();
         notifyPositionChanged();
