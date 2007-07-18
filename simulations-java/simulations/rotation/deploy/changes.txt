@@ -1,9 +1,9 @@
-0.00.39
+0.00.39 (7-18-2007)
 Fixed: In one run, with both characters on the platform during playback, one character moved the opposite direction
-    -Time series was not getting cleared properly
-    -Character angle was not getting cleared properly
+Fixed: Time series was not getting cleared properly
+Fixed: Character angle was not getting cleared properly
 
-0.00.38
+0.00.38 (7-18-2007)
 Fixed: Graph for |accel| is wrong color
 A mouse press in an editable graph text box now sets that to be the driving simulation variable.
 Text boxes now set simulation values when losing focus (as well as when pressing enter)
