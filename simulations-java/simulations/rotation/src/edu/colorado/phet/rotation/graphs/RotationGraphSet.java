@@ -58,7 +58,7 @@ public class RotationGraphSet extends GraphSuiteSet {
         } );
         angleGraph.addSeriesPair( "Angle",
                                   new ControlGraphSeries( "Angle", RotationColorScheme.ANGLE_COLOR, UnicodeUtil.THETA, ANGLE_UNITS, b0.getAngleVariable(), b0.getAngleTimeSeries(), body0Stroke, true ),
-                                  new ControlGraphSeries( "Angle", darken( RotationColorScheme.ANGLE_COLOR ), UnicodeUtil.THETA, ANGLE_UNITS, b1.getAngleVariable(), b1.getAngleTimeSeries(), body1Stroke ),
+                                  new ControlGraphSeries( "Angle (2)", darken( RotationColorScheme.ANGLE_COLOR ), UnicodeUtil.THETA, ANGLE_UNITS, b1.getAngleVariable(), b1.getAngleTimeSeries(), body1Stroke ),
                                   b1 );
 
         RotationMinimizableControlGraph velocityGraph = new RotationMinimizableControlGraph( UnicodeUtil.OMEGA, new RotationGraph(
