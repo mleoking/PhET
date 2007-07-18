@@ -326,7 +326,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         InputStream stream = new ByteArrayInputStream( circuitxml.getBytes() );
         FileContents data = new InputStreamFileContents( "circuitxml", stream );
         FileContents out = fos.saveAsFileDialog( CCKResources.getString( "CCK3ControlPanel.DefaultFileName" ),
-                                                 new String[]{CCKResources.getString( "CCK3ControlPanel.FileExtension" )}, data );
+                                                 null, data );
         System.out.println( "out = " + out );
     }
 

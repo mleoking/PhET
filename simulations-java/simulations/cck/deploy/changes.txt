@@ -1,3 +1,6 @@
+7-17-2007
+Fixed a bug that prevented saving when the user chose a file extension other than .cck
+
 3.06.03 (6-6-2007)
 Added docs to the dev site.
 
