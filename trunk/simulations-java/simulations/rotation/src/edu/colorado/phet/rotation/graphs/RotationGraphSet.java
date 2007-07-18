@@ -37,6 +37,7 @@ public class RotationGraphSet extends GraphSuiteSet {
         final RotationBody b0 = model.getRotationBody( 0 );
         final RotationBody b1 = model.getRotationBody( 1 );
 
+        //todo: clearer separation between platform series and body series
         final RotationMinimizableControlGraph angleGraph = new RotationMinimizableControlGraph( UnicodeUtil.THETA, new RotationGraph(
                 pSwingCanvas, b0.getAngleVariable(),
                 UnicodeUtil.THETA, "Angle", ANGLE_UNITS, -Math.PI * 3, Math.PI * 3, new PImage( loadArrow( "blue-arrow.png" ) ),
@@ -53,6 +54,9 @@ public class RotationGraphSet extends GraphSuiteSet {
                 //this is very fragile;if the wrong value is set here, it will cause the angular velocity & angle to quickly blow up
                 //since there is a bidirectional causality between bug and platform 
                 model.getRotationPlatform().setAngle( getSliderValue() - b0.getInitialAngleOnPlatform() );
+
+                //workaround for angle variable not updating correctly when simulation is paused
+                b0.getAngleVariable().setValue( getSliderValue() );
             }
 
         } );
