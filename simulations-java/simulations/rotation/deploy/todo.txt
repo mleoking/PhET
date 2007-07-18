@@ -5,7 +5,6 @@
 •	There is still a very large delay on the v and a vectors when dragging the bugs around on my machine …
         it makes it look like the arrows are pointing outwards for acceleration, not inwards when I move in a circle by hand.
 •	Its pretty easy to get a discontinuity in the drawing of the lines for the wheel which makes it look odd. 
-•	There is still a performance leak. After about 10-15 minutes it is now crawling.
 •	Weird bug: If I run it as below … so stationary with bug at one x,y, but then I pause,
         grab cursor and move back in time, bug will move instead of be stationary.
         (NOTE: I’ve now seen other instances of incorrect playback of what is on the graphs as well).
@@ -13,7 +12,6 @@
         etc., from start of graph?)
             >>Perhaps this is due to the interpolation between pick-up and drop angles when bug is user dragged?
             >>To fix this, we should consider computing the angular values during user drag.
-//todo: iterating over the entire parent hierarchy every time step for every visible series may be too expensive
 
 •	At start up, graphs do not reliably come up with x-axes aligned so now cursor and tick marks for 3rd graph do not align.
         If I resize in x this will fix itself.
@@ -32,6 +30,8 @@
 •   Bug: Transparency is not being used correctly on Mac.
 •	Invert coordinate frame so that +x and +y are in 1st quadrant
 •	Improve performance
+•	There is still a performance leak. After about 10-15 minutes it is now crawling.
+        -iterating over the entire parent hierarchy every time step for every visible series may be too expensive
 •   Time ticks for last chart are shown differently than top charts.
 
 Lower Priority:
