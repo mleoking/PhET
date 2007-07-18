@@ -2,30 +2,7 @@
 #     To Do
 ################################
 
-•	There is still a very large delay on the v and a vectors when dragging the bugs around on my machine …
-        it makes it look like the arrows are pointing outwards for acceleration, not inwards when I move in a circle by hand.
 •	Its pretty easy to get a discontinuity in the drawing of the lines for the wheel which makes it look odd.
-•	After putting beetle on the rotation platform, then clear, then manually move ladybug, acceleration is shown with velocity vector during playback.
-•	Weird bug: If I run it as below … so stationary with bug at one x,y, but then I pause,
-        grab cursor and move back in time, bug will move instead of be stationary.
-        (NOTE: I’ve now seen other instances of incorrect playback of what is on the graphs as well).
-        (CLUE??? It looks like it might be playing back POSITION from start of time, but playing back v and a vectors,
-        etc., from start of graph?)
-            >>Perhaps this is due to the interpolation between pick-up and drop angles when bug is user dragged?
-            >>To fix this, we should consider computing the angular values during user drag.
-
-•	At start up, graphs do not reliably come up with x-axes aligned so now cursor and tick marks for 3rd graph do not align.
-        If I resize in x this will fix itself.
-            >>Added a workaround for this (difficult for me to test)
-•	Note this sim has redraw problems if I switch to word and then back, a good fraction of the screen will remain grey
-        until I resize or something else.
-            >>Added a workaround for this (difficult for me to test)
-•	When you set angular position by hand … currently only lady-bug position affected… should we make similar change
-        in theta to 2nd bug if he is on graph? So if ladybug is at 100 rads and other bug is at 110 rads,
-        then set rads to 0, end up with ladybug at 0 rads and other bug at 10 rads??? NOT sure about this?
-            >>No, I think the settable values should only apply to the ladybug.  It will be too confusing/overloaded to make it so you can type in values
-            >>for both characters.
-
 •	Bug: On test laptop, Java 1.5, during user interaction with the platform, clock is not able to tick
 •	Bug: Beetle graph appears empty before beetle is on the platform
 •   Bug: Transparency is not being used correctly on Mac.
@@ -64,6 +41,20 @@ Lower Priority:
 •	Support for "missing values" in the series data (for when characters are being dragged by the user and don't have values for angular data series)
     -Current implementation linearly interpolates between previous and subsequent values
     -It would be fairly difficult to add a "missing value" feature
+•	There is still a very large delay on the v and a vectors when dragging the bugs around on my machine …
+        it makes it look like the arrows are pointing outwards for acceleration, not inwards when I move in a circle by hand.
+    -Current implementation uses a mix of circular regression and 1-d derivatives with time delay; let me know if this is sufficient.
+•	At start up, graphs do not reliably come up with x-axes aligned so now cursor and tick marks for 3rd graph do not align.
+        If I resize in x this will fix itself.
+            >>Added a workaround for this (difficult for me to test)
+•	Note this sim has redraw problems if I switch to word and then back, a good fraction of the screen will remain grey
+        until I resize or something else.
+            >>Added a workaround for this (difficult for me to test)
+•	When you set angular position by hand … currently only lady-bug position affected… should we make similar change
+        in theta to 2nd bug if he is on graph? So if ladybug is at 100 rads and other bug is at 110 rads,
+        then set rads to 0, end up with ladybug at 0 rads and other bug at 10 rads??? NOT sure about this?
+            >>No, I think the settable values should only apply to the ladybug.  It will be too confusing/overloaded to make it so you can type in values
+            >>for both characters.
 
 ################################################
 #           Postponed:
