@@ -8,6 +8,17 @@
 •	Invert coordinate frame so that +x and +y are in 1st quadrant
 •   Time ticks for bottom chart are shown differently than top charts.
 
+•   Reset all doesn't reset Angle readouts
+    -can't reproduce this
+•   Label time axis "time (s)"
+entering a value in the ang. vel. box and pressing return doesn't work properly
+angular position readouts not updating during arrow drag when paused
+typing in a box without pressing enter should work
+
+how should update mode be set based on typing in text boxes?
+maybe "angular acceleration" graph should be called "angle"
+typing in the value for ang. accel, then pressing "go" reset the value to 0.0
+
 Performance:
 •	Improve performance
 •	Bug: On test laptop, Java 1.5, during user interaction with the platform, clock is not able to tick
@@ -23,6 +34,8 @@ Lower Priority:
 •	Consolidate MovingMan, Forces1D, Ramp, Rotation, Torque into a single codebase.
 •	Symbol key should appear near the mouse when "show symbol key" pressed
 •   On graph readouts should have a better (fixed) layout. (numbers could be aligned)
+•   some pswing components are fuzzy
+    -can't reproduce this on development machine
 
 ################################################
 #           Implementation issues

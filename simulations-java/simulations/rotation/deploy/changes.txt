@@ -1,3 +1,6 @@
+0.00.37
+Fixed: Graph for |accel| is wrong color
+
 0.00.36 (7-18-2007)
 Fixed: Angular Position readouts aren't updating during playback
 
