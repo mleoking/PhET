@@ -9,6 +9,7 @@ Fixed: Angular position readouts doesn't update during arrow drag when paused
 Fixed: Transparency is not being used correctly on Mac.
 Changed the max record time from 30 sec to 20 sec.
 Fixed: Recording should stop after time is up
+When clicking in a text box, text becomes selected for easy overwriting
 
 0.00.36 (7-18-2007)
 Fixed: Angular Position readouts aren't updating during playback
