@@ -11,6 +11,7 @@
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
         -iterating over the entire parent hierarchy every time step for every visible series may be too expensive
 •   Time ticks for last chart are shown differently than top charts.
+•   Angular Position readouts aren't updating during playback
 
 Lower Priority:
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
