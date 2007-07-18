@@ -6,6 +6,7 @@ Fixed: "angular acceleration" graph should be called "angle"
 Fixed: Time ticks for bottom chart are shown differently than top charts.
 Fixed: Label time axis "time (s)"
 Fixed: Angular position readouts doesn't update during arrow drag when paused
+Fixed: Transparency is not being used correctly on Mac.
 
 0.00.36 (7-18-2007)
 Fixed: Angular Position readouts aren't updating during playback
