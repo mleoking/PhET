@@ -61,8 +61,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         super.setTime( time );
         rotationPlatform.setTime( time );
         for( int i = 0; i < rotationBodies.size(); i++ ) {
-            RotationBody rotationBody = (RotationBody)rotationBodies.get( i );
-            rotationBody.setTime( time );
+            getRotationBody( i ).setTime( time );
         }
     }
 
@@ -70,20 +69,20 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         super.stepInTime( dt );
         rotationPlatform.stepInTime( getTime(), dt );
         for( int i = 0; i < rotationBodies.size(); i++ ) {
-            RotationBody rotationBody = (RotationBody)rotationBodies.get( i );
-            rotationBody.stepInTime( getTime(), dt );
+            getRotationBody( i ).stepInTime( getTime(), dt );
         }
     }
 
     public void clear() {
         super.clear();
         rotationPlatform.clear();
+        for( int i = 0; i < rotationBodies.size(); i++ ) {
+            getRotationBody( i ).clear();
+        }
     }
 
     public void dropBody( RotationBody rotationBody ) {
-        Point2D loc = rotationBody.getPosition();
-//        RotationPlatform platform = (RotationPlatform)getMotionBodyState();//todo: strong typing
-        if( rotationPlatform.containsPosition( loc ) ) {
+        if( rotationPlatform.containsPosition( rotationBody.getPosition() ) ) {
             rotationBody.setOnPlatform( rotationPlatform );
         }
         else {
