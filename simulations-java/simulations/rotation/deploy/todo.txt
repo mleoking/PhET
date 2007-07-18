@@ -2,21 +2,13 @@
 #     To Do
 ################################
 
-•	Bug: Beetle graph appears empty before beetle is on the platform, why isn't this interpolating like the other graphs?
-    -values for RotationBody's angleSeries aren't set while off platform
 •   Bug: Transparency is not being used correctly on Mac.
-•	Invert coordinate frame so that +x and +y are in 1st quadrant
 •   Time ticks for bottom chart are shown differently than top charts.
-•   Reset all doesn't reset Angle readouts
-    -can't reproduce this
-•   Label time axis "time (s)"
 •   angular position readouts not updating during arrow drag when paused
-•   how should update mode be set based on typing in text boxes?
+•   Label time axis "time (s)"?
 
 Performance:
 •	Improve performance
-•	Bug: On test laptop, Java 1.5, during user interaction with the platform, clock is not able to tick
-•	Its pretty easy to get a discontinuity in the drawing of the lines for the wheel which makes it look odd.
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
         -Should stop recording after a certain number of points
 
@@ -32,6 +24,10 @@ Lower Priority:
     -can't reproduce this on development machine
 •   typing in a box without pressing enter should work
     -can't solve this in general, since we don't know when the user has finished entering input
+•   Reset all doesn't reset Angle readouts
+    -can't reproduce this
+•	Bug: Beetle graph appears empty before beetle is on the platform, why isn't this interpolating like the other graphs?
+    -values for RotationBody's angleSeries aren't set while off platform
 
 ################################################
 #           Implementation issues
@@ -67,6 +63,13 @@ Lower Priority:
         then set rads to 0, end up with ladybug at 0 rads and other bug at 10 rads??? NOT sure about this?
             >>No, I think the settable values should only apply to the ladybug.  It will be too confusing/overloaded to make it so you can type in values
             >>for both characters.
+•   how should update mode be set based on typing in text boxes?
+    -current implementation: final edit decides update mode.
+    -For example, if the user wants theta=1, omega=2, alpha=3 and sets them in that order, it will work properly
+    -however, if she enters theta last, then the update mode will be set to "constant position" and therefore omega and alpha will be set to zero
+•	Invert coordinate frame so that +x and +y are in 1st quadrant
+    -won't be trivial, how much time is this feature worth?
+
 
 ################################################
 #           Postponed:
