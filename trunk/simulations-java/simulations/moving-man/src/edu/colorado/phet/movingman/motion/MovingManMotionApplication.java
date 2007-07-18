@@ -44,16 +44,28 @@ public class MovingManMotionApplication {
 
         motionModel.setPositionDriven();
 
-        int MAX_T = 200;
+        int MAX_T = 500;
         motionModel.setMaxAllowedRecordTime( MAX_T );
         System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() + " ispaused=" + motionModel.getTimeSeriesModel().isPaused() );
+        MovingManGraph xGraph = new MovingManGraph(
+                phetPCanvas, motionModel.getXVariable(), SimStrings.get( "variables.position.abbreviation" ), "x", -10, 10, new PImage( GraphSuiteSet.loadBlueArrow() )
+                , motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MAX_T, motionModel );
+        xGraph.addSeries( new ControlGraphSeries( "X", Color.blue, "x", "m", motionModel.getXVariable(), motionModel.getXTimeSeries(), new BasicStroke( 2 ), true ) );
+
+        MovingManGraph vGraph = new MovingManGraph(
+                phetPCanvas, motionModel.getVVariable(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -1, 1, new PImage( GraphSuiteSet.loadRedArrow() )
+                , motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MAX_T, motionModel );
+        vGraph.addSeries( new ControlGraphSeries( "V", Color.red, "v", "m/s", motionModel.getVVariable(), motionModel.getVTimeSeries(), new BasicStroke( 2 ), true ) );
+
+        MovingManGraph aGraph = new MovingManGraph(
+                phetPCanvas, motionModel.getAVariable(), SimStrings.get( "variables.position.abbreviation" ), "x", -0.01, 0.01, new PImage( GraphSuiteSet.loadGreenArrow() )
+                , motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MAX_T, motionModel );
+        aGraph.addSeries( new ControlGraphSeries( "A", Color.green, "a", "m/s^2", motionModel.getAVariable(), motionModel.getATimeSeries(), new BasicStroke( 2 ), true ) );
+
         GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
-                new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), new MotionControlGraph(
-                        phetPCanvas, motionModel.getXVariable(), SimStrings.get( "variables.position.abbreviation" ), SimStrings.get( "variables.position" ), -10, 10, new PImage( GraphSuiteSet.loadBlueArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MAX_T, motionModel ) ),
-                new MinimizableControlGraph( SimStrings.get( "variables.velocity.abbreviation" ), new MotionControlGraph(
-                        phetPCanvas, motionModel.getVVariable(), SimStrings.get( "variables.velocity.abbreviation" ), SimStrings.get( "variables.velocity" ), -1, 1, new PImage( GraphSuiteSet.loadRedArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MAX_T, motionModel ) ),
-                new MinimizableControlGraph( SimStrings.get( "variables.acceleration.abbreviation" ), new MotionControlGraph(
-                        phetPCanvas, motionModel.getAVariable(), SimStrings.get( "variables.acceleration.abbreviation" ), SimStrings.get( "variables.acceleration" ), -0.01, 0.01, new PImage( GraphSuiteSet.loadGreenArrow() ), motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MAX_T, motionModel ) )
+                new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), xGraph ),
+                new MinimizableControlGraph( SimStrings.get( "variables.velocity.abbreviation" ), vGraph ),
+                new MinimizableControlGraph( SimStrings.get( "variables.acceleration.abbreviation" ), aGraph )
         } ) ) );
 
         graphSetNode.setAlignedLayout();
