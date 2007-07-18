@@ -85,6 +85,28 @@ public class CircularRegression {
         public double getRadius() {
             return r;
         }
+
+        public double getMeanSquaredError( Point2D[] pointHistory ) {
+            if( pointHistory.length == 0 ) {
+                return 0;
+            }
+            double sumSq = 0;
+            for( int i = 0; i < pointHistory.length; i++ ) {
+                Point2D point2D = pointHistory[i];
+                sumSq += getSquaredError( point2D );
+            }
+            return sumSq / pointHistory.length;
+        }
+
+        public double getSquaredError( Point2D pt ) {
+            double distToCircle = pt.distance( x, y );
+            if( distToCircle > r ) {
+                return ( distToCircle - r ) * ( distToCircle - r );
+            }
+            else {
+                return ( r - distToCircle ) * ( r - distToCircle );
+            }
+        }
     }
 
 //    int time = 0;
