@@ -22,6 +22,7 @@ public class RotationPlayAreaNode extends PNode {
     private RotationRulerNode rulerNode;
 
     public static final double SCALE = 3.0 / 200.0;
+    private CircleNode circularMotionNode;
 
     public RotationPlayAreaNode( final RotationModel rotationModel, VectorViewModel vectiorViewModel ) {
         this.rotationModel = rotationModel;
@@ -45,7 +46,13 @@ public class RotationPlayAreaNode extends PNode {
         for( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
             addVectorNode( rotationModel.getRotationBody( i ), vectiorViewModel );
         }
-        addChild( new CircleNode( rotationModel ) );
+        circularMotionNode = new CircleNode( rotationModel );
+        circularMotionNode.setVisible( false );
+        addChild( circularMotionNode );
+    }
+
+    public CircleNode getCircularMotionNode() {
+        return circularMotionNode;
     }
 
     private void addVectorNode( RotationBody rotationBody, VectorViewModel vectorViewModel ) {

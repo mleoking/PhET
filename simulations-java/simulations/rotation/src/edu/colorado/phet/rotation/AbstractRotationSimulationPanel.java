@@ -178,4 +178,8 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         }
     }
 
+
+    public RotationPlayAreaNode getRotationPlayAreaNode() {
+        return rotationPlayAreaNode;
+    }
 }
