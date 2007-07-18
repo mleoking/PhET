@@ -10,6 +10,7 @@ import edu.colorado.phet.rotation.tests.CircularRegression;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -181,6 +182,18 @@ public class RotationBody {
         yBody.getMotionBodySeries().addVelocityData( vy.getValue(), vy.getTime() );
 
         Point2D[] pointHistory = getPointHistory( 25 );
+        Rectangle2D.Double boundingBox = new Rectangle2D.Double( pointHistory[0].getX(), pointHistory[0].getY(), 0, 0 );
+        for( int i = 1; i < pointHistory.length; i++ ) {
+            Point2D point2D = pointHistory[i];
+            boundingBox.add( point2D );
+        }
+//        System.out.println( "boundingBox = " + boundingBox );
+        //avoid the expense of circular regression if possible
+        if( boundingBox.getWidth() <= 0.2 && boundingBox.getHeight() <= 0.2 ) {
+            updateAccelByDerivative();
+            updateXYStateFromSeries();
+            return;
+        }
         circle = circularRegression.getCircle( pointHistory, 50, circle );
         if( circle.getRadius() > 5.0 ) {
             //assume something went wrong in nonlinear regression
@@ -209,14 +222,19 @@ public class RotationBody {
         }
         else {
 //            System.out.println( "RotationBody.updateOffPlatform: Linear" );
-            TimeData ax = MotionMath.getDerivative( xBody.getMotionBodySeries().getRecentVelocityTimeSeries( Math.min( velocityWindow, xBody.getMotionBodySeries().getVelocitySampleCount() ) ) );
-            xBody.getMotionBodySeries().addAccelerationData( ax.getValue(), ax.getTime() );
-
-            TimeData ay = MotionMath.getDerivative( yBody.getMotionBodySeries().getRecentVelocityTimeSeries( Math.min( velocityWindow, yBody.getMotionBodySeries().getVelocitySampleCount() ) ) );
-            yBody.getMotionBodySeries().addAccelerationData( ay.getValue(), ay.getTime() );
+            updateAccelByDerivative();
         }
 
         updateXYStateFromSeries();
+    }
+
+    private void updateAccelByDerivative() {
+        int accelWindow = 6;
+        TimeData ax = MotionMath.getDerivative( xBody.getMotionBodySeries().getRecentVelocityTimeSeries( Math.min( accelWindow, xBody.getMotionBodySeries().getVelocitySampleCount() ) ) );
+        xBody.getMotionBodySeries().addAccelerationData( ax.getValue(), ax.getTime() );
+
+        TimeData ay = MotionMath.getDerivative( yBody.getMotionBodySeries().getRecentVelocityTimeSeries( Math.min( accelWindow, yBody.getMotionBodySeries().getVelocitySampleCount() ) ) );
+        yBody.getMotionBodySeries().addAccelerationData( ay.getValue(), ay.getTime() );
     }
 
 
