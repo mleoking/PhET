@@ -4,7 +4,6 @@
 
 •   Angular position readouts not updating during arrow drag when paused
 •   Bug: Transparency is not being used correctly on Mac.
-•   Label time axis "time (s)"?
 
 Performance:
 •	Improve performance
