@@ -45,7 +45,7 @@ public class RotationPlayAreaNode extends PNode {
         for( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
             addVectorNode( rotationModel.getRotationBody( i ), vectiorViewModel );
         }
-        addChild( new CircleNode(rotationModel));
+        addChild( new CircleNode( rotationModel ) );
     }
 
     private void addVectorNode( RotationBody rotationBody, VectorViewModel vectorViewModel ) {
@@ -66,5 +66,9 @@ public class RotationPlayAreaNode extends PNode {
 
     public PNode getOriginNode() {
         return originNode;
+    }
+
+    public void resetAll() {
+        rulerNode.setVisible( false );
     }
 }

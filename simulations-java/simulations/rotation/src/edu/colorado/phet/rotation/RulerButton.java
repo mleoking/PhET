@@ -1,11 +1,14 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
+import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 /**
  * Author: Sam Reid
@@ -17,7 +20,7 @@ public class RulerButton extends Box {
     private JCheckBox checkBox;
     private RulerNode rulerNode;
 
-    public RulerButton( RulerNode rulerNode ) {
+    public RulerButton( final RulerNode rulerNode ) {
         super( BoxLayout.X_AXIS );
         this.rulerNode = rulerNode;
         checkBox = new JCheckBox( "Show Ruler" );
@@ -25,6 +28,11 @@ public class RulerButton extends Box {
         checkBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleRulerCheckBox();
+            }
+        } );
+        rulerNode.addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                checkBox.setSelected( rulerNode.isVisible() );
             }
         } );
         Icon rulerIcon = null;
