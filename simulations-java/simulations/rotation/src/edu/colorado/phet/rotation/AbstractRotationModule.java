@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
+import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationModel;
 
 import javax.swing.*;
@@ -18,6 +19,7 @@ import javax.swing.*;
 public abstract class AbstractRotationModule extends PiccoloModule {
     private AbstractRotationSimulationPanel rotationSimulationPanel;
     private RotationModel rotationModel;
+    private VectorViewModel vectorViewModel;
 
     public static final int DEFAULT_DELAY = 30;
     public static final double DEFAULT_CLOCK_DT = DEFAULT_DELAY / 1000.0;
@@ -28,6 +30,7 @@ public abstract class AbstractRotationModule extends PiccoloModule {
         setLogoPanel( null );
         setClockControlPanel( null );
         rotationModel = createModel( (ConstantDtClock)getClock() );
+        vectorViewModel = new VectorViewModel();
 
         rotationSimulationPanel = createSimulationPanel( parentFrame );
         setSimulationPanel( rotationSimulationPanel );
@@ -60,5 +63,10 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     public void resetAll() {
         rotationModel.resetAll();
         rotationSimulationPanel.resetAll();
+        vectorViewModel.resetAll();
+    }
+
+    public VectorViewModel getVectorViewModel() {
+        return vectorViewModel;
     }
 }
