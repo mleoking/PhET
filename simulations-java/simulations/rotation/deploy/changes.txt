@@ -1,3 +1,6 @@
+0.00.36 (7-18-2007)
+Fixed: Angular Position readouts aren't updating during playback
+
 0.00.35 (7-18-2007)
 Added alternative rendering strategy for experimentation
 Added condition to avoid the expense of circular regression if possible

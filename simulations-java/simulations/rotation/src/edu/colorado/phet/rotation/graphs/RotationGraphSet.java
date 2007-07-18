@@ -54,6 +54,7 @@ public class RotationGraphSet extends GraphSuiteSet {
                 //since there is a bidirectional causality between bug and platform 
                 model.getRotationPlatform().setAngle( getSliderValue() - b0.getInitialAngleOnPlatform() );
             }
+
         } );
         angleGraph.addSeriesPair( "Angular Position",
                                   new ControlGraphSeries( "Angular Position", RotationColorScheme.ANGLE_COLOR, UnicodeUtil.THETA, ANGLE_UNITS, b0.getAngleVariable(), b0.getAngleTimeSeries(), body0Stroke, true ),
