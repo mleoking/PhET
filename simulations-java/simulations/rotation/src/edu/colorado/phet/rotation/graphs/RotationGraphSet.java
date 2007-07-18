@@ -39,7 +39,7 @@ public class RotationGraphSet extends GraphSuiteSet {
 
         final RotationMinimizableControlGraph angleGraph = new RotationMinimizableControlGraph( UnicodeUtil.THETA, new RotationGraph(
                 pSwingCanvas, b0.getAngleVariable(),
-                UnicodeUtil.THETA, "Angular Position", ANGLE_UNITS, -Math.PI * 3, Math.PI * 3, new PImage( loadArrow( "blue-arrow.png" ) ),
+                UnicodeUtil.THETA, "Angle", ANGLE_UNITS, -Math.PI * 3, Math.PI * 3, new PImage( loadArrow( "blue-arrow.png" ) ),
                 model, true, model.getTimeSeriesModel(), null,
                 maxTime, model.getRotationPlatform() ) {
 
@@ -56,9 +56,9 @@ public class RotationGraphSet extends GraphSuiteSet {
             }
 
         } );
-        angleGraph.addSeriesPair( "Angular Position",
-                                  new ControlGraphSeries( "Angular Position", RotationColorScheme.ANGLE_COLOR, UnicodeUtil.THETA, ANGLE_UNITS, b0.getAngleVariable(), b0.getAngleTimeSeries(), body0Stroke, true ),
-                                  new ControlGraphSeries( "Angular Position (2)", darken( RotationColorScheme.ANGLE_COLOR ), UnicodeUtil.THETA, ANGLE_UNITS, b1.getAngleVariable(), b1.getAngleTimeSeries(), body1Stroke ),
+        angleGraph.addSeriesPair( "Angle",
+                                  new ControlGraphSeries( "Angle", RotationColorScheme.ANGLE_COLOR, UnicodeUtil.THETA, ANGLE_UNITS, b0.getAngleVariable(), b0.getAngleTimeSeries(), body0Stroke, true ),
+                                  new ControlGraphSeries( "Angle", darken( RotationColorScheme.ANGLE_COLOR ), UnicodeUtil.THETA, ANGLE_UNITS, b1.getAngleVariable(), b1.getAngleTimeSeries(), body1Stroke ),
                                   b1 );
 
         RotationMinimizableControlGraph velocityGraph = new RotationMinimizableControlGraph( UnicodeUtil.OMEGA, new RotationGraph(
