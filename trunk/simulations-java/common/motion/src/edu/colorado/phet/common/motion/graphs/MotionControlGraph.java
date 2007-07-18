@@ -104,6 +104,7 @@ public class MotionControlGraph extends ControlGraph {
     }
 
     protected void handleControlFocusGrabbed() {
+        super.handleControlFocusGrabbed();
         if( updateStrategy != null ) {
             iPositionDriven.setUpdateStrategy( updateStrategy );
         }
