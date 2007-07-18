@@ -91,6 +91,7 @@ public class GraphSuiteSet {
         for( int i = 0; i < graphs.length; i++ ) {
             graphs[i].clear();
         }
+        forceUpdateAll();
     }
 
     public int getNumGraphSuites() {
@@ -101,6 +102,18 @@ public class GraphSuiteSet {
         MinimizableControlGraph[] graphs = getAllGraphs();
         for( int i = 0; i < graphs.length; i++ ) {
             graphs[i].forceUpdate();
+        }
+    }
+
+    public void resetAll() {
+        maximizeAll();
+        clear();
+    }
+
+    private void maximizeAll() {
+        MinimizableControlGraph[] graphs = getAllGraphs();
+        for( int i = 0; i < graphs.length; i++ ) {
+            graphs[i].setMinimized( false );
         }
     }
 }

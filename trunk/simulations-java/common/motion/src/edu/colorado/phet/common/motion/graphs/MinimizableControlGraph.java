@@ -91,7 +91,7 @@ public class MinimizableControlGraph extends PNode {
         closeButton.setOffset( controlGraph.getJFreeChartNode().getDataArea().getMaxX() - closeButton.getFullBounds().getWidth() - buttonInsetX + controlGraph.getJFreeChartNode().getOffset().getX(), controlGraph.getJFreeChartNode().getDataArea().getY() );
     }
 
-    private void setMinimized( boolean b ) {
+    public void setMinimized( boolean b ) {
         if( this.minimized != b ) {
             this.minimized = b;
             if( minimized ) {

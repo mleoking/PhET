@@ -102,8 +102,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
     }
 
     public void resetAll() {
-        rotationGraphSet.clear();
-        rotationGraphSet.forceUpdateAll();
+        rotationGraphSet.resetAll();
         graphSetModel.setGraphSuite( rotationGraphSet.getGraphSuite( 0 ) );
         rotationPlayAreaNode.resetAll();
     }
