@@ -62,13 +62,27 @@ public class RotationGraph extends MotionControlGraph {
         }
 
         public void addReadoutNode( ReadoutTitleNode titleNode ) {
-            titleNode.setOffset( getFullBounds().getWidth(), 0 );
             if( isSecondarySeries( titleNode.getSeries() ) ) {
-                titleNode.translate( -titleNode.getFullBounds().getWidth(), titleNode.getFullBounds().getHeight() +5 );
+                ControlGraphSeries primarySeries = getPrimarySeries( titleNode.getSeries() );
+                ReadoutTitleNode primaryNode = super.getReadoutNode( primarySeries );
+                titleNode.setOffset( primaryNode.getOffset().getX(), primaryNode.getOffset().getY()+primaryNode.getFullBounds().getHeight()+3);
+            }
+            else {
+                titleNode.setOffset( getFullBounds().getWidth(), 0 );
             }
             addChild( titleNode );
         }
 
+    }
+
+    private ControlGraphSeries getPrimarySeries( ControlGraphSeries series ) {
+        for( int i = 0; i < seriesPairs.size(); i++ ) {
+            SeriesPair seriesPair = (SeriesPair)seriesPairs.get( i );
+            if( seriesPair.getB() == series ) {
+                return seriesPair.getA();
+            }
+        }
+        return null;
     }
 
     private boolean isSecondarySeries( ControlGraphSeries series ) {

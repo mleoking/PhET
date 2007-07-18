@@ -306,6 +306,18 @@ public class ControlGraph extends PNode {
             titleNode.setOffset( getFullBounds().getWidth(), 0 );
             addChild( titleNode );
         }
+
+        public ReadoutTitleNode getReadoutNode( ControlGraphSeries series ) {
+            for( int i = 0; i < getChildrenCount(); i++ ) {
+                if( getChild( i ) instanceof ReadoutTitleNode ) {
+                    ReadoutTitleNode readoutTitleNode = (ReadoutTitleNode)getChild( i );
+                    if( readoutTitleNode.getSeries() == series ) {
+                        return readoutTitleNode;
+                    }
+                }
+            }
+            return null;
+        }
     }
 
     public void addSeries( final ControlGraphSeries series ) {
