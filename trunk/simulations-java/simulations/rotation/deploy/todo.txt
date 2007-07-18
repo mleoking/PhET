@@ -4,7 +4,8 @@
 
 •	There is still a very large delay on the v and a vectors when dragging the bugs around on my machine …
         it makes it look like the arrows are pointing outwards for acceleration, not inwards when I move in a circle by hand.
-•	Its pretty easy to get a discontinuity in the drawing of the lines for the wheel which makes it look odd. 
+•	Its pretty easy to get a discontinuity in the drawing of the lines for the wheel which makes it look odd.
+•	After putting beetle on the rotation platform, then clear, then manually move ladybug, acceleration is shown with velocity vector during playback.
 •	Weird bug: If I run it as below … so stationary with bug at one x,y, but then I pause,
         grab cursor and move back in time, bug will move instead of be stationary.
         (NOTE: I’ve now seen other instances of incorrect playback of what is on the graphs as well).

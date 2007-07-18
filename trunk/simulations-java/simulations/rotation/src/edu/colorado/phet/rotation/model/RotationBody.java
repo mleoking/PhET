@@ -72,6 +72,7 @@ public class RotationBody {
     public void setOffPlatform() {
         if( !isOffPlatform() ) {
             setUpdateStrategy( new OffPlatform() );
+            rotationPlatform = null;
             notifyPlatformStateChanged();
         }
     }
@@ -130,6 +131,7 @@ public class RotationBody {
         Point2D origPosition = getPosition();
         if( isOffPlatform() ) {
             updateOffPlatform( time, dt );
+//            updateOffPlatformORIG( time, dt );
         }
         else {
             updateBodyOnPlatform( time, dt );
@@ -145,16 +147,31 @@ public class RotationBody {
 
         orientationSeries.addValue( getOrientation(), time );
 
-
+//        debugSeries();
         notifyVectorsUpdated();
+    }
+
+
+    public void clear() {
+        xBody.clear();
+        yBody.clear();
+
+
+        speedSeries.clear();
+        speedVariable.setValue( 0.0 );
+
+        accelMagnitudeVariable.setValue( 0.0 );
+        accelMagnitudeSeries.clear();
+
+        orientationSeries.clear();
     }
 
     private CircularRegression circularRegression = new CircularRegression();
 
     private void updateOffPlatform( double time, double dt ) {
         AbstractVector2D origAccel = getAcceleration();
-        xBody.getXTimeSeries().addValue( xBody.getPosition(), time );
-        yBody.getXTimeSeries().addValue( yBody.getPosition(), time );
+        xBody.getMotionBodySeries().addPositionData( xBody.getPosition(), time );
+        yBody.getMotionBodySeries().addPositionData( yBody.getPosition(), time );
 
         int velocityWindow = 6;
         TimeData vx = MotionMath.getDerivative( xBody.getMotionBodySeries().getRecentPositionTimeSeries( Math.min( velocityWindow, xBody.getMotionBodySeries().getPositionSampleCount() ) ) );
@@ -201,6 +218,7 @@ public class RotationBody {
 
         updateXYStateFromSeries();
     }
+
 
     private double getLinearRegressionMSE( Point2D[] pointHistory ) {
         double[][] pts = new double[2][pointHistory.length];
@@ -426,6 +444,9 @@ public class RotationBody {
         accelMagnitudeVariable.setValue( accelMagnitudeSeries.getValueForTime( time ) );
         speedVariable.setValue( speedSeries.getValueForTime( time ) );
         setOrientation( orientationSeries.getValueForTime( time ) );
+
+//        debugSeries();
+
         notifyVectorsUpdated();
         notifyPositionChanged();
     }
@@ -454,6 +475,7 @@ public class RotationBody {
     public boolean getDisplayGraph() {
         return displayGraph;
     }
+
 
     private static abstract class UpdateStrategy implements Serializable {
         public abstract void detach();
