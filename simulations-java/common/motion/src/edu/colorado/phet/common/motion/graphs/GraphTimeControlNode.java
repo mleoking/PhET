@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
@@ -178,25 +180,13 @@ public class GraphTimeControlNode extends PNode {
                 }
             } );
             updateGoState();
-//            Timer timer=new Timer( 30,new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    display( timeSeriesModel );
-//                }
-//            } );
-//            timer.start();
-//            display( timeSeriesModel );
         }
-
-//        private void display( TimeSeriesModel timeSeriesModel ) {
-//            System.out.println( "GraphTimeControlNode$GoStopButton.actionPerformed: mode="+timeSeriesModel.getMode()+", paused="+timeSeriesModel.isPaused() );
-//        }
 
         private void updateGoState() {
             setGoButton( !timeSeriesModel.isRecording() );
         }
 
         private void setGoButton( boolean go ) {
-//            System.out.println( "go = " + go );
             this.goButton = go;
             setText( goButton ? "Go!" : "Stop" );
             try {
@@ -231,10 +221,19 @@ public class GraphTimeControlNode extends PNode {
             } );
             textField.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    simulationVariable.setValue( Double.parseDouble( textField.getText() ) );
+                    setSimValueFromTextField();
+                }
+            } );
+            textField.addFocusListener( new FocusAdapter() {
+                public void focusLost( FocusEvent e ) {
+                    setSimValueFromTextField();
                 }
             } );
             update();
+        }
+
+        private void setSimValueFromTextField() {
+            simulationVariable.setValue( Double.parseDouble( textField.getText() ) );
         }
 
         private void update() {
