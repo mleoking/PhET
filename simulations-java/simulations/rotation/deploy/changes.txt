@@ -1,3 +1,6 @@
+0.00.33
+
+
 0.00.31 (7-18-2007)
 Added units to in-graph readouts
 Calibrated time scale slider
@@ -8,6 +11,9 @@ Switched from 3 subtick marks on ruler to 4 so they would be at 1.2, 1.4, 1.6, 1
 Added "Reset All" button
 Improved layout for in-graph readouts for one and two-character cases
 Bugfixes
+
+Fixed: After putting beetle on the rotation platform, then clear, then manually move ladybug, acceleration is shown with velocity vector during playback.
+Fixed: time series not for rotation body not cleared properly
 
 0.00.30 (7-16-2007)
 Added initial support for ruler
