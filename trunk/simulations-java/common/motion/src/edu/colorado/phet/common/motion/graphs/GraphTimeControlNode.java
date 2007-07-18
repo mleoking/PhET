@@ -228,6 +228,11 @@ public class GraphTimeControlNode extends PNode {
                 public void focusLost( FocusEvent e ) {
                     setSimValueFromTextField();
                 }
+
+                public void focusGained( FocusEvent e ) {
+                    textField.setSelectionStart( 0 );
+                    textField.setSelectionEnd( textField.getText().length() );
+                }
             } );
             update();
         }
