@@ -48,6 +48,7 @@ public class MotionMath {
     /**
      * Gets the second derivative of the given time series data using the central difference formula
      * See: http://mathews.ecs.fullerton.edu/n2003/NumericalDiffMod.html
+     *
      * @param x
      * @return
      */

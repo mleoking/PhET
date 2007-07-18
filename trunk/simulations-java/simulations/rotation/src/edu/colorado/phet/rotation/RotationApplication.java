@@ -7,10 +7,8 @@ import edu.colorado.phet.rotation.torque.RotationFrameSetup;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 
 import javax.swing.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 /**
  * PhET's Rotation simulation.

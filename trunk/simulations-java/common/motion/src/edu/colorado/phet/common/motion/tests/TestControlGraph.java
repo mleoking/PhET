@@ -18,9 +18,9 @@ import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.*;
 
 public class TestControlGraph {
     private JFrame frame;
@@ -34,7 +34,7 @@ public class TestControlGraph {
 
         phetPCanvas = new BufferedPhetPCanvas();
         controlGraph = new ControlGraph( phetPCanvas, new DefaultSimulationVariable(), "title", -10, 10, new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new ConstantDtClock( 30, 1 ) ) );
-        controlGraph.addSeries( new ControlGraphSeries( "series", Color.blue,"abbr","units",new DefaultSimulationVariable(), new DefaultTimeSeries( )) );
+        controlGraph.addSeries( new ControlGraphSeries( "series", Color.blue, "abbr", "units", new DefaultSimulationVariable(), new DefaultTimeSeries() ) );
         controlGraph.addValue( 0, 0 );
         controlGraph.addValue( 600, 10 );
         controlGraph.addValue( 800, -3 );
