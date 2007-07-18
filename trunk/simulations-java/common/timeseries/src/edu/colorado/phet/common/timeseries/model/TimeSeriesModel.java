@@ -297,10 +297,6 @@ public class TimeSeriesModel extends ClockAdapter {
         }
     }
 
-    public void stepClockWhilePaused() {
-        clock.stepClockWhilePaused();
-    }
-
     public void recordFinished() {
         setLiveMode();    //Used in energy skate park
     }
