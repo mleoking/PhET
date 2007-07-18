@@ -9,6 +9,7 @@ import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
@@ -45,7 +46,7 @@ public class ControlGraph extends PNode {
     private GraphTimeControlNode graphTimeControlNode;
     private JFreeChartSliderNode jFreeChartSliderNode;
     private ZoomSuiteNode zoomControl;
-    private PNode titleLayer = new PNode();
+    private TitleLayer titleLayer;
 
     private double maxDomainValue;
     private double ZOOM_FRACTION = 1.1;
@@ -70,6 +71,7 @@ public class ControlGraph extends PNode {
                          TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
         this.simulationVariable = simulationVariable;
         this.maxDomainValue = maxDomainTime;
+        titleLayer = createTitleLayer();
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
         jFreeChart = ChartFactory.createXYLineChart( title, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String)null );
@@ -159,7 +161,10 @@ public class ControlGraph extends PNode {
                 event.getInputManager().setKeyboardFocus( event.getPath() );
             }
         } );
+    }
 
+    protected TitleLayer createTitleLayer() {
+        return new TitleLayer();
     }
 
     protected void handleValueChanged() {
@@ -201,8 +206,9 @@ public class ControlGraph extends PNode {
         }
     }
 
-    static class ReadoutTitleNode extends PNode {
+    public static class ReadoutTitleNode extends PNode {
         private ShadowPText titlePText;
+        private ControlGraphSeries series;
         private String title;
         private String abbr;
         private ISimulationVariable simulationVariable;
@@ -210,7 +216,9 @@ public class ControlGraph extends PNode {
         private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
         private PhetPPath background;
 
-        public ReadoutTitleNode( String title, String abbr, Color color, ISimulationVariable simulationVariable,String units ) {
+        //todo: remove all params except series
+        public ReadoutTitleNode( ControlGraphSeries series, String title, String abbr, Color color, ISimulationVariable simulationVariable, String units ) {
+            this.series = series;
             this.title = title;
             this.abbr = abbr;
             this.simulationVariable = simulationVariable;
@@ -229,10 +237,18 @@ public class ControlGraph extends PNode {
             updateText();
         }
 
+        public ControlGraphSeries getSeries() {
+            return series;
+        }
+
         private void updateText() {
 //            titlePText.setText( title + ", " + abbr + " = " + decimalFormat.format( simulationVariable.getValue() ) );
 //            titlePText.setText( abbr + " = " + decimalFormat.format( simulationVariable.getValue() ) );
-            titlePText.setText( title + " " + decimalFormat.format( simulationVariable.getValue() )+" "+units );
+            String valueText = decimalFormat.format( simulationVariable.getValue() );
+            while( valueText.length() < "-10.00".length() ) {
+                valueText = " " + valueText;
+            }
+            titlePText.setText( title + " " + valueText + " " + units );
             background.setPathTo( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ) );//todo: avoid setting identical shapes here for performance considerations
         }
     }
@@ -266,11 +282,11 @@ public class ControlGraph extends PNode {
         zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDomainValue );
     }
 
-    public void addSeries( String title, Color color, String abbr, String units,ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
+    public void addSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
         addSeries( title, color, abbr, units, simulationVariable, observableTimeSeries, BufferedSeriesView.DEFAULT_STROKE );
     }
 
-    public void addSeries( String title, Color color, String abbr, String units,ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
+    public void addSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
         addSeries( new ControlGraphSeries( title, color, abbr, units, simulationVariable, observableTimeSeries, stroke ) );
     }
 
@@ -282,13 +298,22 @@ public class ControlGraph extends PNode {
         return this.series.size();
     }
 
+    public static class TitleLayer extends PhetPNode {
+        public TitleLayer() {
+        }
+
+        public void addReadoutNode( ReadoutTitleNode titleNode ) {
+            titleNode.setOffset( getFullBounds().getWidth(), 0 );
+            addChild( titleNode );
+        }
+    }
+
     public void addSeries( final ControlGraphSeries series ) {
         this.series.add( series );
         dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
 
-        final ReadoutTitleNode titleNode = new ReadoutTitleNode( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() ,series.getUnits());
-        titleNode.setOffset( titleLayer.getFullBounds().getWidth(), 0 );
-        titleLayer.addChild( titleNode );
+        final ReadoutTitleNode titleNode = new ReadoutTitleNode( series, series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable(), series.getUnits() );
+        titleLayer.addReadoutNode( titleNode );
 
         GraphTimeControlNode.SeriesNode seriesNode = null;
         if( series.isEditable() ) {

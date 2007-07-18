@@ -52,7 +52,30 @@ public class RotationGraph extends MotionControlGraph {
         } );
     }
 
-    public void addSecondarySeries( String title, Color color, String abbr, String units,ISimulationVariable simulationVariable, ITimeSeries timeSeries, Stroke stroke ) {
+    protected TitleLayer createTitleLayer() {
+        return new RotationTitleLayer();
+    }
+
+    public class RotationTitleLayer extends TitleLayer {
+
+        public RotationTitleLayer() {
+        }
+
+        public void addReadoutNode( ReadoutTitleNode titleNode ) {
+            titleNode.setOffset( getFullBounds().getWidth(), 0 );
+            if( isSecondarySeries( titleNode.getSeries() ) ) {
+                titleNode.translate( -titleNode.getFullBounds().getWidth(), titleNode.getFullBounds().getHeight() +5 );
+            }
+            addChild( titleNode );
+        }
+
+    }
+
+    private boolean isSecondarySeries( ControlGraphSeries series ) {
+        return secondarySeries.contains( series );
+    }
+
+    public void addSecondarySeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries timeSeries, Stroke stroke ) {
         addSecondarySeries( new ControlGraphSeries( title, color, abbr, units, simulationVariable, timeSeries, stroke ) );
     }
 
