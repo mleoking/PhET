@@ -1,5 +1,7 @@
 package edu.colorado.phet.rotation;
 
+import edu.umd.cs.piccolo.PNode;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,5 +46,18 @@ public class RotationDevMenu extends JMenu {
             } );
             add( bim );
         }
+        addSeparator();
+        final JCheckBox circleNodeVisible = new JCheckBox( "Show Circular Regression", getCircleNode().getVisible() );
+        circleNodeVisible.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getCircleNode().setVisible( circleNodeVisible.isSelected() );
+            }
+        } );
+
+        add( circleNodeVisible );
+    }
+
+    private PNode getCircleNode() {
+        return rotationApplication.getRotationModule().getRotationSimulationPanel().getRotationPlayAreaNode().getCircularMotionNode();
     }
 }

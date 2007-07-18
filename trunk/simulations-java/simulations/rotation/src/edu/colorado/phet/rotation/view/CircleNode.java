@@ -38,12 +38,21 @@ public class CircleNode extends PNode {
     }
 
     private void update() {
-        if( rotationModel.getRotationBody( 1 ).getCircle() != null ) {
-            circlePath.setPathTo( rotationModel.getRotationBody( 1 ).getCircle().toEllipse() );
-            pointPath.setPathToPolyline( rotationModel.getRotationBody( 1 ).getPointHistory( 25 ) );
+        if( getVisible() ) {
+            if( rotationModel.getRotationBody( 1 ).getCircle() != null ) {
+                circlePath.setPathTo( rotationModel.getRotationBody( 1 ).getCircle().toEllipse() );
+                pointPath.setPathToPolyline( rotationModel.getRotationBody( 1 ).getPointHistory( 25 ) );
 //            circlePath.setPathTo( new Ellipse2D.Double( rotationModel.getRotationBody( 1 ).getX(), rotationModel.getRotationBody( 1).getY(),1,1));
 //            System.out.println( "circlePath.getGlobalFullBounds() = " + circlePath.getGlobalFullBounds() );
+            }
         }
 //        setScale( RotationPlayAreaNode.SCALE );
+    }
+
+    public void setVisible( boolean isVisible ) {
+        super.setVisible( isVisible );
+        if( isVisible ) {
+            update();
+        }
     }
 }
