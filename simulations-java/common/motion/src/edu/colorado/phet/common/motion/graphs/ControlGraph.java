@@ -29,6 +29,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -82,15 +84,11 @@ public class ControlGraph extends PNode {
         dynamicJFreeChartNode = new DynamicJFreeChartNode( pSwingCanvas, jFreeChart );
         dynamicJFreeChartNode.setBuffered( true );
         dynamicJFreeChartNode.setBounds( 0, 0, 300, 400 );
-//        dynamicJFreeChartNode.setPiccoloSeries();
-//        dynamicJFreeChartNode.setJFreeChartSeries();
-//        dynamicJFreeChartNode.setBufferedSeries();
         dynamicJFreeChartNode.setBufferedImmediateSeries();
 
         graphTimeControlNode = new GraphTimeControlNode( timeSeriesModel );
         additionalControls = new PNode();
 
-//        addSeries( title, color, abbr, simulationVariable, observableTimeSeries, stroke );
         jFreeChartSliderNode = new JFreeChartSliderNode( dynamicJFreeChartNode, thumb );
         zoomControl = new ZoomSuiteNode();
         zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {
@@ -193,6 +191,9 @@ public class ControlGraph extends PNode {
     //Todo: current implementation only supports one additional control
     public void addControl( JComponent component ) {
         additionalControls.addChild( new PSwing( component ) );
+    }
+
+    protected void handleControlFocusGrabbed() {
     }
 
     static class TitleNode extends PNode {
@@ -330,6 +331,11 @@ public class ControlGraph extends PNode {
         GraphTimeControlNode.SeriesNode seriesNode = null;
         if( series.isEditable() ) {
             seriesNode = graphTimeControlNode.addVariable( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() );
+            seriesNode.getTextBox().getTextField().addMouseListener( new MouseAdapter() {
+                public void mousePressed( MouseEvent e ) {
+                    handleControlFocusGrabbed();
+                }
+            } );
         }
         series.getObservableTimeSeries().addListener( new ITimeSeries.Listener() {
             public void dataAdded( TimeData timeData ) {

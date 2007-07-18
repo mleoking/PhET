@@ -11,7 +11,6 @@
 •   Reset all doesn't reset Angle readouts
     -can't reproduce this
 •   Label time axis "time (s)"
-entering a value in the ang. vel. box and pressing return doesn't work properly
 angular position readouts not updating during arrow drag when paused
 typing in a box without pressing enter should work
 

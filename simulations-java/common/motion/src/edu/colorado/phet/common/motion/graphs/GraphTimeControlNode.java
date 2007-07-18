@@ -87,6 +87,10 @@ public class GraphTimeControlNode extends PNode {
         public void setEditable( boolean editable ) {
             box.setEditable( editable );
         }
+
+        public TextBox getTextBox() {
+            return box;
+        }
     }
 
     private void relayout() {
@@ -208,7 +212,7 @@ public class GraphTimeControlNode extends PNode {
         }
     }
 
-    static class TextBox extends JPanel {
+    public static class TextBox extends JPanel {
         private JTextField textField;
         private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
         private ISimulationVariable simulationVariable;
@@ -239,6 +243,10 @@ public class GraphTimeControlNode extends PNode {
 
         public void setEditable( boolean editable ) {
             textField.setEditable( editable );
+        }
+
+        public JTextField getTextField() {
+            return textField;
         }
     }
 }
