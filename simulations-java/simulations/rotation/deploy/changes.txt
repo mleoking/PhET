@@ -3,6 +3,7 @@ Fixed: Smaller font for in-chart readout at lower resolution
 Fixed: Show the magnitude series first in chart for linear acceleration and velocity
 Fixed: Set the magnitude color to be the correct color (not x-component) for linear components, choose others as we see fit.
 Fixed: Colors for angular variables should be variants of linear colors (set to pastel variants)
+Fixed: x and y components for velocity and acceleration should be invisible on chart by default
 
 0.00.39 (7-18-2007)
 Fixed: In one run, with both characters on the platform during playback, one character moved the opposite direction
