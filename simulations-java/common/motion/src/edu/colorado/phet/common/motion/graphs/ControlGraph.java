@@ -225,7 +225,7 @@ public class ControlGraph extends PNode {
             this.simulationVariable = simulationVariable;
             this.units = units;
             titlePText = new ShadowPText();
-            titlePText.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+            titlePText.setFont( getTitleFont() );
             titlePText.setTextPaint( color );
             background = new PhetPPath( null, Color.white, new BasicStroke(), Color.black );
             addChild( background );
@@ -236,6 +236,15 @@ public class ControlGraph extends PNode {
                 }
             } );
             updateText();
+        }
+
+        private Font getTitleFont() {
+            if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
+                return new Font( "Lucida Sans", Font.BOLD, 11 );
+            }
+            else {
+                return new Font( "Lucida Sans", Font.BOLD, 14 );
+            }
         }
 
         public ControlGraphSeries getSeries() {
