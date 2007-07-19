@@ -2,8 +2,6 @@
 #     To Do
 ################################
 
-•	plot theta, omega and alpha for the rotation platform, thin gray line as 1st series in angular charts (underneath others in z-ordering)
-•	Accel vector arrow should be green, not blue
 •	Names for the sim?  Beetle-go-round?  Bugs on a platter?  Rotational Motion?  Angular Motion?
 •	Better graphics/characters?  Beetle will be undesirable for some?
 •	Big font and correct color for variable abbreviation in editable text box
@@ -14,6 +12,7 @@
     -the origin readout in the play area
 •	html display problem in the "maximize velocity graph" button
 •	Invert coordinate frame so that +x and +y are in 1st quadrant
+•	plot theta, omega and alpha for the rotation platform, thin gray line as 1st series in angular charts (underneath others in z-ordering)
 
 •	Improve performance
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
