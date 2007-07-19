@@ -115,7 +115,11 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
 
         // Spinner for heavy species
         SpinnerNumberModel heavySpinnerModel = new SpinnerNumberModel( value, min, max, step );
-        heavySpinner = new MoleculeCountSpinner( heavySpinnerModel );
+        heavySpinner = new MoleculeCountSpinner( heavySpinnerModel,new IntegerValue() {
+            public int getValue() {
+                return getHeavySpeciesCnt();
+            }
+        } );
         heavySpinner.setPreferredSize( new Dimension( 50, 20 ) );
         heavySpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -137,7 +141,11 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
 
         // Spinner for light species
         SpinnerNumberModel lightSpinnerModel = new SpinnerNumberModel( value, min, max, step );
-        lightSpinner = new MoleculeCountSpinner( lightSpinnerModel );
+        lightSpinner = new MoleculeCountSpinner( lightSpinnerModel,new IntegerValue() {
+            public int getValue() {
+                return getLightSpeciesCnt();
+            }
+        } );
         lightSpinner.setPreferredSize( new Dimension( 50, 20 ) );
         lightSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -212,26 +220,35 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
-
+    public static interface IntegerValue{
+        public int getValue();
+    }
     public class MoleculeCountSpinner extends JSpinner {
+        private IntegerValue value;
 
-        public MoleculeCountSpinner( SpinnerModel model ) {
+        public MoleculeCountSpinner( SpinnerModel model,IntegerValue value ) {
             super( model );
+            this.value=value;
         }
 
-        public void incrementValue() {
-            changeValue( ( (Integer)getValue() ).intValue() + 1 );
-        }
 
-        public void decrementValue() {
-            changeValue( ( (Integer)getValue() ).intValue() - 1 );
-        }
+//        public void incrementValue() {
+//            changeValue( ( (Integer)getValue() ).intValue() + 1 );
+//        }
+//
+//        public void decrementValue() {
+//            changeValue( ( (Integer)getValue() ).intValue() - 1 );
+//        }
+//
+//        private void changeValue( int value ) {
+//            boolean isEnabled = isEnabled();
+//            setEnabled( false );
+//            setValue( new Integer( value ) );
+//            setEnabled( isEnabled );
+//        }
 
-        private void changeValue( int value ) {
-            boolean isEnabled = isEnabled();
-            setEnabled( false );
-            setValue( new Integer( value ) );
-            setEnabled( isEnabled );
+        public void updateValue() {
+            setValue( new Integer(value.getValue()));
         }
     }
 }

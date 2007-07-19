@@ -55,7 +55,8 @@ public class HollowSphereControlPanel extends SpeciesSelectionPanel implements H
     public void moleculeAdded( HollowSphere.MoleculeEvent event ) {
         GasMolecule molecule = event.getMolecule();
         if( molecule instanceof HeavySpecies ) {
-            getHeavySpinner().incrementValue();
+            getHeavySpinner().updateValue();
+//            getHeavySpinner().incrementValue();
 //            int oldCnt = ( (Integer)getHeavySpinner().getValue() ).intValue();
 //            boolean isEnabled = getHeavySpinner().isEnabled();
 //            getHeavySpinner().setEnabled( false );
@@ -63,7 +64,8 @@ public class HollowSphereControlPanel extends SpeciesSelectionPanel implements H
 //            getHeavySpinner().setEnabled( isEnabled );
         }
         else if( molecule instanceof LightSpecies ) {
-            getLightSpinner().incrementValue();
+            getLightSpinner().updateValue();
+//            getLightSpinner().incrementValue();
 //            int oldCnt = ( (Integer)getLightSpinner().getValue() ).intValue();
 //            getLightSpinner().setValue( new Integer( oldCnt + 1 ) );
         }
@@ -72,12 +74,14 @@ public class HollowSphereControlPanel extends SpeciesSelectionPanel implements H
     public void moleculeRemoved( HollowSphere.MoleculeEvent event ) {
         GasMolecule molecule = event.getMolecule();
         if( molecule instanceof HeavySpecies ) {
-            getHeavySpinner().decrementValue();
+            getHeavySpinner().updateValue();
+//            getHeavySpinner().decrementValue();
 //            int oldCnt = ( (Integer)getHeavySpinner().getValue() ).intValue();
 //            getHeavySpinner().setValue( new Integer( oldCnt - 1 ) );
         }
         else if( molecule instanceof LightSpecies ) {
-            getLightSpinner().decrementValue();
+            getLightSpinner().updateValue();
+//            getLightSpinner().decrementValue();
 //            int oldCnt = ( (Integer)getLightSpinner().getValue() ).intValue();
 //            getLightSpinner().setValue( new Integer( oldCnt - 1 ) );
         }
