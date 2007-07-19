@@ -2,7 +2,7 @@
 #     To Do
 ################################
 
-•	Set the magnitude color to be the correct color (not x-component) for linear components, choose others as we see fit.
+•	
 •	Invert coordinate frame so that +x and +y are in 1st quadrant
 •	x and y components for velocity and acceleration should be invisible on chart by default
 •	plot theta, omega and alpha for the rotation platform, thin gray line as 1st series in angular charts (underneath others in z-ordering)
@@ -11,7 +11,6 @@
 •	Better graphics/characters?  Beetle will be undesirable for some?
 •	Big font and correct color for variable abbreviation in editable text box
 •	Bug: in one instance, beetle omega graph didn't show.
-•	Colors for angular variables should be variants of linear colors (teal, pink, different green)
 •	Sim shouldn't pause when time is up on the graphs
 •	Switch between degrees and radians, add a global control for setting this unit
     -in graphs & readouts
