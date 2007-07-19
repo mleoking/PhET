@@ -348,7 +348,7 @@ public class ControlGraph extends PNode {
         }
         series.getObservableTimeSeries().addListener( new ITimeSeries.Listener() {
             public void dataAdded( TimeData timeData ) {
-                addValue( getSeriesIndex( series.getSimulationVariable() ), timeData.getTime(), timeData.getValue() );
+                addValue( getSeriesIndex( series ), timeData.getTime(), timeData.getValue() );
             }
 
             public void dataCleared() {
@@ -369,9 +369,9 @@ public class ControlGraph extends PNode {
         } );
     }
 
-    public int getSeriesIndex( ISimulationVariable simulationVariable ) {
+    private int getSeriesIndex( ControlGraphSeries series ) {
         for( int i = 0; i < getSeriesCount(); i++ ) {
-            if( getControlGraphSeries( i ).getSimulationVariable() == simulationVariable ) {
+            if( getControlGraphSeries( i ) == series ) {
                 return i;
             }
         }

@@ -6,7 +6,6 @@
 •	plot theta, omega and alpha for the rotation platform, thin gray line as 1st series in angular charts (underneath others in z-ordering)
 •	Names for the sim?  Beetle-go-round?  Bugs on a platter?  Rotational Motion?  Angular Motion?
 •	Better graphics/characters?  Beetle will be undesirable for some?
-•	Bug: in one instance, beetle omega graph didn't show.
 •	Sim shouldn't pause when time is up on the graphs
 •	Switch between degrees and radians, add a global control for setting this unit
     -in graphs & readouts

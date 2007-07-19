@@ -24,7 +24,6 @@ public class ControlGraphSeries {
 
     private ArrayList listeners = new ArrayList();
 
-
     public ControlGraphSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
         this( title, color, abbr, units, simulationVariable, observableTimeSeries, BufferedSeriesView.DEFAULT_STROKE );
     }

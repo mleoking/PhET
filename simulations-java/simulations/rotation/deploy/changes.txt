@@ -1,3 +1,6 @@
+0.00.41
+Fixed: When graphs shared a variable, only one series would appear.
+
 0.00.40 (7-19-2007)
 Fixed: Smaller font for in-chart readout at lower resolution
 Fixed: Show the magnitude series first in chart for linear acceleration and velocity
