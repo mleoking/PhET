@@ -1,3 +1,5 @@
+7-19-2007: converted particle count spinners to value based instead of difference based
+
 3.05.07 (6-8-2007)
 (same as 3.05.05)
 
