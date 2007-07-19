@@ -2,9 +2,6 @@
 #     To Do
 ################################
 
-•	
-•	Invert coordinate frame so that +x and +y are in 1st quadrant
-•	x and y components for velocity and acceleration should be invisible on chart by default
 •	plot theta, omega and alpha for the rotation platform, thin gray line as 1st series in angular charts (underneath others in z-ordering)
 •	Accel vector arrow should be green, not blue
 •	Names for the sim?  Beetle-go-round?  Bugs on a platter?  Rotational Motion?  Angular Motion?
@@ -16,6 +13,7 @@
     -in graphs & readouts
     -the origin readout in the play area
 •	html display problem in the "maximize velocity graph" button
+•	Invert coordinate frame so that +x and +y are in 1st quadrant
 
 •	Improve performance
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.

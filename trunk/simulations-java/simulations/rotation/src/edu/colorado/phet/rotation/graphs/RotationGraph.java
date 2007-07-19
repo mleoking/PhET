@@ -109,10 +109,12 @@ public class RotationGraph extends MotionControlGraph {
         }
     }
 
-    public void addSeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b, RotationBody bodyB ) {
-        seriesPairs.add( new SeriesPair( name, a, b, bodyB ) );
+    public SeriesPair addSeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b, RotationBody bodyB ) {
+        SeriesPair seriesPair = new SeriesPair( name, a, b, bodyB );
+        seriesPairs.add( seriesPair );
         addSeries( a );
         addSecondarySeries( b );
+        return seriesPair;
     }
 
     public int getSeriesPairCount() {
