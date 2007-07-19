@@ -1,3 +1,7 @@
+0.00.40
+Fixed: Smaller font for in-chart readout at lower resolution
+Fixed: Show the magnitude series first in chart for linear acceleration and velocity
+
 0.00.39 (7-18-2007)
 Fixed: In one run, with both characters on the platform during playback, one character moved the opposite direction
 Fixed: Time series was not getting cleared properly
