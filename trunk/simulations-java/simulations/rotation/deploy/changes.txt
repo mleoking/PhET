@@ -6,6 +6,7 @@ Fixed: Colors for angular variables should be variants of linear colors (set to 
 Fixed: x and y components for velocity and acceleration should be invisible on chart by default
 Fixed: Accel vector arrow should be green, not blue
 Fixed: Big font and correct color for variable abbreviation in editable text box
+Fixed: html display problem in the "maximize velocity graph" button
 
 0.00.39 (7-18-2007)
 Fixed: In one run, with both characters on the platform during playback, one character moved the opposite direction
