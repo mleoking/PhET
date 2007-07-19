@@ -15,7 +15,8 @@ public class RotationColorScheme {
 
     public static final Color ANGLE_COLOR = new Color( 127, 217, 255 );//light blue
     public static final Color ANGULAR_VELOCITY_COLOR = new Color( 255, 127, 181 );//light red
-    public static final Color ANGULAR_ACCELERATION_COLOR = new Color( 168, 232, 68 );//light green
+//    public static final Color ANGULAR_ACCELERATION_COLOR = new Color( 168, 232, 68 );//light green
+    public static final Color ANGULAR_ACCELERATION_COLOR = new Color( 47, 156, 83);//light green
 
     public static final Color X_COLOR = Color.green;
     public static final Color Y_COLOR = Color.red;

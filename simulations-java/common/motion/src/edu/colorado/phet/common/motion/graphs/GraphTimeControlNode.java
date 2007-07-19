@@ -71,12 +71,13 @@ public class GraphTimeControlNode extends PNode {
 
         public SeriesNode( String title, String abbr, Color color, ISimulationVariable simulationVariable ) {
             shadowPText = new ShadowPText( title );
-            shadowPText.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+            Font labelFont = new Font( "Lucida Sans", Font.BOLD, 14 );
+            shadowPText.setFont( labelFont );
             shadowPText.setTextPaint( color );
             shadowPText.setShadowColor( Color.black );
             addChild( shadowPText );
 
-            box = new TextBox( abbr, simulationVariable );
+            box = new TextBox( abbr, simulationVariable, color );
             textBox = new PSwing( box );
             addChild( textBox );
         }
@@ -202,14 +203,52 @@ public class GraphTimeControlNode extends PNode {
         }
     }
 
+//    public static class ShadowJLabel extends JPanel {
+//        private JLabel back;
+//        private JLabel front;
+//
+//        public ShadowJLabel( String text, Color color ) {
+////            setLayout( null );
+//            back = new JLabel( text );
+//            back.setForeground( Color.black );
+////            back.setLocation( 2, 2 );
+////            back.setOpaque( false );
+//            add( back );
+//
+//            front = new JLabel( text );
+//            front.setForeground( color );
+////            front.setOpaque( false );
+//            add( front );
+////            setOpaque( false );
+//            setBorder( new EtchedBorder( ) );
+//        }
+//
+//        public Dimension getPreferredSize() {
+//            return new Dimension( back.getPreferredSize().width + 2, back.getPreferredSize().height + 2 );
+//        }
+//
+//        protected void paintComponent( Graphics g ) {
+//            super.paintComponent( g );
+//            g.drawString( "hello",0,0);
+//        }
+//    }
+
     public static class TextBox extends JPanel {
         private JTextField textField;
         private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
         private ISimulationVariable simulationVariable;
 
-        public TextBox( String valueAbbreviation, final ISimulationVariable simulationVariable ) {
+        public TextBox( String valueAbbreviation, final ISimulationVariable simulationVariable, Color color ) {
             this.simulationVariable = simulationVariable;
-            add( new JLabel( valueAbbreviation + " =" ) );
+
+            Font labelFont = new Font( "Lucida Sans", Font.BOLD, 18);
+            add( new ShadowJLabel( valueAbbreviation, color, labelFont ) );
+
+            JLabel equalsSign = new JLabel( " =" );
+            equalsSign.setBackground( Color.white );
+            equalsSign.setFont( labelFont );
+            add( equalsSign );
+
             textField = new JTextField( "0.0", 6 );
             textField.setHorizontalAlignment( JTextField.RIGHT );
             add( textField );

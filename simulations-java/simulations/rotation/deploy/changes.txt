@@ -5,6 +5,7 @@ Fixed: Set the magnitude color to be the correct color (not x-component) for lin
 Fixed: Colors for angular variables should be variants of linear colors (set to pastel variants)
 Fixed: x and y components for velocity and acceleration should be invisible on chart by default
 Fixed: Accel vector arrow should be green, not blue
+Fixed: Big font and correct color for variable abbreviation in editable text box
 
 0.00.39 (7-18-2007)
 Fixed: In one run, with both characters on the platform during playback, one character moved the opposite direction
