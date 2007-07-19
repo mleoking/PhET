@@ -132,6 +132,11 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
                     clock.setPaused( true );
                 }
                 clock.tickOnce();
+
+                //this temporary workaround is to resolve a bug reported just before 7-19-2007
+                //On the Measure tab. the Reset on the Stopwatch doesn't clear unless you click twice.
+                clock.tickOnce();
+
             }
             else {
                 if( event.isRunning() && clock.isPaused() ) {
