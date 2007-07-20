@@ -53,8 +53,9 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
 //        baseImage = new ImageLoader().fetchBufferedImage( IMAGE_PATH );
         try {
             baseImage = ImageLoader.loadBufferedImage( IMAGE_PATH );
-            redImage=ImageLoader.loadBufferedImage( IMAGE_PATH_RED );
-            yellowImage=ImageLoader.loadBufferedImage( IMAGE_PATH_YELLOW );
+            redImage=BufferedImageUtils.rescaleFractional( ImageLoader.loadBufferedImage( IMAGE_PATH_RED ),0.8,0.8);
+            yellowImage=BufferedImageUtils.rescaleFractional( ImageLoader.loadBufferedImage( IMAGE_PATH_YELLOW ),0.8,0.8);
+//            yellowImage=ImageLoader.loadBufferedImage( IMAGE_PATH_YELLOW );
         }
         catch( IOException e ) {
             e.printStackTrace();
