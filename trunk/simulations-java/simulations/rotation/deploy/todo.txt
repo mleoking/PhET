@@ -2,7 +2,6 @@
 #     To Do
 ################################
 
-•	plot theta, omega and alpha for the rotation platform, thin gray line as 1st series in angular charts (underneath others in z-ordering)
 •	Names for the sim?  Beetle-go-round?  Bugs on a platter?  Rotational Motion?  Angular Motion?
 •	Better graphics/characters?  Beetle will be undesirable for some?
 •	Sim shouldn't pause when time is up on the graphs
@@ -10,6 +9,9 @@
     -in graphs & readouts
     -the origin readout in the play area
 •	Graph layout is incorrect when no graphs with type-in text boxes are visible
+•	plot theta, omega and alpha for the rotation platform, thin gray line as 1st series in angular charts (underneath others in z-ordering)
+    -this will make the text box variable color as well by default
+    -what should be done about these colors?
 
 •	Improve performance
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.

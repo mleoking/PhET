@@ -39,28 +39,11 @@ public class RotationGraphSet extends GraphSuiteSet {
 
         //todo: clearer separation between platform series and body series
         final RotationMinimizableControlGraph angleGraph = new RotationMinimizableControlGraph( UnicodeUtil.THETA, new RotationGraph(
-                pSwingCanvas, b0.getAngleVariable(),
+                pSwingCanvas, model.getPlatformAngleVariable(),
                 UnicodeUtil.THETA, "Angle", ANGLE_UNITS, -Math.PI * 3, Math.PI * 3, new PImage( loadArrow( "blue-arrow.png" ) ),
                 model, true, model.getTimeSeriesModel(), model.getPositionDriven(),
-                RotationModel.MAX_TIME, model.getRotationPlatform() ) {
-
-//            //workaround for controlling the platform angle via the character angle
-//            protected void handleControlFocusGrabbed() {
-//                model.setPositionDriven();
-//            }
-//
-//            //workaround for controlling the platform angle via the character angle
-//            protected void handleValueChanged() {
-//                //this is very fragile;if the wrong value is set here, it will cause the angular velocity & angle to quickly blow up
-//                //since there is a bidirectional causality between bug and platform
-//                model.getRotationPlatform().setAngle( getSliderValue() - b0.getInitialAngleOnPlatform() );
-//
-//                //workaround for angle variable not updating correctly when simulation is paused
-//                b0.getAngleVariable().setValue( getSliderValue() );
-//            }
-
-        } );
-        angleGraph.addSeries( new ControlGraphSeries( "Platform Angle",RotationColorScheme.PLATFORM_ANGLE_COLOR,UnicodeUtil.OMEGA,ANGLE_UNITS,model.getPlatformAngleVariable(), model.getPlatformAngleTimeSeries(),new BasicStroke( 1.0f),true));
+                RotationModel.MAX_TIME, model.getRotationPlatform() ) );
+        angleGraph.addSeries( new ControlGraphSeries( "Angle", RotationColorScheme.PLATFORM_ANGLE_COLOR, UnicodeUtil.THETA, ANGLE_UNITS, model.getPlatformAngleVariable(), model.getPlatformAngleTimeSeries(), new BasicStroke( 1.0f ), true ) );
         angleGraph.addSeriesPair( "Angle",
                                   new ControlGraphSeries( "Angle", RotationColorScheme.ANGLE_COLOR, UnicodeUtil.THETA, ANGLE_UNITS, b0.getAngleVariable(), b0.getAngleTimeSeries(), body0Stroke ),
                                   new ControlGraphSeries( "Angle (2)", darken( RotationColorScheme.ANGLE_COLOR ), UnicodeUtil.THETA, ANGLE_UNITS, b1.getAngleVariable(), b1.getAngleTimeSeries(), body1Stroke ),
@@ -70,8 +53,9 @@ public class RotationGraphSet extends GraphSuiteSet {
                 pSwingCanvas, model.getPlatformVelocityVariable(),
                 UnicodeUtil.OMEGA, "Angular Velocity", ANG_VEL_UNITS, -5, 5, new PImage( loadArrow( "red-arrow.png" ) ),
                 model, true, model.getTimeSeriesModel(), model.getVelocityDriven(), RotationModel.MAX_TIME, model.getRotationPlatform() ) );
+//        velocityGraph.addSeries( new ControlGraphSeries( "Angular Velocity", RotationColorScheme.PLATFORM_ANGULAR_VELOCITY_COLOR, UnicodeUtil.OMEGA, ANG_VEL_UNITS, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), new BasicStroke( 1.0f ), true ) );
         velocityGraph.addSeriesPair( "Angular Velocity",
-                                     new ControlGraphSeries( "Angular Velocity", RotationColorScheme.ANGULAR_VELOCITY_COLOR, UnicodeUtil.OMEGA, ANG_VEL_UNITS, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), body0Stroke, true ),
+                                     new ControlGraphSeries( "Angular Velocity", RotationColorScheme.ANGULAR_VELOCITY_COLOR, UnicodeUtil.OMEGA, ANG_VEL_UNITS, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), body0Stroke ,true),
                                      new ControlGraphSeries( "Angular Velocity (2)", darken( RotationColorScheme.ANGULAR_VELOCITY_COLOR ), UnicodeUtil.OMEGA, ANG_VEL_UNITS, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), body1Stroke ),
                                      b1 );
 
@@ -101,14 +85,14 @@ public class RotationGraphSet extends GraphSuiteSet {
         linearVelocityGraph.addSeriesPair( "Speed",
                                            new ControlGraphSeries( "Speed", RotationColorScheme.VM_COLOR, "|v|", VELOCITY_UNITS, b0.getSpeedVariable(), b0.getSpeedSeries(), body0Stroke ),
                                            new ControlGraphSeries( "Speed(2)", darken( RotationColorScheme.VM_COLOR ), "|v|", VELOCITY_UNITS, b1.getSpeedVariable(), b1.getSpeedSeries(), body1Stroke ), b1 );
-        RotationGraph.SeriesPair vx=linearVelocityGraph.addSeriesPair( "X-Velocity",
-                                           new ControlGraphSeries( "X-Velocity", RotationColorScheme.VX_COLOR, "vx", VELOCITY_UNITS, b0.getXVelocityVariable(), b0.getXVelocityTimeSeries(), body0Stroke ),
-                                           new ControlGraphSeries( "X-Velocity(2)", darken( RotationColorScheme.VX_COLOR ), "vx", VELOCITY_UNITS, b1.getXVelocityVariable(), b1.getXVelocityTimeSeries(), body1Stroke ),
-                                           b1 );
-        RotationGraph.SeriesPair vy=linearVelocityGraph.addSeriesPair( "Y-Velocity",
-                                           new ControlGraphSeries( "Y-Velocity", RotationColorScheme.VY_COLOR, "vy", VELOCITY_UNITS, b0.getYVelocityVariable(), b0.getYVelocityTimeSeries(), body0Stroke ),
-                                           new ControlGraphSeries( "Y-Velocity(2)", darken( RotationColorScheme.VY_COLOR ), "vy", VELOCITY_UNITS, b1.getYVelocityVariable(), b1.getYVelocityTimeSeries(), body1Stroke ),
-                                           b1 );
+        RotationGraph.SeriesPair vx = linearVelocityGraph.addSeriesPair( "X-Velocity",
+                                                                         new ControlGraphSeries( "X-Velocity", RotationColorScheme.VX_COLOR, "vx", VELOCITY_UNITS, b0.getXVelocityVariable(), b0.getXVelocityTimeSeries(), body0Stroke ),
+                                                                         new ControlGraphSeries( "X-Velocity(2)", darken( RotationColorScheme.VX_COLOR ), "vx", VELOCITY_UNITS, b1.getXVelocityVariable(), b1.getXVelocityTimeSeries(), body1Stroke ),
+                                                                         b1 );
+        RotationGraph.SeriesPair vy = linearVelocityGraph.addSeriesPair( "Y-Velocity",
+                                                                         new ControlGraphSeries( "Y-Velocity", RotationColorScheme.VY_COLOR, "vy", VELOCITY_UNITS, b0.getYVelocityVariable(), b0.getYVelocityTimeSeries(), body0Stroke ),
+                                                                         new ControlGraphSeries( "Y-Velocity(2)", darken( RotationColorScheme.VY_COLOR ), "vy", VELOCITY_UNITS, b1.getYVelocityVariable(), b1.getYVelocityTimeSeries(), body1Stroke ),
+                                                                         b1 );
         vx.setVisible( false );
         vy.setVisible( false );
 
@@ -120,13 +104,13 @@ public class RotationGraphSet extends GraphSuiteSet {
                                              new ControlGraphSeries( "|Acceleration|", RotationColorScheme.AM_COLOR, "a", ACCEL_UNITS, b0.getAccelMagnitudeVariable(), b0.getAccelMagnitudeSeries(), body0Stroke ),
                                              new ControlGraphSeries( "|Acceleration|(2)", darken( RotationColorScheme.AM_COLOR ), "a", ACCEL_UNITS, b1.getAccelMagnitudeVariable(), b1.getAccelMagnitudeSeries(), body1Stroke ),
                                              b1 );
-        RotationGraph.SeriesPair ax=centripetalAccelGraph.addSeriesPair( "X-Acceleration",
-                                             new ControlGraphSeries( "X-Acceleration", RotationColorScheme.AX_COLOR, "ax", ACCEL_UNITS, b0.getXAccelVariable(), b0.getXAccelTimeSeries(), body0Stroke ),
-                                             new ControlGraphSeries( "X-Acceleration(2)", darken( RotationColorScheme.AX_COLOR ), "ax", ACCEL_UNITS, b1.getXAccelVariable(), b1.getXAccelTimeSeries(), body1Stroke ),
-                                             b1 );
-        RotationGraph.SeriesPair ay=centripetalAccelGraph.addSeriesPair( "Y-Acceleration",
-                                             new ControlGraphSeries( "Y-Acceleration", RotationColorScheme.AY_COLOR, "ay", ACCEL_UNITS, b0.getYAccelVariable(), b0.getYAccelTimeSeries(), body0Stroke ),
-                                             new ControlGraphSeries( "Y-Acceleration(2)", darken( RotationColorScheme.AY_COLOR ), "ay", ACCEL_UNITS, b1.getYAccelVariable(), b1.getYAccelTimeSeries(), body1Stroke ), b1 );
+        RotationGraph.SeriesPair ax = centripetalAccelGraph.addSeriesPair( "X-Acceleration",
+                                                                           new ControlGraphSeries( "X-Acceleration", RotationColorScheme.AX_COLOR, "ax", ACCEL_UNITS, b0.getXAccelVariable(), b0.getXAccelTimeSeries(), body0Stroke ),
+                                                                           new ControlGraphSeries( "X-Acceleration(2)", darken( RotationColorScheme.AX_COLOR ), "ax", ACCEL_UNITS, b1.getXAccelVariable(), b1.getXAccelTimeSeries(), body1Stroke ),
+                                                                           b1 );
+        RotationGraph.SeriesPair ay = centripetalAccelGraph.addSeriesPair( "Y-Acceleration",
+                                                                           new ControlGraphSeries( "Y-Acceleration", RotationColorScheme.AY_COLOR, "ay", ACCEL_UNITS, b0.getYAccelVariable(), b0.getYAccelTimeSeries(), body0Stroke ),
+                                                                           new ControlGraphSeries( "Y-Acceleration(2)", darken( RotationColorScheme.AY_COLOR ), "ay", ACCEL_UNITS, b1.getYAccelVariable(), b1.getYAccelTimeSeries(), body1Stroke ), b1 );
         ax.setVisible( false );
         ay.setVisible( false );
 
