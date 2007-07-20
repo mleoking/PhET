@@ -14,6 +14,7 @@
 
 •	Improve performance
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
+    -this may be due in part to time series filling up in "live mode", early enough data should be discarded
 
 Lower Priority:
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
