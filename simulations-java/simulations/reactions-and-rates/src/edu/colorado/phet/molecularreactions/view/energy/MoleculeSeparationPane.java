@@ -135,6 +135,9 @@ public class MoleculeSeparationPane extends PPath {
         }
 
         private boolean shouldDrawMoleculeOnTop( AbstractMolecule molecule ) {
+            if (molecule==null){
+                return false;
+            }
              if (molecule.getClass() == MoleculeA.class) return true;
 
             if (molecule.isComposite()) {
