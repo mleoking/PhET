@@ -82,8 +82,32 @@ public class ControlGraphSeries {
         return units;
     }
 
+    public void setUnits( String units ) {
+        if( !this.units.equals( units ) ) {
+            this.units = units;
+            notifyUnitsChanged();
+        }
+    }
+
+    private void notifyUnitsChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.unitsChanged();
+        }
+    }
+
     public static interface Listener {
         void visibilityChanged();
+
+        void unitsChanged();
+    }
+    public static class Adapter implements Listener{
+
+        public void visibilityChanged() {
+        }
+
+        public void unitsChanged() {
+        }
     }
 
     public void addListener( Listener listener ) {

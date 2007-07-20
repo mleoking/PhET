@@ -265,6 +265,13 @@ public class ControlGraph extends PNode {
             titlePText.setText( title + " " + valueText + " " + units );
             background.setPathTo( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ) );//todo: avoid setting identical shapes here for performance considerations
         }
+
+        public void setUnits( String units ) {
+            if( !this.units.equals( units ) ) {
+                this.units = units;
+                updateText();
+            }
+        }
     }
 
     private void zoomHorizontal( double v ) {
@@ -361,7 +368,7 @@ public class ControlGraph extends PNode {
         } );
 
         final GraphTimeControlNode.SeriesNode seriesNodeTemp = seriesNode;
-        series.addListener( new ControlGraphSeries.Listener() {
+        series.addListener( new ControlGraphSeries.Adapter() {
             public void visibilityChanged() {
                 dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), series.isVisible() );
                 titleNode.setVisible( series.isVisible() );
@@ -369,6 +376,14 @@ public class ControlGraph extends PNode {
                     seriesNodeTemp.setVisible( series.isVisible() );
                 }
                 getDynamicJFreeChartNode().forceUpdateAll();
+            }
+
+            public void unitsChanged() {
+//                super.unitsChanged();
+//                if( seriesNodeTemp != null ) {
+//                    seriesNodeTemp.setUnits( series.isVisible() );
+//                }
+                titleNode.setUnits( series.getUnits() );
             }
         } );
     }
@@ -584,7 +599,7 @@ public class ControlGraph extends PNode {
         listeners.add( listener );
     }
 
-    public void forceUpdateAll(){
+    public void forceUpdateAll() {
         dynamicJFreeChartNode.forceUpdateAll();
     }
 
