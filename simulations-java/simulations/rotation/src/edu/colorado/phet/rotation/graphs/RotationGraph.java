@@ -8,6 +8,7 @@ import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -28,6 +29,9 @@ import java.util.ArrayList;
 public class RotationGraph extends MotionControlGraph {
     private ArrayList secondarySeries = new ArrayList();//keep track of series for the 2nd bug so we can show/hide them together
     private ArrayList seriesPairs = new ArrayList();
+    private RotationGraphNumberAxis verticalAxis;
+    private String title;
+
 
     public RotationGraph( PhetPCanvas pSwingCanvas, ISimulationVariable simulationVariable,
                           String label, String title, String units, double min, double max, PImage thumb,
@@ -36,9 +40,10 @@ public class RotationGraph extends MotionControlGraph {
         super( pSwingCanvas, simulationVariable,
                label, title, min, max, thumb,
                motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
+        this.title = title;
         super.getDynamicJFreeChartNode().setAutoUpdateAll( false );
 
-        RotationGraphNumberAxis verticalAxis = new RotationGraphNumberAxis( title + " (" + units + ")" );
+        verticalAxis = new RotationGraphNumberAxis( title + " (" + units + ")" );
         verticalAxis.setRange( getJFreeChartNode().getChart().getXYPlot().getRangeAxis().getRange() );
         getJFreeChartNode().getChart().getXYPlot().setRangeAxis( verticalAxis );
 
@@ -55,6 +60,14 @@ public class RotationGraph extends MotionControlGraph {
                 getDynamicJFreeChartNode().forceUpdateAll();
             }
         } );
+    }
+
+    public RotationGraphNumberAxis getVerticalAxis() {
+        return verticalAxis;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     protected TitleLayer createTitleLayer() {

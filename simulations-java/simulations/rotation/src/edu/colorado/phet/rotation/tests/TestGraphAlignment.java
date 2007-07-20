@@ -11,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.AngleUnitModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +37,7 @@ public class TestGraphAlignment {
 
         rotationModel = new RotationModel( new ConstantDtClock( 30, 1 ) );
 
-        GraphSuiteSet rotationGraphSet = new RotationGraphSet( phetPCanvas, rotationModel );
+        GraphSuiteSet rotationGraphSet = new RotationGraphSet( phetPCanvas, rotationModel ,new AngleUnitModel( true) );
         GraphSetModel graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
