@@ -17,12 +17,16 @@ public class AngularUnitGraph extends RotationGraph {
     private AngleUnitModel angleUnitModel;
     private String unitsRad;
     private String unitsDeg;
+    private double minRad;
+    private double maxRad;
 
-    public AngularUnitGraph( PhetPCanvas pSwingCanvas, ISimulationVariable simulationVariable, String label, String title, AngleUnitModel angleUnitModel, String unitsRad, String unitsDeg, double min, double max, PImage thumb, RotationModel motionModel, boolean editable, TimeSeriesModel timeSeriesModel, UpdateStrategy updateStrategy, double maxDomainValue, RotationPlatform iPositionDriven ) {
-        super( pSwingCanvas, simulationVariable, label, title, unitsRad, min, max, thumb, motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
+    public AngularUnitGraph( PhetPCanvas pSwingCanvas, ISimulationVariable simulationVariable, String label, String title, AngleUnitModel angleUnitModel, String unitsRad, String unitsDeg, double minRad, double maxRad, PImage thumb, RotationModel motionModel, boolean editable, TimeSeriesModel timeSeriesModel, UpdateStrategy updateStrategy, double maxDomainValue, RotationPlatform iPositionDriven ) {
+        super( pSwingCanvas, simulationVariable, label, title, unitsRad, minRad, maxRad, thumb, motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         this.angleUnitModel = angleUnitModel;
         this.unitsRad = unitsRad;
         this.unitsDeg = unitsDeg;
+        this.minRad = minRad;
+        this.maxRad = maxRad;
         angleUnitModel.addListener( new AngleUnitModel.Listener() {
             public void changed() {
                 updateUnits();
@@ -32,8 +36,15 @@ public class AngularUnitGraph extends RotationGraph {
     }
 
     private void updateUnits() {
-        getVerticalAxis().setLabel( getTitle()+ " (" + getUnitsString() + ")" );
+        getVerticalAxis().setLabel( getTitle() + " (" + getUnitsString() + ")" );
         forceUpdateAll();
+
+        setVerticalRange( angleUnitModel.isRadians() ? minRad : toDegrees( minRad ),
+                          angleUnitModel.isRadians() ? maxRad : toDegrees( maxRad ) );
+    }
+
+    private double toDegrees( double rad ) {
+        return rad * 360.0 / 2 / Math.PI;
     }
 
     private String getUnitsString() {
