@@ -1,5 +1,5 @@
 7-20-2007: Changed request frame rate from 50fps to 33fps
-7-20-2007: Added paintImmediately on application startup
+7-20-2007: Added paintImmediately on application startup and window focus gained
 7-20-2007: Fixed NPE in ApparatusPanel caused by null AffineTransform in paint
 7-19-2007: Added dynamic version loading and display
 7-19-2007: Reduced photon size by 30%

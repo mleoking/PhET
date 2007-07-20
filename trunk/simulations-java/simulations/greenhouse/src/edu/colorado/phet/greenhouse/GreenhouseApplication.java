@@ -22,6 +22,8 @@ import edu.colorado.phet.coreadditions_greenhouse.clock.SwingTimerClock;
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowEvent;
 
 /**
  * General comments, issues:
@@ -123,6 +125,14 @@ public class GreenhouseApplication extends PhetApplication {
                 s_application.getApplicationView().getPhetFrame().setResizable( false );
                 s_application.startApplication( greenhouseModule );
                 paintContentImmediately();
+                s_application.getApplicationView().getPhetFrame().addWindowFocusListener( new WindowFocusListener() {
+                    public void windowGainedFocus( WindowEvent e ) {
+                        paintContentImmediately();
+                    }
+
+                    public void windowLostFocus( WindowEvent e ) {
+                    }
+                } );
             }
         } );
     }
