@@ -160,7 +160,7 @@ public class RotationGraph extends MotionControlGraph {
                     updateVisibility();
                 }
             } );
-            b.addListener( new ControlGraphSeries.Listener() {
+            b.addListener( new ControlGraphSeries.Adapter() {
                 public void visibilityChanged() {
                     updateVisibility();//todo this is a workaround to overwrite values set by other calls to setVisible(true)
                 }

@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation.graphs;
 
+import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -35,12 +36,20 @@ public class AngularUnitGraph extends RotationGraph {
         updateUnits();
     }
 
+    public void addSeries( final ControlGraphSeries series ) {
+        super.addSeries( series );
+        series.setUnits( getUnitsString() );
+    }
+
     private void updateUnits() {
         getVerticalAxis().setLabel( getTitle() + " (" + getUnitsString() + ")" );
-        forceUpdateAll();
-
         setVerticalRange( angleUnitModel.isRadians() ? minRad : toDegrees( minRad ),
                           angleUnitModel.isRadians() ? maxRad : toDegrees( maxRad ) );
+        for( int i = 0; i < getSeriesCount(); i++ ) {
+            ControlGraphSeries series = getControlGraphSeries( i );
+            series.setUnits( getUnitsString() );
+        }
+        forceUpdateAll();
     }
 
     private double toDegrees( double rad ) {
