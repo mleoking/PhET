@@ -77,7 +77,7 @@ public class ControlGraph extends PNode {
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
         jFreeChart = ChartFactory.createXYLineChart( title, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String)null );
-        jFreeChart.getXYPlot().getRangeAxis().setRange( minY, maxY );
+        setVerticalRange( minY, maxY );
         jFreeChart.getXYPlot().getDomainAxis().setRange( 0, maxDomainValue );
         jFreeChart.setBackgroundPaint( null );
 
@@ -159,6 +159,10 @@ public class ControlGraph extends PNode {
                 event.getInputManager().setKeyboardFocus( event.getPath() );
             }
         } );
+    }
+
+    public void setVerticalRange( double minY, double maxY ) {
+        jFreeChart.getXYPlot().getRangeAxis().setRange( minY, maxY );
     }
 
     protected TitleLayer createTitleLayer() {
@@ -283,7 +287,7 @@ public class ControlGraph extends PNode {
         double currentRange = jFreeChart.getXYPlot().getRangeAxis().getUpperBound() - jFreeChart.getXYPlot().getRangeAxis().getLowerBound();
         double newRange = currentRange * v;
         double diff = newRange - currentRange;
-        jFreeChart.getXYPlot().getRangeAxis().setRange( jFreeChart.getXYPlot().getRangeAxis().getLowerBound() - diff / 2, jFreeChart.getXYPlot().getRangeAxis().getUpperBound() + diff / 2 );
+        setVerticalRange( jFreeChart.getXYPlot().getRangeAxis().getLowerBound() - diff / 2, jFreeChart.getXYPlot().getRangeAxis().getUpperBound() + diff / 2 );
         updateZoomEnabled();
         notifyZoomChanged();
     }
