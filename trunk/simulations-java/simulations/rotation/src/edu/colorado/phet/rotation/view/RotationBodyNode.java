@@ -12,6 +12,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -80,13 +81,11 @@ public class RotationBodyNode extends PhetPNode {
     }
 
     private void update() {
-        setOffset( 0, 0 );
-        setRotation( 0 );
-        setScale( 1.0 );
-        scale( modelSizeMeters / imageNode.getWidth() );
+        double s = modelSizeMeters / imageNode.getWidth();
+        setTransform( AffineTransform.getScaleInstance( s, -s ) );
 
         Point2D center = getFullBounds().getCenter2D();
-        rotateAboutPoint( rotationBody.getOrientation(), center );
+        rotateAboutPoint( -rotationBody.getOrientation(), center );//negative angle since +y is up
         setOffset( rotationBody.getPosition() );
     }
 

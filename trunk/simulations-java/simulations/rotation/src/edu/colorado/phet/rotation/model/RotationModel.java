@@ -32,7 +32,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
 
     private void resetBody2( RotationBody body ) {
         body.setPosition( rotationPlatform.getCenter().getX() - rotationPlatform.getRadius() * Math.sqrt( 2 ) / 2.0,
-                          rotationPlatform.getCenter().getY() + rotationPlatform.getRadius() );
+                          rotationPlatform.getCenter().getY() - rotationPlatform.getRadius() );
         body.setOffPlatform();
         body.setOrientation( 0.0 );
     }

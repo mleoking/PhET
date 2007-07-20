@@ -1,3 +1,6 @@
+0.00.43
+Fixed: Invert coordinate frame so that +x and +y are in 1st quadrant
+
 0.00.41
 Fixed: When graphs shared a variable, only one series would appear.
 

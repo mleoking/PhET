@@ -6,6 +6,8 @@ import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.umd.cs.piccolo.PNode;
 
+import java.awt.geom.AffineTransform;
+
 /**
  * User: Sam Reid
  * Date: Jan 9, 2007
@@ -30,6 +32,7 @@ public class RotationPlayAreaNode extends PNode {
         originNode = new RotationOriginNode( rotationModel.getRotationPlatform() );
 //        rulerNode = new RotationRulerNode( rotationPlatformNode.getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6"}, "m", 3, 14 );
         rulerNode = new RotationRulerNode( rotationPlatformNode.getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6"}, "m", 4, 14 );
+        rulerNode.setTransform( AffineTransform.getScaleInstance( 1,-1));
         rulerNode.setVisible( false );
 
 //        addChild( new PImage(rotationPlatformNode.toImage( )));
@@ -49,6 +52,8 @@ public class RotationPlayAreaNode extends PNode {
         circularMotionNode = new CircleNode( rotationModel );
         circularMotionNode.setVisible( false );
         addChild( circularMotionNode );
+
+        setTransform( AffineTransform.getScaleInstance( 1,-1));
     }
 
     public CircleNode getCircularMotionNode() {
