@@ -1,3 +1,4 @@
+7-19-2007: Reduced photon size by 30%
 7-19-2007: Added photon graphics from hydrogen atom simulation
 7-16-2007
 o improved performance of application inner loop
