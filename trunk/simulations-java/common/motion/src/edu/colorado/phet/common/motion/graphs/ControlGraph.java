@@ -348,7 +348,7 @@ public class ControlGraph extends PNode {
         final ReadoutTitleNode titleNode = new ReadoutTitleNode( series, series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable(), series.getUnits() );
         titleLayer.addReadoutNode( titleNode );
 
-        GraphTimeControlNode.SeriesNode seriesNode = null;
+        GraphControlSeriesNode seriesNode = null;
         if( series.isEditable() ) {
             seriesNode = graphTimeControlNode.addVariable( series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable() );
             seriesNode.getTextBox().getTextField().addMouseListener( new MouseAdapter() {
@@ -367,7 +367,7 @@ public class ControlGraph extends PNode {
             }
         } );
 
-        final GraphTimeControlNode.SeriesNode seriesNodeTemp = seriesNode;
+        final GraphControlSeriesNode seriesNodeTemp = seriesNode;
         series.addListener( new ControlGraphSeries.Adapter() {
             public void visibilityChanged() {
                 dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), series.isVisible() );
