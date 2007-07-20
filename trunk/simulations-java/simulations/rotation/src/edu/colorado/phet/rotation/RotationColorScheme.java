@@ -29,4 +29,5 @@ public class RotationColorScheme {
     public static final Color AX_COLOR = Color.blue;
     public static final Color AY_COLOR = Color.red;
     public static final Color AM_COLOR = ACCELERATION_COLOR;
+    public static final Color PLATFORM_ANGLE_COLOR = Color.gray;
 }
