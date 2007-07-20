@@ -41,27 +41,28 @@ public class RotationGraphSet extends GraphSuiteSet {
         final RotationMinimizableControlGraph angleGraph = new RotationMinimizableControlGraph( UnicodeUtil.THETA, new RotationGraph(
                 pSwingCanvas, b0.getAngleVariable(),
                 UnicodeUtil.THETA, "Angle", ANGLE_UNITS, -Math.PI * 3, Math.PI * 3, new PImage( loadArrow( "blue-arrow.png" ) ),
-                model, true, model.getTimeSeriesModel(), null,
+                model, true, model.getTimeSeriesModel(), model.getPositionDriven(),
                 RotationModel.MAX_TIME, model.getRotationPlatform() ) {
 
-            //workaround for controlling the platform angle via the character angle
-            protected void handleControlFocusGrabbed() {
-                model.setPositionDriven();
-            }
-
-            //workaround for controlling the platform angle via the character angle
-            protected void handleValueChanged() {
-                //this is very fragile;if the wrong value is set here, it will cause the angular velocity & angle to quickly blow up
-                //since there is a bidirectional causality between bug and platform 
-                model.getRotationPlatform().setAngle( getSliderValue() - b0.getInitialAngleOnPlatform() );
-
-                //workaround for angle variable not updating correctly when simulation is paused
-                b0.getAngleVariable().setValue( getSliderValue() );
-            }
+//            //workaround for controlling the platform angle via the character angle
+//            protected void handleControlFocusGrabbed() {
+//                model.setPositionDriven();
+//            }
+//
+//            //workaround for controlling the platform angle via the character angle
+//            protected void handleValueChanged() {
+//                //this is very fragile;if the wrong value is set here, it will cause the angular velocity & angle to quickly blow up
+//                //since there is a bidirectional causality between bug and platform
+//                model.getRotationPlatform().setAngle( getSliderValue() - b0.getInitialAngleOnPlatform() );
+//
+//                //workaround for angle variable not updating correctly when simulation is paused
+//                b0.getAngleVariable().setValue( getSliderValue() );
+//            }
 
         } );
+        angleGraph.addSeries( new ControlGraphSeries( "Platform Angle",RotationColorScheme.PLATFORM_ANGLE_COLOR,UnicodeUtil.OMEGA,ANGLE_UNITS,model.getPlatformAngleVariable(), model.getPlatformAngleTimeSeries(),new BasicStroke( 1.0f),true));
         angleGraph.addSeriesPair( "Angle",
-                                  new ControlGraphSeries( "Angle", RotationColorScheme.ANGLE_COLOR, UnicodeUtil.THETA, ANGLE_UNITS, b0.getAngleVariable(), b0.getAngleTimeSeries(), body0Stroke, true ),
+                                  new ControlGraphSeries( "Angle", RotationColorScheme.ANGLE_COLOR, UnicodeUtil.THETA, ANGLE_UNITS, b0.getAngleVariable(), b0.getAngleTimeSeries(), body0Stroke ),
                                   new ControlGraphSeries( "Angle (2)", darken( RotationColorScheme.ANGLE_COLOR ), UnicodeUtil.THETA, ANGLE_UNITS, b1.getAngleVariable(), b1.getAngleTimeSeries(), body1Stroke ),
                                   b1 );
 
