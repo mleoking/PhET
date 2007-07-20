@@ -7,11 +7,11 @@
 package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common_greenhouse.view.CompositeGraphic;
-import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions_greenhouse.graphics.BufferedImageUtils;
 import edu.colorado.phet.coreadditions_greenhouse.graphics.DuotoneImageOp;
 import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
 import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+import java.io.IOException;
 
 public class PhotonGraphic extends CompositeGraphic implements Observer {
 
@@ -35,15 +36,29 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
     private static ArrayList instances = new ArrayList();
     private static double scale = 1;
     private static final String IMAGE_PATH = "greenhouse/images/photon-comet.png";
+    private static final String IMAGE_PATH_RED = "greenhouse/images/photon-660.png";
+    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/photon-575.png";
     private static BufferedImage baseImage;
     private static HashMap colorLUT = new HashMap();
     private DuotoneImageOp duotoneImageOp;
     private AffineTransformOp scaleAtxOp;
     private BufferedImage bi;
 
+    private static BufferedImage redImage;
+
+    private static BufferedImage yellowImage;
+
     // get the base image
     static {
-        baseImage = new ImageLoader().fetchBufferedImage( IMAGE_PATH );
+//        baseImage = new ImageLoader().fetchBufferedImage( IMAGE_PATH );
+        try {
+            baseImage = ImageLoader.loadBufferedImage( IMAGE_PATH );
+            redImage=ImageLoader.loadBufferedImage( IMAGE_PATH_RED );
+            yellowImage=ImageLoader.loadBufferedImage( IMAGE_PATH_YELLOW );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         AffineTransform scaleTx = AffineTransform.getScaleInstance( 0.4, 0.4 );
 //        AffineTransform scaleTx = AffineTransform.getScaleInstance( 0.5, 0.5 );
         AffineTransformOp scaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
@@ -160,7 +175,7 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
             if( photonImage != null ) {
                 removeGraphic( photonImage );
             }
-            photonImage = new ImageGraphic( bi2, position );
+            photonImage = new ImageGraphic( photon.getWavelength()>6E-7?redImage:yellowImage, position );
             this.addGraphic( photonImage, 0 );
         }
 
