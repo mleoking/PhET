@@ -11,6 +11,7 @@ import edu.colorado.phet.rotation.model.RotationModel;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 /**
@@ -93,7 +94,7 @@ public class BodyVectorLayer extends PNode {
             arrowNode.setPathTo( new Arrow( position, vector, 20 * RotationPlayAreaNode.SCALE, 20 * RotationPlayAreaNode.SCALE, 3 * RotationPlayAreaNode.SCALE, 0.75, true ).getShape() );
             labelNode.setVisible( vector.getMagnitude() > VISIBLE_THRESHOLD );
             if( labelNode.getVisible() ) {
-                labelNode.setScale( 1.0 * RotationPlayAreaNode.SCALE );
+                labelNode.setTransform( AffineTransform.getScaleInstance( RotationPlayAreaNode.SCALE, -1.0 * RotationPlayAreaNode.SCALE ) );
                 labelNode.setOffset( increase( vector, 20 * RotationPlayAreaNode.SCALE ).getDestination( position ) );
                 labelNode.translate( -labelNode.getFullBounds().getWidth() / 2 / RotationPlayAreaNode.SCALE, -labelNode.getFullBounds().getHeight() / 2 / RotationPlayAreaNode.SCALE );
             }
