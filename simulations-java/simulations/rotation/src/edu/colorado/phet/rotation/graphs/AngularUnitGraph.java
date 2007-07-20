@@ -56,7 +56,24 @@ public class AngularUnitGraph extends RotationGraph {
         return rad * 360.0 / 2 / Math.PI;
     }
 
+    private double toRadians( double degrees ) {
+        return degrees / 360.0 * 2 * Math.PI;
+    }
+
     private String getUnitsString() {
         return angleUnitModel.isRadians() ? unitsRad : unitsDeg;
+    }
+
+    protected void handleValueChanged() {
+        getSimulationVariable().setValue( viewToModel( getSliderValue() ) );
+    }
+
+    private double viewToModel( double sliderValue ) {
+        return angleUnitModel.isRadians() ? sliderValue : toRadians( sliderValue );
+    }
+
+    protected void updateSliderValue() {
+        getJFreeChartSliderNode().setValue( angleUnitModel.isRadians() ? getSimulationVariable().getData().getValue() :
+                                            toDegrees( getSimulationVariable().getData().getValue() ) );
     }
 }
