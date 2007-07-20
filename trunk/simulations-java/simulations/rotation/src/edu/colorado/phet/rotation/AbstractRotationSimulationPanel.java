@@ -129,7 +129,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
     }
 
     protected GraphSuiteSet createRotationGraphSet() {
-        return new RotationGraphSet( this, rotationModule.getRotationModel() );
+        return new RotationGraphSet( this, rotationModule.getRotationModel(),getAngleUnitModel() );
     }
 
     public GraphSuiteSet getRotationGraphSet() {

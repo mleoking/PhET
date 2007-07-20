@@ -580,4 +580,8 @@ public class ControlGraph extends PNode {
         listeners.add( listener );
     }
 
+    public void forceUpdateAll(){
+        dynamicJFreeChartNode.forceUpdateAll();
+    }
+
 }
