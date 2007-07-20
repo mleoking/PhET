@@ -1,0 +1,2 @@
+7-19-2007: Fixed ModuleManager to just count unique instances of clocks for purposes of verifying the number of running clocks
+7-19-2007: Fixed ModuleManager to check that no clock is shared between modules

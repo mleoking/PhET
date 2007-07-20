@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.common.phetcommon.application;
 
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+
 import java.util.ArrayList;
 
 /**
@@ -176,6 +178,7 @@ class ModuleManager {
     private void verifyActiveState() {
         int numActiveModules = getNumActiveModules();
         int numClocksRunning = getNumClocksRunning();
+        boolean clockShared=isClockShared();
         if ( numActiveModules != 1 ) {
             new IllegalStateException( "multiple modules are running: active modules=" + numActiveModules ).printStackTrace();
         }
@@ -185,6 +188,24 @@ class ModuleManager {
         if ( numClocksRunning == 1 && !activeModule.getClock().isRunning() ) {
             new IllegalStateException( "a clock is running that does not belong to the active module" ).printStackTrace();
         }
+        if (clockShared){
+            new IllegalStateException( "Multiple modules are using the same clock instance." ).printStackTrace();
+        }
+    }
+
+    private boolean isClockShared() {
+        for( int i = 0; i < modules.size(); i++ ) {
+            for( int k = 0; k < modules.size(); k++ ) {
+                if( k != i ) {
+                    IClock clock1 = ( (Module)modules.get( i ) ).getClock();
+                    IClock clock2 = ( (Module)modules.get( k ) ).getClock();
+                    if (clock1==clock2){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private int getNumActiveModules() {
@@ -197,14 +218,20 @@ class ModuleManager {
         return count;
     }
 
+    /*
+     * Returns the number of unique running clock instances attached to modules in this ModuleManager.
+     */
     private int getNumClocksRunning() {
-        int count=0;
+        ArrayList runningClocks=new ArrayList( );
         for( int i = 0; i < modules.size(); i++ ) {
-            if (((Module)modules.get( i )).getClock().isRunning() ){
-                count++;
+            IClock clock = ( (Module)modules.get( i ) ).getClock();
+            if ( clock.isRunning() ){
+                if (!runningClocks.contains( clock)){
+                    runningClocks.add(clock);
+                }
             }
         }
-        return count;
+        return runningClocks.size();
     }
 
     void addModuleObserver( ModuleObserver observer ) {
