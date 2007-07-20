@@ -32,6 +32,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
     private GraphSuiteSet rotationGraphSet;
 
     private GraphSetModel graphSetModel;
+    private AngleUnitModel angleUnitModel = new AngleUnitModel( false );
 
     public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule, JFrame phetFrame ) {
         this.rotationModule = rotationModule;
@@ -211,4 +212,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         }
     }
 
+    public AngleUnitModel getAngleUnitModel() {
+        return angleUnitModel;
+    }
 }

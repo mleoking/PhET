@@ -4,6 +4,7 @@ import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.AffineTransform;
@@ -26,10 +27,10 @@ public class RotationPlayAreaNode extends PNode {
     public static final double SCALE = 3.0 / 200.0;
     private CircleNode circularMotionNode;
 
-    public RotationPlayAreaNode( final RotationModel rotationModel, VectorViewModel vectiorViewModel ) {
+    public RotationPlayAreaNode( final RotationModel rotationModel, VectorViewModel vectiorViewModel, AngleUnitModel angleUnitModel ) {
         this.rotationModel = rotationModel;
         rotationPlatformNode = new RotationPlatformNode( rotationModel, rotationModel.getRotationPlatform() );
-        originNode = new RotationOriginNode( rotationModel.getRotationPlatform() );
+        originNode = new RotationOriginNode( rotationModel.getRotationPlatform(),angleUnitModel );
 //        rulerNode = new RotationRulerNode( rotationPlatformNode.getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6"}, "m", 3, 14 );
         rulerNode = new RotationRulerNode( rotationPlatformNode.getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6"}, "m", 4, 14 );
         rulerNode.setTransform( AffineTransform.getScaleInstance( 1,-1));
@@ -54,6 +55,7 @@ public class RotationPlayAreaNode extends PNode {
         addChild( circularMotionNode );
 
         setTransform( AffineTransform.getScaleInstance( 1,-1));
+
     }
 
     public CircleNode getCircularMotionNode() {
