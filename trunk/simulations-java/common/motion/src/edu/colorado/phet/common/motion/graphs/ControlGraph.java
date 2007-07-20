@@ -119,7 +119,7 @@ public class ControlGraph extends PNode {
 
         simulationVariable.addListener( new ISimulationVariable.Listener() {
             public void valueChanged() {
-                jFreeChartSliderNode.setValue( simulationVariable.getData().getValue() );
+                updateSliderValue();
             }
         } );
         jFreeChartSliderNode.addListener( new JFreeChartSliderNode.Listener() {
@@ -161,6 +161,14 @@ public class ControlGraph extends PNode {
         } );
     }
 
+    protected void updateSliderValue() {
+        getJFreeChartSliderNode().setValue( getSimulationVariable().getData().getValue() );
+    }
+
+    protected JFreeChartSliderNode getJFreeChartSliderNode() {
+        return jFreeChartSliderNode;
+    }
+
     public void setVerticalRange( double minY, double maxY ) {
         jFreeChart.getXYPlot().getRangeAxis().setRange( minY, maxY );
     }
@@ -169,8 +177,12 @@ public class ControlGraph extends PNode {
         return new TitleLayer();
     }
 
+    public ISimulationVariable getSimulationVariable() {
+        return simulationVariable;
+    }
+
     protected void handleValueChanged() {
-        simulationVariable.setValue( getSliderValue() );
+        getSimulationVariable().setValue( getSliderValue() );
     }
 
     protected double getSliderValue() {
@@ -482,8 +494,8 @@ public class ControlGraph extends PNode {
             LayoutFunction controlNodeMaxX = new LayoutFunction() {
                 public double getValue( MinimizableControlGraph minimizableControlGraph ) {
                     double maxControlNodeWidth = minimizableControlGraph.getControlGraph().graphTimeControlNode.getFullBounds().getWidth();
-                    double maxAdditionalControlWidth=minimizableControlGraph.getControlGraph().additionalControls.getFullBounds().getWidth();
-                    return Math.max(maxAdditionalControlWidth, maxControlNodeWidth );
+                    double maxAdditionalControlWidth = minimizableControlGraph.getControlGraph().additionalControls.getFullBounds().getWidth();
+                    return Math.max( maxAdditionalControlWidth, maxControlNodeWidth );
 //                    return maxControlNodeWidth;
                 }
             };
