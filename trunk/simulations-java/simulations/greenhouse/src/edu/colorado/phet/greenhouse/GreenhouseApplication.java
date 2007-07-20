@@ -13,6 +13,7 @@ import edu.colorado.phet.common_greenhouse.model.IClock;
 import edu.colorado.phet.common_greenhouse.view.ApplicationDescriptor;
 import edu.colorado.phet.common_greenhouse.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.coreadditions_greenhouse.MessageFormatter;
 import edu.colorado.phet.coreadditions_greenhouse.SplashWindow;
 import edu.colorado.phet.coreadditions_greenhouse.clock.StaticClockModel;
@@ -36,6 +37,7 @@ public class GreenhouseApplication extends PhetApplication {
 
     private static PhetApplication s_application;
     private static SwingTimerClock clock;
+    private static final String VERSION = PhetApplicationConfig.getVersion( "greenhouse").formatForTitleBar();
 
     public static SwingTimerClock getClock() {
         return clock;
@@ -90,10 +92,10 @@ public class GreenhouseApplication extends PhetApplication {
                 ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
                         new String( SimStrings.get( "GreenHouseApplication.title" )
                                     + " ("
-                                    + SimStrings.get( "GreenHouseApplication.version" )
+                                    + VERSION
                                     + ")" ),
                         MessageFormatter.format( SimStrings.get( "GreenHouseApplication.description" ) ),
-                        SimStrings.get( "GreenHouseApplication.version" ),
+                        VERSION,
                         1024, 768 );
                 clock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
                 s_application = new PhetApplication( appDescriptor, modules, clock );
