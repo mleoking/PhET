@@ -414,6 +414,8 @@ public abstract class BaseGreenhouseModule extends Module {
                 atmosphereGraphic.setVisible( true );
                 ( (TestApparatusPanel)getApparatusPanel() ).setModelBounds( finalModelBounds );
                 thermometerEnabled( true );
+
+                GreenhouseApplication.paintContentImmediately();
             }
             catch( InterruptedException e ) {
                 e.printStackTrace();

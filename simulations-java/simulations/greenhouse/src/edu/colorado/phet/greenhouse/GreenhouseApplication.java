@@ -97,7 +97,8 @@ public class GreenhouseApplication extends PhetApplication {
                         MessageFormatter.format( SimStrings.get( "GreenHouseApplication.description" ) ),
                         VERSION,
                         1024, 768 );
-                clock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
+//                clock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
+                clock = new SwingTimerClock( new StaticClockModel( 10, 30) );
                 s_application = new PhetApplication( appDescriptor, modules, clock );
 
                 Color background = GreenhouseConfig.PANEL_BACKGROUND_COLOR;
@@ -121,8 +122,16 @@ public class GreenhouseApplication extends PhetApplication {
 
                 s_application.getApplicationView().getPhetFrame().setResizable( false );
                 s_application.startApplication( greenhouseModule );
-
+                paintContentImmediately();
             }
         } );
+    }
+
+    public static void paintContentImmediately() {
+        Container contentPane=s_application.getApplicationView().getPhetFrame().getContentPane();
+        if( contentPane instanceof JComponent ) {
+            JComponent jComponent = (JComponent)contentPane;
+            jComponent.paintImmediately( 0,0,jComponent.getWidth(), jComponent.getHeight() );
+        }
     }
 }
