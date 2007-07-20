@@ -481,7 +481,10 @@ public class ControlGraph extends PNode {
             additionalControls.setOffset( 0, graphTimeControlNode.getFullBounds().getMaxY() );
             LayoutFunction controlNodeMaxX = new LayoutFunction() {
                 public double getValue( MinimizableControlGraph minimizableControlGraph ) {
-                    return minimizableControlGraph.getControlGraph().graphTimeControlNode.getFullBounds().getWidth();
+                    double maxControlNodeWidth = minimizableControlGraph.getControlGraph().graphTimeControlNode.getFullBounds().getWidth();
+                    double maxAdditionalControlWidth=minimizableControlGraph.getControlGraph().additionalControls.getFullBounds().getWidth();
+                    return Math.max(maxAdditionalControlWidth, maxControlNodeWidth );
+//                    return maxControlNodeWidth;
                 }
             };
             if( getNumberMaximized() == 0 ) {

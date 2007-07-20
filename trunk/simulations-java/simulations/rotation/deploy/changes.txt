@@ -2,6 +2,7 @@
 Fixed: Invert coordinate frame so that +x and +y are in 1st quadrant
 Added chart series readout for platform angle
 Fixed: Sim shouldn't pause when time is up on the graphs
+Fixed: Graph layout is incorrect when no graphs with type-in text boxes are visible
 
 0.00.41
 Fixed: When graphs shared a variable, only one series would appear.
