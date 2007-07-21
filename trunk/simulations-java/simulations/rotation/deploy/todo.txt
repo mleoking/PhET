@@ -40,6 +40,7 @@ Lower Priority:
 •	Implementation for setting platform angle by setting character angle is fragile
 •	RotationBody should have internal representation for angular velocity and angular acceleration instead of relying on RotationPlatform's instance?
 •	Better inherent support for different units in charts
+    -ControlGraphSeries should have an optional transform object.
 
 ################################################
 #           Questions:
