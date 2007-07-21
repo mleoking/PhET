@@ -45,8 +45,7 @@ public class AngularUnitGraph extends RotationGraph {
 
     private void updateUnits() {
         getVerticalAxis().setLabel( getTitle() + " (" + getUnitsString() + ")" );
-        setVerticalRange( isRadians() ? minRad : toDegrees( minRad ),
-                          isRadians() ? maxRad : toDegrees( maxRad ) );
+        setVerticalRange( getDisplayValue( minRad ), getDisplayValue( maxRad ) );
         for( int i = 0; i < getSeriesCount(); i++ ) {
             getControlGraphSeries( i ).setUnits( getUnitsString() );
         }
@@ -56,9 +55,10 @@ public class AngularUnitGraph extends RotationGraph {
             ControlGraphSeries series = getControlGraphSeries( i );
             for( int k = 0; k < series.getObservableTimeSeries().getSampleCount(); k++ ) {
                 TimeData data = series.getObservableTimeSeries().getData( k );
-                getDynamicJFreeChartNode().addValue( getSeriesIndex( series ), data.getTime(), getValue( data ) );
+                getDynamicJFreeChartNode().addValue( getSeriesIndex( series ), data.getTime(), getDisplayValue( data ) );
             }
         }
+        updateSliderValue();
 
         forceUpdateAll();
     }
@@ -73,17 +73,21 @@ public class AngularUnitGraph extends RotationGraph {
         }
 
         protected double getValueToDisplay() {
-            return isRadians() ? super.getValueToDisplay() : toDegrees( super.getValueToDisplay() );
+            return getDisplayValue( super.getValueToDisplay() );
         }
     }
 
-    private double getValue( TimeData data ) {
-        return isRadians() ? data.getValue() : toDegrees( data.getValue() );
+    private double getDisplayValue( double radians ) {
+        return isRadians() ? radians : toDegrees( radians );
+    }
+
+    private double getDisplayValue( TimeData data ) {
+        return getDisplayValue( data.getValue() );
     }
 
     //todo: use super.addValue
     protected void handleDataAdded( int seriesIndex, TimeData timeData ) {
-        addValue( seriesIndex, timeData.getTime(), getValue( timeData ) );
+        addValue( seriesIndex, timeData.getTime(), getDisplayValue( timeData ) );
     }
 
     private boolean isRadians() {
@@ -111,6 +115,6 @@ public class AngularUnitGraph extends RotationGraph {
     }
 
     protected void updateSliderValue() {
-        getJFreeChartSliderNode().setValue( getValue( getSimulationVariable().getData() ) );
+        getJFreeChartSliderNode().setValue( getDisplayValue( getSimulationVariable().getData() ) );
     }
 }
