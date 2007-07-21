@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
+import edu.colorado.phet.common.motion.graphs.ReadoutTitleNode;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
@@ -47,8 +48,7 @@ public class AngularUnitGraph extends RotationGraph {
         setVerticalRange( isRadians() ? minRad : toDegrees( minRad ),
                           isRadians() ? maxRad : toDegrees( maxRad ) );
         for( int i = 0; i < getSeriesCount(); i++ ) {
-            ControlGraphSeries series = getControlGraphSeries( i );
-            series.setUnits( getUnitsString() );
+            getControlGraphSeries( i ).setUnits( getUnitsString() );
         }
         getDynamicJFreeChartNode().clear();
         //add back all existing data in the right units
@@ -63,12 +63,26 @@ public class AngularUnitGraph extends RotationGraph {
         forceUpdateAll();
     }
 
+    protected ReadoutTitleNode createReadoutTitleNode( ControlGraphSeries series ) {
+        return new AngularReadoutTitleNode( series );
+    }
+
+    class AngularReadoutTitleNode extends ReadoutTitleNode {
+        public AngularReadoutTitleNode( ControlGraphSeries series ) {
+            super( series );
+        }
+
+        protected double getValueToDisplay() {
+            return isRadians() ? super.getValueToDisplay() : toDegrees( super.getValueToDisplay() );
+        }
+    }
+
     private double getValue( TimeData data ) {
         return isRadians() ? data.getValue() : toDegrees( data.getValue() );
     }
 
+    //todo: use super.addValue
     protected void handleDataAdded( int seriesIndex, TimeData timeData ) {
-//        super.handleDataAdded( seriesIndex, timeData );
         addValue( seriesIndex, timeData.getTime(), getValue( timeData ) );
     }
 
