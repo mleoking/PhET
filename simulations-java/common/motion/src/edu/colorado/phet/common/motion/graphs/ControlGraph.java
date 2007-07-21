@@ -6,7 +6,6 @@ import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChart
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.motion.model.TimeData;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -32,7 +31,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -223,69 +221,6 @@ public class ControlGraph extends PNode {
         }
     }
 
-    public static class ReadoutTitleNode extends PNode {
-        private ShadowPText titlePText;
-        private ControlGraphSeries series;
-        private String title;
-        private String abbr;
-        private ISimulationVariable simulationVariable;
-        private String units;
-        private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
-        private PhetPPath background;
-
-        //todo: remove all params except series
-        public ReadoutTitleNode( ControlGraphSeries series, String title, String abbr, Color color, ISimulationVariable simulationVariable, String units ) {
-            this.series = series;
-            this.title = title;
-            this.abbr = abbr;
-            this.simulationVariable = simulationVariable;
-            this.units = units;
-            titlePText = new ShadowPText();
-            titlePText.setFont( getTitleFont() );
-            titlePText.setTextPaint( color );
-            background = new PhetPPath( null, Color.white, new BasicStroke(), Color.black );
-            addChild( background );
-            addChild( titlePText );
-            simulationVariable.addListener( new ISimulationVariable.Listener() {
-                public void valueChanged() {
-                    updateText();
-                }
-            } );
-            updateText();
-        }
-
-        private Font getTitleFont() {
-            if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
-                return new Font( "Lucida Sans", Font.BOLD, 11 );
-            }
-            else {
-                return new Font( "Lucida Sans", Font.BOLD, 14 );
-            }
-        }
-
-        public ControlGraphSeries getSeries() {
-            return series;
-        }
-
-        private void updateText() {
-//            titlePText.setText( title + ", " + abbr + " = " + decimalFormat.format( simulationVariable.getValue() ) );
-//            titlePText.setText( abbr + " = " + decimalFormat.format( simulationVariable.getValue() ) );
-            String valueText = decimalFormat.format( simulationVariable.getValue() );
-            while( valueText.length() < "-10.00".length() ) {
-                valueText = " " + valueText;
-            }
-            titlePText.setText( title + " " + valueText + " " + units );
-            background.setPathTo( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ) );//todo: avoid setting identical shapes here for performance considerations
-        }
-
-        public void setUnits( String units ) {
-            if( !this.units.equals( units ) ) {
-                this.units = units;
-                updateText();
-            }
-        }
-    }
-
     private void zoomHorizontal( double v ) {
         double currentValue = jFreeChart.getXYPlot().getDomainAxis().getUpperBound();
         double newValue = currentValue * v;
@@ -351,13 +286,18 @@ public class ControlGraph extends PNode {
             }
             return null;
         }
+
+    }
+
+    public ReadoutTitleNode getReadoutTitleNode( ControlGraphSeries series ) {
+        return titleLayer.getReadoutNode( series );
     }
 
     public void addSeries( final ControlGraphSeries series ) {
         this.series.add( series );
         dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
 
-        final ReadoutTitleNode titleNode = new ReadoutTitleNode( series, series.getTitle(), series.getAbbr(), series.getColor(), series.getSimulationVariable(), series.getUnits() );
+        final ReadoutTitleNode titleNode = createReadoutTitleNode( series );
         titleLayer.addReadoutNode( titleNode );
 
         GraphControlSeriesNode seriesNode = null;
@@ -389,11 +329,11 @@ public class ControlGraph extends PNode {
                 }
                 getDynamicJFreeChartNode().forceUpdateAll();
             }
-
-            public void unitsChanged() {
-                titleNode.setUnits( series.getUnits() );
-            }
         } );
+    }
+
+    protected ReadoutTitleNode createReadoutTitleNode( ControlGraphSeries series ) {
+        return new ReadoutTitleNode( series );
     }
 
     protected void handleDataAdded( int seriesIndex, TimeData timeData ) {
@@ -591,6 +531,10 @@ public class ControlGraph extends PNode {
         jFreeChartSliderNode.setChildrenPickable( editable );
 
         graphTimeControlNode.setEditable( editable );
+    }
+
+    protected GraphTimeControlNode getGraphTimeControlNode() {
+        return graphTimeControlNode;
     }
 
     public static interface Listener {

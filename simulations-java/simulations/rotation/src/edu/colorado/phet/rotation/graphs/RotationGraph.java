@@ -2,13 +2,13 @@ package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
+import edu.colorado.phet.common.motion.graphs.ReadoutTitleNode;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -31,7 +31,6 @@ public class RotationGraph extends MotionControlGraph {
     private ArrayList seriesPairs = new ArrayList();
     private RotationGraphNumberAxis verticalAxis;
     private String title;
-
 
     public RotationGraph( PhetPCanvas pSwingCanvas, ISimulationVariable simulationVariable,
                           String label, String title, String units, double min, double max, PImage thumb,
