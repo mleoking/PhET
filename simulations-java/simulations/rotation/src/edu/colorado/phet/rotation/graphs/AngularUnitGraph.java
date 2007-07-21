@@ -1,7 +1,6 @@
 package edu.colorado.phet.rotation.graphs;
 
-import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
-import edu.colorado.phet.common.motion.graphs.ReadoutTitleNode;
+import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
@@ -63,6 +62,44 @@ public class AngularUnitGraph extends RotationGraph {
         forceUpdateAll();
     }
 
+    protected GraphTimeControlNode createGraphTimeControlNode( TimeSeriesModel timeSeriesModel ) {
+        return new AngularGraphTimeControlNode( timeSeriesModel );
+    }
+
+    class AngularGraphTimeControlNode extends GraphTimeControlNode {
+        public AngularGraphTimeControlNode( TimeSeriesModel timeSeriesModel ) {
+            super( timeSeriesModel );
+        }
+
+        protected GraphControlSeriesNode createGraphControlSeriesNode( ControlGraphSeries series ) {
+            return new AngularGraphControlSeriesNode( series );
+        }
+    }
+
+    class AngularGraphControlSeriesNode extends GraphControlSeriesNode {
+        public AngularGraphControlSeriesNode( ControlGraphSeries series ) {
+            super( series );
+        }
+
+        protected GraphControlTextBox createGraphControlTextBox( ControlGraphSeries series ) {
+            return new AngularGraphControlTextBox( series );
+        }
+    }
+
+    class AngularGraphControlTextBox extends GraphControlTextBox {
+        public AngularGraphControlTextBox( ControlGraphSeries series ) {
+            super( series );
+        }
+
+        protected double getDisplayValue() {
+            return AngularUnitGraph.this.getDisplayValue( getSimVarValue() );
+        }
+
+        protected double getModelValue() {
+            return viewToModel( super.getTextFieldValue() );
+        }
+    }
+
     protected ReadoutTitleNode createReadoutTitleNode( ControlGraphSeries series ) {
         return new AngularReadoutTitleNode( series );
     }
@@ -110,8 +147,8 @@ public class AngularUnitGraph extends RotationGraph {
         getSimulationVariable().setValue( viewToModel( getSliderValue() ) );
     }
 
-    private double viewToModel( double sliderValue ) {
-        return isRadians() ? sliderValue : toRadians( sliderValue );
+    private double viewToModel( double value ) {
+        return isRadians() ? value : toRadians( value );
     }
 
     protected void updateSliderValue() {
