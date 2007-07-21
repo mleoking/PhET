@@ -89,6 +89,14 @@ public class AngularUnitGraph extends RotationGraph {
     class AngularGraphControlTextBox extends GraphControlTextBox {
         public AngularGraphControlTextBox( ControlGraphSeries series ) {
             super( series );
+            series.addListener( new ControlGraphSeries.Listener() {
+                public void visibilityChanged() {
+                }
+
+                public void unitsChanged() {
+                    update();
+                }
+            } );
         }
 
         protected double getDisplayValue() {
