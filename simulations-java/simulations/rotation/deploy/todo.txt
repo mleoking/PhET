@@ -4,6 +4,7 @@
 
 •	Names for the sim?  Beetle-go-round?  Bugs on a platter?  Rotational Motion?  Angular Motion?
     -Ladybug on Rotation?
+    -Ladybug Revolution?
 •	Better graphics/characters?  Beetle will be undesirable for some?
 •	Switch between degrees and radians, add a global control for setting this unit
     -in graphs & readouts
