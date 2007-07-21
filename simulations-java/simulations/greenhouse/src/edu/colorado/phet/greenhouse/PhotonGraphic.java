@@ -41,8 +41,8 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
 //    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/photon-575 copy.png";
 //    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/thin-575-2.png";
 //        private static final String IMAGE_PATH_YELLOW = "greenhouse/images/photon-575.png";
-//    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/thin2.png";
-    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/thin3.png";
+    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/thin2.png";
+//    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/thin3.png";
     private static BufferedImage baseImage;
     private static HashMap colorLUT = new HashMap();
     private DuotoneImageOp duotoneImageOp;
