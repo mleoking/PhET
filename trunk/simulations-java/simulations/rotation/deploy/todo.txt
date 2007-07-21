@@ -6,10 +6,6 @@
     -Ladybug on Rotation?
     -Ladybug Revolution?
 •	Better graphics/characters?  Beetle will be undesirable for some?
-•	Switch between degrees and radians, add a global control for setting this unit
-    -in graphs & readouts
-    -the origin readout in the play area
-    -when switching units, aligned layout should be performed for graphs since padding changes
 •	plot theta, omega and alpha for the rotation platform, thin gray line as 1st series in angular charts (underneath others in z-ordering)
     -this will make the text box variable color as well by default
     -what should be done about these colors?
