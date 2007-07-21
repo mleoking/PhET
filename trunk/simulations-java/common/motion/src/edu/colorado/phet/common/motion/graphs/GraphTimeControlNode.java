@@ -1,13 +1,11 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.motion.MotionResources;
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -40,23 +38,17 @@ public class GraphTimeControlNode extends PNode {
         relayout();
     }
 
-    public GraphTimeControlNode( String title, String abbr, ISimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries ) {
-        this( title, abbr, simulationVariable, graphTimeSeries, Color.black );
-    }
-
-    public GraphTimeControlNode( String title, String abbr, ISimulationVariable simulationVariable, TimeSeriesModel graphTimeSeries, Color color ) {
-        this( graphTimeSeries );
-        addVariable( title, abbr, color, simulationVariable );
-        relayout();
-    }
-
-    public GraphControlSeriesNode addVariable( String title, String abbr, Color color, ISimulationVariable simulationVariable ) {
-        GraphControlSeriesNode seriesNode = new GraphControlSeriesNode( title, abbr, color, simulationVariable );
+    public GraphControlSeriesNode addVariable( ControlGraphSeries series ) {
+        GraphControlSeriesNode seriesNode = createGraphControlSeriesNode( series );
         seriesNode.setEditable( editable );
         seriesNode.setOffset( 0, seriesLayer.getFullBounds().getHeight() + 5 );
         seriesLayer.addChild( seriesNode );
         relayout();
         return seriesNode;
+    }
+
+    protected GraphControlSeriesNode createGraphControlSeriesNode( ControlGraphSeries series ) {
+        return new GraphControlSeriesNode( series );
     }
 
     private void relayout() {
