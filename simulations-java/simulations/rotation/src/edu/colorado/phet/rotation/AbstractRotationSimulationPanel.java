@@ -110,6 +110,12 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
                 }
             }
         } );
+        //must happen after units have changed in the graph, or layout will be wrong after graph changes
+        angleUnitModel.addListener( new AngleUnitModel.Listener() {
+            public void changed() {
+                timeSeriesGraphSetNode.forceRelayout();
+            }
+        } );
     }
 
     private boolean synchronousPaint = true;
