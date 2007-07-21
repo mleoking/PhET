@@ -24,7 +24,8 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         RotationBody body1 = new RotationBody( "ladybug.gif", true );
         addRotationBody( body1 );
 
-        RotationBody body2 = new RotationBody( "beetle.gif" );
+//        RotationBody body2 = new RotationBody( "beetle.gif" );
+        RotationBody body2 = new RotationBody( "valessiobrito_Bug_Buddy_Vec.png" );
         addRotationBody( body2 );
 
         resetAll();
