@@ -1,14 +1,45 @@
 <?php
 
-    include_once("../admin/site-utils.php");
+	include_once("../admin/global.php");
+
+    include_once(SITE_ROOT."admin/site-utils.php");
+	include_once(SITE_ROOT."admin/sim-utils.php");
+	include_once(SITE_ROOT."admin/web-utils.php");	
     
     function print_content() {
         ?>
-            <h1>Individual Simulation Installers</h1>
+            <h1>Individual Offline Simulations</h1>
 
-            <p>TO BE POSTED SHORTLY.</p>
+			<p>
+				Click on the name of any simulation to download the simulation to your computer. To run the simulation, double-click it. If you have difficulties, please see our <a href="../tech_support/index.php">technical support</a> page.
+			</p>
+			
+			<p>
+				You may copy the simulation to any place on your computer. You may also copy the simulation to a CD-ROM Drive, USB Drive, or shared network location.
+			</p>
 
-            <p>If you have an Internet connection that is too slow, we can send you a CD with the full installation package. Click <a href="../about/contact.php"><u>here to contact us</u></a>.</p>
+			<div id="individual-sim-installers">
+			
+				<ul>
+			
+		<?php
+			
+			foreach (sim_get_all_sims() as $simulation) {
+				eval(get_code_to_create_variables_from_array($simulation));
+				
+				$sim_run_offline_link = sim_get_run_offline_link($simulation);
+				
+				print <<<EOT
+					<li>
+						<a href="$sim_run_offline_link">$sim_name</a>
+					</li>
+EOT;
+			}
+		
+		?>
+				</ul>
+
+			</div>
         <?php
     }
 
