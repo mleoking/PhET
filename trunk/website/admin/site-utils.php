@@ -95,7 +95,7 @@ EOT;
         print_navigation_element(
             $prefix, 
             $selected_page, 
-            "simulations/index.php",
+            "simulations/index.php?cat=Top_Simulations",
             "Simulations",
             get_sim_categories_for_navbar($prefix)
         );
@@ -104,9 +104,9 @@ EOT;
 
         $teacher_ideas_subs['teacher_ideas/browse.php']                 = 'Browse';
         
-        if (!isset($GLOBALS['contributor_authenticated']) || $GLOBALS['contributor_authenticated'] == false) {
-            $teacher_ideas_subs['teacher_ideas/login.php'] = 'Login';
-        }
+        // if (!isset($GLOBALS['contributor_authenticated']) || $GLOBALS['contributor_authenticated'] == false) {
+        //     $teacher_ideas_subs['teacher_ideas/login.php'] = 'Login';
+        // }
         
         $teacher_ideas_subs['teacher_ideas/contribute.php']             = 'Contribute';
         $teacher_ideas_subs['teacher_ideas/manage-contributions.php']   = 'My Contributions';
@@ -501,19 +501,29 @@ EOT;
                             null, 'required_login_info_uid');                        
                     }
                     
-                    function string_ends_with(this_string, that_string) {
+                    function string_starts_with(this_string, that_string) {
                         var index = this_string.lastIndexOf(that_string);
                         
                         if (index == -1) {
                             return false;
                         }
                         
-                        return index == this_string.length - that_string.length;
+                        return index == 0;
                     }
                     
                     function select_current_navbar_category() {
                         $("li.subnav a").each(function(i) {
-                            if (string_ends_with(this.href, "$request_uri")) {
+							var re = /^.+(\.com|\.edu|\.net|\.org|(localhost:\d+))(\/.+)$/i;
+							
+							var result = re.exec(this.href);
+							
+							var relative_url = this.href;
+							
+							if (result) {								
+								relative_url = result[3];
+							}
+							
+                            if (string_starts_with('$request_uri', relative_url)) {
                                 this.className            = 'subnav-selected';
                                 this.parentNode.className = 'subnav-selected';
                             }
@@ -561,10 +571,10 @@ EOT;
                             <ul>
 EOT;
 
-        print_header_navigation_element($prefix, $selected_page, "index.php",              "Home",          1);
-        print_header_navigation_element($prefix, $selected_page, "simulations/index.php",  "Simulations",   2);
-        print_header_navigation_element($prefix, $selected_page, "research/index.php",     "Research",      7);
-        print_header_navigation_element($prefix, $selected_page, "about/index.php",        "About PhET",    8);
+        print_header_navigation_element($prefix, $selected_page, "index.php",              					   "Home",          1);
+        print_header_navigation_element($prefix, $selected_page, "simulations/index.php?cat=Top_Simulations",  "Simulations",   2);
+        print_header_navigation_element($prefix, $selected_page, "research/index.php",     					   "Research",      7);
+        print_header_navigation_element($prefix, $selected_page, "about/index.php",        					   "About PhET",    8);
                                 
        print <<<EOT
                             </ul>

@@ -54,7 +54,7 @@ EOT;
                 <ul>
                     <li  class="selected"><a href="index.php" accesskey="1">Home</a></li>
 
-                    <li><a href="simulations/index.php" accesskey="2">Simulations</a></li>
+                    <li><a href="simulations/index.php?cat=Top_Simulations" accesskey="2">Simulations</a></li>
 
                     <li><a href="research/index.php" accesskey="3">Research</a></li>
 
@@ -77,7 +77,7 @@ EOT;
             <p class="openingParagraph">Fun, interactive simulations of physical phenomena from the Physics Education Technology project at the University of Colorado.</p>
 
             <p class="findOutMore">
-                <a href="simulations/index.php">
+                <a href="simulations/index.php?cat=Top_Simulations">
                     <img src="images/findOutMore.gif" alt="Find out More" title="Find out More" />
                 </a>
                 

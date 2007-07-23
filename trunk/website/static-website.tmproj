@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>simulations/sims.php</string>
+	<string>get_phet/full_install.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -173,7 +173,7 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>27</integer>
+			<integer>11</integer>
 		</dict>
 		<key>admin/authentication.php</key>
 		<dict>
@@ -419,6 +419,78 @@
 			<key>firstVisibleLine</key>
 			<integer>399</integer>
 		</dict>
+		<key>css/main.css</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>12</integer>
+				<key>line</key>
+				<integer>758</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>750</integer>
+		</dict>
+		<key>get_phet/full_install.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>11</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>5</integer>
+		</dict>
+		<key>get_phet/index.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>26</integer>
+				<key>line</key>
+				<integer>8</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>69</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>21</integer>
+				<key>line</key>
+				<integer>8</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>29</integer>
+				<key>line</key>
+				<integer>8</integer>
+			</dict>
+		</dict>
+		<key>get_phet/simlauncher.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>40</integer>
+				<key>line</key>
+				<integer>8</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>random-thumbnail.php</key>
 		<dict>
 			<key>caret</key>
@@ -452,30 +524,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>45</integer>
+				<integer>26</integer>
 				<key>line</key>
-				<integer>131</integer>
+				<integer>126</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>111</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>22</integer>
-				<key>line</key>
-				<integer>131</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>65</integer>
-				<key>line</key>
-				<integer>131</integer>
-			</dict>
 		</dict>
 		<key>teacher_ideas/edit-contribution.php</key>
 		<dict>
@@ -528,21 +584,10 @@
 		<string>admin/login-info.php</string>
 		<string>about/legend.php</string>
 		<string>simulations/sims.php</string>
-		<string>admin/download-archive.php</string>
-		<string>teacher_ideas/view-contribution.php</string>
-		<string>teacher_ideas/edit-contribution.php</string>
-		<string>admin/contrib-utils.php</string>
-		<string>admin/manage-contributors.php</string>
-		<string>admin/password-protection.php</string>
-		<string>admin/authentication.php</string>
-		<string>admin/get-upload.php</string>
-		<string>admin/db.inc</string>
-		<string>admin/db-utils.php</string>
-		<string>admin/web-utils.php</string>
-		<string>admin/edit-sim.php</string>
-		<string>admin/sim-utils.php</string>
-		<string>admin/sys-utils.php</string>
-		<string>random-thumbnail.php</string>
+		<string>get_phet/index.php</string>
+		<string>get_phet/full_install.php</string>
+		<string>get_phet/simlauncher.php</string>
+		<string>css/main.css</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
