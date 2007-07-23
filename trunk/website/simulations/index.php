@@ -55,7 +55,7 @@
         }
         
         // This statement selects for all sims in the category, and orders by the sim sorting name:
-        $simulations = sim_get_sims_by_cat_id($cat_id);
+        $simulations = ($view_type == 'thumbs') ? sim_get_sims_by_cat_id($cat_id) : sim_get_sims_by_cat_id_alphabetically($cat_id);
         
         $num_sims_in_category = count($simulations);
         
