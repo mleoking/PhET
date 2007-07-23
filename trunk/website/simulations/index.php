@@ -124,12 +124,14 @@
                     if ($sim_animated_image_url == "") {
                         $sim_animated_image_url = $sim_image_url;
                     }
-                    
+
+                    $sim_thumbnail_link = "../admin/get-sim-thumbnail.php?sim_id=$sim_id";
+
                     print <<<EOT
                         <a href="$sim_url">
-                            <img src="../admin/get-upload.php?url=$sim_image_url" 
-                                 width="130" height="97" 
-                                 alt="View $sim_name Simulation"
+                            <img src="$sim_thumbnail_link" 
+                                 width="130" 
+                                 alt="Screenshot of $sim_name Simulation"
                                  title="Clear here to view the $sim_name simulation"
                              />
                         </a>
