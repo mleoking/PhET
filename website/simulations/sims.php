@@ -60,6 +60,9 @@
 
         <div class="container">
             <?php            
+
+			$sim_run_offline_link = sim_get_run_offline_link($simulation);
+
             print <<<EOT
             
 
@@ -94,7 +97,7 @@
                         
                             <td>
                                 <div class="rage_button_928365">
-                                	<a href="$sim_launch_url">Run Offline</a>
+                                	<a href="$sim_run_offline_link">Run Offline</a>
                                 </div>
                             </td>
                         </tr>

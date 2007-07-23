@@ -243,6 +243,10 @@
         $GLOBALS["sim_id"] = "$sim_id"; 
     }
 
+	function sim_compare_by_sorting_name($sim1, $sim2) {
+		return strcasecmp($sim1['sim_sorting_name'], $sim2['sim_sorting_name']);
+	}
+
     function sim_get_all_sims() {
         $simulations = array();
         
@@ -255,6 +259,9 @@
                 $simulations["sim_id_$sim_id"] = $simulation;
             }
         }
+
+		// Sort by sorting name:
+		usort($simulations, 'sim_compare_by_sorting_name');
         
         return $simulations;        
     }
@@ -404,6 +411,19 @@
             )
         );
     }
+
+	function sim_get_run_offline_jar_location($simulation) {
+		$sim_dirname = $simulation['sim_dirname'];
+		$sim_flavor  = $simulation['sim_flavorname'];
+		
+		$link = "http://phet.colorado.edu/sims/$sim_dirname/$sim_flavor.jar";
+		
+		return $link;
+	}
+
+	function sim_get_run_offline_link($simulation) {
+		return '../admin/get-run-offline.php?sim_id='.$simulation['sim_id'];
+	}
     
     function sim_get_select_sims_by_category_statement($cat_id) {
         return "SELECT DISTINCT `simulation`.`sim_id` FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat_id' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation_listing`.`simulation_listing_order` ASC ";
