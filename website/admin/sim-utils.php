@@ -286,6 +286,20 @@
         
         return $cleans;
     }
+
+	function sim_get_sims_by_cat_id_alphabetically($cat_id) {
+        $select_sims_st = sim_get_select_sims_by_category_statement_order_alphabetically($cat_id);
+
+        $result = db_exec_query($select_sims_st);
+        
+        $cleans = array();
+        
+        while ($unclean = mysql_fetch_assoc($result)) {
+            $cleans[] = sim_get_sim_by_id($unclean['sim_id']);
+        }
+        
+        return $cleans;
+    }
     
     function sim_get_cat_by_cat_encoding($cat_encoding) {
         $categories = sim_get_categories();
@@ -393,6 +407,10 @@
     
     function sim_get_select_sims_by_category_statement($cat_id) {
         return "SELECT DISTINCT `simulation`.`sim_id` FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat_id' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation_listing`.`simulation_listing_order` ASC ";
+    }
+
+    function sim_get_select_sims_by_category_statement_order_alphabetically($cat_id) {
+        return "SELECT DISTINCT `simulation`.`sim_id` FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat_id' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation`.`sim_sorting_name` ASC ";
     }
     
     function sim_get_image_previews($type, $field) {
