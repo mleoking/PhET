@@ -3,6 +3,9 @@
     include_once("web-utils.php");
     include_once("db-utils.php");    
     include_once("xml_parser.php");
+
+	define("SIM_THUMBNAIL_WIDTH", 130);
+	define("SIM_THUMBNAIL_HEIGHT", 97);
     
     define("SIM_TYPE_JAVA",  "0");
     define("SIM_TYPE_FLASH", "1");
