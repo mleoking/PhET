@@ -1506,9 +1506,9 @@ EOT;
 	function contribution_get_specific_contributions($sim_names, $type_descs, $level_descs) {
 		$contributions = array();
 		
-		array_remove($sim_names,   'all');
-		array_remove($type_descs,  'all');
-		array_remove($level_descs, 'all');
+		$sim_names   = array_remove($sim_names,   'all');
+		$type_descs  = array_remove($type_descs,  'all');
+		$level_descs = array_remove($level_descs, 'all');
         
         $query = "SELECT * FROM `contribution`";
 

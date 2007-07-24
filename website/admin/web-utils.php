@@ -103,7 +103,7 @@
         return $parsed;
     }     
 
-	function array_remove(array &$a_Input, $m_SearchValue, $b_Strict = False) {
+	function array_remove($a_Input, $m_SearchValue, $b_Strict = False) {
 	    $a_Keys = array_keys($a_Input, $m_SearchValue, $b_Strict);
 	    foreach($a_Keys as $s_Key) {
 	        unset($a_Input[$s_Key]);
