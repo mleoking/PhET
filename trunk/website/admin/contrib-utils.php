@@ -853,6 +853,10 @@ EOT;
             $contribution, 'contribution_type'
         );
 
+		$contributor = contributor_get_contributor_by_id($contributor_id);
+		
+		eval(get_code_to_create_variables_from_array($contributor));
+
         $contribution_authors = explode(',', $contribution_authors);
     
         $contribution_author = $contribution_authors[0];
@@ -872,6 +876,10 @@ EOT;
         $title_html = <<<EOT
                 <a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
 EOT;
+
+		if ($contributor_is_team_member) {
+			$title_html = "${title_html} <img src=\"../images/phet-logo-icon.jpg\" alt=\"Image of PhET Icon\" title=\"Contributed by PhET\"/>";
+		}
         
         print <<<EOT
             <tr>
