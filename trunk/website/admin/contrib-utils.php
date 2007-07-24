@@ -823,8 +823,6 @@ EOT;
         global $referrer;
         
         eval(get_code_to_create_variables_from_array($contribution));
-            
-        $contribution_files = contribution_get_contribution_files($contribution_id);
         
         $sim_list = "None";
         
@@ -858,19 +856,13 @@ EOT;
         $contribution_authors = explode(',', $contribution_authors);
     
         $contribution_author = $contribution_authors[0];
-        
-        $matches = array();
-        
-        if (preg_match('/([a-zA-Z])[a-zA-Z]+ ([a-zA-Z ]+\. +)?+([^.]+)$/i', $contribution_author, $matches) == 1) {    
-            $author_first_initial = $matches[1];
-            $author_last_name     = $matches[3];
-        }
-        else {
-            $contribution_author  = 'John Doe';
-            $author_first_initial = 'J';
-            $author_last_name     = 'Doe';
-        }
-        
+
+		$parsed_name = parse_name($contribution_author);
+		
+		$contribution_author  = $parsed_name['full_name'];
+        $author_first_initial = $parsed_name['first_initial'];
+        $author_last_name     = $parsed_name['last_name'];
+
         $time = strtotime($contribution_date_updated);
         
         $contribution_date_updated = date('n/y', $time);
