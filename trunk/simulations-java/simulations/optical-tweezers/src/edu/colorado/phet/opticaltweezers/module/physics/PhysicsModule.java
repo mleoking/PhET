@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.opticaltweezers.module.physics;
 
+import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
+import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.model.*;
@@ -49,6 +51,23 @@ public class PhysicsModule extends AbstractModule {
         _clockControlPanel.setTimeColumns( GlobalDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
         
+        // Help
+        if ( hasHelp() ) {
+            HelpPane helpPane = getDefaultHelpPane();
+            
+            HelpBalloon beadHelp = new HelpBalloon( helpPane, OTResources.getString( "help.bead" ), HelpBalloon.RIGHT_CENTER, 20 );
+            helpPane.add( beadHelp );
+            beadHelp.pointAt( _canvas.getBeadNode(), _canvas );
+            
+            HelpBalloon laserHelp = new HelpBalloon( helpPane, OTResources.getString( "help.laser" ), HelpBalloon.RIGHT_CENTER, 20 );
+            helpPane.add( laserHelp );
+            laserHelp.pointAt( _canvas.getLaserNode().getLeftHandleNode(), _canvas );
+            
+            HelpBalloon rulerNode = new HelpBalloon( helpPane, OTResources.getString( "help.ruler" ), HelpBalloon.TOP_CENTER, 20 );
+            helpPane.add( rulerNode );
+            rulerNode.pointAt( _canvas.getRulerNode(), _canvas );
+        }
+        
         // Set initial state
         resetAll();
     }
@@ -75,7 +94,7 @@ public class PhysicsModule extends AbstractModule {
      * @return true or false
      */
     public boolean hasHelp() {
-        return false;
+        return true;
     }
 
     /**
