@@ -304,7 +304,7 @@
     function sim_get_all_sim_names() {
         $simulations = array();
         
-        $simulation_rows = db_exec_query("SELECT * FROM `simulation` ");
+        $simulation_rows = db_exec_query("SELECT * FROM `simulation` ORDER BY `sim_sorting_name` ");
         
         while($simulation = mysql_fetch_assoc($simulation_rows)) {
             $sim_id   = $simulation['sim_id'];
