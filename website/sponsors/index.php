@@ -13,7 +13,7 @@
 
                 <li class="nsf"><a href="http://www.nsf.gov/"><img class="sponsors" src="../images/nsf-logo.gif" /><strong>The National Science Foundation</strong></a></li>
 
-                <li class="kavli"><a href="http://www.kavlifoundation.org/index.php"><img class="sponsors" src="../images/kavli-logo.jpg" /><strong>The Kavli Operating Institute</strong></a></li>
+                <li class="kavli"><a href="http://www.kavlifoundation.org/"><img class="sponsors" src="../images/kavli-logo.jpg" /><strong>The Kavli Operating Institute</strong></a></li>
             </ul><br />
 
             <h2>Technical Support</h2>
@@ -39,6 +39,9 @@
                 
                 <li><strong><a href="http://www.ej-technologies.com/products/jprofiler/overview.html"><img class="bordered_sponsors" src="../images/ej.gif"/>ej-technologies</a></strong><br />
                 <em>For providing for our Java profilers</em></li>
+
+				<li><strong><a href="http://www.bitrock.com"><img class="bordered_sponsors" src="../images/bitrock.png"/>BitRock</a></strong><br />
+                <em>For providing for our installer builder</em></li>
             </ul>
         <?php
     }

@@ -34,7 +34,7 @@
                 }
             }
             
-            $keyed_contributions[serialize($contribution)] = "$key";
+            $keyed_contributions[serialize($contribution)] = strtolower("$key");
         }
         
         if ($order == 'asc') {
