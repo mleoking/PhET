@@ -7,7 +7,9 @@
     include_once(SITE_ROOT."admin/site-utils.php");   
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."teacher_ideas/referrer.php");  
-    
+
+    $g_contribution_updated = false;
+
     function handle_action($action) {
         $contribution = gather_script_params_into_array('contribution_');
         
@@ -21,6 +23,8 @@
     }
     
     function update_contribution($contribution) {
+	    global $g_contribution_updated;
+	
         do_authentication(true);
         
         if (!isset($contribution['contributor_id']) || $contribution['contributor_id'] == -1) {
@@ -70,6 +74,9 @@
         
         // Second, add all new files:
         contribution_add_all_form_files_to_contribution($contribution_id);
+
+		// Mark a contribution as having been updated:
+		$g_contribution_updated = true;
     }
     
     function print_content_no_contribution_specified() {
@@ -93,6 +100,7 @@ EOT;
     }
 
     function print_content() {
+		global $g_contribution_updated;
         global $referrer, $contribution_id, $contributor_id;
     
         ?>
@@ -100,6 +108,10 @@ EOT;
         <h1>Edit Contribution</h1>
     
         <?php
+
+		if ($g_contribution_updated) {
+			print "<p><strong>Thank you! The contribution has been successfully updated.</strong></p>";
+		}
     
         contribution_print_full_edit_form($contribution_id, "edit-contribution.php", $referrer);  
             
