@@ -34,6 +34,9 @@ public class Laser extends MovableObject implements ModelElement {
     
     private static final double SPEED_OF_LIGHT = 3E17; // nm/sec
     
+    // dt used to make the e-field look like it's moving really fast
+    private static final double ELECTRIC_FIELD_FAST_DT = 4E-5;
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -569,7 +572,7 @@ public class Laser extends MovableObject implements ModelElement {
                 _electricFieldTime += dt;
             }
             else {
-                _electricFieldTime += GlobalDefaults.ELECTRIC_FIELD_FAST_DT;
+                _electricFieldTime += ELECTRIC_FIELD_FAST_DT;
             }
             
             /*
