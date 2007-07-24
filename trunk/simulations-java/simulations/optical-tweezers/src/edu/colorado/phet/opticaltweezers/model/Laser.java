@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockEvent;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.opticaltweezers.module.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
@@ -561,14 +562,14 @@ public class Laser extends MovableObject implements ModelElement {
             
             /*
              * The E-field model only applies when the clock dt is in the "slow" range.
-             * When dt is in the "fast" range, run the model at the fastest speed, so
+             * When dt is in the "fast" range, run the model at a fast speed, so
              * that we get a field that looks crazy.
              */
             if ( dt <= _clock.getSlowRange().getMax() ) {
                 _electricFieldTime += dt;
             }
             else {
-                _electricFieldTime += _clock.getFastRange().getMax();
+                _electricFieldTime += GlobalDefaults.ELECTRIC_FIELD_FAST_DT;
             }
             
             /*
