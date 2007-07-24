@@ -5,7 +5,16 @@
 IN PROGRESS:
 
 AAPT:
-
+- change lower threshold on viscosity to 5e-4 and upper threshold to 1e-2
+- change bottom end of "fast speed" to 1.0e-7. (8 times slower)
+- change vacuum to fake oscillation to just look "really fast" for speeds above the following metric:
+         Laser power * Sim speed >= 240e-5
+- add "Movable bead" help item
+- add "Movable ruler" help item
+- add "Movable laser" help item
+- change dt fast.max=4E-4, subdivisions=1000, kick=60 (?)
+- change default dt to ??
+         
 HIGH PRIORITY:
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 - decide what to do for Verlet motion in vacuum at dt=fast.max, bead motion is too fast
@@ -53,6 +62,7 @@ MISSING INFO:
 
  
 DONE:
+7/24/07 - change description as requested
 ********* version 0.00.28 (16736)
 7/14/07 - add description to About dialog
 ********* version 0.00.27 (16704)
