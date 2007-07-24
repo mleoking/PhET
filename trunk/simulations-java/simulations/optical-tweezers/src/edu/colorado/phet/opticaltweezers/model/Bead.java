@@ -467,15 +467,7 @@ public class Bead extends MovableObject implements ModelElement {
         // Top and bottom edges of microscope slide, bead treated as a point
         final double yTopOfSlide = _microscopeSlide.getCenterMinY() + ( getDiameter() / 2 ); // nm
         final double yBottomOfSlide = _microscopeSlide.getCenterMaxY() - ( getDiameter() / 2 ); // nm
-        
-        // Subdivide the clock step into N equals pieces
-        double dt = clockDt;
-        int loops = 1;
-        if ( clockDt > ( 1.001 * _verletDtSubdivisionThreshold ) ) {
-            dt = clockDt / _verletNumberOfDtSubdivisions;
-            loops = _verletNumberOfDtSubdivisions;
-        }
-        
+
         final double mass = getMass() / G_PER_KG; // kg
         
         // current values for positon, velocity and acceleration
@@ -491,6 +483,14 @@ public class Bead extends MovableObject implements ModelElement {
         double xNew = 0, yNew = 0;
         double vxNew = 0, vyNew = 0;
         double axNew = 0, ayNew = 0;
+        
+        // Subdivide the clock step into N equals pieces
+        double dt = clockDt;
+        int loops = 1;
+        if ( clockDt > ( 1.001 * _verletDtSubdivisionThreshold ) ) {
+            dt = clockDt / _verletNumberOfDtSubdivisions;
+            loops = _verletNumberOfDtSubdivisions;
+        }
         
         // Run the motion algorithm for subdivided clock step
         for ( int i = 0; i < loops; i++ ) {
