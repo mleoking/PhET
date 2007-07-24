@@ -43,7 +43,14 @@
         $sim_rating_html = $SIM_RATING_TO_IMAGE_HTML["$sim_rating"];
 
         $sim_type_html_image = $SIM_TYPE_TO_IMAGE["$sim_type"];
-        $sim_type_html       = "<img src=\"../images/sims/ratings/$sim_type_html_image\"   width=\"32\" height=\"16\" />";
+        $sim_type_html       = "<img src=\"../images/sims/ratings/$sim_type_html_image\" width=\"32\" height=\"16\" />";
+
+		if ($sim_type == SIM_TYPE_JAVA) {
+			$sim_type_html = "<a href=\"../tech_support/support-java.php\">$sim_type_html</a>";
+		}
+		else if ($sim_type == SIM_TYPE_FLASH) {
+			$sim_type_html = "<a href=\"../tech_support/support-flash.php\">$sim_type_html</a>";
+		}
         
         ?>
 
@@ -53,7 +60,7 @@
                     print "<h1 class=\"page-title\"><a href=\"../admin/edit-sim.php?sim_id=$sim_id\" title=\"Click here to edit the simulation\">$sim_name</a></h1>";  
                 } 
                 else {
-                    print "<h1 class=\"page-title\">$sim_name</h1>";
+                    print "<h1 class=\"page-title\"><a href=\"$sim_launch_url\">$sim_name</a></h1>";
                 }
             ?>
         </div>
