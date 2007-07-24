@@ -1,5 +1,9 @@
 <?php
     include_once("sys-utils.php");
+
+	function web_get_real_path($path) {
+		return preg_replace('/[^\/]+\/\.\.\//i', '', $path);
+	}
     
     function web_create_random_password($length = 7) {
         $chars = "abcdefghijkmnopqrstuvwxyz023456789";
@@ -41,7 +45,7 @@
     }
     
     function format_string_for_html($string) {
-        return preg_replace('/&(?!amp;)/', '&amp;', $string);
+        return htmlentities($string);
     }
     
     function format_for_html($array) {
@@ -98,6 +102,14 @@
         
         return $parsed;
     }     
+
+	function array_remove(array &$a_Input, $m_SearchValue, $b_Strict = False) {
+	    $a_Keys = array_keys($a_Input, $m_SearchValue, $b_Strict);
+	    foreach($a_Keys as $s_Key) {
+	        unset($a_Input[$s_Key]);
+	    }
+	    return $a_Input;
+	}
     
     function get_script_param($param_name, $default_value = "") {
         if (isset($_REQUEST['sim_id'])) {

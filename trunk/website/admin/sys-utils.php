@@ -195,26 +195,39 @@
             $file_contents = file_get_contents($file_path);
         }
 
+		$mime_type = $opt_mime_type;
+
         if ($opt_mime_type == null) {
-            // Hand-coding for some file types:
-            if (preg_match('/.*\.jnlp/i', $file_path) == 1) {
-                $mime_type = "application/x-java-jnlp-file";
-            }
-            else if (preg_match('/.*\.gif/i', $file_path) == 1) {
-                $mime_type = "image/gif";
-            }
-            else {
+
+			$matches = array();
+			
+			if (preg_match('/^.+\.([^.]+)$/', $file_path, $matches)) {	
+				$ext = strtolower($matches[1]);
+						
+	            // Hand-coding for some file types:
+	            if ($ext == 'jnlp') {
+	                $mime_type = "application/x-java-jnlp-file";
+	            }
+	            else if ($ext == 'gif') {
+	                $mime_type = "image/gif";
+	            }
+				else if ($ext == 'jar') {
+					$mime_type = "application/java-archive";
+				}
+				else if ($ext == 'png') {
+					$mime_type = "image/png";
+				}
+				else if ($ext == 'jpg' || $ext == 'jpeg') {
+					$mime_type = "image/jpeg";
+				}
+	        }
+	
+	 		if ($mime_type == null){
                 // Auto-detection of mime-type:
                $mime_type = auto_detect_mime_type($file_contents);
             }
         }
-        else {
-            $mime_type = $opt_mime_type;
-        }
         
-        // Set the content type and length:
-        // header("Content-Type: $mime_type");
-        // header("Content-Length: $size");
         if (strpos($file_path, '/')) {
             $name = basename($file_path);
         }
