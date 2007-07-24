@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 AAPT:
-- change vacuum to fake oscillation to just look "really fast" for speeds above the following metric:
-         Laser power * Sim speed >= 240e-5
 - ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
 - ? change dt.default to something smaller than dt.fast.max
 - help items don't refresh fast enough
@@ -58,6 +56,7 @@ MISSING INFO:
 
  
 DONE:
+7/24/07 - for bead-in-vacuum, when (laserPower * dt >= 240e-5), fake bead motion to look "really fast"
 7/24/07 - add help items ("Movable bead", "Movable laser", "Movable ruler")
 7/24/07 - make fast e-field behavior use dt=4E-5 to protect against changes to dt.fast.max
 7/24/07 - change lower threshold on viscosity to 5e-4

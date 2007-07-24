@@ -42,6 +42,9 @@ public class Bead extends MovableObject implements ModelElement {
     private static final double PM_PER_NM = 1E3; // picometers per nanometer
     private static final double G_PER_KG = 1E3; // grams per kilogram
     
+    // dt used to make the bead-in-vacuum motion look really fast
+    private static final double VACCUUM_FAST_MOTION_DT = 4E-5;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -484,6 +487,15 @@ public class Bead extends MovableObject implements ModelElement {
         double vxNew = 0, vyNew = 0;
         double axNew = 0, ayNew = 0;
         
+        /*
+         * Above a certain point, we want the oscillation to just look "really fast".
+         * This eliminates oscillations that appear slower at certain points due to 
+         * how far the bead moves per time step.
+         */
+        if ( _laser.getPower() * clockDt >= 240E-5 ) {
+            clockDt = VACCUUM_FAST_MOTION_DT;
+        }
+        
         // Subdivide the clock step into N equals pieces
         double dt = clockDt;
         int loops = 1;
@@ -559,7 +571,7 @@ public class Bead extends MovableObject implements ModelElement {
      * Constraints:
      *     direction of fluid flow must be horizontal
      */
-    private void moveInFluid( double clockDt ) {
+    private void moveInFluid( final double clockDt ) {
         
         // Top and bottom edges of microscope slide, bead treated as a point
         final double yTopOfSlide = _microscopeSlide.getCenterMinY() + ( getDiameter() / 2 ); // nm
@@ -673,7 +685,7 @@ public class Bead extends MovableObject implements ModelElement {
      * 
      * @return displacement vector (nm)
      */
-    private Vector2D computeBrownianDisplacement( double dt ) {
+    private Vector2D computeBrownianDisplacement( final double dt ) {
         
         Vector2D displacement = null;
         if ( _fluid.isEnabled() ) {
