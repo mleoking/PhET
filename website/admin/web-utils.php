@@ -693,11 +693,11 @@ EOT;
         }
     }    
 
-    function print_deletable_list($selections_array) {
-        print_multiple_selection($selections_array, $selections_array, false, $name_prefix = "dl");
+    function print_deletable_list($select_user_name, $selections_array) {
+        print_multiple_selection($select_user_name, $selections_array, $selections_array, false, $name_prefix = "dl");
     }
 
-    function print_multiple_selection($options_array, $selections_array = array(), $print_select = true, $name_prefix = "ms") {
+    function print_multiple_selection($select_user_name, $options_array, $selections_array = array(), $print_select = true, $name_prefix = "ms") {
         static $has_printed_javascript = false;
         static $ms_id_num = 1;
         
@@ -707,7 +707,7 @@ EOT;
         
         $text_to_identifier = array();
         
-        $options = '';
+        $options = '<option value="" selected="selected">Select '.$select_user_name.':</option>';
         
         foreach($options_array as $identifier => $text) {            
             $options .= "<option value=\"$identifier\">$text</option>";
@@ -790,7 +790,9 @@ EOT;
                 	var text   = dropdown.options[index].text;
                 	var value  = dropdown.options[index].value;
 
-                    ms_add_li(basename, list_id, text, value);
+					if (value && value != '') {
+                    	ms_add_li(basename, list_id, text, value);
+					}
 
                 	return false;
                 }

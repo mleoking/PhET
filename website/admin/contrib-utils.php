@@ -532,6 +532,7 @@ EOT;
 EOT;
 
         print_multiple_selection(
+			'Simulation',
             sim_get_all_sim_names(),
             contribution_get_associated_simulation_listing_names($contribution_id)
         );
@@ -542,7 +543,7 @@ EOT;
                     <p>Choose the type of contribution:</p>
                     
 EOT;
-        print_multiple_selection($all_contribution_types, $contribution_types);
+        print_multiple_selection('Type', $all_contribution_types, $contribution_types);
         
         print <<<EOT
                     <p>Choose the level of the contribution:</p>
@@ -550,6 +551,7 @@ EOT;
 EOT;
 
         print_multiple_selection(
+			'Level',
             contribution_get_all_template_level_names(),
             contribution_get_level_names_for_contribution($contribution_id)
         );
@@ -561,6 +563,7 @@ EOT;
 EOT;
     
         print_deletable_list(
+			'File',
             contribution_get_contribution_file_names($contribution_id)
         );
     
@@ -599,6 +602,7 @@ EOT;
 EOT;
         
         print_multiple_selection(
+			'Subject',
             contribution_get_all_template_subject_names(),
             contribution_get_subject_names_for_contribution($contribution_id)
         );
