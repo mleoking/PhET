@@ -116,6 +116,17 @@ EOT;
 			array('research_authors', 'research_title', 'research_publication_name')
 		);
 	}
+	
+	function research_sort_categories_cmp($r1, $r2) {		
+		if (($r1 == 'Student Beliefs and Learning') && ($r2 == 'Studies of PhET Effectiveness')) {
+			return 1;
+		}
+		else if (($r2 == 'Student Beliefs and Learning') && ($r1 == 'Studies of PhET Effectiveness')) {
+			return -1;
+		}
+		
+		return strcasecmp($r1, $r2);
+	}
     
     function research_get_all_categories() {
         $categories = array();
@@ -126,7 +137,7 @@ EOT;
             $categories[strtolower("$cat")] = "$cat";
         }
         
-        asort($categories);
+        usort($categories, 'research_sort_categories_cmp');
         
         return $categories;
     }

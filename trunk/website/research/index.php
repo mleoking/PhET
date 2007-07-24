@@ -29,11 +29,11 @@
             <h3>How the simulations affect the students'...</h3>
 
             <ul class="content-points">
-                <li>...ability to solve conceptual and quantitative problems;</li>
+                <li>ability to solve conceptual and quantitative problems;</li>
 
-                <li>...attitudes about learning physics; and</li>
+                <li>attitudes about learning physics; and</li>
 
-                <li>...perceptions of their own learning and of the simulations themselves.</li>
+                <li>perceptions of their own learning and of the simulations themselves.</li>
             </ul>
 
             <h3>Simulation effectiveness in different environments</h3>
