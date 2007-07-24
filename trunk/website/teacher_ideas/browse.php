@@ -25,7 +25,7 @@
             if (isset($contribution["$sort_by"])) {
                 $key = $contribution["$sort_by"];
                 
-                if ($sort_by == 'contributor_authors') {
+                if ($sort_by == 'contribution_authors') {
                     $names = explode(',', $key);
                     
                     $parsed_name = parse_name($names[0]);
