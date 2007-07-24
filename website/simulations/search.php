@@ -6,11 +6,12 @@
     include_once(SITE_ROOT."admin/sim-utils.php");
     include_once(SITE_ROOT."admin/site-utils.php");
     include_once(SITE_ROOT."admin/contrib-utils.php");
+    include_once(SITE_ROOT."admin/research-utils.php");
     
     include_once("../teacher_ideas/referrer.php"); 
     
     function print_content() {
-        global $sims, $contribs, $referrer;
+        global $sims, $contribs, $researches, $referrer;
         
         print "<div id=\"searchresults\">";
         print "<h1>Simulations</h1>";
@@ -52,6 +53,25 @@ EOT;
         
             print "</ul>";        
         }
+
+		print "<h1>Research</h1>";
+		
+		if (count($researches) == 0) {
+			print "<p>No research items were found meeting the specified criteria.</p>";
+		}
+		else {
+			print "<ul>";
+			
+			foreach($researches as $research) {
+				print "<li>";
+				
+				research_print($research['research_id']);
+				
+				print "</li>";
+			}
+			
+			print "</ul>";
+		}
         
         print <<<EOT
             </div>
@@ -63,8 +83,9 @@ EOT;
     if (isset($_REQUEST['search_for'])) {
         $search_for = $_REQUEST['search_for'];
         
-        $sims     = sim_search_for_sims($search_for);
-        $contribs = contribution_search_for_contributions($search_for);
+        $sims       = sim_search_for_sims($search_for);
+        $contribs   = contribution_search_for_contributions($search_for);
+		$researches = research_search_for($search_for);
 
         print_site_page('print_content', -1);        
     }

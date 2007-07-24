@@ -108,6 +108,14 @@ EOT;
             </div>
 EOT;
     }
+
+	function research_search_for($search_for) {
+		return db_search_for(
+			'research', 
+			$search_for,
+			array('research_authors', 'research_title', 'research_publication_name')
+		);
+	}
     
     function research_get_all_categories() {
         $categories = array();
