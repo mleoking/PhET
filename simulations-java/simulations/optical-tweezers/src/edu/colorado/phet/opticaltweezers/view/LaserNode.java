@@ -68,6 +68,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     private LaserControlPanel _controlPanel;
     private PNode _centerCrosshair;
     private PPath _originMarkerNode;
+    private HandleNode _leftHandleNode, _rightHandleNode;
     
     private boolean _beamVisible, _electricFieldVisible;
     
@@ -138,8 +139,8 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         
         // Handles
         double handleHeight = 0.8 * controlPanelHeight;
-        HandleNode leftHandleNode = new HandleNode( HANDLE_WIDTH, handleHeight, HANDLE_COLOR );
-        HandleNode rightHandleNode = new HandleNode( HANDLE_WIDTH, handleHeight, HANDLE_COLOR );
+        _leftHandleNode = new HandleNode( HANDLE_WIDTH, handleHeight, HANDLE_COLOR );
+        _rightHandleNode = new HandleNode( HANDLE_WIDTH, handleHeight, HANDLE_COLOR );
         
         // Layering
         addChild( objectiveNode );
@@ -151,8 +152,8 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
             addChild( _outlineNode );
         }
         addChild( _originMarkerNode );
-        addChild( leftHandleNode );
-        addChild( rightHandleNode );
+        addChild( _leftHandleNode );
+        addChild( _rightHandleNode );
         addChild( _controlPanel );
         if ( SHOW_CENTER_CROSSHAIR ) {
             addChild( _centerCrosshair );
@@ -174,19 +175,19 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         leftSupportNode.setOffset( objectiveBounds.getX(), distanceFromObjectiveToWaist - ( leftSupportNode.getHeadHeight() / 2 ) );
         rightSupportNode.setOffset( objectiveBounds.getMaxX(), distanceFromObjectiveToWaist - ( rightSupportNode.getHeadHeight() / 2 ) );
         // Handles
-        PBounds leftHandleBounds = leftHandleNode.getFullBoundsReference();
-        leftHandleNode.setOffset( controlPanelBounds.getX() - leftHandleBounds.getWidth() + 2, 
+        PBounds leftHandleBounds = _leftHandleNode.getFullBoundsReference();
+        _leftHandleNode.setOffset( controlPanelBounds.getX() - leftHandleBounds.getWidth() + 2, 
                 controlPanelBounds.getY() + ( ( controlPanelBounds.getHeight() - leftHandleBounds.getHeight() ) / 2 ) );
-        PBounds rightHandleBounds = rightHandleNode.getFullBoundsReference();
-        rightHandleNode.rotate( Math.toRadians( 180 ) );
-        rightHandleNode.setOffset( controlPanelBounds.getMaxX() + rightHandleBounds.getWidth() - 2, 
+        PBounds rightHandleBounds = _rightHandleNode.getFullBoundsReference();
+        _rightHandleNode.rotate( Math.toRadians( 180 ) );
+        _rightHandleNode.setOffset( controlPanelBounds.getMaxX() + rightHandleBounds.getWidth() - 2, 
                 controlPanelBounds.getMaxY() - ( ( controlPanelBounds.getHeight() - rightHandleBounds.getHeight() ) / 2 ) );
         
         // Put hand cursor on parts that are interactive
         Cursor cursor = OTConstants.LEFT_RIGHT_CURSOR;
         objectiveNode.addInputEventListener( new CursorHandler( cursor ) );
-        leftHandleNode.addInputEventListener( new CursorHandler( cursor ) );
-        rightHandleNode.addInputEventListener( new CursorHandler( cursor ) );
+        _leftHandleNode.addInputEventListener( new CursorHandler( cursor ) );
+        _rightHandleNode.addInputEventListener( new CursorHandler( cursor ) );
         leftSupportNode.addInputEventListener( new CursorHandler( cursor ) );
         rightSupportNode.addInputEventListener( new CursorHandler( cursor ) );
         _controlPanel.initDragCursor( cursor );
@@ -194,8 +195,8 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         // Constrain dragging
         BoundedDragHandler dragHandler = new BoundedDragHandler( this, dragBoundsNode );
         objectiveNode.addInputEventListener( dragHandler );
-        leftHandleNode.addInputEventListener( dragHandler );
-        rightHandleNode.addInputEventListener( dragHandler );
+        _leftHandleNode.addInputEventListener( dragHandler );
+        _rightHandleNode.addInputEventListener( dragHandler );
         leftSupportNode.addInputEventListener( dragHandler );
         rightSupportNode.addInputEventListener( dragHandler );
         _controlPanel.initDragHandler( this, dragBoundsNode );
@@ -239,6 +240,11 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     
     public LaserElectricFieldNode getElectricFieldNode() { 
         return _electricFieldNode;
+    }
+    
+    // For attaching help item.
+    public PNode getLeftHandleNode() {
+        return _leftHandleNode;
     }
     
     //----------------------------------------------------------------------------
