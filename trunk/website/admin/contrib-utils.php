@@ -1193,7 +1193,7 @@ EOT;
     function contribution_get_all_template_levels() {
         $levels = array();
         
-        $contribution_level_rows = db_exec_query("SELECT * FROM `contribution_level` WHERE `contribution_level_is_template`='1' ORDER BY `contribution_level_desc` ASC ");
+        $contribution_level_rows = db_exec_query("SELECT * FROM `contribution_level` WHERE `contribution_level_is_template`='1' ORDER BY `contribution_level_order` ASC ");
         
         while ($contribution_level = mysql_fetch_assoc($contribution_level_rows)) {
             $id = $contribution_level['contribution_level_id'];
@@ -1265,7 +1265,7 @@ EOT;
     function contribution_get_all_template_subjects() {
         $subjects = array();
         
-        $contribution_subject_rows = db_exec_query("SELECT * FROM `contribution_subject` WHERE `contribution_subject_is_template`='1' ORDER BY `contribution_subject_desc` ASC ");
+        $contribution_subject_rows = db_exec_query("SELECT * FROM `contribution_subject` WHERE `contribution_subject_is_template`='1' ORDER BY `contribution_subject_order` ASC ");
         
         while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
             $id = $contribution_subject['contribution_subject_id'];
@@ -1281,7 +1281,7 @@ EOT;
     function contribution_get_all_template_subject_names() {
         $subjects = array();
         
-        $contribution_subject_rows = db_exec_query("SELECT * FROM `contribution_subject` WHERE `contribution_subject_is_template`='1' ORDER BY `contribution_subject_desc` ASC ");
+        $contribution_subject_rows = db_exec_query("SELECT * FROM `contribution_subject` WHERE `contribution_subject_is_template`='1' ORDER BY `contribution_subject_order` ASC ");
         
         while ($contribution_subject = mysql_fetch_assoc($contribution_subject_rows)) {
             $id = $contribution_subject['contribution_subject_id'];
@@ -1346,7 +1346,7 @@ EOT;
     function contribution_get_all_template_type_names() {
         $types = array();
         
-        $contribution_type_rows = db_exec_query("SELECT * FROM `contribution_type` WHERE `contribution_type_is_template` = '1' ORDER BY `contribution_type_desc` ASC ");
+        $contribution_type_rows = db_exec_query("SELECT * FROM `contribution_type` WHERE `contribution_type_is_template` = '1' ORDER BY `contribution_type_order` ASC ");
         
         while ($contribution_type = mysql_fetch_assoc($contribution_type_rows)) {
             $id   = $contribution_type['contribution_type_id'];
