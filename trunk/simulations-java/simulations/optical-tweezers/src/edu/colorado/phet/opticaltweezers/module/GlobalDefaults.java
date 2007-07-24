@@ -27,7 +27,6 @@ public class GlobalDefaults {
     public static final DoubleRange FAST_DT_RANGE = new DoubleRange( 1E-7, 4E-5 );
     public static final double DEFAULT_DT = FAST_DT_RANGE.getMax();
     public static final int CLOCK_TIME_COLUMNS = 10;
-    public static final double ELECTRIC_FIELD_FAST_DT = 4E-5; // dt used to make the e-field look like it's moving really fast
     
     // Fluid model
     public static final boolean FLUID_ENABLED = true;
