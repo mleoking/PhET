@@ -208,6 +208,7 @@ EOT;
 EOT;
 
                     print_multiple_selection(
+						'Level',
                         contribution_get_all_template_level_names(),
                         array()
                     );
