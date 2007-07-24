@@ -24,7 +24,7 @@ public class GlobalDefaults {
     public static final boolean CLOCK_PAUSED = false;
     public static final int FRAME_RATE = 25; // fps, frames per second (wall time)
     public static final DoubleRange SLOW_DT_RANGE = new DoubleRange( 4E-18, 5E-16 );
-    public static final DoubleRange FAST_DT_RANGE = new DoubleRange( 8E-7, 4E-5 );
+    public static final DoubleRange FAST_DT_RANGE = new DoubleRange( 1E-7, 4E-5 );
     public static final double DEFAULT_DT = FAST_DT_RANGE.getMax();
     public static final int CLOCK_TIME_COLUMNS = 10;
     
@@ -32,7 +32,7 @@ public class GlobalDefaults {
     public static final boolean FLUID_ENABLED = true;
     public static final double FLUID_DIRECTION = Math.toRadians( 0 ); // left-to-right flow direction
     public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 0, 1000000, 0 ); // nm/sec, min must be >0
-    public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 1E-4, 1E-2, Fluid.WATER_VISCOSITY ); // Pa*s
+    public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 5E-4, 1E-2, Fluid.WATER_VISCOSITY ); // Pa*s
     public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 298 ); // Kelvin
     
     // Bead model
