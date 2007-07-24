@@ -262,6 +262,14 @@ EOT;
         $date   = get_sorting_link('contribution_date_updated', 'Updated');
         
         $contributions = consolidate_identical_adjacent_titles($contributions);
+
+		if (count($contributions) == 0) {
+			print <<<EOT
+				<p>No contributions were found meeting the specified criteria.</p>
+EOT;
+
+			return;
+		}
         
         print <<<EOT
 
