@@ -56,6 +56,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 0.00.29 (?)
 7/24/07 - for bead-in-vacuum, when (laserPower * dt >= 240e-5), fake bead motion to look "really fast"
 7/24/07 - add help items ("Movable bead", "Movable laser", "Movable ruler")
 7/24/07 - make fast e-field behavior use dt=4E-5 to protect against changes to dt.fast.max
