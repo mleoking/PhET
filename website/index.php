@@ -79,12 +79,7 @@ EOT;
             <p class="findOutMore">
                 <a href="simulations/index.php?cat=Top_Simulations">
                     <img src="images/findOutMore.gif" alt="Find out More" title="Find out More" />
-                </a>
-                
-                <br />
-                <br />
-            
-                <img src="images/version_es.gif" />            
+                </a>   
             </p>
 
             <div class="clear"></div>
