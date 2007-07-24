@@ -69,7 +69,7 @@ EOT;
     <div id="container">
         <div class="home-page">
             <div class="mainImage">    
-                <img width="300" src="random-thumbnail.php" alt="" />
+                <img width="300" src="random-thumbnail.php" alt="Random screenshot of a simulation" />
             </div>
 
             <h1>Interactive Physics Simulations</h1>
@@ -84,11 +84,7 @@ EOT;
                 <br />
                 <br />
             
-                <img src="images/version_es.gif" /> 
-                
-                    <a class="espanol" href="http://translate.google.com/translate?hl=es&amp;sl=en&amp;u=http://phet.colorado.edu/new/index.php">Simulaciones en espa&ntilde;ol
-                    </a>
-            
+                <img src="images/version_es.gif" />            
             </p>
 
             <div class="clear"></div>

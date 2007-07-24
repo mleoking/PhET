@@ -451,9 +451,11 @@
                 $animated_images = array();
                 
                 foreach (sim_get_sims_by_cat_id($cat_id) as $simulation) {
-                    $sim_animated_image_url = $simulation["$field"];
-                    
-                    $animated_images[] = $sim_animated_image_url;
+                   	$sim_animated_image_url = $simulation["$field"];
+                   
+					if ($sim_animated_image_url != '') {
+                   		$animated_images[] = $sim_animated_image_url;
+					}
                 }
                 
                 return $animated_images;
