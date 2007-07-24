@@ -85,8 +85,8 @@
             1024x768 screen resolution or better<br />
             Sun Java 1.4.2_10 or later<br />
             Macromedia Flash 7 or later<br />
-            Firefox 2 or later<br /></p>
-            
+			Firefox 2 or later<br/></p>
+			            
             <p><strong>Support Software</strong></p>
             
             <p>Some of our simulations use Java, and some use Flash. Both of these are available as free downloads, and our downloadable installer includes Java for those who need it.</p>
@@ -190,7 +190,7 @@
 
             <h3 id="q10" >I would like to translate PhET Simulations into another Language. Can this be easily done?</h3>
 
-            <p>The PhET simulations have been written so that they are easily translated to languages other than English. Contact us at <a href="mailto:phethelp@colorado.edu?Subject=Simulation%20Translation">phethelp@colorado.edu</a> for more information.</p>
+            <p>The PhET simulations have been written so that they are easily translated to languages other than English. Please <a href="../contribute/index.php">click here</a> for more information.</p>
 EOT;
     }
 

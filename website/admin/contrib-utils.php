@@ -1628,7 +1628,7 @@ EOT;
                      "\n".
                      "Dear $contributor_name, \n".
                      "\n".
-                     "Your password is \"$contributor_password.\"\n".
+                     "Your password is \"$contributor_password\"\n".
                      "\n".
                      "Regards,\n".
                      "\n".
