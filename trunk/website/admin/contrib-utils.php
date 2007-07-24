@@ -10,30 +10,11 @@
     include_once(SITE_ROOT."admin/sim-utils.php");  
     
     function contribution_search_for_contributions($search_for) {
-        $contributions = array();
-        
-        $st  = "SELECT * FROM `contribution` WHERE ";          
-        
-        $is_first = true;
-        
-        foreach(preg_split('/( +)|( *, *)/i', $search_for) as $word) {
-            if ($is_first) {
-                $is_first = false;
-            }
-            else {
-                $st .= " AND ";
-            }
-            
-            $st .= "(`contribution_title` LIKE '%$word%' OR `contribution_desc` LIKE '%$word%' OR `contribution_keywords` LIKE '%$word%' )";
-        }
-        
-        $result = db_exec_query($st);
-        
-        while ($contribution = mysql_fetch_assoc($result)) {
-            $contributions[] = $contribution;
-        }
-        
-        return $contributions;
+    	return db_search_for(
+			'contribution', 
+			$search_for, 
+			array('contribution_title', 'contribution_desc', 'contribution_keywords', 'contribution_authors')
+		);
     }
     
     function contribution_get_comments($contribution_id) {

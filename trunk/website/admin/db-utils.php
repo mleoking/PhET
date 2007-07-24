@@ -104,6 +104,50 @@
         return $rows;
     }
 
+	function db_search_for($table_name, $search_for, $fields_to_search) {
+        $rows = array();
+
+        $st = "SELECT * FROM `$table_name` WHERE ";          
+
+        $is_first = true;
+
+        foreach(preg_split('/( +)|( *, *)/i', $search_for) as $word) {
+            if ($is_first) {
+                $is_first = false;
+            }
+            else {
+                $st .= " AND ";
+            }
+
+			if (count($fields_to_search) > 0) {
+				$st .= "(";
+				
+				$is_first2 = true;
+			
+				foreach ($fields_to_search as $field) {
+					if ($is_first2) {
+						$is_first2 = false;
+					}
+					else {
+						$st .= " OR ";
+					}
+					
+					$st .= " `$field` LIKE '%$word%' ";
+				}
+			
+				$st .= ")";
+			}
+        }
+
+        $result = db_exec_query($st);
+
+        while ($row = mysql_fetch_assoc($result)) {
+            $rows[] = format_for_html($row);
+        }
+
+        return $rows;
+	}
+	
 	function db_form_alternation_where_clause($table_name, $field_name, $field_values) {
 		if (count($field_values) == 0) return '';
 		

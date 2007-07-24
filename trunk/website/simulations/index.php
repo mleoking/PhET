@@ -66,6 +66,8 @@
             print "<div id=\"listing_type\">$link</div>";
 
             if ($num_sims_in_category > SIMS_PER_PAGE) {
+				$current_page = $sim_start_number / SIMS_PER_PAGE + 1;
+				
                 // Don't bother printing this section unless there are more sims than will fit on one page:
                 print "<div id=\"pg\">\n";
                 
@@ -76,12 +78,22 @@
 
                     $page_sim_start_number = SIMS_PER_PAGE * $n; 
                     
-                    $link = sim_get_category_link_by_cat_id($cat_id, "$page_number", "&amp;st=$page_sim_start_number", 'pg');
+					if ($page_number == $current_page && $sim_limit != 999) {
+						$link = "$page_number";
+					}
+					else {
+						$link = sim_get_category_link_by_cat_id($cat_id, "$page_number", "&amp;st=$page_sim_start_number", 'pg');
+					}
 
                     print "$link";
                 }
-                
-                $link = sim_get_category_link_by_cat_id($cat_id, "view all&raquo;", "&amp;st=-1", 'pg');
+
+				if ($sim_limit == 999) {
+					$link = "view all&raquo;";
+				}
+                else {
+                	$link = sim_get_category_link_by_cat_id($cat_id, "view all&raquo;", "&amp;st=-1", 'pg');
+				}
 
                 print "$link";
                 

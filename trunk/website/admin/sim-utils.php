@@ -208,30 +208,11 @@
     }
     
     function sim_search_for_sims($search_for) {
-        $simulations = array();
-        
-        $st = "SELECT * FROM `simulation` WHERE ";
-        
-        $is_first = true;
-        
-        foreach(preg_split('/( +)|( *, *)/i', $search_for) as $word) {            
-            if ($is_first) {
-                $is_first = false;
-            }
-            else {
-                $st .= " AND ";
-            }
-            
-            $st .= "(`sim_name` LIKE '%$word%' OR `sim_desc` LIKE '%$word%' OR `sim_keywords` LIKE '%$word%' OR  `sim_main_topics` LIKE '%$word%' OR `sim_sample_goals` LIKE '%$word%' )";
-        }
-        
-        $result = db_exec_query($st);
-        
-        while ($simulation = mysql_fetch_assoc($result)) {
-            $simulations[] = $simulation;
-        }
-        
-        return $simulations;
+		return db_search_for(
+			'simulation', 
+			$search_for, 
+			array('sim_name', 'sim_desc', 'sim_keywords', 'sim_main_topics', 'sim_sample_goals')
+		);
     }
     
     function gather_sim_fields_into_globals($sim_id) {
