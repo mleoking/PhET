@@ -70,17 +70,22 @@
     function get_contributions() {
         global $sort_by, $order, $next_order;
         
-        $contributions = contribution_get_all_contributions();
-        
-        $contributions = contribution_explode_contributions($contributions);
-        
-        $contributions = sort_contributions($contributions, $sort_by, $order);
-        
+        // $contributions = contribution_get_all_contributions();
+        //         
+        //         $contributions = contribution_explode_contributions($contributions);
+        //         
+        //         
+        //         
         global $Simulations, $Types, $Levels;
-        
-        $contributions = filter_contributions($contributions, 'sim_name',                $Simulations);
-        $contributions = filter_contributions($contributions, 'contribution_type_desc',  $Types);
-        $contributions = filter_contributions($contributions, 'contribution_level_desc', $Levels);
+
+        //         
+        //         $contributions = filter_contributions($contributions, 'sim_name',                $Simulations);
+        //         $contributions = filter_contributions($contributions, 'contribution_type_desc',  $Types);
+        //         $contributions = filter_contributions($contributions, 'contribution_level_desc', $Levels);
+
+		$contributions = contribution_get_specific_contributions($Simulations, $Types, $Levels);
+		
+		$contributions = sort_contributions($contributions, $sort_by, $order);
         
         return $contributions;        
     }

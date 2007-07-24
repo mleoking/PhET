@@ -1522,6 +1522,57 @@ EOT;
         return $final;
     }
 
+	function contribution_get_specific_contributions($sim_names, $type_descs, $level_descs) {
+		$contributions = array();
+		
+		array_remove($sim_names,   'all');
+		array_remove($type_descs,  'all');
+		array_remove($level_descs, 'all');
+        
+        $query = "SELECT * FROM `contribution`";
+
+		$where = '';
+
+		if (count($sim_names) > 0) {
+			$query .= " LEFT JOIN `simulation_contribution` ON `contribution`.`contribution_id`=`simulation_contribution`.`contribution_id`";
+			$query .= " LEFT JOIN `simulation` ON `simulation_contribution`.`sim_id`=`simulation`.`sim_id`";
+
+			$where .= ' WHERE';
+			
+			$where .= db_form_alternation_where_clause('simulation', 'sim_name', $sim_names);
+		}
+
+		$query .= " LEFT JOIN `contribution_type` ON `contribution`.`contribution_id`=`contribution_type`.`contribution_id`";
+		
+		if (count($type_descs) > 0) {			
+			if (strlen($where) > 0) $where .= " AND";
+			else $where .= ' WHERE';
+			
+			$where .= db_form_alternation_where_clause('contribution_type', 'contribution_type_desc', $type_descs);
+		}
+		
+		$query .= " LEFT JOIN `contribution_level` ON `contribution`.`contribution_id`=`contribution_level`.`contribution_id`";
+		
+		if (count($level_descs) > 0) {	
+			if (strlen($where) > 0) $where .= " AND";
+			else $where .= ' WHERE';			
+			
+			$where .= db_form_alternation_where_clause('contribution_level', 'contribution_level_desc', $level_descs);
+		}
+		
+		$query .= "$where ORDER BY `contribution`.`contribution_title` ASC";
+		
+		$contribution_rows = db_exec_query($query);
+		         
+         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
+             $contribution_id = $contribution['contribution_id'];
+             
+             $contributions["$contribution_id"] = format_for_html($contribution);
+         }
+         
+         return $contributions;
+	}
+
     function contribution_get_all_contributions() {
         $contributions = array();
         

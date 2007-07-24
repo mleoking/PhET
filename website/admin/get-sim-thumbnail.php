@@ -55,5 +55,5 @@
 		imagejpeg($tmp_img, $file);
 	}
 	
-	send_file_to_browser($file);
+	send_file_to_browser($file, file_get_contents($file), 'image/jpeg');
 ?>

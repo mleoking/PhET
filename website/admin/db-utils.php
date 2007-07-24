@@ -103,6 +103,29 @@
         
         return $rows;
     }
+
+	function db_form_alternation_where_clause($table_name, $field_name, $field_values) {
+		if (count($field_values) == 0) return '';
+		
+		$where = ' (';
+		
+		$is_first = true;
+		
+		foreach ($field_values as $field_value) {
+			if ($is_first) {
+				$is_first = false;
+			}
+			else {
+				$where .= " OR";
+			}
+			
+			$where .= " `$table_name`.`$field_name`='$field_value'";
+		}
+		
+		$where .= ' )';
+		
+		return $where;
+	}
     
     function db_get_row_by_id($table_name, $id_name, $id_value) {
         $query = "SELECT * FROM `$table_name` WHERE `$id_name`='$id_value' ";
