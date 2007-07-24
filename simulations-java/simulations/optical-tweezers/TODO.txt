@@ -62,6 +62,8 @@ MISSING INFO:
 
  
 DONE:
+7/24/07 - change lower threshold on viscosity to 5e-4
+7/24/07 - change bottom end of "fast speed" to 1.0e-7 (8 times slower)
 7/24/07 - change description as requested
 ********* version 0.00.28 (16736)
 7/14/07 - add description to About dialog
