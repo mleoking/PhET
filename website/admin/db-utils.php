@@ -171,7 +171,9 @@
 		return $where;
 	}
     
-    function db_get_row_by_id($table_name, $id_name, $id_value) {
+    function db_get_row_by_id($table_name, $id_name, $id_value, $clean = true) {
+		$id_value = mysql_escape_string($id_value);
+		
         $query = "SELECT * FROM `$table_name` WHERE `$id_name`='$id_value' ";
         
         $rows = db_exec_query($query);
@@ -182,6 +184,8 @@
         
         if (!$assoc) return false;
         
+		if (!$clean) return $assoc;
+		
         $cleaned = array();
         
         foreach($assoc as $key => $value) {

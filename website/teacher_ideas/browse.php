@@ -259,14 +259,17 @@ EOT;
             $sims = '';
         }
         
-        $date   = get_sorting_link('contribution_date_updated', 'Updated');
+        $date = get_sorting_link('contribution_date_updated', 'Updated');
         
         $contributions = consolidate_identical_adjacent_titles($contributions);
 
 		if (count($contributions) == 0) {
-			print <<<EOT
-				<p>No contributions were found meeting the specified criteria.</p>
-EOT;
+			if ($GLOBALS['g_content_only']) {
+				print "<p>There are no contributions for this simulation.</p>";
+			}
+			else {
+				print "<p>There are no contributions meeting the specified criteria.</p>";
+			}
 
 			return;
 		}
@@ -494,9 +497,13 @@ EOT;
     }
     
     if (isset($_REQUEST['content_only']) || isset($content_only)) {
+		$GLOBALS['g_content_only'] = true;
+		
         print_content_only(!isset($sim_id));
     }
     else {
+		$GLOBALS['g_content_only'] = false;
+		
         print_site_page('print_content_with_header', 3);
     }
 

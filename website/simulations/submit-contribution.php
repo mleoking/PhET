@@ -39,7 +39,7 @@
     $contribution_id = contribution_add_new_contribution($contribution_title, $contributor_id, $tmp_name, $name);
     
     // Handle files:
-    for ($i = 1; true; $i++) {
+    for ($i = 1; true; $i++) {		
         $file_key = "MF__F_0_$i";
         
         if (!isset($_FILES[$file_key])) {            

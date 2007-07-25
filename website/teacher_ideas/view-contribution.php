@@ -50,6 +50,8 @@
             $comments_html .= '</em>&quot; - '.$comment['contributor_name'];
             $comments_html .= '</p>';
         }
+
+		$contribution_simulations = contribution_get_simulation_listings_as_list($contribution_id);
         
         print <<<EOT
         <div id="contributionview">
@@ -99,6 +101,12 @@
                 
                 <span class="label">title</span>
             </div>            
+
+            <div class="field">
+                <span class="label_content">$contribution_simulations &nbsp;</span>
+                
+                <span class="label">simulations</span>
+            </div>
             
             <div class="field">
                 <span class="label_content" id="keywords">$contribution_keywords</span>

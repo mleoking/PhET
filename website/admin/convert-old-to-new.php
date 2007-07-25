@@ -596,6 +596,11 @@
 		}
         
         switch_to_new();
+
+		// Remove HTML entities:
+		foreach ($new_contrib as $key => $value) {
+			$new_contrib[$key] = html_entity_decode($value);
+		}
         
         $new_contribution_id = db_insert_row(
             'contribution',
