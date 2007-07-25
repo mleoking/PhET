@@ -31,6 +31,10 @@ p {
 fieldset {
 	margin: 1ex 2em 1ex 2em;
 }
+input, textarea, select {
+	background: rgb(220, 220, 220);
+	border:1px solid #999999;
+}
 .clear {
 	clear:both;
 }
@@ -264,9 +268,6 @@ div.form_content {
 	margin:  0;
 	padding: 0.5ex 0 0.5ex 0;
 }
-.field input, .field textarea {
-	background: rgb(220, 220, 220);
-}
 .field .label {
 	width: 			25%;
     font-weight:	bold;	
@@ -348,19 +349,7 @@ div.horizontal_center {
 	margin-right: auto;
 }
 
-/******** Contribution edit form *********/
-#contributioneditform {
-    width:		100%;
-    margin:		auto;
-    padding:	0px 0px 25px 0px;
-}
-#contributioneditform fieldset {
-    padding:10px;
-}
-#contributioneditform legend {
-    font-weight:bold;
-    font-size: 14pt;
-}
+
 #twofacelogin {
 	padding: 0;
 	margin:  0;
@@ -394,6 +383,24 @@ div.horizontal_center {
     font-weight:bold;
     font-size: 10pt;
 }
+/******** Contribution edit form *********/
+#contributioneditform {
+    width:		100%;
+    margin:		auto;
+    padding:	0px 0px 25px 0px;
+}
+#contributioneditform fieldset {
+    padding:10px;
+}
+#contributioneditform legend {
+    font-weight:bold;
+    font-size: 14pt;
+}
+#contributioneditform .label {
+	padding-left: 0px;
+	margin-left:  0px;
+}
+
 /*
 #contributioneditform label, p {
     display:		block;
@@ -405,10 +412,20 @@ div.horizontal_center {
     border:			1px solid #999999;
     background:		#CCCCCC;
 }*/
-#contributioneditform *.multiselector {
+#contributioneditform fieldset p {
+	padding: 0;
+	margin:  0;
+}
+#contributioneditform fieldset *.multiselector {
 	width:          500px;
     float:			right;
-	margin-top:     1em;
+	margin-top:        0;
+	margin-bottom:     1em;
+	margin-left:		0;
+	padding-left:		0;
+}
+#contributioneditform fieldset ul li {
+	width: 500px;
 }
 #contributioneditform *.selector, #contributioneditform *.inputcontainer {
 	width:          400px;
