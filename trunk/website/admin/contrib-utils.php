@@ -394,17 +394,13 @@ EOT;
         global $contributor_authenticated;
         
         $contribution = contribution_get_contribution_by_id($contribution_id);
-        
-        if (!$contribution) {            
+
+        if (!$contribution) {
             // Allow 'editing' of non-existent contributions:
             $contribution = db_get_blank_row('contribution');
         }
         
         eval(get_code_to_create_variables_from_array($contribution));
-        
-        $contribution_authors_organization = '';
-        $contribution_contact_email        = '';
-        $contribution_authors              = '';
         
         do_authentication(false);
         
@@ -432,7 +428,7 @@ EOT;
         }            
         
         if (!isset($contribution_title) || $contribution_title == '') {
-            $contribution_title = "A contribution from me";
+            $contribution_title = "";
         }
         
         $all_contribution_types = contribution_get_all_template_type_names();
@@ -619,6 +615,7 @@ EOT;
                 "0"     => "NA",
                 "30"    => "30 minutes",
                 "60"    => "60 minutes",
+				"90"    => "90 minutes",
                 "120"   => "120 minutes"
             ),
             $contribution_duration
@@ -823,6 +820,27 @@ EOT;
 EOT;
     }
 
+	function contribution_get_simulation_listings_as_list($contribution_id) {
+		$names = contribution_get_associated_simulation_listing_names($contribution_id);
+		
+		$list = '';
+		
+		$is_first = true;
+		
+		foreach ($names as $name) {
+			if ($is_first) {
+				$is_first = false;
+			}
+			else {
+				$list .= ', ';
+			}
+			
+			$list .= $name;
+		}
+		
+		return $list;
+	}
+
     function contribution_print_summary3($contribution, $print_sims = true) {    
         global $referrer;
         
@@ -830,13 +848,15 @@ EOT;
         
         $sim_list = "None";
         
-        if (isset($sim_name)) {
+        if (isset($sim_name) && trim($sim_name) != '') {
             $sim_list = '';
             
             $is_first = true;
             
-            foreach(preg_split('/ *, */', $sim_name) as $sim) {
-                $simulation = sim_get_sim_by_name($sim);
+            foreach(explode(',', $sim_name) as $sim) {
+				$sim = trim($sim);
+
+				$cur_sim_link = sim_get_link_to_sim_page_by_name($sim);
                 
                 if ($is_first) {
                     $is_first = false;
@@ -845,7 +865,7 @@ EOT;
                     $sim_list .= '<br/>';
                 }
                 
-                $sim_list .= sim_get_link_to_sim_page($simulation['sim_id']);
+                $sim_list .= $cur_sim_link;
             }
         }
         
@@ -856,10 +876,6 @@ EOT;
         $type_list = contribution_generate_association_abbr(
             $contribution, 'contribution_type'
         );
-
-		$contributor = contributor_get_contributor_by_id($contributor_id);
-		
-		eval(get_code_to_create_variables_from_array($contributor));
 
         $contribution_authors = explode(',', $contribution_authors);
     
@@ -881,7 +897,7 @@ EOT;
                 <a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
 EOT;
 
-		if ($contributor_is_team_member) {
+		if (isset($contributor_is_team_member) && $contributor_is_team_member) {
 			$title_html = "${title_html} <img src=\"../images/phet-logo-icon.jpg\" alt=\"Image of PhET Icon\" title=\"Contributed by PhET\"/>";
 		}
         
@@ -1507,7 +1523,7 @@ EOT;
         return $final;
     }
 
-	function contribution_get_specific_contributions($sim_names, $type_descs, $level_descs) {
+	function contribution_get_specific_contributions($sim_names, $type_descs, $level_descs, $include_contributor = true) {
 		$contributions = array();
 		
 		$sim_names   = array_remove($sim_names,   'all');
@@ -1518,10 +1534,10 @@ EOT;
 
 		$where = '';
 
-		if (count($sim_names) > 0) {
-			$query .= " LEFT JOIN `simulation_contribution` ON `contribution`.`contribution_id`=`simulation_contribution`.`contribution_id`";
-			$query .= " LEFT JOIN `simulation` ON `simulation_contribution`.`sim_id`=`simulation`.`sim_id`";
+		$query .= " LEFT JOIN `simulation_contribution` ON `contribution`.`contribution_id`=`simulation_contribution`.`contribution_id`";
+		$query .= " LEFT JOIN `simulation` ON `simulation_contribution`.`sim_id`=`simulation`.`sim_id`";
 
+		if (count($sim_names) > 0) {
 			$where .= ' WHERE';
 			
 			$where .= db_form_alternation_where_clause('simulation', 'sim_name', $sim_names);
@@ -1544,6 +1560,8 @@ EOT;
 			
 			$where .= db_form_alternation_where_clause('contribution_level', 'contribution_level_desc', $level_descs);
 		}
+		
+		$query .= " LEFT JOIN `contributor` ON `contribution`.`contributor_id`=`contributor`.`contributor_id`";
 		
 		$query .= "$where ORDER BY `contribution`.`contribution_title` ASC";
 		

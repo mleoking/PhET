@@ -1077,7 +1077,7 @@ h1.indi-sim {
 }
 #content *.compact table td {
 	background-color: 	transparent;
-	padding: 		  	0.25ex 0 0.25ex 2ex;
+	padding: 		  	0.25ex 0 1ex 2ex;
 	margin:				0 0 0 0;
 
 	border-style:		none;

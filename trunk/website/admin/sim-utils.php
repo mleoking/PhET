@@ -103,15 +103,19 @@
         
         return $sim['sim_id'];
     }
+
+    function sim_get_url_to_sim_page_by_sim_name($sim_name) {
+        $sim_encoding = web_encode_string($sim_name);
+        
+        return "../simulations/sims.php?sim=$sim_encoding";
+    }
     
     function sim_get_url_to_sim_page($sim_id) {
         $sim = sim_get_sim_by_id($sim_id);
         
         $sim_name = $sim['sim_name'];
-        
-        $sim_encoding = web_encode_string($sim_name);
-        
-        return "../simulations/sims.php?sim=$sim_encoding";
+
+		return sim_get_url_to_sim_page_by_sim_name($sim_name);
     }
     
     function sim_get_link_to_sim_page($sim_id, $desc = null) {
@@ -125,6 +129,12 @@
         
         return "<a href=\"$url\">$desc</a>";
     }
+
+	function sim_get_link_to_sim_page_by_name($sim_name) {
+		$url = sim_get_url_to_sim_page_by_sim_name($sim_name);
+		
+		return "<a href=\"$url\">$sim_name</a>";
+	}
     
     function sim_get_visible_categories() {
         $cats = array();
@@ -193,10 +203,14 @@
     }
     
     function sim_get_sim_by_name($sim_name) {
-        $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_name`= '$sim_name' ";
-        $simulation    = mysql_fetch_assoc(mysql_query($select_sim_st));
-        
-        return $simulation;
+		$sim = db_get_row_by_id('simulation', 'sim_name', "$sim_name", false);
+		
+		if ($sim === false) {
+			// Could not find sim by name; try html decoding name:
+			$sim = db_get_row_by_id('simulation', 'sim_name', html_entity_decode($sim_name), false);
+		}
+		
+		return $sim;
     }
     
     function sim_get_sim_by_id($sim_id) {
