@@ -1416,3 +1416,22 @@ img.sponsors {
 	background-position: -394px 0;
 	color: #000000;
 }
+
+
+#utility-panel {
+	width:    20em;
+	height:   1em;
+	position: fixed;
+	right:    1em;
+	top:      1em;
+	text-align: right;
+	color: white;
+}
+#utility-panel a,
+#utility-panel a:visited,
+#utility-panel a:hover,
+#utility-panel a:active {
+	color: white;
+	text-decoration: underline;
+	text-transform: lowercase;
+}
