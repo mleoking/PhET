@@ -21,7 +21,9 @@ public class RotationColorScheme {
     public static final Color ANGULAR_VELOCITY_COLOR = LIGHT_GREEN;
     public static final Color ANGULAR_ACCELERATION_COLOR = LIGHT_RED;
 
-    public static final Color X_COLOR = Color.green;
+//    public static final Color X_COLOR = Color.green;
+    //    public static final Color X_COLOR = new Color( 100,200,10);
+    public static final Color X_COLOR = new Color( 190, 10, 200 );
     public static final Color Y_COLOR = Color.red;
     public static final Color R_COLOR = Color.blue;
 
@@ -33,6 +35,8 @@ public class RotationColorScheme {
     public static final Color AY_COLOR = Color.green;
     public static final Color AM_COLOR = ACCELERATION_COLOR;
 
-    public static final Color PLATFORM_ANGLE_COLOR = Color.gray;
-    public static final Color PLATFORM_ANGULAR_VELOCITY_COLOR = Color.gray;
+    //    public static final Color PLATFORM_ANGLE_COLOR = Color.gray;
+    public static final Color PLATFORM_ANGLE_COLOR = LIGHT_BLUE;
+    public static final Color PLATFORM_ANGULAR_VELOCITY_COLOR = LIGHT_GREEN;
+    public static final Color PLATFORM_ANGULAR_ACCEL_COLOR = LIGHT_RED;
 }
