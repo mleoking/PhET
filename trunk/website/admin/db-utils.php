@@ -163,6 +163,8 @@
 				$where .= " OR";
 			}
 			
+			$field_value = mysql_real_escape_string($field_value);
+			
 			$where .= " `$table_name`.`$field_name`='$field_value'";
 		}
 		

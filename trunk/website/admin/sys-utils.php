@@ -24,10 +24,16 @@
                 $authentification = base64_encode($user.':'.$pass);
                 $authline = "Authorization: Basic $authentification\r\n";
             }
+			else {
+				$authline = '';
+			}
 
             if (!empty($referer)) {
                 $refererline = "Referer: $referer\r\n";
             }
+			else {
+				$refererline = '';
+			}
 
             $url_info=parse_url($url);
             $port = isset($url_info['port']) ? $url_info['port'] : 80;
@@ -92,7 +98,10 @@
     }
     
     function urlsize($url) {
-        $sch = parse_url($url, PHP_URL_SCHEME);
+		$parsed_url = parse_url($url);
+
+		$sch = $parsed_url['scheme'];
+		
         if (($sch != "http") && ($sch != "https") && ($sch != "ftp") && ($sch != "ftps")) {
             return false;
         }

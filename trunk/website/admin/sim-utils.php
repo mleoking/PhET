@@ -331,7 +331,7 @@
         
         return $simulations;        
     }
-    
+
     function sim_auto_calc_sim_size($sim_id) {        
         $simulation = sim_get_sim_by_id($sim_id);
         
@@ -373,6 +373,9 @@
 						
 						$size += url_or_file_size($href);
 	                }
+				}
+				else {
+					print "No hrefs found to auto-calc sim size <br/>";
 				}
             }
             else {

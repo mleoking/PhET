@@ -219,7 +219,7 @@ EOT;
 EOT;
     }
     
-    function print_site_page($content_printer, $selected_page = null) {
+    function print_site_page($content_printer, $selected_page = null, $redirection_site = null, $timeout = 0) {
         $request_uri = $_SERVER['REQUEST_URI'];
         
         // Don't require authentication, but do it if the cookies are available:
@@ -230,6 +230,13 @@ EOT;
         $prefix = "..";
         
         expire_page_immediately();
+
+		if ($redirection_site != null) {
+			$meta_redirect = "<meta http-equiv=\"Refresh\" content=\"$timeout;url=$redirection_site\" />";
+		}
+		else {
+			$meta_redirect = '';
+		}
 
 /*
 
@@ -248,6 +255,7 @@ EOT;
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
                 <meta http-equiv="Pragma"  content="no-cache" />
                 <meta http-equiv="Expires" content="-1" />
+				$meta_redirect
                 
                 <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" />
                 

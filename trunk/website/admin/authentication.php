@@ -44,6 +44,10 @@
         static $already_tried_login_required = null;
         global $contributor_authenticated;
 
+		if (isset($_REQUEST['login_required']) && $_REQUEST['login_required'] == "true") {
+			$login_required = true;
+		}
+
         if ($login_required === $already_tried_login_required) {
             return $contributor_authenticated;
         }
@@ -80,6 +84,8 @@
             }
             else if (isset($_REQUEST['contributor_email'])) {
                 $username = $_REQUEST['contributor_email'];
+
+				$GLOBALS['username'] = $username;
             }
         
             if ((!isset($username) || $username == '') && isset($_REQUEST['contributor_name'])) {
@@ -97,6 +103,8 @@
             }
             else if (isset($_REQUEST['contributor_password'])) {
                 $password = $_REQUEST['contributor_password'];
+
+				$GLOBALS['password'] = $password;
             }
 
             if (!isset($username) || !isset($password)) {   
@@ -117,11 +125,11 @@
                     $password_hash = md5($password);
         
                     if (!contributor_is_valid_login($username, $password_hash)) {
-                        if ($login_required) {
-                            print_site_page('print_retry_login_form', 3);
+                        contributor_send_password_reminder($username);
 
-                            contributor_send_password_reminder($username);
-        
+                        if ($login_required) {
+                            print_site_page('print_retry_login_form', 3);        
+
                             exit;
                         }
                     }
