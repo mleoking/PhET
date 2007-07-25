@@ -7,10 +7,6 @@ Yep, and platform data would be lightest shade of color you choose.
 
 3. make clear which graph associated with which object, just referring to choice of colors
 
-My recommendation was to have the subscripts on the values in the graph and have
-these colors match the color of the graph (as shown in the modified screen shots I sent)
-Readouts for angular variables should also have a variable_subscript = value format
-
 Also we wanted to have "Show Ladybug graphs" and "Show Platform graphs" check boxes in same place as beatle control.
 
 5. add platform series for omega and alpha, even though will always be 3 series on top of each other
