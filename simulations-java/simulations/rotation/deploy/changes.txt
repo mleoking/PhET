@@ -1,3 +1,5 @@
+Changed velocity to green and acceleration to pink.
+
 0.00.46
 Fixed: Type-in text box doesn't update when changing units and the sim is paused.
 

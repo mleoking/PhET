@@ -2,17 +2,14 @@
 #     To Do
 ################################
 
-•	Names for the sim?  Beetle-go-round?  Bugs on a platter?  Rotational Motion?  Angular Motion?
-    -Ladybug on Rotation?
-    -Ladybug Revolution?
-•	Better graphics/characters?  Beetle will be undesirable for some?
-•	plot theta, omega and alpha for the rotation platform, thin gray line as 1st series in angular charts (underneath others in z-ordering)
-    -this will make the text box variable color as well by default
-    -what should be done about these colors?
 •	There is no "pause" button when the simulation switches to "live mode" when the chart runs out and the simulation stops recordings
 
 1. change colors to velocity=green (to match ke in other sims), acceleration=pink
                 I take it this means omega and euclidean speed?
+
+•	plot theta, omega and alpha for the rotation platform, thin gray line as 1st series in angular charts (underneath others in z-ordering)
+    -this will make the text box variable color as well by default
+    -what should be done about these colors?
 
 Velocity=green and acceleration=pink are v and a.  omega and alpha should be related but not the same colors.
 I believe Kathy’s document that had suggested colors should work pretty well if you just switch what she has for omega with what
@@ -53,6 +50,7 @@ If you take a stab at a draft of the abstract, I'd be happy to give feedback.
 •	Improve performance
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
     -this may be due in part to time series filling up in "live mode", early enough data should be discarded
+•	Better graphics/characters?  Beetle will be undesirable for some?
 
 Lower Priority:
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
