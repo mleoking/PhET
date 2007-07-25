@@ -21,18 +21,19 @@ public class ControlGraphSeries {
     private boolean visible = true;
     private Stroke stroke;
     private boolean editable;
+    private String character;
 
     private ArrayList listeners = new ArrayList();
 
-    public ControlGraphSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
-        this( title, color, abbr, units, simulationVariable, observableTimeSeries, BufferedSeriesView.DEFAULT_STROKE );
+    public ControlGraphSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, String character ) {
+        this( title, color, abbr, units, simulationVariable, observableTimeSeries, BufferedSeriesView.DEFAULT_STROKE, character );
     }
 
-    public ControlGraphSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
-        this( title, color, abbr, units, simulationVariable, observableTimeSeries, stroke, false );
+    public ControlGraphSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke, String character ) {
+        this( title, color, abbr, units, simulationVariable, observableTimeSeries, stroke, false, character );
     }
 
-    public ControlGraphSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke, boolean editable ) {
+    public ControlGraphSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke, boolean editable, String character ) {
         this.units = units;
         this.editable = editable;
         this.stroke = stroke;
@@ -41,6 +42,8 @@ public class ControlGraphSeries {
         this.abbr = abbr;
         this.simulationVariable = simulationVariable;
         this.observableTimeSeries = observableTimeSeries;
+        this.character=character;
+        assert character!=null;
     }
 
     public String getTitle() {
@@ -94,6 +97,10 @@ public class ControlGraphSeries {
             Listener listener = (Listener)listeners.get( i );
             listener.unitsChanged();
         }
+    }
+
+    public String getCharacterName() {
+        return character;
     }
 
     public static interface Listener {
