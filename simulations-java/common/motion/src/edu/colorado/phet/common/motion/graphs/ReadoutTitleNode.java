@@ -56,11 +56,6 @@ public class ReadoutTitleNode extends PNode {
 
     protected void updateText() {
         String valueText = decimalFormat.format( getValueToDisplay() );
-        while( valueText.length() < "-360.00".length() ) {
-            valueText = " " + valueText;
-        }
-//        titlePText.setText( series.getTitle() + " " + valueText + " " + series.getUnits() );
-//        titlePText.setText( series.getAbbr() + " " + valueText + " " + series.getUnits() );
         titlePText.setHtml( "<html>" + series.getAbbr() + "<sub>" + series.getCharacterName() + "</sub>=" + valueText + " " + series.getUnits() );
         background.setPathTo( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ) );//todo: avoid setting identical shapes here for performance considerations
     }
