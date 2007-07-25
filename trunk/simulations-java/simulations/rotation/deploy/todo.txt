@@ -11,6 +11,45 @@
     -what should be done about these colors?
 •	There is no "pause" button when the simulation switches to "live mode" when the chart runs out and the simulation stops recordings
 
+1. change colors to velocity=green (to match ke in other sims), acceleration=pink
+                I take it this means omega and euclidean speed?
+
+Velocity=green and acceleration=pink are v and a.  omega and alpha should be related but not the same colors.
+I believe Kathy’s document that had suggested colors should work pretty well if you just switch what she has for omega with what
+she has for alpha.  The only issue being that these variations assumed red and green for a and v rather than pink and green so some
+slight adjustments to alpha colors may be needed.
+
+Make the angular things pastel-like (as I did in the powerpoint I sent you),
+and then make the velocity and acceleration vectors a bright green and pink so as to distinguish them from the angular things.
+
+Readouts for angular variables should also have a variable_subscript = value format
+
+2. make color of angular graph control = color for platform data
+Yep, and platform data would be lightest shade of color you choose.
+
+3. make clear which graph associated with which object
+                Did you have a recommendation for how this should be done?
+                >>I think this is just referring to the choice of colors?
+
+My recommendation was to have the subscripts on the values in the graph and have these colors match the color of the graph (as shown in the modified screen shots I sent) Also we wanted to have "Show Ladybug graphs" and "Show Platform graphs" check boxes in same place as beatle control.
+
+4. don't use same colors for x and y as for v and a.
+5. add platform series for omega and alpha, even though will always be 3 series on top of each other
+
+7. when paused or stopped and hand is manually rotated or rotated by the slider, bugs should update
+8. If time is stopped, update theta for bugs if they are moved by hand
+9. After graph time has finished, the "go" and "stop" buttons as well as "pause and REC" should still be available, even though no more data will be written to the charts
+10. When recording, angular velocity and acceleration for the bugs should be computed
+
+We definitely wanted to plot theta as the user dragged the bugs. For the others, Wendy was afraid it would be too confusing to plot omega about the center of the platform. I would be willing try it and see what it looked like, but I think what it does now is just confusing.
+How long do you think it would take to try it?
+
+If you take a stab at a draft of the abstract, I'd be happy to give feedback.
+
+11. Right now, if you let it go beyond end of graph and keep going, then press clear, the graph starts recording, but the button keeps reading “Go” instead of “Stop”
+                Sometimes “record button doesn’t appear when it seems like it should”.
+
+
 •	Improve performance
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
     -this may be due in part to time series filling up in "live mode", early enough data should be discarded
