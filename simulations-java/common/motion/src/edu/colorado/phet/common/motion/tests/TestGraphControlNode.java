@@ -35,7 +35,7 @@ public class TestGraphControlNode {
 
         swingClock.addClockListener( timeSeriesModel );
         GraphTimeControlNode graphTimeControlNode = new GraphTimeControlNode( timeSeriesModel );
-        graphTimeControlNode.addVariable( new ControlGraphSeries( "title", Color.blue, "abbr", "units", new DefaultSimulationVariable(), new DefaultTimeSeries() ) );
+        graphTimeControlNode.addVariable( new ControlGraphSeries( "title", Color.blue, "abbr", "units", new DefaultSimulationVariable(), new DefaultTimeSeries(), null ) );
         phetPCanvas.addScreenChild( graphTimeControlNode );
 
         frame.setContentPane( phetPCanvas );

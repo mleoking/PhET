@@ -34,7 +34,7 @@ public class TestControlGraph {
 
         phetPCanvas = new BufferedPhetPCanvas();
         controlGraph = new ControlGraph( phetPCanvas, new DefaultSimulationVariable(), "title", -10, 10, new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new ConstantDtClock( 30, 1 ) ) );
-        controlGraph.addSeries( new ControlGraphSeries( "series", Color.blue, "abbr", "units", new DefaultSimulationVariable(), new DefaultTimeSeries() ) );
+        controlGraph.addSeries( new ControlGraphSeries( "series", Color.blue, "abbr", "units", new DefaultSimulationVariable(), new DefaultTimeSeries(), null ) );
         controlGraph.addValue( 0, 0 );
         controlGraph.addValue( 600, 10 );
         controlGraph.addValue( 800, -3 );

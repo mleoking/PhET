@@ -259,7 +259,7 @@ public class ControlGraph extends PNode {
     }
 
     public void addSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
-        addSeries( new ControlGraphSeries( title, color, abbr, units, simulationVariable, observableTimeSeries, stroke ) );
+        addSeries( new ControlGraphSeries( title, color, abbr, units, simulationVariable, observableTimeSeries, stroke, null ) );
     }
 
     public ControlGraphSeries getControlGraphSeries( int i ) {
