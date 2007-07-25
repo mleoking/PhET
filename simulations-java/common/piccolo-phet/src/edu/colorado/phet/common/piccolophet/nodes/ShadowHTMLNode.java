@@ -22,6 +22,10 @@ public class ShadowHTMLNode extends PNode {
     private HTMLNode htmlGraphic;
     private HTMLNode shadow;
 
+    public ShadowHTMLNode() {
+        this(null);
+    }
+
     public ShadowHTMLNode( String html ) {
         htmlGraphic = new HTMLNode( html );
         shadow = new HTMLNode( html );

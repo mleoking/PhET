@@ -50,7 +50,7 @@ public class HTMLNode extends PNode {
     //----------------------------------------------------------------------------
 
     public HTMLNode() {
-        this( "", DEFAULT_FONT, DEFAULT_HTML_COLOR );
+        this( null, DEFAULT_FONT, DEFAULT_HTML_COLOR );
     }
 
     public HTMLNode( String html ) {
@@ -84,7 +84,7 @@ public class HTMLNode extends PNode {
      * @param html
      */
     public void setHTML( String html ) {
-        if( !this.html.equals( html ) ) {
+        if( ( this.html != null && html == null ) || ( this.html == null && html != null ) || ( !this.html.equals( html ) ) ) {
             this.html = html;
             update();
         }
@@ -143,7 +143,7 @@ public class HTMLNode extends PNode {
         htmlLabel.setFont( font );
         htmlLabel.setForeground( htmlColor );
         htmlLabel.setSize( htmlLabel.getPreferredSize() );
-        htmlView = BasicHTML.createHTMLView( htmlLabel, html );
+        htmlView = BasicHTML.createHTMLView( htmlLabel, html == null ? "" : html );
         htmlBounds = new Rectangle( htmlLabel.getPreferredSize() );
         setBounds( htmlLabel.getBounds() );
         repaint();
