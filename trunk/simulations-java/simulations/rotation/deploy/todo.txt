@@ -11,14 +11,6 @@
     -this will make the text box variable color as well by default
     -what should be done about these colors?
 
-Velocity=green and acceleration=pink are v and a.  omega and alpha should be related but not the same colors.
-I believe Kathy’s document that had suggested colors should work pretty well if you just switch what she has for omega with what
-she has for alpha.  The only issue being that these variations assumed red and green for a and v rather than pink and green so some
-slight adjustments to alpha colors may be needed.
-
-Make the angular things pastel-like (as I did in the powerpoint I sent you),
-and then make the velocity and acceleration vectors a bright green and pink so as to distinguish them from the angular things.
-
 2. make color of angular graph control = color for platform data
 Yep, and platform data would be lightest shade of color you choose.
 
