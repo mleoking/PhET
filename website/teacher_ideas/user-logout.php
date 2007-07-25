@@ -6,6 +6,13 @@
     
     cookie_var_clear("username");
     cookie_var_clear("password_hash");
+
+	if (isset($_REQUEST['url'])) {
+		$url = $_REQUEST['url'];
+	}
+	else {
+		$url = SITE_ROOT.'teacher_ideas/user-edit-profile.php';
+	}
     
-    force_redirect(SITE_ROOT.'teacher_ideas/user-edit-profile.php', 0);
+    force_redirect($url, 0);
 ?>

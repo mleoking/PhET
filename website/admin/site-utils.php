@@ -221,11 +221,14 @@ EOT;
     
     function print_site_page($content_printer, $selected_page = null, $redirection_site = null, $timeout = 0) {
         $request_uri = $_SERVER['REQUEST_URI'];
+
+		$php_self = $_SERVER['PHP_SELF'];
         
         // Don't require authentication, but do it if the cookies are available:
         do_authentication(false);
         
         global $referrer;
+		global $contributor_authenticated;
         
         $prefix = "..";
         
@@ -236,6 +239,19 @@ EOT;
 		}
 		else {
 			$meta_redirect = '';
+		}
+		
+		if (!$contributor_authenticated) {
+			$utility_panel_html = <<<EOT
+				<a href="../teacher_ideas/login-and-redirect.php?url=$php_self">Login</a> | <a href="../teacher_ideas/login-and-redirect.php?url=$php_self">Register</a>
+EOT;
+		}
+		else {
+			$contributor_name = $GLOBALS['contributor_name'];
+			
+			$utility_panel_html = <<<EOT
+				Welcome $contributor_name - <a href="../teacher_ideas/user-logout.php?url=$php_self">Logout</a>
+EOT;
 		}
 
 /*
@@ -623,6 +639,10 @@ EOT;
                         </div>
                     </div>
                 </div>
+
+				<div id="utility-panel">
+					$utility_panel_html
+				</div>
             </body>        
             </html>
 EOT;
