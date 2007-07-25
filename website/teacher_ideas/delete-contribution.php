@@ -31,19 +31,17 @@
         $referrer = SITE_ROOT.'teacher_ideas/manage-contributions.php';
     }
 
-    force_redirect("$referrer", 3);
-    
     if (isset($_REQUEST['contribution_id'])) {
         $contribution_id = $_REQUEST['contribution_id'];
         
         if (contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {
             contribution_delete_contribution($contribution_id);
         
-            print_site_page('print_content', 3);
+            print_site_page('print_content', 3, "$referrer", 2);
             
             exit;
         }
     }
     
-    print_site_page('print_content_error', 3);
+    print_site_page('print_content_error', 3, "$referrer", 2);
 ?>

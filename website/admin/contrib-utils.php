@@ -283,6 +283,7 @@ EOT;
                                 
                                 <input type="hidden" name="referrer"        value="$referrer"        class="always-enabled"/>
                                 <input type="hidden" name="contribution_id" value="$contribution_id" class="always-enabled"/>
+								<input type="hidden" name="login_required"  value="true"             class="always-enabled"/>
                             </fieldset>
                         </form>
                     </td>
@@ -340,6 +341,7 @@ EOT;
 
                                 <input type="hidden" name="referrer"        value="$referrer"        class="always-enabled"/>
                                 <input type="hidden" name="contribution_id" value="$contribution_id" class="always-enabled"/>
+								<input type="hidden" name="login_required"  value="true"             class="always-enabled"/>
                             </fieldset>
                         </form>
                     </td>
@@ -411,24 +413,20 @@ EOT;
                 
         // Set reasonable defaults:
         if ($contributor_authenticated) {
-            if (!isset($contribution_authors_organization) || $contribution_authors_organization == '') {
+            if ($contribution_authors_organization == '') {
                 $contribution_authors_organization = $GLOBALS['contributor_organization'];
             }
-            if (!isset($contribution_contact_email) || $contribution_contact_email == '') {
+            if ($contribution_contact_email == '') {
                 $contribution_contact_email = $GLOBALS['contributor_email'];
             }
-            if (!isset($contribution_authors) || $contribution_authors == '') {
+            if ($contribution_authors == '') {
                 $contribution_authors = $GLOBALS['contributor_name'];
             }
         }
-        if (!isset($contribution_keywords) || $contribution_keywords == '' && isset($GLOBALS['sim_id'])) {
+        if ($contribution_keywords == '' && isset($GLOBALS['sim_id'])) {
             $simulation = sim_get_sim_by_id($GLOBALS['sim_id']);
             
             $contribution_keywords = $simulation['sim_keywords'];
-        }            
-        
-        if (!isset($contribution_title) || $contribution_title == '') {
-            $contribution_title = "";
         }
         
         $all_contribution_types = contribution_get_all_template_type_names();
@@ -897,7 +895,9 @@ EOT;
                 <a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
 EOT;
 
-		if (isset($contributor_is_team_member) && $contributor_is_team_member) {
+		$contributor = contributor_get_contributor_by_id($contributor_id);
+
+		if ($contributor['contributor_is_team_member']) {
 			$title_html = "${title_html} <img src=\"../images/phet-logo-icon.jpg\" alt=\"Image of PhET Icon\" title=\"Contributed by PhET\"/>";
 		}
         
@@ -1026,7 +1026,9 @@ EOT;
         db_delete_row('contribution_flagging',   $condition);            
         db_delete_row('contribution_nomination', $condition);
         
-        contribution_delete_all_multiselect_associations($contribution_id);                            
+        contribution_delete_all_multiselect_associations('contribution_level',   $contribution_id);
+		contribution_delete_all_multiselect_associations('contribution_type',    $contribution_id);
+		contribution_delete_all_multiselect_associations('contribution_subject', $contribution_id);
         
         return true;
     }
@@ -1523,7 +1525,7 @@ EOT;
         return $final;
     }
 
-	function contribution_get_specific_contributions($sim_names, $type_descs, $level_descs, $include_contributor = true) {
+	function contribution_get_specific_contributions($sim_names, $type_descs, $level_descs) {
 		$contributions = array();
 		
 		$sim_names   = array_remove($sim_names,   'all');
@@ -1560,8 +1562,6 @@ EOT;
 			
 			$where .= db_form_alternation_where_clause('contribution_level', 'contribution_level_desc', $level_descs);
 		}
-		
-		$query .= " LEFT JOIN `contributor` ON `contribution`.`contributor_id`=`contributor`.`contributor_id`";
 		
 		$query .= "$where ORDER BY `contribution`.`contribution_title` ASC";
 		
