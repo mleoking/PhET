@@ -92,6 +92,7 @@ public class TimeGraphic extends PhetGraphic {
         else {
             Rectangle2D bound = f.getStringBounds( this.timeStr, frc );
             Rectangle2D.Double out = new Rectangle2D.Double( bound.getX(), bound.getY(), bound.getWidth(), bound.getHeight() );
+            out.height=Math.max( 50,out.height );//workaround for error getting string height for arabic text
             out.x = x;
             out.y = y - out.height;
             return new Rectangle( (int)out.x, (int)out.y, (int)out.width, (int)out.height );
