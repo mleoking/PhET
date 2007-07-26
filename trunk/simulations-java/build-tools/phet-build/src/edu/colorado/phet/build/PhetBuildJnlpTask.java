@@ -24,6 +24,8 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         echo( "loaded flavor=" + flavor );
         if( deployUrl == null ) {
             deployUrl = phetProject.getDefaultDeployDir().toURL().toString();
+
+			echo("Deploy url is null -- using " + deployUrl);
         }
         FileUtils.filter(JNLP_TEMPLATE,getDestFile( phetProject ),createJNLPFilterMap( flavor, phetProject ) ,"UTF-16");
     }
@@ -49,6 +51,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         map.put( "PROJECT.ARGS", toJNLPArgs( getArgs(flavor ) ) );
         map.put( "PROJECT.PROPERTIES", getJNLPProperties() );
         map.put( "PROJECT.DEPLOY.PATH", deployUrl );
+		echo("JNLP filter map:\n" + map);
         return map;
     }
 
@@ -94,6 +97,8 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
 
     public void setDeployUrl( String deployUrl ) {
         this.deployUrl = deployUrl;
+
+		echo("Setting deploy URL to " + deployUrl);
     }
 
     public static void main( String[] args ) throws Exception {
