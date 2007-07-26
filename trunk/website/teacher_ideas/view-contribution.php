@@ -54,6 +54,8 @@
 		$contribution_simulations = contribution_get_simulation_listings_as_list($contribution_id);
         
         print <<<EOT
+		<h1>$contribution_title</h1>
+		
         <div id="contributionview">
         
             <h3>Download Files</h3>

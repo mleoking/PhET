@@ -4,7 +4,7 @@
     
     function print_content() {
         ?>
-            <h1>Contribute to PhET!</h1>
+            <h1>Contribute</h1>
 
             <h2>Academic Contributions</h2>
 

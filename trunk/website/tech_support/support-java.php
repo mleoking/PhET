@@ -4,7 +4,7 @@
     
     function print_content() {
         ?>
-            <h1>Technical Support - Java</h1>
+            <h1>Java</h1>
 
             <p>PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This page will help you ensure that you have Java installed properly, and address some of the problems people might have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.</p>
 

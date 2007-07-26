@@ -5,7 +5,7 @@
     
     function print_content() {
         ?>
-        <h1>Contact Info</h1>
+        <h1>Contact</h1>
 
         <div>
             <h2 style="margin-bottom: -10px;">The PhET Project:</h2>

@@ -87,7 +87,6 @@ hr {
 }
 
 #nationalstandards {
-	width: 578px;
 	clear: both;
 }
 #nationalstandards table {
@@ -423,9 +422,9 @@ div.horizontal_center {
 	width:          500px;
     float:			right;
 	margin-top:        0;
-	margin-bottom:     1em;
-	margin-left:		0;
-	padding-left:		0;
+	margin-bottom:     1ex;
+	margin-left:	   0;
+	padding-left:	   0;
 }
 #contributioneditform fieldset ul li {
 	width: 500px;
@@ -438,7 +437,7 @@ div.horizontal_center {
 	height: 1px;
     background:#E6E6FA;
 	clear: right;
-    margin: 15px 150px 15px 150px;    
+    margin: 3px 150px 5px 150px;    
 }
 #contributioneditform *.error {
     color:red;

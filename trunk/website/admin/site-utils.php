@@ -130,7 +130,7 @@ EOT;
             "Run our Simulations",
             array(
                 'get_phet/full_install.php' => 'Full Install',
-                'get_phet/simlauncher.php'  => 'Partial Install'
+                'get_phet/simlauncher.php'  => 'One at a Time'
             )
         );
         
