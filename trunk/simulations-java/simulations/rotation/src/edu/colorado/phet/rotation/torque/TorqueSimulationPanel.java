@@ -28,6 +28,6 @@ public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
     }
 
     protected RotationPlayAreaNode createPlayAreaNode() {
-        return new RotationPlayAreaNode( getRotationModel(), new VectorViewModel(),getAngleUnitModel() );
+        return new RotationPlayAreaNode( getRotationModel(), new VectorViewModel(), getAngleUnitModel() );
     }
 }
