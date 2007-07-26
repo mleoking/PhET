@@ -57,7 +57,7 @@ MISSING INFO:
 
  
 DONE:
-********* version 0.00.30 (?)
+********* version 0.00.30 (16962)
 7/25/07 - fix: fake bead-in-vacuum motion needs to use power=500mW when calculating trap force
 ********* version 0.00.29 (16939)
 7/24/07 - for bead-in-vacuum, when (laserPower * dt >= 240e-5), fake bead motion to look "really fast"
