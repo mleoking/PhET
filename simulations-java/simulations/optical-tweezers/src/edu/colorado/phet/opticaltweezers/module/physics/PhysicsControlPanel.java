@@ -5,11 +5,11 @@ package edu.colorado.phet.opticaltweezers.module.physics;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
 import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
+import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.model.PhysicsModel;
 import edu.colorado.phet.opticaltweezers.module.AbstractControlPanel;
 
@@ -68,7 +68,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         forceVectorNodes.add( _canvas.getTrapForceNode() );
         forceVectorNodes.add( _canvas.getFluidDragForceNode() );
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
-                model.getBead(), model.getLaser(),
+                (OTClock)module.getClock(), model.getBead(), model.getLaser(),
                 null /* dnaStrand */, null /* dnaStrandNode */, 
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), null /* dnaForceNode */, _canvas.getLaserNode().getElectricFieldNode() );
         
