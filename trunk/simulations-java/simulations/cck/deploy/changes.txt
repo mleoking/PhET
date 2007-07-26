@@ -1,3 +1,5 @@
+7-25-2007: added initial support for loading saved cck files from previous web version
+
 7-17-2007
 Fixed a bug that prevented saving when the user chose a file extension other than .cck
 
