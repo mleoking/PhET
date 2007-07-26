@@ -9,8 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.opticaltweezers.control.FluidControlPanel;
+import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
-import edu.colorado.phet.opticaltweezers.module.GlobalDefaults;
 
 /**
  * Test harness for FluidControlPanel.

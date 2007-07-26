@@ -8,8 +8,8 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.opticaltweezers.module.GlobalDefaults;
-import edu.colorado.phet.opticaltweezers.module.dna.DNADefaults;
+import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
+import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
 
 /**
  * DNAModel is the model for DNAModule.

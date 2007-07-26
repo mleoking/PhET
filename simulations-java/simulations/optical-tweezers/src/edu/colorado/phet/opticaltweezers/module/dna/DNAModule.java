@@ -6,9 +6,10 @@ import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
+import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
+import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
-import edu.colorado.phet.opticaltweezers.module.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
 
