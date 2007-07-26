@@ -4,8 +4,10 @@ import edu.colorado.phet.cck.common.AdvancedPanel;
 import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.controls.ResetDynamicsButton;
 import edu.colorado.phet.cck.model.Circuit;
+import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.analysis.KirkhoffSolver;
+import edu.colorado.phet.cck.model.components.Switch;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.HelpPanel;
@@ -300,13 +302,50 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             str += read;
         }
         IXMLParser parser = new StdXMLParser();
-        parser.setReader( new StdXMLReader( new StringReader( str ) ) );
+        parser.setReader( new StdXMLReader( new StringReader( patchString( str ) ) ) );
         parser.setBuilder( new StdXMLBuilder() );
         parser.setValidator( new NonValidator() );
 
         IXMLElement parsed = (IXMLElement)parser.parse();
         Circuit circuit = CircuitXML.parseXML( parsed, module.getCircuitChangeListener(), module );
+        if( isOldVersionCCK( str ) ) {
+            flipY( circuit );
+        }
         module.setCircuit( circuit );
+    }
+
+    private boolean isOldVersionCCK( String str ) {
+        return str.indexOf( "edu.colorado.phet.cck3.circuit.Branch" ) >= 0 || str.indexOf( "edu.colorado.phet.cck3.circuit.components." ) >= 0;
+    }
+
+    private void flipY( Circuit circuit ) {
+        for( int i = 0; i < circuit.numJunctions(); i++ ) {
+            Junction j = circuit.junctionAt( i );
+            double y = j.getY();
+            double offsetFrom5 = y - 5;
+            double flipped = -offsetFrom5;
+            double newY = 5 + flipped;
+//            System.out.println( "y = " + y + ", newY=" + newY );
+            j.setPosition( j.getX(), newY );
+        }
+//        for( int i = 0; i < circuit.numBranches(); i++ ) {
+//            if( circuit.branchAt( i ) instanceof Switch ||circuit.branchAt( i) instanceof ) {
+//                Junction a = circuit.branchAt( i ).getStartJunction();
+//                Junction b = circuit.branchAt( i ).getEndJunction();
+//                Junction c = new Junction( a.getX() + 1, b.getY() );
+//                Junction d = new Junction( a.getX(), b.getY() + 1 );
+//                circuit.branchAt( i ).setStartJunction( c );
+//                circuit.branchAt( i ).setEndJunction( d );
+//                circuit.branchAt( i ).setStartJunction( b );
+//                circuit.branchAt( i ).setEndJunction( a );
+//            }
+//        }
+    }
+
+    private String patchString( String str ) {
+        str = str.replaceAll( "edu.colorado.phet.cck3.circuit.Branch", "edu.colorado.phet.cck.model.components.Wire" );
+        str = str.replaceAll( "edu.colorado.phet.cck3.circuit.components.", "edu.colorado.phet.cck.model.components." );
+        return str;
     }
 
     private void save() throws IOException {
