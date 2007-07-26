@@ -150,6 +150,17 @@ EOT;
 
         print_comma_list_as_bulleted_list($sim_sample_goals);
 
+		$guide = resolve_url_upload($sim_teachers_guide_url);
+		
+		if (file_or_url_exists($guide)) {
+			$guide_html = <<<EOT
+				The <a href="../admin/get-upload.php?url=$sim_teachers_guide_url">teacher's guide</a> contains tips for teachers created by the PhET team (PDF).
+EOT;
+		}
+		else {
+			$guide_html = "There is no teacher's guide for this simulation.";
+		}
+
         print <<<EOT
         <p><a href="#top"><img src="../images/top.gif" /></a></p>
 
@@ -158,7 +169,7 @@ EOT;
         <h2>Tips for Teachers</h2>
         
         <p class="indi-sim">
-            The <a href="../admin/get-upload.php?url=$sim_teachers_guide_url">teacher's guide</a> contains tips for teachers created by the PhET team (PDF).
+            $guide_html
         </p>
 
         <h2>Ideas and Activities for this Sim</h2>   

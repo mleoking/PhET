@@ -642,17 +642,17 @@ EOT;
                     </div>
                     
                     <div class="field">
-                        <p>Please describe how the contribution complies with the 
-                        <a href="http://www.nap.edu/readingroom/books/nses/html/6a.html">K-12 National Science Standards</a>:
+                        <p>
+							Please describe how the contribution complies with the <a href="http://www.nap.edu/readingroom/books/nses/html/6a.html">K-12 National Science Standards</a>:
                         </p>
-                    
+                    </div>
+
 EOT;
 
         contribution_print_standards_compliance($contribution_standards_compliance);
 
         print <<<EOT
-                    </div>
-                    
+
                     <input type="hidden" name="referrer"        value="$referrer" />
                     <input type="hidden" name="contribution_id" value="$contribution_id" />
                     <input type="hidden" name="action"          value="update" />
@@ -1103,7 +1103,7 @@ EOT;
     function contribution_add_new_contribution($contribution_title, $contributor_id, $file_tmp_name = null, $file_user_name = null) {    
         if ($file_tmp_name != null) {
             if (preg_match('/.+\\.(doc|txt|rtf|pdf|odt)/i', $file_user_name) == 1) {
-                $contribution_type = "Activity";
+                $contribution_type = "Homework";
             }
             else if (preg_match('/.+\\.(ppt|odp)/i', $file_user_name) == 1) {
                 $contribution_type = "Lecture";
@@ -1113,7 +1113,7 @@ EOT;
             }
         }
         else {
-            $contribution_type = "Activity";
+            $contribution_type = "Lab";
         }
         
         $contribution_id = db_insert_row(

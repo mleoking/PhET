@@ -86,13 +86,16 @@ hr {
 	padding-right: 2em;
 }
 
+#nationalstandards {
+	width: 578px;
+	clear: both;
+}
 #nationalstandards table {
 	border-style:   none;
 	border: 		0;
 	margin:  		1em;
 	padding: 		0;
 	border-collapse:collapse;
-	position: 		relative; 
 	margin-left: 	auto; 
 	margin-right: 	auto;
 }

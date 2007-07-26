@@ -31,18 +31,34 @@
         print "<META http-equiv=\"Refresh\" content=\"$timeout;url=$url\">";
     }
     
-    // function url_exists($url) {
-    //     if (is_array(get_headers($url))) {
-    //         return true;
-    //     }
-    //     else {
-    //         return false;
-    //     }
-    // }
-    
     function url_exists($url) {
-        return true;
+        if (is_array(get_headers($url))) {			
+            return true;
+        }
+        else {
+            return false;
+        }
     }
+
+	function file_or_url_exists($file) {
+		if ($file == null || trim($file) == '') return false;
+		
+		if (file_exists($file)) return true;
+		
+		return url_exists($file);
+	}
+    
+		//     function url_exists($file) {
+		// $file_headers = get_headers($file);
+		// 
+		// if (preg_match('/\b404\b/', $file_headers[0])) {
+		//     $exists = false;
+		// }
+		// else {
+		//     $exists = true;
+		// }
+		//         return $exists;
+		//     }
     
     function format_string_for_html($string) {
         return htmlentities($string);
@@ -296,6 +312,8 @@ EO_PRINT_HIDDEN_INPUT;
     } 
     
     function resolve_url_upload($url) {
+		if ($url == null || trim($url) == '') return '';
+		
         if (preg_match('/http.*/i', $url) == 1) {
             // URL is absolute:
             return $url;
