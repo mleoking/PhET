@@ -311,6 +311,8 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         Circuit circuit = CircuitXML.parseXML( parsed, module.getCircuitChangeListener(), module );
         if( isOldVersionCCK( str ) ) {
             flipY( circuit );
+            JOptionPane.showMessageDialog( this, "<html>The file you loaded is from an earlier version of this program, <br>and some " +
+                                                 "parts of the circuit may be oriented incorrectly.  <br><br>Manually correct any problems, and be sure to save the new circuit.</html>");
         }
         module.setCircuit( circuit );
     }
