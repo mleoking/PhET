@@ -58,7 +58,7 @@ MISSING INFO:
 
  
 DONE:
-********* version 0.00.31 (?)
+********* version 0.00.31 (16998)
 7/26/07 - set background of vacuumFastThresholdControl to green when threshold is exceeded
 7/26/07 - add developer controls for "really fast" bead-in-vacuum motion (threshold, dt, power)
 7/26/07 - group together all instance data related to developer controls 
