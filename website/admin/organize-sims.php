@@ -11,7 +11,24 @@
 	include_once(SITE_ROOT."admin/ordering-util.php");
 	
 	function print_sims() {
-	    print <<<EOT
+		if (isset($_REQUEST['cat_id'])) {
+			$cat_id = $_REQUEST['cat_id'];
+		
+		    print <<<EOT
+				<script type="text/javascript">
+					/*<![CDATA[*/
+					$(document).ready(
+	                    function() {
+	                        location.href = location.href + '#$cat_id';
+	                    }
+	                );
+					/*]]>*/
+				</script>
+EOT;
+		}
+
+		print <<<EOT
+	
 	        <h1>Organize Simulations</h1>
 	        
 	        <p>On this page, you may choose the order in which simulations appear for every category.
@@ -23,26 +40,26 @@ EOT;
             $cat_name = $category['cat_name'];
             
             print <<<EOT
-                <h2>$cat_name</h2>
+                <h2 id="$cat_id">$cat_name</h2>
                 
                 <table>
                     <thead>
                         <tr>
-                            <td>Simulation</td> <td>Operations</td>
+                            <td>Simulation</td> <td>Operations</td> <td>order id</td>
                         </tr>
                     </thead>
                     
                     <tbody>
 EOT;
 
-            $auto_order = 0;
+			$auto_order = 1;
 
-            foreach(sim_get_sims_by_cat_id($cat_id) as $sim) {
-                eval(get_code_to_create_variables_from_array($sim));
-                
-                $sim_listing = sim_get_sim_listing($sim_id, $cat_id);
-                
+            foreach(sim_get_sim_listings_by_cat_id($cat_id) as $sim_listing) {
                 eval(get_code_to_create_variables_from_array($sim_listing));
+
+				$sim = sim_get_sim_by_id($sim_listing['sim_id']);
+
+				$sim_name = $sim['sim_name'];
                 
                 if (isset($_REQUEST['auto_order'])) {
                     db_exec_query("UPDATE `simulation_listing` SET `simulation_listing_order`='$auto_order' WHERE `simulation_listing_id`='$simulation_listing_id' ");
@@ -56,10 +73,13 @@ EOT;
                             <a href="organize-sims.php?action=move_up&amp;simulation_listing_id=$simulation_listing_id&amp;cat_id=$cat_id">up</a>
                             <a href="organize-sims.php?action=move_down&amp;simulation_listing_id=$simulation_listing_id&amp;cat_id=$cat_id">down</a>
                         </td>
+
+						<td>
+							$simulation_listing_order
+						</td>
                     </tr>
 EOT;
-
-                ++$auto_order;
+				$auto_order++;
             }
             
             print <<<EOT

@@ -38,7 +38,13 @@
             SIM_RATING_BETA         => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA].'" alt="Beta rating" title="Beta rating" /></a>',
             SIM_RATING_CHECK        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_CHECK].'" alt="Checkmark rating" title="Checkmark" /></a>',
             SIM_RATING_ALPHA        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_ALPHA].'" alt="Alpha rating" title="Alpha" /></a>'
-        );        
+        );
+
+    $SIM_TYPE_TO_IMAGE_HTML = 
+		array(
+			SIM_TYPE_JAVA  => '<a href="../tech_support/support-java.php"> <img src="../images/sims/ratings/'.$SIM_TYPE_TO_IMAGE[SIM_TYPE_JAVA].'" alt="Java Icon" title="This simulation is a Java simulation" /></a>',
+			SIM_TYPE_FLASH => '<a href="../tech_support/support-flash.php"><img src="../images/sims/ratings/'.$SIM_TYPE_TO_IMAGE[SIM_TYPE_FLASH].'" alt="Java Icon" title="This simulation is a Flash simulation" /></a>'
+		);
         
     define("SIM_NO_MAC_IMAGE", '../images/sims/ratings/no-mac25x25.png');
     define("SIM_CRUTCH_IMAGE", '../images/sims/ratings/crutch25x25.png');
@@ -407,18 +413,62 @@
     }
     
     function sim_get_sim_listings_by_cat_id($cat_id) {
-        return db_get_rows_by_condition('simulation_listing',
-            array(
-                'cat_id' => $cat_id
-            )
-        );
+		$listings = array();
+		
+		$results = db_exec_query("SELECT * FROM `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat_id' ORDER BY `simulation_listing`.`simulation_listing_order` ASC ");
+		
+		while ($row = mysql_fetch_assoc($results)) {
+			$listings[] = format_for_html($row);
+		}
+		
+		return $listings;
     }
 
-	function sim_get_run_offline_jar_location($simulation) {
-		$sim_dirname = $simulation['sim_dirname'];
-		$sim_flavor  = $simulation['sim_flavorname'];
+	function sim_get_run_offline_content_location($simulation) {
+		$dirname     = $simulation['sim_dirname'];
+		$flavorname  = $simulation['sim_flavorname'];
 		
-		$link = "http://phet.colorado.edu/sims/$sim_dirname/$sim_flavor.jar";
+		if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
+			$link = "http://phet.colorado.edu/sims/$dirname/$flavorname.swf";
+		}
+		else {
+			$link = "http://phet.colorado.edu/sims/$dirname/$flavorname.jar";
+		}
+		
+		return $link;
+	}
+	
+	function sim_is_in_category($sim_id, $cat_id) {
+		$sim_listings = sim_get_sim_listings_by_cat_id($cat_id);
+		
+		foreach ($sim_listings as $sim_listing) {
+			if ($sim_listing['sim_id'] == $sim_id) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	function sim_get_launch_url($simulation) {
+		$dirname    = $simulation['sim_dirname'];
+		$flavorname = $simulation['sim_flavorname'];
+		
+		if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
+			$link = "http://phet.colorado.edu/sims/$dirname/$flavorname.swf";
+		}
+		else {
+			$link = "http://phet.colorado.edu/sims/$dirname/$flavorname.jnlp";
+		}
+		
+		return $link;		
+	}
+	
+	function sim_get_screenshot($simulation) {
+		$dirname    = $simulation['sim_dirname'];
+		$flavorname = $simulation['sim_flavorname'];
+		
+		$link = "http://phet.colorado.edu/sims/$dirname/$flavorname-screenshot.png";
 		
 		return $link;
 	}

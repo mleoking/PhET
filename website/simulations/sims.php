@@ -16,7 +16,7 @@
     do_authentication(false);
     
     function print_content() {
-        global $SIM_RATING_TO_IMAGE_HTML, $SIM_TYPE_TO_IMAGE, $contributor_is_team_member;
+        global $SIM_RATING_TO_IMAGE_HTML, $SIM_TYPE_TO_IMAGE_HTML, $contributor_is_team_member;
         
         $sim_encoding = $_REQUEST['sim'];
         
@@ -41,16 +41,9 @@
         
         // Gather sim_rating_html & sim_type_html information:
         $sim_rating_html = $SIM_RATING_TO_IMAGE_HTML["$sim_rating"];
-
-        $sim_type_html_image = $SIM_TYPE_TO_IMAGE["$sim_type"];
-        $sim_type_html       = "<img src=\"../images/sims/ratings/$sim_type_html_image\" width=\"32\" height=\"16\" />";
-
-		if ($sim_type == SIM_TYPE_JAVA) {
-			$sim_type_html = "<a href=\"../tech_support/support-java.php\">$sim_type_html</a>";
-		}
-		else if ($sim_type == SIM_TYPE_FLASH) {
-			$sim_type_html = "<a href=\"../tech_support/support-flash.php\">$sim_type_html</a>";
-		}
+		$sim_type_html   = $SIM_TYPE_TO_IMAGE_HTML[$sim_type];
+		$sim_launch_url  = sim_get_launch_url($simulation);
+		$sim_image_url   = sim_get_screenshot($simulation);
         
         ?>
 
@@ -90,7 +83,7 @@
                 
             <div class="simpreview">    
                 <a href="$sim_launch_url">
-                    <img src="../admin/get-upload.php?url=$sim_image_url" alt="Sim preview image" title="Click here to launch the simulation from your browser" width="300"/>
+                    <img src="$sim_image_url" alt="Sim preview image" title="Click here to launch the simulation from your browser" width="300"/>
                 </a>
 
                 <div id="simrunoptions">

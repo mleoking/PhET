@@ -8,16 +8,14 @@
 	$sim_id = $_REQUEST['sim_id'];
 	
 	$simulation = sim_get_sim_by_id($sim_id);
+
+	$sim_file_location = sim_get_run_offline_content_location($simulation);
 	
 	if ($simulation['sim_type'] == SIM_TYPE_JAVA) {
-		$sim_file_location = sim_get_run_offline_jar_location($simulation);
-		
 		$mime_type = "application/java-archive";
 
 	}
-	else {
-		$sim_file_location = $simulation['sim_launch_url'];
-		
+	else {		
 		$mime_type = "application/x-Shockwave-Flash";
 	}
 	
