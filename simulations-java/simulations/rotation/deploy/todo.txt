@@ -1,7 +1,6 @@
 ################################################
 #     To Do
 ################################
-1. get rid of black rectangle around in-chart readouts
 2. add title above checkboxes for charts without textboxes
 
 •	make color of angular graph control = color for platform data
