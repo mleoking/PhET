@@ -5,9 +5,11 @@
 IN PROGRESS:
 
 AAPT:
+- should "Return bead" button move bead to center of trap?
 - ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
 - ? change dt.default to something smaller than dt.fast.max
 - help items don't refresh fast enough
+- check for isRunning in Laser.getIntensityOnRadius, getTrapForceAtOffset
          
 HIGH PRIORITY:
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
@@ -55,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+7/25/07 - fake bead-in-vacuum motion needs to use power=500mW when calculating trap force
 ********* version 0.00.29 (16939)
 7/24/07 - for bead-in-vacuum, when (laserPower * dt >= 240e-5), fake bead motion to look "really fast"
 7/24/07 - add help items ("Movable bead", "Movable laser", "Movable ruler")
