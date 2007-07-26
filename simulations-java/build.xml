@@ -456,9 +456,9 @@ PhET-team specific tasks are located in an auxiliary build file.
         </antcall>
     </target>
     
-    <target name="_build-and-deploy-only-prod" depends="_set-sim-revision-number, _define-sim-version, build-jar, build-jnlp">
+    <target name="_build-and-deploy-only-prod" depends="_set-sim-revision-number, _define-sim-version">
         <!-- Deploy production version -->
-        <antcall target="_deploy">
+        <antcall target="_build-and-deploy">
             <param name="sim.server.url"        value="${prod.server.url}"/>
             <param name="sim.server.path"       value="${prod.server.path}"/>
             <param name="sim.deploy.dir.parent" value="${prod.server.path}" />
@@ -480,11 +480,11 @@ PhET-team specific tasks are located in an auxiliary build file.
     
     <target name="build-and-deploy-prod-no-change" depends="_init, _read-username-and-password, _build-and-deploy-only-prod" />
     
-    <target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password, _list-sims" description="Builds and deploys all sims to the development server.">
+    <target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password, clean-all, _list-sims" description="Builds and deploys all sims to the development server.">
         <foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name" inheritall="true"/>
     </target>
 
-    <target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password, _list-sims" description="Builds and deploys all sims to the production server.">
+    <target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password, clean-all, _list-sims" description="Builds and deploys all sims to the production server.">
         <foreach list="${phet.simlist}" target="build-and-deploy-prod-no-change" param="sim.name" inheritall="true"/>
     </target>
     
