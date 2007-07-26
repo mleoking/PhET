@@ -17,7 +17,7 @@ public class AngleUnitsSelectionControl extends VerticalLayoutPanel {
     private AngleUnitModel angleUnitModel;
 
     public AngleUnitsSelectionControl( final AngleUnitModel angleUnitModel ) {
-        this.angleUnitModel=angleUnitModel;
+        this.angleUnitModel = angleUnitModel;
         degrees = new JRadioButton( "degrees" );
         degrees.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

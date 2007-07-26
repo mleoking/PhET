@@ -42,8 +42,8 @@ public class ControlGraphSeries {
         this.abbr = abbr;
         this.simulationVariable = simulationVariable;
         this.observableTimeSeries = observableTimeSeries;
-        this.character=character;
-        assert character!=null;
+        this.character = character;
+        assert character != null;
     }
 
     public String getTitle() {
@@ -108,7 +108,8 @@ public class ControlGraphSeries {
 
         void unitsChanged();
     }
-    public static class Adapter implements Listener{
+
+    public static class Adapter implements Listener {
 
         public void visibilityChanged() {
         }

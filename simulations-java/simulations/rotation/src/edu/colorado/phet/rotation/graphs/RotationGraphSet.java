@@ -175,7 +175,7 @@ public class RotationGraphSet extends GraphSuiteSet {
                 JPanel p = new VerticalLayoutPanel();
                 RotationSeriesSelectionPanel selectionPanel = new RotationSeriesSelectionPanel( graph.getRotationControlGraph() );
                 JLabel titleGraphic = new JLabel( graph.getLabel() );
-                titleGraphic.setFont( new Font("Lucida Sans",Font.BOLD, 18));
+                titleGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
 //                titleGraphic.setForeground( graph.getRotationControlGraph().);
                 p.add( titleGraphic );
                 p.add( selectionPanel );

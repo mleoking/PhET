@@ -9,8 +9,8 @@ import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
-import java.awt.geom.Line2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 
 /**
  * Author: Sam Reid
@@ -30,7 +30,7 @@ public class RotationOriginNode extends PNode {
 
         htmlNode = new HTMLNode( "<html>" + UnicodeUtil.THETA + "=0<sup>o</sup></html>" );
         htmlNode.setFont( new PhetDefaultFont( 16, true ) );
-        htmlNode.setTransform( AffineTransform.getScaleInstance( RotationPlayAreaNode.SCALE, -RotationPlayAreaNode.SCALE) );
+        htmlNode.setTransform( AffineTransform.getScaleInstance( RotationPlayAreaNode.SCALE, -RotationPlayAreaNode.SCALE ) );
         addChild( htmlNode );
 
         translate( rotationPlatform.getCenter().getX() + rotationPlatform.getRadius() + offsetX, rotationPlatform.getCenter().getY() );
