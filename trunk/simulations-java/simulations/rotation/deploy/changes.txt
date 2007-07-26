@@ -1,5 +1,6 @@
 0.00.48
 Removed black rectangle around in-chart readouts
+Added title above checkboxes for charts without textboxes
 
 0.00.47 (7-25-2007)
 Changed velocity to green and acceleration to pink.

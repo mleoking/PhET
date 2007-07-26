@@ -14,11 +14,11 @@ public class GraphControlSeriesNode extends PNode {
     private ShadowPText shadowPText;
     private PSwing textBox;
     private GraphControlTextBox boxGraphControl;
+    public static final Font LABEL_FONT= new Font( "Lucida Sans", Font.BOLD, 14 );
 
     public GraphControlSeriesNode( ControlGraphSeries series ) {
         shadowPText = new ShadowPText( series.getTitle() );
-        Font labelFont = new Font( "Lucida Sans", Font.BOLD, 14 );
-        shadowPText.setFont( labelFont );
+        shadowPText.setFont( LABEL_FONT );
         shadowPText.setTextPaint( series.getColor() );
         shadowPText.setShadowColor( Color.black );
         addChild( shadowPText );

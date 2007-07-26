@@ -1,8 +1,6 @@
 package edu.colorado.phet.rotation.graphs;
 
-import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
-import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
-import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
+import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -174,9 +172,12 @@ public class RotationGraphSet extends GraphSuiteSet {
             if( graph.getRotationControlGraph().getSeriesPairCount() > 1 ) {
                 JPanel p = new VerticalLayoutPanel();
                 RotationSeriesSelectionPanel selectionPanel = new RotationSeriesSelectionPanel( graph.getRotationControlGraph() );
-                JLabel titleGraphic = new JLabel( graph.getLabel() );
-                titleGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
-//                titleGraphic.setForeground( graph.getRotationControlGraph().);
+                ShadowJLabel titleGraphic = new ShadowJLabel( graph.getRotationControlGraph().getTitle(),
+                                                              graph.getControlGraph().getControlGraphSeries( 0 ).getColor(),
+                                                              GraphControlSeriesNode.LABEL_FONT
+                                                              );
+//                titleGraphic.setFont( GraphControlSeriesNode.LABEL_FONT );
+//                titleGraphic.setForeground(  );
                 p.add( titleGraphic );
                 p.add( selectionPanel );
                 graphs[i].getControlGraph().addControl( p );
