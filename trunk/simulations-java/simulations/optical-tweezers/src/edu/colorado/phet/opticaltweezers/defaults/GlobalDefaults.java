@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.module;
+package edu.colorado.phet.opticaltweezers.defaults;
 
 import java.awt.geom.Point2D;
 

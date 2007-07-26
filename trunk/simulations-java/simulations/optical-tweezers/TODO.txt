@@ -5,12 +5,12 @@
 IN PROGRESS:
 
 AAPT:
+- adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
+
+HIGH PRIORITY:
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 - ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
 - ? change dt.default to something smaller than dt.fast.max
-- help items don't refresh fast enough
- 
-HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - "charge on bead" features (Hollywood, e-field arrow direction & magnitude affects smooshiness of negative charges)
@@ -20,6 +20,7 @@ MEDIUM PRIORITY:
 - vertical laser toggle button, like http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - save/load configurations
 - horizontal trap force features & controls
+- help items don't refresh fast enough
 
 LOW PRIORITY:
 - improve performance of e-field display (22% in Arrow.computeArrow)
@@ -57,6 +58,7 @@ MISSING INFO:
 
  
 DONE:
+7/26/07 - move *Defaults classes back into defaults package, easier to manage
 ********* version 0.00.30 (16962)
 7/25/07 - fix: fake bead-in-vacuum motion needs to use power=500mW when calculating trap force
 ********* version 0.00.29 (16939)

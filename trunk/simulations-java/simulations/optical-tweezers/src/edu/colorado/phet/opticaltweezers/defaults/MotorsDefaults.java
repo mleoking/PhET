@@ -1,12 +1,11 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.module.motors;
+package edu.colorado.phet.opticaltweezers.defaults;
 
 import java.awt.Dimension;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
-import edu.colorado.phet.opticaltweezers.module.GlobalDefaults;
 
 
 /**
