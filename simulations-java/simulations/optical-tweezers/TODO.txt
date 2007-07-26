@@ -5,12 +5,12 @@
 IN PROGRESS:
 
 AAPT:
+- make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 - ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
 - ? change dt.default to something smaller than dt.fast.max
 - help items don't refresh fast enough
  
 HIGH PRIORITY:
-- make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 
 MEDIUM PRIORITY:
 - "charge on bead" features (Hollywood, e-field arrow direction & magnitude affects smooshiness of negative charges)
