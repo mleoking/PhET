@@ -8,7 +8,6 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -19,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.Laser;
+import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.view.*;
 
 /**
@@ -36,10 +36,16 @@ public class DeveloperControlPanel extends JPanel {
     private Box _panel;
     private VectorsDeveloperPanel _vectorsPanel;
     
-    public DeveloperControlPanel( Font titleFont, Font controlFont, Frame parentFrame, 
-            Bead bead, Laser laser,
-            DNAStrand dnaStrand, DNAStrandNode dnaStrandNode,
-            TrapForceNode trapForceNode, FluidDragForceNode fluidDragForceNode, DNAForceNode dnaForceNode, LaserElectricFieldNode electricFieldNode ) {
+    public DeveloperControlPanel( Font titleFont, Font controlFont, Frame parentFrame,
+            OTClock clock,
+            Bead bead, 
+            Laser laser,
+            DNAStrand dnaStrand,
+            DNAStrandNode dnaStrandNode,
+            TrapForceNode trapForceNode,
+            FluidDragForceNode fluidDragForceNode,
+            DNAForceNode dnaForceNode,
+            LaserElectricFieldNode electricFieldNode ) {
         super();
         
         _showHideButton = new JButton();
@@ -58,7 +64,7 @@ public class DeveloperControlPanel extends JPanel {
         JPanel laserPanel = new LaserDeveloperPanel( titleFont, controlFont, laser );
         _panel.add( laserPanel );
         
-        JPanel beadPanel = new BeadDeveloperPanel( titleFont, controlFont, bead );
+        JPanel beadPanel = new BeadDeveloperPanel( titleFont, controlFont, clock, bead, laser );
         _panel.add( beadPanel );
         
         if ( dnaStrand != null ) {

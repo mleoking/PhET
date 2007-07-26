@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.control.developer;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
 import java.util.Observable;
@@ -12,10 +13,14 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockListener;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.model.Bead;
+import edu.colorado.phet.opticaltweezers.model.Laser;
+import edu.colorado.phet.opticaltweezers.model.OTClock;
 
 /**
  * BeadDeveloperPanel contains developer controls for the bead model.
@@ -23,13 +28,15 @@ import edu.colorado.phet.opticaltweezers.model.Bead;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeadDeveloperPanel extends JPanel implements Observer {
+public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtClockListener {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
+    private OTClock _clock;
     private Bead _bead;
+    private Laser _laser;
 
     private LinearValueControl _brownianMotionScaleControl;
     private LogarithmicValueControl _dtSubdivisionThresholdControl;
@@ -45,11 +52,17 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BeadDeveloperPanel( Font titleFont, Font controlFont, Bead bead ) {
+    public BeadDeveloperPanel( Font titleFont, Font controlFont, OTClock clock, Bead bead, Laser laser ) {
         super();
+        
+        _clock = clock;
+        _clock.addConstantDtClockListener( this );
         
         _bead = bead;
         _bead.addObserver( this );
+        
+        _laser = laser;
+        _laser.addObserver( this );
         
         TitledBorder border = new TitledBorder( "Bead model" );
         border.setTitleFont( titleFont );
@@ -182,10 +195,13 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
         _vacuumFastThresholdControl.setValue( _bead.getVacuumFastThreshold() );
         _vacuumFastDtControl.setValue( _bead.getVacuumFastDt() );
         _vacuumFastPowerControl.setValue( _bead.getVacuumFastPower() );
+        updateVaccumFastThresholdIndicator();
     }
     
     public void cleanup() {
+        _clock.removeConstantDtClockListener( this );
         _bead.deleteObserver( this );
+        _laser.deleteObserver( this );
     }
     
     //----------------------------------------------------------------------------
@@ -239,6 +255,7 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
         _bead.deleteObserver( this );
         _bead.setVacuumFastThreshold( value );
         _bead.addObserver( this );
+        updateVaccumFastThresholdIndicator();
     }
     
     private void handleVacuumFastDtControl() {
@@ -253,6 +270,18 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
         _bead.deleteObserver( this );
         _bead.setVacuumFastPower( value );
         _bead.addObserver( this );
+    }
+    
+    /*
+     * Set the control's text field to green when the threshold is currently exceeded.
+     */
+    private void updateVaccumFastThresholdIndicator() {
+        if ( _clock.getDt() * _laser.getPower() > _vacuumFastThresholdControl.getValue() ) {
+            _vacuumFastThresholdControl.getTextField().setBackground( Color.GREEN );
+        }
+        else {
+            _vacuumFastThresholdControl.getTextField().setBackground( Color.WHITE );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -289,5 +318,22 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
                 _vacuumFastPowerControl.setValue( _bead.getVacuumFastPower() );
             }
         }
+        else if ( o == _laser ) {
+            if ( arg == Laser.PROPERTY_POWER ) {
+                updateVaccumFastThresholdIndicator();
+            }
+        }
+    }
+
+    //----------------------------------------------------------------------------
+    // ConstantDtClockListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void delayChanged( ConstantDtClockEvent event ) {
+        // do nothing
+    }
+
+    public void dtChanged( ConstantDtClockEvent event ) {
+        updateVaccumFastThresholdIndicator();
     }
 }

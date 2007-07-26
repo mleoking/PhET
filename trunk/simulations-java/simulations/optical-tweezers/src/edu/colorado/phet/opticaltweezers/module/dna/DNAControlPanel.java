@@ -5,7 +5,6 @@ package edu.colorado.phet.opticaltweezers.module.dna;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
 import edu.colorado.phet.opticaltweezers.control.ChartsControlPanel;
@@ -14,6 +13,7 @@ import edu.colorado.phet.opticaltweezers.control.MiscControlPanel;
 import edu.colorado.phet.opticaltweezers.control.SimulationSpeedControlPanel;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.model.DNAModel;
+import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.module.AbstractControlPanel;
 
 /**
@@ -68,7 +68,7 @@ public class DNAControlPanel extends AbstractControlPanel {
         forceVectorNodes.add( _canvas.getFluidDragForceNode() );
         forceVectorNodes.add( _canvas.getDNAForceNode() );
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
-                model.getBead(), model.getLaser(), 
+                (OTClock)module.getClock(), model.getBead(), model.getLaser(), 
                 model.getDNAStrand(), _canvas.getDNAStrandNode(),
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode(), null /* electricFieldNode */ );
         
