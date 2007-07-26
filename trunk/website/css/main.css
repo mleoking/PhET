@@ -1440,7 +1440,7 @@ img.sponsors {
 #utility-panel {
 	width:    20em;
 	height:   1em;
-	position: fixed;
+	position: absolute;
 	right:    1em;
 	top:      1em;
 	text-align: right;

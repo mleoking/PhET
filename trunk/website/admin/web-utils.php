@@ -673,18 +673,28 @@ EOT;
         
         return $encoded_string;
     }  
+
+	function parse_multiselect_control($multiselect_control_name) {
+		$matches = array();
+        
+        if (preg_match('/multiselect_([a-zA-Z0-9_]+)_id_([0-9]+)$/i', $multiselect_control_name, $matches) !== 1) {
+            return false;
+        }
+        
+		$parsed = array();
+		
+        $parsed['table_name'] = $matches[1];
+		$parsed['row_id']	  = $matches[2];
+		
+		return $parsed;
+	}
     
-    function create_multiselect_control_name($name, $id) {
-        return "multiselect_${name}_id_${id}";
+    function create_multiselect_control_name($table_name, $row_id) {
+        return "multiselect_${table_name}_id_${row_id}";
     }
     
     function is_multiple_selection_control($control_name) {
-        if (preg_match('/multiselect_([a-zA-Z0-9_]+)_id_([0-9]+)$/i', $control_name) == 1) {
-            return true;
-        }
-        else {
-            return false;
-        }
+		return parse_multiselect_control($control_name) !== false;
     }
     
     function create_deletable_item_control_name($name, $id) {

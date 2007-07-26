@@ -36,6 +36,11 @@
 			}
 
             $url_info=parse_url($url);
+
+			if (!$url_info) return false;
+			
+			if (!isset($url_info['host'])) return false;
+
             $port = isset($url_info['port']) ? $url_info['port'] : 80;
             $fp=fsockopen($url_info['host'], $port, $errno, $errstr, 30);
             if($fp) {

@@ -47,6 +47,15 @@
         
         print "<input name=\"sim_rating\" type=\"radio\" value=\"$rating\" $check_status /> $image_html";
     }
+
+	function print_type_checkbox($type, $selected) {
+		global $SIM_TYPE_TO_IMAGE_HTML;
+		
+		$image_html   = $SIM_TYPE_TO_IMAGE_HTML[$type];
+        $check_status = generate_check_status($type, $selected);
+        
+        print "<input name=\"sim_type\" type=\"radio\" value=\"$type\" $check_status /> $image_html";
+	}
 	
 	function print_site_content() {
 	    $simulation = sim_get_sim_by_id($_REQUEST['sim_id']);
@@ -71,11 +80,7 @@ EOT;
         print_captioned_editable_area("Specify the <em>dir-name</em> of the simulation", "sim_dirname", $sim_dirname, "1");
             
         print_captioned_editable_area("Specify the <em>flavor-name</em> of the simulation", "sim_flavorname", $sim_flavorname,      "1");
-    
-        print_captioned_editable_area("Specify the URL that launches the simulation",   "sim_launch_url",   $sim_launch_url, "1");
-    
-        print_captioned_url_upload_control("Specify the URL of the JPEG simulation screenshot", "sim_image_url",  $sim_image_url,  "2");   
-    
+        
         print_captioned_url_upload_control("Specify the URL of the animated GIF preview",
                                            "sim_animated_image_url", $sim_animated_image_url, "2");
 
@@ -92,9 +97,17 @@ EOT;
 
 print <<<EOT
                 </p>    
-    
+
+	<div>Please select the type of the simulation</div>
+	
+		<p>
 EOT;
 
+		print_type_checkbox(SIM_TYPE_JAVA,  $sim_type);
+		print_type_checkbox(SIM_TYPE_FLASH, $sim_type);
+
+		print "</p>";
+		
         print "<div>";
 
         print_checkbox(
@@ -120,15 +133,15 @@ EOT;
         print_captioned_editable_area("Simulation Description", "sim_desc", $sim_desc, "10");
         print_captioned_editable_area("Enter the keywords to associated with the simulation*", 
                                       "sim_keywords", $sim_keywords, "2");
-        print_captioned_editable_area("Enter the members of the design team*",               "sim_design_team",     $sim_design_team, "2");
-        print_captioned_editable_area("Enter the libraries used by the simulation*",         "sim_libraries",       $sim_libraries,   "2");  
-        print_captioned_editable_area("Enter the 'thanks to' for the simulation*",           "sim_thanks_to",       $sim_thanks_to,   "2");  
+        print_captioned_editable_area("Enter the members of the design team*",               "sim_design_team",     $sim_design_team, "4");
+        print_captioned_editable_area("Enter the libraries used by the simulation*",         "sim_libraries",       $sim_libraries,   "4");  
+        print_captioned_editable_area("Enter the 'thanks to' for the simulation*",           "sim_thanks_to",       $sim_thanks_to,   "4");  
 
         print_captioned_url_upload_control("Enter the URL for the teacher's guide PDF", "sim_teachers_guide_url", $sim_teachers_guide_url, "2");    
     
-        print_captioned_editable_area("Enter the main topics*",                              "sim_main_topics",     $sim_main_topics, "2");  
+        print_captioned_editable_area("Enter the main topics*",                              "sim_main_topics",     $sim_main_topics, "4");  
 
-        print_captioned_editable_area("Enter the sample learning goals*",                    "sim_sample_goals",    $sim_sample_goals,"2");
+        print_captioned_editable_area("Enter the sample learning goals*",                    "sim_sample_goals",    $sim_sample_goals,"6");
     
         print("<div>Please select the categories you would like the Simulation to appear under:</div>");
 

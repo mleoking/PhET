@@ -45,17 +45,19 @@
         
         $key_to_check_for = "checkbox_cat_id_$cat_id";
 
+		$is_in_category        = sim_is_in_category($sim_id, $cat_id);
         $should_be_in_category = isset($_REQUEST["$key_to_check_for"]);
                
-        db_exec_query("DELETE FROM `simulation_listing` WHERE `cat_id`='$cat_id' AND `sim_id`='$sim_id' ");
-                
-        if ($should_be_in_category) {
+		if ($is_in_category && !$should_be_in_category) {
+        	db_exec_query("DELETE FROM `simulation_listing` WHERE `cat_id`='$cat_id' AND `sim_id`='$sim_id' ");
+		}
+        else if (!$is_in_category && $should_be_in_category) {
             db_exec_query("INSERT INTO `simulation_listing` (`sim_id`, `cat_id`) VALUES('$sim_id', '$cat_id')");
         }
     }  
     
     // Cleanup junk, if any:
-    mysql_query('DELETE FROM `simulation` WHERE `sim_name`=\'New Simulation\' ');
+    db_exec_query('DELETE FROM `simulation` WHERE `sim_name`=\'New Simulation\' ');
     
     function print_success_message() {
         global $sim_name;
@@ -69,5 +71,5 @@ EOT;
     
     print_site_page('print_success_message', 9);
     
-    force_redirect("edit-sim.php?sim_id=$sim_id", 3);
+    force_redirect("edit-sim.php?sim_id=$sim_id", 2);
 ?>
