@@ -25,7 +25,8 @@ public class ReadoutTitleNode extends PNode {
         titlePText = new ShadowHTMLNode();
         titlePText.setFont( getTitleFont() );
         titlePText.setColor( series.getColor() );
-        background = new PhetPPath( null, Color.white, new BasicStroke(), Color.black );
+//        background = new PhetPPath( null, Color.white, new BasicStroke(), Color.black );
+        background = new PhetPPath( Color.white );
         addChild( background );
         addChild( titlePText );
         series.getSimulationVariable().addListener( new ISimulationVariable.Listener() {
