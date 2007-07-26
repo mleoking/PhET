@@ -32,6 +32,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
 
     public static final String PROPERTY_FORCE = "force"; // force applied to the bead that is attached to the head
     public static final String PROPERTY_SHAPE = "shape"; // shape of the strand
+    
+    // Developer controls
     public static final String PROPERTY_SPRING_CONSTANT = "springConstant";
     public static final String PROPERTY_DRAG_COEFFICIENT = "dragCoefficient";
     public static final String PROPERTY_KICK_CONSTANT = "kickConstant";
@@ -52,30 +54,26 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private double _maxClockStep;
     private Bead _bead;
     private Fluid _fluid;
-
     private final double _contourLength; // nm, length of the DNA strand
     private final double _persistenceLength; // nm, measure of the strand's bending stiffness
     private final int _numberOfSprings; // number of connected springs used to model the strand
-
     private DNAPivot[] _pivots;
-    
-    private DoubleRange _springConstantRange;
-    private DoubleRange _dragCoefficientRange;
-    private DoubleRange _kickConstantRange;
-    private IntegerRange _numberOfEvolutionsPerClockTickRange;
-    private DoubleRange _evolutionDtRange;
-    private DoubleRange _fluidDragCoefficientRange;
-    
-    private double _springConstant; // actually the spring constant divided by mass
-    private double _dragCoefficient;
-    private double _kickConstant;
-    private int _numberOfEvolutionsPerClockTick;
-    private double _evolutionDt;
-    private double _fluidDragCoefficient;
-    
     private Random _kickRandom;
-    
     private Vector2D _someVector; // reusable vector
+    
+    // Developer controls
+    private double _springConstant; // actually the spring constant divided by mass
+    private DoubleRange _springConstantRange;
+    private double _dragCoefficient;
+    private DoubleRange _dragCoefficientRange;
+    private double _kickConstant;
+    private DoubleRange _kickConstantRange;
+    private int _numberOfEvolutionsPerClockTick;
+    private IntegerRange _numberOfEvolutionsPerClockTickRange;
+    private double _evolutionDt;
+    private DoubleRange _evolutionDtRange;
+    private double _fluidDragCoefficient;
+    private DoubleRange _fluidDragCoefficientRange;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -98,10 +96,20 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * @param bead
      * @param fluid
      */
-    public DNAStrand( double contourLength, double persistenceLength, int numberOfSprings, 
-            DoubleRange springConstantRange, DoubleRange dragCoefficientRange, DoubleRange kickConstantRange, 
-            IntegerRange numberOfEvolutionsPerClockTickRange, DoubleRange evolutionDtRange, DoubleRange fluidDragCoefficientRange,
-            double maxClockStep, Bead bead, Fluid fluid ) {
+    public DNAStrand( double contourLength, 
+            double persistenceLength, 
+            int numberOfSprings, 
+            DoubleRange springConstantRange, 
+            DoubleRange dragCoefficientRange, 
+            DoubleRange kickConstantRange, 
+            IntegerRange numberOfEvolutionsPerClockTickRange, 
+            DoubleRange evolutionDtRange, 
+            DoubleRange fluidDragCoefficientRange,
+            double maxClockStep, 
+            Bead bead, 
+            Fluid fluid ) {
+        
+        super();
 
         _contourLength = contourLength;
         _persistenceLength = persistenceLength;

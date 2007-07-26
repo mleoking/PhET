@@ -22,13 +22,18 @@ public class Bead extends MovableObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     public static final String PROPERTY_DIAMETER = "diameter";
+    public static final String PROPERTY_BROWNIAN_MOTION_ENABLED = "brownianMotionEnabled";
+    
+    // Developer controls
     public static final String PROPERTY_DT_SUBDIVISION_THRESHOLD = "dtSubdivisionThreshold";
     public static final String PROPERTY_NUMBER_OF_DT_SUBDIVISIONS = "numberOfDtSubdivisions";
     public static final String PROPERTY_BROWNIAN_MOTION_SCALE = "brownianMotionScale";
-    public static final String PROPERTY_BROWNIAN_MOTION_ENABLED = "brownianMotionEnabled";
     public static final String PROPERTY_VERLET_ACCELERATION_SCALE = "verletAccelerationScale";
     public static final String PROPERTY_VERLET_DT_SUBDIVISION_THRESHOLD = "verletDtSubdivisionThreshold";
     public static final String PROPERTY_VERLET_NUMBER_OF_DT_SUBDIVISIONS = "verletNumberOfDtSubdivisions";
+    public static final String PROPERTY_VACUUM_FAST_THRESHOLD = "vacuumFastThreshold";
+    public static final String PROPERTY_VACUUM_FAST_DT = "vacuumFastDt";
+    public static final String PROPERTY_VACUUM_FAST_POWER = "vacuumFastPower";
     
     //----------------------------------------------------------------------------
     // Private class data
@@ -41,11 +46,6 @@ public class Bead extends MovableObject implements ModelElement {
     // units conversions
     private static final double PM_PER_NM = 1E3; // picometers per nanometer
     private static final double G_PER_KG = 1E3; // grams per kilogram
-    
-    // faking motion of bead-in-vacuum to make it look "really fast"
-    private static final double VACUUM_FAST_MOTION_THRESHOLD = 240E-5; // value provided by Kathy Perkins
-    private static final double VACUUM_FAST_MOTION_DT = 4E-5;
-    private static final double VACUUM_FAST_MOTION_LASER_POWER = 500; // mW
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -62,19 +62,25 @@ public class Bead extends MovableObject implements ModelElement {
     private final Vector2D _velocity; // nm/sec
     private DNAStrand _dnaStrand;
     
-    private final DoubleRange _brownianMotionScaleRange;
-    private final DoubleRange _dtSubdivisionThresholdRange;
-    private final IntegerRange _numberOfDtSubdivisionsRange;
-    private final DoubleRange _verletDtSubdivisionThresholdRange;
-    private final IntegerRange _verletNumberOfDtSubdivisionsRange;
-    private final DoubleRange _verletAccelerationScaleRange;
-    
+    // Developer controls
     private double _brownianMotionScale;
+    private final DoubleRange _brownianMotionScaleRange;
     private double _dtSubdivisionThreshold;
+    private final DoubleRange _dtSubdivisionThresholdRange;
     private int _numberOfDtSubdivisions;
+    private final IntegerRange _numberOfDtSubdivisionsRange;
     private double _verletDtSubdivisionThreshold;
+    private final DoubleRange _verletDtSubdivisionThresholdRange;
     private int _verletNumberOfDtSubdivisions;
+    private final IntegerRange _verletNumberOfDtSubdivisionsRange;
     private double _verletAccelerationScale;
+    private final DoubleRange _verletAccelerationScaleRange;
+    private double _vacuumFastThreshold;
+    private final DoubleRange _vacuumFastThresholdRange;
+    private double _vacuumFastDt;
+    private final DoubleRange _vacuumFastDtRange;
+    private double _vacuumFastPower;
+    private final DoubleRange _vacuumFastPowerRange;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -87,29 +93,35 @@ public class Bead extends MovableObject implements ModelElement {
      * @param orientation radians
      * @param diameter nm
      * @param density g/nm^3
+     * @param fluid
+     * @param microscopeSlide
+     * @param laser
      * @param brownianMotionScaleRange
      * @param dtSubdivisionThresholdRange
      * @param numberOfDtSubdivisionsRange
      * @param verletDtSubdivisionThresholdRange
      * @param verletNumberOfDtSubdivisionsRange
      * @param verletAccelerationScaleRange
-     * @param fluid
-     * @param microscopeSlide
-     * @param laser
+     * @param vacuumFastThresholdRange
+     * @param vacuumFastDtRange
+     * @param vacuumFastPowerRange
      */
     public Bead( Point2D position, 
             double orientation, 
             double diameter, 
             double density,
+            Fluid fluid,
+            MicroscopeSlide microscopeSlide,
+            Laser laser,
             DoubleRange brownianMotionScaleRange,
             DoubleRange dtSubdivisionThresholdRange,
             IntegerRange numberOfDtSubdivisionsRange,
             DoubleRange verletDtSubdivisionThresholdRange,
             IntegerRange verletNumberOfDtSubdivisionsRange,
             DoubleRange verletAccelerationScaleRange,
-            Fluid fluid,
-            MicroscopeSlide microscopeSlide,
-            Laser laser ) {
+            DoubleRange vacuumFastThresholdRange,
+            DoubleRange vacuumFastDtRange,
+            DoubleRange vacuumFastPowerRange ) {
         
         super( position, orientation, 0 /* speed */ );
         
@@ -139,6 +151,9 @@ public class Bead extends MovableObject implements ModelElement {
         _verletDtSubdivisionThresholdRange = verletDtSubdivisionThresholdRange;
         _verletNumberOfDtSubdivisionsRange = verletNumberOfDtSubdivisionsRange;
         _verletAccelerationScaleRange = verletAccelerationScaleRange;
+        _vacuumFastThresholdRange = vacuumFastThresholdRange;
+        _vacuumFastDtRange = vacuumFastDtRange;
+        _vacuumFastPowerRange = vacuumFastPowerRange;
         
         _brownianMotionScale = brownianMotionScaleRange.getDefault();
         _dtSubdivisionThreshold = dtSubdivisionThresholdRange.getDefault();
@@ -146,6 +161,9 @@ public class Bead extends MovableObject implements ModelElement {
         _verletDtSubdivisionThreshold = verletDtSubdivisionThresholdRange.getDefault();
         _verletNumberOfDtSubdivisions = verletNumberOfDtSubdivisionsRange.getDefault();
         _verletAccelerationScale = verletAccelerationScaleRange.getDefault();
+        _vacuumFastThreshold = vacuumFastThresholdRange.getDefault();
+        _vacuumFastDt = vacuumFastDtRange.getDefault();
+        _vacuumFastPower = vacuumFastPowerRange.getDefault();
     }
     
     //----------------------------------------------------------------------------
@@ -428,6 +446,76 @@ public class Bead extends MovableObject implements ModelElement {
         return _verletNumberOfDtSubdivisionsRange;
     }
     
+    /**
+     * Sets the threshold about which bead in a vacuum motion will be faked to look "really fast".
+     * The threshold is dt*power.
+     * 
+     * @param vacuumFastThreshold
+     */
+    public void setVacuumFastThreshold( double vacuumFastThreshold ) {
+        if ( !_vacuumFastThresholdRange.contains( vacuumFastThreshold  ) ) {
+            throw new IllegalArgumentException( "vacuumFastThreshold out of range: " + vacuumFastThreshold );
+        }
+        if ( _vacuumFastThreshold != vacuumFastThreshold ) {
+            _vacuumFastThreshold = vacuumFastThreshold;
+            notifyObservers( PROPERTY_VACUUM_FAST_THRESHOLD );
+        }
+    }
+    
+    public double getVacuumFastThreshold() {
+        return _vacuumFastThreshold;
+    }
+    
+    public DoubleRange getVacuumFastThresholdRange() {
+        return _vacuumFastThresholdRange;
+    }
+    
+    /**
+     * Sets the dt used for faking "really fast" bead motion in a vacuum.
+     * 
+     * @param vacuumFastDt
+     */
+    public void setVacuumFastDt( double vacuumFastDt ) {
+        if ( !_vacuumFastDtRange.contains( vacuumFastDt  ) ) {
+            throw new IllegalArgumentException( "vacuumFastDt out of range: " + vacuumFastDt );
+        }
+        if ( _vacuumFastDt != vacuumFastDt ) {
+            _vacuumFastDt = vacuumFastDt;
+            notifyObservers( PROPERTY_VACUUM_FAST_DT );
+        }
+    }
+    
+    public double getVacuumFastDt() {
+        return _vacuumFastDt;
+    }
+    
+    public DoubleRange getVacuumFastDtRange() {
+        return _vacuumFastDtRange;
+    }
+    
+    /**
+     * Sets the laser power used for faking "really fast" bead motion in a vacuum.
+     * 
+     * @param vacuumFastPower laser power (mW)
+     */
+    public void setVacuumFastPower( double vacuumFastPower ) {
+        if ( !_vacuumFastPowerRange.contains( vacuumFastPower  ) ) {
+            throw new IllegalArgumentException( "vacuumFastPower out of range: " + vacuumFastPower );
+        }
+        if ( _vacuumFastPower != vacuumFastPower ) {
+            _vacuumFastPower = vacuumFastPower;
+            notifyObservers( PROPERTY_VACUUM_FAST_POWER );
+        }
+    }
+    
+    public double getVacuumFastPower() {
+        return _vacuumFastPower;
+    }
+    
+    public DoubleRange getVacuumFastPowerRange() {
+        return _vacuumFastPowerRange;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -491,10 +579,10 @@ public class Bead extends MovableObject implements ModelElement {
          * Note that this is also done in the main loop below, when calculating trap force.
          */
         Vector2D trapForce = null;
-        final boolean fakeMotion = ( _laser.isRunning() && ( _laser.getPower() * clockDt >= VACUUM_FAST_MOTION_THRESHOLD ) );
+        final boolean fakeMotion = ( _laser.isRunning() && ( _laser.getPower() * clockDt >= _vacuumFastThreshold ) );
         if ( fakeMotion ) {
-            clockDt = VACUUM_FAST_MOTION_DT;
-            trapForce = _laser.getTrapForce( xOld, yOld, VACUUM_FAST_MOTION_LASER_POWER );
+            clockDt = _vacuumFastDt;
+            trapForce = _laser.getTrapForce( xOld, yOld, _vacuumFastPower );
         }
         else {
             trapForce = _laser.getTrapForce( xOld, yOld ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2
@@ -537,7 +625,7 @@ public class Bead extends MovableObject implements ModelElement {
             // trap force
             if ( fakeMotion ) {
                 // See comment above about faking motion in a vacuum
-                trapForce = _laser.getTrapForce( xNew, yNew, VACUUM_FAST_MOTION_LASER_POWER );
+                trapForce = _laser.getTrapForce( xNew, yNew, _vacuumFastPower );
             }
             else {
                 trapForce = _laser.getTrapForce( xNew, yNew ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2

@@ -58,6 +58,8 @@ MISSING INFO:
 
  
 DONE:
+7/26/07 - add developer controls for "really fast" bead-in-vacuum motion (threshold, dt, power)
+7/26/07 - group together all instance data related to developer controls 
 7/26/07 - move *Defaults classes back into defaults package, easier to manage
 ********* version 0.00.30 (16962)
 7/25/07 - fix: fake bead-in-vacuum motion needs to use power=500mW when calculating trap force
