@@ -7,7 +7,8 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.analysis.KirkhoffSolver;
-import edu.colorado.phet.cck.model.components.Switch;
+import edu.colorado.phet.cck.model.components.Battery;
+import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.HelpPanel;
@@ -329,7 +330,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             j.setPosition( j.getX(), newY );
         }
 //        for( int i = 0; i < circuit.numBranches(); i++ ) {
-//            if( circuit.branchAt( i ) instanceof Switch ||circuit.branchAt( i) instanceof ) {
+//            if( !( circuit.branchAt( i ) instanceof Battery ) ) {
 //                Junction a = circuit.branchAt( i ).getStartJunction();
 //                Junction b = circuit.branchAt( i ).getEndJunction();
 //                Junction c = new Junction( a.getX() + 1, b.getY() );
@@ -338,6 +339,10 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
 //                circuit.branchAt( i ).setEndJunction( d );
 //                circuit.branchAt( i ).setStartJunction( b );
 //                circuit.branchAt( i ).setEndJunction( a );
+//            }
+//            if( circuit.branchAt( i ) instanceof Bulb ) {
+//                Bulb bulb = (Bulb)circuit.branchAt( i );
+//                bulb.flip( circuit );
 //            }
 //        }
     }
