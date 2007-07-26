@@ -1,8 +1,6 @@
 ################################################
 #     To Do
 ################################
-2. add title above checkboxes for charts without textboxes
-
 •	make color of angular graph control = color for platform data
         platform data would be lightest shade of color
 •	make clear which graph associated with which object, just referring to choice of colors
