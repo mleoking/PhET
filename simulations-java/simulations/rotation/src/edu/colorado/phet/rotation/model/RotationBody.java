@@ -497,7 +497,6 @@ public class RotationBody {
         return displayGraph;
     }
 
-
     private static abstract class UpdateStrategy implements Serializable {
         public abstract void detach();
     }
