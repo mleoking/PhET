@@ -350,6 +350,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
     private String patchString( String str ) {
         str = str.replaceAll( "edu.colorado.phet.cck3.circuit.Branch", "edu.colorado.phet.cck.model.components.Wire" );
         str = str.replaceAll( "edu.colorado.phet.cck3.circuit.components.", "edu.colorado.phet.cck.model.components." );
+        str = str.replaceAll( "edu.colorado.phet.cck3.", "edu.colorado.phet.cck." );//grab bag
         return str;
     }
 
