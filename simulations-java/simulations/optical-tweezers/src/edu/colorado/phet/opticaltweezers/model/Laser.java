@@ -396,10 +396,22 @@ public class Laser extends MovableObject implements ModelElement {
      * @param trap force (pN)
      */
     public Vector2D getTrapForce( final double x, final double y ) {
+        final double power = ( _running ) ? _power : 0;
+        return getTrapForce( x, y, power );
+    }
+    
+    /**
+     * Gets the trap force at a point for a specific power setting.
+     * 
+     * @param x coordinate relative to global model origin (nm)
+     * @param y coordinate relative to global model origin (nm) 
+     * @param power power (mW)
+     * @param trap force (pN)
+     */
+    public Vector2D getTrapForce( final double x, final double y, final double power ) {
         final double xOffset = x - getX();
         final double yOffset = y - getY();
-        final double power = ( _running ) ? _power : 0;
-        return getTrapForce( xOffset, yOffset, power );
+        return getTrapForceAtOffset( xOffset, yOffset, power );
     }
     
     /**
@@ -411,7 +423,7 @@ public class Laser extends MovableObject implements ModelElement {
         double xOffset = _diameterAtWaist / 4; // halfway between center and edge of waist
         double yOffset = 0;
         double maxPower = _powerRange.getMax();
-        return getTrapForce( xOffset, yOffset, maxPower );
+        return getTrapForceAtOffset( xOffset, yOffset, maxPower );
     }
     
     /*
@@ -423,7 +435,7 @@ public class Laser extends MovableObject implements ModelElement {
      * @param power a power value (mW)
      * @return trap force (pN)
      */
-    private Vector2D getTrapForce( final double xOffset, final double yOffset, final double power ) {
+    private Vector2D getTrapForceAtOffset( final double xOffset, final double yOffset, final double power ) {
         if ( power < 0 ) {
             throw new IllegalArgumentException( "power must be >= 0 : " + power );
         }

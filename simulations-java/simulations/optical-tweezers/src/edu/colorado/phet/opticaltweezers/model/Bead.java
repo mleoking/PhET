@@ -42,9 +42,11 @@ public class Bead extends MovableObject implements ModelElement {
     private static final double PM_PER_NM = 1E3; // picometers per nanometer
     private static final double G_PER_KG = 1E3; // grams per kilogram
     
-    // dt used to make the bead-in-vacuum motion look really fast
-    private static final double VACCUUM_FAST_MOTION_DT = 4E-5;
-    
+    // faking motion of bead-in-vacuum to make it look "really fast"
+    private static final double VACUUM_FAST_MOTION_THRESHOLD = 240E-5; // value provided by Kathy Perkins
+    private static final double VACUUM_FAST_MOTION_DT = 4E-5;
+    private static final double VACUUM_FAST_MOTION_LASER_POWER = 500; // mW
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -461,7 +463,7 @@ public class Bead extends MovableObject implements ModelElement {
      *     distance - nm
      *     velocity - nm/sec
      *     acceleration - nm/sec^2
-     *     mass - grams
+     *     mass - kg
      * 
      * @param clockDt
      */
@@ -473,12 +475,32 @@ public class Bead extends MovableObject implements ModelElement {
 
         final double mass = getMass() / G_PER_KG; // kg
         
-        // current values for positon, velocity and acceleration
+        // current values for positon & velocity
         double xOld = getX();
         double yOld = getY();
         double vxOld = _velocity.getX();
         double vyOld = _velocity.getY();
-        Vector2D trapForce = _laser.getTrapForce( xOld, yOld ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2
+        
+        /*
+         * FAKING MOTION IN A VACUUM:
+         * Above a certain threshold, we want the oscillation to just look "really fast".
+         * This eliminates oscillations that appear slower at certain points due to 
+         * how far the bead moves per time step.  The threshold is based on clock dt 
+         * and laser power.  When the threshold is exceeded, we use some values 
+         * for dt and power that we know will make the motion look "really fast".
+         * Note that this is also done in the main loop below, when calculating trap force.
+         */
+        Vector2D trapForce = null;
+        final boolean fakeMotion = ( _laser.isRunning() && ( _laser.getPower() * clockDt >= VACUUM_FAST_MOTION_THRESHOLD ) );
+        if ( fakeMotion ) {
+            clockDt = VACUUM_FAST_MOTION_DT;
+            trapForce = _laser.getTrapForce( xOld, yOld, VACUUM_FAST_MOTION_LASER_POWER );
+        }
+        else {
+            trapForce = _laser.getTrapForce( xOld, yOld ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2
+        }
+        
+        // current acceleration
         double axOld = _verletAccelerationScale * ( 1 / PM_PER_NM ) * trapForce.getX() / mass; // nm/sec^2
         double ayOld = _verletAccelerationScale * ( 1 / PM_PER_NM ) * trapForce.getY() / mass;
         
@@ -486,15 +508,6 @@ public class Bead extends MovableObject implements ModelElement {
         double xNew = 0, yNew = 0;
         double vxNew = 0, vyNew = 0;
         double axNew = 0, ayNew = 0;
-        
-        /*
-         * Above a certain point, we want the oscillation to just look "really fast".
-         * This eliminates oscillations that appear slower at certain points due to 
-         * how far the bead moves per time step.
-         */
-        if ( _laser.getPower() * clockDt >= 240E-5 ) {
-            clockDt = VACCUUM_FAST_MOTION_DT;
-        }
         
         // Subdivide the clock step into N equals pieces
         double dt = clockDt;
@@ -521,8 +534,16 @@ public class Bead extends MovableObject implements ModelElement {
                 yNew = yBottomOfSlide;
             }
             
+            // trap force
+            if ( fakeMotion ) {
+                // See comment above about faking motion in a vacuum
+                trapForce = _laser.getTrapForce( xNew, yNew, VACUUM_FAST_MOTION_LASER_POWER );
+            }
+            else {
+                trapForce = _laser.getTrapForce( xNew, yNew ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2
+            }
+            
             // new acceleration
-            trapForce = _laser.getTrapForce( xNew, yNew ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2
             axNew = _verletAccelerationScale * ( 1 / PM_PER_NM ) * trapForce.getX() / mass; // nm/sec^2
             ayNew = _verletAccelerationScale * ( 1 / PM_PER_NM ) * trapForce.getY() / mass;
             
@@ -531,8 +552,9 @@ public class Bead extends MovableObject implements ModelElement {
             vyNew = vyOld + ( 0.5 * ( ayNew + ayOld ) * dt );
             
             if ( DEBUG_MOTION_IN_VACUUM ) {
+                System.out.println( "fakeMotion = " + fakeMotion );
                 System.out.println( "dt = " + dt );
-                System.out.println( "mass = " + mass + " g" );
+                System.out.println( "mass = " + mass + " kg" );
                 System.out.println( "old position = " + new Point2D.Double( xOld, yOld ) + " nm" );
                 System.out.println( "new position = " + new Point2D.Double( xNew, yNew ) + " nm" );
                 System.out.println( "new trap force = " + trapForce + " pN" );
