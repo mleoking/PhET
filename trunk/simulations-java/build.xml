@@ -221,27 +221,28 @@ PhET-team specific tasks are located in an auxiliary build file.
 
     <!--Builds the jnlp file for a specific locale and flavor-->
     <target name="_build-jnlp-locale-flavor">
-        <if>
-            <isset property="deploy.to.dev"/>
-            
-            <then>
-                <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" locale="${sim.locale}"
-                           deployurl="${sim.server.url}${sim.name}/${sim.version}"/>
-            </then>
-            <else>
-                <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" locale="${sim.locale}"
-                           deployurl="${sim.server.url}${sim.name}"/>
-            </else>
-        </if>
+        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" locale="${sim.locale}"
+                  deployurl="${codebase.url}"/>
     </target>
 
     <!--Builds jnlp files for all locales for a specific flavor, as well as the locale-less version.-->
     <target name="_build-jnlp">
+        <if>
+            <isset property="deploy.to.dev"/>
+            
+            <then>
+                <var name="codebase.url" value="${sim.server.url}${sim.name}/${sim.version}"/>
+            </then>
+            <else>
+                <var name="codebase.url" value="${sim.server.url}${sim.name}"/>
+            </else>
+        </if>
+        
         <phet-list-locales property="sim.locales" project="${sim.name}"/>
         <foreach list="${sim.locales}" target="_build-jnlp-locale-flavor" param="sim.locale" inheritall="true" inheritrefs="true"/>
 
         <!--And build a locale-less version-->
-        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${sim.server.url}${sim.name}/${sim.version}"/>
+        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${codebase.url}"/>
     </target>
     
     <!-- *************************************BEGIN BUILD NUMBERS************************************* -->
