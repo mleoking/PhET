@@ -206,7 +206,7 @@ public class Laser extends MovableObject implements ModelElement {
      * 
      * @param power power (mW)
      */
-    public void setPower( double power ) {
+    public void setPower( final double power ) {
         if ( power < _powerRange.getMin() || power > _powerRange.getMax() ) {
             throw new IllegalArgumentException( "power out of range: " + power );
         }
@@ -232,7 +232,7 @@ public class Laser extends MovableObject implements ModelElement {
      * 
      * @param trapForceRatio
      */
-    public void setTrapForceRatio( double trapForceRatio ) {
+    public void setTrapForceRatio( final double trapForceRatio ) {
         if ( !_trapForceRatioRange.contains( trapForceRatio  ) ) {
             throw new IllegalArgumentException( "trapForceRation out of range: " + trapForceRatio );
         }
@@ -262,7 +262,7 @@ public class Laser extends MovableObject implements ModelElement {
         return _trapForceRatioRange;
     }
     
-    public void setElectricFieldScale( double electricFieldScale ) {
+    public void setElectricFieldScale( final double electricFieldScale ) {
         if ( !_electricFieldScaleRange.contains( electricFieldScale ) ) {
             throw new IllegalArgumentException( "electricFieldScale out of range: " + electricFieldScale );
         }
