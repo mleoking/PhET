@@ -121,8 +121,8 @@ public class RotationGraph extends MotionControlGraph {
         }
     }
 
-    public SeriesPair addSeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b, RotationBody bodyB ) {
-        SeriesPair seriesPair = new SeriesPair( name, a, b, bodyB );
+    public SeriesPair addSeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b, RotationBody bodyA, RotationBody bodyB ) {
+        SeriesPair seriesPair = new SeriesPair( name, a, b, bodyA, bodyB );
         seriesPairs.add( seriesPair );
         addSeries( a );
         addSecondarySeries( b );
@@ -141,15 +141,28 @@ public class RotationGraph extends MotionControlGraph {
         private String name;
         private ControlGraphSeries a;
         private ControlGraphSeries b;
+        private RotationBody body0;
         private RotationBody body1;
         private boolean visible;
 
-        public SeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b, RotationBody body1 ) {
+        public SeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b, RotationBody body0, RotationBody body1 ) {
             this.name = name;
             this.a = a;
             this.b = b;
+            this.body0 = body0;
             this.body1 = body1;
             this.visible = a.isVisible();
+            body0.addListener( new RotationBody.Adapter() {
+
+                public void platformStateChanged() {
+                    updateVisibility();
+                }
+
+                public void displayGraphChanged() {
+                    updateVisibility();
+                }
+            } );
+
             body1.addListener( new RotationBody.Adapter() {
                 public void platformStateChanged() {
                     updateVisibility();
@@ -167,7 +180,7 @@ public class RotationGraph extends MotionControlGraph {
         }
 
         private void updateVisibility() {
-            a.setVisible( visible );
+            a.setVisible( visible && body0.getDisplayGraph() );
             b.setVisible( visible && body1.isOnPlatform() && body1.getDisplayGraph() );
         }
 

@@ -28,8 +28,8 @@ public class RotationMinimizableControlGraph extends MinimizableControlGraph {
         controlGraph.addSecondarySeries( controlGraphSeries );
     }
 
-    public RotationGraph.SeriesPair addSeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b, RotationBody bodyB ) {
-        return controlGraph.addSeriesPair( name, a, b, bodyB );
+    public RotationGraph.SeriesPair addSeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b, RotationBody bodyA, RotationBody bodyB ) {
+        return controlGraph.addSeriesPair( name, a, b, bodyA, bodyB );
     }
 
     public RotationGraph getRotationControlGraph() {

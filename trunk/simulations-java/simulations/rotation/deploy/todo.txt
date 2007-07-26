@@ -7,7 +7,7 @@ Yep, and platform data would be lightest shade of color you choose.
 
 3. make clear which graph associated with which object, just referring to choice of colors
 
-Also we wanted to have "Show Ladybug graphs" and "Show Platform graphs" check boxes in same place as beatle control.
+Also we wanted to have "Show Platform graphs" check boxes in same place as beatle control.
 
 5. add platform series for omega and alpha, even though will always be 3 series on top of each other
 
