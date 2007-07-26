@@ -7,7 +7,6 @@ import java.awt.Insets;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -38,6 +37,9 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
     private LogarithmicValueControl _verletDtSubdivisionThresholdControl;
     private LinearValueControl _verletNumberOfDtSubdivisions;
     private LogarithmicValueControl _verletMotionScaleControl;
+    private LogarithmicValueControl _vacuumFastThresholdControl;
+    private LogarithmicValueControl _vacuumFastDtControl;
+    private LinearValueControl _vacuumFastPowerControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -121,6 +123,39 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
             }
         });
         
+        min = bead.getVacuumFastThresholdRange().getMin();
+        max = bead.getVacuumFastThresholdRange().getMax();
+        _vacuumFastThresholdControl = new LogarithmicValueControl( min, max, "vacuum fast threshold:", "0.0E0", "" );
+        _vacuumFastThresholdControl.setUpDownArrowDelta( 0.000000001 );
+        _vacuumFastThresholdControl.setFont( controlFont );
+        _vacuumFastThresholdControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleVacuumFastThresholdControl();
+            }
+        });
+        
+        min = bead.getVacuumFastDtRange().getMin();
+        max = bead.getVacuumFastDtRange().getMax();
+        _vacuumFastDtControl = new LogarithmicValueControl( min, max, "vacuum fast dt:", "0.0E0", "" );
+        _vacuumFastDtControl.setUpDownArrowDelta( 0.000000001 );
+        _vacuumFastDtControl.setFont( controlFont );
+        _vacuumFastDtControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleVacuumFastDtControl();
+            }
+        });
+        
+        min = bead.getVacuumFastPowerRange().getMin();
+        max = bead.getVacuumFastPowerRange().getMax();
+        _vacuumFastPowerControl = new LinearValueControl( min, max, "vacuum fast power:", "##0", "" );
+        _vacuumFastPowerControl.setUpDownArrowDelta( 1 );
+        _vacuumFastPowerControl.setFont( controlFont );
+        _vacuumFastPowerControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleVacuumFastPowerControl();
+            }
+        });
+        
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         layout.setInsets( new Insets( 0, 0, 0, 0 ) );
@@ -133,6 +168,9 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
         layout.addComponent( _verletNumberOfDtSubdivisions, row++, column );
         layout.addComponent( _verletDtSubdivisionThresholdControl, row++, column );
         layout.addComponent( _verletMotionScaleControl, row++, column );
+        layout.addComponent( _vacuumFastThresholdControl, row++, column );
+        layout.addComponent( _vacuumFastDtControl, row++, column );
+        layout.addComponent( _vacuumFastPowerControl, row++, column );
         
         // Default state
         _brownianMotionScaleControl.setValue( _bead.getBrownianMotionScale() );
@@ -141,6 +179,9 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
         _verletDtSubdivisionThresholdControl.setValue( _bead.getVerletDtSubdivisionThreshold() );
         _verletNumberOfDtSubdivisions.setValue( _bead.getVerletNumberOfDtSubdivisions() );
         _verletMotionScaleControl.setValue( _bead.getVerletAccelerationScale() );
+        _vacuumFastThresholdControl.setValue( _bead.getVacuumFastThreshold() );
+        _vacuumFastDtControl.setValue( _bead.getVacuumFastDt() );
+        _vacuumFastPowerControl.setValue( _bead.getVacuumFastPower() );
     }
     
     public void cleanup() {
@@ -193,6 +234,27 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
         _bead.addObserver( this );
     }
     
+    private void handleVacuumFastThresholdControl() {
+        double value = _vacuumFastThresholdControl.getValue();
+        _bead.deleteObserver( this );
+        _bead.setVacuumFastThreshold( value );
+        _bead.addObserver( this );
+    }
+    
+    private void handleVacuumFastDtControl() {
+        double value = _vacuumFastDtControl.getValue();
+        _bead.deleteObserver( this );
+        _bead.setVacuumFastDt( value );
+        _bead.addObserver( this );  
+    }
+    
+    private void handleVacuumFastPowerControl() {
+        double value = _vacuumFastPowerControl.getValue();
+        _bead.deleteObserver( this );
+        _bead.setVacuumFastPower( value );
+        _bead.addObserver( this );
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
@@ -216,6 +278,15 @@ public class BeadDeveloperPanel extends JPanel implements Observer {
             }
             else if ( arg == Bead.PROPERTY_VERLET_ACCELERATION_SCALE ) {
                 _verletMotionScaleControl.setValue( _bead.getVerletAccelerationScale() );
+            }
+            else if ( arg == Bead.PROPERTY_VACUUM_FAST_THRESHOLD ) {
+                _vacuumFastThresholdControl.setValue( _bead.getVacuumFastThreshold() );
+            }
+            else if ( arg == Bead.PROPERTY_VACUUM_FAST_THRESHOLD ) {
+                _vacuumFastDtControl.setValue( _bead.getVacuumFastDt() );
+            }
+            else if ( arg == Bead.PROPERTY_VACUUM_FAST_THRESHOLD ) {
+                _vacuumFastPowerControl.setValue( _bead.getVacuumFastPower() );
             }
         }
     }

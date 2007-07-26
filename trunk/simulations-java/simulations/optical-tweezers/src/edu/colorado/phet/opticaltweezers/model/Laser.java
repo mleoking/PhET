@@ -25,6 +25,8 @@ public class Laser extends MovableObject implements ModelElement {
     
     public static final String PROPERTY_POWER = "power";
     public static final String PROPERTY_RUNNING = "running";
+
+    // Developer controls
     public static final String PROPERTY_TRAP_FORCE_RATIO = "trapForceRatio";
     public static final String PROPERTY_ELECTRIC_FIELD_SCALE = "electricFieldScale";
     public static final String PROPERTY_ELECTRIC_FIELD = "electricField";
@@ -50,15 +52,14 @@ public class Laser extends MovableObject implements ModelElement {
     private final double _visibleWavelength; // nm
     private double _power; // mW
     private final DoubleRange _powerRange; // mW
-    
-    private double _trapForceRatio; // developer control, determines ratio of x & y trap force components
-    private DoubleRange _trapForceRatioRange;
-    
     private double _electricFieldTime; // accumulated time, used to compute time-based e-field
-    private double _electricFieldScale; // developer control, used to scale the e-field
-    private DoubleRange _electricFieldScaleRange;
-    
     private OTClock _clock;
+    
+    // Developer controls
+    private double _trapForceRatio; // determines ratio of x & y trap force components
+    private DoubleRange _trapForceRatioRange;
+    private double _electricFieldScale; // used to scale the e-field
+    private DoubleRange _electricFieldScaleRange;
     
     //----------------------------------------------------------------------------
     // Constructors

@@ -35,6 +35,15 @@ public class GlobalDefaults {
     public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 5E-4, 1E-2, Fluid.WATER_VISCOSITY ); // Pa*s
     public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 298 ); // Kelvin
     
+    // Laser model, local origin at center of objective
+    public static final double LASER_WAVELENGTH = 1064; // nm, invisible IR
+    public static final double LASER_VISIBLE_WAVELENGTH = 632; // nm, to be used by view components
+    public static final double LASER_ORIENTATION = Math.toRadians( -90 );
+    public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500 ); // mW
+    public static final boolean LASER_RUNNING = true;
+    public static final DoubleRange LASER_TRAP_FORCE_RATIO = new DoubleRange( 0.1, 5, 0.179 );
+    public static final DoubleRange LASER_ELECTRIC_FIELD_SCALE_RANGE = new DoubleRange( 0.01, 10, 1 );
+    
     // Bead model
     public static final double BEAD_ORIENTATION = Math.toRadians( 0 );
     public static final double BEAD_DIAMETER = 200; // nm
@@ -46,15 +55,9 @@ public class GlobalDefaults {
     public static final DoubleRange BEAD_VERLET_ACCELERATION_SCALE_RANGE = new DoubleRange( 1E-8, 1E-1, 4E-3 );
     public static final DoubleRange BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE = new DoubleRange( FAST_DT_RANGE.getMin(), FAST_DT_RANGE.getMax(), 1E-6 );
     public static final IntegerRange BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE = new IntegerRange( 1, 2000, 10 );
-    
-    // Laser model, local origin at center of objective
-    public static final double LASER_WAVELENGTH = 1064; // nm, invisible IR
-    public static final double LASER_VISIBLE_WAVELENGTH = 632; // nm, to be used by view components
-    public static final double LASER_ORIENTATION = Math.toRadians( -90 );
-    public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500 ); // mW
-    public static final boolean LASER_RUNNING = true;
-    public static final DoubleRange LASER_TRAP_FORCE_RATIO = new DoubleRange( 0.1, 5, 0.179 );
-    public static final DoubleRange LASER_ELECTRIC_FIELD_SCALE_RANGE = new DoubleRange( 0.01, 10, 1 );
+    public static final DoubleRange BEAD_VACUUM_FAST_THRESHOLD_RANGE = new DoubleRange( 1E-6, 1E-1, 2.4E-3 );
+    public static final DoubleRange BEAD_VACUUM_FAST_DT_RANGE = new DoubleRange( FAST_DT_RANGE.getMin(), FAST_DT_RANGE.getMax(), 4E-5 );
+    public static final DoubleRange BEAD_VACUUM_FAST_POWER_RANGE = new DoubleRange( LASER_POWER_RANGE.getMin(), LASER_POWER_RANGE.getMax(), 500 );
     
     // Potential Energy chart
     public static final double POTENTIAL_ENERGY_SAMPLE_WIDTH = 5; // nm

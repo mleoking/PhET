@@ -75,15 +75,18 @@ public class PhysicsModel extends ClockAdapter {
                  GlobalDefaults.BEAD_ORIENTATION, 
                  GlobalDefaults.BEAD_DIAMETER,
                  GlobalDefaults.BEAD_DENSITY,
+                 _fluid,
+                 _microscopeSlide,
+                 _laser,
                  GlobalDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE,
                  GlobalDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE,
                  GlobalDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
                  GlobalDefaults.BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE,
                  GlobalDefaults.BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
                  GlobalDefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE,
-                _fluid,
-                _microscopeSlide,
-                _laser );
+                 GlobalDefaults.BEAD_VACUUM_FAST_THRESHOLD_RANGE,
+                 GlobalDefaults.BEAD_VACUUM_FAST_DT_RANGE,
+                 GlobalDefaults.BEAD_VACUUM_FAST_POWER_RANGE );
          _modelElements.add( _bead );
 
          _modelViewTransform = new ModelViewTransform( PhysicsDefaults.MODEL_TO_VIEW_SCALE );
