@@ -80,10 +80,19 @@ public class Laser extends MovableObject implements ModelElement {
      * @param electricFieldScaleRange
      * @param clock
      */
-    public Laser( Point2D position, double orientation, 
-            double diameterAtObjective, double diameterAtWaist, double distanceFromObjectiveToWaist, double distanceFromObjectiveToControlPanel,
-            double wavelength, double visibleWavelength, DoubleRange powerRange, DoubleRange trapForceRatioRange, DoubleRange electricFieldScaleRange,
+    public Laser( Point2D position, 
+            double orientation, 
+            double diameterAtObjective, 
+            double diameterAtWaist, 
+            double distanceFromObjectiveToWaist, 
+            double distanceFromObjectiveToControlPanel,
+            double wavelength, 
+            double visibleWavelength, 
+            DoubleRange powerRange, 
+            DoubleRange trapForceRatioRange, 
+            DoubleRange electricFieldScaleRange,
             OTClock clock ) {
+        
         super( position, orientation, 0 /* speed */ );
         
         _running = false;
