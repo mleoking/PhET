@@ -221,8 +221,18 @@ PhET-team specific tasks are located in an auxiliary build file.
 
     <!--Builds the jnlp file for a specific locale and flavor-->
     <target name="_build-jnlp-locale-flavor">
-        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" locale="${sim.locale}"
-                   deployurl="${sim.server.url}${sim.name}/${sim.version}"/>
+        <if>
+            <isset property="deploy.to.dev"/>
+            
+            <then>
+                <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" locale="${sim.locale}"
+                           deployurl="${sim.server.url}${sim.name}/${sim.version}"/>
+            </then>
+            <else>
+                <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" locale="${sim.locale}"
+                           deployurl="${sim.server.url}${sim.name}"/>
+            </else>
+        </if>
     </target>
 
     <!--Builds jnlp files for all locales for a specific flavor, as well as the locale-less version.-->
