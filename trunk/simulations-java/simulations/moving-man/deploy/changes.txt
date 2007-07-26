@@ -1,3 +1,5 @@
+7-26-2007: Workaround for font bounds problem in some locales that caused tearing in the time readout
+
 1.16.09 (6-27-2007)
 Improved motion subproject for MovingManMotionApplication feasibility test
 
