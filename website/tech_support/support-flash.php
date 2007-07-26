@@ -4,7 +4,7 @@
     
     function print_content() {
         ?>
-            <h1>Technical Support - Flash</h1>
+            <h1>Flash</h1>
 
             <p>This page will help you solve some of the problems people commonly have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.</p>
 

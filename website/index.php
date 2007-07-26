@@ -91,7 +91,7 @@
 
                 <dd><a href="get_phet/full_install.php">Full Installation</a></dd>
 
-                <dd><a href="get_phet/simlauncher.php">Partial Installation</a></dd>
+                <dd><a href="get_phet/simlauncher.php">One at a Time</a></dd>
             </dl>
 
             <dl>

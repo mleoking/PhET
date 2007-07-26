@@ -52,7 +52,7 @@
 
                         <th scope="row" abbr="" class="specalt"><p><a href="../get_phet/full_install.php">Click here</a> to go to the download page.</p></th>
 
-                        <th scope="row" abbr="" class="specalt"><p><a href="../get_phet/simlauncher.php">Click here</a> to go to the all-sims download page.</p></th>
+                        <th scope="row" abbr="" class="specalt"><p><a href="../get_phet/simlauncher.php">Click here</a> to go to the all-simulations download page.</p></th>
                     </tr>
 
                     <tr>

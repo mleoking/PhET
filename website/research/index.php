@@ -20,7 +20,7 @@
     
     function print_content() {
         ?>
-            <h1>PhET Research</h1>
+            <h1>Research</h1>
 
             <p>We direct our research at assessing the effectiveness of our interactive simulations in a variety of educational environments, particularly introductory physics courses and as stand-alone, informal educational tools.</p>
 

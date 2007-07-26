@@ -8,7 +8,7 @@
     
     function print_content() {
         ?>
-            <h1>Individual Offline Simulations</h1>
+            <h1>One at a Time</h1>
 
 			<p>
 				Click on the name of any simulation to download the simulation to your computer. To run the simulation, double-click it. If you have difficulties, please see our <a href="../tech_support/index.php">technical support</a> page.

@@ -6,7 +6,7 @@
     
     function print_content() {        
         print <<<EOT
-        <h1>Introduction to PhET</h1>
+        <h1>About</h1>
         
         <p>
         The Physics Education Technology (PhET) project is an ongoing effort to provide an extensive suite of simulations for teaching and learning physics and to make these resources both freely available from the <a href="../index.php">PhET website</a> and easy to incorporate into classrooms. 

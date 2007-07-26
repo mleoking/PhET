@@ -322,7 +322,7 @@ EOT;
         $level_list = build_level_list($Levels);
                 
         print <<<EOT
-            <h1>Browse Contributions</h1>
+            <h1>Browse</h1>
             
             <script type="text/javascript">
                 /* <![CDATA[ */

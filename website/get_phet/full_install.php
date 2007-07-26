@@ -4,8 +4,12 @@
     
     function print_content() {
         ?>
-            <h1>Full PhET Installation</h1>
+            <h1>Full Install</h1>
 
+			<p>
+				The full PhET installation package installs a copy of the PhET website onto your computer. Once installed, you do not need to be connected to the Internet
+				to view or run any of the simulations.
+			</p>
             <p>
             	These installers of the PhET Simulations are updated weekly. We suggest uninstalling your earlier versions of PhET before installing.
             </p>

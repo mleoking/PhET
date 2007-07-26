@@ -4,11 +4,13 @@
     
     function print_content() {
         ?>
-            <h1>PhET Would Like to Thank</h1>
+            <h1>Sponsors</h1>
 
-            <h2>Financial Support</h2>
-
+			<p>PhET would like to thank the following organizations and companies for their support:</p>
+			
 			<div id="people">
+            	<h2>Financial Support</h2>
+
 	            <ul>
 	                <li class="hewlett"><a href="http://www.hewlett.org/Default.htm"><img class="sponsors" src="../images/hewlett-logo.jpg" /><strong>The William and Flora Hewlett Foundation</strong></a></li>
 
