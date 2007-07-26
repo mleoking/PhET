@@ -193,6 +193,7 @@ public class Laser extends MovableObject implements ModelElement {
     
     /**
      * Gets the laser's power.
+     * Careful! The laser's power setting can be non-zero while the laser is not running.
      * 
      * @return mW
      */
@@ -356,7 +357,6 @@ public class Laser extends MovableObject implements ModelElement {
     
     /**
      * Gets the intensity for a specified location, radius and power.
-     * The radius can be calculated using getBeamRadiusAt.
      * 
      * @param xOffset horizontal distance from the center of the waist (nm)
      * @param radius beam radius (nm)
