@@ -1,1 +1,13 @@
 maybe photons should be interleaved instead of yellow in front and red in back
+
+___
+7-25-2007
+Angie and I ran a phet workshop for teachers today as part of the Research Experiences for Teachers program.
+
+One of the teachers gave us some feedback on The Greenhouse Effect sim.
+  Since I'm not sure who's on the design team for this sim, I'm sending it to everyone:
+
+He suggested that when you change the level of greenhouse gases, there should be some physical indication of what's causing it, like a factory producing smoke when you turn the level up, and trees growing when you turn it down.  Also, he wondered why, no matter how high you turn up the greenhouse gasses, the temperature never seems to get much higher than about 70 degrees Fahrenheit.  I didn't know.
+
+Sam
+___
