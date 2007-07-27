@@ -487,7 +487,7 @@
         return "SELECT DISTINCT `simulation`.`sim_id` FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat_id' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation`.`sim_sorting_name` ASC ";
     }
     
-    function sim_get_image_previews($type, $field) {
+    function sim_get_image_previews($type, $is_static = true) {
         global $connection;
 
         $select_categories_st = "SELECT * FROM `category` WHERE `cat_is_visible`='0' ";
@@ -498,17 +498,27 @@
             $cat_name = $category_row['cat_name'];
             
             if (preg_match("/.*$type.*preview.*/i", $cat_name) == 1) {
-                $animated_images = array();
+                $images = array();
                 
                 foreach (sim_get_sims_by_cat_id($cat_id) as $simulation) {
-                   	$sim_animated_image_url = $simulation["$field"];
+					$static_screenshot = sim_get_screenshot($simulation);
+					
+					if ($is_static) {
+						$images[] = $static_screenshot;
+					}
+					else {
+                   		$sim_animated_image_url = $simulation["sim_animated_image_url"];
                    
-					if ($sim_animated_image_url != '') {
-                   		$animated_images[] = $sim_animated_image_url;
+						if ($sim_animated_image_url != '') {
+                   			$images[] = $sim_animated_image_url;
+						}
+						else {
+							$images[] = $static_screenshot;
+						}
 					}
                 }
                 
-                return $animated_images;
+                return $images;
             }
         }
         
@@ -516,11 +526,11 @@
     }
     
     function sim_get_animated_previews() {
-        return sim_get_image_previews("animated", "sim_animated_image_url");
+        return sim_get_image_previews("animated", false);
     }
     
     function sim_get_static_previews() {
-        return sim_get_image_previews("static", "sim_image_url");
+        return sim_get_image_previews("static", true);
     }
 
 ?>

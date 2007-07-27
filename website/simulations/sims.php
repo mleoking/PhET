@@ -17,8 +17,15 @@
     
     function print_content() {
         global $SIM_RATING_TO_IMAGE_HTML, $SIM_TYPE_TO_IMAGE_HTML, $contributor_is_team_member;
+
+		if (!isset($_REQUEST['sim'])) {
+			print "<h1>No Simulation</h1><p>There is no simulation by the specified id.</p>";
+			
+			return;
+		}
         
         $sim_encoding = $_REQUEST['sim'];
+
         
         $sim_id = sim_get_sim_id_by_sim_encoding($sim_encoding);
         
