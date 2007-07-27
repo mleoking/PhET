@@ -16,6 +16,7 @@
 •	Right now, if you let it go beyond end of graph and keep going, then press clear, the graph starts recording, but the button keeps reading “Go” instead of “Stop”
                 Sometimes “record button doesn’t appear when it seems like it should”.
 •	Improve performance
+        30% app is in HTMLNode update
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
     -this may be due in part to time series filling up in "live mode", early enough data should be discarded
 •	Better graphics/characters?  Beetle will be undesirable for some?
