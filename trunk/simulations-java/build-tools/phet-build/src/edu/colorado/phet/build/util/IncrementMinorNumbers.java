@@ -44,10 +44,10 @@ public class IncrementMinorNumbers {
             if( major.equals( "0" ) ) {
                 major = "1";
             }
-            properties.setProperty( "version.major", major );
-            properties.setProperty( "version.minor", newMinorNumber );
-            properties.setProperty( "version.dev", "00" );
-            properties.setProperty( "version.revision", "17030" );
+//            properties.setProperty( "version.major", major );
+//            properties.setProperty( "version.minor", newMinorNumber );
+//            properties.setProperty( "version.dev", "00" );
+            properties.setProperty( "version.revision", "17033" );
             properties.store( new FileOutputStream( propertyFile ), null );
         }
         catch( IOException e ) {
