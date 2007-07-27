@@ -37,12 +37,12 @@ import java.util.TimerTask;
  */
 public class ExperimentSetupPanel extends JPanel implements Resetable {
     private static final int BEGIN_EXPERIMENT_DELAY_MS = 1000;
-    
+
     private JTextField numATF;
     private JTextField numBCTF;
     private JTextField numABTF;
     private JTextField numCTF;
-    private HashMap moleculeTypeToGenerator = new HashMap( );
+    private HashMap moleculeTypeToGenerator = new HashMap();
     private RateExperimentsModule module;
     private InitialTemperaturePanel initialTemperaturePanel;
     private JButton goButton;
@@ -179,7 +179,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         c.gridx      = 0;
         c.gridy      = GridBagConstraints.RELATIVE;
         c.gridwidth  = GridBagConstraints.REMAINDER;
-        c.gridheight = GridBagConstraints.REMAINDER;       
+        c.gridheight = GridBagConstraints.REMAINDER;
 
         add(buttonPanel, c);
     }
@@ -224,10 +224,10 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     }
 
     private void setInitialConditionsEditable( boolean editable ) {
-        numATF.setEditable(  editable );
+        numATF.setEditable( editable );
         numBCTF.setEditable( editable );
         numABTF.setEditable( editable );
-        numCTF.setEditable(  editable );
+        numCTF.setEditable( editable );
     }
 
     /**
@@ -272,10 +272,10 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         // User wants to begin an experiment:
         setInitialConditionsEditable( false );
 
-        generateMolecules( MoleculeA.class,  Integer.parseInt( numATF.getText()  ) );
+        generateMolecules( MoleculeA.class, Integer.parseInt( numATF.getText() ) );
         generateMolecules( MoleculeBC.class, Integer.parseInt( numBCTF.getText() ) );
         generateMolecules( MoleculeAB.class, Integer.parseInt( numABTF.getText() ) );
-        generateMolecules( MoleculeC.class,  Integer.parseInt( numCTF.getText()  ) );
+        generateMolecules( MoleculeC.class, Integer.parseInt( numCTF.getText() ) );
 
         goButton.setText( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.stop" ) );
 
@@ -312,15 +312,23 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
 
                 if (moleculeCount > 0) {
                     module.getMRModel().removeAllMolecules();
+                    new Thread( new Runnable() {
+                        public void run() {
 
-                    runOnce(
-                        new Runnable() {
-                            public void run() {
-                                beginExperiment();
+                            try {
+                                Thread.sleep( BEGIN_EXPERIMENT_DELAY_MS );
                             }
-                        },
-                        BEGIN_EXPERIMENT_DELAY_MS
-                    );
+                            catch( InterruptedException e1 ) {
+                                e1.printStackTrace();
+                            }
+                            SwingUtilities.invokeLater( new Runnable() {
+                                public void run() {
+                                    beginExperiment();
+                                }
+                            } );
+                        }
+                    } ).start();
+                            
                 }
                 else {
                     beginExperiment();
@@ -339,7 +347,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
             }
         }, time );
     }
-    
+
     public boolean isTemperatureBeingAdjusted() {
         return initialTemperaturePanel.isTemperatureBeingAdjusted();
     }
