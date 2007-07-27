@@ -23,19 +23,15 @@ public class RotationBody {
     private MotionBody xBody;
     private MotionBody yBody;
     private UpdateStrategy updateStrategy = new OffPlatform();
-    private double orientation = 0.0;
+
 
     private ArrayList listeners = new ArrayList();
-    private ISimulationVariable speedVariable;
-    private ITimeSeries speedSeries;
-
-    private ISimulationVariable accelMagnitudeVariable;
-    private ITimeSeries accelMagnitudeSeries;
-
-    private ISimulationVariable angleVariable = new DefaultSimulationVariable();
-    private ITimeSeries angleTimeSeries = new DefaultTimeSeries();
+    private SeriesVariable speed;
+    private SeriesVariable accel;
+    private SeriesVariable angle;
 
     private ITimeSeries orientationSeries = new DefaultTimeSeries();
+    private double orientation = 0.0;
 
     private String imageName;
     private boolean constrained;
@@ -44,7 +40,7 @@ public class RotationBody {
     private double initialAngleOnPlatform;
     private boolean displayGraph = true;
     private CircularRegression.Circle circle;
-
+    private CircularRegression circularRegression = new CircularRegression();
 
     public RotationBody() {
         this( "ladybug.gif" );
@@ -60,14 +56,9 @@ public class RotationBody {
         xBody = new MotionBody();
         yBody = new MotionBody();
 
-        speedVariable = new DefaultSimulationVariable();
-        speedSeries = new DefaultTimeSeries();
-
-        accelMagnitudeVariable = new DefaultSimulationVariable();
-        accelMagnitudeSeries = new DefaultTimeSeries();
-
-        angleVariable = new DefaultSimulationVariable();
-        angleTimeSeries = new DefaultTimeSeries();
+        speed = new SeriesVariable();
+        accel = new SeriesVariable();
+        angle = new SeriesVariable();
     }
 
     public void setOffPlatform() {
@@ -140,36 +131,24 @@ public class RotationBody {
         if( !getPosition().equals( origPosition ) ) {//todo: integrate listener behavior into xBody and yBody?
             notifyPositionChanged();
         }
-        speedVariable.setValue( getVelocity().getMagnitude() );
-        speedSeries.addValue( getVelocity().getMagnitude(), time );
-
-        accelMagnitudeVariable.setValue( getAcceleration().getMagnitude() );
-        accelMagnitudeSeries.addValue( getAcceleration().getMagnitude(), time );
-
+        speed.updateSeriesAndState( getVelocity().getMagnitude(), time );
+        accel.updateSeriesAndState( getAcceleration().getMagnitude(), time );
         orientationSeries.addValue( getOrientation(), time );
 
 //        debugSeries();
         notifyVectorsUpdated();
     }
 
-
     public void clear() {
         xBody.clear();
         yBody.clear();
-
-
-        speedSeries.clear();
-        speedVariable.setValue( 0.0 );
-
-        accelMagnitudeVariable.setValue( 0.0 );
-        accelMagnitudeSeries.clear();
-
-        angleTimeSeries.clear();
-
+        speed.clear();
+        accel.setValue( 0.0 );
+        accel.clear();
+        angle.clear();
+//        angleTimeSeries.clear();
         orientationSeries.clear();
     }
-
-    private CircularRegression circularRegression = new CircularRegression();
 
     private void updateOffPlatform( double time, double dt ) {
         AbstractVector2D origAccel = getAcceleration();
@@ -340,8 +319,7 @@ public class RotationBody {
 
         //use the rotation platform to compute angle since it has the correct winding number
 //        System.out.println( "rotationPlatform.getPosition() = " + rotationPlatform.getPosition() );
-        angleVariable.setValue( rotationPlatform.getPosition() + initialAngleOnPlatform );
-        angleTimeSeries.addValue( rotationPlatform.getPosition() + initialAngleOnPlatform, time );
+        angle.updateSeriesAndState( rotationPlatform.getPosition() + initialAngleOnPlatform, time );
 
         updateXYStateFromSeries();
 
@@ -439,19 +417,19 @@ public class RotationBody {
     }
 
     public ISimulationVariable getSpeedVariable() {
-        return speedVariable;
+        return speed.getVariable();
     }
 
     public ITimeSeries getSpeedSeries() {
-        return speedSeries;
+        return speed.getSeries();
     }
 
     public ISimulationVariable getAccelMagnitudeVariable() {
-        return accelMagnitudeVariable;
+        return accel.getVariable();
     }
 
     public ITimeSeries getAccelMagnitudeSeries() {
-        return accelMagnitudeSeries;
+        return accel.getSeries();
     }
 
     public String getImageName() {
@@ -461,11 +439,12 @@ public class RotationBody {
     public void setTime( double time ) {
         xBody.setTime( time );
         yBody.setTime( time );
-        accelMagnitudeVariable.setValue( accelMagnitudeSeries.getValueForTime( time ) );
-        speedVariable.setValue( speedSeries.getValueForTime( time ) );
+        accel.setValueForTime( time );
+        speed.setValueForTime( time );
+
         setOrientation( orientationSeries.getValueForTime( time ) );
-        if( angleTimeSeries.getSampleCount() > 0 ) {
-            angleVariable.setValue( angleTimeSeries.getValueForTime( time ) );
+        if( angle.getSampleCount() > 0 ) {
+            angle.setValueForTime( time );
         }
 
         notifyVectorsUpdated();
@@ -477,11 +456,11 @@ public class RotationBody {
     }
 
     public ISimulationVariable getAngleVariable() {
-        return angleVariable;
+        return angle.getVariable();
     }
 
     public ITimeSeries getAngleTimeSeries() {
-        return angleTimeSeries;
+        return angle.getSeries();
     }
 
     public void setDisplayGraph( boolean selected ) {
