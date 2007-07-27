@@ -41,7 +41,7 @@
             <p>Follow the instructions below:</p>
 
             <ul>
-                <li>Download the <a href="../../phet-dist/PhET-1.0-CD-ROM.zip">PhET CD-ROM Distribution archive</a> onto your computer (140 MB).</li>
+                <li>Download the <a href="../../phet-dist/PhET-1.0-CD-ROM.zip">PhET CD-ROM Distribution archive</a> onto your computer (89 MB).</li>
 
                 <li>Extract the contents of the archive (on most operating systems, this is done by double-clicking the downloaded file).</li>
 
