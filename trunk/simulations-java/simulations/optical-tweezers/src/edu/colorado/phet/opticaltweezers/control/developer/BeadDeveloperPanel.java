@@ -160,7 +160,7 @@ public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtCl
         
         min = bead.getVacuumFastPowerRange().getMin();
         max = bead.getVacuumFastPowerRange().getMax();
-        _vacuumFastPowerControl = new LinearValueControl( min, max, "vacuum fast power:", "##0", "" );
+        _vacuumFastPowerControl = new LinearValueControl( min, max, "vacuum fast power:", "##0", "mW" );
         _vacuumFastPowerControl.setUpDownArrowDelta( 1 );
         _vacuumFastPowerControl.setFont( controlFont );
         _vacuumFastPowerControl.addChangeListener( new ChangeListener() {
