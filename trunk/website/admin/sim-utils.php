@@ -509,7 +509,7 @@
 					else {
                    		$sim_animated_image_url = $simulation["sim_animated_image_url"];
                    
-						if ($sim_animated_image_url != '') {
+						if ($sim_animated_image_url != '' && file_or_url_exists(resolve_url_upload($sim_animated_image_url))) {
                    			$images[] = $sim_animated_image_url;
 						}
 						else {
