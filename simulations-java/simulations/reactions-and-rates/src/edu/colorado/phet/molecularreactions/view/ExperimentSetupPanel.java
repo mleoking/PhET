@@ -277,11 +277,10 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         generateMolecules( MoleculeAB.class, Integer.parseInt( numABTF.getText() ) );
         generateMolecules( MoleculeC.class,  Integer.parseInt( numCTF.getText()  ) );
 
-        module.setExperimentRunning( true );
-
         goButton.setText( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.stop" ) );
 
-        module.resetStripChart();
+        module.resetStripChart();//pauses the strip chart recording
+        module.setExperimentRunning( true );//restart the recording
         module.getClock().start();
 
         toggleInProgress = false;
