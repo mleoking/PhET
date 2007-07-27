@@ -19,7 +19,7 @@
             <h2><a href="../teacher_ideas/contribute.php">Contribute</a></h2>
             
             <p>
-                 If you have developed some material you'd like to share with others, please consider <a href="contribute.php">contributing it to PhET</a>. You can read our guidelines for contributions by <a href="contribution-guidelines.doc">clicking here</a>.
+                 If you have developed some material you'd like to share with others, please consider <a href="contribute.php">contributing it to PhET</a>. You can read our guidelines for contributions by <a href="contribution-guidelines.pdf">clicking here</a>.
             </p>
         <?php
     }

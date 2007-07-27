@@ -180,13 +180,13 @@ EOT;
     }
     
     function build_level_list($selected_values) {
-        $level_names = contribution_get_all_level_names();
+        $level_names = contribution_get_all_template_level_names();
         
         return build_association_filter_list($level_names, "Levels", $selected_values);
     }
     
     function build_type_list($selected_values) {
-        $type_names = contribution_get_all_type_names();
+        $type_names = contribution_get_all_template_type_names();
         
         return build_association_filter_list($type_names, "Types", $selected_values);
     }
