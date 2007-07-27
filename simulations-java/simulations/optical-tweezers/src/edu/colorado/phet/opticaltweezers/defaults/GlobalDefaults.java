@@ -55,9 +55,9 @@ public class GlobalDefaults {
     public static final DoubleRange BEAD_VERLET_ACCELERATION_SCALE_RANGE = new DoubleRange( 1E-8, 1E-1, 4E-3 );
     public static final DoubleRange BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE = new DoubleRange( FAST_DT_RANGE.getMin(), FAST_DT_RANGE.getMax(), 1E-6 );
     public static final IntegerRange BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE = new IntegerRange( 1, 2000, 10 );
-    public static final DoubleRange BEAD_VACUUM_FAST_THRESHOLD_RANGE = new DoubleRange( 1E-6, 1, 2.4E-3 );
-    public static final DoubleRange BEAD_VACUUM_FAST_DT_RANGE = new DoubleRange( FAST_DT_RANGE.getMin(), FAST_DT_RANGE.getMax(), 4E-5 );
-    public static final DoubleRange BEAD_VACUUM_FAST_POWER_RANGE = new DoubleRange( LASER_POWER_RANGE.getMin(), LASER_POWER_RANGE.getMax(), 500 );
+    public static final DoubleRange BEAD_VACUUM_FAST_THRESHOLD_RANGE = new DoubleRange( 1E-6, 1, 1E-3 );
+    public static final DoubleRange BEAD_VACUUM_FAST_DT_RANGE = new DoubleRange( FAST_DT_RANGE.getMin(), FAST_DT_RANGE.getMax(), 1E-5 );
+    public static final DoubleRange BEAD_VACUUM_FAST_POWER_RANGE = new DoubleRange( LASER_POWER_RANGE.getMin(), LASER_POWER_RANGE.getMax(), 100 );
     
     // Potential Energy chart
     public static final double POTENTIAL_ENERGY_SAMPLE_WIDTH = 5; // nm
