@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.dialog;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 

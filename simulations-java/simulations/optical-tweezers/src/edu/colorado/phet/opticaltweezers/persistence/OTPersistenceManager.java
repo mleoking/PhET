@@ -15,8 +15,8 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
-import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 
 

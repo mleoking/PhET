@@ -2,12 +2,9 @@
 
 package edu.colorado.phet.opticaltweezers.defaults;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
-import edu.colorado.phet.opticaltweezers.model.OTClock;
 
 
 /**
