@@ -15,6 +15,7 @@
         $beta_plus_html  = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_BETA_PLUS]; 
         $check_html      = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_CHECK]; 
         $alpha_html      = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_ALPHA]; 
+		$from_phet_html  = FROM_PHET_IMAGE_HTML;
         
         print <<<EOT
             <h1>Legend</h1>
@@ -46,11 +47,15 @@
                         <tr>
                             <td>$check_html</td>    <td>This simulation has been used and tested in the classroom, and on multiple computer platforms. The simulation has been refined based on that experience and on student interviews.</td>
                         </tr>
+
+                        <tr>
+                            <td>$from_phet_html</td><td>This contribution was designed by PhET.</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 EOT;
     }
     
-    print_site_page('print_legend', -1);
+    print_site_page('print_legend', 8);
 ?>

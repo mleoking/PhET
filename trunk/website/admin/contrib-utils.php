@@ -898,7 +898,7 @@ EOT;
 		$contributor = contributor_get_contributor_by_id($contributor_id);
 
 		if ($contributor['contributor_is_team_member']) {
-			$title_html = "${title_html} <img src=\"../images/phet-logo-icon.jpg\" alt=\"Image of PhET Icon\" title=\"Contributed by PhET\"/>";
+			$title_html = "${title_html} ".FROM_PHET_IMAGE_HTML;
 		}
         
         print <<<EOT

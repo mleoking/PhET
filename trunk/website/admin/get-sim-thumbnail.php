@@ -30,7 +30,7 @@
 	
 	$sim = sim_get_sim_by_id($sim_id);
 	
-	$sim_image_url = resolve_url_upload($sim['sim_image_url']);
+	$sim_image_url = sim_get_screenshot($sim);
 	
 	mkdirs(CACHE_ROOT);
 
