@@ -1,6 +1,8 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.build;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -42,9 +44,9 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
 
     private HashMap createJNLPFilterMap( PhetProjectFlavor flavor, PhetProject phetProject ) {
         HashMap map = new HashMap();
-        map.put( "PROJECT.NAME", flavor.getTitle() );
+        map.put( "PROJECT.NAME", StringEscapeUtils.escapeHtml( flavor.getTitle()) );
         map.put( "JNLP.NAME", getJNLPFileName() );
-        map.put( "PROJECT.DESCRIPTION", flavor.getDescription() );
+        map.put( "PROJECT.DESCRIPTION", StringEscapeUtils.escapeHtml( flavor.getDescription() ) );
         map.put( "PROJECT.JAR", phetProject.getJarFile().getName() );
         map.put( "PROJECT.SCREENSHOT", "http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg" );//todo: map this to correct sim-specific (possibly online) URL
         map.put( "PROJECT.MAINCLASS", flavor.getMainclass() );

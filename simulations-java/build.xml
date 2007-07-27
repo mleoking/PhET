@@ -33,7 +33,7 @@ PhET-team specific tasks are located in an auxiliary build file.
 
     <!--Phet task implementations-->
     <property name="phetbuild-classname"            value="edu.colorado.phet.build.PhetBuildTask"/>
-    <property name="phetbuild-classpath"            value="${phetbuild-classes-dir};${proguard.jar}"/>
+    <property name="phetbuild-classpath"            value="${phetbuild-classes-dir};${proguard.jar};${apache.commons.lang.jar}"/>
     <property name="phetdisplaystats-classname"     value="edu.colorado.phet.build.PhetDisplayStatsTask"/>
     <property name="phetclean-classname"            value="edu.colorado.phet.build.PhetCleanTask"/>
     <property name="phetjnlp-classname"             value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
