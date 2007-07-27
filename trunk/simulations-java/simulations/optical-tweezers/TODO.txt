@@ -58,7 +58,7 @@ MISSING INFO:
 
  
 DONE:
-********* version 0.00.32 (?)
+********* version 0.00.32 (17024)
 7/26/07 - adjust defaults for "really fast" bead in vaccum motion (threshold=1E-3, dt=1E-5, power=100)
 ********* version 0.00.31 (16998)
 7/26/07 - set background of vacuumFastThresholdControl to green when threshold is exceeded
