@@ -34,7 +34,6 @@ public class RotationBody {
     private String imageName;
     private boolean constrained;
     private RotationPlatform rotationPlatform;//the platform this body is riding on, or null if not on a platform
-    private double initialAngleOnPlatform;
     private boolean displayGraph = true;
     private CircularRegression.Circle circle;
     private CircularRegression circularRegression = new CircularRegression();
@@ -83,17 +82,8 @@ public class RotationBody {
         if( !isOnPlatform( rotationPlatform ) ) {
             setUpdateStrategy( new OnPlatform( rotationPlatform ) );
             this.rotationPlatform = rotationPlatform;
-            //use the rotation platform to compute angle since it has the correct winding number
-//            this.initialAngleOnPlatform = getAngleOverPlatform() - rotationPlatform.getPosition();
-            this.initialAngleOnPlatform = angle.getSampleCount()>0?angle.getLastValue():getAngleOverPlatform() - rotationPlatform.getPosition();
-//            this.initialAngleOnPlatform = angle.getLastValue() - rotationPlatform.getPosition();
             notifyPlatformStateChanged();
         }
-    }
-
-    //workaround for controlling the platform angle via the character angle
-    public double getInitialAngleOnPlatform() {
-        return initialAngleOnPlatform;
     }
 
     public void addListener( Listener listener ) {
@@ -212,30 +202,33 @@ public class RotationBody {
     }
 
     private double getUserSetAngle() {
-        return angle.getLastValue() + getDTheta();
+        return getLastAngle() + getDTheta();
+    }
+
+    private double getLastAngle() {
+        return angle.getSampleCount() > 0 ? angle.getLastValue() : getAngleNoWindingNumber();
     }
 
     private double getDTheta() {
-        double ang = new Vector2D.Double( getX(), getY() ).getAngle();//between -pi and +pi
-        double lastAngle = angle.getLastValue();
+        double ang = getAngleNoWindingNumber();
+        double lastAngle = getLastAngle();
         //ang * N should be close to lastAngle, unless the body crossed the origin
         AbstractVector2D vec = Vector2D.Double.parseAngleAndMagnitude( 1.0, lastAngle );
         lastAngle = vec.getAngle();
 
         double dt = ang - lastAngle;
-//        if( Math.abs( dt ) > Math.PI ) {
-//            System.out.println( "dt = " + dt );
-//        }
         if( dt > Math.PI ) {
             dt = dt - Math.PI * 2;
-//            System.out.println( "dt_down = " + dt );
         }
         else if( dt < -Math.PI ) {
             dt = dt + Math.PI * 2;
-//            System.out.println( "dt_up = " + dt );
         }
 
         return dt;
+    }
+
+    private double getAngleNoWindingNumber() {
+        return new Vector2D.Double( getX(), getY() ).getAngle();
     }
 
     private void updateAccelByDerivative() {
@@ -346,11 +339,8 @@ public class RotationBody {
         addVelocityData( newV, time );
         addAccelerationData( newA, time );
 
-        //use the rotation platform to compute angle since it has the correct winding number
-//        System.out.println( "rotationPlatform.getPosition() = " + rotationPlatform.getPosition() );
-        angle.updateSeriesAndState( rotationPlatform.getPosition() + initialAngleOnPlatform, time );
-
         updateXYStateFromSeries();
+        angle.updateSeriesAndState( getUserSetAngle(), time );
 
         checkCentripetalAccel();
     }
