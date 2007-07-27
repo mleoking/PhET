@@ -67,7 +67,7 @@ public class RotationGraphSet extends GraphSuiteSet {
                 model, true, model.getTimeSeriesModel(), model.getVelocityDriven(), RotationModel.MAX_TIME, model.getRotationPlatform() ) );
         velocityGraph.addSeries( new ControlGraphSeries( "Angular Velocity", RotationColorScheme.PLATFORM_ANGULAR_VELOCITY_COLOR, UnicodeUtil.OMEGA, ANG_VEL_UNITS_RAD, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), platformStroke, true, CHARACTER_PLATFORM ) );
         velocityGraph.addSeriesPair( "Angular Velocity",
-                                     new ControlGraphSeries( "Angular Velocity", lighten( RotationColorScheme.ANGULAR_VELOCITY_COLOR ), UnicodeUtil.OMEGA, ANG_VEL_UNITS_RAD, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), body0Stroke, CHARACTER_LADY ),
+                                     new ControlGraphSeries( "Angular Velocity", lighten( RotationColorScheme.ANGULAR_VELOCITY_COLOR ), UnicodeUtil.OMEGA, ANG_VEL_UNITS_RAD, b0.getAngularVelocityVariable(), b0.getAngularVelocityTimeSeries(), body0Stroke, CHARACTER_LADY ),
                                      new ControlGraphSeries( "Angular Velocity (2)", darken( RotationColorScheme.ANGULAR_VELOCITY_COLOR ), UnicodeUtil.OMEGA, ANG_VEL_UNITS_RAD, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
                                      b0, b1 );
 

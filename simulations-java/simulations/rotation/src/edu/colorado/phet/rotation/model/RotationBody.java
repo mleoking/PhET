@@ -39,6 +39,7 @@ public class RotationBody {
     private CircularRegression circularRegression = new CircularRegression();
 
     private ArrayList listeners = new ArrayList();
+    private SeriesVariable angularVelocity;
 
     public RotationBody() {
         this( "ladybug.gif" );
@@ -57,6 +58,7 @@ public class RotationBody {
         speed = new SeriesVariable();
         accel = new SeriesVariable();
         angle = new SeriesVariable();
+        angularVelocity = new SeriesVariable();
     }
 
     public void setOffPlatform() {
@@ -341,7 +343,7 @@ public class RotationBody {
 
         updateXYStateFromSeries();
         angle.updateSeriesAndState( getUserSetAngle(), time );
-
+        angularVelocity.updateSeriesAndState( rotationPlatform.getVelocity(), time );//when on the platform, angul
         checkCentripetalAccel();
     }
 
@@ -493,6 +495,14 @@ public class RotationBody {
 
     public boolean getDisplayGraph() {
         return displayGraph;
+    }
+
+    public ISimulationVariable getAngularVelocityVariable() {
+        return angularVelocity.getVariable();
+    }
+
+    public ITimeSeries getAngularVelocityTimeSeries() {
+        return angularVelocity.getSeries();
     }
 
     private static abstract class UpdateStrategy implements Serializable {
