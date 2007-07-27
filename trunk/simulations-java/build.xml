@@ -23,6 +23,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="ant-output"             location="ant_output"/>
     <property name="phetbuild-classes-dir"  location="${ant-output}/phetbuild/classes"/>
     <property name="proguard.jar"           location="${dir.build-tools}proguard3.8/lib/proguard.jar"/>
+    <property name="apache.commons.lang.jar" location="${dir.build-tools}commons-lang-2.3/commons-lang-2.3.jar"/>
     <property name="phetbuild-src"          location="${dir.build-tools}phet-build/src"/>
 
     <property name="imageio-src"            location="${dir.build-tools}image4j/src" />
@@ -87,7 +88,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     <target name="_compile-phet-build">
         <mkdir dir="${phetbuild-classes-dir}"/>
         
-        <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes-dir}" classpath="${proguard.jar}" debug="true"
+        <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes-dir}" classpath="${proguard.jar}:${apache.commons.lang.jar}" debug="true"
                debuglevel="lines,source">
             <src path="${phetbuild-src}" />
             <src path="${imageio-src}" />
