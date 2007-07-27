@@ -143,7 +143,7 @@
                 </startMenuShortcut>
                 <startMenuFileShortcut>
                     <comment>Launches the local mirror of the PhET website, containing all the PhET simulations.</comment>
-                    <filePath>${installdir}/web-pages/index.html</filePath>
+                    <filePath>${installdir}/new/index.html</filePath>
                     <name>PhET Simulations</name>
                     <runInTerminal>0</runInTerminal>
                     <windowsIcon>${installdir}/Phet-logo-48x48.ico</windowsIcon>
