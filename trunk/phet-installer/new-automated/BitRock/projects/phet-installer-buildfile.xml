@@ -54,9 +54,6 @@
                             <origin>../../temp/website/phet.colorado.edu/new</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet.colorado.edu/simulations</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
                             <origin>../../temp/website/phet.colorado.edu/sims</origin>
                         </distributionDirectory>
                         <distributionDirectory>
