@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
