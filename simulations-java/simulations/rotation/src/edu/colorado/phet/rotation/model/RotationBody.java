@@ -24,23 +24,22 @@ public class RotationBody {
     private MotionBody yBody;
     private UpdateStrategy updateStrategy = new OffPlatform();
 
-
-    private ArrayList listeners = new ArrayList();
     private SeriesVariable speed;
     private SeriesVariable accel;
     private SeriesVariable angle;
 
-    private ITimeSeries orientationSeries = new DefaultTimeSeries();
     private double orientation = 0.0;
+    private ITimeSeries orientationSeries = new DefaultTimeSeries();
 
     private String imageName;
     private boolean constrained;
     private RotationPlatform rotationPlatform;//the platform this body is riding on, or null if not on a platform
-    private edu.colorado.phet.common.motion.model.UpdateStrategy angleDriven;
     private double initialAngleOnPlatform;
     private boolean displayGraph = true;
     private CircularRegression.Circle circle;
     private CircularRegression circularRegression = new CircularRegression();
+
+    private ArrayList listeners = new ArrayList();
 
     public RotationBody() {
         this( "ladybug.gif" );
@@ -85,7 +84,9 @@ public class RotationBody {
             setUpdateStrategy( new OnPlatform( rotationPlatform ) );
             this.rotationPlatform = rotationPlatform;
             //use the rotation platform to compute angle since it has the correct winding number
-            this.initialAngleOnPlatform = getAngleOverPlatform() - rotationPlatform.getPosition();
+//            this.initialAngleOnPlatform = getAngleOverPlatform() - rotationPlatform.getPosition();
+            this.initialAngleOnPlatform = angle.getSampleCount()>0?angle.getLastValue():getAngleOverPlatform() - rotationPlatform.getPosition();
+//            this.initialAngleOnPlatform = angle.getLastValue() - rotationPlatform.getPosition();
             notifyPlatformStateChanged();
         }
     }
@@ -207,6 +208,34 @@ public class RotationBody {
         }
 
         updateXYStateFromSeries();
+        angle.updateSeriesAndState( getUserSetAngle(), time );
+    }
+
+    private double getUserSetAngle() {
+        return angle.getLastValue() + getDTheta();
+    }
+
+    private double getDTheta() {
+        double ang = new Vector2D.Double( getX(), getY() ).getAngle();//between -pi and +pi
+        double lastAngle = angle.getLastValue();
+        //ang * N should be close to lastAngle, unless the body crossed the origin
+        AbstractVector2D vec = Vector2D.Double.parseAngleAndMagnitude( 1.0, lastAngle );
+        lastAngle = vec.getAngle();
+
+        double dt = ang - lastAngle;
+//        if( Math.abs( dt ) > Math.PI ) {
+//            System.out.println( "dt = " + dt );
+//        }
+        if( dt > Math.PI ) {
+            dt = dt - Math.PI * 2;
+//            System.out.println( "dt_down = " + dt );
+        }
+        else if( dt < -Math.PI ) {
+            dt = dt + Math.PI * 2;
+//            System.out.println( "dt_up = " + dt );
+        }
+
+        return dt;
     }
 
     private void updateAccelByDerivative() {

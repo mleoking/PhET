@@ -32,7 +32,6 @@ public class DefaultTimeSeries implements ITimeSeries {
     }
 
     public TimeData getRecentData( int index ) {
-//        System.out.println( "index="+index+", getSampleCount() = " + getSampleCount() );
         return getData( data.size() - 1 - index );
     }
 

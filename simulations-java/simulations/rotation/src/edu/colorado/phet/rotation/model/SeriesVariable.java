@@ -48,4 +48,8 @@ public class SeriesVariable {
     public void setValueForTime( double time ) {
         setValue( getValueForTime( time ) );
     }
+
+    public double getLastValue() {
+        return series.getRecentData( 0 ).getValue();
+    }
 }
