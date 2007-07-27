@@ -1826,7 +1826,7 @@ EOT;
         $contributor_receive_email_checked = $contributor_receive_email == '1' ? 'checked="checked"' : '';     
         
         print <<<EOT
-            <form id="userprofileform" method="post" action="$script">
+            <form method="post" action="$script">
                 <fieldset>
                     <legend>Profile for $contributor_name</legend>
 EOT;
