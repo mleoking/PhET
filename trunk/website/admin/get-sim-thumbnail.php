@@ -33,6 +33,7 @@
 	$sim_image_url = sim_get_screenshot($sim);
 	
 	mkdirs(CACHE_ROOT);
+	exec('chmod 775 -R '.CACHE_ROOT);
 
 	$file = get_file_for_image($sim_image_url);	
 
@@ -53,6 +54,8 @@
 
 		// Output image to cached image location:
 		imagejpeg($tmp_img, $file);
+		
+		exec('chmod 775 '.$file);
 	}
 	
 	send_file_to_browser($file, file_get_contents($file), 'image/jpeg');
