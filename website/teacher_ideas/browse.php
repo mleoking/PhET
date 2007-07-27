@@ -433,14 +433,14 @@ EOT;
         $sort_by = $_REQUEST['sort_by'];
     }
     else {
-        $sort_by = 'title';
+        $sort_by = 'contribution_title';
     }
     
     if (isset($_REQUEST['order'])) {
         $order = strtolower($_REQUEST['order']);
     }
     else {
-        $order = 'desc';
+        $order = 'asc';
     }
     
     $next_order = 'asc';
