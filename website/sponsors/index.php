@@ -45,6 +45,9 @@
 
 					<li><strong><a href="http://www.bitrock.com"><img class="bordered_sponsors" src="../images/bitrock.png"/>BitRock</a></strong><br />
 	                <em>For providing for our installer builder</em></li>
+	
+					<li><strong><a href="http://www.royalinteractive.com"><img class="bordered_sponsors" src="../images/royal-interactive.png"/>Royal Interactive</a></strong><br />
+	                <em>For original site concept</em></li>
 	            </ul>
 			</div>
         <?php
