@@ -132,11 +132,6 @@
 
                     $link_to_sim = "<a href=\"$sim_url\">";
                     
-
-                    if ($sim_animated_image_url == "") {
-                        $sim_animated_image_url = $sim_image_url;
-                    }
-
                     $sim_thumbnail_link = "../admin/get-sim-thumbnail.php?sim_id=$sim_id";
 
                     print <<<EOT

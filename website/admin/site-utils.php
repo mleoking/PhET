@@ -166,7 +166,8 @@ EOT;
             "About PhET",
             array(
                 'about/contact.php'     => 'Contact',
-                'about/licensing.php'   => 'Licensing'
+                'about/licensing.php'   => 'Licensing',
+				'about/legend.php'      => 'Legend'
             )
         );
         

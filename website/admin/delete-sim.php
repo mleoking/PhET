@@ -1,11 +1,9 @@
 <?
-    include_once("password-protection.php");
-    include_once("db.inc");
-
-    print "<b>DELETE SIMULATION FROM DATABASE</b><br><br>";
-    
-    $sim_id  = $_REQUEST['sim_id'];
-    $delete = $_REQUEST['delete'];
+	include_once("../admin/global.php");
+	
+    include_once(SITE_ROOT."admin/password-protection.php");
+    include_once(SITE_ROOT."admin/db.inc");	
+	include_once(SITE_ROOT."admin/site-utils.php");
 
     function deletesim() {
         $sim_id      = $_REQUEST['sim_id'];
@@ -17,37 +15,32 @@
         $sql        = "DELETE FROM `simulation_listing` WHERE `sim_id`='$sim_id' ";
         $sql_result = mysql_query($sql);
 
-        print "Successfully deleted the Simulation from the database<br><br><br><a href=list-sims.php>click here to go back</a>";
-        
-        exit();
+        print "<p>Successfully deleted the simulation from the database. <a href=\"list-sims.php\">Click here to go back.</a></p>";
     }
 
-    if ($delete == '1') { 
-        deletesim();
-    }
-
-    // first select what SIMULATION to delete
-    $sql        = "SELECT * FROM `simulation` WHERE `sim_id`='$sim_id' ";
-    $sql_result = mysql_query($sql);
-
-    while ($row = mysql_fetch_row($sql_result)) {       
-        $sim_id    = $row[0];
-        $sim_name   = $row[1];
-        $rating    = $row[2];
-        $type      = $row[3];
-        $size      = $row[4];
-        $sim_launch_url   = $row[5];
-        $sim_image_url = $row[6];
-        $sim_desc      = $row[7];
-        $keywords  = $row[8];
-        $sim_system_req = $row[9];
-
-        print "<b>Are you sure you want to delete this simulation?</b><br><br>";
-        
-        print "$sim_id;$sim_name;$rating;$type;$size;$sim_launch_url;$sim_image_url;$sim_desc;$keywords;$sim_system_req<br><br>";
-        
-        print "<a href=delete-sim.php?sim_id=$sim_id&delete=1>Yes</a>   |    <a href=list-sims.php>NO</a>";
-    }
+	function print_page() {
+		print "<h1>Delete Simulation</h1>";
 		
-    print "<br><br>";
+	    $sim_id = $_REQUEST['sim_id'];
+	    $delete = isset($_REQUEST['delete']) ? $_REQUEST['delete'] : 0;
+
+	    if ($delete == '1') { 
+	        deletesim();
+	    }
+		else {
+		    // first select what SIMULATION to delete
+		    $sql        = "SELECT * FROM `simulation` WHERE `sim_id`='$sim_id' ";
+		    $sql_result = mysql_query($sql);
+
+		    while ($row = mysql_fetch_assoc($sql_result)) {       
+		        $sim_name = $row['sim_name'];
+
+		        print "<p><b>Are you sure you want to delete the simulation \"$sim_name\"?</b></p>";
+        
+		        print "<p><a href=delete-sim.php?sim_id=$sim_id&delete=1>Yes</a> | <a href=list-sims.php>NO</a></p>";
+		    }
+		}
+	}
+	
+	print_site_page('print_page', 9);
 ?>
