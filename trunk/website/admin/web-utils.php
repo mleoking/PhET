@@ -61,7 +61,7 @@
 		//     }
     
     function format_string_for_html($string) {
-        return htmlentities($string);
+        return htmlentities(html_entity_decode($string));
     }
     
     function format_for_html($array) {
