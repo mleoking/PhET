@@ -84,7 +84,12 @@
 		// Now make CD-ROM bundle:
 		$cd_rom = new zipfile();
 		
+		// Installers for each platform:
 		$cd_rom->add(BITROCK_DIST_WINNT);
+		$cd_rom->add(BITROCK_DIST_Darwin);
+		$cd_rom->add(BITROCK_DIST_Linux);
+		
+		// Autorun stuff for Windows:
 		$cd_rom->add(AUTORUN_ICON_DEST);
 		$cd_rom->add(AUTORUN_FILE_DEST);
 		
