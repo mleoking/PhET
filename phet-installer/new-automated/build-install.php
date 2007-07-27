@@ -129,10 +129,12 @@
 	
 		// Create directories mentioned in the build file:
 		file_mkdirs(RIPPED_WEBSITE_TOP."sims");
-		file_mkdirs(RIPPED_WEBSITE_TOP."simulations");
 		file_mkdirs(RIPPED_WEBSITE_TOP."new");
 		file_mkdirs(RIPPED_WEBSITE_TOP."physics");
 		file_mkdirs(RIPPED_WEBSITE_TOP."Design");
+		
+		// Create output directory:
+		file_mkdirs(OUTPUT_DIR);
     
 	    // Make the autorun file for Windows CD-ROM (this copies installer stuff):
 	    autorun_create_autorun_file(basename(BITROCK_DIST_WINNT));

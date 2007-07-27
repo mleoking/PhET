@@ -1,1 +1,3 @@
-Mac Note: Many of our simulations are written in Java, and require Mac OS 10.2 or higher. Some simulations run slowly on the Mac Java Virtual Machine, and some do not run at all, due to differences in the Mac implementation of Java.
+Mac Note: Many of our simulations are written in Java, and require OS X 10.4 or higher. Older versions of OS X may not exhibit problems with some simulations.
+
+Linux/Mac Note: Shortcuts are not created for these platforms. In order to view the website, please manually open the 'index.html' file in the /new/ folder of the installation directory.
