@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class RotationModel extends MotionModel implements RotationBodyNode.RotationBodyEnvironment, IPositionDriven {
     private RotationPlatform rotationPlatform;
     private ArrayList rotationBodies = new ArrayList();
-//    public static final double MAX_TIME = 20.0;
-    public static final double MAX_TIME = 2.0;
+    public static final double MAX_TIME = 20.0;
+//    public static final double MAX_TIME = 2.0;
 
     public RotationModel( ConstantDtClock clock ) {
         super( clock );
