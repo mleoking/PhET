@@ -1,17 +1,24 @@
 ################################################
 #     To Do
 ################################
+
+Color issues:
 •	Draggable arrow should exactly match the shade of the corresponding data series
+
+UI issues:
 •	Add "Show Platform graphs" check boxes in same place as beetle control.
+•	Improve layout for in-graph readouts, current version overlaps
+•	Better graphics/characters?  Beetle will be undesirable for some?
+
+Gathering data while time is stopped:
 •	when paused or stopped and hand is manually rotated or rotated by the slider, bugs should update
 •	If time is stopped, update theta for bugs if they are moved by hand
-•	Improve layout for in-graph readouts, current version overlaps
-•	There is no "pause" button when the simulation switches to "live mode" when the chart runs out and the simulation stops recordings
-•	After graph time has finished, the "go" and "stop" buttons as well as "pause and REC" should still be available, even though no more data will be written to the charts
+
+Performance
 •	Improve performance
         30% app is in HTMLNode update
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
-    -this may be due in part to time series filling up in "live mode", early enough data should be discarded
+    -this is due in part to time series filling up in "live mode", early enough data should be discarded
 
 Also, it appears that angular velocity that is labeled platform is actually the ladybug.
 I can see this when I pick up the bug.  Omega platform stops graphing while ladybug keeps graphing.
@@ -27,9 +34,8 @@ but not why all his data comes on and off depending on when he’s on the platform
 This gives the graphs the feeling that they are a physical thing rather than an abstract representation of his motion.
 >>Perhaps as soon as the user grabs the second character, his graphs should become visible (and his checkbox becomes selected).
 >>Then to hide the graph, the user unchecks the checkbox.
->>The idea is that as soon as the user expresses an interest in the beetle, its graphs become visible 
-
-•	Better graphics/characters?  Beetle will be undesirable for some?
+>>The idea is that as soon as the user expresses an interest in the beetle, its graphs become visible
+>>As opposed to our previous version, which assumed the user only wanted to see data if the bug was on the platform
 
 Lower Priority:
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
