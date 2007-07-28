@@ -56,7 +56,9 @@
             
     define("SIM_CRUTCH_IMAGE_HTML", 
         "<a href=\"../about/legend.php\"><img src=\"".SIM_CRUTCH_IMAGE."\" alt=\"Not standalone\" title=\"Guidance recommended: This simulation is very effective when used in conjunction with a lecture, homework or other teacher designed activity.\"/></a>");    
-        
+
+	define("SIM_THUMBNAIL_CACHE_ROOT", "../admin/cached-thumbnails/");
+
     define("SIMS_PER_PAGE", 9);
     
     define("SQL_SELECT_ALL_VISIBLE_CATEGORIES", 
@@ -538,5 +540,58 @@
     function sim_get_static_previews() {
         return sim_get_image_previews("static", true);
     }
+
+	function sim_get_file_for_image($sim_image_url) {
+		$extension = get_file_extension($sim_image_url);
+		
+		$file_name = md5($sim_image_url);
+		
+		return SIM_THUMBNAIL_CACHE_ROOT.$file_name.".$extension";
+	}
+
+	function sim_cached_image_out_of_date($sim_image_url) {
+		$file = sim_get_file_for_image($sim_image_url);
+		
+		if (!file_exists($file)) return true;
+		
+		$last_modified = filemtime($file);
+		$now = time();
+		
+		if ($now - $last_modified > 60 * 60 * 24) return true;
+		
+		return false;
+	}
+	
+	function sim_get_thumbnail($sim) {	
+		$sim_image_url = sim_get_screenshot($sim);
+	
+		mkdirs(SIM_THUMBNAIL_CACHE_ROOT);
+		exec('chmod 775 '.SIM_THUMBNAIL_CACHE_ROOT);
+
+		$file = sim_get_file_for_image($sim_image_url);	
+
+		if (sim_cached_image_out_of_date($sim_image_url)) {
+			// Load image -- assume image is in png format (for now):
+			$img = imagecreatefrompng($sim_image_url);
+
+			$existing_width  = imagesx($img);
+			$existing_height = imagesy($img);
+
+			// Scale to thumbnail width, preserving aspect ratio:
+			$new_width  = SIM_THUMBNAIL_WIDTH;
+			$new_height = SIM_THUMBNAIL_HEIGHT;//floor($existing_height * ( SIM_THUMBNAIL_WIDTH / $existing_width ));
+
+			$tmp_img = imagecreatetruecolor($new_width, $new_height);
+
+			imagecopyresized($tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $existing_width, $existing_height);
+
+			// Output image to cached image location:
+			imagejpeg($tmp_img, $file);
+		
+			exec('chmod 775 '.$file);
+		}
+		
+		return $file;
+	}
 
 ?>
