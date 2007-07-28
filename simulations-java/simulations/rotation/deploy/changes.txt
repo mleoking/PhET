@@ -1,3 +1,8 @@
+1.02.02
+Fixed: Text box variable label looks like a box under web start and 1.6
+    Java 1.6 renders THETA as an empty box with Lucida Sans BOLD
+    
+
 1.00.02
 Fixed: angular velocity and angular acceleration data sets weren't clearing properly
 
