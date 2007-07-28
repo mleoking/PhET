@@ -141,9 +141,11 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
      * @param color the series' color
      * @param stroke
      */
-    public void addSeries( String title, Color color,Stroke stroke ) {
-        seriesDataList.add( new SeriesData( title, color ,stroke) );
+    public SeriesData addSeries( String title, Color color,Stroke stroke ) {
+        SeriesData seriesData = new SeriesData( title, color, stroke );
+        seriesDataList.add( seriesData );
         updateSeriesViews();
+        return seriesData;
     }
 
     public void removeSeries( String title ) {
@@ -304,8 +306,8 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     };
 
-    public void setSeriesVisible( String title, boolean visible ) {
-        getSeriesData( title ).setVisible( visible );
+    public void setSeriesVisible( SeriesData seriesData, boolean visible ) {
+        seriesData.setVisible( visible );
         updateSeriesViews();
     }
 }

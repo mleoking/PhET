@@ -3,6 +3,7 @@ package edu.colorado.phet.common.motion.graphs;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.SeriesData;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
 import edu.colorado.phet.common.motion.model.TimeData;
@@ -299,7 +300,7 @@ public class ControlGraph extends PNode {
 
     public void addSeries( final ControlGraphSeries series ) {
         this.series.add( series );
-        dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
+        final SeriesData data=dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
 
         final ReadoutTitleNode titleNode = createReadoutTitleNode( series );
         titleLayer.addReadoutNode( titleNode );
@@ -326,7 +327,7 @@ public class ControlGraph extends PNode {
         final GraphControlSeriesNode seriesNodeTemp = seriesNode;
         series.addListener( new ControlGraphSeries.Adapter() {
             public void visibilityChanged() {
-                dynamicJFreeChartNode.setSeriesVisible( series.getTitle(), series.isVisible() );
+                dynamicJFreeChartNode.setSeriesVisible( data, series.isVisible() );
                 titleNode.setVisible( series.isVisible() );
                 if( seriesNodeTemp != null ) {
                     seriesNodeTemp.setVisible( series.isVisible() );
