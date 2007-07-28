@@ -20,7 +20,16 @@
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
     -this may be due in part to time series filling up in "live mode", early enough data should be discarded
 •	Better graphics/characters?  Beetle will be undesirable for some?
-•	Text box variable label looks like a box under web start and 1.6 
+•	Text box variable label looks like a box under web start and 1.6
+
+I have found a situation where clear does not work but rest all does.  I have done it 4 times and *think* I know why.  The Theta, Omega and Alpha graphs need to be up (I tried theta, omega and postion and it was fine). Then after data is full, I adjust the angular velocity.  Once I’ve done this, clear no longer works. After playing for awhile it happened again under different conditions.  I can’t tell you exactly why but I did see that the clear button to the left of the graphs had greyed out indicating that clear wasn’t’ going to work.  I’m back.  It’s doing the greyed out clear thing again.  It’s when the buttons at the bottom have record as an option. The think is that it is taking new data right now so it should be in record mode???  IF I press record, then I can get clear to function.
+
+Also, it appears that angular velocity that is labeled platform is actually the ladybug. I can see this when I pick up the bug.  Omega platform stops graphing while ladybug keeps graphing.  I can’t see this on alpha graph but almost see a change in line color after I put her back down so wonder if you are actually stopping her graph for acceleration also when I pick her up.  If this is the case, then the two colors for platform and ladybug for angular acceleration are too similar to distinguish.
+
+When I switch between radians and degrees (doesn’t matter from which to which) the omega graph fills in with a bunch of junk all the way across even though it had just started graphing.
+
+The beetle graphs show up when you put him on the platform. He can have been off the entire time and then when I put him on, his data appears.  When I take him off, his data disappears.  This is odd.  I can see why new data won’t graph when he’s off but not why all his data comes on and off depending on when he’s on the platform.  This gives the graphs the feeling that they are a physical thing rather than an abstract representation of his motion.
+ 
 
 Lower Priority:
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
