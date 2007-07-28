@@ -474,6 +474,15 @@
 		
 		return $link;
 	}
+	
+	function sim_get_animated_screenshot($simulation) {
+		$dirname    = $simulation['sim_dirname'];
+		$flavorname = $simulation['sim_flavorname'];
+		
+		$link = "http://phet.colorado.edu/sims/$dirname/$flavorname-animated-screenshot.gif";
+		
+		return $link;
+	}
 
 	function sim_get_run_offline_link($simulation) {
 		return '../admin/get-run-offline.php?sim_id='.$simulation['sim_id'];
@@ -497,23 +506,20 @@
             $cat_id   = $category_row['cat_id'];
             $cat_name = $category_row['cat_name'];
             
-            if (preg_match("/.*$type.*preview.*/i", $cat_name) == 1) {
+            if (preg_match("/.*$type.*preview.*/i", $cat_name) == 1 || !$is_static) {
                 $images = array();
                 
                 foreach (sim_get_sims_by_cat_id($cat_id) as $simulation) {
-					$static_screenshot = sim_get_screenshot($simulation);
-					
 					if ($is_static) {
+						$static_screenshot = sim_get_screenshot($simulation);
+						
 						$images[] = $static_screenshot;
 					}
 					else {
-                   		$sim_animated_image_url = $simulation["sim_animated_image_url"];
+                   		$animated_screenshot = sim_get_animated_screenshot($simulation);
                    
-						if ($sim_animated_image_url != '' && file_or_url_exists(resolve_url_upload($sim_animated_image_url))) {
-                   			$images[] = $sim_animated_image_url;
-						}
-						else {
-							$images[] = $static_screenshot;
+						if (file_or_url_exists($animated_screenshot)) {
+                   			$images[] = $animated_screenshot;
 						}
 					}
                 }
