@@ -7,11 +7,40 @@ import java.awt.*;
  * Jul 14, 2007, 12:39:46 AM
  */
 public class RotationColorScheme {
+    public static class ColorSuite {
+        private Color platform;
+        private Color ladybug;
+        private Color beetle;
+
+        public ColorSuite( Color platform, Color ladybug, Color beetle ) {
+            this.platform = platform;
+            this.ladybug = ladybug;
+            this.beetle = beetle;
+        }
+
+        public Color getPlatform() {
+            return platform;
+        }
+
+        public Color getLadybug() {
+            return ladybug;
+        }
+
+        public Color getBeetle() {
+            return beetle;
+        }
+    }
+
     public static final Color TEAL = new Color( 0, 128, 128 );
     public static final Color PINK = new Color( 255, 70, 144 );
-    private static Color LIGHT_RED = new Color( 255, 127, 181 );
+
     private static Color LIGHT_BLUE = new Color( 127, 217, 255 );
     private static Color LIGHT_GREEN = new Color( 47, 156, 83 );
+    private static Color LIGHT_RED = new Color( 255, 127, 181 );
+
+    public static final ColorSuite ANGLE_SUITE = new ColorSuite( new Color( 127, 217, 255 ), new Color( 43, 157, 205 ), new Color( 15, 103, 140 ) );//blue
+    public static final ColorSuite ANG_VEL_SUITE = new ColorSuite( new Color( 98, 214, 136), new Color( 0, 135, 50), new Color( 10, 75, 35) );
+    public static final ColorSuite ANG_ACC_SUITE = new ColorSuite( new Color( 255, 127, 181 ), new Color( 220,0,93), new Color( 143,11,67) );
 
     public static final Color POSITION_COLOR = Color.blue;
     public static final Color VELOCITY_COLOR = Color.green;
