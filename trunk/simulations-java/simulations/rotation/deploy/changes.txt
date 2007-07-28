@@ -1,3 +1,6 @@
+1.00.02
+Fixed: angular velocity and angular acceleration data sets weren't clearing properly
+
 1.00.01
 Added derivatives for angular variables in user driven mode.
 
