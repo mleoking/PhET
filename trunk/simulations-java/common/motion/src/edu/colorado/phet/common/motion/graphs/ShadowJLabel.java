@@ -2,7 +2,9 @@ package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
+import edu.colorado.phet.rotation.util.UnicodeUtil;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -20,5 +22,16 @@ public class ShadowJLabel extends PhetPCanvas {
         setOpaque( false );
         setBackground( null );
         setBorder( null );
+    }
+
+    public static void main( String[] args ) {
+        JFrame frame = new JFrame();
+        ShadowJLabel contentPane = new ShadowJLabel( UnicodeUtil.THETA, Color.blue,new Font( "Lucida Sans",Font.BOLD, 24) );
+        frame.setContentPane( contentPane );
+        frame.pack();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width / 2 - frame.getWidth() / 2,
+                           Toolkit.getDefaultToolkit().getScreenSize().height / 2 - frame.getHeight() / 2 );
+        frame.show();
     }
 }
