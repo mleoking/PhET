@@ -22,7 +22,7 @@ public class GraphControlTextBox extends JPanel {
 
     public GraphControlTextBox( ControlGraphSeries series ) {
         this.series = series;
-        Font labelFont = new Font( "Lucida Sans", Font.BOLD, 18 );
+        Font labelFont = new Font( "Lucida Sans", Font.PLAIN, 18 );//Java 1.6 renders THETA as an empty box with Lucida Sans BOLD
         add( new ShadowJLabel( series.getAbbr(), series.getColor(), labelFont ) );
 
         JLabel equalsSign = new JLabel( " =" );

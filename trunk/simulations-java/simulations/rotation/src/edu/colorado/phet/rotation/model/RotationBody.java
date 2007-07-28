@@ -117,11 +117,11 @@ public class RotationBody {
     public void stepInTime( double time, double dt ) {
         Point2D origPosition = getPosition();
         if( isOffPlatform() ) {
-            updateOffPlatform( time, dt );
+            updateOffPlatform( time );
 //            updateOffPlatformORIG( time, dt );
         }
         else {
-            updateBodyOnPlatform( time, dt );
+            updateOnPlatform( time );
         }
         if( !getPosition().equals( origPosition ) ) {//todo: integrate listener behavior into xBody and yBody?
             notifyPositionChanged();
@@ -146,7 +146,7 @@ public class RotationBody {
         angularAccel.clear();
     }
 
-    private void updateOffPlatform( double time, double dt ) {
+    private void updateOffPlatform( double time ) {
         AbstractVector2D origAccel = getAcceleration();
         xBody.getMotionBodySeries().addPositionData( xBody.getPosition(), time );
         yBody.getMotionBodySeries().addPositionData( yBody.getPosition(), time );
@@ -287,11 +287,6 @@ public class RotationBody {
         return (Point2D[])list.toArray( new Point2D.Double[0] );
     }
 
-    private void updateOffPlatformORIG( double time, double dt ) {
-        xBody.stepInTime( time, dt );
-        yBody.stepInTime( time, dt );
-    }
-
     public boolean isOnPlatform() {
         return updateStrategy instanceof OnPlatform;
     }
@@ -335,7 +330,7 @@ public class RotationBody {
         yBody.getAVariable().setValue( newA.getY() );
     }
 
-    private void updateBodyOnPlatform( double time, double dt ) {
+    private void updateOnPlatform( double time ) {
         double omega = rotationPlatform.getVelocity();
         double r = getPosition().distance( rotationPlatform.getCenter() );
 
