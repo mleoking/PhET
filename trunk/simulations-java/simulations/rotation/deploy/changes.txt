@@ -1,3 +1,6 @@
+1.02.04 (7-28-2007)
+Fixed: ladybug and rotation platform graphs sometimes get mixed up
+
 1.02.03 (7-28-2007)
 Fixed: Text box variable label looks like a box under web start and 1.6
     Java 1.6 renders THETA as an empty box with Lucida Sans BOLD

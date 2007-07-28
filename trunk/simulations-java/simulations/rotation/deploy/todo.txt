@@ -20,13 +20,6 @@ Performance
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
     -this is due in part to time series filling up in "live mode", early enough data should be discarded
 
-Also, it appears that angular velocity that is labeled platform is actually the ladybug.
-I can see this when I pick up the bug.  Omega platform stops graphing while ladybug keeps graphing.
-I can’t see this on alpha graph but almost see a change in line color after I put her back down so wonder if you are
-actually stopping her graph for acceleration also when I pick her up.  If this is the case, then the two colors for
-platform and ladybug for angular acceleration are too similar to distinguish.
->>Is this resolved now?
-
 The beetle graphs show up when you put him on the platform.
 He can have been off the entire time and then when I put him on, his data appears.
 When I take him off, his data disappears.  This is odd.  I can see why new data won’t graph when he’s off
