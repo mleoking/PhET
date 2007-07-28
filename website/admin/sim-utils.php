@@ -541,12 +541,10 @@
         return sim_get_image_previews("static", true);
     }
 
-	function sim_get_file_for_image($sim_image_url) {
-		$extension = get_file_extension($sim_image_url);
-		
+	function sim_get_file_for_image($sim_image_url) {		
 		$file_name = md5($sim_image_url);
 		
-		return SIM_THUMBNAIL_CACHE_ROOT.$file_name.".$extension";
+		return SIM_THUMBNAIL_CACHE_ROOT.$file_name.".jpg";
 	}
 
 	function sim_cached_image_out_of_date($sim_image_url) {
