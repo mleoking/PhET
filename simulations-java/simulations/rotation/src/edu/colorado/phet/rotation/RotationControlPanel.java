@@ -38,7 +38,7 @@ public class RotationControlPanel extends JPanel {
                 beetle.setDisplayGraph( beetleGraph.isSelected() );
             }
         } );
-        box.add( beetleGraph );
+
 
         final JCheckBox ladybugGraph = new JCheckBox( "Show Ladybug Graph", true );
         ladybugGraph.addActionListener( new ActionListener() {
@@ -46,7 +46,9 @@ public class RotationControlPanel extends JPanel {
                 ladybug.setDisplayGraph( ladybugGraph.isSelected() );
             }
         } );
+
         box.add( ladybugGraph );
+        box.add( beetleGraph );
 
         final AngleUnitsSelectionControl angleUnitsSelectionControl = new AngleUnitsSelectionControl( angleUnitModel );
         box.add( angleUnitsSelectionControl );

@@ -1,5 +1,6 @@
 1.02.04 (7-28-2007)
 Fixed: ladybug and rotation platform graphs sometimes get mixed up
+Switched order of Show Graph checkboxes in control panel
 
 1.02.03 (7-28-2007)
 Fixed: Text box variable label looks like a box under web start and 1.6
