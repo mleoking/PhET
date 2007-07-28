@@ -40,6 +40,7 @@ public class RotationBody {
 
     private ArrayList listeners = new ArrayList();
     private SeriesVariable angularVelocity;
+    private SeriesVariable angularAccel;
 
     public RotationBody() {
         this( "ladybug.gif" );
@@ -59,6 +60,7 @@ public class RotationBody {
         accel = new SeriesVariable();
         angle = new SeriesVariable();
         angularVelocity = new SeriesVariable();
+        angularAccel = new SeriesVariable();
     }
 
     public void setOffPlatform() {
@@ -201,6 +203,10 @@ public class RotationBody {
 
         updateXYStateFromSeries();
         angle.updateSeriesAndState( getUserSetAngle(), time );
+        TimeData v = MotionMath.getDerivative( MotionMath.smooth( angle.getRecentSeries( Math.min( velocityWindow, angle.getSampleCount() ) ), 4 ) );
+        angularVelocity.updateSeriesAndState( v.getValue(), v.getTime() );//when on the platform, angul
+        TimeData a = MotionMath.getDerivative( MotionMath.smooth( angularVelocity.getRecentSeries( Math.min( velocityWindow, angularVelocity.getSampleCount() ) ), 4 ) );
+        angularAccel.updateSeriesAndState( a.getValue(), a.getTime() );
     }
 
     private double getUserSetAngle() {
@@ -344,6 +350,7 @@ public class RotationBody {
         updateXYStateFromSeries();
         angle.updateSeriesAndState( getUserSetAngle(), time );
         angularVelocity.updateSeriesAndState( rotationPlatform.getVelocity(), time );//when on the platform, angul
+        angularAccel.updateSeriesAndState( rotationPlatform.getAcceleration(), time );
         checkCentripetalAccel();
     }
 
@@ -503,6 +510,14 @@ public class RotationBody {
 
     public ITimeSeries getAngularVelocityTimeSeries() {
         return angularVelocity.getSeries();
+    }
+
+    public ISimulationVariable getAngularAccelerationVariable() {
+        return angularAccel.getVariable();
+    }
+
+    public ITimeSeries getAngularAccelerationTimeSeries() {
+        return angularAccel.getSeries();
     }
 
     private static abstract class UpdateStrategy implements Serializable {

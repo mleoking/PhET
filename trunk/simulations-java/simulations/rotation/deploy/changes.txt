@@ -1,3 +1,6 @@
+1.00.01
+Added derivatives for angular variables in user driven mode.
+
 0.00.48
 Removed black rectangle around in-chart readouts
 Added title above checkboxes for charts without textboxes
