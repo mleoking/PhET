@@ -141,8 +141,9 @@ public class RotationBody {
         accel.setValue( 0.0 );
         accel.clear();
         angle.clear();
-//        angleTimeSeries.clear();
         orientationSeries.clear();
+        angularVelocity.clear();
+        angularAccel.clear();
     }
 
     private void updateOffPlatform( double time, double dt ) {
