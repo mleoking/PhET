@@ -1,9 +1,6 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.common.motion.model.DefaultSimulationVariable;
-import edu.colorado.phet.common.motion.model.DefaultTimeSeries;
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
-import edu.colorado.phet.common.motion.model.ITimeSeries;
+import edu.colorado.phet.common.motion.model.*;
 
 /**
  * Author: Sam Reid
@@ -51,5 +48,9 @@ public class SeriesVariable {
 
     public double getLastValue() {
         return series.getRecentData( 0 ).getValue();
+    }
+
+    public TimeData[] getRecentSeries( int numSamples ) {
+        return series.getRecentSeries( numSamples );
     }
 }

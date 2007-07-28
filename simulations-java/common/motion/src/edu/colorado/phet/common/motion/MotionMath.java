@@ -77,4 +77,27 @@ public class MotionMath {
         return num / ( h * h );
     }
 
+
+    public static TimeData[] smooth( TimeData[] series, int numSmooth ) {
+        for( int i = 0; i < numSmooth; i++ ) {
+            series = smooth( series );
+        }
+        return series;
+    }
+
+    private static TimeData[] smooth( TimeData[] datas ) {
+        TimeData[] smooth = new TimeData[datas.length];
+        for( int i = 0; i < smooth.length; i++ ) {
+            if( i > 0 && i < smooth.length - 1 ) {
+                smooth[i] = new TimeData( ( datas[i - 1].getValue() + datas[i].getValue() + datas[i + 1].getValue() ) / 3.0, datas[i].getTime() );
+            }
+            else {
+                smooth[i] = new TimeData( datas[i].getValue(), datas[i].getTime() );
+            }
+        }
+
+        return smooth;
+    }
+
+
 }
