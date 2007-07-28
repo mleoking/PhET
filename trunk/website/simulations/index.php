@@ -131,8 +131,9 @@
                     $sim_url = sim_get_url_to_sim_page($sim_id);
 
                     $link_to_sim = "<a href=\"$sim_url\">";
-                    
-                    $sim_thumbnail_link = "../admin/get-sim-thumbnail.php?sim_id=$sim_id";
+
+					
+					$sim_thumbnail_link = sim_get_thumbnail($simulation);
 
                     print <<<EOT
                         <a href="$sim_url">
