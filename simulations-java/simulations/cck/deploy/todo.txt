@@ -1,3 +1,6 @@
+Notes from Sam M, 7-29-2007:
+If you save a circuit with a closed switch, when you load it back up, the switch is open but electrons are flowing through it.  If you close and reopen the switch, everything behaves normally.  I'm guessing this is because the default graphics for a switch is an open switch.
+
 Notes from Sam Reid 7-16-2007:
 o There is a delay on bringing out the 1st component from the toolbox.
 o When measuring the voltage across a battery with the voltmeter, and proposing a match from a wire, voltmeter temporarily reads out infinite voltage.
