@@ -1,7 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
-import edu.colorado.phet.common.motion.MotionResources;
 import edu.colorado.phet.common.motion.graphs.*;
+import edu.colorado.phet.common.motion.tests.ColorArrows;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
@@ -15,8 +15,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -67,7 +65,7 @@ public class RotationGraphSet extends GraphSuiteSet {
 
         RotationMinimizableControlGraph velocityGraph = new RotationMinimizableControlGraph( UnicodeUtil.OMEGA, new AngularUnitGraph(
                 pSwingCanvas, model.getPlatformVelocityVariable(),
-                UnicodeUtil.OMEGA, "Angular Velocity", angleUnitModel, ANG_VEL_UNITS_RAD, ANG_VEL_UNITS_DEG, -5, 5, createThumb( RotationColorScheme.ANG_VEL_SUITE.getPlatformColor()), 
+                UnicodeUtil.OMEGA, "Angular Velocity", angleUnitModel, ANG_VEL_UNITS_RAD, ANG_VEL_UNITS_DEG, -5, 5, createThumb( RotationColorScheme.ANG_VEL_SUITE.getPlatformColor() ),
                 model, true, model.getTimeSeriesModel(), model.getVelocityDriven(), RotationModel.MAX_TIME, model.getRotationPlatform() ) );
         velocityGraph.addSeries( new ControlGraphSeries( "Angular Velocity", RotationColorScheme.ANG_VEL_SUITE.getPlatformColor(), UnicodeUtil.OMEGA, ANG_VEL_UNITS_RAD, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), platformStroke, true, CHARACTER_PLATFORM ) );
         velocityGraph.addSeriesPair( "Angular Velocity",
@@ -77,7 +75,7 @@ public class RotationGraphSet extends GraphSuiteSet {
 
         RotationMinimizableControlGraph accelGraph = new RotationMinimizableControlGraph( UnicodeUtil.ALPHA, new AngularUnitGraph(
                 pSwingCanvas, model.getPlatformAccelVariable(),
-                UnicodeUtil.ALPHA, "Angular Acceleration", angleUnitModel, ANG_ACC_UNITS_RAD, ANG_ACC_UNITS_DEG, -1.1, 1.1, createThumb( RotationColorScheme.ANG_ACC_SUITE.getPlatformColor()), 
+                UnicodeUtil.ALPHA, "Angular Acceleration", angleUnitModel, ANG_ACC_UNITS_RAD, ANG_ACC_UNITS_DEG, -1.1, 1.1, createThumb( RotationColorScheme.ANG_ACC_SUITE.getPlatformColor() ),
                 model, true, model.getTimeSeriesModel(), model.getAccelDriven(), RotationModel.MAX_TIME, model.getRotationPlatform() ) );
         accelGraph.addSeries( new ControlGraphSeries( "Platform Ang Accel", RotationColorScheme.ANG_ACC_SUITE.getPlatformColor(), UnicodeUtil.ALPHA, ANG_ACC_UNITS_RAD, model.getPlatformAccelVariable(), model.getPlatformAccelTimeSeries(), platformStroke, true, CHARACTER_PLATFORM ) );
         accelGraph.addSeriesPair( "Angular Acceleration",
@@ -151,14 +149,7 @@ public class RotationGraphSet extends GraphSuiteSet {
     }
 
     private PImage createThumb( Color color ) {
-        BufferedImage image = null;
-        try {
-            image = MotionResources.loadBufferedImage( "gray-arrow.png" );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        return new PImage( new MakeDuotoneImageOp( color ).filter( image, null ) );
+        return new PImage( ColorArrows.createArrow( color  ) );
     }
 
     private Color darken( Color color ) {
