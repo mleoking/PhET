@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.motion.graphs.*;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
@@ -33,6 +34,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
 
     private GraphSetModel graphSetModel;
     private AngleUnitModel angleUnitModel = new AngleUnitModel( false );
+    private JComponent controlPanel;
 
     public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule, JFrame phetFrame ) {
         this.rotationModule = rotationModule;
@@ -52,7 +54,8 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         } );
         timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( graphSetModel, timeSeriesModel, AbstractRotationModule.DEFAULT_CLOCK_DT / 4.0, AbstractRotationModule.DEFAULT_CLOCK_DT );
 
-        rotationControlPanelNode = new PSwing( createControlPanel( getRulerNode(), phetFrame ) );
+        controlPanel = createControlPanel( getRulerNode(), phetFrame );
+        rotationControlPanelNode = new PSwing( controlPanel );
 
         addScreenChild( rotationControlPanelNode );
         addScreenChild( timeSeriesGraphSetNode );
@@ -132,6 +135,9 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         rotationGraphSet.resetAll();
         graphSetModel.setGraphSuite( rotationGraphSet.getGraphSuite( 0 ) );
         rotationPlayAreaNode.resetAll();
+        if( controlPanel instanceof Resettable ) {
+            ( (Resettable)controlPanel ).reset();
+        }
     }
 
     protected GraphSuiteSet createRotationGraphSet() {

@@ -4,6 +4,7 @@ import edu.colorado.phet.common.motion.graphs.GraphSelectionControl;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.AbstractRotationModule;
 import edu.colorado.phet.rotation.AngleUnitModel;
@@ -21,18 +22,20 @@ import java.awt.event.ActionListener;
  * Time: 7:51:51 AM
  */
 
-public class RotationControlPanel extends JPanel {
+public class RotationControlPanel extends JPanel implements Resettable {
+    private SymbolKeyButton symbolKeyButton;
+
     public RotationControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel,
                                  VectorViewModel vectorViewModel, JFrame parentFrame, final RotationBody ladybug,
                                  final RotationBody beetle, AbstractRotationModule module, AngleUnitModel angleUnitModel, final RotationPlatform platform ) {
         super( new GridBagLayout() );
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
-        SymbolKeyButton symbolKey = new SymbolKeyButton( parentFrame );
+        symbolKeyButton = new SymbolKeyButton( parentFrame );
         ShowVectorsControl showVectorsControl = new ShowVectorsControl( vectorViewModel );
 
         VerticalLayoutPanel box = new VerticalLayoutPanel();
         RulerButton rulerButton = new RulerButton( rulerNode );
-        box.add( symbolKey );
+        box.add( symbolKeyButton );
 
         final JCheckBox beetleGraph = new JCheckBox( "Show Beetle Graph", beetle.getDisplayGraph() );
         beetleGraph.addActionListener( new ActionListener() {
@@ -73,5 +76,9 @@ public class RotationControlPanel extends JPanel {
 
     private GridBagConstraints getConstraints( int gridX, int gridY ) {
         return new GridBagConstraints( gridX, gridY, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets( 10, 10, 10, 10 ), 0, 0 );
+    }
+
+    public void reset() {
+        symbolKeyButton.reset();
     }
 }

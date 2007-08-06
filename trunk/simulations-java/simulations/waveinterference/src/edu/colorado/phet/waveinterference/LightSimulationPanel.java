@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.waveinterference.model.Lattice2D;

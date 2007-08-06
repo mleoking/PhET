@@ -4,6 +4,7 @@ package edu.colorado.phet.common.bernoulli.view.components.media;
 import edu.colorado.phet.common.bernoulli.model.ApplicationModel;
 import edu.colorado.phet.common.bernoulli.model.command.Command;
 import edu.colorado.phet.common.bernoulli.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -6,11 +6,11 @@ import edu.colorado.phet.common_greenhouse.application.ModuleManager;
 import edu.colorado.phet.common_greenhouse.application.ModuleObserver;
 import edu.colorado.phet.common_greenhouse.application.PhetApplication;
 import edu.colorado.phet.common_greenhouse.view.apparatuspanelcontainment.ApparatusPanelContainer;
-import edu.colorado.phet.common_greenhouse.view.components.media.Resettable;
 import edu.colorado.phet.common_greenhouse.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.coreadditions_greenhouse.components.ApplicationModelControlPanel;
 import edu.colorado.phet.coreadditions_greenhouse.components.BasicPhetPanel;
 import edu.colorado.phet.coreadditions_greenhouse.components.PhetFrame;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 import javax.swing.*;
 

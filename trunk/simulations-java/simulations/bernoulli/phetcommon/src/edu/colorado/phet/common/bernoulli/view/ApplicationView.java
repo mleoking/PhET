@@ -8,8 +8,8 @@ import edu.colorado.phet.common.bernoulli.application.PhetApplication;
 import edu.colorado.phet.common.bernoulli.view.apparatuspanelcontainment.ApparatusPanelContainer;
 import edu.colorado.phet.common.bernoulli.view.components.clockgui.ClockDialog;
 import edu.colorado.phet.common.bernoulli.view.components.media.ApplicationModelControlPanel;
-import edu.colorado.phet.common.bernoulli.view.components.media.Resettable;
 import edu.colorado.phet.common.bernoulli.view.components.menu.PhetFileMenu;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

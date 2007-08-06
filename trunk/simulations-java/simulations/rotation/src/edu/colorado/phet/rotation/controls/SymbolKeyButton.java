@@ -17,10 +17,11 @@ public class SymbolKeyButton extends JPanel {
     private JDialog dialog;
     private String SHOW_MODE = "SHOW";
     private String HIDE_MODE = "HIDE";
+    private MultiStateButton button;
 
     public SymbolKeyButton( JFrame parentFrame ) {
         dialog = new JDialog( parentFrame, "Symbol Key", false );
-        final MultiStateButton button = new MultiStateButton();
+        button = new MultiStateButton();
         button.addMode( SHOW_MODE, "Symbol Key", null );
         button.addMode( HIDE_MODE, "Hide Symbol Key", null );
 
@@ -48,5 +49,10 @@ public class SymbolKeyButton extends JPanel {
         dialog.setContentPane( new SymbolKey() );
         dialog.pack();
         add( button );
+    }
+
+    public void reset() {
+        dialog.hide();
+        button.setMode( SHOW_MODE );
     }
 }
