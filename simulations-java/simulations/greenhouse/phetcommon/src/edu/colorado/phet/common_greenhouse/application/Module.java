@@ -9,9 +9,9 @@ package edu.colorado.phet.common_greenhouse.application;
 import edu.colorado.phet.common_greenhouse.model.BaseModel;
 import edu.colorado.phet.common_greenhouse.model.ModelElement;
 import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
-import edu.colorado.phet.common_greenhouse.view.components.media.Resettable;
 import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
 import edu.colorado.phet.common_greenhouse.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 import javax.swing.*;
 import java.awt.geom.AffineTransform;

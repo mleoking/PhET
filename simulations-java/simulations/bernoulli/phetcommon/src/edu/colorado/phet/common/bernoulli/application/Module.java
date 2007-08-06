@@ -8,9 +8,9 @@ package edu.colorado.phet.common.bernoulli.application;
 
 import edu.colorado.phet.common.bernoulli.model.BaseModel;
 import edu.colorado.phet.common.bernoulli.model.ModelElement;
-import edu.colorado.phet.common.bernoulli.view.components.media.Resettable;
 import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 import javax.swing.*;
 
@@ -61,7 +61,7 @@ public abstract class Module {
         return this.resettable;
     }
 
-    protected void setResetter(Resettable resettable) {
+    protected void setResetter( Resettable resettable) {
         this.resettable = resettable;
     }
 

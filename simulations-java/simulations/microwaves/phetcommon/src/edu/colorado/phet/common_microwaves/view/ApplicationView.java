@@ -6,11 +6,11 @@ import edu.colorado.phet.common_microwaves.application.ModuleManager;
 import edu.colorado.phet.common_microwaves.application.ModuleObserver;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.apparatuspanelcontainment.ApparatusPanelContainer;
-import edu.colorado.phet.common_microwaves.view.components.media.Resettable;
 import edu.colorado.phet.common_microwaves.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.coreadditions_microwaves.components.ApplicationModelControlPanel;
 import edu.colorado.phet.coreadditions_microwaves.components.BasicPhetPanel;
 import edu.colorado.phet.coreadditions_microwaves.components.PhetFrame;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 import javax.swing.*;
 
