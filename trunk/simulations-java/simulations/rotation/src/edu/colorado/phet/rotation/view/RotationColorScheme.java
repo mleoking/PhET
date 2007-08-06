@@ -18,15 +18,15 @@ public class RotationColorScheme {
             this.beetle = beetle;
         }
 
-        public Color getPlatform() {
+        public Color getPlatformColor() {
             return platform;
         }
 
-        public Color getLadybug() {
+        public Color getLadybugColor() {
             return ladybug;
         }
 
-        public Color getBeetle() {
+        public Color getBeetleColor() {
             return beetle;
         }
     }
