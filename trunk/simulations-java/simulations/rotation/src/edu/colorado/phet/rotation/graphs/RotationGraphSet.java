@@ -39,11 +39,9 @@ public class RotationGraphSet extends GraphSuiteSet {
     private static final String VELOCITY_UNITS = "m/s";
     private String ACCEL_UNITS = "m/s^2";
 
-
     private static final String CHARACTER_PLATFORM = "platform";
     private static final String CHARACTER_LADY = "ladybug";
     private static final String CHARACTER_BEETLE = "beetle";
-
 
     public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel model, AngleUnitModel angleUnitModel ) {
         this.model = model;
@@ -58,7 +56,6 @@ public class RotationGraphSet extends GraphSuiteSet {
                 model, true, model.getTimeSeriesModel(), model.getPositionDriven(),
                 RotationModel.MAX_TIME, model.getRotationPlatform() ) );
         final ControlGraphSeries platformAngleSeries = new ControlGraphSeries( "Angle", RotationColorScheme.ANGLE_SUITE.getPlatformColor(), UnicodeUtil.THETA, ANGLE_UNITS_RAD, model.getPlatformAngleVariable(), model.getPlatformAngleTimeSeries(), platformStroke, true, CHARACTER_PLATFORM );
-
         angleGraph.addSeries( platformAngleSeries );
         angleGraph.addSeriesPair( "Angle",
                                   new ControlGraphSeries( "Angle", RotationColorScheme.ANGLE_SUITE.getLadybugColor(), UnicodeUtil.THETA, ANGLE_UNITS_RAD, b0.getAngleVariable(), b0.getAngleTimeSeries(), body0Stroke, CHARACTER_LADY ),

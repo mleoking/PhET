@@ -106,8 +106,16 @@ public class GraphSuiteSet {
     }
 
     public void resetAll() {
+        resetRange();
         maximizeAll();
         clear();
+    }
+
+    private void resetRange() {
+        MinimizableControlGraph[] graphs = getAllGraphs();
+        for( int i = 0; i < graphs.length; i++ ) {
+            graphs[i].resetRange();
+        }
     }
 
     private void maximizeAll() {

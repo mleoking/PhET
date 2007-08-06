@@ -57,6 +57,10 @@ public class ControlGraph extends PNode {
     private PNode additionalControls;
     private ISimulationVariable simulationVariable;
 
+    private double defaultMinY;
+    private double defaultMaxY;
+    private double defaultMaxX;
+
     public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable,
                          String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
         this( pSwingCanvas, simulationVariable, title, minY, maxY, new PText( "THUMB" ), timeSeriesModel );
@@ -77,7 +81,7 @@ public class ControlGraph extends PNode {
         jFreeChart = ChartFactory.createXYLineChart( title, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String)null );
         setVerticalRange( minY, maxY );
-        jFreeChart.getXYPlot().getDomainAxis().setRange( 0, maxDomainValue );
+        setHorizontalRange( maxDomainTime );
         jFreeChart.setBackgroundPaint( null );
 
         dynamicJFreeChartNode = new DynamicJFreeChartNode( pSwingCanvas, jFreeChart );
@@ -158,6 +162,13 @@ public class ControlGraph extends PNode {
                 event.getInputManager().setKeyboardFocus( event.getPath() );
             }
         } );
+        this.defaultMinY = minY;
+        this.defaultMaxY = maxY;
+        this.defaultMaxX = maxDomainTime;
+    }
+
+    public void setHorizontalRange( double maxDomainValue ) {
+        jFreeChart.getXYPlot().getDomainAxis().setRange( 0, maxDomainValue );
     }
 
     protected GraphTimeControlNode createGraphTimeControlNode( TimeSeriesModel timeSeriesModel ) {
@@ -213,6 +224,23 @@ public class ControlGraph extends PNode {
     }
 
     protected void handleControlFocusGrabbed() {
+    }
+
+    public void resetRange() {
+        setVerticalRange( defaultMinY, defaultMaxY );
+        setHorizontalRange( defaultMaxX );
+    }
+
+    public double getDefaultMinY() {
+        return defaultMinY;
+    }
+
+    public double getDefaultMaxY() {
+        return defaultMaxY;
+    }
+
+    public double getDefaultMaxX() {
+        return defaultMaxX;
     }
 
     static class TitleNode extends PNode {
@@ -300,7 +328,7 @@ public class ControlGraph extends PNode {
 
     public void addSeries( final ControlGraphSeries series ) {
         this.series.add( series );
-        final SeriesData data=dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
+        final SeriesData data = dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
 
         final ReadoutTitleNode titleNode = createReadoutTitleNode( series );
         titleLayer.addReadoutNode( titleNode );

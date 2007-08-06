@@ -42,6 +42,11 @@ public class AngularUnitGraph extends RotationGraph {
         series.setUnits( getUnitsString() );
     }
 
+    public void resetRange() {
+        setVerticalRange( getDisplayValue( getDefaultMinY() ), getDisplayValue( getDefaultMaxY() ) );
+        setHorizontalRange( getDefaultMaxX() );
+    }
+
     private void updateUnits() {
         getVerticalAxis().setLabel( getTitle() + " (" + getUnitsString() + ")" );
         setVerticalRange( getDisplayValue( minRad ), getDisplayValue( maxRad ) );
