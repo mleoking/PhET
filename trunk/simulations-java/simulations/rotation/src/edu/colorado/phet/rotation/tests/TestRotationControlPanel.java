@@ -14,8 +14,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.AngleUnitModel;
-import edu.colorado.phet.rotation.controls.RotationControlPanel;
 import edu.colorado.phet.rotation.RotationModule;
+import edu.colorado.phet.rotation.controls.RotationControlPanel;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
@@ -36,7 +36,7 @@ public class TestRotationControlPanel {
         GraphSuite graphSuite = new RotationGraphSet( phetPCanvas, rotationModel, new AngleUnitModel( true ) ).getGraphSuite( 0 );
         GraphSetModel graphSetModel = new GraphSetModel( graphSuite );
         VectorViewModel vectorViewModel = new VectorViewModel();
-        frame.setContentPane( new RotationControlPanel( new RulerNode( 10, 10, new String[0], "units", 3, 14 ), rotationGraphSet, graphSetModel, vectorViewModel, frame, rotationModel.getRotationBody( 0 ), rotationModel.getRotationBody( 1 ), new RotationModule( frame ), new AngleUnitModel( true ) ) );
+        frame.setContentPane( new RotationControlPanel( new RulerNode( 10, 10, new String[0], "units", 3, 14 ), rotationGraphSet, graphSetModel, vectorViewModel, frame, rotationModel.getRotationBody( 0 ), rotationModel.getRotationBody( 1 ), new RotationModule( frame ), new AngleUnitModel( true ), rotationModel.getRotationPlatform() ) );
     }
 
     public static void main( String[] args ) {

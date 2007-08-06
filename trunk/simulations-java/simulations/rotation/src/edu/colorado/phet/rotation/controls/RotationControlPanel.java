@@ -5,10 +5,10 @@ import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
-import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.AbstractRotationModule;
 import edu.colorado.phet.rotation.AngleUnitModel;
-import edu.colorado.phet.rotation.controls.RulerButton;
+import edu.colorado.phet.rotation.model.RotationBody;
+import edu.colorado.phet.rotation.model.RotationPlatform;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,9 @@ import java.awt.event.ActionListener;
  */
 
 public class RotationControlPanel extends JPanel {
-    public RotationControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, VectorViewModel vectorViewModel, JFrame parentFrame, final RotationBody ladybug, final RotationBody beetle, AbstractRotationModule module, AngleUnitModel angleUnitModel ) {
+    public RotationControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel,
+                                 VectorViewModel vectorViewModel, JFrame parentFrame, final RotationBody ladybug,
+                                 final RotationBody beetle, AbstractRotationModule module, AngleUnitModel angleUnitModel, final RotationPlatform platform ) {
         super( new GridBagLayout() );
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
         SymbolKeyButton symbolKey = new SymbolKeyButton( parentFrame );
@@ -32,21 +34,28 @@ public class RotationControlPanel extends JPanel {
         RulerButton rulerButton = new RulerButton( rulerNode );
         box.add( symbolKey );
 
-        final JCheckBox beetleGraph = new JCheckBox( "Show Beetle Graph", true );
+        final JCheckBox beetleGraph = new JCheckBox( "Show Beetle Graph", beetle.getDisplayGraph() );
         beetleGraph.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 beetle.setDisplayGraph( beetleGraph.isSelected() );
             }
         } );
 
-
-        final JCheckBox ladybugGraph = new JCheckBox( "Show Ladybug Graph", true );
+        final JCheckBox ladybugGraph = new JCheckBox( "Show Ladybug Graph", ladybug.getDisplayGraph() );
         ladybugGraph.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ladybug.setDisplayGraph( ladybugGraph.isSelected() );
             }
         } );
 
+        final JCheckBox platformGraph = new JCheckBox( "Show Platform Graph", platform.getDisplayGraph() );
+        platformGraph.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                platform.setDisplayGraph( platformGraph.isSelected() );
+            }
+        } );
+
+        box.add( platformGraph );
         box.add( ladybugGraph );
         box.add( beetleGraph );
 

@@ -3,7 +3,6 @@
 ################################
 
 UI issues:
-•	Add "Show Platform graphs" check boxes in same place as beetle control.
 •	Improve layout for in-graph readouts, current version overlaps
 •	Better graphics/characters?  Beetle will be undesirable for some?
 
@@ -27,12 +26,14 @@ This gives the graphs the feeling that they are a physical thing rather than an 
 >>The idea is that as soon as the user expresses an interest in the beetle, its graphs become visible
 >>As opposed to our previous version, which assumed the user only wanted to see data if the bug was on the platform
 
-•	I want to discuss the beetle graph behavior with Kathy before we do anything new with this.  I can see there are some tradeoffs and lots of scenarios that need to be considered.
+•	I want to discuss the beetle graph behavior with Kathy before we do anything new with this.
+        I can see there are some tradeoffs and lots of scenarios that need to be considered.
 •	I think the default axis for the velocity (linear) graph could be different but again here I think I should discuss with Kathy first.
-•	The other items that I ran into last night seem to be resolved.  I don’t know if I’ve played long enough to be sure on the ‘clear’ issue but it appears better. I tried my one scenario that I know caused this to happen and it no longer causes a problem.
+•	The other items that I ran into last night seem to be resolved.
+        I don’t know if I’ve played long enough to be sure on the ‘clear’ issue but it appears better.
+        I tried my one scenario that I know caused this to happen and it no longer causes a problem.
 •	Reset all doesn’t’ reset the axis for the graphs if you’ve zoomed and it doesn’t hide the symbol key if it’s been opened.
 •	The symbol key shows up over the top of a graph.  This is a low priority – just wanted to mention it.
-
 
 Lower Priority:
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
