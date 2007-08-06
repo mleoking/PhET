@@ -101,7 +101,7 @@ public class RotationPlatformNode extends PNode {
             }
         } );
         setAngle( rotationPlatform.getPosition() );
-        rotationPlatform.addListener( new RotationPlatform.Listener() {
+        rotationPlatform.addListener( new RotationPlatform.Adapter() {
             public void radiusChanged() {
                 updateRadius();
             }

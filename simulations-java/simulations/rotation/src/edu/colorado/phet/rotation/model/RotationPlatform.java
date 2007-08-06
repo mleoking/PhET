@@ -16,6 +16,7 @@ public class RotationPlatform extends MotionBody {
     private double innerRadius = 0.0;
     private double mass = 1.0 / ( ( innerRadius * innerRadius + radius * radius ) / 2.0 );//by default torque equals angular acceleration
     private transient ArrayList listeners = new ArrayList();
+    private boolean displayGraph = true;
 
     private static final double MAX_RADIUS = 3.0;
 
@@ -25,6 +26,20 @@ public class RotationPlatform extends MotionBody {
 
     public Point2D getCenter() {
         return center;
+    }
+
+
+    public boolean getDisplayGraph() {
+        return displayGraph;
+    }
+
+    public void setDisplayGraph( boolean displayGraph ) {
+        if( this.displayGraph != displayGraph ) {
+            this.displayGraph = displayGraph;
+            for( int i = 0; i < listeners.size(); i++ ) {
+                ( (Listener)listeners.get( i ) ).displayGraphChanged();
+            }
+        }
     }
 
     public double getRadius() {
@@ -77,6 +92,8 @@ public class RotationPlatform extends MotionBody {
         void radiusChanged();
 
         void innerRadiusChanged();
+
+        void displayGraphChanged();
     }
 
     public void addListener( Listener listener ) {
@@ -90,6 +107,17 @@ public class RotationPlatform extends MotionBody {
     private void notifyRadiusChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener)listeners.get( i ) ).radiusChanged();
+        }
+    }
+
+    public static class Adapter implements Listener {
+        public void radiusChanged() {
+        }
+
+        public void innerRadiusChanged() {
+        }
+
+        public void displayGraphChanged() {
         }
     }
 }
