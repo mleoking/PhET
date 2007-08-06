@@ -28,6 +28,7 @@ public class FontJA {
             for( int k = 0; k < fonts.size(); k++ ) {
                 Font o = (Font)fonts.get( k );
                 if( o.getName().equals( preferredJAFont ) ) {
+                    System.out.println( "Chose Font: " + o );
                     return o;
                 }
             }
