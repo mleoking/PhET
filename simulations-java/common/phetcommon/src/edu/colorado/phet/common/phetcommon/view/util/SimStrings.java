@@ -38,7 +38,15 @@ public class SimStrings {
             locale = new Locale( javawsLocale );
         }
     }
-    
+
+    /**
+     * Determines which locale this SimStings is using.
+     * @return the locale used by this SimStrings
+     */
+    public Locale getLocale() {
+        return locale;
+    }
+
     public void init( String bundleName ) {
         init(null, bundleName);
     }
