@@ -19,7 +19,6 @@ public class RotationLayout {
     private PNode timeSeriesGraphSetNode;
     private RotationPlatformNode platformNode;
     private PNode originNode;
-    private double playAreaPadY = 50;
     private static final double MIN_SCREEN_FRACTION_FOR_PLAY_AREA = 1.0 / 3.0;
 
     public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, RotationPlatformNode platformNode, PNode originNode ) {

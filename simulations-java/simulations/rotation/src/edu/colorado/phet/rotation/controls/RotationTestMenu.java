@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.controls;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.TestDynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.TestDynamicJFreeChartNodeTree;

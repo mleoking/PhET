@@ -1,4 +1,6 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.controls;
+
+import edu.colorado.phet.rotation.AbstractRotationModule;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

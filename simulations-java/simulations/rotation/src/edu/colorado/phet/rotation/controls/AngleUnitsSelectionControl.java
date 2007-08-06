@@ -1,6 +1,7 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.controls;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.rotation.AngleUnitModel;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
