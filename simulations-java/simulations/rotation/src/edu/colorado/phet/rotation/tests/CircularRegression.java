@@ -13,6 +13,14 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 /**
+ * Using the linear Position, Velocity or Acceleration updates is unlikely insufficient to display the
+ * centripetal acceleration for a rotational system.  The current implementation of PositionUpdate, which uses
+ * a past window over which to estimate the velocity and acceleration creates a temporal lag, which
+ * shows up in circular motion as a centripetal acceleration substantially offset from the center of rotation.
+ * <p/>
+ * Other schemes for numerical differentiation may produce better results, but none is guaranteed to be exact
+ * unless it incorporates the knowledge that the motion is indeed circular.
+ * <p/>
  * Author: Sam Reid
  * Jul 17, 2007, 12:15:12 AM
  */
@@ -20,9 +28,7 @@ public class CircularRegression {
     JFrame frame = new JFrame();
     private PhetPPath circlePath;
     private PNode pointLayer = new PNode();
-    private Timer timer;
     private Circle lastCircle;
-
 
     public CircularRegression() {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -109,28 +115,10 @@ public class CircularRegression {
         }
     }
 
-//    int time = 0;
-
     private Circle updateCircle() {
-        //To change body of created methods use File | Settings | File Templates.
-//        lastCircle=getCircle( getPoints(), 50);
         lastCircle = getCircle( getPoints(), 30, lastCircle );
         circlePath.setPathTo( lastCircle.toEllipse() );
         return lastCircle;
-//        time = 100;
-//        timer = new Timer( 5, new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                Circle circle = getCircle( getPoints(), time );
-//                lastCircle=circle;
-//                circlePath.setPathTo( circle.toEllipse() );
-//                time+=100;
-//                if( time >= 10000 ) {
-//                    timer.stop();
-//                    timer = null;
-//                }
-//            }
-//        } );
-//        timer.start();
     }
 
     public Circle getCircle( Point2D[] points, int numIt, Circle lastCircle ) {
