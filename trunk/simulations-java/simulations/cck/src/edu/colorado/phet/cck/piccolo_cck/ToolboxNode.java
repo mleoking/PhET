@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.CCKLookAndFeel;
+import edu.colorado.phet.cck.FontJA;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.model.CCKModel;
@@ -161,7 +162,8 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private Font createFont() {
-            return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ? new Font( "Lucida Sans", Font.PLAIN, 16 ) : new Font( "Lucida Sans", Font.PLAIN, 12 );
+            String fontName = FontJA.getFontName( "Lucida Sans" );
+            return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ? new Font( fontName, Font.PLAIN, 16 ) : new Font( fontName, Font.PLAIN, 12 );
         }
 
         public Point2D getWorldLocation( PInputEvent event ) {
