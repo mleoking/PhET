@@ -1,6 +1,7 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.controls;
 
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
+import edu.colorado.phet.rotation.RotationResources;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;

@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.AngleUnitModel;
-import edu.colorado.phet.rotation.RotationControlPanel;
+import edu.colorado.phet.rotation.controls.RotationControlPanel;
 import edu.colorado.phet.rotation.RotationModule;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;

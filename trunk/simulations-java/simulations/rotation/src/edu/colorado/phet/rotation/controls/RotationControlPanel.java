@@ -1,14 +1,14 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.controls;
 
 import edu.colorado.phet.common.motion.graphs.GraphSelectionControl;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
-import edu.colorado.phet.rotation.controls.ShowVectorsControl;
-import edu.colorado.phet.rotation.controls.SymbolKeyButton;
-import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationBody;
+import edu.colorado.phet.rotation.AbstractRotationModule;
+import edu.colorado.phet.rotation.AngleUnitModel;
+import edu.colorado.phet.rotation.controls.RulerButton;
 
 import javax.swing.*;
 import java.awt.*;
