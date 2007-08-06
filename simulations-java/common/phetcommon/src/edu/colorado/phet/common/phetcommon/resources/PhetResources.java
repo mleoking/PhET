@@ -119,7 +119,7 @@ public class PhetResources {
      * 
      * @return Locale
      */
-    private static Locale readLocale() {
+    public static Locale readLocale() {
         Locale locale = Locale.getDefault();
         String javawsLocale = System.getProperty( PROPERTY_JAVAWS_PHET_LOCALE );
         if ( javawsLocale != null ) {

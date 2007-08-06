@@ -12,7 +12,7 @@ import java.util.Vector;
  * <p/>
  * Manages strings for simulations so that they can be localized.
  *
- * @deprecated use PhetResourceLoader
+ * @deprecated use PhetResources or PhetApplicationConfig
  */
 public class SimStrings {
     
@@ -37,14 +37,6 @@ public class SimStrings {
         if( javawsLocale != null && !javawsLocale.equals( "" ) ) {
             locale = new Locale( javawsLocale );
         }
-    }
-
-    /**
-     * Determines which locale this SimStings is using.
-     * @return the locale used by this SimStrings
-     */
-    public Locale getLocale() {
-        return locale;
     }
 
     public void init( String bundleName ) {
