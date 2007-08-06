@@ -170,6 +170,10 @@ public class MinimizableControlGraph extends PNode {
         controlGraph.addSeries( controlGraphSeries );
     }
 
+    public void resetRange() {
+        controlGraph.resetRange();
+    }
+
     public static interface Listener {
         void minimizeStateChanged();
     }

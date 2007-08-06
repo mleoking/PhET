@@ -29,7 +29,6 @@ This gives the graphs the feeling that they are a physical thing rather than an 
         I can see there are some tradeoffs and lots of scenarios that need to be considered.
 
 •	I think the default axis for the velocity (linear) graph could be different but again here I think I should discuss with Kathy first.
-•	Reset all doesn’t’ reset the axis for the graphs if you’ve zoomed and it doesn’t hide the symbol key if it’s been opened.
 •	The symbol key shows up over the top of a graph.  This is a low priority – just wanted to mention it.
 
 Lower Priority:
