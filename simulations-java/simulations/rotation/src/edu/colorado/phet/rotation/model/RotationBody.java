@@ -27,6 +27,8 @@ public class RotationBody {
     private SeriesVariable speed;
     private SeriesVariable accel;
     private SeriesVariable angle;
+    private SeriesVariable angularVelocity;
+    private SeriesVariable angularAccel;
 
     private double orientation = 0.0;
     private ITimeSeries orientationSeries = new DefaultTimeSeries();
@@ -39,8 +41,6 @@ public class RotationBody {
     private CircularRegression circularRegression = new CircularRegression();
 
     private ArrayList listeners = new ArrayList();
-    private SeriesVariable angularVelocity;
-    private SeriesVariable angularAccel;
 
     public RotationBody() {
         this( "ladybug.gif" );
@@ -215,7 +215,10 @@ public class RotationBody {
     }
 
     private double getLastAngle() {
-        return angle.getSampleCount() > 0 ? angle.getLastValue() : getAngleNoWindingNumber();
+//        return angle.getSampleCount() > 0 ? angle.getLastValue() : getAngleNoWindingNumber();//only works while clock running
+
+        //this implementation works even while the clock is paused and the user is manually dragging the RotationBody
+        return angle.getVariable().getValue();//todo: this implementation of getLastAngle only works if this value is not updated during computation
     }
 
     private double getDTheta() {
@@ -346,7 +349,7 @@ public class RotationBody {
         updateXYStateFromSeries();
         angle.updateSeriesAndState( getUserSetAngle(), rotationPlatform.getXTimeSeries().getTime() );
         angularVelocity.updateSeriesAndState( rotationPlatform.getVelocity(), rotationPlatform.getVTimeSeries().getTime() );//when on the platform, angul
-        angularAccel.updateSeriesAndState( rotationPlatform.getAcceleration(), rotationPlatform.getATimeSeries().getTime());
+        angularAccel.updateSeriesAndState( rotationPlatform.getAcceleration(), rotationPlatform.getATimeSeries().getTime() );
 //        System.out.println( "rotationPlatform.getLastTime() = " + rotationPlatform.getLastTime() );
         checkCentripetalAccel();
     }
@@ -627,7 +630,14 @@ public class RotationBody {
         if( this.getX() != x || this.getY() != y ) {
             xBody.setPosition( x );
             yBody.setPosition( y );
+            updateAngleValue();
             notifyPositionChanged();
         }
+
     }
+
+    private void updateAngleValue() {
+        angle.setValue( getUserSetAngle() );
+    }
+
 }

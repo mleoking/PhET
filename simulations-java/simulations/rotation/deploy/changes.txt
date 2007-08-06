@@ -1,6 +1,7 @@
 1.02.05
 Fixed: Draggable arrow should exactly match the shade of the corresponding data series
 Added "Show Platform graphs" check boxes in same place as beetle control.
+Fixed: If time is stopped, update theta for bugs if they are moved by hand
 
 1.02.04 (7-28-2007)
 Fixed: ladybug and rotation platform graphs sometimes get mixed up
