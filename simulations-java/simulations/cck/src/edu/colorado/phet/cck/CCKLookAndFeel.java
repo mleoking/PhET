@@ -14,10 +14,13 @@ public class CCKLookAndFeel {
     public static final double HIGHLIGHT_SCALE = 1.5;
 
     public static Font getFont() {
+        if( font == null ) {
+            init();
+        }
         return font;
     }
 
-    static {
+    private static void init() {
         Font font1280 = new Font( "Lucida Sans", Font.PLAIN, 16 );
         Font font1040 = new Font( "Lucida Sans", Font.PLAIN, 9 );
         Font font800 = new Font( "Lucida Sans", Font.PLAIN, 6 );
@@ -37,6 +40,10 @@ public class CCKLookAndFeel {
 //            System.out.println( "Chose font for width between 1024" );
         }
         font = uifont;
+
+        if (FontJA.isJapaneseLocale()){
+            font=FontJA.getPreferredJAFont().deriveFont( Font.PLAIN,uifont.getSize2D( ));
+        }
 
     }
 
