@@ -8,7 +8,6 @@ UI issues:
 
 Gathering data while time is stopped:
 •	when paused or stopped and hand is manually rotated or rotated by the slider, bugs should update
-•	If time is stopped, update theta for bugs if they are moved by hand
 
 Performance
 •	Improve performance
