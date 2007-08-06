@@ -56,11 +56,6 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         getTimeSeriesModel().setPaused( false );
     }
 
-    private void setVelocityDriven( double value ) {
-        rotationPlatform.setUpdateStrategy( rotationPlatform.getVelocityDriven() );
-        rotationPlatform.getVVariable().setValue( value );
-    }
-
     protected void setTime( double time ) {
         super.setTime( time );
         rotationPlatform.setTime( time );

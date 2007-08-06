@@ -146,16 +146,6 @@ public class RotationGraphSet extends GraphSuiteSet {
         updateBody1Series();
     }
 
-    private Color lighten( Color color ) {
-        return lighten( color, 50 );
-    }
-
-    private Color lighten( Color color, int amount ) {
-        return new Color( Math.min( color.getRed() + amount, 255 ),
-                          Math.min( color.getGreen() + amount, 255 ),
-                          Math.min( color.getBlue() + amount, 255 ) );
-    }
-
     private Color darken( Color color ) {
         return darken( color, 150 );
     }

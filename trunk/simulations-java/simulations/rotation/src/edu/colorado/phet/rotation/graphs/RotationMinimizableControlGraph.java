@@ -20,14 +20,6 @@ public class RotationMinimizableControlGraph extends MinimizableControlGraph {
         this.controlGraph = controlGraph;
     }
 
-    public void addSeries2( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries timeSeries, Stroke stroke ) {
-        controlGraph.addSecondarySeries( title, color, abbr, units, simulationVariable, timeSeries, stroke );
-    }
-
-    public void addSeries2( ControlGraphSeries controlGraphSeries ) {
-        controlGraph.addSecondarySeries( controlGraphSeries );
-    }
-
     public RotationGraph.SeriesPair addSeriesPair( String name, ControlGraphSeries a, ControlGraphSeries b, RotationBody bodyA, RotationBody bodyB ) {
         return controlGraph.addSeriesPair( name, a, b, bodyA, bodyB );
     }
