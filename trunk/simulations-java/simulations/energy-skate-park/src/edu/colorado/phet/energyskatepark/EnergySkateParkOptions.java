@@ -16,7 +16,8 @@ public class EnergySkateParkOptions {
     }
 
     public EnergySkateParkOptions() {
-        this( new LocationControlPanel.VerticalPlanetButtonLayout(), false );
+//        this( new LocationControlPanel.VerticalPlanetButtonLayout(), false );
+        this( new LocationControlPanel.TwoColumnLayout(), false );
     }
 
     public LocationControlPanel.PlanetButtonLayout getPlanetButtonLayout() {
