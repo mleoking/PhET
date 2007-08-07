@@ -467,6 +467,19 @@ PhET-team specific tasks are located in an auxiliary build file.
             <param name="ssh-host"              value="${dev.server.name}"/>
         </antcall>
     </target>
+<!--shows the browser for the last dev-deployed sim (if any)-->
+    <target name="show-browser-dev" depends="_init, _define-sim-version">
+        <if>
+            <isset property="browser"/>
+            <then>
+                <var name="deployurl" value="${dev.server.url}${sim.name}/${sim.version}"/>
+                <echo message="Opening browser: ${browser} ${deployurl}"/>
+                <exec executable="${browser}" spawn="true">
+                    <arg value="${deployurl}"/>
+                </exec>
+            </then>
+        </if>
+    </target>
     
     <target name="_build-and-deploy-only-prod" depends="_set-sim-revision-number, _define-sim-version">
         <!-- Deploy production version -->
