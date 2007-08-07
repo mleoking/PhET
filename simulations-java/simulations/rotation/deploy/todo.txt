@@ -7,7 +7,7 @@ UI issues:
 
 Gathering data while time is stopped:
 •	when paused or stopped and hand is manually rotated or rotated by the slider, bugs should update
-        Is this fixed?  Angle is updated during pause + drag now.
+        Is this fixed?  Angle is updated during pause + drag now, does anything else need to be?
 
 Performance
 •	Improve performance
@@ -28,16 +28,13 @@ This gives the graphs the feeling that they are a physical thing rather than an 
         I can see there are some tradeoffs and lots of scenarios that need to be considered.
 
 •	I think the default axis for the velocity (linear) graph could be different but again here I think I should discuss with Kathy first.
-•	The symbol key shows up over the top of a graph.  This is a low priority – just wanted to mention it.
 
 Lower Priority:
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
 •   Improve correspondence of graph time scale with wall-time clock speed
 •	Shadow projections should be considered after AAPT.
 •	Possible interview question: bug icon at tip of graph to improve conceptual connection
-•	Torque mode: Should be able to "spin" the wheel (i.e. drag, let go, and have it continue to spin, at least in friction mode)
-•	Symbol key should appear near the mouse when "show symbol key" pressed
-•   On graph readouts should have a better (fixed) layout. (numbers could be aligned)
+•	Torque mode: Should be able to "spin" the wheel (i.e. drag, let go, and have it continue to spin, at least in friction mode)?
 •   some pswing components are fuzzy
     -can't reproduce this on development machine
 •   typing in a box without pressing enter should work
