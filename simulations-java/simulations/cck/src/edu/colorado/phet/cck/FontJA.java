@@ -41,9 +41,10 @@ public class FontJA {
     }
 
     public static String getFontName( String defaultValue ) {
-        if (isJapaneseLocale()){
+        if( isJapaneseLocale() ) {
             return getPreferredJAFont().getName();
-        }else{
+        }
+        else {
             return defaultValue;
         }
     }

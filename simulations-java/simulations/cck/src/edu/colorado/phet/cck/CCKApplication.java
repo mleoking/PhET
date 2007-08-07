@@ -23,6 +23,7 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * User: Sam Reid
@@ -139,7 +140,7 @@ public class CCKApplication extends PiccoloPhetApplication {
 
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
 
-//        Locale.setDefault( new Locale( "ie", "ga" ) );
+        Locale.setDefault( new Locale( "ja" ) );
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
 //                CCKResources.init( args, CCKApplication.localizedStringsPath );
