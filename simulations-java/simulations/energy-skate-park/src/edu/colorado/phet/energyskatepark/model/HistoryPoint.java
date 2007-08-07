@@ -32,8 +32,8 @@ public class HistoryPoint implements Serializable {
         this.pe = body.getPotentialEnergy();
         this.thermalEnergy = body.getThermalEnergy();
         this.totalEnergy = body.getTotalEnergy();
-        this.dy=body.getHeightAboveZero();
-        this.speed=body.getSpeed();
+        this.dy = body.getHeightAboveZero();
+        this.speed = body.getSpeed();
     }
 
     public double getX() {

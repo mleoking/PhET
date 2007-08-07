@@ -11,8 +11,9 @@ import javax.swing.*;
  */
 public class EnergyPositionPlotDialog extends JDialog {
     private EnergyPositionPlot energyPosition;
+
     public EnergyPositionPlotDialog( PhetFrame phetFrame, String title, boolean modal, EnergySkateParkModule energySkateParkModule ) {
-        super(phetFrame,title,modal);
+        super( phetFrame, title, modal );
         energyPosition = new EnergyPositionPlot( energySkateParkModule );
         setContentPane( energyPosition );
     }

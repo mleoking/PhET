@@ -413,15 +413,15 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         return screenRect.contains( d );
     }
 
-    public boolean getIgnoreThermal(){
+    public boolean getIgnoreThermal() {
         return rootNode.getIgnoreThermal();
     }
-    
+
     public void setIgnoreThermal( boolean b ) {
         if( rootNode.getIgnoreThermal() != b ) {
             rootNode.setIgnoreThermal( b );
             for( int i = 0; i < listeners.size(); i++ ) {
-                ((Listener)listeners.get( i )).ignoreThermalChanged();
+                ( (Listener)listeners.get( i ) ).ignoreThermalChanged();
             }
         }
     }

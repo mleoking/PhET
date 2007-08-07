@@ -139,7 +139,7 @@ public class EnergySkateParkModel implements Serializable {
             floor = new Floor();
         }
         else {
-            detachFromFloor( );
+            detachFromFloor();
             floor = null;
         }
         notifyFloorChanged();
@@ -148,7 +148,7 @@ public class EnergySkateParkModel implements Serializable {
     private void detachFromFloor() {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
-            if (body.isOnFloor()){
+            if( body.isOnFloor() ) {
                 body.setFreeFallMode();
             }
         }
@@ -203,7 +203,7 @@ public class EnergySkateParkModel implements Serializable {
             this.floor = model.floor;
             notifyFloorChanged();
         }
-        if (floor==null){
+        if( floor == null ) {
             detachFromFloor();
         }
 
@@ -356,7 +356,7 @@ public class EnergySkateParkModel implements Serializable {
         notifySplineCountChanged();
     }
 
-    private void detachBodies( ParametricFunction2D spline) {
+    private void detachBodies( ParametricFunction2D spline ) {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             if( body.isOnSpline( spline ) ) {

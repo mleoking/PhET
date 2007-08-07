@@ -158,7 +158,7 @@ public class SkaterNode extends PNode {
         centerDebugger.setPathTo( aShape );
     }
 
-    public Rectangle2D getRedDotGlobalFullBounds(){
+    public Rectangle2D getRedDotGlobalFullBounds() {
         return centerDebugger.getGlobalFullBounds();
     }
 

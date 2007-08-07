@@ -28,7 +28,7 @@ public class GridNode extends PhetPNode {
             if( x % 2 == 0 ) {
                 String aText = "" + (int)x;
                 if( aText.equals( "0" ) ) {
-                    aText = "0 " +EnergySkateParkStrings.getString( "units.meters");
+                    aText = "0 " + EnergySkateParkStrings.getString( "units.meters" );
                 }
                 PText text = new PText( aText );
                 text.setOffset( x + dx + dx * 0.2, minY );
@@ -44,7 +44,7 @@ public class GridNode extends PhetPNode {
             if( y % 2 == 0 ) {
                 String aText = "" + (int)y;
                 if( aText.equals( "0" ) ) {
-                    aText = "0 " +EnergySkateParkStrings.getString( "units.meters");
+                    aText = "0 " + EnergySkateParkStrings.getString( "units.meters" );
                 }
                 PText text = new PText( aText );
                 text.setOffset( dx + dx * 0.05, y + dy * 0.05 );
@@ -88,8 +88,8 @@ public class GridNode extends PhetPNode {
     private PNode createYLineNode( double minX, double maxX, double y ) {
         PPath child = new PPath( new Line2D.Double( minX, y, maxX, y ) );
         boolean thickStroke = MathUtil.isApproxEqual( y, 0, 0.001 );
-        if ((int)y%5==0){
-            thickStroke=true;
+        if( (int)y % 5 == 0 ) {
+            thickStroke = true;
         }
         child.setStroke( new BasicStroke( 0.01f * ( thickStroke ? 3 : 1 ) ) );
         return child;
