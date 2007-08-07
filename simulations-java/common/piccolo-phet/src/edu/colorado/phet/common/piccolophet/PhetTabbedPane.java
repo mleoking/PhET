@@ -23,6 +23,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -46,7 +47,9 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 public class PhetTabbedPane extends JPanel {
 
     public static final String IMAGE_PHET_LOGO = LogoPanel.IMAGE_PHET_LOGO;
-
+    
+    public static final Font DEFAULT_TAB_FONT = new PhetDefaultFont( 16, true /* bold */ );
+    
     private TabPane tabPane;
     /**
      * A piccolo canvas that displays the tabs
@@ -57,7 +60,7 @@ public class PhetTabbedPane extends JPanel {
      */
     private Color selectedTabColor;
     private ArrayList changeListeners = new ArrayList();
-    private Font tabFont = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private Font tabFont = DEFAULT_TAB_FONT;
     private TabNodeFactory tabNodeFactory = new TabNodeFactory();
 
     /**
