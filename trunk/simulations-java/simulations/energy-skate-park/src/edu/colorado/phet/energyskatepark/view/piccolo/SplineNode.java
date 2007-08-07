@@ -421,7 +421,7 @@ public class SplineNode extends PNode {
             getControlPointGraphic( i ).setPickable( pick );
             getControlPointGraphic( i ).setChildrenPickable( pick );
         }
-                update();
+        update();
     }
 
 

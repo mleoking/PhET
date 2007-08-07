@@ -1,8 +1,8 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.energyskatepark.model.HistoryPoint;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -39,13 +39,13 @@ public class HistoryPointNode extends PNode {
         path.setPaint( paint );
 
         htmlNode = new ShadowHTMLNode( "" );
-        htmlNode.addInputEventListener( new CursorHandler( ) );
+        htmlNode.addInputEventListener( new CursorHandler() );
         htmlNode.setShadowOffset( 1, 1 );
         htmlNode.setShadowColor( Color.white );
         htmlNode.setColor( Color.black );
 
         htmlNode.scale( scale );
-        addInputEventListener( new CursorHandler( ));
+        addInputEventListener( new CursorHandler() );
         PBasicInputEventHandler eventHandler = new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 HistoryPointNode.this.historyPoint.setReadoutVisible( !HistoryPointNode.this.historyPoint.isReadoutVisible() );
@@ -74,7 +74,7 @@ public class HistoryPointNode extends PNode {
         String heatString = historyPoint.getThermalEnergy() != 0 ? "Thermal Energy=" + format( historyPoint.getThermalEnergy() ) + " J<br>" : "";
 //        String heightSpeedReadout="";
         String heightSpeedReadout = "<br>Height=" + format( historyPoint.getHeightAboveZero() ) + " m<br>" +
-                                    "Speed=" + format( historyPoint.getSpeed() )+" m/s";
+                                    "Speed=" + format( historyPoint.getSpeed() ) + " m/s";
         String html = "<html>" +
                       "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
                       "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +

@@ -1,12 +1,12 @@
 package edu.colorado.phet.energyskatepark.view.swing;
 
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
-import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
-import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.common.timeseries.ui.TimeSpeedSlider;
+import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 
 import javax.swing.*;

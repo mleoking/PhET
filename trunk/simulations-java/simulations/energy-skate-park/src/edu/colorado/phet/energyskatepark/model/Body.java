@@ -157,7 +157,6 @@ public class Body implements Serializable {
                 facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAngle() ) ) > 0;
             }
         }
-
     }
 
     public double getY() {
@@ -306,10 +305,10 @@ public class Body implements Serializable {
     }
 
     public boolean isOnSpline( EnergySkateParkSpline splineSurface ) {
-        return isOnSpline( splineSurface.getParametricFunction2D( ));
+        return isOnSpline( splineSurface.getParametricFunction2D() );
     }
 
-    public boolean isOnSpline(ParametricFunction2D parametricFunction2D){
+    public boolean isOnSpline( ParametricFunction2D parametricFunction2D ) {
         return particle.isOnSpline( parametricFunction2D );
     }
 

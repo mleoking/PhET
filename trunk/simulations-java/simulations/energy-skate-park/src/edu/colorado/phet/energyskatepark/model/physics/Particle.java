@@ -124,7 +124,7 @@ public class Particle implements Serializable {
         return thermalEnergy;
     }
 
-    public double getHeightAboveZero(){
+    public double getHeightAboveZero() {
         return y - zeroPointPotentialY;
     }
 

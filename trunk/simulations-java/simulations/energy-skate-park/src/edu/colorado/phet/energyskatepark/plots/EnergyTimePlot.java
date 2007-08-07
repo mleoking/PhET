@@ -1,8 +1,8 @@
 package edu.colorado.phet.energyskatepark.plots;
 
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNodeControlPanel;
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -27,7 +27,10 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -55,7 +58,7 @@ public class EnergyTimePlot {
     private JFreeChartCursorNode jFreeChartCursorNode;
 
 //    public static final double MAX_TIME = 50.0;
-//    public static final double MAX_TIME = 30.0;
+    //    public static final double MAX_TIME = 30.0;
     public static final double MAX_TIME = 20.0;
     private JDialog developerControlDialog;
     private EnergySkateParkPlaybackPanel playbackPanel;
@@ -189,12 +192,12 @@ public class EnergyTimePlot {
         } );
         relayout();
 
-        developerControlDialog = new JDialog(parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" )+" (developer controls)", false );
-        developerControlDialog.setContentPane( new DynamicJFreeChartNodeControlPanel( dynamicJFreeChartNode ));
+        developerControlDialog = new JDialog( parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ) + " (developer controls)", false );
+        developerControlDialog.setContentPane( new DynamicJFreeChartNodeControlPanel( dynamicJFreeChartNode ) );
         developerControlDialog.pack();
-        developerControlDialog.setLocation( dialog.getLocation().x,dialog.getLocation().y-developerControlDialog.getHeight());
+        developerControlDialog.setLocation( dialog.getLocation().x, dialog.getLocation().y - developerControlDialog.getHeight() );
 
-        JPopupMenu popupMenu=new JPopupMenu( );
+        JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem item = new JMenuItem( "Show Renderers" );
         item.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -202,7 +205,7 @@ public class EnergyTimePlot {
             }
         } );
         popupMenu.add( item );
-        phetPCanvas.addInputEventListener( new PopupMenuHandler( phetPCanvas, popupMenu) );
+        phetPCanvas.addInputEventListener( new PopupMenuHandler( phetPCanvas, popupMenu ) );
     }
 
     private void updateReadouts() {
