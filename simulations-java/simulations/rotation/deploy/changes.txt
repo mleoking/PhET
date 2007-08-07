@@ -1,3 +1,9 @@
+1.03.04
+Test with proguard optimize
+
+1.03.03
+Test for obfuscated proguard post
+
 1.03.02 (8-7-2007)
 Fixed: Draggable arrow should exactly match the shade of the corresponding data series
 Added "Show Platform graphs" check boxes in same place as beetle control.
