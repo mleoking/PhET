@@ -5,6 +5,7 @@ Fixed: If time is stopped, update theta for bugs if they are moved by hand
 Fixed: Reset all doesn’t reset the axis for the graphs if you’ve zoomed 
 Fixed: Reset all doesn’t hide the symbol key if it’s been opened.
 Improved layout for in-graph readouts
+Fixed: The symbol key shows up in the wrong location.
 
 1.02.04 (7-28-2007)
 Fixed: ladybug and rotation platform graphs sometimes get mixed up
