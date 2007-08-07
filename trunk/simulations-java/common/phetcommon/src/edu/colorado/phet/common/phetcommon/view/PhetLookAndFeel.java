@@ -10,18 +10,21 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-
-import javax.swing.*;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.InsetsUIResource;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.InsetsUIResource;
+
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 /**
  * PhetLookAndFeel manages the Look and Feel for a PhetApplication.
@@ -85,7 +88,7 @@ public class PhetLookAndFeel {
      * Sole constructor.
      */
     public PhetLookAndFeel() {
-        setTabFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
+        setTabFont( new PhetDefaultFont( 18, true /* bold */ ) );
         //other defaults go here...
     }
 
