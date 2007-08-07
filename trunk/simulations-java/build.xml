@@ -597,28 +597,6 @@ PhET-team specific tasks are located in an auxiliary build file.
         </if>
     </target>
 
-    <!--<property name="launch4j.dir" location="C:\Program Files\Launch4jtest" />-->
-
-    <!--<taskdef name="launch4j"-->
-        <!--classname="net.sf.launch4j.ant.Launch4jTask"-->
-        <!--classpath="${launch4j.dir}/launch4j.jar :${launch4j.dir}/lib/xstream.jar" />-->
-
-    <!--<target name="_build-launch4j-for-flavor">-->
-        <!--<var name="sim.installer.dir"       value="${bitrock.sim.buildfile.dir}${sim.name}/${sim.flavor}/installer/" />-->
-        <!--<var name="sim.installer.buildfile" value="${sim.installer.dir}${sim.flavor}-launch4j-buildfile.xml" />-->
-        <!--<create-installer-build-file inputFile="C:\phet\subversion\trunk\simulations-java\build-tools\phet-build\templates\launch4j-template.xml" outputfile="${sim.installer.buildfile}" project="${sim.name}" flavor="${sim.flavor}"/>-->
-        <!--<launch4j configFile="${sim.installer.buildfile}"/> -->
-    <!--</target>-->
-
-    <!--<target name="_build-launch4j" depends="_init, build-jar">-->
-        <!--<phet-list-flavors property="sim.flavors" project="${sim.name}"/>-->
-        <!--<foreach list="${sim.flavors}" target="_build-launch4j-for-flavor" param="sim.flavor" inheritall="true"/>-->
-    <!--</target>-->
-
-    <!--<target name="build-all-launch4j" depends="_init, _list-sims">-->
-        <!--<foreach list="${phet.simlist}" target="_build-launch4j" param="sim.name" inheritall="true"/>-->
-    <!--</target>-->
-
     <target name="_build-jar-for-flavor">
         <copy file="simulations/${sim.name}/deploy/${sim.name}_all.jar"
               tofile="simulations/${sim.name}/deploy/${sim.flavor}.jar"/>
