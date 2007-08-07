@@ -5,6 +5,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.event.PanZoomWorldKeyHandler;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.model.*;
 import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
 import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
@@ -302,7 +303,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     public void reset() {
         rootNode.reset();
         setZeroPointVisible( false );
-        setIgnoreThermal( true );
+        setIgnoreThermal( EnergySkateParkApplication.IGNORE_THERMAL_DEFAULT );
     }
 
     private void keyPressed( KeyEvent e ) {
