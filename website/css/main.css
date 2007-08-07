@@ -257,28 +257,28 @@ hr {
 }
 
 div.form_content {
-	position:		relative;
 	padding: 		0;
 	margin:  		1ex;
 	margin-left:    1em;
 	border-style: 	none;
 }
-.field {
+*.field {
 	clear:   right;
 	width:   100%;
 	border:  0;
 	margin:  0;
 	padding: 0.5ex 0 0.5ex 0;
 }
-.field .label {
+*.field *.label {
 	width: 			25%;
     font-weight:	bold;	
 }
-.field .label_content {
+*.field *.label_content {
+	clear: right;
 	float: right;
 	width: 75%;
 }
-.field .label_content input, .field .label_content select, .field .label_content textarea {
+*.field *.label_content input, *.field *.label_content select, *.field *.label_content textarea {
 	position: relative;
 	top:      -1ex;
 }
