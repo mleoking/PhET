@@ -88,8 +88,7 @@ public class PhetLookAndFeel {
      * Sole constructor.
      */
     public PhetLookAndFeel() {
-        setTabFont( new PhetDefaultFont( 18, true /* bold */ ) );
-        //other defaults go here...
+        // defaults go here...
     }
 
     //----------------------------------------------------------------------------
