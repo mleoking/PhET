@@ -8,6 +8,7 @@ IN PROGRESS:
 HIGH PRIORITY:
  
 MEDIUM PRIORITY:
+- add feature for rotating the coil (or magnet) 90 degrees (?)
 - bug: physics is incorrect for transformer (voltage in the secondary circuit should be proportional to the ratio of
 the number of loops in the secondary to the number in the primary)
 
@@ -18,6 +19,8 @@ LOW PRIORITY:
 
 
 DONE:
+********* version 1.05.00 (17033)
+7/27/07 - new version published as part of new website deployment
 7/2/07 - wrap the body of main in invokeLater
 6/15/07 - convert description properties to well-formed HTML
 4/24/07 - replace ControlPanelSlider with LinearValueControl from phetcommon
