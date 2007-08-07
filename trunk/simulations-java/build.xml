@@ -613,7 +613,8 @@ PhET-team specific tasks are located in an auxiliary build file.
         <copy file="simulations/${sim.name}/deploy/${sim.name}.jar" tofile="${jar-all-file}"/>
         <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
         <foreach list="${sim.flavors}" target="_build-jar-for-flavor" param="sim.flavor" inheritall="true"/>
-    	<delete file="${jar-all-file}"/>
+        <!--remove [sim.name]_all.jar files from build process-->
+        <delete file="${jar-all-file}"/>
     </target>
 
     <target name="build-all-flavor-jars" depends="_init,_list-sims">
