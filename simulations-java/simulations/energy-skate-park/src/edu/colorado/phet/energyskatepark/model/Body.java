@@ -204,6 +204,9 @@ public class Body implements Serializable {
     public void setUserControlled( boolean userControlled ) {
         particle.setUserControlled( userControlled );
         if( !userControlled ) {
+            //snap to track above, if one is nearby
+            snapToTrack();
+
             try {
                 restorePoint = (Body)PersistenceUtil.copy( this );
             }
@@ -212,6 +215,27 @@ public class Body implements Serializable {
             }
         }
         notifyEnergyChanged();
+    }
+
+    private void snapToTrack() {
+        TraversalState match = getSnapTrackMatch();
+
+        if( match != null ) {
+            System.out.println( "match = " + match );
+            setPosition( match.getPosition().getX(), match.getPosition().getY() + 1E-4 );
+        }
+    }
+
+    private TraversalState getSnapTrackMatch() {
+        TraversalState[] matches = new TraversalState[]{getTrackMatch( 0, 0.2 ), getTrackMatch( -0.1, 0.1 ), getTrackMatch( 0.1, 0.1 )};
+        TraversalState match = null;
+        for( int i = 0; i < matches.length; i++ ) {
+            if( matches[i] != null ) {
+                match = matches[i];
+                break;
+            }
+        }
+        return match;
     }
 
     public Body getRestorePoint() {

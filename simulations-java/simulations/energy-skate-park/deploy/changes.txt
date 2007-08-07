@@ -1,3 +1,6 @@
+2.03.01 (8-7-2007)
+Fixed: When dropping on track, if just underneath, should attach anyways
+
 2.02.13 (7-10-2007)
 Fixed: In the Energy vs. Time graph, the "Clear" button actually closes the graph, rather than just clearing the graph.
 Fixed: In the Energy vs. Time graph, the zoom feature does not work properly.  It appears to zoom in and out on the graph, but the scale of the energy does not change (the numbers don't change).
