@@ -349,7 +349,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         // Draw the component to the buffer
         component.paint( bufferedGraphics );
 
-        //null Interpolation rendering hint and Java 1.6 and scale = 1.0 can cause the rendering to be fuzzy
+        //non-nearest-neighbor Interpolation rendering hint and Java 1.6 and scale = 1.0 can cause the rendering to be fuzzy
         Object interpolationHint = g2.getRenderingHint( RenderingHints.KEY_INTERPOLATION );
         if( g2.getTransform().getScaleX() == 1.0 && g2.getTransform().getScaleY() == 1.0 ) {
             g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
