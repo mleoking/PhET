@@ -1,4 +1,4 @@
-1.02.05
+1.03.01 (8-7-2007)
 Fixed: Draggable arrow should exactly match the shade of the corresponding data series
 Added "Show Platform graphs" check boxes in same place as beetle control.
 Fixed: If time is stopped, update theta for bugs if they are moved by hand
@@ -6,6 +6,7 @@ Fixed: Reset all doesn’t reset the axis for the graphs if you’ve zoomed
 Fixed: Reset all doesn’t hide the symbol key if it’s been opened.
 Improved layout for in-graph readouts
 Fixed: The symbol key shows up in the wrong location.
+Fixed: Some buttons look fuzzy in 1.6
 
 1.02.04 (7-28-2007)
 Fixed: ladybug and rotation platform graphs sometimes get mixed up
