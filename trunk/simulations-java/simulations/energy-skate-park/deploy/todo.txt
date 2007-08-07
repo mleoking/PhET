@@ -4,11 +4,6 @@ Questions:
 	One performance optimization we can do for this simulation would be to cache values for points on the spline after user has stopped manipulating it (tradeoff processor usage for memory usage).  However, this would be nontrivial work, and I'm not sure it would pay off.  I would do a feasibility test to make sure enough track data can be cached at high enough resolution to make this effective.
 • Add horizontal zoom for Energy vs. Time plot?
 
-6. Help items for
-	grab track
-	drag skater
-	right click on track for options
-
 To Do:
 • 7-10-2007: During both the interview on Thursday and the one I did the week before, the simulation froze after about 30 minutes or so of use.  I haven't been able to reproduce this, but both times it happened when the E vs. time graph was open and the interviewee tried to close it.  Sam, I can talk to you more about this tomorrow if you want, since it may be easier to explain in person.
 • 7-10-2007: During the interview I did on Thursday, the bar graph would not work.  I tried several times to have the interviewee push the Bar Graph button, but the bar graph never came up.  I haven't been able to reproduce this, either.

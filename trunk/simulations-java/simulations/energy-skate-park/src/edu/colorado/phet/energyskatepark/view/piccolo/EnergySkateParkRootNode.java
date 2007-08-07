@@ -190,6 +190,10 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         } );
     }
 
+    public SplineToolboxNode getSplineToolbox() {
+        return splineToolbox;
+    }
+
     private void resetMeasuringTapeLocation() {
         measuringTape.setModelSrc( new Point2D.Double( 5, 5 ) );
         measuringTape.setModelDst( new Point2D.Double( 7, 5 ) );
