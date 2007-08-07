@@ -3,7 +3,6 @@
 ################################
 
 UI issues:
-•	Improve layout for in-graph readouts, current version overlaps
 •	Better graphics/characters?  Beetle will be undesirable for some?
 
 Gathering data while time is stopped:
