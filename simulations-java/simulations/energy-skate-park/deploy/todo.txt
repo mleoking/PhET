@@ -4,7 +4,6 @@ Questions:
 	One performance optimization we can do for this simulation would be to cache values for points on the spline after user has stopped manipulating it (tradeoff processor usage for memory usage).  However, this would be nontrivial work, and I'm not sure it would pay off.  I would do a feasibility test to make sure enough track data can be cached at high enough resolution to make this effective.
 • Add horizontal zoom for Energy vs. Time plot?
 
-3. Rename "return character" to "return skater", same for "choose character"
 4. Remove "Show Background" checkbox
 5. Put planets 2 x 2 instead of 1 x 4
 6. Help items for
