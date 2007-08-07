@@ -23,6 +23,7 @@ MEDIUM PRIORITY:
 - help items don't refresh fast enough
 
 LOW PRIORITY:
+- convert hi-res screenshot to png format
 - improve performance of e-field display (22% in Arrow.computeArrow)
 - reduce vertical spacing of control panels (if necessary, after features/layout has stabilized)
 - bug: beep sometimes occurs when selecting vacuum with fluid controls dialog open
