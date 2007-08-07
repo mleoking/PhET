@@ -47,6 +47,7 @@ import java.awt.event.ActionListener;
 public class EnergySkateParkApplication extends PhetApplication {
     private EnergySkateParkModule module;
     public static double SIMULATION_TIME_DT = 0.03;
+    public static final boolean IGNORE_THERMAL_DEFAULT = false;
 
     public EnergySkateParkApplication( String[] args ) {
         this( args, new EnergySkateParkOptions() );

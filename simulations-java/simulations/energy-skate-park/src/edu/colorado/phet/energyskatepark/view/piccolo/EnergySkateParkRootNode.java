@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
@@ -43,7 +44,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private MeasuringTape measuringTape;
     private ReturnSkaterButtonNode returnSkaterButtonNode;
-    private boolean ignoreThermal = true;
+    private boolean ignoreThermal = EnergySkateParkApplication.IGNORE_THERMAL_DEFAULT;
     private PauseIndicatorNode pauseIndicator;
     private EnergySkateParkLegend legend;
     private BackgroundScreenNode backgroundScreenNode;
