@@ -1953,7 +1953,7 @@ EOT;
                         <div class="field">
                             <span class="label_content">
                                 <input type="checkbox" name="contributor_receive_email"
-                                    value="1" $contributor_receive_email_checked>
+                                    value="1" $contributor_receive_email_checked />
                             </span>
                             
                             <span class="label">receive phet email</span>                            
