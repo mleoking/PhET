@@ -448,7 +448,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         }
         else {
             System.out.println( "Courier New font not supported." );
-            jta.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
+            jta.setFont( CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 18 ) );
         }
 
         readoutFrame.setContentPane( new JScrollPane( jta ) );
@@ -506,6 +506,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
     public static class CCKTitledBorder extends TitledBorder {
         public CCKTitledBorder( String title ) {
             super( BorderFactory.createRaisedBevelBorder(), title );
+            setTitleFont( CCKFontProvider.getFont( getTitleFont()) );
         }
 
         public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
@@ -537,7 +538,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             resistivitySlider.setNumMajorTicks( 5 );
             resistivitySlider.setNumMinorTicksPerMajorTick( 5 );
 
-            Font labelFont = new Font( "Lucida Sans", Font.PLAIN, 10 );
+            Font labelFont = CCKFontProvider.getFont( "Lucida Sans", Font.PLAIN, 10 );
             JLabel lowLabel = new JLabel( CCKResources.getString( "CCK3ControlPanel.AlmostNoneLabel" ) );
             lowLabel.setFont( labelFont );
             JLabel highLabel = new JLabel( CCKResources.getString( "CCK3ControlPanel.LotsLabel" ) );

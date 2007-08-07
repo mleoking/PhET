@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.CCKResources;
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -91,7 +92,7 @@ public class VoltmeterNode extends PhetPNode {
             } );
             addChild( PImageFactory.create( "cck/images/vm3.gif" ) );
             textNode = new PText();
-            textNode.setFont( new Font( "Dialog", Font.PLAIN, 20 ) );
+            textNode.setFont( CCKFontProvider.getFont( "Dialog", Font.PLAIN, 20 ) );
             textNode.setOffset( 15, 20 );
             addChild( textNode );
             addInputEventListener( new PBasicInputEventHandler() {

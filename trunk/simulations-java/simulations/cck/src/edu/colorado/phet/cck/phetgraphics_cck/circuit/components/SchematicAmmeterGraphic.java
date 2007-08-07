@@ -5,6 +5,7 @@ import edu.colorado.phet.cck.model.CurrentVoltListener;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.IComponentGraphic;
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
@@ -39,7 +40,7 @@ public class SchematicAmmeterGraphic extends PhetShapeGraphic implements ICompon
         this.transform = transform;
         this.wireThickness = wireThickness;
         this.decimalFormat = decimalFormat;
-        this.textGraphic = new PhetTextGraphic( parent, new Font( "Lucida Sans", 0, 22 ), "", Color.black, 0, 0 );
+        this.textGraphic = new PhetTextGraphic( parent, CCKFontProvider.getFont( "Lucida Sans", 0, 22 ), "", Color.black, 0, 0 );
         textGraphic.setColor( Color.blue );
         simpleObserver = new SimpleObserver() {
             public void update() {

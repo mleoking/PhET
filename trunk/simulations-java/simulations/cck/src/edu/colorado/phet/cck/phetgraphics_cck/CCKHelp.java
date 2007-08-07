@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.phetgraphics_cck;
 
 import edu.colorado.phet.cck.CCKResources;
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
@@ -46,7 +47,7 @@ public class CCKHelp {
         this.circuit = module.getCircuit();
         this.circuitGraphic = module.getCircuitGraphic();
         this.toolbox = module.getToolbox();
-        Font helpFont = new Font( "Lucida Sans", Font.BOLD, 16 );
+        Font helpFont = CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 16 );
 
         ToolboxTarget toolboxTarget = new ToolboxTarget();
         myToolboxHelpItem = new PositionedHelpItem( CCKResources.getString( "CCKHelp.ToolboxHelp" ),

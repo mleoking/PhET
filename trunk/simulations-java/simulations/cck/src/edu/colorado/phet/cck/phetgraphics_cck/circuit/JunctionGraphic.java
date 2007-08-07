@@ -3,6 +3,7 @@ package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 import edu.colorado.phet.cck.model.*;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKCompositePhetGraphic;
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
@@ -42,7 +43,7 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
         addGraphic( highlightGraphic );
         addGraphic( shapeGraphic );
         if( showLabel ) {
-            debugGraphic = new PhetTextGraphic( getComponent(), new Font( "dialog", 0, 12 ), "", Color.black, 0, 0 );
+            debugGraphic = new PhetTextGraphic( getComponent(), CCKFontProvider.getFont( "dialog", 0, 12 ), "", Color.black, 0, 0 );
             addGraphic( debugGraphic );
         }
         this.junction = junction;

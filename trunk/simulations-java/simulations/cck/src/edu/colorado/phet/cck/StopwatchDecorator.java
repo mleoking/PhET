@@ -24,7 +24,7 @@ public class StopwatchDecorator extends VerticalLayoutPanel {
         stopwatchPanel.setScaleFactor( timeScale );
         stopwatchPanel.setTimeUnits( timeUnits );
         add( stopwatchPanel );
-        label.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        label.setFont( CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 14 ) );
         label.setBackground( stopwatchPanel.getBackground() );
         label.setOpaque( true );
     }

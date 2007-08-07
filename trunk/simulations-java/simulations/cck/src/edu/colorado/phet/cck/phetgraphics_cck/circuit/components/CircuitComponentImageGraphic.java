@@ -5,6 +5,7 @@ import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKCompositePhetGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.IComponentGraphic;
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
@@ -59,7 +60,7 @@ public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implem
             }
         };
         if( CircuitGraphic.GRAPHICAL_DEBUG ) {
-            debugText = new PhetTextGraphic( getComponent(), new Font( "dialog", 0, 12 ), "", Color.black, 0, 0 );
+            debugText = new PhetTextGraphic( getComponent(), CCKFontProvider.getFont( "dialog", 0, 12 ), "", Color.black, 0, 0 );
             addGraphic( debugText );
         }
         transform.addTransformListener( transformListener );

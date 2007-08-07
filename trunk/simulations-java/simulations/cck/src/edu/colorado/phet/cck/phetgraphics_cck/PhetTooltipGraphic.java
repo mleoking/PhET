@@ -3,6 +3,7 @@ package edu.colorado.phet.cck.phetgraphics_cck;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common_cck.view.util.RectangleUtils;
+import edu.colorado.phet.cck.CCKFontProvider;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -20,7 +21,7 @@ public class PhetTooltipGraphic extends CCKCompositePhetGraphic {
         super( component );
         Color background = new Color( 160, 160, 250 );
         backgroundGraphic = new PhetShapeGraphic( component, new Area(), background, new BasicStroke( 1 ), Color.black );
-        textGraphic = new PhetTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 14 ), text, Color.black, 0, 0 );
+        textGraphic = new PhetTextGraphic( component, CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 14 ), text, Color.black, 0, 0 );
         addGraphic( backgroundGraphic );
         addGraphic( textGraphic );
     }

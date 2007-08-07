@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import edu.colorado.phet.cck.CCKFontProvider;
+
 /**
  * PhetLookAndFeel describes the UI resources that need to be installed in
  * the UIDefaults database.  It provides methods for describing the values
@@ -37,7 +39,7 @@ import java.util.List;
  * //customize it here for your own application.
  * lookAndFeel.setBackgroundColor( Color.blue );
  * lookAndFeel.setForegroundColor( Color.red );
- * lookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 20 ) );
+ * lookAndFeel.setFont( CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 20 ) );
  * //Apply the total look and feel (the usual PhetLookAndFeel + your changes)
  * // to your system defaults.
  * lookAndFeel.apply();
@@ -99,12 +101,12 @@ public class PhetLookAndFeel {
      */
     private void setDefaults() {
 //        int fontSize = getFontSizeForScreen();
-//        font = new Font( "Lucida Sans", Font.PLAIN, fontSize );
-//        titledBorderFont = new Font( "Lucida Sans", Font.PLAIN, fontSize );
+//        font = CCKFontProvider.getFont( "Lucida Sans", Font.PLAIN, fontSize );
+//        titledBorderFont = CCKFontProvider.getFont( "Lucida Sans", Font.PLAIN, fontSize );
         foregroundColor = Color.BLACK;
         backgroundColor = new Color( 200, 240, 200 );  // light green
         textFieldBackgroundColor = Color.WHITE;
-        tabFont = new Font( "Lucida Sans", Font.BOLD, 18 );
+        tabFont = CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 18 );
         insets = null;
     }
 

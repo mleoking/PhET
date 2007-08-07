@@ -10,4 +10,8 @@ public class CCKFontProvider {
     public static Font getFont( String name, int style, int size ) {
         return new Font( FontJA.getFontName( name ), style, size );
     }
+
+    public static Font getFont( Font titleFont ) {
+        return getFont( titleFont.getName(), titleFont.getStyle(), titleFont.getSize() );
+    }
 }

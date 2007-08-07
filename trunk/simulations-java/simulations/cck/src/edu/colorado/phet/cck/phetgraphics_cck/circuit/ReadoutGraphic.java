@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.CCKResources;
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Switch;
@@ -31,7 +32,7 @@ public class ReadoutGraphic implements Graphic {
     Branch branch;
     private ModelViewTransform2D transform;
     private ApparatusPanel panel;
-    static Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
+    static Font font = CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 16 );
 
     private DecimalFormat formatter;
     private SimpleObserver observer;
