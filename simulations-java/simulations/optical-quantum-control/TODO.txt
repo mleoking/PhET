@@ -22,6 +22,8 @@ PHETCOMMON:
 
 
 DONE:
+********* version 1.01.00 (17033)
+7/27/07 - new version published as part of new website deployment
 7/2/07 - wrap the body of main in invokeLater
 6/15/07 - convert description properties to well-formed HTML
 4/7/07 - encapsulate PhetProjectConfig in OQCResources
