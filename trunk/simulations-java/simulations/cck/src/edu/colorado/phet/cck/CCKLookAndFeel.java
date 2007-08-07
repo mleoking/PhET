@@ -41,8 +41,8 @@ public class CCKLookAndFeel {
         }
         font = uifont;
 
-        if (FontJA.isJapaneseLocale()){
-            font=FontJA.getPreferredJAFont().deriveFont( Font.PLAIN,uifont.getSize2D( ));
+        if( FontJA.isJapaneseLocale() ) {
+            font = FontJA.getPreferredJAFont().deriveFont( Font.PLAIN, uifont.getSize2D() );
         }
 
     }

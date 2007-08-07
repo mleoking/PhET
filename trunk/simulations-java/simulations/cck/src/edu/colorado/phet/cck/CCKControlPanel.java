@@ -7,8 +7,6 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.analysis.KirkhoffSolver;
-import edu.colorado.phet.cck.model.components.Battery;
-import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.HelpPanel;
@@ -312,7 +310,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         if( isOldVersionCCK( str ) ) {
             flipY( circuit );
             JOptionPane.showMessageDialog( this, "<html>The file you loaded is from an earlier version of this program, <br>and some " +
-                                                 "parts of the circuit may be oriented incorrectly.  <br><br>Manually correct any problems, and be sure to save the new circuit.</html>");
+                                                 "parts of the circuit may be oriented incorrectly.  <br><br>Manually correct any problems, and be sure to save the new circuit.</html>" );
         }
         module.setCircuit( circuit );
     }
@@ -446,7 +444,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         jta.setEditable( false );
         String[] names = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         if( Arrays.asList( names ).contains( "Courier New" ) ) {
-            jta.setFont( new Font( "Courier New", Font.BOLD, 18 ) );
+            jta.setFont( CCKFontProvider.getFont( "Courier New", Font.BOLD, 18 ) );
         }
         else {
             System.out.println( "Courier New font not supported." );

@@ -17,8 +17,6 @@ public class TestJA {
 
         JButton contentPane = new JButton( name );
         contentPane.setFont( new Font( "MS PGothic", Font.PLAIN, 10 ) );
-//        contentPane.setFont( new Font( "Arial", Font.PLAIN, 10 ) );
-//        contentPane.setFont( new Font( "Lucida Sans", Font.PLAIN, 10 ) );
 
         frame.setContentPane( contentPane );
         frame.pack();
