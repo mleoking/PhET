@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.toolbox;
 
 import edu.colorado.phet.cck.CCKResources;
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.ComponentDimension;
 import edu.colorado.phet.cck.model.Junction;
@@ -72,7 +73,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 
         Point2D.Double loc = branch.getStartJunction().getPosition();
         Point vpt = module.getTransform().modelToView( loc );
-        textGraphic = new PhetTextGraphic( panel, new Font( "Lucida Sans", Font.PLAIN, 11 ), name, Color.black, vpt.x, vpt.y );
+        textGraphic = new PhetTextGraphic( panel, CCKFontProvider.getFont( "Lucida Sans", Font.PLAIN, 11 ), name, Color.black, vpt.x, vpt.y );
         textGraphic.setVisible( true );
         shapeGraphic = new PhetShapeGraphic( panel, new Area(), new BasicStroke( 4 ), Color.red );
 //        shapeGraphic.setVisible( true );

@@ -8,6 +8,7 @@ package edu.colorado.phet.cck.phetgraphics_cck;
 
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.cck.CCKFontProvider;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -21,7 +22,7 @@ public class TargetReadoutTool extends CCKCompositePhetGraphic {
     private Point location = new Point();
     private int width = crosshairRadius * 2 + readoutWidth + 30;
     private int height = readoutHeight + 20;
-    private Font font = new Font( "dialog", Font.BOLD, 14 );
+    private Font font = CCKFontProvider.getFont( "dialog", Font.BOLD, 14 );
     private Stroke crossHairStroke = new BasicStroke( 1f );
     private Stroke holeStroke = new BasicStroke( 2f );
     private int boundsStrokeWidth = 2;

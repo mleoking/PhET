@@ -16,7 +16,7 @@ public class TestJA {
         JFrame frame = new JFrame();
 
         JButton contentPane = new JButton( name );
-        contentPane.setFont( new Font( "MS PGothic", Font.PLAIN, 10 ) );
+        contentPane.setFont( CCKFontProvider.getFont( "MS PGothic", Font.PLAIN, 10 ) );
 
         frame.setContentPane( contentPane );
         frame.pack();

@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.CCKLookAndFeel;
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.common.LineSegment;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKCompositePhetGraphic;
@@ -54,7 +55,7 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
         };
         transform.addTransformListener( transformListener );
         if( CircuitGraphic.GRAPHICAL_DEBUG ) {
-            debugText = new PhetTextGraphic( apparatusPanel, new Font( "Dialog", 0, 12 ), "", Color.black, 0, 0 );
+            debugText = new PhetTextGraphic( apparatusPanel, CCKFontProvider.getFont( "Dialog", 0, 12 ), "", Color.black, 0, 0 );
         }
         doupdate();
         setVisible( true );

@@ -2,6 +2,7 @@
 package edu.colorado.phet.cck.chart;
 
 import edu.colorado.phet.cck.common.CCKStrings;
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -146,7 +147,7 @@ public abstract class AbstractFloatingChart extends PhetPNode {
             textBackground.setPaint( new Color( 255, 255, 255, 235 ) );
             addChild( textBackground );
             readout = new PText( ( "value" ) );
-            readout.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+            readout.setFont( CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 14 ) );
             readout.setTextPaint( Color.blue );
             addChild( readout );
         }

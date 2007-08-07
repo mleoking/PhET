@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
 import edu.colorado.phet.cck.CCKResources;
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.common.LineSegment;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
@@ -34,7 +35,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
     private ModelViewTransform2D transform;
     private CCKPhetgraphicsModule module;
     private Stroke stroke = new BasicStroke( 5 );
-    private Font font = new Font( "Lucida Sans", Font.BOLD, 17 );
+    private Font font = CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 17 );
     private Shape shape;
     private String text = CCKResources.getString( "SeriesAmmeterGraphic.Ammeter" );
     private String fixedMessage;

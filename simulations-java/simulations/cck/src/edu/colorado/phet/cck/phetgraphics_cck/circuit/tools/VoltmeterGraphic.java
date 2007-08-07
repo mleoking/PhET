@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.tools;
 
 import edu.colorado.phet.cck.CCKResources;
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.common.SimpleObservableDebug;
 import edu.colorado.phet.cck.model.Connection;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
@@ -195,7 +196,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
     class UnitGraphic extends CompositeGraphic {
         PhetImageGraphic unitGraphic;
         PhetTextGraphic textGraphic;
-        Font font = new Font( "Dialog", 0, 20 );
+        Font font = CCKFontProvider.getFont( "Dialog", 0, 20 );
         private Voltmeter.VoltmeterUnit vm;
         private Point ctr;
         double relX = -35;

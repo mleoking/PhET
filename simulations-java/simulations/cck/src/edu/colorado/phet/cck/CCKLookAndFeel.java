@@ -21,9 +21,9 @@ public class CCKLookAndFeel {
     }
 
     private static void init() {
-        Font font1280 = new Font( "Lucida Sans", Font.PLAIN, 16 );
-        Font font1040 = new Font( "Lucida Sans", Font.PLAIN, 9 );
-        Font font800 = new Font( "Lucida Sans", Font.PLAIN, 6 );
+        Font font1280 = CCKFontProvider.getFont( "Lucida Sans", Font.PLAIN, 16 );
+        Font font1040 = CCKFontProvider.getFont( "Lucida Sans", Font.PLAIN, 9 );
+        Font font800 = CCKFontProvider.getFont( "Lucida Sans", Font.PLAIN, 6 );
 
         Font uifont = font1040;
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();

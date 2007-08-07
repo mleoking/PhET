@@ -2,6 +2,7 @@ package edu.colorado.phet.cck.piccolo_cck.lifelike;
 
 import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.common.LineSegment;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
@@ -32,7 +33,7 @@ public class SeriesAmmeterNode extends ComponentNode {
     private ICCKModule module;
     private static final double SCALE = 1.0 / 60.0;
     private Stroke stroke = new BasicStroke( (float)( 5 * SCALE ) );
-    private Font font = new Font( "Lucida Sans", Font.BOLD, 17 );
+    private Font font = CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 17 );
     private Shape shape;
     private String text = CCKResources.getString( "SeriesAmmeterGraphic.Ammeter" );
     private String fixedMessage;

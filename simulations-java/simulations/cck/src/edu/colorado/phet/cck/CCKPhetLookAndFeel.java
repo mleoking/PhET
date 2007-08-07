@@ -15,7 +15,7 @@ public class CCKPhetLookAndFeel extends PhetLookAndFeel {
     private static Color cckBackground = new Color( 200, 240, 200 );  // light green
 
     public CCKPhetLookAndFeel() {
-        setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
+        setFont( CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 13 ) );
         setBackgroundColor( cckBackground );
     }
 

@@ -10,6 +10,7 @@ import edu.colorado.phet.common_cck.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common_cck.view.util.RectangleUtils;
+import edu.colorado.phet.cck.CCKFontProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +26,7 @@ public class TestFontMetrics {
 
     public static void main( String[] args ) {
         final ApparatusPanel panel = new ApparatusPanel();
-        Font font = new Font( "Lucida Sans", Font.BOLD, 24 );
+        Font font = CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 24 );
         FontMetrics fm = panel.getFontMetrics( font );
         System.out.println( "fm = " + fm );
         PhetTextGraphic tmw = new PhetTextGraphic( panel, font, "This is my text.", new Color( 255, 0, 0, 128 ), 100, 100 );

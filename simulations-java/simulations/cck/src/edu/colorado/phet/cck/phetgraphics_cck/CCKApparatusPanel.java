@@ -1,9 +1,6 @@
 package edu.colorado.phet.cck.phetgraphics_cck;
 
-import edu.colorado.phet.cck.CCKControlPanel;
-import edu.colorado.phet.cck.CCKLookAndFeel;
-import edu.colorado.phet.cck.CCKResources;
-import edu.colorado.phet.cck.ICCKModule;
+import edu.colorado.phet.cck.*;
 import edu.colorado.phet.cck.model.*;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck.model.analysis.CircuitSolver;
@@ -79,7 +76,7 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
                 relayout();
             }
         } );
-        timeScaleTextGraphic = new PhetShadowTextGraphic( getApparatusPanel(), " ", new Font( "Lucida Sans", Font.BOLD, 13 ), 50, 100, Color.red, 1, 1, Color.black );
+        timeScaleTextGraphic = new PhetShadowTextGraphic( getApparatusPanel(), " ", CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 13 ), 50, 100, Color.red, 1, 1, Color.black );
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 int x = timeScaleTextGraphic.getBounds().height;
