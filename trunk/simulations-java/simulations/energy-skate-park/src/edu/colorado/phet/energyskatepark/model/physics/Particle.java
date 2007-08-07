@@ -22,8 +22,8 @@ public class Particle implements Serializable {
     private double g = 9.8;
     private double mass = 1.0;
 
-    double elasticity = DEFAULT_ELASTICITY;
-    double stickiness = 0.25;//see neumann
+    private double elasticity = DEFAULT_ELASTICITY;
+    private double stickiness = 0.25;//see neumann
 
     private UpdateStrategy updateStrategy = new Particle1DUpdate();
     private ParticleStage particleStage;
@@ -37,6 +37,8 @@ public class Particle implements Serializable {
     private double yThrust = 0;
     private double frictionCoefficient = 0;
     private boolean verboseDebug = true;
+
+    private ArrayList listeners = new ArrayList();
 
     public static final double DEFAULT_ANGLE = 0;
     public static final double DEFAULT_ELASTICITY = 0.6;
@@ -674,6 +676,9 @@ public class Particle implements Serializable {
         if( userControlled ) {
             setThermalEnergy( 0.0 );
         }
+        if (!userControlled){
+            
+        }
     }
 
     public void setThermalEnergy( double thermalEnergy ) {
@@ -690,7 +695,7 @@ public class Particle implements Serializable {
         notifyListeners();
     }
 
-    private ArrayList listeners = new ArrayList();
+
 
     public SerializablePoint2D getPosition() {
         return new SerializablePoint2D( x, y );
