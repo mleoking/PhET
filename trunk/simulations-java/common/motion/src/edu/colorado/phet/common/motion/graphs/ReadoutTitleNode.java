@@ -19,6 +19,8 @@ public class ReadoutTitleNode extends PNode {
     private ControlGraphSeries series;
     private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
     private PhetPPath background;
+    private double insetX = 2;
+    private double insetY = 2;
 
     public ReadoutTitleNode( ControlGraphSeries series ) {
         this.series = series;
@@ -29,6 +31,8 @@ public class ReadoutTitleNode extends PNode {
         background = new PhetPPath( Color.white );
         addChild( background );
         addChild( titlePText );
+        background.translate( insetX, insetY );
+        titlePText.translate( insetX, insetY );
         series.getSimulationVariable().addListener( new ISimulationVariable.Listener() {
             public void valueChanged() {
                 updateText();
@@ -56,9 +60,19 @@ public class ReadoutTitleNode extends PNode {
     }
 
     protected void updateText() {
-        String valueText = decimalFormat.format( getValueToDisplay() );
+        setValueText( decimalFormat.format( getValueToDisplay() ) );
+    }
+
+    private void setValueText( String valueText ) {
         titlePText.setHtml( "<html>" + series.getAbbr() + "<sub>" + series.getCharacterName() + "</sub>=" + valueText + " " + series.getUnits() );
-        background.setPathTo( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ) );//todo: avoid setting identical shapes here for performance considerations
+        background.setPathTo( RectangleUtils.expand( titlePText.getFullBounds(), insetX, insetY ) );//todo: avoid setting identical shapes here for performance considerations
+    }
+
+    public double getPreferredWidth() {
+        setValueText( "MMM.MM" );
+        double width = getFullBounds().getWidth();
+        updateText();
+        return width;
     }
 
     protected double getValueToDisplay() {
