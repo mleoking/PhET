@@ -1,3 +1,9 @@
+1.03.06
+Test with +nodebug -optimize -obfuscate
+
+1.03.05
+Test with no debug info + optimize + obfuscate 
+
 1.03.04
 Test with proguard optimize
 
