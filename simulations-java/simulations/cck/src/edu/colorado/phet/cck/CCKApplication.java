@@ -140,7 +140,7 @@ public class CCKApplication extends PiccoloPhetApplication {
 
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
 
-        Locale.setDefault( new Locale( "ja" ) );
+    //    Locale.setDefault( new Locale( "ja" ) );
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
 //                CCKResources.init( args, CCKApplication.localizedStringsPath );
