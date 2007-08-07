@@ -1,10 +1,12 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark;
 
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.model.*;
 import edu.colorado.phet.energyskatepark.plots.BarChartDialog;
@@ -15,9 +17,12 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.WiggleMeInSpace;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTimePanel;
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -87,6 +92,52 @@ public class EnergySkateParkModule extends PiccoloModule {
         setDefaults();
         setLogoPanelVisible( Toolkit.getDefaultToolkit().getScreenSize().height > 768 );
         new WiggleMeInSpace( this ).start();
+
+        final HelpBalloon trackHelp = new HelpBalloon( getDefaultHelpPane(), "Grab a Track", HelpBalloon.TOP_CENTER, 20 );
+        getDefaultHelpPane().add( trackHelp );
+        trackHelp.pointAt( energySkateParkSimulationPanel.getRootNode().getSplineToolbox(), energySkateParkSimulationPanel );
+
+        final HelpBalloon skateHelp = new HelpBalloon( getDefaultHelpPane(), "Drag the Skater", HelpBalloon.RIGHT_CENTER, 20 ) {
+            public Point2D mapLocation( PNode node, PCanvas canvas ) {
+                if( node == null || node.getParent() == null ) {
+                    return new Point2D.Double( 0, 0 );
+                }
+                else {
+                    return super.mapLocation( node, canvas );
+                }
+            }
+        };
+        getDefaultHelpPane().add( skateHelp );
+        skateHelp.pointAt( energySkateParkSimulationPanel.getRootNode().getSkaterNode( 0 ), energySkateParkSimulationPanel );
+        energyModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void bodyCountChanged() {
+                if( energySkateParkSimulationPanel.getRootNode().numBodyGraphics() > 0 ) {
+                    skateHelp.pointAt( energySkateParkSimulationPanel.getRootNode().getSkaterNode( 0 ), energySkateParkSimulationPanel );
+                }
+            }
+        } );
+
+        final HelpBalloon trackClickHelp = new HelpBalloon( getDefaultHelpPane(), "Right Click for Options", HelpBalloon.BOTTOM_CENTER, 20 );
+        getDefaultHelpPane().add( trackClickHelp );
+        trackClickHelp.pointAt( 0, 0 );
+        energyModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void preStep() {//todo: won't update while paused
+                if( energyModel.getNumSplines() > 0 && isHelpEnabled() ) {
+                    trackHelp.setVisible( isHelpEnabled() );
+                    SerializablePoint2D pt = energyModel.getSpline( 0 ).getParametricFunction2D().evaluate( 0.25 );
+                    Point2D w = new Point2D.Double( pt.getX(), pt.getY() );
+                    energySkateParkSimulationPanel.getRootNode().worldToScreen( w );
+                    trackClickHelp.pointAt( w );
+                }
+                else {
+                    trackHelp.setVisible( false );
+                }
+            }
+        } );
+    }
+
+    public boolean hasHelp() {
+        return true;
     }
 
     private void setDefaults() {

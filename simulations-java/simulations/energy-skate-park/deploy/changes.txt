@@ -4,6 +4,7 @@ Changed friction to be visible in pie chart by default
 Changed "return character" to "return skater" and "choose character" to "choose skater"
 Removed "Show Background" checkbox
 Changed planet selection panel from 1x4 layout to 2x2
+Added help items for skater, track, and track construction
 
 2.02.13 (7-10-2007)
 Fixed: In the Energy vs. Time graph, the "Clear" button actually closes the graph, rather than just clearing the graph.
