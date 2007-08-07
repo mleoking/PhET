@@ -16,7 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
-1.03.00...
+********* version 1.03.00 (17033)
 7/27/07 - new version published as part of new website deployment
 7/10/07 - fix load/save so that it doesn't change the clock's run state unless it's for the active module
 7/10/07 - fix modules so that they don't explicty start the clock
@@ -46,12 +46,12 @@ DONE:
 3/14/07 - rename SimStrings files to have basename boundstates_strings
 3/14/07 - move images to data/boundstates/images to avoid namespace collisions
 3/14/07 - get version and credits from properties file
-1.02.00...
+********* version 1.02.00...
 (12/11/06) - change electric field range to [-1,+1]
 (11/29/06) - add workaround for selecting all text when a DoubleSpinner gains focus
 (10/20/06) - add data/credits.html
 (8/24/06) - remove unused args from BSAbstractApplication.initModules
-1.01.03...
+********* version 1.01.03...
 (8/10/06) - bugfix: add number of wells to persistence
 (8/10/06) - fix control panel to support APD persistence
 (8/10/06) - if band index is out of range, select the lowest band of eigenstates
@@ -74,7 +74,7 @@ DONE:
 (8/9/06) - add "Average Probability Density of Band" display choice to control panel
 (8/9/06) - add BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY
 (8/9/06) - begin work on APD (Average Probability Density) feature
-1.01.02...
+********* version 1.01.02...
 (8/9/06) - don't update while dragging sliders in Config dialogs
 (8/9/06) - change zoom ranges for Square in "Many" panel
 (8/9/06) - add "V/nm" units to field strength
@@ -92,7 +92,7 @@ DONE:
 (8/1/06) - add persistence for field constant
 (8/1/06) - add field constant control to control panel
 (8/1/06) - add field constant to potential energy model, use in getEnergyAt
-1.01.01...
+********* version 1.01.01...
 (7/31/06) - pause the clock while dragging sliders in Config dialogs
 (7/31/06) - pause the clock while dragging the mass slider
 (7/31/06) - bugfix: set default cursor when mouse exits the energy chart
@@ -104,7 +104,7 @@ DONE:
 (7/27/06) - javadoc all source files
 1.01.00...
 (7/14/06) - change minor version # for publishing to PhET website
-1.00.02...
+********* version 1.00.02...
 (7/14/06) - restore value of SchmidtLeeSolver.MAX_TRIES to 100, changing this caused big problems (roll into 1.00.02)
 (7/14/06) - bugfix: width drag handle for >1 square wells can't be dragged to min/max (roll into 1.00.02)
 (7/13/06) - simplify nasty width calculation in BSSquareWidthHandle.updateModel
@@ -117,7 +117,7 @@ DONE:
 (7/13/06) - reduce updates to BSHilitedEquation, watch for changes to hilited eigenstate
 (7/13/06) - use a boolean constant to switch between analytic and Schmidt-Lee eigenstate solvers for HO
 (7/13/06) - remove unreachable code that was causing compiler warnings
-1.00.01...
+********* version 1.00.01...
 (7/13/06) - bugfix: BSBottomPlot.update should only call updateAllSeries when arg==null
 (7/13/06) - replace vertical spacers with JSeparators in Color dialog, add section titles to shorten labels
 (7/13/06) - bugfix: cancel button in Color dialog didn't restore the color scheme that was pass in the constructor
@@ -167,7 +167,7 @@ DONE:
 (7/6/06) - fix width handle on square potential
 (7/6/06) - add getHelpNode to drag handle manager classes, create IHandleManager interface
 (7/6/06) - fix angular freq handle on harmonic oscillator potential
-1.00.00...
+********* version 1.00.00...
 (7/6/06) - change Spanish titles, roll into 1.00.00
 (7/6/06) - publish 1.00 in time for AAPT
 (7/6/06) - temporarily disable drag handles
