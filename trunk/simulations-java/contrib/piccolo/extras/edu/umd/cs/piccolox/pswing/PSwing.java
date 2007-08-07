@@ -543,4 +543,55 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     ////////////////////////////////////////////////////////////
     ///////End methods for automatic canvas detection
     ////////////////////////////////////////////////////////////
+
+    /**
+     * This method returns the location of a JComponent that may be embedded as a PSwing.
+     * Currently this method has several limitations:
+     * 1. The component cannot be multiply nested (i.e. a PSwingCanvas embedded as a PSwing in another PSwingCanvas
+     * 2. The global coordinate frame is assumed to be equivalent to the Screen coordinate frame.
+     * @param jComponent
+     * @return
+     */
+    public static Point getLocationOnScreen( JComponent jComponent ) {
+        PSwing ps = getParentPSwing( jComponent );
+        if( ps == null ) {
+            return jComponent.getLocationOnScreen();
+        }
+        else {
+            Point offset = getLocationInParent( jComponent, ps.component );
+
+            Point loc = new Point();
+            loc.x += ps.canvas.getLocationOnScreen().getX();
+            loc.y += ps.canvas.getLocationOnScreen().getY();
+
+            loc.x += offset.x;
+            loc.y += offset.y;
+
+            loc.x+=ps.getGlobalFullBounds().getX();
+            loc.y+=ps.getGlobalFullBounds().getY();
+            return loc;
+        }
+    }
+
+    private static Point getLocationInParent( JComponent child, JComponent parent ) {
+        if( child == parent ) {
+            return new Point( 0, 0 );
+        }
+        else {
+            Point p = child.getLocation();
+            Point par = getLocationInParent( (JComponent)child.getParent(), parent );
+            return new Point( p.x + par.x, p.y + par.y );
+        }
+    }
+
+    private static PSwing getParentPSwing( JComponent jComponent ) {
+        Object p = jComponent.getClientProperty( PSWING_PROPERTY );
+        if( p != null && p instanceof PSwing ) {
+            return (PSwing)p;
+        }
+        else if( jComponent.getParent() instanceof JComponent ) {
+            return getParentPSwing( (JComponent)jComponent.getParent() );
+        }
+        return null;
+    }
 }
