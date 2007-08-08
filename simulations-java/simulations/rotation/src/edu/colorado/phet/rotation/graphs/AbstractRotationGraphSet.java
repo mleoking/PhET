@@ -23,7 +23,7 @@ import java.util.Arrays;
  * Time: 8:23:39 AM
  */
 
-public class RotationGraphSet extends GraphSuiteSet {
+public class AbstractRotationGraphSet extends GraphSuiteSet {
     private Stroke body0Stroke = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
     private Stroke body1Stroke = new BasicStroke( 4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f, new float[]{10, 10}, 0 );
     private Stroke platformStroke = new BasicStroke( 4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
@@ -47,7 +47,7 @@ public class RotationGraphSet extends GraphSuiteSet {
     private RotationBody b0;
     private RotationBody b1;
 
-    public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel model, AngleUnitModel angleUnitModel ) {
+    public AbstractRotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel model, AngleUnitModel angleUnitModel ) {
         this.pSwingCanvas = pSwingCanvas;
         this.angleUnitModel = angleUnitModel;
         this.model = model;
@@ -232,8 +232,8 @@ public class RotationGraphSet extends GraphSuiteSet {
     }
 
     public static void main( String[] args ) {
-        RotationGraphSet rotationGraphSet = new RotationGraphSet( new PhetPCanvas(), new RotationModel( new ConstantDtClock( 30, 1 ) ), new AngleUnitModel( false ) );
-        MinimizableControlGraph[] graphs = rotationGraphSet.getAllGraphs();
+        AbstractRotationGraphSet abstractRotationGraphSet = new AbstractRotationGraphSet( new PhetPCanvas(), new RotationModel( new ConstantDtClock( 30, 1 ) ), new AngleUnitModel( false ) );
+        MinimizableControlGraph[] graphs = abstractRotationGraphSet.getAllGraphs();
         System.out.println( "graphs.length = " + graphs.length );
         System.out.println( "Arrays.asList( graphs ) = " + Arrays.asList( graphs ) );
     }
