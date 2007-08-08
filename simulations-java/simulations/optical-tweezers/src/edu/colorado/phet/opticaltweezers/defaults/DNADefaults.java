@@ -77,7 +77,6 @@ public class DNADefaults {
     public static final boolean POTENTIAL_ENERGY_CHART_SELECTED = false;
     public static final boolean RULER_SELECTED = false;
     public static final boolean FLUID_CONTROLS_SELECTED = false;
-    public static final boolean MOMENTUM_CHANGE_MODEL_SELECTED = false;
     public static final boolean VECTOR_VALUES_VISIBLE = false;
     public static final boolean VECTOR_COMPONENTS_VISIBLE = false;
 }

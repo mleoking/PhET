@@ -35,7 +35,6 @@ LOW PRIORITY:
 - javadoc
 - package level javadoc
 - Spanish translations
-- remove code for "Show change in momentum model" if we don't implement it 
 - improve startup performance
 
 CLEANUP:
@@ -54,11 +53,11 @@ MIGRATE TO COMMON:
 - Vector2D
 
 MISSING INFO:
-- spec for "Show change in momentum model" feature
 - spec for "Molecular Motors" panel
 
  
 DONE:
+8/8/07 - remove stubs for "Show change in momentum model", feature has been dropped 
 8/8/07 - simplify "excess charge" implementation, reduce resources required, clean up visual artifacts
 8/8/07 - implement "excess charge" view
 8/8/07 - add stub nodes for total & excess charge
@@ -643,6 +642,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+7/26/07 - spec for "Show change in momentum model" feature (feature is dropped)
 7/25/07 - check _running in Laser.getIntensityOnRadius, getTrapForceAtOffset (no, not the right thing to do)
 7/9/07 - histogram should make an observation every N seconds, not every clock tick (every clock tick is correct behavior)
 7/9/07 - histogram: ask JFreeChart to put 4 minor ticks between each major tick (JFreeChart does not support minor ticks)

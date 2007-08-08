@@ -182,7 +182,6 @@ public class DNAModule extends AbstractModule {
             _controlPanel.getChartsControlPanel().setPotentialEnergySelected( DNADefaults.POTENTIAL_ENERGY_CHART_SELECTED );
             _controlPanel.getMiscControlPanel().setRulerSelected( DNADefaults.RULER_SELECTED );
             _controlPanel.getMiscControlPanel().setFluidControlsSelected( DNADefaults.FLUID_CONTROLS_SELECTED );
-            _controlPanel.getMiscControlPanel().setMomentumChangeSelected( DNADefaults.MOMENTUM_CHANGE_MODEL_SELECTED );
             _controlPanel.getDeveloperControlPanel().getVectorsPanel().setValuesVisible( DNADefaults.VECTOR_VALUES_VISIBLE );
             _controlPanel.getDeveloperControlPanel().getVectorsPanel().setComponentsVisible( DNADefaults.VECTOR_COMPONENTS_VISIBLE );
         }
