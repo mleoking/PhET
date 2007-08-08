@@ -2,6 +2,15 @@
 #     To Do
 ################################
 
+My biggest concerns with the arrows are:
+
+1) When ever I move the bug around in what seems to me to be a circle the acceleration points outward.
+and
+2) The delay in the vectors between when I let go and when the vectors stop moving.
+
+If these could be improved upon, that would be great.
+
+
 UI issues:
 •	Better graphics/characters?  Beetle will be undesirable for some?
 
