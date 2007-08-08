@@ -241,7 +241,9 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         numABTF.setText( "0" );
         numCTF.setText(  "0" );
 
-        module.getClock().start();
+        if( module.isActive() ) {
+            module.getClock().start();
+        }
         module.resetStripChart();
         initialTemperaturePanel.reset();
     }
