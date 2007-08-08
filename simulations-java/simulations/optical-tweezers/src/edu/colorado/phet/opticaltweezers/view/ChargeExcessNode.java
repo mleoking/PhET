@@ -25,10 +25,22 @@ public class ChargeExcessNode extends AbstractChargeNode {
     private double _viewMargin;
     private double _maxElectricFieldX;
     
+    /**
+     * Constructor.
+     * 
+     * @param bead
+     * @param laser
+     * @param modelViewTransform
+     */
     public ChargeExcessNode( Bead bead, Laser laser, ModelViewTransform modelViewTransform ) {
         super( bead, laser, modelViewTransform );
     }
     
+    /*
+     * Initializes the nodes and other member data.
+     * The positive and negative charge nodes are created at a size that 
+     * corresponds to the laser's maximum electric field.
+     */
     protected void initialize() {
         
         ModelViewTransform modelViewTransform = getModelViewTransform();
@@ -51,8 +63,13 @@ public class ChargeExcessNode extends AbstractChargeNode {
         updateCharge();
     }
     
+    /*
+     * Scales the positive and negative charge nodes to 
+     * reflect the magnitude of the electric field's x-component.
+     */
     protected void updateCharge() {
         
+        // Calculate the scale
         Bead bead = getBead();
         final double electricFieldX = bead.getElectricFieldX();
         final double scale = Math.abs( electricFieldX / _maxElectricFieldX );
