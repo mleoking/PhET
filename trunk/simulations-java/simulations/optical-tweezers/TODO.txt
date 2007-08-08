@@ -3,11 +3,12 @@
 ================================================================================
 
 IN PROGRESS:
+- bug: "charge excess" feature is broken (nothing displayed) after pushing "Return bead" button in vacuum mode
+- implement "charge distribution" view
 
 HIGH PRIORITY:
-- bug: "charge excess" feature is broken after pushing "Return bead" button
-- implement "charge distribution" view
-- disable "charge on bead" feature in fast mode (?)
+- ? disable "charge on bead" feature in fast mode
+- ? hide bead crosshair when showing charge
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 - ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
 - ? change dt.default to something smaller than dt.fast.max
@@ -644,6 +645,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+8/8/07 - add "charge on bead" features to DNA panel (not part of learning goals for that panel)
 7/26/07 - spec for "Show change in momentum model" feature (feature is dropped)
 7/25/07 - check _running in Laser.getIntensityOnRadius, getTrapForceAtOffset (no, not the right thing to do)
 7/9/07 - histogram should make an observation every N seconds, not every clock tick (every clock tick is correct behavior)
