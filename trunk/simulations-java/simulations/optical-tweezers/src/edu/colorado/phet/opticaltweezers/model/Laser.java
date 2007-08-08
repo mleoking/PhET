@@ -529,9 +529,13 @@ public class Laser extends MovableObject implements ModelElement {
      * @return x component of the electric field
      */
     public double getElectricFieldX( Point2D offset ) {
-        final double intensity = getIntensity( getX() + offset.getX(), getY() + offset.getY() );
+        return getElectricFieldX( offset.getX(), offset.getY() );
+    }
+    
+    public double getElectricFieldX( double xOffset, double yOffset ) {
+        final double intensity = getIntensity( getX() + xOffset, getY() + yOffset );
         final double e0 = getInitialElectricFieldX( intensity );
-        final double ex = e0 * getElectricFieldComponent( offset.getY() );
+        final double ex = e0 * getElectricFieldComponent( yOffset );
         return ex;
     }
     

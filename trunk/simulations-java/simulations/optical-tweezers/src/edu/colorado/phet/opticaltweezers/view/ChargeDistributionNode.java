@@ -26,4 +26,7 @@ public class ChargeDistributionNode extends AbstractChargeNode {
         textNode.setOffset( x, y );
     }
     
+    protected void updateCharge() {
+        //XXX
+    }
 }
