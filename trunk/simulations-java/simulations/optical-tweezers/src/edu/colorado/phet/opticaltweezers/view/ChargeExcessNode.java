@@ -69,10 +69,14 @@ public class ChargeExcessNode extends AbstractChargeNode {
      */
     protected void updateCharge() {
         
-        // Calculate the scale
+        // Calculate the scale. 
+        // Very small values can cause problems, so anything under some threshold is effectively zero.
         Bead bead = getBead();
         final double electricFieldX = bead.getElectricFieldX();
-        final double scale = Math.abs( electricFieldX / _maxElectricFieldX );
+        double scale = Math.abs( electricFieldX / _maxElectricFieldX );
+        if ( scale < 0.01 ) {
+            scale = 0;
+        }
         
         // if the scale is zero, hide the charges so we don't attempt to apply a zero scale
         _positiveNode.setVisible( scale > 0 );

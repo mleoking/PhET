@@ -3,7 +3,6 @@
 ================================================================================
 
 IN PROGRESS:
-- bug: "charge excess" feature is broken (nothing displayed) after pushing "Return bead" button in vacuum mode
 - implement "charge distribution" view
 
 HIGH PRIORITY:
@@ -59,6 +58,7 @@ MISSING INFO:
 
  
 DONE:
+8/8/07 - bugfix: very small scaling values cause problems in ChargeExcessNode, treat those values as zero
 8/8/07 - use a butt cap for "excess charge" stroke, increase stroke thickness
 8/8/07 - make "excess charge" view work properly in fast mode
 8/8/07 - remove stubs for "Show change in momentum model", feature has been dropped 
