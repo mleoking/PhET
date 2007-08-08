@@ -106,7 +106,7 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
      * @param size the width and height of the node
      * @param strokeWidth width of the stroke
      */
-    protected PNode createPositiveNode( double size, double strokeWidth ) {
+    protected static PNode createPositiveNode( double size, double strokeWidth ) {
         Stroke stroke = createStroke( strokeWidth );
         // Positive charge is a '+' sign
         Line2D horizontalLine = new Line2D.Double( -size/2, 0, size/2, 0 );
@@ -131,7 +131,7 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
      * @param size the width the node
      * @param strokeWidth width of the stroke
      */
-    protected PNode createNegativeNode( double size, double strokeWidth ) {
+    protected static PNode createNegativeNode( double size, double strokeWidth ) {
         Stroke stroke = createStroke( strokeWidth );
         // Negative charge is a horizontal line
         Line2D line = new Line2D.Double( 0, 0, size, 0 );
@@ -147,7 +147,7 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
      * Use a butt cap so that line lengths are not extended.
      * See BasicStroke.CAP_BUTT.
      */
-    private Stroke createStroke( double strokeWidth ) {
+    private static Stroke createStroke( double strokeWidth ) {
         return new BasicStroke( (float)strokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     }
     
@@ -203,6 +203,7 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
      * Updates the position of the node to match the bead's position.
      */
     private void updatePosition() {
+
         _modelViewTransform.modelToView( _bead.getPositionReference(), _pModel );
         setOffset( _pModel );
     }
