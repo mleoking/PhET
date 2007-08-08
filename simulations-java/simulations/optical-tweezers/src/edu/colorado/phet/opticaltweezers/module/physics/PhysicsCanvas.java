@@ -15,18 +15,15 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
 import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
-import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.*;
+import edu.colorado.phet.opticaltweezers.module.AbstractCanvas;
 import edu.colorado.phet.opticaltweezers.view.*;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -36,14 +33,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PhysicsCanvas extends PhetPCanvas {
+public class PhysicsCanvas extends AbstractCanvas {
 
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final boolean HAS_WIGGLE_ME = false;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -52,7 +43,6 @@ public class PhysicsCanvas extends PhetPCanvas {
     private PhysicsModel _model;
     
     // View
-    private PNode _rootNode;
     private MicroscopeSlideNode _microscopeSlideNode;
     private LaserNode _laserNode;
     private BeadNode _beadNode;
@@ -63,13 +53,11 @@ public class PhysicsCanvas extends PhetPCanvas {
     private PotentialEnergyChartNode _potentialEnergyChartNode;
     private TrapForceNode _trapForceNode;
     private FluidDragForceNode _dragForceNode;
+    private TotalChargeNode _totalChargeNode;
+    private ExcessChargeNode _excessChargeNode;
     
     // Control
     private PSwing _returnBeadButtonWrapper;
-    
-    // Help
-    private OTWiggleMe _wiggleMe;
-    private boolean _wiggleMeInitialized = false;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -80,7 +68,6 @@ public class PhysicsCanvas extends PhetPCanvas {
         
         _model = model;
         
-        OTClock clock = model.getClock();
         Fluid fluid = model.getFluid();
         MicroscopeSlide microscopeSlide = model.getMicroscopeSlide();
         Laser laser = model.getLaser();
@@ -92,17 +79,11 @@ public class PhysicsCanvas extends PhetPCanvas {
         // When the canvas is resized...
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                // update the layout
-                updateLayout();
                 // make the "Return Bead" button visible if the bead is not visible
                 updateReturnBeadButtonVisibility();
             }
         } );
 
-        // Root of our scene graph
-        _rootNode = new PNode();
-        addWorldChild( _rootNode );
-        
         // Microscope slide
         _microscopeSlideNode = new MicroscopeSlideNode( microscopeSlide, fluid, modelViewTransform, GlobalDefaults.FLUID_SPEED_RANGE.getMax() );
         
@@ -122,6 +103,10 @@ public class PhysicsCanvas extends PhetPCanvas {
                 }
             }
         });
+        
+        // Charge views
+        _totalChargeNode = new TotalChargeNode( bead, laser, modelViewTransform );
+        _excessChargeNode = new ExcessChargeNode( bead, laser, modelViewTransform );
         
         // Force vectors, use same reference values so that scale is the same!
         {
@@ -155,17 +140,19 @@ public class PhysicsCanvas extends PhetPCanvas {
         _returnBeadButtonWrapper = new PSwing( returnBeadButton );
         
         // Layering order of nodes on the canvas
-        _rootNode.addChild( _microscopeSlideNode );
-        _rootNode.addChild( _laserNode );
-        _rootNode.addChild( _laserDragBoundsNode );
-        _rootNode.addChild( _beadNode );
-        _rootNode.addChild( _beadDragBoundsNode );
-        _rootNode.addChild( _trapForceNode );
-        _rootNode.addChild( _dragForceNode );
-        _rootNode.addChild( _potentialEnergyChartNode );
-        _rootNode.addChild( _rulerNode );
-        _rootNode.addChild( _rulerDragBoundsNode );
-        _rootNode.addChild( _returnBeadButtonWrapper );
+        addNode( _microscopeSlideNode );
+        addNode( _laserNode );
+        addNode( _laserDragBoundsNode );
+        addNode( _beadNode );
+        addNode( _beadDragBoundsNode );
+        addNode( _totalChargeNode );
+        addNode( _excessChargeNode );
+        addNode( _trapForceNode );
+        addNode( _dragForceNode );
+        addNode( _potentialEnergyChartNode );
+        addNode( _rulerNode );
+        addNode( _rulerDragBoundsNode );
+        addNode( _returnBeadButtonWrapper );
     }
     
     //----------------------------------------------------------------------------
@@ -207,6 +194,14 @@ public class PhysicsCanvas extends PhetPCanvas {
     public FluidDragForceNode getFluidDragForceNode() {
         return _dragForceNode;
     }
+    
+    public TotalChargeNode getTotalChargeNode() {
+        return _totalChargeNode;
+    }
+    
+    public ExcessChargeNode getExcessChargeNode() {
+        return _excessChargeNode;
+    }
 
     //----------------------------------------------------------------------------
     // Canvas layout
@@ -247,8 +242,6 @@ public class PhysicsCanvas extends PhetPCanvas {
             y = sb.getY();
             w = sb.getWidth() + ( 2 * ( 1 - m ) * bb.getWidth() );
             h = sb.getHeight();
-            x -= 500;//XXX test Return Bead button
-            w += 1000;//XXX test Return Bead button
             Rectangle2D globalDragBounds = new Rectangle2D.Double( x, y, w, h );
             Rectangle2D localDragBounds = _beadDragBoundsNode.globalToLocal( globalDragBounds );
             _beadDragBoundsNode.setPathTo( localDragBounds );
@@ -290,10 +283,6 @@ public class PhysicsCanvas extends PhetPCanvas {
                 laser.setPosition( xModel, yModel );
             }
         }
-        
-        if ( HAS_WIGGLE_ME ) {
-            initWiggleMe();
-        }
     }
     
     /**
@@ -334,39 +323,5 @@ public class PhysicsCanvas extends PhetPCanvas {
         _returnBeadButtonWrapper.setVisible( false );
         _returnBeadButtonWrapper.setPickable( false );
         _returnBeadButtonWrapper.setChildrenPickable( false );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Wiggle Me
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Initializes a wiggle me
-     */
-    private void initWiggleMe() {
-        if ( !_wiggleMeInitialized ) {
-            
-            // Create wiggle me, add to root node.
-            _wiggleMe = new OTWiggleMe( this, OTResources.getString( "label.wiggleMe" ) );
-            _rootNode.addChild( _wiggleMe );
-            
-            // Animate from the upper-left to some point
-            double x = 300;//XXX
-            double y = 300;//XXX
-            _wiggleMe.setOffset( 0, -100 );
-            _wiggleMe.animateTo( x, y );
-            
-            // Clicking on the canvas makes the wiggle me go away.
-            addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    _wiggleMe.setEnabled( false );
-                    _rootNode.removeChild( _wiggleMe );
-                    removeInputEventListener( this );
-                    _wiggleMe = null;
-                }
-            } );
-            
-            _wiggleMeInitialized = true;
-        }
     }
 }
