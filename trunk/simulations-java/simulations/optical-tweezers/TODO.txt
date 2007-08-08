@@ -59,6 +59,10 @@ MISSING INFO:
 
  
 DONE:
+8/7/07 - add stub nodes for total & excess charge
+8/7/07 - remove "Return Bead" test code that allowed you to drag bead off play area
+8/7/07 - pull out common canvas functionality into AbstractCanvas
+8/7/07 - remove unused wiggleMe init code from canvas classes
 ********* version 1.00.00 (17033)
 7/27/07 - new version published as part of new website deployment
 ********* version 0.00.32 (17024)

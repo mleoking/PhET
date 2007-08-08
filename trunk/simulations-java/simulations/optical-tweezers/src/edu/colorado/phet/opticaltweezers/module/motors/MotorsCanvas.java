@@ -2,13 +2,18 @@
 
 package edu.colorado.phet.opticaltweezers.module.motors;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
 import edu.colorado.phet.opticaltweezers.model.MotorsModel;
+import edu.colorado.phet.opticaltweezers.module.AbstractCanvas;
 
 
-public class MotorsCanvas extends PhetPCanvas {
+public class MotorsCanvas extends AbstractCanvas {
 
     public MotorsCanvas( MotorsModel model ) {
-        super();
+        super( MotorsDefaults.VIEW_SIZE );
+    }
+
+    public void updateLayout() {
+        //XXX
     }
 }
