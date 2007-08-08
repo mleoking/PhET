@@ -6,11 +6,6 @@
 update all sims to use PhetDefaultFont instead of hardcoding specific physical
 or logical font names (eg "Lucida Sans")
 
-8/7/07 (cmalley) :
-The font for the main frame's tabbed pane should not be set via PhetLookAndFeel,
-because this approach affects all tabbed panes (eg, color choosers).  The font 
-for the main frame's tabbed pane should be set explicitly, not via the UIManager.
-
 6/4/07 (cmalley) :
 Consider using PhetFrameWorkaround to address AWT redraw priority problem on slower machines. 
 This is noticeable with all sims that I've tried with Java 1.5.  
