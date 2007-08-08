@@ -1,3 +1,5 @@
+From Sam F: see docs/bug.txt
+
 8-6-2007
 "It would be great if you could add a fuse in the circuit of the simulator.
 Also, if we could choose between the real or the conventional direction of the current."
