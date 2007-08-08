@@ -104,10 +104,10 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
      * Creates the nodes that represents a positive charge, looks like a '+' sign.
      * 
      * @param size the width and height of the node
-     * @param thickness thickness of the stroke
+     * @param strokeWidth width of the stroke
      */
-    protected PNode createPositiveNode( double size, double thickness ) {
-        Stroke stroke = createStroke( thickness );
+    protected PNode createPositiveNode( double size, double strokeWidth ) {
+        Stroke stroke = createStroke( strokeWidth );
         // Positive charge is a '+' sign
         Line2D horizontalLine = new Line2D.Double( -size/2, 0, size/2, 0 );
         PPath horizontalPathNode = new PPath( horizontalLine );
@@ -129,10 +129,10 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
      * Creates the nodes that represents a positive charge, looks like a '-' sign.
      * 
      * @param size the width the node
-     * @param thickness thickness of the stroke
+     * @param strokeWidth width of the stroke
      */
-    protected PNode createNegativeNode( double size, double thickness ) {
-        Stroke stroke = createStroke( thickness );
+    protected PNode createNegativeNode( double size, double strokeWidth ) {
+        Stroke stroke = createStroke( strokeWidth );
         // Negative charge is a horizontal line
         Line2D line = new Line2D.Double( 0, 0, size, 0 );
         PPath pathNode = new PPath( line );
@@ -147,8 +147,8 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
      * Use a butt cap so that line lengths are not extended.
      * See BasicStroke.CAP_BUTT.
      */
-    private Stroke createStroke( double thickness ) {
-        return new BasicStroke( (float)thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
+    private Stroke createStroke( double strokeWidth ) {
+        return new BasicStroke( (float)strokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     }
     
     //----------------------------------------------------------------------------
