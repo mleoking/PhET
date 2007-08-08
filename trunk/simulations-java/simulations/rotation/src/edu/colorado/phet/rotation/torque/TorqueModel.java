@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation.torque;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.SeriesVariable;
 
 /**
  * Author: Sam Reid
@@ -10,8 +11,8 @@ import edu.colorado.phet.rotation.model.RotationModel;
  */
 public class TorqueModel extends RotationModel {
 
-    private ISimulationVariable torqueVariable = new DefaultSimulationVariable();
-    private ITimeSeries torqueSeries = new DefaultTimeSeries();
+    private SeriesVariable torque = new SeriesVariable();
+
     private UpdateStrategy torqueDriven = new TorqueDriven();
 
     private ISimulationVariable forceVariable = new DefaultSimulationVariable();
@@ -37,16 +38,16 @@ public class TorqueModel extends RotationModel {
         angularMomentumVariable.setValue( angularMomentum );
         angularMomentumTimeSeries.addValue( angularMomentum, getTime() );
 
-        torqueSeries.addValue( torqueVariable.getValue(), getTime() );
+        torque.updateSeriesAndState( torque.getVariable().getValue(), getTime() );
         forceTimeSeries.addValue( forceVariable.getValue(), getTime() );
     }
 
     public ISimulationVariable getTorqueVariable() {
-        return torqueVariable;
+        return torque.getVariable();
     }
 
     public ITimeSeries getTorqueTimeSeries() {
-        return torqueSeries;
+        return torque.getSeries();
     }
 
     public UpdateStrategy getTorqueDriven() {
@@ -84,7 +85,7 @@ public class TorqueModel extends RotationModel {
     public class TorqueDriven implements UpdateStrategy {
         public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
-            double acceleration = torqueVariable.getValue() / getRotationPlatform().getMomentOfInertia();
+            double acceleration = torque.getValue() / getRotationPlatform().getMomentOfInertia();
             double origAngVel = state.getVelocity();
             model.addAccelerationData( acceleration, time );
             model.addVelocityData( state.getVelocity() + acceleration * dt, time );
@@ -95,9 +96,9 @@ public class TorqueModel extends RotationModel {
     public class ForceDriven implements UpdateStrategy {
         public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
-            double torque = forceVariable.getValue() * getRotationPlatform().getRadius();//todo: generalize to r x F (4 parameters)
-            double acceleration = torque / getRotationPlatform().getMomentOfInertia();
-            torqueVariable.setValue( torque );
+            double torqu = forceVariable.getValue() * getRotationPlatform().getRadius();//todo: generalize to r x F (4 parameters)
+            double acceleration = torqu / getRotationPlatform().getMomentOfInertia();
+            torque.setValue( torqu );
 //            torqueSeries.addValue( torque, );
             double origAngVel = state.getVelocity();
             model.addAccelerationData( acceleration, time );

@@ -53,4 +53,8 @@ public class SeriesVariable {
     public TimeData[] getRecentSeries( int numSamples ) {
         return series.getRecentSeries( numSamples );
     }
+
+    public double getValue() {
+        return getVariable().getValue();
+    }
 }
