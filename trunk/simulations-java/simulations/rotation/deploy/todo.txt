@@ -10,7 +10,6 @@ and
 
 If these could be improved upon, that would be great.
 
-
 UI issues:
 •	Better graphics/characters?  Beetle will be undesirable for some?
 
