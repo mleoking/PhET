@@ -5,8 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- bug: "charge excess" feature is broken after pushing "Return bead" button
 - implement "charge distribution" view
-- disable "charge on bead" feature in fast mode
+- disable "charge on bead" feature in fast mode (?)
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 - ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
 - ? change dt.default to something smaller than dt.fast.max
