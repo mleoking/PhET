@@ -36,7 +36,6 @@ public class MiscControlPanel extends JPanel implements Observer {
     private Box _fluidVacuumPanel;
     private JRadioButton _fluidRadioButton, _vacuumRadioButton;
     private JCheckBox _fluidControlsCheckBox;
-    private JCheckBox _momemtumChangeCheckBox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -123,14 +122,6 @@ public class MiscControlPanel extends JPanel implements Observer {
             }
         } );
         
-        _momemtumChangeCheckBox = new JCheckBox( OTResources.getString( "label.showMomentumChange" ) );
-        _momemtumChangeCheckBox.setFont( controlFont );
-        _momemtumChangeCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleMomentumChangeCheckBox();
-            }
-        } );
-        
         // Layout
         JPanel innerPanel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -142,8 +133,6 @@ public class MiscControlPanel extends JPanel implements Observer {
         layout.addComponent( rulerPanel, row++, 0 );
         layout.addComponent( _fluidVacuumPanel, row++, 0 );
         layout.addComponent( _fluidControlsCheckBox, row++, 0 );
-        //XXX feature disabled for AAPT
-//        layout.addComponent( _momemtumChangeCheckBox, row++, 0 );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
         
@@ -155,11 +144,7 @@ public class MiscControlPanel extends JPanel implements Observer {
             _vacuumRadioButton.setSelected( true );
         }
         _fluidControlsCheckBox.setSelected( false );
-        _momemtumChangeCheckBox.setSelected( false );
         _rulerCheckBox.setSelected( false );
-        
-        //XXX not implemented
-        _momemtumChangeCheckBox.setForeground( Color.RED );
     }
     
     public void cleanup() {
@@ -205,15 +190,6 @@ public class MiscControlPanel extends JPanel implements Observer {
         return _fluidControlsCheckBox.isSelected();
     }
     
-    public void setMomentumChangeSelected( boolean b ) {
-        _momemtumChangeCheckBox.setSelected( b );
-        handleMomentumChangeCheckBox();
-    }
-    
-    public boolean isMomentumChangeSelected() {
-        return _momemtumChangeCheckBox.isSelected();
-    }
-    
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
@@ -251,11 +227,6 @@ public class MiscControlPanel extends JPanel implements Observer {
         }
     }
     
-    private void handleMomentumChangeCheckBox() {
-        final boolean selected = _momemtumChangeCheckBox.isSelected();
-        //XXX
-    }
-
     //----------------------------------------------------------------------------
     // Fluid controls dialog
     //----------------------------------------------------------------------------
