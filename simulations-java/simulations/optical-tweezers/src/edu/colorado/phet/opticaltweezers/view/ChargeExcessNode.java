@@ -21,7 +21,6 @@ public class ChargeExcessNode extends AbstractChargeNode {
     private static final double MARGIN = 10; // nm
     
     private PNode _positiveNode, _negativeNode;
-    private AffineTransform _positiveTransform, _negativeTransform;
     private double _viewBeadRadius;
     private double _viewMargin;
     private double _maxElectricFieldX;
@@ -41,9 +40,6 @@ public class ChargeExcessNode extends AbstractChargeNode {
         
         _negativeNode = createNegativeNode( size, thickness );
         addChild( _negativeNode );
-        
-        _positiveTransform = new AffineTransform();
-        _negativeTransform = new AffineTransform();
         
         Bead bead = getBead();
         _viewBeadRadius = modelViewTransform.modelToView( bead.getDiameter() / 2 );
@@ -71,6 +67,7 @@ public class ChargeExcessNode extends AbstractChargeNode {
             double x, y;
             
             // positive charge
+            _positiveNode.setScale( scale );
             if ( electricFieldX > 0 ) {
                 x = -_viewBeadRadius + _viewMargin;
             }
@@ -78,11 +75,10 @@ public class ChargeExcessNode extends AbstractChargeNode {
                 x = _viewBeadRadius - _positiveNode.getFullBoundsReference().getWidth() - _viewMargin;
             }
             y = -_positiveNode.getFullBoundsReference().getHeight() / 2;
-            _positiveTransform.setToTranslation( x, y );
-            _positiveTransform.scale( scale, scale );
-            _positiveNode.setTransform( _positiveTransform );
+            _positiveNode.setOffset( x, y );
         
             // negative charge
+            _negativeNode.setScale( scale );
             if ( electricFieldX > 0 ) {
                 x = _viewBeadRadius - _negativeNode.getFullBoundsReference().getWidth() - _viewMargin;
             }
@@ -90,9 +86,7 @@ public class ChargeExcessNode extends AbstractChargeNode {
                 x = -_viewBeadRadius + _viewMargin;
             }
             y = -_negativeNode.getFullBoundsReference().getHeight() / 2;
-            _negativeTransform.setToTranslation( x, y );
-            _negativeTransform.scale( scale, scale );
-            _negativeNode.setTransform( _negativeTransform );
+            _negativeNode.setOffset( x, y );
         }
     }
     
