@@ -4,9 +4,9 @@
 
 IN PROGRESS:
 
-AAPT:
-
 HIGH PRIORITY:
+- implement "charge distribution" view
+- disable "charge on bead" feature in fast mode
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 - ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
 - ? change dt.default to something smaller than dt.fast.max
@@ -59,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+8/8/07 - implement "excess charge" view
 8/8/07 - add stub nodes for total & excess charge
 8/8/07 - remove "Return Bead" test code that allowed you to drag bead off play area
 8/8/07 - pull out common canvas functionality into AbstractCanvas

@@ -299,6 +299,17 @@ public class Bead extends MovableObject implements ModelElement {
         return dnaForce;
     }
     
+    /**
+     * Gets the x-component of the electric field at the bead's position.
+     * 
+     * @return
+     */
+    public double getElectricFieldX() {
+        double xOffset = _position.getX() - _laser.getPositionReference().getX();
+        double yOffset = _position.getY() - _laser.getPositionReference().getY();
+        return _laser.getElectricFieldX( xOffset, yOffset );
+    }
+    
     //----------------------------------------------------------------------------
     // Developer controls
     //----------------------------------------------------------------------------
