@@ -10,6 +10,7 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.graphs.AbstractRotationGraphSet;
+import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
 
 import javax.swing.*;
@@ -39,7 +40,7 @@ public class TestGraphs {
 
         rotationModel = new RotationModel( new ConstantDtClock( 30, 1 ) );
 
-        GraphSuiteSet rotationGraphSet = new AbstractRotationGraphSet( phetPCanvas, rotationModel, new AngleUnitModel( false ) );
+        GraphSuiteSet rotationGraphSet = new RotationGraphSet( phetPCanvas, rotationModel, new AngleUnitModel( false ) );
         GraphSetModel graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );

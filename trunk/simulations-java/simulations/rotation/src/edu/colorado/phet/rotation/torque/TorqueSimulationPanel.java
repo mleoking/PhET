@@ -24,7 +24,7 @@ public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
     }
 
     protected GraphSuiteSet createRotationGraphSet() {
-        return new TorqueGraphSet( this, (TorqueModel)getRotationModel() );
+        return new TorqueGraphSet( this, (TorqueModel)getRotationModel(), getAngleUnitModel() );
     }
 
     protected RotationPlayAreaNode createPlayAreaNode() {

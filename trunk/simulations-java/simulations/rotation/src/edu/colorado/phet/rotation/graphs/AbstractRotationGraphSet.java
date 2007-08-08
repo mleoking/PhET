@@ -2,7 +2,6 @@ package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.motion.tests.ColorArrows;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.AngleUnitModel;
@@ -15,15 +14,13 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 
 /**
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 8:23:39 AM
  */
-
-public class AbstractRotationGraphSet extends GraphSuiteSet {
+public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
     private Stroke body0Stroke = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
     private Stroke body1Stroke = new BasicStroke( 4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f, new float[]{10, 10}, 0 );
     private Stroke platformStroke = new BasicStroke( 4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
@@ -54,21 +51,6 @@ public class AbstractRotationGraphSet extends GraphSuiteSet {
 
         b0 = model.getRotationBody( 0 );
         b1 = model.getRotationBody( 1 );
-
-        RotationMinimizableControlGraph angleGraph = createAngleGraph();
-        RotationMinimizableControlGraph angVelGraph = createAngVelGraph();
-        RotationMinimizableControlGraph angAccelGraph = createAngAccelGraph();
-        RotationMinimizableControlGraph xGraph = createXGraph();
-        RotationMinimizableControlGraph vGraph = createVGraph();
-        RotationMinimizableControlGraph aGraph = createAGraph();
-
-        addGraphSuite( new RotationMinimizableControlGraph[]{angleGraph, angVelGraph, xGraph} );
-        addGraphSuite( new RotationMinimizableControlGraph[]{angleGraph, angVelGraph, angAccelGraph} );
-        addGraphSuite( new RotationMinimizableControlGraph[]{angleGraph, angVelGraph, vGraph} );
-        addGraphSuite( new RotationMinimizableControlGraph[]{angleGraph, angVelGraph, aGraph} );
-
-        addSeriesSelectionPanels();
-
         b1.addListener( new RotationBody.Adapter() {
             public void platformStateChanged() {
                 updateBody1Series();
@@ -77,7 +59,7 @@ public class AbstractRotationGraphSet extends GraphSuiteSet {
         updateBody1Series();
     }
 
-    private RotationMinimizableControlGraph createAGraph() {
+    protected RotationMinimizableControlGraph createAGraph() {
         RotationMinimizableControlGraph aGraph = new RotationMinimizableControlGraph( "a", new RotationGraph(
                 pSwingCanvas, b0.getXAccelVariable(), "ax", "Acceleration", ACCEL_UNITS, -1 / 0.03 / 0.03 * 3.0 / 200.0, 1 / 0.03 / 0.03 * 3.0 / 200.0,
                 null, model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
@@ -97,14 +79,14 @@ public class AbstractRotationGraphSet extends GraphSuiteSet {
         return aGraph;
     }
 
-    private RotationMinimizableControlGraph createVGraph() {
+    protected RotationMinimizableControlGraph createVGraph() {
         final RotationMinimizableControlGraph vGraph = new RotationMinimizableControlGraph( "v", new RotationGraph(
                 pSwingCanvas, b0.getXVelocityVariable(), "vx", "Velocity", VELOCITY_UNITS, -15, +15,
                 null, model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
         vGraph.addSeriesPair( "Speed",
                               new ControlGraphSeries( "Speed", RotationColorScheme.VM_COLOR, "|v|", VELOCITY_UNITS, b0.getSpeedVariable(), b0.getSpeedSeries(), body0Stroke, CHARACTER_LADY ),
                               new ControlGraphSeries( "Speed(2)", darken( RotationColorScheme.VM_COLOR ), "|v|", VELOCITY_UNITS, b1.getSpeedVariable(), b1.getSpeedSeries(), body1Stroke, CHARACTER_BEETLE )
-                            , b0, b1 );
+                , b0, b1 );
         vGraph.addSeriesPair( "X-Velocity",
                               new ControlGraphSeries( "X-Velocity", RotationColorScheme.VX_COLOR, "vx", VELOCITY_UNITS, b0.getXVelocityVariable(), b0.getXVelocityTimeSeries(), body0Stroke, CHARACTER_LADY ),
                               new ControlGraphSeries( "X-Velocity(2)", darken( RotationColorScheme.VX_COLOR ), "vx", VELOCITY_UNITS, b1.getXVelocityVariable(), b1.getXVelocityTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
@@ -116,7 +98,7 @@ public class AbstractRotationGraphSet extends GraphSuiteSet {
         return vGraph;
     }
 
-    private RotationMinimizableControlGraph createXGraph() {
+    protected RotationMinimizableControlGraph createXGraph() {
         RotationMinimizableControlGraph xGraph = new RotationMinimizableControlGraph( "x & y", new RotationGraph(
                 pSwingCanvas, b0.getXPositionVariable(), "x", "Position", POSITION_UNITS, -5, 5,
                 null, model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
@@ -131,7 +113,7 @@ public class AbstractRotationGraphSet extends GraphSuiteSet {
         return xGraph;
     }
 
-    private RotationMinimizableControlGraph createAngAccelGraph() {
+    protected RotationMinimizableControlGraph createAngAccelGraph() {
         RotationMinimizableControlGraph angAccelGraph = new RotationMinimizableControlGraph( UnicodeUtil.ALPHA, new AngularUnitGraph(
                 pSwingCanvas, model.getPlatformAccelVariable(),
                 UnicodeUtil.ALPHA, "Angular Acceleration", angleUnitModel, ANG_ACC_UNITS_RAD, ANG_ACC_UNITS_DEG, -1.1, 1.1, createThumb( RotationColorScheme.ANG_ACC_SUITE.getPlatformColor() ),
@@ -150,7 +132,7 @@ public class AbstractRotationGraphSet extends GraphSuiteSet {
         return angAccelGraph;
     }
 
-    private RotationMinimizableControlGraph createAngVelGraph() {
+    protected RotationMinimizableControlGraph createAngVelGraph() {
         RotationMinimizableControlGraph angVelGraph = new RotationMinimizableControlGraph( UnicodeUtil.OMEGA, new AngularUnitGraph(
                 pSwingCanvas, model.getPlatformVelocityVariable(),
                 UnicodeUtil.OMEGA, "Angular Velocity", angleUnitModel, ANG_VEL_UNITS_RAD, ANG_VEL_UNITS_DEG, -5, 5, createThumb( RotationColorScheme.ANG_VEL_SUITE.getPlatformColor() ),
@@ -169,7 +151,7 @@ public class AbstractRotationGraphSet extends GraphSuiteSet {
         return angVelGraph;
     }
 
-    private RotationMinimizableControlGraph createAngleGraph() {
+    protected RotationMinimizableControlGraph createAngleGraph() {
 
         final RotationMinimizableControlGraph angleGraph = new RotationMinimizableControlGraph( UnicodeUtil.THETA, new AngularUnitGraph(
                 pSwingCanvas, model.getPlatformAngleVariable(),
@@ -204,7 +186,7 @@ public class AbstractRotationGraphSet extends GraphSuiteSet {
                           Math.max( color.getBlue() - amount, 0 ) );
     }
 
-    private void addSeriesSelectionPanels() {
+    protected void addSeriesSelectionPanels() {
         MinimizableControlGraph[] graphs = getAllGraphs();
         for( int i = 0; i < graphs.length; i++ ) {
             //todo: only show one checkbox for both characters, and have it apply to both characters
@@ -224,17 +206,11 @@ public class AbstractRotationGraphSet extends GraphSuiteSet {
         }
     }
 
-    private void updateBody1Series() {
+    protected void updateBody1Series() {
         for( int i = 0; i < getAllGraphs().length; i++ ) {
             RotationMinimizableControlGraph rotationMinimizableControlGraph = (RotationMinimizableControlGraph)getAllGraphs()[i];
             ( (RotationGraph)rotationMinimizableControlGraph.getControlGraph() ).setSecondarySeriesVisible( model.getRotationBody( 1 ).isOnPlatform() );
         }
     }
 
-    public static void main( String[] args ) {
-        AbstractRotationGraphSet abstractRotationGraphSet = new AbstractRotationGraphSet( new PhetPCanvas(), new RotationModel( new ConstantDtClock( 30, 1 ) ), new AngleUnitModel( false ) );
-        MinimizableControlGraph[] graphs = abstractRotationGraphSet.getAllGraphs();
-        System.out.println( "graphs.length = " + graphs.length );
-        System.out.println( "Arrays.asList( graphs ) = " + Arrays.asList( graphs ) );
-    }
 }
