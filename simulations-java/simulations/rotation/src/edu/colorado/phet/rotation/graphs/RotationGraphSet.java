@@ -49,7 +49,6 @@ public class RotationGraphSet extends GraphSuiteSet {
         final RotationBody b0 = model.getRotationBody( 0 );
         final RotationBody b1 = model.getRotationBody( 1 );
 
-        //todo: clearer separation between platform series and body series
         final RotationMinimizableControlGraph angleGraph = new RotationMinimizableControlGraph( UnicodeUtil.THETA, new AngularUnitGraph(
                 pSwingCanvas, model.getPlatformAngleVariable(),
                 UnicodeUtil.THETA, "Angle", angleUnitModel, ANGLE_UNITS_RAD, ANGLE_UNITS_DEG, -Math.PI * 3, Math.PI * 3, createThumb( RotationColorScheme.ANGLE_SUITE.getPlatformColor() ),
@@ -62,26 +61,26 @@ public class RotationGraphSet extends GraphSuiteSet {
                                   new ControlGraphSeries( "Angle (2)", RotationColorScheme.ANGLE_SUITE.getBeetleColor(), UnicodeUtil.THETA, ANGLE_UNITS_RAD, b1.getAngleVariable(), b1.getAngleTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
                                   b0, b1 );
 
-        RotationMinimizableControlGraph velocityGraph = new RotationMinimizableControlGraph( UnicodeUtil.OMEGA, new AngularUnitGraph(
+        RotationMinimizableControlGraph angVelGraph = new RotationMinimizableControlGraph( UnicodeUtil.OMEGA, new AngularUnitGraph(
                 pSwingCanvas, model.getPlatformVelocityVariable(),
                 UnicodeUtil.OMEGA, "Angular Velocity", angleUnitModel, ANG_VEL_UNITS_RAD, ANG_VEL_UNITS_DEG, -5, 5, createThumb( RotationColorScheme.ANG_VEL_SUITE.getPlatformColor() ),
                 model, true, model.getTimeSeriesModel(), model.getVelocityDriven(), RotationModel.MAX_TIME, model.getRotationPlatform() ) );
         final ControlGraphSeries platformVelSeries = new ControlGraphSeries( "Angular Velocity", RotationColorScheme.ANG_VEL_SUITE.getPlatformColor(), UnicodeUtil.OMEGA, ANG_VEL_UNITS_RAD, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), platformStroke, true, CHARACTER_PLATFORM );
-        velocityGraph.addSeries( platformVelSeries );
-        velocityGraph.addSeriesPair( "Angular Velocity",
-                                     new ControlGraphSeries( "Angular Velocity", RotationColorScheme.ANG_VEL_SUITE.getLadybugColor(), UnicodeUtil.OMEGA, ANG_VEL_UNITS_RAD, b0.getAngularVelocityVariable(), b0.getAngularVelocityTimeSeries(), body0Stroke, CHARACTER_LADY ),
-                                     new ControlGraphSeries( "Angular Velocity (2)", RotationColorScheme.ANG_VEL_SUITE.getBeetleColor(), UnicodeUtil.OMEGA, ANG_VEL_UNITS_RAD, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
-                                     b0, b1 );
+        angVelGraph.addSeries( platformVelSeries );
+        angVelGraph.addSeriesPair( "Angular Velocity",
+                                   new ControlGraphSeries( "Angular Velocity", RotationColorScheme.ANG_VEL_SUITE.getLadybugColor(), UnicodeUtil.OMEGA, ANG_VEL_UNITS_RAD, b0.getAngularVelocityVariable(), b0.getAngularVelocityTimeSeries(), body0Stroke, CHARACTER_LADY ),
+                                   new ControlGraphSeries( "Angular Velocity (2)", RotationColorScheme.ANG_VEL_SUITE.getBeetleColor(), UnicodeUtil.OMEGA, ANG_VEL_UNITS_RAD, model.getPlatformVelocityVariable(), model.getPlatformVelocityTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
+                                   b0, b1 );
 
-        RotationMinimizableControlGraph accelGraph = new RotationMinimizableControlGraph( UnicodeUtil.ALPHA, new AngularUnitGraph(
+        RotationMinimizableControlGraph angAccelGraph = new RotationMinimizableControlGraph( UnicodeUtil.ALPHA, new AngularUnitGraph(
                 pSwingCanvas, model.getPlatformAccelVariable(),
                 UnicodeUtil.ALPHA, "Angular Acceleration", angleUnitModel, ANG_ACC_UNITS_RAD, ANG_ACC_UNITS_DEG, -1.1, 1.1, createThumb( RotationColorScheme.ANG_ACC_SUITE.getPlatformColor() ),
                 model, true, model.getTimeSeriesModel(), model.getAccelDriven(), RotationModel.MAX_TIME, model.getRotationPlatform() ) );
         final ControlGraphSeries platformAccelSeries = new ControlGraphSeries( "Platform Ang Accel", RotationColorScheme.ANG_ACC_SUITE.getPlatformColor(), UnicodeUtil.ALPHA, ANG_ACC_UNITS_RAD, model.getPlatformAccelVariable(), model.getPlatformAccelTimeSeries(), platformStroke, true, CHARACTER_PLATFORM );
-        accelGraph.addSeries( platformAccelSeries );
-        accelGraph.addSeriesPair( "Angular Acceleration",
-                                  new ControlGraphSeries( "Angular Acceleration", RotationColorScheme.ANG_ACC_SUITE.getLadybugColor(), UnicodeUtil.ALPHA, ANG_ACC_UNITS_RAD, b0.getAngularAccelerationVariable(), b0.getAngularAccelerationTimeSeries(), body0Stroke, CHARACTER_LADY ),
-                                  new ControlGraphSeries( "Angular Acceleration (2) ", RotationColorScheme.ANG_ACC_SUITE.getBeetleColor(), UnicodeUtil.ALPHA, ANG_ACC_UNITS_RAD, b1.getAngularAccelerationVariable(), b1.getAngularAccelerationTimeSeries(), body1Stroke, CHARACTER_BEETLE ), b0, b1 );
+        angAccelGraph.addSeries( platformAccelSeries );
+        angAccelGraph.addSeriesPair( "Angular Acceleration",
+                                     new ControlGraphSeries( "Angular Acceleration", RotationColorScheme.ANG_ACC_SUITE.getLadybugColor(), UnicodeUtil.ALPHA, ANG_ACC_UNITS_RAD, b0.getAngularAccelerationVariable(), b0.getAngularAccelerationTimeSeries(), body0Stroke, CHARACTER_LADY ),
+                                     new ControlGraphSeries( "Angular Acceleration (2) ", RotationColorScheme.ANG_ACC_SUITE.getBeetleColor(), UnicodeUtil.ALPHA, ANG_ACC_UNITS_RAD, b1.getAngularAccelerationVariable(), b1.getAngularAccelerationTimeSeries(), body1Stroke, CHARACTER_BEETLE ), b0, b1 );
 
         model.getRotationPlatform().addListener( new RotationPlatform.Adapter() {
             public void displayGraphChanged() {
@@ -91,61 +90,54 @@ public class RotationGraphSet extends GraphSuiteSet {
             }
         } );
 
-        RotationMinimizableControlGraph linearPositionGraph = new RotationMinimizableControlGraph( "x & y", new RotationGraph(
+        RotationMinimizableControlGraph xGraph = new RotationMinimizableControlGraph( "x & y", new RotationGraph(
                 pSwingCanvas, b0.getXPositionVariable(), "x", "Position", POSITION_UNITS, -5, 5,
-                new PImage( loadArrow( "blue-arrow.png" ) ), model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
-        linearPositionGraph.addSeriesPair( "X-Position",
-                                           new ControlGraphSeries( "X-Position", RotationColorScheme.X_COLOR, "x", POSITION_UNITS, b0.getXPositionVariable(), b0.getXPositionTimeSeries(), body0Stroke, CHARACTER_LADY ),
-                                           new ControlGraphSeries( "X-Position(2)", darken( RotationColorScheme.X_COLOR ), "x", POSITION_UNITS, b1.getXPositionVariable(), b1.getXPositionTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
-                                           b0, b1 );
-        linearPositionGraph.addSeriesPair( "Y-Position",
-                                           new ControlGraphSeries( "Y-Position", RotationColorScheme.Y_COLOR, "y", POSITION_UNITS, b0.getYPositionVariable(), b0.getYPositionTimeSeries(), body0Stroke, CHARACTER_LADY ),
-                                           new ControlGraphSeries( "Y-Position(2)", darken( RotationColorScheme.Y_COLOR ), "y", POSITION_UNITS, b1.getYPositionVariable(), b1.getYPositionTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
-                                           b0, b1 );
+                null, model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
+        xGraph.addSeriesPair( "X-Position",
+                              new ControlGraphSeries( "X-Position", RotationColorScheme.X_COLOR, "x", POSITION_UNITS, b0.getXPositionVariable(), b0.getXPositionTimeSeries(), body0Stroke, CHARACTER_LADY ),
+                              new ControlGraphSeries( "X-Position(2)", darken( RotationColorScheme.X_COLOR ), "x", POSITION_UNITS, b1.getXPositionVariable(), b1.getXPositionTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
+                              b0, b1 );
+        xGraph.addSeriesPair( "Y-Position",
+                              new ControlGraphSeries( "Y-Position", RotationColorScheme.Y_COLOR, "y", POSITION_UNITS, b0.getYPositionVariable(), b0.getYPositionTimeSeries(), body0Stroke, CHARACTER_LADY ),
+                              new ControlGraphSeries( "Y-Position(2)", darken( RotationColorScheme.Y_COLOR ), "y", POSITION_UNITS, b1.getYPositionVariable(), b1.getYPositionTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
+                              b0, b1 );
 
-        final RotationMinimizableControlGraph linearVelocityGraph = new RotationMinimizableControlGraph( "v", new RotationGraph(
+        final RotationMinimizableControlGraph vGraph = new RotationMinimizableControlGraph( "v", new RotationGraph(
                 pSwingCanvas, b0.getXVelocityVariable(), "vx", "Velocity", VELOCITY_UNITS, -15, +15,
-                new PImage( loadArrow( "blue-arrow.png" ) ), model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
-        linearVelocityGraph.addSeriesPair( "Speed",
-                                           new ControlGraphSeries( "Speed", RotationColorScheme.VM_COLOR, "|v|", VELOCITY_UNITS, b0.getSpeedVariable(), b0.getSpeedSeries(), body0Stroke, CHARACTER_LADY ),
-                                           new ControlGraphSeries( "Speed(2)", darken( RotationColorScheme.VM_COLOR ), "|v|", VELOCITY_UNITS, b1.getSpeedVariable(), b1.getSpeedSeries(), body1Stroke, CHARACTER_BEETLE ), b0, b1 );
-        RotationGraph.SeriesPair vx = linearVelocityGraph.addSeriesPair( "X-Velocity",
-                                                                         new ControlGraphSeries( "X-Velocity", RotationColorScheme.VX_COLOR, "vx", VELOCITY_UNITS, b0.getXVelocityVariable(), b0.getXVelocityTimeSeries(), body0Stroke, CHARACTER_LADY ),
-                                                                         new ControlGraphSeries( "X-Velocity(2)", darken( RotationColorScheme.VX_COLOR ), "vx", VELOCITY_UNITS, b1.getXVelocityVariable(), b1.getXVelocityTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
-                                                                         b0, b1 );
-        RotationGraph.SeriesPair vy = linearVelocityGraph.addSeriesPair( "Y-Velocity",
-                                                                         new ControlGraphSeries( "Y-Velocity", RotationColorScheme.VY_COLOR, "vy", VELOCITY_UNITS, b0.getYVelocityVariable(), b0.getYVelocityTimeSeries(), body0Stroke, CHARACTER_LADY ),
-                                                                         new ControlGraphSeries( "Y-Velocity(2)", darken( RotationColorScheme.VY_COLOR ), "vy", VELOCITY_UNITS, b1.getYVelocityVariable(), b1.getYVelocityTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
-                                                                         b0, b1 );
-        vx.setVisible( false );
-        vy.setVisible( false );
+                null, model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
+        vGraph.addSeriesPair( "Speed",
+                              new ControlGraphSeries( "Speed", RotationColorScheme.VM_COLOR, "|v|", VELOCITY_UNITS, b0.getSpeedVariable(), b0.getSpeedSeries(), body0Stroke, CHARACTER_LADY ),
+                              new ControlGraphSeries( "Speed(2)", darken( RotationColorScheme.VM_COLOR ), "|v|", VELOCITY_UNITS, b1.getSpeedVariable(), b1.getSpeedSeries(), body1Stroke, CHARACTER_BEETLE ), b0, b1 );
+        vGraph.addSeriesPair( "X-Velocity",
+                              new ControlGraphSeries( "X-Velocity", RotationColorScheme.VX_COLOR, "vx", VELOCITY_UNITS, b0.getXVelocityVariable(), b0.getXVelocityTimeSeries(), body0Stroke, CHARACTER_LADY ),
+                              new ControlGraphSeries( "X-Velocity(2)", darken( RotationColorScheme.VX_COLOR ), "vx", VELOCITY_UNITS, b1.getXVelocityVariable(), b1.getXVelocityTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
+                              b0, b1, false );
+        vGraph.addSeriesPair( "Y-Velocity",
+                              new ControlGraphSeries( "Y-Velocity", RotationColorScheme.VY_COLOR, "vy", VELOCITY_UNITS, b0.getYVelocityVariable(), b0.getYVelocityTimeSeries(), body0Stroke, CHARACTER_LADY ),
+                              new ControlGraphSeries( "Y-Velocity(2)", darken( RotationColorScheme.VY_COLOR ), "vy", VELOCITY_UNITS, b1.getYVelocityVariable(), b1.getYVelocityTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
+                              b0, b1, false );
 
-        RotationMinimizableControlGraph centripetalAccelGraph = new RotationMinimizableControlGraph( "a", new RotationGraph(
+        RotationMinimizableControlGraph aGraph = new RotationMinimizableControlGraph( "a", new RotationGraph(
                 pSwingCanvas, b0.getXAccelVariable(), "ax", "Acceleration", ACCEL_UNITS, -1 / 0.03 / 0.03 * 3.0 / 200.0, 1 / 0.03 / 0.03 * 3.0 / 200.0,
-                new PImage( loadArrow( "red-arrow.png" ) ), model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
+                null, model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
 
-        centripetalAccelGraph.addSeriesPair( "|Acceleration|",
-                                             new ControlGraphSeries( "|Acceleration|", RotationColorScheme.AM_COLOR, "a", ACCEL_UNITS, b0.getAccelMagnitudeVariable(), b0.getAccelMagnitudeSeries(), body0Stroke, CHARACTER_LADY ),
-                                             new ControlGraphSeries( "|Acceleration|(2)", darken( RotationColorScheme.AM_COLOR ), "a", ACCEL_UNITS, b1.getAccelMagnitudeVariable(), b1.getAccelMagnitudeSeries(), body1Stroke, CHARACTER_BEETLE ),
-                                             b0, b1 );
-        RotationGraph.SeriesPair ax = centripetalAccelGraph.addSeriesPair( "X-Acceleration",
-                                                                           new ControlGraphSeries( "X-Acceleration", RotationColorScheme.AX_COLOR, "ax", ACCEL_UNITS, b0.getXAccelVariable(), b0.getXAccelTimeSeries(), body0Stroke, CHARACTER_LADY ),
-                                                                           new ControlGraphSeries( "X-Acceleration(2)", darken( RotationColorScheme.AX_COLOR ), "ax", ACCEL_UNITS, b1.getXAccelVariable(), b1.getXAccelTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
-                                                                           b0, b1 );
-        RotationGraph.SeriesPair ay = centripetalAccelGraph.addSeriesPair( "Y-Acceleration",
-                                                                           new ControlGraphSeries( "Y-Acceleration", RotationColorScheme.AY_COLOR, "ay", ACCEL_UNITS, b0.getYAccelVariable(), b0.getYAccelTimeSeries(), body0Stroke, CHARACTER_LADY ),
-                                                                           new ControlGraphSeries( "Y-Acceleration(2)", darken( RotationColorScheme.AY_COLOR ), "ay", ACCEL_UNITS, b1.getYAccelVariable(), b1.getYAccelTimeSeries(), body1Stroke, CHARACTER_BEETLE ), b0, b1 );
-        ax.setVisible( false );
-        ay.setVisible( false );
+        aGraph.addSeriesPair( "|Acceleration|",
+                              new ControlGraphSeries( "|Acceleration|", RotationColorScheme.AM_COLOR, "a", ACCEL_UNITS, b0.getAccelMagnitudeVariable(), b0.getAccelMagnitudeSeries(), body0Stroke, CHARACTER_LADY ),
+                              new ControlGraphSeries( "|Acceleration|(2)", darken( RotationColorScheme.AM_COLOR ), "a", ACCEL_UNITS, b1.getAccelMagnitudeVariable(), b1.getAccelMagnitudeSeries(), body1Stroke, CHARACTER_BEETLE ),
+                              b0, b1 );
+        aGraph.addSeriesPair( "X-Acceleration",
+                              new ControlGraphSeries( "X-Acceleration", RotationColorScheme.AX_COLOR, "ax", ACCEL_UNITS, b0.getXAccelVariable(), b0.getXAccelTimeSeries(), body0Stroke, CHARACTER_LADY ),
+                              new ControlGraphSeries( "X-Acceleration(2)", darken( RotationColorScheme.AX_COLOR ), "ax", ACCEL_UNITS, b1.getXAccelVariable(), b1.getXAccelTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
+                              b0, b1, false );
+        aGraph.addSeriesPair( "Y-Acceleration",
+                              new ControlGraphSeries( "Y-Acceleration", RotationColorScheme.AY_COLOR, "ay", ACCEL_UNITS, b0.getYAccelVariable(), b0.getYAccelTimeSeries(), body0Stroke, CHARACTER_LADY ),
+                              new ControlGraphSeries( "Y-Acceleration(2)", darken( RotationColorScheme.AY_COLOR ), "ay", ACCEL_UNITS, b1.getYAccelVariable(), b1.getYAccelTimeSeries(), body1Stroke, CHARACTER_BEETLE ),
+                              b0, b1, false );
 
-//The following graph suites are for testing only
-//        addGraphSuite( new RotationMinimizableControlGraph[]{angleGraph, velocityGraph, accelGraph, linearPositionGraph, linearVelocityGraph, centripetalAccelGraph} );
-//        addGraphSuite( new RotationMinimizableControlGraph[]{linearPositionGraph, angleGraph, linearVelocityGraph, velocityGraph, accelGraph} );
-
-        addGraphSuite( new RotationMinimizableControlGraph[]{angleGraph, velocityGraph, linearPositionGraph} );
-        addGraphSuite( new RotationMinimizableControlGraph[]{angleGraph, velocityGraph, accelGraph} );
-        addGraphSuite( new RotationMinimizableControlGraph[]{angleGraph, velocityGraph, linearVelocityGraph} );
-        addGraphSuite( new RotationMinimizableControlGraph[]{angleGraph, velocityGraph, centripetalAccelGraph} );
+        addGraphSuite( new RotationMinimizableControlGraph[]{angleGraph, angVelGraph, xGraph} );
+        addGraphSuite( new RotationMinimizableControlGraph[]{angleGraph, angVelGraph, angAccelGraph} );
+        addGraphSuite( new RotationMinimizableControlGraph[]{angleGraph, angVelGraph, vGraph} );
+        addGraphSuite( new RotationMinimizableControlGraph[]{angleGraph, angVelGraph, aGraph} );
 
         addSeriesSelectionPanels();
 
@@ -184,8 +176,6 @@ public class RotationGraphSet extends GraphSuiteSet {
                                                               graph.getControlGraph().getControlGraphSeries( 0 ).getColor(),
                                                               GraphControlSeriesNode.LABEL_FONT
                 );
-//                titleGraphic.setFont( GraphControlSeriesNode.LABEL_FONT );
-//                titleGraphic.setForeground(  );
                 p.add( titleGraphic );
                 p.add( selectionPanel );
                 graphs[i].getControlGraph().addControl( p );

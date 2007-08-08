@@ -17,6 +17,7 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
@@ -92,7 +93,7 @@ public class ControlGraph extends PNode {
         graphTimeControlNode = createGraphTimeControlNode( timeSeriesModel );
         additionalControls = new PNode();
 
-        jFreeChartSliderNode = new JFreeChartSliderNode( dynamicJFreeChartNode, thumb );
+        jFreeChartSliderNode = new JFreeChartSliderNode( dynamicJFreeChartNode, thumb == null ? new PPath() : thumb );//todo: better support for non-controllable graphs
         zoomControl = new ZoomSuiteNode();
         zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
