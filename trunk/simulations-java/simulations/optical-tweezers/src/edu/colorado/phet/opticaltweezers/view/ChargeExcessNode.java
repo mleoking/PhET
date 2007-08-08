@@ -16,8 +16,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ChargeExcessNode extends AbstractChargeNode {
     
-    private static final double MAX_SIZE = 70; // nm, size of biggest dimension
-    private static final double MAX_THICKNESS = 10; // nm
+    private static final double MAX_SIZE = 80; // nm, size of biggest dimension
+    private static final double MAX_THICKNESS = 20; // nm
     private static final double MARGIN = 10; // nm
     
     private PNode _positiveNode, _negativeNode;

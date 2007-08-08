@@ -75,6 +75,9 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
     // Abstract methods
     //----------------------------------------------------------------------------
     
+    /**
+     * Implemented by subclasses to initial the node.
+     */
     protected abstract void initialize();
     
     //----------------------------------------------------------------------------
@@ -93,8 +96,18 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
         return _modelViewTransform;
     }
     
+    //----------------------------------------------------------------------------
+    // Node creation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Creates the nodes that represents a positive charge, looks like a '+' sign.
+     * 
+     * @param size the width and height of the node
+     * @param thickness thickness of the stroke
+     */
     protected PNode createPositiveNode( double size, double thickness ) {
-        Stroke stroke = new BasicStroke( (float)thickness );
+        Stroke stroke = createStroke( thickness );
         // Positive charge is a '+' sign
         Line2D horizontalLine = new Line2D.Double( -size/2, 0, size/2, 0 );
         PPath horizontalPathNode = new PPath( horizontalLine );
@@ -112,8 +125,14 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
         return imageNode;
     }
     
+    /**
+     * Creates the nodes that represents a positive charge, looks like a '-' sign.
+     * 
+     * @param size the width the node
+     * @param thickness thickness of the stroke
+     */
     protected PNode createNegativeNode( double size, double thickness ) {
-        Stroke stroke = new BasicStroke( (float)thickness );
+        Stroke stroke = createStroke( thickness );
         // Negative charge is a horizontal line
         Line2D line = new Line2D.Double( 0, 0, size, 0 );
         PPath pathNode = new PPath( line );
@@ -124,16 +143,28 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
         return imageNode;
     }
     
+    /*
+     * Use a butt cap so that line lengths are not extended.
+     * See BasicStroke.CAP_BUTT.
+     */
+    private Stroke createStroke( double thickness ) {
+        return new BasicStroke( (float)thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
+    }
+    
     //----------------------------------------------------------------------------
     // Superclass overrides
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the node when it's made visible.
+     * 
+     * @param visible
+     */
     public void setVisible( boolean visible ) {
         if ( visible != isVisible() ) {
             if ( visible ) {
                 updatePosition();
                 updateCharge();
-                updateCharge(); // call this twice to workaround some visual artifacts
             }
             super.setVisible( visible );
         }
@@ -143,6 +174,12 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
     // Observer implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the view to match the model.
+     * 
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
         if ( isVisible() ) {
             if ( o == _bead ) {
@@ -162,10 +199,16 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
     // Updaters
     //----------------------------------------------------------------------------
     
+    /*
+     * Updates the position of the node to match the bead's position.
+     */
     private void updatePosition() {
         _modelViewTransform.modelToView( _bead.getPositionReference(), _pModel );
         setOffset( _pModel );
     }
     
+    /**
+     * Updates the view of the charge to match the model.
+     */
     protected abstract void updateCharge();
 }
