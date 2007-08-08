@@ -133,6 +133,7 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
             if ( visible ) {
                 updatePosition();
                 updateCharge();
+                updateCharge(); // call this twice to workaround some visual artifacts
             }
             super.setVisible( visible );
         }

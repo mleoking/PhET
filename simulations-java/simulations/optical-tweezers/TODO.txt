@@ -59,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+8/8/07 - simplify "excess charge" implementation, reduce resources required, clean up visual artifacts
 8/8/07 - implement "excess charge" view
 8/8/07 - add stub nodes for total & excess charge
 8/8/07 - remove "Return Bead" test code that allowed you to drag bead off play area
