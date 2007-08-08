@@ -53,8 +53,8 @@ public class PhysicsCanvas extends AbstractCanvas {
     private PotentialEnergyChartNode _potentialEnergyChartNode;
     private TrapForceNode _trapForceNode;
     private FluidDragForceNode _dragForceNode;
-    private TotalChargeNode _totalChargeNode;
-    private ExcessChargeNode _excessChargeNode;
+    private ChargeDistributionNode _chargeDistributionNode;
+    private ChargeExcessNode _chargeExcessNode;
     
     // Control
     private PSwing _returnBeadButtonWrapper;
@@ -105,8 +105,8 @@ public class PhysicsCanvas extends AbstractCanvas {
         });
         
         // Charge views
-        _totalChargeNode = new TotalChargeNode( bead, laser, modelViewTransform );
-        _excessChargeNode = new ExcessChargeNode( bead, laser, modelViewTransform );
+        _chargeDistributionNode = new ChargeDistributionNode( bead, laser, modelViewTransform );
+        _chargeExcessNode = new ChargeExcessNode( bead, laser, modelViewTransform );
         
         // Force vectors, use same reference values so that scale is the same!
         {
@@ -145,8 +145,8 @@ public class PhysicsCanvas extends AbstractCanvas {
         addNode( _laserDragBoundsNode );
         addNode( _beadNode );
         addNode( _beadDragBoundsNode );
-        addNode( _totalChargeNode );
-        addNode( _excessChargeNode );
+        addNode( _chargeDistributionNode );
+        addNode( _chargeExcessNode );
         addNode( _trapForceNode );
         addNode( _dragForceNode );
         addNode( _potentialEnergyChartNode );
@@ -195,12 +195,12 @@ public class PhysicsCanvas extends AbstractCanvas {
         return _dragForceNode;
     }
     
-    public TotalChargeNode getTotalChargeNode() {
-        return _totalChargeNode;
+    public ChargeDistributionNode getChargeDistributionNode() {
+        return _chargeDistributionNode;
     }
     
-    public ExcessChargeNode getExcessChargeNode() {
-        return _excessChargeNode;
+    public ChargeExcessNode getChargeExcessNode() {
+        return _chargeExcessNode;
     }
 
     //----------------------------------------------------------------------------

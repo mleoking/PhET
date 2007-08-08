@@ -28,7 +28,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     private SimulationSpeedControlPanel _simulationSpeedControlPanel;
     private LaserDisplayControlPanel _laserDisplayControlPanel;
-    private BeadChargeControlPanel _beadChargeControlPanel;
+    private ChargeControlPanel _chargeControlPanel;
     private ForcesControlPanel _forcesControlPanel;
     private ChartsControlPanel _chartsControlPanel;
     private MiscControlPanel _miscControlPanel;
@@ -56,7 +56,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         PhysicsModel model = module.getPhysicsModel();
         _simulationSpeedControlPanel = new SimulationSpeedControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
         _laserDisplayControlPanel = new LaserDisplayControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getLaserNode() );
-        _beadChargeControlPanel = new BeadChargeControlPanel( TITLE_FONT, CONTROL_FONT );
+        _chargeControlPanel = new ChargeControlPanel( TITLE_FONT, CONTROL_FONT,
+                _canvas.getChargeDistributionNode(), _canvas.getChargeExcessNode() );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
                 model.getBead(), model.getFluid(),
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), null /* dnaForceNode */ );
@@ -78,9 +79,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             addSeparator();
             addControlFullWidth( _laserDisplayControlPanel );
             addSeparator();
-//XXX feature disabled for AAPT
-//            addControlFullWidth( _beadChargeControlPanel );
-//            addSeparator();
+            addControlFullWidth( _chargeControlPanel );
+            addSeparator();
             addControlFullWidth( _forcesControlPanel );
             addSeparator();
             addControlFullWidth( _chartsControlPanel );
@@ -120,8 +120,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         return _laserDisplayControlPanel;
     }
     
-    public BeadChargeControlPanel getBeadChargeControlPanel() {
-        return _beadChargeControlPanel;
+    public ChargeControlPanel getChargeControlPanel() {
+        return _chargeControlPanel;
     }
     
     public ForcesControlPanel getForcesControlPanel() {

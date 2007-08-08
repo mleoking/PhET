@@ -8,18 +8,18 @@ import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * ExcessChargeNode displays the excess charge on the bead.
+ * ChargeExcessNode displays the excess charge on the bead.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ExcessChargeNode extends AbstractChargeNode {
+public class ChargeExcessNode extends AbstractChargeNode {
 
-    public ExcessChargeNode( Bead bead, Laser laser, ModelViewTransform modelViewTransform ) {
+    public ChargeExcessNode( Bead bead, Laser laser, ModelViewTransform modelViewTransform ) {
         super( bead, laser, modelViewTransform );
     }
     
     protected void initialize() {
-        PText textNode = new PText( "X" );
+        PText textNode = new PText( "E" );
         addChild( textNode );
         final double x = -textNode.getFullBoundsReference().getWidth() / 2;
         final double y = -textNode.getFullBoundsReference().getHeight() / 2;

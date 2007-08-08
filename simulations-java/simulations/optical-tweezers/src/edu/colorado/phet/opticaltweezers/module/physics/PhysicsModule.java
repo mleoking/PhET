@@ -156,7 +156,7 @@ public class PhysicsModule extends AbstractModule {
         {
             _controlPanel.getSimulationSpeedControlPanel().setSimulationSpeed( GlobalDefaults.DEFAULT_DT );
             _controlPanel.getLaserDisplayControlPanel().setDisplaySelection( PhysicsDefaults.LASER_BEAM_VISIBLE, PhysicsDefaults.LASER_ELECTRIC_FIELD_VISIBLE );
-            _controlPanel.getBeadChargeControlPanel().setChoice( PhysicsDefaults.BEAD_CHARGE_CHOICE );
+            _controlPanel.getChargeControlPanel().setChoice( PhysicsDefaults.CHARGE_CHOICE );
             _controlPanel.getForcesControlPanel().setTrapForceSelected( PhysicsDefaults.TRAP_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setHorizontalTrapForceChoice( PhysicsDefaults.HORIZONTAL_TRAP_FORCE_CHOICE );
             _controlPanel.getForcesControlPanel().setDragForceSelected( PhysicsDefaults.FLUID_DRAG_FORCE_SELECTED );
