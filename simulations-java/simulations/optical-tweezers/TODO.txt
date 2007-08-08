@@ -29,7 +29,7 @@ LOW PRIORITY:
 - improve performance of e-field display (22% in Arrow.computeArrow)
 - reduce vertical spacing of control panels (if necessary, after features/layout has stabilized)
 - bug: beep sometimes occurs when selecting vacuum with fluid controls dialog open
-- visible seams where symmetrical pieces of laser beam gradient are stitched together
+- visible seams where symmetrical pieces of laser beam gradient are stitched together (Mac only?)
 - control panels have vertical scrollbars
 - save/load developer controls
 - when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
