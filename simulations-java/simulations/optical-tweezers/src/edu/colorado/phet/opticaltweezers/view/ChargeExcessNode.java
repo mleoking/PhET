@@ -16,9 +16,9 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ChargeExcessNode extends AbstractChargeNode {
     
-    private static final double MAX_SIZE = 80; // nm, size of biggest dimension
-    private static final double MAX_THICKNESS = 20; // nm
-    private static final double MARGIN = 10; // nm
+    private static final double MAX_CHARGE_SIZE = 80; // nm, size of biggest dimension for the charges
+    private static final double MAX_CHARGE_STROKE_WIDTH = 20; // nm, width of the stroke used to draw the charges
+    private static final double MARGIN = 10; // nm, how close the charges are to the edge of the bead
     
     private PNode _positiveNode, _negativeNode;
     private double _viewBeadRadius;
@@ -44,13 +44,13 @@ public class ChargeExcessNode extends AbstractChargeNode {
     protected void initialize() {
         
         ModelViewTransform modelViewTransform = getModelViewTransform();
-        final double size = modelViewTransform.modelToView( MAX_SIZE );
-        final double thickness = modelViewTransform.modelToView( MAX_THICKNESS );
+        final double size = modelViewTransform.modelToView( MAX_CHARGE_SIZE );
+        final double strokeWidth = modelViewTransform.modelToView( MAX_CHARGE_STROKE_WIDTH );
         
-        _positiveNode = createPositiveNode( size, thickness );
+        _positiveNode = createPositiveNode( size, strokeWidth );
         addChild( _positiveNode );
         
-        _negativeNode = createNegativeNode( size, thickness );
+        _negativeNode = createNegativeNode( size, strokeWidth );
         addChild( _negativeNode );
         
         Bead bead = getBead();
