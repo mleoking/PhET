@@ -5,7 +5,7 @@ package edu.colorado.phet.opticaltweezers.defaults;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.opticaltweezers.control.BeadChargeControlPanel;
+import edu.colorado.phet.opticaltweezers.control.ChargeControlPanel;
 import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 
@@ -54,7 +54,7 @@ public class PhysicsDefaults {
     // Control panel settings
     public static final boolean LASER_BEAM_VISIBLE = true;
     public static final boolean LASER_ELECTRIC_FIELD_VISIBLE = false;
-    public static final String BEAD_CHARGE_CHOICE = BeadChargeControlPanel.CHOICE_HIDDEN;
+    public static final String CHARGE_CHOICE = ChargeControlPanel.CHOICE_HIDDEN;
     public static final boolean TRAP_FORCE_SELECTED = false;
     public static final String HORIZONTAL_TRAP_FORCE_CHOICE = ForcesControlPanel.CHOICE_WHOLE_BEAD;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;

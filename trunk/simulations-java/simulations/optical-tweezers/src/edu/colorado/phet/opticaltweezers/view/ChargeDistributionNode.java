@@ -8,18 +8,18 @@ import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * TotalChargeNode displays the total charge on the bead.
+ * ChargeDistributionNode displays the distibution of charge on the bead.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TotalChargeNode extends AbstractChargeNode {
+public class ChargeDistributionNode extends AbstractChargeNode {
 
-    public TotalChargeNode( Bead bead, Laser laser, ModelViewTransform modelViewTransform ) {
+    public ChargeDistributionNode( Bead bead, Laser laser, ModelViewTransform modelViewTransform ) {
         super( bead, laser, modelViewTransform );
     }
     
     protected void initialize() {
-        PText textNode = new PText( "T" );
+        PText textNode = new PText( "D" );
         addChild( textNode );
         final double x = -textNode.getFullBoundsReference().getWidth() / 2;
         final double y = -textNode.getFullBoundsReference().getHeight() / 2;

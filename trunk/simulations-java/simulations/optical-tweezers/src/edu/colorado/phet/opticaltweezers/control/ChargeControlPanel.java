@@ -16,13 +16,14 @@ import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.umd.cs.piccolo.PNode;
 
 /**
- * BeadChargeControlPanel controls the view of charge on a bead.
+ * ChargeControlPanel controls the view of charge on a bead.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeadChargeControlPanel extends JPanel {
+public class ChargeControlPanel extends JPanel {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -35,6 +36,8 @@ public class BeadChargeControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
+    
+    private PNode _chargeDistributionNode, _chargeExcessNode;
     
     private JRadioButton _hiddenRadioButton;
     private JRadioButton _distributionRadioButton;
@@ -50,10 +53,13 @@ public class BeadChargeControlPanel extends JPanel {
      * @param titleFont
      * @param controlFont
      */
-    public BeadChargeControlPanel( Font titleFont, Font controlFont ) {
+    public ChargeControlPanel( Font titleFont, Font controlFont, PNode chargeDistributionNode, PNode chargeExcessNode ) {
         super();
+        
+        _chargeDistributionNode = chargeDistributionNode;
+        _chargeExcessNode = chargeExcessNode;
 
-        JLabel titleLabel = new JLabel( OTResources.getString( "title.beadChargeControlPanel" ) );
+        JLabel titleLabel = new JLabel( OTResources.getString( "title.chargeControlPanel" ) );
         titleLabel.setFont( titleFont );
         
         ActionListener actionListener = new ActionListener() {
@@ -62,18 +68,15 @@ public class BeadChargeControlPanel extends JPanel {
             }
         };
 
-        // "no charts" choice
         _hiddenRadioButton = new JRadioButton( OTResources.getString( "choice.noCharge" ) );
         _hiddenRadioButton.setFont( controlFont );
         _hiddenRadioButton.addActionListener( actionListener );
 
-        // Position Histogram
         _distributionRadioButton = new JRadioButton( OTResources.getString( "choice.chargeDistribution" ) );
         _distributionRadioButton.setFont( controlFont );
         _distributionRadioButton.addActionListener( actionListener );
 
-        // Potential Energy chart
-        _excessRadioButton = new JRadioButton( OTResources.getString( "choice.excessCharge" ) );
+        _excessRadioButton = new JRadioButton( OTResources.getString( "choice.chargeExcess" ) );
         _excessRadioButton.setFont( controlFont );
         _excessRadioButton.addActionListener( actionListener );
 
@@ -99,10 +102,6 @@ public class BeadChargeControlPanel extends JPanel {
 
         // Default state
         _hiddenRadioButton.setSelected( true );
-        
-        //XXX not implemented
-        _distributionRadioButton.setForeground( Color.RED );
-        _excessRadioButton.setForeground( Color.RED );
     }
     
     //----------------------------------------------------------------------------
@@ -160,6 +159,7 @@ public class BeadChargeControlPanel extends JPanel {
      * Sets the view of bead charge to match the controls.
      */
     private void handleChargeChoice() {
-        //XXX
+        _chargeDistributionNode.setVisible( isDistributionSelected() );
+        _chargeExcessNode.setVisible( isExcessSelected() );
     }
 }
