@@ -58,6 +58,7 @@ MISSING INFO:
 
  
 DONE:
+8/8/07 - make "excess charge" view work properly in fast mode
 8/8/07 - remove stubs for "Show change in momentum model", feature has been dropped 
 8/8/07 - simplify "excess charge" implementation, reduce resources required, clean up visual artifacts
 8/8/07 - implement "excess charge" view
