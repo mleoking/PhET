@@ -20,10 +20,8 @@ public class ChargeExcessNode extends AbstractChargeNode {
     private static final double MAX_THICKNESS = 10; // nm
     private static final double MARGIN = 10; // nm
     
-    private PNode _positiveLeftNode, _positiveRightNode;
-    private PNode _negativeLeftNode, _negativeRightNode;
-    private AffineTransform _positiveLeftTransform, _positiveRightTransform;
-    private AffineTransform _negativeLeftTransform, _negativeRightTransform;
+    private PNode _positiveNode, _negativeNode;
+    private AffineTransform _positiveTransform, _negativeTransform;
     private double _viewBeadRadius;
     private double _viewMargin;
     private double _maxElectricFieldX;
@@ -38,22 +36,14 @@ public class ChargeExcessNode extends AbstractChargeNode {
         final double size = modelViewTransform.modelToView( MAX_SIZE );
         final double thickness = modelViewTransform.modelToView( MAX_THICKNESS );
         
-        _positiveLeftNode = createPositiveNode( size, thickness );
-        addChild( _positiveLeftNode );
+        _positiveNode = createPositiveNode( size, thickness );
+        addChild( _positiveNode );
         
-        _positiveRightNode = createPositiveNode( size, thickness );
-        addChild( _positiveRightNode );
+        _negativeNode = createNegativeNode( size, thickness );
+        addChild( _negativeNode );
         
-        _negativeLeftNode = createNegativeNode( size, thickness );
-        addChild( _negativeLeftNode );
-        
-        _negativeRightNode = createNegativeNode( size, thickness );
-        addChild( _negativeRightNode );
-        
-        _positiveLeftTransform = new AffineTransform();
-        _positiveRightTransform = new AffineTransform();
-        _negativeLeftTransform = new AffineTransform();
-        _negativeRightTransform = new AffineTransform();
+        _positiveTransform = new AffineTransform();
+        _negativeTransform = new AffineTransform();
         
         Bead bead = getBead();
         _viewBeadRadius = modelViewTransform.modelToView( bead.getDiameter() / 2 );
@@ -71,44 +61,38 @@ public class ChargeExcessNode extends AbstractChargeNode {
         final double electricFieldX = bead.getElectricFieldX();
         final double scale = Math.abs( electricFieldX / _maxElectricFieldX );
         
-        _positiveLeftNode.setVisible( electricFieldX > 0 );
-        _positiveRightNode.setVisible( electricFieldX < 0 );
-        _negativeLeftNode.setVisible( _positiveRightNode.getVisible() );
-        _negativeRightNode.setVisible( _positiveLeftNode.getVisible() );
+        // if the scale is zero, hide the charges so we don't attempt to apply a zero scale
+        _positiveNode.setVisible( scale > 0 );
+        _negativeNode.setVisible( scale > 0 );
         
-        double x, y;
-        
-        if ( _positiveLeftNode.getVisible() ) {
-            x = -_viewBeadRadius + _viewMargin;
-            y = -_positiveLeftNode.getFullBoundsReference().getHeight() / 2;
-            _positiveLeftTransform.setToTranslation( x, y );
-            _positiveLeftTransform.scale( scale, scale );
-            _positiveLeftNode.setTransform( _positiveLeftTransform );
+        // position and scale the charges
+        if ( scale > 0 ) {
             
-        }
+            double x, y;
+            
+            // positive charge
+            if ( electricFieldX > 0 ) {
+                x = -_viewBeadRadius + _viewMargin;
+            }
+            else {
+                x = _viewBeadRadius - _positiveNode.getFullBoundsReference().getWidth() - _viewMargin;
+            }
+            y = -_positiveNode.getFullBoundsReference().getHeight() / 2;
+            _positiveTransform.setToTranslation( x, y );
+            _positiveTransform.scale( scale, scale );
+            _positiveNode.setTransform( _positiveTransform );
         
-        if ( _positiveRightNode.getVisible() ) {
-            x = _viewBeadRadius - _positiveRightNode.getFullBoundsReference().getWidth() - _viewMargin;
-            y = -_positiveRightNode.getFullBoundsReference().getHeight() / 2;
-            _positiveRightTransform.setToTranslation( x, y );
-            _positiveRightTransform.scale( scale, scale );
-            _positiveRightNode.setTransform( _positiveRightTransform );
-        }
-        
-        if ( _negativeLeftNode.getVisible() ) {
-            x = -_viewBeadRadius + _viewMargin;
-            y = -_negativeLeftNode.getFullBoundsReference().getHeight() / 2;
-            _negativeLeftTransform.setToTranslation( x, y );
-            _negativeLeftTransform.scale( scale, scale );
-            _negativeLeftNode.setTransform( _negativeLeftTransform );
-        }
-        
-        if ( _negativeRightNode.getVisible() ) {
-            x = _viewBeadRadius - _negativeRightNode.getFullBoundsReference().getWidth() - _viewMargin;
-            y = -_negativeRightNode.getFullBoundsReference().getHeight() / 2;
-            _negativeRightTransform.setToTranslation( x, y );
-            _negativeRightTransform.scale( scale, scale );
-            _negativeRightNode.setTransform( _negativeRightTransform );
+            // negative charge
+            if ( electricFieldX > 0 ) {
+                x = _viewBeadRadius - _negativeNode.getFullBoundsReference().getWidth() - _viewMargin;
+            }
+            else {
+                x = -_viewBeadRadius + _viewMargin;
+            }
+            y = -_negativeNode.getFullBoundsReference().getHeight() / 2;
+            _negativeTransform.setToTranslation( x, y );
+            _negativeTransform.scale( scale, scale );
+            _negativeNode.setTransform( _negativeTransform );
         }
     }
     
