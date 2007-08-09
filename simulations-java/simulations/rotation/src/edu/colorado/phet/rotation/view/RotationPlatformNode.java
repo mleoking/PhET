@@ -2,14 +2,10 @@ package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.motion.model.IPositionDriven;
 import edu.colorado.phet.common.motion.model.MotionBodyState;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.model.RotationPlatform;
-import edu.colorado.phet.rotation.util.MathUtil;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -61,40 +57,7 @@ public class RotationPlatformNode extends PNode {
 
         addChild( contentNode );
 
-        addInputEventListener( new PBasicInputEventHandler() {
-            double initAngle;
-            public Point2D initLoc;
 
-            public void mousePressed( PInputEvent event ) {
-                resetDrag( angle, event );
-                environment.setPositionDriven();
-            }
-
-            public void mouseReleased( PInputEvent event ) {
-            }
-
-            public void mouseDragged( PInputEvent event ) {
-                Point2D loc = event.getPositionRelativeTo( RotationPlatformNode.this );
-                Point2D center = rotationPlatform.getCenter();
-                Vector2D.Double a = new Vector2D.Double( center, initLoc );
-                Vector2D.Double b = new Vector2D.Double( center, loc );
-                double angleDiff = b.getAngle() - a.getAngle();
-//                System.out.println( "a=" + a + ", b=" + b + ", center=" + center + ", angleDiff = " + angleDiff );
-
-                angleDiff = MathUtil.clampAngle( angleDiff, -Math.PI, Math.PI );
-
-                double angle = initAngle + angleDiff;
-//                System.out.println( "angleDiff=" + angleDiff + ", angle=" + angle );
-                rotationPlatform.setAngle( angle );
-                resetDrag( angle, event );//have to reset drag in order to keep track of the winding number
-            }
-
-            private void resetDrag( double angle, PInputEvent event ) {
-                initAngle = angle;
-                initLoc = event.getPositionRelativeTo( RotationPlatformNode.this );
-            }
-        } );
-        addInputEventListener( new CursorHandler() );
         rotationPlatform.getMotionBodyState().addListener( new MotionBodyState.Adapter() {
             public void positionChanged( double dtheta ) {
                 setAngle( rotationPlatform.getPosition() );
@@ -245,4 +208,5 @@ public class RotationPlatformNode extends PNode {
             return new Rectangle2D.Double( x - r, y - r, r * 2, r * 2 );
         }
     }
+
 }
