@@ -8,7 +8,7 @@ import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 
 /**
  * Author: Sam Reid
@@ -16,23 +16,40 @@ import java.awt.geom.GeneralPath;
  */
 public class TorqueSimPlayAreaNode extends RotationPlayAreaNode {
     TorqueModel torqueModel;
+    private PhetPPath appliedForceVector;
+    private PhetPPath tangentialComponentVector;
 
-    public TorqueSimPlayAreaNode( TorqueModel torqueModel, VectorViewModel vectorViewModel, AngleUnitModel angleUnitModel ) {
+    public TorqueSimPlayAreaNode( final TorqueModel torqueModel, VectorViewModel vectorViewModel, AngleUnitModel angleUnitModel ) {
         super( torqueModel, vectorViewModel, angleUnitModel );
         this.torqueModel = torqueModel;
         getPlatformNode().addInputEventListener( new RotationPlatformTorqueHandler( getPlatformNode(), torqueModel, torqueModel.getRotationPlatform() ) );
         getPlatformNode().addInputEventListener( new CursorHandler() );
 
-        final PhetPPath arrowNode = new PhetPPath( getShape(), Color.blue, new BasicStroke( 0.01f ), Color.black );
-        torqueModel.addListener( new TorqueModel.Listener() {
+        appliedForceVector = new PhetPPath( null, Color.blue, new BasicStroke( 0.01f ), Color.black );
+        tangentialComponentVector = new PhetPPath( null, Color.green, new BasicStroke( 0.01f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[]{0.05f, 0.05f}, 0 ), Color.darkGray );
+        torqueModel.addListener( new TorqueModel.Adapter() {
             public void appliedForceChanged() {
-                arrowNode.setPathTo( getShape() );
+                updateArrows();
             }
         } );
-        addChild( arrowNode );
+        addChild( tangentialComponentVector );
+        addChild( appliedForceVector );
+
+        torqueModel.addListener( new TorqueModel.Adapter() {
+            public void showComponentsChanged() {
+                tangentialComponentVector.setVisible( torqueModel.isShowComponents() );
+            }
+        } );
+        updateArrows();
     }
 
-    private GeneralPath getShape() {
-        return new Arrow( torqueModel.getAppliedForce().getP1(), torqueModel.getAppliedForce().getP2(), 0.25, 0.25, 0.1, 1.0, true ).getShape();
+    private void updateArrows() {
+        appliedForceVector.setPathTo( getForceShape( torqueModel.getAppliedForce() ) );
+        tangentialComponentVector.setPathTo( getForceShape( this.torqueModel.getTangentialAppliedForce() ) );
     }
+
+    private Shape getForceShape( Line2D.Double vector ) {
+        return new Arrow( vector.getP1(), vector.getP2(), 0.25, 0.25, 0.1, 1.0, true ).getShape();
+    }
+
 }
