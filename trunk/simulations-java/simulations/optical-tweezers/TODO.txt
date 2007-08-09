@@ -3,7 +3,7 @@
 ================================================================================
 
 IN PROGRESS:
-- implement "charge distribution" view
+- implement a convincing algorithm for distributing charges inside bead
 
 HIGH PRIORITY:
 - ? disable "charge on bead" feature in fast mode
@@ -58,6 +58,7 @@ MISSING INFO:
 
  
 DONE:
+8/8/07 - implement "charge distribution" view, temporary layout of charges
 8/8/07 - bugfix: very small scaling values cause problems in ChargeExcessNode, treat those values as zero
 8/8/07 - use a butt cap for "excess charge" stroke, increase stroke thickness
 8/8/07 - make "excess charge" view work properly in fast mode
