@@ -58,6 +58,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 1.00.01 (?)
 8/8/07 - implement "charge distribution" view, temporary layout of charges
 8/8/07 - bugfix: very small scaling values cause problems in ChargeExcessNode, treat those values as zero
 8/8/07 - use a butt cap for "excess charge" stroke, increase stroke thickness
