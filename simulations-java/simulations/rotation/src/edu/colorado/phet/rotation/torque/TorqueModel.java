@@ -6,6 +6,7 @@ import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.SeriesVariable;
 
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
@@ -20,7 +21,8 @@ public class TorqueModel extends RotationModel {
     private UpdateStrategy forceDriven = new ForceDriven();
     private UpdateStrategy torqueDriven = new TorqueDriven();
 
-    private Line2D.Double appliedForce;
+    private Line2D.Double appliedForce = new Line2D.Double();
+    private ArrayList listeners = new ArrayList();
 
     public TorqueModel( ConstantDtClock clock ) {
         super( clock );
@@ -110,6 +112,30 @@ public class TorqueModel extends RotationModel {
     }
 
     public void setAppliedForce( Line2D.Double appliedForce ) {
+        getRotationPlatform().setUpdateStrategy( torqueDriven );
         this.appliedForce = appliedForce;
+        //determine the new applied torque
+        torque.setValue( appliedForce.getP1().distance( appliedForce.getP2() ) );
+
+        //todo: verify whether nontangential forces are allowed
+        notifyListeners();//todo: only notify if changed
+    }
+
+    public static interface Listener {
+        void changed();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    private void notifyListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener)listeners.get( i ) ).changed();
+        }
     }
 }
