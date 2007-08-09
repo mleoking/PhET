@@ -22,7 +22,7 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
 
         RotationMinimizableControlGraph torqueGraph = new RotationMinimizableControlGraph( UnicodeUtil.TAU, new RotationGraph(
                 pSwingCanvas, tm.getTorqueVariable(),
-                UnicodeUtil.TAU, "torque", "units", -0.1, 0.1, new PImage( loadArrow( "green-arrow.png" ) ),
+                UnicodeUtil.TAU, "torque", "units", -10, 10, new PImage( loadArrow( "green-arrow.png" ) ),
                 tm, true, tm.getTimeSeriesModel(), tm.getTorqueDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
         torqueGraph.addSeries( "Torque", Color.blue, UnicodeUtil.TAU, "units", tm.getTorqueVariable(), tm.getTorqueTimeSeries(), new BasicStroke( 2 ) );
 
