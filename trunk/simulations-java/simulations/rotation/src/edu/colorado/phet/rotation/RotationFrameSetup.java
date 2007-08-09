@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.torque;
+package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 

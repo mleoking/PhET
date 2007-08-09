@@ -32,13 +32,13 @@ public class TorqueControlPanel extends JPanel {
         JPanel sliderPanel = new JPanel( new GridBagLayout() );
 
         final RotationPlatform rp = torqueModule.getRotationModel().getRotationPlatform();
-        final TorqueSlider outerRadiusSlider = new TorqueSlider( 0, 200, rp.getRadius(), "R=Outer Radius", "0.00", "m" );
+        final TorqueSlider outerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getRadius(), "R=Outer Radius", "0.00", "m" );
         outerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setRadius( outerRadiusSlider.getValue() );
             }
         } );
-        final TorqueSlider innerRadiusSlider = new TorqueSlider( 0, 200, 0.5, "r=Inner Radius", "0.00", "m" );
+        final TorqueSlider innerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getInnerRadius(), "r=Inner Radius", "0.00", "m" );
         innerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setInnerRadius( innerRadiusSlider.getValue() );

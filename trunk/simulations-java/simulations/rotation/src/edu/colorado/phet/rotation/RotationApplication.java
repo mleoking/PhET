@@ -3,7 +3,7 @@ package edu.colorado.phet.rotation;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
-import edu.colorado.phet.rotation.torque.RotationFrameSetup;
+import edu.colorado.phet.rotation.RotationFrameSetup;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.colorado.phet.rotation.controls.RotationDevMenu;
 import edu.colorado.phet.rotation.controls.RotationTestMenu;
