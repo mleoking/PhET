@@ -349,8 +349,8 @@ EO_PRINT_HIDDEN_INPUT;
         print <<<EO_DISPLAY_SLIDESHOW_1
             <script type="text/javascript">
 			/*<![CDATA[*/
-            var delay=$delay
-            var curindex=0
+            	var delay=$delay
+            		var curindex=0
 
             var randomimages=new Array()
 
@@ -367,22 +367,22 @@ EO_DISPLAY_SLIDESHOW_1;
         }
 
         print <<<EO_DISPLAY_SLIDESHOW_2
-            var preload=new Array()
+            	var preload=new Array()
 
-            for (n=0;n<randomimages.length;n++) {
-            	preload[n]=new Image()
-            	preload[n].src=randomimages[n]
-            }
+            	for (n=0;n<randomimages.length;n++) {
+            		preload[n]=new Image()
+            		preload[n].src=randomimages[n]
+            	}
 
-            document.write('<img name="defaultimage" width="$width" height="$height" src="'+randomimages[Math.floor(Math.random()*(randomimages.length))]+'">')
+            	document.write('<img name="defaultimage" width="$width" height="$height" src="'+randomimages[Math.floor(Math.random()*(randomimages.length))]+'">')
 
-            function rotateimage() {
-                curindex=Math.floor(Math.random()*(randomimages.length))
+            	function rotateimage() {
+                	curindex=Math.floor(Math.random()*(randomimages.length))
 
-                document.images.defaultimage.src=randomimages[curindex]
-            }
+                	document.images.defaultimage.src=randomimages[curindex]
+            	}
 
-            setInterval("rotateimage()", delay)
+            	setInterval("rotateimage()", delay)
 			/*]]>*/
             </script>
 EO_DISPLAY_SLIDESHOW_2;

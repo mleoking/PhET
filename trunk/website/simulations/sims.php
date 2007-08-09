@@ -134,7 +134,7 @@ EOT;
         
         print <<<EOT
                 
-        <h2>Subtopics</h2>
+        <h2>Related Topics</h2>
         
         <ul>
             <li>
