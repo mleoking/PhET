@@ -21,6 +21,6 @@ public class RotationSimulationPanel extends AbstractRotationSimulationPanel {
     }
 
     protected RotationPlayAreaNode createPlayAreaNode() {
-        return new RotationPlayAreaNode( getAbstractRotationModule().getRotationModel(), getAbstractRotationModule().getVectorViewModel(), getAngleUnitModel() );
+        return new RotationSimPlayAreaNode( getAbstractRotationModule().getRotationModel(), getAbstractRotationModule().getVectorViewModel(), getAngleUnitModel() );
     }
 }
