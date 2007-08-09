@@ -15,6 +15,173 @@
             SIM_TYPE_JAVA   => 'java.png',
             SIM_TYPE_FLASH  => 'flash.png'
         );
+
+	$LANGUAGE_CODE_TO_LANGUAGE_NAME = array(
+	    "aa" => "Afar",
+	    "ab" => "Abkhazian",
+	    "af" => "Afrikaans",
+	    "am" => "Amharic",
+	    "ar" => "Arabic",
+	    "as" => "Assamese",
+	    "ay" => "Aymara",
+	    "az" => "Azerbaijani",
+
+	    "ba" => "Bashkir",
+	    "be" => "Byelorussian",
+	    "bg" => "Bulgarian",
+	    "bh" => "Bihari",
+	    "bi" => "Bislama",
+	    "bn" => "Bengali, Bangla",
+	    "bo" => "Tibetan",
+	    "br" => "Breton",
+
+	    "ca" => "Catalan",
+	    "co" => "Corsican",
+	    "cs" => "Czech",
+	    "cy" => "Welsh",
+
+	    "da" => "Danish",
+	    "de" => "German",
+	    "dz" => "Bhutani",
+
+	    "el" => "Greek",
+	    "en" => "English",
+	    "eo" => "Esperanto",
+	    "es" => "Spanish",
+	    "et" => "Estonian",
+	    "eu" => "Basque",
+
+	    "fa" => "Persian",
+	    "fi" => "Finnish",
+	    "fj" => "Fiji",
+	    "fo" => "Faroese",
+	    "fr" => "French",
+	    "fy" => "Frisian",
+
+	    "ga" => "Irish",
+	    "gd" => "Scots, Gaelic",
+	    "gl" => "Galician",
+	    "gn" => "Guarani",
+	    "gu" => "Gujarati",
+
+	    "ha" => "Hausa",
+	    "he" => "Hebrew",
+	    "hi" => "Hindi",
+	    "hr" => "Croatian",
+	    "hu" => "Hungarian",
+	    "hy" => "Armenian",
+
+	    "ia" => "Interlingua",
+	    "id" => "Indonesian",
+	    "ie" => "Interlingue",
+	    "ik" => "Inupiak",
+	    "is" => "Icelandic",
+	    "it" => "Italian",
+	    "iu" => "Inuktitut",
+
+	    "ja" => "Japanese",
+	    "jw" => "Javanese",
+
+	    "ka" => "Georgian",
+	    "kk" => "Kazakh",
+	    "kl" => "Greenlandic",
+	    "km" => "Cambodian",
+	    "kn" => "Kannada",
+	    "ko" => "Korean",
+	    "ks" => "Kashmiri",
+	    "ku" => "Kurdish",
+	    "ky" => "Kirghiz",
+
+	    "la" => "Latin",
+	    "ln" => "Lingala",
+	    "lo" => "Laothian",
+	    "lt" => "Lithuanian",
+	    "lv" => "Latvian, Lettish",
+
+	    "mg" => "Malagasy",
+	    "mi" => "Maori",
+	    "mk" => "Macedonian",
+	    "ml" => "Malayalam",
+	    "mn" => "Mongolian",
+	    "mo" => "Moldavian",
+	    "mr" => "Marathi",
+	    "ms" => "Malay",
+	    "mt" => "Maltese",
+	    "my" => "Burmese",
+
+	    "na" => "Nauru",
+	    "ne" => "Nepali",
+	    "nl" => "Dutch",
+	    "no" => "Norwegian",
+
+	    "oc" => "Occitan",
+	    "om" => "(Afan) Oromo",
+	    "or" => "Oriya",
+
+	    "pa" => "Punjabi",
+	    "pl" => "Polish",
+	    "ps" => "Pashto, Pushto",
+	    "pt" => "Portuguese",
+
+	    "qu" => "Quechua",
+
+	    "rm" => "Rhaeto-Romance",
+	    "rn" => "Kirundi",
+	    "ro" => "Romanian",
+	    "ru" => "Russian",
+	    "rw" => "Kinyarwanda",
+
+	    "sa" => "Sanskrit",
+	    "sd" => "Sindhi",
+	    "sg" => "Sangho",
+	    "sh" => "Serbo-Croatian",
+	    "si" => "Sinhalese",
+	    "sk" => "Slovak",
+	    "sl" => "Slovenian",
+	    "sm" => "Samoan",
+	    "sn" => "Shona",
+	    "so" => "Somali",
+	    "sq" => "Albanian",
+	    "sr" => "Serbian",
+	    "ss" => "Siswati",
+	    "st" => "Sesotho",
+	    "su" => "Sundanese",
+	    "sv" => "Swedish",
+	    "sw" => "Swahili",
+
+	    "ta" => "Tamil",
+	    "te" => "Telugu",
+	    "tg" => "Tajik",
+	    "th" => "Thai",
+	    "ti" => "Tigrinya",
+	    "tk" => "Turkmen",
+	    "tl" => "Tagalog",
+	    "tn" => "Setswana",
+	    "to" => "Tonga",
+	    "tr" => "Turkish",
+	    "ts" => "Tsonga",
+	    "tt" => "Tatar",
+	    "tw" => "Twi",
+
+	    "ug" => "Uighur",
+	    "uk" => "Ukrainian",
+	    "ur" => "Urdu",
+	    "uz" => "Uzbek",
+
+	    "vi" => "Vietnamese",
+	    "vo" => "Volapuk",
+
+	    "wo" => "Wolof",
+
+	    "xh" => "Xhosa",
+
+	    "yi" => "Yiddish",
+	    "yo" => "Yoruba",
+
+	    "za" => "Zhuang",
+	    "zh" => "Chinese",
+	    "zu" => "Zulu"
+	);
         
     define("SIM_RATING_BETA_MINUS",     "0");
     define("SIM_RATING_BETA",           "1");
@@ -71,6 +238,39 @@
 
         return $matches[3];
     }
+
+	// Returns a map from translation name to JNLP file:
+	function sim_get_translations($simulation) {
+		global $LANGUAGE_CODE_TO_LANGUAGE_NAME;
+		
+		$dirname     = $simulation['sim_dirname'];
+		$flavorname  = $simulation['sim_flavorname'];
+		
+		$translations = array();
+		
+		$launch_file_base_dir = realpath(dirname(__FILE__)."../../sims");
+				
+		foreach ($LANGUAGE_CODE_TO_LANGUAGE_NAME as $code => $language_name) {
+			$translated_flavorname = "${flavorname}_${code}";
+			
+			// This is to speed things up on the actual server, where the JNLP files should
+			// be accessible from the file system, and not just from HTTP.
+			$launch_file = $launch_file_base_dir."/${dirname}/${translated_flavorname}.jnlp";
+			
+			$launch_url = sim_form_launch_url($dirname, $translated_flavorname, SIM_TYPE_JAVA);
+			
+			if (file_exists($launch_file_base_dir)) {
+				if (file_exists($launch_file)) {
+					$translations[$language_name] = $launch_url;
+				}
+			}
+			else if (url_exists($launch_url)) {
+				$translations[$language_name] = $launch_url;
+			}
+		}
+		
+		return $translations;
+	}
     
     function sim_get_categories() {
         $cats = array();
@@ -454,11 +654,8 @@
 		return false;
 	}
 	
-	function sim_get_launch_url($simulation) {
-		$dirname    = $simulation['sim_dirname'];
-		$flavorname = $simulation['sim_flavorname'];
-		
-		if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
+	function sim_form_launch_url($dirname, $flavorname, $sim_type = SIM_TYPE_JAVA) {
+		if ($sim_type == SIM_TYPE_FLASH) {
 			$link = "http://phet.colorado.edu/sims/$dirname/$flavorname.swf";
 		}
 		else {
@@ -466,6 +663,14 @@
 		}
 		
 		return $link;		
+	}
+	
+	function sim_get_launch_url($simulation) {
+		$dirname    = $simulation['sim_dirname'];
+		$flavorname = $simulation['sim_flavorname'];
+		$type       = $simulation['sim_type'];
+		
+		return sim_form_launch_url($dirname, $flavorname, $type);
 	}
 	
 	function sim_get_screenshot($simulation) {
