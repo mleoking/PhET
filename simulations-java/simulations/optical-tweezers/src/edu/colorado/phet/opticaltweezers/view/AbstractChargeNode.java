@@ -41,6 +41,7 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
     private Point2D _pModel; // reusable point
+    private double _maxElectricFieldX;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -61,6 +62,8 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
         _modelViewTransform = modelViewTransform;
         
         _pModel = new Point2D.Double();
+        
+        _maxElectricFieldX = _laser.getMaxElectricFieldX();
         
         initialize();
         updatePosition();
@@ -94,6 +97,22 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
     
     protected ModelViewTransform getModelViewTransform() {
         return _modelViewTransform;
+    }
+    
+    /**
+     * Gets the scale of electric field at the bead's position
+     * relative to the maximum electric field of the laser.
+     * 
+     * @param electricFieldX
+     */
+    protected double getChargeScale( final double electricFieldX ) {
+        double scale = Math.abs( electricFieldX / _maxElectricFieldX );
+        // Very small values can cause problems, so anything under some threshold is effectively zero.
+        if ( scale < 0.01 ) {
+            scale = 0;
+        }
+        assert( scale >=0 && scale <= 1 );
+        return scale;
     }
     
     //----------------------------------------------------------------------------
@@ -164,7 +183,7 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
         if ( visible != isVisible() ) {
             if ( visible ) {
                 updatePosition();
-                updateCharge();
+                updateCharges();
             }
             super.setVisible( visible );
         }
@@ -189,7 +208,7 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
             }
             else if ( o == _laser ) {
                 if ( arg == Laser.PROPERTY_ELECTRIC_FIELD ) {
-                    updateCharge();
+                    updateCharges();
                 }
             }
         }
@@ -209,7 +228,7 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
     }
     
     /**
-     * Updates the view of the charge to match the model.
+     * Updates the view of the charges to match the model.
      */
-    protected abstract void updateCharge();
+    protected abstract void updateCharges();
 }

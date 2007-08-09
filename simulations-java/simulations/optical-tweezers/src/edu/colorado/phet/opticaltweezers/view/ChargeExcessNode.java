@@ -23,7 +23,6 @@ public class ChargeExcessNode extends AbstractChargeNode {
     private PNode _positiveNode, _negativeNode;
     private double _viewBeadRadius;
     private double _viewMargin;
-    private double _maxElectricFieldX;
     
     /**
      * Constructor.
@@ -57,26 +56,18 @@ public class ChargeExcessNode extends AbstractChargeNode {
         _viewBeadRadius = modelViewTransform.modelToView( bead.getDiameter() / 2 );
         _viewMargin = modelViewTransform.modelToView( MARGIN );
         
-        Laser laser = getLaser();
-        _maxElectricFieldX = laser.getMaxElectricFieldX();
-        
-        updateCharge();
+        updateCharges();
     }
     
     /*
      * Scales the positive and negative charge nodes to 
      * reflect the magnitude of the electric field's x-component.
      */
-    protected void updateCharge() {
+    protected void updateCharges() {
         
-        // Calculate the scale. 
-        // Very small values can cause problems, so anything under some threshold is effectively zero.
         Bead bead = getBead();
         final double electricFieldX = bead.getElectricFieldX();
-        double scale = Math.abs( electricFieldX / _maxElectricFieldX );
-        if ( scale < 0.01 ) {
-            scale = 0;
-        }
+        final double scale = getChargeScale( electricFieldX );
         
         // if the scale is zero, hide the charges so we don't attempt to apply a zero scale
         _positiveNode.setVisible( scale > 0 );
