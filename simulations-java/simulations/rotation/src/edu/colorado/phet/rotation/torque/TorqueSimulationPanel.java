@@ -24,7 +24,7 @@ public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
 
     private void addClearTorqueButton( final TorqueModule torqueModule ) {
         final PSwing clearTorqueButton = new PSwing( new JButton( "Clear Torque" ) );
-        torqueModule.getTorqueModel().addListener( new TorqueModel.Listener() {
+        torqueModule.getTorqueModel().addListener( new TorqueModel.Adapter() {
             public void appliedForceChanged() {
                 clearTorqueButton.setVisible( torqueModule.getTorqueModel().getAppliedForceMagnitude() > 0 );
             }

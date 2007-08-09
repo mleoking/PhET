@@ -72,7 +72,14 @@ public class TorqueControlPanel extends JPanel {
             }
         } );
         checkBoxPanel.add( showNonTangentialForces );
-        checkBoxPanel.add( new JCheckBox( "Show Components" ) );
+
+        final JCheckBox showComponents = new JCheckBox( "Show Components", torqueModule.getTorqueModel().isShowComponents() );
+        showComponents.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                torqueModule.getTorqueModel().setShowComponents( showComponents.isSelected() );
+            }
+        } );
+        checkBoxPanel.add( showComponents );
         add( checkBoxPanel, getConstraints( 0, 1, 1 ) );
     }
 
