@@ -75,7 +75,7 @@
 
             <p class="openingParagraph">Fun, interactive simulations of physical phenomena from the Physics Education Technology project at the University of Colorado.</p>
 
-            <p class="findOutMore">
+            <p class="findOutMore" onclick="javascript:location.href='simulations/index.php?cat=Top_Simulations'">
                 <a href="simulations/index.php?cat=Top_Simulations">
                     Play with sims... >
                 </a>   
@@ -86,17 +86,25 @@
 
 		<div id="home-page-sponsors">
 			<div class="sponsor">
-				<a href="http://www.nsf.gov/">
-					<img src="images/nsf-logo.gif" height="28" alt="National Science Foundation Logo" title="Click here to visit the National Science Foundation" />
-					<p>The National Science Foundation</p>
+				<a href="http://www.nsf.gov/" title="Click here to visit the National Science Foundation" >
+					<img src="images/nsf-logo.gif" height="28" alt="National Science Foundation Logo"/>
 				</a>
+				<p>
+					<a href="http://www.nsf.gov/" title="Click here to visit the National Science Foundation" >
+						The National Science Foundation
+					</a>
+				</p>
 			</div>
 		
 			<div class="sponsor">
-				<a href="http://www.hewlett.org/Default.htm">
-					<img src="images/hewlett-logo.jpg" height="28" alt="William and Flora Hewlett Foundation Logo" title="Click here to visit the William and Flora Hewlett Foundation"/>
-					<p>The William and Flora Hewlett Foundation</p>
+				<a href="http://www.hewlett.org/Default.htm" title="Click here to visit the William and Flora Hewlett Foundation">
+					<img src="images/hewlett-logo.jpg" height="28" alt="William and Flora Hewlett Foundation Logo"/>
 				</a>
+				<p>
+					<a href="http://www.hewlett.org/Default.htm" title="Click here to visit the William and Flora Hewlett Foundation">
+						The William and Flora Hewlett Foundation
+					</a>
+				</p>
 			</div>
 			
 			<div class="clear"></div>
@@ -106,7 +114,7 @@
 
         <div class="practices">
             <dl>
-                <dt><a href="get_phet/index.php">Run our Simulations</a></dt>
+                <dt onclick="javascript:location.href='get_phet/index.php'"><a href="get_phet/index.php">Run our Simulations</a></dt>
 
                 <dd><a href="simulations/index.php">On Line</a></dd>
 
@@ -116,13 +124,13 @@
             </dl>
 
             <dl>
-                <dt><a href="teacher_ideas/index.php">Teacher Ideas &amp; Activities</a></dt>
+                <dt onclick="javascript:location.href='teacher_ideas/index.php'"><a href="teacher_ideas/index.php">Teacher Ideas &amp; Activities</a></dt>
 
                 <dd><a href="teacher_ideas/browse.php">Search for lesson plans and activities that were created by teachers to use with the PhET simulations</a></dd>
             </dl>
 
             <dl>
-                <dt><a href="contribute/index.php">Contribute</a></dt>
+                <dt onclick="javascript:location.href='contribute/index.php'"><a href="contribute/index.php">Contribute</a></dt>
 
                 <dd><a href="teacher_ideas/index.php">Provide ideas you've used in class</a></dd>
 
@@ -130,7 +138,7 @@
             </dl>
 
             <dl class="last">
-                <dt><a href="simulations/index.php">Browse</a></dt>
+                <dt onclick="javascript:location.href='simulations/index.php'"><a href="simulations/index.php">Browse</a></dt>
 
                 <dd>
 	                <a class="nolink" href="simulations/index.php">

@@ -21,13 +21,15 @@
 	text-align: center;
 	float: right;
 }
+#home-page-sponsors .sponsor a {
+	color: rgb(185, 115, 81);
+	text-decoration: bold;
+}
 #home-page-sponsors .sponsor p {
 	margin: 0;
 	padding: 0;
 	font-size: 10px;
-	text-decoration: bold;
     line-height: 1.1em;
-	color: rgb(185, 115, 81);
 }
 
 h1 {
@@ -56,6 +58,7 @@ p.openingParagraph {
 }
 p.findOutMore {
     margin: 0;
+	cursor: pointer;
 	 
 	padding-top:  9px;
 	padding-left: 15px;
@@ -89,12 +92,16 @@ div.practices {
 	padding:0;
 }
 div.practices dl dt {
+	cursor: pointer;
 	height: 41px;
 	background-color: rgb(97, 92, 146);
 	padding-left:  10px;
 	margin-bottom: 1ex;
 }
 div.practices dl dt a {
+	background-image: url(../images/white-arrow-right.png);
+	background-repeat: no-repeat;
+	background-position: 0px 5px;
 	/* vertical-align: middle;  */
 	font-size: 14px;
 	color: white;
@@ -102,6 +109,7 @@ div.practices dl dt a {
 	font-stretch: condensed;
 	position: relative;
 	top: 13px;
+	padding-left: 8px;
 }
 dl {
 	background: url(../images/practiceSeperator.gif) right top no-repeat;
