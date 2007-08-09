@@ -314,8 +314,36 @@ EOT;
 
         <h1 class="indi-sim" id="versions">Translated Versions</h1>
 
-        <p class="indi-sim">
-        </p>
+EOT;
+
+		$translations = sim_get_translations($simulation);
+		
+		if (count($translations) > 0) {
+			print <<<EOT
+				<p class="indi-sim">	
+				
+				<ul>		
+EOT;
+			
+			foreach ($translations as $language => $launch_url) {
+				print "<li><a href=\"$launch_url\" title=\"Click here to launch the $language version of $sim_name\">$language</a></li>";
+			}
+			
+			print '</ul>';
+			
+			print '</p>';
+		}
+		else {
+			print <<<EOT
+				<p class="indi-sim">
+					There are no translations available for this simulation.
+		        </p>
+EOT;
+		}
+
+        
+
+		print <<<EOT
 
         <p><a href="#top"><img src="../images/top.gif" /></a></p>
 

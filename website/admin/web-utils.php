@@ -52,7 +52,7 @@
 		$file_headers = get_headers($file);
 		
 		if (!$file_headers) return false;
-
+	
 		if (preg_match('/\b404\b/', $file_headers[0])) {
 			$exists = false;
 		}
@@ -348,7 +348,7 @@ EO_PRINT_HIDDEN_INPUT;
 
         print <<<EO_DISPLAY_SLIDESHOW_1
             <script type="text/javascript">
-
+			/*<![CDATA[*/
             var delay=$delay
             var curindex=0
 
@@ -361,7 +361,7 @@ EO_DISPLAY_SLIDESHOW_1;
         print "\n";
 
         foreach($thumbnails as $thumbnail) {
-            print "randomimages[$index] = \"${prefix}admin/get-upload.php?url=$thumbnail\"\n";
+            print "randomimages[$index] = \"$thumbnail\"\n";
 
             $index++;
         }
@@ -383,7 +383,7 @@ EO_DISPLAY_SLIDESHOW_1;
             }
 
             setInterval("rotateimage()", delay)
-
+			/*]]>*/
             </script>
 EO_DISPLAY_SLIDESHOW_2;
     }

@@ -1,0 +1,156 @@
+.home-page {
+	background: url(../images/section_BG2.gif) left bottom no-repeat;
+	width:   766px;
+	margin:  0 0 1em 0;
+	padding: 0;
+}
+#container {
+	padding: 15px 0 0 0;
+	margin:  0 auto;
+	width:   766px;
+}
+#home-page-sponsors {
+	width:       766px;
+	margin-top: -70px;
+}
+#home-page-sponsors a {
+	text-decoration: none;
+}
+#home-page-sponsors .sponsor {
+	width: 120px;
+	text-align: center;
+	float: right;
+}
+#home-page-sponsors .sponsor p {
+	margin: 0;
+	padding: 0;
+	font-size: 10px;
+	text-decoration: bold;
+    line-height: 1.1em;
+	color: rgb(185, 115, 81);
+}
+
+h1 {
+	color:#dc5e0a;
+	font-size:1.4em;
+	line-height:1.2em;
+	margin:0;
+}
+h1 em {
+	font-size:1.05em;
+	font-weight:600;
+	font-style:normal;
+}
+h4 {
+	color:#727272;
+	font-size:1.1em;
+	text-transform:uppercase;
+}
+p.openingParagraph {
+	color:#666;
+	font-size:1em;
+	font-weight:bold;
+	line-height:1.5em;
+	margin:15px 0 0 0;
+	padding:0;
+}
+p.findOutMore {
+    margin: 0;
+	 
+	padding-top:  9px;
+	padding-left: 15px;
+	
+    background: url(../images/blank-button.gif) left top no-repeat;
+    width: 153px;
+    height: 38px;
+	float: left;
+	margin-top: 5px;
+}
+p.findOutMore a {
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+	font-stretch: condensed;
+}
+.mainImage {
+	 float:   left;
+	 margin:  0 1em 0 0;
+	 padding: 0;
+     border: 1px solid rgb(200, 200, 200);
+}
+div.practices {
+	background: url(../images/practice_BG.gif) left bottom no-repeat;
+	width:   766px;
+	background-color:none;
+	margin:	0 0 15px 0;
+	padding:0;
+}
+dl {
+	background: url(../images/practiceSeperator.gif) right top no-repeat;
+	float:left;
+	margin-left: 1px;
+	padding:0;
+	width:190px;
+}
+dl.last {
+	background: none;
+	width:190px;
+	
+}
+
+dl dd {
+	margin:0;
+	padding: 0px 15px;
+}
+
+div.practices dd a.nolink	{
+background: none;
+text-decoration: none;
+color: #000;
+padding: 0px 0px 0px 0px;
+line-height: 20px;
+}
+
+div.practices dd a:hover.nolink	{
+background: none;
+text-decoration: none;
+color: #000;
+padding: 0px 0px 0px 0px;
+line-height: 20px;
+}
+
+
+div.practices dd a	{
+background: url(../images/circleArrow_Icon.gif) no-repeat 0px 0px;
+text-decoration: none;
+color: #000;
+padding: 0px 0px 0px 17px;
+line-height: 20px;
+}
+
+div.practices dd a:hover	{
+background: url(../images/circleArrow_Icon.gif) no-repeat 0px 0px;
+text-decoration: none;
+color: #2345a1;
+padding: 0px 0px 0px 17px;
+line-height: 20px;
+
+}
+
+dl dd.readMore a {
+	float:right;
+	margin:0;
+	padding:0;
+	text-decoration:none;
+}
+
+object.last	{
+margin: 8px 0px 0px 15px;
+}
+
+
+
+

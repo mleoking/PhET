@@ -583,6 +583,7 @@ EOT;
                     <div id="headerContainer">
                         <div class="images">
                             <span class="logo">
+								<a href="../index.php"><img src="$prefix/images/phet-logo.gif" alt="PhET Logo" title="Click here to go to the home page" /></a>
                             </span>
 
                             <span class="title">

@@ -24,18 +24,27 @@
     <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" />
 <style type="text/css">
 /*<![CDATA[*/
-        @import url(css/main.css);
-        @import url(css/home.css);        
+        @import url(css/new-main.css);
+        @import url(css/new-home.css);        
 /*]]>*/
 
+	div.practices {
+		margin-top: 2ex;
+	}
 	div.practices dl dt {
+		height: 41px;
 		background-color: rgb(97, 92, 146);
-		padding: 1ex;
+		padding-left:  10px;
 		margin-bottom: 1ex;
 	}
 	div.practices dl dt a {
+		/* vertical-align: middle;  */
+		font-size: 14px;
 		color: white;
 		text-decoration: none;
+		font-stretch: condensed;
+		position: relative;
+		top: 13px;
 	}
 </style>
 </head>
@@ -49,6 +58,7 @@
         <div id="headerContainer">
             <div class="images">
                 <span class="logo">
+					<a href="../index.php"><img src="images/phet-logo.gif" alt="PhET Logo" title="Click here to go to the home page" /></a>
                 </span>
                 
                 <span class="title">
@@ -77,7 +87,7 @@
     <div id="container">
         <div class="home-page">
             <div class="mainImage">    
-                <img width="300" src="random-thumbnail.php" alt="Random screenshot of a simulation" />
+                <a href="simulations/index.php"><img width="300" src="random-thumbnail.php" alt="Random screenshot of a simulation" title="Click here to view the simulations" /></a>
             </div>
 
             <h1>Interactive Physics Simulations</h1>
@@ -86,12 +96,32 @@
 
             <p class="findOutMore">
                 <a href="simulations/index.php?cat=Top_Simulations">
-                    <img src="images/findOutMore.gif" alt="Find out More" title="Find out More" />
+                    Play with sims... >
                 </a>   
             </p>
 
             <div class="clear"></div>
         </div>
+
+		<div id="home-page-sponsors">
+			<div class="sponsor">
+				<a href="http://www.nsf.gov/">
+					<img src="images/nsf-logo.gif" height="28" alt="National Science Foundation Logo" title="Click here to visit the National Science Foundation" />
+					<p>The National Science Foundation</p>
+				</a>
+			</div>
+		
+			<div class="sponsor">
+				<a href="http://www.hewlett.org/Default.htm">
+					<img src="images/hewlett-logo.jpg" height="28" alt="William and Flora Hewlett Foundation Logo" title="Click here to visit the William and Flora Hewlett Foundation"/>
+					<p>The William and Flora Hewlett Foundation</p>
+				</a>
+			</div>
+			
+			<div class="clear"></div>
+		</div>
+		
+		<div class="clear"></div>
 
         <div class="practices">
             <dl>
@@ -122,11 +152,12 @@
                 <dt><a href="simulations/index.php">Browse</a></dt>
 
                 <dd>
-                <a class="nolink" href="simulations/index.php">
-                    <?php
-                        display_slideshow(sim_get_static_previews(), "150", "110");
-                    ?>
-                </a></dd>
+	                <a class="nolink" href="simulations/index.php">
+	                    <?php
+	                        display_slideshow(sim_get_static_previews(), "150", "110");
+	                    ?>
+	                </a>
+				</dd>
 
                 <dd class="readMore"><a href="simulations/index.php"><img src="images/search.gif" alt="Search" title="Search" /></a></dd>
             </dl>
