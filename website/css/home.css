@@ -99,17 +99,18 @@ div.practices dl dt {
 	margin-bottom: 1ex;
 }
 div.practices dl dt a {
-	background-image: url(../images/white-arrow-right.png);
+	/* Can't use transparent PNG due to IE6 */
+	/* 	background-image: url(../images/white-arrow-right.png);*/
+	background-image: url(../images/white-arrow-right2.png);
 	background-repeat: no-repeat;
-	background-position: 0px 5px;
-	/* vertical-align: middle;  */
+	background-position: 2px 5px;
 	font-size: 14px;
 	color: white;
 	text-decoration: none;
 	font-stretch: condensed;
 	position: relative;
 	top: 13px;
-	padding-left: 8px;
+	padding-left: 9px;
 }
 dl {
 	background: url(../images/practiceSeperator.gif) right top no-repeat;
