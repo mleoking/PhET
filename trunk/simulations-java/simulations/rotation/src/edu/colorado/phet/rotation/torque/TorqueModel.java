@@ -93,6 +93,10 @@ public class TorqueModel extends RotationModel {
         this.allowNonTangentialForces = selected;
     }
 
+    public double getAppliedForceMagnitude() {
+        return getAppliedForce().getP1().distance( getAppliedForce().getP2() );
+    }
+
     public class TorqueDriven implements UpdateStrategy {
         public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
@@ -143,11 +147,11 @@ public class TorqueModel extends RotationModel {
         torque.setValue( tau );
 
         //todo: verify whether nontangential forces are allowed
-        notifyListeners();//todo: only notify if changed
+        notifyAppliedForceChanged();//todo: only notify if changed
     }
 
     public static interface Listener {
-        void changed();
+        void appliedForceChanged();
     }
 
     public void addListener( Listener listener ) {
@@ -158,9 +162,9 @@ public class TorqueModel extends RotationModel {
         listeners.remove( listener );
     }
 
-    private void notifyListeners() {
+    private void notifyAppliedForceChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).changed();
+            ( (Listener)listeners.get( i ) ).appliedForceChanged();
         }
     }
 }
