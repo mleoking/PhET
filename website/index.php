@@ -68,7 +68,7 @@
     <div id="container">
         <div class="home-page">
             <div class="mainImage">    
-                <img width="300" src="random-thumbnail.php" alt="Random screenshot of a simulation" />
+                <a href="simulations/index.php"><img width="300" src="random-thumbnail.php" alt="Random screenshot of a simulation" title="Click here to view the simulations" /></a>
             </div>
 
             <h1>Interactive Physics Simulations</h1>
@@ -77,16 +77,36 @@
 
             <p class="findOutMore">
                 <a href="simulations/index.php?cat=Top_Simulations">
-                    <img src="images/findOutMore.gif" alt="Find out More" title="Find out More" />
+                    Play with sims... >
                 </a>   
             </p>
 
             <div class="clear"></div>
         </div>
 
+		<div id="home-page-sponsors">
+			<div class="sponsor">
+				<a href="http://www.nsf.gov/">
+					<img src="images/nsf-logo.gif" height="28" alt="National Science Foundation Logo" title="Click here to visit the National Science Foundation" />
+					<p>The National Science Foundation</p>
+				</a>
+			</div>
+		
+			<div class="sponsor">
+				<a href="http://www.hewlett.org/Default.htm">
+					<img src="images/hewlett-logo.jpg" height="28" alt="William and Flora Hewlett Foundation Logo" title="Click here to visit the William and Flora Hewlett Foundation"/>
+					<p>The William and Flora Hewlett Foundation</p>
+				</a>
+			</div>
+			
+			<div class="clear"></div>
+		</div>
+		
+		<div class="clear"></div>
+
         <div class="practices">
             <dl>
-                <dt><a href="get_phet/index.php"><img src="images/three-ways.jpg" alt="" title="" /></a></dt>
+                <dt><a href="get_phet/index.php">Run our Simulations</a></dt>
 
                 <dd><a href="simulations/index.php">On Line</a></dd>
 
@@ -96,13 +116,13 @@
             </dl>
 
             <dl>
-                <dt><a href="teacher_ideas/index.php"><img src="images/get-materials.jpg" alt="" title="" /></a></dt>
+                <dt><a href="teacher_ideas/index.php">Teacher Ideas &amp; Activities</a></dt>
 
                 <dd><a href="teacher_ideas/browse.php">Search for lesson plans and activities that were created by teachers to use with the PhET simulations</a></dd>
             </dl>
 
             <dl>
-                <dt><a href="contribute/index.php"><img src="images/contribute.jpg" alt="" title="" /></a></dt>
+                <dt><a href="contribute/index.php">Contribute</a></dt>
 
                 <dd><a href="teacher_ideas/index.php">Provide ideas you've used in class</a></dd>
 
@@ -110,14 +130,15 @@
             </dl>
 
             <dl class="last">
-                <dt><a href="simulations/index.php"><img src="images/simulations.jpg" alt="" title="" /></a></dt>
+                <dt><a href="simulations/index.php">Browse</a></dt>
 
                 <dd>
-                <a class="nolink" href="simulations/index.php">
-                    <?php
-                        display_slideshow(sim_get_static_previews(), "150", "110");
-                    ?>
-                </a></dd>
+	                <a class="nolink" href="simulations/index.php">
+	                    <?php
+	                        display_slideshow(sim_get_static_previews(), "150", "110");
+	                    ?>
+	                </a>
+				</dd>
 
                 <dd class="readMore"><a href="simulations/index.php"><img src="images/search.gif" alt="Search" title="Search" /></a></dd>
             </dl>
