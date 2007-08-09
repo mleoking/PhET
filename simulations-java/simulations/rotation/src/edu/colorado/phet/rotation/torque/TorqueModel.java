@@ -1,6 +1,8 @@
 package edu.colorado.phet.rotation.torque;
 
 import edu.colorado.phet.common.motion.model.*;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.SeriesVariable;
@@ -23,6 +25,7 @@ public class TorqueModel extends RotationModel {
 
     private Line2D.Double appliedForce = new Line2D.Double();
     private ArrayList listeners = new ArrayList();
+    private boolean allowNonTangentialForces = false;
 
     public TorqueModel( ConstantDtClock clock ) {
         super( clock );
@@ -82,6 +85,14 @@ public class TorqueModel extends RotationModel {
         return angularMomentum.getSeries();
     }
 
+    public boolean isAllowNonTangentialForces() {
+        return allowNonTangentialForces;
+    }
+
+    public void setAllowNonTangentialForces( boolean selected ) {
+        this.allowNonTangentialForces = selected;
+    }
+
     public class TorqueDriven implements UpdateStrategy {
         public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
@@ -112,10 +123,24 @@ public class TorqueModel extends RotationModel {
     }
 
     public void setAppliedForce( Line2D.Double appliedForce ) {
+        if( !allowNonTangentialForces ) {
+            double dist = appliedForce.getP1().distance( appliedForce.getP2() );
+            Vector2D.Double v = new Vector2D.Double( appliedForce.getP1(), getRotationPlatform().getCenter() );
+            v.rotate( Math.PI / 2 );
+            if( v.dot( new Vector2D.Double( appliedForce.getP1(), appliedForce.getP2() ) ) < 0 ) {
+                v.rotate( Math.PI );
+            }
+            AbstractVector2D x = v.getInstanceOfMagnitude( dist );
+            appliedForce = new Line2D.Double( appliedForce.getP1(), x.getDestination( appliedForce.getP1() ) );
+        }
         getRotationPlatform().setUpdateStrategy( torqueDriven );
         this.appliedForce = appliedForce;
         //determine the new applied torque
-        torque.setValue( appliedForce.getP1().distance( appliedForce.getP2() ) );
+        //torque=r x F
+        Vector2D.Double r = new Vector2D.Double( getRotationPlatform().getCenter(), appliedForce.getP1() );
+        Vector2D.Double f = new Vector2D.Double( appliedForce.getP1(), appliedForce.getP2() );
+        double tau = -r.getCrossProductScalar( f );
+        torque.setValue( tau );
 
         //todo: verify whether nontangential forces are allowed
         notifyListeners();//todo: only notify if changed

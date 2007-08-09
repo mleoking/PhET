@@ -14,6 +14,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Author: Sam Reid
@@ -63,7 +65,13 @@ public class TorqueControlPanel extends JPanel {
         add( sliderPanel, getConstraints( 0, 0, 2 ) );
         add( graphSelectionControl, getConstraints( 1, 1, 1 ) );
         JPanel checkBoxPanel = new VerticalLayoutPanel();
-        checkBoxPanel.add( new JCheckBox( "Allow non-tangential forces" ) );
+        final JCheckBox showNonTangentialForces = new JCheckBox( "Allow non-tangential forces", torqueModule.getTorqueModel().isAllowNonTangentialForces() );
+        showNonTangentialForces.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                torqueModule.getTorqueModel().setAllowNonTangentialForces( showNonTangentialForces.isSelected() );
+            }
+        } );
+        checkBoxPanel.add( showNonTangentialForces );
         checkBoxPanel.add( new JCheckBox( "Show Components" ) );
         add( checkBoxPanel, getConstraints( 0, 1, 1 ) );
     }
