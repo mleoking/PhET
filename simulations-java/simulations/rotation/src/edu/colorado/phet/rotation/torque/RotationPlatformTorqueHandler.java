@@ -5,6 +5,7 @@ import edu.colorado.phet.rotation.view.RotationPlatformNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 /**
@@ -27,11 +28,13 @@ public class RotationPlatformTorqueHandler extends PBasicInputEventHandler {
     public void mousePressed( PInputEvent event ) {
         super.mousePressed( event );
         sourcePoint = event.getPositionRelativeTo( platformNode );
-        dstPoint = null;
+        dstPoint = event.getPositionRelativeTo( platformNode );
+        rotationModel.setAppliedForce( new Line2D.Double( sourcePoint, dstPoint ) );
     }
 
     public void mouseDragged( PInputEvent event ) {
         dstPoint = event.getPositionRelativeTo( platformNode );
+        rotationModel.setAppliedForce( new Line2D.Double( sourcePoint, dstPoint ) );
     }
 
     public void mouseReleased( PInputEvent event ) {
