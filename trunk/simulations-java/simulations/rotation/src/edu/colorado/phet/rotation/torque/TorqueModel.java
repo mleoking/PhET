@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.SeriesVariable;
 
+import java.awt.geom.Line2D;
+
 /**
  * Author: Sam Reid
  * May 29, 2007, 1:10:11 AM
@@ -17,6 +19,8 @@ public class TorqueModel extends RotationModel {
 
     private UpdateStrategy forceDriven = new ForceDriven();
     private UpdateStrategy torqueDriven = new TorqueDriven();
+
+    private Line2D.Double appliedForce;
 
     public TorqueModel( ConstantDtClock clock ) {
         super( clock );
@@ -99,5 +103,13 @@ public class TorqueModel extends RotationModel {
             model.addVelocityData( state.getVelocity() + acceleration * dt, time );
             model.addPositionData( state.getPosition() + ( state.getVelocity() + origAngVel ) / 2.0 * dt, time );
         }
+    }
+
+    public Line2D.Double getAppliedForce() {
+        return appliedForce;
+    }
+
+    public void setAppliedForce( Line2D.Double appliedForce ) {
+        this.appliedForce = appliedForce;
     }
 }
