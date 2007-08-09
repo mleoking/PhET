@@ -10,20 +10,13 @@ import edu.colorado.phet.rotation.model.SeriesVariable;
  * May 29, 2007, 1:10:11 AM
  */
 public class TorqueModel extends RotationModel {
-
     private SeriesVariable torque = new SeriesVariable();
+    private SeriesVariable force = new SeriesVariable();
+    private SeriesVariable momentOfInertia = new SeriesVariable();
+    private SeriesVariable angularMomentum = new SeriesVariable();
 
-    private UpdateStrategy torqueDriven = new TorqueDriven();
-
-    private ISimulationVariable forceVariable = new DefaultSimulationVariable();
-    private ITimeSeries forceTimeSeries = new DefaultTimeSeries();
     private UpdateStrategy forceDriven = new ForceDriven();
-
-    private ISimulationVariable momentOfInertiaVariable = new DefaultSimulationVariable();
-    private ITimeSeries momentOfInertiaTimeSeries = new DefaultTimeSeries();
-
-    private ISimulationVariable angularMomentumVariable = new DefaultSimulationVariable();
-    private ITimeSeries angularMomentumTimeSeries = new DefaultTimeSeries();
+    private UpdateStrategy torqueDriven = new TorqueDriven();
 
     public TorqueModel( ConstantDtClock clock ) {
         super( clock );
@@ -31,15 +24,16 @@ public class TorqueModel extends RotationModel {
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        momentOfInertiaVariable.setValue( getRotationPlatform().getMomentOfInertia() );
-        momentOfInertiaTimeSeries.addValue( momentOfInertiaVariable.getValue(), getTime() );
+        momentOfInertia.updateSeriesAndState( getRotationPlatform().getMomentOfInertia(), getTime() );
+        angularMomentum.updateSeriesAndState( getRotationPlatform().getMomentOfInertia() * getRotationPlatform().getVelocity(), getTime() );
+        torque.updateSeriesAndState( torque.getValue(), getTime() );
+        force.updateSeriesAndState( force.getValue(), getTime() );
+    }
 
-        double angularMomentum = getRotationPlatform().getMomentOfInertia() * getRotationPlatform().getVelocity();
-        angularMomentumVariable.setValue( angularMomentum );
-        angularMomentumTimeSeries.addValue( angularMomentum, getTime() );
-
-        torque.updateSeriesAndState( torque.getVariable().getValue(), getTime() );
-        forceTimeSeries.addValue( forceVariable.getValue(), getTime() );
+    protected void setTime( double time ) {
+        super.setTime( time );
+        torque.setValueForTime( time );
+        force.setValueForTime( time );
     }
 
     public ISimulationVariable getTorqueVariable() {
@@ -55,11 +49,11 @@ public class TorqueModel extends RotationModel {
     }
 
     public ISimulationVariable getForceVariable() {
-        return forceVariable;
+        return force.getVariable();
     }
 
     public ITimeSeries getForceTimeSeries() {
-        return forceTimeSeries;
+        return force.getSeries();
     }
 
     public UpdateStrategy getForceDriven() {
@@ -67,19 +61,19 @@ public class TorqueModel extends RotationModel {
     }
 
     public ISimulationVariable getMomentOfInertiaVariable() {
-        return momentOfInertiaVariable;
+        return momentOfInertia.getVariable();
     }
 
     public ITimeSeries getMomentOfInertiaTimeSeries() {
-        return momentOfInertiaTimeSeries;
+        return momentOfInertia.getSeries();
     }
 
     public ISimulationVariable getAngularMomentumVariable() {
-        return angularMomentumVariable;
+        return angularMomentum.getVariable();
     }
 
     public ITimeSeries getAngularMomentumTimeSeries() {
-        return angularMomentumTimeSeries;
+        return angularMomentum.getSeries();
     }
 
     public class TorqueDriven implements UpdateStrategy {
@@ -96,7 +90,7 @@ public class TorqueModel extends RotationModel {
     public class ForceDriven implements UpdateStrategy {
         public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
-            double torqu = forceVariable.getValue() * getRotationPlatform().getRadius();//todo: generalize to r x F (4 parameters)
+            double torqu = force.getValue() * getRotationPlatform().getRadius();//todo: generalize to r x F (4 parameters)
             double acceleration = torqu / getRotationPlatform().getMomentOfInertia();
             torque.setValue( torqu );
 //            torqueSeries.addValue( torque, );

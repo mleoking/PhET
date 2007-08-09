@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation.torque;
 import edu.colorado.phet.common.motion.graphs.GraphSelectionControl;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -61,8 +62,9 @@ public class TorqueControlPanel extends JPanel {
         }
         add( sliderPanel, getConstraints( 0, 0, 2 ) );
         add( graphSelectionControl, getConstraints( 1, 1, 1 ) );
-        JPanel checkBoxPanel = new JPanel();
+        JPanel checkBoxPanel = new VerticalLayoutPanel();
         checkBoxPanel.add( new JCheckBox( "Allow non-tangential forces" ) );
+        checkBoxPanel.add( new JCheckBox( "Show Components" ) );
         add( checkBoxPanel, getConstraints( 0, 1, 1 ) );
     }
 
@@ -75,11 +77,8 @@ public class TorqueControlPanel extends JPanel {
             super( min, max, label, textFieldPattern, units, new TorqueSliderLayout() );
             setValue( initialValue );
             setMinorTickSpacing( ( max - min ) / 20.0 );
-            setMajorTickSpacing( ( max - min ) / 5.0 );
+//            setMajorTickSpacing( ( max - min ) / 4.0 );
             setPaintTickLabels( false );
-//            clearTickLabels();
-//            setMinorTicksVisible( false );
-//            setMajorTicksVisible( false );
         }
     }
 
