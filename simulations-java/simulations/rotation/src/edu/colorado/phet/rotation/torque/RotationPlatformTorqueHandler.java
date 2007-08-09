@@ -38,5 +38,7 @@ public class RotationPlatformTorqueHandler extends PBasicInputEventHandler {
     }
 
     public void mouseReleased( PInputEvent event ) {
+        dstPoint = new Point2D.Double( sourcePoint.getX(), sourcePoint.getY() );
+        rotationModel.setAppliedForce( new Line2D.Double( sourcePoint, dstPoint ) );
     }
 }

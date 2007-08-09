@@ -25,7 +25,7 @@ public class TorqueSimPlayAreaNode extends RotationPlayAreaNode {
 
         final PhetPPath arrowNode = new PhetPPath( getShape(), Color.blue, new BasicStroke( 0.01f ), Color.black );
         torqueModel.addListener( new TorqueModel.Listener() {
-            public void changed() {
+            public void appliedForceChanged() {
                 arrowNode.setPathTo( getShape() );
             }
         } );

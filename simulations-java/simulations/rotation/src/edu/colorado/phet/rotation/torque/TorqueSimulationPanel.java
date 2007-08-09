@@ -6,8 +6,10 @@ import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.graphs.TorqueGraphSet;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
+import java.awt.geom.Point2D;
 
 /**
  * Author: Sam Reid
@@ -15,8 +17,23 @@ import javax.swing.*;
  */
 public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
 
-    public TorqueSimulationPanel( TorqueModule torqueModule, JFrame parentFrame ) {
+    public TorqueSimulationPanel( final TorqueModule torqueModule, JFrame parentFrame ) {
         super( torqueModule, parentFrame );
+//        addClearTorqueButton( torqueModule );
+    }
+
+    private void addClearTorqueButton( final TorqueModule torqueModule ) {
+        final PSwing clearTorqueButton = new PSwing( new JButton( "Clear Torque" ) );
+        torqueModule.getTorqueModel().addListener( new TorqueModel.Listener() {
+            public void appliedForceChanged() {
+                clearTorqueButton.setVisible( torqueModule.getTorqueModel().getAppliedForceMagnitude() > 0 );
+            }
+        } );
+        addScreenChild( clearTorqueButton );
+        Point2D d = torqueModule.getTorqueModel().getRotationPlatform().getCenter();
+        Point2D loc = new Point2D.Double( d.getX(), d.getY() );
+        getPhetRootNode().worldToScreen( loc );
+        clearTorqueButton.setOffset( loc );
     }
 
     protected JComponent createControlPanel( RulerNode rulerNode, JFrame parentFrame ) {
