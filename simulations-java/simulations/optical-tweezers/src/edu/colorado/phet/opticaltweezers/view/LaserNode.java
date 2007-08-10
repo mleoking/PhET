@@ -64,7 +64,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     
     private LaserOutlineNode _outlineNode;
     private LaserBeamNode _beamNode;
-    private LaserElectricFieldNode _electricFieldNode;
+    private ElectricFieldNode _electricFieldNode;
     private LaserControlPanel _controlPanel;
     private PNode _centerCrosshair;
     private PPath _originMarkerNode;
@@ -122,7 +122,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         _beamVisible = true;
         
         // E-field
-        _electricFieldNode = new LaserElectricFieldNode( _laser, _modelViewTransform );
+        _electricFieldNode = new ElectricFieldNode( _laser, _modelViewTransform );
         _electricFieldVisible = true;
         
         // Crosshairs at center
@@ -238,7 +238,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         _originMarkerNode.setVisible( visible );
     }
     
-    public LaserElectricFieldNode getElectricFieldNode() { 
+    public ElectricFieldNode getElectricFieldNode() { 
         return _electricFieldNode;
     }
     

@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.control.ColorControl;
 import edu.colorado.phet.opticaltweezers.view.DNAForceNode;
 import edu.colorado.phet.opticaltweezers.view.FluidDragForceNode;
-import edu.colorado.phet.opticaltweezers.view.LaserElectricFieldNode;
+import edu.colorado.phet.opticaltweezers.view.ElectricFieldNode;
 import edu.colorado.phet.opticaltweezers.view.TrapForceNode;
 
 /**
@@ -31,7 +31,7 @@ public class VectorsDeveloperPanel extends JPanel {
     private TrapForceNode _trapForceNode;
     private FluidDragForceNode _fluidDragForceNode;
     private DNAForceNode _dnaForceNode;
-    private LaserElectricFieldNode _electricFieldNode;
+    private ElectricFieldNode _electricFieldNode;
 
     private ColorControl _trapForceColorChip;
     private ColorControl _fluidDragForceColorChip;
@@ -41,7 +41,7 @@ public class VectorsDeveloperPanel extends JPanel {
     private JCheckBox _showComponentsCheckBox;
     
     public VectorsDeveloperPanel( Font titleFont, Font controlFont, 
-            TrapForceNode trapForceNode, FluidDragForceNode fluidDragForceNode, DNAForceNode dnaForceNode, LaserElectricFieldNode electricFieldNode ) {
+            TrapForceNode trapForceNode, FluidDragForceNode fluidDragForceNode, DNAForceNode dnaForceNode, ElectricFieldNode electricFieldNode ) {
         super();
         
         _trapForceNode = trapForceNode;

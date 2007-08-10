@@ -45,7 +45,7 @@ public class DeveloperControlPanel extends JPanel {
             TrapForceNode trapForceNode,
             FluidDragForceNode fluidDragForceNode,
             DNAForceNode dnaForceNode,
-            LaserElectricFieldNode electricFieldNode ) {
+            ElectricFieldNode electricFieldNode ) {
         super();
         
         _showHideButton = new JButton();
