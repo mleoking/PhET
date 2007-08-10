@@ -4,12 +4,12 @@
 
 TODO:
 - cleanup logo images in phetcommon; use symbolic constants, delete unused images
+- process for excluding unused images from JAR files
 - replace fourier's AbstractFourierSlider with a LinearSliderControl extension
 - replace quantum-tunneling's SliderControl with a LinearSliderControl extension
-- combine Play & Pause clock buttons in my sims (waiting for OK from Wendy)
 - migrate Complex and MutableComplex to phetcommon
 - migrate ColorIntensitySlider to phetcommon
-- remove bogus build files
+- investigate Subversive plugin for Eclispe SVN integration
 
 DONE:
 
