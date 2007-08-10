@@ -58,7 +58,6 @@ public class PhysicsDefaults {
     public static final boolean LASER_ELECTRIC_FIELD_VISIBLE = false;
     public static final String CHARGE_CHOICE = ChargeControlPanel.CHOICE_HIDDEN;
     public static final boolean TRAP_FORCE_SELECTED = false;
-    public static final String HORIZONTAL_TRAP_FORCE_CHOICE = ForcesControlPanel.CHOICE_WHOLE_BEAD;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
     public static final boolean POSITION_HISTOGRAM_SELECTED = false;
     public static final boolean POTENTIAL_ENERGY_CHART_SELECTED = false;

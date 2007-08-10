@@ -3,7 +3,6 @@
 package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
@@ -11,7 +10,9 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
@@ -27,13 +28,6 @@ import edu.umd.cs.piccolo.PNode;
 public class ForcesControlPanel extends JPanel implements Observer {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    public static final String CHOICE_WHOLE_BEAD = "wholeBead";
-    public static final String CHOICE_HALF_BEAD = "halfBead";
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -44,9 +38,6 @@ public class ForcesControlPanel extends JPanel implements Observer {
     private PNode _dnaForceNode;
     
     private JCheckBox _trapForceCheckBox;
-    private JLabel _horizontalTrapForceLabel;
-    private JRadioButton _wholeBeadRadioButton;
-    private JRadioButton _halfBeadRadioButton;
     private JCheckBox _dragForceCheckBox;
     private JCheckBox _brownianMotionCheckBox;
     private JCheckBox _dnaForceCheckBox;
@@ -90,29 +81,6 @@ public class ForcesControlPanel extends JPanel implements Observer {
            }
         });
 
-        _horizontalTrapForceLabel = new JLabel( OTResources.getString( "label.horizontalTrapForce" ) );
-        _horizontalTrapForceLabel.setFont( controlFont );
-        
-        _wholeBeadRadioButton = new JRadioButton( OTResources.getString( "choice.wholeBead" ) );
-        _wholeBeadRadioButton.setFont( controlFont );
-        _wholeBeadRadioButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleHorizontalTrapForceChoice();
-            }
-         });
-        
-        _halfBeadRadioButton = new JRadioButton( OTResources.getString( "choice.halfBead" ) );
-        _halfBeadRadioButton.setFont( controlFont );
-        _halfBeadRadioButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleHorizontalTrapForceChoice();
-            }
-         });
-        
-        ButtonGroup bg = new ButtonGroup();
-        bg.add( _wholeBeadRadioButton );
-        bg.add( _halfBeadRadioButton );
-        
         _dragForceCheckBox = new JCheckBox( OTResources.getString( "label.showDragForce" ) );
         _dragForceCheckBox.setFont( controlFont );
         _dragForceCheckBox.addActionListener( new ActionListener() {
@@ -149,10 +117,6 @@ public class ForcesControlPanel extends JPanel implements Observer {
         int row = 0;
         layout.addComponent( titleLabel, row++, 0, 2, 1 );
         layout.addComponent( _trapForceCheckBox, row++, 0, 2, 1 );
-//XXX features disabled for AAPT
-//        layout.addComponent( _horizontalTrapForceLabel, row++, 1 );
-//        layout.addComponent( _wholeBeadRadioButton, row++, 1 );
-//        layout.addComponent( _halfBeadRadioButton, row++, 1 );
         layout.addComponent( _dragForceCheckBox, row++, 0, 2, 1 );
         if ( _dnaForceCheckBox != null ) {
             layout.addComponent( _dnaForceCheckBox, row++, 0, 2, 1 );
@@ -163,11 +127,6 @@ public class ForcesControlPanel extends JPanel implements Observer {
         
         // Default state
         _trapForceCheckBox.setSelected( false );
-        _horizontalTrapForceLabel.setEnabled( _trapForceCheckBox.isSelected() );
-        _wholeBeadRadioButton.setSelected( true );
-        _wholeBeadRadioButton.setEnabled( _trapForceCheckBox.isSelected() );
-        _halfBeadRadioButton.setSelected( false );
-        _halfBeadRadioButton.setEnabled( _trapForceCheckBox.isSelected() );
         _dragForceCheckBox.setSelected( false );
         _dragForceCheckBox.setEnabled( _fluid.isEnabled() );
         _brownianMotionCheckBox.setSelected( _bead.isBrownianMotionEnabled() );
@@ -175,11 +134,6 @@ public class ForcesControlPanel extends JPanel implements Observer {
         if ( _dnaForceCheckBox != null ) {
             _dnaForceCheckBox.setSelected( false );
         }
-        
-        //XXX not implemented
-        _horizontalTrapForceLabel.setForeground( Color.RED );
-        _wholeBeadRadioButton.setForeground( Color.RED );
-        _halfBeadRadioButton.setForeground( Color.RED );
     }
     
     public void cleanup() {
@@ -200,39 +154,6 @@ public class ForcesControlPanel extends JPanel implements Observer {
         return _trapForceCheckBox.isSelected();
     }
     
-    public void setHorizontalTrapForceChoice( String choice ) {
-        if ( choice.equals( CHOICE_WHOLE_BEAD ) ) {
-            _wholeBeadRadioButton.setSelected( true );
-        }
-        else if ( choice.equals( CHOICE_HALF_BEAD ) ) {
-            _halfBeadRadioButton.setSelected( true );
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported choice: " + choice );
-        }
-        handleHorizontalTrapForceChoice();
-    }
-    
-    public String getHorizontalTrapForceChoice() {
-        String choice = null;
-        if ( _wholeBeadRadioButton.isSelected() ) {
-            choice = CHOICE_WHOLE_BEAD;
-        }
-        else if ( _halfBeadRadioButton.isSelected() ) {
-            choice = CHOICE_HALF_BEAD;
-        }
-        assert( choice != null );
-        return choice;
-    }
-    
-    public boolean isWholeBeadSelected() {
-        return _wholeBeadRadioButton.isSelected();
-    }
-    
-    public boolean isHalfBeadSelected() {
-        return _halfBeadRadioButton.isSelected();
-    }
-   
     public void setDragForceSelected( boolean b ) {
         _dragForceCheckBox.setSelected( b );
         handleFluidDragCheckBox();
@@ -249,16 +170,6 @@ public class ForcesControlPanel extends JPanel implements Observer {
     
     public boolean isBrownianMotionSelected() {
         return _brownianMotionCheckBox.isSelected();
-    }
-    
-    public void setHorizontalTrapForceControlsEnabled( boolean enabled ) {
-        _horizontalTrapForceLabel.setEnabled( enabled );
-        _wholeBeadRadioButton.setEnabled( enabled );
-        _halfBeadRadioButton.setEnabled( enabled );
-    }
-    
-    public boolean isHorizontalTrapForceControlsEnabled() {
-        return _horizontalTrapForceLabel.isEnabled();
     }
     
     public void setDNAForceSelected( boolean b ) {
@@ -292,21 +203,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
     
     private void handleTrapForceCheckBox() {
         final boolean selected = _trapForceCheckBox.isSelected();
-        // related controls
-        _horizontalTrapForceLabel.setEnabled( selected );
-        _wholeBeadRadioButton.setEnabled( selected );
-        _halfBeadRadioButton.setEnabled( selected );
-        // update view
         _trapForceNode.setVisible( selected );
-    }
-    
-    private void handleHorizontalTrapForceChoice() {
-        if ( _wholeBeadRadioButton.isSelected() ) {
-            //XXX
-        }
-        else if ( _halfBeadRadioButton.isSelected() ) {
-            //XXX
-        }
     }
     
     private void handleFluidDragCheckBox() {
