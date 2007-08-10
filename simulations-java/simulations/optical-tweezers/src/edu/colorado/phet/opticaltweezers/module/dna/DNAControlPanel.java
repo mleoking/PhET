@@ -70,7 +70,8 @@ public class DNAControlPanel extends AbstractControlPanel {
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
                 (OTClock)module.getClock(), model.getBead(), model.getLaser(), 
                 model.getDNAStrand(), _canvas.getDNAStrandNode(),
-                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode(), null /* electricFieldNode */ );
+                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode(),
+                null /* electricFieldNode */, null /* chargeDistributionNode */ );
         
         // Turn off some features
         _forcesControlPanel.setBrownianMotionCheckBoxVisible( false );

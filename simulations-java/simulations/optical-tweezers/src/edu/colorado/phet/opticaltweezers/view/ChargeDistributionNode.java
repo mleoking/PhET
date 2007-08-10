@@ -152,7 +152,7 @@ public class ChargeDistributionNode extends AbstractChargeNode {
         ModelViewTransform modelViewTransform = getModelViewTransform();
         
         final double electricFieldX = bead.getElectricFieldX();
-        final double scale = getChargeScale( electricFieldX );
+        final double scale = getChargeScale( electricFieldX ) * _chargeMotionScale;
         final double beadDiameter = modelViewTransform.modelToView( bead.getDiameter() );
         final double margin = modelViewTransform.modelToView( MARGIN );
         final double chargeSize = modelViewTransform.modelToView( CHARGE_SIZE );
