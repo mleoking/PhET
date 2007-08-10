@@ -6,8 +6,8 @@
 
 package edu.colorado.phet.signal;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.phys2d.laws.Validate;
 
 import javax.swing.*;
@@ -23,22 +23,13 @@ public class SignalCircuitApplication extends JApplet {
 
     // Localization
     public static final String localizedStringsPath = "signal-circuit/localization/signal-circuit-strings";
-    private static final String VERSION = PhetApplicationConfig.getVersion( "signal-circuit").formatForTitleBar();
+    private static final String VERSION = PhetApplicationConfig.getVersion( "signal-circuit" ).formatForTitleBar();
 
     public SignalCircuitApplication() {
         int width = 600;
         int height = 300;
-        int barrierX = 100;
-        int barrierWidth = 300;
-        int numElectrons = 40;
-        int waitTime = 20;
-        double dt = .021;
 
-        int x = 20;
-        int y = 20;
-        int seed = 0;
-        
-        if ( applet ) {
+        if( applet ) {
             String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.phet.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
                 Locale.setDefault( new Locale( applicationLocale ) );
@@ -49,28 +40,29 @@ public class SignalCircuitApplication extends JApplet {
         Signal s = new Signal( width, height, applet );
         s.getSystem().addLaw( new Validate( this ) );
 
-// 	System2D sys=b.getSystem();
-// 	SystemRunner sr=new SystemRunner(sys,dt,waitTime);
-// 	SystemRunnerControl src=new SystemRunnerControl(new Range(.01,.3),dt,new Range(5,40),waitTime,sr);
-
         getContentPane().setLayout( new BorderLayout() );
         getContentPane().add( s.getPanel(), BorderLayout.CENTER );
 
-        JPanel south = new JPanel();
         getContentPane().add( s.getControlPanel(), BorderLayout.SOUTH );
         getContentPane().validate();
     }
 
-    public static void main( String[] args ) {
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                runMain( args );
+            }
+        } );
+    }
+
+    private static void runMain( String[] args ) {
         SimStrings.getInstance().init( args, localizedStringsPath );
-        
+
         applet = false;
-        JFrame f = new JFrame( SimStrings.getInstance().getString( "SignalCircuitApplication.title" )+" ("+VERSION+")");
+        JFrame f = new JFrame( SimStrings.getInstance().getString( "SignalCircuitApplication.title" ) + " (" + VERSION + ")" );
         f.setContentPane( new SignalCircuitApplication() );
         f.setSize( new Dimension( 850, 435 ) );
         f.setVisible( true );
-        edu.colorado.phet.util.ThreadHelper.quietNap( 800 );
-//        f.addWindowListener(new ExitOnClose());
         f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         f.getFocusOwner().addKeyListener( new KeyAdapter() {
             public void keyReleased( KeyEvent ke ) {
