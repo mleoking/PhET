@@ -3,26 +3,23 @@
 ================================================================================
 
 MISSING INFO:
-- spec for "horizontal trap" features
 - spec for "Molecular Motors" panel
 
 HIGH PRIORITY:
+
+MEDIUM PRIORITY:
+- save/load configurations
+- force dialogs to fully-paint by calling repaint after JDialog.show
+- help items don't refresh fast enough (AWT priority issue?)
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 - ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
 - ? change dt.default to something smaller than dt.fast.max
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 
-MEDIUM PRIORITY:
-- force dialogs to fully-paint by calling repaint after JDialog.show
-- should "Return bead" button move bead to center of trap?
-- enable/disable controls based on clock speed
-- what units for E-field?
-- vertical laser toggle button, like http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
-- save/load configurations
-- horizontal trap force features & controls
-- help items don't refresh fast enough (AWT priority issue?)
-
 LOW PRIORITY:
+- vertical laser toggle button, like http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
+- should "Return bead" button move bead to center of trap?
+- what units for E-field?
 - convert hi-res screenshot to png format
 - improve performance of e-field display (22% in Arrow.computeArrow)
 - reduce vertical spacing of control panels (if necessary, after features/layout has stabilized)
@@ -54,6 +51,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/10/07 - remove controls related to "horizontal trap force", feature has been dropped
 ********* version 1.00.02 (17205)
 8/10/07 - make "charge motion scale" dev control work for "Reset All"
 8/10/07 - add developer control for "charge motion scale", set default scale to 50%
@@ -653,6 +651,8 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+8/10/07 - enable/disable controls based on clock speed (no longer necessary)
+8/10/07 - horizontal trap force features (features dropped)
 8/10/07 - hide bead crosshair when showing charge (not necessary)
 8/10/07 - click on simulation speed slider track to make knob jump to that position (no one asked for this, nontrivial because it's Piccolo)
 8/10/07 - disable "charge on bead" feature in fast mode (looks OK, see what happens in interviews)
