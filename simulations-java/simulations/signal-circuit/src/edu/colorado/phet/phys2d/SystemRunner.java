@@ -1,6 +1,5 @@
 package edu.colorado.phet.phys2d;
 
-import edu.colorado.phet.util.ThreadHelper;
 
 
 public class SystemRunner implements Runnable {
@@ -32,7 +31,12 @@ public class SystemRunner implements Runnable {
         while( alive ) {
             while( running ) {
                 system.iterate( dt );
-                ThreadHelper.quietNap( waitTime );
+                try {
+                    Thread.sleep( waitTime);
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
             }
         }
     }
