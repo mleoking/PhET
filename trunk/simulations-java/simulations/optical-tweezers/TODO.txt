@@ -3,8 +3,6 @@
 ================================================================================
 
 IN PROGRESS:
-- only negative charges should move, positive charges should be stationary
-- layout charges on rect grid, clip to bead shape
 - reduce range of motion for charges
 - add developer control for motion scale of charges
 
@@ -16,6 +14,7 @@ HIGH PRIORITY:
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 
 MEDIUM PRIORITY:
+- click on simulation speed slider track to make knob jump to that position
 - "charge on bead" features (Hollywood, e-field arrow direction & magnitude affects smooshiness of negative charges)
 - should "Return bead" button move bead to center of trap?
 - enable/disable controls based on clock speed
@@ -60,6 +59,7 @@ MISSING INFO:
 
  
 DONE:
+8/10/07 - layout charges on rect grid, clip to bead shape
 8/10/07 - fix: positive charges should be stationary in "charge distribution" view
 8/10/07 - add "motion scale" property to "charge distribution" view
 8/10/07 - reverse behavior of +- charges
