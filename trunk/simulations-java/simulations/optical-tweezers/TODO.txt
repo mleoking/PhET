@@ -11,6 +11,7 @@ HIGH PRIORITY:
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 
 MEDIUM PRIORITY:
+- force dialogs to fully-paint by calling repaint after JDialog.show
 - should "Return bead" button move bead to center of trap?
 - enable/disable controls based on clock speed
 - what units for E-field?
