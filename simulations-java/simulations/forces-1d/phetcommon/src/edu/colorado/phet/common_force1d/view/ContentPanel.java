@@ -30,16 +30,16 @@ import java.io.IOException;
  */
 public class ContentPanel extends JPanel {
 
-    private static Image phetLogo;
-
-    static {
-        try {
-            phetLogo = new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-    }
+//    private static Image phetLogo;
+//
+//    static {
+//        try {
+//            phetLogo = new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" );
+//        }
+//        catch( IOException e ) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private JComponent apparatusPanel;
     private JComponent controlPanel;
@@ -208,9 +208,9 @@ public class ContentPanel extends JPanel {
             buttonDlg = new JDialog();
             buttonDlg.setTitle( SimStrings.get( "Common.BasicPhetPanel.Title" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
-            ImageIcon logo = new ImageIcon( phetLogo );
-            JButton logoButton = new JButton( logo );
-            logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
+//            ImageIcon logo = new ImageIcon( phetLogo );
+            JButton logoButton = new JButton( "Toggle Fullscreen");
+//            logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
             logoButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setFullScreen( false );
