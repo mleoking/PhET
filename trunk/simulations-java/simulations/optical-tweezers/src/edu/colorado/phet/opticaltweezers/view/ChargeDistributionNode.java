@@ -19,6 +19,10 @@ import edu.umd.cs.piccolox.nodes.PClip;
  */
 public class ChargeDistributionNode extends AbstractChargeNode {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     public static final String PROPERTY_CHARGE_MOTION_SCALE = "chargeMotionScale";
     
     private static final int GRID_SIZE = 5; // charges will be created on a GRID_SIZE*GRID_SIZE rectangular grid
@@ -27,9 +31,17 @@ public class ChargeDistributionNode extends AbstractChargeNode {
     private static final double CHARGE_STROKE_WIDTH = 5; // nm, width of the stroke used to draw the charges
     private static final double MARGIN = 5; // nm, how close the charges are to the edge of the bead at the bead's waist 
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private DoubleRange _chargeMotionScaleRange;
     private double _chargeMotionScale;
     private ArrayList _positiveNodeList, _negativeNodeList;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Constructor.
@@ -45,6 +57,10 @@ public class ChargeDistributionNode extends AbstractChargeNode {
         _chargeMotionScaleRange = chargeMotionScaleRange;
         _chargeMotionScale = _chargeMotionScaleRange.getDefault();
     }
+    
+    //----------------------------------------------------------------------------
+    // AbstractChargeNode implementation
+    //----------------------------------------------------------------------------
     
     /*
      * Initializes the nodes and other member data.
@@ -84,6 +100,18 @@ public class ChargeDistributionNode extends AbstractChargeNode {
         updateCharges();
     }
     
+    /*
+     * Updates negative charges to reflect the e-field at the bead's position.
+     * Positive charges remain stationary.
+     */
+    protected void updateCharges() {
+        layoutNegativeCharges();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Developer controls
+    //----------------------------------------------------------------------------
+    
     public void setChargeMotionScale( double motionScale ) {
         if ( !_chargeMotionScaleRange.contains( motionScale ) ) {
             throw new IllegalArgumentException( "motionScale out of range: " + motionScale );
@@ -101,13 +129,9 @@ public class ChargeDistributionNode extends AbstractChargeNode {
         return _chargeMotionScaleRange;
     }
     
-    /*
-     * Updates negative charges to reflect the e-field at the bead's position.
-     * Positive charges remain stationary.
-     */
-    protected void updateCharges() {
-        layoutNegativeCharges();
-    }
+    //----------------------------------------------------------------------------
+    // Charge layout
+    //----------------------------------------------------------------------------
     
     /*
      * Positive charges remain stationary.

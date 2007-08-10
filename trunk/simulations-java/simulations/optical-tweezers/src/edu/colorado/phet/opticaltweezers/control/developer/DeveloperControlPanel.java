@@ -34,6 +34,7 @@ public class DeveloperControlPanel extends JPanel {
     
     private JButton _showHideButton;
     private Box _panel;
+    private BeadDeveloperPanel _beadPanel;
     private VectorsDeveloperPanel _vectorsPanel;
     
     public DeveloperControlPanel( Font titleFont, Font controlFont, Frame parentFrame,
@@ -65,8 +66,8 @@ public class DeveloperControlPanel extends JPanel {
         JPanel laserPanel = new LaserDeveloperPanel( titleFont, controlFont, laser );
         _panel.add( laserPanel );
         
-        JPanel beadPanel = new BeadDeveloperPanel( titleFont, controlFont, clock, bead, laser, chargeDistributionNode );
-        _panel.add( beadPanel );
+        _beadPanel = new BeadDeveloperPanel( titleFont, controlFont, clock, bead, laser, chargeDistributionNode );
+        _panel.add( _beadPanel );
         
         if ( dnaStrand != null ) {
             JPanel dnaStrandPanel = new DNAStrandDeveloperPanel( titleFont, controlFont, dnaStrand, dnaStrandNode );
@@ -103,6 +104,10 @@ public class DeveloperControlPanel extends JPanel {
     
     public VectorsDeveloperPanel getVectorsPanel() {
         return _vectorsPanel;
+    }
+    
+    public BeadDeveloperPanel getBeadPanel() {
+        return _beadPanel;
     }
     
     private void handleShowHideButton() {
