@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
+import edu.colorado.phet.opticaltweezers.view.ChargeDistributionNode;
 
 /**
  * BeadDeveloperPanel contains developer controls for the bead model.
@@ -37,7 +38,8 @@ public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtCl
     private OTClock _clock;
     private Bead _bead;
     private Laser _laser;
-
+    private ChargeDistributionNode _chargeDistributionNode;
+    
     private LinearValueControl _brownianMotionScaleControl;
     private LogarithmicValueControl _dtSubdivisionThresholdControl;
     private LinearValueControl _numberOfDtSubdivisions;
@@ -47,12 +49,13 @@ public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtCl
     private LogarithmicValueControl _vacuumFastThresholdControl;
     private LogarithmicValueControl _vacuumFastDtControl;
     private LinearValueControl _vacuumFastPowerControl;
+    private LinearValueControl _chargeMotionScaleControl;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BeadDeveloperPanel( Font titleFont, Font controlFont, OTClock clock, Bead bead, Laser laser ) {
+    public BeadDeveloperPanel( Font titleFont, Font controlFont, OTClock clock, Bead bead, Laser laser, ChargeDistributionNode chargeDistributionNode ) {
         super();
         
         _clock = clock;
@@ -63,6 +66,8 @@ public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtCl
         
         _laser = laser;
         _laser.addObserver( this );
+        
+        _chargeDistributionNode = chargeDistributionNode;
         
         TitledBorder border = new TitledBorder( "Bead model" );
         border.setTitleFont( titleFont );
@@ -169,6 +174,20 @@ public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtCl
             }
         });
         
+        if ( chargeDistributionNode != null ) {
+            min = chargeDistributionNode.getChargeMotionScaleRange().getMin();
+            max = chargeDistributionNode.getChargeMotionScaleRange().getMax();
+            _chargeMotionScaleControl = new LinearValueControl( min, max, "charge motion scale:", "0.00", "" );
+            _chargeMotionScaleControl.setUpDownArrowDelta( 0.01 );
+            _chargeMotionScaleControl.setFont( controlFont );
+            _chargeMotionScaleControl.addChangeListener( new ChangeListener() {
+
+                public void stateChanged( ChangeEvent event ) {
+                    handleChargeMotionScaleControl();
+                }
+            } );
+        }
+        
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         layout.setInsets( new Insets( 0, 0, 0, 0 ) );
@@ -184,6 +203,9 @@ public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtCl
         layout.addComponent( _vacuumFastThresholdControl, row++, column );
         layout.addComponent( _vacuumFastDtControl, row++, column );
         layout.addComponent( _vacuumFastPowerControl, row++, column );
+        if ( _chargeMotionScaleControl != null ) {
+            layout.addComponent( _chargeMotionScaleControl, row++, column );
+        }
         
         // Default state
         _brownianMotionScaleControl.setValue( _bead.getBrownianMotionScale() );
@@ -195,6 +217,9 @@ public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtCl
         _vacuumFastThresholdControl.setValue( _bead.getVacuumFastThreshold() );
         _vacuumFastDtControl.setValue( _bead.getVacuumFastDt() );
         _vacuumFastPowerControl.setValue( _bead.getVacuumFastPower() );
+        if ( _chargeMotionScaleControl != null ) {
+            _chargeMotionScaleControl.setValue( _chargeDistributionNode.getChargeMotionScale() );
+        }
         updateVaccumFastThresholdIndicator();
     }
     
@@ -270,6 +295,11 @@ public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtCl
         _bead.deleteObserver( this );
         _bead.setVacuumFastPower( value );
         _bead.addObserver( this );
+    }
+    
+    private void handleChargeMotionScaleControl() {
+        double value = _chargeMotionScaleControl.getValue();
+        _chargeDistributionNode.setChargeMotionScale( value );
     }
     
     /*

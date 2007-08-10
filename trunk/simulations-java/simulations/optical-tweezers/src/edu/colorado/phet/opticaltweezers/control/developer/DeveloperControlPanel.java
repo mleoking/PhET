@@ -45,7 +45,8 @@ public class DeveloperControlPanel extends JPanel {
             TrapForceNode trapForceNode,
             FluidDragForceNode fluidDragForceNode,
             DNAForceNode dnaForceNode,
-            ElectricFieldNode electricFieldNode ) {
+            ElectricFieldNode electricFieldNode,
+            ChargeDistributionNode chargeDistributionNode ) {
         super();
         
         _showHideButton = new JButton();
@@ -64,7 +65,7 @@ public class DeveloperControlPanel extends JPanel {
         JPanel laserPanel = new LaserDeveloperPanel( titleFont, controlFont, laser );
         _panel.add( laserPanel );
         
-        JPanel beadPanel = new BeadDeveloperPanel( titleFont, controlFont, clock, bead, laser );
+        JPanel beadPanel = new BeadDeveloperPanel( titleFont, controlFont, clock, bead, laser, chargeDistributionNode );
         _panel.add( beadPanel );
         
         if ( dnaStrand != null ) {
