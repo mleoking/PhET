@@ -148,7 +148,6 @@ public class Signal extends JApplet {
         BatteryForce batt = new BatteryForce( battForce, battStart, battEnd, wireSystem, maxOver );
         sys.addLaw( batt );
         openForce.addForce( batt );
-        edu.colorado.phet.util.Debug.traceln( "Length=" + wp.getLength() );
         double maxClosedSpeed = 100;
         ForcePropagator closedForce = new ForcePropagator( maxClosedSpeed );
         closedForce.addForce( closedCoulomb );

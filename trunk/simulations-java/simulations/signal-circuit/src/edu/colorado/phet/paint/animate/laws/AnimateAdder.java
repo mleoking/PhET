@@ -19,7 +19,12 @@ public class AnimateAdder implements Runnable {
     }
 
     public void run() {
-        edu.colorado.phet.util.ThreadHelper.quietNap( waitTime );
+        try {
+            Thread.sleep( waitTime);
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
         sys.addLaw( al );
         p.addPainter( al, layer );
         //o.O.d("hello.");
