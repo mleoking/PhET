@@ -105,7 +105,7 @@ public class PhysicsCanvas extends AbstractCanvas {
         });
         
         // Charge views
-        _chargeDistributionNode = new ChargeDistributionNode( bead, laser, modelViewTransform );
+        _chargeDistributionNode = new ChargeDistributionNode( bead, laser, modelViewTransform, PhysicsDefaults.CHARGE_MOTION_SCALE_RANGE );
         _chargeExcessNode = new ChargeExcessNode( bead, laser, modelViewTransform );
         
         // Force vectors, use same reference values so that scale is the same!

@@ -4,6 +4,7 @@ package edu.colorado.phet.opticaltweezers.view;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
@@ -16,12 +17,16 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ChargeDistributionNode extends AbstractChargeNode {
 
-    private static final int CHARGE_DENSITY = 4; // this number squared is the number of charges of each type (+-) that will be displayed
+    public static final String PROPERTY_CHARGE_MOTION_SCALE = "chargeMotionScale";
+    
+    private static final int GRID_SIZE = 5; // charges will be created on a GRID_SIZE*GRID_SIZE grid
     
     private static final double CHARGE_SIZE = 20; // nm
     private static final double CHARGE_STROKE_WIDTH = 5; // nm, width of the stroke used to draw the charges
-    private static final double MARGIN = 5; // nm, how close the charges are to the edge of the bead
+    private static final double MARGIN = 0; // nm, how close the charges are to the edge of the bead at the bead's waist 
     
+    private DoubleRange _chargeMotionScaleRange;
+    private double _chargeMotionScale;
     private ArrayList _positiveNodeList, _negativeNodeList;
     
     /**
@@ -30,10 +35,13 @@ public class ChargeDistributionNode extends AbstractChargeNode {
      * @param bead
      * @param laser
      * @param modelViewTransform
+     * @param chargeMotionScaleRange
      */
-    public ChargeDistributionNode( Bead bead, Laser laser, ModelViewTransform modelViewTransform ) {
+    public ChargeDistributionNode( Bead bead, Laser laser, ModelViewTransform modelViewTransform, DoubleRange chargeMotionScaleRange ) {
         super( bead, laser, modelViewTransform );
-        assert( CHARGE_DENSITY > 1 );
+        assert( GRID_SIZE > 1 );
+        _chargeMotionScaleRange = chargeMotionScaleRange;
+        _chargeMotionScale = _chargeMotionScaleRange.getDefault();
     }
     
     /*
@@ -49,7 +57,7 @@ public class ChargeDistributionNode extends AbstractChargeNode {
         _negativeNodeList = new ArrayList();
         
         PNode chargeNode = null;
-        final int numberOfCharges = CHARGE_DENSITY * CHARGE_DENSITY;
+        final int numberOfCharges = GRID_SIZE * GRID_SIZE;
         for ( int i = 0; i < numberOfCharges; i++ ) {
             
             chargeNode = createPositiveNode( size, strokeWidth );
@@ -62,6 +70,23 @@ public class ChargeDistributionNode extends AbstractChargeNode {
         }
         
         updateCharges();
+    }
+    
+    public void setChargeMotionScale( double motionScale ) {
+        if ( !_chargeMotionScaleRange.contains( motionScale ) ) {
+            throw new IllegalArgumentException( "motionScale out of range: " + motionScale );
+        }
+        if ( motionScale != _chargeMotionScale ) {
+            _chargeMotionScale = motionScale;
+        }
+    }
+    
+    public double getChargeMotionScale() {
+        return _chargeMotionScale;
+    }
+    
+    public DoubleRange getChargeMotionScaleRange() {
+        return _chargeMotionScaleRange;
     }
     
     /*
@@ -81,25 +106,28 @@ public class ChargeDistributionNode extends AbstractChargeNode {
         final double margin = modelViewTransform.modelToView( MARGIN );
         
         //XXX layout the charges in a rectangular grid, not what we want but OK for testing
-        final double numberOfRows = CHARGE_DENSITY;
-        final double numberOfColumns = CHARGE_DENSITY;
-        final double spacing = ( beadDiameter - ( 2 * margin ) ) / ( CHARGE_DENSITY - 1 );
+        final double numberOfRows = GRID_SIZE;
+        final double numberOfColumns = GRID_SIZE;
+        final double spacing = ( beadDiameter - ( 2 * margin ) ) / ( GRID_SIZE - 1 );
         int nodeIndex = 0;
         for ( int row = 0; row < numberOfRows; row++ ) {
             double yOffset = -( beadDiameter / 2 ) + margin + ( row * spacing );
             for ( int column = 0; column < numberOfColumns; column++ ) {
                 
+                // Positive charges remain stationary
                 PNode positiveNode = (PNode) _positiveNodeList.get( nodeIndex );
+                double xOffset = -( beadDiameter / 2 ) + margin + ( column * spacing );
+                positiveNode.setOffset( xOffset, yOffset );
+                
+                // Negative charges are displaced based on e-field magnitude
                 PNode negativeNode = (PNode) _negativeNodeList.get( nodeIndex );
                 
-                double xOffset = -( beadDiameter / 2 ) + margin + ( column * ( 1 - scale ) * spacing );
+                xOffset = -( beadDiameter / 2 ) + margin + ( column * ( 1 - scale ) * spacing );
                 if ( electricFieldX > 0 ) {
-                    positiveNode.setOffset( xOffset, yOffset );
-                    negativeNode.setOffset( -xOffset, yOffset );
+                    negativeNode.setOffset( xOffset, yOffset );
                 }
                 else {
-                    positiveNode.setOffset( -xOffset, yOffset );
-                    negativeNode.setOffset( xOffset, yOffset );
+                    negativeNode.setOffset( -xOffset, yOffset );
                 }
                 
                 nodeIndex++;
