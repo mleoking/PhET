@@ -1,0 +1,1 @@
+8-10-2007: improvements in image loading and startup sequence
