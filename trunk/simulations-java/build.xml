@@ -228,6 +228,7 @@ PhET-team specific tasks are located in an auxiliary build file.
 
     <!--Builds jnlp files for all locales for a specific flavor, as well as the locale-less version.-->
     <target name="_build-jnlp">
+        <echo message="building JNLP, deploy.to.dev=${deploy.to.dev}"/>
         <if>
             <isset property="deploy.to.dev"/>
             
@@ -238,6 +239,7 @@ PhET-team specific tasks are located in an auxiliary build file.
                 <var name="codebase.url" value="${sim.server.url}${sim.name}"/>
             </else>
         </if>
+        <echo message="building JNLP, deploy.to.dev=${deploy.to.dev}, codebase=${codebase.url}"/>
         
         <phet-list-locales property="sim.locales" project="${sim.name}"/>
         <foreach list="${sim.locales}" target="_build-jnlp-locale-flavor" param="sim.locale" inheritall="true" inheritrefs="true"/>
@@ -392,12 +394,12 @@ PhET-team specific tasks are located in an auxiliary build file.
         <phet-display-stats/>
     </target>
 
-    <target name="_read-username-and-password">
+    <target name="_read-username-and-password-dev">
         <if>
             <not>
                 <and>
-                    <isset property="deploy.username"/>
-                    <isset property="deploy.password"/>
+                    <isset property="deploy.dev.username"/>
+                    <isset property="deploy.dev.password"/>
                 </and>
             </not>
             <then>
@@ -405,11 +407,34 @@ PhET-team specific tasks are located in an auxiliary build file.
 
                 <!-- If the username and password are not set, get them now: -->
                 <antform title="Deployment Host Login" width="550" height="300">
-                    <label>Please enter your username and password that you use to login to the deployment host machine.
+                    <label>Please enter your username and password that you use to login to the deployment DEV host machine.
                     </label>
 
-                    <textProperty label="Username:" property="deploy.username" required="true" focus="true"/>
-                    <textProperty label="Password:" property="deploy.password" required="true" password="true"/>
+                    <textProperty label="Username:" property="deploy.dev.username" required="true" focus="true"/>
+                    <textProperty label="Password:" property="deploy.dev.password" required="true" password="true"/>
+                </antform>
+            </then>
+        </if>
+    </target>
+
+        <target name="_read-username-and-password-prod">
+        <if>
+            <not>
+                <and>
+                    <isset property="deploy.prod.username"/>
+                    <isset property="deploy.prod.password"/>
+                </and>
+            </not>
+            <then>
+                <echo message="Gathering username and password from user"/>
+
+                <!-- If the username and password are not set, get them now: -->
+                <antform title="Deployment Host Login" width="550" height="300">
+                    <label>Please enter your username and password that you use to login to the deployment PROD host machine.
+                    </label>
+
+                    <textProperty label="Username:" property="deploy.prod.username" required="true" focus="true"/>
+                    <textProperty label="Password:" property="deploy.prod.password" required="true" password="true"/>
                 </antform>
             </then>
         </if>
@@ -432,7 +457,20 @@ PhET-team specific tasks are located in an auxiliary build file.
         </if>
     </target>
 
-    <target name="_deploy">        
+    <target name="_deploy">
+        <if>
+            <isset property="deploy.to.dev"/>
+            <then>
+                <var name="deploy.username" value="${deploy.dev.username}"/>
+                <var name="deploy.password" value="${deploy.dev.password}"/>
+            </then>
+            <else>
+                <var name="deploy.username" value="${deploy.prod.username}"/>
+                <var name="deploy.password" value="${deploy.prod.password}"/>
+            </else>
+        </if>
+
+        <echo message="logging in to ${ssh-host} (deploy to dev=${deploy.to.dev}) with username: ${deploy.username}"/>
         <maverick-ssh host="${ssh-host}" username="${deploy.username}" password="${deploy.password}" version="2">
             <sftp action="mkdir" remotedir="${sim.deploy.dir.parent}"/>
             <sftp action="mkdir" remotedir="${sim.deploy.dir}"/>
@@ -457,7 +495,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     <!-- This task builds and deploys; assumes all required properties have been previously defined -->
     <target name="_build-and-deploy" depends="build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
 
-    <target name="build-and-deploy-dev" depends="_init, _read-username-and-password, _set-sim-revision-number, _inc-sim-dev-version-number, _define-sim-version">
+    <target name="build-and-deploy-dev" depends="_init, _read-username-and-password-dev, _set-sim-revision-number, _inc-sim-dev-version-number, _define-sim-version">
         <antcall target="_build-and-deploy">
             <param name="deploy.to.dev"         value="true"/>
             <param name="sim.server.url"        value="${dev.server.url}"/>
@@ -492,9 +530,13 @@ PhET-team specific tasks are located in an auxiliary build file.
         </antcall>
     </target>
 
-    <target name="build-and-deploy-prod" depends="_init, _read-username-and-password, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
+    <target name="build-and-deploy-prod" depends="_init, _read-username-and-password-dev, _read-username-and-password-prod,_reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
         <!-- Deploy development version -->
+        <antcall target="build-jnlp"> <!-- Rebuild JNLP since codebase is different-->
+            <param name="deploy.to.dev"         value="true"/>
+        </antcall>
         <antcall target="_deploy">
+            <param name="deploy.to.dev"         value="true"/>
             <param name="sim.server.url"        value="${dev.server.url}"/>
             <param name="sim.server.path"       value="${dev.server.path}"/>
             <param name="sim.deploy.dir.parent" value="${dev.server.path}${sim.name}" />
@@ -503,17 +545,15 @@ PhET-team specific tasks are located in an auxiliary build file.
         </antcall>
     </target>
     
-    <target name="build-and-deploy-prod-no-change" depends="_init, _read-username-and-password, _build-and-deploy-only-prod" />
+    <target name="build-and-deploy-prod-no-change" depends="_init, _read-username-and-password-prod, _build-and-deploy-only-prod" />
     
-    <target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password, clean-all, _list-sims" description="Builds and deploys all sims to the development server.">
+    <target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password-dev, clean-all, _list-sims" description="Builds and deploys all sims to the development server.">
         <foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name" inheritall="true"/>
     </target>
 
-    <target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password, clean-all, _list-sims" description="Builds and deploys all sims to the production server.">
+    <target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password-prod, clean-all, _list-sims" description="Builds and deploys all sims to the production server.">
         <foreach list="${phet.simlist}" target="build-and-deploy-prod-no-change" param="sim.name" inheritall="true"/>
     </target>
-    
-    
     
     <!-- Assume sim.name and sim.flavor defined -->
     <target name="_run-bitrock-installer-builder">
