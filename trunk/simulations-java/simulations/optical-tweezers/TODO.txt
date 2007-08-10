@@ -2,7 +2,9 @@
 "To Do" list for "Optical Tweezers" simulation
 ================================================================================
 
-IN PROGRESS:
+MISSING INFO:
+- spec for "horizontal trap" features
+- spec for "Molecular Motors" panel
 
 HIGH PRIORITY:
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
@@ -49,9 +51,6 @@ MIGRATE TO COMMON:
 - ColorUtils
 - ColorControl
 - Vector2D
-
-MISSING INFO:
-- spec for "Molecular Motors" panel
 
  
 DONE:
