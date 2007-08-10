@@ -1,6 +1,7 @@
 <?php
-
-    include_once("../admin/global.php");
+	if (!defined('SITE_ROOT')) {
+		include_once('../admin/global.php');
+	}
     
     include_once(SITE_ROOT."admin/db.inc");
     include_once(SITE_ROOT."admin/authentication.php");    

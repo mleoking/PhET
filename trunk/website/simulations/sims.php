@@ -57,10 +57,10 @@
         <div>
             <?php                
                 if (isset($contributor_is_team_member) && $contributor_is_team_member == '1') {
-                    print "<h1 class=\"page-title\"><a href=\"../admin/edit-sim.php?sim_id=$sim_id\" title=\"Click here to edit the simulation\">$sim_name</a></h1>";  
+                    print "<h1 class=\"first-child\"><a href=\"../admin/edit-sim.php?sim_id=$sim_id\" title=\"Click here to edit the simulation\">$sim_name</a></h1>";  
                 } 
                 else {
-                    print "<h1 class=\"page-title\"><a href=\"$sim_launch_url\">$sim_name</a></h1>";
+                    print "<h1 class=\"first-child\"><a href=\"$sim_launch_url\">$sim_name</a></h1>";
                 }
             ?>
         </div>
@@ -98,13 +98,13 @@
                         <tr>
                             <td>
                                 <div class="rage_button_358398">
-                                	<a href="$sim_launch_url" alt="Run Simulation">Run Now!</a>
+                                	<a href="$sim_launch_url" title="Click here to run the simulation from your browser">Run Now!</a>
                                 </div>
                             </td>
                         
                             <td>
                                 <div class="rage_button_928365">
-                                	<a href="$sim_run_offline_link">Run Offline</a>
+                                	<a href="$sim_run_offline_link" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection'">Run Offline</a>
                                 </div>
                             </td>
                         </tr>
@@ -162,7 +162,7 @@ EOT;
 		}
 
         print <<<EOT
-        <p><a href="#top"><img src="../images/top.gif" /></a></p>
+        <p><a href="#top"><img src="../images/top.gif" alt="Go to Top Image"/></a></p>
 
         <h1 class="indi-sim" id="ideas">Teaching Ideas</h1>
 
@@ -190,32 +190,33 @@ EOT;
         
         <div class="p-indentation">
         <form id="quicksubmit" enctype="multipart/form-data" action="submit-contribution.php" method="post">    
-            <input type="hidden" name="sim_id"   value="$sim_id" />
+			<div>
+	            <input type="hidden" name="sim_id"   value="$sim_id" />
 
-            <div class="field">
-                <span class="label_content">
-                    <input type="text" name="contribution_title" size="50" />
-                </span>
+	            <div class="field">
+	                <span class="label_content">
+	                    <input type="text" name="contribution_title" size="50" />
+	                </span>
                 
-                <span class="label">
-                    title:
-                </span>
-            </div>  
+	                <span class="label">
+	                    title:
+	                </span>
+	            </div>  
             
-            <div class="field">                
-                <span class="label_content">
-                    <input type="file" class="multi" name="contribution_file_url">
-                </span>
+	            <div class="field">                
+	                <span class="label_content">
+	                    <input type="file" class="multi" name="contribution_file_url" />
+	                </span>
                 
-                <span class="label">
-                    files:
-                </span>
-            </div>
+	                <span class="label">
+	                    files:
+	                </span>
+	            </div>
             
-            <hr/>
+	            <hr/>
             
-            <div class="field">                
-                <span class="label_content">
+	            <div class="field">                
+	                <span class="label_content">
 EOT;
 
                     print_multiple_selection(
@@ -225,20 +226,21 @@ EOT;
                     );
 
                 print <<<EOT
-                </span>
+	                </span>
                 
-                <span class="label">
-                    level:
-                </span>
-            </div>
+	                <span class="label">
+	                    level:
+	                </span>
+	            </div>
             
-            <div class="button">
-                <input type="submit" value="Contribute"  />
-            </div>
+	            <div class="button">
+	                <input type="submit" value="Contribute"  />
+	            </div>
+			</div>
         </form>
         </div>
 
-        <p><a href="#top"><img src="../images/top.gif" /></a></p>
+        <p><a href="#top"><img src="../images/top.gif" alt="Go to Top Image"/></a></p>
 
         <h1 class="indi-sim" id="software">Software Requirements</h1>
 
@@ -310,7 +312,7 @@ EOT;
             </table>
         </div>
 
-        <p><a href="#top"><img src="../images/top.gif" /></a></p>
+        <p><a href="#top"><img src="../images/top.gif" alt="Go to Top Image"/></a></p>
 
         <h1 class="indi-sim" id="versions">Translated Versions</h1>
 
@@ -345,7 +347,7 @@ EOT;
 
 		print <<<EOT
 
-        <p><a href="#top"><img src="../images/top.gif" /></a></p>
+        <p><a href="#top"><img src="../images/top.gif" alt="Go to Top Image"/></a></p>
 
         <h1 class="indi-sim" id="credits">Credits</h1>
 

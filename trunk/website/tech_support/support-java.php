@@ -48,11 +48,9 @@
 
             <h3 id="q3" >Are there any problems running the simulations on a Mac?</h3>
 
-            <p>Macintosh OS X 10.4 or higher is recommended to run our Java programs. If you are using any version of OS X between 10.2 to 10.3, you must install all Java updates released by Apple. See http://www.apple.com/java/ for details.</p>
+            <p>Macintosh OS X 10.4 or higher is required to run our Java programs. You must have the latest version of Java (which will already be installed if you are using the auto-update feature of OS X). See http://www.apple.com/java/ for details.</p>
 
-            <p>Please note that some of our Java-based simulations will run slowly or not at all on some Macintosh computer systems. These simulations can be identified by the tag below them. If you encounter further problems, please contact us with the relevant details.</p>
-
-            <p>Versions of Apple's Safari browser below 2.0 (included with OS X 10.4 "Tiger") do not launch our Java-based applications reliably.</p>
+            <p>Versions of Apple's Safari browser below 2.0 (included with OS X 10.4) do not launch our Java-based applications reliably.</p>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 

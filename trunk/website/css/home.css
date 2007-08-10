@@ -4,6 +4,14 @@
 	margin:  0 0 1em 0;
 	padding: 0;
 }
+div.home-page-links {
+	text-align: center;
+	position: relative;
+	top: -3em;
+}
+div.home-page-links a {
+	font-size: larger;
+}
 #container {
 	padding: 15px 0 0 0;
 	margin:  0 auto;

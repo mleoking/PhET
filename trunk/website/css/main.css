@@ -13,12 +13,14 @@ h1,h2,h3,h4,h5,h6 {
 	margin-top: 	1ex;
 	margin-bottom: 	1ex;
 }
+h1:first-child, h1.first-child {
+	margin-top:  0;
+	padding-top: 0;
+	width: 		 578px;
+}
 h1 {
 	color:			#c60;
 	font-size:		18px;	
-}
-h1:first-child {
-	margin-top: 2em;
 }
 h2 {
 	color:		#15337f;
@@ -70,17 +72,22 @@ hr {
 }*/
 
 #quicksearch {
-	width:      500px;
 	font-size:  8pt;
 	color: 		gray;
+	position:   absolute;
+	right: 		0;
 }
 #quicksearch fieldset {
-	float:        right;
 	margin:       0;
 	padding:      0;
 	border-style: none;
 }
-
+#quicksearch fieldset span {
+	color: white;
+}
+#quicksearch fieldset input {
+	background-color: white;
+}
 .simcategory {
 	padding-left: 2em;
 	padding-right: 2em;
@@ -147,7 +154,7 @@ hr {
 #container {
 	margin:	 0 auto;
 	padding: 0;
-	width:   900px;/* 818px; */
+	width:   900px;
 }
 /******** =header ********/
 #header {
@@ -175,15 +182,14 @@ hr {
 	margin: 	0;
 	padding: 	0;
 }
-#headerContainer span.logo {
-	/*background:	url(../images/phet-logo.gif) left top no-repeat;	*/
+#headerContainer div.logo {
 	width:  	242px;
 	height: 	127px;
  	position:	absolute;
- 	top:		0px;
+ 	top:		0;
  	left:		0;
 }
-#headerContainer span.title {
+#headerContainer div.title {
  	position:	absolute;
 	top:		0;
 	right:		0;
@@ -222,7 +228,6 @@ hr {
 	background:url(../images/mainNavArrow.gif) center bottom no-repeat;
 	color: #ffa025;
 }
-
 /******** Login form *********/
 #loginform {
     width:400px;
@@ -480,7 +485,7 @@ div.horizontal_center {
 	background:		url(../images/content_BG.gif) right bottom no-repeat;
 	width:  		578px;
 	margin:			0 0 100px 240px;
-	padding: 		10px 0 0 0;
+	padding: 		0 0 0 0;
 }
 #content a {
 	color:				#900;
@@ -882,9 +887,6 @@ p.indi-sim {
 	position: relative;
 	left:     0;
 }
-h1.page-title {
-	width: 			578px;
-}
 h1.indi-sim {
 	width:			578px;
 	font-weight:	bold;
@@ -1126,7 +1128,7 @@ div.research .publication_htmllink {
 	color:		#727272;
 	float:		left;
 	margin:		0 0 0 0;
-	padding:	25px 40px 0 0;
+	padding:	0 40px 0 0;
 	width: 		200px;
 }
 

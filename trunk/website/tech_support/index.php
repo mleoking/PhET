@@ -25,8 +25,6 @@
 
                     <li class="faq"><a href="#q2">What are the System Requirements for running PhET simulations?</a></li>
 
-                    <li class="faq"><a href="#q3">I have a Macintosh and some of the Java-based simulations do not work as expected.</a></li>
-
                     <li class="faq"><a href="#q4">I use Internet Explorer and the simulations do not run on my computer.</a></li>
 
                     <li class="faq"><a href="#q5">Why don't Flash simulations run on my computer?</a></li>
@@ -93,15 +91,9 @@
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q3">I have a Macintosh and some of the Java-based simulations do not work as expected.</h3>
-
-            <p>Some PhET simulations will not run on Macintosh. These simulations are identified by the following icon:</p><p>$no_mac</p><p>If you are having problems running a Java simulation, check the <a href="#q2">System Requirements</a> to verify that you have the correct version of Mac OS, Java, and your web browser. Then use Software Update (accessible under the Apple menu at the far left of the Macintosh menubar) to install the latest versions of Mac OS, Java, and (if applicable) Safari. </p><p>If you encounter further problems, please <a href="mailto:phethelp@colorado.edu?Subject=Problems%20running%20PhET%20simulations">contact us</a> with the relevant details. </p>
-
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
-
             <h3 id="q4" >I use Internet Explorer and the simulations do not run on my computer.</h3>
             
-            <p>We <strong>strongly</strong> recommend you use the latest version of Internet Explorer.</p>
+            <p>We <strong>strongly</strong> recommend you use the latest version of Internet Explorer (IE7).</p>
 
             <p><strong>Internet Explorer Security Settings</strong></p>
             

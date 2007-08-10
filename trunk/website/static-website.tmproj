@@ -3,22 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>new-home.php</string>
+	<string>css/home.css</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>filename</key>
-			<string>new-home.php</string>
-			<key>lastUsed</key>
-			<date>2007-08-08T22:59:39Z</date>
-			<key>selected</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>filename</key>
 			<string>index.php</string>
 			<key>lastUsed</key>
-			<date>2007-08-08T20:25:31Z</date>
+			<date>2007-08-09T21:11:37Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -205,6 +197,20 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>admin/get-run-offline.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>30</integer>
+				<key>line</key>
+				<integer>7</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>admin/manage-contributors.php</key>
 		<dict>
 			<key>caret</key>
@@ -249,6 +255,20 @@
 				<integer>14</integer>
 			</dict>
 		</dict>
+		<key>admin/sim-utils.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>43</integer>
+				<key>line</key>
+				<integer>253</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>288</integer>
+		</dict>
 		<key>admin/site-utils.php</key>
 		<dict>
 			<key>caret</key>
@@ -263,75 +283,119 @@
 			<key>firstVisibleLine</key>
 			<integer>189</integer>
 		</dict>
+		<key>admin/sys-utils.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>24</integer>
+				<key>line</key>
+				<integer>145</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>253</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>13</integer>
+				<key>line</key>
+				<integer>145</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>29</integer>
+				<key>line</key>
+				<integer>145</integer>
+			</dict>
+		</dict>
 		<key>admin/web-utils.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>44</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>363</integer>
+				<integer>378</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>333</integer>
+			<integer>337</integer>
+		</dict>
+		<key>admin/xml_parser.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>5</integer>
+				<key>line</key>
+				<integer>7</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>css/home.css</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>30</integer>
 				<key>line</key>
-				<integer>102</integer>
+				<integer>105</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>95</integer>
 		</dict>
 		<key>css/main.css</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>28</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>177</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>164</integer>
+			<integer>187</integer>
 		</dict>
 		<key>index.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>10</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>64</integer>
+				<integer>105</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>87</integer>
+			<integer>75</integer>
 		</dict>
-		<key>new-home.php</key>
+		<key>simulations/sims.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>9</integer>
+				<integer>39</integer>
 				<key>line</key>
-				<integer>46</integer>
+				<integer>124</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>24</integer>
+			<integer>130</integer>
 		</dict>
 		<key>teacher_ideas/edit-contribution.php</key>
 		<dict>
@@ -383,16 +447,20 @@
 		<string>teacher_ideas/user-edit-profile.php</string>
 		<string>admin/contrib-utils.php</string>
 		<string>css/main.css</string>
-		<string>index.php</string>
 		<string>css/home.css</string>
 		<string>teacher_ideas/edit-contribution.php</string>
-		<string>new-home.php</string>
+		<string>index.php</string>
+		<string>admin/sim-utils.php</string>
+		<string>simulations/sims.php</string>
 		<string>admin/web-utils.php</string>
+		<string>admin/get-run-offline.php</string>
+		<string>admin/sys-utils.php</string>
+		<string>admin/xml_parser.php</string>
 		<string>admin/site-utils.php</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{276, 114}, {1012, 853}}</string>
+	<string>{{268, 86}, {1012, 648}}</string>
 </dict>
 </plist>
