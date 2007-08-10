@@ -531,6 +531,9 @@ PhET-team specific tasks are located in an auxiliary build file.
     </target>
 
     <target name="build-and-deploy-prod" depends="_init, _read-username-and-password-dev, _read-username-and-password-prod,_reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
+
+        <!--note: the implementation currently posts PROD then DEV, since deploy.to.dev is currently unsettable, and used for JNLP construction-->
+
         <!-- Deploy development version -->
         <antcall target="build-jnlp"> <!-- Rebuild JNLP since codebase is different-->
             <param name="deploy.to.dev"         value="true"/>
