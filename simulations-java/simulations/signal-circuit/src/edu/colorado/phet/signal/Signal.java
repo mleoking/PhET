@@ -1,5 +1,6 @@
 package edu.colorado.phet.signal;
 
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.electron.wire1d.WireParticle;
 import edu.colorado.phet.electron.wire1d.WirePatch;
@@ -18,9 +19,6 @@ import edu.colorado.phet.paint.animate.laws.AnimateLaw;
 import edu.colorado.phet.paint.animate.twinkles.RotatingTwinkle2;
 import edu.colorado.phet.paint.particle.ImagePainter;
 import edu.colorado.phet.paint.particle.ParticlePainter;
-import edu.colorado.phet.util.AlphaFixer2;
-import edu.colorado.phet.util.ImageLoader;
-import edu.colorado.phet.util.ResourceLoader3;
 import edu.colorado.phet.phys2d.DoublePoint;
 import edu.colorado.phet.phys2d.System2D;
 import edu.colorado.phet.phys2d.SystemRunner;
@@ -31,6 +29,7 @@ import edu.colorado.phet.phys2d.laws.Repaint;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Signal extends JApplet {
     LayeredPanel panel;
@@ -52,19 +51,19 @@ public class Signal extends JApplet {
 
     public Signal( int width, int height, boolean applet ) {
 
-        ImageLoader loader = new ResourceLoader3( getClass().getClassLoader(), this );
-//        BufferedImage bi = loader.loadBufferedImage("signal-circuit/images/Electron3V.GIF");
-        BufferedImage bi = loader.loadBufferedImage( "signal-circuit/images/electron9.gif" );
+//        ImageLoader loader = new ResourceLoader3( getClass().getClassLoader(), this );
+//        BufferedImage bi = loadBufferedImage("signal-circuit/images/Electron3V.GIF");
+        BufferedImage bi = loadBufferedImage( "signal-circuit/images/electron9.gif" );
 //        bi = new AlphaFixer2(new int[]{252, 254, 252, 255}).patchAlpha(bi);
 
-        BufferedImage phetBattery = loader.loadBufferedImage( "signal-circuit/images/PhetBattery1.gif" );
-        phetBattery = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( phetBattery );
+        BufferedImage phetBattery = loadBufferedImage( "signal-circuit/images/PhetBattery1.gif" );
+//        phetBattery = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( phetBattery );
 
         //System.exit(0);
         bi = ImageUtils.scaleToSizeApproximate( bi, 20, 20 );
         ParticlePainter painter = new ImagePainter( bi );
-        BufferedImage b2 = loader.loadBufferedImage( "signal-circuit/images/Electron3VX.GIF" );//PaintedElectron.gif");
-        b2 = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( b2 );
+        BufferedImage b2 = loadBufferedImage( "signal-circuit/images/Electron3VX.GIF" );//PaintedElectron.gif");
+//        b2 = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( b2 );
         b2 = ImageUtils.scaleToSizeApproximate( b2, 20, 20 );
         ParticlePainter tagged = new ImagePainter( b2 );
 
@@ -217,7 +216,7 @@ public class Signal extends JApplet {
         //Wendy's preferences.
         dt = .0216;
 //        wait = 5;
-        wait=22;
+        wait = 22;
         //o.O.d("dt="+dt);
 
         SystemRunner sr = new SystemRunner( sys, dt, wait );
@@ -236,8 +235,8 @@ public class Signal extends JApplet {
         Point covered = new Point( 105, 110 );
         Point uncovered = new Point( 105, 220 );
 
-        BufferedImage up = loader.loadBufferedImage( "signal-circuit/images/A.jpg" );
-        BufferedImage down = loader.loadBufferedImage( "signal-circuit/images/B.jpg" );
+        BufferedImage up = loadBufferedImage( "signal-circuit/images/A.jpg" );
+        BufferedImage down = loadBufferedImage( "signal-circuit/images/B.jpg" );
         Switch top = new Switch( new BufferedImagePainter( down, covered.x, covered.y ),
                                  new BufferedImagePainter( up, covered.x, covered.y ),
                                  false, angleSlider );
@@ -249,8 +248,8 @@ public class Signal extends JApplet {
 
         sc.addSwitchListener( switchCover );
 
-        BufferedImage chandOn = loader.loadBufferedImage( "signal-circuit/images/ChandelierOn2.jpg" );
-        BufferedImage chandOff = loader.loadBufferedImage( "signal-circuit/images/ChandelierOff2.jpg" );
+        BufferedImage chandOn = loadBufferedImage( "signal-circuit/images/ChandelierOn2.jpg" );
+        BufferedImage chandOff = loadBufferedImage( "signal-circuit/images/ChandelierOff2.jpg" );
 
         int chandX = 250;
         int chandY = 62;
@@ -312,5 +311,15 @@ public class Signal extends JApplet {
         new Thread( new AnimateAdder( 8000, al, s.getSystem(), s.getPanel(), layer ) ).start();
 
         new Thread( sr ).start();
+    }
+
+    private BufferedImage loadBufferedImage( String s ) {
+        try {
+            return ImageLoader.loadBufferedImage( s );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
     }
 }

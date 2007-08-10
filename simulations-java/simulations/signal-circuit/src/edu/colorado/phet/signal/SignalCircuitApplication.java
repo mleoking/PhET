@@ -64,10 +64,5 @@ public class SignalCircuitApplication extends JApplet {
         f.setSize( new Dimension( 850, 435 ) );
         f.setVisible( true );
         f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        f.getFocusOwner().addKeyListener( new KeyAdapter() {
-            public void keyReleased( KeyEvent ke ) {
-                System.exit( 0 );
-            }
-        } );
     }
 }
