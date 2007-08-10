@@ -3,10 +3,13 @@
 ================================================================================
 
 IN PROGRESS:
-- implement a convincing algorithm for distributing charges inside bead
+- reverse behavior of +- charges
+- only negative charges should move, positive charges should be stationary
+- layout charges on rect grid, clip to bead shape
+- reduce range of motion for charges
+- developer control for motion range of charges
 
 HIGH PRIORITY:
-- ? disable "charge on bead" feature in fast mode
 - ? hide bead crosshair when showing charge
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 - ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
@@ -58,6 +61,8 @@ MISSING INFO:
 
  
 DONE:
+8/10/07 - disable alpha channel modulation in e-field display
+8/10/07 - rename LaserElectricFieldNode to ElectricFieldNode
 ********* version 1.00.01 (17165)
 8/8/07 - implement "charge distribution" view, temporary layout of charges
 8/8/07 - bugfix: very small scaling values cause problems in ChargeExcessNode, treat those values as zero
@@ -648,6 +653,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+8/10/07 - disable "charge on bead" feature in fast mode (looks OK, see what happens in interviews)
 8/8/07 - add "charge on bead" features to DNA panel (not part of learning goals for that panel)
 7/26/07 - spec for "Show change in momentum model" feature (feature is dropped)
 7/25/07 - check _running in Laser.getIntensityOnRadius, getTrapForceAtOffset (no, not the right thing to do)

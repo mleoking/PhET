@@ -19,12 +19,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 /**
- * LaserElectricFieldNode is the visual representation of the laser's electric field.
+ * ElectricFieldNode is the visual representation of the laser's electric field.
  * A collection of vectors are shown distibuted across the laser beam.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LaserElectricFieldNode extends PhetPNode implements Observer {
+public class ElectricFieldNode extends PhetPNode implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -40,6 +40,9 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
     private static final double X_SPACING = 10; // nm
     private static final int NUMBER_OF_VECTORS_AT_WAIST = 5; // must be an odd number for symmetry!
     private static final int NUMBER_OF_VECTOR_ROWS = 11; // must be an odd number for symmetry!
+    
+    // determines whether the alpha channel is varied based on the e-field magnitude
+    private static final boolean MODULATE_ALPHA_CHANNEL = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -63,7 +66,7 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
      * @param laser
      * @param modelViewTransform
      */
-    public LaserElectricFieldNode( Laser laser, ModelViewTransform modelViewTransform ) {
+    public ElectricFieldNode( Laser laser, ModelViewTransform modelViewTransform ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -260,16 +263,22 @@ public class LaserElectricFieldNode extends PhetPNode implements Observer {
         while ( i.hasNext() ) {
             
             ElectricFieldVectorNode vectorNode = (ElectricFieldVectorNode) i.next();
-
-            // electric field's x component
+            
+            // e-field's at the vector's location
             Point2D offsetFromLaser = vectorNode.getOffsetFromLaserReference();
             double electricFieldX = _laser.getElectricFieldX( offsetFromLaser );
+            
+            // size
             vectorNode.setXY( electricFieldX, 0 );
 
-            // color, alpha component based on field strength
-            int alpha = (int)( 255 * Math.abs( electricFieldX / maxElectricFieldX ) );
-            Color c = ColorUtils.addAlpha( _vectorColor, alpha );
-            vectorNode.setArrowStrokePaint( c );
+            // color
+            Color color = _vectorColor;
+            if ( MODULATE_ALPHA_CHANNEL ) {
+                // vary the alpha channel based on field strength
+                int alpha = (int)( 255 * Math.abs( electricFieldX / maxElectricFieldX ) );
+                color = ColorUtils.addAlpha( _vectorColor, alpha );
+            }
+            vectorNode.setArrowStrokePaint( color );
         }
     }
     
