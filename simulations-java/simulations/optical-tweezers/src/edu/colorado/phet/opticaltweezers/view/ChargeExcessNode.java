@@ -2,12 +2,11 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
-import java.awt.geom.AffineTransform;
-
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * ChargeExcessNode displays the excess charge on the bead.
@@ -77,27 +76,29 @@ public class ChargeExcessNode extends AbstractChargeNode {
         if ( scale > 0 ) {
             
             double x, y;
+            PBounds positiveBounds = _positiveNode.getFullBoundsReference();
+            PBounds negativeBounds = _negativeNode.getFullBoundsReference();
             
             // positive charge
             _positiveNode.setScale( scale );
             if ( electricFieldX > 0 ) {
-                x = -_viewBeadRadius + _viewMargin;
+                x = _viewBeadRadius - positiveBounds.getWidth() - _viewMargin;
             }
             else {
-                x = _viewBeadRadius - _positiveNode.getFullBoundsReference().getWidth() - _viewMargin;
+                x = -_viewBeadRadius + _viewMargin;
             }
-            y = -_positiveNode.getFullBoundsReference().getHeight() / 2;
+            y = -positiveBounds.getHeight() / 2;
             _positiveNode.setOffset( x, y );
         
             // negative charge
             _negativeNode.setScale( scale );
             if ( electricFieldX > 0 ) {
-                x = _viewBeadRadius - _negativeNode.getFullBoundsReference().getWidth() - _viewMargin;
-            }
-            else {
                 x = -_viewBeadRadius + _viewMargin;
             }
-            y = -_negativeNode.getFullBoundsReference().getHeight() / 2;
+            else {
+                x = _viewBeadRadius - negativeBounds.getWidth() - _viewMargin;
+            }
+            y = -negativeBounds.getHeight() / 2;
             _negativeNode.setOffset( x, y );
         }
     }

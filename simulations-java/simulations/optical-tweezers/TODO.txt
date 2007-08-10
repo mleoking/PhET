@@ -3,11 +3,10 @@
 ================================================================================
 
 IN PROGRESS:
-- reverse behavior of +- charges
 - only negative charges should move, positive charges should be stationary
 - layout charges on rect grid, clip to bead shape
 - reduce range of motion for charges
-- developer control for motion range of charges
+- add developer control for motion scale of charges
 
 HIGH PRIORITY:
 - ? hide bead crosshair when showing charge
@@ -61,6 +60,9 @@ MISSING INFO:
 
  
 DONE:
+8/10/07 - fix: positive charges should be stationary in "charge distribution" view
+8/10/07 - add "motion scale" property to "charge distribution" view
+8/10/07 - reverse behavior of +- charges
 8/10/07 - disable alpha channel modulation in e-field display
 8/10/07 - rename LaserElectricFieldNode to ElectricFieldNode
 ********* version 1.00.01 (17165)
