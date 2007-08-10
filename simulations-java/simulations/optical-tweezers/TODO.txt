@@ -3,7 +3,6 @@
 ================================================================================
 
 IN PROGRESS:
-- make "charge motion scale" dev control work for "Reset All"
 
 HIGH PRIORITY:
 - ? hide bead crosshair when showing charge
@@ -58,6 +57,7 @@ MISSING INFO:
 
  
 DONE:
+8/10/07 - make "charge motion scale" dev control work for "Reset All"
 8/10/07 - add developer control for "charge motion scale", set default scale to 50%
 8/10/07 - layout charges on rect grid, clip to bead shape
 8/10/07 - fix: positive charges should be stationary in "charge distribution" view

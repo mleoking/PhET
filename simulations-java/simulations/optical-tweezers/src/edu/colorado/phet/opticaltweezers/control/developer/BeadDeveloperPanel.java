@@ -181,7 +181,6 @@ public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtCl
             _chargeMotionScaleControl.setUpDownArrowDelta( 0.01 );
             _chargeMotionScaleControl.setFont( controlFont );
             _chargeMotionScaleControl.addChangeListener( new ChangeListener() {
-
                 public void stateChanged( ChangeEvent event ) {
                     handleChargeMotionScaleControl();
                 }
@@ -227,6 +226,15 @@ public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtCl
         _clock.removeConstantDtClockListener( this );
         _bead.deleteObserver( this );
         _laser.deleteObserver( this );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Setters
+    //----------------------------------------------------------------------------
+    
+    public void setChargeMotionScale( double chargeMotionScale ) {
+        _chargeMotionScaleControl.setValue( chargeMotionScale );
+        handleChargeMotionScaleControl();
     }
     
     //----------------------------------------------------------------------------
