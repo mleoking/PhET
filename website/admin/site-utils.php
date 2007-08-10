@@ -1,5 +1,7 @@
 <?php
-    include_once("../admin/global.php");
+	if (!defined('SITE_ROOT')) {
+    	include_once("../admin/global.php");
+	}
     
     include_once(SITE_ROOT."admin/db.inc");
     include_once(SITE_ROOT."admin/web-utils.php");
@@ -219,17 +221,39 @@ EOT;
             </div>
 EOT;
     }
+
+	function get_sitewide_utility_html($prefix = "..") {
+		$php_self = $_SERVER['PHP_SELF'];
+		
+		// Don't require authentication, but do it if the cookies are available:
+        do_authentication(false);
+        
+        global $contributor_authenticated;
+		
+		if (!$contributor_authenticated) {
+			$utility_panel_html = <<<EOT
+				<a href="$prefix/teacher_ideas/login-and-redirect.php?url=$php_self">Login</a> | <a href="$prefix/teacher_ideas/login-and-redirect.php?url=$php_self">Register</a>
+EOT;
+		}
+		else {
+			$contributor_name = $GLOBALS['contributor_name'];
+
+			$utility_panel_html = <<<EOT
+				Welcome $contributor_name - <a href="$prefix/teacher_ideas/user-logout.php?url=$php_self">Logout</a>
+EOT;
+		}
+		
+		return $utility_panel_html;
+	}
     
     function print_site_page($content_printer, $selected_page = null, $redirection_site = null, $timeout = 0) {
+		do_authentication(false);
+		
         $request_uri = $_SERVER['REQUEST_URI'];
 
 		$php_self = $_SERVER['PHP_SELF'];
         
-        // Don't require authentication, but do it if the cookies are available:
-        do_authentication(false);
-        
         global $referrer;
-		global $contributor_authenticated;
         
         $prefix = "..";
         
@@ -242,19 +266,7 @@ EOT;
 			$meta_redirect = '';
 		}
 		
-		if (!$contributor_authenticated) {
-			$utility_panel_html = <<<EOT
-				<a href="../teacher_ideas/login-and-redirect.php?url=$php_self">Login</a> | <a href="../teacher_ideas/login-and-redirect.php?url=$php_self">Register</a>
-EOT;
-		}
-		else {
-			$contributor_name = $GLOBALS['contributor_name'];
-			
-			$utility_panel_html = <<<EOT
-				Welcome $contributor_name - <a href="../teacher_ideas/user-logout.php?url=$php_self">Logout</a>
-EOT;
-		}
-
+		$utility_panel_html = get_sitewide_utility_html($prefix);
 /*
 
     TODO: 
@@ -582,29 +594,27 @@ EOT;
                 <div id="header">
                     <div id="headerContainer">
                         <div class="images">
-                            <span class="logo">
+                            <div class="logo">
 								<a href="../index.php"><img src="$prefix/images/phet-logo.gif" alt="PhET Logo" title="Click here to go to the home page" /></a>
-                            </span>
+                            </div>
 
-                            <span class="title">
+                            <div class="title">
                                 <img src="$prefix/images/logo-title.jpg" alt="Physics Education Technology - University of Colorado, Boulder" title="Physics Education Technology - University of Colorado, Boulder" />
-                            </span>
+                            
+								<div id="quicksearch">
+		                            <form method="post" action="../simulations/search.php">
+		                                <fieldset>
+		                                    <span>Search</span>
+		                                    <input type="text" size="15" name="search_for" title="Enter the text to search for" class="always-enabled" />
+		                                    <input type="submit" value="Go" title="Click here to search the PhET website" class="always-enabled" />
+		                                    <input type="hidden" name="referrer" value="$referrer"  class="always-enabled" />
+		                                </fieldset>
+		                            </form>
+		                        </div>
+							</div>
                         </div>
 
                         <div class="clear"></div>
-
-                        <div class="mainNav">
-                            <ul>
-EOT;
-
-        print_header_navigation_element($prefix, $selected_page, "index.php",              					   "Home",          1);
-        print_header_navigation_element($prefix, $selected_page, "simulations/index.php?cat=Top_Simulations",  "Simulations",   2);
-        print_header_navigation_element($prefix, $selected_page, "research/index.php",     					   "Research",      7);
-        print_header_navigation_element($prefix, $selected_page, "about/index.php",        					   "About PhET",    8);
-                                
-       print <<<EOT
-                            </ul>
-                        </div>
                     </div>
                 </div>
 
@@ -615,18 +625,6 @@ EOT;
 
         print <<<EOT
                     <div id="content">  
-
-                        <div id="quicksearch">
-                            <form method="post" action="../simulations/search.php">
-                                <fieldset>
-                                    <span>Search</span>
-                                    <input type="text" size="15" name="search_for" title="Enter the text to search for" class="always-enabled" />
-                                    <input type="submit" value="Go" title="Click here to search the PhET website" class="always-enabled" />
-                                    <input type="hidden" name="referrer" value="$referrer"  class="always-enabled" />
-                                </fieldset>
-                            </form>
-                        </div>
-                        
                         <div class="main">
                     
 EOT;

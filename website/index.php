@@ -2,10 +2,15 @@
     if (!defined('SITE_ROOT')) {
         define("SITE_ROOT", "./");
     }
+	session_start();
     
     include_once("admin/sim-utils.php");
     include_once("admin/web-utils.php");
+	include_once("admin/site-utils.php");
     
+	$referrer           = $_SERVER['PHP_SELF'];
+	$utility_panel_html = get_sitewide_utility_html('.');
+
     /*
 
         TODO: 
@@ -15,7 +20,7 @@
 
     */
 
-?>
+	print <<<EOT
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -38,29 +43,26 @@
     <div id="header">
         <div id="headerContainer">
             <div class="images">
-                <span class="logo">
-					<a href="../index.php"><img src="images/phet-logo.gif" alt="PhET Logo" title="Click here to go to the home page" /></a>
-                </span>
+                <div class="logo">
+					<a href="index.php"><img src="images/phet-logo.gif" alt="PhET Logo" title="Click here to go to the home page" /></a>
+                </div>
                 
-                <span class="title">
+                <div class="title">
                     <img src="images/logo-title.jpg" alt="Physics Education Technology - University of Colorado, Boulder" title="Physics Education Technology - University of Colorado, Boulder" />
-                </span>
+
+					<div id="quicksearch">
+                        <form method="post" action="simulations/search.php">
+                            <fieldset>
+                                <span>Search</span>
+                                <input type="text" size="15" name="search_for" title="Enter the text to search for" class="always-enabled" />
+                                <input type="submit" value="Go" title="Click here to search the PhET website" class="always-enabled" />
+                                <input type="hidden" name="referrer" value="$referrer"  class="always-enabled" />
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
             </div>
 
-            <div class="clear"></div>
-
-            <div class="mainNav">
-                <ul>
-                    <li  class="selected"><a href="index.php" accesskey="1">Home</a></li>
-
-                    <li><a href="simulations/index.php?cat=Top_Simulations" accesskey="2">Simulations</a></li>
-
-                    <li><a href="research/index.php" accesskey="3">Research</a></li>
-
-                    <li><a href="about/index.php" accesskey="4">About PhET</a></li>
-                </ul>
-            </div>
-            
             <div class="clear"></div>
         </div>
     </div>
@@ -142,24 +144,29 @@
 
                 <dd>
 	                <a class="nolink" href="simulations/index.php">
-	                    <?php
+EOT;
 	                        display_slideshow(sim_get_static_previews(), "150", "110");
-	                    ?>
+	                    print <<<EOT
 	                </a>
 				</dd>
 
                 <dd class="readMore"><a href="simulations/index.php"><img src="images/search.gif" alt="Search" title="Search" /></a></dd>
             </dl>
 
-            <div class="clear">
-                &nbsp;
-            </div>
+			<div class="home-page-links">
+				<a href="research/index.php">Research</a> | <a href="about/index.php">About PhET</a>
+			</div>
         </div>
 
         <div id="footer">
             <p>&copy; 2007 University of Colorado. All rights reserved.</p>
         </div>
-        
+
+		<div id="utility-panel">
+			$utility_panel_html
+		</div>        
     </div>
 </body>
 </html>
+EOT;
+?>

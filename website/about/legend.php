@@ -32,9 +32,6 @@
                         <tr>
                             <td>$crutch_html</td>   <td>Guidance recommended: This simulation is very effective when used in conjunction with a lecture, homework  or other teacher designed activity.</td>
                         </tr>
-                        <tr>
-                            <td>$no_mac_html</td>   <td>This simulation is not supported on the Macintosh platform.</td>
-                        </tr>
                         
                         <tr>
                             <td>$alpha_html</td>    <td>This simulation is an early preview version, and may have functional or usability bugs.</td>
