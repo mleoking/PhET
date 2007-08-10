@@ -54,7 +54,7 @@ MISSING INFO:
 
  
 DONE:
-********* version 1.00.02 (?)
+********* version 1.00.02 (17205)
 8/10/07 - make "charge motion scale" dev control work for "Reset All"
 8/10/07 - add developer control for "charge motion scale", set default scale to 50%
 8/10/07 - layout charges on rect grid, clip to bead shape
