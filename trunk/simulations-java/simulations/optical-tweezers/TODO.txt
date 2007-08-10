@@ -5,22 +5,19 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- ? hide bead crosshair when showing charge
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 - ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
 - ? change dt.default to something smaller than dt.fast.max
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 
 MEDIUM PRIORITY:
-- click on simulation speed slider track to make knob jump to that position
-- "charge on bead" features (Hollywood, e-field arrow direction & magnitude affects smooshiness of negative charges)
 - should "Return bead" button move bead to center of trap?
 - enable/disable controls based on clock speed
 - what units for E-field?
 - vertical laser toggle button, like http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - save/load configurations
 - horizontal trap force features & controls
-- help items don't refresh fast enough
+- help items don't refresh fast enough (AWT priority issue?)
 
 LOW PRIORITY:
 - convert hi-res screenshot to png format
@@ -57,6 +54,7 @@ MISSING INFO:
 
  
 DONE:
+********* version 1.00.02 (?)
 8/10/07 - make "charge motion scale" dev control work for "Reset All"
 8/10/07 - add developer control for "charge motion scale", set default scale to 50%
 8/10/07 - layout charges on rect grid, clip to bead shape
@@ -655,6 +653,8 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+8/10/07 - hide bead crosshair when showing charge (not necessary)
+8/10/07 - click on simulation speed slider track to make knob jump to that position (no one asked for this, nontrivial because it's Piccolo)
 8/10/07 - disable "charge on bead" feature in fast mode (looks OK, see what happens in interviews)
 8/8/07 - add "charge on bead" features to DNA panel (not part of learning goals for that panel)
 7/26/07 - spec for "Show change in momentum model" feature (feature is dropped)
