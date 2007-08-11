@@ -123,7 +123,8 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public boolean isInternalResistanceOn() {
-        return false;
+//        return false;
+        return model.isInternalResistanceOn();
     }
 
     public void setZoom( double zoom ) {
