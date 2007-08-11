@@ -194,17 +194,13 @@ public class ScorePanel extends JPanel implements ItemListener {
             //startStopLbl.setText("Drag tip of arrow");
             startBtn.setEnabled( false );
             pauseBtn.setEnabled( true );
+
         }
     }
 
     class SoundChkBoxHandler implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
-            if( soundChkBox.isSelected() ) {
-                soundOn = true;
-            }
-            else {
-                soundOn = false;
-            }
+            soundOn = soundChkBox.isSelected();
         }
     }
 
