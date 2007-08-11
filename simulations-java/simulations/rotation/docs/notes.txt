@@ -13,6 +13,9 @@ trunk\simulations-java\simulations\rotation\src\edu\colorado\phet\rotation\tests
 Do we want to calculate the angular velocity of bug if user is manually moving it around?
     No.  Just don’t update it when user is manipulating bug.
 
+( (JComponent)c ).setOpaque( false );
+in PSwing appears to improve performance in rotation sim
+
 Sam Reid
 PhET
 5-22-2007
