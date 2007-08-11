@@ -204,6 +204,7 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
         pArena.setCollisionDetected( false );
         pArena.setGoalDetected( false );
         pArena.getScorePanel().nbrCollisionsLbl.setText( "0" );
+        setTraceToZero();
         repaint();
     }
 
@@ -221,6 +222,7 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
 
     public void setTraceToZero() {
         trace.reset();
+        traceStarted=false;
         //System.out.println("Trace zeroed.");
     }
 

@@ -1,0 +1,1 @@
+8-11-2007: Fixed: Traces do not go away when you press “reset” 
