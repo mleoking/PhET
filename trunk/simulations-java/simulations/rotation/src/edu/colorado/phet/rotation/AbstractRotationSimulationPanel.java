@@ -4,6 +4,7 @@ import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -108,9 +109,16 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         setAlignedLayout();
         //todo: should be after clock finished tick, not in line with other tick handlers
         rotationModule.getClock().addClockListener( new ClockAdapter() {
+            double sum=0;
+                double count=0;
             public void simulationTimeChanged( ClockEvent clockEvent ) {
+
                 if( synchronousPaint ) {
+//                    QuickProfiler qp=new QuickProfiler( "paintImm");
                     paintImmediately( 0, 0, getWidth(), getHeight() );
+//                    sum+=qp.getTime();
+//                    count++;
+//                    System.out.println( "count="+count+", avgPaintImm="+sum/count );
                 }
             }
         } );
