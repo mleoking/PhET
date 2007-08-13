@@ -11,12 +11,11 @@ public interface IVariable {
 
     double getValue();
 
-    public static interface Listener {
-        void valueChanged();
-    }
-
     public void addListener( Listener listener );
 
     public void removeListener(Listener listener);
 
+    public static interface Listener {
+        void valueChanged();
+    }
 }

@@ -343,7 +343,7 @@ public class ControlGraph extends PNode {
                 }
             } );
         }
-        series.getObservableTimeSeries().addListener( new ITemporalVariable.Listener() {
+        series.getObservableTimeSeries().addListener( new ITemporalVariable.ListenerAdapter() {
             public void dataAdded( TimeData timeData ) {
                 handleDataAdded( getSeriesIndex( series ), timeData );
             }

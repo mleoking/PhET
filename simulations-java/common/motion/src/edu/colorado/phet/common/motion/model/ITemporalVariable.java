@@ -27,15 +27,28 @@ public interface ITemporalVariable extends IVariable {
 
     double getValueForTime( double time );
 
-    void addListener( Listener observableTimeSeriesListener );
-
     void updateSeriesAndState( double magnitude, double time );
 
     void setPlaybackTime( double time );
 
-    public static interface Listener {
+    void addListener( Listener listener );
+
+    void removeListener( Listener listener );
+
+    public static interface Listener extends IVariable.Listener {
         void dataAdded( TimeData data );
 
         void dataCleared();
+    }
+
+    public static class ListenerAdapter implements Listener {
+        public void dataAdded( TimeData data ) {
+        }
+
+        public void dataCleared() {
+        }
+
+        public void valueChanged() {
+        }
     }
 }
