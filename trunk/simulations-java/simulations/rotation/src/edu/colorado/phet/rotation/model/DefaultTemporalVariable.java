@@ -7,17 +7,11 @@ import edu.colorado.phet.common.motion.model.*;
  * Jul 26, 2007, 8:04:10 PM
  */
 public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
-    private IVariable variable = new DefaultSimulationVariable();
-    private ITemporalVariable series = new DefaultTimeSeries();
+    private DefaultSimulationVariable variable = new DefaultSimulationVariable();
+    private DefaultTimeSeries series = new DefaultTimeSeries();
 
     public DefaultTemporalVariable() {
     }
-
-    public DefaultTemporalVariable( IVariable variable, ITemporalVariable series ) {
-        this.variable = variable;
-        this.series = series;
-    }
-
 
     public void updateSeriesAndState( double value, double time ) {
         variable.setValue( value );

@@ -3,7 +3,6 @@ package edu.colorado.phet.common.motion.graphs;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
-import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class ControlGraphSeries {
     private String title;
     private Color color;
     private String abbr;
-    private DefaultTemporalVariable defaultTemporalVariable;
+    private ITemporalVariable temporalVariable;
     private String units;
     private boolean visible = true;
     private Stroke stroke;
@@ -26,23 +25,23 @@ public class ControlGraphSeries {
     private ArrayList listeners = new ArrayList();
 
     public ControlGraphSeries( String title, Color color, String abbr, String units,
-                               String character, DefaultTemporalVariable defaultTemporalVariable ) {
-        this( title, color, abbr, units, BufferedSeriesView.DEFAULT_STROKE, character, defaultTemporalVariable );
+                               String character, ITemporalVariable temporalVariable ) {
+        this( title, color, abbr, units, BufferedSeriesView.DEFAULT_STROKE, character, temporalVariable );
     }
 
     public ControlGraphSeries( String title, Color color, String abbr, String units,
-                               Stroke stroke, String character, DefaultTemporalVariable defaultTemporalVariable ) {
-        this( title, color, abbr, units, stroke, false, character, defaultTemporalVariable );
+                               Stroke stroke, String character, ITemporalVariable temporalVariable ) {
+        this( title, color, abbr, units, stroke, false, character, temporalVariable );
     }
 
-    public ControlGraphSeries( String title, Color color, String abbr, String units, Stroke stroke, boolean editable, String character, DefaultTemporalVariable defaultTemporalVariable ) {
+    public ControlGraphSeries( String title, Color color, String abbr, String units, Stroke stroke, boolean editable, String character, ITemporalVariable defaultTemporalVariable ) {
         this.units = units;
         this.editable = editable;
         this.stroke = stroke;
         this.title = title;
         this.color = color;
         this.abbr = abbr;
-        this.defaultTemporalVariable = defaultTemporalVariable;
+        this.temporalVariable = defaultTemporalVariable;
         this.character = character;
         assert character != null;
     }
@@ -59,8 +58,8 @@ public class ControlGraphSeries {
         return abbr;
     }
 
-    public DefaultTemporalVariable getSeriesVariable(){
-        return defaultTemporalVariable;
+    public ITemporalVariable getSeriesVariable(){
+        return temporalVariable;
     }
 
     public boolean isVisible() {
@@ -102,12 +101,12 @@ public class ControlGraphSeries {
 
     public ITemporalVariable getObservableTimeSeries() {
         //return seriesVariable.getSeries();//todo: remove
-        return defaultTemporalVariable;
+        return temporalVariable;
     }
 
     public IVariable getSimulationVariable() {
         //return seriesVariable.getVariable();
-        return defaultTemporalVariable;
+        return temporalVariable;
     }
 
     public static interface Listener {
