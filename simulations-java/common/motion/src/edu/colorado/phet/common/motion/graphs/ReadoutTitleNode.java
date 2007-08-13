@@ -5,7 +5,9 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -15,7 +17,11 @@ import java.text.DecimalFormat;
  * Jul 20, 2007, 8:59:23 PM
  */
 public class ReadoutTitleNode extends PNode {
-    private ShadowHTMLNode titlePText;
+    //8-13-2007: Rotation sim's performance has 50% memory allocation and 30% processor usage in HTMLNode.update
+    //Therefore, we just set the HTMLNode once, and update the text in piccolo without swing 
+    private ShadowHTMLNode titleNode;
+    private ShadowPText valueNode;
+
     private ControlGraphSeries series;
     private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
     private PhetPPath background;
@@ -24,15 +30,21 @@ public class ReadoutTitleNode extends PNode {
 
     public ReadoutTitleNode( ControlGraphSeries series ) {
         this.series = series;
-        titlePText = new ShadowHTMLNode();
-        titlePText.setFont( getTitleFont() );
-        titlePText.setColor( series.getColor() );
-//        background = new PhetPPath( null, Color.white, new BasicStroke(), Color.black );
+
+        titleNode = new ShadowHTMLNode();
+        titleNode.setFont( getTitleFont() );
+        titleNode.setColor( series.getColor() );
+
+        valueNode = new ShadowPText();
+        valueNode.setFont( getTitleFont() );
+        valueNode.setTextPaint( series.getColor() );
+
         background = new PhetPPath( Color.white );
         addChild( background );
-        addChild( titlePText );
+        addChild( titleNode );
+        addChild( valueNode );
         background.translate( insetX, insetY );
-        titlePText.translate( insetX, insetY );
+        titleNode.translate( insetX, insetY );
         series.getSimulationVariable().addListener( new ISimulationVariable.Listener() {
             public void valueChanged() {
                 updateText();
@@ -44,6 +56,12 @@ public class ReadoutTitleNode extends PNode {
             }
         } );
         updateText();
+        titleNode.setHtml( "<html>" + series.getAbbr() + "<sub>" + series.getCharacterName() + "</sub>= " );
+//        Image im=titleNode.toImage();
+//        PImage p=new PImage( im );
+//        addChild( p);
+        
+        valueNode.setOffset( titleNode.getFullBounds().getWidth() + 3, 3 );
     }
 
     private Font getTitleFont() {
@@ -64,8 +82,8 @@ public class ReadoutTitleNode extends PNode {
     }
 
     private void setValueText( String valueText ) {
-        titlePText.setHtml( "<html>" + series.getAbbr() + "<sub>" + series.getCharacterName() + "</sub>=" + valueText + " " + series.getUnits() );
-        background.setPathTo( RectangleUtils.expand( titlePText.getFullBounds(), insetX, insetY ) );//todo: avoid setting identical shapes here for performance considerations
+        valueNode.setText( valueText + " " + series.getUnits() );
+        background.setPathTo( RectangleUtils.expand( titleNode.getFullBounds().createUnion( valueNode.getFullBounds() ), insetX, insetY ) );//todo: avoid setting identical shapes here for performance considerations
     }
 
     public double getPreferredWidth() {
