@@ -187,7 +187,7 @@ EOT;
     }
     
     function research_compare($research1, $research2) {
-        return research_get_publication_date($research1) - research_get_publication_date($research2);
+        return research_get_publication_date($research2) - research_get_publication_date($research1);
     }
     
     function research_get_all_by_category($selected_cat) {        
@@ -219,7 +219,7 @@ EOT;
         $cat_array = research_get_categories_as_javascript_array();
         
         print <<<EOT
-            <input type="hidden" name="research_id" value="$research_id">
+            <input type="hidden" name="research_id" value="$research_id" />
             
             <div class="field">
                 <span class="label_content">
