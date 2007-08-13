@@ -42,8 +42,8 @@ public class TorqueModel extends RotationModel {
 
     protected void setTime( double time ) {
         super.setTime( time );
-        torque.setValueForTime( time );
-        force.setValueForTime( time );
+        torque.setPlaybackTime( time );
+        force.setPlaybackTime( time );
     }
 
     public IVariable getTorqueVariable() {

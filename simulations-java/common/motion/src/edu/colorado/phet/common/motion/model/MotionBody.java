@@ -80,10 +80,6 @@ public class MotionBody implements IUpdateStrategy {
         motionBodySeries.clear();
     }
 
-    public ITemporalVariable getXVariable() {
-        return x;
-    }
-
     public double getAcceleration() {
         return motionBodyState.getAcceleration();
     }
@@ -98,14 +94,6 @@ public class MotionBody implements IUpdateStrategy {
 
     public void setPosition( double position ) {
         motionBodyState.setPosition( position );
-    }
-
-    public ITemporalVariable getVVariable() {
-        return v;
-    }
-
-    public ITemporalVariable getAVariable() {
-        return a;
     }
 
     public PositionDriven getPositionDriven() {
@@ -158,8 +146,8 @@ public class MotionBody implements IUpdateStrategy {
 
     public void reset() {
         clear();
-        getXVariable().setValue( 0.0 );
-        getVVariable().setValue( 0.0 );
-        getAVariable().setValue( 0.0 );
+        getPositionVariable().setValue( 0.0 );
+        getVelocityVariable().setValue( 0.0 );
+        getAccelerationVariable().setValue( 0.0 );
     }
 }

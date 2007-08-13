@@ -29,6 +29,10 @@ public interface ITemporalVariable extends IVariable {
 
     void addListener( Listener observableTimeSeriesListener );
 
+    void updateSeriesAndState( double magnitude, double time );
+
+    void setPlaybackTime( double time );
+
     public static interface Listener {
         void dataAdded( TimeData data );
 

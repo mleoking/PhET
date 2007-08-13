@@ -165,6 +165,6 @@ public class AngularUnitGraph extends RotationGraph {
     }
 
     protected void updateSliderValue() {
-        getJFreeChartSliderNode().setValue( getDisplayValue( getSimulationVariable().getData() ) );
+        getJFreeChartSliderNode().setValue( getDisplayValue( getSimulationVariable().getValue() ) );
     }
 }

@@ -8,12 +8,7 @@ import java.util.ArrayList;
  */
 public class DefaultSimulationVariable implements IVariable {
     private double value;
-    private double time;
     private ArrayList listeners = new ArrayList();
-
-    public TimeData getData() {
-        return new TimeData( value, time );
-    }
 
     public void setValue( double value ) {
         if( this.value != value ) {
@@ -34,9 +29,5 @@ public class DefaultSimulationVariable implements IVariable {
 
     public double getValue() {
         return value;
-    }
-
-    public double getTime() {
-        return time;
     }
 }

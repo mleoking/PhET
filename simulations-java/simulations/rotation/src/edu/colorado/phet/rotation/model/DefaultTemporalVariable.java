@@ -18,8 +18,8 @@ public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
         series.addValue( value, time );
     }
 
-    public TimeData getData() {
-        return variable.getData();
+    public double getData() {
+        return variable.getValue();
     }
 
     public void setValue( double value ) {
@@ -34,7 +34,7 @@ public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
 //        return series;
 //    }
 
-    public void setValueForTime( double time ) {
+    public void setPlaybackTime( double time ) {
         setValue( getValueForTime( time ) );
     }
 
