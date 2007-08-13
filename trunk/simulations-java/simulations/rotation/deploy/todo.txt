@@ -2,6 +2,12 @@
 #     To Do
 ################################
 
+1. Move get/set DT into parent level for clocks?
+2. PSwingCanvas could be integrated with PCanvas
+3. RotationBody and RotationPlatform need to have a closer ancestor (one that implements series variables).
+4. getValue collision in SeriesVariable
+5. support in ControlGraph for series pair
+
 Torque:
 1. Add better titles/labels/subscripts for the torque/force graphs
 2. Outer radius should always be bigger or equal to inner radius
