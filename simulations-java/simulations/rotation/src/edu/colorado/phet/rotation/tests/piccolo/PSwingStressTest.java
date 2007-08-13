@@ -5,8 +5,8 @@ package edu.colorado.phet.rotation.tests.piccolo;
  * Aug 13, 2007, 1:05:52 PM
  */
 
-import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -19,7 +19,7 @@ public class PSwingStressTest {
     private JFrame frame = new JFrame( getClass().getName().substring( getClass().getName().lastIndexOf( '.' ) + 1 ) );
 
     public PSwingStressTest() {
-        final MathUtil.Average average=new MathUtil.Average();
+        final MathUtil.Average average = new MathUtil.Average();
         final PSwingCanvas contentPane = new PSwingCanvas() {
 
             public void paintComponent( Graphics g ) {
@@ -27,7 +27,7 @@ public class PSwingStressTest {
                 super.paintComponent( g );
 
                 average.addValue( profiler.getTime() );
-                System.out.println( "numValues="+average.numValues()+", Avg: "+average.getAverage()+", val="+profiler.getTime());
+                System.out.println( "numValues=" + average.numValues() + ", Avg: " + average.getAverage() + ", val=" + profiler.getTime() );
             }
         };
         PSwing layout = new PSwing( new JButton( "<html>Button<sub>" + 99 + ", " + 99 + "</sub></html>" ) );
@@ -57,4 +57,14 @@ public class PSwingStressTest {
     public static void main( String[] args ) {
         new PSwingStressTest().start();
     }
+
+    /**
+     * Results from a run with different buffered image types:
+     *
+     numValues=100, Avg: 66.73, val=54 (opaque)
+     numValues=100, Avg: 68.42, val=72 (bitmask)
+     numValues=100, Avg: 68.82, val=76 (translucent)
+     numValues=100, Avg: 71.3, val=65 (manual, ARGB_PRE)
+     numValues=100, Avg: 66.39, val=72 (volatile, no attributes)
+     */
 }
