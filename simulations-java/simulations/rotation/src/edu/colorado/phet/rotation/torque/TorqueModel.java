@@ -47,11 +47,11 @@ public class TorqueModel extends RotationModel {
     }
 
     public ISimulationVariable getTorqueVariable() {
-        return torque.getVariable();
+        return torque;
     }
 
     public ITimeSeries getTorqueTimeSeries() {
-        return torque.getSeries();
+        return torque;
     }
 
     public UpdateStrategy getTorqueDriven() {
@@ -59,11 +59,11 @@ public class TorqueModel extends RotationModel {
     }
 
     public ISimulationVariable getForceVariable() {
-        return force.getVariable();
+        return force;
     }
 
     public ITimeSeries getForceTimeSeries() {
-        return force.getSeries();
+        return force;
     }
 
     public UpdateStrategy getForceDriven() {
@@ -71,19 +71,19 @@ public class TorqueModel extends RotationModel {
     }
 
     public ISimulationVariable getMomentOfInertiaVariable() {
-        return momentOfInertia.getVariable();
+        return momentOfInertia;
     }
 
     public ITimeSeries getMomentOfInertiaTimeSeries() {
-        return momentOfInertia.getSeries();
+        return momentOfInertia;
     }
 
     public ISimulationVariable getAngularMomentumVariable() {
-        return angularMomentum.getVariable();
+        return angularMomentum;
     }
 
     public ITimeSeries getAngularMomentumTimeSeries() {
-        return angularMomentum.getSeries();
+        return angularMomentum;
     }
 
     public boolean isAllowNonTangentialForces() {

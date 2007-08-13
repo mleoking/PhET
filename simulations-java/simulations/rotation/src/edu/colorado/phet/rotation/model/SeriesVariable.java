@@ -6,7 +6,7 @@ import edu.colorado.phet.common.motion.model.*;
  * Author: Sam Reid
  * Jul 26, 2007, 8:04:10 PM
  */
-public class SeriesVariable {
+public class SeriesVariable implements ISimulationVariable, ITimeSeries{
     private ISimulationVariable variable = new DefaultSimulationVariable();
     private ITimeSeries series = new DefaultTimeSeries();
 
@@ -18,34 +18,27 @@ public class SeriesVariable {
         this.series = series;
     }
 
-    public void clear() {
-        series.clear();
-    }
 
     public void updateSeriesAndState( double value, double time ) {
         variable.setValue( value );
         series.addValue( value, time );
     }
 
-    public int getSampleCount() {
-        return series.getSampleCount();
+    public TimeData getData() {
+        return variable.getData();
     }
 
     public void setValue( double value ) {
         variable.setValue( value );
     }
 
-    public double getValueForTime( double time ) {
-        return series.getValueForTime( time );
-    }
-
-    public ISimulationVariable getVariable() {
-        return variable;
-    }
-
-    public ITimeSeries getSeries() {
-        return series;
-    }
+//    public ISimulationVariable getVariable() {
+//        return variable;
+//    }
+//
+//    public ITimeSeries getSeries() {
+//        return series;
+//    }
 
     public void setValueForTime( double time ) {
         setValue( getValueForTime( time ) );
@@ -54,12 +47,59 @@ public class SeriesVariable {
     public double getLastValue() {
         return series.getRecentData( 0 ).getValue();
     }
-
-    public TimeData[] getRecentSeries( int numSamples ) {
-        return series.getRecentSeries( numSamples );
+    public double getValue() {
+        return variable.getValue();
     }
 
-    public double getValue() {
-        return getVariable().getValue();
+    public void addListener( ISimulationVariable.Listener listener ) {
+        variable.addListener( listener );
+    }
+
+    public void removeListener( ISimulationVariable.Listener listener ) {
+        variable.removeListener( listener );
+    }
+
+    public TimeData[] getRecentSeries( int numPts ) {
+        return series.getRecentSeries( numPts );
+    }
+
+    public TimeData getData( int index ) {
+        return series.getData( index );
+    }
+
+    public TimeData getRecentData( int index ) {
+        return series.getRecentData( index );
+    }
+
+    public int getSampleCount() {
+        return series.getSampleCount();
+    }
+
+    public void clear() {
+        series.clear();
+    }
+
+    public void addValue( double v, double time ) {
+        series.addValue( v, time );
+    }
+
+    public double getTime() {
+        return series.getTime();
+    }
+
+    public TimeData getMax() {
+        return series.getMax();
+    }
+
+    public TimeData getMin() {
+        return series.getMin();
+    }
+
+    public double getValueForTime( double time ) {
+        return series.getValueForTime( time );
+    }
+
+    public void addListener( ITimeSeries.Listener observableTimeSeriesListener ) {
+        series.addListener( observableTimeSeriesListener );
     }
 }
