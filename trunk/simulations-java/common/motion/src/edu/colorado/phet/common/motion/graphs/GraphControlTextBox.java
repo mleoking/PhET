@@ -34,7 +34,7 @@ public class GraphControlTextBox extends JPanel {
         textField.setHorizontalAlignment( JTextField.RIGHT );
         add( textField );
         setBorder( BorderFactory.createLineBorder( Color.black ) );
-        series.getSimulationVariable().addListener( new IVariable.Listener() {
+        series.getTemporalVariable().addListener( new IVariable.Listener() {
             public void valueChanged() {
                 update();
             }
@@ -58,7 +58,7 @@ public class GraphControlTextBox extends JPanel {
     }
 
     protected void setSimValueFromTextField() {
-        series.getSimulationVariable().setValue( getModelValue() );
+        series.getTemporalVariable().setValue( getModelValue() );
     }
 
     protected double getModelValue() {
@@ -78,7 +78,7 @@ public class GraphControlTextBox extends JPanel {
     }
 
     protected double getSimVarValue() {
-        return series.getSimulationVariable().getValue();
+        return series.getTemporalVariable().getValue();
     }
 
     public void setEditable( boolean editable ) {

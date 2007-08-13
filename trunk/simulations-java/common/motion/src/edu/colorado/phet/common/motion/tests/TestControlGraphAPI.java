@@ -1,12 +1,13 @@
 package edu.colorado.phet.common.motion.tests;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
-import edu.colorado.phet.common.motion.model.DefaultSimulationVariable;
-import edu.colorado.phet.common.motion.model.IVariable;
+import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,11 +19,12 @@ public class TestControlGraphAPI {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         PhetPCanvas contentPane = new PhetPCanvas();
 
-        final IVariable variable = new DefaultSimulationVariable();
+        final ITemporalVariable variable = new DefaultTemporalVariable();
         RecordableModel recordableModel = new TestRecordableModel();
         ConstantDtClock clock = new ConstantDtClock( 1, 1.0 );
+        ControlGraphSeries series = new ControlGraphSeries(variable); 
         TimeSeriesModel timeSeriesModel = new TimeSeriesModel( recordableModel, clock );
-        ControlGraph controlGraph = new ControlGraph( contentPane, variable, "title", 0, 10, timeSeriesModel );
+        ControlGraph controlGraph = new ControlGraph( contentPane, series, "title", 0, 10, timeSeriesModel );
         contentPane.addScreenChild( controlGraph );
 
         controlGraph.setBounds( 0,0,600,400);

@@ -1,7 +1,6 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.common.motion.graphs.*;
-import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -22,8 +21,8 @@ public class AngularUnitGraph extends RotationGraph {
     private double minRad;
     private double maxRad;
 
-    public AngularUnitGraph( PhetPCanvas pSwingCanvas, IVariable variable, String label, String title, AngleUnitModel angleUnitModel, String unitsRad, String unitsDeg, double minRad, double maxRad, PImage thumb, RotationModel motionModel, boolean editable, TimeSeriesModel timeSeriesModel, UpdateStrategy updateStrategy, double maxDomainValue, RotationPlatform iPositionDriven ) {
-        super( pSwingCanvas, variable, label, title, unitsRad, minRad, maxRad, thumb, motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
+    public AngularUnitGraph( PhetPCanvas pSwingCanvas, ControlGraphSeries series, String label, String title, AngleUnitModel angleUnitModel, String unitsRad, String unitsDeg, double minRad, double maxRad, PImage thumb, RotationModel motionModel, boolean editable, TimeSeriesModel timeSeriesModel, UpdateStrategy updateStrategy, double maxDomainValue, RotationPlatform iPositionDriven ) {
+        super( pSwingCanvas, series, label, title, unitsRad, minRad, maxRad, thumb, motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         this.angleUnitModel = angleUnitModel;
         this.unitsRad = unitsRad;
         this.unitsDeg = unitsDeg;
@@ -57,8 +56,8 @@ public class AngularUnitGraph extends RotationGraph {
         //add back all existing data in the right units
         for( int i = 0; i < getSeriesCount(); i++ ) {
             ControlGraphSeries series = getControlGraphSeries( i );
-            for( int k = 0; k < series.getObservableTimeSeries().getSampleCount(); k++ ) {
-                TimeData data = series.getObservableTimeSeries().getData( k );
+            for( int k = 0; k < series.getTemporalVariable().getSampleCount(); k++ ) {
+                TimeData data = series.getTemporalVariable().getData( k );
                 getDynamicJFreeChartNode().addValue( getSeriesIndex( series ), data.getTime(), getDisplayValue( data ) );
             }
         }
@@ -141,7 +140,7 @@ public class AngularUnitGraph extends RotationGraph {
     }
 
     private boolean isRadians() {
-        return angleUnitModel.isRadians();
+        return angleUnitModel == null || angleUnitModel.isRadians();
     }
 
     private double toDegrees( double rad ) {
