@@ -39,8 +39,8 @@ public class RotationColorScheme {
     private static Color LIGHT_RED = new Color( 255, 127, 181 );
 
     public static final ColorSuite ANGLE_SUITE = new ColorSuite( new Color( 127, 217, 255 ), new Color( 43, 157, 205 ), new Color( 15, 103, 140 ) );//blue
-    public static final ColorSuite ANG_VEL_SUITE = new ColorSuite( new Color( 98, 214, 136), new Color( 0, 135, 50), new Color( 10, 75, 35) );
-    public static final ColorSuite ANG_ACC_SUITE = new ColorSuite( new Color( 255, 127, 181 ), new Color( 220,0,93), new Color( 143,11,67) );
+    public static final ColorSuite ANG_VEL_SUITE = new ColorSuite( new Color( 98, 214, 136 ), new Color( 0, 135, 50 ), new Color( 10, 75, 35 ) );
+    public static final ColorSuite ANG_ACC_SUITE = new ColorSuite( new Color( 255, 127, 181 ), new Color( 220, 0, 93 ), new Color( 143, 11, 67 ) );
 
     public static final Color POSITION_COLOR = Color.blue;
     public static final Color VELOCITY_COLOR = Color.green;

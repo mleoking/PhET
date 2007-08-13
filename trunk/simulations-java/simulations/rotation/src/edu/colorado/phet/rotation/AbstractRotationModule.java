@@ -4,7 +4,6 @@ import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.model.DefaultTimeSeries;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
@@ -26,7 +25,8 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     public static final int DEFAULT_DELAY = 30;
     public static final double DEFAULT_CLOCK_DT = DEFAULT_DELAY / 1000.0;
     static int count;
-    static double sum=0;
+    static double sum = 0;
+
     public AbstractRotationModule( JFrame parentFrame ) {//30millis = 0.03 sec
         super( "Rotation", new ConstantDtClock( DEFAULT_DELAY, DEFAULT_CLOCK_DT ) {
 
@@ -38,7 +38,7 @@ public abstract class AbstractRotationModule extends PiccoloModule {
 //                count++;
 //                System.out.println( "count="+count+", tick time="+sum/count );
             }
-        });
+        } );
         setModel( new BaseModel() );
         setLogoPanel( null );
         setClockControlPanel( null );

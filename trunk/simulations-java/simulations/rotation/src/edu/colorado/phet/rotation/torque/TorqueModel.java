@@ -170,10 +170,10 @@ public class TorqueModel extends RotationModel {
         }
 
         AbstractVector2D x = v;//.getInstanceOfMagnitude( dist );
-        if (x.getMagnitude()==0){
+        if( x.getMagnitude() == 0 ) {
             return new Line2D.Double( appliedForce.getP1(), appliedForce.getP1() );
         }
-        double magnitude = new Vector2D.Double( appliedForce.getP1(), appliedForce.getP2() ).dot( x.getNormalizedInstance( ) );
+        double magnitude = new Vector2D.Double( appliedForce.getP1(), appliedForce.getP2() ).dot( x.getNormalizedInstance() );
 //        System.out.println( "magnitude = " + magnitude );
         if( magnitude != 0 ) {
             x = x.getInstanceOfMagnitude( magnitude );

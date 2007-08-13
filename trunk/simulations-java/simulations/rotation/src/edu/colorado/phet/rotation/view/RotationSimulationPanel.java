@@ -17,7 +17,7 @@ public class RotationSimulationPanel extends AbstractRotationSimulationPanel {
     }
 
     protected JComponent createControlPanel( RulerNode rulerNode, JFrame parentFrame ) {
-        return new RotationControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), getAbstractRotationModule().getVectorViewModel(), parentFrame, getAbstractRotationModule().getRotationModel().getRotationBody( 0 ), getAbstractRotationModule().getRotationModel().getRotationBody( 1 ), getAbstractRotationModule(), super.getAngleUnitModel(),getRotationModel().getRotationPlatform() );
+        return new RotationControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), getAbstractRotationModule().getVectorViewModel(), parentFrame, getAbstractRotationModule().getRotationModel().getRotationBody( 0 ), getAbstractRotationModule().getRotationModel().getRotationBody( 1 ), getAbstractRotationModule(), super.getAngleUnitModel(), getRotationModel().getRotationPlatform() );
     }
 
     protected RotationPlayAreaNode createPlayAreaNode() {

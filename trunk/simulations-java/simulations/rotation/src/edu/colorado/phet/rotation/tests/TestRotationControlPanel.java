@@ -17,7 +17,6 @@ import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.RotationModule;
 import edu.colorado.phet.rotation.controls.RotationControlPanel;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
-import edu.colorado.phet.rotation.graphs.AbstractRotationGraphSet;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
 
