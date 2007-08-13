@@ -64,7 +64,7 @@ public class ControlGraph extends PNode {
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final ITemporalVariable temporalVariable,
                          String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, new ControlGraphSeries(temporalVariable), title, minY, maxY, new PText( "THUMB" ), timeSeriesModel );
+        this( pSwingCanvas, new ControlGraphSeries( temporalVariable ), title, minY, maxY, new PText( "THUMB" ), timeSeriesModel );
     }
 
 
@@ -81,7 +81,9 @@ public class ControlGraph extends PNode {
     public ControlGraph( PhetPCanvas pSwingCanvas, ControlGraphSeries series,
                          String title, double minY, final double maxY, PNode thumb,
                          TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
-        this.variable = series.getTemporalVariable();
+        if( series != null ) {
+            this.variable = series.getTemporalVariable();
+        }
         this.maxDomainValue = maxDomainTime;
         titleLayer = createTitleLayer();
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
@@ -127,11 +129,13 @@ public class ControlGraph extends PNode {
         addChild( zoomControl );
         addChild( titleLayer );
 
-        variable.addListener( new IVariable.Listener() {
-            public void valueChanged() {
-                updateSliderValue();
-            }
-        } );
+        if( variable != null ) {
+            variable.addListener( new IVariable.Listener() {
+                public void valueChanged() {
+                    updateSliderValue();
+                }
+            } );
+        }
         jFreeChartSliderNode.addListener( new JFreeChartSliderNode.Listener() {
             public void valueChanged() {
                 handleValueChanged();
@@ -173,7 +177,9 @@ public class ControlGraph extends PNode {
         this.defaultMaxY = maxY;
         this.defaultMaxX = maxDomainTime;
 
-        addSeries(series);
+        if( series != null ) {
+            addSeries( series );
+        }
     }
 
     public void setHorizontalRange( double maxDomainValue ) {

@@ -81,7 +81,7 @@ public class ControlGraphSeries {
     }
 
     public void setUnits( String units ) {
-        if( !this.units.equals( units ) ) {
+        if( (this.units==null&&units!=null)||!this.units.equals( units ) ) {
             this.units = units;
             notifyUnitsChanged();
         }

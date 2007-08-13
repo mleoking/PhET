@@ -116,6 +116,9 @@ public class RotationGraph extends MotionControlGraph {
     }
 
     private boolean isSecondarySeries( ControlGraphSeries series ) {
+        if (secondarySeries==null){
+            return false;//todo: this assumes (1) secondarySeries will be null for the first ControlGraphSeries, and that (2) that series should be a primary series
+        }
         return secondarySeries.contains( series );
     }
 
