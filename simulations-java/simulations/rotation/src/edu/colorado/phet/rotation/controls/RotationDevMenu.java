@@ -1,7 +1,7 @@
 package edu.colorado.phet.rotation.controls;
 
-import edu.umd.cs.piccolo.PNode;
 import edu.colorado.phet.rotation.RotationApplication;
+import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

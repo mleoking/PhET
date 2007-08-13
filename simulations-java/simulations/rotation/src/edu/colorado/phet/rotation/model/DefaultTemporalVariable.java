@@ -41,6 +41,7 @@ public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
     public double getLastValue() {
         return series.getRecentData( 0 ).getValue();
     }
+
     public double getValue() {
         return variable.getValue();
     }
@@ -98,6 +99,6 @@ public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
     }
 
     public void removeListener( ITemporalVariable.Listener listener ) {
-        series.removeListener(listener);
+        series.removeListener( listener );
     }
 }

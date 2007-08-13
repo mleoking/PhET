@@ -2,8 +2,8 @@ package edu.colorado.phet.rotation.torque;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.RotationFrameSetup;
+import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.controls.RotationTestMenu;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 

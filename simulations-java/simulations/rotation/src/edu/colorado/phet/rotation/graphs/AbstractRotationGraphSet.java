@@ -66,15 +66,15 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
 
         aGraph.addSeriesPair( "|Acceleration|",
                               new ControlGraphSeries( "|Acceleration|", RotationColorScheme.AM_COLOR, "a", ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelMagnitude() ),
-                              new ControlGraphSeries( "|Acceleration|(2)", darken( RotationColorScheme.AM_COLOR ), "a", ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelMagnitude( )),
+                              new ControlGraphSeries( "|Acceleration|(2)", darken( RotationColorScheme.AM_COLOR ), "a", ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelMagnitude() ),
                               b0, b1 );
         aGraph.addSeriesPair( "X-Acceleration",
                               new ControlGraphSeries( "X-Acceleration", RotationColorScheme.AX_COLOR, "ax", ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelX() ),
-                              new ControlGraphSeries( "X-Acceleration(2)", darken( RotationColorScheme.AX_COLOR ), "ax", ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelX()),
+                              new ControlGraphSeries( "X-Acceleration(2)", darken( RotationColorScheme.AX_COLOR ), "ax", ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelX() ),
                               b0, b1, false );
         aGraph.addSeriesPair( "Y-Acceleration",
-                              new ControlGraphSeries( "Y-Acceleration", RotationColorScheme.AY_COLOR, "ay", ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelY( ) ),
-                              new ControlGraphSeries( "Y-Acceleration(2)", darken( RotationColorScheme.AY_COLOR ), "ay", ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelY( )),
+                              new ControlGraphSeries( "Y-Acceleration", RotationColorScheme.AY_COLOR, "ay", ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelY() ),
+                              new ControlGraphSeries( "Y-Acceleration(2)", darken( RotationColorScheme.AY_COLOR ), "ay", ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelY() ),
                               b0, b1, false );
         return aGraph;
     }
@@ -84,16 +84,16 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
                 pSwingCanvas, null, "vx", "Velocity", VELOCITY_UNITS, -15, +15,
                 null, model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
         vGraph.addSeriesPair( "Speed",
-                              new ControlGraphSeries( "Speed", RotationColorScheme.VM_COLOR, "|v|", VELOCITY_UNITS, body0Stroke, CHARACTER_LADY, b0.getSpeed()),
-                              new ControlGraphSeries( "Speed(2)", darken( RotationColorScheme.VM_COLOR ), "|v|", VELOCITY_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getSpeed( ))
+                              new ControlGraphSeries( "Speed", RotationColorScheme.VM_COLOR, "|v|", VELOCITY_UNITS, body0Stroke, CHARACTER_LADY, b0.getSpeed() ),
+                              new ControlGraphSeries( "Speed(2)", darken( RotationColorScheme.VM_COLOR ), "|v|", VELOCITY_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getSpeed() )
                 , b0, b1 );
         vGraph.addSeriesPair( "X-Velocity",
-                              new ControlGraphSeries( "X-Velocity", RotationColorScheme.VX_COLOR, "vx", VELOCITY_UNITS, body0Stroke, CHARACTER_LADY, b0.getVx()),
-                              new ControlGraphSeries( "X-Velocity(2)", darken( RotationColorScheme.VX_COLOR ), "vx", VELOCITY_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getVx()),
+                              new ControlGraphSeries( "X-Velocity", RotationColorScheme.VX_COLOR, "vx", VELOCITY_UNITS, body0Stroke, CHARACTER_LADY, b0.getVx() ),
+                              new ControlGraphSeries( "X-Velocity(2)", darken( RotationColorScheme.VX_COLOR ), "vx", VELOCITY_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getVx() ),
                               b0, b1, false );
         vGraph.addSeriesPair( "Y-Velocity",
                               new ControlGraphSeries( "Y-Velocity", RotationColorScheme.VY_COLOR, "vy", VELOCITY_UNITS, body0Stroke, CHARACTER_LADY, b0.getVy() ),
-                              new ControlGraphSeries( "Y-Velocity(2)", darken( RotationColorScheme.VY_COLOR ), "vy", VELOCITY_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getVy()),
+                              new ControlGraphSeries( "Y-Velocity(2)", darken( RotationColorScheme.VY_COLOR ), "vy", VELOCITY_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getVy() ),
                               b0, b1, false );
         return vGraph;
     }
@@ -156,7 +156,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
     protected RotationMinimizableControlGraph createAngleGraph() {
         final ControlGraphSeries platformAngleSeries = new ControlGraphSeries( "Angle", RotationColorScheme.ANGLE_SUITE.getPlatformColor(), UnicodeUtil.THETA, ANGLE_UNITS_RAD, platformStroke, true, CHARACTER_PLATFORM, model.getRotationPlatform().getAngle() );
         final RotationMinimizableControlGraph angleGraph = new RotationMinimizableControlGraph( UnicodeUtil.THETA, new AngularUnitGraph(
-                pSwingCanvas, platformAngleSeries, 
+                pSwingCanvas, platformAngleSeries,
                 UnicodeUtil.THETA, "Angle", angleUnitModel, ANGLE_UNITS_RAD, ANGLE_UNITS_DEG, -Math.PI * 3, Math.PI * 3, createThumb( RotationColorScheme.ANGLE_SUITE.getPlatformColor() ),
                 model, true, model.getTimeSeriesModel(), model.getPositionDriven(),
                 RotationModel.MAX_TIME, model.getRotationPlatform() ) );

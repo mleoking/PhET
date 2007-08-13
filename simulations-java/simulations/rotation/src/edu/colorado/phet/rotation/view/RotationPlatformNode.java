@@ -2,13 +2,15 @@ package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.motion.model.IPositionDriven;
 import edu.colorado.phet.common.motion.model.MotionBodyState;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid

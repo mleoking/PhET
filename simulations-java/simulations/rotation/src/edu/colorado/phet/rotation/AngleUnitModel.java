@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Author: Sam Reid
  * Jul 20, 2007, 10:45:52 AM
- * 
+ * <p/>
  * Test commit.
  */
 public class AngleUnitModel {
