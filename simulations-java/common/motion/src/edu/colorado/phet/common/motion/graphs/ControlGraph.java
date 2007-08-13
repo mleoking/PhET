@@ -4,8 +4,8 @@ import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.SeriesData;
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
-import edu.colorado.phet.common.motion.model.ITimeSeries;
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -57,26 +57,26 @@ public class ControlGraph extends PNode {
     private ArrayList series = new ArrayList();
     private ArrayList listeners = new ArrayList();
     private PNode additionalControls;
-    private ISimulationVariable simulationVariable;
+    private IVariable variable;
 
     private double defaultMinY;
     private double defaultMaxY;
     private double defaultMaxX;
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final IVariable variable,
                          String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, simulationVariable, title, minY, maxY, new PText( "THUMB" ), timeSeriesModel );
+        this( pSwingCanvas, variable, title, minY, maxY, new PText( "THUMB" ), timeSeriesModel );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final IVariable variable,
                          String title, double minY, final double maxY, PNode thumb, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, simulationVariable, title, minY, maxY, thumb, timeSeriesModel, 1000 );
+        this( pSwingCanvas, variable, title, minY, maxY, thumb, timeSeriesModel, 1000 );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final ISimulationVariable simulationVariable,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final IVariable variable,
                          String title, double minY, final double maxY, PNode thumb,
                          TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
-        this.simulationVariable = simulationVariable;
+        this.variable = variable;
         this.maxDomainValue = maxDomainTime;
         titleLayer = createTitleLayer();
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
@@ -122,7 +122,7 @@ public class ControlGraph extends PNode {
         addChild( zoomControl );
         addChild( titleLayer );
 
-        simulationVariable.addListener( new ISimulationVariable.Listener() {
+        variable.addListener( new IVariable.Listener() {
             public void valueChanged() {
                 updateSliderValue();
             }
@@ -193,8 +193,8 @@ public class ControlGraph extends PNode {
         return new TitleLayer();
     }
 
-    public ISimulationVariable getSimulationVariable() {
-        return simulationVariable;
+    public IVariable getSimulationVariable() {
+        return variable;
     }
 
     protected void handleValueChanged() {
@@ -285,12 +285,12 @@ public class ControlGraph extends PNode {
         zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDomainValue );
     }
 
-    public void addSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries ) {
-        addSeries( title, color, abbr, units, simulationVariable, observableTimeSeries, BufferedSeriesView.DEFAULT_STROKE );
+    public void addSeries( String title, Color color, String abbr, String units, IVariable variable, ITemporalVariable observableTemporalVariable ) {
+        addSeries( title, color, abbr, units, variable, observableTemporalVariable, BufferedSeriesView.DEFAULT_STROKE );
     }
 
-    public void addSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
-        addSeries( new ControlGraphSeries( title, color, abbr, units, stroke, null, new SeriesVariable( simulationVariable, observableTimeSeries ) ) );
+    public void addSeries( String title, Color color, String abbr, String units, IVariable variable, ITemporalVariable observableTemporalVariable, Stroke stroke ) {
+        addSeries( new ControlGraphSeries( title, color, abbr, units, stroke, null, new SeriesVariable( variable, observableTemporalVariable ) ) );
     }
 
     public ControlGraphSeries getControlGraphSeries( int i ) {
@@ -344,7 +344,7 @@ public class ControlGraph extends PNode {
                 }
             } );
         }
-        series.getObservableTimeSeries().addListener( new ITimeSeries.Listener() {
+        series.getObservableTimeSeries().addListener( new ITemporalVariable.Listener() {
             public void dataAdded( TimeData timeData ) {
                 handleDataAdded( getSeriesIndex( series ), timeData );
             }

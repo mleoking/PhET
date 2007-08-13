@@ -1,13 +1,12 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -45,7 +44,7 @@ public class ReadoutTitleNode extends PNode {
         addChild( valueNode );
         background.translate( insetX, insetY );
         titleNode.translate( insetX, insetY );
-        series.getSimulationVariable().addListener( new ISimulationVariable.Listener() {
+        series.getSimulationVariable().addListener( new IVariable.Listener() {
             public void valueChanged() {
                 updateText();
             }

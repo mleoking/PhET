@@ -31,7 +31,7 @@ public class RotationBody {
     private SeriesVariable angularAccel;
 
     private double orientation = 0.0;
-    private ITimeSeries orientationSeries = new DefaultTimeSeries();
+    private DefaultTimeSeries orientationSeries = new DefaultTimeSeries();
 
     private String imageName;
     private boolean constrained;
@@ -396,67 +396,67 @@ public class RotationBody {
         return new Vector2D.Double( xBody.getVelocity(), yBody.getVelocity() );
     }
 
-    public ISimulationVariable getXPositionVariable() {
+    public IVariable getXPositionVariable() {
         return xBody.getXVariable();
     }
 
-    public ISimulationVariable getXVelocityVariable() {
+    public IVariable getXVelocityVariable() {
         return xBody.getVVariable();
     }
 
-    public ITimeSeries getXVelocityTimeSeries() {
+    public DefaultTimeSeries getXVelocityTimeSeries() {
         return xBody.getVTimeSeries();
     }
 
-    public ISimulationVariable getYVelocityVariable() {
+    public IVariable getYVelocityVariable() {
         return yBody.getVVariable();
     }
 
-    public ITimeSeries getYVelocityTimeSeries() {
+    public DefaultTimeSeries getYVelocityTimeSeries() {
         return yBody.getVTimeSeries();
     }
 
-    public ITimeSeries getXPositionTimeSeries() {
+    public DefaultTimeSeries getXPositionTimeSeries() {
         return xBody.getXTimeSeries();
     }
 
-    public ISimulationVariable getYPositionVariable() {
+    public IVariable getYPositionVariable() {
         return yBody.getXVariable();
     }
 
-    public ITimeSeries getYPositionTimeSeries() {
+    public DefaultTimeSeries getYPositionTimeSeries() {
         return yBody.getXTimeSeries();
     }
 
-    public ISimulationVariable getXAccelVariable() {
+    public IVariable getXAccelVariable() {
         return xBody.getAVariable();
     }
 
-    public ITimeSeries getXAccelTimeSeries() {
+    public DefaultTimeSeries getXAccelTimeSeries() {
         return xBody.getATimeSeries();
     }
 
-    public ISimulationVariable getYAccelVariable() {
+    public IVariable getYAccelVariable() {
         return yBody.getAVariable();
     }
 
-    public ITimeSeries getYAccelTimeSeries() {
+    public DefaultTimeSeries getYAccelTimeSeries() {
         return yBody.getATimeSeries();
     }
 
-    public ISimulationVariable getSpeedVariable() {
+    public IVariable getSpeedVariable() {
         return speed;
     }
 
-    public ITimeSeries getSpeedSeries() {
+    public ITemporalVariable getSpeedSeries() {
         return speed;
     }
 
-    public ISimulationVariable getAccelMagnitudeVariable() {
+    public IVariable getAccelMagnitudeVariable() {
         return accelMagnitude;
     }
 
-    public ITimeSeries getAccelMagnitudeSeries() {
+    public ITemporalVariable getAccelMagnitudeSeries() {
         return accelMagnitude;
     }
 
@@ -483,11 +483,11 @@ public class RotationBody {
         return constrained;
     }
 
-    public ISimulationVariable getAngleVariable() {
+    public IVariable getAngleVariable() {
         return angle;
     }
 
-    public ITimeSeries getAngleTimeSeries() {
+    public ITemporalVariable getAngleTimeSeries() {
         return angle;
     }
 
@@ -504,19 +504,19 @@ public class RotationBody {
         return displayGraph;
     }
 
-    public ISimulationVariable getAngularVelocityVariable() {
+    public IVariable getAngularVelocityVariable() {
         return angularVelocity;
     }
 
-    public ITimeSeries getAngularVelocityTimeSeries() {
+    public ITemporalVariable getAngularVelocityTimeSeries() {
         return angularVelocity;
     }
 
-    public ISimulationVariable getAngularAccelerationVariable() {
+    public IVariable getAngularAccelerationVariable() {
         return angularAccel;
     }
 
-    public ITimeSeries getAngularAccelerationTimeSeries() {
+    public ITemporalVariable getAngularAccelerationTimeSeries() {
         return angularAccel;
     }
 

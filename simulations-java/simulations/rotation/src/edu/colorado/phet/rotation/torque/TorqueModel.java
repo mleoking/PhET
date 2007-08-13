@@ -46,11 +46,11 @@ public class TorqueModel extends RotationModel {
         force.setValueForTime( time );
     }
 
-    public ISimulationVariable getTorqueVariable() {
+    public IVariable getTorqueVariable() {
         return torque;
     }
 
-    public ITimeSeries getTorqueTimeSeries() {
+    public ITemporalVariable getTorqueTimeSeries() {
         return torque;
     }
 
@@ -58,11 +58,11 @@ public class TorqueModel extends RotationModel {
         return torqueDriven;
     }
 
-    public ISimulationVariable getForceVariable() {
+    public IVariable getForceVariable() {
         return force;
     }
 
-    public ITimeSeries getForceTimeSeries() {
+    public ITemporalVariable getForceTimeSeries() {
         return force;
     }
 
@@ -70,19 +70,19 @@ public class TorqueModel extends RotationModel {
         return forceDriven;
     }
 
-    public ISimulationVariable getMomentOfInertiaVariable() {
+    public IVariable getMomentOfInertiaVariable() {
         return momentOfInertia;
     }
 
-    public ITimeSeries getMomentOfInertiaTimeSeries() {
+    public ITemporalVariable getMomentOfInertiaTimeSeries() {
         return momentOfInertia;
     }
 
-    public ISimulationVariable getAngularMomentumVariable() {
+    public IVariable getAngularMomentumVariable() {
         return angularMomentum;
     }
 
-    public ITimeSeries getAngularMomentumTimeSeries() {
+    public ITemporalVariable getAngularMomentumTimeSeries() {
         return angularMomentum;
     }
 

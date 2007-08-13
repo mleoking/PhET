@@ -34,15 +34,15 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
         return motionBody.getMotionBodySeries();
     }
 
-    public ISimulationVariable getXVariable() {
+    public IVariable getXVariable() {
         return motionBody.getXVariable();
     }
 
-    public ISimulationVariable getVVariable() {
+    public IVariable getVVariable() {
         return motionBody.getVVariable();
     }
 
-    public ISimulationVariable getAVariable() {
+    public IVariable getAVariable() {
         return motionBody.getAVariable();
     }
 
@@ -54,15 +54,15 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
         getMotionBodySeries().setPositionDriven();
     }
 
-    public ITimeSeries getXTimeSeries() {
+    public DefaultTimeSeries getXTimeSeries() {
         return getMotionBodySeries().getXTimeSeries();
     }
 
-    public ITimeSeries getVTimeSeries() {
+    public DefaultTimeSeries getVTimeSeries() {
         return getMotionBodySeries().getVTimeSeries();
     }
 
-    public ITimeSeries getATimeSeries() {
+    public DefaultTimeSeries getATimeSeries() {
         return getMotionBodySeries().getATimeSeries();
     }
 

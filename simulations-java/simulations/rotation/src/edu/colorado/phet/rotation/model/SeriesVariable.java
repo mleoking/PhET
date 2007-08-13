@@ -6,14 +6,14 @@ import edu.colorado.phet.common.motion.model.*;
  * Author: Sam Reid
  * Jul 26, 2007, 8:04:10 PM
  */
-public class SeriesVariable implements ISimulationVariable, ITimeSeries{
-    private ISimulationVariable variable = new DefaultSimulationVariable();
-    private ITimeSeries series = new DefaultTimeSeries();
+public class SeriesVariable implements ITemporalVariable, IVariable {
+    private IVariable variable = new DefaultSimulationVariable();
+    private ITemporalVariable series = new DefaultTimeSeries();
 
     public SeriesVariable() {
     }
 
-    public SeriesVariable( ISimulationVariable variable, ITimeSeries series ) {
+    public SeriesVariable( IVariable variable, ITemporalVariable series ) {
         this.variable = variable;
         this.series = series;
     }
@@ -51,11 +51,11 @@ public class SeriesVariable implements ISimulationVariable, ITimeSeries{
         return variable.getValue();
     }
 
-    public void addListener( ISimulationVariable.Listener listener ) {
+    public void addListener( IVariable.Listener listener ) {
         variable.addListener( listener );
     }
 
-    public void removeListener( ISimulationVariable.Listener listener ) {
+    public void removeListener( IVariable.Listener listener ) {
         variable.removeListener( listener );
     }
 
@@ -99,7 +99,7 @@ public class SeriesVariable implements ISimulationVariable, ITimeSeries{
         return series.getValueForTime( time );
     }
 
-    public void addListener( ITimeSeries.Listener observableTimeSeriesListener ) {
+    public void addListener( ITemporalVariable.Listener observableTimeSeriesListener ) {
         series.addListener( observableTimeSeriesListener );
     }
 }

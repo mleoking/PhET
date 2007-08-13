@@ -21,7 +21,7 @@ public class MotionBody implements IUpdateStrategy {
                 x.setValue( motionBodyState.getPosition() );
             }
         } );
-        x.addListener( new ISimulationVariable.Listener() {
+        x.addListener( new IVariable.Listener() {
             public void valueChanged() {
                 motionBodyState.setPosition( x.getValue() );
             }
@@ -33,7 +33,7 @@ public class MotionBody implements IUpdateStrategy {
                 v.setValue( motionBodyState.getVelocity() );
             }
         } );
-        v.addListener( new ISimulationVariable.Listener() {
+        v.addListener( new IVariable.Listener() {
             public void valueChanged() {
                 motionBodyState.setVelocity( v.getValue() );
             }
@@ -45,7 +45,7 @@ public class MotionBody implements IUpdateStrategy {
                 a.setValue( motionBodyState.getAcceleration() );
             }
         } );
-        a.addListener( new ISimulationVariable.Listener() {
+        a.addListener( new IVariable.Listener() {
             public void valueChanged() {
                 motionBodyState.setAcceleration( a.getValue() );
             }
@@ -81,7 +81,7 @@ public class MotionBody implements IUpdateStrategy {
         motionBodySeries.clear();
     }
 
-    public ISimulationVariable getXVariable() {
+    public IVariable getXVariable() {
         return x;
     }
 
@@ -101,11 +101,11 @@ public class MotionBody implements IUpdateStrategy {
         motionBodyState.setPosition( position );
     }
 
-    public ISimulationVariable getVVariable() {
+    public IVariable getVVariable() {
         return v;
     }
 
-    public ISimulationVariable getAVariable() {
+    public IVariable getAVariable() {
         return a;
     }
 
@@ -113,7 +113,7 @@ public class MotionBody implements IUpdateStrategy {
         return motionBodySeries.getPositionDriven();
     }
 
-    public ITimeSeries getXTimeSeries() {
+    public DefaultTimeSeries getXTimeSeries() {
         return motionBodySeries.getXTimeSeries();
     }
 
@@ -129,11 +129,11 @@ public class MotionBody implements IUpdateStrategy {
         return motionBodySeries.getUpdateStrategy();
     }
 
-    public ITimeSeries getVTimeSeries() {
+    public DefaultTimeSeries getVTimeSeries() {
         return motionBodySeries.getVTimeSeries();
     }
 
-    public ITimeSeries getATimeSeries() {
+    public DefaultTimeSeries getATimeSeries() {
         return motionBodySeries.getATimeSeries();
     }
 
