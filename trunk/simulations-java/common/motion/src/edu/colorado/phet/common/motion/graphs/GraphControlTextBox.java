@@ -78,7 +78,7 @@ public class GraphControlTextBox extends JPanel {
     }
 
     protected double getSimVarValue() {
-        return series.getSimulationVariable().getData().getValue();
+        return series.getSimulationVariable().getValue();
     }
 
     public void setEditable( boolean editable ) {

@@ -177,7 +177,7 @@ public class ControlGraph extends PNode {
     }
 
     protected void updateSliderValue() {
-        getJFreeChartSliderNode().setValue( getSimulationVariable().getData().getValue() );
+        getJFreeChartSliderNode().setValue( getSimulationVariable().getValue() );
     }
 
     protected JFreeChartSliderNode getJFreeChartSliderNode() {

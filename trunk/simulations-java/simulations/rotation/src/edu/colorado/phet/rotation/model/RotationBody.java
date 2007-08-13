@@ -24,11 +24,11 @@ public class RotationBody {
     private MotionBody yBody;
     private UpdateStrategy updateStrategy = new OffPlatform();
 
-    private DefaultTemporalVariable speed;
-    private DefaultTemporalVariable accelMagnitude;
-    private DefaultTemporalVariable angle;
-    private DefaultTemporalVariable angularVelocity;
-    private DefaultTemporalVariable angularAccel;
+    private ITemporalVariable speed;
+    private ITemporalVariable accelMagnitude;
+    private ITemporalVariable angle;
+    private ITemporalVariable angularVelocity;
+    private ITemporalVariable angularAccel;
 
     private double orientation = 0.0;
     private DefaultTimeSeries orientationSeries = new DefaultTimeSeries();
@@ -326,11 +326,11 @@ public class RotationBody {
         AbstractVector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         AbstractVector2D newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
 
-        xBody.getVVariable().setValue( newV.getX() );
-        yBody.getVVariable().setValue( newV.getY() );
+        xBody.getVelocityVariable().setValue( newV.getX() );
+        yBody.getVelocityVariable().setValue( newV.getY() );
 
-        xBody.getAVariable().setValue( newA.getX() );
-        yBody.getAVariable().setValue( newA.getY() );
+        xBody.getAccelerationVariable().setValue( newA.getX() );
+        yBody.getAccelerationVariable().setValue( newA.getY() );
     }
 
     private void updateOnPlatform( double time ) {
@@ -396,67 +396,35 @@ public class RotationBody {
         return new Vector2D.Double( xBody.getVelocity(), yBody.getVelocity() );
     }
 
-    public IVariable getXPositionVariable() {
-        return xBody.getXVariable();
-    }
-
-    public IVariable getXVelocityVariable() {
-        return xBody.getVVariable();
-    }
-
-    public ITemporalVariable getXVelocityTimeSeries() {
-        return xBody.getVelocityVariable();
-    }
-
-    public IVariable getYVelocityVariable() {
-        return yBody.getVVariable();
-    }
-
-    public ITemporalVariable getYVelocityTimeSeries() {
-        return yBody.getVelocityVariable();
-    }
-
-    public ITemporalVariable getXPositionTimeSeries() {
+    public ITemporalVariable getXPositionVariable() {
         return xBody.getPositionVariable();
     }
 
-    public IVariable getYPositionVariable() {
-        return yBody.getXVariable();
+    public ITemporalVariable getXVelocityVariable() {
+        return xBody.getVelocityVariable();
     }
 
-    public ITemporalVariable getYPositionTimeSeries() {
-        return yBody.getPositionVariable();
-    }
-
-    public IVariable getXAccelVariable() {
-        return xBody.getAVariable();
-    }
-
-    public ITemporalVariable getXAccelTimeSeries() {
+    public ITemporalVariable getXAccelVariable() {
         return xBody.getAccelerationVariable();
     }
 
-    public IVariable getYAccelVariable() {
-        return yBody.getAVariable();
+    public ITemporalVariable getYPositionVariable() {
+        return yBody.getPositionVariable();
     }
 
-    public ITemporalVariable getYAccelTimeSeries() {
+    public ITemporalVariable getYVelocityVariable() {
+        return yBody.getVelocityVariable();
+    }
+
+    public ITemporalVariable getYAccelVariable() {
         return yBody.getAccelerationVariable();
     }
 
-    public IVariable getSpeedVariable() {
+    public ITemporalVariable getSpeedVariable() {
         return speed;
     }
 
-    public ITemporalVariable getSpeedSeries() {
-        return speed;
-    }
-
-    public IVariable getAccelMagnitudeVariable() {
-        return accelMagnitude;
-    }
-
-    public ITemporalVariable getAccelMagnitudeSeries() {
+    public ITemporalVariable getAccelMagnitudeVariable() {
         return accelMagnitude;
     }
 
@@ -467,12 +435,12 @@ public class RotationBody {
     public void setTime( double time ) {
         xBody.setTime( time );
         yBody.setTime( time );
-        accelMagnitude.setValueForTime( time );
-        speed.setValueForTime( time );
+        accelMagnitude.setPlaybackTime( time );
+        speed.setPlaybackTime( time );
 
         setOrientation( orientationSeries.getValueForTime( time ) );
         if( angle.getSampleCount() > 0 ) {
-            angle.setValueForTime( time );
+            angle.setPlaybackTime( time );
         }
 
         notifyVectorsUpdated();

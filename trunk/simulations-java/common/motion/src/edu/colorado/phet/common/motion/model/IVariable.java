@@ -7,9 +7,6 @@ package edu.colorado.phet.common.motion.model;
  */
 
 public interface IVariable {
-
-    TimeData getData();
-
     void setValue( double value );
 
     double getValue();
