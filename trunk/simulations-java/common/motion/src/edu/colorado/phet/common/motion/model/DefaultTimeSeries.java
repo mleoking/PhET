@@ -7,7 +7,7 @@ import java.util.List;
  * Author: Sam Reid
  * Jun 25, 2007, 11:31:28 PM
  */
-public class DefaultTimeSeries implements ITimeSeries {
+public class DefaultTimeSeries implements ITemporalVariable {
     private ArrayList data = new ArrayList();
     private ArrayList listeners = new ArrayList();
 
@@ -43,7 +43,7 @@ public class DefaultTimeSeries implements ITimeSeries {
         if( data.size() > 0 ) {
             data.clear();
             for( int i = 0; i < listeners.size(); i++ ) {
-                ( (Listener)listeners.get( i ) ).dataCleared();
+                ( (ITemporalVariable.Listener)listeners.get( i ) ).dataCleared();
             }
         }
     }
@@ -60,7 +60,7 @@ public class DefaultTimeSeries implements ITimeSeries {
 
     private void notifyObservers( TimeData o ) {
         for( int i = 0; i < listeners.size(); i++ ) {
-            Listener observableTimeSeriesListener = (Listener)listeners.get( i );
+            ITemporalVariable.Listener observableTimeSeriesListener = (ITemporalVariable.Listener)listeners.get( i );
             observableTimeSeriesListener.dataAdded( o );
         }
     }
@@ -89,7 +89,7 @@ public class DefaultTimeSeries implements ITimeSeries {
         return min;
     }
 
-    public void addListener( Listener listener ) {
+    public void addListener( ITemporalVariable.Listener listener ) {
         listeners.add( listener );
     }
 

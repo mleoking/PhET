@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 import javax.swing.*;
@@ -34,7 +34,7 @@ public class GraphControlTextBox extends JPanel {
         textField.setHorizontalAlignment( JTextField.RIGHT );
         add( textField );
         setBorder( BorderFactory.createLineBorder( Color.black ) );
-        series.getSimulationVariable().addListener( new ISimulationVariable.Listener() {
+        series.getSimulationVariable().addListener( new IVariable.Listener() {
             public void valueChanged() {
                 update();
             }

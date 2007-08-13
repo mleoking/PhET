@@ -6,7 +6,7 @@ package edu.colorado.phet.common.motion.model;
  * Time: 9:15:36 AM
  */
 
-public interface ISimulationVariable {
+public interface IVariable {
 
     TimeData getData();
 

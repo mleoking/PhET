@@ -1,8 +1,8 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.motion.MotionResources;
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
-import edu.colorado.phet.common.motion.model.ITimeSeries;
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -189,7 +189,7 @@ public class MinimizableControlGraph extends PNode {
         }
     }
 
-    public void addSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
-        controlGraph.addSeries( title, color, abbr, units, simulationVariable, observableTimeSeries, stroke );
+    public void addSeries( String title, Color color, String abbr, String units, IVariable variable, ITemporalVariable observableTemporalVariable, Stroke stroke ) {
+        controlGraph.addSeries( title, color, abbr, units, variable, observableTemporalVariable, stroke );
     }
 }

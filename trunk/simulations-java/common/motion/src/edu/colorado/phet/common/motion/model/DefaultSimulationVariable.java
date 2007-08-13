@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Author: Sam Reid
  * Jun 26, 2007, 12:20:50 PM
  */
-public class DefaultSimulationVariable implements ISimulationVariable {
+public class DefaultSimulationVariable implements IVariable {
     private double value;
     private double time;
     private ArrayList listeners = new ArrayList();
@@ -19,16 +19,16 @@ public class DefaultSimulationVariable implements ISimulationVariable {
         if( this.value != value ) {
             this.value = value;
             for( int i = 0; i < listeners.size(); i++ ) {
-                ( (Listener)listeners.get( i ) ).valueChanged();
+                ( (IVariable.Listener)listeners.get( i ) ).valueChanged();
             }
         }
     }
 
-    public void addListener( Listener listener ) {
+    public void addListener( IVariable.Listener listener ) {
         listeners.add( listener );
     }
 
-    public void removeListener( Listener listener ) {
+    public void removeListener( IVariable.Listener listener ) {
         listeners.remove( listener );
     }
 

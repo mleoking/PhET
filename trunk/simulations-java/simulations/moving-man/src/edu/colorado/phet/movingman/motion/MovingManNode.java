@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.motion;
 
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -88,7 +88,7 @@ public class MovingManNode extends PNode {
             }
         } );
 
-        motionModel.getXVariable().addListener( new ISimulationVariable.Listener() {
+        motionModel.getXVariable().addListener( new IVariable.Listener() {
             public void valueChanged() {
                 updateObject( manImage, motionModel );
             }

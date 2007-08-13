@@ -1,8 +1,8 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
-import edu.colorado.phet.common.motion.model.ITimeSeries;
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.rotation.model.SeriesVariable;
 
 import java.awt.*;
@@ -100,12 +100,12 @@ public class ControlGraphSeries {
         return character;
     }
 
-    public ITimeSeries getObservableTimeSeries() {
+    public ITemporalVariable getObservableTimeSeries() {
         //return seriesVariable.getSeries();//todo: remove
         return seriesVariable;
     }
 
-    public ISimulationVariable getSimulationVariable() {
+    public IVariable getSimulationVariable() {
         //return seriesVariable.getVariable();
         return seriesVariable;
     }

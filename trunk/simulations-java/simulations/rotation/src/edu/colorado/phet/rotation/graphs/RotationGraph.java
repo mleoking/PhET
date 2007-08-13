@@ -3,8 +3,8 @@ package edu.colorado.phet.rotation.graphs;
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
 import edu.colorado.phet.common.motion.graphs.ReadoutTitleNode;
-import edu.colorado.phet.common.motion.model.ISimulationVariable;
-import edu.colorado.phet.common.motion.model.ITimeSeries;
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -33,11 +33,11 @@ public class RotationGraph extends MotionControlGraph {
     private RotationGraphNumberAxis verticalAxis;
     private String title;
 
-    public RotationGraph( PhetPCanvas pSwingCanvas, ISimulationVariable simulationVariable,
+    public RotationGraph( PhetPCanvas pSwingCanvas, IVariable variable,
                           String label, String title, String units, double min, double max, PImage thumb,
                           RotationModel motionModel, boolean editable, TimeSeriesModel timeSeriesModel,
                           UpdateStrategy updateStrategy, double maxDomainValue, RotationPlatform iPositionDriven ) {
-        super( pSwingCanvas, simulationVariable,
+        super( pSwingCanvas, variable,
                label, title, min, max, thumb,
                motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         this.title = title;
@@ -121,8 +121,8 @@ public class RotationGraph extends MotionControlGraph {
         return secondarySeries.contains( series );
     }
 
-    public void addSecondarySeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries timeSeries, Stroke stroke ) {
-        addSecondarySeries( new ControlGraphSeries( title, color, abbr, units, stroke, null, new SeriesVariable( simulationVariable, timeSeries ) ) );
+    public void addSecondarySeries( String title, Color color, String abbr, String units, IVariable variable, ITemporalVariable temporalVariable, Stroke stroke ) {
+        addSecondarySeries( new ControlGraphSeries( title, color, abbr, units, stroke, null, new SeriesVariable( variable, temporalVariable ) ) );
     }
 
     public void addSecondarySeries( ControlGraphSeries graphSeries ) {

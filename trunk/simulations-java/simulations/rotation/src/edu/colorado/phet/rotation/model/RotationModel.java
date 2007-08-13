@@ -117,19 +117,19 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         return rotationPlatform.getPositionDriven();
     }
 
-    public ISimulationVariable getPlatformAngleVariable() {
+    public IVariable getPlatformAngleVariable() {
         return rotationPlatform.getXVariable();
     }
 
-    public ITimeSeries getPlatformAngleTimeSeries() {
+    public ITemporalVariable getPlatformAngleTimeSeries() {
         return rotationPlatform.getXTimeSeries();
     }
 
-    public ISimulationVariable getPlatformVelocityVariable() {
+    public IVariable getPlatformVelocityVariable() {
         return rotationPlatform.getVVariable();
     }
 
-    public ITimeSeries getPlatformVelocityTimeSeries() {
+    public ITemporalVariable getPlatformVelocityTimeSeries() {
         return rotationPlatform.getVTimeSeries();
     }
 
@@ -137,11 +137,11 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         return rotationPlatform.getVelocityDriven();
     }
 
-    public ISimulationVariable getPlatformAccelVariable() {
+    public IVariable getPlatformAccelVariable() {
         return rotationPlatform.getAVariable();
     }
 
-    public ITimeSeries getPlatformAccelTimeSeries() {
+    public ITemporalVariable getPlatformAccelTimeSeries() {
         return rotationPlatform.getATimeSeries();
     }
 
