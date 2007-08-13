@@ -13,6 +13,11 @@ public class SeriesVariable {
     public SeriesVariable() {
     }
 
+    public SeriesVariable( ISimulationVariable variable, ITimeSeries series ) {
+        this.variable = variable;
+        this.series = series;
+    }
+
     public void clear() {
         series.clear();
     }

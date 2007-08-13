@@ -20,4 +20,6 @@ public interface ISimulationVariable {
 
     public void addListener( Listener listener );
 
+    public void removeListener(Listener listener);
+
 }

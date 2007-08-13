@@ -9,13 +9,12 @@ package edu.colorado.phet.common.motion.tests;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.GraphTimeControlNode;
-import edu.colorado.phet.common.motion.model.DefaultSimulationVariable;
-import edu.colorado.phet.common.motion.model.DefaultTimeSeries;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.rotation.model.SeriesVariable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +34,7 @@ public class TestGraphControlNode {
 
         swingClock.addClockListener( timeSeriesModel );
         GraphTimeControlNode graphTimeControlNode = new GraphTimeControlNode( timeSeriesModel );
-        graphTimeControlNode.addVariable( new ControlGraphSeries( "title", Color.blue, "abbr", "units", new DefaultSimulationVariable(), new DefaultTimeSeries(), null ) );
+        graphTimeControlNode.addVariable( new ControlGraphSeries( "title", Color.blue, "abbr", "units", null, new SeriesVariable( )) );
         phetPCanvas.addScreenChild( graphTimeControlNode );
 
         frame.setContentPane( phetPCanvas );

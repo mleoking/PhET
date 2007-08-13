@@ -88,6 +88,18 @@ public class RotationPlatform extends MotionBody {
         this.mass = mass;
     }
 
+    public SeriesVariable getAngularAcceleration() {
+        return new SeriesVariable( super.getAVariable(), super.getATimeSeries() );
+    }
+
+    public SeriesVariable getAngularVelocity() {
+        return new SeriesVariable( super.getVVariable(), super.getVTimeSeries() );
+    }
+
+    public SeriesVariable getAngle() {
+        return new SeriesVariable( super.getXVariable(), super.getXTimeSeries() );
+    }
+
     public static interface Listener {
         void radiusChanged();
 

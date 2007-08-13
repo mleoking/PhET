@@ -3,6 +3,7 @@ package edu.colorado.phet.common.motion.graphs;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
 import edu.colorado.phet.common.motion.model.ISimulationVariable;
 import edu.colorado.phet.common.motion.model.ITimeSeries;
+import edu.colorado.phet.rotation.model.SeriesVariable;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,9 +16,8 @@ public class ControlGraphSeries {
     private String title;
     private Color color;
     private String abbr;
+    private SeriesVariable seriesVariable;
     private String units;
-    private ISimulationVariable simulationVariable;
-    private ITimeSeries observableTimeSeries;
     private boolean visible = true;
     private Stroke stroke;
     private boolean editable;
@@ -25,23 +25,24 @@ public class ControlGraphSeries {
 
     private ArrayList listeners = new ArrayList();
 
-    public ControlGraphSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, String character ) {
-        this( title, color, abbr, units, simulationVariable, observableTimeSeries, BufferedSeriesView.DEFAULT_STROKE, character );
+    public ControlGraphSeries( String title, Color color, String abbr, String units,
+                               String character, SeriesVariable seriesVariable ) {
+        this( title, color, abbr, units, BufferedSeriesView.DEFAULT_STROKE, character, seriesVariable );
     }
 
-    public ControlGraphSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke, String character ) {
-        this( title, color, abbr, units, simulationVariable, observableTimeSeries, stroke, false, character );
+    public ControlGraphSeries( String title, Color color, String abbr, String units,
+                               Stroke stroke, String character, SeriesVariable seriesVariable ) {
+        this( title, color, abbr, units, stroke, false, character, seriesVariable );
     }
 
-    public ControlGraphSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke, boolean editable, String character ) {
+    public ControlGraphSeries( String title, Color color, String abbr, String units, Stroke stroke, boolean editable, String character, SeriesVariable seriesVariable ) {
         this.units = units;
         this.editable = editable;
         this.stroke = stroke;
         this.title = title;
         this.color = color;
         this.abbr = abbr;
-        this.simulationVariable = simulationVariable;
-        this.observableTimeSeries = observableTimeSeries;
+        this.seriesVariable = seriesVariable;
         this.character = character;
         assert character != null;
     }
@@ -58,12 +59,8 @@ public class ControlGraphSeries {
         return abbr;
     }
 
-    public ISimulationVariable getSimulationVariable() {
-        return simulationVariable;
-    }
-
-    public ITimeSeries getObservableTimeSeries() {
-        return observableTimeSeries;
+    public SeriesVariable getSeriesVariable(){
+        return seriesVariable;
     }
 
     public boolean isVisible() {
@@ -101,6 +98,14 @@ public class ControlGraphSeries {
 
     public String getCharacterName() {
         return character;
+    }
+
+    public ITimeSeries getObservableTimeSeries() {
+        return seriesVariable.getSeries();//todo: remove
+    }
+
+    public ISimulationVariable getSimulationVariable() {
+        return seriesVariable.getVariable();
     }
 
     public static interface Listener {

@@ -10,12 +10,12 @@ package edu.colorado.phet.common.motion.tests;
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.DefaultSimulationVariable;
-import edu.colorado.phet.common.motion.model.DefaultTimeSeries;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.rotation.model.SeriesVariable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +34,7 @@ public class TestControlGraph {
 
         phetPCanvas = new BufferedPhetPCanvas();
         controlGraph = new ControlGraph( phetPCanvas, new DefaultSimulationVariable(), "title", -10, 10, new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new ConstantDtClock( 30, 1 ) ) );
-        controlGraph.addSeries( new ControlGraphSeries( "series", Color.blue, "abbr", "units", new DefaultSimulationVariable(), new DefaultTimeSeries(), null ) );
+        controlGraph.addSeries( new ControlGraphSeries( "series", Color.blue, "abbr", "units", null, new SeriesVariable( ) ) );
         controlGraph.addValue( 0, 0 );
         controlGraph.addValue( 600, 10 );
         controlGraph.addValue( 800, -3 );

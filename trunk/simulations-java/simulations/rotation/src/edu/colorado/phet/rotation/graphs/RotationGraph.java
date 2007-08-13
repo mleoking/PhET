@@ -12,6 +12,7 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
+import edu.colorado.phet.rotation.model.SeriesVariable;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.umd.cs.piccolo.nodes.PImage;
 import org.jfree.chart.axis.NumberAxis;
@@ -121,7 +122,7 @@ public class RotationGraph extends MotionControlGraph {
     }
 
     public void addSecondarySeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries timeSeries, Stroke stroke ) {
-        addSecondarySeries( new ControlGraphSeries( title, color, abbr, units, simulationVariable, timeSeries, stroke, null ) );
+        addSecondarySeries( new ControlGraphSeries( title, color, abbr, units, stroke, null, new SeriesVariable( simulationVariable, timeSeries ) ) );
     }
 
     public void addSecondarySeries( ControlGraphSeries graphSeries ) {
