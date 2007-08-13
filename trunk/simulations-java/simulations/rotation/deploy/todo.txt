@@ -2,6 +2,13 @@
 #     To Do
 ################################
 
+Torque:
+1. Add better titles/labels/subscripts for the torque/force graphs
+2. Outer radius should always be bigger or equal to inner radius
+3. Add a visualization for the mass
+4. Ladybug should be constrained to stay on the platform during radius change.
+5. Better layout for sliders in play area (should align)
+
 My biggest concerns with the arrows are:
 
 1) When ever I move the bug around in what seems to me to be a circle the acceleration points outward.
