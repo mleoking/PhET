@@ -218,7 +218,7 @@ public class RotationBody {
 //        return angle.getSampleCount() > 0 ? angle.getLastValue() : getAngleNoWindingNumber();//only works while clock running
 
         //this implementation works even while the clock is paused and the user is manually dragging the RotationBody
-        return angle.getVariable().getValue();//todo: this implementation of getLastAngle only works if this value is not updated during computation
+        return angle.getValue();//todo: this implementation of getLastAngle only works if this value is not updated during computation
     }
 
     private double getDTheta() {
@@ -445,19 +445,19 @@ public class RotationBody {
     }
 
     public ISimulationVariable getSpeedVariable() {
-        return speed.getVariable();
+        return speed;
     }
 
     public ITimeSeries getSpeedSeries() {
-        return speed.getSeries();
+        return speed;
     }
 
     public ISimulationVariable getAccelMagnitudeVariable() {
-        return accelMagnitude.getVariable();
+        return accelMagnitude;
     }
 
     public ITimeSeries getAccelMagnitudeSeries() {
-        return accelMagnitude.getSeries();
+        return accelMagnitude;
     }
 
     public String getImageName() {
@@ -484,11 +484,11 @@ public class RotationBody {
     }
 
     public ISimulationVariable getAngleVariable() {
-        return angle.getVariable();
+        return angle;
     }
 
     public ITimeSeries getAngleTimeSeries() {
-        return angle.getSeries();
+        return angle;
     }
 
     public void setDisplayGraph( boolean selected ) {
@@ -505,19 +505,19 @@ public class RotationBody {
     }
 
     public ISimulationVariable getAngularVelocityVariable() {
-        return angularVelocity.getVariable();
+        return angularVelocity;
     }
 
     public ITimeSeries getAngularVelocityTimeSeries() {
-        return angularVelocity.getSeries();
+        return angularVelocity;
     }
 
     public ISimulationVariable getAngularAccelerationVariable() {
-        return angularAccel.getVariable();
+        return angularAccel;
     }
 
     public ITimeSeries getAngularAccelerationTimeSeries() {
-        return angularAccel.getSeries();
+        return angularAccel;
     }
 
     public SeriesVariable getAccelMagnitude() {

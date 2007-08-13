@@ -101,11 +101,13 @@ public class ControlGraphSeries {
     }
 
     public ITimeSeries getObservableTimeSeries() {
-        return seriesVariable.getSeries();//todo: remove
+        //return seriesVariable.getSeries();//todo: remove
+        return seriesVariable;
     }
 
     public ISimulationVariable getSimulationVariable() {
-        return seriesVariable.getVariable();
+        //return seriesVariable.getVariable();
+        return seriesVariable;
     }
 
     public static interface Listener {
