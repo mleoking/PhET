@@ -7,7 +7,7 @@ import java.util.List;
  * Author: Sam Reid
  * Jun 25, 2007, 11:31:28 PM
  */
-public class DefaultTimeSeries implements ITemporalVariable {
+public class DefaultTimeSeries {
     private ArrayList data = new ArrayList();
     private ArrayList listeners = new ArrayList();
 

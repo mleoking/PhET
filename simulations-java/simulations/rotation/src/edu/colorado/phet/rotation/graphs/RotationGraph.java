@@ -9,7 +9,6 @@ import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -121,8 +120,8 @@ public class RotationGraph extends MotionControlGraph {
         return secondarySeries.contains( series );
     }
 
-    public void addSecondarySeries( String title, Color color, String abbr, String units, IVariable variable, ITemporalVariable temporalVariable, Stroke stroke ) {
-        addSecondarySeries( new ControlGraphSeries( title, color, abbr, units, stroke, null, new DefaultTemporalVariable( variable, temporalVariable ) ) );
+    public void addSecondarySeries( String title, Color color, String abbr, String units, ITemporalVariable temporalVariable, Stroke stroke ) {
+        addSecondarySeries( new ControlGraphSeries( title, color, abbr, units, stroke, null, temporalVariable ) );
     }
 
     public void addSecondarySeries( ControlGraphSeries graphSeries ) {

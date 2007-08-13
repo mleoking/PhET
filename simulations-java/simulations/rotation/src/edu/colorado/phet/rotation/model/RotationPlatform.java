@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation.model;
 
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 
@@ -88,16 +89,16 @@ public class RotationPlatform extends MotionBody {
         this.mass = mass;
     }
 
-    public DefaultTemporalVariable getAngularAcceleration() {
-        return new DefaultTemporalVariable( super.getAVariable(), super.getATimeSeries() );
+    public ITemporalVariable getAngularAcceleration() {
+        return super.getAccelerationVariable();
     }
 
-    public DefaultTemporalVariable getAngularVelocity() {
-        return new DefaultTemporalVariable( super.getVVariable(), super.getVTimeSeries() );
+    public ITemporalVariable getAngularVelocity() {
+        return super.getVelocityVariable();
     }
 
-    public DefaultTemporalVariable getAngle() {
-        return new DefaultTemporalVariable( super.getXVariable(), super.getXTimeSeries() );
+    public ITemporalVariable getAngle() {
+        return super.getPositionVariable();
     }
 
     public static interface Listener {

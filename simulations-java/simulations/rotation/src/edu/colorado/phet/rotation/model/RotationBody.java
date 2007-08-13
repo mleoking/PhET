@@ -283,8 +283,8 @@ public class RotationBody {
 
     public Point2D[] getPointHistory( int maxPts ) {
         ArrayList list = new ArrayList( maxPts );
-        for( int i = 0; i < xBody.getXTimeSeries().getSampleCount() && i < maxPts; i++ ) {
-            list.add( new Point2D.Double( xBody.getXTimeSeries().getRecentData( i ).getValue(), yBody.getXTimeSeries().getRecentData( i ).getValue() ) );
+        for( int i = 0; i < xBody.getPositionVariable().getSampleCount() && i < maxPts; i++ ) {
+            list.add( new Point2D.Double( xBody.getPositionVariable().getRecentData( i ).getValue(), yBody.getPositionVariable().getRecentData( i ).getValue() ) );
         }
         Collections.reverse( list );
         return (Point2D[])list.toArray( new Point2D.Double[0] );
@@ -347,9 +347,9 @@ public class RotationBody {
         addAccelerationData( newA, time );
 
         updateXYStateFromSeries();
-        angle.updateSeriesAndState( getUserSetAngle(), rotationPlatform.getXTimeSeries().getTime() );
-        angularVelocity.updateSeriesAndState( rotationPlatform.getVelocity(), rotationPlatform.getVTimeSeries().getTime() );//when on the platform, angul
-        angularAccel.updateSeriesAndState( rotationPlatform.getAcceleration(), rotationPlatform.getATimeSeries().getTime() );
+        angle.updateSeriesAndState( getUserSetAngle(), rotationPlatform.getPositionVariable().getTime() );
+        angularVelocity.updateSeriesAndState( rotationPlatform.getVelocity(), rotationPlatform.getVelocityVariable().getTime() );//when on the platform, angul
+        angularAccel.updateSeriesAndState( rotationPlatform.getAcceleration(), rotationPlatform.getAccelerationVariable().getTime() );
 //        System.out.println( "rotationPlatform.getLastTime() = " + rotationPlatform.getLastTime() );
         checkCentripetalAccel();
     }
@@ -405,7 +405,7 @@ public class RotationBody {
     }
 
     public ITemporalVariable getXVelocityTimeSeries() {
-        return xBody.getVTimeSeries();
+        return xBody.getVelocityVariable();
     }
 
     public IVariable getYVelocityVariable() {
@@ -413,11 +413,11 @@ public class RotationBody {
     }
 
     public ITemporalVariable getYVelocityTimeSeries() {
-        return yBody.getVTimeSeries();
+        return yBody.getVelocityVariable();
     }
 
     public ITemporalVariable getXPositionTimeSeries() {
-        return xBody.getXTimeSeries();
+        return xBody.getPositionVariable();
     }
 
     public IVariable getYPositionVariable() {
@@ -425,7 +425,7 @@ public class RotationBody {
     }
 
     public ITemporalVariable getYPositionTimeSeries() {
-        return yBody.getXTimeSeries();
+        return yBody.getPositionVariable();
     }
 
     public IVariable getXAccelVariable() {
@@ -433,7 +433,7 @@ public class RotationBody {
     }
 
     public ITemporalVariable getXAccelTimeSeries() {
-        return xBody.getATimeSeries();
+        return xBody.getAccelerationVariable();
     }
 
     public IVariable getYAccelVariable() {
@@ -441,7 +441,7 @@ public class RotationBody {
     }
 
     public ITemporalVariable getYAccelTimeSeries() {
-        return yBody.getATimeSeries();
+        return yBody.getAccelerationVariable();
     }
 
     public IVariable getSpeedVariable() {
@@ -520,56 +520,56 @@ public class RotationBody {
         return angularAccel;
     }
 
-    public DefaultTemporalVariable getAccelMagnitude() {
+    public ITemporalVariable getAccelMagnitude() {
         return accelMagnitude;
     }
 
-    public DefaultTemporalVariable getAccelX() {
-        return new DefaultTemporalVariable( getXAccelVariable(), getXAccelTimeSeries() );
+    public ITemporalVariable getAccelX() {
+        return xBody.getAccelerationVariable();
     }
 
-    public DefaultTemporalVariable getAccelY() {
-        return new DefaultTemporalVariable( getYAccelVariable(), getYAccelTimeSeries() );
+    public ITemporalVariable getAccelY() {
+        return yBody.getAccelerationVariable();
     }
 
-    public DefaultTemporalVariable getSpeed() {
-        return new DefaultTemporalVariable( getSpeedVariable(), getSpeedSeries() );
+    public ITemporalVariable getSpeed() {
+        return speed;
     }
 
-    public DefaultTemporalVariable getVx() {
-        return new DefaultTemporalVariable( getXVelocityVariable(), getXVelocityTimeSeries() );
+    public ITemporalVariable getVx() {
+        return xBody.getVelocityVariable();
     }
 
-    public DefaultTemporalVariable getVy() {
-        return new DefaultTemporalVariable( getYVelocityVariable(), getYVelocityTimeSeries() );
+    public ITemporalVariable getVy() {
+        return yBody.getVelocityVariable();
     }
 
-    public DefaultTemporalVariable getPositionX() {
-        return new DefaultTemporalVariable( getXPositionVariable(), getXPositionTimeSeries() );
+    public ITemporalVariable getPositionX() {
+        return xBody.getPositionVariable();
     }
 
-    public DefaultTemporalVariable getPositionY() {
-        return new DefaultTemporalVariable( getYPositionVariable(), getYPositionTimeSeries() );
+    public ITemporalVariable getPositionY() {
+        return yBody.getPositionVariable();
     }
 
-    public DefaultTemporalVariable getVelocityX() {
-        return new DefaultTemporalVariable( getXVelocityVariable(), getXVelocityTimeSeries() );
+    public ITemporalVariable getVelocityX() {
+        return xBody.getVelocityVariable();
     }
 
-    public DefaultTemporalVariable getVelocityY() {
-        return new DefaultTemporalVariable( getYVelocityVariable(), getYVelocityTimeSeries() );
+    public ITemporalVariable getVelocityY() {
+        return yBody.getVelocityVariable();
     }
 
-    public DefaultTemporalVariable getAngularAcceleration() {
+    public ITemporalVariable getAngularAcceleration() {
         return angularAccel;
     }
 
-    public DefaultTemporalVariable getAngularVelocity() {
+    public ITemporalVariable getAngularVelocity() {
         return angularVelocity;
     }
 
-    public DefaultTemporalVariable getAngle() {
-        return new DefaultTemporalVariable( getAngleVariable(), getAngleTimeSeries( ));
+    public ITemporalVariable getAngle() {
+        return angle;
     }
 
 
