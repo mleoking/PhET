@@ -2,7 +2,6 @@ package edu.colorado.phet.common.motion.graphs;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
-import edu.colorado.phet.common.motion.model.IVariable;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -23,6 +22,10 @@ public class ControlGraphSeries {
     private String character;
 
     private ArrayList listeners = new ArrayList();
+
+    public ControlGraphSeries(ITemporalVariable temporalVariable) {
+        this("", Color.BLACK, "x", "meters", new BasicStroke(), "", temporalVariable);
+    }
 
     public ControlGraphSeries( String title, Color color, String abbr, String units,
                                String character, ITemporalVariable temporalVariable ) {
@@ -56,10 +59,6 @@ public class ControlGraphSeries {
 
     public String getAbbr() {
         return abbr;
-    }
-
-    public ITemporalVariable getSeriesVariable(){
-        return temporalVariable;
     }
 
     public boolean isVisible() {
@@ -99,13 +98,8 @@ public class ControlGraphSeries {
         return character;
     }
 
-    public ITemporalVariable getObservableTimeSeries() {
+    public ITemporalVariable getTemporalVariable() {
         //return seriesVariable.getSeries();//todo: remove
-        return temporalVariable;
-    }
-
-    public IVariable getSimulationVariable() {
-        //return seriesVariable.getVariable();
         return temporalVariable;
     }
 

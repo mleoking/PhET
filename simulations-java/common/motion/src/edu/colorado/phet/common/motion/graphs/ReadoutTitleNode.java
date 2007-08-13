@@ -44,7 +44,7 @@ public class ReadoutTitleNode extends PNode {
         addChild( valueNode );
         background.translate( insetX, insetY );
         titleNode.translate( insetX, insetY );
-        series.getSimulationVariable().addListener( new IVariable.Listener() {
+        series.getTemporalVariable().addListener( new IVariable.Listener() {
             public void valueChanged() {
                 updateText();
             }
@@ -93,7 +93,7 @@ public class ReadoutTitleNode extends PNode {
     }
 
     protected double getValueToDisplay() {
-        return series.getSimulationVariable().getValue();
+        return series.getTemporalVariable().getValue();
     }
 
 }

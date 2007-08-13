@@ -8,6 +8,7 @@ package edu.colorado.phet.common.motion.tests;
  */
 
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
+import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -43,21 +44,21 @@ public class TestMotionGraphs {
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
 
-        xGraph = new ControlGraph( phetPCanvas, rotationModel.getXVariable(), "Angle", -10, 10, PImageFactory.create( "motion/images/blue-arrow.png" ), rotationModel.getTimeSeriesModel() );
+        xGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries(rotationModel.getXVariable()), "Angle", -10, 10, PImageFactory.create( "motion/images/blue-arrow.png" ), rotationModel.getTimeSeriesModel() );
         xGraph.addListener( new ControlGraph.Adapter() {
             public void controlFocusGrabbed() {
                 rotationModel.setPositionDriven();
             }
         } );
 
-        vGraph = new ControlGraph( phetPCanvas, rotationModel.getVVariable(), "Angular Velocity", -5, 5, PImageFactory.create( "motion/images/red-arrow.png" ), rotationModel.getTimeSeriesModel() );
+        vGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries(rotationModel.getVVariable()), "Angular Velocity", -5, 5, PImageFactory.create( "motion/images/red-arrow.png" ), rotationModel.getTimeSeriesModel() );
         vGraph.addListener( new ControlGraph.Adapter() {
             public void controlFocusGrabbed() {
                 rotationModel.setVelocityDriven();
             }
         } );
 
-        aGraph = new ControlGraph( phetPCanvas, rotationModel.getAVariable(), "Angular Acceleration", -1, 1, PImageFactory.create( "motion/images/green-arrow.png" ), rotationModel.getTimeSeriesModel() );
+        aGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries(rotationModel.getAVariable()), "Angular Acceleration", -1, 1, PImageFactory.create( "motion/images/green-arrow.png" ), rotationModel.getTimeSeriesModel() );
         aGraph.addListener( new ControlGraph.Adapter() {
             public void controlFocusGrabbed() {
                 rotationModel.setAccelerationDriven();

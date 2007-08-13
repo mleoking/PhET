@@ -6,12 +6,12 @@ package edu.colorado.phet.common.motion.tests;
  */
 
 import edu.colorado.phet.common.motion.graphs.*;
-import edu.colorado.phet.common.motion.model.DefaultSimulationVariable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
 
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
@@ -32,9 +32,9 @@ public class TestGraphSetNode {
 
         TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new ConstantDtClock( 30, 1 ) );
         MinimizableControlGraph minimizableControlGraphA = new MinimizableControlGraph( "labelA", new ControlGraph(
-                phetPCanvas, new DefaultSimulationVariable(), "titleA", 0, 10, timeSeriesModel ) );
+                phetPCanvas, new ControlGraphSeries(new DefaultTemporalVariable()), "titleA", 0, 10, timeSeriesModel ) );
         MinimizableControlGraph minimizableControlGraphB = new MinimizableControlGraph( "Long labelB", new ControlGraph(
-                phetPCanvas, new DefaultSimulationVariable(), "Long titleB", 0, 10, timeSeriesModel ) );
+                phetPCanvas, new ControlGraphSeries(new DefaultTemporalVariable()), "Long titleB", 0, 10, timeSeriesModel ) );
 
 
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{minimizableControlGraphA, minimizableControlGraphB} ) ) );

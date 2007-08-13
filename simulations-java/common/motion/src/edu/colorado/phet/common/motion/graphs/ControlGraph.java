@@ -62,20 +62,26 @@ public class ControlGraph extends PNode {
     private double defaultMaxY;
     private double defaultMaxX;
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final IVariable variable,
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ITemporalVariable temporalVariable,
                          String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, variable, title, minY, maxY, new PText( "THUMB" ), timeSeriesModel );
+        this( pSwingCanvas, new ControlGraphSeries(temporalVariable), title, minY, maxY, new PText( "THUMB" ), timeSeriesModel );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final IVariable variable,
+
+    public ControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series,
+                         String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
+        this( pSwingCanvas, series, title, minY, maxY, new PText( "THUMB" ), timeSeriesModel );
+    }
+
+    public ControlGraph( PhetPCanvas pSwingCanvas, ControlGraphSeries series,
                          String title, double minY, final double maxY, PNode thumb, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, variable, title, minY, maxY, thumb, timeSeriesModel, 1000 );
+        this( pSwingCanvas, series, title, minY, maxY, thumb, timeSeriesModel, 1000 );
     }
 
-    public ControlGraph( PhetPCanvas pSwingCanvas, final IVariable variable,
+    public ControlGraph( PhetPCanvas pSwingCanvas, ControlGraphSeries series,
                          String title, double minY, final double maxY, PNode thumb,
                          TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
-        this.variable = variable;
+        this.variable = series.getTemporalVariable();
         this.maxDomainValue = maxDomainTime;
         titleLayer = createTitleLayer();
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
@@ -166,6 +172,8 @@ public class ControlGraph extends PNode {
         this.defaultMinY = minY;
         this.defaultMaxY = maxY;
         this.defaultMaxX = maxDomainTime;
+
+        addSeries(series);
     }
 
     public void setHorizontalRange( double maxDomainValue ) {
@@ -343,7 +351,7 @@ public class ControlGraph extends PNode {
                 }
             } );
         }
-        series.getObservableTimeSeries().addListener( new ITemporalVariable.ListenerAdapter() {
+        series.getTemporalVariable().addListener( new ITemporalVariable.ListenerAdapter() {
             public void dataAdded( TimeData timeData ) {
                 handleDataAdded( getSeriesIndex( series ), timeData );
             }

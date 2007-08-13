@@ -4,7 +4,6 @@ import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
 import edu.colorado.phet.common.motion.graphs.ReadoutTitleNode;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
-import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -32,11 +31,11 @@ public class RotationGraph extends MotionControlGraph {
     private RotationGraphNumberAxis verticalAxis;
     private String title;
 
-    public RotationGraph( PhetPCanvas pSwingCanvas, IVariable variable,
+    public RotationGraph( PhetPCanvas pSwingCanvas, ControlGraphSeries series,
                           String label, String title, String units, double min, double max, PImage thumb,
                           RotationModel motionModel, boolean editable, TimeSeriesModel timeSeriesModel,
                           UpdateStrategy updateStrategy, double maxDomainValue, RotationPlatform iPositionDriven ) {
-        super( pSwingCanvas, variable,
+        super( pSwingCanvas, series,
                label, title, min, max, thumb,
                motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         this.title = title;
