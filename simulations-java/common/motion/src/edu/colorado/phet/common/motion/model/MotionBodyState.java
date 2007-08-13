@@ -1,5 +1,7 @@
 package edu.colorado.phet.common.motion.model;
 
+import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -9,20 +11,26 @@ import java.util.ArrayList;
  */
 public class MotionBodyState implements Serializable {
     private transient ArrayList listeners = new ArrayList();
-    private double position;
-    private double velocity = 0.0;
-    private double acceleration = 0.0;
+    private DefaultTemporalVariable position;
+    private DefaultTemporalVariable velocity;
+    private DefaultTemporalVariable acceleration;
 
     public MotionBodyState() {
     }
 
+    public MotionBodyState( DefaultTemporalVariable x, DefaultTemporalVariable v, DefaultTemporalVariable a ) {
+        this.position = x;
+        this.velocity = v;
+        this.acceleration = a;
+    }
+
     public void setState( MotionBodyState motionBodyState ) {
-        double origPosition = position;
+        double origPosition = position.getValue();
 
         position = motionBodyState.position;
         velocity = motionBodyState.velocity;
         acceleration = motionBodyState.acceleration;
-        notifyPositionChanged( position - origPosition );
+        notifyPositionChanged( position.getValue() - origPosition );
     }
 
     public void addListener( MotionBodyState.Listener listener ) {
@@ -30,13 +38,13 @@ public class MotionBodyState implements Serializable {
     }
 
     public double getPosition() {
-        return position;
+        return position.getValue();
     }
 
     public void setPosition( double position ) {
-        double origX = this.position;
-        if( this.position != position ) {
-            this.position = position;
+        double origX = this.position.getValue();
+        if( this.position.getValue() != position ) {
+            this.position.setValue(position);
             notifyPositionChanged( position - origX );
         }
     }
@@ -46,16 +54,16 @@ public class MotionBodyState implements Serializable {
     }
 
     public double getAcceleration() {
-        return acceleration;
+        return acceleration.getValue();
     }
 
     public double getVelocity() {
-        return velocity;
+        return velocity.getValue();
     }
 
     public void setVelocity( double velocity ) {
-        if( this.velocity != velocity ) {
-            this.velocity = velocity;
+        if( this.velocity.getValue() != velocity ) {
+            this.velocity.setValue(velocity);
             notifyVelocityChanged();
         }
     }
@@ -67,8 +75,8 @@ public class MotionBodyState implements Serializable {
     }
 
     public void setAcceleration( double acceleration ) {
-        if( this.acceleration != acceleration ) {
-            this.acceleration = acceleration;
+        if( this.acceleration.getValue() != acceleration ) {
+            this.acceleration.setValue(acceleration);
             notifyAccelerationChanged();
         }
     }

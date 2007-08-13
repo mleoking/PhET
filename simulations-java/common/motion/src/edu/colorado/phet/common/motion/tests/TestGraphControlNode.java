@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.rotation.model.SeriesVariable;
+import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +34,7 @@ public class TestGraphControlNode {
 
         swingClock.addClockListener( timeSeriesModel );
         GraphTimeControlNode graphTimeControlNode = new GraphTimeControlNode( timeSeriesModel );
-        graphTimeControlNode.addVariable( new ControlGraphSeries( "title", Color.blue, "abbr", "units", null, new SeriesVariable( )) );
+        graphTimeControlNode.addVariable( new ControlGraphSeries( "title", Color.blue, "abbr", "units", null, new DefaultTemporalVariable( )) );
         phetPCanvas.addScreenChild( graphTimeControlNode );
 
         frame.setContentPane( phetPCanvas );

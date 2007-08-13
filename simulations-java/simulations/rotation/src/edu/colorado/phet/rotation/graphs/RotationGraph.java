@@ -9,10 +9,10 @@ import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
-import edu.colorado.phet.rotation.model.SeriesVariable;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.umd.cs.piccolo.nodes.PImage;
 import org.jfree.chart.axis.NumberAxis;
@@ -122,7 +122,7 @@ public class RotationGraph extends MotionControlGraph {
     }
 
     public void addSecondarySeries( String title, Color color, String abbr, String units, IVariable variable, ITemporalVariable temporalVariable, Stroke stroke ) {
-        addSecondarySeries( new ControlGraphSeries( title, color, abbr, units, stroke, null, new SeriesVariable( variable, temporalVariable ) ) );
+        addSecondarySeries( new ControlGraphSeries( title, color, abbr, units, stroke, null, new DefaultTemporalVariable( variable, temporalVariable ) ) );
     }
 
     public void addSecondarySeries( ControlGraphSeries graphSeries ) {

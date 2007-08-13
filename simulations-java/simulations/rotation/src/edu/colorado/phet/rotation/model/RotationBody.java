@@ -24,11 +24,11 @@ public class RotationBody {
     private MotionBody yBody;
     private UpdateStrategy updateStrategy = new OffPlatform();
 
-    private SeriesVariable speed;
-    private SeriesVariable accelMagnitude;
-    private SeriesVariable angle;
-    private SeriesVariable angularVelocity;
-    private SeriesVariable angularAccel;
+    private DefaultTemporalVariable speed;
+    private DefaultTemporalVariable accelMagnitude;
+    private DefaultTemporalVariable angle;
+    private DefaultTemporalVariable angularVelocity;
+    private DefaultTemporalVariable angularAccel;
 
     private double orientation = 0.0;
     private DefaultTimeSeries orientationSeries = new DefaultTimeSeries();
@@ -56,11 +56,11 @@ public class RotationBody {
         xBody = new MotionBody();
         yBody = new MotionBody();
 
-        speed = new SeriesVariable();
-        accelMagnitude = new SeriesVariable();
-        angle = new SeriesVariable();
-        angularVelocity = new SeriesVariable();
-        angularAccel = new SeriesVariable();
+        speed = new DefaultTemporalVariable();
+        accelMagnitude = new DefaultTemporalVariable();
+        angle = new DefaultTemporalVariable();
+        angularVelocity = new DefaultTemporalVariable();
+        angularAccel = new DefaultTemporalVariable();
     }
 
     public void setOffPlatform() {
@@ -404,7 +404,7 @@ public class RotationBody {
         return xBody.getVVariable();
     }
 
-    public DefaultTimeSeries getXVelocityTimeSeries() {
+    public ITemporalVariable getXVelocityTimeSeries() {
         return xBody.getVTimeSeries();
     }
 
@@ -412,11 +412,11 @@ public class RotationBody {
         return yBody.getVVariable();
     }
 
-    public DefaultTimeSeries getYVelocityTimeSeries() {
+    public ITemporalVariable getYVelocityTimeSeries() {
         return yBody.getVTimeSeries();
     }
 
-    public DefaultTimeSeries getXPositionTimeSeries() {
+    public ITemporalVariable getXPositionTimeSeries() {
         return xBody.getXTimeSeries();
     }
 
@@ -424,7 +424,7 @@ public class RotationBody {
         return yBody.getXVariable();
     }
 
-    public DefaultTimeSeries getYPositionTimeSeries() {
+    public ITemporalVariable getYPositionTimeSeries() {
         return yBody.getXTimeSeries();
     }
 
@@ -432,7 +432,7 @@ public class RotationBody {
         return xBody.getAVariable();
     }
 
-    public DefaultTimeSeries getXAccelTimeSeries() {
+    public ITemporalVariable getXAccelTimeSeries() {
         return xBody.getATimeSeries();
     }
 
@@ -440,7 +440,7 @@ public class RotationBody {
         return yBody.getAVariable();
     }
 
-    public DefaultTimeSeries getYAccelTimeSeries() {
+    public ITemporalVariable getYAccelTimeSeries() {
         return yBody.getATimeSeries();
     }
 
@@ -520,56 +520,56 @@ public class RotationBody {
         return angularAccel;
     }
 
-    public SeriesVariable getAccelMagnitude() {
+    public DefaultTemporalVariable getAccelMagnitude() {
         return accelMagnitude;
     }
 
-    public SeriesVariable getAccelX() {
-        return new SeriesVariable( getXAccelVariable(), getXAccelTimeSeries() );
+    public DefaultTemporalVariable getAccelX() {
+        return new DefaultTemporalVariable( getXAccelVariable(), getXAccelTimeSeries() );
     }
 
-    public SeriesVariable getAccelY() {
-        return new SeriesVariable( getYAccelVariable(), getYAccelTimeSeries() );
+    public DefaultTemporalVariable getAccelY() {
+        return new DefaultTemporalVariable( getYAccelVariable(), getYAccelTimeSeries() );
     }
 
-    public SeriesVariable getSpeed() {
-        return new SeriesVariable( getSpeedVariable(), getSpeedSeries() );
+    public DefaultTemporalVariable getSpeed() {
+        return new DefaultTemporalVariable( getSpeedVariable(), getSpeedSeries() );
     }
 
-    public SeriesVariable getVx() {
-        return new SeriesVariable( getXVelocityVariable(), getXVelocityTimeSeries() );
+    public DefaultTemporalVariable getVx() {
+        return new DefaultTemporalVariable( getXVelocityVariable(), getXVelocityTimeSeries() );
     }
 
-    public SeriesVariable getVy() {
-        return new SeriesVariable( getYVelocityVariable(), getYVelocityTimeSeries() );
+    public DefaultTemporalVariable getVy() {
+        return new DefaultTemporalVariable( getYVelocityVariable(), getYVelocityTimeSeries() );
     }
 
-    public SeriesVariable getPositionX() {
-        return new SeriesVariable( getXPositionVariable(), getXPositionTimeSeries() );
+    public DefaultTemporalVariable getPositionX() {
+        return new DefaultTemporalVariable( getXPositionVariable(), getXPositionTimeSeries() );
     }
 
-    public SeriesVariable getPositionY() {
-        return new SeriesVariable( getYPositionVariable(), getYPositionTimeSeries() );
+    public DefaultTemporalVariable getPositionY() {
+        return new DefaultTemporalVariable( getYPositionVariable(), getYPositionTimeSeries() );
     }
 
-    public SeriesVariable getVelocityX() {
-        return new SeriesVariable( getXVelocityVariable(), getXVelocityTimeSeries() );
+    public DefaultTemporalVariable getVelocityX() {
+        return new DefaultTemporalVariable( getXVelocityVariable(), getXVelocityTimeSeries() );
     }
 
-    public SeriesVariable getVelocityY() {
-        return new SeriesVariable( getYVelocityVariable(), getYVelocityTimeSeries() );
+    public DefaultTemporalVariable getVelocityY() {
+        return new DefaultTemporalVariable( getYVelocityVariable(), getYVelocityTimeSeries() );
     }
 
-    public SeriesVariable getAngularAcceleration() {
+    public DefaultTemporalVariable getAngularAcceleration() {
         return angularAccel;
     }
 
-    public SeriesVariable getAngularVelocity() {
+    public DefaultTemporalVariable getAngularVelocity() {
         return angularVelocity;
     }
 
-    public SeriesVariable getAngle() {
-        return new SeriesVariable( getAngleVariable(), getAngleTimeSeries( ));
+    public DefaultTemporalVariable getAngle() {
+        return new DefaultTemporalVariable( getAngleVariable(), getAngleTimeSeries( ));
     }
 
 
