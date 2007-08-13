@@ -64,7 +64,7 @@
 	}
     
     function format_string_for_html($string) {
-        return htmlentities(html_entity_decode($string));
+        return format_greek_symbols(htmlentities(html_entity_decode($string)));
     }
     
     function format_for_html($array) {
@@ -195,6 +195,68 @@
         
         return $list;
     }
+
+	function format_greek_symbols($input) {
+		$letter_to_code = array(
+			"Alpha" 	=> "&Alpha;",
+			"Beta" 		=> "&Beta;",
+			"Gamma" 	=> "&Gamma;",
+			"Delta" 	=> "&Delta;",
+			"Epsilon" 	=> "&Epsilon;",
+			"Zeta" 		=> "&Zeta;",
+			"Eta" 		=> "&Eta;",
+			"Theta" 	=> "&Theta;",
+			"Iota" 		=> "&Iota;",
+			"Kappa" 	=> "&Kappa;",
+			"Lambda" 	=> "&Lambda;",
+			"Mu" 		=> "&Mu;",
+			"Nu" 		=> "&Nu;",
+			"Xi" 		=> "&Xi;",
+			"Omicron" 	=> "&Omicron;",
+			"Pi" 		=> "&Pi;",
+			"Rho" 		=> "&Rho;",
+			"Sigma" 	=> "&Sigma;",
+			"Tau" 		=> "&Tau;",
+			"Upsilon" 	=> "&Upsilon;",
+			"Phi" 		=> "&Phi;",
+			"Chi" 		=> "&Chi;",
+			"Psi" 		=> "&Psi;",
+			"Omega" 	=> "&Omega;",
+			"alpha" 	=> "&alpha;",
+			"beta" 		=> "&beta;",
+			"gamma" 	=> "&gamma;",
+			"delta" 	=> "&delta;",
+			"epsilon" 	=> "&epsilon;",
+			"zeta" 		=> "&zeta;",
+			"eta" 		=> "&eta;",
+			"theta" 	=> "&theta;",
+			"iota" 		=> "&iota;",
+			"kappa" 	=> "&kappa;",
+			"lambda" 	=> "&lambda;",
+			"mu" 		=> "&mu;",
+			"nu" 		=> "&nu;",
+			"xi" 		=> "&xi;",
+			"omicron" 	=> "&omicron;",
+			"pi"		=> "&pi;",
+			"rho" 		=> "&rho;",
+			"sigmaf" 	=> "&sigmaf;",
+			"sigma" 	=> "&sigma;",
+			"tau" 		=> "&tau;",
+			"upsilon" 	=> "&upsilon;",
+			"phi" 		=> "&phi;",
+			"chi" 		=> "&chi;",
+			"psi" 		=> "&psi;",
+			"omega" 	=> "&omega;"
+		);
+		
+		foreach($letter_to_code as $letter => $code) {
+			if (strpos($input, $letter)) { // <= Fast test to avoid slowness of regexp
+				$input = preg_replace('/\b'.$letter.'\b/', $code, $input);
+			}
+		}
+		
+		return $input;
+	}
     
     function print_comma_list_as_bulleted_list($comma_list) {
 		if (!is_array($comma_list) || count($comma_list) == 0) return;
