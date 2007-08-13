@@ -28,6 +28,10 @@ public class DefaultSimulationVariable implements ISimulationVariable {
         listeners.add( listener );
     }
 
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
     public double getValue() {
         return value;
     }

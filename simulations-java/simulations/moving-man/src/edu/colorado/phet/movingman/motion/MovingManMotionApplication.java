@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
 import edu.colorado.phet.movingman.MovingManApplication;
+import edu.colorado.phet.rotation.model.SeriesVariable;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -50,17 +51,17 @@ public class MovingManMotionApplication {
         MovingManGraph xGraph = new MovingManGraph(
                 phetPCanvas, motionModel.getXVariable(), SimStrings.get( "variables.position.abbreviation" ), "x", -10, 10, new PImage( GraphSuiteSet.loadBlueArrow() )
                 , motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MAX_T, motionModel );
-        xGraph.addSeries( new ControlGraphSeries( "X", Color.blue, "x", "m", motionModel.getXVariable(), motionModel.getXTimeSeries(), new BasicStroke( 2 ), true, null ) );
+        xGraph.addSeries( new ControlGraphSeries( "X", Color.blue, "x", "m", new BasicStroke( 2 ), true, null, new SeriesVariable(motionModel.getXVariable(), motionModel.getXTimeSeries( ))) );
 
         MovingManGraph vGraph = new MovingManGraph(
                 phetPCanvas, motionModel.getVVariable(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -1, 1, new PImage( GraphSuiteSet.loadRedArrow() )
                 , motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MAX_T, motionModel );
-        vGraph.addSeries( new ControlGraphSeries( "V", Color.red, "v", "m/s", motionModel.getVVariable(), motionModel.getVTimeSeries(), new BasicStroke( 2 ), true, null ) );
+        vGraph.addSeries( new ControlGraphSeries( "V", Color.red, "v", "m/s", new BasicStroke( 2 ), true, null, new  SeriesVariable( motionModel.getVVariable(), motionModel.getVTimeSeries( )) ) );
 
         MovingManGraph aGraph = new MovingManGraph(
                 phetPCanvas, motionModel.getAVariable(), SimStrings.get( "variables.position.abbreviation" ), "x", -0.01, 0.01, new PImage( GraphSuiteSet.loadGreenArrow() )
                 , motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MAX_T, motionModel );
-        aGraph.addSeries( new ControlGraphSeries( "A", Color.green, "a", "m/s^2", motionModel.getAVariable(), motionModel.getATimeSeries(), new BasicStroke( 2 ), true, null ) );
+        aGraph.addSeries( new ControlGraphSeries( "A", Color.green, "a", "m/s^2", new BasicStroke( 2 ), true, null, new SeriesVariable( motionModel.getAVariable(), motionModel.getATimeSeries( )) ) );
 
         GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
                 new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), xGraph ),

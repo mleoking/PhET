@@ -25,7 +25,7 @@ public class RotationBody {
     private UpdateStrategy updateStrategy = new OffPlatform();
 
     private SeriesVariable speed;
-    private SeriesVariable accel;
+    private SeriesVariable accelMagnitude;
     private SeriesVariable angle;
     private SeriesVariable angularVelocity;
     private SeriesVariable angularAccel;
@@ -57,7 +57,7 @@ public class RotationBody {
         yBody = new MotionBody();
 
         speed = new SeriesVariable();
-        accel = new SeriesVariable();
+        accelMagnitude = new SeriesVariable();
         angle = new SeriesVariable();
         angularVelocity = new SeriesVariable();
         angularAccel = new SeriesVariable();
@@ -127,7 +127,7 @@ public class RotationBody {
             notifyPositionChanged();
         }
         speed.updateSeriesAndState( getVelocity().getMagnitude(), time );
-        accel.updateSeriesAndState( getAcceleration().getMagnitude(), time );
+        accelMagnitude.updateSeriesAndState( getAcceleration().getMagnitude(), time );
         orientationSeries.addValue( getOrientation(), time );
 
 //        debugSeries();
@@ -138,8 +138,8 @@ public class RotationBody {
         xBody.clear();
         yBody.clear();
         speed.clear();
-        accel.setValue( 0.0 );
-        accel.clear();
+        accelMagnitude.setValue( 0.0 );
+        accelMagnitude.clear();
         angle.clear();
         orientationSeries.clear();
         angularVelocity.clear();
@@ -453,11 +453,11 @@ public class RotationBody {
     }
 
     public ISimulationVariable getAccelMagnitudeVariable() {
-        return accel.getVariable();
+        return accelMagnitude.getVariable();
     }
 
     public ITimeSeries getAccelMagnitudeSeries() {
-        return accel.getSeries();
+        return accelMagnitude.getSeries();
     }
 
     public String getImageName() {
@@ -467,7 +467,7 @@ public class RotationBody {
     public void setTime( double time ) {
         xBody.setTime( time );
         yBody.setTime( time );
-        accel.setValueForTime( time );
+        accelMagnitude.setValueForTime( time );
         speed.setValueForTime( time );
 
         setOrientation( orientationSeries.getValueForTime( time ) );
@@ -519,6 +519,59 @@ public class RotationBody {
     public ITimeSeries getAngularAccelerationTimeSeries() {
         return angularAccel.getSeries();
     }
+
+    public SeriesVariable getAccelMagnitude() {
+        return accelMagnitude;
+    }
+
+    public SeriesVariable getAccelX() {
+        return new SeriesVariable( getXAccelVariable(), getXAccelTimeSeries() );
+    }
+
+    public SeriesVariable getAccelY() {
+        return new SeriesVariable( getYAccelVariable(), getYAccelTimeSeries() );
+    }
+
+    public SeriesVariable getSpeed() {
+        return new SeriesVariable( getSpeedVariable(), getSpeedSeries() );
+    }
+
+    public SeriesVariable getVx() {
+        return new SeriesVariable( getXVelocityVariable(), getXVelocityTimeSeries() );
+    }
+
+    public SeriesVariable getVy() {
+        return new SeriesVariable( getYVelocityVariable(), getYVelocityTimeSeries() );
+    }
+
+    public SeriesVariable getPositionX() {
+        return new SeriesVariable( getXPositionVariable(), getXPositionTimeSeries() );
+    }
+
+    public SeriesVariable getPositionY() {
+        return new SeriesVariable( getYPositionVariable(), getYPositionTimeSeries() );
+    }
+
+    public SeriesVariable getVelocityX() {
+        return new SeriesVariable( getXVelocityVariable(), getXVelocityTimeSeries() );
+    }
+
+    public SeriesVariable getVelocityY() {
+        return new SeriesVariable( getYVelocityVariable(), getYVelocityTimeSeries() );
+    }
+
+    public SeriesVariable getAngularAcceleration() {
+        return angularAccel;
+    }
+
+    public SeriesVariable getAngularVelocity() {
+        return angularVelocity;
+    }
+
+    public SeriesVariable getAngle() {
+        return new SeriesVariable( getAngleVariable(), getAngleTimeSeries( ));
+    }
+
 
     private static abstract class UpdateStrategy implements Serializable {
         public abstract void detach();

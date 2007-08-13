@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.rotation.model.SeriesVariable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -289,7 +290,7 @@ public class ControlGraph extends PNode {
     }
 
     public void addSeries( String title, Color color, String abbr, String units, ISimulationVariable simulationVariable, ITimeSeries observableTimeSeries, Stroke stroke ) {
-        addSeries( new ControlGraphSeries( title, color, abbr, units, simulationVariable, observableTimeSeries, stroke, null ) );
+        addSeries( new ControlGraphSeries( title, color, abbr, units, stroke, null, new SeriesVariable( simulationVariable, observableTimeSeries ) ) );
     }
 
     public ControlGraphSeries getControlGraphSeries( int i ) {
