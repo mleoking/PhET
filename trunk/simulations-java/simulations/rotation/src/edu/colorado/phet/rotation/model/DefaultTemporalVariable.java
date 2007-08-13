@@ -93,7 +93,11 @@ public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
         return series.getValueForTime( time );
     }
 
-    public void addListener( ITemporalVariable.Listener observableTimeSeriesListener ) {
-        series.addListener( observableTimeSeriesListener );
+    public void addListener( ITemporalVariable.Listener listener ) {
+        series.addListener( listener );
+    }
+
+    public void removeListener( ITemporalVariable.Listener listener ) {
+        series.removeListener(listener);
     }
 }

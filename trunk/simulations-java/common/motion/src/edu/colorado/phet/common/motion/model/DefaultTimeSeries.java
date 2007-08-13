@@ -119,4 +119,8 @@ public class DefaultTimeSeries {
 //            System.out.println( "defaultTimeSeries = " + defaultTimeSeries + ", dataSize=" + defaultTimeSeries.getSampleCount() );
 //        }
     }
+
+    public void removeListener( ITemporalVariable.Listener listener ) {
+        listeners.remove(listener);
+    }
 }
