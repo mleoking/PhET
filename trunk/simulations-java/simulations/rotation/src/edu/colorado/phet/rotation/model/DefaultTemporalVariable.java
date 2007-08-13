@@ -6,14 +6,14 @@ import edu.colorado.phet.common.motion.model.*;
  * Author: Sam Reid
  * Jul 26, 2007, 8:04:10 PM
  */
-public class SeriesVariable implements ITemporalVariable, IVariable {
+public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
     private IVariable variable = new DefaultSimulationVariable();
     private ITemporalVariable series = new DefaultTimeSeries();
 
-    public SeriesVariable() {
+    public DefaultTemporalVariable() {
     }
 
-    public SeriesVariable( IVariable variable, ITemporalVariable series ) {
+    public DefaultTemporalVariable( IVariable variable, ITemporalVariable series ) {
         this.variable = variable;
         this.series = series;
     }

@@ -1,14 +1,16 @@
 package edu.colorado.phet.common.motion.model;
 
+import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
+
 /**
  * Author: Sam Reid
  * Jun 26, 2007, 5:09:15 PM
  */
 public class MotionBodySeries {
 
-    private DefaultTimeSeries positionTimeSeries = new DefaultTimeSeries();
-    private DefaultTimeSeries velocityTimeSeries = new DefaultTimeSeries();
-    private DefaultTimeSeries accelerationTimeSeries = new DefaultTimeSeries();
+    private final DefaultTemporalVariable positionTimeSeries;
+    private final DefaultTemporalVariable velocityTimeSeries;
+    private final DefaultTemporalVariable accelerationTimeSeries;
 
     /*Different strategies for updating simulation variables*/
     private PositionDriven positionDriven = new PositionDriven();
@@ -16,15 +18,21 @@ public class MotionBodySeries {
     private AccelerationDriven accelDriven = new AccelerationDriven();
     private UpdateStrategy updateStrategy = positionDriven; //current strategy
 
-    public DefaultTimeSeries getXTimeSeries() {
+    public MotionBodySeries( DefaultTemporalVariable x, DefaultTemporalVariable v, DefaultTemporalVariable a ) {
+        this.positionTimeSeries = x;
+        this.velocityTimeSeries = v;
+        this.accelerationTimeSeries = a;
+    }
+
+    public ITemporalVariable getXTimeSeries() {
         return positionTimeSeries;
     }
 
-    public DefaultTimeSeries getVTimeSeries() {
+    public ITemporalVariable getVTimeSeries() {
         return velocityTimeSeries;
     }
 
-    public DefaultTimeSeries getATimeSeries() {
+    public ITemporalVariable getATimeSeries() {
         return accelerationTimeSeries;
     }
 

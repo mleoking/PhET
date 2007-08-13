@@ -4,8 +4,8 @@ import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
 import edu.colorado.phet.rotation.model.RotationModel;
-import edu.colorado.phet.rotation.model.SeriesVariable;
 
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
@@ -15,10 +15,10 @@ import java.util.ArrayList;
  * May 29, 2007, 1:10:11 AM
  */
 public class TorqueModel extends RotationModel {
-    private SeriesVariable torque = new SeriesVariable();
-    private SeriesVariable force = new SeriesVariable();
-    private SeriesVariable momentOfInertia = new SeriesVariable();
-    private SeriesVariable angularMomentum = new SeriesVariable();
+    private DefaultTemporalVariable torque = new DefaultTemporalVariable();
+    private DefaultTemporalVariable force = new DefaultTemporalVariable();
+    private DefaultTemporalVariable momentOfInertia = new DefaultTemporalVariable();
+    private DefaultTemporalVariable angularMomentum = new DefaultTemporalVariable();
 
     private UpdateStrategy forceDriven = new ForceDriven();
     private UpdateStrategy torqueDriven = new TorqueDriven();

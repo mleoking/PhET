@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.motion.model;
 
 import edu.colorado.phet.common.motion.graphs.IUpdateStrategy;
+import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
 
 /**
  * Author: Sam Reid
@@ -8,14 +9,14 @@ import edu.colorado.phet.common.motion.graphs.IUpdateStrategy;
  */
 public class MotionBody implements IUpdateStrategy {
 
-    private MotionBodySeries motionBodySeries = new MotionBodySeries();
-    private MotionBodyState motionBodyState = new MotionBodyState();//current state
-    private DefaultSimulationVariable x;
-    private DefaultSimulationVariable v;
-    private DefaultSimulationVariable a;
+    private DefaultTemporalVariable x = new DefaultTemporalVariable( );
+    private DefaultTemporalVariable v = new DefaultTemporalVariable( );
+    private DefaultTemporalVariable a = new DefaultTemporalVariable( );
+    private MotionBodySeries motionBodySeries = new MotionBodySeries(x, v, a);
+    private MotionBodyState motionBodyState = new MotionBodyState(x, v, a);//current state
+
 
     public MotionBody() {
-        x = new DefaultSimulationVariable();
         motionBodyState.addListener( new MotionBodyState.Adapter() {
             public void positionChanged( double dx ) {
                 x.setValue( motionBodyState.getPosition() );
@@ -27,7 +28,6 @@ public class MotionBody implements IUpdateStrategy {
             }
         } );
 
-        v = new DefaultSimulationVariable();
         motionBodyState.addListener( new MotionBodyState.Adapter() {
             public void velocityChanged() {
                 v.setValue( motionBodyState.getVelocity() );
@@ -39,7 +39,6 @@ public class MotionBody implements IUpdateStrategy {
             }
         } );
 
-        a = new DefaultSimulationVariable();
         motionBodyState.addListener( new MotionBodyState.Adapter() {
             public void accelerationChanged() {
                 a.setValue( motionBodyState.getAcceleration() );
@@ -113,8 +112,8 @@ public class MotionBody implements IUpdateStrategy {
         return motionBodySeries.getPositionDriven();
     }
 
-    public DefaultTimeSeries getXTimeSeries() {
-        return motionBodySeries.getXTimeSeries();
+    public ITemporalVariable getXTimeSeries() {
+        return x;
     }
 
     public void setPositionDriven() {
@@ -129,12 +128,12 @@ public class MotionBody implements IUpdateStrategy {
         return motionBodySeries.getUpdateStrategy();
     }
 
-    public DefaultTimeSeries getVTimeSeries() {
-        return motionBodySeries.getVTimeSeries();
+    public ITemporalVariable getVTimeSeries() {
+        return v;
     }
 
-    public DefaultTimeSeries getATimeSeries() {
-        return motionBodySeries.getATimeSeries();
+    public DefaultTemporalVariable getATimeSeries() {
+        return a;
     }
 
     public VelocityDriven getVelocityDriven() {

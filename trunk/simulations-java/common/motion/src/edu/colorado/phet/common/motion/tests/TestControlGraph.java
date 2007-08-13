@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.rotation.model.SeriesVariable;
+import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +34,7 @@ public class TestControlGraph {
 
         phetPCanvas = new BufferedPhetPCanvas();
         controlGraph = new ControlGraph( phetPCanvas, new DefaultSimulationVariable(), "title", -10, 10, new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new ConstantDtClock( 30, 1 ) ) );
-        controlGraph.addSeries( new ControlGraphSeries( "series", Color.blue, "abbr", "units", null, new SeriesVariable( ) ) );
+        controlGraph.addSeries( new ControlGraphSeries( "series", Color.blue, "abbr", "units", null, new DefaultTemporalVariable( ) ) );
         controlGraph.addValue( 0, 0 );
         controlGraph.addValue( 600, 10 );
         controlGraph.addValue( 800, -3 );
