@@ -76,4 +76,41 @@ public class FileUtils {
         String result = filter( filterMap, text );
         writeString( destFile, result, encoding );
     }
+
+    public static void delete( File file ) {
+        if ( file.isDirectory() ) {
+            File[] children = file.listFiles();
+
+            for ( int i = 0; i < children.length; i++ ) {
+                delete( children[i] );
+            }
+        }
+
+        file.delete();
+    }
+
+    public static void copyTo( File source, File dest ) throws IOException {
+        InputStream in = new BufferedInputStream( new FileInputStream( source ) );
+
+        try {
+            OutputStream out = new BufferedOutputStream( new FileOutputStream( dest ) );
+
+            try {
+                int bytesRead;
+
+                byte[] buffer = new byte[1024];
+
+                while ( ( bytesRead = in.read( buffer) ) >= 0 ) {
+                    out.write( buffer, 0, bytesRead );
+                }
+            }
+            finally {
+                out.close();
+            }
+
+        }
+        finally {
+            in.close();
+        }
+    }
 }
