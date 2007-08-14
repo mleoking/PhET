@@ -252,17 +252,6 @@ public class ControlGraph extends PNode {
         return defaultMaxX;
     }
 
-    static class TitleNode extends PNode {
-        public TitleNode( String title, String abbr, Color color ) {
-//            ShadowPText titlePText = new ShadowPText( title + ", " + abbr );
-            ShadowPText titlePText = new ShadowPText( title );
-            titlePText.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
-            titlePText.setTextPaint( color );
-            addChild( new PhetPPath( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ), Color.white, new BasicStroke(), Color.black ) );
-            addChild( titlePText );
-        }
-    }
-
     private void zoomHorizontal( double v ) {
         double currentValue = jFreeChart.getXYPlot().getDomainAxis().getUpperBound();
         double newValue = currentValue * v;
@@ -290,10 +279,6 @@ public class ControlGraph extends PNode {
 
     private void updateZoomEnabled() {
         zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDomainValue );
-    }
-
-    public void addSeries( String title, Color color, String abbr, String units, ITemporalVariable observableTemporalVariable ) {
-        addSeries( title, color, abbr, units, observableTemporalVariable, BufferedSeriesView.DEFAULT_STROKE );
     }
 
     public void addSeries( String title, Color color, String abbr, String units, ITemporalVariable observableTemporalVariable, Stroke stroke ) {
@@ -328,11 +313,6 @@ public class ControlGraph extends PNode {
             }
             return null;
         }
-
-    }
-
-    public ReadoutTitleNode getReadoutTitleNode( ControlGraphSeries series ) {
-        return titleLayer.getReadoutNode( series );
     }
 
     public void addSeries( final ControlGraphSeries series ) {
@@ -573,10 +553,6 @@ public class ControlGraph extends PNode {
         jFreeChartSliderNode.setChildrenPickable( editable );
 
         graphTimeControlNode.setEditable( editable );
-    }
-
-    protected GraphTimeControlNode getGraphTimeControlNode() {
-        return graphTimeControlNode;
     }
 
     public static interface Listener {

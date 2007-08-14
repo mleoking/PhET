@@ -18,18 +18,6 @@ public class GraphSuiteSet {
         }
     };
 
-    public static BufferedImage loadRedArrow() {
-        return loadArrow( "red-arrow.png" );
-    }
-
-    public static BufferedImage loadGreenArrow() {
-        return loadArrow( "green-arrow.png" );
-    }
-
-    public static BufferedImage loadBlueArrow() {
-        return loadArrow( "blue-arrow.png" );
-    }
-
     public static BufferedImage loadArrow( String s ) {
         try {
             return MotionResources.loadBufferedImage( s );

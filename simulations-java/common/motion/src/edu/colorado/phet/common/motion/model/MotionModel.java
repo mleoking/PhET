@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.model.TimeState;
+import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
 
 /**
  * Represents a base model which can be used for managing collections of MotionBody objects.
@@ -13,27 +14,27 @@ import edu.colorado.phet.common.timeseries.model.TimeState;
  */
 public class MotionModel {
     private TimeSeriesModel timeSeriesModel;
-    private double time = 0;
-    private DefaultTimeSeries timeTimeSeries = new DefaultTimeSeries();
+    private ITemporalVariable timeVariable;
 
     public MotionModel( ConstantDtClock clock ) {
+        timeVariable = new DefaultTemporalVariable();
         RecordableModel recordableModel = new RecordableModel() {
             public void stepInTime( double simulationTimeChange ) {
                 MotionModel.this.stepInTime( simulationTimeChange );
             }
 
             public Object getState() {
-                return new Double( time );
+                return new Double( timeVariable.getValue() );
             }
 
             public void setState( Object o ) {
                 //the setState paradigm is used to allow attachment of listeners to model substructure
                 //states are copied without listeners
-                setTime( ( (Double)o ).doubleValue() );
+                setPlaybackTime( ( (Double)o ).doubleValue() );
             }
 
             public void resetTime() {
-                MotionModel.this.time = 0;
+                timeVariable.setValue( 0.0 );
             }
 
             public void clear() {
@@ -53,7 +54,7 @@ public class MotionModel {
                     TimeState timeState = timeSeriesModel.getSeries().getLastPoint();
                     if( timeState != null ) {
                         Object o = timeState.getValue();
-                        setTime( ( (Double)o ).doubleValue() );
+                        setPlaybackTime( ( (Double)o ).doubleValue() );
                     }
                 }
             }
@@ -66,23 +67,23 @@ public class MotionModel {
         } );
     }
 
-    protected void setTime( double time ) {
-        this.time = time;
+    protected void setPlaybackTime( double time ) {
+        timeVariable.setPlaybackTime( time );
     }
 
     public void stepInTime( double dt ) {
-        time += dt;
-        timeTimeSeries.addValue( time, time );
+        double newTime = timeVariable.getValue() + dt;
+        timeVariable.addValue( newTime, newTime );
     }
 
     public void clear() {
-        time = 0;
+        timeVariable.setValue( 0.0 );
+        timeVariable.clear();
         timeSeriesModel.clear();
-        timeTimeSeries.clear();
     }
 
     public double getTime() {
-        return time;
+        return timeVariable.getValue();
     }
 
     public TimeSeriesModel getTimeSeriesModel() {

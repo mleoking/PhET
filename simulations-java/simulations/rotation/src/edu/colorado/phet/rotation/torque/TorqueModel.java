@@ -1,7 +1,6 @@
 package edu.colorado.phet.rotation.torque;
 
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
-import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -43,8 +42,8 @@ public class TorqueModel extends RotationModel {
         force.addValue( force.getValue(), getTime() );
     }
 
-    protected void setTime( double time ) {
-        super.setTime( time );
+    protected void setPlaybackTime( double time ) {
+        super.setPlaybackTime( time );
         torque.setPlaybackTime( time );
         force.setPlaybackTime( time );
     }
