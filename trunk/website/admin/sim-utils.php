@@ -544,7 +544,7 @@
 
     function sim_auto_calc_sim_size($sim_id) {        
         $simulation = sim_get_sim_by_id($sim_id);
-        
+
         $sim_launch_url = sim_get_launch_url($simulation);
         
         $ext = strtolower(get_file_extension($sim_launch_url));

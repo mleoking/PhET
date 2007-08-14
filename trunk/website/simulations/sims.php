@@ -51,6 +51,15 @@
 		$sim_type_html   = $SIM_TYPE_TO_IMAGE_HTML[$sim_type];
 		$sim_launch_url  = sim_get_launch_url($simulation);
 		$sim_image_url   = sim_get_screenshot($simulation);
+		
+		if ($sim_type == SIM_TYPE_FLASH) {
+			$gen_flash_page = "../admin/gen-flash-page.php?flash=$sim_launch_url&amp;title=$sim_name";
+			
+			$on_click_html = 'onclick="javascript:open_limited_window(\''.$gen_flash_page.'\',\''.$sim_name.'\'); return false;"';
+		}
+		else {
+			$on_click_html = '';
+		}
         
         ?>
 
@@ -60,7 +69,7 @@
                     print "<h1 class=\"first-child\"><a href=\"../admin/edit-sim.php?sim_id=$sim_id\" title=\"Click here to edit the simulation\">$sim_name</a></h1>";  
                 } 
                 else {
-                    print "<h1 class=\"first-child\"><a href=\"$sim_launch_url\">$sim_name</a></h1>";
+                    print "<h1 class=\"first-child\"><a href=\"$sim_launch_url\" $on_click_html>$sim_name</a></h1>";
                 }
             ?>
         </div>
@@ -89,7 +98,7 @@
             </div>
                 
             <div class="simpreview">    
-                <a href="$sim_launch_url">
+                <a href="$sim_launch_url" $on_click_html>
                     <img src="$sim_image_url" alt="Sim preview image" title="Click here to launch the simulation from your browser" width="300"/>
                 </a>
 
@@ -98,7 +107,7 @@
                         <tr>
                             <td>
                                 <div class="rage_button_358398">
-                                	<a href="$sim_launch_url" title="Click here to run the simulation from your browser">Run Now!</a>
+                                	<a href="$sim_launch_url" $on_click_html title="Click here to run the simulation from your browser">Run Now!</a>
                                 </div>
                             </td>
                         
