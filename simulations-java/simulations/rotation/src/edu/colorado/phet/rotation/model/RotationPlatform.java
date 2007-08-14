@@ -29,7 +29,6 @@ public class RotationPlatform extends MotionBody {
         return center;
     }
 
-
     public boolean getDisplayGraph() {
         return displayGraph;
     }
@@ -57,7 +56,6 @@ public class RotationPlatform extends MotionBody {
             notifyRadiusChanged();
         }
     }
-
 
     public void setInnerRadius( double innerRadius ) {
         if( this.innerRadius != innerRadius ) {
@@ -101,14 +99,6 @@ public class RotationPlatform extends MotionBody {
         return super.getPositionVariable();
     }
 
-    public static interface Listener {
-        void radiusChanged();
-
-        void innerRadiusChanged();
-
-        void displayGraphChanged();
-    }
-
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
@@ -121,6 +111,14 @@ public class RotationPlatform extends MotionBody {
         for( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener)listeners.get( i ) ).radiusChanged();
         }
+    }
+
+    public static interface Listener {
+        void radiusChanged();
+
+        void innerRadiusChanged();
+
+        void displayGraphChanged();
     }
 
     public static class Adapter implements Listener {
