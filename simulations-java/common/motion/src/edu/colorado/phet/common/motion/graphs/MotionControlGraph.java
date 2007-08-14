@@ -6,7 +6,6 @@ import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.umd.cs.piccolo.PNode;
 
 import java.util.ArrayList;
 

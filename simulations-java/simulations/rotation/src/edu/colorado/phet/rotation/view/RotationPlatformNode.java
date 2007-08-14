@@ -1,7 +1,6 @@
 package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.motion.model.IPositionDriven;
-import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -60,7 +59,7 @@ public class RotationPlatformNode extends PNode {
             public void valueChanged() {
                 setAngle( rotationPlatform.getPosition() );
             }
-        });
+        } );
 
         setAngle( rotationPlatform.getPosition() );
         rotationPlatform.addListener( new RotationPlatform.Adapter() {

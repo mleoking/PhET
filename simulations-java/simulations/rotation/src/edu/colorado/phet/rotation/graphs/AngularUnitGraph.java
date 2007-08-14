@@ -8,7 +8,6 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Author: Sam Reid

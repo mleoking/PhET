@@ -6,7 +6,6 @@ import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.torque.TorqueModel;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
 

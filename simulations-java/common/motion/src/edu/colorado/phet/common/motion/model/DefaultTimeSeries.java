@@ -121,6 +121,6 @@ public class DefaultTimeSeries {
     }
 
     public void removeListener( ITemporalVariable.Listener listener ) {
-        listeners.remove(listener);
+        listeners.remove( listener );
     }
 }

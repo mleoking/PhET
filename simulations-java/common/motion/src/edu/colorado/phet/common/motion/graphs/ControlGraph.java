@@ -18,9 +18,8 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -76,7 +75,7 @@ public class ControlGraph extends PNode {
 
     public ControlGraph( PhetPCanvas pSwingCanvas, ControlGraphSeries series,
                          String title, double minY, final double maxY, TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
-        PNode thumb=null;
+        PNode thumb = null;
         if( series != null ) {
             this.variable = series.getTemporalVariable();
             variable.addListener( new IVariable.Listener() {
@@ -84,7 +83,7 @@ public class ControlGraph extends PNode {
                     updateSliderValue();
                 }
             } );
-            thumb=new PImage( ColorArrows.createArrow( series.getColor( )) );
+            thumb = new PImage( ColorArrows.createArrow( series.getColor() ) );
         }
         this.maxDomainValue = maxDomainTime;
         titleLayer = createTitleLayer();

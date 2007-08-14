@@ -26,7 +26,7 @@ public class ShadowJLabel extends PhetPCanvas {
 
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
-        ShadowJLabel contentPane = new ShadowJLabel( UnicodeUtil.THETA, Color.blue,new Font( "Lucida Sans",Font.BOLD, 24) );
+        ShadowJLabel contentPane = new ShadowJLabel( UnicodeUtil.THETA, Color.blue, new Font( "Lucida Sans", Font.BOLD, 24 ) );
         frame.setContentPane( contentPane );
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

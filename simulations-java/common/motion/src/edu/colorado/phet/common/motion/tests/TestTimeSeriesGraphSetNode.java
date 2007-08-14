@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
@@ -48,7 +47,7 @@ public class TestTimeSeriesGraphSetNode {
         private MinimizableControlGraph positionGraph;
 
         public TestGraphSet( PhetPCanvas pSwingCanvas, final TestMotionModel motionModel ) {
-            positionGraph = new MinimizableControlGraph( "x", new MotionControlGraph( pSwingCanvas, new ControlGraphSeries(motionModel.getXVariable()), "X", "Position", -Math.PI * 3, Math.PI * 3, motionModel, true, motionModel.getTimeSeriesModel(), motionModel ) );
+            positionGraph = new MinimizableControlGraph( "x", new MotionControlGraph( pSwingCanvas, new ControlGraphSeries( motionModel.getXVariable() ), "X", "Position", -Math.PI * 3, Math.PI * 3, motionModel, true, motionModel.getTimeSeriesModel(), motionModel ) );
             addGraphSuite( new GraphSuite( new MinimizableControlGraph[]{positionGraph} ) );
 
 //            motionModel.addListener( new MotionModel.Listener() {

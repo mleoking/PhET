@@ -3,10 +3,6 @@ package edu.colorado.phet.common.motion.model;
 import edu.colorado.phet.common.motion.graphs.IUpdateStrategy;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
-import java.sql.CallableStatement;
-
-import junit.extensions.TestDecorator;
-
 /**
  * This class contains a single MotionBody, and convenience methods for interacting with it.
  */
@@ -103,7 +99,7 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
     }
 
     public TimeData[] getRecentAccelerationTimeSeries( int i ) {
-        return motionBody.getRecentAccelerationTimeSeries(i);
+        return motionBody.getRecentAccelerationTimeSeries( i );
     }
 
     public TimeData getMaxVelocity() {
@@ -123,6 +119,6 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
     }
 
     public TimeData getVelocity( int index ) {
-        return motionBody.getVelocity(index);
+        return motionBody.getVelocity( index );
     }
 }

@@ -32,9 +32,9 @@ public class TestGraphSetNode {
 
         TimeSeriesModel timeSeriesModel = new TimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new ConstantDtClock( 30, 1 ) );
         MinimizableControlGraph minimizableControlGraphA = new MinimizableControlGraph( "labelA", new ControlGraph(
-                phetPCanvas, new ControlGraphSeries(new DefaultTemporalVariable()), "titleA", 0, 10, timeSeriesModel ) );
+                phetPCanvas, new ControlGraphSeries( new DefaultTemporalVariable() ), "titleA", 0, 10, timeSeriesModel ) );
         MinimizableControlGraph minimizableControlGraphB = new MinimizableControlGraph( "Long labelB", new ControlGraph(
-                phetPCanvas, new ControlGraphSeries(new DefaultTemporalVariable()), "Long titleB", 0, 10, timeSeriesModel ) );
+                phetPCanvas, new ControlGraphSeries( new DefaultTemporalVariable() ), "Long titleB", 0, 10, timeSeriesModel ) );
 
 
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{minimizableControlGraphA, minimizableControlGraphB} ) ) );
