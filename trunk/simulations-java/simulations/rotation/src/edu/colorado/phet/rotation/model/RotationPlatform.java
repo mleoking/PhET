@@ -48,7 +48,7 @@ public class RotationPlatform extends MotionBody {
     }
 
     public void setAngle( double angle ) {
-        super.getMotionBodyState().setPosition( angle );
+        super.setPosition( angle );
     }
 
     public void setRadius( double radius ) {
