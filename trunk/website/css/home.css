@@ -5,6 +5,7 @@
 	padding: 0;
 }
 div.home-page-links {
+	clear: both;
 	text-align: center;
 	position: relative;
 	top: -3em;
