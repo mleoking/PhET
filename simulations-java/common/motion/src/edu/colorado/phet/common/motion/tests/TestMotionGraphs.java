@@ -44,21 +44,21 @@ public class TestMotionGraphs {
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
 
-        xGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries(rotationModel.getXVariable()), "Angle", -10, 10, PImageFactory.create( "motion/images/blue-arrow.png" ), rotationModel.getTimeSeriesModel() );
+        xGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( rotationModel.getXVariable() ), "Angle", -10, 10, PImageFactory.create( "motion/images/blue-arrow.png" ), rotationModel.getTimeSeriesModel() );
         xGraph.addListener( new ControlGraph.Adapter() {
             public void controlFocusGrabbed() {
                 rotationModel.setPositionDriven();
             }
         } );
 
-        vGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries(rotationModel.getVVariable()), "Angular Velocity", -5, 5, PImageFactory.create( "motion/images/red-arrow.png" ), rotationModel.getTimeSeriesModel() );
+        vGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( rotationModel.getVVariable() ), "Angular Velocity", -5, 5, PImageFactory.create( "motion/images/red-arrow.png" ), rotationModel.getTimeSeriesModel() );
         vGraph.addListener( new ControlGraph.Adapter() {
             public void controlFocusGrabbed() {
                 rotationModel.setVelocityDriven();
             }
         } );
 
-        aGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries(rotationModel.getAVariable()), "Angular Acceleration", -1, 1, PImageFactory.create( "motion/images/green-arrow.png" ), rotationModel.getTimeSeriesModel() );
+        aGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( rotationModel.getAVariable() ), "Angular Acceleration", -1, 1, PImageFactory.create( "motion/images/green-arrow.png" ), rotationModel.getTimeSeriesModel() );
         aGraph.addListener( new ControlGraph.Adapter() {
             public void controlFocusGrabbed() {
                 rotationModel.setAccelerationDriven();
@@ -92,9 +92,9 @@ public class TestMotionGraphs {
     private void step() {
         rotationModel.stepInTime( 1.0 );
 
-        xGraph.addValue( rotationModel.getMotionBodySeries().getLastPosition().getTime(), rotationModel.getMotionBodySeries().getLastPosition().getValue() );
-        vGraph.addValue( rotationModel.getMotionBodySeries().getLastVelocity().getTime(), rotationModel.getMotionBodySeries().getLastVelocity().getValue() );
-        vGraph.addValue( rotationModel.getMotionBodySeries().getLastAcceleration().getTime(), rotationModel.getMotionBodySeries().getLastAcceleration().getValue() );
+        xGraph.addValue( rotationModel.getLastPosition().getTime(), rotationModel.getLastPosition().getValue() );
+        vGraph.addValue( rotationModel.getLastVelocity().getTime(), rotationModel.getLastVelocity().getValue() );
+        vGraph.addValue( rotationModel.getLastAcceleration().getTime(), rotationModel.getLastAcceleration().getValue() );
 //        aGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAcceleration() );
     }
 

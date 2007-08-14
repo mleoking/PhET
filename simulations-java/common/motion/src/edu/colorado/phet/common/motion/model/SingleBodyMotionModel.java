@@ -3,6 +3,8 @@ package edu.colorado.phet.common.motion.model;
 import edu.colorado.phet.common.motion.graphs.IUpdateStrategy;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
+import java.sql.CallableStatement;
+
 /**
  * This class contains a single MotionBody, and convenience methods for interacting with it.
  */
@@ -90,4 +92,15 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
         getMotionBodySeries().setUpdateStrategy( updateStrategy );
     }
 
+    public TimeData getLastPosition() {
+        return getMotionBodySeries().getLastPosition();
+    }
+
+    public TimeData getLastVelocity() {
+        return getMotionBodySeries().getLastVelocity();
+    }
+
+    public TimeData getLastAcceleration() {
+        return getMotionBodySeries().getLastAcceleration();
+    }
 }

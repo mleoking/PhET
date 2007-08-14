@@ -148,15 +148,15 @@ public class RotationBody {
 
     private void updateOffPlatform( double time ) {
         AbstractVector2D origAccel = getAcceleration();
-        xBody.getMotionBodySeries().addPositionData( xBody.getPosition(), time );
-        yBody.getMotionBodySeries().addPositionData( yBody.getPosition(), time );
+        xBody.addPositionData( xBody.getPosition(), time );
+        yBody.addPositionData( yBody.getPosition(), time );
 
         int velocityWindow = 6;
-        TimeData vx = MotionMath.getDerivative( xBody.getMotionBodySeries().getRecentPositionTimeSeries( Math.min( velocityWindow, xBody.getMotionBodySeries().getPositionSampleCount() ) ) );
-        xBody.getMotionBodySeries().addVelocityData( vx.getValue(), vx.getTime() );
+        TimeData vx = MotionMath.getDerivative( xBody.getRecentPositionTimeSeries( Math.min( velocityWindow, xBody.getPositionSampleCount() ) ) );
+        xBody.addVelocityData( vx.getValue(), vx.getTime() );
 
-        TimeData vy = MotionMath.getDerivative( yBody.getMotionBodySeries().getRecentPositionTimeSeries( Math.min( velocityWindow, yBody.getMotionBodySeries().getPositionSampleCount() ) ) );
-        yBody.getMotionBodySeries().addVelocityData( vy.getValue(), vy.getTime() );
+        TimeData vy = MotionMath.getDerivative( yBody.getRecentPositionTimeSeries( Math.min( velocityWindow, yBody.getPositionSampleCount() ) ) );
+        yBody.addVelocityData( vy.getValue(), vy.getTime() );
 
         Point2D[] pointHistory = getPointHistory( 25 );
         Rectangle2D.Double boundingBox = new Rectangle2D.Double( pointHistory[0].getX(), pointHistory[0].getY(), 0, 0 );
@@ -194,8 +194,8 @@ public class RotationBody {
             }
             accelVector = accelVector.getInstanceOfMagnitude( aMag );
             accelVector = origAccel.getAddedInstance( accelVector ).getScaledInstance( 0.5 );
-            xBody.getMotionBodySeries().addAccelerationData( accelVector.getX(), time );
-            yBody.getMotionBodySeries().addAccelerationData( accelVector.getY(), time );
+            xBody.addAccelerationData( accelVector.getX(), time );
+            yBody.addAccelerationData( accelVector.getY(), time );
         }
         else {
 //            System.out.println( "RotationBody.updateOffPlatform: Linear" );
@@ -245,11 +245,11 @@ public class RotationBody {
 
     private void updateAccelByDerivative() {
         int accelWindow = 6;
-        TimeData ax = MotionMath.getDerivative( xBody.getMotionBodySeries().getRecentVelocityTimeSeries( Math.min( accelWindow, xBody.getMotionBodySeries().getVelocitySampleCount() ) ) );
-        xBody.getMotionBodySeries().addAccelerationData( ax.getValue(), ax.getTime() );
+        TimeData ax = MotionMath.getDerivative( xBody.getRecentVelocityTimeSeries( Math.min( accelWindow, xBody.getVelocitySampleCount() ) ) );
+        xBody.addAccelerationData( ax.getValue(), ax.getTime() );
 
-        TimeData ay = MotionMath.getDerivative( yBody.getMotionBodySeries().getRecentVelocityTimeSeries( Math.min( accelWindow, yBody.getMotionBodySeries().getVelocitySampleCount() ) ) );
-        yBody.getMotionBodySeries().addAccelerationData( ay.getValue(), ay.getTime() );
+        TimeData ay = MotionMath.getDerivative( yBody.getRecentVelocityTimeSeries( Math.min( accelWindow, yBody.getVelocitySampleCount() ) ) );
+        yBody.addAccelerationData( ay.getValue(), ay.getTime() );
     }
 
 
@@ -374,18 +374,18 @@ public class RotationBody {
     }
 
     private void addAccelerationData( AbstractVector2D newAccel, double time ) {
-        xBody.getMotionBodySeries().addAccelerationData( newAccel.getX(), time );
-        yBody.getMotionBodySeries().addAccelerationData( newAccel.getY(), time );
+        xBody.addAccelerationData( newAccel.getX(), time );
+        yBody.addAccelerationData( newAccel.getY(), time );
     }
 
     private void addVelocityData( AbstractVector2D newVelocity, double time ) {
-        xBody.getMotionBodySeries().addVelocityData( newVelocity.getX(), time );
-        yBody.getMotionBodySeries().addVelocityData( newVelocity.getY(), time );
+        xBody.addVelocityData( newVelocity.getX(), time );
+        yBody.addVelocityData( newVelocity.getY(), time );
     }
 
     private void addPositionData( Point2D newLocation, double time ) {
-        xBody.getMotionBodySeries().addPositionData( newLocation.getX(), time );
-        yBody.getMotionBodySeries().addPositionData( newLocation.getY(), time );
+        xBody.addPositionData( newLocation.getX(), time );
+        yBody.addPositionData( newLocation.getY(), time );
     }
 
     public Vector2D getAcceleration() {

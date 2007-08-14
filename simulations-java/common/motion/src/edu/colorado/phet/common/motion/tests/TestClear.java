@@ -16,10 +16,10 @@ public class TestClear extends TestCase {
         for( int i = 0; i < NUM_INIT_SAMPLES; i++ ) {
             swingClock.stepClockWhilePaused();
         }
-        assertEquals( "Data should have " + NUM_INIT_SAMPLES + " samples", motionModel.getMotionBodySeries().getXTimeSeries().getSampleCount(), NUM_INIT_SAMPLES );
+        assertEquals( "Data should have " + NUM_INIT_SAMPLES + " samples", motionModel.getXTimeSeries().getSampleCount(), NUM_INIT_SAMPLES );
         motionModel.clear();
-        assertEquals( "Data should have cleared", motionModel.getMotionBodySeries().getXTimeSeries().getSampleCount(), 0 );
+        assertEquals( "Data should have cleared", motionModel.getXTimeSeries().getSampleCount(), 0 );
         swingClock.stepClockWhilePaused();
-        assertEquals( "Data should have a single sample", motionModel.getMotionBodySeries().getXTimeSeries().getSampleCount(), 1 );
+        assertEquals( "Data should have a single sample", motionModel.getXTimeSeries().getSampleCount(), 1 );
     }
 }
