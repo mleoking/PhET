@@ -3,8 +3,6 @@ package edu.colorado.phet.common.motion.model;
 import edu.colorado.phet.common.motion.graphs.IUpdateStrategy;
 import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
 
-import java.util.ArrayList;
-
 /**
  * Author: Sam Reid
  * Jun 26, 2007, 6:19:17 PM
@@ -21,7 +19,8 @@ public class MotionBody implements IUpdateStrategy {
     private AccelerationDriven accelDriven = new AccelerationDriven();
     private UpdateStrategy updateStrategy = positionDriven; //current strategy
 
-    private transient ArrayList listeners = new ArrayList();
+    public MotionBody() {
+    }
 
     public void setTime( double time ) {
         setPosition( x.getValueForTime( time ) );
@@ -33,26 +32,16 @@ public class MotionBody implements IUpdateStrategy {
         updateStrategy.update( this, dt, time );
     }
 
-    public void setAcceleration( double acceleration ) {
-        if( a.getValue() != acceleration ) {
-            a.setValue( acceleration );
-            notifyAccelerationChanged();
-        }
-    }
-
     public void setVelocity( double velocity ) {
-        if( v.getValue() != velocity ) {
-            v.setValue( velocity );
-            notifyVelocityChanged();
-        }
+        v.setValue( velocity );
     }
 
-    public void addListener( MBListener listener ) {
-        listeners.add( listener );
+    public void setPosition( double position ) {
+        x.setValue( position );
     }
 
-    public void removeListener( MBListener listener ) {
-        listeners.remove( listener );
+    public void setAcceleration( double acceleration ) {
+        a.setValue( acceleration );
     }
 
     public void clear() {
@@ -71,14 +60,6 @@ public class MotionBody implements IUpdateStrategy {
 
     public double getPosition() {
         return x.getValue();
-    }
-
-    public void setPosition( double position ) {
-        double origX = x.getValue();
-        if( x.getValue() != position ) {
-            x.setValue( position );
-            notifyPositionChanged( position - origX );
-        }
     }
 
     public ITemporalVariable getPositionVariable() {
@@ -100,52 +81,8 @@ public class MotionBody implements IUpdateStrategy {
         getAccelerationVariable().setValue( 0.0 );
     }
 
-
     public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
         this.updateStrategy = updateStrategy;
-    }
-
-    private class MotionBodySeries {
-
-    }
-
-    public static interface MBListener {
-        void positionChanged( double dx );
-
-        void velocityChanged();
-
-        void accelerationChanged();
-    }
-
-    public static class MBAdapter implements MBListener {
-        public void positionChanged( double dx ) {
-        }
-
-        public void velocityChanged() {
-        }
-
-        public void accelerationChanged() {
-        }
-    }
-
-    private void notifyVelocityChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (MBListener)listeners.get( i ) ).velocityChanged();
-        }
-    }
-
-    private void notifyAccelerationChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (MBListener)listeners.get( i ) ).accelerationChanged();
-        }
-    }
-
-
-    public void notifyPositionChanged( double dtheta ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            MBListener listener = (MBListener)listeners.get( i );
-            listener.positionChanged( dtheta );
-        }
     }
 
     public void setVelocityDriven() {
@@ -158,18 +95,6 @@ public class MotionBody implements IUpdateStrategy {
 
     public void setPositionDriven() {
         setUpdateStrategy( positionDriven );
-    }
-
-    public boolean isPositionDriven() {
-        return updateStrategy == getPositionDriven();
-    }
-
-    public boolean isVelocityDriven() {
-        return updateStrategy == getVelocityDriven();
-    }
-
-    public boolean isAccelerationDriven() {
-        return updateStrategy == getAccelDriven();
     }
 
     public TimeData getVelocity( int index ) {
@@ -204,10 +129,6 @@ public class MotionBody implements IUpdateStrategy {
 
     public AccelerationDriven getAccelDriven() {
         return accelDriven;
-    }
-
-    public UpdateStrategy getUpdateStrategy() {
-        return updateStrategy;
     }
 
     public void addPositionData( double position, double time ) {

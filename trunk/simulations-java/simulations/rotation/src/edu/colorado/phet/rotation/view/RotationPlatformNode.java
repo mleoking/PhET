@@ -2,6 +2,7 @@ package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.motion.model.IPositionDriven;
 import edu.colorado.phet.common.motion.model.MotionBody;
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PNode;
@@ -26,12 +27,9 @@ public class RotationPlatformNode extends PNode {
     private PhetPPath horizontalCrossHair;
     private PhetPPath innerRadiusNode;//cover up with background color for simplicity
 
-//    private final float STROKE_SCALE = 1.0f / 200.0f;
-
     private double handleWidth = 10 * RotationPlayAreaNode.SCALE;
     private double handleHeight = 10 * RotationPlayAreaNode.SCALE;
     private PhetPPath handleNode;
-
 
     public RotationPlatformNode( final IPositionDriven environment, final RotationPlatform rotationPlatform ) {
         this.rotationPlatform = rotationPlatform;
@@ -43,7 +41,6 @@ public class RotationPlatformNode extends PNode {
         addRingNode( 0.50, new Color( 215, 215, 255 ), new Color( 240, 240, 255 ), false );
         addRingNode( 0.25, Color.white, Color.lightGray, false );
 //        addRingNode( 0.005, Color.white );
-
 
         verticalCrossHair = new PhetPPath( getVerticalCrossHairPath(), new BasicStroke( (float)( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
         contentNode.addChild( verticalCrossHair );
@@ -59,11 +56,12 @@ public class RotationPlatformNode extends PNode {
 
         addChild( contentNode );
 
-        rotationPlatform.addListener( new MotionBody.MBAdapter() {
-            public void positionChanged( double dtheta ) {
+        rotationPlatform.getPositionVariable().addListener( new ITemporalVariable.ListenerAdapter() {
+            public void valueChanged() {
                 setAngle( rotationPlatform.getPosition() );
             }
-        } );
+        });
+
         setAngle( rotationPlatform.getPosition() );
         rotationPlatform.addListener( new RotationPlatform.Adapter() {
             public void radiusChanged() {
