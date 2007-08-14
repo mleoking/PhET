@@ -83,6 +83,11 @@ public class ControlGraph extends PNode {
                          TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
         if( series != null ) {
             this.variable = series.getTemporalVariable();
+            variable.addListener( new IVariable.Listener() {
+                public void valueChanged() {
+                    updateSliderValue();
+                }
+            } );
         }
         this.maxDomainValue = maxDomainTime;
         titleLayer = createTitleLayer();
@@ -129,13 +134,6 @@ public class ControlGraph extends PNode {
         addChild( zoomControl );
         addChild( titleLayer );
 
-        if( variable != null ) {
-            variable.addListener( new IVariable.Listener() {
-                public void valueChanged() {
-                    updateSliderValue();
-                }
-            } );
-        }
         jFreeChartSliderNode.addListener( new JFreeChartSliderNode.Listener() {
             public void valueChanged() {
                 handleValueChanged();

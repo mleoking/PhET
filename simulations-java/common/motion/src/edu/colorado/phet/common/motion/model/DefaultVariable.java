@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Author: Sam Reid
  * Jun 26, 2007, 12:20:50 PM
  */
-public class DefaultSimulationVariable implements IVariable {
+public class DefaultVariable implements IVariable {
     private double value;
     private ArrayList listeners = new ArrayList();
 
