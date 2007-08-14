@@ -388,38 +388,6 @@ public class RotationBody {
         return new Vector2D.Double( xBody.getVelocity(), yBody.getVelocity() );
     }
 
-    public ITemporalVariable getXPositionVariable() {
-        return xBody.getPositionVariable();
-    }
-
-    public ITemporalVariable getXVelocityVariable() {
-        return xBody.getVelocityVariable();
-    }
-
-    public ITemporalVariable getXAccelVariable() {
-        return xBody.getAccelerationVariable();
-    }
-
-    public ITemporalVariable getYPositionVariable() {
-        return yBody.getPositionVariable();
-    }
-
-    public ITemporalVariable getYVelocityVariable() {
-        return yBody.getVelocityVariable();
-    }
-
-    public ITemporalVariable getYAccelVariable() {
-        return yBody.getAccelerationVariable();
-    }
-
-    public ITemporalVariable getSpeedVariable() {
-        return speed;
-    }
-
-    public ITemporalVariable getAccelMagnitudeVariable() {
-        return accelMagnitude;
-    }
-
     public String getImageName() {
         return imageName;
     }
@@ -443,14 +411,6 @@ public class RotationBody {
         return constrained;
     }
 
-    public IVariable getAngleVariable() {
-        return angle;
-    }
-
-    public ITemporalVariable getAngleTimeSeries() {
-        return angle;
-    }
-
     public void setDisplayGraph( boolean selected ) {
         if( this.displayGraph != selected ) {
             this.displayGraph = selected;
@@ -462,22 +422,6 @@ public class RotationBody {
 
     public boolean getDisplayGraph() {
         return displayGraph;
-    }
-
-    public IVariable getAngularVelocityVariable() {
-        return angularVelocity;
-    }
-
-    public ITemporalVariable getAngularVelocityTimeSeries() {
-        return angularVelocity;
-    }
-
-    public IVariable getAngularAccelerationVariable() {
-        return angularAccel;
-    }
-
-    public ITemporalVariable getAngularAccelerationTimeSeries() {
-        return angularAccel;
     }
 
     public ITemporalVariable getAccelMagnitude() {
@@ -510,14 +454,6 @@ public class RotationBody {
 
     public ITemporalVariable getPositionY() {
         return yBody.getPositionVariable();
-    }
-
-    public ITemporalVariable getVelocityX() {
-        return xBody.getVelocityVariable();
-    }
-
-    public ITemporalVariable getVelocityY() {
-        return yBody.getVelocityVariable();
     }
 
     public ITemporalVariable getAngularAcceleration() {
