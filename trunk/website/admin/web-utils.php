@@ -28,7 +28,7 @@
     }
     
     function force_redirect($url, $timeout = 0, $die = true) { 
-        print "<META http-equiv=\"Refresh\" content=\"$timeout;url=$url\">";
+        print "<meta http-equiv=\"Refresh\" content=\"$timeout;url=$url\">";
     }
     
     // function url_exists($url) {

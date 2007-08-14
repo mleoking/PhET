@@ -239,7 +239,7 @@ EOT;
 			$contributor_name = $GLOBALS['contributor_name'];
 
 			$utility_panel_html = <<<EOT
-				Welcome $contributor_name - <a href="$prefix/teacher_ideas/user-logout.php?url=$php_self">Logout</a>
+				Welcome <a href="$prefix/teacher_ideas/user-edit-profile.php">$contributor_name</a> - <a href="$prefix/teacher_ideas/user-logout.php?url=$php_self">Logout</a>
 EOT;
 		}
 		
