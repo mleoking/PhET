@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 import java.sql.CallableStatement;
 
+import junit.extensions.TestDecorator;
+
 /**
  * This class contains a single MotionBody, and convenience methods for interacting with it.
  */
@@ -32,10 +34,6 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
         motionBody.clear();
     }
 
-    public MotionBodySeries getMotionBodySeries() {
-        return motionBody.getMotionBodySeries();
-    }
-
     public ITemporalVariable getXVariable() {
         return motionBody.getPositionVariable();
     }
@@ -53,54 +51,78 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
     }
 
     public void setPositionDriven() {
-        getMotionBodySeries().setPositionDriven();
+        motionBody.setPositionDriven();
     }
 
     public ITemporalVariable getXTimeSeries() {
-        return getMotionBodySeries().getXTimeSeries();
+        return motionBody.getPositionVariable();
     }
 
     public ITemporalVariable getVTimeSeries() {
-        return getMotionBodySeries().getVTimeSeries();
+        return motionBody.getVelocityVariable();
     }
 
     public ITemporalVariable getATimeSeries() {
-        return getMotionBodySeries().getATimeSeries();
+        return motionBody.getAccelerationVariable();
     }
 
-    public UpdateStrategy getPositionDriven() {
-        return getMotionBodySeries().getPositionDriven();
+    public PositionDriven getPositionDriven() {
+        return motionBody.getPositionDriven();
     }
 
-    public UpdateStrategy getVelocityDriven() {
-        return getMotionBodySeries().getVelocityDriven();
+    public VelocityDriven getVelocityDriven() {
+        return motionBody.getVelocityDriven();
     }
 
-    public UpdateStrategy getAccelDriven() {
-        return getMotionBodySeries().getAccelDriven();
+    public AccelerationDriven getAccelDriven() {
+        return motionBody.getAccelDriven();
     }
 
     public void setAccelerationDriven() {
-        getMotionBodySeries().setAccelerationDriven();
+        motionBody.setAccelerationDriven();
     }
 
     public void setVelocityDriven() {
-        getMotionBodySeries().setVelocityDriven();
+        motionBody.setVelocityDriven();
     }
 
     public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
-        getMotionBodySeries().setUpdateStrategy( updateStrategy );
+        motionBody.setUpdateStrategy( updateStrategy );
     }
 
     public TimeData getLastPosition() {
-        return getMotionBodySeries().getLastPosition();
+        return motionBody.getLastPosition();
     }
 
     public TimeData getLastVelocity() {
-        return getMotionBodySeries().getLastVelocity();
+        return motionBody.getLastVelocity();
     }
 
     public TimeData getLastAcceleration() {
-        return getMotionBodySeries().getLastAcceleration();
+        return motionBody.getLastAcceleration();
+    }
+
+    public TimeData[] getRecentAccelerationTimeSeries( int i ) {
+        return motionBody.getRecentAccelerationTimeSeries(i);
+    }
+
+    public TimeData getMaxVelocity() {
+        return motionBody.getMaxVelocity();
+    }
+
+    public TimeData getMaxAcceleration() {
+        return motionBody.getMaxAcceleration();
+    }
+
+    public TimeData getMinAcceleration() {
+        return motionBody.getMinAcceleration();
+    }
+
+    public int getVelocitySampleCount() {
+        return motionBody.getVelocitySampleCount();
+    }
+
+    public TimeData getVelocity( int index ) {
+        return motionBody.getVelocity(index);
     }
 }

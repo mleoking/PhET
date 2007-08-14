@@ -16,42 +16,6 @@ public class MotionBody implements IUpdateStrategy {
     private MotionBodyState motionBodyState = new MotionBodyState( x, v, a );//current state
 
     public MotionBody() {
-        motionBodyState.addListener( new MotionBodyState.Adapter() {
-            public void positionChanged( double dx ) {
-                x.setValue( motionBodyState.getPosition() );
-            }
-        } );
-        x.addListener( new IVariable.Listener() {
-            public void valueChanged() {
-                motionBodyState.setPosition( x.getValue() );
-            }
-        } );
-
-        motionBodyState.addListener( new MotionBodyState.Adapter() {
-            public void velocityChanged() {
-                v.setValue( motionBodyState.getVelocity() );
-            }
-        } );
-        v.addListener( new IVariable.Listener() {
-            public void valueChanged() {
-                motionBodyState.setVelocity( v.getValue() );
-            }
-        } );
-
-        motionBodyState.addListener( new MotionBodyState.Adapter() {
-            public void accelerationChanged() {
-                a.setValue( motionBodyState.getAcceleration() );
-            }
-        } );
-        a.addListener( new IVariable.Listener() {
-            public void valueChanged() {
-                motionBodyState.setAcceleration( a.getValue() );
-            }
-        } );
-    }
-
-    public MotionBodySeries getMotionBodySeries() {
-        return motionBodySeries;
     }
 
     public MotionBodyState getMotionBodyState() {
@@ -180,5 +144,45 @@ public class MotionBody implements IUpdateStrategy {
 
     public int getAccelerationSampleCount() {
         return motionBodySeries.getAccelerationSampleCount();
+    }
+
+    public TimeData getLastAcceleration() {
+        return motionBodySeries.getLastAcceleration();
+    }
+
+    public TimeData getLastVelocity() {
+        return motionBodySeries.getLastVelocity();
+    }
+
+    public TimeData[] getRecentAccelerationTimeSeries( int i ) {
+        return motionBodySeries.getRecentAccelerationTimeSeries( i );
+    }
+
+    public TimeData getLastPosition() {
+        return motionBodySeries.getLastPosition();
+    }
+
+    public void setAccelerationDriven() {
+        motionBodySeries.setAccelerationDriven();
+    }
+
+    public void setVelocityDriven() {
+        motionBodySeries.setVelocityDriven();
+    }
+
+    public TimeData getMaxVelocity() {
+        return motionBodySeries.getMaxVelocity();
+    }
+
+    public TimeData getMaxAcceleration() {
+        return motionBodySeries.getMaxAcceleration();
+    }
+
+    public TimeData getMinAcceleration() {
+        return motionBodySeries.getMinAcceleration();
+    }
+
+    public TimeData getVelocity( int index ) {
+        return motionBodySeries.getVelocity( index );
     }
 }

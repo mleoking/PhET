@@ -31,7 +31,7 @@ public class TestVelocityDriven {
 
         rotationModel = new SingleBodyMotionModel( new ConstantDtClock( 30, 1 ) );
         final VelocityDriven updateStrategy = new VelocityDriven();
-        rotationModel.getMotionBodySeries().setUpdateStrategy( updateStrategy );
+        rotationModel.setUpdateStrategy( updateStrategy );
         final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, rotationModel.getMotionBodyState().getVelocity() );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
