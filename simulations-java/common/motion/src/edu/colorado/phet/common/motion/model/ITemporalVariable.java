@@ -17,8 +17,6 @@ public interface ITemporalVariable extends IVariable {
 
     double getValue();
 
-    void addValue( double v, double time );
-
     double getTime();
 
     TimeData getMax();
@@ -27,7 +25,7 @@ public interface ITemporalVariable extends IVariable {
 
     double getValueForTime( double time );
 
-    void updateSeriesAndState( double magnitude, double time );
+    void addValue( double magnitude, double time );
 
     void setPlaybackTime( double time );
 

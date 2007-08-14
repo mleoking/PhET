@@ -126,8 +126,8 @@ public class RotationBody {
         if( !getPosition().equals( origPosition ) ) {//todo: integrate listener behavior into xBody and yBody?
             notifyPositionChanged();
         }
-        speed.updateSeriesAndState( getVelocity().getMagnitude(), time );
-        accelMagnitude.updateSeriesAndState( getAcceleration().getMagnitude(), time );
+        speed.addValue( getVelocity().getMagnitude(), time );
+        accelMagnitude.addValue( getAcceleration().getMagnitude(), time );
         orientationSeries.addValue( getOrientation(), time );
 
 //        debugSeries();
@@ -203,11 +203,11 @@ public class RotationBody {
         }
 
         updateXYStateFromSeries();
-        angle.updateSeriesAndState( getUserSetAngle(), time );
+        angle.addValue( getUserSetAngle(), time );
         TimeData v = MotionMath.getDerivative( MotionMath.smooth( angle.getRecentSeries( Math.min( velocityWindow, angle.getSampleCount() ) ), 4 ) );
-        angularVelocity.updateSeriesAndState( v.getValue(), v.getTime() );//when on the platform, angul
+        angularVelocity.addValue( v.getValue(), v.getTime() );//when on the platform, angul
         TimeData a = MotionMath.getDerivative( MotionMath.smooth( angularVelocity.getRecentSeries( Math.min( velocityWindow, angularVelocity.getSampleCount() ) ), 4 ) );
-        angularAccel.updateSeriesAndState( a.getValue(), a.getTime() );
+        angularAccel.addValue( a.getValue(), a.getTime() );
     }
 
     private double getUserSetAngle() {
@@ -347,9 +347,9 @@ public class RotationBody {
         addAccelerationData( newA, time );
 
         updateXYStateFromSeries();
-        angle.updateSeriesAndState( getUserSetAngle(), rotationPlatform.getPositionVariable().getTime() );
-        angularVelocity.updateSeriesAndState( rotationPlatform.getVelocity(), rotationPlatform.getVelocityVariable().getTime() );//when on the platform, angul
-        angularAccel.updateSeriesAndState( rotationPlatform.getAcceleration(), rotationPlatform.getAccelerationVariable().getTime() );
+        angle.addValue( getUserSetAngle(), rotationPlatform.getPositionVariable().getTime() );
+        angularVelocity.addValue( rotationPlatform.getVelocity(), rotationPlatform.getVelocityVariable().getTime() );//when on the platform, angul
+        angularAccel.addValue( rotationPlatform.getAcceleration(), rotationPlatform.getAccelerationVariable().getTime() );
 //        System.out.println( "rotationPlatform.getLastTime() = " + rotationPlatform.getLastTime() );
         checkCentripetalAccel();
     }

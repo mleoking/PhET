@@ -34,10 +34,10 @@ public class TorqueModel extends RotationModel {
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        momentOfInertia.updateSeriesAndState( getRotationPlatform().getMomentOfInertia(), getTime() );
-        angularMomentum.updateSeriesAndState( getRotationPlatform().getMomentOfInertia() * getRotationPlatform().getVelocity(), getTime() );
-        torque.updateSeriesAndState( torque.getValue(), getTime() );
-        force.updateSeriesAndState( force.getValue(), getTime() );
+        momentOfInertia.addValue( getRotationPlatform().getMomentOfInertia(), getTime() );
+        angularMomentum.addValue( getRotationPlatform().getMomentOfInertia() * getRotationPlatform().getVelocity(), getTime() );
+        torque.addValue( torque.getValue(), getTime() );
+        force.addValue( force.getValue(), getTime() );
     }
 
     protected void setTime( double time ) {

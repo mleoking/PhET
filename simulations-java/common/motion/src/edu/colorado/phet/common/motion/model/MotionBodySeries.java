@@ -8,9 +8,9 @@ import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
  */
 public class MotionBodySeries {
 
-    private final DefaultTemporalVariable positionTimeSeries;
-    private final DefaultTemporalVariable velocityTimeSeries;
-    private final DefaultTemporalVariable accelerationTimeSeries;
+    private final DefaultTemporalVariable x;
+    private final DefaultTemporalVariable v;
+    private final DefaultTemporalVariable a;
 
     /*Different strategies for updating simulation variables*/
     private PositionDriven positionDriven = new PositionDriven();
@@ -19,63 +19,62 @@ public class MotionBodySeries {
     private UpdateStrategy updateStrategy = positionDriven; //current strategy
 
     public MotionBodySeries( DefaultTemporalVariable x, DefaultTemporalVariable v, DefaultTemporalVariable a ) {
-        this.positionTimeSeries = x;
-        this.velocityTimeSeries = v;
-        this.accelerationTimeSeries = a;
+        this.x = x;
+        this.v = v;
+        this.a = a;
     }
 
     public ITemporalVariable getXTimeSeries() {
-        return positionTimeSeries;
+        return x;
     }
 
     public ITemporalVariable getVTimeSeries() {
-        return velocityTimeSeries;
+        return v;
     }
 
     public ITemporalVariable getATimeSeries() {
-        return accelerationTimeSeries;
+        return a;
     }
 
     public TimeData getLastPosition() {
-        return positionTimeSeries.getRecentData( 0 );
+        return x.getRecentData( 0 );
     }
 
     public TimeData getLastVelocity() {
-        return velocityTimeSeries.getRecentData( 0 );
+        return v.getRecentData( 0 );
     }
 
     public TimeData getLastAcceleration() {
-        return accelerationTimeSeries.getRecentData( 0 );
+        return a.getRecentData( 0 );
     }
 
     public void addPositionData( double position, double time ) {
-        positionTimeSeries.addValue( position, time );
+        x.addValue( position, time );
     }
 
     public void addVelocityData( double velocity, double time ) {
-        velocityTimeSeries.addValue( velocity, time );
+        v.addValue( velocity, time );
     }
 
     public void addAccelerationData( double accel, double time ) {
-        accelerationTimeSeries.addValue( accel, time );
+        a.addValue( accel, time );
     }
 
     public TimeData getVelocity( int index ) {
-        return velocityTimeSeries.getData( index );
+        return v.getData( index );
     }
 
     public TimeData getMaxVelocity() {
-        return velocityTimeSeries.getMax();
+        return v.getMax();
     }
 
     public TimeData getMaxAcceleration() {
-        return accelerationTimeSeries.getMax();
+        return a.getMax();
     }
 
     public TimeData getMinAcceleration() {
-        return accelerationTimeSeries.getMin();
+        return a.getMin();
     }
-
 
     /**
      * Returns values from the last numPts points of the acceleration time series.
@@ -84,35 +83,34 @@ public class MotionBodySeries {
      * @return the time series points.
      */
     public TimeData[] getRecentAccelerationTimeSeries( int numPts ) {
-        return accelerationTimeSeries.getRecentSeries( numPts );
+        return a.getRecentSeries( numPts );
     }
 
     public TimeData[] getRecentVelocityTimeSeries( int numPts ) {
-        return velocityTimeSeries.getRecentSeries( numPts );
+        return v.getRecentSeries( numPts );
     }
 
     public TimeData[] getRecentPositionTimeSeries( int numPts ) {
-        return positionTimeSeries.getRecentSeries( numPts );
+        return x.getRecentSeries( numPts );
     }
 
     public int getAccelerationSampleCount() {
-        return accelerationTimeSeries.getSampleCount();
+        return a.getSampleCount();
     }
 
     public int getVelocitySampleCount() {
-        return velocityTimeSeries.getSampleCount();
+        return v.getSampleCount();
     }
 
     public int getPositionSampleCount() {
-        return positionTimeSeries.getSampleCount();
+        return x.getSampleCount();
     }
 
     public void clear() {
-        positionTimeSeries.clear();
-        velocityTimeSeries.clear();
-        accelerationTimeSeries.clear();
+        x.clear();
+        v.clear();
+        a.clear();
     }
-
 
     /**
      * These getters are provided for convenience in setting up listeners; i.e. to set up a different

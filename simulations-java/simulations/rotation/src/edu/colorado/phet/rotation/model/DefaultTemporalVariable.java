@@ -13,7 +13,7 @@ public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
     public DefaultTemporalVariable() {
     }
 
-    public void updateSeriesAndState( double value, double time ) {
+    public void addValue( double value, double time ) {
         variable.setValue( value );
         series.addValue( value, time );
     }
@@ -64,10 +64,6 @@ public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
 
     public void clear() {
         series.clear();
-    }
-
-    public void addValue( double v, double time ) {
-        series.addValue( v, time );
     }
 
     public double getTime() {
