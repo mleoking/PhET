@@ -24,21 +24,21 @@ public class MotionControlGraph extends ControlGraph {
     private UpdateStrategy updateStrategy;
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
-                               double min, double max, PNode thumb, final MotionModel motionModel,
+                               double min, double max, final MotionModel motionModel,
                                boolean editable, TimeSeriesModel timeSeriesModel, IUpdateStrategy iPositionDriven ) {
-        this( pSwingCanvas, series, label, title, min, max, thumb, motionModel, editable, timeSeriesModel, null, iPositionDriven );
+        this( pSwingCanvas, series, label, title, min, max, motionModel, editable, timeSeriesModel, null, iPositionDriven );
     }
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
-                               double min, double max, PNode thumb, final MotionModel motionModel,
+                               double min, double max, final MotionModel motionModel,
                                boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, IUpdateStrategy iPositionDriven ) {
-        this( pSwingCanvas, series, label, title, min, max, thumb, motionModel, editable, timeSeriesModel, updateStrategy, 1000, iPositionDriven );
+        this( pSwingCanvas, series, label, title, min, max, motionModel, editable, timeSeriesModel, updateStrategy, 1000, iPositionDriven );
     }
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
-                               double min, double max, PNode thumb, final MotionModel motionModel,
+                               double min, double max, final MotionModel motionModel,
                                boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final IUpdateStrategy iPositionDriven ) {
-        super( pSwingCanvas, series, title, min, max, thumb, timeSeriesModel, maxDomainValue );
+        super( pSwingCanvas, series, title, min, max, timeSeriesModel, maxDomainValue );
         this.iPositionDriven = iPositionDriven;
         this.motionModel = motionModel;
         this.updateStrategy = updateStrategy;
