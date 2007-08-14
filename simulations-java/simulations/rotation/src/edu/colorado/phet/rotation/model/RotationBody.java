@@ -553,15 +553,16 @@ public class RotationBody {
         }
     }
 
-    private class OnPlatform extends UpdateStrategy implements MotionBody.MBListener {
+    private class OnPlatform extends UpdateStrategy implements IVariable.Listener {
         private RotationPlatform rotationPlatform;
+        private double prevAngle;
 
         public OnPlatform( RotationPlatform rotationPlatform ) {
             this.rotationPlatform = rotationPlatform;
-            rotationPlatform.addListener( this );
+            rotationPlatform.getPositionVariable().addListener( this );
         }
 
-        public void positionChanged( double dtheta ) {
+        private void positionChanged( double dtheta ) {
             Line2D segment = new Line2D.Double( getPosition(), Vector2D.Double.parseAngleAndMagnitude( 0.01, getOrientation() ).getDestination( getPosition() ) );
             setPosition( rotate( getPosition(), rotationPlatform.getCenter(), dtheta ) );
             Line2D rot = rotate( segment, rotationPlatform.getCenter(), dtheta );
@@ -571,14 +572,13 @@ public class RotationBody {
             notifyPositionChanged();
         }
 
-        public void velocityChanged() {
-        }
-
-        public void accelerationChanged() {
-        }
-
         public void detach() {
-            rotationPlatform.removeListener( this );
+            rotationPlatform.getPositionVariable().removeListener( this );
+        }
+
+        public void valueChanged() {
+            positionChanged( rotationPlatform.getPosition() - prevAngle );
+            this.prevAngle = rotationPlatform.getPosition();
         }
     }
 
