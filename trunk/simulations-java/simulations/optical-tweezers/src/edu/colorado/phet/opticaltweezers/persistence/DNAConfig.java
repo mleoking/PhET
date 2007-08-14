@@ -16,6 +16,9 @@ public class DNAConfig implements OTSerializable {
     // Instance data
     //----------------------------------------------------------------------------
     
+    // Module
+    private boolean _active; // is the module active?
+    
     // Clock
     private boolean _clockRunning;
     private double _clockDt;
@@ -55,6 +58,16 @@ public class DNAConfig implements OTSerializable {
     // Accessors
     //----------------------------------------------------------------------------
 
+    public boolean isActive() {
+        return _active;
+    }
+
+    
+    public void setActive( boolean active ) {
+        _active = active;
+    }
+    
+    
     public boolean isClockRunning() {
         return _clockRunning;
     }

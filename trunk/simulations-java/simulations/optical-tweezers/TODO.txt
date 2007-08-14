@@ -8,7 +8,6 @@ MISSING INFO:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- make save/load keep track of which module is active
 - force dialogs to fully-paint by calling repaint after JDialog.show
 - help items don't refresh fast enough (AWT priority issue?)
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
@@ -52,6 +51,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/10/07 - make save/load handle activation state of modules
 8/10/07 - loading should restore clock's run state only if module is active
 8/10/07 - implement Save/Load feature for "Physics" and "DNA" modules
 8/10/07 - remove controls related to "horizontal trap force", feature has been dropped
