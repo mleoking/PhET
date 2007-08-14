@@ -230,8 +230,15 @@ public class DNAModule extends AbstractModule {
         
         // Clock
         OTClock clock = model.getClock();
-        clock.setRunning( config.isClockRunning() );
         clock.setDt( config.getClockDt() );
+        if ( isActive() ) {
+            if ( config.isClockRunning() ) {
+                getClock().start();
+            }
+            else {
+                getClock().pause();
+            }
+        }
         
         // Laser
         Laser laser = model.getLaser();
