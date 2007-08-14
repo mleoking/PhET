@@ -168,7 +168,6 @@ public class RotationBody {
         //avoid the expense of circular regression if possible
         if( boundingBox.getWidth() <= 0.2 && boundingBox.getHeight() <= 0.2 ) {
             updateAccelByDerivative();
-            updateXYStateFromSeries();
             return;
         }
         circle = circularRegression.getCircle( pointHistory, 50, circle );
@@ -202,7 +201,6 @@ public class RotationBody {
             updateAccelByDerivative();
         }
 
-        updateXYStateFromSeries();
         angle.addValue( getUserSetAngle(), time );
         TimeData v = MotionMath.getDerivative( MotionMath.smooth( angle.getRecentSeries( Math.min( velocityWindow, angle.getSampleCount() ) ), 4 ) );
         angularVelocity.addValue( v.getValue(), v.getTime() );//when on the platform, angul
@@ -346,7 +344,6 @@ public class RotationBody {
         addVelocityData( newV, time );
         addAccelerationData( newA, time );
 
-        updateXYStateFromSeries();
         angle.addValue( getUserSetAngle(), rotationPlatform.getPositionVariable().getTime() );
         angularVelocity.addValue( rotationPlatform.getVelocity(), rotationPlatform.getVelocityVariable().getTime() );//when on the platform, angul
         angularAccel.addValue( rotationPlatform.getAcceleration(), rotationPlatform.getAccelerationVariable().getTime() );
@@ -366,11 +363,6 @@ public class RotationBody {
         if( Math.abs( angle ) > 1E-2 & av.getMagnitude() > 1E-9 ) {
 //            System.out.println( "RotationBody.updateBodyOnPlatform, angle="+angle );
         }
-    }
-
-    private void updateXYStateFromSeries() {
-        xBody.updateStateFromSeries();
-        yBody.updateStateFromSeries();
     }
 
     private void addAccelerationData( AbstractVector2D newAccel, double time ) {
@@ -561,7 +553,7 @@ public class RotationBody {
         }
     }
 
-    private class OnPlatform extends UpdateStrategy implements MotionBodyState.Listener {
+    private class OnPlatform extends UpdateStrategy implements MotionBody.MBListener {
         private RotationPlatform rotationPlatform;
 
         public OnPlatform( RotationPlatform rotationPlatform ) {
