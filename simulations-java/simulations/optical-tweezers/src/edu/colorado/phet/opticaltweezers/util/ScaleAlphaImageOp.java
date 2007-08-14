@@ -38,7 +38,6 @@ public class ScaleAlphaImageOp implements BufferedImageOp {
     public BufferedImage createCompatibleDestImage( BufferedImage src, ColorModel destCM ) {
         AffineTransformOp op = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
         return op.createCompatibleDestImage( src, destCM );
-
     }
 
     public BufferedImage filter( BufferedImage src, BufferedImage dest ) {

@@ -8,7 +8,7 @@ MISSING INFO:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- force dialogs to fully-paint by calling repaint after JDialog.show
+- force dialogs to fully-paint by calling SwingUtils.paintImmediately after JDialog.show
 - help items don't refresh fast enough (AWT priority issue?)
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 - ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
