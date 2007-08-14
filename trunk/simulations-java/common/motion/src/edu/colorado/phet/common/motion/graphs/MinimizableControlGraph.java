@@ -133,16 +133,8 @@ public class MinimizableControlGraph extends PNode {
         return minimized;
     }
 
-    public void addValue( double time, double value ) {
-        controlGraph.addValue( time, value );
-    }
-
     public void addControlGraphListener( ControlGraph.Listener listener ) {
         controlGraph.addListener( listener );
-    }
-
-    public void addValue( int series, double time, double value ) {
-        controlGraph.addValue( series, time, value );
     }
 
     public void clear() {
@@ -165,10 +157,6 @@ public class MinimizableControlGraph extends PNode {
         controlGraph.getDynamicJFreeChartNode().forceUpdateAll();
     }
 
-    public void addSeries( ControlGraphSeries controlGraphSeries ) {
-        controlGraph.addSeries( controlGraphSeries );
-    }
-
     public void resetRange() {
         controlGraph.resetRange();
     }
@@ -188,7 +176,4 @@ public class MinimizableControlGraph extends PNode {
         }
     }
 
-    public void addSeries( String title, Color color, String abbr, String units, ITemporalVariable observableTemporalVariable, Stroke stroke ) {
-        controlGraph.addSeries( title, color, abbr, units, observableTemporalVariable, stroke );
-    }
 }

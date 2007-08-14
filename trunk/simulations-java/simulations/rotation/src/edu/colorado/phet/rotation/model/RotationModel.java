@@ -56,8 +56,8 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         getTimeSeriesModel().setPaused( false );
     }
 
-    protected void setTime( double time ) {
-        super.setTime( time );
+    protected void setPlaybackTime( double time ) {
+        super.setPlaybackTime( time );
         rotationPlatform.setTime( time );
         for( int i = 0; i < rotationBodies.size(); i++ ) {
             getRotationBody( i ).setTime( time );

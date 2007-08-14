@@ -15,8 +15,8 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
         motionBody = new MotionBody();
     }
 
-    protected void setTime( double time ) {
-        super.setTime( time );
+    protected void setPlaybackTime( double time ) {
+        super.setPlaybackTime( time );
         motionBody.setTime( time );
     }
 
