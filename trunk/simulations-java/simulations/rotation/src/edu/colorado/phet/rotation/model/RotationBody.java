@@ -560,6 +560,7 @@ public class RotationBody {
         public OnPlatform( RotationPlatform rotationPlatform ) {
             this.rotationPlatform = rotationPlatform;
             rotationPlatform.getPositionVariable().addListener( this );
+            this.prevAngle = rotationPlatform.getPosition();
         }
 
         private void positionChanged( double dtheta ) {

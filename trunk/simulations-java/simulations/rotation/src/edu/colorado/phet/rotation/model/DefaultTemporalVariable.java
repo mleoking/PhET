@@ -70,10 +70,6 @@ public class DefaultTemporalVariable implements ITemporalVariable {
         return series.getMin();
     }
 
-//    public double getValueForTime( double time ) {
-//        return ;
-//    }
-
     public void addListener( ITemporalVariable.Listener listener ) {
         series.addListener( listener );
         variable.addListener( listener );
