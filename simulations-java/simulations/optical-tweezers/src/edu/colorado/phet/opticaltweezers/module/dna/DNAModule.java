@@ -10,6 +10,7 @@ import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
+import edu.colorado.phet.opticaltweezers.persistence.DNAConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
 
@@ -147,7 +148,6 @@ public class DNAModule extends AbstractModule {
             
             // Fluid
             Fluid fluid = _model.getFluid();
-            fluid.setEnabled( GlobalDefaults.FLUID_ENABLED );
             fluid.setSpeed( GlobalDefaults.FLUID_SPEED_RANGE.getDefault() );
             fluid.setViscosity( GlobalDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
             fluid.setTemperature( GlobalDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
@@ -187,10 +187,75 @@ public class DNAModule extends AbstractModule {
     }
 
     public void save( OTConfig appConfig ) {
-        // TODO Auto-generated method stub
+        
+        DNAConfig config = appConfig.getDNAConfig();
+        DNAModel model = getDNAModel();
+        
+        // Clock
+        OTClock clock = model.getClock();
+        config.setClockRunning( clock.isRunning() );
+        config.setClockDt( clock.getDt() );
+        
+        // Laser
+        Laser laser = model.getLaser();
+        config.setLaserX( laser.getX() );
+        config.setLaserRunning( laser.isRunning() );
+        config.setLaserPower( laser.getPower() );
+
+        // Bead
+        Bead bead = model.getBead();
+        config.setBeadX( bead.getX() );
+        config.setBeadY( bead.getY() );
+        
+        // Fluid
+        Fluid fluid = model.getFluid();
+        config.setFluidSpeed( fluid.getSpeed() );
+        config.setFluidViscosity( fluid.getViscosity() );
+        config.setFluidTemperature( fluid.getTemperature() );
+        
+        // Control panel settings
+        config.setTrapForceSelected( _controlPanel.getForcesControlPanel().isTrapForceSelected() );
+        config.setDragForceSelected( _controlPanel.getForcesControlPanel().isDragForceSelected() );
+        config.setDnaForceSelected( _controlPanel.getForcesControlPanel().isDNAForceSelected() );
+        config.setPositionHistogramSelected( _controlPanel.getChartsControlPanel().isPositionHistogramSelected() );
+        config.setPotentialEnergySelected( _controlPanel.getChartsControlPanel().isPotentialChartSelected() );
+        config.setRulerSelected( _controlPanel.getMiscControlPanel().isRulerSelected() );
+        config.setFluidControlsSelected( _controlPanel.getMiscControlPanel().isFluidControlsSelected() );
     }
 
     public void load( OTConfig appConfig ) {
-        // TODO Auto-generated method stub
+
+        DNAConfig config = appConfig.getDNAConfig();
+        DNAModel model = getDNAModel();
+        
+        // Clock
+        OTClock clock = model.getClock();
+        clock.setRunning( config.isClockRunning() );
+        clock.setDt( config.getClockDt() );
+        
+        // Laser
+        Laser laser = model.getLaser();
+        laser.setPosition( config.getLaserX(), laser.getY() );
+        laser.setRunning( config.isLaserRunning() );
+        laser.setPower( config.getLaserPower() );
+    
+        // Bead
+        Bead bead = model.getBead();
+        bead.setPosition( config.getBeadX(), config.getBeadY() );
+        
+        // Fluid
+        Fluid fluid = model.getFluid();
+        fluid.setSpeed( config.getFluidSpeed() );
+        fluid.setViscosity( config.getFluidViscosity() );
+        fluid.setTemperature( config.getFluidTemperature() );
+        
+        // Control panel settings
+        _controlPanel.getForcesControlPanel().setTrapForceSelected( config.isTrapForceSelected() );
+        _controlPanel.getForcesControlPanel().setDragForceSelected( config.isDragForceSelected() );
+        _controlPanel.getForcesControlPanel().setDNAForceSelected( config.isDnaForceSelected() );
+        _controlPanel.getChartsControlPanel().setPositionHistogramSelected( config.isPositionHistogramSelected() );
+        _controlPanel.getChartsControlPanel().setPotentialEnergySelected( config.isPotentialEnergySelected() );
+        _controlPanel.getMiscControlPanel().setRulerSelected( config.isRulerSelected() );
+        _controlPanel.getMiscControlPanel().setFluidControlsSelected( config.isFluidControlsSelected() );
     }
 }

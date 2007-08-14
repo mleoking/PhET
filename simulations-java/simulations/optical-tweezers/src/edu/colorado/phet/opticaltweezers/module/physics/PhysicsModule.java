@@ -11,6 +11,7 @@ import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
+import edu.colorado.phet.opticaltweezers.persistence.PhysicsConfig;
 
 /**
  * PhysicsModule is the "Physics of Tweezers" module.
@@ -146,7 +147,6 @@ public class PhysicsModule extends AbstractModule {
             
             // Fluid
             Fluid fluid = _model.getFluid();
-            fluid.setEnabled( GlobalDefaults.FLUID_ENABLED );
             fluid.setSpeed( GlobalDefaults.FLUID_SPEED_RANGE.getDefault() );
             fluid.setViscosity( GlobalDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
             fluid.setTemperature( GlobalDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
@@ -156,12 +156,16 @@ public class PhysicsModule extends AbstractModule {
         {
             _controlPanel.getSimulationSpeedControlPanel().setSimulationSpeed( GlobalDefaults.DEFAULT_DT );
             _controlPanel.getLaserDisplayControlPanel().setDisplaySelection( PhysicsDefaults.LASER_BEAM_VISIBLE, PhysicsDefaults.LASER_ELECTRIC_FIELD_VISIBLE );
-            _controlPanel.getChargeControlPanel().setChoice( PhysicsDefaults.CHARGE_CHOICE );
+            _controlPanel.getChargeControlPanel().setHiddenSelected( PhysicsDefaults.CHARGE_HIDDEN_SELECTED );
+            _controlPanel.getChargeControlPanel().setDistributionSelected( PhysicsDefaults.CHARGE_DISTRIBUTION_SELECTED );
+            _controlPanel.getChargeControlPanel().setExcessSelected( PhysicsDefaults.CHARGE_EXCESS_SELECTED );
             _controlPanel.getForcesControlPanel().setTrapForceSelected( PhysicsDefaults.TRAP_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDragForceSelected( PhysicsDefaults.FLUID_DRAG_FORCE_SELECTED );
             _controlPanel.getChartsControlPanel().setPositionHistogramSelected( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );
             _controlPanel.getChartsControlPanel().setPotentialEnergySelected( PhysicsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
             _controlPanel.getMiscControlPanel().setRulerSelected( PhysicsDefaults.RULER_SELECTED );
+            _controlPanel.getMiscControlPanel().setFluidSelected( PhysicsDefaults.BEAD_IN_FLUID_SELECTED );
+            _controlPanel.getMiscControlPanel().setVacuumSelected( PhysicsDefaults.BEAD_IN_VACUUM_SELECTED );
             _controlPanel.getMiscControlPanel().setFluidControlsSelected( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
             _controlPanel.getDeveloperControlPanel().getVectorsPanel().setValuesVisible( PhysicsDefaults.VECTOR_VALUES_VISIBLE );
             _controlPanel.getDeveloperControlPanel().getVectorsPanel().setComponentsVisible( PhysicsDefaults.VECTOR_COMPONENTS_VISIBLE );
@@ -170,10 +174,86 @@ public class PhysicsModule extends AbstractModule {
     }
 
     public void save( OTConfig appConfig ) {
-        // TODO Auto-generated method stub
+        
+        PhysicsConfig config = appConfig.getPhysicsConfig();
+        PhysicsModel model = getPhysicsModel();
+        
+        // Clock
+        OTClock clock = model.getClock();
+        config.setClockRunning( clock.isRunning() );
+        config.setClockDt( clock.getDt() );
+        
+        // Laser
+        Laser laser = model.getLaser();
+        config.setLaserX( laser.getX() );
+        config.setLaserRunning( laser.isRunning() );
+        config.setLaserPower( laser.getPower() );
+
+        // Bead
+        Bead bead = model.getBead();
+        config.setBeadX( bead.getX() );
+        config.setBeadY( bead.getY() );
+        
+        // Fluid
+        Fluid fluid = model.getFluid();
+        config.setFluidSpeed( fluid.getSpeed() );
+        config.setFluidViscosity( fluid.getViscosity() );
+        config.setFluidTemperature( fluid.getTemperature() );
+        
+        // Control panel settings
+        config.setLaserBeamSelected( _controlPanel.getLaserDisplayControlPanel().isBeamSelected() );
+        config.setLaserElectricFieldSelected( _controlPanel.getLaserDisplayControlPanel().isElectricFieldSelected() );
+        config.setChargeDistributionSelected( _controlPanel.getChargeControlPanel().isDistributionSelected() );
+        config.setChargeExcessSelected( _controlPanel.getChargeControlPanel().isExcessSelected() );
+        config.setTrapForceSelected( _controlPanel.getForcesControlPanel().isTrapForceSelected() );
+        config.setDragForceSelected( _controlPanel.getForcesControlPanel().isDragForceSelected() );
+        config.setBrownianForceEnabled( _controlPanel.getForcesControlPanel().isBrownianMotionSelected() );
+        config.setPositionHistogramSelected( _controlPanel.getChartsControlPanel().isPositionHistogramSelected() );
+        config.setPotentialEnergySelected( _controlPanel.getChartsControlPanel().isPotentialChartSelected() );
+        config.setRulerSelected( _controlPanel.getMiscControlPanel().isRulerSelected() );
+        config.setFluidSelected( _controlPanel.getMiscControlPanel().isFluidSelected() );
+        config.setVacuumSelected( _controlPanel.getMiscControlPanel().isVacuumSelected() );
+        config.setFluidControlsSelected( _controlPanel.getMiscControlPanel().isFluidControlsSelected() );
     }
 
     public void load( OTConfig appConfig ) {
-        // TODO Auto-generated method stub
+
+        PhysicsConfig config = appConfig.getPhysicsConfig();
+        PhysicsModel model = getPhysicsModel();
+        
+        // Clock
+        OTClock clock = model.getClock();
+        clock.setRunning( config.isClockRunning() );
+        clock.setDt( config.getClockDt() );
+        
+        // Laser
+        Laser laser = model.getLaser();
+        laser.setPosition( config.getLaserX(), laser.getY() );
+        laser.setRunning( config.isLaserRunning() );
+        laser.setPower( config.getLaserPower() );
+    
+        // Bead
+        Bead bead = model.getBead();
+        bead.setPosition( config.getBeadX(), config.getBeadY() );
+        
+        // Fluid
+        Fluid fluid = model.getFluid();
+        fluid.setSpeed( config.getFluidSpeed() );
+        fluid.setViscosity( config.getFluidViscosity() );
+        fluid.setTemperature( config.getFluidTemperature() );
+        
+        // Control panel settings
+        _controlPanel.getLaserDisplayControlPanel().setDisplaySelection( config.isLaserBeamSelected(), config.isLaserElectricFieldSelected() );
+        _controlPanel.getChargeControlPanel().setDistributionSelected( config.isChargeDistributionSelected() );
+        _controlPanel.getChargeControlPanel().setExcessSelected( config.isChargeExcessSelected() );
+        _controlPanel.getForcesControlPanel().setTrapForceSelected( config.isTrapForceSelected() );
+        _controlPanel.getForcesControlPanel().setDragForceSelected( config.isDragForceSelected() );
+        _controlPanel.getForcesControlPanel().setBrownianMotionSelected( config.isBrownianForceEnabled() );
+        _controlPanel.getChartsControlPanel().setPositionHistogramSelected( config.isPositionHistogramSelected() );
+        _controlPanel.getChartsControlPanel().setPotentialEnergySelected( config.isPotentialEnergySelected() );
+        _controlPanel.getMiscControlPanel().setRulerSelected( config.isRulerSelected() );
+        _controlPanel.getMiscControlPanel().setFluidSelected( config.isFluidSelected() );
+        _controlPanel.getMiscControlPanel().setVacuumSelected( config.isVacuumSelected() );
+        _controlPanel.getMiscControlPanel().setFluidControlsSelected( config.isFluidControlsSelected() );
     }
 }

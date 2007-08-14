@@ -136,10 +136,9 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
                 }
             } );
             
-            //XXX feature hidden for AAPT
-//            frame.addFileMenuItem( saveItem );
-//            frame.addFileMenuItem( loadItem );
-//            frame.addFileMenuSeparator();
+            frame.addFileMenuItem( saveItem );
+            frame.addFileMenuItem( loadItem );
+            frame.addFileMenuSeparator();
         }
         
         // Options menu
@@ -152,11 +151,6 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
         DeveloperMenu developerMenu = new DeveloperMenu( this );
         if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
             frame.addMenu( developerMenu );
-        }
-        
-        // Help menu additions
-        {
-//            HelpMenu helpMenu = frame.getHelpMenu();
         }
     }
     
@@ -203,7 +197,11 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
         
         GlobalConfig config = appConfig.getGlobalConfig();
         
-        config.setVersionNumber( getApplicationConfig().getVersion().toString() );
+        config.setVersionString( getApplicationConfig().getVersion().toString() );
+        config.setVersionMajor( getApplicationConfig().getVersion().getMajor() );
+        config.setVersionMinor( getApplicationConfig().getVersion().getMinor() );
+        config.setVersionDev( getApplicationConfig().getVersion().getDev() );
+        config.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
     }
 
     /**
@@ -212,8 +210,7 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
      * @param appConfig
      */
     public void load( OTConfig appConfig ) {
-        
-        GlobalConfig config = appConfig.getGlobalConfig();
+        // GlobalConfig currently contains nothing that needs to be loaded
     }
     
     //----------------------------------------------------------------------------

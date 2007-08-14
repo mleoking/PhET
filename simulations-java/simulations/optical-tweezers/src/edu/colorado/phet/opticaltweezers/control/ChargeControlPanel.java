@@ -24,14 +24,6 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ChargeControlPanel extends JPanel {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    public static final String CHOICE_HIDDEN = "hidden";
-    public static final String CHOICE_DISTRIBUTION = "distribution";
-    public static final String CHOICE_EXCESS = "excess";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -108,43 +100,27 @@ public class ChargeControlPanel extends JPanel {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setChoice( String choice ) {
-        if ( choice.equals( CHOICE_HIDDEN ) ) {
-            _hiddenRadioButton.setSelected( true );
-        }
-        else if ( choice.equals( CHOICE_DISTRIBUTION ) ) {
-            _distributionRadioButton.setSelected( true );
-        }
-        else if ( choice.equals( CHOICE_EXCESS ) ) {
-            _excessRadioButton.setSelected( true );
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported choice: " + choice );
-        }
+    public void setHiddenSelected( boolean selected ) {
+        _hiddenRadioButton.setSelected( selected );
         handleChargeChoice();
-    }
-    
-    public Object getChoice() {
-        String choice = null;
-        if ( _hiddenRadioButton.isSelected() ) {
-            choice = CHOICE_HIDDEN;
-        }
-        else if ( _distributionRadioButton.isSelected() ) {
-            choice = CHOICE_DISTRIBUTION;
-        }
-        else if ( _excessRadioButton.isSelected() ) {
-            choice = CHOICE_EXCESS;
-        }
-        assert( choice != null );
-        return choice;
     }
     
     public boolean isHiddenSelected() {
         return _hiddenRadioButton.isSelected();
     }
     
+    public void setDistributionSelected( boolean selected ) {
+        _distributionRadioButton.setSelected( selected );
+        handleChargeChoice();
+    }
+    
     public boolean isDistributionSelected() {
         return _distributionRadioButton.isSelected();
+    }
+    
+    public void setExcessSelected( boolean selected ) {
+        _excessRadioButton.setSelected( selected );
+        handleChargeChoice();
     }
     
     public boolean isExcessSelected() {

@@ -56,12 +56,16 @@ public class PhysicsDefaults {
     // Control panel settings
     public static final boolean LASER_BEAM_VISIBLE = true;
     public static final boolean LASER_ELECTRIC_FIELD_VISIBLE = false;
-    public static final String CHARGE_CHOICE = ChargeControlPanel.CHOICE_HIDDEN;
+    public static final boolean CHARGE_HIDDEN_SELECTED = true;
+    public static final boolean CHARGE_DISTRIBUTION_SELECTED = false;
+    public static final boolean CHARGE_EXCESS_SELECTED = false;
     public static final boolean TRAP_FORCE_SELECTED = false;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
     public static final boolean POSITION_HISTOGRAM_SELECTED = false;
     public static final boolean POTENTIAL_ENERGY_CHART_SELECTED = false;
     public static final boolean RULER_SELECTED = false;
+    public static final boolean BEAD_IN_FLUID_SELECTED = true;
+    public static final boolean BEAD_IN_VACUUM_SELECTED = !(BEAD_IN_FLUID_SELECTED);
     public static final boolean FLUID_CONTROLS_SELECTED = false;
     public static final boolean VECTOR_VALUES_VISIBLE = false;
     public static final boolean VECTOR_COMPONENTS_VISIBLE = false;
