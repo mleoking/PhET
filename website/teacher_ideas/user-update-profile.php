@@ -9,14 +9,12 @@
     
     db_update_table('contributor', gather_script_params_into_array('contributor_'), 'contributor_id', $contributor_id);
     
-    force_redirect("../teacher_ideas/user-edit-profile.php", 2);    
-    
     function print_profile_updated_message() {
         global $contributor_id;
     
         print("<p>Your profile has been successfully updated!</p><br/>");
     }
     
-    print_site_page('print_profile_updated_message', 3);
+    print_site_page('print_profile_updated_message', 3, "../teacher_ideas/user-edit-profile.php", 2);
 
 ?>

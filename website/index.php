@@ -83,21 +83,21 @@
 			<div id="newsletter-announcement">
 EOT;
 
-			if (!$just_subscribed) {
-				print <<<EOT
-				<form method="post" action="teacher_ideas/subscribe-newsletter.php">
-					<p>
-						The PhET Newsletter
-						<input type="text"   name="contributor_email" value="$contributor_email" size="20" />
-						<input type="submit" name="submit"            value="Subscribe" title="Click here to subscribe to the PhET newsletter" />
-						<input type="hidden" name="referrer"          value="$referrer" />
-					</p>
-				</form>
-EOT;
-			}
-			else {
+			if ($just_subscribed) {
 				print <<<EOT
 					<p><strong>You have successfully subscribed to the PhET newsletter.</strong></p>
+EOT;
+			}
+			else if (!isset($contributor_receive_email) || $contributor_receive_email == 0) {
+					print <<<EOT
+					<form method="post" action="teacher_ideas/subscribe-newsletter.php">
+						<p>
+							The PhET Newsletter
+							<input type="text"   name="contributor_email" value="$contributor_email" size="20" />
+							<input type="submit" name="submit"            value="Subscribe" title="Click here to subscribe to the PhET newsletter" />
+							<input type="hidden" name="referrer"          value="$referrer" />
+						</p>
+					</form>
 EOT;
 			}
 			
