@@ -19,7 +19,6 @@ public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
 
     public TorqueSimulationPanel( final TorqueModule torqueModule, JFrame parentFrame ) {
         super( torqueModule, parentFrame );
-//        addClearTorqueButton( torqueModule );
     }
 
     private void addClearTorqueButton( final TorqueModule torqueModule ) {

@@ -172,10 +172,6 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
         return angleGraph;
     }
 
-    private PImage createThumb( Color color ) {
-        return new PImage( ColorArrows.createArrow( color ) );
-    }
-
     private Color darken( Color color ) {
         return darken( color, 150 );
     }
