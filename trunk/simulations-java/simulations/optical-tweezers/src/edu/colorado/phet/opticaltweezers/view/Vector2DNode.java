@@ -372,7 +372,7 @@ public class Vector2DNode extends PhetPNode {
                      * The vector's angle falls into one of these slices.
                      * For each slice, the vector's tip slides alone one of 
                      * the sides of the valueNode's bounds as the angle 
-                     * sweeps through the slide.
+                     * sweeps through the slice.
                      * 
                      * Test changes to this algorithm using TestVector2DNode.
                      */
