@@ -344,9 +344,9 @@ public class RotationBody {
         addVelocityData( newV, time );
         addAccelerationData( newA, time );
 
-        angle.addValue( getUserSetAngle(), rotationPlatform.getPositionVariable().getTime() );
-        angularVelocity.addValue( rotationPlatform.getVelocity(), rotationPlatform.getVelocityVariable().getTime() );//when on the platform, angul
-        angularAccel.addValue( rotationPlatform.getAcceleration(), rotationPlatform.getAccelerationVariable().getTime() );
+        angle.addValue( getUserSetAngle(), time );
+        angularVelocity.addValue( rotationPlatform.getVelocity(), time );//when on the platform, angul
+        angularAccel.addValue( rotationPlatform.getAcceleration(), time );
 //        System.out.println( "rotationPlatform.getLastTime() = " + rotationPlatform.getLastTime() );
         checkCentripetalAccel();
     }
