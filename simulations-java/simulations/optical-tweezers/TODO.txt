@@ -43,6 +43,7 @@ MIGRATE TO COMMON:
 - ScaleAlphaImageOp
 - ColorUtils
 - Vector2D
+- ColorIntensitySlider
 
  
 DONE:
