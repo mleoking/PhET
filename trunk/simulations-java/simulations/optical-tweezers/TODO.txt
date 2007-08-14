@@ -20,15 +20,11 @@ LOW PRIORITY:
 - vertical laser toggle button, like http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - should "Return bead" button move bead to center of trap?
 - what units for E-field?
-- convert hi-res screenshot to png format
 - improve performance of e-field display (22% in Arrow.computeArrow)
-- reduce vertical spacing of control panels (if necessary, after features/layout has stabilized)
 - bug: beep sometimes occurs when selecting vacuum with fluid controls dialog open
 - visible seams where symmetrical pieces of laser beam gradient are stitched together (Mac only?)
-- control panels have vertical scrollbars
 - save/load developer controls
 - when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
-- use TrigCache to improve performance?
 - javadoc
 - package level javadoc
 - Spanish translations
@@ -51,9 +47,10 @@ MIGRATE TO COMMON:
 
  
 DONE:
-8/10/07 - make save/load handle activation state of modules
-8/10/07 - loading should restore clock's run state only if module is active
-8/10/07 - implement Save/Load feature for "Physics" and "DNA" modules
+8/14/07 - convert hi-res screenshot to png format
+8/14/07 - make save/load handle activation state of modules
+8/14/07 - loading should restore clock's run state only if module is active
+8/14/07 - implement Save/Load feature for "Physics" and "DNA" modules
 8/10/07 - remove controls related to "horizontal trap force", feature has been dropped
 ********* version 1.00.02 (17205)
 8/10/07 - make "charge motion scale" dev control work for "Reset All"
@@ -654,6 +651,8 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+8/14/07 - use TrigCache to improve performance (performance is OK without it)
+8/14/07 - reduce vertical spacing of control panels (not necessary, some controls were dropped)
 8/10/07 - enable/disable controls based on clock speed (no longer necessary)
 8/10/07 - horizontal trap force features (features dropped)
 8/10/07 - hide bead crosshair when showing charge (not necessary)
