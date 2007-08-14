@@ -13,10 +13,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
-import edu.colorado.phet.opticaltweezers.control.ColorControl;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.

@@ -15,8 +15,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.opticaltweezers.control.ColorControl;
 import edu.colorado.phet.opticaltweezers.view.DNAForceNode;
 import edu.colorado.phet.opticaltweezers.view.ElectricFieldNode;
 import edu.colorado.phet.opticaltweezers.view.FluidDragForceNode;
