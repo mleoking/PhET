@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.util.CursorUtils;
 
 
 /**
@@ -104,9 +103,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
                 String message = OTResources.getString( "message.confirmResetAll" );
                 int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
                 if ( option == JOptionPane.YES_OPTION ) {
-                    CursorUtils.setWaitCursorEnabled( true );
                     _module.resetAll();
-                    CursorUtils.setWaitCursorEnabled( false );
                 }
             }
         } );
