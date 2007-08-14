@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.module.physics;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.opticaltweezers.OTResources;
@@ -178,6 +179,9 @@ public class PhysicsModule extends AbstractModule {
         PhysicsConfig config = appConfig.getPhysicsConfig();
         PhysicsModel model = getPhysicsModel();
         
+        // Module
+        config.setActive( isActive() );
+        
         // Clock
         OTClock clock = model.getClock();
         config.setClockRunning( clock.isRunning() );
@@ -220,6 +224,11 @@ public class PhysicsModule extends AbstractModule {
 
         PhysicsConfig config = appConfig.getPhysicsConfig();
         PhysicsModel model = getPhysicsModel();
+        
+        // Module
+        if ( config.isActive() ) {
+            PhetApplication.instance().setActiveModule( this );
+        }
         
         // Clock
         OTClock clock = model.getClock();

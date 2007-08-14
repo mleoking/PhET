@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.module.dna;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.opticaltweezers.OTResources;
@@ -191,6 +192,9 @@ public class DNAModule extends AbstractModule {
         DNAConfig config = appConfig.getDNAConfig();
         DNAModel model = getDNAModel();
         
+        // Module
+        config.setActive( isActive() );
+        
         // Clock
         OTClock clock = model.getClock();
         config.setClockRunning( clock.isRunning() );
@@ -227,6 +231,11 @@ public class DNAModule extends AbstractModule {
 
         DNAConfig config = appConfig.getDNAConfig();
         DNAModel model = getDNAModel();
+        
+        // Module
+        if ( config.isActive() ) {
+            PhetApplication.instance().setActiveModule( this );
+        }
         
         // Clock
         OTClock clock = model.getClock();
