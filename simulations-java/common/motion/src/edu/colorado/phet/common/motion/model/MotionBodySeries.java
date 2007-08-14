@@ -146,8 +146,8 @@ public class MotionBodySeries {
         setUpdateStrategy( positionDriven );
     }
 
-    public void stepInTime( double time, MotionBodyState motionBodyState, double dt ) {
-        updateStrategy.update( this, dt, motionBodyState, time );
+    public void stepInTime( MotionBody motionBody, double time, double dt ) {
+        updateStrategy.update( motionBody, dt, time );
     }
 
     public UpdateStrategy getUpdateStrategy() {

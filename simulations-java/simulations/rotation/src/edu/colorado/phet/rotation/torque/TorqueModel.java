@@ -1,6 +1,9 @@
 package edu.colorado.phet.rotation.torque;
 
-import edu.colorado.phet.common.motion.model.*;
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
+import edu.colorado.phet.common.motion.model.MotionBody;
+import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -112,27 +115,27 @@ public class TorqueModel extends RotationModel {
     }
 
     public class TorqueDriven implements UpdateStrategy {
-        public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {//todo: factor out duplicated code in AccelerationDriven
+        public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
             double acceleration = torque.getValue() / getRotationPlatform().getMomentOfInertia();
-            double origAngVel = state.getVelocity();
-            model.addAccelerationData( acceleration, time );
-            model.addVelocityData( state.getVelocity() + acceleration * dt, time );
-            model.addPositionData( state.getPosition() + ( state.getVelocity() + origAngVel ) / 2.0 * dt, time );
+            double origAngVel = motionBody.getVelocity();
+            motionBody.addAccelerationData( acceleration, time );
+            motionBody.addVelocityData( motionBody.getVelocity() + acceleration * dt, time );
+            motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
         }
     }
 
     public class ForceDriven implements UpdateStrategy {
-        public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {//todo: factor out duplicated code in AccelerationDriven
+        public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
             double torqu = force.getValue() * getRotationPlatform().getRadius();//todo: generalize to r x F (4 parameters)
             double acceleration = torqu / getRotationPlatform().getMomentOfInertia();
             torque.setValue( torqu );
 //            torqueSeries.addValue( torque, );
-            double origAngVel = state.getVelocity();
-            model.addAccelerationData( acceleration, time );
-            model.addVelocityData( state.getVelocity() + acceleration * dt, time );
-            model.addPositionData( state.getPosition() + ( state.getVelocity() + origAngVel ) / 2.0 * dt, time );
+            double origAngVel = motionBody.getVelocity();
+            motionBody.addAccelerationData( acceleration, time );
+            motionBody.addVelocityData( motionBody.getVelocity() + acceleration * dt, time );
+            motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
         }
     }
 

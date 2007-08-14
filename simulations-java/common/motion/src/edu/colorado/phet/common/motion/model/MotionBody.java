@@ -65,7 +65,7 @@ public class MotionBody implements IUpdateStrategy {
     }
 
     public void stepInTime( double time, double dt ) {
-        motionBodySeries.stepInTime( time, motionBodyState, dt );
+        motionBodySeries.stepInTime( this,time, dt );
         updateStateFromSeries();
     }
 
@@ -148,5 +148,37 @@ public class MotionBody implements IUpdateStrategy {
         getPositionVariable().setValue( 0.0 );
         getVelocityVariable().setValue( 0.0 );
         getAccelerationVariable().setValue( 0.0 );
+    }
+
+    public int getPositionSampleCount() {
+        return motionBodySeries.getPositionSampleCount();
+    }
+
+    public TimeData[] getRecentPositionTimeSeries( int numPts ) {
+        return motionBodySeries.getRecentPositionTimeSeries( numPts);
+    }
+
+    public int getVelocitySampleCount() {
+        return motionBodySeries.getVelocitySampleCount();
+    }
+
+    public TimeData[] getRecentVelocityTimeSeries( int num ) {
+        return motionBodySeries.getRecentVelocityTimeSeries( num );
+    }
+
+    public void addPositionData( double position, double time ) {
+        motionBodySeries.addPositionData( position, time );
+    }
+
+    public void addVelocityData( double value, double time ) {
+        motionBodySeries.addVelocityData( value, time );
+    }
+
+    public void addAccelerationData( double value, double time ) {
+        motionBodySeries.addAccelerationData( value, time );
+    }
+
+    public int getAccelerationSampleCount() {
+        return motionBodySeries.getAccelerationSampleCount();
     }
 }

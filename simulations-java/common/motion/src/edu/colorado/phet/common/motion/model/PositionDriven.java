@@ -13,14 +13,14 @@ public class PositionDriven implements UpdateStrategy {
     private int accelerationWindow = 6;
 
     //todo: try 2nd order derivative directly from position data?
-    public void update( MotionBodySeries motionBodySeries, double dt, MotionBodyState state, double time ) {
-        TimeData v = MotionMath.getDerivative( MotionMath.smooth( motionBodySeries.getRecentPositionTimeSeries( Math.min( velocityWindow, motionBodySeries.getPositionSampleCount() ) ), 1 ) );
-        TimeData a = MotionMath.getDerivative( MotionMath.smooth( motionBodySeries.getRecentVelocityTimeSeries( Math.min( accelerationWindow, motionBodySeries.getVelocitySampleCount() ) ), 1 ) );
+    public void update( MotionBody motionBody, double dt, double time ) {
+        TimeData v = MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentPositionTimeSeries( Math.min( velocityWindow, motionBody.getPositionSampleCount() ) ), 1 ) );
+        TimeData a = MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentVelocityTimeSeries( Math.min( accelerationWindow, motionBody.getVelocitySampleCount() ) ), 1 ) );
 //        TimeData a = MotionMath.getSecondDerivative( smooth( motionBodySeries.getRecentPositionTimeSeries( Math.min( accelerationWindow, motionBodySeries.getPositionSampleCount() ) ), 20 ) );
 
-        motionBodySeries.addPositionData( state.getPosition(), time );
-        motionBodySeries.addVelocityData( v.getValue(), v.getTime() );
-        motionBodySeries.addAccelerationData( a.getValue(), a.getTime() );
+        motionBody.addPositionData( motionBody.getPosition(), time );
+        motionBody.addVelocityData( v.getValue(), v.getTime() );
+        motionBody.addAccelerationData( a.getValue(), a.getTime() );
     }
 
     public double getAccelerationWindow() {
