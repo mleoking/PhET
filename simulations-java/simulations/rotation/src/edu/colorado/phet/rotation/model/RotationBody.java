@@ -3,7 +3,10 @@ package edu.colorado.phet.rotation.model;
 import JSci.maths.LinearMath;
 import JSci.maths.vectors.AbstractDoubleVector;
 import edu.colorado.phet.common.motion.MotionMath;
-import edu.colorado.phet.common.motion.model.*;
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
+import edu.colorado.phet.common.motion.model.MotionBody;
+import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.rotation.tests.CircularRegression;
@@ -29,9 +32,7 @@ public class RotationBody {
     private ITemporalVariable angle;
     private ITemporalVariable angularVelocity;
     private ITemporalVariable angularAccel;
-
-    private double orientation = 0.0;
-    private DefaultTimeSeries orientationSeries = new DefaultTimeSeries();
+    private ITemporalVariable orientation;
 
     private String imageName;
     private boolean constrained;
@@ -61,6 +62,7 @@ public class RotationBody {
         angle = new DefaultTemporalVariable();
         angularVelocity = new DefaultTemporalVariable();
         angularAccel = new DefaultTemporalVariable();
+        orientation = new DefaultTemporalVariable();
     }
 
     public void setOffPlatform() {
@@ -99,7 +101,7 @@ public class RotationBody {
     }
 
     public double getOrientation() {
-        return orientation;
+        return orientation.getValue();
     }
 
     public double getX() {
@@ -128,7 +130,7 @@ public class RotationBody {
         }
         speed.addValue( getVelocity().getMagnitude(), time );
         accelMagnitude.addValue( getAcceleration().getMagnitude(), time );
-        orientationSeries.addValue( getOrientation(), time );
+        orientation.addValue( getOrientation(), time );
 
 //        debugSeries();
         notifyVectorsUpdated();
@@ -141,7 +143,7 @@ public class RotationBody {
         accelMagnitude.setValue( 0.0 );
         accelMagnitude.clear();
         angle.clear();
-        orientationSeries.clear();
+        orientation.clear();
         angularVelocity.clear();
         angularAccel.clear();
     }
@@ -397,8 +399,7 @@ public class RotationBody {
         yBody.setTime( time );
         accelMagnitude.setPlaybackTime( time );
         speed.setPlaybackTime( time );
-
-        setOrientation( orientationSeries.getValueForTime( time ) );
+        orientation.setPlaybackTime( time );
         if( angle.getSampleCount() > 0 ) {
             angle.setPlaybackTime( time );
         }
@@ -468,7 +469,6 @@ public class RotationBody {
         return angle;
     }
 
-
     private static abstract class UpdateStrategy implements Serializable {
         public abstract void detach();
     }
@@ -523,9 +523,8 @@ public class RotationBody {
         setPosition( point2D.getX(), point2D.getY() );
     }
 
-    //todo: add notify
-    public void setOrientation( double orientation ) {
-        this.orientation = orientation;
+    public void setOrientation( double orientationValue ) {
+        orientation.setValue( orientationValue );
         notifyOrientationChanged();
     }
 
@@ -573,7 +572,6 @@ public class RotationBody {
 
         public void orientationChanged() {
         }
-
     }
 
     public void setPosition( double x, double y ) {
@@ -583,7 +581,6 @@ public class RotationBody {
             updateAngleValue();
             notifyPositionChanged();
         }
-
     }
 
     private void updateAngleValue() {
