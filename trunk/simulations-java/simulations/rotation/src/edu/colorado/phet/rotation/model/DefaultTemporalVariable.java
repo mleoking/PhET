@@ -7,7 +7,7 @@ import edu.colorado.phet.common.motion.model.*;
  * Jul 26, 2007, 8:04:10 PM
  */
 public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
-    private DefaultSimulationVariable variable = new DefaultSimulationVariable();
+    private DefaultVariable variable = new DefaultVariable();
     private DefaultTimeSeries series = new DefaultTimeSeries();
 
     public DefaultTemporalVariable() {
@@ -25,14 +25,6 @@ public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
     public void setValue( double value ) {
         variable.setValue( value );
     }
-
-//    public ISimulationVariable getVariable() {
-//        return variable;
-//    }
-//
-//    public ITimeSeries getSeries() {
-//        return series;
-//    }
 
     public void setPlaybackTime( double time ) {
         setValue( getValueForTime( time ) );
@@ -96,9 +88,11 @@ public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
 
     public void addListener( ITemporalVariable.Listener listener ) {
         series.addListener( listener );
+        variable.addListener( listener );
     }
 
     public void removeListener( ITemporalVariable.Listener listener ) {
         series.removeListener( listener );
+        variable.removeListener( listener );
     }
 }

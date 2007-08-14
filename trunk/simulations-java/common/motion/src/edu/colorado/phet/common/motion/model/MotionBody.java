@@ -9,12 +9,11 @@ import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
  */
 public class MotionBody implements IUpdateStrategy {
 
-    private DefaultTemporalVariable x = new DefaultTemporalVariable( );
-    private DefaultTemporalVariable v = new DefaultTemporalVariable( );
-    private DefaultTemporalVariable a = new DefaultTemporalVariable( );
-    private MotionBodySeries motionBodySeries = new MotionBodySeries(x, v, a);
-    private MotionBodyState motionBodyState = new MotionBodyState(x, v, a);//current state
-
+    private DefaultTemporalVariable x = new DefaultTemporalVariable();
+    private DefaultTemporalVariable v = new DefaultTemporalVariable();
+    private DefaultTemporalVariable a = new DefaultTemporalVariable();
+    private MotionBodySeries motionBodySeries = new MotionBodySeries( x, v, a );
+    private MotionBodyState motionBodyState = new MotionBodyState( x, v, a );//current state
 
     public MotionBody() {
         motionBodyState.addListener( new MotionBodyState.Adapter() {
@@ -100,10 +99,6 @@ public class MotionBody implements IUpdateStrategy {
         return motionBodySeries.getPositionDriven();
     }
 
-    public ITemporalVariable getPositionVariable() {
-        return x;
-    }
-
     public void setPositionDriven() {
         motionBodySeries.setPositionDriven();
     }
@@ -114,6 +109,10 @@ public class MotionBody implements IUpdateStrategy {
 
     public UpdateStrategy getUpdateStrategy() {
         return motionBodySeries.getUpdateStrategy();
+    }
+
+    public ITemporalVariable getPositionVariable() {
+        return x;
     }
 
     public ITemporalVariable getVelocityVariable() {
