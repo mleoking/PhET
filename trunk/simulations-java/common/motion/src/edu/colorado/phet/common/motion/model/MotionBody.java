@@ -23,9 +23,9 @@ public class MotionBody implements IUpdateStrategy {
     }
 
     public void setTime( double time ) {
-        setPosition( x.getValueForTime( time ) );
-        setVelocity( v.getValueForTime( time ) );
-        setAcceleration( a.getValueForTime( time ) );
+        x.setPlaybackTime( time );
+        v.setPlaybackTime( time );
+        a.setPlaybackTime( time );
     }
 
     public void stepInTime( double time, double dt ) {

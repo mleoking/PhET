@@ -6,7 +6,7 @@ import edu.colorado.phet.common.motion.model.*;
  * Author: Sam Reid
  * Jul 26, 2007, 8:04:10 PM
  */
-public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
+public class DefaultTemporalVariable implements ITemporalVariable {
     private DefaultVariable variable = new DefaultVariable();
     private DefaultTimeSeries series = new DefaultTimeSeries();
 
@@ -23,7 +23,7 @@ public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
     }
 
     public void setPlaybackTime( double time ) {
-        setValue( getValueForTime( time ) );
+        setValue( series.getValueForTime( time ) );
     }
 
     public double getLastValue() {
@@ -62,10 +62,6 @@ public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
         series.clear();
     }
 
-    public double getTime() {
-        return series.getTime();
-    }
-
     public TimeData getMax() {
         return series.getMax();
     }
@@ -74,9 +70,9 @@ public class DefaultTemporalVariable implements ITemporalVariable, IVariable {
         return series.getMin();
     }
 
-    public double getValueForTime( double time ) {
-        return series.getValueForTime( time );
-    }
+//    public double getValueForTime( double time ) {
+//        return ;
+//    }
 
     public void addListener( ITemporalVariable.Listener listener ) {
         series.addListener( listener );
