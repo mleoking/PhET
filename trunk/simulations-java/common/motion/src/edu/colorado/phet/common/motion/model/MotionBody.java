@@ -9,9 +9,9 @@ import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
  */
 public class MotionBody implements IUpdateStrategy {
 
-    private DefaultTemporalVariable x = new DefaultTemporalVariable();
-    private DefaultTemporalVariable v = new DefaultTemporalVariable();
-    private DefaultTemporalVariable a = new DefaultTemporalVariable();
+    private ITemporalVariable x = new DefaultTemporalVariable();
+    private ITemporalVariable v = new DefaultTemporalVariable();
+    private ITemporalVariable a = new DefaultTemporalVariable();
 
     /*Different strategies for updating simulation variables*/
     private PositionDriven positionDriven = new PositionDriven();
