@@ -547,6 +547,10 @@ EOT;
                         
                         return index == 0;
                     }
+
+					function open_limited_window(url, title) {
+						window.open(url, title, 'status=0,toolbar=0,location=0,menubar=0,directories=0,resizable=1,scrollbars=0,width=640,height=480');
+					}
                     
                     function select_current_navbar_category() {
                         $("li.subnav a").each(function(i) {
