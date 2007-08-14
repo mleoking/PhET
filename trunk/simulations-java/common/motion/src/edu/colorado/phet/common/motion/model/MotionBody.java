@@ -18,10 +18,6 @@ public class MotionBody implements IUpdateStrategy {
     public MotionBody() {
     }
 
-    public MotionBodyState getMotionBodyState() {
-        return motionBodyState;
-    }
-
     public void setTime( double time ) {
         motionBodyState.setPosition( motionBodySeries.getXTimeSeries().getValueForTime( time ) );
         motionBodyState.setVelocity( motionBodySeries.getVTimeSeries().getValueForTime( time ) );
@@ -184,5 +180,21 @@ public class MotionBody implements IUpdateStrategy {
 
     public TimeData getVelocity( int index ) {
         return motionBodySeries.getVelocity( index );
+    }
+
+    public void setAcceleration( double v ) {
+        motionBodyState.setAcceleration( v );
+    }
+
+    public void setVelocity( double v ) {
+        motionBodyState.setVelocity( v );
+    }
+
+    public void addListener(MotionBodyState.Listener listener){
+        motionBodyState.addListener( listener );
+    }
+
+    public void removeListener(MotionBodyState.Listener listener){
+        motionBodyState.removeListener( listener );
     }
 }

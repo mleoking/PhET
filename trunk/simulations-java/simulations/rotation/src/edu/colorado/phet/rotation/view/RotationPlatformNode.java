@@ -59,7 +59,7 @@ public class RotationPlatformNode extends PNode {
 
         addChild( contentNode );
 
-        rotationPlatform.getMotionBodyState().addListener( new MotionBodyState.Adapter() {
+        rotationPlatform.addListener( new MotionBodyState.Adapter() {
             public void positionChanged( double dtheta ) {
                 setAngle( rotationPlatform.getPosition() );
             }

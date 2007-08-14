@@ -46,8 +46,8 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
         return motionBody.getAccelerationVariable();
     }
 
-    public MotionBodyState getMotionBodyState() {
-        return motionBody.getMotionBodyState();
+    public MotionBody getMotionBody() {
+        return motionBody;
     }
 
     public void setPositionDriven() {

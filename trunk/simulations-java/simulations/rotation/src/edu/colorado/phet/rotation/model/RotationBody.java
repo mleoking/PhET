@@ -566,7 +566,7 @@ public class RotationBody {
 
         public OnPlatform( RotationPlatform rotationPlatform ) {
             this.rotationPlatform = rotationPlatform;
-            rotationPlatform.getMotionBodyState().addListener( this );
+            rotationPlatform.addListener( this );
         }
 
         public void positionChanged( double dtheta ) {
@@ -586,7 +586,7 @@ public class RotationBody {
         }
 
         public void detach() {
-            rotationPlatform.getMotionBodyState().removeListener( this );
+            rotationPlatform.removeListener( this );
         }
     }
 
