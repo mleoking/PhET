@@ -7,6 +7,7 @@ import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.SeriesData;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.TimeData;
+import edu.colorado.phet.common.motion.tests.ColorArrows;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -19,6 +20,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -64,23 +66,17 @@ public class ControlGraph extends PNode {
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final ITemporalVariable temporalVariable,
                          String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, new ControlGraphSeries( temporalVariable ), title, minY, maxY, new PText( "THUMB" ), timeSeriesModel );
-    }
-
-
-    public ControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series,
-                         String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, series, title, minY, maxY, new PText( "THUMB" ), timeSeriesModel );
+        this( pSwingCanvas, new ControlGraphSeries( temporalVariable ), title, minY, maxY, timeSeriesModel );
     }
 
     public ControlGraph( PhetPCanvas pSwingCanvas, ControlGraphSeries series,
-                         String title, double minY, final double maxY, PNode thumb, TimeSeriesModel timeSeriesModel ) {
-        this( pSwingCanvas, series, title, minY, maxY, thumb, timeSeriesModel, 1000 );
+                         String title, double minY, final double maxY, TimeSeriesModel timeSeriesModel ) {
+        this( pSwingCanvas, series, title, minY, maxY, timeSeriesModel, 1000 );
     }
 
     public ControlGraph( PhetPCanvas pSwingCanvas, ControlGraphSeries series,
-                         String title, double minY, final double maxY, PNode thumb,
-                         TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
+                         String title, double minY, final double maxY, TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
+        PNode thumb=null;
         if( series != null ) {
             this.variable = series.getTemporalVariable();
             variable.addListener( new IVariable.Listener() {
@@ -88,6 +84,7 @@ public class ControlGraph extends PNode {
                     updateSliderValue();
                 }
             } );
+            thumb=new PImage( ColorArrows.createArrow( series.getColor( )) );
         }
         this.maxDomainValue = maxDomainTime;
         titleLayer = createTitleLayer();

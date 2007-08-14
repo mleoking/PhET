@@ -1,7 +1,6 @@
 package edu.colorado.phet.common.motion.tests;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
-import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -22,23 +21,21 @@ public class TestControlGraphAPI {
         final ITemporalVariable variable = new DefaultTemporalVariable();
         RecordableModel recordableModel = new TestRecordableModel();
         ConstantDtClock clock = new ConstantDtClock( 1, 1.0 );
-        ControlGraphSeries series = new ControlGraphSeries(variable); 
         TimeSeriesModel timeSeriesModel = new TimeSeriesModel( recordableModel, clock );
-        ControlGraph controlGraph = new ControlGraph( contentPane, series, "title", 0, 10, timeSeriesModel );
+        ControlGraph controlGraph = new ControlGraph( contentPane, variable, "title", 0, 10, timeSeriesModel );
         contentPane.addScreenChild( controlGraph );
 
-        controlGraph.setBounds( 0,0,600,400);
-        
-        
+        controlGraph.setBounds( 0, 0, 600, 400 );
+
         frame.setContentPane( contentPane );
 
-        frame.setSize( 800,600);
+        frame.setSize( 800, 600 );
         frame.setVisible( true );
 
-        final double freq=1/10.0;
-        Timer timer=new Timer( 30,new ActionListener() {
+        final double freq = 1 / 10.0;
+        Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
-                variable.setValue( Math.sin(System.currentTimeMillis()/1000.0*freq));
+                variable.setValue( Math.sin( System.currentTimeMillis() / 1000.0 * freq ) );
             }
         } );
         timer.start();
