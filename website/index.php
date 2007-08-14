@@ -14,6 +14,13 @@
 	if (!isset($contributor_email)) {
 		$contributor_email = '';
 	}
+	
+	if (!isset($_REQUEST['subscribed'])) {
+		$just_subscribed = false;
+	}
+	else {
+		$just_subscribed = true;
+	}
 
     /*
 
@@ -74,13 +81,27 @@
     <div id="container">
         <div class="home-page">
 			<div id="newsletter-announcement">
+EOT;
+
+			if (!$just_subscribed) {
+				print <<<EOT
 				<form method="post" action="teacher_ideas/subscribe-newsletter.php">
 					<p>
 						The PhET Newsletter
-						<input type="text"   name="contributor_email" value="$contributor_email" size="15" />
+						<input type="text"   name="contributor_email" value="$contributor_email" size="20" />
 						<input type="submit" name="submit"            value="Subscribe" title="Click here to subscribe to the PhET newsletter" />
+						<input type="hidden" name="referrer"          value="$referrer" />
 					</p>
 				</form>
+EOT;
+			}
+			else {
+				print <<<EOT
+					<p><strong>You have successfully subscribed to the PhET newsletter.</strong></p>
+EOT;
+			}
+			
+			print <<<EOT
 			</div>
 			
 			<div class="introduction">		
