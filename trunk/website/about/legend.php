@@ -30,23 +30,19 @@
                 
                     <tbody>
                         <tr>
-                            <td>$crutch_html</td>   <td>Guidance recommended: This simulation is very effective when used in conjunction with a lecture, homework  or other teacher designed activity.</td>
+                            <td>$crutch_html</td>   	<td><strong>Guidance Recommended</strong>: This simulation is very effective when used in conjunction with a lecture, homework  or other teacher designed activity.</td>
                         </tr>
                         
                         <tr>
-                            <td>$alpha_html</td>    <td>This simulation is an early preview version, and may have functional or usability bugs.</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>$beta_html</td>     <td>This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing.</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>$check_html</td>    <td>This simulation has been used and tested in the classroom, and on multiple computer platforms. The simulation has been refined based on that experience and on student interviews.</td>
+                            <td>$alpha_html</td>    	<td><strong>Under Construction</strong>: This simulation is a preview version, and may have functional or usability bugs.</td>
                         </tr>
 
                         <tr>
-                            <td>$from_phet_html</td><td>This contribution was designed by PhET.</td>
+                            <td>$check_html</td>    	<td><strong>Classroom Tested</strong>: This simulation has been used and tested in the classroom, and on multiple computer platforms. The simulation has been refined based on that experience and on student interviews.</td>
+                        </tr>
+
+                        <tr>
+                            <td>$from_phet_html</td>	<td><strong>PhET Designed</strong>: This contribution was designed by PhET.</td>
                         </tr>
                     </tbody>
                 </table>

@@ -44,7 +44,12 @@
         if ($sim_crutch) {
             $sim_crutch_html = SIM_CRUTCH_IMAGE_HTML;
         }
-        
+
+		if ($sim_rating != SIM_RATING_CHECK) {
+			// TODO: Temporary change while PhET team decides whether or not to make the switch to
+			// just 2 ratings permanent:
+			$sim_rating = SIM_RATING_ALPHA;
+		}
         
         // Gather sim_rating_html & sim_type_html information:
         $sim_rating_html = $SIM_RATING_TO_IMAGE_HTML["$sim_rating"];
@@ -113,7 +118,7 @@
                         
                             <td>
                                 <div class="rage_button_928365">
-                                	<a href="$sim_run_offline_link" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection'">Run Offline</a>
+                                	<a href="$sim_run_offline_link" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection">Run Offline</a>
                                 </div>
                             </td>
                         </tr>
