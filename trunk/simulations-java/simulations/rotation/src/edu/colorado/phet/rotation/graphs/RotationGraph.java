@@ -121,10 +121,6 @@ public class RotationGraph extends MotionControlGraph {
         return secondarySeries.contains( series );
     }
 
-    public void addSecondarySeries( String title, Color color, String abbr, String units, ITemporalVariable temporalVariable, Stroke stroke ) {
-        addSecondarySeries( new ControlGraphSeries( title, color, abbr, units, stroke, null, temporalVariable ) );
-    }
-
     public void addSecondarySeries( ControlGraphSeries graphSeries ) {
         secondarySeries.add( graphSeries );
         super.addSeries( graphSeries );

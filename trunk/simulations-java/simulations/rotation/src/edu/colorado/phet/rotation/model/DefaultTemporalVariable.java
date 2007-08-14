@@ -26,10 +26,6 @@ public class DefaultTemporalVariable implements ITemporalVariable {
         setValue( series.getValueForTime( time ) );
     }
 
-    public double getLastValue() {
-        return series.getRecentData( 0 ).getValue();
-    }
-
     public double getValue() {
         return variable.getValue();
     }
