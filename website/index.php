@@ -10,6 +10,10 @@
     
 	$referrer           = $_SERVER['PHP_SELF'];
 	$utility_panel_html = get_sitewide_utility_html('.');
+	
+	if (!isset($contributor_email)) {
+		$contributor_email = '';
+	}
 
     /*
 
@@ -69,19 +73,31 @@
 
     <div id="container">
         <div class="home-page">
-            <div class="mainImage">    
-                <a href="simulations/index.php"><img width="300" src="random-thumbnail.php" alt="Random screenshot of a simulation" title="Click here to view the simulations" /></a>
-            </div>
+			<div id="newsletter-announcement">
+				<form method="post" action="teacher_ideas/subscribe-newsletter.php">
+					<p>
+						The PhET Newsletter
+						<input type="text"   name="contributor_email" value="$contributor_email" size="15" />
+						<input type="submit" name="submit"            value="Subscribe" title="Click here to subscribe to the PhET newsletter" />
+					</p>
+				</form>
+			</div>
+			
+			<div class="introduction">		
+	            <div class="mainImage">    
+	                <a href="simulations/index.php"><img width="300" src="random-thumbnail.php" alt="Random screenshot of a simulation" title="Click here to view the simulations" /></a>
+	            </div>
 
-            <h1>Interactive Physics Simulations</h1>
+	            <h1>Interactive Physics Simulations</h1>
 
-            <p class="openingParagraph">Fun, interactive simulations of physical phenomena from the Physics Education Technology project at the University of Colorado.</p>
+	            <p class="openingParagraph">Fun, interactive simulations of physical phenomena from the Physics Education Technology project at the University of Colorado.</p>
 
-            <p class="findOutMore" onclick="javascript:location.href='simulations/index.php?cat=Top_Simulations'">
-                <a href="simulations/index.php?cat=Top_Simulations">
-                    Play with sims... >
-                </a>   
-            </p>
+	            <p class="findOutMore" onclick="javascript:location.href='simulations/index.php?cat=Top_Simulations'">
+	                <a href="simulations/index.php?cat=Top_Simulations">
+	                    Play with sims... >
+	                </a>   
+	            </p>
+			</div>
 
             <div class="clear"></div>
         </div>
@@ -164,7 +180,7 @@ EOT;
 
 		<div id="utility-panel">
 			$utility_panel_html
-		</div>        
+		</div>   
     </div>
 </body>
 </html>
