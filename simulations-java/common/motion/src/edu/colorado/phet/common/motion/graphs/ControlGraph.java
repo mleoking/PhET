@@ -281,10 +281,6 @@ public class ControlGraph extends PNode {
         zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDomainValue );
     }
 
-    public void addSeries( String title, Color color, String abbr, String units, ITemporalVariable observableTemporalVariable, Stroke stroke ) {
-        addSeries( new ControlGraphSeries( title, color, abbr, units, stroke, null, observableTemporalVariable ) );
-    }
-
     public ControlGraphSeries getControlGraphSeries( int i ) {
         return (ControlGraphSeries)series.get( i );
     }

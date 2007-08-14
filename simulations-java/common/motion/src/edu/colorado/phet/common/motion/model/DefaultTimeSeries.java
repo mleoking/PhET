@@ -18,11 +18,6 @@ public class DefaultTimeSeries {
 //        instances.add( this );
     }
 
-    public DefaultTimeSeries( double initValue, double initTime ) {
-        this();
-        addValue( initValue, initTime );
-    }
-
     public TimeData getData() {
         return getRecentData( 0 );
     }
@@ -48,10 +43,6 @@ public class DefaultTimeSeries {
         }
     }
 
-    public double getValue() {
-        return getRecentData( 0 ).getValue();
-    }
-
     public void addValue( double v, double time ) {
         TimeData o = new TimeData( v, time );
         data.add( o );
@@ -63,10 +54,6 @@ public class DefaultTimeSeries {
             ITemporalVariable.Listener observableTimeSeriesListener = (ITemporalVariable.Listener)listeners.get( i );
             observableTimeSeriesListener.dataAdded( o );
         }
-    }
-
-    public double getTime() {
-        return getRecentData( 0 ).getTime();
     }
 
     public TimeData getMax() {

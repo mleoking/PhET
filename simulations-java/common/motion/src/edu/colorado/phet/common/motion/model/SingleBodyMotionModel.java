@@ -54,14 +54,6 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
         return motionBody.getPositionVariable();
     }
 
-    public ITemporalVariable getVTimeSeries() {
-        return motionBody.getVelocityVariable();
-    }
-
-    public ITemporalVariable getATimeSeries() {
-        return motionBody.getAccelerationVariable();
-    }
-
     public PositionDriven getPositionDriven() {
         return motionBody.getPositionDriven();
     }

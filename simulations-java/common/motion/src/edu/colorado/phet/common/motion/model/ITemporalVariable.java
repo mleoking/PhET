@@ -15,9 +15,9 @@ public interface ITemporalVariable extends IVariable {
 
     void clear();
 
-    TimeData getMax();
-
     TimeData getMin();
+
+    TimeData getMax();
 
     void addValue( double magnitude, double time );
 
