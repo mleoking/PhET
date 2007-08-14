@@ -12,7 +12,6 @@ import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
-import edu.umd.cs.piccolo.nodes.PImage;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.ui.RectangleEdge;
@@ -36,7 +35,7 @@ public class RotationGraph extends MotionControlGraph {
                           RotationModel motionModel, boolean editable, TimeSeriesModel timeSeriesModel,
                           UpdateStrategy updateStrategy, double maxDomainValue, RotationPlatform iPositionDriven ) {
         super( pSwingCanvas, series,
-               label, title, min, max, 
+               label, title, min, max,
                motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         this.title = title;
         super.getDynamicJFreeChartNode().setAutoUpdateAll( false );
@@ -116,7 +115,7 @@ public class RotationGraph extends MotionControlGraph {
     }
 
     private boolean isSecondarySeries( ControlGraphSeries series ) {
-        if (secondarySeries==null){
+        if( secondarySeries == null ) {
             return false;//todo: this assumes (1) secondarySeries will be null for the first ControlGraphSeries, and that (2) that series should be a primary series
         }
         return secondarySeries.contains( series );

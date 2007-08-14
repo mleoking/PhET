@@ -157,7 +157,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
         final ControlGraphSeries platformAngleSeries = new ControlGraphSeries( "Angle", RotationColorScheme.ANGLE_SUITE.getPlatformColor(), UnicodeUtil.THETA, ANGLE_UNITS_RAD, platformStroke, true, CHARACTER_PLATFORM, model.getRotationPlatform().getAngle() );
         final RotationMinimizableControlGraph angleGraph = new RotationMinimizableControlGraph( UnicodeUtil.THETA, new AngularUnitGraph(
                 pSwingCanvas, platformAngleSeries,
-                UnicodeUtil.THETA, "Angle", angleUnitModel, ANGLE_UNITS_RAD, ANGLE_UNITS_DEG, -Math.PI * 3, Math.PI * 3, 
+                UnicodeUtil.THETA, "Angle", angleUnitModel, ANGLE_UNITS_RAD, ANGLE_UNITS_DEG, -Math.PI * 3, Math.PI * 3,
                 model, true, model.getTimeSeriesModel(), model.getPositionDriven(),
                 RotationModel.MAX_TIME, model.getRotationPlatform() ) );
         angleGraph.addSeriesPair( "Angle",

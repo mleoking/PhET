@@ -23,8 +23,8 @@ public class ControlGraphSeries {
 
     private ArrayList listeners = new ArrayList();
 
-    public ControlGraphSeries(ITemporalVariable temporalVariable) {
-        this("", Color.BLACK, "x", "meters", new BasicStroke(), "", temporalVariable);
+    public ControlGraphSeries( ITemporalVariable temporalVariable ) {
+        this( "", Color.BLACK, "x", "meters", new BasicStroke(), "", temporalVariable );
     }
 
     public ControlGraphSeries( String title, Color color, String abbr, String units,
@@ -81,7 +81,7 @@ public class ControlGraphSeries {
     }
 
     public void setUnits( String units ) {
-        if( (this.units==null&&units!=null)||!this.units.equals( units ) ) {
+        if( ( this.units == null && units != null ) || !this.units.equals( units ) ) {
             this.units = units;
             notifyUnitsChanged();
         }

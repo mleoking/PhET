@@ -59,7 +59,7 @@ public class ReadoutTitleNode extends PNode {
 //        Image im=titleNode.toImage();
 //        PImage p=new PImage( im );
 //        addChild( p);
-        
+
         valueNode.setOffset( titleNode.getFullBounds().getWidth() + 3, 3 );
     }
 

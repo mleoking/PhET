@@ -14,7 +14,7 @@ public class GraphControlSeriesNode extends PNode {
     private ShadowPText shadowPText;
     private PSwing textBox;
     private GraphControlTextBox boxGraphControl;
-    public static final Font LABEL_FONT= new Font( "Lucida Sans", Font.BOLD, 14 );
+    public static final Font LABEL_FONT = new Font( "Lucida Sans", Font.BOLD, 14 );
 
     public GraphControlSeriesNode( ControlGraphSeries series ) {
         shadowPText = new ShadowPText( series.getTitle() );

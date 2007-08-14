@@ -13,7 +13,7 @@ public interface IVariable {
 
     public void addListener( Listener listener );
 
-    public void removeListener(Listener listener);
+    public void removeListener( Listener listener );
 
     public static interface Listener {
         void valueChanged();
