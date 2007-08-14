@@ -9,6 +9,8 @@ import java.awt.Insets;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -54,20 +56,20 @@ public class DeveloperControlsDialog extends JDialog {
     private JPanel createInputPanel() {
         
         Color controlPanelBackground = _app.getControlPanelBackground();
-        ColorControl controlPanelColorControl = new ColorControl( "control panel background color: ", controlPanelBackground ) {
-            protected void setColor( Color color ) {
-                super.setColor( color );
-                _app.setControlPanelBackground( color );
+        final ColorControl controlPanelColorControl = new ColorControl( "control panel background color: ", controlPanelBackground );
+        controlPanelColorControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                _app.setControlPanelBackground( controlPanelColorControl.getColor() );
             }
-        };
+        } );
         
         Color selectedTabColor = _app.getSelectedTabColor();
-        ColorControl selectedTabColorControl = new ColorControl( "selected module tab color: ", selectedTabColor ) {
-            protected void setColor( Color color ) {
-                super.setColor( color );
-                _app.setSelectedTabColor( color );
+        final ColorControl selectedTabColorControl = new ColorControl( "selected module tab color: ", selectedTabColor );
+        selectedTabColorControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                _app.setSelectedTabColor( selectedTabColorControl.getColor() );
             }
-        };
+        } );
         
         // Layout
         JPanel panel = new JPanel();

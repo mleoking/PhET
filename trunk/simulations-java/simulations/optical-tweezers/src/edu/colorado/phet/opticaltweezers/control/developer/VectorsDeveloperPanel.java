@@ -12,12 +12,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.control.ColorControl;
 import edu.colorado.phet.opticaltweezers.view.DNAForceNode;
-import edu.colorado.phet.opticaltweezers.view.FluidDragForceNode;
 import edu.colorado.phet.opticaltweezers.view.ElectricFieldNode;
+import edu.colorado.phet.opticaltweezers.view.FluidDragForceNode;
 import edu.colorado.phet.opticaltweezers.view.TrapForceNode;
 
 /**
@@ -55,40 +57,40 @@ public class VectorsDeveloperPanel extends JPanel {
         
         Paint trapForcePaint = _trapForceNode.getArrowFillPaint();
         Color trapForceColor = ( trapForcePaint instanceof Color ) ? ( (Color)trapForcePaint ) : Color.BLACK;
-        _trapForceColorChip = new ColorControl( "Trap force color:", trapForceColor ) {
-            protected void setColor( Color color ) {
-                super.setColor( color );
-                _trapForceNode.setArrowFillPaint( color );
+        _trapForceColorChip = new ColorControl( "Trap force color:", trapForceColor );
+        _trapForceColorChip.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                _trapForceNode.setArrowFillPaint( _trapForceColorChip.getColor() );
             }
-        };
+        });
         
         Paint fluidDragForcePaint = _fluidDragForceNode.getArrowFillPaint();
         Color fluidDragForceColor = ( fluidDragForcePaint instanceof Color ) ? ( (Color)fluidDragForcePaint ) : Color.BLACK;
-        _fluidDragForceColorChip = new ColorControl( "Fluid drag force color:", fluidDragForceColor ) {
-            protected void setColor( Color color ) {
-                super.setColor( color );
-                _fluidDragForceNode.setArrowFillPaint( color );
+        _fluidDragForceColorChip = new ColorControl( "Fluid drag force color:", fluidDragForceColor );
+        _fluidDragForceColorChip.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                _fluidDragForceNode.setArrowFillPaint( _fluidDragForceColorChip.getColor() );
             }
-        };
+        } );
         
         if ( _dnaForceNode != null ) {
             Paint dnaForcePaint = _dnaForceNode.getArrowFillPaint();
             Color dnaForceColor = ( dnaForcePaint instanceof Color ) ? ( (Color) dnaForcePaint ) : Color.BLACK;
-            _dnaForceColorChip = new ColorControl( "DNA force color:", dnaForceColor ) {
-                protected void setColor( Color color ) {
-                    super.setColor( color );
-                    _dnaForceNode.setArrowFillPaint( color );
+            _dnaForceColorChip = new ColorControl( "DNA force color:", dnaForceColor );
+            _dnaForceColorChip.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
+                    _dnaForceNode.setArrowFillPaint( _dnaForceColorChip.getColor() );
                 }
-            };
+            } );
         }
         
         if ( _electricFieldNode != null ) {
-            _electricFieldColorChip = new ColorControl( "E-field color:", _electricFieldNode.getVectorColor() ) {
-                protected void setColor( Color color ) {
-                    super.setColor( color );
-                    _electricFieldNode.setVectorColor( color );
+            _electricFieldColorChip = new ColorControl( "E-field color:", _electricFieldNode.getVectorColor() );
+            _electricFieldColorChip.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
+                    _electricFieldNode.setVectorColor( _electricFieldColorChip.getColor() );
                 }
-            };
+            } );
         }
         
         _showValuesCheckBox = new JCheckBox( "Show values" );

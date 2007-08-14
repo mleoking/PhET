@@ -47,6 +47,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/14/07 - generalize ColorControl
 8/14/07 - convert hi-res screenshot to png format
 8/14/07 - make save/load handle activation state of modules
 8/14/07 - loading should restore clock's run state only if module is active
