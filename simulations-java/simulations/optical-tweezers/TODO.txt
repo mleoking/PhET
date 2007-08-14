@@ -47,6 +47,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/14/07 - delete CursorUtils, not used
 8/14/07 - migrate ColorControl from optical-tweezers to phetcommon
 8/14/07 - generalize ColorControl
 8/14/07 - convert hi-res screenshot to png format
