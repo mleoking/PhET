@@ -26,7 +26,6 @@ public class GlobalDefaults {
     public static final int CLOCK_TIME_COLUMNS = 10;
     
     // Fluid model
-    public static final boolean FLUID_ENABLED = true;
     public static final double FLUID_DIRECTION = Math.toRadians( 0 ); // left-to-right flow direction
     public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 0, 1000000, 0 ); // nm/sec, min must be >0
     public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 5E-4, 1E-2, Fluid.WATER_VISCOSITY ); // Pa*s

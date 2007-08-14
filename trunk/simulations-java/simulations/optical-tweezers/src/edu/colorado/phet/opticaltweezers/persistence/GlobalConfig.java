@@ -14,7 +14,12 @@ public class GlobalConfig implements OTSerializable {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private String _versionNumber;
+    private String _versionString;
+    
+    private String _versionMajor;
+    private String _versionMinor;
+    private String _versionDev;
+    private String _versionRevision;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -24,16 +29,50 @@ public class GlobalConfig implements OTSerializable {
      * Zero-argument constructor for Java Bean compliance.
      */
     public GlobalConfig() {}
+
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
-    public String getVersionNumber() {
-        return _versionNumber;
+    public String getVersionString() {
+        return _versionString;
     }
     
-    public void setVersionNumber( String versionNumber ) {
-        _versionNumber = versionNumber;
+    public void setVersionString( String versionString ) {
+        _versionString = versionString;
     }
+    
+    public String getVersionMajor() {
+        return _versionMajor;
+    }
+    
+    public void setVersionMajor( String versionMajor ) {
+        _versionMajor = versionMajor;
+    }
+
+    public String getVersionMinor() {
+        return _versionMinor;
+    }
+    
+    public void setVersionMinor( String versionMinor ) {
+        _versionMinor = versionMinor;
+    }
+    
+    public String getVersionDev() {
+        return _versionDev;
+    }
+
+    public void setVersionDev( String versionDev ) {
+        _versionDev = versionDev;
+    }
+    
+    public String getVersionRevision() {
+        return _versionRevision;
+    }
+    
+    public void setVersionRevision( String versionRevision ) {
+        _versionRevision = versionRevision;
+    }
+
 }

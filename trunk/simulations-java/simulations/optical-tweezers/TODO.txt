@@ -8,13 +8,13 @@ MISSING INFO:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- save/load configurations
 - force dialogs to fully-paint by calling repaint after JDialog.show
 - help items don't refresh fast enough (AWT priority issue?)
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 - ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
 - ? change dt.default to something smaller than dt.fast.max
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
+- save/load properties of position histogram: running, zoom index, ruler
 
 LOW PRIORITY:
 - vertical laser toggle button, like http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
@@ -51,6 +51,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/10/07 - implement Save/Load feature for "Physics" and "DNA" modules
 8/10/07 - remove controls related to "horizontal trap force", feature has been dropped
 ********* version 1.00.02 (17205)
 8/10/07 - make "charge motion scale" dev control work for "Reset All"

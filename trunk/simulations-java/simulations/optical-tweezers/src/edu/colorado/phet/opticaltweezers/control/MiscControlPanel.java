@@ -175,10 +175,18 @@ public class MiscControlPanel extends JPanel implements Observer {
         handleFluidOrVacuumChoice();
     }
     
+    public boolean isFluidSelected() {
+        return _fluidRadioButton.isSelected();
+    }
+    
     public void setVacuumSelected( boolean b ) {
         _fluidRadioButton.setSelected( !b );
         _vacuumRadioButton.setSelected( b );
         handleFluidOrVacuumChoice();
+    }
+    
+    public boolean isVacuumSelected() {
+        return _vacuumRadioButton.isSelected();
     }
     
     public void setFluidControlsSelected( boolean b ) {

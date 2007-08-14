@@ -179,7 +179,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
         }
     }
     
-    public boolean isDNAForceSelecte() { 
+    public boolean isDNAForceSelected() { 
         boolean selected = false;
         if ( _dnaForceCheckBox != null ) {
             selected = _dnaForceCheckBox.isSelected();
