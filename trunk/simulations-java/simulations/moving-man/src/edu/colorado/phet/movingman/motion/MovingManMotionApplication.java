@@ -47,16 +47,19 @@ public class MovingManMotionApplication {
         int MAX_T = 500;
         motionModel.setMaxAllowedRecordTime( MAX_T );
         System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() + " ispaused=" + motionModel.getTimeSeriesModel().isPaused() );
+        ControlGraphSeries xSeries = new ControlGraphSeries( "X", Color.blue, "x", "m", new BasicStroke( 2 ), true, null, motionModel.getXVariable() );
         MovingManGraph xGraph = new MovingManGraph(
-                phetPCanvas, new ControlGraphSeries( "X", Color.blue, "x", "m", new BasicStroke( 2 ), true, null, motionModel.getXVariable() ), SimStrings.get( "variables.position.abbreviation" ), "x", -10, 10, new PImage( GraphSuiteSet.loadBlueArrow() )
+                phetPCanvas, xSeries, SimStrings.get( "variables.position.abbreviation" ), "x", -10, 10, new PImage( GraphSuiteSet.loadBlueArrow() )
                 , motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MAX_T, motionModel );
 
+        ControlGraphSeries vSeries = new ControlGraphSeries( "V", Color.red, "v", "m/s", new BasicStroke( 2 ), true, null, motionModel.getVVariable() );
         MovingManGraph vGraph = new MovingManGraph(
-                phetPCanvas, new ControlGraphSeries( "V", Color.red, "v", "m/s", new BasicStroke( 2 ), true, null, motionModel.getVVariable() ), SimStrings.get( "variables.velocity.abbreviation" ), "x", -1, 1, new PImage( GraphSuiteSet.loadRedArrow() )
+                phetPCanvas, vSeries, SimStrings.get( "variables.velocity.abbreviation" ), "x", -1, 1, new PImage( GraphSuiteSet.loadRedArrow() )
                 , motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MAX_T, motionModel );
 
+        ControlGraphSeries aSeries = new ControlGraphSeries( "A", Color.green, "a", "m/s^2", new BasicStroke( 2 ), true, null, motionModel.getAVariable() );
         MovingManGraph aGraph = new MovingManGraph(
-                phetPCanvas, new ControlGraphSeries( "A", Color.green, "a", "m/s^2", new BasicStroke( 2 ), true, null, motionModel.getAVariable() ), SimStrings.get( "variables.position.abbreviation" ), "x", -0.01, 0.01, new PImage( GraphSuiteSet.loadGreenArrow() )
+                phetPCanvas, aSeries, SimStrings.get( "variables.position.abbreviation" ), "x", -0.01, 0.01, new PImage( GraphSuiteSet.loadGreenArrow() )
                 , motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MAX_T, motionModel );
 
         GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{

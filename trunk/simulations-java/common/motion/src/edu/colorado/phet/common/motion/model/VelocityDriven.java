@@ -14,7 +14,6 @@ public class VelocityDriven implements UpdateStrategy {
     public void update( MotionBodySeries model, double dt, MotionBodyState state, double time ) {
         double newX = state.getPosition() + state.getVelocity() * dt;
         TimeData a = MotionMath.getDerivative( model.getRecentVelocityTimeSeries( Math.min( velWindow, model.getAccelerationSampleCount() ) ) );
-
         model.addPositionData( newX, time );
         model.addVelocityData( state.getVelocity(), time );
         model.addAccelerationData( a.getValue(), a.getTime() + dt );//todo: why is it necessary that velocity be offset by dt in order to be correct?
