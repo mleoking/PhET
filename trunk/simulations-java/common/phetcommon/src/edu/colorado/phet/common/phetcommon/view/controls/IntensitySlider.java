@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.common.controls;
+package edu.colorado.phet.common.phetcommon.view.controls;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
