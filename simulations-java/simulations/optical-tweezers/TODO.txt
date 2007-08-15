@@ -23,7 +23,6 @@ LOW PRIORITY:
 - improve performance of e-field display (22% in Arrow.computeArrow)
 - bug: beep sometimes occurs when selecting vacuum with fluid controls dialog open
 - visible seams where symmetrical pieces of laser beam gradient are stitched together (Mac only?)
-- save/load developer controls
 - when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
 - javadoc
 - package level javadoc
@@ -654,6 +653,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+8/15/07 - save/load developer controls (feature not desired)
 8/14/07 - use TrigCache to improve performance (performance is OK without it)
 8/14/07 - reduce vertical spacing of control panels (not necessary, some controls were dropped)
 8/10/07 - enable/disable controls based on clock speed (no longer necessary)
