@@ -20,8 +20,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * IntensitySlider is a slider used to control intensity. Intensity is a
- * percentage, with a range of 0-100 inclusive.
+ * IntensitySlider is a slider used to control intensity.
+ * The range is configurable, default is 0-100.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -41,6 +41,10 @@ public class IntensitySlider extends JPanel implements ChangeListener {
      */
     public static int VERTICAL = JSlider.VERTICAL;
 
+    // Default range
+    private static int DEFAULT_MIN = 0;
+    private static int DEFAULT_MAX = 100;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -73,9 +77,9 @@ public class IntensitySlider extends JPanel implements ChangeListener {
         // Slider
         _slider = new JSlider();
         _slider.setOrientation( orientation );
-        _slider.setMinimum( 0 );
-        _slider.setMaximum( 100 );
-        _slider.setValue( 0 );
+        _slider.setMinimum( DEFAULT_MIN );
+        _slider.setMaximum( DEFAULT_MAX );
+        _slider.setValue( DEFAULT_MIN );
         _slider.setPreferredSize( size );
         _slider.addChangeListener( this );
 
@@ -126,6 +130,22 @@ public class IntensitySlider extends JPanel implements ChangeListener {
         return _slider.getValue();
     }
 
+    public void setMinimum( int minimum ) {
+        _slider.setMinimum( minimum );
+    }
+    
+    public int getMinimum() {
+        return _slider.getMinimum();
+    }
+    
+    public void setMaximum( int maximum ) {
+        _slider.setMaximum( maximum );
+    }
+    
+    public int getMaximum() {
+        return _slider.getMaximum();
+    }
+    
     /**
      * Gets the slider's color
      *
@@ -154,7 +174,6 @@ public class IntensitySlider extends JPanel implements ChangeListener {
      * @param event the event
      */
     public void stateChanged( ChangeEvent event ) {
-
         fireChangeEvent( new ChangeEvent( this ) );
     }
 
@@ -164,7 +183,6 @@ public class IntensitySlider extends JPanel implements ChangeListener {
      * @param listener the listener
      */
     public void addChangeListener( ChangeListener listener ) {
-
         _listenerList.add( ChangeListener.class, listener );
     }
 
@@ -174,7 +192,6 @@ public class IntensitySlider extends JPanel implements ChangeListener {
      * @param listener the listener
      */
     public void removeChangeListener( ChangeListener listener ) {
-
         _listenerList.remove( ChangeListener.class, listener );
     }
 
@@ -281,8 +298,4 @@ public class IntensitySlider extends JPanel implements ChangeListener {
             super.paintComponent( g );
         }
     } // paint
-
-    public void setMaximum( int maximum ) {
-        _slider.setMaximum( maximum );
-    }
 }
