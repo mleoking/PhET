@@ -1002,14 +1002,22 @@ EOT;
                $contributor['contributor_is_team_member'] == '1' ||
                $contribution['contributor_id'] == '-1';
     }
+
+    function contribution_get_contributions_for_contributor_id($contributor_id) {
+        return db_get_rows_by_condition('contribution', array('contributor_id' => $contributor_id));
+    }
     
-    function contribution_get_manageable_contributions_for_contributor_id($contributor_id) {
+    function contribution_get_other_manageable_contributions_for_contributor_id($contributor_id) {
+		$contributor = contributor_get_contributor_by_id($contributor_id);
+		
+		if ($contributor['contributor_is_team_member'] == 0) return array();
+		
         $contributions = contribution_get_all_contributions();
         
         $filtered = array();
         
         foreach($contributions as $contribution) {
-            if (contribution_can_contributor_manage_contribution($contributor_id, $contribution['contribution_id'])) {
+            if ($contribution['contributor_id'] != $contributor_id) {
                 $filtered[] = $contribution;
             }
         }
