@@ -11,18 +11,38 @@
         global $contributor_id, $contributor_is_team_member;
         
         print "<h1>Manage Contributions</h1>";
+
+		$contributions = contribution_get_contributions_for_contributor_id($contributor_id);
+		
+		if (count($contributions) > 0) {
+			print "<h2>My Contributions</h2>";
         
-        $contributions = contribution_get_manageable_contributions_for_contributor_id($contributor_id);
+        	print "<ul>";
         
-        print "<ul>";
+	        foreach($contributions as $contribution) {
+	            contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member,
+	                SITE_ROOT."teacher_ideas/manage-contributions.php"
+	            );
+	        }
         
-        foreach($contributions as $contribution) {
-            contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member,
-                SITE_ROOT."teacher_ideas/manage-contributions.php"
-            );
-        }
-        
-        print "</ul>";
+	        print "</ul>";
+		}
+
+		$contributions = contribution_get_other_manageable_contributions_for_contributor_id($contributor_id);
+		
+		if (count($contributions) > 0) {
+			print "<h2>Other Contributions</h2>";
+			
+			print "<ul>";
+
+	        foreach($contributions as $contribution) {
+	            contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member,
+	                SITE_ROOT."teacher_ideas/manage-contributions.php"
+	            );
+	        }
+			
+			print "</ul>";
+		}
     }
     
     print_site_page('print_manage_contributions', 3);
