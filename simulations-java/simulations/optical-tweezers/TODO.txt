@@ -8,6 +8,8 @@ MISSING INFO:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
+- visibility of dialogs (fluid controls, position histogram) isn't restored when changing modules
+- dialogs (fluid controls, position histogram) are disposed when main frame is minimized
 - force dialogs to fully-paint by calling SwingUtils.paintImmediately after JDialog.show
 - help items don't refresh fast enough (AWT priority issue?)
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
@@ -37,7 +39,6 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 MIGRATE TO COMMON:
-- PolarCartesianConverter
 - Vector2DNode
 - ScaleAlphaImageOp
 - ColorUtils
@@ -46,6 +47,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/15/07 - migrate PolarCartesianConverter to phetcommon.math
 8/14/07 - delete CursorUtils, not used
 8/14/07 - migrate ColorControl from optical-tweezers to phetcommon
 8/14/07 - generalize ColorControl

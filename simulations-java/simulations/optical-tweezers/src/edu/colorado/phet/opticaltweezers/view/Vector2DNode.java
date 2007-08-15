@@ -8,9 +8,9 @@ import java.text.DecimalFormat;
 
 import javax.swing.JLabel;
 
+import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.opticaltweezers.util.PolarCartesianConverter;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
