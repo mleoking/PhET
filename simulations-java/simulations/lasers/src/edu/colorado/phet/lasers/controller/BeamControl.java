@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.controls.IntensitySlider;
 import edu.colorado.phet.common.controls.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 import javax.swing.event.ChangeEvent;
