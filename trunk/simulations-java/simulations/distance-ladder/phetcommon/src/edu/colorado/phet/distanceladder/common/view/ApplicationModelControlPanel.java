@@ -2,8 +2,9 @@
 package edu.colorado.phet.distanceladder.common.view;
 
 import edu.colorado.phet.distanceladder.common.model.clock.AbstractClock;
-import edu.colorado.phet.distanceladder.common.view.components.media.Resettable;
 import edu.colorado.phet.distanceladder.common.view.util.graphics.ImageLoader;
+
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 import javax.swing.*;
 import java.awt.*;
