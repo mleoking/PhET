@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
-import edu.colorado.phet.opticaltweezers.util.ScaleAlphaImageOp;
+import edu.colorado.phet.opticaltweezers.util.ScaleAlphaImageOpARGB;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -43,7 +43,7 @@ public class LaserBeamNode extends PhetPNode implements Observer {
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
     private GradientNode _gradientNode;
-    private ScaleAlphaImageOp _imageOp;
+    private ScaleAlphaImageOpARGB _imageOp;
     private BufferedImage _maxPowerGradientImage; // gradient for the max power, this image is not modified
     private BufferedImage _actualPowerGradientImage; // gradient for the actual power, created by scaling the alpha channel of _maxPowerGradientImage
 
@@ -67,7 +67,7 @@ public class LaserBeamNode extends PhetPNode implements Observer {
         
         _modelViewTransform = modelViewTransform;
         
-        _imageOp = new ScaleAlphaImageOp();
+        _imageOp = new ScaleAlphaImageOpARGB();
         
         _maxPowerGradientImage = createMaxPowerGradientImage();
         _actualPowerGradientImage = _imageOp.createCompatibleDestImage( _maxPowerGradientImage, _maxPowerGradientImage.getColorModel() );

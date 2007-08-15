@@ -9,20 +9,20 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.*;
 
 /**
- * ScaleAlphaImageOp scales the alpha channel of a BufferedImage.
+ * ScaleAlphaImageOpARGB scales the alpha channel of a BufferedImage.
  * The BufferedImage must be of TYPE_INT_ARGB.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ScaleAlphaImageOp implements BufferedImageOp {
+public class ScaleAlphaImageOpARGB implements BufferedImageOp {
 
     private double _scale;
     
-    public ScaleAlphaImageOp() {
+    public ScaleAlphaImageOpARGB() {
         this( 1 );
     }
     
-    public ScaleAlphaImageOp( double scale ) {
+    public ScaleAlphaImageOpARGB( double scale ) {
         super();
         _scale = scale;
     }
