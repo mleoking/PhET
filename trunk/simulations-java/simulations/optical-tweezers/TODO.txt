@@ -40,13 +40,13 @@ CLEANUP:
 
 MIGRATE TO COMMON:
 - Vector2DNode
-- ScaleAlphaImageOp
 - ColorUtils
 - Vector2D
 - ColorIntensitySlider
 
  
 DONE:
+8/15/07 - migrate ScaleAlphaImageOpARGB to phetcommon.view.util
 8/15/07 - migrate PolarCartesianConverter to phetcommon.math
 8/14/07 - delete CursorUtils, not used
 8/14/07 - migrate ColorControl from optical-tweezers to phetcommon
