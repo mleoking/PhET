@@ -13,7 +13,6 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
-import edu.colorado.phet.opticaltweezers.util.ColorUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -276,7 +275,7 @@ public class ElectricFieldNode extends PhetPNode implements Observer {
             if ( MODULATE_ALPHA_CHANNEL ) {
                 // vary the alpha channel based on field strength
                 int alpha = (int)( 255 * Math.abs( electricFieldX / maxElectricFieldX ) );
-                color = ColorUtils.addAlpha( _vectorColor, alpha );
+                color = new Color( color.getRed(), color.getGreen(), color.getBlue(), alpha );
             }
             vectorNode.setArrowStrokePaint( color );
         }
