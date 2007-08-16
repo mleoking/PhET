@@ -358,6 +358,7 @@ EOT;
                     function() {
                         $('input').not('.always-enabled').disable();
                         $('select').not('.always-enabled').disable();
+						$('textarea').not('.always-enabled').disable();
                         $('input.button').enable();
                     }
                 );
@@ -1006,6 +1007,24 @@ EOT;
     function contribution_get_contributions_for_contributor_id($contributor_id) {
         return db_get_rows_by_condition('contribution', array('contributor_id' => $contributor_id));
     }
+
+	function contribution_get_coauthored_contributions_for_contributor_id($contributor_id) {
+		$contributor = contributor_get_contributor_by_id($contributor_id);
+		
+		if ($contributor['contributor_is_team_member'] == 0) return array();
+		
+        $contributions = contribution_get_all_contributions();
+        
+        $filtered = array();
+        
+        foreach($contributions as $contribution) {
+            if ($contribution['contributor_id'] != $contributor_id && strpos($contribution['contribution_authors'], $contributor['contributor_name'])) {
+                $filtered[] = $contribution;
+            }
+        }
+        
+        return $filtered;
+    }
     
     function contribution_get_other_manageable_contributions_for_contributor_id($contributor_id) {
 		$contributor = contributor_get_contributor_by_id($contributor_id);
@@ -1017,7 +1036,7 @@ EOT;
         $filtered = array();
         
         foreach($contributions as $contribution) {
-            if ($contribution['contributor_id'] != $contributor_id) {
+            if ($contribution['contributor_id'] != $contributor_id && !strpos($contribution['contribution_authors'], $contributor['contributor_name'])) {
                 $filtered[] = $contribution;
             }
         }

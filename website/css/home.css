@@ -84,6 +84,12 @@ p.openingParagraph {
 	margin:9px 0 0 0;
 	padding:0;
 }
+
+p.openingParagraph a {
+/*	font-size:  smaller;*/
+	color:      rgb(50, 50, 255);
+	text-decoration: underline;
+}
 p.findOutMore {
     margin: 0;
 	cursor: pointer;
@@ -150,7 +156,9 @@ dl {
 dl.last {
 	background: none;
 	width:190px;
-	
+}
+dl.last dd {
+	text-align: right;
 }
 
 dl dd {

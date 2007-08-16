@@ -131,6 +131,7 @@ EOT;
             "get_phet/index.php",        
             "Run our Simulations",
             array(
+				'simulations/index.php?cat=Top_Simulations' => 'On Line',
                 'get_phet/full_install.php' => 'Full Install',
                 'get_phet/simlauncher.php'  => 'One at a Time'
             )
@@ -167,9 +168,10 @@ EOT;
             "about/index.php",           
             "About PhET",
             array(
-                'about/contact.php'     => 'Contact',
+                'about/contact.php'     => 'Contact PhET Team',
                 'about/licensing.php'   => 'Licensing',
-				'about/legend.php'      => 'Legend'
+				'about/legend.php'      => 'Legend',
+				'sponsors/index.php'    => 'Sponsors'
             )
         );
         

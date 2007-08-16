@@ -9,7 +9,7 @@
         <h1>About PhET</h1>
         
         <p>
-        The Physics Education Technology (PhET) project is an ongoing effort to provide an extensive suite of simulations for teaching and learning physics and to make these resources both freely available from the <a href="../index.php">PhET website</a> and easy to incorporate into classrooms. 
+        The Physics Education Technology (PhET) project is an ongoing effort to provide an extensive suite of simulations for teaching and learning physics and chemistry and to make these resources both freely available from the <a href="../index.php">PhET website</a> and easy to incorporate into classrooms. 
         </p>
         
         <p>The <a href="../sims/index.php">simulations</a> are animated, interactive, and game-like environments in which students learn through exploration. In these simulations, we emphasize the connections between real life phenomena and the underlying science and seek to make the visual and conceptual models that expert physicists use accessible to students. 

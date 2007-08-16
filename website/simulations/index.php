@@ -60,7 +60,7 @@
         $num_sims_in_category = count($simulations);
         
         if ($view_type == "thumbs") {
-            $link = sim_get_category_link_by_cat_id($cat_id, 'index view', '&amp;view_type=index');
+            $link = sim_get_category_link_by_cat_id($cat_id, 'Index View', '&amp;view_type=index');
             
             // THUMBNAIL INDEX
             print "<div id=\"listing_type\">$link</div>";
@@ -89,10 +89,10 @@
                 }
 
 				if ($sim_limit == 999) {
-					$link = "view all&raquo;";
+					$link = "View All&raquo;";
 				}
                 else {
-                	$link = sim_get_category_link_by_cat_id($cat_id, "view all&raquo;", "&amp;st=-1", 'pg');
+                	$link = sim_get_category_link_by_cat_id($cat_id, "View All&raquo;", "&amp;st=-1", 'pg');
 				}
 
                 print "$link";
@@ -154,7 +154,7 @@ EOT;
             }
         }
         else {
-            $link = sim_get_category_link_by_cat_id($cat_id, "thumbnail view", '&amp;view_type=thumbs');
+            $link = sim_get_category_link_by_cat_id($cat_id, "Thumbnail View", '&amp;view_type=thumbs');
                             
             print "<div id=\"listing_type\">$link</a></div>";
             
