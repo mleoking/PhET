@@ -45,22 +45,22 @@
             $sim_crutch_html = SIM_CRUTCH_IMAGE_HTML;
         }
 
-		if ($sim_rating != SIM_RATING_CHECK) {
-			// TODO: Temporary change while PhET team decides whether or not to make the switch to
-			// just 2 ratings permanent:
-			$sim_rating = SIM_RATING_ALPHA;
-		}
-        
         // Gather sim_rating_html & sim_type_html information:
         $sim_rating_html = $SIM_RATING_TO_IMAGE_HTML["$sim_rating"];
 		$sim_type_html   = $SIM_TYPE_TO_IMAGE_HTML[$sim_type];
 		$sim_launch_url  = sim_get_launch_url($simulation);
 		$sim_image_url   = sim_get_screenshot($simulation);
 		
+		// Temp change while PhET team decides how to handle ratings; for now just
+		// include under construction & classroom tested:
+		if ($sim_rating != SIM_RATING_CHECK || $sim_rating != SIM_RATING_ALPHA) {
+			$sim_rating_html = "";
+		}
+		
 		if ($sim_type == SIM_TYPE_FLASH) {
 			$gen_flash_page = "../admin/gen-flash-page.php?flash=$sim_launch_url&amp;title=$sim_name";
 			
-			$on_click_html = 'onclick="javascript:open_limited_window(\''.$gen_flash_page.'\',\''.$sim_name.'\'); return false;"';
+			$on_click_html = 'onclick="javascript:open_limited_window(\''.$gen_flash_page.'\',\'simwindow\'); return false;"';
 		}
 		else {
 			$on_click_html = '';
@@ -92,7 +92,7 @@
 
                 <table>
                     <tr>
-                        <td>$sim_crutch_html</td>   <td>$sim_no_mac_html</td>     <td>$sim_rating_html</td> 
+                        <td>$sim_crutch_html</td>   <td>&nbsp;</td>     <td>$sim_rating_html</td> 
                     </tr>
                 </table>
 

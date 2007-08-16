@@ -259,7 +259,8 @@
 	}
     
     function print_comma_list_as_bulleted_list($comma_list) {
-		if (!is_array($comma_list) || count($comma_list) == 0) return;
+		if (!is_string($comma_list) || strlen(trim($comma_list)) == 0) return;
+		
         print "<ul>";
         
         if (strstr($comma_list, '*')) {
