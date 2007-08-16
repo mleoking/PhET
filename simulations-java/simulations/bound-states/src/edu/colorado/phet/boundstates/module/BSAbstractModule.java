@@ -877,6 +877,18 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _squarePotential = config.loadSquarePotential( _particle );
             setNumberOfWells( config.getNumberOfWells() );
             
+            // attach drag handles to potentials
+            _asymmetricDragManager.setPotential( _asymmetricPotential );
+            _asymmetricDragManager.setColorScheme( _colorScheme );
+            _coulomb1DDragManager.setPotential( _coulomb1DPotential );
+            _coulomb1DDragManager.setColorScheme( _colorScheme );
+            _coulomb3DDragManager.setPotential( _coulomb3DPotential );
+            _coulomb3DDragManager.setColorScheme( _colorScheme );
+            _harmonicOscillatorDragManager.setPotential( _harmonicOscillatorPotential );
+            _harmonicOscillatorDragManager.setColorScheme( _colorScheme );
+            _squareDragManager.setPotential( _squarePotential );
+            _squareDragManager.setColorScheme( _colorScheme );
+            
             // set the potential that is selected
             BSWellType wellType = config.loadSelectedWellType();
             BSAbstractPotential potential = null;
