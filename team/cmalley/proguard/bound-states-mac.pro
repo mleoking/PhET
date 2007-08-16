@@ -32,7 +32,7 @@
 
 -keep class org.jfree.ui.about.Licenses
 
--keep class * extends edu.colorado.phet.boundstates.persistence.BSSerializable {
+-keep class * extends edu.colorado.phet.common.phetcommon.util.IProguardKeepClass {
     <fields>;
     <methods>;
 }

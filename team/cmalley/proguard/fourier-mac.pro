@@ -24,7 +24,7 @@
     public **[] values();
 }
 
--keep class * extends edu.colorado.phet.fourier.persistence.FourierSerializable {
+-keep class * extends edu.colorado.phet.common.phetcommon.util.IProguardKeepClass {
     <fields>;
     <methods>;
 }
