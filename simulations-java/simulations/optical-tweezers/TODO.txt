@@ -3,13 +3,19 @@
 ================================================================================
 
 MISSING INFO:
-- spec for "Molecular Motors" panel
 
 HIGH PRIORITY:
+- implement "Molecular Motors" panel
+- model and view of enzyme
+- get enzyme image from Tom Perkins
+- extend DNA strand model and view to support enzyme "feeding"
+- ATP control for fluid
+- "hold trap force constant" feature
+- "Reset enzyme" feature
 
 MEDIUM PRIORITY:
-- visibility of dialogs (fluid controls, position histogram) isn't restored when changing modules
-- dialogs (fluid controls, position histogram) are disposed when main frame is minimized
+- bug: visibility of dialogs (fluid controls, position histogram) isn't restored when changing modules
+- bug: dialogs (fluid controls, position histogram) are disposed when main frame is minimized
 - force dialogs to fully-paint by calling SwingUtils.paintImmediately after JDialog.show
 - help items don't refresh fast enough (AWT priority issue?)
 - make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
@@ -43,6 +49,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/16/07 - replace OTSerializable with IProguardKeepInterface in my proguard config files
 8/16/07 - convert persistence code to use IProguardKeepInterface instead of OTSerializable
 8/16/07 = add -keep option proguard-template.pro for IProguardKeepClass
 8/16/07 - add IProguardKeepClass marker interface to phetcommon
