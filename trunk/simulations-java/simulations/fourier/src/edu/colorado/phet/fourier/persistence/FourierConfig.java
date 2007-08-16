@@ -1,16 +1,8 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2007, University of Colorado */
 
 package edu.colorado.phet.fourier.persistence;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 
 /**
@@ -18,9 +10,8 @@ package edu.colorado.phet.fourier.persistence;
  * It encapsulates all of the settings that the user can change.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
-public class FourierConfig implements FourierSerializable {
+public class FourierConfig implements IProguardKeepClass {
 
     private GlobalConfig globalConfig;
     
@@ -78,7 +69,7 @@ public class FourierConfig implements FourierSerializable {
     // Global-level configuration, applies to all modules
     //----------------------------------------------------------------------------
 
-    public class GlobalConfig implements FourierSerializable {
+    public class GlobalConfig implements IProguardKeepClass {
 
         private String versionNumber;
 
@@ -133,7 +124,7 @@ public class FourierConfig implements FourierSerializable {
     // "Discrete" module configuration
     //----------------------------------------------------------------------------
     
-    public class DiscreteConfig implements FourierSerializable {
+    public class DiscreteConfig implements IProguardKeepClass {
         
         // Configuration parameters
         private String presetName;
@@ -282,7 +273,7 @@ public class FourierConfig implements FourierSerializable {
     // "Discrete to Continous" (D2C) module configuration
     //----------------------------------------------------------------------------
     
-    public class D2CConfig implements FourierSerializable { 
+    public class D2CConfig implements IProguardKeepClass { 
         
         // Configuration parameters
         private double spacing;
@@ -386,7 +377,7 @@ public class FourierConfig implements FourierSerializable {
     // "Game" module configuration
     //----------------------------------------------------------------------------
     
-    public class GameConfig implements FourierSerializable {
+    public class GameConfig implements IProguardKeepClass {
         
         // Configuration parameters
         private String gameLevelName;
