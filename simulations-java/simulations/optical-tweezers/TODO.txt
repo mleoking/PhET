@@ -5,6 +5,7 @@
 MISSING INFO:
 
 HIGH PRIORITY:
+- change default value of "charge motion scale" to 0.25
 - implement "Molecular Motors" panel
 - model and view of enzyme
 - get enzyme image from Tom Perkins
