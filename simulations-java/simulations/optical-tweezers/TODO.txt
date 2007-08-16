@@ -43,7 +43,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
-********* version 1.00.03 (?)
+********* version 1.00.03 (17289)
 8/15/07 - migrate Vector2DNode to piccolo-phet
 8/15/07 - merge ColorIntensitySlider into phetcommon's IntensitySlider, delete ColorIntensitySlider
 8/15/07 - delete ColorUtils, rewrite 1 case where addAlpha was used
