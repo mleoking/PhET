@@ -19,6 +19,7 @@ MEDIUM PRIORITY:
 - save/load properties of position histogram: running, zoom index, ruler
 
 LOW PRIORITY:
+- use phetcommon's Vector2D
 - vertical laser toggle button, like http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - should "Return bead" button move bead to center of trap?
 - what units for E-field?
@@ -39,11 +40,10 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 MIGRATE TO COMMON:
-- Vector2DNode
-- Vector2D
 
  
 DONE:
+8/15/07 - migrate Vector2DNode to piccolo-phet
 8/15/07 - merge ColorIntensitySlider into phetcommon's IntensitySlider, delete ColorIntensitySlider
 8/15/07 - delete ColorUtils, rewrite 1 case where addAlpha was used
 8/15/07 - migrate ScaleAlphaImageOpARGB to phetcommon.view.util
