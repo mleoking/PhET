@@ -43,6 +43,9 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/16/07 - convert persistence code to use IProguardKeepInterface instead of OTSerializable
+8/16/07 = add -keep option proguard-template.pro for IProguardKeepClass
+8/16/07 - add IProguardKeepClass marker interface to phetcommon
 ********* version 1.00.03 (17289)
 8/15/07 - migrate Vector2DNode to piccolo-phet
 8/15/07 - merge ColorIntensitySlider into phetcommon's IntensitySlider, delete ColorIntensitySlider

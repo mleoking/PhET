@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.persistence;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
 
 /**
@@ -10,7 +11,7 @@ import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DNAConfig implements OTSerializable {
+public class DNAConfig implements IProguardKeepClass {
     
     //----------------------------------------------------------------------------
     // Instance data

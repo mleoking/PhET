@@ -2,13 +2,15 @@
 
 package edu.colorado.phet.opticaltweezers.persistence;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+
 /**
  * GlobalConfig is a JavaBean-compliant data structure that stores
  * global configuration information.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlobalConfig implements OTSerializable {
+public class GlobalConfig implements IProguardKeepClass {
     
     //----------------------------------------------------------------------------
     // Instance data
