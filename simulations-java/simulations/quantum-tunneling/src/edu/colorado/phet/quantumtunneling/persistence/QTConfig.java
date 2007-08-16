@@ -1,16 +1,8 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2007, University of Colorado */
 
 package edu.colorado.phet.quantumtunneling.persistence;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 
 /**
@@ -18,9 +10,8 @@ package edu.colorado.phet.quantumtunneling.persistence;
  * It encapsulates all of the settings that the user can change.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
-public class QTConfig implements QTSerializable {
+public class QTConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data

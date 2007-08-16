@@ -15,6 +15,7 @@ LOW PRIORITY:
 
 
 DONE:
+8/16/07 - convert persistence code to use IProguardKeepInterface instead of QTSerializable
 ********* version 1.08.00 (17033)
 7/27/07 - new version published as part of new website deployment
 7/10/07 - fix load/save so that it doesn't change the clock's run state unless it's for the active module

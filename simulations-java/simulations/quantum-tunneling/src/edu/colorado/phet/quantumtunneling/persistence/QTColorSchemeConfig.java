@@ -1,18 +1,10 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2007, University of Colorado */
 
 package edu.colorado.phet.quantumtunneling.persistence;
 
 import java.awt.Color;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.quantumtunneling.color.BlackColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 
@@ -25,9 +17,8 @@ import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
  * XMLEncoded. To workaround this, we serialize each java.awt.Color as an int[].
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
-public class QTColorSchemeConfig implements QTSerializable {
+public class QTColorSchemeConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data

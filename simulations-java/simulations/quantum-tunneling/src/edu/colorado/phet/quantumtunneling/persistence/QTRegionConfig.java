@@ -1,16 +1,8 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2007, University of Colorado */
 
 package edu.colorado.phet.quantumtunneling.persistence;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.quantumtunneling.model.PotentialRegion;
 
 
@@ -18,9 +10,8 @@ import edu.colorado.phet.quantumtunneling.model.PotentialRegion;
  * QTRegionConfig is a JavaBean-compliant data structure for saving region information.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
-public class QTRegionConfig implements QTSerializable {
+public class QTRegionConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data
