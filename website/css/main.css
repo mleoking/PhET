@@ -526,13 +526,13 @@ p.openingParagraph {
 	padding: 0;
 	margin:  0;
 }
-
 #content div.full-width {
 	width: 	 578px;
 	clear:	 both;
 	padding: 0;
 	margin:  0;
 }
+
 /* Product group */
 #pg {
 	margin:	0px 54px 0px 0px;
@@ -552,8 +552,6 @@ p.openingParagraph {
 	text-decoration:	underline;
 }
 
-
-
 #listing_type {
 	margin: 0px auto 20px 27px;
 	float: left;
@@ -567,7 +565,6 @@ p.openingParagraph {
 	padding:0px 3px 0px 2px;
 	text-decoration:underline;
 }
-
 
 /* Product Listings */
 #content div.productList {
@@ -597,7 +594,6 @@ p.openingParagraph {
 div.productList a {
 	color:#363531;
 }
-
 
 /* Faux Selects */
 .selectContainer {

@@ -44,6 +44,8 @@
         @import url(css/home.css);        
 /*]]>*/
 </style>
+
+<script src="js/jquery.pack.js"         type="text/javascript"></script>
 </head>
 
 <body>
@@ -90,9 +92,10 @@ EOT;
 			}
 			else if (!isset($contributor_receive_email) || $contributor_receive_email == 0) {
 					print <<<EOT
-					<form method="post" action="teacher_ideas/subscribe-newsletter.php">
+					<a id="subscribe-form-shower" href="#" onclick="javascript:$('#subscribe-form').toggle(); $('#subscribe-form-shower').hide(); return false;">PhET Newsletter</a>
+					<form id="subscribe-form" method="post" action="teacher_ideas/subscribe-newsletter.php" style="display: none;">
 						<p>
-							The PhET Newsletter
+							Please enter your email to subscribe to the PhET newsletter: 
 							<input type="text"   name="contributor_email" value="$contributor_email" size="20" />
 							<input type="submit" name="submit"            value="Subscribe" title="Click here to subscribe to the PhET newsletter" />
 							<input type="hidden" name="referrer"          value="$referrer" />
@@ -106,12 +109,12 @@ EOT;
 			
 			<div class="introduction">		
 	            <div class="mainImage">    
-	                <a href="simulations/index.php"><img width="300" src="random-thumbnail.php" alt="Random screenshot of a simulation" title="Click here to view the simulations" /></a>
+	                <a href="simulations/index.php" title="Click here to view the simulations"><img width="300" src="random-thumbnail.php" alt="Random screenshot of a simulation"/></a>
 	            </div>
 
 	            <h1>Interactive Physics Simulations</h1>
 
-	            <p class="openingParagraph">Fun, interactive simulations of physical phenomena from the Physics Education Technology project at the University of Colorado. [<a href="research/index.php">research</a>, <a href="about/index.php">about</a>]</p>
+	            <p class="openingParagraph">Fun, interactive simulations of physical phenomena from the Physics Education Technology project at the University of Colorado. [<a href="research/index.php">research</a>]</p>
 
 	            <p class="findOutMore" onclick="javascript:location.href='simulations/index.php?cat=Top_Simulations'">
 	                <a href="simulations/index.php?cat=Top_Simulations">
@@ -191,7 +194,7 @@ EOT;
             </dl>
 			
 			<div class="home-page-links">
-				<a href="research/index.php">Research</a> | <a href="about/index.php">About PhET</a>
+				<a href="about/index.php">About PhET</a>
 			</div>
         </div>
 
