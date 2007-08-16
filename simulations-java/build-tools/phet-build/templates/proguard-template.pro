@@ -19,6 +19,11 @@
     <methods>;
 }
 
+-keep class * extends edu.colorado.phet.common.phetcommon.util.IProguardKeepClass {
+    <fields>;
+    <methods>;
+}
+
 -keep public class edu.colorado.phet.qm.persistence.**{
     public protected *;
 }
