@@ -15,6 +15,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 
 /**
@@ -27,7 +28,7 @@ import edu.colorado.phet.boundstates.color.BSColorScheme;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSColorSchemeConfig implements BSSerializable {
+public class BSColorSchemeConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data

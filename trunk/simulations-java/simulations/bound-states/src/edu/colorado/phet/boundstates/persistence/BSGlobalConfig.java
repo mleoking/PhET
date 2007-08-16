@@ -12,6 +12,7 @@
 package edu.colorado.phet.boundstates.persistence;
 
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 
 
@@ -22,7 +23,7 @@ import edu.colorado.phet.boundstates.color.BSColorScheme;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSGlobalConfig implements BSSerializable {
+public class BSGlobalConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Class data

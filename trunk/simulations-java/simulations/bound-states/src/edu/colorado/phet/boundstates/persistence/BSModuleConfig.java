@@ -14,6 +14,7 @@ package edu.colorado.phet.boundstates.persistence;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.*;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 
 /**
@@ -23,7 +24,7 @@ import edu.colorado.phet.boundstates.model.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSModuleConfig implements BSSerializable {
+public class BSModuleConfig implements IProguardKeepClass {
     
     //----------------------------------------------------------------------------
     // Instance data

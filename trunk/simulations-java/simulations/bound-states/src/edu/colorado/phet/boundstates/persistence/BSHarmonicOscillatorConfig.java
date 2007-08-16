@@ -13,6 +13,7 @@ package edu.colorado.phet.boundstates.persistence;
 
 import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorPotential;
 import edu.colorado.phet.boundstates.model.BSParticle;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
  * BSHarmonicOscillatorConfig is a Java Bean used for XML encoding the state 
@@ -21,7 +22,7 @@ import edu.colorado.phet.boundstates.model.BSParticle;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSHarmonicOscillatorConfig implements BSSerializable {
+public class BSHarmonicOscillatorConfig implements IProguardKeepClass {
     
     //----------------------------------------------------------------------------
     // Instance data

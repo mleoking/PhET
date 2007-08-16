@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+8/16/07 - convert persistence code to use IProguardKeepInterface instead of BSSerializable
 8/16/07 - bugfix: after loading a config, drag handles are no longer attached to well shapes
 ********* version 1.03.00 (17033)
 7/27/07 - new version published as part of new website deployment
