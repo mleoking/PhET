@@ -277,7 +277,7 @@ print <<<EOT
 		<script type="text/javascript">
 			/*<![CDATA[*/
 
-			var so = new SWFObject("$flash", "flash_movie_id", "100%", "100%", "8");
+			var so = new SWFObject("$flash", "flash_movie_id", "100%", "100%", "6");
 			
 			so.write("flashcontent");
 
