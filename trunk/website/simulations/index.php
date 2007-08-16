@@ -65,11 +65,22 @@
             // THUMBNAIL INDEX
             print "<div id=\"listing_type\">$link</div>";
 
+			$pages_html = '';
+
             if ($num_sims_in_category > SIMS_PER_PAGE) {
 				$current_page = $sim_start_number / SIMS_PER_PAGE + 1;
 				
                 // Don't bother printing this section unless there are more sims than will fit on one page:
-                print "<div id=\"pg\">\n";
+                $pages_html .= "<div id=\"pg\">\n";
+
+				if ($sim_limit == 999) {
+					$link = "View All";
+				}
+                else {
+                	$link = sim_get_category_link_by_cat_id($cat_id, "View All", "&amp;st=-1", 'pg');
+				}
+
+                $pages_html .= "$link | ";
                 
                 $num_pages = (int)ceil((float)$num_sims_in_category / (float)SIMS_PER_PAGE);
 
@@ -85,20 +96,13 @@
 						$link = sim_get_category_link_by_cat_id($cat_id, "$page_number", "&amp;st=$page_sim_start_number", 'pg');
 					}
 
-                    print "$link";
+                    $pages_html .=  "$link";
                 }
-
-				if ($sim_limit == 999) {
-					$link = "View All&raquo;";
-				}
-                else {
-                	$link = sim_get_category_link_by_cat_id($cat_id, "View All&raquo;", "&amp;st=-1", 'pg');
-				}
-
-                print "$link";
                 
-                print "</div>\n";    
+                $pages_html .=  "</div>\n";    
             }
+
+			print $pages_html;
 
             //--------------------------------------------------
             
@@ -108,7 +112,8 @@
             // Source: http://www.positioniseverything.net/explorer/floatIndent.html
             print '<div class="productList" style="display: inline;">';
 
-            $sim_number = -1;
+            $sim_number   = -1;
+			$sims_printed = 0;
 
             foreach($simulations as $simulation) {                 
                 eval(get_code_to_create_variables_from_array($simulation));
@@ -150,8 +155,16 @@ EOT;
 
                     // Close product:
                     print "</div>\n";
+
+					++$sims_printed;
                 }
             }
+
+	        print "</div>"; // Close product list
+
+			if ($sims_printed == 9) {
+				print $pages_html;
+			}
         }
         else {
             $link = sim_get_category_link_by_cat_id($cat_id, "Thumbnail View", '&amp;view_type=thumbs');
@@ -203,14 +216,12 @@ EOT;
                 
                 print "<a href=\"$sim_url\">$sim_name</a><br />";
             }
-        }        
-            
-        print "</div>";
+
+	        print "</div>";  // Close product list
+        }
             
         print <<<EOT
-            <div class="full-width">
-                <br/>
-                
+            <div class="full-width">                
                 <div class="rage_button_218928">
                 	<a href="../teacher_ideas/browse.php?cat=$cat_encoding">Related Activities & Ideas</a>
                 </div>
