@@ -520,21 +520,6 @@ p.openingParagraph {
 	padding: 0 0 16px 0;
 }
 
-/* Product group */
-#pg {
-	margin:	0px 0px 20px 0px;
-	float: 	right;
-}
-#pg a.pg {
-	color:		#900;
-	padding:	0px 3px 0px 2px;
-}
-#pg a:hover.pg {
-	color:				#666;
-	padding:			0px 3px 0px 2px;
-	text-decoration:	underline;
-}
-
 #content div.main {
 	width: 	 578px;
 	float: 	 left;
@@ -548,12 +533,47 @@ p.openingParagraph {
 	padding: 0;
 	margin:  0;
 }
+/* Product group */
+#pg {
+	margin:	0px 54px 20px 0px;
+	float: 	right;
+}
+#pg a.pg {
+	color:		blue;
+	padding:	0px 3px 0px 2px;
+	text-decoration:	underline;
+}
+#pg a.pg:first-child {
+	text-decoration:	none;
+}
+#pg a:hover.pg {
+	color:				blue;
+	padding:			0px 3px 0px 2px;
+	text-decoration:	underline;
+}
+
+
+
+#listing_type {
+	margin: 0px auto 20px 27px;
+	float: left;
+}
+#listing_type a.listing_type {
+	color:#900;
+	padding:0px 3px 0px 2px;
+}
+#listing_type a:hover.listing_type {
+	color:#666;
+	padding:0px 3px 0px 2px;
+	text-decoration:underline;
+}
+
 
 /* Product Listings */
 #content div.productList {
 /*	width: 			510px;*/
 	float: 		 	left;
-	margin:			0 auto -25px 34px;
+	margin:			0 auto 0px 34px;
 	padding:		0;
 }
 #content div.productEntry {
@@ -945,19 +965,6 @@ h1.indi-sim {
 	border-bottom:1px solid #E3E3E3;
 	background:none;
 	padding:10px 0px 30px 0px;
-}
-#listing_type {
-	margin: 0px 0px 20px 0px;
-	float: left;
-}
-#listing_type a.listing_type {
-	color:#900;
-	padding:0px 3px 0px 2px;
-}
-#listing_type a:hover.listing_type {
-	color:#666;
-	padding:0px 3px 0px 2px;
-	text-decoration:underline;
 }
 
 #people img.sponsors {
