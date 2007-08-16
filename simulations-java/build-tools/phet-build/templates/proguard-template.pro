@@ -4,21 +4,6 @@
 -verbose
 -ignorewarnings
 
--keep class * extends edu.colorado.phet.fourier.persistence.FourierSerializable {
-    <fields>;
-    <methods>;
-}
-
--keep class * extends edu.colorado.phet.boundstates.persistence.BSSerializable {
-    <fields>;
-    <methods>;
-}
-
--keep class * extends edu.colorado.phet.quantumtunneling.persistence.QTSerializable {
-    <fields>;
-    <methods>;
-}
-
 -keep class * extends edu.colorado.phet.common.phetcommon.util.IProguardKeepClass {
     <fields>;
     <methods>;
