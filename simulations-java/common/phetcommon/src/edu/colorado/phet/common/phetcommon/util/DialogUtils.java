@@ -107,7 +107,7 @@ public class DialogUtils {
     public static void showMessageDialog( Component parentComponent, String message, String title, int messageType ) {
         
         // Get localized strings
-        String ok = PhetCommonResources.getInstance().getLocalizedString( "choice.ok" );
+        String ok = PhetCommonResources.getInstance().getLocalizedString( "Common.choice.ok" );
         
         // Create an option pane
         JOptionPane pane = new JOptionPane( message, messageType );
