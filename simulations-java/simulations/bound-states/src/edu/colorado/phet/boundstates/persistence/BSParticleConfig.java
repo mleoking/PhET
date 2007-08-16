@@ -13,6 +13,7 @@ package edu.colorado.phet.boundstates.persistence;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.model.BSParticle;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
  * BSParticleConfig is a Java Bean used for XML encoding the state of a particle.
@@ -20,7 +21,7 @@ import edu.colorado.phet.boundstates.model.BSParticle;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSParticleConfig implements BSSerializable {
+public class BSParticleConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data

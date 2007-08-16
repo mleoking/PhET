@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.boundstates.persistence;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+
 
 
 /**
@@ -20,7 +22,7 @@ package edu.colorado.phet.boundstates.persistence;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSConfig implements BSSerializable {
+public class BSConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data

@@ -13,6 +13,7 @@ package edu.colorado.phet.boundstates.persistence;
 
 import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
 import edu.colorado.phet.boundstates.model.BSParticle;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
  * BSAsymmetricConfig is a Java Bean used for XML encoding the state 
@@ -21,7 +22,7 @@ import edu.colorado.phet.boundstates.model.BSParticle;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSAsymmetricConfig implements BSSerializable {
+public class BSAsymmetricConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data

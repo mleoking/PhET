@@ -12,7 +12,7 @@
 package edu.colorado.phet.boundstates.model;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.persistence.BSSerializable;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 
 /**
@@ -22,7 +22,7 @@ import edu.colorado.phet.boundstates.persistence.BSSerializable;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSParticle extends BSObservable implements BSSerializable {
+public class BSParticle extends BSObservable implements IProguardKeepClass {
 
     private double _mass;
     
