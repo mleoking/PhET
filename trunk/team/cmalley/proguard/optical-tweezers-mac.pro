@@ -32,7 +32,10 @@
 
 -keep class org.jfree.ui.about.Licenses
 
--keep class * extends edu.colorado.phet.opticaltweezers.persistence.OTSerializable
+-keep class * extends edu.colorado.phet.common.phetcommon.util.IProguardKeepClass {
+    <fields>;
+    <methods>;
+}
 
 # Keep names - Native method names. Keep all native class/method names.
 -keepclasseswithmembernames class * {

@@ -31,7 +31,7 @@
 
 -keep class org.jfree.ui.about.Licenses
 
--keep class * extends edu.colorado.phet.quantumtunneling.persistence.QTSerializable {
+-keep class * extends edu.colorado.phet.common.phetcommon.util.IProguardKeepClass {
     <fields>;
     <methods>;
 }
