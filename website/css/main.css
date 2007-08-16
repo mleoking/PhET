@@ -71,23 +71,6 @@ hr {
 	background-color: white;
 }*/
 
-#quicksearch {
-	font-size:  8pt;
-	color: 		gray;
-	position:   absolute;
-	right: 		0;
-}
-#quicksearch fieldset {
-	margin:       0;
-	padding:      0;
-	border-style: none;
-}
-#quicksearch fieldset span {
-	color: white;
-}
-#quicksearch fieldset input {
-	background-color: white;
-}
 .simcategory {
 	padding-left: 2em;
 	padding-right: 2em;
@@ -168,9 +151,9 @@ hr {
 	text-decoration:none;
 }
 #headerContainer {
-	height:127px;
-	margin:0 auto;
-	width:765px;
+	height:	127px;
+	margin:	0 auto;
+	width:	765px;
 }
 #headerContainer div.images {
 	margin: 	0;
@@ -190,10 +173,32 @@ hr {
  	left:		0;
 }
 #headerContainer div.title {
- 	position:	absolute;
-	top:		0;
-	right:		0;
+	width: 		400px;
+	height:		127px;
+	position:   absolute;
+	top:        0;
+	right:      0;
 }
+#quicksearch {
+	font-size:  8pt;
+	color: 		gray;
+	position:   absolute;
+ 	top:        84px;
+	right:   	0;
+	left: 		expression(parentNode.offsetWidth - this.offsetWidth + 0 + 'px');
+}
+#quicksearch fieldset {
+	margin:       0;
+	padding:      0;
+	border-style: none;
+}
+#quicksearch fieldset span {
+	color: white;
+}
+#quicksearch fieldset input {
+	background-color: white;
+}
+
 /* -------- mainNav -------- */
 #headerContainer div.mainNav {
 	background:url(../images/mainNavLeftTest_BG.gif) left top no-repeat;
