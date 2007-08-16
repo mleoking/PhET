@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -131,6 +132,10 @@ public class Vector2DNode extends PhetPNode {
         update();
     }
     
+    public Vector2DNode( Vector2D v, double referenceMagnitude, double referenceLength ) {
+        this( v.getX(), v.getY(), referenceMagnitude, referenceLength );
+    }
+    
     //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
@@ -147,6 +152,25 @@ public class Vector2DNode extends PhetPNode {
             _updateEnabled = enabled;
             update();
         }
+    }
+    
+    /**
+     * Sets the vector that this node displays.
+     * 
+     * @param v
+     */
+    public void setVector( Vector2D v ) {
+        setXY( v.getX(), v.getY() );
+    }
+    
+    /**
+     * Gets the vector that this node displays.
+     * Allocates a Vector2D.
+     * 
+     * @return
+     */
+    public Vector2D getVector() {
+        return new Vector2D.Double( _x, _y );
     }
     
     /**
