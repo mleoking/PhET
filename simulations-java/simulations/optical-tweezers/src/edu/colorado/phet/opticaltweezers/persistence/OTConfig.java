@@ -2,13 +2,15 @@
 
 package edu.colorado.phet.opticaltweezers.persistence;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+
 /**
  * OTConfig describes a configuration of this simulation.
  * It encapsulates all of the settings that the user can change.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OTConfig implements OTSerializable {
+public class OTConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data

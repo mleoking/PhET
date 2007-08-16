@@ -2,13 +2,15 @@
 
 package edu.colorado.phet.opticaltweezers.persistence;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+
 /**
  * MotorsConfig is a JavaBean-compliant data structure that stores
  * configuration information related to MotorsModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MotorsConfig implements OTSerializable {
+public class MotorsConfig implements IProguardKeepClass {
     
     //----------------------------------------------------------------------------
     // Instance data
