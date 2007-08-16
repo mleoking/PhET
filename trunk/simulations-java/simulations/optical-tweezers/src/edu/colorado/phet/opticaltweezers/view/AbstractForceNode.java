@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**

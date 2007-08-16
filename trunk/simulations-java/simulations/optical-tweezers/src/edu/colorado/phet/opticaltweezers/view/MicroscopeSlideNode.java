@@ -14,6 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.model.MicroscopeSlide;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
