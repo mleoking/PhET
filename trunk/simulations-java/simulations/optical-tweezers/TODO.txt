@@ -41,10 +41,10 @@ CLEANUP:
 MIGRATE TO COMMON:
 - Vector2DNode
 - Vector2D
-- ColorIntensitySlider
 
  
 DONE:
+8/15/07 - merge ColorIntensitySlider into phetcommon's IntensitySlider, delete ColorIntensitySlider
 8/15/07 - delete ColorUtils, rewrite 1 case where addAlpha was used
 8/15/07 - migrate ScaleAlphaImageOpARGB to phetcommon.view.util
 8/15/07 - migrate PolarCartesianConverter to phetcommon.math

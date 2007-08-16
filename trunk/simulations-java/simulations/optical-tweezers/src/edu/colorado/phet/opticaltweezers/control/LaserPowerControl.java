@@ -19,6 +19,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
@@ -38,7 +39,7 @@ public class LaserPowerControl  {
     //----------------------------------------------------------------------------
 
     private JLabel _label;
-    private ColorIntensitySlider _intensitySlider;
+    private IntensitySlider _intensitySlider;
     private JFormattedTextField _formattedTextField;
     private JLabel _units;
     
@@ -76,7 +77,7 @@ public class LaserPowerControl  {
         _listenerList = new EventListenerList();
         
         Color color = VisibleColor.wavelengthToColor( wavelength );
-        _intensitySlider = new ColorIntensitySlider( color, ColorIntensitySlider.HORIZONTAL, sliderSize );
+        _intensitySlider = new IntensitySlider( color, IntensitySlider.HORIZONTAL, sliderSize );
         _intensitySlider.addChangeListener( _listener );
         
         _label = new JLabel( label );
