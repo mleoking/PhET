@@ -22,7 +22,9 @@
         ?>
             <h1>Research</h1>
 
-            <p>We direct our research at assessing the effectiveness of our interactive simulations in a variety of educational environments, particularly introductory physics courses and as stand-alone, informal educational tools.</p>
+            <p>We direct our research at assessing the effectiveness of our interactive simulations in a variety of educational environments, particularly physics courses, and as stand-alone, informal educational tools.</p>
+
+			<p>In addition, we are focusing our efforts to better understand how students learn from the simulations, and what implications this may have for designing effective in-class activities, homework and labs.</p>
 
             <h2>Our immediate interests are:</h2><br />
 

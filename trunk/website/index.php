@@ -111,7 +111,7 @@ EOT;
 
 	            <h1>Interactive Physics Simulations</h1>
 
-	            <p class="openingParagraph">Fun, interactive simulations of physical phenomena from the Physics Education Technology project at the University of Colorado.</p>
+	            <p class="openingParagraph">Fun, interactive simulations of physical phenomena from the Physics Education Technology project at the University of Colorado. [<a href="research/index.php">research</a>, <a href="about/index.php">about</a>]</p>
 
 	            <p class="findOutMore" onclick="javascript:location.href='simulations/index.php?cat=Top_Simulations'">
 	                <a href="simulations/index.php?cat=Top_Simulations">
@@ -177,7 +177,7 @@ EOT;
             </dl>
 
             <dl class="last">
-                <dt onclick="javascript:location.href='simulations/index.php'"><a href="simulations/index.php">Browse</a></dt>
+                <dt onclick="javascript:location.href='simulations/index.php'"><a href="simulations/index.php">Browse Sims</a></dt>
 
                 <dd>
 	                <a class="nolink" href="simulations/index.php">
@@ -189,7 +189,7 @@ EOT;
 
                 <dd class="readMore"><a href="simulations/index.php"><img src="images/search.gif" alt="Search" title="Search" /></a></dd>
             </dl>
-
+			
 			<div class="home-page-links">
 				<a href="research/index.php">Research</a> | <a href="about/index.php">About PhET</a>
 			</div>
