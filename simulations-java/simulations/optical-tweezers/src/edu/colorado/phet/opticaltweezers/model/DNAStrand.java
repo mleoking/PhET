@@ -85,7 +85,6 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * @param contourLength
      * @param persistenceLength
      * @param numberOfSprings
-     * @param tailPosition
      * @param springConstantRange
      * @param dragCoefficientRange
      * @param kickConstantRange
