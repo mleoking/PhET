@@ -292,8 +292,14 @@ div.form_content {
 	position: relative;
 	top:      -1ex;
 }
+table.form {
+	width: 100%;
+}
 table.form tr td:first-child {
 	font-weight: bold;
+}
+table.form tr td input[type=submit] {
+	float: right;
 }
 .button {
 	clear: 			right;
