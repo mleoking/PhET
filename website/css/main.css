@@ -298,7 +298,7 @@ table.form {
 table.form tr td:first-child {
 	font-weight: bold;
 }
-table.form tr td input[type=submit] {
+table.form tr td input[type="submit"] {
 	float: right;
 }
 .button {
