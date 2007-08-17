@@ -308,6 +308,8 @@ EOT;
                     
                     // This array stores all the 'contributor organizations' that we generated:
                     var generated_contributor_orgs = [];
+
+                    var generated_contributor_names = [];
                     
                     function post_required_info_displayed() {                    
                         on_email_change();
@@ -451,6 +453,161 @@ EOT;
 
                         HTTP.updateElementWithGet('$prefix/admin/check-email.php?contributor_email=' + 
                             encodeURI(email), null, 'ajax_email_comment_uid', 'on_password_change();');
+                    }
+
+					function on_email_change_guess_data() {
+						on_email_change_guess_organization();
+						on_email_change_guess_name();
+					}
+
+					function on_email_change_guess_organization() {
+                        var email_element = document.getElementById('contributor_email_uid');
+
+                        var email = email_element.value;                        
+                       
+                        // The email has changed. Now we would like to update the contributor organization
+                        // based on the email domain:
+                        var contributor_org_element = document.getElementById('contributor_organization_uid');
+
+                        if (contributor_org_element) {
+                            // We can update contributor organization if it's blank:
+                            var can_overwrite_contrib = contributor_org_element.value == '';
+                            
+                            // Otherwise, the only reason we can update it is if it's holding a value
+                            // that we generated ourselves:
+                            if (!can_overwrite_contrib) {
+                                for (var i = 0; i < generated_contributor_orgs.length; i++) {
+                                    if (generated_contributor_orgs[i] == contributor_org_element.value) {
+                                        can_overwrite_contrib = true;
+                                        
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            if (can_overwrite_contrib) {
+                                var email_pattern = /^\s*[.\w]+@(\w+)(\.([\w\.]+))?\s*$/;
+                                
+                                var result;
+                                
+                                if ((result = email_pattern.exec(email)) != null) {
+                                    var domain = result[1];
+                                    var ext    = result[3];
+                                    
+                                    domain = domain.substring(0, 1).toUpperCase() + domain.substring(1, domain.length);
+                                    
+                                    if (ext == 'edu') {
+                                        contributor_org_element.value = 'University of ' + domain;
+                                    }
+                                    else {
+                                        contributor_org_element.value = domain + ', Inc.';
+                                    }
+                                    
+                                    // Remember that we generated this value, so we know we can overwrite
+                                    // it later:
+                                    generated_contributor_orgs.push(contributor_org_element.value);
+                                }
+                            }
+                        }
+                    }
+
+					function on_email_change_guess_name() {
+                        var email_element = document.getElementById('contributor_email_uid');
+
+                        var email = email_element.value;                        
+                       
+                        // The email has changed. Now we would like to update the contributor organization
+                        // based on the email domain:
+                        var contributor_name_element = document.getElementById('contributor_name_uid');
+
+                        if (contributor_name_element) {
+                            // We can update contributor organization if it's blank:
+                            var can_overwrite_contrib = contributor_name_element.value == '';
+                            
+                            // Otherwise, the only reason we can update it is if it's holding a value
+                            // that we generated ourselves:
+                            if (!can_overwrite_contrib) {
+                                for (var i = 0; i < generated_contributor_names.length; i++) {
+                                    if (generated_contributor_names[i] == contributor_name_element.value) {
+                                        can_overwrite_contrib = true;
+                                        
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            if (can_overwrite_contrib) {
+                                var email_pattern = /^\s*([.\w]+)@(\w+)(\.([\w\.]+))?\s*$/;
+                                
+                                var result;
+								var name;
+                                
+                                if ((result = email_pattern.exec(email)) != null) {
+                                    var email = result[1];
+
+									if (email.indexOf('.') != -1) {
+										var name_pattern = /^(\w+)\.(\w+)$/;
+										
+										if ((result = name_pattern.exec(email)) != null) {
+											var first_name = result[1];
+											var last_name  = result[2];
+											
+											if (first_name.length > 0 && last_name.length > 0) {
+												name = first_name.substring(0, 1).toUpperCase() + first_name.substring(1, first_name.length) + " " + 
+												       last_name.substring (0, 1).toUpperCase() + last_name.substring (1, last_name.length);
+											}
+											else {
+												name = first_name + " " + last_name;
+											}
+										}
+									}
+									else {
+										var two_consonant_pattern = /([bcdfghjklmnpqrstvwxz])([bcdfghjklmnpqrstvwxz])/g;
+										
+										while ((result = two_consonant_pattern.exec(email)) != null) {
+											// We do want to consider the second consonant next time we match, so
+											// we manually bump down the 'next index' property:
+											two_consonant_pattern.lastIndex = two_consonant_pattern.lastIndex - 1;
+											
+											var c1 = result[1].toLowerCase();
+											var c2 = result[2].toLowerCase();
+											
+											if (c1 == c2) continue;
+											if (c1 == 's' || c2 == 's') continue;
+											if (c1 == 'r' && result.index > 0 || c2 == 'r') continue;
+											if (c1 == 'h') continue;
+										
+											var index = two_consonant_pattern.lastIndex;
+											
+											var first_name = email.substring(0, index);
+											var last_name  = email.substring(index, email.length);
+											
+											if (first_name.length > 0 && last_name.length > 0) {
+												name = first_name.substring(0, 1).toUpperCase() + first_name.substring(1, first_name.length) + " " + 
+												       last_name.substring (0, 1).toUpperCase() + last_name.substring (1, last_name.length);
+											}
+											else {
+												name = first_name + " " + last_name;
+											}
+											
+											break;
+										}
+										
+										if (!name && email.length > 0) {
+											name = email.substring(0, 1).toUpperCase() + email.substring(1, email.length);
+										}
+									}
+                                    
+									if (name) {
+										contributor_name_element.value = name;
+										
+	                                    // Remember that we generated this value, so we know we can overwrite
+	                                    // it later:
+	                                    generated_contributor_names.push(contributor_name_element.value);
+									}
+                                }
+                            }
+                        }
                     }
                     
                     function on_contributor_organization_change() {
