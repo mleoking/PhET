@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -31,6 +32,7 @@ public class MotorsModel extends ClockAdapter {
     private final Laser _laser;
     private final Bead _bead;
     private final DNAStrand _dnaStrand;
+    private final Enzyme _enzyme;
     
     private ModelViewTransform _modelViewTransform;
 
@@ -105,6 +107,9 @@ public class MotorsModel extends ClockAdapter {
                  _fluid );
          _modelElements.add( _dnaStrand );
          _bead.attachTo( _dnaStrand ); // attach bead to DNA strand
+         
+         _enzyme = new Enzyme( MotorsDefaults.ENZYME_POSITION, MotorsDefaults.ENZYME_SIZE );
+         _modelElements.add( _enzyme );
 
          _modelViewTransform = new ModelViewTransform( MotorsDefaults.MODEL_TO_VIEW_SCALE );
     }
@@ -135,6 +140,10 @@ public class MotorsModel extends ClockAdapter {
     
     public DNAStrand getDNAStrand() {
         return _dnaStrand;
+    }
+    
+    public Enzyme getEnzyme() {
+        return _enzyme;
     }
     
     public ModelViewTransform getModelViewTransform() {

@@ -55,6 +55,7 @@ public class MotorsCanvas extends AbstractCanvas {
     private TrapForceNode _trapForceNode;
     private FluidDragForceNode _dragForceNode;
     private DNAForceNode _dnaForceNode;
+    private EnzymeNode _enzymeNode;
     
     // Control
     private PSwing _returnBeadButtonWrapper;
@@ -73,6 +74,7 @@ public class MotorsCanvas extends AbstractCanvas {
         Laser laser = model.getLaser();
         DNAStrand dnaStrand = model.getDNAStrand();
         Bead bead = model.getBead();
+        Enzyme enzyme = model.getEnzyme();
         ModelViewTransform modelViewTransform = model.getModelViewTransform();
         
         setBackground( OTConstants.CANVAS_BACKGROUND );
@@ -96,6 +98,9 @@ public class MotorsCanvas extends AbstractCanvas {
         
         // DNA Strand
         _dnaStrandNode = new DNAStrandNode( dnaStrand, modelViewTransform );
+        
+        // Enzyme
+        _enzymeNode = new EnzymeNode( enzyme, modelViewTransform );
         
         // Bead
         _beadDragBoundsNode = new PPath();
@@ -146,6 +151,7 @@ public class MotorsCanvas extends AbstractCanvas {
         addNode( _laserNode );
         addNode( _laserDragBoundsNode );
         addNode( _dnaStrandNode );
+        addNode( _enzymeNode );
         addNode( _beadNode );
         addNode( _beadDragBoundsNode );
         addNode( _trapForceNode );
