@@ -922,8 +922,10 @@ EOT;
             <select name="$select_name" id="${select_name}_uid">
 EOT;
 
+		$natural_ordering = 0;
+
         foreach($value_to_text as $value => $text) {
-			if (is_int($value)) $value = $text;
+			if ($natural_ordering++ == $value) $value = $text;
 			
             if ($text == $selected || $value == $selected) {
                 $is_selected = 'selected="selected"';

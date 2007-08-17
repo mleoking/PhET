@@ -414,9 +414,13 @@ EOT;
             // The contribution didn't have any owner; assume the owner is the current editor:
             $contributor_id = $GLOBALS['contributor_id'];
         }
-                
+
+        $contributor_is_team_member = false;
+
         // Set reasonable defaults:
         if ($contributor_authenticated) {
+			$contributor_is_team_member = $GLOBALS['contributor_is_team_member'];
+			
             if ($contribution_authors_organization == '') {
                 $contribution_authors_organization = $GLOBALS['contributor_organization'];
             }
@@ -464,6 +468,37 @@ EOT;
             }
         }
 
+		if ($contributor_is_team_member) {
+			print <<<EOT
+					<div class="field">
+EOT;
+
+			$contributor_names = array();
+
+			foreach (contributor_get_all_contributors() as $c) {
+				if (strlen(trim($c['contributor_name'])) > 0) {
+					$contributor_names[$c['contributor_id']] = $c['contributor_name'];
+				}
+			}
+			
+			$current_contributor = contributor_get_contributor_by_id($contributor_id);
+			$current_contributor_name = $current_contributor['contributor_name'];
+			
+			print_single_selection(
+	            "new_contributor_id",
+	            $contributor_names,
+	            $current_contributor_name
+	        );
+
+			print <<<EOT
+					<span class="label">
+                        contributor
+                    </span>
+
+					</div>
+EOT;
+		}
+
         print <<<EOT
 
                     <div class="field">
@@ -502,7 +537,7 @@ EOT;
                     </div>
 
                     <hr/>              
-                    
+
                     <div class="field">
                         <span class="label_content">
                             <input type="text" name="contribution_title" value="$contribution_title" id="contribution_title_uid" size="40"/>
@@ -523,6 +558,31 @@ EOT;
                             keywords
                         </span>
                     </div>
+
+
+
+EOT;
+
+		if ($contributor_is_team_member) {
+			print <<<EOT
+				<div class="field">
+EOT;
+
+			print_checkbox(
+	            "contribution_from_phet",
+	            "",
+	            $contribution_from_phet
+	        );
+	
+			print <<<EOT
+	                <span class="label">
+	                    from phet
+	                </span>
+	            </div>
+EOT;
+		}
+
+		print <<<EOT
                     
                     <hr/>
 
@@ -899,9 +959,7 @@ EOT;
                 <a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
 EOT;
 
-		$contributor = contributor_get_contributor_by_id($contributor_id);
-
-		if ($contributor['contributor_is_team_member']) {
+		if ($contribution_from_phet == 1) {
 			$title_html = "${title_html} ".FROM_PHET_IMAGE_HTML;
 		}
         
