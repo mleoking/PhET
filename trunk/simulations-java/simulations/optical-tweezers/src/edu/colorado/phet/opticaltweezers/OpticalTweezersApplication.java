@@ -21,6 +21,7 @@ import edu.colorado.phet.opticaltweezers.menu.DeveloperMenu;
 import edu.colorado.phet.opticaltweezers.menu.OptionsMenu;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 import edu.colorado.phet.opticaltweezers.module.dna.DNAModule;
+import edu.colorado.phet.opticaltweezers.module.motors.MotorsModule;
 import edu.colorado.phet.opticaltweezers.module.physics.PhysicsModule;
 import edu.colorado.phet.opticaltweezers.persistence.GlobalConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
@@ -45,7 +46,7 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
     
     private PhysicsModule _physicsModule;
     private DNAModule _dnaModule;
-//    private MotorsModule _motorsModule;
+    private MotorsModule _motorsModule;
     
     // PersistanceManager handles loading/saving application configurations.
     private OTPersistenceManager _persistenceManager;
@@ -94,15 +95,15 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
      * Initializes the modules.
      */
     private void initModules() {
+        
         _physicsModule = new PhysicsModule();
         addModule( _physicsModule );
         
         _dnaModule = new DNAModule();
         addModule( _dnaModule );
         
-        //XXX feature disabled for AAPT
-//        _motorsModule = new MotorsModule();
-//        addModule( _motorsModule );
+        _motorsModule = new MotorsModule();
+        addModule( _motorsModule );
         
         setControlPanelBackground( OTConstants.CONTROL_PANEL_COLOR );
     }
