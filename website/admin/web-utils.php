@@ -923,6 +923,8 @@ EOT;
 EOT;
 
         foreach($value_to_text as $value => $text) {
+			if (is_int($value)) $value = $text;
+			
             if ($text == $selected || $value == $selected) {
                 $is_selected = 'selected="selected"';
             }

@@ -9,6 +9,8 @@
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."admin/sys-utils.php"); 
     include_once(SITE_ROOT."admin/sim-utils.php");  
+
+	define('DEFAULT_CONTRIBUTOR_DESC', 'I am a teacher who uses PhET in my classes');
     
     function contribution_search_for_contributions($search_for) {
     	return db_search_for(
@@ -1842,6 +1844,22 @@ EOT;
         
         return format_for_html(mysql_fetch_assoc($result));
     }
+
+	function contributor_print_desc_list($contributor_desc) {
+		print_single_selection(
+			'contributor_desc', 
+			array(
+				DEFAULT_CONTRIBUTOR_DESC,
+				'I am a teacher interested in using PhET in the future',
+				'I am a student who uses PhET',
+				'I am a student interested in using PhET in the future',
+				'I am just interested in physics',
+				'Other'
+			)
+			, 
+			$contributor_desc
+		);
+	}
     
     function contributor_print_full_edit_form($contributor_id, $script, $optional_message = null, 
                                               $standard_message = "<p>You may edit your profile information below.</p>") {
@@ -1850,6 +1868,10 @@ EOT;
         $contributor = contributor_get_contributor_by_id($contributor_id);
         
         eval(get_code_to_create_variables_from_array($contributor));
+
+		if ($contributor_desc == '') {
+			$contributor_desc = DEFAULT_CONTRIBUTOR_DESC;
+		}
         
         $contributor_receive_email_checked = $contributor_receive_email == '1' ? 'checked="checked"' : '';     
         
@@ -1893,6 +1915,14 @@ EOT;
                             
                             <span class="label">organization</span>
                         </div>
+
+						<div class="field">
+EOT;
+						contributor_print_desc_list($contributor_desc);
+						
+						print <<<EOT
+							<span class="label">description</span>
+						</div>
                     
                         <div class="field">
                             <span class="label_content">
