@@ -27,7 +27,8 @@ public class TestFluidControlPanel extends JFrame {
                 GlobalDefaults.FLUID_SPEED_RANGE,
                 GlobalDefaults.FLUID_DIRECTION,
                 GlobalDefaults.FLUID_VISCOSITY_RANGE, 
-                GlobalDefaults.FLUID_TEMPERATURE_RANGE );
+                GlobalDefaults.FLUID_TEMPERATURE_RANGE,
+                GlobalDefaults.FLUID_APT_CONCENTRATION_RANGE );
         
         JPanel panel = new FluidControlPanel( fluid, font );
         

@@ -30,6 +30,7 @@ public class GlobalDefaults {
     public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 0, 1000000, 0 ); // nm/sec, min must be >0
     public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 5E-4, 1E-2, Fluid.WATER_VISCOSITY ); // Pa*s
     public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 298 ); // Kelvin
+    public static final DoubleRange FLUID_APT_CONCENTRATION_RANGE = new DoubleRange( 0, 0, 0 ); // no APT in most panels
     
     // Laser model, local origin at center of objective
     public static final double LASER_WAVELENGTH = 1064; // nm, invisible IR

@@ -49,7 +49,8 @@ public class MotorsModel extends ClockAdapter {
         _fluid = new Fluid( GlobalDefaults.FLUID_SPEED_RANGE,
                 GlobalDefaults.FLUID_DIRECTION,
                 GlobalDefaults.FLUID_VISCOSITY_RANGE, 
-                GlobalDefaults.FLUID_TEMPERATURE_RANGE );
+                GlobalDefaults.FLUID_TEMPERATURE_RANGE,
+                MotorsDefaults.FLUID_APT_CONCENTRATION_RANGE);
         _modelElements.add( _fluid );
         
         _microscopeSlide = new MicroscopeSlide( MotorsDefaults.MICROSCOPE_SLIDE_POSITION,
