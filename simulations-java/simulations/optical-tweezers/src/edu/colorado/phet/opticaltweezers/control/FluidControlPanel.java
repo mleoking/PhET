@@ -34,9 +34,10 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
     
     private static final double NANOMETERS_PER_MICRON = 1E3;
         
-    private static final String FLUID_SPEED_DISPLAY_PATTERN = "######0";
-    private static final String FLUID_VISCOSITY_DISPLAY_PATTERN = "0.0E0";
-    private static final String FLUID_TEMPERATURE_DISPLAY_PATTERN = "##0";
+    private static final String SPEED_DISPLAY_PATTERN = "######0";
+    private static final String VISCOSITY_DISPLAY_PATTERN = "0.0E0";
+    private static final String TEMPERATURE_DISPLAY_PATTERN = "##0";
+    private static final String ATP_DISPLAY_PATTERN = "#0.0";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -47,6 +48,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
     private LinearValueControl _speedControl;
     private LogarithmicValueControl _viscosityControl;
     private LinearValueControl _temperatureControl;
+    private LinearValueControl _atpControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -69,7 +71,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         double min = fluid.getSpeedRange().getMin() / NANOMETERS_PER_MICRON;
         double max = fluid.getSpeedRange().getMax() / NANOMETERS_PER_MICRON;
         String label = OTResources.getString( "label.fluidSpeed" );
-        String valuePattern = FLUID_SPEED_DISPLAY_PATTERN;
+        String valuePattern = SPEED_DISPLAY_PATTERN;
         String units = OTResources.getString( "units.fluidSpeed" );
         _speedControl = new LinearValueControl( min, max, label, valuePattern, units );
         _speedControl.setValue( value );
@@ -79,13 +81,18 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         _speedControl.setTickPattern( "0" );
         _speedControl.setMajorTickSpacing( ( max - min ) / 2 );
         _speedControl.setMinorTickSpacing( 100 );
+        _speedControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                handleSpeedChange();
+            }
+        } );
         
         // Viscosity control
         value = fluid.getViscosity();
         min = fluid.getViscosityRange().getMin();
         max = fluid.getViscosityRange().getMax();
         label = OTResources.getString( "label.fluidViscosity" );
-        valuePattern = FLUID_VISCOSITY_DISPLAY_PATTERN;
+        valuePattern = VISCOSITY_DISPLAY_PATTERN;
         units = OTResources.getString( "units.fluidViscosity" );
         _viscosityControl = new LogarithmicValueControl( min, max, label, valuePattern, units );
         _viscosityControl.setValue( value );
@@ -93,13 +100,18 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         _viscosityControl.setFont( font );
         _viscosityControl.setUpDownArrowDelta( 1E1 );
         _viscosityControl.setTickPattern( "0E0" );
+        _viscosityControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                handleViscosityChange();
+            }
+        } );
         
         // Temperature control
         value = fluid.getTemperature();
         min = fluid.getTemperatureRange().getMin();
         max = fluid.getTemperatureRange().getMax();
         label = OTResources.getString( "label.fluidTemperature" );
-        valuePattern = FLUID_TEMPERATURE_DISPLAY_PATTERN;
+        valuePattern = TEMPERATURE_DISPLAY_PATTERN;
         units = OTResources.getString( "units.fluidTemperature" );
         _temperatureControl = new LinearValueControl( min, max, label, valuePattern, units );
         _temperatureControl.setValue( value );
@@ -109,6 +121,33 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         _temperatureControl.setTickPattern( "0" );
         _temperatureControl.setMajorTickSpacing( ( max - min ) / 2 );
         _temperatureControl.setMinorTickSpacing( 50 );
+        _temperatureControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                handleTemperatureChange();
+            }
+        } );
+        
+        // APT control
+        if ( fluid.getATPConcentrationRange().getLength() != 0 ) {
+            value = fluid.getATPConcentration();
+            min = fluid.getATPConcentrationRange().getMin();
+            max = fluid.getATPConcentrationRange().getMax();
+            label = OTResources.getString( "label.atpConcentration" );
+            valuePattern = ATP_DISPLAY_PATTERN;
+            units = "";
+            _atpControl = new LinearValueControl( min, max, label, valuePattern, units );
+            _atpControl.setValue( value );
+            _atpControl.setTextFieldEditable( true );
+            _atpControl.setFont( font );
+            _atpControl.setUpDownArrowDelta( 0.1 );
+            _atpControl.setTickPattern( "0" );
+            _atpControl.setMajorTickSpacing( ( max - min ) / 2 );
+            _atpControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    handleATPChange();
+                }
+            } );
+        }
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -122,32 +161,23 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         layout.addComponent( _viscosityControl, row++, column );
         layout.addComponent( new JSeparator(), row++, column );
         layout.addComponent( _temperatureControl, row++, column );
+        if ( _atpControl != null ) {
+            layout.addComponent( new JSeparator(), row++, column );
+            layout.addComponent( _atpControl, row++, column );
+        }
         
         // Adjust all sliders to be the same width
         int speedWidth = (int)_speedControl.getPreferredSize().getWidth();
         int viscosityWidth = (int)_viscosityControl.getPreferredSize().getWidth();
         int temperatureWidth = (int)_temperatureControl.getPreferredSize().getWidth();
-        int maxWidth = Math.max( speedWidth, Math.max( viscosityWidth, temperatureWidth ) );
+        int aptWidth = ( _atpControl == null ) ? 0 : (int)_atpControl.getPreferredSize().getWidth();
+        int maxWidth = Math.max( Math.max( speedWidth, Math.max( viscosityWidth, temperatureWidth ) ), aptWidth );
         _speedControl.setSliderWidth( maxWidth );
         _viscosityControl.setSliderWidth( maxWidth );
         _temperatureControl.setSliderWidth( maxWidth );
-        
-        // Listeners
-        _speedControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                handleSpeedChange();
-            }
-        } );
-        _viscosityControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                handleViscosityChange();
-            }
-        } );
-        _temperatureControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                handleTemperatureChange();
-            }
-        } );
+        if ( _atpControl != null ) {
+            _atpControl.setSliderWidth( maxWidth );
+        }
     }
     
     /**
@@ -199,6 +229,19 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         _fluid.setTemperature( temperature );
         _fluid.addObserver( this );
     }
+    
+    /*
+     * Handles changes to the ATP control.
+     */
+    private void handleATPChange() {
+        double apt = _atpControl.getValue();
+        if ( DEBUG_OUTPUT ) {
+            System.out.println( "FluidControlPanel.handleATPChange " + apt );
+        }
+        _fluid.deleteObserver( this );
+        _fluid.setATPConcentration( apt );
+        _fluid.addObserver( this );
+    }
 
     //----------------------------------------------------------------------------
     // Observer implementation
@@ -219,6 +262,9 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
             _speedControl.setValue( _fluid.getSpeed() );
             _viscosityControl.setValue( _fluid.getViscosity() );
             _temperatureControl.setValue( _fluid.getTemperature() );
+            if ( _atpControl != null ) {
+                _atpControl.setValue( _fluid.getATPConcentration() );
+            }
         }
     }
 }

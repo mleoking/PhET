@@ -48,7 +48,8 @@ public class PhysicsModel extends ClockAdapter {
         _fluid = new Fluid( GlobalDefaults.FLUID_SPEED_RANGE,
                 GlobalDefaults.FLUID_DIRECTION,
                 GlobalDefaults.FLUID_VISCOSITY_RANGE, 
-                GlobalDefaults.FLUID_TEMPERATURE_RANGE );
+                GlobalDefaults.FLUID_TEMPERATURE_RANGE,
+                GlobalDefaults.FLUID_APT_CONCENTRATION_RANGE );
         _modelElements.add( _fluid );
         
         _microscopeSlide = new MicroscopeSlide( PhysicsDefaults.MICROSCOPE_SLIDE_POSITION,

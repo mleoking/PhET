@@ -36,6 +36,9 @@ public class MotorsDefaults {
     private static final double MICROSCOPE_SLIDE_Y_OFFSET = 150; // nm
     public static final Point2D MICROSCOPE_SLIDE_POSITION = new Point2D.Double( 0, MICROSCOPE_SLIDE_Y_OFFSET + ( MICROSCOPE_SLIDE_HEIGHT /2 ) ); // nm
     public static final double MICROSCOPE_SLIDE_ORIENTATION = Math.toRadians( 0 );
+    
+    // Fluid
+    public static final DoubleRange FLUID_APT_CONCENTRATION_RANGE = new DoubleRange( 0, 10, 5 ); // arbitrary units
 
     // Laser model
     public static final double LASER_DIAMETER_AT_OBJECTIVE = 1800; // nm, chosen so that beam shape is similar to PhysicsDefaults
