@@ -261,7 +261,7 @@ EOT;
         
         $date = get_sorting_link('contribution_date_updated', 'Updated');
         
-        $contributions = consolidate_identical_adjacent_titles($contributions);
+        // $contributions = consolidate_identical_adjacent_titles($contributions);
 
 		if (count($contributions) == 0) {
 			if ($GLOBALS['g_content_only']) {

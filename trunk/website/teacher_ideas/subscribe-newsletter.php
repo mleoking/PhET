@@ -19,12 +19,15 @@
 
 				$contributor = contributor_get_contributor_by_id($contributor_id);
 			
-				// Fill in organization & name, if present:
+				// Fill in organization, name, desc, if present:
 				if (isset($_REQUEST['contributor_organization'])) {
 					$contributor['contributor_organization'] = $_REQUEST['contributor_organization'];
 				}
 				if (isset($_REQUEST['contributor_name'])) {
 					$contributor['contributor_name'] = $_REQUEST['contributor_name'];
+				}
+				if (isset($_REQUEST['contributor_desc'])) {
+					$contributor['contributor_desc'] = $_REQUEST['contributor_desc'];
 				}
 			}
 		
@@ -36,16 +39,18 @@
 	
 	function print_content() {
 		if (isset($GLOBALS['contributor_email'])) {
-			$contributor_email = $GLOBALS['contributor_email'];
-			$contributor_name  = $GLOBALS['contributor_name'];
-			$contributor_organization = $GLOBALS['contributor_organization'];
+			$contributor_email 		   = $GLOBALS['contributor_email'];
+			$contributor_name  		   = $GLOBALS['contributor_name'];
+			$contributor_organization  = $GLOBALS['contributor_organization'];
 			$contributor_receive_email = $GLOBALS['contributor_receive_email'];
+			$contributor_desc          = $GLOBALS['contributor_desc'];
 		}
 		else {
-			$contributor_email = '';
-			$contributor_name  = '';
-			$contributor_organization = '';
+			$contributor_email 		   = '';
+			$contributor_name  		   = '';
+			$contributor_organization  = '';
 			$contributor_receive_email = 0;
+			$contributor_desc          = DEFAULT_CONTRIBUTOR_DESC;
 		}
 		
 		if (isset($_REQUEST['contributor_email'])) {
@@ -103,6 +108,18 @@ EOT;
 							
 							<tr>
 								<td>organization:</td> <td><input id="contributor_organization_uid" type="text" size="20" name="contributor_organization"  value="$contributor_organization"/></td>
+							</tr>
+							
+							<tr>
+								<td>description:</td>	
+								
+								<td>
+EOT;
+
+							contributor_print_desc_list($contributor_desc);
+
+							print <<<EOT
+								</td>
 							</tr>
 							
 							<tr>
