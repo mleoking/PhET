@@ -5,21 +5,21 @@
 MISSING INFO:
 
 HIGH PRIORITY:
-- implement "Molecular Motors" panel
-- model and view of enzyme
-- get enzyme image from Tom Perkins
-- extend DNA strand model and view to support enzyme "feeding"
-- "hold trap force constant" feature
-- "Reset DNA" feature
-- separate time ranges for each module
+- make DNA strand behave the same at dt=4E-5 regardless of what dt.fast.max is
+- implement velocity model of DNA moving through enzyme (function of ATP and DNA force)
+- redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
+- implement Enzyme.stepInTime to "reel in" the bead
+- add "hold trap force constant" feature, laser moves to maintain constant trap force
+- add "Reset DNA" feature, resets DNAStrand, Bead and Enzyme to initial state
 
 MEDIUM PRIORITY: 
+- ? separate time ranges for each module
+- get enzyme image from Tom Perkins
 - Save/Load motors module
 - bug: visibility of dialogs (fluid controls, position histogram) isn't restored when changing modules
 - bug: dialogs (fluid controls, position histogram) are disposed when main frame is minimized
 - force dialogs to fully-paint by calling SwingUtils.paintImmediately after JDialog.show
 - help items don't refresh fast enough (AWT priority issue?)
-- make DNA strand behave the same at dt=4E-5 regardless of what dt fast.max is
 - ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
 - ? change dt.default to something smaller than dt.fast.max
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
