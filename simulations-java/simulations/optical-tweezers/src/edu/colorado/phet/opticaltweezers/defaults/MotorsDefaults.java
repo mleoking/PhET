@@ -68,6 +68,10 @@ public class MotorsDefaults {
     public static final boolean DNA_PIVOTS_VISIBLE = false;
     public static final boolean DNA_EXTENSION_VISIBLE = false;
     
+    // Enzyme 
+    public static final Point2D ENZYME_POSITION = new Point2D.Double( 500, MICROSCOPE_SLIDE_POSITION.getY() ); // nm
+    public static final Dimension ENZYME_SIZE = new Dimension( 200, 300 ); // nm
+    
     // Control panel settings
     public static final boolean LASER_BEAM_VISIBLE = true;
     public static final boolean LASER_ELECTRIC_FIELD_VISIBLE = false;

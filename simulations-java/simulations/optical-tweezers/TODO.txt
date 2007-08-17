@@ -51,6 +51,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/17/07 - add simple model and view of enzyme
 8/17/07 - add control for ATP concentration to fluid control panel (temporary solution)
 8/17/07 - add ATP concentration to Fluid model
 8/17/07 - start with Motors module being identical to DNA module
