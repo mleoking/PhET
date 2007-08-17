@@ -12,11 +12,7 @@
 
     function handle_action($action) {
         $contribution = gather_script_params_into_array('contribution_');
-        
-        if (isset($_REQUEST['contributor_id'])) {
-            $contribution['contributor_id'] = $_REQUEST['contributor_id'];
-        }
-        
+       
         if ($action == 'update') {
             update_contribution($contribution);
         }
@@ -31,6 +27,16 @@
             // The contribution is unowned; transfer ownership to the present user:
             $contribution['contributor_id'] = $GLOBALS['contributor_id'];
         }
+
+		// Only allow team members to change this field:
+		if ($GLOBALS['contributor_is_team_member'] != 1) {
+			unset($contribution['contribution_from_phet']);
+		}
+		else {
+			if (isset($_REQUEST['new_contributor_id'])) {
+				$contribution['contributor_id'] = $_REQUEST['new_contributor_id'];
+			}
+		}
         
         if (!isset($contribution['contribution_id']) || $contribution['contribution_id'] == -1) {
             // Updating a contribution that does not exist. First, create it:
