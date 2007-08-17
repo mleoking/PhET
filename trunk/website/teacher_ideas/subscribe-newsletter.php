@@ -97,22 +97,10 @@ EOT;
 				
 				<form method="post" action="subscribe-newsletter.php">
 					<fieldset>
-						<table>
+						<table class="form">							
 							<tr>
-								<td>email:</td>		<td><input id="contributor_email_uid" type="text" size="20" name="contributor_email" value="$contributor_email" onkeyup="javascript:on_email_change_guess_data();"/></td>
-							</tr>
-							
-							<tr>
-								<td>name:</td>		<td><input id="contributor_name_uid" type="text" size="20" name="contributor_name"  value="$contributor_name"/></td>
-							</tr>
-							
-							<tr>
-								<td>organization:</td> <td><input id="contributor_organization_uid" type="text" size="20" name="contributor_organization"  value="$contributor_organization"/></td>
-							</tr>
-							
-							<tr>
-								<td>description:</td>	
-								
+								<td>description</td>	
+
 								<td>
 EOT;
 
@@ -120,6 +108,18 @@ EOT;
 
 							print <<<EOT
 								</td>
+							</tr>
+							
+							<tr>
+								<td>email</td>		<td><input id="contributor_email_uid" type="text" size="20" name="contributor_email" value="$contributor_email" onkeyup="javascript:on_email_change_guess_data();"/></td>
+							</tr>
+							
+							<tr>
+								<td>name</td>		<td><input id="contributor_name_uid" type="text" size="20" name="contributor_name"  value="$contributor_name"/></td>
+							</tr>
+							
+							<tr>
+								<td>organization</td> <td><input id="contributor_organization_uid" type="text" size="20" name="contributor_organization"  value="$contributor_organization"/></td>
 							</tr>
 							
 							<tr>
