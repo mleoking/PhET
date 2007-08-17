@@ -46,7 +46,7 @@ public class PhysicsDefaults {
     
     // Bead model
     public static final Point2D BEAD_POSITION = new Point2D.Double( LASER_POSITION.getX(), LASER_POSITION.getY() ); // nm
-    public static final DoubleRange CHARGE_MOTION_SCALE_RANGE = new DoubleRange( 0, 1, 0.5 );
+    public static final DoubleRange CHARGE_MOTION_SCALE_RANGE = new DoubleRange( 0, 1, 0.25 );
 
     // Ruler
     public static final double RULER_Y_POSITION = LASER_POSITION.getY() + ( GlobalDefaults.BEAD_DIAMETER / 2 ) + 30; // nm, just below center of trap

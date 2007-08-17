@@ -5,7 +5,6 @@
 MISSING INFO:
 
 HIGH PRIORITY:
-- change default value of "charge motion scale" to 0.25
 - implement "Molecular Motors" panel
 - model and view of enzyme
 - get enzyme image from Tom Perkins
@@ -50,6 +49,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/17/07 - change default value of "charge motion scale" to 0.25
 8/16/07 - replace OTSerializable with IProguardKeepInterface in my proguard config files
 8/16/07 - convert persistence code to use IProguardKeepInterface instead of OTSerializable
 8/16/07 = add -keep option proguard-template.pro for IProguardKeepClass
