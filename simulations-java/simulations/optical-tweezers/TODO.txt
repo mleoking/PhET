@@ -10,10 +10,11 @@ HIGH PRIORITY:
 - get enzyme image from Tom Perkins
 - extend DNA strand model and view to support enzyme "feeding"
 - "hold trap force constant" feature
-- "Reset enzyme" feature
-- Save/Load motors module
+- "Reset DNA" feature
+- separate time ranges for each module
 
-MEDIUM PRIORITY:
+MEDIUM PRIORITY: 
+- Save/Load motors module
 - bug: visibility of dialogs (fluid controls, position histogram) isn't restored when changing modules
 - bug: dialogs (fluid controls, position histogram) are disposed when main frame is minimized
 - force dialogs to fully-paint by calling SwingUtils.paintImmediately after JDialog.show
@@ -39,6 +40,7 @@ LOW PRIORITY:
 - improve startup performance
 
 CLEANUP:
+- remove unused strings from localization files
 - pull up duplicated stuff in packages "defaults" and "modules"
 - setPickable(false) on non-interactive nodes
 - rescale image files to minimize file size
