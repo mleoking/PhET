@@ -514,7 +514,7 @@ EOT;
 					function on_email_change_guess_name() {
                         var email_element = document.getElementById('contributor_email_uid');
 
-                        var email = email_element.value;                        
+                        var email_element_value = email_element.value;                        
                        
                         // The email has changed. Now we would like to update the contributor organization
                         // based on the email domain:
@@ -540,15 +540,15 @@ EOT;
                                 var email_pattern = /^\s*([.\w]+)@(\w+)(\.([\w\.]+))?\s*$/;
                                 
                                 var result;
-								var name;
                                 
-                                if ((result = email_pattern.exec(email)) != null) {
-                                    var email = result[1];
+                                if ((result = email_pattern.exec(email_element_value)) != null) {
+									var name;
+                                    var username = result[1];
 
-									if (email.indexOf('.') != -1) {
+									if (username.indexOf('.') != -1) {
 										var name_pattern = /^(\w+)\.(\w+)$/;
 										
-										if ((result = name_pattern.exec(email)) != null) {
+										if ((result = name_pattern.exec(username)) != null) {
 											var first_name = result[1];
 											var last_name  = result[2];
 											
@@ -564,7 +564,10 @@ EOT;
 									else {
 										var two_consonant_pattern = /([bcdfghjklmnpqrstvwxz])([bcdfghjklmnpqrstvwxz])/g;
 										
-										while ((result = two_consonant_pattern.exec(email)) != null) {
+										// Fix Firefox bug which reuses regexp object:
+										two_consonant_pattern.lastIndex = 0;
+										
+										while ((result = two_consonant_pattern.exec(username)) != null) {
 											// We do want to consider the second consonant next time we match, so
 											// we manually bump down the 'next index' property:
 											two_consonant_pattern.lastIndex = two_consonant_pattern.lastIndex - 1;
@@ -579,8 +582,8 @@ EOT;
 										
 											var index = two_consonant_pattern.lastIndex;
 											
-											var first_name = email.substring(0, index);
-											var last_name  = email.substring(index, email.length);
+											var first_name = username.substring(0, index);
+											var last_name  = username.substring(index, username.length);
 											
 											if (first_name.length > 0 && last_name.length > 0) {
 												name = first_name.substring(0, 1).toUpperCase() + first_name.substring(1, first_name.length) + " " + 
@@ -593,12 +596,12 @@ EOT;
 											break;
 										}
 										
-										if (!name && email.length > 0) {
-											name = email.substring(0, 1).toUpperCase() + email.substring(1, email.length);
+										if (name == undefined && username.length > 0) {
+											name = username.substring(0, 1).toUpperCase() + username.substring(1, username.length);
 										}
 									}
                                     
-									if (name) {
+									if (name != undefined) {
 										contributor_name_element.value = name;
 										
 	                                    // Remember that we generated this value, so we know we can overwrite
