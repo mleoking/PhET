@@ -1,6 +1,6 @@
 package edu.colorado.phet.distanceladder.common.model;
 
-import edu.colorado.phet.distanceladder.common.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 import java.util.ArrayList;
 

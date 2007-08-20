@@ -133,12 +133,12 @@ public class PhotometerReticle extends DefaultInteractiveGraphic implements Tran
 
         public void setLocation( Point2D.Double location ) {
             super.setLocation( location );
-            updateObservers();
+            notifyObservers();
         }
 
         public void setLocation( double x, double y ) {
             super.setLocation( x, y );
-            updateObservers();
+            notifyObservers();
         }
     }
 }

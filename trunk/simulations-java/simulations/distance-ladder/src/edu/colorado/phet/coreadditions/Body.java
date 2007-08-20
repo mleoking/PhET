@@ -8,7 +8,7 @@ package edu.colorado.phet.coreadditions;
 
 import edu.colorado.phet.distanceladder.common.math.Vector2D;
 import edu.colorado.phet.distanceladder.common.model.ModelElement;
-import edu.colorado.phet.distanceladder.common.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 import java.awt.geom.Point2D;
 
@@ -124,7 +124,7 @@ public abstract class Body extends SimpleObservable implements ModelElement {
         // New velocity
         setVelocity( (float)vxPrime, (float)vyPrime );
 
-        this.updateObservers();
+        this.notifyObservers();
     }
 
     public abstract Point2D.Double getCM();
