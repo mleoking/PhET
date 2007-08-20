@@ -4,7 +4,6 @@ import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Resistor;
-import edu.colorado.phet.cck.phetgraphics_cck.HasCircuitGraphic;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_cck.view.util.BufferedImageUtils;
@@ -84,9 +83,9 @@ public class GrabBagButton extends JButton {
         dialog.setVisible( false );
         Resistor b = it.createBranch( module );
         module.getCircuit().addBranch( b );
-        if( module instanceof HasCircuitGraphic ) {
-            ( (HasCircuitGraphic)module ).getCircuitGraphic().addGraphic( b, BufferedImageUtils.flipY( it.getImage() ) );
-        }
+//        if( module instanceof HasCircuitGraphic ) {
+//            ( (HasCircuitGraphic)module ).getCircuitGraphic().addGraphic( b, BufferedImageUtils.flipY( it.getImage() ) );
+//        }
 
 
         module.layoutElectrons( new Branch[]{b} );
