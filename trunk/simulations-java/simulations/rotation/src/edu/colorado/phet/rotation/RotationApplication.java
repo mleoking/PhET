@@ -23,6 +23,8 @@ public class RotationApplication extends PhetApplication {
     public RotationApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance() ) );
         rotationModule = new RotationModule( getPhetFrame() );
+
+
         addModule( rotationModule );
 
         getPhetFrame().addMenu( new RotationTestMenu() );
