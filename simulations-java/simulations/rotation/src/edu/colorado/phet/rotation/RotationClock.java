@@ -12,12 +12,15 @@ import java.util.ArrayList;
 public class RotationClock extends ConstantDtClock {
     private ArrayList tickTimes = new ArrayList();
     private long lastEvalTime;
+    private long lastTickFinishTime=System.currentTimeMillis();
+    private long lastActualDelay;
 
     public RotationClock( int delay, double clockDt ) {
         super( delay, clockDt );
     }
 
     protected void doTick() {
+        lastActualDelay=System.currentTimeMillis()-lastTickFinishTime;
         tickTimes.add( new Long( System.currentTimeMillis() ) );
         if( tickTimes.size() > 100 ) {
             tickTimes.remove( 0 );
@@ -25,6 +28,11 @@ public class RotationClock extends ConstantDtClock {
         QuickProfiler qp = new QuickProfiler();
         super.doTick();
         lastEvalTime = qp.getTime();
+        lastTickFinishTime=System.currentTimeMillis();
+    }
+
+    public long getLastActualDelay() {
+        return lastActualDelay;
     }
 
     public long getLastEvalTime() {
