@@ -102,8 +102,8 @@ public class OpticalTweezersApplication extends PiccoloPhetApplication {
         _dnaModule = new DNAModule();
         addModule( _dnaModule );
         
-//        _motorsModule = new MotorsModule();
-//        addModule( _motorsModule );
+        _motorsModule = new MotorsModule();
+        addModule( _motorsModule );
         
         setControlPanelBackground( OTConstants.CONTROL_PANEL_COLOR );
     }

@@ -50,6 +50,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/20/07 - show Motors module
 ********* version 1.00.04 (17352)
 8/20/07 - hide Motors module for publishing
 8/20/07 - for DNA and Motors modules, change dt.fast.max=4E-4, dt subdivisions=1000, kick=60
