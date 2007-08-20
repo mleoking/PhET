@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.serialization;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.SkaterCharacterSet;
 import edu.colorado.phet.energyskatepark.model.Body;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  * Time: 12:49:52 PM
  */
 
-public class EnergySkateParkModuleBean {
+public class EnergySkateParkModuleBean implements IProguardKeepClass {
     private ArrayList bodies = new ArrayList();
     private ArrayList splines = new ArrayList();
     private double gravity = EnergySkateParkModel.G_EARTH;
