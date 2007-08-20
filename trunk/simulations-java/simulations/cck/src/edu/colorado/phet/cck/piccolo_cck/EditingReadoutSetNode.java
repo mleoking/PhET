@@ -3,7 +3,7 @@
 //import edu.colorado.phet.cck.ICCKModule;
 //import edu.colorado.phet.cck.model.Circuit;
 //import edu.colorado.phet.cck.model.components.Branch;
-//import edu.colorado.phet.common_cck.util.SimpleObserver;
+//import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 //
 ///**
 // * User: Sam Reid

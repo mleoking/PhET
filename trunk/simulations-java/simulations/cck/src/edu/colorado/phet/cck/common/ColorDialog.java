@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck.common;
 
-import edu.colorado.phet.common_cck.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

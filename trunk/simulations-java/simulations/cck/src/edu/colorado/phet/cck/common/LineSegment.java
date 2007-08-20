@@ -2,7 +2,7 @@ package edu.colorado.phet.cck.common;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common_cck.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

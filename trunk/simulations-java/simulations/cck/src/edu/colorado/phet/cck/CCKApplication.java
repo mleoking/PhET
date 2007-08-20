@@ -1,6 +1,5 @@
 package edu.colorado.phet.cck;
 
-import edu.colorado.phet.cck.controls.LookAndFeelMenu;
 import edu.colorado.phet.cck.controls.OptionsMenu;
 import edu.colorado.phet.cck.piccolo_cck.CCKPiccoloModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -63,7 +62,6 @@ public class CCKApplication extends PiccoloPhetApplication {
         if( getPhetFrame().getTabbedModulePane() != null ) {
             getPhetFrame().getTabbedModulePane().setLogoVisible( false );
         }
-        getPhetFrame().addMenu( new LookAndFeelMenu() );
         getPhetFrame().addMenu( new OptionsMenu( this, cckPiccoloModule ) );//todo options menu
     }
 

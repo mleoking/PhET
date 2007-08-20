@@ -4,7 +4,7 @@ import edu.colorado.phet.cck.model.*;
 import edu.colorado.phet.cck.phetgraphics.BulbComponentGraphic;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

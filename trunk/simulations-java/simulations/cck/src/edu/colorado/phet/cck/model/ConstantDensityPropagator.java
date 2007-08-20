@@ -2,7 +2,7 @@ package edu.colorado.phet.cck.model;
 
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.phetgraphics.FireHandler;
-import edu.colorado.phet.common_cck.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 import java.text.DecimalFormat;
 import java.util.*;

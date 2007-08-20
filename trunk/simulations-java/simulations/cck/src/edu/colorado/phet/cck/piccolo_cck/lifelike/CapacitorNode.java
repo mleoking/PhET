@@ -9,7 +9,7 @@ import edu.colorado.phet.cck.piccolo_cck.CircuitInteractionModel;
 import edu.colorado.phet.cck.piccolo_cck.ComponentNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 
