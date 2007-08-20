@@ -2,7 +2,7 @@ package edu.colorado.phet.cck.model.components;
 
 import edu.colorado.phet.cck.common.SimpleObservableDebug;
 import edu.colorado.phet.cck.model.*;
-import edu.colorado.phet.cck.phetgraphics_cck.circuit.CompositeCircuitChangeListener;
+import edu.colorado.phet.cck.phetgraphics.CompositeCircuitChangeListener;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;

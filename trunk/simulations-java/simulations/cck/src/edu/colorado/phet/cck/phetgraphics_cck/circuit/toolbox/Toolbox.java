@@ -2,6 +2,7 @@ package edu.colorado.phet.cck.phetgraphics_cck.circuit.toolbox;
 
 import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.CCKFontProvider;
+import edu.colorado.phet.cck.phetgraphics.BulbComponentGraphic;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.*;

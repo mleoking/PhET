@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.CCKLookAndFeel;
+import edu.colorado.phet.cck.phetgraphics.BulbComponentGraphic;
 import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck.model.*;

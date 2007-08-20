@@ -4,7 +4,7 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Capacitor;
-import edu.colorado.phet.cck.phetgraphics_cck.circuit.Capacitor3DShapeSet;
+import edu.colorado.phet.cck.phetgraphics.Capacitor3DShapeSet;
 import edu.colorado.phet.cck.piccolo_cck.CircuitInteractionModel;
 import edu.colorado.phet.cck.piccolo_cck.ComponentNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;

@@ -6,7 +6,7 @@ import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.cck.model.components.PathBranch;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
-import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.BulbComponentGraphic;
+import edu.colorado.phet.cck.phetgraphics.BulbComponentGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
