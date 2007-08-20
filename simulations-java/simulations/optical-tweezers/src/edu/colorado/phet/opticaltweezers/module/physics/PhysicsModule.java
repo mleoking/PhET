@@ -167,8 +167,8 @@ public class PhysicsModule extends AbstractModule {
             _controlPanel.getMiscControlPanel().setFluidSelected( PhysicsDefaults.BEAD_IN_FLUID_SELECTED );
             _controlPanel.getMiscControlPanel().setVacuumSelected( PhysicsDefaults.BEAD_IN_VACUUM_SELECTED );
             _controlPanel.getMiscControlPanel().setFluidControlsSelected( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
-            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setValuesVisible( PhysicsDefaults.VECTOR_VALUES_VISIBLE );
-            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setComponentsVisible( PhysicsDefaults.VECTOR_COMPONENTS_VISIBLE );
+            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setValuesVisible( PhysicsDefaults.FORCE_VECTOR_VALUES_VISIBLE );
+            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setComponentsVisible( PhysicsDefaults.FORCE_VECTOR_COMPONENTS_VISIBLE );
             _controlPanel.getDeveloperControlPanel().getBeadPanel().setChargeMotionScale( PhysicsDefaults.CHARGE_MOTION_SCALE_RANGE.getDefault() );
         }
     }

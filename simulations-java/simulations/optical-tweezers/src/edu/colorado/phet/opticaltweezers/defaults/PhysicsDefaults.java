@@ -90,8 +90,10 @@ public class PhysicsDefaults {
     // Charts
     public static final double POTENTIAL_ENERGY_SAMPLE_WIDTH = GlobalDefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH;
     
-    // View stuff
+    // Force vectors
     public static final double FORCE_VECTOR_REFERENCE_LENGTH = GlobalDefaults.FORCE_VECTOR_REFERENCE_LENGTH;
+    public static final boolean FORCE_VECTOR_VALUES_VISIBLE = GlobalDefaults.FORCE_VECTOR_VALUES_VISIBLE;
+    public static final boolean FORCE_VECTOR_COMPONENTS_VISIBLE = GlobalDefaults.FORCE_VECTOR_COMPONENTS_VISIBLE;
     
     // Control panel settings
     public static final boolean LASER_BEAM_VISIBLE = true;
@@ -107,6 +109,4 @@ public class PhysicsDefaults {
     public static final boolean BEAD_IN_FLUID_SELECTED = true;
     public static final boolean BEAD_IN_VACUUM_SELECTED = !(BEAD_IN_FLUID_SELECTED);
     public static final boolean FLUID_CONTROLS_SELECTED = false;
-    public static final boolean VECTOR_VALUES_VISIBLE = false;
-    public static final boolean VECTOR_COMPONENTS_VISIBLE = false;
 }

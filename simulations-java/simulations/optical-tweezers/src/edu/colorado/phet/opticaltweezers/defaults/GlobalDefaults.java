@@ -57,6 +57,8 @@ import edu.colorado.phet.opticaltweezers.model.Fluid;
     // Potential Energy chart
     public static final double POTENTIAL_ENERGY_SAMPLE_WIDTH = 5; // nm
     
-    // View stuff
+    // Force vectors
     public static final double FORCE_VECTOR_REFERENCE_LENGTH = 125; // pixels
+    public static final boolean FORCE_VECTOR_VALUES_VISIBLE = false;
+    public static final boolean FORCE_VECTOR_COMPONENTS_VISIBLE = false;
 }
