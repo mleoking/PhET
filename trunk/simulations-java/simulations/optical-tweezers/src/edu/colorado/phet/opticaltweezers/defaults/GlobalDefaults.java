@@ -54,6 +54,19 @@ import edu.colorado.phet.opticaltweezers.model.Fluid;
     public static final DoubleRange BEAD_VACUUM_FAST_THRESHOLD_RANGE = new DoubleRange( 1E-6, 1, 1E-3 );
     public static final DoubleRange BEAD_VACUUM_FAST_POWER_RANGE = new DoubleRange( LASER_POWER_RANGE.getMin(), LASER_POWER_RANGE.getMax(), 100 );
     
+    // DNA Strand model
+    public static final double DNA_CONTOUR_LENGTH = 2413; // nm
+    public static final double DNA_PERSISTENCE_LENGTH = 50; // nm, double strand
+    public static final int DNA_NUMBER_OF_SPRINGS = 39; // nm
+    public static final DoubleRange DNA_SPRING_CONSTANT_RANGE = new DoubleRange( 2, 20, 10 );
+    public static final DoubleRange DNA_DRAG_COEFFICIENT_RANGE = new DoubleRange( 0.1, 2, 0.5 );
+    public static final DoubleRange DNA_EVOLUTION_DT_RANGE = new DoubleRange( 0.05, 0.2, 0.1 );
+    public static final DoubleRange DNA_KICK_CONSTANT_RANGE = new DoubleRange( 10, 100, 60, 0 );
+    public static final IntegerRange DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE = new IntegerRange( 1, 100, 30 );
+    public static final DoubleRange DNA_FLUID_DRAG_COEFFICIENT_RANGE = new DoubleRange( 0, 0.00020, 0.000015 );
+    public static final boolean DNA_PIVOTS_VISIBLE = false;
+    public static final boolean DNA_EXTENSION_VISIBLE = false;
+    
     // Potential Energy chart
     public static final double POTENTIAL_ENERGY_SAMPLE_WIDTH = 5; // nm
     
