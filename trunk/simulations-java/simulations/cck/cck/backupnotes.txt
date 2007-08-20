@@ -1,3 +1,0 @@
-before 6-13- 12:21 was a working translateDFS
-3:23 about to undo translate swiss army knife.
-6-13-2004 9:03 new DFS translation code works.
