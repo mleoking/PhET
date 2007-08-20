@@ -7,7 +7,6 @@
  */
 package edu.colorado.phet.common.bernoulli.view.components.clockgui;
 
-import edu.colorado.phet.common.bernoulli.model.FixedClock;
 import edu.colorado.phet.common.bernoulli.model.ClockStateListener;
 import edu.colorado.phet.common.bernoulli.model.ThreadPriority;
 import edu.colorado.phet.common.bernoulli.model.IClock;
@@ -147,11 +146,6 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
 
     public int getSleepInterval() {
         return ((Integer) waitTimeSpinner.getValue()).intValue();
-    }
-
-    public void setClock(FixedClock c) {
-        this.clock = c;
-        syncPanelToClock();
     }
 
     public void waitTimeChanged(int waitTime) {

@@ -8,8 +8,8 @@
  */
 package edu.colorado.phet.common.bernoulli.view.components.clockgui;
 
-import edu.colorado.phet.common.bernoulli.model.FixedClock;
 import edu.colorado.phet.common.bernoulli.model.IClock;
+import edu.colorado.phet.common.bernoulli.model.FixedClock;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,18 +64,4 @@ public class ClockDialog extends JDialog {
         this.hide();
     }
 
-    public void setClock(FixedClock c) {
-        this.clock = c;
-        clockControlPanel.setClock(c);
-    }
-
-//    public void waitTimeChanged(int waitTime) {
-//        clockControlPanel.
-//    }
-//
-//    public void dtChanged(double dt) {
-//    }
-//
-//    public void threadPriorityChanged(ThreadPriority tp) {
-//    }
 }

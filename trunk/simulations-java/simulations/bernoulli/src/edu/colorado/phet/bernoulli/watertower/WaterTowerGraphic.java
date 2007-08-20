@@ -2,8 +2,8 @@ package edu.colorado.phet.bernoulli.watertower;
 
 //import edu.colorado.phet.bernoulli.common.DifferentialDragHandler;
 
-import edu.colorado.phet.bernoulli.pump.RectangleGraphic;
 import edu.colorado.phet.bernoulli.valves.HorizontalValveGraphic;
+import edu.colorado.phet.bernoulli.pump.RectangleGraphic;
 import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
 import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.DifferentialDragHandler;

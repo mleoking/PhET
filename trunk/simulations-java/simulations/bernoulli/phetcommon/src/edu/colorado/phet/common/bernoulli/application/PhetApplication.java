@@ -8,8 +8,8 @@ package edu.colorado.phet.common.bernoulli.application;
 
 import edu.colorado.phet.common.bernoulli.model.ApplicationModel;
 import edu.colorado.phet.common.bernoulli.model.IClock;
-import edu.colorado.phet.common.bernoulli.model.FixedClock;
 import edu.colorado.phet.common.bernoulli.model.ThreadPriority;
+import edu.colorado.phet.common.bernoulli.model.FixedClock;
 import edu.colorado.phet.common.bernoulli.view.ApplicationDescriptor;
 import edu.colorado.phet.common.bernoulli.view.ApplicationView;
 import edu.colorado.phet.common.bernoulli.view.apparatuspanelcontainment.*;
