@@ -27,13 +27,12 @@ public class RotationApplication extends PhetApplication {
 
         addModule( rotationModule );
 
-        getPhetFrame().addMenu( new RotationTestMenu() );
+//        getPhetFrame().addMenu( new RotationTestMenu() );
         getPhetFrame().addMenu( new RotationDevMenu( this ) );
 
         //trial workaround for getting the window to paint when gray, this is a problem due to performance constraints of this application. 
         getPhetFrame().addWindowFocusListener( new WindowFocusListener() {
             public void windowGainedFocus( WindowEvent e ) {
-                System.out.println( "RotationApplication.windowGainedFocus" );
                 if( getPhetFrame().getContentPane() instanceof JComponent ) {
                     JComponent jComponent = (JComponent)getPhetFrame().getContentPane();
                     jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
@@ -57,7 +56,7 @@ public class RotationApplication extends PhetApplication {
                 QuickProfiler appStartTime = new QuickProfiler();
                 new RotationLookAndFeel().initLookAndFeel();
                 new RotationApplication( args ).startApplication();
-                System.out.println( "appStartTime = " + appStartTime );
+                System.out.println( "Rotation Application started in = " + appStartTime );
             }
         } );
     }

@@ -34,10 +34,8 @@ public class RotationModuleProfiler {
         this.frame = new JDialog( application.getPhetFrame(), "Profiler", false );
         this.module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
-                frameRateSeries.add( module.getRotationClock().getLastFrameRate() );
-                paintTimeSeries.add( module.getRotationSimulationPanel().getLastPaintTime() );
-                evalTimeSeries.add( module.getRotationClock().getLastEvalTime() );
-                updateLabel();
+                updateSeries( module );
+                updateLabels();
             }
         } );
         frameRate = new JLabel( "Frame Rate= ??" );
@@ -61,21 +59,31 @@ public class RotationModuleProfiler {
         contentPane.add( linearValueControl );
 
         frame.setContentPane( contentPane );
+        updateSeries( module );
+        updateLabels();
         frame.pack();
         frame.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 frame.dispose();
             }
         } );
+        
+        frame.setSize( frame.getWidth() + 100, frame.getHeight() );
+    }
+
+    private void updateSeries( RotationModule module ) {
+        frameRateSeries.add( module.getRotationClock().getLastFrameRate() );
+        paintTimeSeries.add( module.getRotationSimulationPanel().getLastPaintTime() );
+        evalTimeSeries.add( module.getRotationClock().getLastEvalTime() );
     }
 
     private RotationClock getConstantDTClock() {
         return module.getRotationClock();
     }
 
-    private void updateLabel() {
+    private void updateLabels() {
         frameRate.setText( "Frame Rate=" + format( frameRateSeries.average() ) );
-        breakdown.setText( "Delay=" + getConstantDTClock().getDelay() + ", Paint=" + format( paintTimeSeries.average() ) + ", Model=" + format( evalTimeSeries.average() - paintTimeSeries.average() ) );
+        breakdown.setText( "Delay=" + getConstantDTClock().getDelay() + " (ms), Paint=" + format( paintTimeSeries.average() ) + ", Model=" + format( evalTimeSeries.average() - paintTimeSeries.average() ) + ", total=" + format( getConstantDTClock().getDelay() + evalTimeSeries.average() ) );
         frameRate.paintImmediately( 0, 0, frameRate.getWidth(), frameRate.getHeight() );//paint immediately in case app is consuming too many resources to do it itself
         breakdown.paintImmediately( 0, 0, breakdown.getWidth(), breakdown.getHeight() );
     }
