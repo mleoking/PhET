@@ -78,9 +78,9 @@ public class MediaControl
 //        display = new JTextArea("My text area.");
     }
 
-    public void add(Resettable resettable)
+    public void add( EFieldResettable EFieldResettable )
     {
-        resettables.add(resettable);
+        resettables.add( EFieldResettable );
     }
 
     public JPanel getPanel()
@@ -119,8 +119,8 @@ public class MediaControl
         pp.repaint();
         for(int i = 0; i < resettables.size(); i++)
         {
-            Resettable resettable = (Resettable)resettables.get(i);
-            resettable.fireResetAction(system2d, pp);
+            EFieldResettable EFieldResettable = (EFieldResettable)resettables.get(i);
+            EFieldResettable.fireResetAction(system2d, pp);
         }
 
     }
