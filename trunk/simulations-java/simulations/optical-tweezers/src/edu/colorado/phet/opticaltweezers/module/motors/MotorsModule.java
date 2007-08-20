@@ -179,8 +179,8 @@ public class MotorsModule extends AbstractModule {
             _controlPanel.getChartsControlPanel().setPotentialEnergySelected( MotorsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
             _controlPanel.getMiscControlPanel().setRulerSelected( MotorsDefaults.RULER_SELECTED );
             _controlPanel.getMiscControlPanel().setFluidControlsSelected( MotorsDefaults.FLUID_CONTROLS_SELECTED );
-            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setValuesVisible( MotorsDefaults.VECTOR_VALUES_VISIBLE );
-            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setComponentsVisible( MotorsDefaults.VECTOR_COMPONENTS_VISIBLE );
+            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setValuesVisible( MotorsDefaults.FORCE_VECTOR_VALUES_VISIBLE );
+            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setComponentsVisible( MotorsDefaults.FORCE_VECTOR_COMPONENTS_VISIBLE );
         }
     }
 
