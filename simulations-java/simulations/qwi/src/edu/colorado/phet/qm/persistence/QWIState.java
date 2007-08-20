@@ -1,6 +1,7 @@
 package edu.colorado.phet.qm.persistence;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.Detector;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
  * Author: Sam Reid
  * Jan 8, 2006, 9:31:36 PM
  */
-public class QWIState implements Serializable {
+public class QWIState implements Serializable, IProguardKeepClass {
     private ArrayList detectorList = new ArrayList();
     private ArrayList rectBarrierList = new ArrayList();
     private DoubleSlitState doubleSlitState;
