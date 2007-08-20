@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.distanceladder.exercise;
 
-import edu.colorado.phet.coreadditions.fsm.FiniteStateMachine;
+import edu.colorado.phet.distanceladder.common.fsm.FiniteStateMachine;
 
 public class Script {
     private FiniteStateMachine fsm;

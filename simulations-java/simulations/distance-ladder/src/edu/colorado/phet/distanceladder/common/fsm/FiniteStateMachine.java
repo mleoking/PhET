@@ -5,7 +5,7 @@
  * Date: Apr 6, 2004
  * Time: 2:47:16 PM
  */
-package edu.colorado.phet.coreadditions.fsm;
+package edu.colorado.phet.distanceladder.common.fsm;
 
 import java.util.HashMap;
 

@@ -11,7 +11,7 @@ import edu.colorado.phet.distanceladder.common.view.graphics.DefaultInteractiveG
 import edu.colorado.phet.distanceladder.common.view.graphics.Graphic;
 import edu.colorado.phet.distanceladder.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.distanceladder.common.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.coreadditions.Body;
+import edu.colorado.phet.distanceladder.common.Body;
 
 import java.awt.*;
 import java.awt.geom.*;

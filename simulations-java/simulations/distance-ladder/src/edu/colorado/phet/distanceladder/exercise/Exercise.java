@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.distanceladder.exercise;
 
-import edu.colorado.phet.coreadditions.fsm.FsmState;
+import edu.colorado.phet.distanceladder.common.fsm.FsmState;
 
 import javax.swing.*;
 
