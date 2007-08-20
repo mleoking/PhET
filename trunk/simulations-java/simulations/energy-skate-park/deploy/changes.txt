@@ -1,3 +1,5 @@
+8-20-2007: energy-skate-park: converted to use IProguardKeep
+
 2.03.01 (8-7-2007)
 Fixed: When dropping on track, if just underneath, should attach anyways
 Changed friction to be visible in pie chart by default
