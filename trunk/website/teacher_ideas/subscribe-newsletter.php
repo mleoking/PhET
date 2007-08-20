@@ -80,7 +80,7 @@ EOT;
 					You may unsubscribe at any time.
 				</p>
 EOT;
-			print_new_account_form("subscribe-newsletter.php", "Subscribe", false);
+			print_new_account_form("subscribe-newsletter.php", "Subscribe", false, true);
 		}
 	}
 	
