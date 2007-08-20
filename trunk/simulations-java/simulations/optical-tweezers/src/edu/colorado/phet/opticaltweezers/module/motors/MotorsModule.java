@@ -6,7 +6,6 @@ import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
-import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
@@ -34,7 +33,7 @@ public class MotorsModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public MotorsModule() {
-        super( OTResources.getString( "title.molecularMotors" ), MotorsDefaults.CLOCK, GlobalDefaults.CLOCK_PAUSED );
+        super( OTResources.getString( "title.molecularMotors" ), MotorsDefaults.CLOCK, MotorsDefaults.CLOCK_PAUSED );
 
         // Model
         OTClock clock = (OTClock) getClock();
@@ -50,7 +49,7 @@ public class MotorsModule extends AbstractModule {
         
         // Clock controls
         _clockControlPanel = new OTClockControlPanel( (OTClock) getClock() );
-        _clockControlPanel.setTimeColumns( GlobalDefaults.CLOCK_TIME_COLUMNS );
+        _clockControlPanel.setTimeColumns( MotorsDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
         
         // Help
@@ -117,39 +116,39 @@ public class MotorsModule extends AbstractModule {
         {
             // Clock
             OTClock clock = _model.getClock();
-            clock.setDt( GlobalDefaults.DEFAULT_DT );
+            clock.setDt( MotorsDefaults.DEFAULT_DT );
             if ( isActive() ) {
-                clock.setPaused( GlobalDefaults.CLOCK_PAUSED );
+                clock.setPaused( MotorsDefaults.CLOCK_PAUSED );
             }
             
             // Bead
             Bead bead = _model.getBead();
             bead.setPosition( MotorsDefaults.BEAD_POSITION );
-            bead.setOrientation( GlobalDefaults.BEAD_ORIENTATION );
-            bead.setDtSubdivisionThreshold( GlobalDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
-            bead.setNumberOfDtSubdivisions( GlobalDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
-            bead.setBrownianMotionScale( GlobalDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE.getDefault() );
-            bead.setBrownianMotionEnabled( GlobalDefaults.BEAD_BROWNIAN_MOTION_ENABLED );
-            bead.setVerletDtSubdivisionThreshold( GlobalDefaults.BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
-            bead.setVerletNumberOfDtSubdivisions( GlobalDefaults.BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
-            bead.setVerletAccelerationScale( GlobalDefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE.getDefault() );
-            bead.setVacuumFastThreshold( GlobalDefaults.BEAD_VACUUM_FAST_THRESHOLD_RANGE.getDefault() );
-            bead.setVacuumFastDt( GlobalDefaults.BEAD_VACUUM_FAST_DT_RANGE.getDefault() );
-            bead.setVacuumFastPower( GlobalDefaults.BEAD_VACUUM_FAST_POWER_RANGE.getDefault() );
+            bead.setOrientation( MotorsDefaults.BEAD_ORIENTATION );
+            bead.setDtSubdivisionThreshold( MotorsDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
+            bead.setNumberOfDtSubdivisions( MotorsDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
+            bead.setBrownianMotionScale( MotorsDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE.getDefault() );
+            bead.setBrownianMotionEnabled( MotorsDefaults.BEAD_BROWNIAN_MOTION_ENABLED );
+            bead.setVerletDtSubdivisionThreshold( MotorsDefaults.BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
+            bead.setVerletNumberOfDtSubdivisions( MotorsDefaults.BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
+            bead.setVerletAccelerationScale( MotorsDefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE.getDefault() );
+            bead.setVacuumFastThreshold( MotorsDefaults.BEAD_VACUUM_FAST_THRESHOLD_RANGE.getDefault() );
+            bead.setVacuumFastDt( MotorsDefaults.BEAD_VACUUM_FAST_DT_RANGE.getDefault() );
+            bead.setVacuumFastPower( MotorsDefaults.BEAD_VACUUM_FAST_POWER_RANGE.getDefault() );
             
             // Laser
             Laser laser = _model.getLaser();
             laser.setPosition( MotorsDefaults.LASER_POSITION );
-            laser.setPower( GlobalDefaults.LASER_POWER_RANGE.getDefault() );
-            laser.setRunning( GlobalDefaults.LASER_RUNNING );
-            laser.setTrapForceRatio( GlobalDefaults.LASER_TRAP_FORCE_RATIO.getDefault() );
-            laser.setElectricFieldScale( GlobalDefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE.getDefault() );
+            laser.setPower( MotorsDefaults.LASER_POWER_RANGE.getDefault() );
+            laser.setRunning( MotorsDefaults.LASER_RUNNING );
+            laser.setTrapForceRatio( MotorsDefaults.LASER_TRAP_FORCE_RATIO.getDefault() );
+            laser.setElectricFieldScale( MotorsDefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE.getDefault() );
             
             // Fluid
             Fluid fluid = _model.getFluid();
-            fluid.setSpeed( GlobalDefaults.FLUID_SPEED_RANGE.getDefault() );
-            fluid.setViscosity( GlobalDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
-            fluid.setTemperature( GlobalDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
+            fluid.setSpeed( MotorsDefaults.FLUID_SPEED_RANGE.getDefault() );
+            fluid.setViscosity( MotorsDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
+            fluid.setTemperature( MotorsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
             
             // DNA Strand
             DNAStrand dnaStrand = _model.getDNAStrand();
@@ -172,7 +171,7 @@ public class MotorsModule extends AbstractModule {
         
         // Control panel settings that are view-related
         {
-            _controlPanel.getSimulationSpeedControlPanel().setSimulationSpeed( GlobalDefaults.DEFAULT_DT );
+            _controlPanel.getSimulationSpeedControlPanel().setSimulationSpeed( MotorsDefaults.DEFAULT_DT );
             _controlPanel.getForcesControlPanel().setTrapForceSelected( MotorsDefaults.TRAP_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDragForceSelected( MotorsDefaults.FLUID_DRAG_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDNAForceSelected( MotorsDefaults.DNA_FORCE_SELECTED );

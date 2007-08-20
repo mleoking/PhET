@@ -21,8 +21,6 @@ MEDIUM PRIORITY:
 - bug: dialogs (fluid controls, position histogram) are disposed when main frame is minimized
 - force dialogs to fully-paint by calling SwingUtils.paintImmediately after JDialog.show
 - help items don't refresh fast enough (AWT priority issue?)
-- ? change dt.fast.max=4E-4, subdivisions=1000, kick=60
-- ? change dt.default to something smaller than dt.fast.max
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 - save/load properties of position histogram: running, zoom index, ruler
 
@@ -52,6 +50,8 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/20/07 - for DNA and Motors modules, change dt.fast.max=4E-4, dt subdivisions=1000, kick=60
+8/20/07 - make GlobalDefaults package private, add constants to module-specific default classes
 8/17/07 - add simple model and view of enzyme
 8/17/07 - add control for ATP concentration to fluid control panel (temporary solution)
 8/17/07 - add ATP concentration to Fluid model

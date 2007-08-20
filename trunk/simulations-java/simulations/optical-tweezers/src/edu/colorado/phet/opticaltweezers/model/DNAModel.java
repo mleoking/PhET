@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
-import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
+import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 
 /**
  * DNAModel is the model for DNAModule.
@@ -46,11 +46,11 @@ public class DNAModel extends ClockAdapter {
         
         _modelElements = new ArrayList();
         
-        _fluid = new Fluid( GlobalDefaults.FLUID_SPEED_RANGE,
-                GlobalDefaults.FLUID_DIRECTION,
-                GlobalDefaults.FLUID_VISCOSITY_RANGE, 
-                GlobalDefaults.FLUID_TEMPERATURE_RANGE,
-                GlobalDefaults.FLUID_APT_CONCENTRATION_RANGE );
+        _fluid = new Fluid( DNADefaults.FLUID_SPEED_RANGE,
+                DNADefaults.FLUID_DIRECTION,
+                DNADefaults.FLUID_VISCOSITY_RANGE, 
+                DNADefaults.FLUID_TEMPERATURE_RANGE,
+                DNADefaults.FLUID_APT_CONCENTRATION_RANGE );
         _modelElements.add( _fluid );
         
         _microscopeSlide = new MicroscopeSlide( DNADefaults.MICROSCOPE_SLIDE_POSITION,
@@ -60,35 +60,35 @@ public class DNAModel extends ClockAdapter {
         _modelElements.add( _microscopeSlide );
         
         _laser = new Laser( DNADefaults.LASER_POSITION, 
-                GlobalDefaults.LASER_ORIENTATION, 
+                DNADefaults.LASER_ORIENTATION, 
                 DNADefaults.LASER_DIAMETER_AT_OBJECTIVE, 
                 DNADefaults.LASER_DIAMETER_AT_WAIST,
                 DNADefaults.LASER_DISTANCE_FROM_OBJECTIVE_TO_WAIST,
                 DNADefaults.LASER_DISTANCE_FROM_OBJECTIVE_TO_CONTROL_PANEL,
-                GlobalDefaults.LASER_WAVELENGTH,
-                GlobalDefaults.LASER_VISIBLE_WAVELENGTH,
-                GlobalDefaults.LASER_POWER_RANGE,
-                GlobalDefaults.LASER_TRAP_FORCE_RATIO,
-                GlobalDefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE,
+                DNADefaults.LASER_WAVELENGTH,
+                DNADefaults.LASER_VISIBLE_WAVELENGTH,
+                DNADefaults.LASER_POWER_RANGE,
+                DNADefaults.LASER_TRAP_FORCE_RATIO,
+                DNADefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE,
                 clock );
         _modelElements.add( _laser );
         
         _bead = new Bead( DNADefaults.BEAD_POSITION, 
-                GlobalDefaults.BEAD_ORIENTATION, 
-                GlobalDefaults.BEAD_DIAMETER,
-                GlobalDefaults.BEAD_DENSITY,
+                DNADefaults.BEAD_ORIENTATION, 
+                DNADefaults.BEAD_DIAMETER,
+                DNADefaults.BEAD_DENSITY,
                 _fluid,
                 _microscopeSlide,
                 _laser,
-                GlobalDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE,
-                GlobalDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE,
-                GlobalDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
-                GlobalDefaults.BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE,
-                GlobalDefaults.BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
-                GlobalDefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE,
-                GlobalDefaults.BEAD_VACUUM_FAST_THRESHOLD_RANGE,
-                GlobalDefaults.BEAD_VACUUM_FAST_DT_RANGE,
-                GlobalDefaults.BEAD_VACUUM_FAST_POWER_RANGE );
+                DNADefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE,
+                DNADefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE,
+                DNADefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
+                DNADefaults.BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE,
+                DNADefaults.BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
+                DNADefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE,
+                DNADefaults.BEAD_VACUUM_FAST_THRESHOLD_RANGE,
+                DNADefaults.BEAD_VACUUM_FAST_DT_RANGE,
+                DNADefaults.BEAD_VACUUM_FAST_POWER_RANGE );
          _modelElements.add( _bead );
          
          _dnaStrand = new DNAStrand( DNADefaults.DNA_CONTOUR_LENGTH, 

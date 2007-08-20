@@ -22,8 +22,13 @@ public class DNADefaults {
     private DNADefaults() {}
     
     // Clock
-    public static final OTClock CLOCK = new OTClock( GlobalDefaults.FRAME_RATE, 
-            GlobalDefaults.SLOW_DT_RANGE, GlobalDefaults.FAST_DT_RANGE, GlobalDefaults.DEFAULT_DT );
+    public static final boolean CLOCK_PAUSED = GlobalDefaults.CLOCK_PAUSED;
+    public static final int FRAME_RATE = GlobalDefaults.FRAME_RATE;
+    public static final int CLOCK_TIME_COLUMNS = GlobalDefaults.CLOCK_TIME_COLUMNS;
+    public static final DoubleRange SLOW_DT_RANGE = new DoubleRange( 4E-18, 5E-16 );
+    public static final DoubleRange FAST_DT_RANGE = new DoubleRange( 1E-7, 4E-4 );
+    public static final double DEFAULT_DT = FAST_DT_RANGE.getMax();
+    public static final OTClock CLOCK = new OTClock( FRAME_RATE, SLOW_DT_RANGE, FAST_DT_RANGE, DEFAULT_DT );
     
     // Model-view transform
     public static final Dimension VIEW_SIZE = new Dimension( 750, 750 );
@@ -37,21 +42,48 @@ public class DNADefaults {
     public static final Point2D MICROSCOPE_SLIDE_POSITION = new Point2D.Double( 0, MICROSCOPE_SLIDE_Y_OFFSET + ( MICROSCOPE_SLIDE_HEIGHT /2 ) ); // nm
     public static final double MICROSCOPE_SLIDE_ORIENTATION = Math.toRadians( 0 );
 
+    // Fluid model
+    public static final double FLUID_DIRECTION = GlobalDefaults.FLUID_DIRECTION;
+    public static final DoubleRange FLUID_SPEED_RANGE = GlobalDefaults.FLUID_SPEED_RANGE;
+    public static final DoubleRange FLUID_VISCOSITY_RANGE = GlobalDefaults.FLUID_VISCOSITY_RANGE;
+    public static final DoubleRange FLUID_TEMPERATURE_RANGE = GlobalDefaults.FLUID_TEMPERATURE_RANGE;
+    public static final DoubleRange FLUID_APT_CONCENTRATION_RANGE = GlobalDefaults.FLUID_APT_CONCENTRATION_RANGE;
+    
     // Laser model
     public static final double LASER_DIAMETER_AT_OBJECTIVE = 1800; // nm, chosen so that beam shape is similar to PhysicsDefaults
     public static final double LASER_DIAMETER_AT_WAIST = 500; // nm
     public static final double LASER_DISTANCE_FROM_OBJECTIVE_TO_WAIST = ( MICROSCOPE_SLIDE_HEIGHT / 2 ) + MICROSCOPE_SLIDE_Y_OFFSET; // nm
     public static final double LASER_DISTANCE_FROM_OBJECTIVE_TO_CONTROL_PANEL = 200; // nm
     public static final Point2D LASER_POSITION = new Point2D.Double( 2400, MICROSCOPE_SLIDE_POSITION.getY() ); // nm
+    public static final double LASER_WAVELENGTH = GlobalDefaults.LASER_WAVELENGTH;
+    public static final double LASER_VISIBLE_WAVELENGTH = GlobalDefaults.LASER_VISIBLE_WAVELENGTH;
+    public static final double LASER_ORIENTATION = GlobalDefaults.LASER_ORIENTATION;
+    public static final DoubleRange LASER_POWER_RANGE = GlobalDefaults.LASER_POWER_RANGE;
+    public static final boolean LASER_RUNNING = GlobalDefaults.LASER_RUNNING;
+    public static final DoubleRange LASER_TRAP_FORCE_RATIO = GlobalDefaults.LASER_TRAP_FORCE_RATIO;
+    public static final DoubleRange LASER_ELECTRIC_FIELD_SCALE_RANGE = GlobalDefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE;
     
     // Bead model
+    public static final double BEAD_DIAMETER = GlobalDefaults.BEAD_DIAMETER;
+    public static final double BEAD_DENSITY = GlobalDefaults.BEAD_DENSITY;
     public static final Point2D BEAD_POSITION = new Point2D.Double( LASER_POSITION.getX(), LASER_POSITION.getY() ); // nm
+    public static final double BEAD_ORIENTATION = GlobalDefaults.BEAD_ORIENTATION;
+    public static final IntegerRange BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE = new IntegerRange( 1, 2000, 1000 );
+    public static final DoubleRange BEAD_DT_SUBDIVISION_THRESHOLD_RANGE = new DoubleRange( FAST_DT_RANGE.getMin(), FAST_DT_RANGE.getMax(), 1E-6 );
+    public static final DoubleRange BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE = new DoubleRange( FAST_DT_RANGE.getMin(), FAST_DT_RANGE.getMax(), 1E-6 );
+    public static final DoubleRange BEAD_VACUUM_FAST_DT_RANGE = new DoubleRange( FAST_DT_RANGE.getMin(), FAST_DT_RANGE.getMax(), 1E-5 );
+    public static final DoubleRange BEAD_BROWNIAN_MOTION_SCALE_RANGE = GlobalDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE;
+    public static final boolean BEAD_BROWNIAN_MOTION_ENABLED = GlobalDefaults.BEAD_BROWNIAN_MOTION_ENABLED;
+    public static final DoubleRange BEAD_VERLET_ACCELERATION_SCALE_RANGE = GlobalDefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE;
+    public static final IntegerRange BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE = GlobalDefaults.BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE;
+    public static final DoubleRange BEAD_VACUUM_FAST_THRESHOLD_RANGE = GlobalDefaults.BEAD_VACUUM_FAST_THRESHOLD_RANGE;
+    public static final DoubleRange BEAD_VACUUM_FAST_POWER_RANGE = GlobalDefaults.BEAD_VACUUM_FAST_POWER_RANGE;
     
     // Ruler
     public static final double RULER_Y_POSITION = LASER_POSITION.getY() + ( GlobalDefaults.BEAD_DIAMETER / 2 ) + 30; // nm, just below center of trap
     public static final int RULER_MAJOR_TICK_INTERVAL = 200; // nm
     public static final int RULER_MINOR_TICKS_BETWEEN_MAJORS = 3;
-
+    
     // DNA Strand model
     public static final double DNA_CONTOUR_LENGTH = 2413; // nm
     public static final double DNA_PERSISTENCE_LENGTH = 50; // nm, double strand
@@ -59,11 +91,17 @@ public class DNADefaults {
     public static final DoubleRange DNA_SPRING_CONSTANT_RANGE = new DoubleRange( 2, 20, 10 );
     public static final DoubleRange DNA_DRAG_COEFFICIENT_RANGE = new DoubleRange( 0.1, 2, 0.5 );
     public static final DoubleRange DNA_EVOLUTION_DT_RANGE = new DoubleRange( 0.05, 0.2, 0.1 );
-    public static final DoubleRange DNA_KICK_CONSTANT_RANGE = new DoubleRange( 10, 100, 50, 0 );
+    public static final DoubleRange DNA_KICK_CONSTANT_RANGE = new DoubleRange( 10, 100, 60, 0 );
     public static final IntegerRange DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE = new IntegerRange( 1, 100, 30 );
     public static final DoubleRange DNA_FLUID_DRAG_COEFFICIENT_RANGE = new DoubleRange( 0, 0.00020, 0.000015 );
     public static final boolean DNA_PIVOTS_VISIBLE = false;
     public static final boolean DNA_EXTENSION_VISIBLE = false;
+    
+    // Charts
+    public static final double POTENTIAL_ENERGY_SAMPLE_WIDTH = GlobalDefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH;
+    
+    // View stuff
+    public static final double FORCE_VECTOR_REFERENCE_LENGTH = GlobalDefaults.FORCE_VECTOR_REFERENCE_LENGTH;
     
     // Control panel settings
     public static final boolean LASER_BEAM_VISIBLE = true;

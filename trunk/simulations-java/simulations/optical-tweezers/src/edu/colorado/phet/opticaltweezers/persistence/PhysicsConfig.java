@@ -3,7 +3,7 @@
 package edu.colorado.phet.opticaltweezers.persistence;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
+import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 
 
 /**
@@ -152,9 +152,9 @@ public class PhysicsConfig implements IProguardKeepClass {
 
     
     public void setClockDt( double clockDt ) {
-        if ( clockDt < GlobalDefaults.SLOW_DT_RANGE.getMin() || clockDt > GlobalDefaults.FAST_DT_RANGE.getMax() ) {
+        if ( clockDt < PhysicsDefaults.SLOW_DT_RANGE.getMin() || clockDt > PhysicsDefaults.FAST_DT_RANGE.getMax() ) {
             System.err.println( "WARNING: clockDt (" + clockDt + ") is out of range, default will be used" );
-            clockDt = GlobalDefaults.DEFAULT_DT;
+            clockDt = PhysicsDefaults.DEFAULT_DT;
         }
         else {
             _clockDt = clockDt;
@@ -188,9 +188,9 @@ public class PhysicsConfig implements IProguardKeepClass {
 
     
     public void setFluidSpeed( double fluidSpeed ) {
-        if ( !GlobalDefaults.FLUID_SPEED_RANGE.contains( fluidSpeed ) ) {
+        if ( !PhysicsDefaults.FLUID_SPEED_RANGE.contains( fluidSpeed ) ) {
             System.err.println( "WARNING: fluidSpeed (" + fluidSpeed + ") is out of range, default will be used" );
-            _fluidSpeed = GlobalDefaults.FLUID_SPEED_RANGE.getDefault();
+            _fluidSpeed = PhysicsDefaults.FLUID_SPEED_RANGE.getDefault();
         }
         else {
             _fluidSpeed = fluidSpeed;
@@ -204,9 +204,9 @@ public class PhysicsConfig implements IProguardKeepClass {
 
     
     public void setFluidTemperature( double fluidTemperature ) {
-        if ( !GlobalDefaults.FLUID_TEMPERATURE_RANGE.contains( fluidTemperature ) ) {
+        if ( !PhysicsDefaults.FLUID_TEMPERATURE_RANGE.contains( fluidTemperature ) ) {
             System.err.println( "WARNING: fluidTemperature (" + fluidTemperature + ") is out of range, default will be used" );
-            _fluidTemperature = GlobalDefaults.FLUID_TEMPERATURE_RANGE.getDefault();
+            _fluidTemperature = PhysicsDefaults.FLUID_TEMPERATURE_RANGE.getDefault();
         }
         else {
             _fluidTemperature = fluidTemperature;
@@ -220,9 +220,9 @@ public class PhysicsConfig implements IProguardKeepClass {
 
     
     public void setFluidViscosity( double fluidViscosity ) {
-        if ( !GlobalDefaults.FLUID_VISCOSITY_RANGE.contains( fluidViscosity ) ) {
+        if ( !PhysicsDefaults.FLUID_VISCOSITY_RANGE.contains( fluidViscosity ) ) {
             System.err.println( "WARNING: fluidViscosity ("  + fluidViscosity + ") is out of range, default will be used" );
-            _fluidViscosity = GlobalDefaults.FLUID_VISCOSITY_RANGE.getDefault();
+            _fluidViscosity = PhysicsDefaults.FLUID_VISCOSITY_RANGE.getDefault();
         }
         else {
             _fluidViscosity = fluidViscosity;
@@ -256,9 +256,9 @@ public class PhysicsConfig implements IProguardKeepClass {
 
     
     public void setLaserPower( double laserPower ) {
-        if ( !GlobalDefaults.LASER_POWER_RANGE.contains( laserPower ) ) {
+        if ( !PhysicsDefaults.LASER_POWER_RANGE.contains( laserPower ) ) {
             System.err.println( "WARNING: laserPower (" + laserPower + ") is out of range, default will be used" );
-            _laserPower = GlobalDefaults.LASER_POWER_RANGE.getDefault();
+            _laserPower = PhysicsDefaults.LASER_POWER_RANGE.getDefault();
         }
         else {
             _laserPower = laserPower;
