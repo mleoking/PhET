@@ -22,10 +22,11 @@ public class RotationModuleProfiler {
     private RotationApplication application;
     private RotationModule module;
     private JLabel frameRate;
-    private DoubleSeries frameRateSeries = new DoubleSeries( 10 );
-    private DoubleSeries paintTimeSeries = new DoubleSeries( 10 );
-    private DoubleSeries evalTimeSeries = new DoubleSeries( 10 );
-    //    private DoubleSeries frameRateSeries = new DoubleSeries( 10 );
+    private int NUM_SAMPLES = 20;
+    private DoubleSeries frameRateSeries = new DoubleSeries( NUM_SAMPLES );
+    private DoubleSeries paintTimeSeries = new DoubleSeries( NUM_SAMPLES );
+    private DoubleSeries evalTimeSeries = new DoubleSeries( NUM_SAMPLES );
+    private DoubleSeries delaySeries = new DoubleSeries( NUM_SAMPLES );
     private JLabel breakdown;
 
     public RotationModuleProfiler( final RotationApplication application, final RotationModule module ) {
@@ -67,7 +68,7 @@ public class RotationModuleProfiler {
                 frame.dispose();
             }
         } );
-        
+
         frame.setSize( frame.getWidth() + 100, frame.getHeight() );
     }
 
@@ -75,6 +76,7 @@ public class RotationModuleProfiler {
         frameRateSeries.add( module.getRotationClock().getLastFrameRate() );
         paintTimeSeries.add( module.getRotationSimulationPanel().getLastPaintTime() );
         evalTimeSeries.add( module.getRotationClock().getLastEvalTime() );
+        delaySeries.add( module.getRotationClock().getLastActualDelay() );
     }
 
     private RotationClock getConstantDTClock() {
@@ -83,7 +85,7 @@ public class RotationModuleProfiler {
 
     private void updateLabels() {
         frameRate.setText( "Frame Rate=" + format( frameRateSeries.average() ) );
-        breakdown.setText( "Delay=" + getConstantDTClock().getDelay() + " (ms), Paint=" + format( paintTimeSeries.average() ) + ", Model=" + format( evalTimeSeries.average() - paintTimeSeries.average() ) + ", total=" + format( getConstantDTClock().getDelay() + evalTimeSeries.average() ) );
+        breakdown.setText( "Delay=" + format( delaySeries.average() ) + " (ms), Paint=" + format( paintTimeSeries.average() ) + ", Model=" + format( evalTimeSeries.average() - paintTimeSeries.average() ) + ", total=" + format( delaySeries.average() + evalTimeSeries.average() ) );
         frameRate.paintImmediately( 0, 0, frameRate.getWidth(), frameRate.getHeight() );//paint immediately in case app is consuming too many resources to do it itself
         breakdown.paintImmediately( 0, 0, breakdown.getWidth(), breakdown.getHeight() );
     }
