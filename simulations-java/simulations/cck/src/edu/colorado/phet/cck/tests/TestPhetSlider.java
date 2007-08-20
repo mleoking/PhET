@@ -1,7 +1,7 @@
 package edu.colorado.phet.cck.tests;
 
-import edu.colorado.phet.common_cck.view.components.PhetSlider;
-import edu.colorado.phet.common_cck.view.util.SwingUtils;
+import edu.colorado.phet.cck.phetgraphics.PhetSlider;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

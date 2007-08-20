@@ -3,7 +3,6 @@ package edu.colorado.phet.cck.phetgraphics;
 import edu.colorado.phet.cck.common.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common_cck.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
  * Date: May 27, 2004
  * Time: 9:13:28 PM
  */
-public class LightBulbGraphic implements Graphic {
+public class LightBulbGraphic {
     private Rectangle2D bounds;
     private Ellipse2D.Double bulb;
     private Paint paint;

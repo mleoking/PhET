@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.servicemanager.PhetServiceManager;
-import edu.colorado.phet.common_cck.view.components.PhetSlider;
+import edu.colorado.phet.cck.phetgraphics.PhetSlider;
 import net.n3.nanoxml.*;
 
 import javax.jnlp.*;

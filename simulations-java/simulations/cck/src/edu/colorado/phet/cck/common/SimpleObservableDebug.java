@@ -1,7 +1,7 @@
 package edu.colorado.phet.cck.common;
 
-import edu.colorado.phet.common_cck.util.SimpleObservable;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
  * User: Sam Reid

@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import java.awt.*;
 

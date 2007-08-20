@@ -2,7 +2,7 @@ package edu.colorado.phet.cck.model;
 
 import edu.colorado.phet.cck.common.SimpleObservableDebug;
 import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import java.awt.geom.Point2D;
 import java.util.Arrays;

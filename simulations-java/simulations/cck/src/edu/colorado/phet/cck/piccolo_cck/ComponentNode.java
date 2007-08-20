@@ -6,7 +6,7 @@ import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;

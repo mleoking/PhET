@@ -5,11 +5,10 @@
  * Date: Nov 5, 2003
  * Time: 9:41:53 AM
  */
-package edu.colorado.phet.common_cck.view.components;
+package edu.colorado.phet.cck.phetgraphics;
 
-import edu.colorado.phet.common_cck.math.ModelViewTx1D;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_cck.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -62,21 +61,11 @@ public class PhetSlider extends JPanel {
 
         createSlider();
 
-        titleLabel = new JLabel( title ) {
-            protected void paintComponent( Graphics g ) {
-                SwingUtils.setAntiAliasingOn( (Graphics2D)g );
-                super.paintComponent( g );
-            }
-        };
+        titleLabel = new JLabel( title );
         Font titleFont = new Font( "Lucida Sans", Font.BOLD, 20 );
         titleLabel.setFont( titleFont );
 
-        unitsReadout = new JTextField( " " + this.units ) {
-            protected void paintComponent( Graphics g ) {
-                SwingUtils.setAntiAliasingOn( (Graphics2D)g );
-                super.paintComponent( g );
-            }
-        };
+        unitsReadout = new JTextField( " " + this.units );
         unitsReadout.setFocusable( false );
         unitsReadout.setEditable( false );
         unitsReadout.setBorder( null );
@@ -140,12 +129,7 @@ public class PhetSlider extends JPanel {
         Hashtable table = new Hashtable();
         for( int value = 0; value <= SLIDER_MAX; value += dMajor ) {
             double modelValue = transform.viewToModel( value );
-            JLabel label = new JLabel( formatter.format( modelValue ) ) {
-                protected void paintComponent( Graphics g ) {
-                    SwingUtils.setAntiAliasingOn( (Graphics2D)g );
-                    super.paintComponent( g );
-                }
-            };
+            JLabel label = new JLabel( formatter.format( modelValue ) );
             label.setFont( labelFont );
             table.put( new Integer( value ), label );
         }
