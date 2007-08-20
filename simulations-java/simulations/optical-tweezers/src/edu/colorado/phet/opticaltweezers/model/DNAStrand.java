@@ -51,7 +51,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private double _maxClockStep;
+    private double _referenceClockStep;
     private Bead _bead;
     private Fluid _fluid;
     private final double _contourLength; // nm, length of the DNA strand
@@ -91,7 +91,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * @param numberOfEvolutionsPerClockTickRange
      * @param evolutionDtRange
      * @param fluidDragCoefficientRange
-     * @param maxClockStep for scaling time dependent behavior relative to the simulation clock speed
+     * @param referenceClockStep for scaling time dependent behavior relative to the simulation clock speed
      * @param bead
      * @param fluid
      */
@@ -104,7 +104,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
             IntegerRange numberOfEvolutionsPerClockTickRange, 
             DoubleRange evolutionDtRange, 
             DoubleRange fluidDragCoefficientRange,
-            double maxClockStep, 
+            double referenceClockStep, 
             Bead bead, 
             Fluid fluid ) {
         
@@ -114,7 +114,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _persistenceLength = persistenceLength;
         _numberOfSprings = numberOfSprings;
 
-        _maxClockStep = maxClockStep;
+        _referenceClockStep = referenceClockStep;
         
         _bead = bead;
         _bead.addObserver( this );
@@ -443,8 +443,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      */
     private void evolveStrand( double clockStep ) {
         
-        // scale all time dependent parameters based on how the clockStep compares to the max simulation speed
-        final double timeScale = clockStep / _maxClockStep;
+        // scale all time dependent parameters based on how the clockStep compares to reference clock step
+        final double timeScale = clockStep / _referenceClockStep;
         
         final double dt = _evolutionDt * timeScale;
         final double maxSpringLength = _contourLength / _numberOfSprings;

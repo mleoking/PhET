@@ -102,7 +102,7 @@ public class MotorsModel extends ClockAdapter {
                  MotorsDefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE,
                  MotorsDefaults.DNA_EVOLUTION_DT_RANGE,
                  MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE,
-                 _clock.getFastRange().getMax(),
+                 MotorsDefaults.DNA_REFERENCE_CLOCK_STEP,
                  _bead,
                  _fluid );
          _modelElements.add( _dnaStrand );
