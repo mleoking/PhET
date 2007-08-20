@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 
 import java.util.ArrayList;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
  */
 public class RotationClock extends ConstantDtClock {
     private ArrayList tickTimes = new ArrayList();
+    private long lastEvalTime;
 
     public RotationClock( int delay, double clockDt ) {
         super( delay, clockDt );
@@ -20,14 +22,13 @@ public class RotationClock extends ConstantDtClock {
         if( tickTimes.size() > 100 ) {
             tickTimes.remove( 0 );
         }
-        if( tickTimes.size() >= 2 ) {
-            long a = getTickTime( tickTimes.size() - 1 );
-            long b = getTickTime( tickTimes.size() - 2 );
-            double deltaT = a - b;
-            double frameRate = 1000.0 / deltaT;
-            System.out.println( "dt=" + deltaT + "ms, Frame rate=" + frameRate + "Hz" );
-        }
+        QuickProfiler qp = new QuickProfiler();
         super.doTick();
+        lastEvalTime = qp.getTime();
+    }
+
+    public long getLastEvalTime() {
+        return lastEvalTime;
     }
 
     public double getLastFrameRate() {
