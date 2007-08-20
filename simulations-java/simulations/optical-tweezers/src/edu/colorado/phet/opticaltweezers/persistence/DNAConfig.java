@@ -3,7 +3,7 @@
 package edu.colorado.phet.opticaltweezers.persistence;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
+import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 
 /**
  * DNAConfig is a JavaBean-compliant data structure that stores
@@ -105,9 +105,9 @@ public class DNAConfig implements IProguardKeepClass {
 
     
     public void setClockDt( double clockDt ) {
-        if ( clockDt < GlobalDefaults.SLOW_DT_RANGE.getMin() || clockDt > GlobalDefaults.FAST_DT_RANGE.getMax() ) {
+        if ( clockDt < DNADefaults.SLOW_DT_RANGE.getMin() || clockDt > DNADefaults.FAST_DT_RANGE.getMax() ) {
             System.err.println( "WARNING: clockDt (" + clockDt + ") is out of range, default will be used" );
-            clockDt = GlobalDefaults.DEFAULT_DT;
+            clockDt = DNADefaults.DEFAULT_DT;
         }
         else {
             _clockDt = clockDt;
@@ -141,9 +141,9 @@ public class DNAConfig implements IProguardKeepClass {
 
     
     public void setFluidSpeed( double fluidSpeed ) {
-        if ( !GlobalDefaults.FLUID_SPEED_RANGE.contains( fluidSpeed ) ) {
+        if ( !DNADefaults.FLUID_SPEED_RANGE.contains( fluidSpeed ) ) {
             System.err.println( "WARNING: fluidSpeed (" + fluidSpeed + ") is out of range, default will be used" );
-            _fluidSpeed = GlobalDefaults.FLUID_SPEED_RANGE.getDefault();
+            _fluidSpeed = DNADefaults.FLUID_SPEED_RANGE.getDefault();
         }
         else {
             _fluidSpeed = fluidSpeed;
@@ -157,9 +157,9 @@ public class DNAConfig implements IProguardKeepClass {
 
     
     public void setFluidTemperature( double fluidTemperature ) {
-        if ( !GlobalDefaults.FLUID_TEMPERATURE_RANGE.contains( fluidTemperature ) ) {
+        if ( !DNADefaults.FLUID_TEMPERATURE_RANGE.contains( fluidTemperature ) ) {
             System.err.println( "WARNING: fluidTemperature (" + fluidTemperature + ") is out of range, default will be used" );
-            _fluidTemperature = GlobalDefaults.FLUID_TEMPERATURE_RANGE.getDefault();
+            _fluidTemperature = DNADefaults.FLUID_TEMPERATURE_RANGE.getDefault();
         }
         else {
             _fluidTemperature = fluidTemperature;
@@ -173,9 +173,9 @@ public class DNAConfig implements IProguardKeepClass {
 
     
     public void setFluidViscosity( double fluidViscosity ) {
-        if ( !GlobalDefaults.FLUID_VISCOSITY_RANGE.contains( fluidViscosity ) ) {
+        if ( !DNADefaults.FLUID_VISCOSITY_RANGE.contains( fluidViscosity ) ) {
             System.err.println( "WARNING: fluidViscosity ("  + fluidViscosity + ") is out of range, default will be used" );
-            _fluidViscosity = GlobalDefaults.FLUID_VISCOSITY_RANGE.getDefault();
+            _fluidViscosity = DNADefaults.FLUID_VISCOSITY_RANGE.getDefault();
         }
         else {
             _fluidViscosity = fluidViscosity;
@@ -188,9 +188,9 @@ public class DNAConfig implements IProguardKeepClass {
 
     
     public void setLaserPower( double laserPower ) {
-        if ( !GlobalDefaults.LASER_POWER_RANGE.contains( laserPower ) ) {
+        if ( !DNADefaults.LASER_POWER_RANGE.contains( laserPower ) ) {
             System.err.println( "WARNING: laserPower (" + laserPower + ") is out of range, default will be used" );
-            _laserPower = GlobalDefaults.LASER_POWER_RANGE.getDefault();
+            _laserPower = DNADefaults.LASER_POWER_RANGE.getDefault();
         }
         else {
             _laserPower = laserPower;

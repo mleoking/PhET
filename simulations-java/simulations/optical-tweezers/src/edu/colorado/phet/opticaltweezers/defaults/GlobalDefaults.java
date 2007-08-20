@@ -8,11 +8,16 @@ import edu.colorado.phet.opticaltweezers.model.Fluid;
 
 
 /**
- * GlobalDefaults contains global default settings, common to all modules.
+ * GlobalDefaults contains default settings that are common to 2 or more modules.
+ * 
+ * NOTE! This class is package private, and values herein should only be referenced
+ * by the "defaults" classes (eg, PhysicsDefaults) for each module.  Classes that 
+ * are module-specific (eg, PhysicsModule, PhysicsCanvas, PhysicsConfig) should
+ * use the class that corresponds to their module (eg, PhysicsDefaults).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlobalDefaults {
+/* package private! */ class GlobalDefaults {
 
     /* Not intended for instantiation */
     private GlobalDefaults() {}
@@ -20,9 +25,6 @@ public class GlobalDefaults {
     // Clock
     public static final boolean CLOCK_PAUSED = false;
     public static final int FRAME_RATE = 25; // fps, frames per second (wall time)
-    public static final DoubleRange SLOW_DT_RANGE = new DoubleRange( 4E-18, 5E-16 );
-    public static final DoubleRange FAST_DT_RANGE = new DoubleRange( 1E-7, 4E-5 );
-    public static final double DEFAULT_DT = FAST_DT_RANGE.getMax();
     public static final int CLOCK_TIME_COLUMNS = 10;
     
     // Fluid model
@@ -42,18 +44,14 @@ public class GlobalDefaults {
     public static final DoubleRange LASER_ELECTRIC_FIELD_SCALE_RANGE = new DoubleRange( 0.01, 10, 1 );
     
     // Bead model
-    public static final double BEAD_ORIENTATION = Math.toRadians( 0 );
     public static final double BEAD_DIAMETER = 200; // nm
     public static final double BEAD_DENSITY = 1.05E-21; // g/nm^3, polystyrene
-    public static final DoubleRange BEAD_DT_SUBDIVISION_THRESHOLD_RANGE = new DoubleRange( FAST_DT_RANGE.getMin(), FAST_DT_RANGE.getMax(), 1E-6 );
-    public static final IntegerRange BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE = new IntegerRange( 1, 2000, 100 );
+    public static final double BEAD_ORIENTATION = Math.toRadians( 0 );
     public static final DoubleRange BEAD_BROWNIAN_MOTION_SCALE_RANGE = new DoubleRange( 0, 5, 1.3 );
     public static final boolean BEAD_BROWNIAN_MOTION_ENABLED = true;
     public static final DoubleRange BEAD_VERLET_ACCELERATION_SCALE_RANGE = new DoubleRange( 1E-8, 1E-1, 4E-3 );
-    public static final DoubleRange BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE = new DoubleRange( FAST_DT_RANGE.getMin(), FAST_DT_RANGE.getMax(), 1E-6 );
     public static final IntegerRange BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE = new IntegerRange( 1, 2000, 10 );
     public static final DoubleRange BEAD_VACUUM_FAST_THRESHOLD_RANGE = new DoubleRange( 1E-6, 1, 1E-3 );
-    public static final DoubleRange BEAD_VACUUM_FAST_DT_RANGE = new DoubleRange( FAST_DT_RANGE.getMin(), FAST_DT_RANGE.getMax(), 1E-5 );
     public static final DoubleRange BEAD_VACUUM_FAST_POWER_RANGE = new DoubleRange( LASER_POWER_RANGE.getMin(), LASER_POWER_RANGE.getMax(), 100 );
     
     // Potential Energy chart

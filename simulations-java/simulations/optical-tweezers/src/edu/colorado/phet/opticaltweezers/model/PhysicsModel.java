@@ -8,7 +8,6 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 
 /**
@@ -45,11 +44,11 @@ public class PhysicsModel extends ClockAdapter {
         
         _modelElements = new ArrayList();
         
-        _fluid = new Fluid( GlobalDefaults.FLUID_SPEED_RANGE,
-                GlobalDefaults.FLUID_DIRECTION,
-                GlobalDefaults.FLUID_VISCOSITY_RANGE, 
-                GlobalDefaults.FLUID_TEMPERATURE_RANGE,
-                GlobalDefaults.FLUID_APT_CONCENTRATION_RANGE );
+        _fluid = new Fluid( PhysicsDefaults.FLUID_SPEED_RANGE,
+                PhysicsDefaults.FLUID_DIRECTION,
+                PhysicsDefaults.FLUID_VISCOSITY_RANGE, 
+                PhysicsDefaults.FLUID_TEMPERATURE_RANGE,
+                PhysicsDefaults.FLUID_APT_CONCENTRATION_RANGE );
         _modelElements.add( _fluid );
         
         _microscopeSlide = new MicroscopeSlide( PhysicsDefaults.MICROSCOPE_SLIDE_POSITION,
@@ -59,35 +58,35 @@ public class PhysicsModel extends ClockAdapter {
         _modelElements.add( _microscopeSlide );
         
         _laser = new Laser( PhysicsDefaults.LASER_POSITION, 
-                GlobalDefaults.LASER_ORIENTATION, 
+                PhysicsDefaults.LASER_ORIENTATION, 
                 PhysicsDefaults.LASER_DIAMETER_AT_OBJECTIVE, 
                 PhysicsDefaults.LASER_DIAMETER_AT_WAIST,
                 PhysicsDefaults.LASER_DISTANCE_FROM_OBJECTIVE_TO_WAIST,
                 PhysicsDefaults.LASER_DISTANCE_FROM_OBJECTIVE_TO_CONTROL_PANEL,
-                GlobalDefaults.LASER_WAVELENGTH,
-                GlobalDefaults.LASER_VISIBLE_WAVELENGTH,
-                GlobalDefaults.LASER_POWER_RANGE,
-                GlobalDefaults.LASER_TRAP_FORCE_RATIO,
-                GlobalDefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE,
+                PhysicsDefaults.LASER_WAVELENGTH,
+                PhysicsDefaults.LASER_VISIBLE_WAVELENGTH,
+                PhysicsDefaults.LASER_POWER_RANGE,
+                PhysicsDefaults.LASER_TRAP_FORCE_RATIO,
+                PhysicsDefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE,
                 clock );
         _modelElements.add( _laser );
         
          _bead = new Bead( PhysicsDefaults.BEAD_POSITION, 
-                 GlobalDefaults.BEAD_ORIENTATION, 
-                 GlobalDefaults.BEAD_DIAMETER,
-                 GlobalDefaults.BEAD_DENSITY,
+                 PhysicsDefaults.BEAD_ORIENTATION, 
+                 PhysicsDefaults.BEAD_DIAMETER,
+                 PhysicsDefaults.BEAD_DENSITY,
                  _fluid,
                  _microscopeSlide,
                  _laser,
-                 GlobalDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE,
-                 GlobalDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE,
-                 GlobalDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
-                 GlobalDefaults.BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE,
-                 GlobalDefaults.BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
-                 GlobalDefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE,
-                 GlobalDefaults.BEAD_VACUUM_FAST_THRESHOLD_RANGE,
-                 GlobalDefaults.BEAD_VACUUM_FAST_DT_RANGE,
-                 GlobalDefaults.BEAD_VACUUM_FAST_POWER_RANGE );
+                 PhysicsDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE,
+                 PhysicsDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE,
+                 PhysicsDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
+                 PhysicsDefaults.BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE,
+                 PhysicsDefaults.BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
+                 PhysicsDefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE,
+                 PhysicsDefaults.BEAD_VACUUM_FAST_THRESHOLD_RANGE,
+                 PhysicsDefaults.BEAD_VACUUM_FAST_DT_RANGE,
+                 PhysicsDefaults.BEAD_VACUUM_FAST_POWER_RANGE );
          _modelElements.add( _bead );
 
          _modelViewTransform = new ModelViewTransform( PhysicsDefaults.MODEL_TO_VIEW_SCALE );

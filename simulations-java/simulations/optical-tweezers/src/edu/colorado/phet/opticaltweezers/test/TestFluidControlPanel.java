@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.opticaltweezers.control.FluidControlPanel;
-import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
+import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 
 /**
@@ -24,11 +24,11 @@ public class TestFluidControlPanel extends JFrame {
         Font font = new JLabel().getFont();
         
         Fluid fluid = new Fluid( 
-                GlobalDefaults.FLUID_SPEED_RANGE,
-                GlobalDefaults.FLUID_DIRECTION,
-                GlobalDefaults.FLUID_VISCOSITY_RANGE, 
-                GlobalDefaults.FLUID_TEMPERATURE_RANGE,
-                GlobalDefaults.FLUID_APT_CONCENTRATION_RANGE );
+                MotorsDefaults.FLUID_SPEED_RANGE,
+                MotorsDefaults.FLUID_DIRECTION,
+                MotorsDefaults.FLUID_VISCOSITY_RANGE, 
+                MotorsDefaults.FLUID_TEMPERATURE_RANGE,
+                MotorsDefaults.FLUID_APT_CONCENTRATION_RANGE );
         
         JPanel panel = new FluidControlPanel( fluid, font );
         

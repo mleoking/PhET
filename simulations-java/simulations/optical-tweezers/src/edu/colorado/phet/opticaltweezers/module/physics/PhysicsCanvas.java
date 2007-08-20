@@ -18,7 +18,6 @@ import javax.swing.JButton;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
-import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.AbstractCanvas;
@@ -85,7 +84,7 @@ public class PhysicsCanvas extends AbstractCanvas {
         } );
 
         // Microscope slide
-        _microscopeSlideNode = new MicroscopeSlideNode( microscopeSlide, fluid, modelViewTransform, GlobalDefaults.FLUID_SPEED_RANGE.getMax() );
+        _microscopeSlideNode = new MicroscopeSlideNode( microscopeSlide, fluid, modelViewTransform, PhysicsDefaults.FLUID_SPEED_RANGE.getMax() );
         
         // Laser
         _laserDragBoundsNode = new PPath();
@@ -111,7 +110,7 @@ public class PhysicsCanvas extends AbstractCanvas {
         // Force vectors, use same reference values so that scale is the same!
         {
             final double modelReferenceMagnitude = laser.getMaxTrapForce().getMagnitude();
-            final double viewReferenceLength = GlobalDefaults.FORCE_VECTOR_REFERENCE_LENGTH;
+            final double viewReferenceLength = PhysicsDefaults.FORCE_VECTOR_REFERENCE_LENGTH;
             _trapForceNode = new TrapForceNode( laser, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
             _dragForceNode = new FluidDragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
         }
@@ -125,7 +124,7 @@ public class PhysicsCanvas extends AbstractCanvas {
         _rulerNode.setXOffsetFudgeFactor( 4 );
         
         // Potential Energy chart
-        _potentialEnergyChartNode = new PotentialEnergyChartNode( bead, laser, modelViewTransform, GlobalDefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH );
+        _potentialEnergyChartNode = new PotentialEnergyChartNode( bead, laser, modelViewTransform, PhysicsDefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH );
         
         // "Return Bead" button
         JButton returnBeadButton = new JButton( OTResources.getString( "button.returnBead" ) );

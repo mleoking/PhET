@@ -8,7 +8,6 @@ import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
-import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 import edu.colorado.phet.opticaltweezers.persistence.DNAConfig;
@@ -36,7 +35,7 @@ public class DNAModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public DNAModule() {
-        super( OTResources.getString( "title.funWithDNA" ), DNADefaults.CLOCK, GlobalDefaults.CLOCK_PAUSED );
+        super( OTResources.getString( "title.funWithDNA" ), DNADefaults.CLOCK, DNADefaults.CLOCK_PAUSED );
 
         // Model
         OTClock clock = (OTClock) getClock();
@@ -52,7 +51,7 @@ public class DNAModule extends AbstractModule {
         
         // Clock controls
         _clockControlPanel = new OTClockControlPanel( (OTClock) getClock() );
-        _clockControlPanel.setTimeColumns( GlobalDefaults.CLOCK_TIME_COLUMNS );
+        _clockControlPanel.setTimeColumns( DNADefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
         
         // Help
@@ -119,39 +118,39 @@ public class DNAModule extends AbstractModule {
         {
             // Clock
             OTClock clock = _model.getClock();
-            clock.setDt( GlobalDefaults.DEFAULT_DT );
+            clock.setDt( DNADefaults.DEFAULT_DT );
             if ( isActive() ) {
-                clock.setPaused( GlobalDefaults.CLOCK_PAUSED );
+                clock.setPaused( DNADefaults.CLOCK_PAUSED );
             }
             
             // Bead
             Bead bead = _model.getBead();
             bead.setPosition( DNADefaults.BEAD_POSITION );
-            bead.setOrientation( GlobalDefaults.BEAD_ORIENTATION );
-            bead.setDtSubdivisionThreshold( GlobalDefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
-            bead.setNumberOfDtSubdivisions( GlobalDefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
-            bead.setBrownianMotionScale( GlobalDefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE.getDefault() );
-            bead.setBrownianMotionEnabled( GlobalDefaults.BEAD_BROWNIAN_MOTION_ENABLED );
-            bead.setVerletDtSubdivisionThreshold( GlobalDefaults.BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
-            bead.setVerletNumberOfDtSubdivisions( GlobalDefaults.BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
-            bead.setVerletAccelerationScale( GlobalDefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE.getDefault() );
-            bead.setVacuumFastThreshold( GlobalDefaults.BEAD_VACUUM_FAST_THRESHOLD_RANGE.getDefault() );
-            bead.setVacuumFastDt( GlobalDefaults.BEAD_VACUUM_FAST_DT_RANGE.getDefault() );
-            bead.setVacuumFastPower( GlobalDefaults.BEAD_VACUUM_FAST_POWER_RANGE.getDefault() );
+            bead.setOrientation( DNADefaults.BEAD_ORIENTATION );
+            bead.setDtSubdivisionThreshold( DNADefaults.BEAD_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
+            bead.setNumberOfDtSubdivisions( DNADefaults.BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
+            bead.setBrownianMotionScale( DNADefaults.BEAD_BROWNIAN_MOTION_SCALE_RANGE.getDefault() );
+            bead.setBrownianMotionEnabled( DNADefaults.BEAD_BROWNIAN_MOTION_ENABLED );
+            bead.setVerletDtSubdivisionThreshold( DNADefaults.BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
+            bead.setVerletNumberOfDtSubdivisions( DNADefaults.BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
+            bead.setVerletAccelerationScale( DNADefaults.BEAD_VERLET_ACCELERATION_SCALE_RANGE.getDefault() );
+            bead.setVacuumFastThreshold( DNADefaults.BEAD_VACUUM_FAST_THRESHOLD_RANGE.getDefault() );
+            bead.setVacuumFastDt( DNADefaults.BEAD_VACUUM_FAST_DT_RANGE.getDefault() );
+            bead.setVacuumFastPower( DNADefaults.BEAD_VACUUM_FAST_POWER_RANGE.getDefault() );
             
             // Laser
             Laser laser = _model.getLaser();
             laser.setPosition( DNADefaults.LASER_POSITION );
-            laser.setPower( GlobalDefaults.LASER_POWER_RANGE.getDefault() );
-            laser.setRunning( GlobalDefaults.LASER_RUNNING );
-            laser.setTrapForceRatio( GlobalDefaults.LASER_TRAP_FORCE_RATIO.getDefault() );
-            laser.setElectricFieldScale( GlobalDefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE.getDefault() );
+            laser.setPower( DNADefaults.LASER_POWER_RANGE.getDefault() );
+            laser.setRunning( DNADefaults.LASER_RUNNING );
+            laser.setTrapForceRatio( DNADefaults.LASER_TRAP_FORCE_RATIO.getDefault() );
+            laser.setElectricFieldScale( DNADefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE.getDefault() );
             
             // Fluid
             Fluid fluid = _model.getFluid();
-            fluid.setSpeed( GlobalDefaults.FLUID_SPEED_RANGE.getDefault() );
-            fluid.setViscosity( GlobalDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
-            fluid.setTemperature( GlobalDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
+            fluid.setSpeed( DNADefaults.FLUID_SPEED_RANGE.getDefault() );
+            fluid.setViscosity( DNADefaults.FLUID_VISCOSITY_RANGE.getDefault() );
+            fluid.setTemperature( DNADefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
             
             // DNA Strand
             DNAStrand dnaStrand = _model.getDNAStrand();
@@ -174,7 +173,7 @@ public class DNAModule extends AbstractModule {
         
         // Control panel settings that are view-related
         {
-            _controlPanel.getSimulationSpeedControlPanel().setSimulationSpeed( GlobalDefaults.DEFAULT_DT );
+            _controlPanel.getSimulationSpeedControlPanel().setSimulationSpeed( DNADefaults.DEFAULT_DT );
             _controlPanel.getForcesControlPanel().setTrapForceSelected( DNADefaults.TRAP_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDragForceSelected( DNADefaults.FLUID_DRAG_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDNAForceSelected( DNADefaults.DNA_FORCE_SELECTED );
