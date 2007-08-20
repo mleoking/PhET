@@ -58,6 +58,7 @@ public class MotorsCanvas extends AbstractCanvas {
     
     // Control
     private PSwing _returnBeadButtonWrapper;
+    private PSwing _resetDNAButtonWrapper;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -145,6 +146,20 @@ public class MotorsCanvas extends AbstractCanvas {
         });
         _returnBeadButtonWrapper = new PSwing( returnBeadButton );
         
+        // "Reset DNA" button
+        JButton resetDNAButton = new JButton( OTResources.getString( "button.resetDNA" ) );
+        resetDNAButton.setFont( font );
+        resetDNAButton.setOpaque( false );
+        resetDNAButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleResetDNAButton();
+            }
+        });
+        _resetDNAButtonWrapper = new PSwing( resetDNAButton );
+        // center the button under the enzyme
+        PBounds eBounds = _enzymeNode.getFullBoundsReference();
+        _resetDNAButtonWrapper.setOffset( eBounds.getX() + ( eBounds.getWidth() / 2 ) - ( _resetDNAButtonWrapper.getFullBoundsReference().getWidth() / 2 ), eBounds.getMaxY() + 10 );
+        
         // Layering order of nodes on the canvas
         addNode( _microscopeSlideNode );
         addNode( _laserNode );
@@ -160,6 +175,7 @@ public class MotorsCanvas extends AbstractCanvas {
         addNode( _rulerNode );
         addNode( _rulerDragBoundsNode );
         addNode( _returnBeadButtonWrapper );
+        addNode( _resetDNAButtonWrapper );
     }
     
     //----------------------------------------------------------------------------
@@ -330,5 +346,10 @@ public class MotorsCanvas extends AbstractCanvas {
         _returnBeadButtonWrapper.setVisible( false );
         _returnBeadButtonWrapper.setPickable( false );
         _returnBeadButtonWrapper.setChildrenPickable( false );
+    }
+    
+    private void handleResetDNAButton() {
+        //XXX
+        System.out.println( "MotorsCanvas.handleResetDNAButton" );
     }
 }

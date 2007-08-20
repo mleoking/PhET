@@ -47,6 +47,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/20/07 - add "Reset DNA" button to canvas (not wired up)
 8/20/07 - change terminology to "reference clock step" in DNA strand evolution model
 8/20/07 - bugfix: handle entry of bogus numbers into sim speed textfield
 8/20/07 - show Motors module
