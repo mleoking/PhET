@@ -13,7 +13,6 @@ HIGH PRIORITY:
 - add "Reset DNA" feature, resets DNAStrand, Bead and Enzyme to initial state
 
 MEDIUM PRIORITY: 
-- ? separate time ranges for each module
 - get enzyme image from Tom Perkins
 - Save/Load motors module
 - bug: visibility of dialogs (fluid controls, position histogram) isn't restored when changing modules
