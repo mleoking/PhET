@@ -6,10 +6,6 @@ import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.piccolo_cck.GraphTraversalVoltage;
 import edu.colorado.phet.cck.piccolo_cck.VoltageDifference;
-import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
-import edu.colorado.phet.cck.phetgraphics_cck.circuit.InteractiveBranchGraphic;
-import edu.colorado.phet.cck.phetgraphics_cck.circuit.HasJunctionGraphic;
-import edu.colorado.phet.cck.phetgraphics_cck.circuit.JunctionGraphic;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.util.RectangleUtils;
@@ -70,93 +66,6 @@ public class VoltageCalculation {
 //            System.out.println( "result = " + result );
             return result;
         }
-    }
-
-    public double getVoltage( CircuitGraphic circuitGraphic, Shape a, Shape b ) {
-
-        Area tipIntersection = new Area( a );
-        tipIntersection.intersect( new Area( b ) );
-        if( !tipIntersection.isEmpty() ) {
-            return 0;
-        }
-        else {
-            Connection red = detectConnection( circuitGraphic, a );
-            Connection black = detectConnection( circuitGraphic, b );
-            if( red == null || black == null ) {
-                return Double.NaN;
-            }
-            else {
-                //dfs from one branch to the other, counting the voltage drop.
-                return circuit.getVoltage( red, black );
-            }
-        }
-    }
-
-    private Branch detectBranch( CircuitGraphic circuitGraphic, Shape tipShape ) {
-        Graphic[] g = circuitGraphic.getBranchGraphics();
-//        Shape tipShape = getTipShape();
-        InteractiveBranchGraphic overlap = null;
-        for( int i = g.length - 1; i >= 0; i-- ) {
-            Graphic graphic = g[i];
-            if( graphic instanceof InteractiveBranchGraphic ) {
-                InteractiveBranchGraphic ibg = (InteractiveBranchGraphic)graphic;
-                Shape shape = ibg.getBranchGraphic().getCoreShape();//getShape();
-                Area intersection = new Area( tipShape );
-                intersection.intersect( new Area( shape ) );
-                if( !intersection.isEmpty() ) {
-                    overlap = ibg;
-                    break;
-                }
-            }
-        }
-//            System.out.println( "overlap = " + overlap );
-        if( overlap == null ) {
-            return null;
-        }
-        else {
-            return overlap.getBranch();
-        }
-    }
-
-    public Connection detectConnection( CircuitGraphic circuitGraphic, Shape tipShape ) {
-        Branch branch = detectBranch( circuitGraphic, tipShape );
-        Junction junction = detectJunction( circuitGraphic, tipShape );
-        Connection result = null;
-        if( junction != null ) {
-            result = new Connection.JunctionConnection( junction );
-        }
-        else if( branch != null ) {
-            //could choose the closest junction
-            //but we want a potentiometer.
-            result = new Connection.JunctionConnection( branch.getStartJunction() );
-            Rectangle tipRect = tipShape.getBounds();
-            Point2D tipCenter = RectangleUtils.getCenter( tipRect );
-            Point2D tipCenterModel = circuitGraphic.getTransform().viewToModel( new Point( (int)tipCenter.getX(), (int)tipCenter.getY() ) );
-            Point2D.Double branchStartModel = branch.getStartJunction().getPosition();
-//                Point2D branchStartModel = circuitGraphic.getTransform().viewToModel( (int)branchCenterView.getX(), (int)branchCenterView.getY() );
-            Vector2D vec = new Vector2D.Double( branchStartModel, tipCenterModel );
-            double dist = vec.getMagnitude();
-            result = new Connection.BranchConnection( branch, dist );
-        }
-        return result;
-    }
-
-    private Junction detectJunction( CircuitGraphic circuitGraphic, Shape tipShape ) {
-        Graphic[] j = circuitGraphic.getJunctionGraphics();
-//        Shape tipShape = getTipShape();
-        Junction junction = null;
-        for( int i = 0; i < j.length; i++ ) {
-            Graphic graphic = j[i];
-            HasJunctionGraphic hj = (HasJunctionGraphic)graphic;
-            JunctionGraphic jg = hj.getJunctionGraphic();
-            Area area = new Area( jg.getShape() );
-            area.intersect( new Area( tipShape ) );
-            if( !area.isEmpty() ) {
-                junction = jg.getJunction();
-                break;
-            }
-        }
-        return junction;
     }
 
 }
