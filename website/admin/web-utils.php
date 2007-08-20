@@ -137,6 +137,18 @@
         
         return $default_value;
     }
+
+    function gather_globals_into_array($prefix = '') {
+        $array = array();
+        
+        foreach($GLOBALS as $key => $value) {
+            if ($prefix == '' || strstr("$key", $prefix) == "$key") {
+                $array["$key"] = "$value";
+            }
+        }
+        
+        return $array;
+    }
     
     function gather_script_params_into_array($prefix = '') {
         $array = array();

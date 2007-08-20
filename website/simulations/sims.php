@@ -281,7 +281,7 @@ EOT;
                 <tbody>
                     <tr>
                         <td>
-                            Microsoft Windows 98SE/2000/XP
+                            Microsoft Windows 98SE/2000/XP<br/>
 EOT;
                             
                                 if ($sim_type == '0') { 
@@ -296,7 +296,7 @@ EOT;
             
 
                         <td>
-                            OS 10.3.9 or later
+                            OS 10.3.9 or later<br/>
 EOT;
 
                             if ($sim_type == '0') {
