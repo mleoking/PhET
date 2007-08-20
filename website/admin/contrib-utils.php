@@ -1782,26 +1782,32 @@ EOT;
     }
 
     function contributor_send_password_reminder($username) {
-        $contributors = contributor_get_all_contributors();
+        $contributor = contributor_get_contributor_by_email($username);
+
+		if ($contributor) {
+	        $contributor_name     = $contributor['contributor_name'];
+	        $contributor_password = $contributor['contributor_password'];
+	
+			if (strlen($contributor_password) == 0) {
+				$pass = "You haven't chosen a password (don't enter anything in the login dialog).\n";
+			}
+			else {
+				$pass = "Your password is \"$contributor_password\" (without the quotation marks)\n";
+			}
         
-        foreach($contributors as $contributor) {
-            if (strtolower($contributor['contributor_email']) == strtolower($username)) {
-                $contributor_name     = $contributor['contributor_name'];
-                $contributor_password = $contributor['contributor_password'];
-                
-                mail($username, 
-                     "PhET Password Reminder", 
-                     "\n".
-                     "Dear $contributor_name, \n".
-                     "\n".
-                     "Your password is \"$contributor_password\"\n".
-                     "\n".
-                     "Regards,\n".
-                     "\n".
-                     "The PhET Team \n",
-                
-                     "From: The PhET Team <phethelp@colorado.edu>");
-            }
+	        mail($username, 
+	             "PhET Password Reminder", 
+	             "\n".
+	             "Dear $contributor_name, \n".
+	             "\n".
+				 "Your login e-mail is \"$username\".\n".
+	             $pass.
+	             "\n".
+	             "Regards,\n".
+	             "\n".
+	             "The PhET Team \n",
+        
+	             "From: The PhET Team <phethelp@colorado.edu>");
         }
     }
     
@@ -1942,7 +1948,7 @@ EOT;
     }
     
     function contributor_get_contributor_by_email($contributor_email) {
-        $result = db_exec_query("SELECT * FROM `contributor` WHERE `contributor_email`='$contributor_email' ");
+        $result = db_exec_query("SELECT * FROM `contributor` WHERE `contributor_email` LIKE '%$contributor_email%' ");
         
         if (!$result) {
             return false;
