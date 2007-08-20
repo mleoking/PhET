@@ -4,11 +4,23 @@ This build file is specific to building phet simulation files, in particular bui
 PhET-team specific tasks are located in an auxiliary build file.  
 -->
 <project name="PhET Master Build Script" default="gui" basedir=".">
+    <!--
+    The local.properties file encodes platform-specific and user-specific defaults for deployment and testing.
+      The supported options are:
+    username
+    password
+    ssh-host
+    browser
+
+    Local property loading is done first to allow property overwriting.
+    -->
+    <property file="local.properties"/>
+
     <!--Properties for the structure of the phet codebase.-->
     <property name="build-tools" value="build-tools"/>
     <property name="simulations-directory"          value="${basedir}/simulations"/>
     <property name="dir.build-tools"                value="${basedir}/build-tools/"/>
-    
+
     <!-- Deployment properties -->
     <property name="dev.server.name"    value="spot.colorado.edu"/>
     <property name="prod.server.name"   value="tigercat.colorado.edu"/>
@@ -56,16 +68,6 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="bitrock.bin.dir"                value="${dir.build-tools}bitrock/bin/" />
     <property name="bitrock.sim.buildfile.dir"  value="${ant-output}/projects/" />
     <property name="bitrock.buildfile.template" value="${dir.build-tools}phet-build/templates/bitrock-installer-template.xml" />
-
-    <!--
-    The local.properties file encodes platform-specific and user-specific defaults for deployment and testing.
-      The supported options are:
-    username
-    password
-    ssh-host
-    browser
-    -->
-    <property file="local.properties"/>
 
     <!-- Ant-Contrib tasks definition -->
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
