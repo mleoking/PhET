@@ -5,6 +5,7 @@
 MISSING INFO:
 
 HIGH PRIORITY:
+- handle entry of bogus stuff into sim speed textfield
 - make DNA strand behave the same at dt=4E-5 regardless of what dt.fast.max is
 - implement velocity model of DNA moving through enzyme (function of ATP and DNA force)
 - redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
