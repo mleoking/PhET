@@ -7,8 +7,7 @@ package edu.colorado.phet.efield.electron.gui.media;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 
-public interface Resettable
-{
+public interface EFieldResettable {
 
     public abstract void fireResetAction(System2D system2d, ParticlePanel particlepanel);
 }

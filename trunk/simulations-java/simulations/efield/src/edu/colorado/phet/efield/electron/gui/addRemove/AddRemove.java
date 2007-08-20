@@ -8,7 +8,7 @@ import edu.colorado.phet.efield.electron.core.ParticleContainer;
 import edu.colorado.phet.efield.electron.core.ParticleFactory;
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
-import edu.colorado.phet.efield.electron.gui.media.Resettable;
+import edu.colorado.phet.efield.electron.gui.media.EFieldResettable;
 import edu.colorado.phet.efield.electron.utils.Debug;
 
 import java.awt.Component;
@@ -24,8 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 //            SystemAdapter, PanelAdapter
 
 public class AddRemove
-    implements Resettable
-{
+    implements EFieldResettable {
     public class Remover
         implements ActionListener
     {

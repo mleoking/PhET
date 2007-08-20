@@ -5,7 +5,7 @@
 package edu.colorado.phet.efield.electron.gui.mouse;
 
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
-import edu.colorado.phet.efield.electron.gui.media.Resettable;
+import edu.colorado.phet.efield.electron.gui.media.EFieldResettable;
 import java.awt.event.*;
 import edu.colorado.phet.efield.electron.phys2d_efield.*;
 
@@ -13,8 +13,7 @@ import edu.colorado.phet.efield.electron.phys2d_efield.*;
 //            ParticleSelector
 
 public class ParticleGrabber
-    implements MouseListener, MouseMotionListener, Resettable
-{
+    implements MouseListener, MouseMotionListener, EFieldResettable {
 
     public ParticleGrabber(ParticlePanel particlepanel, System2D system2d, SystemRunner systemrunner)
     {
