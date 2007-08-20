@@ -252,10 +252,18 @@ EOT;
 	function print_new_account_form($script, $button_label, $print_password = false) {
 		if (isset($GLOBALS['contributor_email'])) {
 			$contributor_email 		   = $GLOBALS['contributor_email'];
-			$contributor_name  		   = $GLOBALS['contributor_name'];
-			$contributor_organization  = $GLOBALS['contributor_organization'];
-			$contributor_receive_email = $GLOBALS['contributor_receive_email'];
-			$contributor_desc          = $GLOBALS['contributor_desc'];
+			$contributor_name  		   = get_global_opt('contributor_name');
+			$contributor_organization  = get_global_opt('contributor_organization');
+			$contributor_receive_email = get_global_opt('contributor_receive_email');
+			$contributor_desc          = get_global_opt('contributor_desc');
+			$contributor_password      = get_global_opt('contributor_password');
+		}
+		else if (isset($_REQUEST['contributor_email'])) {
+			$contributor_email 		   = $_REQUEST['contributor_email'];
+			$contributor_name  		   = get_request_opt('contributor_name');
+			$contributor_organization  = get_request_opt('contributor_organization');
+			$contributor_desc          = get_request_opt('contributor_desc');
+			$contributor_password      = get_request_opt('contributor_password');
 		}
 		else {
 			$contributor_email 		   = '';
@@ -263,11 +271,14 @@ EOT;
 			$contributor_organization  = '';
 			$contributor_receive_email = 0;
 			$contributor_desc          = DEFAULT_CONTRIBUTOR_DESC;
+			$contributor_password      = '';
 		}
 		
 		print <<<EOT
 			<form method="post" action="$script">
 				<fieldset>
+					<legend>$button_label</legend>
+					
 					<table class="form">							
 						<tr>
 							<td>description</td>	
@@ -282,14 +293,14 @@ EOT;
 						</tr>
 
 						<tr>
-							<td>email</td>		<td><input id="contributor_email_uid" type="text" size="20" name="contributor_email" value="$contributor_email" onkeyup="javascript:on_email_change_guess_data();"/></td>
+							<td>email</td>		<td><input id="contributor_email_uid" type="text" size="20" name="contributor_email" value="$contributor_email" onkeyup="javascript:on_email_change_guess_data();" class="always-enabled"/></td>
 						</tr>
 EOT;
 
 						if ($print_password) {
 							print <<<EOT
 								<tr>
-									<td>password</td>		<td><input id="contributor_password_uid" type="password" size="20" name="contributor_password"  value="$contributor_password"/></td>
+									<td>password</td>		<td><input id="contributor_password_uid" type="password" size="20" name="contributor_password"  value="$contributor_password" class="always-enabled"/></td>
 								</tr>
 EOT;
 						}
@@ -297,15 +308,15 @@ EOT;
 						print <<<EOT
 
 						<tr>
-							<td>name</td>		<td><input id="contributor_name_uid" type="text" size="20" name="contributor_name"  value="$contributor_name"/></td>
+							<td>name</td>		<td><input id="contributor_name_uid" type="text" size="20" name="contributor_name"  value="$contributor_name" class="always-enabled"/></td>
 						</tr>
 
 						<tr>
-							<td>organization</td> <td><input id="contributor_organization_uid" type="text" size="20" name="contributor_organization"  value="$contributor_organization"/></td>
+							<td>organization</td> <td><input id="contributor_organization_uid" type="text" size="20" name="contributor_organization"  value="$contributor_organization" class="always-enabled"/></td>
 						</tr>
 
 						<tr>
-							<td colspan="2"><input type="submit" name="submit" value="$button_label" /></td>
+							<td colspan="2"><input type="submit" name="submit" value="$button_label" class="always-enabled"/></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -313,37 +324,52 @@ EOT;
 EOT;
 	}
     
-    function print_contribute_login_form($script, $contribution_id, $referrer) {
+    function print_contribute_login_form($script, $contribution_id, $referrer, $other_html = '') {
+		if (isset($GLOBALS['contributor_email'])) {
+			$contributor_email 		   = $GLOBALS['contributor_email'];
+			$contributor_password      = $GLOBALS['contributor_password'];
+		}
+		else if (isset($_REQUEST['contributor_email'])) {
+			$contributor_email 		   = $_REQUEST['contributor_email'];
+			$contributor_password      = $_REQUEST['contributor_password'];
+		}
+		else {
+			$contributor_email 		   = '';
+			$contributor_password      = '';
+		}
+		
         print <<<EOT
             <div id="twofacelogin" class="table_container">
-            <table>
+			$other_html
+			
+            <table class="top">
                 <tr>
                     <td>
                         <form method="post" action="$script">
                             <fieldset>
                                 <legend>Login</legend>
 
-                                <table>
+                                <table class="form">
                                     <div class="horizontal_center">
 
                                         <tr>
-                                            <td class="label">email</td>
+                                            <td>email</td>
 
                                             <td>
-                                                <input type="text" size="15" name="contributor_email"  class="always-enabled"/>
+                                                <input type="text" size="15" name="contributor_email" value="$contributor_email" class="always-enabled"/>
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <td class="label">password</td>
+                                            <td>password</td>
 
                                             <td>
-                                                <input type="password" size="15" name="contributor_password"  class="always-enabled"/>
+                                                <input type="password" size="15" name="contributor_password" value="$contributor_password" class="always-enabled"/>
                                             </td>
                                         </tr>
 
                                         <td colspan="2">
-                                            <input type="submit" name="submit" value="Login" class="button"/>
+                                            <input type="submit" name="submit" value="Login" class="always-enabled"/>
                                         </td>
                                     </div>
                                 </table>
@@ -356,61 +382,17 @@ EOT;
                     </td>
 
                     <td>
-                        <strong>OR</strong>
-                    </td>
+EOT;
 
-                    <td>
-                        <form method="post" action="$script">
-                            <fieldset>
-                                <legend>New Account</legend>
+					$other_fields = <<<EOT
+					<input type="hidden" name="referrer"        value="$referrer"        class="always-enabled"/>
+                    <input type="hidden" name="contribution_id" value="$contribution_id" class="always-enabled"/>
+					<input type="hidden" name="login_required"  value="true"             class="always-enabled"/>
+EOT;
 
-                                <table>
-                                    <div class="horizontal_center">
-                                        <tr>
-                                            <td class="label">name</td>
+					print_new_account_form("$script", "New Account", true, $other_fields);
 
-                                            <td>
-                                                <input type="text" size="15" name="contributor_name"  class="always-enabled"/>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td class="label">email</td>
-
-                                            <td>
-                                                <input type="text" size="15" name="contributor_email" class="always-enabled" />
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td class="label">password</td>
-
-                                            <td>
-                                                <input type="password" size="15" name="contributor_password"  class="always-enabled"/>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td class="label">organization</td>
-
-                                            <td>
-                                                <input type="text" size="15" name="contributor_organization"  class="always-enabled"/>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td colspan="2">
-                                                <input type="submit" name="submit" value="Create Account" class="button"/>
-                                            </td>
-                                        </tr>
-                                    </div>
-                                </table>
-
-                                <input type="hidden" name="referrer"        value="$referrer"        class="always-enabled"/>
-                                <input type="hidden" name="contribution_id" value="$contribution_id" class="always-enabled"/>
-								<input type="hidden" name="login_required"  value="true"             class="always-enabled"/>
-                            </fieldset>
-                        </form>
+					print <<<EOT
                     </td>
                 </tr>
             </table>
@@ -1979,7 +1961,8 @@ EOT;
 				'Other'
 			)
 			, 
-			$contributor_desc
+			$contributor_desc,
+			'class="always-enabled"'
 		);
 	}
     

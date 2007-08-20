@@ -6,39 +6,45 @@
     include_once(SITE_ROOT."admin/site-utils.php");
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."admin/contrib-utils.php");
+
+	$script = get_self_url();
     
     function print_first_time_login_form() {   
         print '<h1>Login</h1>';
-           
-        print_login_form(null, 
-            "<p>Please enter your email and password.</p>
-            <p>If you don't have an account on the PhET website, please enter your email and desired password.</p>");
+        
+		global $script;
+
+		print_contribute_login_form($script, null, $script);
     }
 
     function print_retry_login_form() {        
         print '<h1>Login Incorrect</h1>';
         
-        print_login_form(null, 
+        global $script;
+
+		print_contribute_login_form($script, null, $script,
             "<p>The password you entered is incorrect. If you entered the correct email address, please check your email now for a password reminder.</p>
-            <p>If you don't have an account on the PhET website, please enter your email and desired password.</p>",
-             $GLOBALS['username']);
+            <p>If you don't have an account on the PhET website, please create a new account.</p>");
     }
 
-    function print_not_an_email_login_form() {        
-        print '<h1>Invalid Email</h1>';
-        
-        print_login_form(null, 
+    function print_not_an_email_login_form() {  
+	    print '<h1>Invalid Email</h1>';
+	
+		global $script;
+		
+		print_contribute_login_form($script, null, $script,
             "<p>The email address you entered is not a valid email address.</p>
-            <p>If you don't have an account on the PhET website, please enter your email and desired password.</p>");
+             <p>If you don't have an account on the PhET website, please create a new account.</p>");
     }    
 
     function print_empty_password_login_form() {
         print '<h1>No Password Specified</h1>';
         
-        print_login_form(null, 
+		global $script;
+		
+		print_contribute_login_form($script, null, $script,
                          "<p>You forgot to specify a password for your new account.</p>
-                         <p>Please specify a password now.</p>",
-                         $GLOBALS['username']);
+                         <p>Please specify a password now.</p>");
     }    
 
     function do_authentication($login_required = true) {
@@ -172,6 +178,15 @@
                                 )
                             );
                         }
+
+						if (isset($_REQUEST['contributor_desc'])) {
+							contributor_update_contributor(
+								$contributor_id,
+								array(
+									'contributor_desc' => $_REQUEST['contributor_desc']
+								)
+							);
+						}
             
                         // Store the information in a cookie so user won't have to re-login:
                         cookie_var_store("username",      $username);
