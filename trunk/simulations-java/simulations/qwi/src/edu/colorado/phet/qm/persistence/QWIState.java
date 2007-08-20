@@ -76,7 +76,7 @@ public class QWIState implements Serializable, IProguardKeepClass {
         this.doubleSlitEnabled = doubleSlitEnabled;
     }
 
-    public static class DoubleSlitState implements Serializable {
+    public static class DoubleSlitState implements IProguardKeepClass {
         private double height;
         private double separation;
         private double size;
@@ -187,7 +187,7 @@ public class QWIState implements Serializable, IProguardKeepClass {
         qwiModule.getQWIModel().setDoubleSlitEnabled( doubleSlitEnabled );
     }
 
-    public static class SerializableRect implements Serializable {
+    public static class SerializableRect implements IProguardKeepClass {
         private int x;
         private int y;
         private int width;
