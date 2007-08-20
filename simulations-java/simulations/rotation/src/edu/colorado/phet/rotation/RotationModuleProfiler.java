@@ -21,8 +21,12 @@ public class RotationModuleProfiler {
     private JDialog frame;
     private RotationApplication application;
     private RotationModule module;
-    private JLabel label;
-    private DoubleSeries doubleSeries = new DoubleSeries( 10 );
+    private JLabel frameRate;
+    private DoubleSeries frameRateSeries = new DoubleSeries( 10 );
+    private DoubleSeries paintTimeSeries = new DoubleSeries( 10 );
+    private DoubleSeries evalTimeSeries = new DoubleSeries( 10 );
+    //    private DoubleSeries frameRateSeries = new DoubleSeries( 10 );
+    private JLabel breakdown;
 
     public RotationModuleProfiler( final RotationApplication application, final RotationModule module ) {
         this.application = application;
@@ -30,14 +34,21 @@ public class RotationModuleProfiler {
         this.frame = new JDialog( application.getPhetFrame(), "Profiler", false );
         this.module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
-                doubleSeries.add( module.getRotationClock().getLastFrameRate() );
+                frameRateSeries.add( module.getRotationClock().getLastFrameRate() );
+                paintTimeSeries.add( module.getRotationSimulationPanel().getLastPaintTime() );
+                evalTimeSeries.add( module.getRotationClock().getLastEvalTime() );
                 updateLabel();
             }
         } );
-        label = new JLabel( "Frame Rate= ??" );
-        label.setOpaque( true );
+        frameRate = new JLabel( "Frame Rate= ??" );
+        frameRate.setOpaque( true );
+
+        breakdown = new JLabel( "breakdown desciption filler" );
+        breakdown.setOpaque( true );
+
         JPanel contentPane = new VerticalLayoutPanel();
-        contentPane.add( label );
+        contentPane.add( frameRate );
+        contentPane.add( breakdown );
 
         final LinearValueControl linearValueControl = new LinearValueControl( 5, 100, "Clock Delay", "0.0", "ms" );
         linearValueControl.setValue( getConstantDTClock().getDelay() );
@@ -63,8 +74,14 @@ public class RotationModuleProfiler {
     }
 
     private void updateLabel() {
-        label.setText( "Frame Rate=" + new DecimalFormat( "0.0" ).format( doubleSeries.average() ) );
-        label.paintImmediately( 0, 0, label.getWidth(), label.getHeight() );//paint immediately in case app is consuming too many resources to do it itself
+        frameRate.setText( "Frame Rate=" + format( frameRateSeries.average() ) );
+        breakdown.setText( "Delay=" + getConstantDTClock().getDelay() + ", Paint=" + format( paintTimeSeries.average() ) + ", Model=" + format( evalTimeSeries.average() - paintTimeSeries.average() ) );
+        frameRate.paintImmediately( 0, 0, frameRate.getWidth(), frameRate.getHeight() );//paint immediately in case app is consuming too many resources to do it itself
+        breakdown.paintImmediately( 0, 0, breakdown.getWidth(), breakdown.getHeight() );
+    }
+
+    private String format( double v ) {
+        return new DecimalFormat( "0.0" ).format( v );
     }
 
     public void start() {

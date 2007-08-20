@@ -4,6 +4,7 @@ import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -35,6 +36,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
     private GraphSetModel graphSetModel;
     private AngleUnitModel angleUnitModel = new AngleUnitModel( false );
     private JComponent controlPanel;
+    private long paintTime = 0;
 
     public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule, JFrame phetFrame ) {
         this.rotationModule = rotationModule;
@@ -113,8 +115,9 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
             public void simulationTimeChanged( ClockEvent clockEvent ) {
 
                 if( synchronousPaint ) {
-//                    QuickProfiler qp=new QuickProfiler( "paintImm");
+                    QuickProfiler qp = new QuickProfiler( "paintImm" );
                     paintImmediately( 0, 0, getWidth(), getHeight() );
+                    paintTime = qp.getTime();
 //                    sum+=qp.getTime();
 //                    count++;
 //                    System.out.println( "count="+count+", avgPaintImm="+sum/count );
@@ -234,5 +237,9 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
 
     public AngleUnitModel getAngleUnitModel() {
         return angleUnitModel;
+    }
+
+    public double getLastPaintTime() {
+        return paintTime;
     }
 }
