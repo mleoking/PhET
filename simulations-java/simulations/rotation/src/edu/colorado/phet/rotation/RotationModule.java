@@ -26,4 +26,7 @@ public class RotationModule extends AbstractRotationModule {
     }
 
 
+    public RotationClock getRotationClock() {
+        return (RotationClock)getConstantDTClock();
+    }
 }

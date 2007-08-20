@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.controls;
 
 import edu.colorado.phet.rotation.RotationApplication;
+import edu.colorado.phet.rotation.RotationModuleProfiler;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
@@ -64,6 +65,15 @@ public class RotationDevMenu extends JMenu {
             }
         } );
         add( synchronousPaint );
+
+        final JMenuItem profiler = new JMenuItem( "Profile" );
+        profiler.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                RotationModuleProfiler rotationModuleProfiler = new RotationModuleProfiler( rotationApplication, rotationApplication.getRotationModule() );
+                rotationModuleProfiler.start();
+            }
+        } );
+        add( profiler );
     }
 
     private PNode getCircleNode() {
