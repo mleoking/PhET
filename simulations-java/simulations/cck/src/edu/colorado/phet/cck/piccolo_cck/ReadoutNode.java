@@ -1,8 +1,8 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
-import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;

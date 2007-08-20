@@ -1,7 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.CCKFontProvider;
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.ConstantDensityPropagator;
 import edu.colorado.phet.common.piccolophet.PhetPNode;

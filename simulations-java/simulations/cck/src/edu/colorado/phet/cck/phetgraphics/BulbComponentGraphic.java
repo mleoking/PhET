@@ -1,7 +1,5 @@
 package edu.colorado.phet.cck.phetgraphics;
 
-import edu.colorado.phet.cck.phetgraphics.LightBulbGraphic;
-
 import java.awt.geom.Rectangle2D;
 
 /**

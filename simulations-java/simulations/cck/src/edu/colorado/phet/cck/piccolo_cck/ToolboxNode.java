@@ -1,9 +1,9 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.FontJA;
 import edu.colorado.phet.cck.ICCKModule;
-import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;

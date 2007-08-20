@@ -2,7 +2,6 @@ package edu.colorado.phet.cck.phetgraphics;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.cck.phetgraphics.Capacitor3DShapeSet;
 
 import javax.swing.*;
 import java.awt.*;
