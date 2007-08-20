@@ -133,7 +133,7 @@ public class SimulationSpeedControlPanel extends JPanel {
             Toolkit.getDefaultToolkit().beep();
         }
         
-        // sync the slider an text field
+        // sync the slider and text field
         _slider.setValue( value );
         _textField.setValue( new Double( _slider.getValue() ) );
         
@@ -150,7 +150,16 @@ public class SimulationSpeedControlPanel extends JPanel {
     
     private double getTextFieldValue() {
         String text = _textField.getText();
-        return Double.parseDouble( text );
+        double value = 0;
+        try {
+            value = Double.parseDouble( text );
+        }
+        catch ( NumberFormatException nfe ) {
+            Toolkit.getDefaultToolkit().beep();
+            value = _clock.getDt();
+            _textField.setValue( new Double( value ) );
+        }
+        return value;
     }
     
     /*
