@@ -28,7 +28,6 @@ import edu.colorado.phet.common.bernoulli.bernoulli.clock2.clocks.SwingTimerCloc
 import edu.colorado.phet.common.bernoulli.bernoulli.clock2.components.DefaultClockStatePanel;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
-import edu.colorado.phet.common.bernoulli.bernoulli.plaf.PlafUtil;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObservable;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -185,26 +184,9 @@ public class BernoulliApplication extends Module {
     public void deactivateInternal( PhetApplication app ) {
     }
 
-    public static void addViewMenu( PhetApplication app ) {
-        if( addedViewMenu ) {
-            return;
-        }
-        else {
-            JMenuItem[] jmi = PlafUtil.getLookAndFeelItems();
-            JMenu menu = new JMenu( BernoulliResources.getString( "view" ) );
-            for( int i = 0; i < jmi.length; i++ ) {
-                JMenuItem jMenuItem = jmi[i];
-                menu.add( jMenuItem );
-            }
-            app.getApplicationView().getPhetFrame().addMenu( menu );
-            addedViewMenu = true;
-        }
-    }
-
     public void activate( PhetApplication app ) {
         activeModule = this;
         parent = app;
-        addViewMenu( app );
     }
 
     public void deactivate( PhetApplication app ) {
