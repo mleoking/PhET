@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.distanceladder.model;
 
-import edu.colorado.phet.distanceladder.common.model.simpleobservable.SimpleObservable;
-import edu.colorado.phet.distanceladder.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.distanceladder.Config;
 
 import java.awt.*;
@@ -39,7 +39,7 @@ public class StarView extends SimpleObservable implements SimpleObserver {
     private void setPov( PointOfView pov ) {
         this.pov.setPointOfView( pov );
         determineVisibleStars( this.starField );
-        updateObservers();
+        notifyObservers();
     }
 
     public void movePov( double dx, double dy, double dTheta ) {

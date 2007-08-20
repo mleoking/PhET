@@ -37,12 +37,12 @@ public class Starship extends Body {
     public void setPov( PointOfView pov ) {
         this.pov = pov;
         getLocation().setLocation( pov );
-        updateObservers();
+        notifyObservers();
     }
 
     public void setOrientation( double theta ) {
         pov.setTheta( theta );
-        updateObservers();
+        notifyObservers();
     }
 
     public StarView getStarView() {

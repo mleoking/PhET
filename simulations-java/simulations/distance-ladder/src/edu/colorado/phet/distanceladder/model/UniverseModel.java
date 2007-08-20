@@ -37,8 +37,8 @@ public class UniverseModel extends BaseModel {
         // exceptions
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                updateObservers();
-                UniverseModel.this.starField.updateObservers();
+                notifyObservers();
+                UniverseModel.this.starField.notifyObservers();
             }
         } );
     }
