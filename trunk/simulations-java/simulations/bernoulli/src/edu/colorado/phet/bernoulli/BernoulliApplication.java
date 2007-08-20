@@ -31,7 +31,6 @@ import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.Transform
 import edu.colorado.phet.common.bernoulli.bernoulli.plaf.PlafUtil;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObservable;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
-import edu.colorado.phet.common.bernoulli.bernoulli.util.VersionUtils;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 import javax.swing.*;
@@ -457,13 +456,6 @@ public class BernoulliApplication extends Module {
 //        clockControlFrame.setVisible( true );
 
         JMenu versionMenu = new JMenu( "Version" );
-        JMenuItem buildItem = new JMenuItem( "Build Number" );
-        buildItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                VersionUtils.showBuildNumber( app );
-            }
-        } );
-        versionMenu.add( buildItem );
         app.getApplicationView().getPhetFrame().getJMenuBar().add( versionMenu );
 
 //        module.activate( app );
