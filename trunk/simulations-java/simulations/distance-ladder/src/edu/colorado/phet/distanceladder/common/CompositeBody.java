@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Aug 26, 2003
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.distanceladder.common;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

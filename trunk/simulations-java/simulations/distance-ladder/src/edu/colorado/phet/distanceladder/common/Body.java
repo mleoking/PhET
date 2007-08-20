@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Aug 22, 2003
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.distanceladder.common;
 
 import edu.colorado.phet.distanceladder.common.math.Vector2D;
 import edu.colorado.phet.distanceladder.common.model.ModelElement;

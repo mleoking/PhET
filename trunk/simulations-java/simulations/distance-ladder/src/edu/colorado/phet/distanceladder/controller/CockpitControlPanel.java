@@ -9,7 +9,7 @@ package edu.colorado.phet.distanceladder.controller;
 
 import edu.colorado.phet.distanceladder.common.view.ApparatusPanel;
 import edu.colorado.phet.distanceladder.common.view.util.GraphicsUtil;
-import edu.colorado.phet.coreadditions.StringResourceReader;
+import edu.colorado.phet.distanceladder.common.StringResourceReader;
 import edu.colorado.phet.distanceladder.exercise.HelpDialog;
 import edu.colorado.phet.distanceladder.model.*;
 import edu.colorado.phet.distanceladder.view.StarMapGraphic;

@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.distanceladder.exercise;
 
-import edu.colorado.phet.coreadditions.StringResourceReader;
+import edu.colorado.phet.distanceladder.common.StringResourceReader;
 
 import java.util.ArrayList;
 

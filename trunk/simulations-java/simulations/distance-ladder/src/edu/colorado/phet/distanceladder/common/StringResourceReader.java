@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Apr 16, 2004
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.distanceladder.common;
 
 import java.io.BufferedReader;
 import java.io.IOException;
