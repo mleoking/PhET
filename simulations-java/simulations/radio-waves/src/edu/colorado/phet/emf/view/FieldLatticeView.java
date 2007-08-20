@@ -92,7 +92,8 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     private boolean displayDynamicField;
     private int fieldSense = EmfConfig.SHOW_FORCE_ON_ELECTRON;
     private int fieldDisplayType;
-    private boolean fieldDisplayAlphaEnabled = true;
+//    private boolean fieldDisplayAlphaEnabled = true;
+    private boolean fieldDisplayAlphaEnabled = false;
 
     private ArrayList arrows = new ArrayList();
     private GeneralPath negPath;
