@@ -927,11 +927,23 @@ EOT;
             </ul>
 EOT;
     }
-    
-    function print_single_selection($select_name, $value_to_text, $selected) {
+
+    function get_global_opt($param, $opt = '') {
+		if (isset($GLOBALS[$param])) return $GLOBALS[$param];
+		
+		return $opt;
+	}
+
+    function get_request_opt($param, $opt = '') {
+		if (isset($_REQUEST[$param])) return $_REQUEST[$param];
+		
+		return $opt;
+	}
+
+    function print_single_selection($select_name, $value_to_text, $selected, $other_attributes = '') {
         print <<<EOT
             <span class="label_content">
-            <select name="$select_name" id="${select_name}_uid">
+            <select name="$select_name" id="${select_name}_uid" $other_attributes>
 EOT;
 
 		$natural_ordering = 0;

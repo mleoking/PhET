@@ -301,6 +301,12 @@ table.form tr td:first-child {
 table.form tr td input[type="submit"] {
 	float: right;
 }
+table.form select, table.form input {
+	width: 13em;
+}
+table.form tr td input[type="submit"] {
+	width: auto;
+}
 .button {
 	clear: 			right;
 	float: 			none;
@@ -369,32 +375,24 @@ div.horizontal_center {
 	margin-left:  auto;
 	margin-right: auto;
 }
-
-
 #twofacelogin {
 	padding: 0;
 	margin:  0;
 	margin-bottom: 1em;
 }
-#twofacelogin table {
+/*#twofacelogin table table {
+	width: 50%;
+}*/
+#twofacelogin table.top {
 	width: 100%;
 	margin:  0;
 	padding: 0;
 	margin-left:   auto;
     margin-right:  auto;
 }
-#twofacelogin table td {
+#twofacelogin table.top td {
 	margin:  0;
 	padding: 0;
-}
-#twofacelogin table td .label {
-	font-weight: bold;	
-}
-#twofacelogin table input .button {
-	float: none;
-	padding: 0;
-	margin:  0;
-	margin-top: 1em;
 }
 #twofacelogin fieldset {
 	border-color: rgb(220, 220, 220);
