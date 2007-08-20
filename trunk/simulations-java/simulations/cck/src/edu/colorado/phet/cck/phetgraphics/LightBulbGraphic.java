@@ -1,4 +1,4 @@
-package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
+package edu.colorado.phet.cck.phetgraphics;
 
 import edu.colorado.phet.cck.common.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
