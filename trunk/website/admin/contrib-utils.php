@@ -248,6 +248,70 @@ EOT;
             }
         }
     }
+
+	function print_new_account_form($script, $button_label, $print_password = false) {
+		if (isset($GLOBALS['contributor_email'])) {
+			$contributor_email 		   = $GLOBALS['contributor_email'];
+			$contributor_name  		   = $GLOBALS['contributor_name'];
+			$contributor_organization  = $GLOBALS['contributor_organization'];
+			$contributor_receive_email = $GLOBALS['contributor_receive_email'];
+			$contributor_desc          = $GLOBALS['contributor_desc'];
+		}
+		else {
+			$contributor_email 		   = '';
+			$contributor_name  		   = '';
+			$contributor_organization  = '';
+			$contributor_receive_email = 0;
+			$contributor_desc          = DEFAULT_CONTRIBUTOR_DESC;
+		}
+		
+		print <<<EOT
+			<form method="post" action="$script">
+				<fieldset>
+					<table class="form">							
+						<tr>
+							<td>description</td>	
+
+							<td>
+EOT;
+
+						contributor_print_desc_list($contributor_desc);
+
+						print <<<EOT
+							</td>
+						</tr>
+
+						<tr>
+							<td>email</td>		<td><input id="contributor_email_uid" type="text" size="20" name="contributor_email" value="$contributor_email" onkeyup="javascript:on_email_change_guess_data();"/></td>
+						</tr>
+EOT;
+
+						if ($print_password) {
+							print <<<EOT
+								<tr>
+									<td>password</td>		<td><input id="contributor_password_uid" type="password" size="20" name="contributor_password"  value="$contributor_password"/></td>
+								</tr>
+EOT;
+						}
+
+						print <<<EOT
+
+						<tr>
+							<td>name</td>		<td><input id="contributor_name_uid" type="text" size="20" name="contributor_name"  value="$contributor_name"/></td>
+						</tr>
+
+						<tr>
+							<td>organization</td> <td><input id="contributor_organization_uid" type="text" size="20" name="contributor_organization"  value="$contributor_organization"/></td>
+						</tr>
+
+						<tr>
+							<td colspan="2"><input type="submit" name="submit" value="$button_label" /></td>
+						</tr>
+					</table>
+				</fieldset>
+			</form>
+EOT;
+	}
     
     function print_contribute_login_form($script, $contribution_id, $referrer) {
         print <<<EOT

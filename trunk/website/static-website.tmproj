@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>index.php</string>
+	<string>admin/web-utils.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>filename</key>
 			<string>index.php</string>
 			<key>lastUsed</key>
-			<date>2007-08-16T20:46:13Z</date>
+			<date>2007-08-17T20:34:03Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -152,7 +152,7 @@
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>276</integer>
+	<integer>350</integer>
 	<key>metaData</key>
 	<dict>
 		<key>about/contact.php</key>
@@ -202,30 +202,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>43</integer>
+				<integer>26</integer>
 				<key>line</key>
-				<integer>1010</integer>
+				<integer>479</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>1002</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>10</integer>
-				<key>line</key>
-				<integer>1010</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>70</integer>
-				<key>line</key>
-				<integer>1010</integer>
-			</dict>
+			<integer>459</integer>
 		</dict>
 		<key>admin/db.inc</key>
 		<dict>
@@ -254,20 +238,6 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-		</dict>
-		<key>admin/gen-flash-page.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>275</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>242</integer>
 		</dict>
 		<key>admin/get-run-offline.php</key>
 		<dict>
@@ -346,28 +316,28 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>16</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>297</integer>
+				<integer>632</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>289</integer>
+			<integer>631</integer>
 		</dict>
 		<key>admin/web-utils.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>57</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>261</integer>
+				<integer>925</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>248</integer>
+			<integer>913</integer>
 		</dict>
 		<key>admin/xml_parser.php</key>
 		<dict>
@@ -418,42 +388,26 @@
 				<key>column</key>
 				<integer>1</integer>
 				<key>line</key>
-				<integer>525</integer>
+				<integer>299</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>525</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>543</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>1</integer>
-				<key>line</key>
-				<integer>525</integer>
-			</dict>
+			<integer>271</integer>
 		</dict>
 		<key>index.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>101</integer>
 				<key>line</key>
-				<integer>104</integer>
+				<integer>98</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>96</integer>
+			<integer>80</integer>
 		</dict>
 		<key>research/index.php</key>
 		<dict>
@@ -483,19 +437,49 @@
 			<key>firstVisibleLine</key>
 			<integer>201</integer>
 		</dict>
-		<key>simulations/sims.php</key>
+		<key>teacher_ideas/browse.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>25</integer>
 				<key>line</key>
-				<integer>69</integer>
+				<integer>302</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>282</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>12</integer>
+				<key>line</key>
+				<integer>302</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>39</integer>
+				<key>line</key>
+				<integer>302</integer>
+			</dict>
+		</dict>
+		<key>teacher_ideas/edit-contribution.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>3</integer>
+				<key>line</key>
+				<integer>38</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>51</integer>
+			<integer>11</integer>
 		</dict>
 		<key>teacher_ideas/index.php</key>
 		<dict>
@@ -524,6 +508,50 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>1</integer>
+		</dict>
+		<key>teacher_ideas/subscribe-newsletter.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>54</integer>
+				<key>line</key>
+				<integer>106</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>99</integer>
+		</dict>
+		<key>teacher_ideas/user-edit-profile.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>37</integer>
+				<key>line</key>
+				<integer>12</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>8</integer>
+				<key>line</key>
+				<integer>12</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>40</integer>
+				<key>line</key>
+				<integer>12</integer>
+			</dict>
 		</dict>
 		<key>teacher_ideas/view-contribution.php</key>
 		<dict>
@@ -559,18 +587,18 @@
 	<key>openDocuments</key>
 	<array>
 		<string>index.php</string>
-		<string>teacher_ideas/view-contribution.php</string>
+		<string>teacher_ideas/subscribe-newsletter.php</string>
+		<string>teacher_ideas/browse.php</string>
+		<string>teacher_ideas/user-edit-profile.php</string>
+		<string>admin/contrib-utils.php</string>
+		<string>teacher_ideas/edit-contribution.php</string>
+		<string>css/main.css</string>
 		<string>admin/site-utils.php</string>
 		<string>admin/web-utils.php</string>
-		<string>admin/gen-flash-page.php</string>
-		<string>simulations/sims.php</string>
-		<string>simulations/index.php</string>
-		<string>css/main.css</string>
-		<string>css/home.css</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{268, 304}, {1012, 648}}</string>
+	<string>{{87, 325}, {1012, 648}}</string>
 </dict>
 </plist>
