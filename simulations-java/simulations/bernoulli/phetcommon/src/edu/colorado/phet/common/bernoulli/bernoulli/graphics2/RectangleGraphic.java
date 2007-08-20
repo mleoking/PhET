@@ -2,8 +2,6 @@
 package edu.colorado.phet.common.bernoulli.bernoulli.graphics2;
 
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
-import edu.colorado.phet.common.bernoulli.bernoulli.controllers.AbstractShape;
-//import edu.colorado.phet.ec2.common.controllers.AbstractShape;
 
 import java.awt.*;
 
@@ -13,7 +11,7 @@ import java.awt.*;
  * Time: 11:16:30 PM
  *
  */
-public class RectangleGraphic implements AbstractShape, Graphic {
+public class RectangleGraphic implements Graphic {
     int x;
     int y;
     int width;
