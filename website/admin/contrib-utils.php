@@ -249,7 +249,7 @@ EOT;
         }
     }
 
-	function print_new_account_form($script, $button_label, $print_password = false) {
+	function print_new_account_form($script, $button_label, $print_password = false, $wide = false, $other_html = '') {
 		if (isset($GLOBALS['contributor_email'])) {
 			$contributor_email 		   = $GLOBALS['contributor_email'];
 			$contributor_name  		   = get_global_opt('contributor_name');
@@ -286,7 +286,7 @@ EOT;
 							<td>
 EOT;
 
-						contributor_print_desc_list($contributor_desc);
+						contributor_print_desc_list($contributor_desc, $wide);
 
 						print <<<EOT
 							</td>
@@ -316,9 +316,11 @@ EOT;
 						</tr>
 
 						<tr>
-							<td colspan="2"><input type="submit" name="submit" value="$button_label" class="always-enabled"/></td>
+							<td colspan="2"><input type="submit" name="submit" value="$button_label" class="always-enabled auto-width"/></td>
 						</tr>
 					</table>
+					
+					$other_html
 				</fieldset>
 			</form>
 EOT;
@@ -369,7 +371,7 @@ EOT;
                                         </tr>
 
                                         <td colspan="2">
-                                            <input type="submit" name="submit" value="Login" class="always-enabled"/>
+                                            <input type="submit" name="submit" value="Login" class="always-enabled auto-width"/>
                                         </td>
                                     </div>
                                 </table>
@@ -390,7 +392,7 @@ EOT;
 					<input type="hidden" name="login_required"  value="true"             class="always-enabled"/>
 EOT;
 
-					print_new_account_form("$script", "New Account", true, $other_fields);
+					print_new_account_form("$script", "New Account", true, false, $other_fields);
 
 					print <<<EOT
                     </td>
@@ -1949,7 +1951,14 @@ EOT;
         return format_for_html(mysql_fetch_assoc($result));
     }
 
-	function contributor_print_desc_list($contributor_desc) {
+	function contributor_print_desc_list($contributor_desc, $wide) {
+		if ($wide) {
+			$wide_style = ' auto-width';
+		}
+		else {
+			$wide_style = '';
+		}
+		
 		print_single_selection(
 			'contributor_desc', 
 			array(
@@ -1962,7 +1971,7 @@ EOT;
 			)
 			, 
 			$contributor_desc,
-			'class="always-enabled"'
+			"class=\"always-enabled$wide_style\""
 		);
 	}
     
@@ -2023,7 +2032,7 @@ EOT;
 
 						<div class="field">
 EOT;
-						contributor_print_desc_list($contributor_desc);
+						contributor_print_desc_list($contributor_desc, true);
 						
 						print <<<EOT
 							<span class="label">description</span>

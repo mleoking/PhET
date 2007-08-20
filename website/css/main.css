@@ -31,6 +31,7 @@ p {
 	color:#000;
 }
 fieldset {
+	width: auto;
 	margin: 1ex 2em 1ex 2em;
 }
 input, textarea, select {
@@ -302,7 +303,10 @@ table.form tr td input[type="submit"] {
 	float: right;
 }
 table.form select, table.form input {
-	width: 13em;
+	width: 150px;
+}
+table.form select.auto-width, table.form input.auto-width {
+	width: auto;
 }
 table.form tr td input[type="submit"] {
 	width: auto;
