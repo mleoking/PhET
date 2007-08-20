@@ -1,4 +1,4 @@
-package edu.colorado.phet.cck.phetgraphics_cck;
+package edu.colorado.phet.cck.phetgraphics;
 
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;

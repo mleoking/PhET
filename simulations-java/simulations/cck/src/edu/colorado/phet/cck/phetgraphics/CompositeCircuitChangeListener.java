@@ -1,4 +1,4 @@
-package edu.colorado.phet.cck.phetgraphics_cck.circuit;
+package edu.colorado.phet.cck.phetgraphics;
 
 import edu.colorado.phet.cck.model.CircuitChangeListener;
 

@@ -1,7 +1,7 @@
 package edu.colorado.phet.cck.model.components;
 
 import edu.colorado.phet.cck.model.*;
-import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.BulbComponentGraphic;
+import edu.colorado.phet.cck.phetgraphics.BulbComponentGraphic;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
