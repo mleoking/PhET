@@ -3,16 +3,9 @@ package edu.colorado.phet.cck.phetgraphics;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Connection;
 import edu.colorado.phet.cck.model.Junction;
-import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.piccolo_cck.GraphTraversalVoltage;
 import edu.colorado.phet.cck.piccolo_cck.VoltageDifference;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common_cck.view.graphics.Graphic;
-import edu.colorado.phet.common_cck.view.util.RectangleUtils;
 
-import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**

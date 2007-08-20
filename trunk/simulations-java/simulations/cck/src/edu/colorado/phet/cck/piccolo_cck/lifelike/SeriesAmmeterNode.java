@@ -1,8 +1,8 @@
 package edu.colorado.phet.cck.piccolo_cck.lifelike;
 
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
-import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.common.LineSegment;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck.model.components.CircuitComponent;

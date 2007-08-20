@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Time: 2:45:10 PM
  */
 public class CompositeCircuitChangeListener implements CircuitChangeListener {
-    ArrayList list = new ArrayList();
+    private ArrayList list = new ArrayList();
 
     public void addCircuitChangeListener( CircuitChangeListener kl ) {
         list.add( kl );

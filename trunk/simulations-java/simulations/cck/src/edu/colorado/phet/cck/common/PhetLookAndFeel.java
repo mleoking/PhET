@@ -11,6 +11,7 @@
 package edu.colorado.phet.cck.common;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import edu.colorado.phet.cck.CCKFontProvider;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -21,8 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import edu.colorado.phet.cck.CCKFontProvider;
 
 /**
  * PhetLookAndFeel describes the UI resources that need to be installed in

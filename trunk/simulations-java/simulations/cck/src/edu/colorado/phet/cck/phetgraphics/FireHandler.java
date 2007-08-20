@@ -7,5 +7,4 @@ package edu.colorado.phet.cck.phetgraphics;
  */
 public class FireHandler {
     public static double FIRE_CURRENT = 10;
-
 }

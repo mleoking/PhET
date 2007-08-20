@@ -1,7 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.CCKFontProvider;
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.components.Branch;

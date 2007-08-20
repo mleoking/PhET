@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.tests;
 
+import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.common_cck.model.clock.AbstractClock;
 import edu.colorado.phet.common_cck.model.clock.ClockTickListener;
 import edu.colorado.phet.common_cck.model.clock.SwingTimerClock;
@@ -10,7 +11,6 @@ import edu.colorado.phet.common_cck.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common_cck.view.util.RectangleUtils;
-import edu.colorado.phet.cck.CCKFontProvider;
 
 import javax.swing.*;
 import java.awt.*;

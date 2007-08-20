@@ -506,7 +506,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
     public static class CCKTitledBorder extends TitledBorder {
         public CCKTitledBorder( String title ) {
             super( BorderFactory.createRaisedBevelBorder(), title );
-            setTitleFont( CCKFontProvider.getFont( getTitleFont()) );
+            setTitleFont( CCKFontProvider.getFont( getTitleFont() ) );
         }
 
         public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
