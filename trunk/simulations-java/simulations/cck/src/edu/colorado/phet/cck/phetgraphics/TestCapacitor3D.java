@@ -1,4 +1,4 @@
-package edu.colorado.phet.cck.phetgraphics_cck.circuit;
+package edu.colorado.phet.cck.phetgraphics;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
