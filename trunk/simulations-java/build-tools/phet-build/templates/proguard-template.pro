@@ -42,10 +42,6 @@
     public protected *;
 }
 
--keep public class edu.colorado.phet.energyskatepark.serialization.**{
-    public protected *;
-}
-
 -keep class org.jfree.chart.resources.JFreeChartResources
 
 -keep class org.jfree.resources.JCommonResources

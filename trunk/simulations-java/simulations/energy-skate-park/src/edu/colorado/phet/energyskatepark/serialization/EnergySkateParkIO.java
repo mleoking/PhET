@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.serialization;
 
 import edu.colorado.phet.common.phetcommon.util.persistence.Point2DPersistenceDelegate;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.servicemanager.PhetServiceManager;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
@@ -23,7 +24,7 @@ import java.io.InputStream;
  * Author: Sam Reid
  * Jun 3, 2007, 3:37:37 PM
  */
-public class EnergySkateParkIO {
+public class EnergySkateParkIO implements IProguardKeepClass {
 
     public static void save( EnergySkateParkModule module ) throws UnavailableServiceException, IOException {
         Component component = module.getEnergySkateParkSimulationPanel();
