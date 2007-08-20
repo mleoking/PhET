@@ -87,7 +87,7 @@ public class EnergySkateParkModuleBean implements IProguardKeepClass {
     }
 
 
-    public static class BodyElement {
+    public static class BodyElement implements IProguardKeepClass {
         private Point2D.Double position;
         private Point2D.Double velocity;
         private Point2D.Double acceleration;
@@ -212,7 +212,7 @@ public class EnergySkateParkModuleBean implements IProguardKeepClass {
 
     }
 
-    public static class SplineElement {
+    public static class SplineElement implements IProguardKeepClass {
         private Point2D[] controlPoints;
         private boolean rollerCoaster;
 
