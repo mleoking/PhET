@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import edu.colorado.phet.common.phetcommon.application.AWTSplashWindow;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -25,7 +24,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-import java.util.Locale;
 
 /**
  * General comments, issues:
@@ -71,22 +69,11 @@ public class GreenhouseApplication extends PhetApplication {
 
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
+                initLookAndFeel();
 
                 JFrame window = new JFrame();
-                AWTSplashWindow splashWindow = new AWTSplashWindow( window, FontJA.isJapaneseLocale()?"Greenhouse Application":SimStrings.get( "GreenHouseApplication.title" ) );
+                AWTSplashWindow splashWindow = new AWTSplashWindow( window, FontJA.isJapaneseLocale() ? "Greenhouse Application" : SimStrings.get( "GreenHouseApplication.title" ) );
                 splashWindow.show();
-
-                // Set the look and feel if we're on Windows and Java 1.4
-                if( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0
-                    && System.getProperty( "java.version" ).startsWith( "1.4" ) ) {
-                    try {
-                        UIManager.setLookAndFeel( new WindowsLookAndFeel() );
-                    }
-                    catch( UnsupportedLookAndFeelException e ) {
-                        e.printStackTrace();
-                    }
-                }
-
 
                 BaseGreenhouseModule greenhouseModule = new GreenhouseModule();
                 BaseGreenhouseModule greenhouseModule2 = new GlassPaneModule();
@@ -105,16 +92,6 @@ public class GreenhouseApplication extends PhetApplication {
 //                clock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
                 clock = new SwingTimerClock( new StaticClockModel( 10, 30 ) );
                 s_application = new PhetApplication( appDescriptor, modules, clock );
-
-                PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-                phetLookAndFeel.setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
-                phetLookAndFeel.setForegroundColor( Color.black );
-                if( FontJA.isJapaneseLocale() ) {
-                    phetLookAndFeel.setFont( new Font( FontJA.getFontName( "Lucida Sans" ), Font.PLAIN, 14 ) );
-                    phetLookAndFeel.setTitledBorderFont( new Font( FontJA.getFontName( "Lucida Sans" ), Font.BOLD, 12) );
-                }
-                phetLookAndFeel.initLookAndFeel();
-
                 s_application.getApplicationView().getPhetFrame().setResizable( false );
                 s_application.startApplication( greenhouseModule );
                 splashWindow.setVisible( false );
@@ -129,6 +106,17 @@ public class GreenhouseApplication extends PhetApplication {
                 } );
             }
         } );
+    }
+
+    private static void initLookAndFeel() {
+        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+        phetLookAndFeel.setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
+        phetLookAndFeel.setForegroundColor( Color.black );
+        if( FontJA.isJapaneseLocale() ) {
+            phetLookAndFeel.setFont( new Font( FontJA.getFontName( "Lucida Sans" ), Font.PLAIN, 14 ) );
+            phetLookAndFeel.setTitledBorderFont( new Font( FontJA.getFontName( "Lucida Sans" ), Font.BOLD, 12 ) );
+        }
+        phetLookAndFeel.initLookAndFeel();
     }
 
     public static void paintContentImmediately() {
