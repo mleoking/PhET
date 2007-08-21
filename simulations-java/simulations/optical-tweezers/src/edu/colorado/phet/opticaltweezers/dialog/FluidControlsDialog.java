@@ -4,28 +4,21 @@ package edu.colorado.phet.opticaltweezers.dialog;
 
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
 
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.FluidControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 
 /**
- * FluidControlDialog is a nonmodal dialog that display the fluid controls.
+ * FluidControlsDialog is a nonmodal dialog that display the fluid controls.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FluidControlDialog extends JDialog {
+public class FluidControlsDialog extends JDialog {
 
     private FluidControlPanel _fluidControlPanel;
-    private JButton _closeButton;
     
     /**
      * Constructor.
@@ -34,7 +27,7 @@ public class FluidControlDialog extends JDialog {
      * @param font font to used for all controls
      * @param fluid model that we'll be controlling
      */
-    public FluidControlDialog( Frame owner, Font font, Fluid fluid ) {
+    public FluidControlsDialog( Frame owner, Font font, Fluid fluid ) {
         super( owner );
         assert( owner != null );
         setResizable( false );
@@ -43,22 +36,7 @@ public class FluidControlDialog extends JDialog {
         
         _fluidControlPanel = new FluidControlPanel( fluid, font ); 
         
-        _closeButton = new JButton( OTResources.getString( "button.close" ) );
-        _closeButton.setFont( font );
-        _closeButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                dispose();
-            }
-        } );
-        JPanel actionsPanel = new JPanel();
-        actionsPanel.add( _closeButton );
-        
-        JPanel mainPanel = new VerticalLayoutPanel();
-        mainPanel.add( _fluidControlPanel );
-        mainPanel.add( new JSeparator() );
-        mainPanel.add( actionsPanel );
-        
-        getContentPane().add( mainPanel );
+        getContentPane().add( _fluidControlPanel );
         pack();
     }
     

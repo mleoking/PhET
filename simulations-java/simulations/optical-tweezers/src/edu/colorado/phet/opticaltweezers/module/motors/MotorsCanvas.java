@@ -349,7 +349,6 @@ public class MotorsCanvas extends AbstractCanvas {
     }
     
     private void handleResetDNAButton() {
-        //XXX
-        System.out.println( "MotorsCanvas.handleResetDNAButton" );
+        //XXX reset the enzyme, DNA strand, and bead position
     }
 }
