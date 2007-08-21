@@ -1,1 +1,3 @@
-7-5-2007: Fixed: Can move energy level up off the screen and lose it (in current version, it’s constrained to not move this far). 
+8-20-2007: Increased the range under which absorption is possible by a factor of 5.
+8-20-2007: Changed the display for a matching wavelength from "flashes 5 times" to solid bumps (not flashing)
+7-5-2007: Fixed: Can move energy level up off the screen and lose it (in current version, it’s constrained to not move this far).

@@ -15,17 +15,21 @@ import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
-import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.common.phetcommon.view.util.*;
+import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
@@ -57,7 +61,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 
     // Number of milliseconds between display updates. Energy level populations are averaged over this time
     private long averagingPeriod = 0;
-//    private long averagingPeriod = 300;
+    //    private long averagingPeriod = 300;
     private long lastPaintTime;
     private int numUpdatesToAverage;
     // The diameter of an atom as displayed on the screen, in pixels
@@ -95,11 +99,6 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     private int headerOffsetY = 20;
     private int footerOffsetY = 10;
     private IClock clock;
-//    private AffineTransform seedLampAtx;
-//    private AffineTransform pumpLampAtx;
-//    private LampIcon pumpLampGraphic;
-//    private LampIcon seedLampGraphic;
-//    private AffineTransform pumpLampTx;
 
     /**
      *
@@ -543,7 +542,6 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         private AtomicState atomicState;
         private Beam beam;
         private EnergyLevelGraphic graphic;
-        private boolean matched;
 
         public EnergyMatchDetector( AtomicState atomicState, Beam beam, EnergyLevelGraphic graphic ) {
             this.atomicState = atomicState;
@@ -551,6 +549,12 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             this.graphic = graphic;
             atomicState.addListener( this );
             beam.addWavelengthChangeListener( this );
+            beam.addRateChangeListener( new PhotonSource.RateChangeListener() {
+                public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
+                    checkForMatch();
+                }
+            } );
+//            checkForMatch();
         }
 
         public void energyLevelChanged( AtomicState.Event event ) {
@@ -559,17 +563,10 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 
         private void checkForMatch() {
             double requiredDE = atomicState.getEnergyLevel() - model.getGroundState().getEnergyLevel();
-            if( beam.isEnabled() && Math.abs( PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) - requiredDE )
-                                    <= QuantumConfig.ENERGY_TOLERANCE ) {
-//                                    <= LaserConfig.ENERGY_TOLERANCE ) {
-                if( !matched ) {
-                    flashGraphic();
-                    matched = true;
-                }
-            }
-            else {
-                matched = false;
-            }
+            boolean match = beam.isEnabled() &&
+                            Math.abs( PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) - requiredDE ) <= QuantumConfig.ENERGY_TOLERANCE
+                            && beam.getPhotonsPerSecond() > 0;
+            graphic.setMatch( match );
         }
 
         public void meanLifetimechanged( AtomicState.Event event ) {
@@ -579,43 +576,5 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
             checkForMatch();
         }
-
-        boolean hidden;
-
-        private void flashGraphic() {
-            GraphicFlasher gf = new GraphicFlasher( graphic );
-            gf.start();
-        }
-    }
-
-    private class GraphicFlasher extends Thread {
-        private int numFlashes = 5;
-        private EnergyLevelGraphic graphic;
-
-        public GraphicFlasher( EnergyLevelGraphic graphic ) {
-            this.graphic = graphic;
-        }
-
-        public void run() {
-            try {
-                for( int i = 0; i < numFlashes; i++ ) {
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            graphic.setVisible( false );
-                        }
-                    } );
-                    Thread.sleep( 100 );
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            graphic.setVisible( true );
-                        }
-                    } );
-                    Thread.sleep( 100 );
-                }
-            }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
-            }
-        }
-    }
+   }
 }

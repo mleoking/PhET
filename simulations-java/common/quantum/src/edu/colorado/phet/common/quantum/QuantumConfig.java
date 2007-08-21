@@ -19,14 +19,13 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
  * @version $Revision$
  */
 public class QuantumConfig {
-
-    public static final String VERSION = "1.00.01";
-    
+   
     public static final double STIMULATION_LIKELIHOOD = 0.2;
     public static boolean ENABLE_ALL_STIMULATED_EMISSIONS = true;
 
     // Tolerances used to determine if a photon matches with an atomic state energy
-    public static final double ENERGY_TOLERANCE = 0.01;
+//    public static final double ENERGY_TOLERANCE = 0.01;
+    public static final double ENERGY_TOLERANCE = 0.05;
 
     public static final double MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
     public static final double MAX_WAVELENGTH = VisibleColor.MAX_WAVELENGTH;
