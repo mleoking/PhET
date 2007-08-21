@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
@@ -24,7 +25,8 @@ import java.awt.event.*;
  * Time: 11:34:12 AM
  */
 
-public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanvas {
+//public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanvas {
+public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
     private AbstractRotationModule rotationModule;
 
     /* PNodes*/
