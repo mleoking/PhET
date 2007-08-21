@@ -65,7 +65,7 @@ public class GreenhouseApplication extends PhetApplication {
 
 
     public static void main( String[] args ) {
-        Locale.setDefault( new Locale( "ja" ) );
+//        Locale.setDefault( new Locale( "ja" ) );
         SimStrings.getInstance().init( args, localizedStringsPath );
         SimStrings.getInstance().addStrings( "greenhouse/localization/phetcommon-strings" );
 
