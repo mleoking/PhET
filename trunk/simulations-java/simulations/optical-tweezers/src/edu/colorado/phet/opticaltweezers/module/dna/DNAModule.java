@@ -6,7 +6,11 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.control.ChartsControlPanel;
+import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
+import edu.colorado.phet.opticaltweezers.control.MiscControlPanel;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
+import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
@@ -174,15 +178,23 @@ public class DNAModule extends AbstractModule {
         // Control panel settings that are view-related
         {
             _controlPanel.getSimulationSpeedControlPanel().setSimulationSpeed( DNADefaults.DEFAULT_DT );
-            _controlPanel.getForcesControlPanel().setTrapForceSelected( DNADefaults.TRAP_FORCE_SELECTED );
-            _controlPanel.getForcesControlPanel().setDragForceSelected( DNADefaults.FLUID_DRAG_FORCE_SELECTED );
-            _controlPanel.getForcesControlPanel().setDNAForceSelected( DNADefaults.DNA_FORCE_SELECTED );
-            _controlPanel.getForcesControlPanel().setShowValuesSelected( DNADefaults.SHOW_FORCE_VALUES );
-            _controlPanel.getChartsControlPanel().setPositionHistogramSelected( DNADefaults.POSITION_HISTOGRAM_SELECTED );
-            _controlPanel.getChartsControlPanel().setPotentialEnergySelected( DNADefaults.POTENTIAL_ENERGY_CHART_SELECTED );
-            _controlPanel.getMiscControlPanel().setRulerSelected( DNADefaults.RULER_SELECTED );
-            _controlPanel.getMiscControlPanel().setFluidControlsSelected( DNADefaults.FLUID_CONTROLS_SELECTED );
-            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setComponentsVisible( DNADefaults.SHOW_FORCE_VALUES );
+            
+            ForcesControlPanel forcesControlPanel = _controlPanel.getForcesControlPanel();
+            forcesControlPanel.setTrapForceSelected( DNADefaults.TRAP_FORCE_SELECTED );
+            forcesControlPanel.setDragForceSelected( DNADefaults.FLUID_DRAG_FORCE_SELECTED );
+            forcesControlPanel.setDNAForceSelected( DNADefaults.DNA_FORCE_SELECTED );
+            forcesControlPanel.setShowValuesSelected( DNADefaults.SHOW_FORCE_VALUES );
+            
+            ChartsControlPanel chartsControlPanel = _controlPanel.getChartsControlPanel();
+            chartsControlPanel.setPositionHistogramSelected( DNADefaults.POSITION_HISTOGRAM_SELECTED );
+            chartsControlPanel.setPotentialEnergySelected( DNADefaults.POTENTIAL_ENERGY_CHART_SELECTED );
+            
+            MiscControlPanel miscControlPanel = _controlPanel.getMiscControlPanel();
+            miscControlPanel.setRulerSelected( DNADefaults.RULER_SELECTED );
+            miscControlPanel.setFluidControlsSelected( DNADefaults.FLUID_CONTROLS_SELECTED );
+            
+            DeveloperControlPanel developerControlPanel = _controlPanel.getDeveloperControlPanel();
+            developerControlPanel.getVectorsPanel().setComponentsVisible( DNADefaults.SHOW_FORCE_VALUES );
         }
     }
 
@@ -217,14 +229,21 @@ public class DNAModule extends AbstractModule {
         config.setFluidTemperature( fluid.getTemperature() );
         
         // Control panel settings
-        config.setTrapForceSelected( _controlPanel.getForcesControlPanel().isTrapForceSelected() );
-        config.setDragForceSelected( _controlPanel.getForcesControlPanel().isDragForceSelected() );
-        config.setDnaForceSelected( _controlPanel.getForcesControlPanel().isDNAForceSelected() );
-        config.setShowForceValuesSelected( _controlPanel.getForcesControlPanel().isShowValuesSelected() );
-        config.setPositionHistogramSelected( _controlPanel.getChartsControlPanel().isPositionHistogramSelected() );
-        config.setPotentialEnergySelected( _controlPanel.getChartsControlPanel().isPotentialChartSelected() );
-        config.setRulerSelected( _controlPanel.getMiscControlPanel().isRulerSelected() );
-        config.setFluidControlsSelected( _controlPanel.getMiscControlPanel().isFluidControlsSelected() );
+        {
+            ForcesControlPanel forcesControlPanel = _controlPanel.getForcesControlPanel();
+            config.setTrapForceSelected( forcesControlPanel.isTrapForceSelected() );
+            config.setDragForceSelected( forcesControlPanel.isDragForceSelected() );
+            config.setDnaForceSelected( forcesControlPanel.isDNAForceSelected() );
+            config.setShowForceValuesSelected( forcesControlPanel.isShowValuesSelected() );
+            
+            ChartsControlPanel chartsControlPanel = _controlPanel.getChartsControlPanel();
+            config.setPositionHistogramSelected( chartsControlPanel.isPositionHistogramSelected() );
+            config.setPotentialEnergySelected( chartsControlPanel.isPotentialChartSelected() );
+            
+            MiscControlPanel miscControlPanel = _controlPanel.getMiscControlPanel();
+            config.setRulerSelected( miscControlPanel.isRulerSelected() );
+            config.setFluidControlsSelected( miscControlPanel.isFluidControlsSelected() );
+        }
     }
 
     public void load( OTConfig appConfig ) {
@@ -266,13 +285,20 @@ public class DNAModule extends AbstractModule {
         fluid.setTemperature( config.getFluidTemperature() );
         
         // Control panel settings
-        _controlPanel.getForcesControlPanel().setTrapForceSelected( config.isTrapForceSelected() );
-        _controlPanel.getForcesControlPanel().setDragForceSelected( config.isDragForceSelected() );
-        _controlPanel.getForcesControlPanel().setDNAForceSelected( config.isDnaForceSelected() );
-        _controlPanel.getForcesControlPanel().setShowValuesSelected( config.isShowForceValuesSelected() );
-        _controlPanel.getChartsControlPanel().setPositionHistogramSelected( config.isPositionHistogramSelected() );
-        _controlPanel.getChartsControlPanel().setPotentialEnergySelected( config.isPotentialEnergySelected() );
-        _controlPanel.getMiscControlPanel().setRulerSelected( config.isRulerSelected() );
-        _controlPanel.getMiscControlPanel().setFluidControlsSelected( config.isFluidControlsSelected() );
+        {
+            ForcesControlPanel forcesControlPanel = _controlPanel.getForcesControlPanel();
+            forcesControlPanel.setTrapForceSelected( config.isTrapForceSelected() );
+            forcesControlPanel.setDragForceSelected( config.isDragForceSelected() );
+            forcesControlPanel.setDNAForceSelected( config.isDnaForceSelected() );
+            forcesControlPanel.setShowValuesSelected( config.isShowForceValuesSelected() );
+            
+            ChartsControlPanel chartsControlPanel = _controlPanel.getChartsControlPanel();
+            chartsControlPanel.setPositionHistogramSelected( config.isPositionHistogramSelected() );
+            chartsControlPanel.setPotentialEnergySelected( config.isPotentialEnergySelected() );
+            
+            MiscControlPanel miscControlPanel = _controlPanel.getMiscControlPanel();
+            miscControlPanel.setRulerSelected( config.isRulerSelected() );
+            miscControlPanel.setFluidControlsSelected( config.isFluidControlsSelected() );
+        }
     }
 }

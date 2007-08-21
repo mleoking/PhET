@@ -50,6 +50,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/21/07 - reduce function calls in module reset/save/load
 8/21/07 - Save/Load motors module
 8/21/07 - add control for keeping trap force constant (not wired up), include persistence support
 8/21/07 - add persistence support for "Show force values" control
