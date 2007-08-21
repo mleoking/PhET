@@ -39,14 +39,32 @@ public class TorqueControlPanel extends JPanel {
         outerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setRadius( outerRadiusSlider.getValue() );
+                if( outerRadiusSlider.getValue() < rp.getInnerRadius() ) {
+                    rp.setInnerRadius( outerRadiusSlider.getValue() );
+                }
             }
         } );
+        rp.addListener( new RotationPlatform.Adapter() {
+            public void radiusChanged() {
+                outerRadiusSlider.setValue( rp.getRadius() );
+            }
+        } );
+
         final TorqueSlider innerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getInnerRadius(), "r=Inner Radius", "0.00", "m" );
         innerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setInnerRadius( innerRadiusSlider.getValue() );
+                if( innerRadiusSlider.getValue() > rp.getRadius() ) {
+                    rp.setRadius( innerRadiusSlider.getValue() );
+                }
             }
         } );
+        rp.addListener( new RotationPlatform.Adapter() {
+            public void innerRadiusChanged() {
+                innerRadiusSlider.setValue( rp.getInnerRadius() );
+            }
+        } );
+
         final TorqueSlider massSlider = new TorqueSlider( rp.getMass() / 10.0, rp.getMass() * 2, rp.getMass(), "Mass", "0.00", "kg" );
         massSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

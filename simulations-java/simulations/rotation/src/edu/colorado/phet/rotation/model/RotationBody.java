@@ -42,6 +42,60 @@ public class RotationBody {
     private CircularRegression circularRegression = new CircularRegression();
 
     private ArrayList listeners = new ArrayList();
+    private RotationPlatform.Listener listener = new RotationPlatform.Adapter() {
+        public void innerRadiusChanged() {
+            platformInnerRadiusChanged();
+        }
+
+        public void radiusChanged() {
+            platformOuterRadiusChanged();
+        }
+    };
+
+    interface DoubleComparator {
+        boolean compare( double a, double b );
+    }
+
+    interface DoubleNumber {
+        double getValue();
+    }
+
+    private void platformDimensionChanged( DoubleComparator comparator, DoubleNumber f ) {
+        if( rotationPlatform != null && comparator.compare( getPosition().distance( rotationPlatform.getCenter() ), f.getValue() ) ) {
+            if( f.getValue() == 0 ) {
+                setPosition( rotationPlatform.getCenter() );
+            }
+            else {
+                Vector2D.Double vec = new Vector2D.Double( getX() - rotationPlatform.getCenter().getX(), getY() - rotationPlatform.getCenter().getY() );
+                AbstractVector2D m = vec.getInstanceOfMagnitude( f.getValue() );
+                setPosition( m.getX() + rotationPlatform.getCenter().getX(), m.getY() + rotationPlatform.getCenter().getY() );
+            }
+        }
+    }
+
+    private void platformInnerRadiusChanged() {
+        platformDimensionChanged( new DoubleComparator() {
+            public boolean compare( double a, double b ) {
+                return a < b;
+            }
+        }, new DoubleNumber() {
+            public double getValue() {
+                return rotationPlatform.getInnerRadius();
+            }
+        } );
+    }
+
+    private void platformOuterRadiusChanged() {
+        platformDimensionChanged( new DoubleComparator() {
+            public boolean compare( double a, double b ) {
+                return a > b;
+            }
+        }, new DoubleNumber() {
+            public double getValue() {
+                return rotationPlatform.getRadius();
+            }
+        } );
+    }
 
     public RotationBody() {
         this( "ladybug.gif" );
@@ -85,9 +139,13 @@ public class RotationBody {
     }
 
     public void setOnPlatform( RotationPlatform rotationPlatform ) {
+        if( this.rotationPlatform != null ) {
+            this.rotationPlatform.removeListener( listener );
+        }
         if( !isOnPlatform( rotationPlatform ) ) {
             setUpdateStrategy( new OnPlatform( rotationPlatform ) );
             this.rotationPlatform = rotationPlatform;
+            this.rotationPlatform.addListener( listener );
             notifyPlatformStateChanged();
         }
     }
@@ -120,7 +178,6 @@ public class RotationBody {
         Point2D origPosition = getPosition();
         if( isOffPlatform() ) {
             updateOffPlatform( time );
-//            updateOffPlatformORIG( time, dt );
         }
         else {
             updateOnPlatform( time );
@@ -340,7 +397,13 @@ public class RotationBody {
         Point2D newX = Vector2D.Double.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
         AbstractVector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
+        if( r * omega == 0 ) {
+            newV = new Vector2D.Double();
+        }
         AbstractVector2D newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
+        if( r * omega * omega == 0 ) {
+            newA = new Vector2D.Double();
+        }
 
         addPositionData( newX, time );
         addVelocityData( newV, time );
