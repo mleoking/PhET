@@ -73,8 +73,7 @@ public class GreenhouseApplication extends PhetApplication {
             public void run() {
 
                 JFrame window = new JFrame();
-                AWTSplashWindow splashWindow = new AWTSplashWindow( window, SimStrings.get( "GreenHouseApplication.title" ) );
-                splashWindow.setFont( new Font( FontJA.getFontName( "Lucida Sans"),Font.PLAIN,18) );
+                AWTSplashWindow splashWindow = new AWTSplashWindow( window, FontJA.isJapaneseLocale()?"Greenhouse Application":SimStrings.get( "GreenHouseApplication.title" ) );
                 splashWindow.show();
 
                 // Set the look and feel if we're on Windows and Java 1.4
