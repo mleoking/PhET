@@ -135,14 +135,15 @@ public class ForcesControlPanel extends JPanel implements Observer {
         layout.setFill( GridBagConstraints.HORIZONTAL );
         layout.setMinimumWidth( 0, 20 );
         int row = 0;
-        layout.addComponent( titleLabel, row++, 0, 2, 1 );
-        layout.addComponent( _trapForceCheckBox, row++, 0, 2, 1 );
-        layout.addComponent( _dragForceCheckBox, row++, 0, 2, 1 );
+        int column = 0;
+        layout.addComponent( titleLabel, row++, column );
+        layout.addComponent( _trapForceCheckBox, row++, column );
+        layout.addComponent( _dragForceCheckBox, row++, column );
         if ( _dnaForceCheckBox != null ) {
-            layout.addComponent( _dnaForceCheckBox, row++, 0, 2, 1 );
+            layout.addComponent( _dnaForceCheckBox, row++, column );
         }
-        layout.addComponent( _brownianMotionCheckBox, row++, 0, 2, 1 );
-        layout.addComponent( _showValuesCheckBox, row++, 0, 2, 1 );
+        layout.addComponent( _brownianMotionCheckBox, row++, column );
+        layout.addComponent( _showValuesCheckBox, row++, column );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
         
