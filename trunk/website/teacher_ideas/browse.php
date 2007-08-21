@@ -116,6 +116,10 @@
             url_encode_list('Types[]',       $Types).
             url_encode_list('Levels[]',      $Levels);
 
+		// print "Simulations = ";
+		// print_r($Simulations);
+		// print "<br/>";
+
         // Remove all the parameters we insert ourselves:
         $php_self = remove_script_param_from_url("content_only",    $_SERVER['REQUEST_URI']); 
         $php_self = remove_script_param_from_url("Simulations[]",   $php_self);
@@ -341,7 +345,7 @@ EOT;
                             if (option_node.selected) {
                                 selected_options += '&' + select_prefix + '[]=';
                                 
-                                selected_options += encodeURI(option_node.value);
+                                selected_options += encodeURIComponent(option_node.value);
                             }
                         }
                         
