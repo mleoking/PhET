@@ -24,7 +24,7 @@ import java.awt.event.ActionListener;
 public class TorqueControlPanel extends JPanel {
     private TorqueModule torqueModule;
     public static final int MIN_BRAKE = 0;
-    public static final int MAX_BRAKE = 1;
+    public static final int MAX_BRAKE = 3;
 
     public TorqueControlPanel( GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final TorqueModule torqueModule ) {
         super( new GridBagLayout() );
