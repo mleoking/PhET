@@ -10,11 +10,13 @@
 	$script = get_self_url();
     
     function print_first_time_login_form() {   
-        print '<h1>Login</h1>';
+        print '<h1>Login/Register</h1>';
         
 		global $script;
 
-		print_contribute_login_form($script, null, $script);
+		print_contribute_login_form($script, null, $script,
+			"<p>Please login with your existing PhET account, or create a new one.</p>"
+		);
     }
 
     function print_retry_login_form() {        

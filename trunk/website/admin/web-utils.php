@@ -112,11 +112,17 @@
             }
         }
         else {
-            $parsed['first_name'] = 'John';
-            $parsed['last_name']  = 'Doe';
+			if (strlen(trim($name)) == 0) {
+            	$parsed['first_name'] = 'John';
+            	$parsed['last_name']  = 'Doe';
+			}
+			else {
+				$parsed['first_name'] = '';
+            	$parsed['last_name']  = $name;
+			}
         }
         
-        $parsed['first_initial'] = strtoupper($parsed['first_name'][0]);
+        $parsed['first_initial'] = strlen($parsed['first_name']) > 0 ? strtoupper($parsed['first_name'][0]) : '';
         $parsed['last_initial']  = strtoupper($parsed['last_name'][0]);        
         
         return $parsed;

@@ -1003,8 +1003,17 @@ EOT;
         $time = strtotime($contribution_date_updated);
         
         $contribution_date_updated = date('n/y', $time);
+
         
-        $author_html = "<abbr title=\"$contribution_author\">$author_first_initial. $author_last_name</abbr>";
+
+		if ($author_first_initial == '') {
+        	$author_abbr = "$author_last_name";
+		}
+		else {
+			$author_abbr = "$author_first_initial. $author_last_name";
+		}
+		
+		$author_html = "<abbr title=\"$contribution_author\">$author_abbr</abbr>";
         
         $title_html = <<<EOT
                 <a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
