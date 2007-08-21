@@ -71,11 +71,17 @@ public class TorqueControlPanel extends JPanel {
                 rp.setMass( massSlider.getValue() );
             }
         } );
+        final TorqueSlider frictionSlider = new TorqueSlider( 0, 1, torqueModule.getTorqueModel().getBrakeForce(), "Force of Brake", "0.00", "N" );
+        frictionSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                torqueModule.getTorqueModel().setBrakeForce( frictionSlider.getValue() );
+            }
+        } );
         TorqueSlider[] sliders = new TorqueSlider[]{
                 outerRadiusSlider,
                 innerRadiusSlider,
                 massSlider,
-                new TorqueSlider( 0, 1, 0.5, "Force of Brake", "0.00", "N" )
+                frictionSlider
         };
         for( int i = 0; i < sliders.length; i++ ) {
             sliderPanel.add( sliders[i], gridBagConstraints );

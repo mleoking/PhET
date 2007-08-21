@@ -4,6 +4,7 @@ import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
@@ -21,6 +22,7 @@ public class TorqueModel extends RotationModel {
     private DefaultTemporalVariable force = new DefaultTemporalVariable();
     private DefaultTemporalVariable momentOfInertia = new DefaultTemporalVariable();
     private DefaultTemporalVariable angularMomentum = new DefaultTemporalVariable();
+    private DefaultTemporalVariable brakeForce = new DefaultTemporalVariable();
 
     private UpdateStrategy forceDriven = new ForceDriven();
     private UpdateStrategy torqueDriven = new TorqueDriven();
@@ -38,6 +40,7 @@ public class TorqueModel extends RotationModel {
         super.stepInTime( dt );
         momentOfInertia.addValue( getRotationPlatform().getMomentOfInertia(), getTime() );
         angularMomentum.addValue( getRotationPlatform().getMomentOfInertia() * getRotationPlatform().getVelocity(), getTime() );
+        brakeForce.addValue( brakeForce.getValue(), getTime() );
         torque.addValue( torque.getValue(), getTime() );
         force.addValue( force.getValue(), getTime() );
     }
@@ -46,6 +49,14 @@ public class TorqueModel extends RotationModel {
         super.setPlaybackTime( time );
         torque.setPlaybackTime( time );
         force.setPlaybackTime( time );
+    }
+
+    public double getBrakeForce() {
+        return brakeForce.getValue();
+    }
+
+    public void setBrakeForce( double brakeForceValue ) {
+        brakeForce.setValue( brakeForceValue );
     }
 
     public ITemporalVariable getTorqueTimeSeries() {
@@ -100,26 +111,42 @@ public class TorqueModel extends RotationModel {
     public class TorqueDriven implements UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
-            double acceleration = torque.getValue() / getRotationPlatform().getMomentOfInertia();
-            double origAngVel = motionBody.getVelocity();
-            motionBody.addAccelerationData( acceleration, time );
-            motionBody.addVelocityData( motionBody.getVelocity() + acceleration * dt, time );
-            motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
+            finishUpdate( motionBody, dt, time );
         }
     }
 
     public class ForceDriven implements UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
-            double torqu = force.getValue() * getRotationPlatform().getRadius();//todo: generalize to r x F (4 parameters)
-            double acceleration = torqu / getRotationPlatform().getMomentOfInertia();
-            torque.setValue( torqu );
-//            torqueSeries.addValue( torque, );
-            double origAngVel = motionBody.getVelocity();
-            motionBody.addAccelerationData( acceleration, time );
-            motionBody.addVelocityData( motionBody.getVelocity() + acceleration * dt, time );
-            motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
+            torque.setValue( force.getValue() * getRotationPlatform().getRadius() );
+            finishUpdate( motionBody, dt, time );
         }
+    }
+
+    private void finishUpdate( MotionBody motionBody, double dt, double time ) {
+        double mu = 1.2;
+        double brakeForceVal = mu * brakeForce.getValue();
+        if( Math.abs( motionBody.getVelocity() ) < 1E-6 ) {
+            brakeForceVal = 0.0;
+        }
+        double origAngVel = motionBody.getVelocity();
+//        double origPosition
+        double netTorque = torque.getValue() - MathUtil.getSign( origAngVel ) * brakeForceVal;
+
+        System.out.println( "netTorque = " + netTorque + ", vel=" + origAngVel + ", torque=" + torque.getValue() + ", brakeForce=" + brakeForceVal );
+
+        double acceleration = netTorque / getRotationPlatform().getMomentOfInertia();
+        double proposedVelocity = motionBody.getVelocity() + acceleration * dt;
+        if( MathUtil.getSign( proposedVelocity ) != MathUtil.getSign( origAngVel ) && brakeForceVal > Math.abs( torque.getValue() ) ) {
+            proposedVelocity = 0.0;
+        }
+
+        motionBody.addAccelerationData( acceleration, time );
+        motionBody.addVelocityData( proposedVelocity, time );
+
+        //if the friction causes the velocity to change sign, set the velocity to zero?
+
+        motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
     }
 
     public Line2D.Double getAppliedForce() {
