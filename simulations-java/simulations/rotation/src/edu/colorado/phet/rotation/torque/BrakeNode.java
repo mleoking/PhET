@@ -30,16 +30,20 @@ public class BrakeNode extends PNode {
         this.torqueModel = torqueModel;
         rotationPlatform.addListener( new RotationPlatform.Adapter() {
             public void radiusChanged() {
-                update();
+                updateTransform();
             }
         } );
         torqueModel.addListener( new TorqueModel.Adapter() {
             public void brakeForceChanged() {
                 updateImage();
+                updateTransform();
             }
         } );
-        block = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.5, 0.5 ), Color.blue, new BasicStroke( (float)( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
-        block.translate( 0,- block.getFullBounds().getHeight() / 2.0 );
+//        Color blockColor = Color.blue;
+//        Color blockColor = new Color( 215,184,62);
+        Color blockColor = new Color( 207, 187, 108 );
+        block = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.5, 0.5 ), blockColor, new BasicStroke( (float)( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
+        block.translate( 0, -block.getFullBounds().getHeight() / 2.0 );
         addChild( block );
 
         PhetPPath registrationPoint = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.1, 0.1 ), Color.white, new BasicStroke( (float)( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
@@ -54,7 +58,7 @@ public class BrakeNode extends PNode {
 
         addChild( im );
 
-        update();
+        updateTransform();
         updateImage();
     }
 
@@ -74,9 +78,9 @@ public class BrakeNode extends PNode {
         }
     }
 
-    private void update() {
+    private void updateTransform() {
         double angle = -Math.PI / 4;
-        AbstractVector2D vec = Vector2D.Double.parseAngleAndMagnitude( rotationPlatform.getRadius(), angle );
+        AbstractVector2D vec = Vector2D.Double.parseAngleAndMagnitude( rotationPlatform.getRadius() + ( torqueModel.getBrakeForce() == 0 ? 0.08 : 0.00 ), angle );
         setOffset( vec.getDestination( rotationPlatform.getCenter() ) );
         setRotation( angle );
     }
