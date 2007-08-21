@@ -142,6 +142,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
             _atpControl.setUpDownArrowDelta( 0.1 );
             _atpControl.setTickPattern( "0" );
             _atpControl.setMajorTickSpacing( ( max - min ) / 2 );
+            _atpControl.setMinorTickSpacing( 1 );
             _atpControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     handleATPChange();
@@ -156,15 +157,15 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         layout.setFill( GridBagConstraints.HORIZONTAL );
         int row = 0;
         int column = 0;
+        if ( _atpControl != null ) {
+            layout.addComponent( _atpControl, row++, column );
+            layout.addComponent( new JSeparator(), row++, column );
+        }
         layout.addComponent( _speedControl, row++, column );
         layout.addComponent( new JSeparator(), row++, column );
         layout.addComponent( _viscosityControl, row++, column );
         layout.addComponent( new JSeparator(), row++, column );
         layout.addComponent( _temperatureControl, row++, column );
-        if ( _atpControl != null ) {
-            layout.addComponent( new JSeparator(), row++, column );
-            layout.addComponent( _atpControl, row++, column );
-        }
         
         // Adjust all sliders to be the same width
         int speedWidth = (int)_speedControl.getPreferredSize().getWidth();
