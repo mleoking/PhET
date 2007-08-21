@@ -1,15 +1,17 @@
-package edu.colorado.phet.cck;
+package edu.colorado.phet.common.phetcommon.view.util;
 
+import edu.colorado.phet.cck.CCKFontProvider;
+import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
- * Author: Sam Reid
- * Aug 6, 2007, 1:51:00 PM
+ * Provides support for finding and returning Japanese fonts.
  */
 public class FontJA {
     public static void setupJAFonts() {
@@ -47,5 +49,22 @@ public class FontJA {
         else {
             return defaultValue;
         }
+    }
+
+    public static void main( String[] args ) {
+        Locale.setDefault( new Locale( "ja" ) );
+        String name = CCKResources.getString( "CCK3Module.GrabAWire" );
+        System.out.println( "name = " + name );
+        JFrame frame = new JFrame();
+
+        JButton contentPane = new JButton( name );
+        contentPane.setFont( CCKFontProvider.getFont( "MS PGothic", Font.PLAIN, 10 ) );
+
+        frame.setContentPane( contentPane );
+        frame.pack();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width / 2 - frame.getWidth() / 2,
+                           Toolkit.getDefaultToolkit().getScreenSize().height / 2 - frame.getHeight() / 2 );
+        frame.show();
     }
 }

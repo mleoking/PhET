@@ -1,5 +1,7 @@
 package edu.colorado.phet.cck;
 
+import edu.colorado.phet.common.phetcommon.view.util.FontJA;
+
 import java.awt.*;
 
 /**
