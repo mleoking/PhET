@@ -1,3 +1,6 @@
-8-12-2007: Bugfixes in Maze Game 1.03
-8-10-2007: Fixed Signal Circuit 1.02 and Forces in 1D 1.17 to work properly on Mac + Java 1.4
-8-9-2007: posted Energy Skate Park 2.04 with user interface improvements and bugfixes
+8-16-2007: Plinko Probability - added.
+8-16-2007: Equation Grapher - user interface improvements
+8-12-2007: Maze Game (1.03) - bugfixes
+8-10-2007: Signal Circuit (1.02) - fixed Mac + Java 1.4
+8-10-2007: Forces in 1D (1.17) - fixed Mac + Java 1.4
+8-9-2007: Energy Skate Park (2.04) - user interface improvements and bugfixes
