@@ -4,10 +4,7 @@ import edu.colorado.phet.common.motion.graphs.GraphSelectionControl;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 
 import javax.swing.*;
@@ -31,12 +28,14 @@ public class TorqueControlPanel extends JPanel {
         this.torqueModule = torqueModule;
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
         setBorder( BorderFactory.createTitledBorder( "Controls" ) );
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = GridBagConstraints.RELATIVE;
+        GridBagConstraints sliderSetConstraints = new GridBagConstraints();
+        sliderSetConstraints.gridx = 0;
+        sliderSetConstraints.gridy = GridBagConstraints.RELATIVE;
         JPanel sliderPanel = new JPanel( new GridBagLayout() );
 
         final RotationPlatform rp = torqueModule.getRotationModel().getRotationPlatform();
+
+
         final TorqueSlider outerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getRadius(), "R=Outer Radius", "0.00", "m" );
         outerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -85,8 +84,10 @@ public class TorqueControlPanel extends JPanel {
                 massSlider,
                 frictionSlider
         };
+        AlignedSliderSetLayoutStrategy alignedSliderSetLayoutStrategy=new AlignedSliderSetLayoutStrategy(sliders);
+        alignedSliderSetLayoutStrategy.doLayout();
         for( int i = 0; i < sliders.length; i++ ) {
-            sliderPanel.add( sliders[i], gridBagConstraints );
+            sliderPanel.add( sliders[i], sliderSetConstraints );
         }
         add( sliderPanel, getConstraints( 0, 0, 2 ) );
         add( graphSelectionControl, getConstraints( 1, 1, 1 ) );
@@ -115,7 +116,7 @@ public class TorqueControlPanel extends JPanel {
 
     public static class TorqueSlider extends LinearValueControl {
         public TorqueSlider( double min, double max, double initialValue, String label, String textFieldPattern, String units ) {
-            super( min, max, label, textFieldPattern, units, new TorqueSliderLayout() );
+            super( min, max, label, textFieldPattern, units, new NullLayoutStrategy() );
             setValue( initialValue );
             setMinorTickSpacing( ( max - min ) / 20.0 );
 //            setMajorTickSpacing( ( max - min ) / 4.0 );
@@ -123,30 +124,33 @@ public class TorqueControlPanel extends JPanel {
         }
     }
 
-    static class TorqueSliderLayout implements ILayoutStrategy {
-
-        public void doLayout( AbstractValueControl valueControl ) {
-
-            // Get the components that will be part of the layout
-            JComponent slider = valueControl.getSlider();
-            JComponent textField = valueControl.getTextField();
-            JComponent valueLabel = valueControl.getValueLabel();
-            JComponent unitsLabel = valueControl.getUnitsLabel();
-
-            // Label+textfield+units in a panel.
-            JPanel valuePanel = new JPanel();
-            EasyGridBagLayout valueLayout = new EasyGridBagLayout( valuePanel );
-            valuePanel.setLayout( valueLayout );
-            valueLayout.setAnchor( GridBagConstraints.WEST );
-            valueLayout.addComponent( valueLabel, 0, 0 );
-            valueLayout.addComponent( textField, 0, 1 );
-            valueLayout.addComponent( unitsLabel, 0, 2 );
-
-            // Label+textfield+units above slider
-            EasyGridBagLayout layout = new EasyGridBagLayout( valueControl );
-            valueControl.setLayout( layout );
-            layout.addComponent( valuePanel, 0, 0 );
-            layout.addComponent( slider, 0, 1 );
-        }
-    }
+//    static class TorqueSliderLayout implements ILayoutStrategy {
+//
+//        public void doLayout( AbstractValueControl valueControl ) {
+//
+//            // Get the components that will be part of the layout
+//            JComponent slider = valueControl.getSlider();
+//            JComponent textField = valueControl.getTextField();
+//            JComponent valueLabel = valueControl.getValueLabel();
+//            JComponent unitsLabel = valueControl.getUnitsLabel();
+//            slider.setLocation( 0, 0 );
+//            textField.setLocation( slider.getWidth() + slider.getX(), 0 );
+//            valueControl.add( slider );
+//            valueControl.add( textField);
+////            // Label+textfield+units in a panel.
+////            JPanel valuePanel = new JPanel();
+////            EasyGridBagLayout valueLayout = new EasyGridBagLayout( valuePanel );
+////            valuePanel.setLayout( valueLayout );
+////            valueLayout.setAnchor( GridBagConstraints.WEST );
+////            valueLayout.addComponent( valueLabel, 0, 0 );
+////            valueLayout.addComponent( textField, 0, 1 );
+////            valueLayout.addComponent( unitsLabel, 0, 2 );
+////
+////            // Label+textfield+units above slider
+////            EasyGridBagLayout layout = new EasyGridBagLayout( valueControl );
+////            valueControl.setLayout( layout );
+////            layout.addComponent( valuePanel, 0, 0 );
+////            layout.addComponent( slider, 0, 1 );
+//        }
+//    }
 }
