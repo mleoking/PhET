@@ -40,7 +40,7 @@ public class RotationBody {
     private boolean displayGraph = true;
     private CircularRegression.Circle circle;
     private CircularRegression circularRegression = new CircularRegression();
-
+    private double lastNonZeroRadiusAngle = 0.0;//to remember the last angle the bug was at (in case the user shrinks the disk to radius zero)
     private ArrayList listeners = new ArrayList();
     private RotationPlatform.Listener listener = new RotationPlatform.Adapter() {
         public void innerRadiusChanged() {
@@ -51,6 +51,7 @@ public class RotationBody {
             platformOuterRadiusChanged();
         }
     };
+
 
     interface DoubleComparator {
         boolean compare( double a, double b );
@@ -66,8 +67,13 @@ public class RotationBody {
                 setPosition( rotationPlatform.getCenter() );
             }
             else {
-                Vector2D.Double vec = new Vector2D.Double( getX() - rotationPlatform.getCenter().getX(), getY() - rotationPlatform.getCenter().getY() );
+                AbstractVector2D vec = new Vector2D.Double( getX() - rotationPlatform.getCenter().getX(), getY() - rotationPlatform.getCenter().getY() );
+                if( vec.getMagnitudeSq() == 0 ) {
+                    vec = Vector2D.Double.parseAngleAndMagnitude( 1.0, lastNonZeroRadiusAngle );
+                }
+                System.out.println( "f.getValue() = " + f.getValue() );
                 AbstractVector2D m = vec.getInstanceOfMagnitude( f.getValue() );
+                System.out.println( "m = " + m );
                 setPosition( m.getX() + rotationPlatform.getCenter().getX(), m.getY() + rotationPlatform.getCenter().getY() );
             }
         }
@@ -392,19 +398,18 @@ public class RotationBody {
 
     private void updateOnPlatform( double time ) {
         double omega = rotationPlatform.getVelocity();
+        System.out.println( "omega = " + omega );
         double r = getPosition().distance( rotationPlatform.getCenter() );
-
-        Point2D newX = Vector2D.Double.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
+        System.out.println( "r = " + r );
+        boolean centered = rotationPlatform.getCenter().equals( getPosition() ) || r < 1E-6;
+        System.out.println( "centered = " + centered );
+        Point2D newX = centered ? new Point2D.Double( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() )
+                       : Vector2D.Double.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
-        AbstractVector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
-        if( r * omega == 0 ) {
-            newV = new Vector2D.Double();
-        }
-        AbstractVector2D newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
-        if( r * omega * omega == 0 ) {
-            newA = new Vector2D.Double();
-        }
+        AbstractVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
+        AbstractVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
 
+        System.out.println( "newX = " + newX );
         addPositionData( newX, time );
         addVelocityData( newV, time );
         addAccelerationData( newA, time );
@@ -414,6 +419,13 @@ public class RotationBody {
         angularAccel.addValue( rotationPlatform.getAcceleration(), time );
 //        System.out.println( "rotationPlatform.getLastTime() = " + rotationPlatform.getLastTime() );
         checkCentripetalAccel();
+        if( r > 0 ) {
+            lastNonZeroRadiusAngle = getAngleOverPlatform();
+        }
+    }
+
+    private Vector2D.Double zero() {
+        return new Vector2D.Double( 0, 0 );
     }
 
     public void checkCentripetalAccel() {
@@ -638,6 +650,9 @@ public class RotationBody {
     }
 
     public void setPosition( double x, double y ) {
+        if( Double.isNaN( x ) || Double.isNaN( y ) ) {
+            throw new IllegalArgumentException( "x=" + x + ", y=" + y );
+        }
         if( this.getX() != x || this.getY() != y ) {
             xBody.setPosition( x );
             yBody.setPosition( y );
