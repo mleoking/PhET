@@ -27,6 +27,16 @@
             <p>If you don't have an account on the PhET website, please create a new account.</p>");
     }
 
+	function print_not_an_existing_account() {  
+	    print '<h1>Unknown Account</h1>';
+	
+		global $script;
+		
+		print_contribute_login_form($script, null, $script,
+            "<p><strong>The email address you entered does not have an existing PhET account.</strong></p>
+             <p>To create a new PhET account, use the New Account form.</p>");
+    }
+
     function print_not_an_email_login_form() {  
 	    print '<h1>Invalid Email</h1>';
 	
@@ -156,7 +166,7 @@
                             exit;
                         }
                     }
-                    else {
+                    else if (isset($_REQUEST['create_new_account']) && $_REQUEST['create_new_account'] == '1') {
                         // Create new user account:
                         $contributor_id = contributor_add_new_contributor($username, $password);
             
@@ -194,6 +204,13 @@
             
                         $contributor_authenticated = true;
                     }
+					else {
+						if ($login_required) {
+							print_site_page('print_not_an_existing_account', 3);
+							
+							exit;
+						}
+					}
                 }
                 else {
                     // The username does not exist, nor is it a valid email address.

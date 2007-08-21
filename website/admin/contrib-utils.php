@@ -320,7 +320,10 @@ EOT;
 						</tr>
 					</table>
 					
-					$other_html
+					<div>
+						<input type="hidden" name="create_new_account" value="1" />
+						$other_html
+					</div>
 				</fieldset>
 			</form>
 EOT;
