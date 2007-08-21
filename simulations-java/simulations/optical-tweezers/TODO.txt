@@ -12,9 +12,9 @@ HIGH PRIORITY:
 - view of enzyme as translucent 3D sphere with another 3D sphere rotating inside
 - make enzyme rotation speed proportion to velocity with which enzyme is pulling through DNA
 - "Choose molecular motor" control, 2 choices, 2 different color enzymes with different sets of velocity parameters
+- implement ForcesControlPanel.handleConstantTrapForceCheckBox
 
 MEDIUM PRIORITY: 
-- Save/Load motors module
 - bug: visibility of dialogs (fluid controls, position histogram) isn't restored when changing modules
 - bug: dialogs (fluid controls, position histogram) are disposed when main frame is minimized
 - force dialogs to fully-paint by calling SwingUtils.paintImmediately after JDialog.show
@@ -50,6 +50,8 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/21/07 - Save/Load motors module
+8/21/07 - add control for keeping trap force constant (not wired up), include persistence support
 8/21/07 - add persistence support for "Show force values" control
 8/21/07 - add "Show force values" control to DNA and Motors control panels, remove from developer controls
 8/20/07 - add "Reset DNA" button to canvas (not wired up)

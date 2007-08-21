@@ -45,6 +45,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
     private JCheckBox _brownianMotionCheckBox;
     private JCheckBox _dnaForceCheckBox;
     private JCheckBox _showValuesCheckBox;
+    private JCheckBox _constantTrapForceCheckBox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -60,7 +61,6 @@ public class ForcesControlPanel extends JPanel implements Observer {
      * @param trapForceNode
      * @param dragForceNode
      * @param dnaForceNode optional
-     * @param showValuesControlIsVisible
      */
     public ForcesControlPanel( 
             Font titleFont, 
@@ -127,6 +127,14 @@ public class ForcesControlPanel extends JPanel implements Observer {
             }
         } );
         
+        _constantTrapForceCheckBox = new JCheckBox( OTResources.getString( "label.constantTrapForce" ) );
+        _constantTrapForceCheckBox.setFont( controlFont );
+        _constantTrapForceCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleConstantTrapForceCheckBox();
+            }
+        } );
+        
         // Layout
         JPanel innerPanel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -144,6 +152,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
         }
         layout.addComponent( _brownianMotionCheckBox, row++, column );
         layout.addComponent( _showValuesCheckBox, row++, column );
+        layout.addComponent( _constantTrapForceCheckBox, row++, column );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
         
@@ -156,6 +165,8 @@ public class ForcesControlPanel extends JPanel implements Observer {
         if ( _dnaForceCheckBox != null ) {
             _dnaForceCheckBox.setSelected( false );
         }
+        _showValuesCheckBox.setSelected( false );
+        _constantTrapForceCheckBox.setSelected( false );
     }
     
     public void cleanup() {
@@ -218,24 +229,29 @@ public class ForcesControlPanel extends JPanel implements Observer {
         return _showValuesCheckBox.isSelected();
     }
     
-    /**
-     * Sets visibility of the checkbox that controls Brownian motion.
-     * This feature is not visible in for some control panels.
-     * 
-     * @param visible
-     */
+    public void setConstantTrapForceSelected( boolean b ) {
+        _constantTrapForceCheckBox.setSelected( b );
+        handleConstantTrapForceCheckBox();
+    }
+    
+    public boolean isConstantTrapForceSelected() {
+        return _constantTrapForceCheckBox.isSelected();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Disable features that are not visible in for some control panels
+    //----------------------------------------------------------------------------
+    
     public void setBrownianMotionCheckBoxVisible( boolean visible ) {
         _brownianMotionCheckBox.setVisible( visible );
     }
     
-    /**
-     * Sets visibility of the "Show values" checkbox.
-     * This feature is not visible in for some control panels.
-     * 
-     * @param visible
-     */
     public void setShowValuesCheckBoxVisible( boolean visible ) {
         _showValuesCheckBox.setVisible( visible );
+    }
+    
+    public void setConstantTrapForceCheckBoxVisible( boolean visible ) {
+        _constantTrapForceCheckBox.setVisible( visible );
     }
     
     //----------------------------------------------------------------------------
@@ -269,6 +285,10 @@ public class ForcesControlPanel extends JPanel implements Observer {
         if ( _dnaForceNode != null ) {
             _dnaForceNode.setValuesVisible( visible );
         }
+    }
+    
+    private void handleConstantTrapForceCheckBox() {
+        //XXX
     }
     
     //----------------------------------------------------------------------------

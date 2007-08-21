@@ -76,6 +76,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Turn off some features
         _forcesControlPanel.setShowValuesCheckBoxVisible( false );
+        _forcesControlPanel.setConstantTrapForceCheckBoxVisible( false );
         
         // Layout
         {
