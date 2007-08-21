@@ -141,7 +141,7 @@ EOT;
             $prefix, 
             $selected_page, 
             "tech_support/index.php",    
-            "Technical Support",
+            "Troubleshooting",
             array(
                 'tech_support/support-java.php'     => 'Java',
                 'tech_support/support-flash.php'    => 'Flash'
@@ -235,7 +235,7 @@ EOT;
 		
 		if (!$contributor_authenticated) {
 			$utility_panel_html = <<<EOT
-				<a href="$prefix/teacher_ideas/login-and-redirect.php?url=$php_self">Login</a> | <a href="$prefix/teacher_ideas/login-and-redirect.php?url=$php_self">Register</a>
+				<a href="$prefix/teacher_ideas/login-and-redirect.php?url=$php_self">Login / Register</a>
 EOT;
 		}
 		else {

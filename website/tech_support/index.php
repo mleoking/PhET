@@ -7,7 +7,7 @@
         $no_mac = SIM_NO_MAC_IMAGE_HTML;
         
         print <<<EOT
-            <h1>Technical Support</h1>
+            <h1>Troubleshooting</h1>
 
             <p>This page will help you solve some of the problems people commonly have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu?Subject=Help"><span class="red">phethelp@colorado.edu</span></a>.</p>
 
