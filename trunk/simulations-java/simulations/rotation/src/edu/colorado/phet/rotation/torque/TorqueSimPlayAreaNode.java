@@ -15,9 +15,10 @@ import java.awt.geom.Line2D;
  * Aug 8, 2007, 7:28:37 PM
  */
 public class TorqueSimPlayAreaNode extends RotationPlayAreaNode {
-    TorqueModel torqueModel;
+    private TorqueModel torqueModel;
     private PhetPPath appliedForceVector;
     private PhetPPath tangentialComponentVector;
+    private BrakeNode brakeNode;
 
     public TorqueSimPlayAreaNode( final TorqueModel torqueModel, VectorViewModel vectorViewModel, AngleUnitModel angleUnitModel ) {
         super( torqueModel, vectorViewModel, angleUnitModel );
@@ -32,8 +33,10 @@ public class TorqueSimPlayAreaNode extends RotationPlayAreaNode {
                 updateArrows();
             }
         } );
+        brakeNode = new BrakeNode( torqueModel.getRotationPlatform(),torqueModel );
         addChild( tangentialComponentVector );
         addChild( appliedForceVector );
+        addChild( brakeNode );
 
         torqueModel.addListener( new TorqueModel.Adapter() {
             public void showComponentsChanged() {
