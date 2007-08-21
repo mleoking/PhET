@@ -108,7 +108,9 @@ public class MotorsModel extends ClockAdapter {
          _modelElements.add( _dnaStrand );
          _bead.attachTo( _dnaStrand ); // attach bead to DNA strand
          
-         _enzyme = new Enzyme( MotorsDefaults.ENZYME_POSITION, MotorsDefaults.ENZYME_SIZE );
+         _enzyme = new Enzyme( MotorsDefaults.ENZYME_POSITION, 
+                 MotorsDefaults.ENZYME_OUTER_DIAMETER, 
+                 MotorsDefaults.ENZYME_INNER_DIAMETER );
          _modelElements.add( _enzyme );
 
          _modelViewTransform = new ModelViewTransform( MotorsDefaults.MODEL_TO_VIEW_SCALE );
