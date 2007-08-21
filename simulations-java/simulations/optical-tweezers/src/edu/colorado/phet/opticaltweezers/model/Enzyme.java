@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.model;
 
-import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -14,31 +13,44 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
  */
 public class Enzyme extends FixedObject implements ModelElement {
     
-    private Dimension _size; // nm
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    public static final String PROPERTY_INNER_ORIENTATION = "innerOrientation";
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private final double _outerDiameter, _innerDiameter;
+    private double _innerOrientation;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Enzyme( Point2D position, Dimension size ) {
+    public Enzyme( Point2D position, double outerDiameter, double innerDiameter ) {
         super( position, 0 /* orientation */ );
-        _size = size;
+        _outerDiameter = outerDiameter;
+        _innerDiameter = innerDiameter;
+        _innerOrientation = 0;
     }
     
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public Dimension getSize() {
-        return _size;
+    public double getOuterDiameter() {
+        return _outerDiameter;
     }
     
-    public double getWidth() {
-        return _size.getWidth();
+    public double getInnerDiameter() {
+        return _innerDiameter;
     }
     
-    public double getHeight() {
-        return _size.getHeight();
+    public double getInnerOrientation() {
+        return _innerOrientation;
     }
     
     //----------------------------------------------------------------------------
@@ -46,7 +58,7 @@ public class Enzyme extends FixedObject implements ModelElement {
     //----------------------------------------------------------------------------
 
     public void stepInTime( double dt ) {
-        //XXX
+        _innerOrientation += Math.toRadians( 10 );//XXX rotate
+        notifyObservers( PROPERTY_INNER_ORIENTATION );
     }
-
 }

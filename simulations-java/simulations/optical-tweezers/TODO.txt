@@ -5,6 +5,7 @@
 MISSING INFO:
 
 HIGH PRIORITY:
+- OutOfMemoryError when Motors module is run for >5 minutes (related to calling setActiveModule?)
 - implement velocity model of DNA moving through enzyme (function of ATP and DNA force)
 - redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
 - view of enzyme as translucent 3D sphere with another 3D sphere rotating inside
@@ -52,7 +53,9 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/21/07 - first attempt at 3D enzyme view
 8/21/07 - remove Close button from fluid controls dialog to save some vertical space
+8/21/07 - rename FluidControlDialog to FluidControlsDialog
 8/21/07 - reduce function calls in module reset/save/load
 8/21/07 - Save/Load motors module
 8/21/07 - add control for keeping trap force constant (not wired up), include persistence support

@@ -94,8 +94,9 @@ public class MotorsDefaults {
     public static final boolean DNA_EXTENSION_VISIBLE = GlobalDefaults.DNA_EXTENSION_VISIBLE;
     
     // Enzyme 
+    public static final double ENZYME_OUTER_DIAMETER = 150; // nm
+    public static final double ENZYME_INNER_DIAMETER = ENZYME_OUTER_DIAMETER / 2; // nm
     public static final Point2D ENZYME_POSITION = new Point2D.Double( 500, MICROSCOPE_SLIDE_POSITION.getY() ); // nm
-    public static final Dimension ENZYME_SIZE = new Dimension( 200, 300 ); // nm
     
     // Ruler
     public static final double RULER_Y_POSITION = LASER_POSITION.getY() + ( GlobalDefaults.BEAD_DIAMETER / 2 ) + 30; // nm, just below center of trap
