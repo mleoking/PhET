@@ -39,7 +39,6 @@ public class VectorsDeveloperPanel extends JPanel {
     private ColorControl _fluidDragForceColorChip;
     private ColorControl _dnaForceColorChip;
     private ColorControl _electricFieldColorChip;
-    private JCheckBox _showValuesCheckBox;
     private JCheckBox _showComponentsCheckBox;
     
     public VectorsDeveloperPanel( Font titleFont, Font controlFont, 
@@ -93,14 +92,6 @@ public class VectorsDeveloperPanel extends JPanel {
             } );
         }
         
-        _showValuesCheckBox = new JCheckBox( "Show values" );
-        _showValuesCheckBox.setFont( controlFont );
-        _showValuesCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleShowValuesCheckBox();
-            }
-        } );
-        
         _showComponentsCheckBox = new JCheckBox( "Show XY components" );
         _showComponentsCheckBox.setFont( controlFont );
         _showComponentsCheckBox.addActionListener( new ActionListener() {
@@ -122,30 +113,12 @@ public class VectorsDeveloperPanel extends JPanel {
         if ( _electricFieldColorChip != null ) {
             layout.addComponent( _electricFieldColorChip, row++, column );
         }
-        layout.addComponent( _showValuesCheckBox, row++, column );
         layout.addComponent( _showComponentsCheckBox, row++, column );
-    }
-    
-    public void setValuesVisible( boolean visible ) {
-        _showValuesCheckBox.setSelected( visible );
-        handleShowValuesCheckBox();
     }
     
     public void setComponentsVisible( boolean visible ) {
         _showComponentsCheckBox.setSelected( visible );
         handleShowComponentsCheckBox();
-    }
-    
-    private void handleShowValuesCheckBox() {
-        final boolean visible = _showValuesCheckBox.isSelected();
-        _trapForceNode.setValuesVisible( visible );
-        _fluidDragForceNode.setValuesVisible( visible );
-        if ( _dnaForceNode != null ) {
-            _dnaForceNode.setValuesVisible( visible );
-        }
-        if ( _electricFieldNode != null ) {
-            _electricFieldNode.setValuesVisible( visible );
-        }
     }
     
     private void handleShowComponentsCheckBox() {

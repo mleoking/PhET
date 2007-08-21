@@ -6,6 +6,7 @@ import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
+import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
@@ -175,11 +176,11 @@ public class MotorsModule extends AbstractModule {
             _controlPanel.getForcesControlPanel().setTrapForceSelected( MotorsDefaults.TRAP_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDragForceSelected( MotorsDefaults.FLUID_DRAG_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDNAForceSelected( MotorsDefaults.DNA_FORCE_SELECTED );
+            _controlPanel.getForcesControlPanel().setValuesVisible( DNADefaults.FORCE_VECTOR_VALUES_VISIBLE );
             _controlPanel.getChartsControlPanel().setPositionHistogramSelected( MotorsDefaults.POSITION_HISTOGRAM_SELECTED );
             _controlPanel.getChartsControlPanel().setPotentialEnergySelected( MotorsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
             _controlPanel.getMiscControlPanel().setRulerSelected( MotorsDefaults.RULER_SELECTED );
             _controlPanel.getMiscControlPanel().setFluidControlsSelected( MotorsDefaults.FLUID_CONTROLS_SELECTED );
-            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setValuesVisible( MotorsDefaults.FORCE_VECTOR_VALUES_VISIBLE );
             _controlPanel.getDeveloperControlPanel().getVectorsPanel().setComponentsVisible( MotorsDefaults.FORCE_VECTOR_COMPONENTS_VISIBLE );
         }
     }

@@ -177,11 +177,11 @@ public class DNAModule extends AbstractModule {
             _controlPanel.getForcesControlPanel().setTrapForceSelected( DNADefaults.TRAP_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDragForceSelected( DNADefaults.FLUID_DRAG_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDNAForceSelected( DNADefaults.DNA_FORCE_SELECTED );
+            _controlPanel.getForcesControlPanel().setValuesVisible( DNADefaults.FORCE_VECTOR_VALUES_VISIBLE );
             _controlPanel.getChartsControlPanel().setPositionHistogramSelected( DNADefaults.POSITION_HISTOGRAM_SELECTED );
             _controlPanel.getChartsControlPanel().setPotentialEnergySelected( DNADefaults.POTENTIAL_ENERGY_CHART_SELECTED );
             _controlPanel.getMiscControlPanel().setRulerSelected( DNADefaults.RULER_SELECTED );
             _controlPanel.getMiscControlPanel().setFluidControlsSelected( DNADefaults.FLUID_CONTROLS_SELECTED );
-            _controlPanel.getDeveloperControlPanel().getVectorsPanel().setValuesVisible( DNADefaults.FORCE_VECTOR_VALUES_VISIBLE );
             _controlPanel.getDeveloperControlPanel().getVectorsPanel().setComponentsVisible( DNADefaults.FORCE_VECTOR_COMPONENTS_VISIBLE );
         }
     }

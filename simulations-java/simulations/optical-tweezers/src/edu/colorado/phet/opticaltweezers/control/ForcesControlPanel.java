@@ -18,6 +18,9 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
+import edu.colorado.phet.opticaltweezers.view.DNAForceNode;
+import edu.colorado.phet.opticaltweezers.view.FluidDragForceNode;
+import edu.colorado.phet.opticaltweezers.view.TrapForceNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -33,14 +36,15 @@ public class ForcesControlPanel extends JPanel implements Observer {
     
     private Bead _bead;
     private Fluid _fluid;
-    private PNode _trapForceNode;
-    private PNode _dragForceNode;
-    private PNode _dnaForceNode;
+    private TrapForceNode _trapForceNode;
+    private FluidDragForceNode _dragForceNode;
+    private DNAForceNode _dnaForceNode;
     
     private JCheckBox _trapForceCheckBox;
     private JCheckBox _dragForceCheckBox;
     private JCheckBox _brownianMotionCheckBox;
     private JCheckBox _dnaForceCheckBox;
+    private JCheckBox _showValuesCheckBox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -56,8 +60,16 @@ public class ForcesControlPanel extends JPanel implements Observer {
      * @param trapForceNode
      * @param dragForceNode
      * @param dnaForceNode optional
+     * @param showValuesControlIsVisible
      */
-    public ForcesControlPanel( Font titleFont, Font controlFont, Bead bead, Fluid fluid, PNode trapForceNode, PNode dragForceNode, PNode dnaForceNode ) {
+    public ForcesControlPanel( 
+            Font titleFont, 
+            Font controlFont, 
+            Bead bead, 
+            Fluid fluid,
+            TrapForceNode trapForceNode, 
+            FluidDragForceNode dragForceNode, 
+            DNAForceNode dnaForceNode ) {
         super();
         
         _bead = bead;
@@ -107,6 +119,14 @@ public class ForcesControlPanel extends JPanel implements Observer {
             }
          });
         
+        _showValuesCheckBox = new JCheckBox( OTResources.getString( "label.showForceValues" ) );
+        _showValuesCheckBox.setFont( controlFont );
+        _showValuesCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleShowValuesCheckBox();
+            }
+        } );
+        
         // Layout
         JPanel innerPanel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -122,6 +142,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
             layout.addComponent( _dnaForceCheckBox, row++, 0, 2, 1 );
         }
         layout.addComponent( _brownianMotionCheckBox, row++, 0, 2, 1 );
+        layout.addComponent( _showValuesCheckBox, row++, 0, 2, 1 );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
         
@@ -187,6 +208,15 @@ public class ForcesControlPanel extends JPanel implements Observer {
         return selected;
     }
     
+    public void setValuesVisible( boolean b ) {
+        _showValuesCheckBox.setSelected( b );
+        handleShowValuesCheckBox();
+    }
+    
+    public boolean isValuesVisible() {
+        return _showValuesCheckBox.isSelected();
+    }
+    
     /**
      * Sets visibility of the checkbox that controls Brownian motion.
      * This feature is not visible in for some control panels.
@@ -195,6 +225,16 @@ public class ForcesControlPanel extends JPanel implements Observer {
      */
     public void setBrownianMotionCheckBoxVisible( boolean visible ) {
         _brownianMotionCheckBox.setVisible( visible );
+    }
+    
+    /**
+     * Sets visibility of the "Show values" checkbox.
+     * This feature is not visible in for some control panels.
+     * 
+     * @param visible
+     */
+    public void setShowValuesCheckBoxVisible( boolean visible ) {
+        _showValuesCheckBox.setVisible( visible );
     }
     
     //----------------------------------------------------------------------------
@@ -219,6 +259,15 @@ public class ForcesControlPanel extends JPanel implements Observer {
     private void handleDNAForceCheckBox() {
         final boolean selected = _dnaForceCheckBox.isSelected();
         _dnaForceNode.setVisible( selected );
+    }
+    
+    private void handleShowValuesCheckBox() {
+        final boolean visible = _showValuesCheckBox.isSelected();
+        _trapForceNode.setValuesVisible( visible );
+        _dragForceNode.setValuesVisible( visible );
+        if ( _dnaForceNode != null ) {
+            _dnaForceNode.setValuesVisible( visible );
+        }
     }
     
     //----------------------------------------------------------------------------

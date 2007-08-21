@@ -8,8 +8,7 @@ HIGH PRIORITY:
 - implement velocity model of DNA moving through enzyme (function of ATP and DNA force)
 - redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
 - add "hold trap force constant" feature, laser moves to maintain constant trap force
-- add "Reset DNA" feature, resets DNAStrand, Bead and Enzyme to initial state
-- add "Show force values" control to DNA and Motors control panels
+- add "Reset DNA" feature, show button when needed, resets DNAStrand, Bead and Enzyme to initial state
 - view of enzyme as translucent 3D sphere with another 3D sphere rotating inside
 - make enzyme rotation speed proportion to velocity with which enzyme is pulling through DNA
 - "Choose molecular motor" control, 2 choices, 2 different color enzymes with different sets of velocity parameters
@@ -51,6 +50,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/20/07 - add "Show force values" control to DNA and Motors control panels, remove from developer controls
 8/20/07 - add "Reset DNA" button to canvas (not wired up)
 8/20/07 - change terminology to "reference clock step" in DNA strand evolution model
 8/20/07 - bugfix: handle entry of bogus numbers into sim speed textfield
