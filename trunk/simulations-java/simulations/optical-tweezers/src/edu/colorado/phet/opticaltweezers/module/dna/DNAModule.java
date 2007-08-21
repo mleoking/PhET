@@ -177,7 +177,7 @@ public class DNAModule extends AbstractModule {
             _controlPanel.getForcesControlPanel().setTrapForceSelected( DNADefaults.TRAP_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDragForceSelected( DNADefaults.FLUID_DRAG_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDNAForceSelected( DNADefaults.DNA_FORCE_SELECTED );
-            _controlPanel.getForcesControlPanel().setValuesVisible( DNADefaults.FORCE_VECTOR_VALUES_VISIBLE );
+            _controlPanel.getForcesControlPanel().setShowValuesSelected( DNADefaults.FORCE_VECTOR_VALUES_VISIBLE );
             _controlPanel.getChartsControlPanel().setPositionHistogramSelected( DNADefaults.POSITION_HISTOGRAM_SELECTED );
             _controlPanel.getChartsControlPanel().setPotentialEnergySelected( DNADefaults.POTENTIAL_ENERGY_CHART_SELECTED );
             _controlPanel.getMiscControlPanel().setRulerSelected( DNADefaults.RULER_SELECTED );
@@ -220,6 +220,7 @@ public class DNAModule extends AbstractModule {
         config.setTrapForceSelected( _controlPanel.getForcesControlPanel().isTrapForceSelected() );
         config.setDragForceSelected( _controlPanel.getForcesControlPanel().isDragForceSelected() );
         config.setDnaForceSelected( _controlPanel.getForcesControlPanel().isDNAForceSelected() );
+        config.setShowForceValuesSelected( _controlPanel.getForcesControlPanel().isShowValuesSelected() );
         config.setPositionHistogramSelected( _controlPanel.getChartsControlPanel().isPositionHistogramSelected() );
         config.setPotentialEnergySelected( _controlPanel.getChartsControlPanel().isPotentialChartSelected() );
         config.setRulerSelected( _controlPanel.getMiscControlPanel().isRulerSelected() );
@@ -268,6 +269,7 @@ public class DNAModule extends AbstractModule {
         _controlPanel.getForcesControlPanel().setTrapForceSelected( config.isTrapForceSelected() );
         _controlPanel.getForcesControlPanel().setDragForceSelected( config.isDragForceSelected() );
         _controlPanel.getForcesControlPanel().setDNAForceSelected( config.isDnaForceSelected() );
+        _controlPanel.getForcesControlPanel().setShowValuesSelected( config.isShowForceValuesSelected() );
         _controlPanel.getChartsControlPanel().setPositionHistogramSelected( config.isPositionHistogramSelected() );
         _controlPanel.getChartsControlPanel().setPotentialEnergySelected( config.isPotentialEnergySelected() );
         _controlPanel.getMiscControlPanel().setRulerSelected( config.isRulerSelected() );

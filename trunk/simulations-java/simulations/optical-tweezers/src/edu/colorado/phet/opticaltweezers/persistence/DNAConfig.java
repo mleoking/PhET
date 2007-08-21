@@ -41,6 +41,7 @@ public class DNAConfig implements IProguardKeepClass {
     private boolean _trapForceSelected;
     private boolean _dragForceSelected;
     private boolean _dnaForceSelected;
+    private boolean _showForceValuesSelected;
     private boolean _positionHistogramSelected;
     private boolean _potentialEnergySelected;
     private boolean _rulerSelected;
@@ -265,5 +266,15 @@ public class DNAConfig implements IProguardKeepClass {
     
     public void setDnaForceSelected( boolean dnaForceSelected ) {
         _dnaForceSelected = dnaForceSelected;
+    }
+
+    
+    public boolean isShowForceValuesSelected() {
+        return _showForceValuesSelected;
+    }
+
+    
+    public void setShowForceValuesSelected( boolean showForceValuesSelected ) {
+        _showForceValuesSelected = showForceValuesSelected;
     }
 }
