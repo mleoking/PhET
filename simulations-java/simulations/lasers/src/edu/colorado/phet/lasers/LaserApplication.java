@@ -11,12 +11,12 @@
 package edu.colorado.phet.lasers;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.PhotoWindow;
@@ -38,7 +38,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class LaserApplication extends PhetApplication {
+public class LaserApplication extends PiccoloPhetApplication {
 
     private Module singleAtomModule;
     private Module multipleAtomModule;
@@ -260,15 +260,19 @@ public class LaserApplication extends PhetApplication {
     /**
      * @param args
      */
-    public static void main( String[] args ) {
-        EnergyLevelGraphic.laserApplicationRunning = true;//todo: fix this awkward workaround for problem in EnergyLevelGraphic
-        SimStrings.getInstance().init( args, LaserConfig.localizedStringsPath );
-        setLAF();
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                EnergyLevelGraphic.laserApplicationRunning = true;//todo: fix this awkward workaround for problem in EnergyLevelGraphic
+                SimStrings.getInstance().init( args, LaserConfig.localizedStringsPath );
+                setLAF();
 
-        LaserApplication application = new LaserApplication( args );
-        application.startApplication();
+                LaserApplication application = new LaserApplication( args );
+                application.startApplication();
 
-        application.updateComponentTreeUI();
+                application.updateComponentTreeUI();
+            }
+        } );
     }
 
     private void updateComponentTreeUI() {
