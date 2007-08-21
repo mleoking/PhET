@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.RadiowaveSource;
-import edu.colorado.phet.mri.util.GraphicFlasher;
 
 import java.awt.geom.Point2D;
 
@@ -29,7 +28,7 @@ import java.awt.geom.Point2D;
  */
 public class EnergySquiggleUpdater {
 
-    private boolean matched;
+    //    private boolean matched;
     private EnergySquiggle energySquiggle;
     private MriModel model;
     private RadiowaveSource radiowaveSource;
@@ -42,7 +41,7 @@ public class EnergySquiggleUpdater {
 
     public void updateSquiggle( double xOffset, double yOffset,
                                 double SQUIGGLE_LENGTH_CALIBRATION_FACTOR ) {
-        double frequency = radiowaveSource .getFrequency();
+        double frequency = radiowaveSource.getFrequency();
         double wavelength = PhysicsUtil.frequencyToWavelength( frequency );
 
         double transparency = radiowaveSource.getPower() / MriConfig.MAX_POWER;
@@ -58,15 +57,10 @@ public class EnergySquiggleUpdater {
         Point2D p = new Point2D.Double( model.getBounds().getCenterX(), model.getBounds().getCenterY() );
         double bEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( p ) * model.getSampleMaterial().getMu() );
         double rfEnergy = PhysicsUtil.frequencyToEnergy( radiowaveSource.getFrequency() );
-        if( Math.abs( bEnergy - rfEnergy ) <= MriConfig.ENERGY_EPS ) {
-            if( !matched ) {
-                GraphicFlasher gf = new GraphicFlasher( energySquiggle );
-                gf.start();
-                matched = true;
-            }
-        }
-        else {
-            matched = false;
+        boolean match = Math.abs( bEnergy - rfEnergy ) <= MriConfig.ENERGY_EPS;
+        if( energySquiggle.isMatch() != match ) {
+            energySquiggle.setMatch( match );
+            energySquiggle.update( wavelength, 0, (int)length, 10 );//redraw the graphics, TODO this duplicates work above
         }
     }
 }

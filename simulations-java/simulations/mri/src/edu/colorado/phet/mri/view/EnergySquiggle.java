@@ -26,6 +26,16 @@ import java.awt.image.BufferedImage;
  * @version $Revision$
  */
 public class EnergySquiggle extends PNode {
+    private boolean match;
+
+    public void setMatch( boolean match ) {
+        this.match=match;
+        repaint();
+    }
+
+    public boolean isMatch() {
+        return match;
+    }
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -66,7 +76,7 @@ public class EnergySquiggle extends PNode {
         addChild( squiggleGraphic );
     }
 
-    /**
+    /*
      * Creates a buffered image for a squiggle
      */
     private BufferedImage computeSquiggleImage( double wavelength, double phaseAngle, int length, int height ) {
@@ -82,10 +92,14 @@ public class EnergySquiggle extends PNode {
                                                height,
                                                BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2d = img.createGraphics();
+        g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         int kPrev = height / 2;
         int iPrev = 0;
         double freqFactor = wavelength * frequencyFactor;
         g2d.setColor( Color.black );
+        if (match){
+            g2d.setColor( Color.red);
+        }
         for( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
             for( int j = 0; j < height; j++ ) {
