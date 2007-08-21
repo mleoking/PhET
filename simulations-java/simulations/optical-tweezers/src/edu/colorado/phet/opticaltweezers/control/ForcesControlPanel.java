@@ -208,12 +208,12 @@ public class ForcesControlPanel extends JPanel implements Observer {
         return selected;
     }
     
-    public void setValuesVisible( boolean b ) {
+    public void setShowValuesSelected( boolean b ) {
         _showValuesCheckBox.setSelected( b );
         handleShowValuesCheckBox();
     }
     
-    public boolean isValuesVisible() {
+    public boolean isShowValuesSelected() {
         return _showValuesCheckBox.isSelected();
     }
     

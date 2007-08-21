@@ -176,7 +176,7 @@ public class MotorsModule extends AbstractModule {
             _controlPanel.getForcesControlPanel().setTrapForceSelected( MotorsDefaults.TRAP_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDragForceSelected( MotorsDefaults.FLUID_DRAG_FORCE_SELECTED );
             _controlPanel.getForcesControlPanel().setDNAForceSelected( MotorsDefaults.DNA_FORCE_SELECTED );
-            _controlPanel.getForcesControlPanel().setValuesVisible( DNADefaults.FORCE_VECTOR_VALUES_VISIBLE );
+            _controlPanel.getForcesControlPanel().setShowValuesSelected( DNADefaults.FORCE_VECTOR_VALUES_VISIBLE );
             _controlPanel.getChartsControlPanel().setPositionHistogramSelected( MotorsDefaults.POSITION_HISTOGRAM_SELECTED );
             _controlPanel.getChartsControlPanel().setPotentialEnergySelected( MotorsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
             _controlPanel.getMiscControlPanel().setRulerSelected( MotorsDefaults.RULER_SELECTED );
