@@ -11,15 +11,15 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
-import edu.colorado.phet.common.quantum.model.AtomicState;
-import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.quantum.QuantumConfig;
+import edu.colorado.phet.common.quantum.model.AtomicState;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -47,13 +47,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     private int minPixelsBetweenLevels = EnergyLifetimeSlider.sliderHeight;
 
     // Strategy for setting to color of this energy level graphic
-//    private ColorStrategy colorStrategy = new BlackStrategy();
+    //    private ColorStrategy colorStrategy = new BlackStrategy();
     private ColorStrategy colorStrategy = new VisibleColorStrategy();
     private LevelIcon levelIcon;
-
-    public void fireMousePressed( MouseEvent e ) {
-        super.fireMousePressed( e );
-    }
+    private boolean match = false;
 
     /**
      * @param component
@@ -122,6 +119,12 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         this.colorStrategy = colorStrategy;
     }
 
+    public void setMatch( boolean match ) {
+        this.match = match;
+        energyLevelRep.update();
+        repaint();
+    }
+
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
@@ -135,7 +138,9 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             levelIcon.updateEnergy( event.getEnergy() );
         }
     }
-    public static boolean laserApplicationRunning=false;//todo: fix this awkward workaround for problem in EnergyLevelGraphic
+
+    public static boolean laserApplicationRunning = false;//todo: fix this awkward workaround for problem in EnergyLevelGraphic
+
     /**
      * Inner class that handles translation of the graphic
      */
@@ -152,10 +157,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
 
             // The following line was screwing things up for the configurable atom in Discharge Lamps when I
             // rebuilton 9/11/06
-            if (laserApplicationRunning){//todo: fix this awkward workaround for problem in EnergyLevelGraphic
-                newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy);
+            if( laserApplicationRunning ) {//todo: fix this awkward workaround for problem in EnergyLevelGraphic
+                newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy );
             }
-            
+
             atomicState.setEnergyLevel( newEnergy );
             atomicState.determineEmittedPhotonWavelength();
 
@@ -175,7 +180,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         private Arrow arrow2;
         private Rectangle boundingRect;
         private LevelIcon levelIcon;
-        private Shape mouseableArea;
 
         protected EnergyLevelRep( Component component ) {
             super( component );
@@ -192,7 +196,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             // ground state has a wavelength that is below visible, and we want a black line, this
             // is the best hack to use.
             color = new Color( color.getRed(), color.getGreen(), color.getBlue() );
-            int y = (int)energyYTx.modelToView( atomicState.getEnergyLevel() );
+            int y = energyYTx.modelToView( atomicState.getEnergyLevel() );
             levelLine.setRect( xLoc, y - thickness / 2, width, thickness );
 
             if( levelIcon != null ) {
@@ -241,14 +245,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         public boolean contains( int x, int y ) {
             return boundingRect.contains( x, y ) || levelIcon.contains( x, y );
         }
-
+        float phase=0.0f;
         //----------------------------------------------------------------
         // Rendering
         //----------------------------------------------------------------
-
-        /**
-         * @param g
-         */
         public void paint( Graphics2D g ) {
             saveGraphicsState( g );
             if( isAdjustable && arrowsEnabled ) {
@@ -258,6 +258,15 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             }
             g.setColor( color );
             g.fill( levelLine );
+            if (match){
+//                g.setColor( Color.green );
+//                Color c=new Color( color.getRed(),color.getBlue(),color.getGreen(), Math.abs((int)( 255*Math.sin( phase)) ) );
+//                g.setColor( c );
+                g.setStroke( new BasicStroke( 2,BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,1,new float[]{5,3},phase) );
+//                phase+=0.1;
+//                repaint();
+                g.draw( levelLine );
+            }
             super.paint( g );
             restoreGraphicsState();
         }
