@@ -2088,6 +2088,15 @@ EOT;
                             
                             <span class="label">state/province</span>
                         </div>
+
+                        <div class="field">
+                            <span class="label_content">
+                                <input type="text" name="contributor_country"
+                                    value="$contributor_country" id="state" size="15" />
+                            </span>
+
+                            <span class="label">country</span>
+                        </div>
                     
                         <div class="field">
                             <span class="label_content">
