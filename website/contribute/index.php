@@ -10,6 +10,10 @@
 
             <p>If you have developed concept questions, problem sets, lesson plans, and other educational activities based on PhET simulations that may be of use to others, we encourage you to share your work with other educators by <a href="../teacher_ideas/contribute.php">contributing it to PhET</a>.</p>
 
+			<h3>Suggest a Simulation</h3>
+
+			<p>If you have an idea for a PhET simulation, please <a href="mailto:phethelp@colorado.edu?Subject=Simulation%20Suggestion&Body=I%20would%20like%20to%20suggest%20the%20following%20simulation:">let us know</a>.</p>
+
             <h2>Financial Contributions</h2>
 
             <p>Our philosophy is to make PhET simulations freely available to all users around the world. They have now been run millions of times from our web site, and the full PhET suite has been installed on thousands of computers. But while the simulations may be free to users, they are expensive for us to create, test and maintain, and our financial support is limited. If you would like to help make it possible for us to develop more and better simulations, please contact Angie Jardine at <a href="mailto:phethelp@colorado.edu?Subject=Financial%20Contribution&amp;Body=Dear%20Sir%20or%20Madam:%20I%20would%20like%20to%20make%20a%20generous%20donation%20to%20PhET.">phethelp@colorado.edu</a> or phone (303-492-4367) to find out how you can make a tax deductible contribution.</p>

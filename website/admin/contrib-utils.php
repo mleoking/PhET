@@ -461,7 +461,7 @@ EOT;
         
         do_authentication(false);
         
-        if ($contributor_id <= 0) {
+        if ($contributor_id <= 0 && isset($GLOBALS['contributor_id'])) {
             // The contribution didn't have any owner; assume the owner is the current editor:
             $contributor_id = $GLOBALS['contributor_id'];
         }

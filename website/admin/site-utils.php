@@ -168,10 +168,11 @@ EOT;
             "about/index.php",           
             "About PhET",
             array(
-                'about/contact.php'     => 'Contact PhET Team',
-                'about/licensing.php'   => 'Licensing',
-				'about/legend.php'      => 'Legend',
-				'sponsors/index.php'    => 'Sponsors'
+				'about/faq.php'         => 'FAQ',
+                'about/contact.php'     => 'Contact',
+                'about/who-we-are.php'  => 'Who We Are',
+                'about/licensing.php'   => 'Licensing'// ,
+                // 				'sponsors/index.php'    => 'Sponsors'
             )
         );
         

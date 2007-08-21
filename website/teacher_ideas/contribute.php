@@ -11,6 +11,10 @@
             <h1>Contribute</h1>
 
         <?php
+
+		if (!$GLOBALS['contributor_authenticated']) {
+			print "<p><strong>You must have a PhET account and be logged in to proceed.</strong></p>";
+		}
         
         contribution_print_full_edit_form(-1, '../teacher_ideas/edit-contribution.php', '../teacher_ideas/edit-contribution.php', 'Contribute');
     }
