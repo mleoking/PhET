@@ -74,6 +74,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), null /* dnaForceNode */,
                 _canvas.getLaserNode().getElectricFieldNode(), _canvas.getChargeDistributionNode() );
         
+        // Turn off some features
+        _forcesControlPanel.setShowValuesCheckBoxVisible( false );
+        
         // Layout
         {
             addControlFullWidth( _simulationSpeedControlPanel );
