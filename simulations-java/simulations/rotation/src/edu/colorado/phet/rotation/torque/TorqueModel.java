@@ -56,7 +56,12 @@ public class TorqueModel extends RotationModel {
     }
 
     public void setBrakeForce( double brakeForceValue ) {
-        brakeForce.setValue( brakeForceValue );
+        if( brakeForceValue != getBrakeForce() ) {
+            brakeForce.setValue( brakeForceValue );
+            for( int i = 0; i < listeners.size(); i++ ) {
+                ( (Listener)listeners.get( i ) ).brakeForceChanged();
+            }
+        }
     }
 
     public ITemporalVariable getTorqueTimeSeries() {
@@ -133,7 +138,7 @@ public class TorqueModel extends RotationModel {
 //        double origPosition
         double netTorque = torque.getValue() - MathUtil.getSign( origAngVel ) * brakeForceVal;
 
-        System.out.println( "netTorque = " + netTorque + ", vel=" + origAngVel + ", torque=" + torque.getValue() + ", brakeForce=" + brakeForceVal );
+//        System.out.println( "netTorque = " + netTorque + ", vel=" + origAngVel + ", torque=" + torque.getValue() + ", brakeForce=" + brakeForceVal );
 
         double acceleration = netTorque / getRotationPlatform().getMomentOfInertia();
         double proposedVelocity = motionBody.getVelocity() + acceleration * dt;
@@ -204,6 +209,8 @@ public class TorqueModel extends RotationModel {
         void appliedForceChanged();
 
         void showComponentsChanged();
+
+        void brakeForceChanged();
     }
 
     public static class Adapter implements Listener {
@@ -212,6 +219,10 @@ public class TorqueModel extends RotationModel {
 
         public void showComponentsChanged() {
         }
+
+        public void brakeForceChanged() {
+        }
+
     }
 
     public void addListener( Listener listener ) {

@@ -23,6 +23,8 @@ import java.awt.event.ActionListener;
  */
 public class TorqueControlPanel extends JPanel {
     private TorqueModule torqueModule;
+    public static final int MIN_BRAKE = 0;
+    public static final int MAX_BRAKE = 1;
 
     public TorqueControlPanel( GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final TorqueModule torqueModule ) {
         super( new GridBagLayout() );
@@ -71,7 +73,7 @@ public class TorqueControlPanel extends JPanel {
                 rp.setMass( massSlider.getValue() );
             }
         } );
-        final TorqueSlider frictionSlider = new TorqueSlider( 0, 1, torqueModule.getTorqueModel().getBrakeForce(), "Force of Brake", "0.00", "N" );
+        final TorqueSlider frictionSlider = new TorqueSlider( MIN_BRAKE, MAX_BRAKE, torqueModule.getTorqueModel().getBrakeForce(), "Force of Brake", "0.00", "N" );
         frictionSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 torqueModule.getTorqueModel().setBrakeForce( frictionSlider.getValue() );
