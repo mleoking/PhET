@@ -18,6 +18,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -39,6 +40,9 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
     private AngleUnitModel angleUnitModel = new AngleUnitModel( false );
     private JComponent controlPanel;
     private long paintTime = 0;
+
+//    private boolean synchronousPaint = true;
+    private boolean synchronousPaint = false;
 
     public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule, JFrame phetFrame ) {
         this.rotationModule = rotationModule;
@@ -134,7 +138,7 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
         } );
     }
 
-    private boolean synchronousPaint = true;
+
 
     public boolean isSynchronousPaint() {
         return synchronousPaint;
@@ -226,6 +230,14 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
 
     public RotationPlayAreaNode getRotationPlayAreaNode() {
         return rotationPlayAreaNode;
+    }
+
+    public void paintComponent( Graphics g ) {
+
+        QuickProfiler profiler=new QuickProfiler( "ARSP: paintComponent");
+        super.paintComponent( g );
+//        profiler.println();
+//        new Exception( ).printStackTrace( );
     }
 
     public void repaint( long tm, int x, int y, int width, int height ) {
