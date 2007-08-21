@@ -30,6 +30,12 @@ p {
 	line-height:19px;
 	color:#000;
 }
+p.footnote {
+	line-height: 1em;
+	margin: 0;
+	padding: 0;
+	font: italic 11px Verdana,Arial,Helvetica,sans-serif;
+}
 fieldset {
 	width: auto;
 	margin: 1ex 2em 1ex 2em;

@@ -556,7 +556,7 @@ EOT;
                         </span>
                         
                         <span class="label">
-                            authors
+                            authors*
                         </span>
                     </div>
 
@@ -567,7 +567,7 @@ EOT;
                         </span>
                         
                         <span class="label">
-                            authors organization
+                            authors organization*
                         </span>
                     </div>
                     
@@ -580,7 +580,7 @@ EOT;
                         </span>
                         
                         <span class="label">
-                            contact email
+                            contact email*
                         </span>
                     </div>
 
@@ -592,7 +592,7 @@ EOT;
                         </span>
                         
                         <span class="label">
-                            title
+                            title*
                         </span>
                     </div>
                     
@@ -603,7 +603,7 @@ EOT;
                         </span>
                         
                         <span class="label">
-                            keywords
+                            keywords*
                         </span>
                     </div>
 
@@ -634,7 +634,7 @@ EOT;
                     
                     <hr/>
 
-                    <p>Choose the simulations that the contribution was designed for:</p>
+                    <p>Choose the simulations that the contribution was designed for:*</p>
 EOT;
 
         print_multiple_selection(
@@ -646,13 +646,13 @@ EOT;
         print <<<EOT
                     <hr/>
                     
-                    <p>Choose the type of contribution:</p>
+                    <p>Choose the type of contribution:*</p>
                     
 EOT;
         print_multiple_selection('Type', $all_contribution_types, $contribution_types);
         
         print <<<EOT
-                    <p>Choose the level of the contribution:</p>
+                    <p>Choose the level of the contribution:*</p>
                     
 EOT;
 
@@ -674,7 +674,7 @@ EOT;
         );
     
         print <<<EOT
-                    <p>Add any number of files to the contribution:</p>
+                    <p>Add any number of files to the contribution:*</p>
                     
                     <span class="label_content">
                         <input type="file" name="contribution_file_url" class="multi" />
@@ -1916,7 +1916,8 @@ EOT;
         return db_insert_row(
             'contributor',
             array(
-                'contributor_is_team_member' => $contributor_is_team_member
+                'contributor_is_team_member' => $contributor_is_team_member,
+				'contributor_receive_email'  => '1'
             )
         );
     }
@@ -1928,7 +1929,8 @@ EOT;
             array(
                 'contributor_email'             => $username,
                 'contributor_password'          => $password,
-                'contributor_is_team_member'    => $team_member_field
+                'contributor_is_team_member'    => $team_member_field,
+				'contributor_receive_email'     => '1'
             )
         );
     }
@@ -2015,7 +2017,7 @@ EOT;
                                     value="$contributor_password" id="password" size="25"/>                        
                             </span>
                             
-                            <span class="label">password</span>
+                            <span class="label">password*</span>
                         </div>
                     
                         <div class="field">
@@ -2024,7 +2026,7 @@ EOT;
                                     value="$contributor_name" id="name" size="25"/>
                             </span>
                             
-                            <span class="label">name</span>
+                            <span class="label">name*</span>
                         </div>
                     
                         <div class="field">
@@ -2033,7 +2035,7 @@ EOT;
                                     value="$contributor_organization" id="contributor_organization" size="25"/>
                             </span>
                             
-                            <span class="label">organization</span>
+                            <span class="label">organization*</span>
                         </div>
 
 						<div class="field">
@@ -2041,7 +2043,7 @@ EOT;
 						contributor_print_desc_list($contributor_desc, true);
 						
 						print <<<EOT
-							<span class="label">description</span>
+							<span class="label">description*</span>
 						</div>
                     
                         <div class="field">
@@ -2146,6 +2148,8 @@ EOT;
                             <span class="label">receive phet email</span>                            
                         </div>
                     </div>
+
+					<p class="footnote">The PhET newsletter is sent 4 times per year to announce major changes to the simulations. You may unsubscribe at any time.</p>
 
                    <input class="button" name="Submit" type="submit" id="submit" value="Done" />
                  </fieldset>
