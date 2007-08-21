@@ -52,6 +52,27 @@ public class RotationBody {
         }
     };
 
+    public RotationBody() {
+        this( "ladybug.gif" );
+    }
+
+    public RotationBody( String imageName ) {
+        this( imageName, false );
+    }
+
+    public RotationBody( String imageName, boolean constrained ) {
+        this.imageName = imageName;
+        this.constrained = constrained;
+        xBody = new MotionBody();
+        yBody = new MotionBody();
+
+        speed = new DefaultTemporalVariable();
+        accelMagnitude = new DefaultTemporalVariable();
+        angle = new DefaultTemporalVariable();
+        angularVelocity = new DefaultTemporalVariable();
+        angularAccel = new DefaultTemporalVariable();
+        orientation = new DefaultTemporalVariable();
+    }
 
     interface DoubleComparator {
         boolean compare( double a, double b );
@@ -101,28 +122,6 @@ public class RotationBody {
                 return rotationPlatform.getRadius();
             }
         } );
-    }
-
-    public RotationBody() {
-        this( "ladybug.gif" );
-    }
-
-    public RotationBody( String imageName ) {
-        this( imageName, false );
-    }
-
-    public RotationBody( String imageName, boolean constrained ) {
-        this.imageName = imageName;
-        this.constrained = constrained;
-        xBody = new MotionBody();
-        yBody = new MotionBody();
-
-        speed = new DefaultTemporalVariable();
-        accelMagnitude = new DefaultTemporalVariable();
-        angle = new DefaultTemporalVariable();
-        angularVelocity = new DefaultTemporalVariable();
-        angularAccel = new DefaultTemporalVariable();
-        orientation = new DefaultTemporalVariable();
     }
 
     public void setOffPlatform() {
@@ -398,18 +397,18 @@ public class RotationBody {
 
     private void updateOnPlatform( double time ) {
         double omega = rotationPlatform.getVelocity();
-        System.out.println( "omega = " + omega );
+//        System.out.println( "omega = " + omega );
         double r = getPosition().distance( rotationPlatform.getCenter() );
-        System.out.println( "r = " + r );
+//        System.out.println( "r = " + r );
         boolean centered = rotationPlatform.getCenter().equals( getPosition() ) || r < 1E-6;
-        System.out.println( "centered = " + centered );
+//        System.out.println( "centered = " + centered );
         Point2D newX = centered ? new Point2D.Double( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() )
                        : Vector2D.Double.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
         AbstractVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         AbstractVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
 
-        System.out.println( "newX = " + newX );
+//        System.out.println( "newX = " + newX );
         addPositionData( newX, time );
         addVelocityData( newV, time );
         addAccelerationData( newA, time );
