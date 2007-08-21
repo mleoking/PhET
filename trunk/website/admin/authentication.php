@@ -23,7 +23,7 @@
         global $script;
 
 		print_contribute_login_form($script, null, $script,
-            "<p>The password you entered is incorrect. If you entered the correct email address, please check your email now for a password reminder.</p>
+            "<p><strong>The password you entered is incorrect.</strong> If you entered the correct email address, please check your email now for a password reminder.</p>
             <p>If you don't have an account on the PhET website, please create a new account.</p>");
     }
 
@@ -33,7 +33,7 @@
 		global $script;
 		
 		print_contribute_login_form($script, null, $script,
-            "<p>The email address you entered is not a valid email address.</p>
+            "<p><strong>The email address you entered is not a valid email address.</strong></p>
              <p>If you don't have an account on the PhET website, please create a new account.</p>");
     }    
 
@@ -43,7 +43,7 @@
 		global $script;
 		
 		print_contribute_login_form($script, null, $script,
-                         "<p>You forgot to specify a password for your new account.</p>
+                         "<p><strong>You forgot to specify a password for your new account.</strong></p>
                          <p>Please specify a password now.</p>");
     }    
 

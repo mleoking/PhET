@@ -15,6 +15,6 @@
         print("<p>Your profile has been successfully updated!</p><br/>");
     }
     
-    print_site_page('print_profile_updated_message', 3, "../teacher_ideas/user-edit-profile.php", 2);
+    print_site_page('print_profile_updated_message', 3, "../teacher_ideas/user-edit-profile.php", 1);
 
 ?>
