@@ -1,1 +1,5 @@
-7-5-2007: fixed a bug in the layout of the toggle add/remove tumor button in MRI module 
+8-20-2007: Increased the threshold window for an absorption by a factor of 4.
+8-20-2007: Switched indication of matching transition wavelength from "flashes 5 times" to solid red.
+8-20-2007: Changed legend text for Field to Magnetic Field.
+8-20-2007: Added a Radio Wave legend item
+7-5-2007: fixed a bug in the layout of the toggle add/remove tumor button in MRI module

@@ -99,6 +99,22 @@ public class MriLegend extends JPanel {
         add( new JLabel( arrowIcon ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( SimStrings.getInstance().getString( "ControlPanel.MagneticField" ) ), gbc );
+        add( new JLabel( SimStrings.getInstance().getString( "ControlPanel.Legend.MagneticField" ) ), gbc );
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.anchor = GridBagConstraints.CENTER;
+        try {
+//            JLabel comp = new JLabel( new ImageIcon( ImageLoader.loadBufferedImage( MriConfig.IMAGE_PATH + "wave-item2.png" ) ) );
+            JLabel comp = new JLabel( new ImageIcon( ImageLoader.loadBufferedImage( MriConfig.IMAGE_PATH + "wave-item.png" ) ) );
+            comp.setBorder( BorderFactory.createLineBorder( Color.lightGray));
+            add( comp, gbc );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        add( new JLabel( SimStrings.getInstance().getString( "ControlPanel.Legend.RadioWave" ) ), gbc );
     }
 }
