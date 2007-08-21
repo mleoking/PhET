@@ -7,23 +7,25 @@
 package edu.colorado.phet.greenhouse;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import edu.colorado.phet.common.phetcommon.application.AWTSplashWindow;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.FontJA;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_greenhouse.application.Module;
 import edu.colorado.phet.common_greenhouse.application.PhetApplication;
 import edu.colorado.phet.common_greenhouse.model.IClock;
 import edu.colorado.phet.common_greenhouse.view.ApplicationDescriptor;
 import edu.colorado.phet.common_greenhouse.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.coreadditions_greenhouse.MessageFormatter;
-import edu.colorado.phet.coreadditions_greenhouse.SplashWindow;
 import edu.colorado.phet.coreadditions_greenhouse.clock.StaticClockModel;
 import edu.colorado.phet.coreadditions_greenhouse.clock.SwingTimerClock;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import java.awt.*;
-import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+import java.util.Locale;
 
 /**
  * General comments, issues:
@@ -39,7 +41,7 @@ public class GreenhouseApplication extends PhetApplication {
 
     private static PhetApplication s_application;
     private static SwingTimerClock clock;
-    private static final String VERSION = PhetApplicationConfig.getVersion( "greenhouse").formatForTitleBar();
+    private static final String VERSION = PhetApplicationConfig.getVersion( "greenhouse" ).formatForTitleBar();
 
     public static SwingTimerClock getClock() {
         return clock;
@@ -63,15 +65,17 @@ public class GreenhouseApplication extends PhetApplication {
 
 
     public static void main( String[] args ) {
+        Locale.setDefault( new Locale( "ja" ) );
         SimStrings.getInstance().init( args, localizedStringsPath );
-        SimStrings.getInstance().addStrings("greenhouse/localization/phetcommon-strings" );
+        SimStrings.getInstance().addStrings( "greenhouse/localization/phetcommon-strings" );
 
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
 
                 JFrame window = new JFrame();
-                SplashWindow splashWindow = new SplashWindow( window, "Starting up..." );
-                splashWindow.setVisible( true );
+                AWTSplashWindow splashWindow = new AWTSplashWindow( window, SimStrings.get( "GreenHouseApplication.title" ) );
+                splashWindow.setFont( new Font( FontJA.getFontName( "Lucida Sans"),Font.PLAIN,18) );
+                splashWindow.show();
 
                 // Set the look and feel if we're on Windows and Java 1.4
                 if( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0
@@ -100,30 +104,19 @@ public class GreenhouseApplication extends PhetApplication {
                         VERSION,
                         1024, 768 );
 //                clock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
-                clock = new SwingTimerClock( new StaticClockModel( 10, 30) );
+                clock = new SwingTimerClock( new StaticClockModel( 10, 30 ) );
                 s_application = new PhetApplication( appDescriptor, modules, clock );
 
-                Color background = GreenhouseConfig.PANEL_BACKGROUND_COLOR;
-                Color foreground = Color.black;
-                UIManager.put( "Panel.background", background );
-                UIManager.put( "MenuBar.background", background );
-                UIManager.put( "TabbedPane.background", background );
-                UIManager.put( "Menu.background", background );
-                UIManager.put( "Slider.background", background );
-                UIManager.put( "RadioButton.background", background );
-                UIManager.put( "RadioButton.foreground", foreground );
-                UIManager.put( "CheckBox.background", background );
-                UIManager.put( "CheckBox.foreground", foreground );
-                UIManager.put( "Label.foreground", foreground );
-                UIManager.put( "TitledBorder.titleColor", foreground );
-                UIManager.put( "TabbedPane.font", new FontUIResource( "Lucidasans", Font.BOLD, 18 ) );
-
-                SwingUtilities.updateComponentTreeUI( s_application.getApplicationView().getPhetFrame() );
-
-                splashWindow.setVisible( false );
+                PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+                phetLookAndFeel.setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
+                phetLookAndFeel.setForegroundColor( Color.black );
+                phetLookAndFeel.setFont( new Font( FontJA.getFontName( "Lucida Sans" ), Font.PLAIN, 14 ) );
+                phetLookAndFeel.setTitledBorderFont( new Font( FontJA.getFontName( "Lucida Sans" ), Font.PLAIN, 14 ) );
+                phetLookAndFeel.initLookAndFeel();
 
                 s_application.getApplicationView().getPhetFrame().setResizable( false );
                 s_application.startApplication( greenhouseModule );
+                splashWindow.setVisible( false );
                 paintContentImmediately();
                 s_application.getApplicationView().getPhetFrame().addWindowFocusListener( new WindowFocusListener() {
                     public void windowGainedFocus( WindowEvent e ) {
@@ -138,10 +131,10 @@ public class GreenhouseApplication extends PhetApplication {
     }
 
     public static void paintContentImmediately() {
-        Container contentPane=s_application.getApplicationView().getPhetFrame().getContentPane();
+        Container contentPane = s_application.getApplicationView().getPhetFrame().getContentPane();
         if( contentPane instanceof JComponent ) {
             JComponent jComponent = (JComponent)contentPane;
-            jComponent.paintImmediately( 0,0,jComponent.getWidth(), jComponent.getHeight() );
+            jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
         }
     }
 }
