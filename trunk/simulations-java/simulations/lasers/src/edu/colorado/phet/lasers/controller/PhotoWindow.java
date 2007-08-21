@@ -37,7 +37,7 @@ public class PhotoWindow extends JDialog {
         super( owner, false );
         BufferedImage img = null;
         try {
-            img = ImageLoader.loadBufferedImage( "lasers/images/annotated-laser-2.png" );
+            img = ImageLoader.loadBufferedImage( "lasers/images/annotated-laser-2.jpg" );
         }
         catch( IOException e ) {
             e.printStackTrace();
