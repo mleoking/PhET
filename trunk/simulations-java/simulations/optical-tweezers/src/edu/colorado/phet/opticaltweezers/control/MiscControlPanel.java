@@ -12,7 +12,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.dialog.FluidControlDialog;
+import edu.colorado.phet.opticaltweezers.dialog.FluidControlsDialog;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.umd.cs.piccolo.PNode;
 
@@ -30,7 +30,7 @@ public class MiscControlPanel extends JPanel implements Observer {
     private PNode _rulerNode;
     private Fluid _fluid;
     private Frame _parentFrame;
-    private FluidControlDialog _fluidControlsDialog;
+    private FluidControlsDialog _fluidControlsDialog;
     
     private JCheckBox _rulerCheckBox;
     private Box _fluidVacuumPanel;
@@ -243,7 +243,7 @@ public class MiscControlPanel extends JPanel implements Observer {
         
         closeFluidControlsDialog();
         
-        _fluidControlsDialog = new FluidControlDialog( _parentFrame, OTConstants.CONTROL_PANEL_CONTROL_FONT, _fluid );
+        _fluidControlsDialog = new FluidControlsDialog( _parentFrame, OTConstants.CONTROL_PANEL_CONTROL_FONT, _fluid );
         _fluidControlsDialog.addWindowListener( new WindowAdapter() {
 
             // called when the close button in the dialog's window dressing is clicked
