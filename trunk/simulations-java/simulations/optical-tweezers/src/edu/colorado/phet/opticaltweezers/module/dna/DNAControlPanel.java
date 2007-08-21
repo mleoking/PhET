@@ -75,6 +75,7 @@ public class DNAControlPanel extends AbstractControlPanel {
         
         // Turn off some features
         _forcesControlPanel.setBrownianMotionCheckBoxVisible( false );
+        _forcesControlPanel.setConstantTrapForceCheckBoxVisible( false );
         _miscControlPanel.setFluidVacuumPanelVisible( false );
         
         // Layout

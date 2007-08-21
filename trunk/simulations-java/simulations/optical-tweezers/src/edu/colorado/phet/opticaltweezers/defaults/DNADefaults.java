@@ -103,7 +103,6 @@ public class DNADefaults {
     
     // Force vectors
     public static final double FORCE_VECTOR_REFERENCE_LENGTH = GlobalDefaults.FORCE_VECTOR_REFERENCE_LENGTH;
-    public static final boolean FORCE_VECTOR_VALUES_VISIBLE = GlobalDefaults.FORCE_VECTOR_VALUES_VISIBLE;
     public static final boolean FORCE_VECTOR_COMPONENTS_VISIBLE = GlobalDefaults.FORCE_VECTOR_COMPONENTS_VISIBLE;
     
     // Control panel settings
@@ -111,6 +110,8 @@ public class DNADefaults {
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
     public static final boolean DNA_FORCE_SELECTED = false;
     public static final boolean BROWNIAN_MOTION_ENABLED = true;
+    public static final boolean SHOW_FORCE_VALUES = false;
+    public static final boolean CONSTANT_TRAP_FORCE = false;
     public static final boolean POSITION_HISTOGRAM_SELECTED = false;
     public static final boolean POTENTIAL_ENERGY_CHART_SELECTED = false;
     public static final boolean RULER_SELECTED = false;

@@ -72,6 +72,5 @@ import edu.colorado.phet.opticaltweezers.model.Fluid;
     
     // Force vectors
     public static final double FORCE_VECTOR_REFERENCE_LENGTH = 125; // pixels
-    public static final boolean FORCE_VECTOR_VALUES_VISIBLE = false;
     public static final boolean FORCE_VECTOR_COMPONENTS_VISIBLE = false;
 }
