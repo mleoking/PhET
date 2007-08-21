@@ -50,8 +50,8 @@ MIGRATE TO COMMON:
 
  
 DONE:
-8/20/07 - add persistence support for "Show force values" control
-8/20/07 - add "Show force values" control to DNA and Motors control panels, remove from developer controls
+8/21/07 - add persistence support for "Show force values" control
+8/21/07 - add "Show force values" control to DNA and Motors control panels, remove from developer controls
 8/20/07 - add "Reset DNA" button to canvas (not wired up)
 8/20/07 - change terminology to "reference clock step" in DNA strand evolution model
 8/20/07 - bugfix: handle entry of bogus numbers into sim speed textfield
