@@ -16,7 +16,9 @@
 
             <p>For additional licensing options, please contact PhET at <a href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a>.</p>
 
-            <p class="footer">© 2007 PhET. All rights reserved.<br />
+			<h1>Source Code</h1>
+			
+			<p>The source code for all PhET simulations is hosted at <a href="http://sourceforge.net/projects/phet/">SourceForge</a>. The latest version can always be found there. To access the source code, you will need a Subversion client such as <a href="http://tortoisesvn.tigris.org/">TortoiseSVN</a> (Windows-only) or <a href="http://www.syntevo.com/smartsvn/download.jsp">SmartSVN</a> (all platforms).</p>
         <?php
     }
 
