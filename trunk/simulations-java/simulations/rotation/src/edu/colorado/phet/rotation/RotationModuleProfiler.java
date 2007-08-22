@@ -85,12 +85,12 @@ public class RotationModuleProfiler {
 
     private void updateLabels() {
         frameRate.setText( "Frame Rate=" + format( frameRateSeries.average() ) );
-        breakdown.setText( "Delay=" + format( delaySeries.average() ) + " (ms), " +
-                           "Paint=" + format( paintTimeSeries.average() ) + ", " +
-                           "Model=" + format( evalTimeSeries.average() - paintTimeSeries.average() ) + ", " +
-                           "total=" + format( delaySeries.average() + evalTimeSeries.average() ) );
+//        breakdown.setText( "Delay=" + format( delaySeries.average() ) + " (ms), " +
+//                           "Paint=" + format( paintTimeSeries.average() ) + ", " +
+//                           "Model=" + format( evalTimeSeries.average() - paintTimeSeries.average() ) + ", " +
+//                           "total=" + format( delaySeries.average() + evalTimeSeries.average() ) );
         frameRate.paintImmediately( 0, 0, frameRate.getWidth(), frameRate.getHeight() );//paint immediately in case app is consuming too many resources to do it itself
-        breakdown.paintImmediately( 0, 0, breakdown.getWidth(), breakdown.getHeight() );
+//        breakdown.paintImmediately( 0, 0, breakdown.getWidth(), breakdown.getHeight() );
     }
 
     private String format( double v ) {
