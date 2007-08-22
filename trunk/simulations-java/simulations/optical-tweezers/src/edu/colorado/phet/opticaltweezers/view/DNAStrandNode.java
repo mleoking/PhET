@@ -9,13 +9,10 @@ import java.awt.geom.GeneralPath;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.DNAPivot;
 import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -52,7 +49,7 @@ public class DNAStrandNode extends PNode implements Observer {
     private PPath _strandNode;
     private DNAExtensionNode _extensionNode;
     private PNode _pivotsParentNode;
-    private PImage _pushpinNode;
+    private PushpinNode _pushpinNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -87,7 +84,7 @@ public class DNAStrandNode extends PNode implements Observer {
         _pivotsParentNode = new PComposite();
         addChild( _pivotsParentNode );
 
-        _pushpinNode = new PImage( OTResources.getImage( OTConstants.IMAGE_PUSHPIN ) );
+        _pushpinNode = new PushpinNode();
         addChild( _pushpinNode );
         
         update();
