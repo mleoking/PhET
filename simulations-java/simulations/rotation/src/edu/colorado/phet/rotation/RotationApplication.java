@@ -4,7 +4,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.rotation.controls.RotationDevMenu;
-import edu.colorado.phet.rotation.controls.RotationTestMenu;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 
 import javax.swing.*;
@@ -45,6 +44,7 @@ public class RotationApplication extends PhetApplication {
     }
 
     public void startApplication() {
+        rotationModule.initFinished();
         super.startApplication();
         rotationModule.getRotationSimulationPanel().requestFocus();
         rotationModule.startApplication();

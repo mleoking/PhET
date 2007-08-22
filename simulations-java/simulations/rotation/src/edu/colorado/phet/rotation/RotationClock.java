@@ -2,6 +2,8 @@ package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
+import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
+import edu.umd.cs.piccolox.pswing.SynchronizedPSwingRepaintManager;
 
 import java.util.ArrayList;
 
@@ -29,6 +31,8 @@ public class RotationClock extends ConstantDtClock {
         super.doTick();
         lastEvalTime = qp.getTime();
         lastTickFinishTime=System.currentTimeMillis();
+        SynchronizedPSwingRepaintManager.getInstance().updateLater();
+//        SynchronizedPSwingRepaintManager.getInstance().update();
     }
 
     public long getLastActualDelay() {
