@@ -53,6 +53,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/22/07 - refine 2D representation of enzyme, convert to images, add tick mark to indicate rotation
 8/21/07 - first attempt at 3D enzyme view
 8/21/07 - remove Close button from fluid controls dialog to save some vertical space
 8/21/07 - rename FluidControlDialog to FluidControlsDialog
