@@ -17,6 +17,7 @@ HIGH PRIORITY:
 - implement MotorsCanvas.handleResetDNAButton
 
 MEDIUM PRIORITY: 
+- add colored arrows to "Forces on Bead" control panel to serve as a key
 - fluid control selected by default in Motors panel
 - bug: visibility of dialogs (fluid controls, position histogram) isn't restored when changing modules
 - bug: dialogs (fluid controls, position histogram) are disposed when main frame is minimized
@@ -53,6 +54,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/22/07 - move "Reset DNA" button further away from enzyme
 8/22/07 - refine 2D representation of enzyme, convert to images, add tick mark to indicate rotation
 8/21/07 - first attempt at 3D enzyme view
 8/21/07 - remove Close button from fluid controls dialog to save some vertical space
