@@ -3,6 +3,7 @@ package edu.colorado.phet.common.motion.graphs;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
+import edu.umd.cs.piccolo.PCanvas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.awt.*;
  * Jul 19, 2007, 4:46:07 PM
  */
 //todo: cache for performance reasons?
-public class ShadowJLabel extends PhetPCanvas {
+public class ShadowJLabel extends PCanvas {
     public ShadowJLabel( String text, Color foreground, Font font ) {
         ShadowPText shadowPText = new ShadowPText( text );
         shadowPText.setTextPaint( foreground );
