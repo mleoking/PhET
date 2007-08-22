@@ -28,9 +28,11 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     public static final int DEFAULT_DELAY = 30;
     public static final double DEFAULT_CLOCK_DT = DEFAULT_DELAY / 1000.0;
 
+    public static AbstractRotationModule INSTANCE;
+
     public AbstractRotationModule( JFrame parentFrame ) {//30millis = 0.03 sec
         super( "Rotation", new RotationClock( DEFAULT_DELAY, DEFAULT_CLOCK_DT ) );
-
+        INSTANCE = this;
         setModel( new BaseModel() );
         setLogoPanel( null );
         setClockControlPanel( null );
