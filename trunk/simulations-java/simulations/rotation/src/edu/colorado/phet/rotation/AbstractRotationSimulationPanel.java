@@ -2,10 +2,6 @@ package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
-import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -18,7 +14,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -40,9 +35,6 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
     private AngleUnitModel angleUnitModel = new AngleUnitModel( false );
     private JComponent controlPanel;
     private long paintTime = 0;
-
-//    private boolean synchronousPaint = true;
-    private boolean synchronousPaint = false;
 
     public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule, JFrame phetFrame ) {
         this.rotationModule = rotationModule;
@@ -113,39 +105,12 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
             }
         } );
         setAlignedLayout();
-        //todo: should be after clock finished tick, not in line with other tick handlers
-        rotationModule.getClock().addClockListener( new ClockAdapter() {
-            double sum = 0;
-            double count = 0;
-
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
-
-                if( synchronousPaint ) {
-                    QuickProfiler qp = new QuickProfiler( "paintImm" );
-                    paintImmediately( 0, 0, getWidth(), getHeight() );
-                    paintTime = qp.getTime();
-//                    sum+=qp.getTime();
-//                    count++;
-//                    System.out.println( "count="+count+", avgPaintImm="+sum/count );
-                }
-            }
-        } );
         //must happen after units have changed in the graph, or layout will be wrong after graph changes
         angleUnitModel.addListener( new AngleUnitModel.Listener() {
             public void changed() {
                 timeSeriesGraphSetNode.forceRelayout();
             }
         } );
-    }
-
-
-
-    public boolean isSynchronousPaint() {
-        return synchronousPaint;
-    }
-
-    public void setSynchronousPaint( boolean synchronousPaint ) {
-        this.synchronousPaint = synchronousPaint;
     }
 
     public void resetAll() {
@@ -230,23 +195,6 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
 
     public RotationPlayAreaNode getRotationPlayAreaNode() {
         return rotationPlayAreaNode;
-    }
-
-    public void paintComponent( Graphics g ) {
-
-        QuickProfiler profiler=new QuickProfiler( "ARSP: paintComponent");
-        super.paintComponent( g );
-//        profiler.println();
-//        new Exception( ).printStackTrace( );
-    }
-
-    public void repaint( long tm, int x, int y, int width, int height ) {
-        if( rotationModule != null && rotationModule.getClock() != null && rotationModule.getClock().isRunning() && synchronousPaint ) {
-            //wait for synchronous paint
-        }
-        else {
-            super.repaint( tm, x, y, width, height );
-        }
     }
 
     public AngleUnitModel getAngleUnitModel() {
