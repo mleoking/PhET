@@ -31,8 +31,9 @@ public class RotationClock extends ConstantDtClock {
         super.doTick();
         lastEvalTime = qp.getTime();
         lastTickFinishTime=System.currentTimeMillis();
-        SynchronizedPSwingRepaintManager.getInstance().updateLater();
-//        SynchronizedPSwingRepaintManager.getInstance().update();
+        //if the repaint is scheduled for later, sometimes regions are dropped in the render process
+        //therefore, we paint immediately here 
+        SynchronizedPSwingRepaintManager.getInstance().update();
     }
 
     public long getLastActualDelay() {
