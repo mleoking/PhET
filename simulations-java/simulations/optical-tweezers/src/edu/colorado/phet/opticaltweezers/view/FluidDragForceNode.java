@@ -2,9 +2,12 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.Icon;
 
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
@@ -98,5 +101,13 @@ public class FluidDragForceNode extends AbstractForceNode implements Observer {
         Vector2D dragForce = _bead.getDragForce();
         // update the vectors
         setForce( dragForce );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    public static Icon createIcon() {
+        return AbstractForceNode.createIcon( OTConstants.FLUID_DRAG_FORCE_COLOR );
     }
 }

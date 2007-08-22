@@ -95,7 +95,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
                 }
             } );
             
-            JLabel trapForceLabel = new JLabel( createVectorIcon( OTConstants.TRAP_FORCE_COLOR ) );
+            JLabel trapForceLabel = new JLabel( TrapForceNode.createIcon() );
             trapForceLabel.addMouseListener( new MouseAdapter() {
                 public void mouseReleased( MouseEvent event ) {
                     setTrapForceSelected( !isTrapForceSelected() );
@@ -118,7 +118,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
                 }
             } );
             
-            JLabel dragForceLabel = new JLabel( createVectorIcon( OTConstants.FLUID_DRAG_FORCE_COLOR ) );
+            JLabel dragForceLabel = new JLabel( FluidDragForceNode.createIcon() );
             dragForceLabel.addMouseListener( new MouseAdapter() {
                 public void mouseReleased( MouseEvent event ) {
                     setDragForceSelected( !isDragForceSelected() );
@@ -142,7 +142,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
                 }
             } );
             
-            JLabel dnaForceLabel = new JLabel( createVectorIcon( OTConstants.DNA_FORCE_COLOR ) );
+            JLabel dnaForceLabel = new JLabel( DNAForceNode.createIcon() );
             dnaForceLabel.addMouseListener( new MouseAdapter() {
                 public void mouseReleased( MouseEvent event ) {
                     setDNAForceSelected( !isDNAForceSelected() );
@@ -351,19 +351,5 @@ public class ForcesControlPanel extends JPanel implements Observer {
                 _brownianMotionCheckBox.setSelected( _bead.isBrownianMotionEnabled() );
             }
         }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Utilities
-    //----------------------------------------------------------------------------
-    
-    private static Icon createVectorIcon( Color color ) {
-        final double length = OTConstants.VECTOR_ICON_LENGTH;
-        Vector2DNode vectorNode = new Vector2DNode( -length, 0, length, length );
-        vectorNode.setArrowFillPaint( color );
-        vectorNode.setTailWidth( OTConstants.VECTOR_ICON_TAIL_WIDTH );
-        vectorNode.setHeadSize( OTConstants.VECTOR_ICON_HEAD_SIZE.width, OTConstants.VECTOR_ICON_HEAD_SIZE.height );
-        Image image = vectorNode.toImage();
-        return new ImageIcon( image );
     }
 }
