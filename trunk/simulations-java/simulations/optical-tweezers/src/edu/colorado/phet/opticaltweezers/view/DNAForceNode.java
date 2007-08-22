@@ -2,9 +2,12 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.Icon;
 
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
@@ -90,5 +93,13 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
         Vector2D dnaForce = _bead.getDNAForce();
         // update the vector
         setForce( dnaForce );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    public static Icon createIcon() {
+        return AbstractForceNode.createIcon( OTConstants.DNA_FORCE_COLOR );
     }
 }

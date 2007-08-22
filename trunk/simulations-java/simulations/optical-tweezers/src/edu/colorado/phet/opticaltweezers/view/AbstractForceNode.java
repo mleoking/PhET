@@ -2,14 +2,15 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Stroke;
+import java.awt.*;
 import java.text.DecimalFormat;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
@@ -124,4 +125,17 @@ public abstract class AbstractForceNode extends PhetPNode {
         return _sumNode.getArrowFillPaint();
     }
     
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    protected static Icon createIcon( Color color ) {
+        final double length = OTConstants.VECTOR_ICON_LENGTH;
+        Vector2DNode vectorNode = new Vector2DNode( -length, 0, length, length );
+        vectorNode.setArrowFillPaint( color );
+        vectorNode.setTailWidth( OTConstants.VECTOR_ICON_TAIL_WIDTH );
+        vectorNode.setHeadSize( OTConstants.VECTOR_ICON_HEAD_SIZE.width, OTConstants.VECTOR_ICON_HEAD_SIZE.height );
+        Image image = vectorNode.toImage();
+        return new ImageIcon( image );
+    }
 }

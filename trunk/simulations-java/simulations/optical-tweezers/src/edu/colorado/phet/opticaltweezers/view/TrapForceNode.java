@@ -2,10 +2,16 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
+import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
@@ -98,5 +104,13 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
         Vector2D trapForce = _bead.getTrapForce();
         // update the vector
         setForce( trapForce );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    public static Icon createIcon() {
+        return AbstractForceNode.createIcon( OTConstants.TRAP_FORCE_COLOR );
     }
 }
