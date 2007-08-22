@@ -170,6 +170,7 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
     public void startApplication() {
         timeSeriesGraphSetNode.forceRelayout();
         timeSeriesGraphSetNode.forceRepaintGraphs();
+        paintImmediately( 0,0,getWidth(), getHeight() );//workaround for gray rect
     }
 
     public void setGraphsBufferedImmediateSeries() {
