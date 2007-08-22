@@ -7,7 +7,7 @@ MISSING INFO:
 HIGH PRIORITY:
 - implement velocity model of DNA moving through enzyme (function of ATP and DNA force)
 - redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
-- support different enzymes in model
+- support switching between different enzymes in model
 - parameterize EnzymeNode, specify colors for inner, outer, tick
 - make enzyme rotation speed proportion to velocity with which enzyme is pulling through DNA
 - "Choose molecular motor" control, 2 choices, 2 different color enzymes with different sets of velocity parameters
