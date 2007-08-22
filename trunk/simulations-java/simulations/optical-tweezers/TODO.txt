@@ -52,8 +52,9 @@ CLEANUP:
 
 MIGRATE TO COMMON:
 
- 
+
 DONE:
+8/22/07 - move default location of ruler to bottom of microscope slide so it doesn't overlap other things
 8/22/07 - add control panel icon for efield vectors
 8/22/07 - add control panel icons for charts
 8/22/07 - add color key vector icons to "Forces on Bead" control panel
