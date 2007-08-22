@@ -2,20 +2,12 @@
 
 package edu.colorado.phet.opticaltweezers.control;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -86,28 +78,58 @@ public class ChartsControlPanel extends JPanel {
         JLabel titleLabel = new JLabel( OTResources.getString( "title.chartsControlPanel" ) );
         titleLabel.setFont( titleFont );
         
-        // Position Histogram
-        _positionHistogramCheckBox = new JCheckBox( OTResources.getString( "label.positionHistogram" ) );
-        _positionHistogramCheckBox.setFont( controlFont );
-        _positionHistogramCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handlePositionHistogramCheckBox();
-            }
-        });
+        // Position Histogram checkbox and icon
+        JPanel positionHistogramPanel = null;
+        {
+            _positionHistogramCheckBox = new JCheckBox( OTResources.getString( "label.positionHistogram" ) );
+            _positionHistogramCheckBox.setFont( controlFont );
+            _positionHistogramCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    handlePositionHistogramCheckBox();
+                }
+            } );
+            
+            Icon positionHistogramIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_HISTOGRAM_ICON ) );
+            JLabel positionHistogramLabel = new JLabel( positionHistogramIcon );
+            positionHistogramLabel.addMouseListener( new MouseAdapter() {
+                public void mouseReleased( MouseEvent event ) {
+                    setPositionHistogramSelected( !isPositionHistogramSelected() );
+                }
+            } );
+            
+            positionHistogramPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            positionHistogramPanel.add( _positionHistogramCheckBox );
+            positionHistogramPanel.add( positionHistogramLabel );
+        }
 
-        // Potential Energy chart
-        _potentialEnergyChartCheckBox = new JCheckBox( OTResources.getString( "label.potentialEnergyChart" ) );
-        _potentialEnergyChartCheckBox.setFont( controlFont );
-        _potentialEnergyChartCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handlePotentialEnergyCheckBox();
-            }
-        });
-        _potentialEnergyNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                _potentialEnergyChartCheckBox.setSelected( _potentialEnergyNode.getVisible() );
-            }
-        } );
+        // Potential Energy Chart checkbox and icon
+        JPanel potentialEnergyPanel = null;
+        {
+            _potentialEnergyChartCheckBox = new JCheckBox( OTResources.getString( "label.potentialEnergyChart" ) );
+            _potentialEnergyChartCheckBox.setFont( controlFont );
+            _potentialEnergyChartCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    handlePotentialEnergyCheckBox();
+                }
+            } );
+            _potentialEnergyNode.addPropertyChangeListener( new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    _potentialEnergyChartCheckBox.setSelected( _potentialEnergyNode.getVisible() );
+                }
+            } );
+            
+            Icon potentialEnergyChartIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_POTENTIAL_ENERGY_CHART_ICON ) );
+            JLabel potentialEnergyChartLabel = new JLabel( potentialEnergyChartIcon );
+            potentialEnergyChartLabel.addMouseListener( new MouseAdapter() {
+                public void mouseReleased( MouseEvent event ) {
+                    setPotentialEnergySelected( !isPotentialChartSelected() );
+                }
+            } );
+            
+            potentialEnergyPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            potentialEnergyPanel.add( _potentialEnergyChartCheckBox );
+            potentialEnergyPanel.add( potentialEnergyChartLabel );
+        }
 
         // Layout
         JPanel innerPanel = new JPanel();
@@ -118,8 +140,8 @@ public class ChartsControlPanel extends JPanel {
         layout.setMinimumWidth( 0, 20 );
         int row = 0;
         layout.addComponent( titleLabel, row++, 0 );
-        layout.addComponent( _positionHistogramCheckBox, row++, 0 );
-        layout.addComponent( _potentialEnergyChartCheckBox, row++, 0 );
+        layout.addComponent( positionHistogramPanel, row++, 0 );
+        layout.addComponent( potentialEnergyPanel, row++, 0 );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
 
