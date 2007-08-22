@@ -107,7 +107,6 @@ public class ForcesControlPanel extends JPanel implements Observer {
             
             JLabel trapForceLabel = new JLabel( createVectorIcon( OTConstants.TRAP_FORCE_COLOR ) );
             trapForceLabel.addMouseListener( new MouseAdapter() {
-
                 public void mouseReleased( MouseEvent event ) {
                     setTrapForceSelected( !isTrapForceSelected() );
                 }
