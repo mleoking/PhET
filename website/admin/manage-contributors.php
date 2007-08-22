@@ -89,6 +89,8 @@ EOT;
                             <td>
                                 <input type="submit" name="action" value="update" />
                                 <input type="submit" name="action" value="delete" />
+
+								<a href="edit-other-profile.php?edit_contributor_id=$contributor_id">Edit</a>
                             </td>
                         </tr>
                     </form>

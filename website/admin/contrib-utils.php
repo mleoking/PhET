@@ -2162,6 +2162,8 @@ EOT;
 					<p class="footnote">The PhET newsletter is sent 4 times per year to announce major changes to the simulations. You may unsubscribe at any time.</p>
 
                    <input class="button" name="Submit" type="submit" id="submit" value="Done" />
+
+					<input type="hidden" name="contributor_id" value="$contributor_id" />
                  </fieldset>
             </form>
 EOT;
