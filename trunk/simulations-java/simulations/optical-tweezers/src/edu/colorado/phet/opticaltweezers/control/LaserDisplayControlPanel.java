@@ -3,18 +3,19 @@
 package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTResources;
+import edu.colorado.phet.opticaltweezers.view.ElectricFieldVectorNode;
 import edu.colorado.phet.opticaltweezers.view.LaserNode;
 
 /**
@@ -58,17 +59,32 @@ public class LaserDisplayControlPanel extends JPanel {
             }
         };
 
-        // "no charts" choice
+        // Beam
         _beamRadioButton = new JRadioButton( OTResources.getString( "choice.beam" ) );
         _beamRadioButton.setFont( controlFont );
         _beamRadioButton.addActionListener( actionListener );
 
-        // Position Histogram
-        _electricFieldRadioButton = new JRadioButton( OTResources.getString( "choice.electricField" ) );
-        _electricFieldRadioButton.setFont( controlFont );
-        _electricFieldRadioButton.addActionListener( actionListener );
+        // Electric Field
+        JPanel efieldPanel = null;
+        {
+            _electricFieldRadioButton = new JRadioButton( OTResources.getString( "choice.electricField" ) );
+            _electricFieldRadioButton.setFont( controlFont );
+            _electricFieldRadioButton.addActionListener( actionListener );
+            
+            Icon electricFieldIcon = ElectricFieldVectorNode.createIcon();
+            JLabel eletricFieldLabel = new JLabel( electricFieldIcon );
+            eletricFieldLabel.addMouseListener( new MouseAdapter() {
+                public void mouseReleased( MouseEvent event ) {
+                    setDisplaySelection( false /* beam */, true /*efield */ );
+                }
+            } );
+            
+            efieldPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            efieldPanel.add( _electricFieldRadioButton );
+            efieldPanel.add( eletricFieldLabel );
+        }
 
-        // Potential Energy chart
+        // Both
         _beamAndElectricFieldRadioButton = new JRadioButton( OTResources.getString( "choice.beamAndElectricField" ) );
         _beamAndElectricFieldRadioButton.setFont( controlFont );
         _beamAndElectricFieldRadioButton.addActionListener( actionListener );
@@ -88,7 +104,7 @@ public class LaserDisplayControlPanel extends JPanel {
         int row = 0;
         layout.addComponent( titleLabel, row++, 0 );
         layout.addComponent( _beamRadioButton, row++, 0 );
-        layout.addComponent( _electricFieldRadioButton, row++, 0 );
+        layout.addComponent( efieldPanel, row++, 0 );
         layout.addComponent( _beamAndElectricFieldRadioButton, row++, 0 );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );

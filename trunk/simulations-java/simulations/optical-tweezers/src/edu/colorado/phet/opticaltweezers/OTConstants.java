@@ -104,6 +104,15 @@ public class OTConstants {
     public static final String IMAGE_ZOOM_OUT = "zoomOut.png";   
     
     //----------------------------------------------------------------------------
+    // Icons
+    //----------------------------------------------------------------------------
+    
+    // vector icon properties
+    public static final int VECTOR_ICON_LENGTH = 25;
+    public static final int VECTOR_ICON_TAIL_WIDTH = 3;
+    public static final Dimension VECTOR_ICON_HEAD_SIZE = new Dimension( 10, 10 );
+    
+    //----------------------------------------------------------------------------
     // Cursors
     //----------------------------------------------------------------------------
     

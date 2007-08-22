@@ -12,7 +12,6 @@ import java.util.Observer;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
@@ -30,15 +29,6 @@ import edu.colorado.phet.opticaltweezers.view.TrapForceNode;
  */
 public class ForcesControlPanel extends JPanel implements Observer {
 
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // vector icon properties
-    private static final int VECTOR_ICON_LENGTH = 25;
-    private static final int VECTOR_ICON_TAIL_WIDTH = 3;
-    private static final int VECTOR_ICON_HEAD_SIZE = 10;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -368,10 +358,11 @@ public class ForcesControlPanel extends JPanel implements Observer {
     //----------------------------------------------------------------------------
     
     private static Icon createVectorIcon( Color color ) {
-        Vector2DNode vectorNode = new Vector2DNode( -VECTOR_ICON_LENGTH, 0, VECTOR_ICON_LENGTH, VECTOR_ICON_LENGTH );
+        final double length = OTConstants.VECTOR_ICON_LENGTH;
+        Vector2DNode vectorNode = new Vector2DNode( -length, 0, length, length );
         vectorNode.setArrowFillPaint( color );
-        vectorNode.setTailWidth( VECTOR_ICON_TAIL_WIDTH );
-        vectorNode.setHeadSize( VECTOR_ICON_HEAD_SIZE, VECTOR_ICON_HEAD_SIZE );
+        vectorNode.setTailWidth( OTConstants.VECTOR_ICON_TAIL_WIDTH );
+        vectorNode.setHeadSize( OTConstants.VECTOR_ICON_HEAD_SIZE.width, OTConstants.VECTOR_ICON_HEAD_SIZE.height );
         Image image = vectorNode.toImage();
         return new ImageIcon( image );
     }
