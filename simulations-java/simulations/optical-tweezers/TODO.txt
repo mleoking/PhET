@@ -5,7 +5,8 @@
 MISSING INFO:
 
 HIGH PRIORITY:
-- extract pushpin into its own node, PushPinNode, and place explicitly on the canvas
+- place PushpinNode at DNA tail location in DNA module
+- place PushpinNode at enzyme location in Motors module
 - implement velocity model of DNA moving through enzyme (function of ATP and DNA force)
 - redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
 - support switching between different enzymes in model
@@ -14,7 +15,7 @@ HIGH PRIORITY:
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox
 - implement MotorsCanvas.handleResetDNAButton
 
-MEDIUM PRIORITY: 
+MEDIUM PRIORITY:
 - restarting the clock should clear position histogram
 - OutOfMemoryError in Motors module
 - what doesn't setActiveModule(_motorsModule) work?
@@ -54,6 +55,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+8/22/07 - extract pushpin into its own node
 8/22/07 - parameterize EnzymeNode, specify colors for inner, outer, tick
 8/22/07 - move vector icon creation into force nodes
 8/22/07 - move default location of ruler to bottom of microscope slide so it doesn't overlap other things
