@@ -99,7 +99,7 @@ public class MotorsDefaults {
     public static final Point2D ENZYME_POSITION = new Point2D.Double( 500, MICROSCOPE_SLIDE_POSITION.getY() ); // nm
     
     // Ruler
-    public static final double RULER_Y_POSITION = LASER_POSITION.getY() + ( GlobalDefaults.BEAD_DIAMETER / 2 ) + 30; // nm, just below center of trap
+    public static final double RULER_Y_POSITION = MICROSCOPE_SLIDE_POSITION.getY() + ( MICROSCOPE_SLIDE_CENTER_HEIGHT / 2 ) - 300; // nm, just above bottom of slide
     public static final int RULER_MAJOR_TICK_INTERVAL = 200; // nm
     public static final int RULER_MINOR_TICKS_BETWEEN_MAJORS = 3;
 
