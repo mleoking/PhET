@@ -9,6 +9,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PAffineTransform;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
@@ -82,12 +83,21 @@ public class RotationBodyNode extends PhetPNode {
 
     private void update() {
         double s = modelSizeMeters / imageNode.getWidth();
-        setTransform( AffineTransform.getScaleInstance( s, -s ) );
-
+        PAffineTransform newTransform = new PAffineTransform( AffineTransform.getScaleInstance( s, -s ) );
         Point2D center = getFullBounds().getCenter2D();
-        rotateAboutPoint( -rotationBody.getOrientation(), center );//negative angle since +y is up
-        setOffset( rotationBody.getPosition() );
+        newTransform.rotate( -rotationBody.getOrientation(), center.getX(), center.getY() );
+        newTransform.setOffset( rotationBody.getPosition().getX(), rotationBody.getPosition().getY() );
+        if( !newTransform.equals( getTransform() ) ) {
+            setTransform( newTransform );
+        }
     }
 
-
+//        private void update() {
+//        double s = modelSizeMeters / imageNode.getWidth();
+//        setTransform( AffineTransform.getScaleInstance( s, -s ) );
+//
+//        Point2D center = getFullBounds().getCenter2D();
+//        rotateAboutPoint( -rotationBody.getOrientation(), center );//negative angle since +y is up
+//        setOffset( rotationBody.getPosition() );
+//    }
 }
