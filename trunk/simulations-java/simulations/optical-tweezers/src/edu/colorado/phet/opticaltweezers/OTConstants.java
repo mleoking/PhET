@@ -88,6 +88,14 @@ public class OTConstants {
     public static final Color DNA_FORCE_COLOR = Color.GREEN;
     public static final Color ELECTRIC_FIELD_COLOR = new Color( 230, 57, 5 ); // dark red
     
+    // Enzyme colors
+    public static final Color ENZYME_A_OUTER_COLOR = new Color( 12, 119, 133, 80 );
+    public static final Color ENZYME_A_INNER_COLOR = new Color( 12, 119, 133, 200 );
+    public static final Color ENZYME_A_TICK_COLOR = Color.BLACK;
+    public static final Color ENZYME_B_OUTER_COLOR = new Color( 255, 152, 48, 80 );
+    public static final Color ENZYME_B_INNER_COLOR = new Color( 255, 152, 48, 200 );
+    public static final Color ENZYME_B_TICK_COLOR = Color.BLACK;
+    
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------

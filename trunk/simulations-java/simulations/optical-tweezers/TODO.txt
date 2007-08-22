@@ -5,10 +5,10 @@
 MISSING INFO:
 
 HIGH PRIORITY:
+- extract pushpin into its own node, PushPinNode, and place explicitly on the canvas
 - implement velocity model of DNA moving through enzyme (function of ATP and DNA force)
 - redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
 - support switching between different enzymes in model
-- parameterize EnzymeNode, specify colors for inner, outer, tick
 - make enzyme rotation speed proportion to velocity with which enzyme is pulling through DNA
 - "Choose molecular motor" control, 2 choices, 2 different color enzymes with different sets of velocity parameters
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox
@@ -54,6 +54,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+8/22/07 - parameterize EnzymeNode, specify colors for inner, outer, tick
 8/22/07 - move vector icon creation into force nodes
 8/22/07 - move default location of ruler to bottom of microscope slide so it doesn't overlap other things
 8/22/07 - add control panel icon for efield vectors
