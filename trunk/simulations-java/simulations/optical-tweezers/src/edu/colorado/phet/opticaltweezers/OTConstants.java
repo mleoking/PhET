@@ -93,9 +93,11 @@ public class OTConstants {
     //----------------------------------------------------------------------------
     
     public static final String IMAGE_CAMERA = "cameraIcon.png";
+    public static final String IMAGE_HISTOGRAM_ICON = "histogramIcon.png";
     public static final String IMAGE_LASER_SIGN = "laserDangerSign.png";
-    public static final String IMAGE_PUSHPIN = "pushpin.png";
     public static final String IMAGE_ON_BUTTON = "onButton.png";
+    public static final String IMAGE_PUSHPIN = "pushpin.png";
+    public static final String IMAGE_POTENTIAL_ENERGY_CHART_ICON = "potentialEnergyChartIcon.png";
     public static final String IMAGE_OFF_BUTTON = "offButton.png";
     public static final String IMAGE_RULER = "rulerIcon.png";
     public static final String IMAGE_ZOOM_IN = "zoomIn.png";   
