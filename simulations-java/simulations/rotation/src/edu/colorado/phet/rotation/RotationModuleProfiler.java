@@ -99,5 +99,9 @@ public class RotationModuleProfiler {
 
     public void start() {
         frame.setVisible( true );
+        if( frame.getContentPane() instanceof JComponent ) {
+            JComponent jComponent = (JComponent)frame.getContentPane();
+            jComponent.paintImmediately( 0,0,jComponent.getWidth(), jComponent.getHeight() );
+        }
     }
 }
