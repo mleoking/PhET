@@ -96,6 +96,12 @@ public class DNACanvas extends AbstractCanvas {
         // DNA Strand
         _dnaStrandNode = new DNAStrandNode( dnaStrand, modelViewTransform );
         
+        // Pushpin
+        PushpinNode pushpinNode = new PushpinNode();
+        Point2D dnaStrandTailPosition = new Point2D.Double( dnaStrand.getTailX(), dnaStrand.getTailY() );
+        Point2D pushpinPosition = modelViewTransform.modelToView( dnaStrandTailPosition );
+        pushpinNode.setOffset( pushpinPosition );
+        
         // Bead
         _beadDragBoundsNode = new PPath();
         _beadDragBoundsNode.setStroke( null );
@@ -145,6 +151,7 @@ public class DNACanvas extends AbstractCanvas {
         addNode( _laserNode );
         addNode( _laserDragBoundsNode );
         addNode( _dnaStrandNode );
+        addNode( pushpinNode );
         addNode( _beadNode );
         addNode( _beadDragBoundsNode );
         addNode( _trapForceNode );

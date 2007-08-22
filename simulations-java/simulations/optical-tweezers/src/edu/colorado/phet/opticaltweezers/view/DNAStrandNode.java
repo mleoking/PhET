@@ -49,7 +49,6 @@ public class DNAStrandNode extends PNode implements Observer {
     private PPath _strandNode;
     private DNAExtensionNode _extensionNode;
     private PNode _pivotsParentNode;
-    private PushpinNode _pushpinNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -84,9 +83,6 @@ public class DNAStrandNode extends PNode implements Observer {
         _pivotsParentNode = new PComposite();
         addChild( _pivotsParentNode );
 
-        _pushpinNode = new PushpinNode();
-        addChild( _pushpinNode );
-        
         update();
     }
     
@@ -143,12 +139,6 @@ public class DNAStrandNode extends PNode implements Observer {
         // tail position, in view coordinates
         double viewTailX = _modelViewTransform.modelToView( _dnaStrand.getTailX() );
         double viewTailY = _modelViewTransform.modelToView( _dnaStrand.getTailY() );
-        
-        // pushpin at the tail
-        PBounds pushpinBounds = _pushpinNode.getFullBoundsReference();
-        double xOffset = viewTailX - pushpinBounds.getWidth();
-        double yOffset = viewTailY - pushpinBounds.getHeight();
-        _pushpinNode.setOffset( xOffset, yOffset );
         
         // Draw the extension, a straight line from tail to head
         if ( isExtensionVisible() ) {

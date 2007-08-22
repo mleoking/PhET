@@ -102,6 +102,12 @@ public class MotorsCanvas extends AbstractCanvas {
         // Enzymes
         _enzymeANode = new EnzymeNode( enzyme, modelViewTransform, OTConstants.ENZYME_B_OUTER_COLOR, OTConstants.ENZYME_B_INNER_COLOR, OTConstants.ENZYME_B_TICK_COLOR );
         
+        // Pushpin
+        PushpinNode pushpinNode = new PushpinNode();
+        Point2D pushpinPosition = modelViewTransform.modelToView( enzyme.getPosition() );
+        double enzymeDiameter = modelViewTransform.modelToView( enzyme.getOuterDiameter() );
+        pushpinNode.setOffset( pushpinPosition.getX() - ( enzymeDiameter / 6 ),  pushpinPosition.getY() - ( enzymeDiameter / 6 ) );
+        
         // Bead
         _beadDragBoundsNode = new PPath();
         _beadDragBoundsNode.setStroke( null );
@@ -167,6 +173,7 @@ public class MotorsCanvas extends AbstractCanvas {
         addNode( _laserDragBoundsNode );
         addNode( _dnaStrandNode );
         addNode( _enzymeANode );
+        addNode( pushpinNode );
         addNode( _beadNode );
         addNode( _beadDragBoundsNode );
         addNode( _trapForceNode );
