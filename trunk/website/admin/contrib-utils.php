@@ -1002,9 +1002,7 @@ EOT;
 
         $time = strtotime($contribution_date_updated);
         
-        $contribution_date_updated = date('n/y', $time);
-
-        
+        $contribution_date_updated = date('n/y', $time);       
 
 		if ($author_first_initial == '') {
         	$author_abbr = "$author_last_name";
