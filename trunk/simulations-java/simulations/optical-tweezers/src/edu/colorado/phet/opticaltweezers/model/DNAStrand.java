@@ -189,7 +189,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     public double getHeadY() {
         return getHeadPivot().getY();
     }
-
+    
     /**
      * Gets the x coordinate of the strand's tail, the end that is pinned.
      * 
