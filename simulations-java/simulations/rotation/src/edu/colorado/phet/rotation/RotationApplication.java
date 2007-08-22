@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.rotation.controls.RotationDevMenu;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
+import edu.umd.cs.piccolox.pswing.SynchronizedPSwingRepaintManager;
+import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
@@ -53,6 +55,7 @@ public class RotationApplication extends PhetApplication {
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
+                RepaintManager.setCurrentManager( new SynchronizedPSwingRepaintManager());
                 QuickProfiler appStartTime = new QuickProfiler();
                 new RotationLookAndFeel().initLookAndFeel();
                 new RotationApplication( args ).startApplication();

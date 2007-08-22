@@ -102,7 +102,7 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     }
 
     public void initFinished() {
-        RepaintManager.setCurrentManager( new SynchronizedPSwingRepaintManager() );
+//        RepaintManager.setCurrentManager( new SynchronizedPSwingRepaintManager() );
         updateRepaintManager();
     }
 }

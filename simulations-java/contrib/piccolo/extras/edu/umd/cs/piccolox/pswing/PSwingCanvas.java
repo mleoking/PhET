@@ -26,7 +26,6 @@ import java.awt.*;
 
 public class PSwingCanvas extends PCanvas implements IgnorableEventSource {
     public static final String SWING_WRAPPER_KEY = "Swing Wrapper";
-    private static PSwingRepaintManager pSwingRepaintManager = new PSwingRepaintManager();
 
     private SwingWrapper swingWrapper;
     private PSwingEventHandler swingEventHandler;
@@ -38,8 +37,11 @@ public class PSwingCanvas extends PCanvas implements IgnorableEventSource {
     public PSwingCanvas() {
         swingWrapper = new SwingWrapper( this );
         add( swingWrapper );
-        RepaintManager.setCurrentManager( pSwingRepaintManager );
-        pSwingRepaintManager.addPSwingCanvas( this );
+        //allow a client application to set a subclass of PSwingRepaintManager instead of using the default provided in previous version of PSwingCanvas
+        if (!(RepaintManager.currentManager( this) instanceof PSwingRepaintManager)){
+            RepaintManager.setCurrentManager( new PSwingRepaintManager());
+        }
+        ((PSwingRepaintManager)RepaintManager.currentManager( this )).addPSwingCanvas( this );
 
         swingEventHandler = new PSwingEventHandler( this, getCamera() );//todo or maybe getCameraLayer() or getRoot()?
         swingEventHandler.setActive( true );
