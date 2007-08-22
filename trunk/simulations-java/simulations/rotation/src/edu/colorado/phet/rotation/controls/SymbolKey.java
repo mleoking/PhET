@@ -33,13 +33,14 @@ public class SymbolKey extends JPanel {
     }
 
     private void addItem( String theta, String s ) {
-        JLabel label = new JLabel( theta + " = " + s ) {
-            protected void paintComponent( Graphics g ) {
-                boolean aa = GraphicsUtil.antialias( g, true );
-                super.paintComponent( g );
-                GraphicsUtil.antialias( g, aa );
-            }
-        };
+        JLabel label = new JLabel( theta + " = " + s );
+//        {
+//            protected void paintComponent( Graphics g ) {
+//                boolean aa = GraphicsUtil.antialias( g, true );
+//                super.paintComponent( g );
+//                GraphicsUtil.antialias( g, aa );
+//            }
+//        };
         label.setFont( RotationLookAndFeel.getLegendItemFont() );
         add( label, gridBagConstraints );
     }
