@@ -5,19 +5,19 @@
 MISSING INFO:
 
 HIGH PRIORITY:
-- OutOfMemoryError when Motors module is run for >5 minutes (related to calling setActiveModule?)
 - implement velocity model of DNA moving through enzyme (function of ATP and DNA force)
 - redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
-- view of enzyme as translucent 3D sphere with another 3D sphere rotating inside
-- enzyme: outer sphere smaller than bead (150 nm), translucent, shaded
-- enzyme: inner sphere 50% size of outer sphere, not shaded, tick mark, rotates
+- support different enzymes in model
+- parameterize EnzymeNode, specify colors for inner, outer, tick
 - make enzyme rotation speed proportion to velocity with which enzyme is pulling through DNA
 - "Choose molecular motor" control, 2 choices, 2 different color enzymes with different sets of velocity parameters
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox
 - implement MotorsCanvas.handleResetDNAButton
 
 MEDIUM PRIORITY: 
-- add colored arrows to "Forces on Bead" control panel to serve as a key
+- restarting the clock should clear position histogram
+- OutOfMemoryError in Motors module
+- what doesn't setActiveModule(_motorsModule) work?
 - fluid control selected by default in Motors panel
 - bug: visibility of dialogs (fluid controls, position histogram) isn't restored when changing modules
 - bug: dialogs (fluid controls, position histogram) are disposed when main frame is minimized
@@ -54,6 +54,7 @@ MIGRATE TO COMMON:
 
  
 DONE:
+8/22/07 - add color key vector icons to "Forces on Bead" control panel
 8/22/07 - move "Reset DNA" button further away from enzyme
 8/22/07 - refine 2D representation of enzyme, convert to images, add tick mark to indicate rotation
 8/21/07 - first attempt at 3D enzyme view

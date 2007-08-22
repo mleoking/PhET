@@ -2,34 +2,43 @@
 
 package edu.colorado.phet.opticaltweezers.control;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.view.DNAForceNode;
 import edu.colorado.phet.opticaltweezers.view.FluidDragForceNode;
 import edu.colorado.phet.opticaltweezers.view.TrapForceNode;
-import edu.umd.cs.piccolo.PNode;
 
 /**
- * ForcesControlPanel controls the view of forces.
+ * ForcesControlPanel controls things related to force vectors.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ForcesControlPanel extends JPanel implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // vector icon properties
+    private static final int VECTOR_ICON_LENGTH = 25;
+    private static final int VECTOR_ICON_TAIL_WIDTH = 3;
+    private static final int VECTOR_ICON_HEAD_SIZE = 10;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -85,23 +94,57 @@ public class ForcesControlPanel extends JPanel implements Observer {
         JLabel titleLabel = new JLabel( OTResources.getString( "label.forcesOnBead" ) );
         titleLabel.setFont( titleFont );
         
-        _trapForceCheckBox = new JCheckBox( OTResources.getString( "label.showTrapForce" ) );
-        _trapForceCheckBox.setFont( controlFont );
-        _trapForceCheckBox.addActionListener( new ActionListener() {
-           public void actionPerformed( ActionEvent event ) {
-               handleTrapForceCheckBox();
-           }
-        });
+        // Trap force checkbox and icon
+        JPanel trapForcePanel = null;
+        {
+            _trapForceCheckBox = new JCheckBox( OTResources.getString( "label.showTrapForce" ) );
+            _trapForceCheckBox.setFont( controlFont );
+            _trapForceCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    handleTrapForceCheckBox();
+                }
+            } );
+            
+            JLabel trapForceLabel = new JLabel( createVectorIcon( OTConstants.TRAP_FORCE_COLOR ) );
+            trapForceLabel.addMouseListener( new MouseAdapter() {
 
-        _dragForceCheckBox = new JCheckBox( OTResources.getString( "label.showDragForce" ) );
-        _dragForceCheckBox.setFont( controlFont );
-        _dragForceCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleFluidDragCheckBox();
-            }
-         });
+                public void mouseReleased( MouseEvent event ) {
+                    setTrapForceSelected( !isTrapForceSelected() );
+                }
+            } );
+            
+            trapForcePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            trapForcePanel.add( _trapForceCheckBox );
+            trapForcePanel.add( trapForceLabel );
+        }
         
+        // Drag force checkbox and icon
+        JPanel dragForcePanel = null;
+        {
+            _dragForceCheckBox = new JCheckBox( OTResources.getString( "label.showDragForce" ) );
+            _dragForceCheckBox.setFont( controlFont );
+            _dragForceCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    handleFluidDragCheckBox();
+                }
+            } );
+            
+            JLabel dragForceLabel = new JLabel( createVectorIcon( OTConstants.FLUID_DRAG_FORCE_COLOR ) );
+            dragForceLabel.addMouseListener( new MouseAdapter() {
+                public void mouseReleased( MouseEvent event ) {
+                    setDragForceSelected( !isDragForceSelected() );
+                }
+            } );
+            
+            dragForcePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            dragForcePanel.add( _dragForceCheckBox );
+            dragForcePanel.add( dragForceLabel );
+        }
+        
+        // DNA force checkbox and icon
+        JPanel dnaForcePanel = null;
         if ( _dnaForceNode != null ) {
+            
             _dnaForceCheckBox = new JCheckBox( OTResources.getString( "label.showDNAForce" ) );
             _dnaForceCheckBox.setFont( controlFont );
             _dnaForceCheckBox.addActionListener( new ActionListener() {
@@ -109,6 +152,17 @@ public class ForcesControlPanel extends JPanel implements Observer {
                     handleDNAForceCheckBox();
                 }
             } );
+            
+            JLabel dnaForceLabel = new JLabel( createVectorIcon( OTConstants.DNA_FORCE_COLOR ) );
+            dnaForceLabel.addMouseListener( new MouseAdapter() {
+                public void mouseReleased( MouseEvent event ) {
+                    setDNAForceSelected( !isDNAForceSelected() );
+                }
+            } );
+            
+            dnaForcePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            dnaForcePanel.add( _dnaForceCheckBox );
+            dnaForcePanel.add( dnaForceLabel );
         }
         
         _brownianMotionCheckBox = new JCheckBox( OTResources.getString( "label.enableBrownianMotion" ) );
@@ -145,10 +199,10 @@ public class ForcesControlPanel extends JPanel implements Observer {
         int row = 0;
         int column = 0;
         layout.addComponent( titleLabel, row++, column );
-        layout.addComponent( _trapForceCheckBox, row++, column );
-        layout.addComponent( _dragForceCheckBox, row++, column );
-        if ( _dnaForceCheckBox != null ) {
-            layout.addComponent( _dnaForceCheckBox, row++, column );
+        layout.addComponent( trapForcePanel, row++, column );
+        layout.addComponent( dragForcePanel, row++, column );
+        if ( dnaForcePanel != null ) {
+            layout.addComponent( dnaForcePanel, row++, column );
         }
         layout.addComponent( _brownianMotionCheckBox, row++, column );
         layout.addComponent( _showValuesCheckBox, row++, column );
@@ -308,5 +362,18 @@ public class ForcesControlPanel extends JPanel implements Observer {
                 _brownianMotionCheckBox.setSelected( _bead.isBrownianMotionEnabled() );
             }
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    private static Icon createVectorIcon( Color color ) {
+        Vector2DNode vectorNode = new Vector2DNode( -VECTOR_ICON_LENGTH, 0, VECTOR_ICON_LENGTH, VECTOR_ICON_LENGTH );
+        vectorNode.setArrowFillPaint( color );
+        vectorNode.setTailWidth( VECTOR_ICON_TAIL_WIDTH );
+        vectorNode.setHeadSize( VECTOR_ICON_HEAD_SIZE, VECTOR_ICON_HEAD_SIZE );
+        Image image = vectorNode.toImage();
+        return new ImageIcon( image );
     }
 }
