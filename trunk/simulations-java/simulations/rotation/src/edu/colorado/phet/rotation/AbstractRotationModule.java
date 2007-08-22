@@ -3,11 +3,14 @@ package edu.colorado.phet.rotation;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.model.DefaultTimeSeries;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.umd.cs.piccolox.pswing.SynchronizedPSwingRepaintManager;
 
 import javax.swing.*;
 
@@ -27,6 +30,7 @@ public abstract class AbstractRotationModule extends PiccoloModule {
 
     public AbstractRotationModule( JFrame parentFrame ) {//30millis = 0.03 sec
         super( "Rotation", new RotationClock( DEFAULT_DELAY, DEFAULT_CLOCK_DT ) );
+
         setModel( new BaseModel() );
         setLogoPanel( null );
         setClockControlPanel( null );
@@ -35,6 +39,23 @@ public abstract class AbstractRotationModule extends PiccoloModule {
 
         rotationSimulationPanel = createSimulationPanel( parentFrame );
         setSimulationPanel( rotationSimulationPanel );
+
+        getClock().addClockListener( new ClockAdapter() {
+            public void clockStarted( ClockEvent clockEvent ) {
+                updateRepaintManager();
+            }
+
+            public void clockPaused( ClockEvent clockEvent ) {
+                updateRepaintManager();
+            }
+        } );
+        updateRepaintManager();
+    }
+
+    protected void updateRepaintManager() {
+        if( SynchronizedPSwingRepaintManager.getInstance() != null ) {
+            SynchronizedPSwingRepaintManager.getInstance().setSynchronousPaint( getClock().isRunning() );
+        }
     }
 
     public ConstantDtClock getConstantDTClock() {
@@ -78,5 +99,10 @@ public abstract class AbstractRotationModule extends PiccoloModule {
 
     public VectorViewModel getVectorViewModel() {
         return vectorViewModel;
+    }
+
+    public void initFinished() {
+        RepaintManager.setCurrentManager( new SynchronizedPSwingRepaintManager() );
+        updateRepaintManager();
     }
 }
