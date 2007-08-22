@@ -4,9 +4,13 @@ package edu.colorado.phet.opticaltweezers.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.util.*;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
@@ -29,10 +33,6 @@ public class ElectricFieldNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    private static final String UNITS = OTResources.getString( "units.electricField");
-    
-    private static final Stroke VECTOR_STROKE = new BasicStroke( 2f );
     
     // layout of vectors
     private static final double X_MARGIN = 30; // nm
@@ -279,30 +279,6 @@ public class ElectricFieldNode extends PhetPNode implements Observer {
                 color = new Color( color.getRed(), color.getGreen(), color.getBlue(), alpha );
             }
             vectorNode.setArrowStrokePaint( color );
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Stores the sample point that the vector node represents, draws the vector.
-     */
-    private class ElectricFieldVectorNode extends Vector2DNode {
-        
-        private final Point2D _offsetFromLaser; // offset from laser origin, nm (model coordinates)
-        
-        public ElectricFieldVectorNode( double xOffsetFromLaser, double yOffsetFromLaser, double referenceMagnitude, double referenceLength ) {
-            super( 0, 0, referenceMagnitude, referenceLength );
-            _offsetFromLaser = new Point2D.Double( xOffsetFromLaser, yOffsetFromLaser );
-            setArrowStroke( VECTOR_STROKE );
-            setArrowFillPaint( null );
-            setUnits( UNITS );
-        }
-        
-        public Point2D getOffsetFromLaserReference() {
-            return _offsetFromLaser;
         }
     }
 }
