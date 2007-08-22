@@ -68,6 +68,9 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="bitrock.bin.dir"                value="${dir.build-tools}bitrock/bin/" />
     <property name="bitrock.sim.buildfile.dir"  value="${ant-output}/projects/" />
     <property name="bitrock.buildfile.template" value="${dir.build-tools}phet-build/templates/bitrock-installer-template.xml" />
+    
+    <!-- Subversion configuration -->
+    <property name="svn.executable" value="svn" />
 
     <!-- Ant-Contrib tasks definition -->
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
@@ -278,7 +281,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     <target name="_set-sim-revision-number" description="Sets the simulation revision number" depends="_define-sim-properties-file">
         <echo message="Setting the simulation revision number in property file ${file.project.properties}" />
 
-        <exec executable="svn" outputproperty="exec.output.svn.info">
+        <exec executable="${svn.executable}" outputproperty="exec.output.svn.info">
             <arg value="info"/>
             <arg value="${simulations-directory}/${sim.name}"/>
         </exec>
