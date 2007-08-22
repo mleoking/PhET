@@ -11,13 +11,11 @@ import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.Enzyme;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -36,23 +34,8 @@ public class EnzymeNode extends PhetPNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    // outer sphere properties
-    private static final int OUTER_ALPHA = 80;
-    private static final Color OUTER_PRIMARY_COLOR = new Color( 0, 0, 175, OUTER_ALPHA );
-    private static final Color OUTER_HILITE_COLOR = new Color( 0, 0, 200, OUTER_ALPHA );
-    private static final Stroke OUTER_STROKE = null;
-    private static final Paint OUTER_STROKE_PAINT = Color.BLACK;
-    
-    // inner sphere properties
-    private static final int INNER_ALPHA = 200;
-    private static final Color INNER_PRIMARY_COLOR = new Color( 75, 210, 30, INNER_ALPHA );
-    private static final Color INNER_HILITE_COLOR = new Color( 91, 255, 37, INNER_ALPHA );
-    private static final Stroke INNER_STROKE = null;
-    private static final Paint INNER_STROKE_PAINT = Color.BLACK;
-    
     // tick mark on inner sphere, used to show rotation about the z-axis
     private static final Stroke TICK_STROKE = new BasicStroke( 1f );
-    private static final Color TICK_STROKE_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -66,8 +49,8 @@ public class EnzymeNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
-    public EnzymeNode( Enzyme enzyme, ModelViewTransform modelViewTransform ) {
+            
+    public EnzymeNode( Enzyme enzyme, ModelViewTransform modelViewTransform, Paint outerPaint, Paint innerPaint, Color tickColor ) {
         super();
         
         _enzyme = enzyme;
@@ -78,23 +61,19 @@ public class EnzymeNode extends PhetPNode implements Observer {
         final double outerDiameter = _modelViewTransform.modelToView( _enzyme.getOuterDiameter() );
         SphericalNode outerSphere = new SphericalNode( true /* convertToImage */ );
         outerSphere.setDiameter( outerDiameter );
-        Paint outerPaint = new RoundGradientPaint( 0, outerDiameter/6, OUTER_HILITE_COLOR, new Point2D.Double( outerDiameter/4, outerDiameter/4 ), OUTER_PRIMARY_COLOR );
         outerSphere.setPaint( outerPaint );
-        outerSphere.setStroke( OUTER_STROKE );
-        outerSphere.setStrokePaint( OUTER_STROKE_PAINT );
+        outerSphere.setStroke( null );
         
         final double innerDiameter = _modelViewTransform.modelToView( _enzyme.getInnerDiameter() );
         SphericalNode innerSphere = new SphericalNode( true /* convertToImage */ );
         innerSphere.setDiameter( innerDiameter );
-        Paint innerPaint = new RoundGradientPaint( 0, innerDiameter/6, INNER_HILITE_COLOR, new Point2D.Double( innerDiameter/4, innerDiameter/4 ), INNER_PRIMARY_COLOR );
         innerSphere.setPaint( innerPaint );
-        innerSphere.setStroke(  INNER_STROKE );
-        innerSphere.setStrokePaint( INNER_STROKE_PAINT );
+        innerSphere.setStroke(  null );
 
         Line2D tickPath = new Line2D.Double( 0, 0, 0, innerSphere.getFullBoundsReference().getHeight() / 2 );
         PPath tickMark = new PPath( tickPath );
         tickMark.setStroke( TICK_STROKE );
-        tickMark.setStrokePaint( TICK_STROKE_COLOR );
+        tickMark.setStrokePaint( tickColor );
         
         _innerNode = new PComposite();
         _innerNode.addChild( innerSphere );
@@ -134,5 +113,4 @@ public class EnzymeNode extends PhetPNode implements Observer {
             }
         }
     }
-
 }

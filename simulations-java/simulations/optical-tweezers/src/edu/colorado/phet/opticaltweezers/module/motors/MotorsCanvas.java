@@ -54,7 +54,7 @@ public class MotorsCanvas extends AbstractCanvas {
     private TrapForceNode _trapForceNode;
     private FluidDragForceNode _dragForceNode;
     private DNAForceNode _dnaForceNode;
-    private EnzymeNode _enzymeNode;
+    private EnzymeNode _enzymeANode;
     
     // Control
     private PSwing _returnBeadButtonWrapper;
@@ -99,8 +99,8 @@ public class MotorsCanvas extends AbstractCanvas {
         // DNA Strand
         _dnaStrandNode = new DNAStrandNode( dnaStrand, modelViewTransform );
         
-        // Enzyme
-        _enzymeNode = new EnzymeNode( enzyme, modelViewTransform );
+        // Enzymes
+        _enzymeANode = new EnzymeNode( enzyme, modelViewTransform, OTConstants.ENZYME_B_OUTER_COLOR, OTConstants.ENZYME_B_INNER_COLOR, OTConstants.ENZYME_B_TICK_COLOR );
         
         // Bead
         _beadDragBoundsNode = new PPath();
@@ -157,7 +157,7 @@ public class MotorsCanvas extends AbstractCanvas {
         });
         _resetDNAButtonWrapper = new PSwing( resetDNAButton );
         // center the button under the enzyme
-        PBounds eBounds = _enzymeNode.getFullBoundsReference();
+        PBounds eBounds = _enzymeANode.getFullBoundsReference();
         _resetDNAButtonWrapper.setOffset( eBounds.getX() + ( eBounds.getWidth() / 2 ) - ( _resetDNAButtonWrapper.getFullBoundsReference().getWidth() / 2 ),
                 eBounds.getMaxY() + 25 );
         
@@ -166,7 +166,7 @@ public class MotorsCanvas extends AbstractCanvas {
         addNode( _laserNode );
         addNode( _laserDragBoundsNode );
         addNode( _dnaStrandNode );
-        addNode( _enzymeNode );
+        addNode( _enzymeANode );
         addNode( _beadNode );
         addNode( _beadDragBoundsNode );
         addNode( _trapForceNode );
