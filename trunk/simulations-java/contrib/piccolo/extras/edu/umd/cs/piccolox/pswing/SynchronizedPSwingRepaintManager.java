@@ -40,8 +40,9 @@ public class SynchronizedPSwingRepaintManager extends PSwingRepaintManager {
     }
 
     public void update() {
-        super.validateInvalidComponents();
-        super.paintDirtyRegions();
+        //super.validateInvalidComponents();
+        //super.paintDirtyRegions();
+        super.doUpdateNow();
     }
 
     public void updateLater() {
