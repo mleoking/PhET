@@ -158,7 +158,8 @@ public class MotorsCanvas extends AbstractCanvas {
         _resetDNAButtonWrapper = new PSwing( resetDNAButton );
         // center the button under the enzyme
         PBounds eBounds = _enzymeNode.getFullBoundsReference();
-        _resetDNAButtonWrapper.setOffset( eBounds.getX() + ( eBounds.getWidth() / 2 ) - ( _resetDNAButtonWrapper.getFullBoundsReference().getWidth() / 2 ), eBounds.getMaxY() + 10 );
+        _resetDNAButtonWrapper.setOffset( eBounds.getX() + ( eBounds.getWidth() / 2 ) - ( _resetDNAButtonWrapper.getFullBoundsReference().getWidth() / 2 ),
+                eBounds.getMaxY() + 25 );
         
         // Layering order of nodes on the canvas
         addNode( _microscopeSlideNode );
