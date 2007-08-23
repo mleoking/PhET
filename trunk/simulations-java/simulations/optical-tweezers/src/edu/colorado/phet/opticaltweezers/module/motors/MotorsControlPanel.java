@@ -7,10 +7,7 @@ import java.util.List;
 
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
-import edu.colorado.phet.opticaltweezers.control.ChartsControlPanel;
-import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
-import edu.colorado.phet.opticaltweezers.control.MiscControlPanel;
-import edu.colorado.phet.opticaltweezers.control.SimulationSpeedControlPanel;
+import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.model.MotorsModel;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
@@ -30,6 +27,7 @@ public class MotorsControlPanel extends AbstractControlPanel {
     private MotorsCanvas _canvas;
     
     private SimulationSpeedControlPanel _simulationSpeedControlPanel;
+    private EnzymeControlPanel _enzymeControlPanel;
     private ForcesControlPanel _forcesControlPanel;
     private ChartsControlPanel _chartsControlPanel;
     private MiscControlPanel _miscControlPanel;
@@ -56,6 +54,7 @@ public class MotorsControlPanel extends AbstractControlPanel {
         // Sub-panels
         MotorsModel model = module.getMotorsModel();
         _simulationSpeedControlPanel = new SimulationSpeedControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
+        _enzymeControlPanel = new EnzymeControlPanel( TITLE_FONT, CONTROL_FONT );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
                 model.getBead(), model.getFluid(),
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode() );
@@ -80,6 +79,8 @@ public class MotorsControlPanel extends AbstractControlPanel {
         // Layout
         {
             addControlFullWidth( _simulationSpeedControlPanel );
+            addSeparator();
+            addControlFullWidth( _enzymeControlPanel );
             addSeparator();
             addControlFullWidth( _forcesControlPanel );
             addSeparator();
