@@ -312,7 +312,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
                     g.draw( arrow1.getShape() );
                     g.draw( arrow2.getShape() );
                 }
-                boolean timeOn = ( System.currentTimeMillis() / 1000 ) % 2 == 0;
+                boolean timeOn = ( System.currentTimeMillis() / 400  ) % 2 == 0;
                 g.setColor( timeOn && match ? targetColor : color );
                 g.fill( levelLine );
             }
