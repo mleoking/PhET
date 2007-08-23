@@ -84,6 +84,7 @@ public abstract class AbstractEnzymeNode extends PhetPNode implements Observer {
         addChild( outerSphere );
         
         updatePosition();
+        updateVisibility();
     }
     
     public void cleanup() {
@@ -111,6 +112,10 @@ public abstract class AbstractEnzymeNode extends PhetPNode implements Observer {
         _innerNode.setRotation( _enzyme.getInnerOrientation() );
     }
     
+    private void updateVisibility() {
+        setVisible( _enzyme.isEnabled() );
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
@@ -119,6 +124,9 @@ public abstract class AbstractEnzymeNode extends PhetPNode implements Observer {
         if ( o == _enzyme ) {
             if ( arg == AbstractEnzyme.PROPERTY_INNER_ORIENTATION ) {
                 updateOrientation();
+            }
+            else if ( arg == AbstractEnzyme.PROPERTY_ENABLED ) {
+                updateVisibility();
             }
         }
     }

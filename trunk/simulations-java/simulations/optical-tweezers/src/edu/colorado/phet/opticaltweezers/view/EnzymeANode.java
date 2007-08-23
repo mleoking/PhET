@@ -9,7 +9,11 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.model.EnzymeA;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 
-
+/**
+ * EnzymeANode is the visual representation of an EnzymeA enzyme.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class EnzymeANode extends AbstractEnzymeNode {
 
     public EnzymeANode( EnzymeA enzyme, ModelViewTransform modelViewTransform ) {

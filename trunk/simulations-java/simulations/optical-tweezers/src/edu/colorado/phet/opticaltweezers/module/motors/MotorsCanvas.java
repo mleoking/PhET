@@ -103,9 +103,7 @@ public class MotorsCanvas extends AbstractCanvas {
         
         // Enzymes
         _enzymeANode = new EnzymeANode( enzymeA, modelViewTransform );
-        _enzymeANode.setVisible( enzymeA.isEnabled() );
         _enzymeBNode = new EnzymeBNode( enzymeB, modelViewTransform );
-        _enzymeBNode.setVisible( enzymeB.isEnabled() );
         
         // Pushpin
         assert( enzymeA.getPosition().equals( enzymeB.getPosition() ) ); // if false, will need to reposition pushpin when enzyme choice changes
