@@ -21,7 +21,6 @@ import java.net.MalformedURLException;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
-import javax.jnlp.BasicService;
 import javax.jnlp.UnavailableServiceException;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -29,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 /**
  * PhetAboutDialog shows information about PhET, the simulation, copyright, and license.

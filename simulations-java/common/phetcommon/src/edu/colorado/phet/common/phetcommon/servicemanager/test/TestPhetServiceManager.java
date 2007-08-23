@@ -1,6 +1,6 @@
-package edu.colorado.phet.common.servicemanager.test;
+package edu.colorado.phet.common.phetcommon.servicemanager.test;
 
-import edu.colorado.phet.common.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 import javax.jnlp.BasicService;
 import javax.jnlp.ServiceManager;

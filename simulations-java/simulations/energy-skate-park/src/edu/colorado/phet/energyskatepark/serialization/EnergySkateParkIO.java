@@ -2,8 +2,8 @@ package edu.colorado.phet.energyskatepark.serialization;
 
 import edu.colorado.phet.common.phetcommon.util.persistence.Point2DPersistenceDelegate;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.common.servicemanager.InputStreamFileContents;
-import edu.colorado.phet.common.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 
 import javax.jnlp.FileContents;
