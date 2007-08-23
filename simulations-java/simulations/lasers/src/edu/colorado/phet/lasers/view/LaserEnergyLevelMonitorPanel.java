@@ -566,7 +566,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             boolean match = beam.isEnabled() &&
                             Math.abs( PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) - requiredDE ) <= QuantumConfig.ENERGY_TOLERANCE
                             && beam.getPhotonsPerSecond() > 0;
-            graphic.setMatch( match );
+            graphic.setMatch( beam,match );
         }
 
         public void meanLifetimechanged( AtomicState.Event event ) {

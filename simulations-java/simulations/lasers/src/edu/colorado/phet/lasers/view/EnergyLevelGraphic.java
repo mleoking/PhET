@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
@@ -22,6 +21,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.common.quantum.model.Beam;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +30,9 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * An interactive graphic that represents an energy level for a type of atom. It can be moved up and down with the
@@ -54,8 +57,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     //    private ColorStrategy colorStrategy = new BlackStrategy();
     private ColorStrategy colorStrategy = new VisibleColorStrategy();
     private LevelIcon levelIcon;
-    private boolean match = false;
-    private long lastMatchTime;
 
     /**
      * @param component
@@ -124,11 +125,44 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         this.colorStrategy = colorStrategy;
     }
 
-    public void setMatch( boolean match ) {
-        this.match = match;
-        lastMatchTime = System.currentTimeMillis();
+    HashMap matchTable = new HashMap();
+
+    static class MatchState {
+        boolean match;
+        long time;
+
+        public MatchState( boolean match, long time ) {
+            this.match = match;
+            this.time = time;
+        }
+
+        public boolean isMatch() {
+            return match;
+        }
+
+        public long getTime() {
+            return time;
+        }
+    }
+
+    public void setMatch( Beam beam, boolean match ) {
+        matchTable.put( beam, new MatchState( match, System.currentTimeMillis() ) );
+//        System.out.println( "matchTable = " + matchTable );
         energyLevelRep.update();
         repaint();
+    }
+
+    public long getLastMatchTime() {
+        Set keys = matchTable.keySet();
+        long latestMatch=0;
+        for( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
+            Object o = iterator.next();
+            MatchState value = (MatchState)matchTable.get( o );
+            if(value.isMatch() &&value.getTime()>latestMatch){
+                latestMatch=value.getTime();
+            }
+        }
+        return latestMatch;
     }
 
     public static void setBlinkRenderer( Color color ) {
@@ -253,7 +287,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
                                     arrowHeadWd, arrowHeadWd, tailWd );
             }
             if( textGraphic != null ) {
-                textGraphic.setLocation( (int)( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int)levelLine.getY()  -textGraphic.getHeight()/2-EnergyLifetimeSlider.sliderHeight);
+                textGraphic.setLocation( (int)( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int)levelLine.getY() - textGraphic.getHeight() / 2 - EnergyLifetimeSlider.sliderHeight );
             }
 //            textGraphic.setLocation( (int)( iconLocX ), (int)levelLine.getY() );
             boundingRect = determineBoundsInternal();
@@ -331,11 +365,13 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
                     g.draw( arrow2.getShape() );
                 }
                 boolean timeOn = ( System.currentTimeMillis() / 400 ) % 2 == 0;
+                long lastMatchTime = getLastMatchTime();
                 if( System.currentTimeMillis() - lastMatchTime > 1500 ) {
                     timeOn = false;
                 }
-                g.setColor( timeOn && match ? targetColor : color );
-                if( match ) {
+//                g.setColor( timeOn && match ? targetColor : color );
+                g.setColor( timeOn ? targetColor : color );
+                if( System.currentTimeMillis() - lastMatchTime < 1500 ) {
                     levelIcon.setVisible( !timeOn );
                 }
                 else {
@@ -358,15 +394,15 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
                     g.draw( arrow2.getShape() );
                 }
                 g.setColor( color );
-                if( match ) {
-                    g.setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{5, 3}, phase ) );
-                    g.draw( new Line2D.Double( levelLine.getMinX(), levelLine.getCenterY(), levelLine.getMaxX(), levelLine.getCenterY() ) );
-                    phase += 8 - 1;
-                }
-                else {
-                    g.setColor( color );
-                    g.fill( levelLine );
-                }
+//                if( match ) {
+//                    g.setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{5, 3}, phase ) );
+//                    g.draw( new Line2D.Double( levelLine.getMinX(), levelLine.getCenterY(), levelLine.getMaxX(), levelLine.getCenterY() ) );
+//                    phase += 8 - 1;
+//                }
+//                else {
+//                    g.setColor( color );
+//                    g.fill( levelLine );
+//                }
 
             }
         }
