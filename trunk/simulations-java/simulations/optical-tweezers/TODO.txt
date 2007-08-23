@@ -12,6 +12,7 @@ HIGH PRIORITY:
 - make enzyme rotation speed proportion to velocity with which enzyme is pulling through DNA
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox
 - implement MotorsCanvas.handleResetDNAButton
+- add persistence for enzyme choice
 
 MEDIUM PRIORITY:
 - restarting the clock should clear position histogram
