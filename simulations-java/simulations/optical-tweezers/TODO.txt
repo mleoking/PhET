@@ -53,7 +53,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
-********* version 1.00.05 (17455)
+********* version 1.00.05 (?)
 8/22/07 - add control for choosing enzyme type (no icons yet, not wired)
 8/22/07 - place PushpinNode at DNA tail location in DNA module, at enzyme location in Motors module
 8/22/07 - extract pushpin into its own node
