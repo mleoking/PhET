@@ -254,7 +254,6 @@ EOT;
 			$contributor_email 		   = $GLOBALS['contributor_email'];
 			$contributor_name  		   = get_global_opt('contributor_name');
 			$contributor_organization  = get_global_opt('contributor_organization');
-			$contributor_receive_email = get_global_opt('contributor_receive_email');
 			$contributor_desc          = get_global_opt('contributor_desc');
 			$contributor_password      = get_global_opt('contributor_password');
 		}
@@ -269,7 +268,6 @@ EOT;
 			$contributor_email 		   = '';
 			$contributor_name  		   = '';
 			$contributor_organization  = '';
-			$contributor_receive_email = 0;
 			$contributor_desc          = DEFAULT_CONTRIBUTOR_DESC;
 			$contributor_password      = '';
 		}
@@ -293,7 +291,7 @@ EOT;
 						</tr>
 
 						<tr>
-							<td>email</td>		<td><input id="contributor_email_uid" type="text" size="20" name="contributor_email" value="$contributor_email" onkeyup="javascript:on_email_change_guess_data();" class="always-enabled"/></td>
+							<td>email</td>		<td><input id="contributor_email_uid" type="text" size="20" name="contributor_email" value="$contributor_email" onkeyup="javascript:on_email_change_guess_name();" class="always-enabled"/></td>
 						</tr>
 EOT;
 
@@ -321,7 +319,8 @@ EOT;
 					</table>
 					
 					<div>
-						<input type="hidden" name="create_new_account" value="1" />
+						<input type="hidden" name="create_new_account" value="1" class="always-enabled" />
+
 						$other_html
 					</div>
 				</fieldset>
@@ -1780,6 +1779,8 @@ EOT;
     }
     
     function contributor_is_contributor($username) {
+		if (strlen(trim($username)) == 0) return false;
+		
         $contributors = contributor_get_all_contributors();
         
         foreach($contributors as $contributor) {
@@ -1845,7 +1846,7 @@ EOT;
         return false;
     }    
 
-    function contributor_get_id_from_username($username) {
+    function contributor_get_id_from_contributor_email($username) {
         $contributors = contributor_get_all_contributors();
         
         foreach($contributors as $contributor) {
@@ -1857,7 +1858,7 @@ EOT;
         return false;        
     }
     
-    function contributor_get_id_from_username_and_password($username, $password) {
+    function contributor_get_id_from_contributor_email_and_password($username, $password) {
         $contributors = contributor_get_all_contributors();
         
         foreach($contributors as $contributor) {
@@ -1871,7 +1872,7 @@ EOT;
         return false;        
     }
     
-    function contributor_get_id_from_username_and_password_hash($username, $password_hash) {
+    function contributor_get_id_from_contributor_email_and_password_hash($username, $password_hash) {
         $contributors = contributor_get_all_contributors();
         
         foreach($contributors as $contributor) {            
@@ -1886,7 +1887,7 @@ EOT;
     }
 
     function contributor_is_valid_login($username, $password_hash) {
-        return contributor_get_id_from_username_and_password_hash($username, $password_hash) !== false;
+        return contributor_get_id_from_contributor_email_and_password_hash($username, $password_hash) !== false;
     }
     
     function contributor_is_valid_admin_login($username, $password_hash) {

@@ -4,8 +4,8 @@
 
     include_once(SITE_ROOT."admin/web-utils.php");
     
-    cookie_var_clear("username");
-    cookie_var_clear("password_hash");
+    cookie_var_clear("contributor_email");
+    cookie_var_clear("contributor_password_hash");
 
 	if (isset($_REQUEST['url'])) {
 		$url = $_REQUEST['url'];
