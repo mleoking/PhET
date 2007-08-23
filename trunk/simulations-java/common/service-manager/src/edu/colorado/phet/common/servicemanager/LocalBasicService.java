@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.common.servicemanager;
 
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+
 import javax.jnlp.BasicService;
 import java.io.File;
 import java.io.IOException;
@@ -98,6 +100,11 @@ public class LocalBasicService implements BasicService {
                     cmd = WIN_PATH + " " + WIN_FLAG + " " + url;
                     Process p = Runtime.getRuntime().exec( cmd );
                 }
+                else if ( System.getProperty( "os.name","").toLowerCase().indexOf( "mac")>=0 ){
+                    cmd = "open "+url;
+                    Process p = Runtime.getRuntime().exec( cmd );
+                }
+
                 else {
                     // Under Unix, Netscape has to be running for the "-remote"
                     // command to work.  So, we try sending the command and
