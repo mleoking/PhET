@@ -5,13 +5,14 @@
 MISSING INFO:
 
 HIGH PRIORITY:
-- "Choose molecular motor" control, 2 choices, 2 different color enzymes with different sets of velocity parameters
+- replace 'A' and 'B' with icons in "Molecular motor" control
 - support switching between different enzymes in model
 - implement velocity model of DNA moving through enzyme (function of ATP and DNA force)
 - redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
 - make enzyme rotation speed proportion to velocity with which enzyme is pulling through DNA
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox
 - implement MotorsCanvas.handleResetDNAButton
+- implement EnzymeControlPanel.handleEnzymeChoice
 - add persistence for enzyme choice
 
 MEDIUM PRIORITY:
@@ -54,6 +55,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+8/23/07 - check in revised design doc that includes Molecular Motors panel
 8/23/07 - add icon for laser beam view
 ********* version 1.00.05 (17458)
 8/22/07 - add control for choosing enzyme type (no icons yet, not wired)
