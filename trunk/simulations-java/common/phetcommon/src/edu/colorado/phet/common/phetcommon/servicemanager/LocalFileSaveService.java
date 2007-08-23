@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.common.servicemanager;
+package edu.colorado.phet.common.phetcommon.servicemanager;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;

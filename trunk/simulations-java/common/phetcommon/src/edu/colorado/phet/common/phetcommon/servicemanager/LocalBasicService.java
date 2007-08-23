@@ -8,9 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common.servicemanager;
-
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+package edu.colorado.phet.common.phetcommon.servicemanager;
 
 import javax.jnlp.BasicService;
 import java.io.File;

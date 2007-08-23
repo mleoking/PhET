@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.servicemanager;
+package edu.colorado.phet.common.phetcommon.servicemanager;
 
 /*
  * @(#)ExampleFileFilter.java	1.6 98/08/26
