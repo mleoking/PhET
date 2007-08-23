@@ -11,7 +11,6 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.quantum.model.AtomicState;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.view.util.DefaultGridBagConstraints;
 
@@ -32,7 +31,7 @@ import java.awt.*;
  */
 public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listener {
     // Needs to be accessible to the EnergyLevelGraphic class
-//    public final static int sliderHeight = 47;
+    //    public final static int sliderHeight = 47;
     public final static int sliderHeight = 20;
 
     private EnergyLevelGraphic graphic;
@@ -40,6 +39,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
     private int sliderWidthPadding = 20;
     private int sliderWidth;
     private Container container;
+    private boolean enableNotification = true;
 
     /**
      * @param atomicState
@@ -68,15 +68,14 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         GridBagConstraints gbc = new DefaultGridBagConstraints();
         gbc.anchor = GridBagConstraints.NORTH;
 //        this.add( new JLabel( SimStrings.getInstance().getString( "EnergyLevelMonitorPanel.sliderLabel" ), JLabel.CENTER ), gbc );
-
+        setValue( (int)atomicState.getMeanLifeTime() );
+        
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 atomicState.setMeanLifetime( EnergyLifetimeSlider.this.getValue() );
             }
         } );
-        this.setEnabled( false );
-        setValue( (int)atomicState.getMeanLifeTime() );
-        this.setEnabled( true );
+
 
         this.setBorder( new BevelBorder( BevelBorder.RAISED ) );
         update();
@@ -95,6 +94,11 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         super.setValue( n );
     }
 
+    protected void fireStateChanged() {
+        if( enableNotification ) {
+            super.fireStateChanged();
+        }
+    }
 
     //----------------------------------------------------------------
     // Event handling
@@ -106,15 +110,15 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
     }
 
     public void meanLifetimechanged( AtomicState.Event event ) {
-        this.setEnabled( false );
+        enableNotification = false;
         this.setValue( (int)event.getMeanLifetime() );
-        this.setEnabled( true );
+        enableNotification = true;
     }
 
     public void meanLifetimeChanged( AtomicState.MeanLifetimeChangeEvent event ) {
-        this.setEnabled( false );
+        enableNotification = false;
         this.setValue( (int)event.getMeanLifetime() );
-        this.setEnabled( true );
+        enableNotification = true;
     }
 }
 
