@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 
@@ -102,7 +102,7 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
         atomicStates[1].removeListener( this );
         atomicStates[0].removeListener( this );
         atomicStates = new AtomicState[]{model.getGroundState(),
-                                         model.getMiddleEnergyState()};
+                model.getMiddleEnergyState()};
         atomicStates[1].addListener( this );
         atomicStates[0].addListener( this );
         update();
@@ -112,7 +112,7 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
         atomicStates[1].removeListener( this );
         atomicStates[0].removeListener( this );
         atomicStates = new AtomicState[]{model.getGroundState(),
-                                         model.getMiddleEnergyState()};
+                model.getMiddleEnergyState()};
         atomicStates[1].addListener( this );
         atomicStates[0].addListener( this );
         update();

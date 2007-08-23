@@ -26,7 +26,6 @@ import edu.colorado.phet.common.quantum.model.Beam;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Area;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -154,12 +153,12 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
 
     public long getLastMatchTime() {
         Set keys = matchTable.keySet();
-        long latestMatch=0;
+        long latestMatch = 0;
         for( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
             Object o = iterator.next();
             MatchState value = (MatchState)matchTable.get( o );
-            if(value.isMatch() &&value.getTime()>latestMatch){
-                latestMatch=value.getTime();
+            if( value.isMatch() && value.getTime() > latestMatch ) {
+                latestMatch = value.getTime();
             }
         }
         return latestMatch;

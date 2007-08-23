@@ -13,11 +13,9 @@ package edu.colorado.phet.lasers.test;
 
 import edu.colorado.phet.common.collision.SphericalBody;
 import edu.colorado.phet.common.collision.Wall;
-
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-
 import junit.framework.TestCase;
+
+import java.awt.geom.Rectangle2D;
 
 public class WallSphereContactExpertTest extends TestCase {
 

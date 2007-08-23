@@ -10,16 +10,16 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
 import edu.colorado.phet.common.quantum.model.Photon;
-import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 
 /**
  * TwoLevelElementProperties
- * <p>
+ * <p/>
  * ElementProperties for the 2 level atom in the laser simulation
  *
  * @author Ron LeMaster
@@ -33,8 +33,8 @@ public class TwoLevelElementProperties extends LaserElementProperties {
 
     private static double groundStateEnergy = -13.6;
     private static double[] energyLevels = {
-        groundStateEnergy,
-        groundStateEnergy + PhysicsUtil.wavelengthToEnergy( Photon.RED )
+            groundStateEnergy,
+            groundStateEnergy + PhysicsUtil.wavelengthToEnergy( Photon.RED )
     };
     // Because of the origianl poor design of the Lasers simulation, we're saddled with
     // needing a third, high energy state, even though we shouldn't have one.

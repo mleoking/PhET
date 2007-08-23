@@ -19,7 +19,7 @@ import java.io.IOException;
 
 /**
  * PhotoWindow
- * <p>
+ * <p/>
  * A dialog that shows an annotated photo of a real laser.
  *
  * @author Ron LeMaster
@@ -27,7 +27,7 @@ import java.io.IOException;
  */
 public class PhotoWindow extends JDialog {
 
-    public PhotoWindow( JFrame owner, BufferedImage img) {
+    public PhotoWindow( JFrame owner, BufferedImage img ) {
         super( owner, false );
         setContentPane( new PhotoPanel( img ) );
         pack();

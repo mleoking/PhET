@@ -8,9 +8,6 @@ package edu.colorado.phet.lasers.test;
 
 import edu.colorado.phet.common.collision.SphereSphereContactDetector;
 import edu.colorado.phet.common.collision.SphericalBody;
-
-import java.awt.geom.Point2D;
-
 import junit.framework.TestCase;
 
 public class SphereSphereContactExpertTest extends TestCase {

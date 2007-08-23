@@ -14,7 +14,7 @@ import edu.colorado.phet.common.quantum.model.Photon;
 
 /**
  * A ReflectionStrategy that reflects a specified fraction of photons
- */ 
+ */
 public class Partial implements ReflectionStrategy {
 
     private double reflectivity;

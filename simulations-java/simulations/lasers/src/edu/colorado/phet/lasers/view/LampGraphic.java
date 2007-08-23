@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.quantum.model.Beam;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -59,7 +59,7 @@ public class LampGraphic extends CompositePhetGraphic implements Beam.Wavelength
         double lensWidth = lampImageGraphic.getImage().getHeight() / 8;
         lens = new Ellipse2D.Double( lampImageGraphic.getImage().getWidth() - lensWidth / 2 - 3, 0,
 //        lens = new Ellipse2D.Double( lampImageGraphic.getImage().getWidth() - 10, 0,
-                                     lensWidth, lensHeight );
+lensWidth, lensHeight );
 //                                     10, lampImageGraphic.getImage().getHeight() );
         lensGraphic = new PhetShapeGraphic( component, lens, bezelStroke, Color.black );
         addGraphic( lensGraphic );

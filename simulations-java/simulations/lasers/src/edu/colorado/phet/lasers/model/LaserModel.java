@@ -17,11 +17,11 @@ import edu.colorado.phet.common.collision.SphereBoxExpert;
 import edu.colorado.phet.common.collision.SphereSphereExpert;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.quantum.QuantumConfig;
-import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.quantum.QuantumConfig;
+import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.LaserElementProperties;
 import edu.colorado.phet.lasers.model.atom.ThreeLevelElementProperties;
@@ -33,7 +33,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 
-public class  LaserModel extends QuantumModel {
+public class LaserModel extends QuantumModel {
 //public class  LaserModel extends BaseModel implements Photon.LeftSystemEventListener {
 
     //----------------------------------------------------------------
@@ -45,7 +45,6 @@ public class  LaserModel extends QuantumModel {
     static private int height = 800;
     static private int minX = (int)LaserConfig.ORIGIN.getX() - 50;
     static private int minY = (int)LaserConfig.ORIGIN.getY() - height / 2;
-
 
     //----------------------------------------------------------------
     // Instance fields and methods
@@ -78,7 +77,7 @@ public class  LaserModel extends QuantumModel {
     private LaserElementProperties threeLevelProperties = new ThreeLevelElementProperties();
 
     // Replacement for behavior that was previously built into BaseModel
-    private SimpleObservable observable = new SimpleObservable() ;
+    private SimpleObservable observable = new SimpleObservable();
 
     /**
      *
@@ -141,7 +140,7 @@ public class  LaserModel extends QuantumModel {
     private boolean isLasingPhoton( Photon photon ) {
         double middleToGroundEnergyDiff = getMiddleEnergyState().getEnergyLevel() - getGroundState().getEnergyLevel();
         return ( Math.abs( photon.getVelocity().getAngle() % Math.PI ) < angleWindow
-                && ( Math.abs( photon.getEnergy() - middleToGroundEnergyDiff ) <= QuantumConfig.ENERGY_TOLERANCE ));
+                 && ( Math.abs( photon.getEnergy() - middleToGroundEnergyDiff ) <= QuantumConfig.ENERGY_TOLERANCE ) );
 //                && ( Math.abs( photon.getEnergy() - middleToGroundEnergyDiff ) <= LaserConfig.ENERGY_TOLERANCE ));
 //        return ( ( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
 //                   || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow )
@@ -210,12 +209,12 @@ public class  LaserModel extends QuantumModel {
 
     /**
      * Added to make up for when BaseModel lost its SimpleObservable behavior
+     *
      * @param observer
      */
     public void addObserver( SimpleObserver observer ) {
         observable.addObserver( observer );
     }
-
 
     //----------------------------------------------------------------
     // Getters and setters
@@ -326,13 +325,14 @@ public class  LaserModel extends QuantumModel {
 //    public AtomicState getGroundState() {
 //        return getCurrentElementProperties().getGroundState();
 //    }
-//
+
+    //
     public AtomicState getMiddleEnergyState() {
         return getCurrentElementProperties().getStates()[1];
     }
 
     public AtomicState getHighEnergyState() {
-        return ((LaserElementProperties)getCurrentElementProperties()).getHighEnergyState();
+        return ( (LaserElementProperties)getCurrentElementProperties() ).getHighEnergyState();
     }
 
     public AtomicState[] getStates() {
@@ -497,7 +497,7 @@ public class  LaserModel extends QuantumModel {
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
-    
+
     /**
      * Keeps track of number of atoms in each state
      */

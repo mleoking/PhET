@@ -13,7 +13,6 @@ package edu.colorado.phet.lasers.view;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -23,7 +22,7 @@ import java.awt.event.ActionListener;
 
 /**
  * PumpBeamViewPanel
- * <p>
+ * <p/>
  * Provides controls that set the pumping beam to be showns as either photons or a colored area
  * ("curtain view").
  *
@@ -37,7 +36,6 @@ public class PumpBeamViewPanel extends JPanel {
     private BaseLaserModule module;
 
     /**
-     *
      * @param module
      */
     public PumpBeamViewPanel( BaseLaserModule module ) {

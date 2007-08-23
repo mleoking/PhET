@@ -12,15 +12,15 @@
 package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.quantum.QuantumConfig;
-import edu.colorado.phet.common.quantum.model.*;
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpManager;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.quantum.QuantumConfig;
+import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.lasers.controller.Kaboom;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
@@ -32,7 +32,6 @@ import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.view.*;
 import edu.colorado.phet.lasers.view.monitors.PowerMeterGraphic;
-import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -43,7 +42,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * 
+ *
  */
 public class BaseLaserModule extends PhetGraphicsModule {
 
@@ -76,7 +75,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
     private int numPhotons;
     private boolean displayHighLevelEmissions;
     private boolean threeEnergyLevels;
-//    protected boolean threeEnergyLevels;
+    //    protected boolean threeEnergyLevels;
     private boolean mirrorsEnabled;
 
     private double middleStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME / 2;
@@ -142,7 +141,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
     }
 
     /**
-     * 
+     *
      */
     public void deactivate() {
         super.deactivate();
@@ -269,8 +268,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
         LaserCurtainGraphic internalLaserCurtainGraphic = new LaserCurtainGraphic( getApparatusPanel(),
                                                                                    a, laserModel,
                                                                                    new AtomicState[]{
-                                                                                       getLaserModel().getGroundState(),
-                                                                                       getLaserModel().getMiddleEnergyState()
+                                                                                           getLaserModel().getGroundState(),
+                                                                                           getLaserModel().getMiddleEnergyState()
                                                                                    },
                                                                                    internalLaserCurtainOpacity );
         laserModel.addLaserListener( internalLaserCurtainGraphic );
@@ -283,8 +282,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
         final LaserCurtainGraphic externalLaserCurtainGraphic = new LaserCurtainGraphic( getApparatusPanel(),
                                                                                          externalBounds, laserModel,
                                                                                          new AtomicState[]{
-                                                                                             getLaserModel().getGroundState(),
-                                                                                             getLaserModel().getMiddleEnergyState()
+                                                                                                 getLaserModel().getGroundState(),
+                                                                                                 getLaserModel().getMiddleEnergyState()
                                                                                          },
                                                                                          externalLaserCurtainOpacity );
         laserModel.addLaserListener( externalLaserCurtainGraphic );
@@ -317,7 +316,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
         energyLevelsPanelHelpManager.setHelpEnabled( getEnergyLevelsMonitorPanel(), h );
     }
 
-
     //-----------------------------------------------------------------------------
     // Getter and setters
     //-----------------------------------------------------------------------------
@@ -341,14 +339,14 @@ public class BaseLaserModule extends PhetGraphicsModule {
                 break;
             case PHOTON_WAVE:
                 AtomicState[] states = new AtomicState[]{getLaserModel().getGroundState(),
-                                                         getLaserModel().getMiddleEnergyState()};
+                        getLaserModel().getMiddleEnergyState()};
                 if( waveGraphic == null ) {
                     waveGraphic = new LaserWaveGraphic( getApparatusPanel(), getCavity(),
                                                         rightMirror, this, states );
                 }
                 waveGraphic.setVisible( true );
                 break;
-            default :
+            default:
                 throw new RuntimeException( "Invalid parameter value" );
         }
     }
@@ -372,7 +370,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
                 addGraphic( beamCurtainGraphic, 1 );
                 PhotonGraphic.setAllVisible( false, getPumpingBeam().getWavelength() );
                 break;
-            default :
+            default:
                 throw new RuntimeException( "Invalid parameter value" );
         }
     }
@@ -527,7 +525,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
         kaboom = new Kaboom( this );
         getModel().addModelElement( kaboom );
     }
-
 
     //-------------------------------------------------------------------------------------------------
     // Event handling
