@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
@@ -22,6 +23,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
@@ -250,7 +252,9 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
                                     new Point2D.Double( xLoc + xOffset, y - arrowHt ),
                                     arrowHeadWd, arrowHeadWd, tailWd );
             }
-            textGraphic.setLocation( (int)( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int)levelLine.getY() + 4 );
+            if( textGraphic != null ) {
+                textGraphic.setLocation( (int)( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int)levelLine.getY()  -textGraphic.getHeight()/2-EnergyLifetimeSlider.sliderHeight);
+            }
 //            textGraphic.setLocation( (int)( iconLocX ), (int)levelLine.getY() );
             boundingRect = determineBoundsInternal();
             setBoundsDirty();
@@ -276,8 +280,11 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         void setLevelIcon( LevelIcon levelIcon ) {
             this.levelIcon = levelIcon;
             addGraphic( levelIcon );
-            textGraphic = new PhetTextGraphic2( getComponent(), new Font( "Lucida Sans", Font.PLAIN, 10 ), "Lifetime", Color.black );
-            addGraphic( textGraphic );
+            if( atomicState.getEnergyLevel() > -13.5 ) {
+//                textGraphic = new PhetTextGraphic2( getComponent(), new Font( "Lucida Sans", Font.PLAIN, 10 ), "Lifetime", Color.black );
+                textGraphic = new PhetTextGraphic2( getComponent(), new JLabel().getFont(), "Lifetime", Color.black );
+                addGraphic( textGraphic );
+            }
         }
 
         public boolean contains( int x, int y ) {
