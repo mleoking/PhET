@@ -24,7 +24,9 @@ import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -82,10 +84,33 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         energyLevelRep = new EnergyLevelRep( component );
         addGraphic( energyLevelRep );
 
-        if( isAdjustable ) {
+        if( this.isAdjustable ) {
             setCursorHand();
             addTranslationListener( new EnergyLevelTranslator() );
+            addMouseInputListener( new MouseInputAdapter() {
+                // implements java.awt.event.MouseListener
+                public void mouseReleased( MouseEvent e ) {
+                    handleSnapTo();
+                }
+            } );
         }
+    }
+
+    private void handleSnapTo() {
+        System.out.println( "EnergyLevelGraphic.mouseReleased" );
+        Set set = matchTable.keySet();
+        for( Iterator iterator = set.iterator(); iterator.hasNext(); ) {
+            Beam o = (Beam)iterator.next();
+            MatchState matchState= (MatchState)matchTable.get(o);
+            if (matchState.isMatch() ){
+                System.out.println( "EnergyLevelGraphic.handleSnapTo" );
+                System.out.println( "orig energy="+atomicState.getEnergyLevel()+", new energy="+matchState.getMatchingEnergy() );
+                setEnergy( matchState.getMatchingEnergy());
+                break;
+            }
+
+        }
+
     }
 
     public void update( ModelViewTransform1D tx ) {
@@ -129,10 +154,12 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     static class MatchState {
         boolean match;
         long time;
+        private double matchingEnergy;
 
-        public MatchState( boolean match, long time ) {
+        public MatchState( boolean match, long time, double matchingEnergy ) {
             this.match = match;
             this.time = time;
+            this.matchingEnergy = matchingEnergy;
         }
 
         public boolean isMatch() {
@@ -142,10 +169,14 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         public long getTime() {
             return time;
         }
+
+        public double getMatchingEnergy() {
+            return matchingEnergy;
+        }
     }
 
-    public void setMatch( Beam beam, boolean match ) {
-        matchTable.put( beam, new MatchState( match, System.currentTimeMillis() ) );
+    public void setMatch( Beam beam, boolean match, double matchingEnergy ) {
+        matchTable.put( beam, new MatchState( match, System.currentTimeMillis(),matchingEnergy ) );
 //        System.out.println( "matchTable = " + matchTable );
         energyLevelRep.update();
         repaint();
@@ -214,12 +245,17 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
                 newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy );
             }
 
-            atomicState.setEnergyLevel( newEnergy );
-            atomicState.determineEmittedPhotonWavelength();
-
-            // Update the atom icon
-            levelIcon.updateEnergy( newEnergy );
+            setEnergy( newEnergy );
         }
+
+    }
+
+    private void setEnergy( double newEnergy ) {
+        atomicState.setEnergyLevel( newEnergy );
+        atomicState.determineEmittedPhotonWavelength();
+
+        // Update the atom icon
+        levelIcon.updateEnergy( newEnergy );
     }
 
     public static final ArrayList instances = new ArrayList();
@@ -313,7 +349,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         void setLevelIcon( LevelIcon levelIcon ) {
             this.levelIcon = levelIcon;
             addGraphic( levelIcon );
-            if( atomicState.getEnergyLevel() > -13.5 ) {
+            if( isAdjustable ) {
 //                textGraphic = new PhetTextGraphic2( getComponent(), new Font( "Lucida Sans", Font.PLAIN, 10 ), "Lifetime", Color.black );
                 textGraphic = new PhetTextGraphic2( getComponent(), new JLabel().getFont(), "Lifetime", Color.black );
                 addGraphic( textGraphic );
