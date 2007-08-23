@@ -128,5 +128,9 @@ public class MotorsControlPanel extends AbstractControlPanel {
     public MiscControlPanel getMiscControlPanel() {
         return _miscControlPanel;
     }
+    
+    public EnzymeControlPanel getEnzymeControlPanel() {
+        return _enzymeControlPanel;
+    }
 }
 
