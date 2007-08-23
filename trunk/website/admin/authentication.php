@@ -76,15 +76,15 @@
         $contributor_authenticated = false;
         
         // Look for cookie variables:
-        if (cookie_var_is_stored("username")) {
-            $username      = cookie_var_get("username");
-            $password_hash = cookie_var_get("password_hash");
+        if (cookie_var_is_stored("contributor_email")) {
+            $contributor_email         = cookie_var_get("contributor_email");
+            $contributor_password_hash = cookie_var_get("contributor_password_hash");
             
             // Don't trust the cookie; validate it:
-            if (!contributor_is_valid_login($username, $password_hash)) {
+            if (!contributor_is_valid_login($contributor_email, $contributor_password_hash)) {
                 // Cookie is invalid. Clear it:
-                cookie_var_clear("username");
-                cookie_var_clear("password_hash");
+                cookie_var_clear("contributor_email");
+                cookie_var_clear("contributor_password_hash");
 
                 if ($login_required) {
                     force_redirect(get_self_url(), 0);
@@ -98,36 +98,30 @@
         }
         else {
             // No cookie variables
-            if (isset($_REQUEST['username'])) {
-                $username = $_REQUEST['username'];
+            if (isset($_REQUEST['contributor_email'])) {
+                $contributor_email = $_REQUEST['contributor_email'];
             }
-            else if (isset($_REQUEST['contributor_email'])) {
-                $username = $_REQUEST['contributor_email'];
-
-				$GLOBALS['username'] = $username;
-            }
+			if (isset($_REQUEST['contributor_name'])) {
+				$contributor_name = $_REQUEST['contributor_name'];
+			}
         
-            if ((!isset($username) || $username == '') && isset($_REQUEST['contributor_name'])) {
+            if ((!isset($contributor_email) || trim($contributor_email) == '') && 
+                isset($contributor_name) && trim($contributor_name) != '') {
                 // Username not present, but contributor name is. 
                 // Deduce email from contributor name:
-                $contributor = contributor_get_contributor_by_name($_REQUEST['contributor_name']);
+                $contributor = contributor_get_contributor_by_name($contributor_name);
             
                 if ($contributor) {
-                    $username = $contributor['contributor_email'];
+                    $contributor_email = $contributor['contributor_email'];
                 }
             }
         
-            if (isset($_REQUEST['password'])) {
-                $password = $_REQUEST['password'];
-            }
-            else if (isset($_REQUEST['contributor_password'])) {
-                $password = $_REQUEST['contributor_password'];
-
-				$GLOBALS['password'] = $password;
+            if (isset($_REQUEST['contributor_password'])) {
+                $contributor_password = $_REQUEST['contributor_password'];
             }
 
-            if (!isset($username) || !isset($password)) {   
-                // No username/password specified, and no cookie variables.
+            if (!isset($contributor_email) || !isset($contributor_password)) {   
+                // No contributor_email/contributor_password specified, and no cookie variables.
                 // Print the first-time login form:      
                 if ($login_required) {
                     print_site_page('print_first_time_login_form', 3);
@@ -136,15 +130,15 @@
                 }
             }
             else {
-                // Both username and password were specified.
-                if (contributor_is_contributor($username)) {
-                    // The username already exists and denotes a contributor. Check 
-                    // the password to make sure it is correct.
+                // Both contributor_email and contributor_password were specified.
+                if (contributor_is_contributor($contributor_email)) {
+                    // The contributor_email already exists and denotes a contributor. Check 
+                    // the contributor_password to make sure it is correct.
         
-                    $password_hash = md5($password);
+                    $contributor_password_hash = md5($contributor_password);
         
-                    if (!contributor_is_valid_login($username, $password_hash)) {
-                        contributor_send_password_reminder($username);
+                    if (!contributor_is_valid_login($contributor_email, $contributor_password_hash)) {
+                        contributor_send_password_reminder($contributor_email);
 
                         if ($login_required) {
                             print_site_page('print_retry_login_form', 3);        
@@ -153,15 +147,15 @@
                         }
                     }
                     else {
-                        cookie_var_store("username",      $username);
-                        cookie_var_store("password_hash", $password_hash);
+                        cookie_var_store("contributor_email",         $contributor_email);
+                        cookie_var_store("contributor_password_hash", $contributor_password_hash);
             
                         $contributor_authenticated = true;
                     }
                 }
-                else if (is_email($username)) {
-                    // The username does not exist, and is a valid e-mail address.
-                    if ($password == '') {
+                else if (is_email($contributor_email)) {
+                    // The contributor_email does not exist, and is a valid e-mail address.
+                    if (trim($contributor_password) == '') {
                         if ($login_required) {
                             print_site_page('print_empty_password_login_form', 3);
             
@@ -170,7 +164,7 @@
                     }
                     else if (isset($_REQUEST['create_new_account']) && $_REQUEST['create_new_account'] == '1') {
                         // Create new user account:
-                        $contributor_id = contributor_add_new_contributor($username, $password);
+                        $contributor_id = contributor_add_new_contributor($contributor_email, $contributor_password);
             
                         // Check for optional fields that may have been passed along:
                         if (isset($_REQUEST['contributor_name'])) {
@@ -201,8 +195,8 @@
 						}
             
                         // Store the information in a cookie so user won't have to re-login:
-                        cookie_var_store("username",      $username);
-                        cookie_var_store("password_hash", md5($password));
+                        cookie_var_store("contributor_email",         $contributor_email);
+                        cookie_var_store("contributor_password_hash", md5($contributor_password));
             
                         $contributor_authenticated = true;
                     }
@@ -215,7 +209,7 @@
 					}
                 }
                 else {
-                    // The username does not exist, nor is it a valid email address.
+                    // The contributor_email does not exist, nor is it a valid email address.
                     if ($login_required) {
                         print_site_page('print_not_an_email_login_form', 3);
 
@@ -227,7 +221,7 @@
 
         if ($contributor_authenticated) {
             // Store the contributor id globally so the including script can use it:
-            $contributor_id = contributor_get_id_from_username($username);
+            $contributor_id = contributor_get_id_from_contributor_email($contributor_email);
 
             // Stuff all the contributor fields into global variables:
             gather_array_into_globals(contributor_get_contributor_by_id($contributor_id));

@@ -7,20 +7,16 @@
         ?>
         <h1>Who We Are</h1>
 
+		<img src="../images/contact-page.jpg" class="imageOne" alt="Image of the PhET Team" width="578"/>
+
         <div>
-			<img src="../images/contact-page.jpg" class="imageOne" alt="" />
-			
-            <p class="names">&nbsp;</p>
+            <div class="caption">
+                <em><strong><u>Back Row:</u></strong></em> Mindy Gratny, Chris Malley, Chris Keller, John De Goes, Sam Reid, Carl Wieman
+            </div>
 
-            <center>
-                <em><strong><u>Back Row:</u></strong></em> Mindy Gratny, Chris Keller, Michael Dubson, Noah Podolefsky, Carl Wieman, Sam Reid, Ron LeMaster
-            </center>
-
-            <p class="names">&nbsp;</p>
-
-            <center>
-                <em><strong><u>Front Row:</u></strong></em> Wendy Adams, Alex Adams, Sarah McKagan, Kathy Perkins, Linda Wellmann, Danielle Harlow, Linda Koch, Noah Finkelstein
-            </center>
+            <div class="caption">
+                <em><strong><u>Front Row:</u></strong></em> Kathy Perkins, Alex Adams, Wendy Adams, Angie Jardine, Mike Dubson, Noah Finkelstein
+            </div>
 
             <p>&nbsp;</p>
             

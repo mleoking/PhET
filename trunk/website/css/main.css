@@ -33,7 +33,7 @@ p {
 p.footnote {
 	line-height: 1em;
 	margin: 0;
-	padding: 0;
+	padding: 0
 	font: italic 11px Verdana,Arial,Helvetica,sans-serif;
 }
 fieldset {
@@ -948,7 +948,13 @@ h1.indi-sim {
 	padding:0px 0px 0px 10px;
 }
 .imageOne {
-	margin: 0px 0 5px 15px;
+	margin: 0px 0 5px 0px;
+}
+.caption {
+	line-height: 1em;
+	padding: 0;
+	margin:  0;
+	text-align: center;
 }
 /* list of people -- e.g. contacts page */
 #people ul {

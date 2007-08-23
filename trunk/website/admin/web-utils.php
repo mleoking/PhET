@@ -386,6 +386,10 @@ EO_PRINT_HIDDEN_INPUT;
         
         return preg_replace("/(&$param_name=[^&]+)|((?<=\\?)$param_name=[^?&]+&?)/i", '', $url);
     }
+
+	function remove_all_script_params_from_url($url) {
+		return preg_replace("/(&.+$)/i", '', $url);
+	}
     
     function web_encode_string($string) {
         $string = str_replace(' ',              '_',    $string);
