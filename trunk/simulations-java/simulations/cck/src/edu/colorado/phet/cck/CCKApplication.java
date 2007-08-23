@@ -87,10 +87,6 @@ public class CCKApplication extends PiccoloPhetApplication {
         cckPiccoloModule.applicationStarted();
     }
 
-    protected PhetAboutDialog createPhetAboutDialog() {
-        return new CCKAboutDialog( this );
-    }
-
     private static String readVersion() {
         return PhetApplicationConfig.getVersion( "cck" ).formatForTitleBar();
     }
