@@ -33,12 +33,6 @@
             
         eval(get_code_to_create_variables_from_array($simulation));
         
-        $sim_no_mac_html = '';
-        
-        if ($sim_no_mac) {
-            $sim_no_mac_html = SIM_NO_MAC_IMAGE_HTML;
-        }
-        
         $sim_crutch_html = '';
         
         if ($sim_crutch) {
@@ -53,7 +47,7 @@
 		
 		// Temp change while PhET team decides how to handle ratings; for now just
 		// include under construction & classroom tested:
-		if ($sim_rating != SIM_RATING_CHECK || $sim_rating != SIM_RATING_ALPHA) {
+		if ($sim_rating != SIM_RATING_CHECK && $sim_rating != SIM_RATING_ALPHA) {
 			$sim_rating_html = "";
 		}
 		
