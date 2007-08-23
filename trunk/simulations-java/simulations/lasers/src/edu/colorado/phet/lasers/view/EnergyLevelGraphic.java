@@ -399,7 +399,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
                     g.draw( arrow1.getShape() );
                     g.draw( arrow2.getShape() );
                 }
-                boolean timeOn = ( System.currentTimeMillis() / 400 ) % 2 == 0;
+//                boolean timeOn = ( System.currentTimeMillis() / 400 ) % 2 == 0;
+                boolean timeOn = ( System.currentTimeMillis() / 100 ) % 2 == 0;
                 long lastMatchTime = getLastMatchTime();
                 if( System.currentTimeMillis() - lastMatchTime > 1500 ) {
                     timeOn = false;
