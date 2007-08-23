@@ -111,6 +111,8 @@ public class MotorsDefaults {
     public static final boolean FORCE_VECTOR_COMPONENTS_VISIBLE = GlobalDefaults.FORCE_VECTOR_COMPONENTS_VISIBLE;
     
     // Control panel settings
+    public static final boolean ENZYME_A_SELECTED = true;
+    public static final boolean ENZYME_B_SELECTED = !(ENZYME_A_SELECTED);
     public static final boolean TRAP_FORCE_SELECTED = false;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
     public static final boolean DNA_FORCE_SELECTED = false;

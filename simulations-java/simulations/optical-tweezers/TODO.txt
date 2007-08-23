@@ -11,7 +11,6 @@ HIGH PRIORITY:
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox
 - implement MotorsCanvas.handleResetDNAButton
 - implement EnzymeControlPanel.handleEnzymeChoice
-- add persistence for enzyme choice
 
 MEDIUM PRIORITY:
 - restarting the clock should clear position histogram
@@ -53,6 +52,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+8/23/07 - add persistence for enzyme choice
 8/23/07 - javadoc
 8/23/07 - set visibility of enzyme nodes based on notification of enzymes enabled state
 8/23/07 - make EnzymeControlPanel observer of enzymes

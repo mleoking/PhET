@@ -6,10 +6,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.control.ChartsControlPanel;
-import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
-import edu.colorado.phet.opticaltweezers.control.MiscControlPanel;
-import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
+import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
@@ -165,6 +162,10 @@ public class MotorsModule extends AbstractModule {
             dnaStrand.setEvolutionDt( MotorsDefaults.DNA_EVOLUTION_DT_RANGE.getDefault() );
             dnaStrand.setFluidDragCoefficient( MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrand.initializeStrand();
+            
+            // Enzyme 
+            _model.getEnzymeA().setEnabled( MotorsDefaults.ENZYME_A_SELECTED );
+            _model.getEnzymeB().setEnabled( MotorsDefaults.ENZYME_B_SELECTED );
         }
 
         // View 
@@ -178,6 +179,10 @@ public class MotorsModule extends AbstractModule {
         // Control panel settings that are view-related
         {
             _controlPanel.getSimulationSpeedControlPanel().setSimulationSpeed( MotorsDefaults.DEFAULT_DT );
+            
+            EnzymeControlPanel enzymeControlPanel = _controlPanel.getEnzymeControlPanel();
+            enzymeControlPanel.setEnzymeASelected( MotorsDefaults.ENZYME_A_SELECTED );
+            enzymeControlPanel.setEnzymeBSelected( MotorsDefaults.ENZYME_B_SELECTED );
             
             ForcesControlPanel forcesControlPanel = _controlPanel.getForcesControlPanel();
             forcesControlPanel.setTrapForceSelected( MotorsDefaults.TRAP_FORCE_SELECTED );
@@ -231,6 +236,10 @@ public class MotorsModule extends AbstractModule {
 
         // Control panel settings
         {
+            EnzymeControlPanel enzymeControlPanel = _controlPanel.getEnzymeControlPanel();
+            config.setEnzymeASelected( enzymeControlPanel.isEnzymeASelected() );
+            config.setEnzymeBSelected( enzymeControlPanel.isEnzymeBSelected() );
+            
             ForcesControlPanel forcesControlPanel = _controlPanel.getForcesControlPanel();
             config.setTrapForceSelected( forcesControlPanel.isTrapForceSelected() );
             config.setDragForceSelected( forcesControlPanel.isDragForceSelected() );
@@ -288,6 +297,10 @@ public class MotorsModule extends AbstractModule {
 
         // Control panel settings
         {
+            EnzymeControlPanel enzymeControlPanel = _controlPanel.getEnzymeControlPanel();
+            enzymeControlPanel.setEnzymeASelected( config.isEnzymeASelected() );
+            enzymeControlPanel.setEnzymeBSelected( config.isEnzymeBSelected() );
+            
             ForcesControlPanel forcesControlPanel = _controlPanel.getForcesControlPanel();
             forcesControlPanel.setTrapForceSelected( config.isTrapForceSelected() );
             forcesControlPanel.setDragForceSelected( config.isDragForceSelected() );

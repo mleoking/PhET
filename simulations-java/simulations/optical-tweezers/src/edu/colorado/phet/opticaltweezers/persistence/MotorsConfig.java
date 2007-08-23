@@ -23,7 +23,7 @@ public class MotorsConfig implements IProguardKeepClass {
     // Clock
     private boolean _clockRunning;
     private double _clockDt;
-
+    
     // Laser
     private double _laserX;
     private boolean _laserRunning;
@@ -36,8 +36,10 @@ public class MotorsConfig implements IProguardKeepClass {
     private double _fluidSpeed;
     private double _fluidViscosity;
     private double _fluidTemperature;
-
+    
     // Control panel settings
+    private boolean _enzymeASelected;
+    private boolean _enzymeBSelected;
     private boolean _trapForceSelected;
     private boolean _dragForceSelected;
     private boolean _dnaForceSelected;
@@ -287,5 +289,25 @@ public class MotorsConfig implements IProguardKeepClass {
     
     public void setConstantTrapForceSelected( boolean constantTrapForceSelected ) {
         _constantTrapForceSelected = constantTrapForceSelected;
+    }
+
+    
+    public boolean isEnzymeASelected() {
+        return _enzymeASelected;
+    }
+
+    
+    public void setEnzymeASelected( boolean enzymeASelected ) {
+        _enzymeASelected = enzymeASelected;
+    }
+
+    
+    public boolean isEnzymeBSelected() {
+        return _enzymeBSelected;
+    }
+
+    
+    public void setEnzymeBSelected( boolean enzymeBSelected ) {
+        _enzymeBSelected = enzymeBSelected;
     }
 }
