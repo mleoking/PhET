@@ -86,7 +86,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
      * Positions the slider on the screen
      */
     public void update() {
-        this.setBounds( (int)( container.getWidth() - maxSliderWidth ),
+        this.setBounds( container.getWidth() - maxSliderWidth,
                         (int)graphic.getPosition().getY(),
                         sliderWidth, sliderHeight );
     }

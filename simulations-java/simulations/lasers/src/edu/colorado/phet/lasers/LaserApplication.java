@@ -64,7 +64,7 @@ public class LaserApplication extends PiccoloPhetApplication {
         singleAtomModule = new SingleAtomModule( new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
         multipleAtomModule = new MultipleAtomModule( new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
         Module[] modules = new Module[]{
-//                singleAtomModule,
+                singleAtomModule,
                 multipleAtomModule
         };
         setModules( modules );
@@ -86,11 +86,15 @@ public class LaserApplication extends PiccoloPhetApplication {
         // Options menu
         createMenuItems();
 
+//        addEnergyLevelMatchIndicatorRenderDialog();
+    }
+
+    private void addEnergyLevelMatchIndicatorRenderDialog() {
         JDialog dialog = new JDialog( getPhetFrame(), "Match Indicator", false );
         VerticalLayoutPanel pane = new VerticalLayoutPanel();
         pane.add( new JButton( new AbstractAction( "Flash Gray" ) {
             public void actionPerformed( ActionEvent e ) {
-                EnergyLevelGraphic.setBlinkRenderer(Color.lightGray );
+                EnergyLevelGraphic.setBlinkRenderer( Color.lightGray );
             }
         } ) );
         pane.add( new JButton( new AbstractAction( "Flash White" ) {
