@@ -1,3 +1,5 @@
+8-23-2007: Made energy level sliders smaller in vertical direction.
+8-23-2007: Improved match graphic.
 8-20-2007: Switched tabs to PhetTabbedPane
 8-20-2007: Changed tab names to “One Atom (Absorption and Emission)” and “Multiple Atoms (Lasing)”
 8-20-2007: Changed actual image from PNG (300kb) to JPG (100kb)

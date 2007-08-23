@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.transla
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 
@@ -52,6 +53,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     private ColorStrategy colorStrategy = new VisibleColorStrategy();
     private LevelIcon levelIcon;
     private boolean match = false;
+    private long lastMatchTime;
 
     /**
      * @param component
@@ -122,6 +124,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
 
     public void setMatch( boolean match ) {
         this.match = match;
+        lastMatchTime = System.currentTimeMillis();
         energyLevelRep.update();
         repaint();
     }
@@ -129,7 +132,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     public static void setBlinkRenderer( Color color ) {
         for( int i = 0; i < instances.size(); i++ ) {
             EnergyLevelRep energyLevelRep = (EnergyLevelRep)instances.get( i );
-            energyLevelRep.setBlinkRenderer(color);
+            energyLevelRep.setBlinkRenderer( color );
         }
     }
 
@@ -183,13 +186,16 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             levelIcon.updateEnergy( newEnergy );
         }
     }
-    public static final ArrayList instances=new ArrayList( );
-    public static void setRenderer(RenderStrategy renderStrategy){
+
+    public static final ArrayList instances = new ArrayList();
+
+    public static void setRenderer( RenderStrategy renderStrategy ) {
         for( int i = 0; i < instances.size(); i++ ) {
             EnergyLevelRep levelRep = (EnergyLevelRep)instances.get( i );
             levelRep.setRenderer( renderStrategy );
         }
     }
+
     /**
      * The graphic class itself
      */
@@ -201,17 +207,19 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         private Arrow arrow2;
         private Rectangle boundingRect;
         private LevelIcon levelIcon;
+        private PhetTextGraphic2 textGraphic;
 
         protected EnergyLevelRep( Component component ) {
             super( component );
             PhetShapeGraphic lineGraphic = new PhetShapeGraphic( component, levelLine, color );
             lineGraphic.setVisible( true );
             addGraphic( lineGraphic );
-            instances.add(this);
+            instances.add( this );
+
         }
 
-        public void setRenderer(RenderStrategy renderStrategy){
-            this.strategy=renderStrategy;
+        public void setRenderer( RenderStrategy renderStrategy ) {
+            this.strategy = renderStrategy;
             update();
         }
 
@@ -242,7 +250,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
                                     new Point2D.Double( xLoc + xOffset, y - arrowHt ),
                                     arrowHeadWd, arrowHeadWd, tailWd );
             }
-
+            textGraphic.setLocation( (int)( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int)levelLine.getY() + 4 );
+//            textGraphic.setLocation( (int)( iconLocX ), (int)levelLine.getY() );
             boundingRect = determineBoundsInternal();
             setBoundsDirty();
             repaint();
@@ -267,6 +276,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         void setLevelIcon( LevelIcon levelIcon ) {
             this.levelIcon = levelIcon;
             addGraphic( levelIcon );
+            textGraphic = new PhetTextGraphic2( getComponent(), new Font( "Lucida Sans", Font.PLAIN, 10 ), "Lifetime", Color.black );
+            addGraphic( textGraphic );
         }
 
         public boolean contains( int x, int y ) {
@@ -312,8 +323,17 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
                     g.draw( arrow1.getShape() );
                     g.draw( arrow2.getShape() );
                 }
-                boolean timeOn = ( System.currentTimeMillis() / 400  ) % 2 == 0;
+                boolean timeOn = ( System.currentTimeMillis() / 400 ) % 2 == 0;
+                if( System.currentTimeMillis() - lastMatchTime > 1500 ) {
+                    timeOn = false;
+                }
                 g.setColor( timeOn && match ? targetColor : color );
+                if( match ) {
+                    levelIcon.setVisible( !timeOn );
+                }
+                else {
+                    levelIcon.setVisible( true );
+                }
                 g.fill( levelLine );
             }
 
@@ -330,8 +350,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
                     g.draw( arrow1.getShape() );
                     g.draw( arrow2.getShape() );
                 }
-                boolean timeOn = ( System.currentTimeMillis() / 1000 ) % 2 == 0;
-//            g.setColor( timeOn ? Color.gray : color );
                 g.setColor( color );
                 if( match ) {
                     g.setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{5, 3}, phase ) );

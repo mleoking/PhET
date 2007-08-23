@@ -32,7 +32,8 @@ import java.awt.*;
  */
 public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listener {
     // Needs to be accessible to the EnergyLevelGraphic class
-    public final static int sliderHeight = 47;
+//    public final static int sliderHeight = 47;
+    public final static int sliderHeight = 20;
 
     private EnergyLevelGraphic graphic;
     private int maxSliderWidth = 60;
@@ -66,7 +67,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         this.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
         gbc.anchor = GridBagConstraints.NORTH;
-        this.add( new JLabel( SimStrings.getInstance().getString( "EnergyLevelMonitorPanel.sliderLabel" ), JLabel.CENTER ), gbc );
+//        this.add( new JLabel( SimStrings.getInstance().getString( "EnergyLevelMonitorPanel.sliderLabel" ), JLabel.CENTER ), gbc );
 
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
