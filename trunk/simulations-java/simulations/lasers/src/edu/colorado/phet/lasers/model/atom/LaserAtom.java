@@ -9,7 +9,7 @@ import edu.colorado.phet.lasers.model.LaserModel;
 
 /**
  * LaserAtom
- * <p>
+ * <p/>
  * A PropertiesBasedAtom that has a minimum time it must psend in the ground state
  * after entering it before it can collide with a photon.
  *
@@ -53,10 +53,10 @@ public class LaserAtom extends PropertiesBasedAtom {
 
     public void setStates( AtomicState[] states ) {
         super.setStates( states );
-        states[1] = ((LaserModel)getModel()).getMiddleEnergyState();
+        states[1] = ( (LaserModel)getModel() ).getMiddleEnergyState();
         if( states.length == 3 ) {
 //        if( numEnergyLevels == 3 ) {
-            states[2] = ((LaserModel)getModel()).getHighEnergyState();
+            states[2] = ( (LaserModel)getModel() ).getHighEnergyState();
         }
     }
 

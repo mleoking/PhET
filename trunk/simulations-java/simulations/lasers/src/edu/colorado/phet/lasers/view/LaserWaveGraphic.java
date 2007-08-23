@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Tube;
-import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -29,7 +29,7 @@ import java.awt.geom.Point2D;
 public class LaserWaveGraphic implements LaserModel.ChangeListener {
     // This factor controls the visual amplitude of the waves inside and outside of the cavity
     public static double scaleFactor = 10;
-//    public static double scaleFactor = 5;
+    //    public static double scaleFactor = 5;
     public static double cyclesInCavity = 10;
 
     private Point2D internalWaveOrigin;
@@ -205,7 +205,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
 
     public void atomicStatesChanged( LaserModel.ChangeEvent event ) {
         AtomicState[] atomicStates = new AtomicState[]{event.getLaserModel().getGroundState(),
-                                                       event.getLaserModel().getMiddleEnergyState()};
+                event.getLaserModel().getMiddleEnergyState()};
         determineColor( atomicStates );
         update();
     }

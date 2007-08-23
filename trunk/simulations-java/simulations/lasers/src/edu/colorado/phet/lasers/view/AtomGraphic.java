@@ -6,18 +6,18 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.quantum.model.Atom;
-import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 
 import javax.swing.event.ChangeListener;
@@ -44,7 +44,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     private static final boolean DEBUG = false;
     private static String s_imageName = LaserConfig.ATOM_IMAGE_FILE;
     private static EnergyRepColorStrategy energyRepColorStrategy = new GrayScaleStrategy();
-//    private static EnergyRepColorStrategy energyRepColorStrategy = new VisibleColorStrategy();
+    //    private static EnergyRepColorStrategy energyRepColorStrategy = new VisibleColorStrategy();
     private static ArrayList changeListenerList = new ArrayList();
 
     protected static EnergyRepColorStrategy getEnergyRepColorStrategy() {
@@ -59,7 +59,8 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         }
 //        changeListenerProxy.stateChanged( new ChangeEvent( AtomGraphic.class ) );
     }
-//
+
+    //
     public static void addChangeListener( ChangeListener listener ) {
         changeListenerList.add( listener );
     }
@@ -67,7 +68,6 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     public static void removeChangeListener( ChangeListener listener ) {
         changeListenerList.remove( listener );
     }
-
 
     //----------------------------------------------------------------
     // Instance data

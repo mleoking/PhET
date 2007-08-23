@@ -10,16 +10,16 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
 import edu.colorado.phet.common.quantum.model.Photon;
-import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 
 /**
  * ThreeLevelElementProperties
- * <p>
+ * <p/>
  * ElementProperties for a 3 level laser atom
  *
  * @author Ron LeMaster
@@ -33,9 +33,9 @@ public class ThreeLevelElementProperties extends LaserElementProperties {
 
     private static double groundStateEnergy = -13.6;
     private static double[] energyLevels = {
-        groundStateEnergy,
-        groundStateEnergy + PhysicsUtil.wavelengthToEnergy( Photon.RED ),
-        groundStateEnergy + PhysicsUtil.wavelengthToEnergy( Photon.BLUE )
+            groundStateEnergy,
+            groundStateEnergy + PhysicsUtil.wavelengthToEnergy( Photon.RED ),
+            groundStateEnergy + PhysicsUtil.wavelengthToEnergy( Photon.BLUE )
     };
 
     public ThreeLevelElementProperties() {

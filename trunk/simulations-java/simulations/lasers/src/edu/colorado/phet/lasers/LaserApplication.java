@@ -110,7 +110,7 @@ public class LaserApplication extends PiccoloPhetApplication {
         dialog.setContentPane( pane );
         dialog.pack();
         SwingUtils.centerDialogInParent( dialog );
-        dialog.show( );
+        dialog.show();
     }
 
     /**

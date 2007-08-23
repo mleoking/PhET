@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.lasers.view.monitors;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
@@ -208,7 +208,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
                                           (int)background.getHeight() + 15 );
             addGraphic( lasingAnnotation );
 
-            String dangerStr = SimStrings.getInstance().getString("PowerMeter.Danger");
+            String dangerStr = SimStrings.getInstance().getString( "PowerMeter.Danger" );
             PhetTextGraphic dangerAnnotation = new PhetTextGraphic();
             dangerAnnotation.setComponent( component );
             dangerAnnotation.setFont( font );

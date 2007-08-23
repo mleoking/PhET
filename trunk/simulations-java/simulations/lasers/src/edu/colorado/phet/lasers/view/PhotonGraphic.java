@@ -11,16 +11,15 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.quantum.QuantumConfig;
-import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-//import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.quantum.QuantumConfig;
+import edu.colorado.phet.common.quantum.model.Photon;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -263,7 +262,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         return photonGraphic;
     }
 
-
     //----------------------------------------------------------------
     // Instance
     //----------------------------------------------------------------
@@ -435,7 +433,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 //
 //        setLocation( (int)( photon.getPosition().getX() - dx ), (int)( photon.getPosition().getY() - dy ) );
         setLocation( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
-
 
         // Get the next frame of the animaton
         //        currAnimationFrameNum = ( currAnimationFrameNum + 1 ) % animation.length;

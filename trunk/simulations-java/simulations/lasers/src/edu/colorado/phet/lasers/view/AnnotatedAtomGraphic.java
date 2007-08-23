@@ -10,12 +10,11 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -40,16 +39,16 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
     static {
         try {
             characters = new BufferedImage[]{
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "G.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "1.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "2.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "3.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "4.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "5.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "6.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "7.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "8.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "9.png" )
+                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "G.png" ),
+                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "1.png" ),
+                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "2.png" ),
+                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "3.png" ),
+                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "4.png" ),
+                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "5.png" ),
+                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "6.png" ),
+                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "7.png" ),
+                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "8.png" ),
+                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "9.png" )
             };
         }
         catch( Exception e ) {
@@ -173,7 +172,6 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
         }
         return stateIdx;
     }
-
 
 //    /**
 //     * Picks a Color to represent the energy level of an atom

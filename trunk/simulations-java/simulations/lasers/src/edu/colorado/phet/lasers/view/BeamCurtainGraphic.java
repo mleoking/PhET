@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.quantum.model.Beam;
-import edu.colorado.phet.common.quantum.model.PhotonSource;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.quantum.model.Beam;
+import edu.colorado.phet.common.quantum.model.PhotonSource;
 
 import java.awt.*;
 

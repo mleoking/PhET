@@ -15,15 +15,15 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.quantum.model.Tube;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSequence;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSequence;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.quantum.model.Tube;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 
@@ -36,9 +36,9 @@ import java.util.List;
 
 /**
  * Kaboom
- * <p>
+ * <p/>
  * An animated graphic that declared that the laser has blown up.
- * <p>
+ * <p/>
  * Unued, commented code is still in here that makes an image of the apparatus panel, then
  * gractures it nad makes the pieces spin away, off the frame.
  *
@@ -172,7 +172,6 @@ public class Kaboom implements ModelElement {
     public List getKaboomGraphics() {
         return kaboomGraphics;
     }
-
 
     //----------------------------------------------------------------
     // Inner classes
