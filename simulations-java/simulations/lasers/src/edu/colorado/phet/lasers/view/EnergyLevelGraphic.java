@@ -22,10 +22,11 @@ import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 /**
  * An interactive graphic that represents an energy level for a type of atom. It can be moved up and down with the
@@ -125,6 +126,20 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         repaint();
     }
 
+    public static void setBlinkRenderer( Color color ) {
+        for( int i = 0; i < instances.size(); i++ ) {
+            EnergyLevelRep energyLevelRep = (EnergyLevelRep)instances.get( i );
+            energyLevelRep.setBlinkRenderer(color);
+        }
+    }
+
+    public static void setFlowRenderer() {
+        for( int i = 0; i < instances.size(); i++ ) {
+            EnergyLevelRep energyLevelRep = (EnergyLevelRep)instances.get( i );
+            energyLevelRep.setFlowRenderer();
+        }
+    }
+
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
@@ -168,11 +183,17 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             levelIcon.updateEnergy( newEnergy );
         }
     }
-
+    public static final ArrayList instances=new ArrayList( );
+    public static void setRenderer(RenderStrategy renderStrategy){
+        for( int i = 0; i < instances.size(); i++ ) {
+            EnergyLevelRep levelRep = (EnergyLevelRep)instances.get( i );
+            levelRep.setRenderer( renderStrategy );
+        }
+    }
     /**
      * The graphic class itself
      */
-    private class EnergyLevelRep extends CompositePhetGraphic {
+    public class EnergyLevelRep extends CompositePhetGraphic {
 
         private Rectangle2D levelLine = new Rectangle2D.Double();
         private double thickness = 2;
@@ -186,6 +207,12 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             PhetShapeGraphic lineGraphic = new PhetShapeGraphic( component, levelLine, color );
             lineGraphic.setVisible( true );
             addGraphic( lineGraphic );
+            instances.add(this);
+        }
+
+        public void setRenderer(RenderStrategy renderStrategy){
+            this.strategy=renderStrategy;
+            update();
         }
 
         private void update() {
@@ -245,28 +272,17 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         public boolean contains( int x, int y ) {
             return boundingRect.contains( x, y ) || levelIcon.contains( x, y );
         }
-        float phase=0.0f;
+
+        //        RenderStrategy strategy = new FlowLine();
+        //        RenderStrategy strategy = new Blink( Color.gray );
+        RenderStrategy strategy = new Blink( Color.lightGray );
+
         //----------------------------------------------------------------
         // Rendering
         //----------------------------------------------------------------
         public void paint( Graphics2D g ) {
             saveGraphicsState( g );
-            if( isAdjustable && arrowsEnabled ) {
-                g.setColor( Color.DARK_GRAY );
-                g.draw( arrow1.getShape() );
-                g.draw( arrow2.getShape() );
-            }
-            g.setColor( color );
-            g.fill( levelLine );
-            if (match){
-//                g.setColor( Color.green );
-//                Color c=new Color( color.getRed(),color.getBlue(),color.getGreen(), Math.abs((int)( 255*Math.sin( phase)) ) );
-//                g.setColor( c );
-                g.setStroke( new BasicStroke( 2,BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,1,new float[]{5,3},phase) );
-//                phase+=0.1;
-//                repaint();
-                g.draw( levelLine );
-            }
+            strategy.render( g );
             super.paint( g );
             restoreGraphicsState();
         }
@@ -274,7 +290,67 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         public Point2D getLinePosition() {
             return levelLine.getBounds().getLocation();
         }
+
+        public void setBlinkRenderer( Color color ) {
+            setRenderer( new Blink( color ) );
+        }
+
+        public void setFlowRenderer() {
+            setRenderer( new FlowLine() );
+        }
+
+        public class Blink implements RenderStrategy {
+            Color targetColor;
+
+            public Blink( Color targetColor ) {
+                this.targetColor = targetColor;
+            }
+
+            public void render( Graphics2D g ) {
+                if( isAdjustable && arrowsEnabled ) {
+                    g.setColor( Color.DARK_GRAY );
+                    g.draw( arrow1.getShape() );
+                    g.draw( arrow2.getShape() );
+                }
+                boolean timeOn = ( System.currentTimeMillis() / 1000 ) % 2 == 0;
+                g.setColor( timeOn && match ? targetColor : color );
+                g.fill( levelLine );
+            }
+
+        }
+
+        public class FlowLine implements RenderStrategy {
+
+            float phase = 0f;
+
+            public void render( Graphics2D g ) {
+
+                if( isAdjustable && arrowsEnabled ) {
+                    g.setColor( Color.DARK_GRAY );
+                    g.draw( arrow1.getShape() );
+                    g.draw( arrow2.getShape() );
+                }
+                boolean timeOn = ( System.currentTimeMillis() / 1000 ) % 2 == 0;
+//            g.setColor( timeOn ? Color.gray : color );
+                g.setColor( color );
+                if( match ) {
+                    g.setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{5, 3}, phase ) );
+                    g.draw( new Line2D.Double( levelLine.getMinX(), levelLine.getCenterY(), levelLine.getMaxX(), levelLine.getCenterY() ) );
+                    phase += 8 - 1;
+                }
+                else {
+                    g.setColor( color );
+                    g.fill( levelLine );
+                }
+
+            }
+        }
     }
+
+    public interface RenderStrategy {
+        public void render( Graphics2D g2 );
+    }
+
 
     /**
      * Determines the color in which to render lines and atoms for a specified state
