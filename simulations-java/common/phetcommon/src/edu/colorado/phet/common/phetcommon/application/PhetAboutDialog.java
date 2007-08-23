@@ -20,7 +20,10 @@ import java.net.URL;
 import java.net.MalformedURLException;
 
 import javax.swing.*;
+import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.event.HyperlinkEvent;
 import javax.jnlp.UnavailableServiceException;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -111,7 +114,20 @@ public class PhetAboutDialog extends JDialog {
             }
         } );
 
-        JLabel copyrightLabel = new JLabel( getLocalizedString( "Common.About.Copyright" ) );
+//        JLabel copyrightLabel = new JLabel( getLocalizedString( "Common.About.Copyright" ) );
+        JEditorPane copyrightLabel = new JEditorPane();
+        copyrightLabel.setEditorKit( new HTMLEditorKit() );
+        copyrightLabel.setText( getLocalizedString( "Common.About.Copyright" ) );
+        copyrightLabel.setEditable( false );
+        copyrightLabel.setBackground( new JLabel().getBackground() );
+        copyrightLabel.addHyperlinkListener( new HyperlinkListener() {
+            public void hyperlinkUpdate( HyperlinkEvent e ) {
+
+                if( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
+                    showPhetPage();
+                }
+            }
+        } );
 
         HorizontalLayoutPanel logoPanel = new HorizontalLayoutPanel();
         logoPanel.setInsets( new Insets( 10, 10, 10, 10 ) ); // top,left,bottom,right
