@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.view.ElectricFieldVectorNode;
 import edu.colorado.phet.opticaltweezers.view.LaserNode;
@@ -60,9 +61,24 @@ public class LaserDisplayControlPanel extends JPanel {
         };
 
         // Beam
-        _beamRadioButton = new JRadioButton( OTResources.getString( "choice.beam" ) );
-        _beamRadioButton.setFont( controlFont );
-        _beamRadioButton.addActionListener( actionListener );
+        JPanel beamPanel = null;
+        {
+            _beamRadioButton = new JRadioButton( OTResources.getString( "choice.beam" ) );
+            _beamRadioButton.setFont( controlFont );
+            _beamRadioButton.addActionListener( actionListener );
+
+            Icon beamIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_BEAM_ICON ) );
+            JLabel beamLabel = new JLabel( beamIcon );
+            beamLabel.addMouseListener( new MouseAdapter() {
+                public void mouseReleased( MouseEvent event ) {
+                    setDisplaySelection( true /* beam */, false /*efield */);
+                }
+            } );
+
+            beamPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            beamPanel.add( _beamRadioButton );
+            beamPanel.add( beamLabel );
+        }
 
         // Electric Field
         JPanel efieldPanel = null;
@@ -103,7 +119,7 @@ public class LaserDisplayControlPanel extends JPanel {
         layout.setMinimumWidth( 0, 20 );
         int row = 0;
         layout.addComponent( titleLabel, row++, 0 );
-        layout.addComponent( _beamRadioButton, row++, 0 );
+        layout.addComponent( beamPanel, row++, 0 );
         layout.addComponent( efieldPanel, row++, 0 );
         layout.addComponent( _beamAndElectricFieldRadioButton, row++, 0 );
         setLayout( new BorderLayout() );
