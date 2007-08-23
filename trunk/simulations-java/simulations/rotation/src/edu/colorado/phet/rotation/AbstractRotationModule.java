@@ -11,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.umd.cs.piccolox.pswing.SynchronizedPSwingRepaintManager;
+import edu.umd.cs.piccolox.pswing.MyRepaintManager;
 
 import javax.swing.*;
 
@@ -55,8 +56,11 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     }
 
     protected void updateRepaintManager() {
-        if( SynchronizedPSwingRepaintManager.getInstance() != null ) {
-            SynchronizedPSwingRepaintManager.getInstance().setSynchronousPaint( getClock().isRunning() );
+//        if( SynchronizedPSwingRepaintManager.getInstance() != null ) {
+//            SynchronizedPSwingRepaintManager.getInstance().setSynchronousPaint( getClock().isRunning() );
+//        }
+        if ( MyRepaintManager.getInstance()!=null){
+            MyRepaintManager.getInstance().setCoalesceRectangles( getClock().isRunning() );
         }
     }
 

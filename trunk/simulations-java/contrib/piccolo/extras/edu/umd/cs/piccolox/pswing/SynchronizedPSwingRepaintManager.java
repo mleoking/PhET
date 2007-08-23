@@ -14,15 +14,7 @@ import javax.swing.*;
  * These calls then must be scheduled by the application explicitly.
  */
 public class SynchronizedPSwingRepaintManager extends PSwingRepaintManager {
-    private static SynchronizedPSwingRepaintManager instance;
     private boolean synchronousPaint = true;
-
-    public SynchronizedPSwingRepaintManager() {
-        if( instance != null ) {
-            throw new RuntimeException( getClass().getName() + " constructed twice" );
-        }
-        instance = this;
-    }
 
     public void validateInvalidComponents() {
     }
@@ -53,7 +45,4 @@ public class SynchronizedPSwingRepaintManager extends PSwingRepaintManager {
         } );
     }
 
-    public static SynchronizedPSwingRepaintManager getInstance() {
-        return instance;
-    }
 }

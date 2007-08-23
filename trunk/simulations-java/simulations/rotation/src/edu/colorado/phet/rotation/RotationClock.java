@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.umd.cs.piccolox.pswing.SynchronizedPSwingRepaintManager;
+import edu.umd.cs.piccolox.pswing.MyRepaintManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,7 +47,8 @@ public class RotationClock extends ConstantDtClock {
         else {
             //if the repaint is scheduled for later, sometimes regions are dropped in the render process
             //therefore, we paint immediately here
-            SynchronizedPSwingRepaintManager.getInstance().update();
+//            SynchronizedPSwingRepaintManager.getInstance().update();
+            MyRepaintManager.getInstance().doUpdateNow();
         }
     }
 

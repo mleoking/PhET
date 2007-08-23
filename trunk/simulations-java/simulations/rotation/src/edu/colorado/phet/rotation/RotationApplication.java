@@ -55,7 +55,9 @@ public class RotationApplication extends PhetApplication {
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                RepaintManager.setCurrentManager( new SynchronizedPSwingRepaintManager());
+                SynchronizedPSwingRepaintManager synchronizedPSwingRepaintManager = new SynchronizedPSwingRepaintManager();
+                synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
+                RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
                 QuickProfiler appStartTime = new QuickProfiler();
                 new RotationLookAndFeel().initLookAndFeel();
                 new RotationApplication( args ).startApplication();
