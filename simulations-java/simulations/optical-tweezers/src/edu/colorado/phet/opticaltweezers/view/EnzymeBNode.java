@@ -6,7 +6,11 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.model.EnzymeB;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 
-
+/**
+ * EnzymeBNode is the visual representation of an EnzymeB enzyme.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class EnzymeBNode extends AbstractEnzymeNode {
 
     public EnzymeBNode( EnzymeB enzyme, ModelViewTransform modelViewTransform ) {

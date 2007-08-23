@@ -10,13 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.view.AbstractEnzymeNode;
+import edu.colorado.phet.opticaltweezers.model.AbstractEnzyme;
 import edu.colorado.phet.opticaltweezers.view.EnzymeANode;
 import edu.colorado.phet.opticaltweezers.view.EnzymeBNode;
 
@@ -25,21 +26,36 @@ import edu.colorado.phet.opticaltweezers.view.EnzymeBNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class EnzymeControlPanel extends JPanel {
+public class EnzymeControlPanel extends JPanel implements Observer {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final double ENZYME_ICON_HEIGHT = 30; // pixels
 
-    private EnzymeANode _enzymeANode;
-    private EnzymeBNode _enzymeBNode;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private AbstractEnzyme _enzymeA;
+    private AbstractEnzyme _enzymeB;
     
     private JRadioButton _enzymeARadioButton;
     private JRadioButton _enzymeBRadioButton;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public EnzymeControlPanel( Font titleFont, Font controlFont, EnzymeANode enzymeANode, EnzymeBNode enzymeBNode ) {
         super();
         
-        _enzymeANode = enzymeANode;
-        _enzymeBNode = enzymeBNode;
+        _enzymeA = enzymeANode.getEnzyme();
+        _enzymeA.addObserver( this );
+        
+        _enzymeB = enzymeBNode.getEnzyme();
+        _enzymeB.addObserver( this );
         
         JLabel titleLabel = new JLabel( OTResources.getString( "title.enzymeControlPanel" ) );
         titleLabel.setFont( titleFont );
@@ -119,10 +135,19 @@ public class EnzymeControlPanel extends JPanel {
         add( innerPanel, BorderLayout.WEST );
         
         // Default state
-        _enzymeARadioButton.setSelected( _enzymeANode.getEnzyme().isEnabled() );
-        _enzymeBRadioButton.setSelected( _enzymeBNode.getEnzyme().isEnabled() );
+        _enzymeARadioButton.setSelected( _enzymeA.isEnabled() );
+        _enzymeBRadioButton.setSelected( _enzymeB.isEnabled() );
         handleEnzymeChoice();
     }
+    
+    public void cleanup() {
+        _enzymeA.deleteObserver( this );
+        _enzymeB.deleteObserver( this );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
     
     public void setEnzymeASelected( boolean b ) {
         _enzymeARadioButton.setSelected( b );
@@ -142,16 +167,32 @@ public class EnzymeControlPanel extends JPanel {
         return _enzymeBRadioButton.isSelected();
     }
     
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+    
     private void handleEnzymeChoice() {
-        
         boolean enzymeASelected = _enzymeARadioButton.isSelected();
-        
-        // make one of the 2 enzyme nodes visible
-        _enzymeANode.setVisible( enzymeASelected );
-        _enzymeBNode.setVisible( !enzymeASelected );
-        
         // enable one of the 2 enzyme models
-        _enzymeANode.getEnzyme().setEnabled( enzymeASelected );
-        _enzymeBNode.getEnzyme().setEnabled( !enzymeASelected );
+        _enzymeA.deleteObserver( this );
+        _enzymeB.deleteObserver( this );
+        _enzymeA.setEnabled( enzymeASelected );
+        _enzymeB.setEnabled( !enzymeASelected );
+        _enzymeA.addObserver( this );
+        _enzymeB.addObserver( this );
+    }
+
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    public void update( Observable o, Object arg ) {
+        if ( o == _enzymeA || o == _enzymeB ) {
+            if ( arg == AbstractEnzyme.PROPERTY_ENABLED ) {
+                // this is a little weird... at least one must be enabled since these are radio buttons
+                _enzymeARadioButton.setSelected( _enzymeA.isEnabled() );
+                _enzymeBRadioButton.setSelected( _enzymeB.isEnabled() );
+            }
+        }
     }
 }

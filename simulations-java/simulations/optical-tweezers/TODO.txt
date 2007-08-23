@@ -53,6 +53,9 @@ MIGRATE TO COMMON:
 
 
 DONE:
+8/23/07 - javadoc
+8/23/07 - set visibility of enzyme nodes based on notification of enzymes enabled state
+8/23/07 - make EnzymeControlPanel observer of enzymes
 8/23/07 - get control panel icons from enzyme node instances
 8/23/07 - separate view classes for enzyme A & B (specify colors), abstract base class
 8/23/07 - separate model classes for enzyme A & B, abstract base class
