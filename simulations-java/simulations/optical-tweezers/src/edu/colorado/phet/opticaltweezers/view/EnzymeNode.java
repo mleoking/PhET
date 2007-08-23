@@ -2,17 +2,17 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.opticaltweezers.model.Enzyme;
+import edu.colorado.phet.opticaltweezers.model.AbstractEnzyme;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -41,7 +41,7 @@ public class EnzymeNode extends PhetPNode implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Enzyme _enzyme;
+    private AbstractEnzyme _enzyme;
     private ModelViewTransform _modelViewTransform;
     
     private PNode _innerNode;
@@ -50,7 +50,7 @@ public class EnzymeNode extends PhetPNode implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
             
-    public EnzymeNode( Enzyme enzyme, ModelViewTransform modelViewTransform, Paint outerPaint, Paint innerPaint, Color tickColor ) {
+    public EnzymeNode( AbstractEnzyme enzyme, ModelViewTransform modelViewTransform, Paint outerPaint, Paint innerPaint, Color tickColor ) {
         super();
         
         _enzyme = enzyme;
@@ -108,9 +108,21 @@ public class EnzymeNode extends PhetPNode implements Observer {
     
     public void update( Observable o, Object arg ) {
         if ( o == _enzyme ) {
-            if ( arg == Enzyme.PROPERTY_INNER_ORIENTATION ) {
+            if ( arg == AbstractEnzyme.PROPERTY_INNER_ORIENTATION ) {
                 updateOrientation();
             }
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Utilites
+    //----------------------------------------------------------------------------
+    
+    public static Icon createIcon( double outerDiameter, double innerDiameter, Paint outerPaint, Paint innerPaint, Color tickColor ) {
+        AbstractEnzyme enzyme = new AbstractEnzyme( new Point2D.Double(0,0), outerDiameter, innerDiameter );
+        ModelViewTransform modelViewTransform = new ModelViewTransform( 1 );
+        EnzymeNode enzymeNode = new EnzymeNode( enzyme, modelViewTransform, outerPaint, innerPaint, tickColor );
+        Image enzymeImage = enzymeNode.toImage();
+        return new ImageIcon( enzymeImage );
     }
 }
